@@ -1,0 +1,17 @@
+{% block sidebar %}
+
+<div class="sidebar span3">
+	<ul>
+		{# % if activeModule == 'classroom' %}
+			<li><a href="{{ path('BNSAppClassroomBundle_back_home', { 'slug' : group.getSlug() }) }}" title="" {% if location == 'index' %}class="actif-sidebar"{% endif %}>{% trans %}SideBar.Classroom.link.index{% endtrans %}</a></li>
+			<li><a href="{{ path('BNSAppClassroomBundle_back_team_index', { 'slug' : group.getSlug() }) }}" title="" {% if location == 'team' %}class="actif-sidebar"{% endif %}>{% trans %}SideBar.Classroom.link.team{% endtrans %}</a></li>
+		{% elseif activeModule == 'school' %}
+			<li><a href="{{ path('BNSAppSchoolBundle_admin_index', { 'slug' : group.getSlug() }) }}" title="" {% if location == 'index' %}class="actif-sidebar"{% endif %}>{% trans %}SideBar.School.link.index{% endtrans %}</a></li>
+			<li><a href="{{ path('BNSAppSchoolBundle_classroom_index', { 'slug' : group.getSlug() }) }}" title="" {% if location == 'classroom' %}class="actif-sidebar"{% endif %}>{% trans %}SideBar.School.link.classroom{% endtrans %}</a></li>
+			<li><a href="{{ path('BNSAppSchoolBundle_user_index', { 'slug' : group.getSlug() }) }}" title="" {% if location == 'user' %}class="actif-sidebar"{% endif %}>{% trans %}SideBar.School.link.user{% endtrans %}</a></li>
+			<li><a href="{{ path('BNSAppSchoolBundle_right_manager_index', { 'slug' : group.getSlug() }) }}" title="" {% if location == 'right-manager' %}class="actif-sidebar"{% endif %}>{% trans %}SideBar.School.link.right.manager{% endtrans %}</a></li>
+		{% endif %}#}
+	</ul>
+</div>
+
+{% endblock %}

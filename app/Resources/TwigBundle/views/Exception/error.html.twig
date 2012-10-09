@@ -1,0 +1,16 @@
+{% extends '::base.html.twig' %}
+	
+{% block body %}
+	<div class="background-error"></div>
+	<div class="container container-fluid content-error">
+		<h1>Une erreur est (malheureusement) survenue</h1>
+		<p>Pas de panique, vous pouvez : </p>
+		<ul>
+			<li><a href="{{ path('home') }}">Revenir à la page d'accueil</a></li>
+			<li><a href="{{ path('disconnect_user') }}">Vous déconnecter puis vous reconnecter</a></li>
+			<li><a href="mailto:erreur@beneyluschool.com">Appeler à l'aide ! </a>(en précisant le contexte de votre erreur)</li>
+		</ul>
+
+	</div>
+{% endblock %}
+

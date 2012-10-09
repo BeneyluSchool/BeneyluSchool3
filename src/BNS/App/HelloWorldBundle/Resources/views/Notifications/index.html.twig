@@ -1,0 +1,54 @@
+{% extends 'BNSAppHelloWorldBundle:Front:layout.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+{% endblock %}
+	
+{% block css %}
+	{{ parent() }}
+{% endblock %}
+
+{% block content %}
+	<h1>Gestion des notifications</h1>
+	<br />
+	<div class="span10">
+		<h2>Voici la liste des notifications d'exemple disponibles</h2>
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>Notification Type Unique Name</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for notificationType in notificationTypes %}
+					{% if (notificationType.getModuleUniqueName() == 'HELLOWORLD') %}
+						<tr>
+							<td>{{ notificationType.getUniqueName() }}</td>
+							<td><a href="{{ path('BNSAppHelloWorldBundle_front_notifications_details', {'notificationTypeUniqueName': notificationType.getUniqueName()}) }}">Voir</a></td>
+						</tr>
+					{% endif %}
+				{% endfor %}
+			</tbody>
+		</table>
+		<hr />
+		
+		<h2>Voici toute la liste des notifications disponibles</h2>
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>Notification Type Unique Name</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for notificationType in notificationTypes %}
+					{% if (notificationType.getModuleUniqueName() != 'HELLOWORLD') %}
+						<tr>
+							<td>{{ notificationType.getUniqueName() }}</td>
+							<td><a href="{{ path('BNSAppHelloWorldBundle_front_notifications_details', {'notificationTypeUniqueName': notificationType.getUniqueName()}) }}">Voir</a></td>
+						</tr>
+					{% endif %}
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

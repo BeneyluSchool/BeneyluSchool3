@@ -1,0 +1,110 @@
+{% extends '::bns_base.html.twig' %}
+
+{% block lesses %}
+	<link rel="stylesheet/less" href="{{ asset('medias/less/school.less') }}" />
+{% endblock %}
+
+{% block javascripts %}
+	<script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+	<script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+	<script type="text/javascript" src="{{ asset('medias/js/school.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+	<body class="transparent-white">
+		<div class="overlay">
+			<div class="container-fluid container">
+				<div class="row-fluid">
+					{% render "BNSAppMainBundle:SideBar:index" with {'group' : school } %}
+					<div class="content span9">
+						<div class="title-content">
+							<h1>{% trans %}Admin.School.User.title{% endtrans %}</h1>
+							<div class="clear"></div>
+						</div>
+						
+						<div class="description-content">
+						
+								<h1>{% trans %}Admin.School.User.subtitle.teacher{% endtrans %}</h1>
+								<div class="toggle-add-teacher">
+									<img src="/medias/images/icons/fugue/plus.png" alt="Ajouter un nouvel enseignant" />{% trans %}Admin.School.User.add.teacher{% endtrans %}
+								</div>
+								<div class="add-teacher-form">
+									<form action="{{ path('BNSAppSchoolBundle_users_add_teacher', { 'slug' : school.getSlug() }) }}" method="post" {{ form_enctype(teacher_form) }}>
+										{{ form_widget(teacher_form) }}
+										
+										<input type="submit" value="{% trans %}Admin.School.User.button.submit{% endtrans %}" />
+									</form>
+								</div>
+								
+								<div class="teacher-container">
+									<table class="table">
+										<tr>
+											<th></th>
+											<th>{% trans %}Admin.School.User.column.last.name{% endtrans %}</th>
+											<th>{% trans %}Admin.School.User.column.first.name{% endtrans %}</th>
+											<th>{% trans %}Admin.School.User.column.email{% endtrans %}</th>
+											<th>{% trans %}Admin.School.User.column.classroom.name{% endtrans %}</th>
+											<th>{% trans %}Admin.School.User.column.role{% endtrans %}</th>
+											<th>{% trans %}Admin.School.User.column.action{% endtrans %}</th>
+										</tr>
+										{% for teacher in school.getTeachers() %}
+											<tr>
+												<td><img src="{{ asset("/medias/images/icons/teacher.png") }}" width="32" height="32" alt="teacher avatar" /></td>
+												<td>{{ teacher.getLastName() }}</td>
+												<td>{{ teacher.getFirstName() }}</td>
+												<td>{{ teacher.getEmail() }}</td>
+												<td>Classe de {{ teacher.getLogin() }}</td>
+												<td><span id="{{ school.getSlug() }}_director_{{ teacher.getId() }}" class="inactive">{% trans %}Admin.School.User.button.director{% endtrans %}</span> / <span id="{{ school.getSlug() }}_teacher_{{ teacher.getId() }}" class="inactive">{% trans %}Admin.School.User.button.teacher{% endtrans %}</span></td>
+												<td id="{{ school.getSlug() }}_teacher_{{ teacher.getId() }}">
+													<img src="{{ asset('medias/images/icons/fugue/cross.png') }}" class="delete-teacher-img" alt="{% trans %}Admin.School.User.button.delete.alt.teacher{% endtrans %}" />
+												</td>
+											</tr>
+										{% endfor %}
+									</table>
+								</div>
+								
+								<h1>{% trans %}Admin.School.User.subtitle.pupil{% endtrans %}</h1>
+								<div class="toggle-add-pupil">
+									<img src="/medias/images/icons/fugue/plus.png" alt="Ajouter un nouvel élève" /> {% trans %}Admin.School.User.add.pupil{% endtrans %}
+								</div>
+								<div class="add-pupil-form">
+									<form action="{{ path('BNSAppSchoolBundle_users_add_pupil', { 'slug' : school.getSlug() }) }}" method="post" {{ form_enctype(pupil_form) }}>
+										{{ form_widget(pupil_form) }}
+										
+										<input type="submit" value="{% trans %}Admin.School.User.button.submit{% endtrans %}" />
+									</form>
+								</div>
+								
+								<div class="pupil-container">
+									<table class="table">
+										<tr>
+											<th></th>
+											<th>{% trans %}Admin.School.User.column.last.name{% endtrans %}</th>
+											<th>{% trans %}Admin.School.User.column.first.name{% endtrans %}</th>
+											<th>{% trans %}Admin.School.User.column.email{% endtrans %}</th>
+											<th>{% trans %}Admin.School.User.column.classroom.name{% endtrans %}</th>
+											<th>{% trans %}Admin.School.User.column.action{% endtrans %}</th>
+										</tr>
+										{% for pupil in school.getPupils() %}
+											<tr>
+												<td><img src="{{ asset("/medias/images/icons/pupil.png") }}" width="32" height="32" alt="teacher avatar" /></td>
+												<td>{{ pupil.getLastName() }}</td>
+												<td>{{ pupil.getFirstName() }}</td>
+												<td>{{ pupil.getEmail() }}</td>
+												<td>classe inconnue</td>
+												<td id="{{ school.getSlug() }}_pupil_{{ pupil.getId() }}">
+													<img src="{{ asset('medias/images/icons/fugue/cross.png') }}" class="delete-pupil-img" alt="{% trans %}Admin.School.User.button.delete.alt.pupil{% endtrans %}" />
+												</td>
+											</tr>
+										{% endfor %}
+									</table>
+								</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+{% endblock %}

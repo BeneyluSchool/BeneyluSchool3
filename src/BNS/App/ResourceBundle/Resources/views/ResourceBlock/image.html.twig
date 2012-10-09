@@ -1,0 +1,9 @@
+{% block content %}
+	{% if size is not defined %}
+		{% set size = "small" %}
+	{% endif %}
+	{% if class is not defined %}
+		{% set class = "span5" %}
+	{% endif %}
+	<img id="" class="{{class }}" src="{{ getResourceImageUrl(resource,size) }}" />
+{% endblock %}

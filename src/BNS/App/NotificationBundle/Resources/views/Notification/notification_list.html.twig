@@ -1,0 +1,11 @@
+<div class="module-container">
+	<div class="module">
+		<img class="{{ module|lower }}" src="{{ asset('/medias/images/icons/modules/btn-' ~ module|lower ~ '-medium.png') }}" alt="" />
+		<ul>
+			{% for notification in notifications %}
+				{% include 'BNSAppNotificationBundle:Notification:notification_row.html.twig' %}
+			{% endfor %}
+		</ul>
+		<div class="border-left-module"></div>
+	</div>
+</div>

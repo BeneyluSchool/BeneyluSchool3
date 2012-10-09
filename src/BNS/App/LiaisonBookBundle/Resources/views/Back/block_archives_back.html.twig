@@ -1,0 +1,22 @@
+<div class="section active">
+	Messages
+	<span class="shadow-section"></span>
+</div>
+<div class="title-container">
+	<div class="title active border-blue">Archives<span class="square icon-arrow"></span></div>
+	<div class="content-title">
+		<ul>
+			{% for dateArchive in datesArchives %}
+				{% if dateArchive == newsDate %}
+					<li>
+						<a class="active" href="{{ path('BNSAppLiaisonBookBundle_back', {'month': dateArchive|date("n"), 'year': dateArchive|date("Y")}) }}">{{dateArchive|year_month_bns()}}</a>
+					</li>
+					{% else %}
+					<li>
+						<a href="{{ path('BNSAppLiaisonBookBundle_back', {'month': dateArchive|date("n"), 'year': dateArchive|date("Y")}) }}">{{dateArchive|year_month_bns()}}</a>
+					</li>
+				{% endif %}
+			{% endfor %}
+		</ul>
+	</div>
+</div>

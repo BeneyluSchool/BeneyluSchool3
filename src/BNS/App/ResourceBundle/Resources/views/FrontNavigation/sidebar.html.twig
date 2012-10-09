@@ -1,0 +1,56 @@
+
+<a class="home resource-nav {% if root_level is defined %} active {% endif %}" href="{{ path('BNSAppResourceBundle_home') }}">
+	Accueil
+</a>
+<div class="home-link-separation"></div>
+
+{% if root_level is defined %}
+
+	<a href="#" class="resource-nav favorite">Mes favoris</a>
+
+	<a href="#" id="user-{{ user_label.id}}" class="resource-nav my-folder">Mes documents</a>
+
+	{% for label in group_labels %}
+		<a href="#" id="group-{{ label.id}}" class="resource-nav folder-closed">{{ label.label }}</a>
+	{% endfor %}
+	
+	<div class="home-link-separation"></div>
+		<a href="#" id="garbage" class="resource-nav garbage">Ma corbeille</a>
+	</div>
+
+{% else %}
+
+	<div class="current">
+		<div class="gap"></div>
+		<div class="folders">
+			{% include 'BNSAppResourceBundle:FrontNavigation:sidebarLabel.html.twig' with {'node' : root , 'current_label' : current_label , 'selection_ids' : selection_ids , 'show' : true } %}
+		</div>
+	</div>
+	<div class="content-sidebar-resource main-content">
+		<a id="resource-sidebar-new-label-btn" class="btn add create add-folder" data-target="#resourceAddLabel" data-toggle="modal" >Créer un nouveau dossier</a>
+		
+		
+		
+		{#<div id="resource-sidebar-new-label-waiting" style="display:none;">
+			<img src="{{ asset('/medias/images/commons/big-loader.gif') }}" />
+		</div>
+		<div class="container-resource-sidebar-new-label">
+			<div id="resource-sidebar-new-label-form" style="display:none;">
+				<p><span class="add-folder"></span>Création d'un nouveau dossier :</p>
+				<input id="resource-sidebar-new-label-input" type="text" />
+				<button id="resource-sidebar-new-label-submit" class="btn create-file">Valider</button>
+				<button id="resource-sidebar-new-label-cancel" class="btn create-file">Annuler</button>
+			</div>
+		</div>#}
+	</div>
+</div>
+<div id="filter-type">
+	{% render "BNSAppResourceBundle:FrontNavigation:filterType" %}
+</div>
+{% endif %}
+
+<script type="text/javascript">
+	$(function(){
+		activeLabelDrop();
+	});
+</script>

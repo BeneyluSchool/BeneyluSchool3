@@ -1,0 +1,31 @@
+{% extends 'BNSAppResourceBundle:Back:layout.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+{% endblock %}	
+
+{% block css %}
+	{{ parent() }}
+{% endblock %}
+
+{% block top_bar %}{% endblock %}
+
+{% block container_class %}{% endblock %}
+
+{% block sidebar %} {% include "BNSAppResourceBundle:Back:sidebar.html.twig" with {"page" : 'custom' , 'section' : 'white_list_general', 'white_list_use' : white_list_use}%} {% endblock %}
+
+{% block content %}
+<div class="content-resource-white-list">
+	<div class="news-title">
+		<h1 class="dashboard">Liste blanche globale</h1>
+	</div>
+	<p class="white-list">Les sites suivant sont intégrés par défaut à la liste blanche de votre moteur de recherche.<br /> Vous pouvez désactiver cette liste via le menu de gauche.</p>
+	<div class="content-list-white">
+		<ul class="manager-white-list">
+			{% for url in white_list_general %}
+				<li><a href="{{ url }}" target="_blank">{{ url }}</a></li>
+			{% endfor %}
+		</ul>
+	</div>
+ </div>
+{% endblock %}

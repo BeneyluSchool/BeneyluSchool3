@@ -1,0 +1,17 @@
+{% set imagePattern = is_admin is defined ? 'btn-admin' : 'btn-' ~ module.getUniqueName | lower %}
+{% set imageName = imagePattern ~ '-' ~ size ~ '.png' %}
+{% set imageTallName = imagePattern ~ '-' ~ 'big' ~ '.png' %}
+
+{% set moduleTitle = is_admin is not defined ? module.label : "Changer de mode" %}
+{% set description = is_admin is not defined ? module.description : is_in_front ? "Voir les modules" : "Gérer les modules" %}
+
+{% if is_admin is not defined %}
+	<li>
+{% endif %}
+	<a href="{% if is_in_front %}{{path(module.getRouteFront) }}{% else %}{{path(module.getRouteBack) }}{% endif %}" 
+	   title="">
+		<img rel="popover" data-title="<div class='dock-popover'><img src='{{ asset('/medias/images/icons/modules/' ~ imageTallName ) }}' alt='{{ module.getLabel }}' />{{ moduleTitle }}</div>" data-content="<div class='dock-popover'>{{ description }}</div>" class="module-popover" class="module-icon" src="{{ asset('/medias/images/icons/modules/' ~ imageName ) }}" alt="{{ module.getLabel }}" />
+	</a>
+{% if is_admin is not defined %}			
+	</li>
+{% endif %}

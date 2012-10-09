@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
+
+    <class name="BNS\App\RegistrationBundle\Form\Model\ClassRoomFormModel">
+        <property name="school_information_id">
+            <constraint name="NotBlank">
+				<option name="message">Veuillez sélectionner votre école</option>
+			</constraint>
+			<constraint name="Regex">
+				<option name="pattern">/\d/</option>
+				<option name="message">L'école sélectionnée est invalide, veuillez réessayer</option>
+			</constraint>
+        </property>
+		<property name="label">
+            <constraint name="NotBlank">
+				<option name="message">Veuillez choisir un nom pour votre classe</option>
+			</constraint>
+			<constraint name="MaxLength">
+				<option name="limit">255</option>
+				<option name="message">Le nom de votre classe est trop grand</option>
+			</constraint>
+			<constraint name="MinLength">
+				<option name="limit">3</option>
+				<option name="message">Le nom de votre classe est trop petit (3 caractères minimum)</option>
+			</constraint>
+        </property>
+		<property name="levels">
+            <constraint name="NotBlank">
+				<option name="message">Veuillez choisir le ou les niveaux de votre classe</option>
+			</constraint>
+			<constraint name="Type">
+				<option name="type">array</option>
+				<option name="message">Le ou les niveaux sélectionnés pour votre classe sont invalides</option>
+			</constraint>
+        </property>
+    </class>
+	
+	<class name="BNS\App\RegistrationBundle\Form\Model\UserFormModel">
+        <property name="first_name">
+            <constraint name="NotBlank">
+				<option name="message">Veuillez saisir votre prénom </option>
+			</constraint> 
+			<constraint name="MaxLength">
+				<option name="limit">255</option>
+				<option name="message">Votre prénom est trop grand</option>
+			</constraint>
+			<constraint name="Regex">
+				<option name="pattern">/^[a-zA-ZàáâäãåèéêëìíîïòóôöõøùúûüÿýñçčšžÀÁÂÄÃÅÈÉÊËÌÍÎÏÒÓÔÖÕØÙÚÛÜŸÝÑßÇŒÆČŠŽ∂ð ,.'-]+$/u</option>
+				<option name="message">Votre prénom semble invalide</option>
+			</constraint>
+        </property>
+		<property name="last_name">
+            <constraint name="NotBlank">
+				<option name="message">Veuillez saisir votre nom de famille</option>
+			</constraint>
+			<constraint name="MaxLength">
+				<option name="limit">255</option>
+				<option name="message">Votre nom de famille est trop grand</option>
+			</constraint>
+			<constraint name="Regex">
+				<option name="pattern">/^[a-zA-ZàáâäãåèéêëìíîïòóôöõøùúûüÿýñçčšžÀÁÂÄÃÅÈÉÊËÌÍÎÏÒÓÔÖÕØÙÚÛÜŸÝÑßÇŒÆČŠŽ∂ð ,.'-]+$/u</option>
+				<option name="message">Votre nom semble invalide</option>
+			</constraint>
+        </property>
+		<property name="email">
+            <constraint name="NotBlank">
+				<option name="message">Veuillez saisir votre adresse e-mail</option>
+			</constraint>
+			<constraint name="Email">
+				<option name="message">Votre adresse e-mail est invalide</option>
+			</constraint>
+        </property>
+		<constraint name="Callback">
+			<option name="methods">
+				<value>isEmailUnique</value>
+			</option>
+		</constraint>
+    </class>
+
+	<class name="BNS\App\RegistrationBundle\Model\SchoolInformation">
+        <property name="country">
+            <constraint name="NotBlank">
+				<option name="message">Veuillez choisir votre école</option>
+			</constraint>
+			<constraint name="Country">
+				<option name="message">Le pays est invalide</option>
+			</constraint>
+        </property>
+		<property name="uai">
+			<constraint name="MinLength">
+				<option name="limit">4</option>
+				<option name="message">Le code UAI est invalide</option>
+			</constraint>
+			<constraint name="MaxLength">
+				<option name="limit">10</option>
+				<option name="message">Le code UAI est invalide</option>
+			</constraint>
+        </property>
+		<property name="name">
+            <constraint name="NotBlank">
+				<option name="message">Veuillez saisir le nom de votre école</option>
+			</constraint>
+			<constraint name="MaxLength">
+				<option name="limit">255</option>
+				<option name="message">Le nom de votre école est invalide</option>
+			</constraint>
+        </property>
+		<property name="address">
+            <constraint name="NotBlank">
+				<option name="message">Veuillez saisir l'adresse postale de votre école</option>
+			</constraint>
+			<constraint name="MaxLength">
+				<option name="limit">255</option>
+				<option name="message">L'adresse postale est invalide</option>
+			</constraint>
+        </property>
+		<property name="zip_code">
+            <constraint name="NotBlank">
+				<option name="message">Veuillez saisir le code postal de votre école</option>
+			</constraint>
+			<constraint name="MinLength">
+				<option name="limit">3</option>
+				<option name="message">Le code postal est invalide</option>
+			</constraint>
+			<constraint name="MaxLength">
+				<option name="limit">10</option>
+				<option name="message">Le code postal est invalide</option>
+			</constraint>
+        </property>
+		<property name="city">
+            <constraint name="NotBlank">
+				<option name="message">Veuillez saisir la ville de votre école</option>
+			</constraint>
+			<constraint name="MaxLength">
+				<option name="limit">255</option>
+				<option name="message">Le nom de la ville de votre école est invalide</option>
+			</constraint>
+        </property>
+		<property name="email">
+			<constraint name="NotBlank">
+				<option name="message">Veuillez saisir l'adresse e-mail de votre école</option>
+			</constraint>
+			<constraint name="Email">
+				<option name="message">L'adresse e-mail est invalide</option>
+			</constraint>
+        </property>
+		<constraint name="Callback">
+			<option name="methods">
+				<value>isUaiValid</value>
+			</option>
+		</constraint>
+    </class>
+</constraint-mapping>

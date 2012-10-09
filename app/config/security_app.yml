@@ -1,0 +1,46 @@
+
+# Full documentation of security.yml : http://symfony.com/doc/2.0/reference/configuration/security.html
+security:
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+        bns_provider:
+            id: bns.security.oauth.user_provider
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        oauth_area:
+            pattern: ^/
+            oauth:
+                resource_owners:
+                    bns_auth_provider: /login_check
+                # TODO make failure page
+                login_path:        /
+                check_path:        /login_check
+                failure_path:      /login
+                oauth_user_provider:
+                    service: bns.security.oauth.user_provider
+            anonymous:             ~
+            logout:
+                path:              /logout
+                target:            /
+                #success_handler:   bns.security.logout.success_handler
+    
+    access_control:
+        - { path: ^/$, roles: [IS_AUTHENTICATED_ANONYMOUSLY, IS_AUTHENTICATED_FULLY] }
+        - { path: ^/enter$, roles: [IS_AUTHENTICATED_ANONYMOUSLY, IS_AUTHENTICATED_FULLY] }
+        - { path: ^/inscription$, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/inscription, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/mentions-legales, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/gestion/mot-de-passe/reinitialisation, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/ressource/white-list/, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/, roles: [IS_AUTHENTICATED_FULLY] }
+        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        #- { path: ^/_internal, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }

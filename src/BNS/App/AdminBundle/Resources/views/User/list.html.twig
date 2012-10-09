@@ -1,0 +1,24 @@
+<table class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Nom complet</th>
+			<th>Langue</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for user in users %}
+			<tr>
+				<td>{{ user.id }}</td>
+				<td>{{ user.firstName }} {{ user.lastName }}</td>
+				<td><img src="{{ asset('/medias/images/icons/lang/' ~ user.getLang ~ '.png') }}" /></td>
+				<td>
+					<a href="{{ path("BNSAppAdminBundle_user_sheet" , { id: user.id }) }}">
+						<img src="{{ asset('/medias/images/icons/fugue/toilet-male.png') }}" title="Voir la fiche de cet utilisateur" />
+					</a>
+				</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>

@@ -1,0 +1,28 @@
+imports:
+    - { resource: config_app.yml }
+    - { resource: parameters_test.yml }
+    - { resource: secret_test.yml }
+
+web_profiler:
+    toolbar: false
+    intercept_redirects: false
+
+swiftmailer:
+    disable_delivery: false
+
+monolog:
+    handlers:
+        main:
+            type:         fingers_crossed
+            action_level: error
+            handler:      nested
+        nested:
+            type:  stream
+            path:  %kernel.logs_dir%/%kernel.environment%.log
+            level: debug
+        mailer:
+            type:  stream
+            level: debug
+            path:  %kernel.logs_dir%/mailer_%kernel.environment%.log
+assetic:
+    use_controller: false

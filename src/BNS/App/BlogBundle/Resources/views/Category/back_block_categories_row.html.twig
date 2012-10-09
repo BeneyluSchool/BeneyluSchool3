@@ -1,0 +1,11 @@
+<li id="list_{{ category.getId() }}">
+<div>
+	{% if isAdmin %}
+		<span class="list-grip"></span>
+	{% endif %}
+	{% if category.getIconClassname()|length > 0 and category.getIconClassname() != 'default' %}
+		<span class="icon-category sprite {{ category.getIconClassname() }}"></span>
+	{% endif %}
+	<div>{{ category.getTitle() }}</div>
+	<span class="select {% if isEditionMode and article.hasCategory(category) %}checked{% endif %}"></span>
+</div>

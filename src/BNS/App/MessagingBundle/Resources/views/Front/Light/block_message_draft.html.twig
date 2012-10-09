@@ -1,0 +1,7 @@
+<div class="messages messaging-container-message-draft" data-message-id="{{ message.id }}">
+	<p class="subject draft">{{ message.subject }}</p>
+	<p class="date draft">Créé {{ date_from_now(message.createdAt.getTimestamp,false,true) }}</p>
+	<p class="message send-draft">{{ message.content }}</p>
+	<button class="btn read-mail messaging-container-message-draft" data-message-id="{{ message.id }}">Voir le message</button>
+	<div class="clearfix"></div>
+</div>

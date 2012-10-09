@@ -1,0 +1,22 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+	
+<h2>Liste blanche de {{ group.label }}</h2>
+
+	<form action="{{ path('BNSAppAdminBundle_white_list_edit' , { "groupId" : group.id }) }}" method="post">
+					
+		<h4>Sites présents</h4>
+		{% for url in white_list %}
+			<input size="50" type="url" value="{{ url }}" name="url[]" /><br />
+		{% endfor %}
+			
+		<h4>Ajouter d'autres sites</h4>
+		<input size="50" type="url" value="" name="url[]" /><br />
+		<input size="50" type="url" value="" name="url[]" /><br />
+		<input size="50" type="url" value="" name="url[]" /><br />
+		<input size="50" type="url" value="" name="url[]" /><br />
+
+		<input type="submit" value="Enregistrer" />
+	</form>
+{% endblock %}

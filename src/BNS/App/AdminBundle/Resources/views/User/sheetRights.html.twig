@@ -1,0 +1,31 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+	
+	{% include "BNSAppAdminBundle:User:menu.html.twig" with{'page' : 'rights','user' : user} %}
+
+	<a href="{{ path('BNSAppAdminBundle_user_get_rights',{'id' : user.id } ) }}">Récupérer les droits de cet utilisateur</a>
+	<a href="{{ path('BNSAppAdminBundle_reset_user_rights',{'id' : user.id } ) }}">Vider le cache de cet utilisateur</a>
+	
+	
+
+	{% for group in um.getRights %}
+		<h3><a href="{{ path('BNSAppAdminBundle_group_sheet_index' , {'id' : group.id }) }}">{{ group.group_name }}</a> <small>( # {{ group.id }} - {{ group.group_type }})</small></h3>
+		<table class="table table-bordered table-bordered">
+			<thead>
+				<tr>
+					<th>Permission</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for permission in group.permissions %}
+					<tr>
+						<td>{{ permission }}</td>
+						<td>…</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endfor %}
+{% endblock %}

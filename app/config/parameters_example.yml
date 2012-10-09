@@ -1,0 +1,40 @@
+#Fichier des paramètres modifiables par instance
+
+# Swift Mailer
+swiftmailer:
+    transport:  gmail
+    username:   %secret_mail_username%
+    password:   %secret_mail_password%
+    
+parameters:
+    # Databases
+    database_driver: mysql
+    database_host: localhost
+    database_port: null
+    
+    app_database_name: bns3_app
+    
+    
+    # RMQ
+    rmq_host: 
+    rmq_port: 
+    rmq_vhost: /
+    
+    #Redis
+    redis_host: redis://localhost
+    
+    #Oauth
+    oauth_host: 
+      
+    # BNS
+    bns_domain_id: 
+    bns_domain_name: 
+    
+    # Resources
+    bns_resource_storage: local
+    bns_bns3.s3.bucket_name: 
+    
+    # General
+    application_base_url: 
+    beneyluschool_email: 
+    google_analytics_id: 

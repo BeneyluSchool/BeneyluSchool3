@@ -1,0 +1,43 @@
+{% extends 'BNSAppRegistrationBundle:Layout:confirmation.html.twig' %}
+
+{# {% block beneylu_jim %}class example{% enblock %} #}
+
+{% block css %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('/medias/css/registration/front.css') }}" />
+	<link href='https://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
+{% endblock css %}
+
+{% block content %}
+<div class="container-header-registration">
+	<div class="container-fluid container">
+		<div class="row-fluid">
+			<div class="span12">
+				<a href="#"><img src="/medias/images/registration/beneyluschool.png" /></a>
+				<h1>Validation de la classe</h1>
+				<p>Cette étape permet de certifier que la classe fait bien partie de votre école</p>
+				<div class="pattern"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container container-fluid container-fluid-registration failed">
+	<div class="row-fluid">
+		<div class="span7">
+			<div class="content-text-confirmation">
+				<div class="alert alert-danger">
+					<h3>La demande de confirmation est introuvable</h3>
+
+					<p>Les causes de cette erreur peuvent être :</p>
+					
+					<ul>
+						<li>Vous avez déjà confirmé la classe, pour en être sûr, l'enseignant de la classe a dû recevoir un e-mail de confirmation.</li>
+						<li>Il y a une erreur dans le lien, pour y remédier copiez/collez le lien de validation dans la barre d'adresse de votre navigateur.</li>
+					</ul>
+					<p>Si l'erreur persiste, n'hésitez pas à nous contacter.</p>
+				</div>
+			</div>
+		</div>
+		<div class="span5">
+{% endblock content %}

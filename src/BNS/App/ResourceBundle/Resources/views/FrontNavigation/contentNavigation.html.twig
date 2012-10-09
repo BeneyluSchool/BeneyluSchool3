@@ -1,0 +1,65 @@
+{% set noFilter = type in ['garbage','favorites','recherche'] ? "no-filter" : "" %}
+
+<div id="resource-selection" class="row {{ noFilter }}">
+	{% render "BNSAppResourceBundle:FrontSelection:resourceSelectionView" %}
+</div>
+
+<div id="resources" class="list-resources {% if display == "block" %} class-block {% else %} class-list {% endif %} {{ noFilter }} main-content">
+	{% set i = 0 %}
+	{% for resource in resources %}	
+		{% if display == "block" %}
+			{% include 'BNSAppResourceBundle:FrontNavigation:resourceBlock.html.twig' with {'resource': resource } %}
+		{% else %}
+			{% include 'BNSAppResourceBundle:FrontNavigation:resourceList.html.twig' with {'resource': resource } %}
+		{% endif %}
+		{% set i = i + 1 %}
+	{% else %}
+		{% if type == 'recherche' %}
+			<p class="empty-resource">Votre recherche n'a pas retourné de résultat.</p>
+		{% elseif type == 'garbage' %}
+			<p class="empty-resource">La corbeille est vide.</p>
+		{% else %}
+			
+			<p class="empty-resource">
+				Il n'y a pas encore de document dans ce dossier.
+			</p>
+			<p class="empty-resource">
+				<a href="{{ path('BNSAppResourceBundle_add_choose') }}" class="btn add-resource-btn">
+					<span class="add-resource-btn-icon"></span> Ajouter des documents
+				</a>
+			</p>
+		{% endif %}
+	{% endfor %}
+	{% set nb_page = resources|length // limit + 1 %}
+	{% if nb_page != 1 %}
+	<div class="pagination">
+		<ul>
+			{% for i in 1..nb_page %}
+				<li class="{% if i == page %}active{% endif %}">
+					<a href="#" class="resource-pagination" id="page-{{ type }}-{{i}}">
+						{{ i }}
+					</a>
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+	{% endif %}
+</div>
+
+{% if type == 'garbage' %}
+	{# Modal pour le vidage de la corbeille #}
+	{% autoescape false %}
+		{{ modal('resourceGarbageEmpty', {
+			'title': 'Vider la corbeille',
+			'body': '<p>Vous êtes sur le point de vider votre corbeille.<p><p>Les documents supprimés ne seront plus récupérables.<p>',
+			'footer_template': {'template': 'BNSAppResourceBundle:FrontNavigation:modalEmptyGarbageFooter.html.twig'},
+			'type': 'error'
+		}) }}
+	{% endautoescape %}
+
+{% endif %}
+
+
+<script type="text/javascript">
+	activeResourceDrag();
+</script>

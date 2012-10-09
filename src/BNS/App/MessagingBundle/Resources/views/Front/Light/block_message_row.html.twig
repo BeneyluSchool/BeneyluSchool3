@@ -1,0 +1,23 @@
+<div class="messages received">
+	<div class="header-message">
+		<img src="{{ avatar(message.user, 'thumbnail') }}" />
+		<p class="subject">{{ message.subject }}<img class="status" src="{{ asset('/medias/images/messaging/message-' ~ message.printStatus ~'.png') }}" /></p>
+		<p class="date">Reçu {{ date_from_now(message.createdAt.getTimestamp,false,true) }} de <a href="#">{{ message.user.fullName }}</a></p>
+	</div>
+	<div class="copy">
+		{% for to in message.getTos %}
+			<p><img class="conversation-thumbnails" src="{{ avatar(to, 'thumbnail') }}" />{{ to.fullName }}</p>
+		{% endfor %}
+	</div>
+	<div class="clearfix"></div>
+	<div class="message-received">
+		{% autoescape %}
+			{{ message.content|raw }}
+		{% endautoescape  %}
+	</div>
+	<div class="clearfix"></div>
+	
+	{% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': message.getResourceAttachments(), 'editable': false} %}
+	
+</div>
+

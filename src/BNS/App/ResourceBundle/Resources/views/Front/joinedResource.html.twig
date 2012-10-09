@@ -1,0 +1,11 @@
+<div class="resource-joined attachment">
+	{% if resource.isActive %}
+		{% include 'BNSAppResourceBundle:ResourceBlock:Join/main.html.twig' with {'resource':resource} %}
+	{% else %}
+		{% include 'BNSAppResourceBundle:ResourceBlock:deleted.html.twig' with {'resource':resource} %}
+	{% endif %}
+	{% if editable == true %}
+		<span id="" class="resource-joined-delete"></span>
+		<input type="hidden" value="{{ resource.getId }}" name="resource-joined[]"/>
+	{% endif %}
+</div>

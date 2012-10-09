@@ -1,0 +1,15 @@
+<div class="container-section">
+	<div class="section">
+		<a href="{{ path('BNSAppGroupBundle_back') }}">Accueil</a>
+	</div>
+</div>
+
+{% if managementGroupTypes|length > 0 %}
+	<div class="container-section">
+		{% for groupType in managementGroupTypes %}
+			<div class="section">
+				<a href="{{ path('BNSAppGroupBundle_group_list' , {'type' : groupType.type }) }}">Gestion des {{ groupType.label }}s</a>
+			</div>	
+		{% endfor %}
+	</div>
+{% endif %}

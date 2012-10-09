@@ -1,0 +1,20 @@
+<div class="feed-content">
+	{% if feed.getProfileFeedStatus().getResource() != null %}
+		<div class="resource-container"><img src="{{ getResourceImageUrl(feed.getProfileFeedStatus().getResource(), 'small') }}" alt="" /></div>
+	{% endif %}
+	<p>
+		<span class="created-date">Posté {{ date_from_now(feed.getDate(), false, true) }}</span>
+		<span class="comments-count pull-right">
+			<img src="{{ asset('/medias/images/icons/comment.png') }}" alt="" />
+			{% if feed.getNbComments() == 0 %}
+				Aucun
+			{% else %}
+				{{ feed.getNbComments() }}
+			{% endif %}
+			 commentaire{% if  feed.getNbComments() > 1 %}s{% endif %}</span>
+	</p>
+
+		<p>{{ feed.getProfileFeedStatus().getContent() }}</p>
+
+	<div class="clearfix"></div>
+</div>

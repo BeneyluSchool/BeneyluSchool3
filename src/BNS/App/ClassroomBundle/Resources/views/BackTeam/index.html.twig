@@ -1,0 +1,55 @@
+{% extends 'BNSAppClassroomBundle:Layout:manager.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    {# REQUIRE FOR USERPICKER #}
+    <script type="text/javascript" src="{{ asset('/medias/js/main/userpicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/medias/js/bootstrap/bootstrap-tab.js') }}"></script>
+	{# END REQUIRE #}
+    
+    <script type="text/javascript" src="{{ asset('/medias/js/bootstrap/bootstrap-modal.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/medias/js/classroom/back-team.js') }}"></script>
+    
+{% endblock %}
+
+    
+{% block top_left_buttons_action %}
+	<div class="content-add-btn agenda">
+		<a class="btn btn-info btn-new-article add-group" href="#"><span class="icon-add-article blog"></span>Créer une nouvelle équipe</a>
+	</div>
+{% endblock %}
+    
+{% block sidebar %}
+    {% include 'BNSAppClassroomBundle:Sidebar:sidebar.html.twig' with {'page': 'classroom', 'section' : 'team'} %}
+{% endblock sidebar %}    
+    
+{% block content %}
+	<div class="container-classroom container-team">
+		<div class="news-title">
+			<h1 class="dashboard">Les équipes</h1>
+		</div>
+
+		<div class="add-group-form hide">
+			<h3>Ajouter une nouvelle équipe :</h3>
+			<label for="new-workgroup-name">Nom de l'équipe :</label> <input type="text" id="new-workgroup-name" class="input-new-workgroup-name"/>
+			<button class="btn btn-info create-group-btn"><span class="add-icon"></span>Ajouter l'équipe</button>
+			<img src="{{ asset('/medias/images/icons/loading.gif') }}" class="loading" style="display: none;" />
+		</div>
+
+		<div class="modal hide" id="userPickerModal"></div>
+
+		<div id="teams-container" class="content-team">
+			{% for team in teams %}
+				{% include 'BNSAppClassroomBundle:BackTeam:team_block.html.twig' with {'team': team, 'classroom': classroom } %}
+			{% else %}
+				<div id="no-team" class="">
+					<div class="team-container">
+						<p>La classe ne comporte actuellement pas d'équipe. Vous pouvez en créer</p>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+
+{% endblock %}

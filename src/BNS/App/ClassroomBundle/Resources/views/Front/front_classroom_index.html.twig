@@ -1,0 +1,48 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+	Classe
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript">
+		$(function ()
+		{
+			$('.alert .close').click(function (e)
+			{
+				$(e.currentTarget).parent().fadeOut('slow');
+			});
+		});
+	</script>
+{% endblock javascripts %}
+
+{% block css %}
+	{{ parent() }}
+	<link href="{{ asset('/medias/css/classroom/front.css') }}" rel="stylesheet" type="text/css" /> 
+	<link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block body %}
+	<div class="office"></div>
+	{% for message in app.session.flashbag.get('success') %}
+		<div class="alert alert-success">
+			<button type="button" class="close">×</button>
+			{{ message }}
+		</div>
+	{% endfor %}
+	
+	<div class="board">
+		<span class="message">{{ "now" | date_bns('full', 'none') |capitalize}}</span>
+		<hr class="horizontal-separator" />
+		<span class="message">
+			{{ message|nl2br }}
+		</span>
+		
+	</div>
+{% endblock %}
+	
+{% block dock_bar %}
+	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "CLASSROOM" , 'is_in_front' : true } %}
+{% endblock %}

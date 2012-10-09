@@ -1,0 +1,16 @@
+{% if blog.getAuthors()|length > 0 %}
+	<h2 class="block-title">Les auteurs</h2>
+	<div class="block-student">
+		<ul>
+			{% for author in blog.getAuthors() %}
+				<li>
+					<a href="{{ path('blog_articles_from_author', {'slug': author.getSlug()}) }}" class="bns-user small {% if author_slug is defined and author_slug == author.getSlug() %}bns-selected{% endif %}"><img src="{{ avatar(author, 'thumbnail') }}" width="24" />
+						{{ author.getFullName() }}
+						<span class="action-icons"></span>
+					</a>
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+	<div class="clearfix"></div>
+{% endif %}

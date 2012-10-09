@@ -1,0 +1,8 @@
+<div class="messages messaging-container-message" data-message-id="{{ message.id }}">
+	<img class="status" src="{{ asset('/medias/images/messaging/message-' ~ message.printStatus ~'.png') }}" />
+	<p class="subject">{{ message.subject }}</p>
+	<p class="date">Envoyé {{ date_from_now(message.createdAt.getTimestamp,false,true) }} à {{ message.countTos }} destinataire{% if message.countTos > 1 %}s{% endif %}</p>
+	<p class="message send-draft sent">{{ message.extract }}</p>
+	<button class="btn read-mail messaging-container-message" data-message-id="{{ message.id }}">Voir le message</button>
+	<div class="clearfix"></div>
+</div>

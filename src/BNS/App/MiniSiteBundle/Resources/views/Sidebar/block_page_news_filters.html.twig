@@ -1,0 +1,16 @@
+<div class="sidebar-menu-container">
+	<div class="title-section-sidebar custom-sidebar">{% trans %}MiniSite.Back.Sidebar.NewsStatus{% endtrans %}<div class="color-active"></div><span class="icon-arrow-down"></span></div>
+	<div class="news-status-filters">
+		<div class="template">
+			<img src="{{ asset('/medias/images/icons/uncheck.png') }}" class="unchecked">
+			<img src="{{ asset('/medias/images/icons/check.png') }}" class="checked">
+		</div>
+
+		<ul class="hover">
+			<li id="news-status-{{ constant('BNS\\App\\CoreBundle\\Model\\MiniSitePageNewsPeer::STATUS_PUBLISHED_INTEGER') }}"><img src="{{ asset('/medias/images/icons/fugue/flag-blue.png') }}"> {% trans %}MiniSite.Back.Sidebar.PublishedNews{% endtrans %} <img src="{{ asset('/medias/images/icons/uncheck.png') }}" class="select unchecked"></li>
+			<li id="news-status-{{ constant('BNS\\App\\CoreBundle\\Model\\MiniSitePageNewsPeer::STATUS_WAITING_FOR_CORRECTION_INTEGER') }}"><img src="{{ asset('/medias/images/icons/fugue/flag.png') }}"> {% trans %}MiniSite.Back.Sidebar.CorrectionNews{% endtrans %} <img src="{{ asset('/medias/images/icons/uncheck.png') }}" class="select unchecked"></li>
+			<li id="news-status-{{ constant('BNS\\App\\CoreBundle\\Model\\MiniSitePageNewsPeer::STATUS_FINISHED_INTEGER') }}"><img src="{{ asset('/medias/images/icons/fugue/flag-green.png') }}"> {% trans %}MiniSite.Back.Sidebar.FinishedNews{% endtrans %} <img src="{{ asset('/medias/images/icons/uncheck.png') }}" class="select unchecked"></li>
+			<li id="news-status-{{ constant('BNS\\App\\CoreBundle\\Model\\MiniSitePageNewsPeer::STATUS_DRAFT_INTEGER') }}"><img src="{{ asset('/medias/images/icons/fugue/flag-white.png') }}"> {% trans %}MiniSite.Back.Sidebar.DraftNews{% endtrans %} <img src="{{ asset('/medias/images/icons/uncheck.png') }}" class="select unchecked"></li>
+		</ul>
+	</div>
+</div>

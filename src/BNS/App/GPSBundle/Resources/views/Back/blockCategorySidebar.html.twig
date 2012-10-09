@@ -1,0 +1,18 @@
+<div class="content-title">
+	<div class="loader loader-h"></div>
+	<ul>
+		{% for category in categories %}
+			<li class="gps-choose-category" data-category-id="{{ category.id }}">
+				<div>
+					{{ category.label }}{% if category.isActive == false %} <small><i>- Désactivé</i></small>{% endif %}<span class="select"></span>
+				</div>
+			</li>
+		{% else %}
+			<li>
+				<div>
+					<a href="{{ path('BNSAppGpsBundle_back_categories') }}">Vous n'avez pas encore de catégorie, <br /> cliquez pour en créer une</a>
+				</div>
+			</li>
+		{% endfor %}
+	</ul>
+</div>

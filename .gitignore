@@ -1,0 +1,81 @@
+# Bootstrap
+app/bootstrap*
+
+# Symfony directories
+vendor/*
+*/logs/*
+*/cache/*
+web/uploads/*
+web/bundles/*
+web/js/base_*
+web/css/base_*
+web/js/*/*_*
+
+#Donnees d'import
+src/BNS/App/FixtureBundle/Resources/data/Migration/*
+src/BNS/App/FixtureBundle/Resources/logs/*
+
+# BNS resources
+/app/data/resources/*
+# Public uploads
+/web/uploads/*
+# Configuration files
+app/config/parameters.ini
+# Secret files
+app/config/secret_prod.yml
+app/config/secret_test.yml
+app/config/parameters_prod.yml
+
+# Windows Commands
+/*.bat
+
+# Composer
+composer.phar
+
+# Eclipse
+*.pydevproject
+.project
+.metadata
+# bin/** - disabled because vendors & build_boostrap will not be commited
+bin/propel-gen
+bin/propel-gen.bat
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+
+# Netbeans
+nbproject
+nbproject/*
+
+
+# PHP Storm
+.idea/*
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# CDT-specific
+.cproject
+
+# PDT-specific
+.buildpath
+
+# Propel generated files
+app/propel
+/src/BNS/App/*Bundle/Model/map
+/src/BNS/App/*Bundle/Model/om
+/src/BNS/Central/*Bundle/Model/map
+/src/BNS/Central/*Bundle/Model/om
+
+# GIT
+*.orig

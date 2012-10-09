@@ -1,0 +1,16 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+
+	{% if module.isNew %}
+		<h2>Création d'un module</h2>
+	{% else %}
+		<h2>Edition du module {{ module.label}}</h2>
+	{% endif %}
+
+	<form action="{{ module.isNew ? path('BNSAppAdminBundle_module_manage') : path('BNSAppAdminBundle_module_manage',{'uniqueName' : module.uniqueName}) }}" method="post" {{ form_enctype(form) }} class="form-horizontal">			
+		{{ form_widget(form) }}
+		<input type="submit" />
+	</form>
+
+{% endblock %}

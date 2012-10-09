@@ -1,0 +1,26 @@
+{# <div class="title-section-sidebar homework active">Groupes<div class="color-active"></div><span class="icon-arrow-down"></span></div>
+<div class="sidebar-links-container">
+	<ul id="groups">
+		{% for group in groups %}
+			<li>
+				{{group.label}}
+				
+					<img src="{{ asset('/medias/images/icons/check.png') }}" alt="" id="listcheck_{{ group.getId() }}" class="filter checked group-filter" />
+				
+					<img src="{{ asset('/medias/images/icons/uncheck.png') }}" alt="" id="listcheck_{{ group.getId() }}" class="filter unchecked group-filter" />
+				{% endif %}
+			</li>
+		{% endfor %}
+	</ol>
+</div> #}
+
+<div class="title-container">
+	<div class="title active border-blue">Groupes<span class="square icon-arrow"></span></div>
+	<div class="content-title">
+		<ul id="groups">
+			{% for group in groups %}
+				<li><div>{{group.label}}<span id="listcheck_{{ group.getId() }}" class="group-filter select {% if group.getId() in app.session.get('groups-session') %}checked{% endif %}"></span></div></li>
+			{% endfor %}
+		</ul>
+	</div>
+</div>

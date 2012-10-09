@@ -1,0 +1,48 @@
+<script type="text/javascript" src="{{ asset('/medias/js/messaging/Front/newMail.js') }}"></script>
+<div class="container-message">
+    <div class="content-message">
+        <button id="picker-add-user-btn" class="btn write-new-msg add-user add-user"><span class="background-button"><span class="icons-add-user"></span> Ajouter <br>un contact</span></button>
+                {% include 'BNSAppDirectoryBundle:UserPicker:activable_userpicker.html.twig' with {
+                        'name_for_form': '',
+                        'input_id': 'user-id-to-manage',
+                        'modal_id': 'userpicker-modal',
+                        'element_activate_modal_id': 'picker-add-user-btn',
+                        'auto_close_modal': false,
+                        'group_types_filter': ['CLASSROOM', 'TEAM'],
+                        'roles_filter': ['TEACHER', 'PUPIL', 'PARENT'],
+                        'only_one_load': false
+                } %}
+                <img src="{{ asset('/medias/images/icons/loading.gif') }}" class="loading" style="display: none;"/>
+        <form action="{{ path('BNSAppMessagingBundle_frontajax_send_email') }}" method="post" {{ form_enctype(email_form) }}>
+            {{ form_widget(email_form.id) }}
+            <div class="content-form">
+                <button class="btn write-new-msg add-user save-draft">Enregistrer en brouillon</button>
+                <div class="controls">
+                    A (Chaque email est séparé par une virgule)<br />
+                    {{ form_errors(email_form.to) }}
+                    {{ form_widget(email_form.to) }}
+                </div>
+                <div class="controls">
+                    Objet<br />
+                    {{ form_errors(email_form.subject) }}
+                    {{ form_widget(email_form.subject) }}
+                </div>
+                <div class="tinyarea">
+                    Message <br />
+                    {{ form_errors(email_form.message) }}
+                    {{ form_widget(email_form.message, { 'attr': {'class': 'load_tinymce', 'data-theme': 'simple'} }) }}
+                </div>
+            </div>
+            <div class="content-attachment">
+                <div class="attachment">
+                    {% if resources is not defined %}{% set resources = false %}{% endif %}
+                    {% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources' : resources, 'editable': true } %}
+                </div>
+            </div>
+                
+            {{ form_rest(email_form) }}
+    </form>
+
+    </div>
+</div>
+{{ tinymce_init() }}

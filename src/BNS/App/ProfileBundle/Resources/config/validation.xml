@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
+
+    <class name="BNS\App\ProfileBundle\Form\Model\ProfileFormModel">
+        <property name="email">
+            <constraint name="NotBlank">
+				<option name="message">Veuillez choisir votre adresse e-mail !</option>
+			</constraint>
+			<constraint name="Email">
+				<option name="message">L'adresse e-mail renseignée est invalide, veuillez réessayer</option>
+			</constraint>
+        </property>
+    </class>
+</constraint-mapping>

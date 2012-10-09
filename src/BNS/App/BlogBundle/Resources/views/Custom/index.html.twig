@@ -1,0 +1,118 @@
+{% extends 'BNSAppBlogBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+	{{ blog.getTitle() }} - Personnalisation
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ tinymce_init() }}
+
+	<script type="text/javascript">
+		$(function ()
+		{
+			// Finish button
+			$('.header-buttons .finish').click(function ()
+			{
+				$('#form_informations').submit();
+				
+				return false;
+			});
+			
+			if ($('.alert.alert-success').length > 0) {
+				setTimeout(function ()
+				{
+					$('.alert.alert-success').slideUp('fast');
+				}, 8000);
+			}
+		});
+	</script>
+{% endblock javascripts %}
+
+{% block header %}
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span12 align-right">
+						<a href="#" class="btn finish bns-success validate-medium btn-24 medium">
+							<span class="icons-24 validate-icon"></span><strong>{% trans %}MiniSite.Back.HeaderButtons.IFinished{% endtrans %}</strong>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock header %}
+
+{% block sidebar %}
+	<div class="container-section">
+		<div class="section">
+			<a href="{{ path('BNSAppBlogBundle_back') }}">{% trans %}Blog.Back.Sidebar.Articles{% endtrans %}</a>
+		</div>
+		<div class="section">
+			<a href="{{ path('blog_manager_comment') }}">Commentaires</a>
+		</div>
+	</div>
+	<div class="section active">
+		{% trans %}Blog.Back.Sidebar.Customing{% endtrans %}
+		<span class="shadow-section"></span>
+	</div>
+	<div class="title-container article-statuses-filter">
+	<div class="content-title">
+		<ul>
+			<li>
+				<a href="{{ path('blog_manager_custom') }}" class="active">Personnalisation du blog</a>
+			</li>
+			<li>
+				<a href="{{ path('blog_manager_categories') }}" href="#">Gestion des catégories</a>
+			</li>
+		</ul>
+	</div>
+</div>
+{% endblock sidebar %}
+	
+{% block content %}
+	<div class="admin-form">
+		<div class="informations-form form">
+			{% for message in app.session.flashbag.get('success') %}
+				<div class="alert alert-success">
+					{{ message }}
+				</div>
+			{% endfor %}
+				
+			<div class="news-title">
+				<h1 class="dashboard">Rédiger une description</h1>
+			</div>
+			<form id="form_informations" action="{{ path('blog_manager_custom') }}" method="POST">
+				<div class="resource">
+					{{ form_widget(form.avatar_resource_id) }}
+					<div id="resource-selection-callback">
+						{% if form.vars.value.getResource() != null %}
+							<img src="{{ getResourceImageUrl(form.vars.value.getResource(), 'small') }}" />
+						{% else %}
+						 	<img src="{{ asset('/medias/images/profile/avatar/small/classroom.png') }}" />
+						{% endif %}
+					</div>
+					{{ form_widget(form.title, {'attr': {'class': 'input-xlarge-bns input-title', 'placeholder': 'Titre du blog'} }) }}
+					{% include 'BNSAppResourceBundle:Front:selectImage.html.twig' with {
+						'label' : 'Modifier l\'avatar du blog',
+						'input_id': 'blog_form_avatar_resourceId', 
+						'name': form.avatar_resource_id.vars.full_name, 
+						'callback': 'resource-selection-callback' 
+					} %}
+				</div>
+				<div class="tinyarea">
+					<div class="row-title">Description</div>
+					{{ form_widget(form.description, { 'attr': {'class': 'load_tinymce', 'data-theme': 'no_resources'} }) }}
+				</div>
+				<div class="errors">
+					{{ form_errors(form) }}
+				</div>
+				<div class="rest">
+					{{ form_rest(form) }}
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock content %}

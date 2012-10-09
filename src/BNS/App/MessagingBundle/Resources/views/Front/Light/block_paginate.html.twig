@@ -1,0 +1,21 @@
+{% set pagination_limit = 4 %}
+{% set end = total % limit == 0 ? total//limit : total//limit + 1 %}
+{% if total > limit %}
+	<div class="pagination">
+		<ul>
+			{% for i in 1..end %}
+				{% if loop.first and 1 != currentPage %}
+					<li><a class="messaging-paginate" data-page="{{ currentPage - 1 }}" href="#">«</a></li>
+				{% endif %}
+				{% if ((total//limit + 1 ) < pagination_limit  or i >= currentPage - 1 and  i <= (currentPage + 1)) %}
+				<li><a class="messaging-paginate {% if i == currentPage %} disabled{% endif %}" href="#" data-page="{{ i }}">{{ i }}</a></li>
+				{% elseif i >= currentPage - 2 and  i <= currentPage + 2 %}
+					{#<li><a class="disabled">...</a></li>#}
+				{% endif %}
+				{% if loop.last and i != currentPage %}
+					<li><a class="messaging-paginate" data-page="{{ currentPage + 1 }}" href="#">»</a></li>
+				{% endif %}
+			{% endfor %}
+		</ul>
+	</div>
+{% endif %}

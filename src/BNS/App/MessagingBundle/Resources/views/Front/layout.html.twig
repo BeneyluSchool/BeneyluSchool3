@@ -1,0 +1,35 @@
+{# On étend forcément base.html.twig #}
+{% extends '::base.html.twig' %}
+
+{% block title %}Messagerie{% endblock %}
+
+{% block css %}
+    {{ parent() }}
+    <link href='https://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
+    <link href="{{ asset('/medias/css/messaging/front.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('/medias/css/messaging/ajaxdisabled.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('/medias/css/messaging/jtags.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+        
+{% block javascripts %}	
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('/bundles/fosjsrouting/js/router.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/bundles/stfalcontinymce/vendor/tiny_mce/tiny_mce.js') }}"></script>
+    <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    <script type="text/javascript" src="{{ asset('/medias/js/messaging/Front/folderSelect.js') }}"></script>	
+    <script type="text/javascript" src="{{ asset('/medias/js/messaging/Front/layout.js') }}"></script>	
+    <script type="text/javascript" src="{{ asset('/medias/js/messaging/Front/jtags.js') }}"></script>	
+{% endblock %}	
+
+    
+{% block body %}
+<div class="ajaxLoad"><!-- Disabled while ajax load --></div>
+{% include "BNSAppMessagingBundle:Front:header.html.twig" %}
+{% render "BNSAppMessagingBundle:Front:sidebar" with { 'currentFolderId' : 1}%}
+
+{% block content %}{% endblock %}
+{% endblock %}
+        
+{% block dock_bar %}
+    {% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "MESSAGING" , 'is_in_front' : true } %}
+{% endblock %}

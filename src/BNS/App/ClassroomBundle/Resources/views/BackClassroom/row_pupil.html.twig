@@ -1,0 +1,17 @@
+<div id="pupil-{{ pupil.getId }}" class="row-fluid pupil-row list-content" xmlns="http://www.w3.org/1999/html">
+    <a href="{{ path('BNSAppClassroomBundle_back_pupil_detail', {'userSlug': pupil.getSlug()}) }}" class="row-fluid">
+	    <div class="span6">
+	        <img src="{{ avatar(pupil, 'thumbnail') }}" alt="avatar" class="classroom-user-avatar" />
+			<p>{{ pupil.getFirstName() }} {{ pupil.getLastName() }}</p>
+		</div>
+		<div class="span6">
+			<p class="info-pupil">
+				{% if pupil.getLastConnection() != null %}
+					{{ date_from_now(pupil.getLastConnection(), true, false) }}
+				{% else %}
+					Ne s'est jamais connecté
+				{% endif %}
+			</p>
+	    </div>
+   	</a>
+</div>

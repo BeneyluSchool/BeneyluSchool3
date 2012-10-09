@@ -1,0 +1,63 @@
+{% extends 'BNSAppHelloWorldBundle:Front:layout.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+{% endblock %}
+	
+{% block css %}
+	{{ parent() }}
+{% endblock %}
+
+{% block content %}
+	<h1>Notification : {{ notificationType.getUniqueName() }}</h1>
+	<br />
+	<div class="span10">
+		<h2>Voici la liste des attributs disponibles</h2>
+		
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th>Requis ?</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for name,required in attributes %}
+					<tr>
+						<td>{{ name }}</td>
+						<td>{% if (required) %}Oui{% else %}Non{% endif %}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<hr />
+		
+		<h2>Engine(s) désactivé(s)</h2>
+		{% if (notificationType.getDisabledEngine() == null) %}
+			<p><i>Aucun</i></p>
+		{% else %}
+			{{ notificationType.getDisabledEngine() }}
+		{% endif %}
+		
+		<hr />
+		<div>
+			<h2>Envoyer la notification</h2>
+			
+			<form action="{{ path('BNSAppHelloWorldBundle_front_notifications_send', {'notificationTypeUniqueName': notificationType.getUniqueName()}) }}" method="POST">
+				{% for name,required in attributes %}
+					<label for="{{ name }}">{{ name }} {% if (required) %}*{% endif %}</label>
+					{% if (name == 'targetUser') %}
+						<input name="{{ name }}" id="{{ name }}" type="text" value="{{ app.user.getId() }}" /> <i>(ID) auto completé sur le votre</i>
+					{% else %}
+						<input name="{{ name }}" id="{{ name }}" type="text" value="" />
+					{% endif %}
+						
+					<input type="hidden" name="attribute_names" value='{{ attributeNames }}' />
+				{% endfor %}
+				
+				<p><input type="submit" class="btn" value="Envoyer" /></p>
+				<p><i>* requis</i></p>
+			</form>
+		</div>
+	</div>
+{% endblock %}

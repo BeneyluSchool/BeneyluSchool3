@@ -1,0 +1,8 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+	<a href="{{ path('BNSAppAdminBundle_rank_manage')}}" class="btn btn-success">
+		Ajouter un rank
+	</a>
+	{% include "BNSAppAdminBundle:Rank:list.html.twig" with {'ranks' : ranks} %}
+{% endblock %}

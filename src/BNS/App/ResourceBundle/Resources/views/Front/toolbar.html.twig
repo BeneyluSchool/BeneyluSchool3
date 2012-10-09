@@ -1,0 +1,52 @@
+{# Bouton d'ajout de ressources #}
+
+<div class="resource-toolbar">
+	{% if app.session.get('resource_action_type') not in ["search"] %}
+		<a class="close-resource-iframe">
+			<img src="{{ asset('/medias/images/resource/integration/close-cross.png')}}" />
+		</a>
+	{% endif %}
+
+	{% if tools.add_resources is defined %}
+		<a href="{{ path('BNSAppResourceBundle_add_choose') }}" class="btn add-resource-btn">
+			<span class="add-resource-btn-icon"></span> Ajouter des documents
+		</a>
+	{% endif %}
+		
+	{% if tools.back_link is defined %}
+		<a href="{{ path('BNSAppResourceBundle_add_choose') }}" class="btn back-btn">
+			<span class="back-btn-icon"></span>
+			<span class="back-btn-text">
+				Revenir à<br />la liste
+			</span>
+		</a>
+	{% endif %}
+
+	{% if tools.my_quota is defined %}
+		<div class="toolbar-quota" > 
+			<div class="quota">
+				<span class="top">Espace utilisé</span>
+				<span class="bottom">de mes documents</span>
+			</div>
+
+			<div class="progress progress-{{ tools.my_quota.class|default(0) }} quota-bar span5">
+				<div class="bar" style="width: {{ tools.my_quota.percentage }}%"></div>
+			</div>
+		</div>
+	{% endif %}
+		
+	{% if tools.title is defined %}
+		<h2 class="toolbar-title">{{ tools.title }}</h2>
+	{% endif %}
+
+	<div id="toolbar-search" style="display:none;" class="toolbar-research">
+		<input id="search-input-toolbar" type="text" placeholder="Rechercher un document" class="span5" />
+
+		<a id="search-resource-submit-toolbar" class="btn search-btn">
+			<span  class="search-btn-icon "></span>Médiathèque
+		</a>
+		<a id="search-google-submit-toolbar" class="btn btn-primary search-web">
+			<span class="search-btn-icon"></span> Internet
+		</a>
+	</div>
+</div>

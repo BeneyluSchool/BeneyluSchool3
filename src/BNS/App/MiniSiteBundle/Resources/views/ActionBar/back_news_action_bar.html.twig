@@ -1,0 +1,16 @@
+<div class="edit-news btn-toolbar" id="toolbar-news-{{ news.getId() }}">
+	<div class="actions-bar">
+		<div class="btn-group input-prepend">
+			<span class="status append add-on">
+				{% include 'BNSAppMiniSiteBundle:ActionBar:back_news_inner_status_button.html.twig' %}
+			</span>
+		</div>
+		<div class="actions">
+			{% if not news.isPublished() %}
+				<a href="{{ path('minisite_manager_page_news_edit', {'slug': news.getSlug()}) }}" class="btn btn-info standard">
+					<span class="icon-edit"></span>{% trans %}MiniSite.Back.General.Edit{% endtrans %}
+				</a>
+			{% endif %}
+		</div>
+	</div>
+</div>

@@ -1,0 +1,69 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+	<h2>{{ schoolInfo.getName() }}</h2> <em>{% if schoolInfo.getStatus() == 'VALIDATED' %}Validé{% else %}En attente de validation{% endif %}</em>
+	
+	<p class="pull-right">
+		<a href="{{ path('admin_school_information_edit', {'id': schoolInfo.getId()}) }}" class="btn">Editer</a>
+		<a href="#" class="btn btn-danger">Supprimer</a>
+		{% if schoolInfo.getStatus() == 'PENDING_VALIDATION' %}
+			<a href="{{ path('admin_school_information_validate', {'id': schoolInfo.getId()}) }}" class="btn btn-success">Valider</a>
+		{% endif %}
+	</p>
+	
+	<div class="row">
+		<table class="table">
+			<thead>
+				<tr>
+					<th width="30%">Attribut</th>
+					<th width="70%">Valeur</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>group_id</td>
+					<td>
+						{% if schoolInfo.getGroupId() != null %}
+							{{ schoolInfo.getGroupId() }}
+							(<a href="{{ path('BNSAppAdminBundle_group_sheet_index', {'id': schoolInfo.getGroupId()}) }}">{{ schoolInfo.getGroup().getLabel() }}</a>)
+						{% else %}
+							<em>Non lié</em>
+						{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<td>E-mail</td>
+					<td>{{ schoolInfo.getEmail() }}</td>
+				</tr>
+				<tr>
+					<td>Pays</td>
+					<td>{{ schoolInfo.getCountry() }}</td>
+				</tr>
+				<tr>
+					<td>Code UAI</td>
+					<td>{{ schoolInfo.getUai() }}</td>
+				</tr>
+				<tr>
+					<td>Adresse</td>
+					<td>{{ schoolInfo.getAddress() }}</td>
+				</tr>
+				<tr>
+					<td>Code Postal</td>
+					<td>{{ schoolInfo.getZipCode() }}</td>
+				</tr>
+				<tr>
+					<td>Ville</td>
+					<td>{{ schoolInfo.getCity() }}</td>
+				</tr>
+				<tr>
+					<td>Tel.</td>
+					<td>{{ schoolInfo.getPhoneNumber() }}</td>
+				</tr>
+				<tr>
+					<td>Fax</td>
+					<td>{{ schoolInfo.getFaxNumber() }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+{% endblock content %}

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+			<!-- Allowed attributes name : articleId,  -->
+
+			<!-- EMAIL Engine -->
+            <trans-unit id="1">
+                <source>BLOG_ARTICLE_VALIDATED.EMAIL.title</source>
+                <target>Un de tes articles a été validé</target>
+            </trans-unit>
+			<trans-unit id="2">
+                <source>BLOG_ARTICLE_VALIDATED.EMAIL.content</source>
+                <target><![CDATA[Ton article "<a href="%articleUrl%" title="Voir l'article"><b>%articleTitle</b></a>" a été validé, mais pas encore publié]]></target>
+            </trans-unit>
+			
+			<!-- SYSTEM Engine -->
+			<trans-unit id="100">
+                <source>BLOG_ARTICLE_VALIDATED.SYSTEM.content</source>
+                <target><![CDATA[Ton article "<a href="%articleUrl%" title="Voir l'article"><b>%articleTitle</b></a>" a été validé, mais pas encore publié]]></target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

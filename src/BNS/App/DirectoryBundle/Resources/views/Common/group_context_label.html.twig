@@ -1,0 +1,5 @@
+{% if group.hasSubgroup() %}
+	<span class="label label-info hide" data-label-for-context="{{ group.getSlug() }}" 
+		  data-toggle="tab" data-target="#{{ group.getSlug() }}-tab">{{ group.getLabel() }}</span>
+	{% include 'BNSAppDirectoryBundle:Common:group_context_label_list.html.twig' with {'groups': group.getSubgroups()} %}
+{% endif %}

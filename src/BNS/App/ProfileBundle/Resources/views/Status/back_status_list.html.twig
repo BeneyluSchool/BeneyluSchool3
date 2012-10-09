@@ -1,0 +1,13 @@
+{% for feed in feeds %}
+	{% include 'BNSAppProfileBundle:Status:back_status_row.html.twig' with {'feed': feed} %}
+{% else %}
+	<p class="no-feed">
+		Aucun statut n'a été publié,
+		{% if is_adult() %}
+			vous pouvez 
+		{% else %}
+			tu peux 
+		{% endif %}
+		en créer un en cliquant sur le bouton "Ajouter un nouveau statut" en haut à gauche.
+	</p>
+{% endfor %}

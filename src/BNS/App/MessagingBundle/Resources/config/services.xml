@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="bns.messaging_api" class="BNS\App\MessagingBundle\API\MessagingAPI" scope="request">
+            <argument type="service" id="buzz" />
+            <argument>%mail_api_host%</argument>
+            <argument>%mail_api_baseurl%</argument>
+            <argument type="service" id="serializer" />
+            <argument type="service" id="bns.right_manager" />
+            <argument type="service" id="request" />
+            <argument>%mail_api_downloadurl%</argument>
+            <argument>%mail_domain%</argument>
+            <argument>%mail_password%</argument>
+        </service>
+
+        <service id="bns.mail_manager" class="BNS\App\MessagingBundle\Messaging\BNSMailManager" scope="request">
+            <argument type="service" id="bns.messaging_api" />
+            <argument type="service" id="request" />
+            <argument>%resource_files_dir%</argument>
+        </service>
+
+		<service id="bns.message_manager" class="BNS\App\MessagingBundle\Messaging\BNSMessageManager">
+			<argument type="service" id="bns.resource_manager" />
+		</service>
+                
+    </services>
+</container>

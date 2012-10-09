@@ -1,0 +1,48 @@
+{# DELETE THIS AFTER INTEGRATION #}
+<style type="text/css">
+	.school-search { background: #CCC; border-radius: 3px; border: 1px solid #BBB; padding: 5px; }
+	.school-search:hover { background: #DDD; cursor: pointer; }
+	.school-search.selected { background: #AAA; border: 1px solid #999; cursor: pointer; }
+</style>
+
+<div class="row-fluid">
+	<div class="span6">
+		<h3>Par code postal</h3>
+		{% if schoolsZipCode|length > 0 %}
+			<div class="container-school-search">
+				{% for school in schoolsZipCode %}
+					<div class="school-search" data-information-id="{{ school.id }}">
+						<img src="/medias/images/registration/class-small-hover.png" />
+						<p><strong>{{ school.name }}</strong><br />{{ school.city }}</p>
+					</div>
+				{% endfor %}
+			</div>
+		{% else %}
+			<div class="alert alert-danger">
+				Aucune école n'a été trouvée avec ce code postal.
+			</div>
+			{#<a href="{{ path('registration_free_create_school') }}" class="btn btn-danger">Faire une demande de création d'école</a>#}
+		{% endif %}
+	</div>
+	<div class="span6">
+		<h3>Ou par code UAI</h3>
+		{% if schoolsUAI|length > 0 %}
+		<div class="container-school-search">
+			{% for school in schoolsUAI %}
+				<div class="school-search school-uai" data-information-id="{{ school.id }}">
+					<img src="/medias/images/registration/class-small-hover.png" class="school-uai" />
+					<p>
+						<strong>{{ school.name }}</strong><br />
+						{{ school.address }}<br />
+						{{ school.city }} - {{ school.zipCode }} </p>
+				</div>
+				<hr />
+			{% endfor %}
+		</div>
+		{% else %}
+			<div class="alert alert-danger">
+				Aucune école n'a été trouvée avec ce code UAI.
+			</div>
+		{% endif %}
+	</div>
+</div>

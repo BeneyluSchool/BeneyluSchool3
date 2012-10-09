@@ -1,0 +1,284 @@
+# HelloWorld Bundle -> Exemple pour les autres :)
+
+hello_world:
+  # Unique Name Majuscules sans Espace
+  unique_name: HELLOWORLD
+  # Est "contextable" : le module dépend il du contexte de navigation
+  is_contextable: true
+   #Est "activable": si on peut désactiver ou non le module
+  is_activable: true
+  #Nom du bundle (normalement découle du UniqueName)
+  bundle_name: HelloWorldBundle
+  #Rang par défault pour les parents
+  default_parent_rank: HELLOWORLD_READ
+  #Rang par défault pour les élèves
+  default_pupil_rank: HELLOWORLD_USE
+  #Rang par défaut pour d'autres type utilisateur
+  default_other_rank: HELLOWORLD_USE
+  #Déclinaisons I18n
+  i18n:
+    fr:
+      label: Hello World
+      description: 
+    en:
+      label: Blog
+      description: Hello World
+
+# Liste des modules par ordre alpha
+
+admin:
+  unique_name: ADMIN
+  is_contextable: true
+  is_activable: false
+  bundle_name: AdminBundle
+  default_parent_rank: ADMIN_READ
+  default_pupil_rank: ADMIN_USE
+  default_other_rank: ADMIN_READ
+  i18n:
+    fr:
+      label: Admin
+      description: Module d'administration
+    en:
+      label: Admin 
+      description: Admin module
+      
+blog:
+  unique_name: BLOG
+  is_contextable: true
+  is_activable: true
+  bundle_name: BlogBundle
+  default_parent_rank: BLOG_READ
+  default_pupil_rank: BLOG_USE
+  default_other_rank: BLOG_READ
+  i18n:
+    fr:
+      label: Blog
+      description: Lire et écrire des articles dans un journal en ligne
+    en:
+      label: Blog
+      description: English blog
+
+calendar:
+  unique_name: CALENDAR
+  is_contextable: false
+  is_activable: true
+  bundle_name: CalendarBundle
+  default_parent_rank: CALENDAR_USE
+  default_pupil_rank: CALENDAR_USE
+  default_other_rank: CALENDAR_USE
+  i18n:
+    fr:
+      label: Calendrier
+      description: Voir les évènements à venir
+    en:
+      label: Calendar
+      description: English calendar
+
+classroom:
+  is_contextable: true
+  unique_name: CLASSROOM
+  is_activable: false
+  bundle_name: ClassroomBundle
+  default_parent_rank: CLASSROOM_USE
+  default_pupil_rank: CLASSROOM_USE
+  default_other_rank: CLASSROOM_USE
+  i18n:
+    fr:
+      label: Module classe
+      description: Page d'accueil
+    en:
+      label: Classroom module
+      description: Desk et pupils management
+      
+gps:
+  is_contextable: true
+  unique_name: GPS
+  is_activable: true
+  bundle_name: GpsBundle
+  default_parent_rank: GPS_USE
+  default_pupil_rank: GPS_USE
+  default_other_rank: GPS_USE
+  i18n:
+    fr:
+      label: GPS
+      description: Voyager de lieux en lieux
+    en:
+      label: GPS
+      description: BNS's GPS
+
+group:
+  is_contextable: true
+  unique_name: GROUP
+  is_activable: false
+  bundle_name: GroupBundle
+  default_parent_rank: 
+  default_pupil_rank: 
+  default_other_rank: 
+  i18n:
+    fr:
+      label: Groupe
+      description: Module d'accueil des groupes
+    en:
+      label: Group
+      description: Home module for groups
+
+
+liaisonbook:
+  unique_name: LIAISONBOOK
+  is_contextable: true
+  is_activable: true
+  bundle_name: LiaisonBookBundle
+  default_parent_rank: LIAISONBOOK_USE
+  default_pupil_rank: LIAISONBOOK_READ
+  default_other_rank: LIAISONBOOK_READ
+  i18n:
+    fr:
+      label: Carnet de liaison
+      description: Lire les annonces de la classe
+    en:
+      label: Liaison book
+      description: Liaison book for students's parents.
+
+messaging:
+  unique_name: MESSAGING
+  is_contextable: false
+  is_activable: true
+  bundle_name: MessagingBundle
+  default_parent_rank: MESSAGING_USE_PARENT
+  default_pupil_rank: MESSAGING_USE_CHILD
+  default_other_rank: MESSAGING_USE_ADULT
+  i18n:
+    fr:
+      label: Messagerie
+      description: Communiquer avec ses correspondants
+    en:
+      label: Messaging
+      description: English messaging
+      
+notification:
+  is_contextable: false
+  unique_name: NOTIFICATION
+  is_activable: true
+  bundle_name: NotificationBundle
+  default_parent_rank: 
+  default_pupil_rank: 
+  default_other_rank: 
+  i18n:
+    fr:
+      label: Notification
+      description: Notification
+    en:
+      label: Notifications
+      description: Notifications
+      
+profile:
+  unique_name: PROFILE
+  is_contextable: false
+  is_activable: true
+  bundle_name: ProfileBundle
+  default_parent_rank: PROFILE_READ
+  default_pupil_rank: PROFILE_USE
+  default_other_rank: PROFILE_READ
+  i18n:
+    fr:
+      label: Profil
+      description: Parcourir les informations de vos connaissances
+    en:
+      label: Profile
+      description: Your profile
+
+resource:
+  unique_name: RESOURCE
+  is_contextable: false
+  is_activable: true
+  bundle_name: ResourceBundle
+  default_parent_rank: RESOURCE_READ
+  default_pupil_rank: RESOURCE_USE
+  default_other_rank: RESOURCE_READ
+  i18n:
+    fr:
+      label: Médiathèque
+      description: Mettre en ligne des vidéos, du son, des documents ou des images
+    en:
+      label: Media
+      description: Media library
+
+school:
+  is_contextable: false
+  unique_name: SCHOOL
+  is_activable: true
+  bundle_name: SchoolBundle
+  default_parent_rank: 
+  default_pupil_rank: 
+  default_other_rank: 
+  i18n:
+    fr:
+      label: Ecole
+      description: Ecole
+    en:
+      label: School
+      description: School
+
+team:
+  is_contextable: true
+  unique_name: TEAM
+  is_activable: true
+  bundle_name: TeamBundle
+  default_parent_rank: TEAM_READ
+  default_pupil_rank: TEAM_USE
+  default_other_rank: TEAM_READ
+  i18n:
+    fr:
+      label: Equipe
+      description: Equipe
+    en:
+      label: Team
+      description: Team
+
+homework:
+  unique_name: HOMEWORK
+  is_contextable: false
+  is_activable: true
+  bundle_name: HomeworkBundle
+  default_parent_rank: HOMEWORK_READ
+  default_pupil_rank: HOMEWORK_USE
+  default_other_rank: HOMEWORK_READ
+  i18n:
+    fr:
+      label: Cahier de texte
+      description: Lire et valider les travaux donnés
+    en:
+      label: Homework
+      description: Manage your assignments
+
+minisite:
+  unique_name: MINISITE
+  is_contextable: true
+  is_activable: true
+  bundle_name: MiniSiteBundle
+  default_parent_rank: MINISITE_READ
+  default_pupil_rank: MINISITE_USE
+  default_other_rank: MINISITE_READ
+  i18n:
+    fr:
+      label: Minisite
+      description: Lire toute l'actualité en ligne de votre école
+    en:
+      label: Minisite
+      description: The school or classroom news for the public via the minisite.
+
+directory:
+  unique_name: DIRECTORY
+  is_contextable: false
+  is_activable: true
+  bundle_name: DirectoryBundle
+  default_parent_rank: DIRECTORY_READ
+  default_pupil_rank: DIRECTORY_READ
+  default_other_rank: DIRECTORY_READ
+  i18n:
+    fr:
+      label: Annuaire
+      description: 
+    en:
+      label: Directory
+      description: 

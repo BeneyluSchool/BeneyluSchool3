@@ -1,0 +1,115 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="propel.orm.security.user.provider.class">BNS\App\CoreBundle\Security\Propel\ModelUserProvider</parameter>
+        <parameter key="bns.security.oauth.user_provider.class">BNS\App\CoreBundle\Security\OAuth\OAuthAwareUserProvider</parameter>
+		<parameter key="date_i18n.class">BNS\App\CoreBundle\Date\DateI18n</parameter>
+		<parameter key="locale.listener.class">BNS\App\CoreBundle\Listener\LocaleListener</parameter>
+    </parameters>
+	
+    <services>
+		<!-- Used by authentication -->
+        <service id="bns.security.oauth.user_provider" class="%bns.security.oauth.user_provider.class%">
+			<argument>BNS\App\CoreBundle\Model\User</argument>
+			<argument>login</argument>
+		</service>
+
+		<!-- Locale Process -->
+		<service id="locale.listener" class="%locale.listener.class%">
+			<tag name="kernel.event_listener" event="kernel.request" method="setLocale" />
+		</service>
+
+		<service id="date_i18n" class="%date_i18n.class%"></service>
+
+        <service id="bns.api" class="BNS\App\CoreBundle\Api\BNSApi">
+			<argument type="service" id="buzz" />
+			<argument>%auth_url%</argument>
+			<argument>%api_key%</argument>
+			<argument>%encode_key%</argument>
+			<argument type="service" id="snc_redis.default" />
+		</service>
+		<service id="bns.user_manager" class="BNS\App\CoreBundle\User\BNSUserManager">
+			<argument type="service" id="service_container" />
+			<argument>%domain_id%</argument>
+			<argument>%csv_import_files_tmp_dir%</argument>
+		</service>
+		<service id="bns.right_manager" class="BNS\App\CoreBundle\Right\BNSRightManager" scope="request">
+			<argument type="service" id="bns.user_manager" />
+			<argument type="service" id="bns.api" />
+			<argument type="service" id="request" />
+			<argument type="service" id="security.context" />
+			<argument type="service" id="bns.group_manager" />
+			<argument type="service" id="bns.classroom_manager" />
+			<argument type="service" id="bns.team_manager" />
+		</service>
+
+		<service id="bns.group_manager" class="BNS\App\CoreBundle\Group\BNSGroupManager">
+			<argument type="service" id="service_container" />
+			<argument type="service" id="bns.role_manager" />
+			<argument type="service" id="bns.user_manager" />
+			<argument type="service" id="bns.api" />
+			<argument type="service" id="bns.module_manager" />
+			<argument>%domain_id%</argument>
+		</service>
+		<service id="bns.classroom_manager" class="BNS\App\CoreBundle\Classroom\BNSClassroomManager">
+			<argument type="service" id="service_container" />
+			<argument type="service" id="bns.user_manager" />
+			<argument type="service" id="bns.api" />
+			<argument type="service" id="bns.role_manager" />
+			<argument>%domain_id%</argument>
+			<argument type="service" id="bns.mailer" />
+		</service>
+		<service id="bns.module_manager" class="BNS\App\CoreBundle\Module\BNSModuleManager">
+			<argument type="service" id="bns.api" />
+		</service>
+		<service id="bns.role_manager" class="BNS\App\CoreBundle\Role\BNSRoleManager">
+			<argument type="service" id="bns.api" />
+			<argument>%domain_id%</argument>
+		</service>
+		<service id="bns.team_manager" class="BNS\App\CoreBundle\Team\BNSTeamManager">
+			<argument type="service" id="bns.api" />
+			<argument type="service" id="bns.role_manager" />
+			<argument type="service" id="bns.rule_manager" />
+			<argument type="service" id="bns.user_manager" />
+			<argument>%domain_id%</argument>
+		</service>
+		<service id="bns.rule_manager" class="BNS\App\CoreBundle\Rule\BNSRuleManager">
+			<argument type="service" id="bns.api" />
+			<argument>%domain_id%</argument>
+		</service>
+		<service id="bns.liaison_book_manager" class="BNS\App\CoreBundle\LiaisonBook\BNSLiaisonBookManager">
+			<argument type="service" id="bns.api" />
+		</service>
+
+		<service id="bns.logging_listener" class="BNS\App\CoreBundle\Listener\LoggingListener">			
+			<argument type="service" id="service_container"></argument>
+			<tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
+		</service>
+		
+		<!-- Twig Extensions -->
+		<service id="twig.extension.permission_extension" class="BNS\App\CoreBundle\Twig\Extension\PermissionExtension">
+			<argument type="service" id="service_container"></argument>
+			<tag name="twig.extension" alias="permission_extension" />
+		</service>
+
+		<service id="twig.extension.parameter_extension" class="BNS\App\CoreBundle\Twig\Extension\ParameterExtension">
+			<argument type="service" id="service_container"></argument>
+			<tag name="twig.extension" alias="parameter_extension" />
+		</service>
+ 
+        <service id="twig.extension.date_from_now" class="BNS\App\CoreBundle\Twig\Extension\DateFromNowExtension">
+            <argument type="service" id="service_container"></argument>
+            <tag name="twig.extension" alias="date_from_now" />
+        </service>
+
+		<service id="twig.extension.user_extension" class="BNS\App\CoreBundle\Twig\Extension\UserExtension">
+			<argument type="service" id="service_container"></argument>
+			<tag name="twig.extension" alias="user_extension" />
+		</service>
+
+    </services>
+</container>

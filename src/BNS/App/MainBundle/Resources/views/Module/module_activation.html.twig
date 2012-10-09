@@ -1,0 +1,14 @@
+<table class="table table-bordered">
+	<tbody>
+		{% for module in activableModules %}
+			<tr>
+				<td><img src="{{ asset('/medias/images/icons/modules/btn-' ~ module.getUniqueName()|lower ~ '-medium.png') }}" /> {{ module.getLabel() }}</td>
+				{% for role in roles %}
+					<td{% if loop.index % 2 != 0 %} class="student"{% endif %}>
+						{% include "BNSAppMainBundle:Module:module_activation_block.html.twig" with {'module' : module , 'role' : role , 'groupId' : groupId, 'moduleStates': moduleStates } %}
+					</td>
+				{% endfor %}
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>

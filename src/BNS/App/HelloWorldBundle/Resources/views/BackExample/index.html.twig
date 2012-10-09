@@ -1,0 +1,50 @@
+{% extends 'BNSAppHelloWorldBundle:Back:layout.html.twig' %}
+
+{% block title %}
+	Helloworld - Exemple de Pages d'Administration
+{% endblock title %}
+
+{% block css %}
+	{{ parent() }}
+
+{% endblock css %}
+
+{% block javascripts %}
+	{{ parent() }}
+	
+	<script type="text/javascript">
+		$(function ()
+		{
+			$('body').on('click', '.item-list-container .item', function (e)
+			{
+				window.location = $(e.currentTarget).find('.btn-visualisation').attr('href');
+			});
+		});
+	</script>
+{% endblock javascripts %}
+
+{% block header %}
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span12">
+						<a href="{{ path('BNSAppHelloWorldBundle_back') }}" class="btn bns-notice btn-24 medium-return">
+							<span class="icons-24 back-icon"></span>
+							<strong>Retourner</strong><br />à l'index
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock header %}
+
+{% block content %}
+	{# If you reload this content with AJAX, add this layer #}
+	<div class="layer"></div>
+	<div class="item-list-container">
+		{# Replace all "item" by your PHP object name #}
+		{% render 'BNSAppHelloWorldBundle:BackExample:getItems' %}
+	</div>
+{% endblock %}

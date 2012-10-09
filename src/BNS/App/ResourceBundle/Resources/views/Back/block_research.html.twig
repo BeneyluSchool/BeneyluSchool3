@@ -1,0 +1,4 @@
+<div class="content-last-research">
+	<p class="label-last-research"><strong>{{ research .label }}</strong></p>
+	<p>Par {{ research.user.fullName }} - {{ date_from_now(research.createdAt.getTimestamp,true,true) }}</p>
+</div>

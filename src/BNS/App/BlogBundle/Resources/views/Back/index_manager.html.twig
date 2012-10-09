@@ -1,0 +1,73 @@
+{% extends 'BNSAppBlogBundle:Layout:manager.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+	
+	<script type="text/javascript" src="{{ asset('/medias/js/datepicker_i18n/jquery.ui.datepicker-fr.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/blog/articles.js') }}"></script>
+	<script type="text/javascript">
+		$(function ()
+		{
+			$('body').on('click', '.item-list-container .item', function (e)
+			{
+				window.location = $(e.currentTarget).find('.btn-visualisation').attr('href');
+			});
+		});
+	</script>
+{% endblock %}
+	
+{% block header %}
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span12">
+						<a href="{{ path('blog_manager_new_article') }}" class="btn bns-info btn-24 large create-article">
+							<span class="icons-24 add-icon"></span>
+							Ecrire un article
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock header %}
+
+{% block sidebar %}
+	<div class="section active">
+		{% trans %}Blog.Back.Sidebar.Articles{% endtrans %}
+		<span class="shadow-section"></span>
+	</div>
+	{% include 'BNSAppBlogBundle:Block:back_block_filters.html.twig' %}
+	{% render 'BNSAppBlogBundle:Back:loadCategoriesBlock' with {'blog': blog} %}
+
+	{% if has_right('BLOG_ADMINISTRATION') %}
+		<div class="container-section">
+			<div class="section">
+				<a href="{{ path('blog_manager_comment') }}">Commentaires</a>
+			</div>
+			<div class="section">
+				<a href="{{ path('blog_manager_custom') }}">{% trans %}Blog.Back.Sidebar.Customing{% endtrans %}</a>
+			</div>
+		</div>
+	{% endif %}
+{% endblock sidebar %}
+	
+{% block content %}
+	{% for message in app.session.flashbag.get('success') %}
+		<div class="alert alert-success alert-flash bns-alert">
+			{{ message }}
+				<div class="jim"></div>
+		</div>
+	{% endfor %}
+	<div class="layer">
+		<div class="message">
+			{% trans %}Blog.Back.ArticleLoading{% endtrans %}
+			<div><img src="{{ asset('/medias/images/icons/big-loader.gif') }}" alt="" /></div>
+		</div>
+	</div>
+	<div class="item-list-container">
+		{% render 'BNSAppBlogBundle:BackArticle:getArticles' with {'blog': blog} %}
+	</div>
+	</div>
+{% endblock content %}

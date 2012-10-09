@@ -1,0 +1,78 @@
+{% extends '::base.html.twig' %}
+
+{% block javascripts %}
+
+	<script type="text/javascript" src="{{ asset('medias/js/jquery-1.7.1.min.js') }}"></script>
+	<script type="text/javascript" charset="utf-8">
+			
+	</script>
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="admin-spacer"></div>
+		
+		<div class="nav-buttons">
+			<a href="{{ path('BNSAppAdminBundle_user') }}" class="btn">{% trans %}User.Edit.button.back.list{% endtrans %}</a>
+			<a href="{{ path('BNSAppAdminBundle_user_details', { 'login' : user.getLogin() }) }}" class="btn">{% trans %}User.Edit.button.back{% endtrans %}</a>
+		</div>
+		<h2>{% trans %}User.Edit.title{% endtrans %}</h2>
+		<br />
+		<div class="row">
+			<div class="span8">
+				<div id="user_details_form">
+					<form action="{{ path('BNSAppAdminBundle_user_edit', { 'login' : user.getLogin() }) }}" method="post" {{ form_enctype(form) }}>
+						{{ form_errors(form) }}
+						
+						{% set label %}{% trans %}User.Edit.attr.id{% endtrans %}{% endset %}   
+						<div>
+						    {{ form_label(form.login, label) }}
+						    {{ form_widget(form.login) }}
+						    {{ form_errors(form.login) }}    
+						</div>
+						
+						{% set label %}{% trans %}User.Edit.attr.first.name{% endtrans %}{% endset %}   
+						<div>
+						    {{ form_label(form.first_name, label) }}
+						    {{ form_widget(form.first_name) }}
+						    {{ form_errors(form.first_name) }}    
+						</div>
+						
+						{% set label %}{% trans %}User.Edit.attr.last.name{% endtrans %}{% endset %}   
+						<div>
+						    {{ form_label(form.last_name, label) }}
+						    {{ form_widget(form.last_name) }}
+						    {{ form_errors(form.last_name) }}    
+						</div>
+						
+						{# {% set label %}{% trans %}User.Edit.attr.birthday{% endtrans %}{% endset %}   
+						<div>
+						    {{ form_label(form.birthday, label) }}
+						    {{ form_widget(form.birthday) }}
+						    {{ form_errors(form.birthday) }}    
+						</div> #}
+						
+						{% set label %}{% trans %}User.Edit.attr.email{% endtrans %}{% endset %}   
+						<div>
+						    {{ form_label(form.email, label) }}
+						    {{ form_widget(form.email) }}
+						    {{ form_errors(form.email) }}
+						</div>
+						
+						{% set label %}{% trans %}User.Edit.attr.lang{% endtrans %}{% endset %}   
+						<div>
+						    {{ form_label(form.lang, label) }}
+						    {{ form_widget(form.lang) }}
+						    {{ form_errors(form.lang) }}    
+						</div>
+						
+						{{ form_rest(form) }}
+						
+   						<input type="submit" class="btn" value="{% trans %}User.Edit.button.submit{% endtrans %}" />
+					</form>
+				</div>
+			</div>
+		</div>
+
+	</div>
+{% endblock %}

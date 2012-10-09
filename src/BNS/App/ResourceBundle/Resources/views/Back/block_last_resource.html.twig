@@ -1,0 +1,2 @@
+{% include 'BNSAppResourceBundle:ResourceBlock/Join:main.html.twig' with {'resource':resource, 'size' : "thumbnail"} %}
+Par {{ resource.user.fullName }} {{ date_from_now(resource.createdAt.getTimestamp,false,true) }}

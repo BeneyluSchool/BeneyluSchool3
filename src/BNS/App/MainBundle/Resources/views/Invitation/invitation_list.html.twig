@@ -1,0 +1,4 @@
+{% for invitation in invitations %}
+	{% include 'BNSAppMainBundle:Invitation:invitation_row.html.twig' with {'invitation': invitation} %}
+{% endfor %}
+	

@@ -1,0 +1,37 @@
+{# On étend forcément base.html.twig #}
+{% extends '::base.html.twig' %}
+
+{% block title %}Messagerie{% endblock %}
+
+{% block css %}
+    {{ parent() }}
+    <link href='https://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
+    <link href="{{ asset('/medias/css/messaging/front.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+        
+{% block javascripts %}	
+    {{ parent() }}
+	<script type="text/javascript" src="{{ asset('/medias/js/messaging/Front/light.js') }}"></script>	
+	<script type="text/javascript" src="{{ asset('/medias/js/jquery.mousewheel.min.js') }}"></script>
+{% endblock %}	
+    
+{% block body %}
+<div id="main-scrollbar"></div>
+<div class="background-messaging">
+	<div class="container container-fluid messaging-fixed">
+
+		{% include "BNSAppMessagingBundle:Front/Light:header.html.twig" %}
+		<div class="row-fluid container-messaging">
+			{% include "BNSAppMessagingBundle:Front/Light:sidebar.html.twig" %}
+			{% block content %}{% endblock %}
+			<div class="span1 content-right-post">
+				<div class="right-post"></div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block dock_bar %}
+	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "MESSAGING" , 'is_in_front' : true } %}
+{% endblock %}

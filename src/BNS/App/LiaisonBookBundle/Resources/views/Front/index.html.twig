@@ -1,0 +1,53 @@
+{% extends 'BNSAppLiaisonBookBundle:Front:layout.front.html.twig' %}
+        
+{% block javascripts %}	
+	{{ parent() }}
+	
+    <script type="text/javascript" src="{{ asset('/medias/js/liaisonbook/Front/index.js') }}"></script>
+{% endblock %}	
+	
+{% block content %}
+	<div id="liaisonbook-messages" class="content-message-bookbinding liaisonbook-messages-min-height">
+		{#   <h1>{{newsDate|date("F")}} {{newsDate|date("Y")}}</h1>  #}
+
+		{# afficher la liste des news #}
+		{% if news == false %}
+			 <p class="no-information">Il n'y a aucune information pour {{newsDate|year_month_bns()}} </p>
+		{% endif %}
+
+		{% for new in news %}
+			<div class="content-news front">
+				<div class="news-title">
+					<h1>{{ new.title }}</h1>
+					<p>le {{ new.date | date_bns('full', 'short') }}</p>
+					<div class="underline"></div>
+				</div>
+				<div class="news">
+					{# Contenu d'une annonce du carnet de liaison #}
+					{% if canSign == true %}
+					<div class="signature">
+						{% for elementSignatures in listSignatures %}
+						{% if elementSignatures.liaisonBookId == new.id %}
+						{# Si l'utilisateur à déjà signer mettre à disable le bouton #}
+							  {% if app.user.id in elementSignatures.signatures %}
+						<button class="msg btn btn-signature validate disabled"><span class="icons-btn-bookbinding validate"></span>Message signé</button>
+						{# Sinon enable #}
+							  {% else %}
+						<button class="msg btn btn-signature validate hide disabled"><span class="icons-btn-bookbinding validate"></span>Message signé</button>
+						<button id="{{ new.id }}" class="btn-sign btn btn-signature"><span class="icons-btn-bookbinding"></span>Signer le message</button>
+						{% endif %}
+						{% endif %}
+						{% endfor %}
+					</div>
+					{% endif %}
+
+					<p>{{ new.content|raw }}</p>
+
+					{% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': new.getResourceAttachments,"editable": false} %}
+
+				</div>
+				<div class="border-tab"></div>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}     

@@ -1,0 +1,7 @@
+{% if is_userpicker == false and has_right_somewhere('PROFILE_ACCESS') %}
+	<a href="{{ path('BNSAppProfileBundle_view_profile', {'userSlug': user.getSlug()}) }}" class="user-block btn bns-user big" data-user-full-name="{{ user.getFullName() }}" data-user-id="{{ user.getId() }}" data-user-full-name="{{ user.getFullName() }}">
+{% elseif is_userpicker %}
+	<a href="#" class="btn bns-user big bns-checkbox user-block{% if is_userpicker %} selectable {% endif %}" data-user-full-name="{{ user.getFullName() }}" data-user-id="{{ user.getId() }}">
+{% endif %}
+		<img src="{{ avatar(user, 'thumbnail') }}" alt="" /> {{ user.getFullName() }}<span class="action-icons"></span>
+	</a>

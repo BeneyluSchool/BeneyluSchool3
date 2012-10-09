@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="bns.mailer" class="BNS\App\MailerBundle\Mailer\BNSMailer">
+            <argument type="service" id="old_sound_rabbit_mq.mailer_producer" />
+        </service>
+    	<service id="mailer_consumer" class="BNS\App\MailerBundle\Consumer\BNSMailerConsumer">
+             <argument type="service" id="mailer" />
+			 <argument type="service" id="logger" />
+			 <argument type="service" id="templating" />
+			 <argument>%email_default_from_email%</argument>
+			 <argument>%email_default_from_name%</argument>
+			 <argument>%application_base_url%</argument>
+        </service>
+    </services>
+
+</container>

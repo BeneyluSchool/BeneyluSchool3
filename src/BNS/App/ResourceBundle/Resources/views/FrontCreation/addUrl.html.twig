@@ -1,0 +1,148 @@
+{% extends 'BNSAppResourceBundle:Front:layout.html.twig' %}
+
+{% block css %}
+	{{ parent() }}
+{% endblock %}
+	
+
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript" src="{{ asset('medias/js/resource/add_url.js') }}"></script>
+	<script type="text/javascript">    
+ 
+	//Appelé au click sur l'élement
+	function itemClicked(item)
+	{
+		$('.destination-choice').show();
+		$('.destination-choice').text($(item).text());
+		$('.destination-choice').attr('id',$(item).attr('id'));
+		$('#input-destination-choice').val($(item).attr('id'));
+		checkLoadButton();
+	}
+
+	//Gère l'activation / la désactivation du bouton "Enregistrer les liens"
+	function checkLoadButton()
+	{
+		if($('.url-datas').length > 0){
+			$('#validation-buttons').show();
+		}else{
+			$('#validation-buttons').hide();
+		}
+		if($('.destination-choice').attr('id') != null && $('.destination-choice').attr('id') != ''){
+			$('#add-label-submit').removeClass("disabled");
+		}else{
+			$('#add-label-submit').addClass("disabled");
+		}
+	}
+
+	</script>
+
+
+{% endblock %}
+
+{% block content %}
+	<div class="span12">
+		<div class="resource-content add">
+			<div class="resource-content-left">
+				<div class="resource-content-left-top"></div>
+			</div>
+			<div class="content-upload-background main-content">
+				<div class="resource-add-choose-title">
+					<form class="form-search" id="add-url-form" onsubmit="return false;">
+						<input size="50" id="add-url-form-url" type="url" class="span6 input-large search-query add-url-input" placeholder="http:// ..." />
+						<button type="submit" class="btn btn-large">Ajouter cette adresse</button>
+					</form>
+				</div>
+
+				<div id="informations" class="upload-completed span6">
+                    <div class="background-confirmation">
+						{% if app.session.hasFlash('notice') %}
+							<h3>{{ app.session.flash('notice') }}</h3>
+							<p>Vous pouvez continuer à en ajouter.</p>
+						{% else %}
+							<h3>Vous pouvez ajouter des liens :</h3>
+							<p>Formats pris en compte :</p>
+							<ul>
+								<li>Lien internet <b><i>http://www.site.com</i></b></li>
+								<li>Vidéos Youtube, Dailymotion et Viméo <b><i>http://www.youtube.com/watch?v=abcdefghi</i></b></li>
+							</ul>
+						{% endif %}
+                    </div>
+                </div>
+
+				<div class="container-loading">
+					<div class="list-url" >
+						<div class="url-datas">
+							<img class="url-success" src="/uploads/8a230a9a35aa62a42711df577ebe39ea.jpg">
+							<div class="description-url title-content">
+								<p>Titre du site : </p>
+								<input type="text" value="Wobble - Dubstep &amp; Drum'n'Bass" name="title[]" class="input-large ">
+
+								<p>Adresse : </p>
+								<p class="url-website">http://www.wobble.fr</p>
+
+
+							</div>
+							<div class="description-url description-content">
+								<p>Description : </p>
+								<textarea class="url_description input-xlarge span6" name="description[]" placeholder="Description">Site qui regroupe deux styes musicaux : le Dubstep et la Drum and Bass, qui rÃ©fÃ©rence les artistes et les soirÃ©es Ã&nbsp; venir</textarea>
+								<input type="hidden" value="LINK" name="type[]">
+								<input type="hidden" value="http://www.wobble.fr" name="url[]">
+							</div>
+							<div class="cancel">
+								<a class="reset-url btn cancel-upload" href="#"><i class="icon-cancel"></i> Retirer de la liste</a>
+							</div>
+						</div>
+						<div class="url-datas">
+							<img class="url-success" src="/uploads/8a230a9a35aa62a42711df577ebe39ea.jpg">
+							<div class="description-url title-content">
+								<p>Titre du site : </p>
+								<input type="text" value="Wobble - Dubstep &amp; Drum'n'Bass" name="title[]" class="input-large ">
+
+								<p>Adresse : </p>
+								<p class="url-website">http://www.wobble.fr</p>
+
+
+							</div>
+							<div class="description-url description-content">
+								<p>Description : </p>
+								<textarea class="url_description input-xlarge span6" name="description[]" placeholder="Description">Site qui regroupe deux styes musicaux : le Dubstep et la Drum and Bass, qui rÃ©fÃ©rence les artistes et les soirÃ©es Ã&nbsp; venir</textarea>
+								<input type="hidden" value="LINK" name="type[]">
+								<input type="hidden" value="http://www.wobble.fr" name="url[]">
+							</div>
+							<div class="cancel">
+								<a class="reset-url btn cancel-upload" href="#"><i class="icon-cancel"></i> Retirer de la liste</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{#<div class="container-loading">
+					<form id="urls-form" action="{{ path('BNSAppResourceBundle_create_urls') }}" method="post" class="content-loading">
+						<div class="validation-buttons span11" id="validation-buttons" style="display:none;">
+							<div id="step-2" class="destination">
+								{% render "BNSAppResourceBundle:Label:choose" %}
+							</div>
+							<input type="hidden" value="" id="input-destination-choice" name="destination">
+							<button id="add-label-submit" class="disabled btn btn-warning">Enregistrer</button>
+						</div>
+						<div class="layer span6 well loading" style='display:none;'>
+							<div class="message">
+								<img src="{{ asset('/medias/images/icons/big-loader.gif') }}" alt="" />
+							</div>
+						</div>
+						<div class="list-url" class="span11" style='display:none;' id="results"></div>
+					</form>
+				</div>
+				#}
+				<div class="resource-content-right add-choose-right">
+					<div class="resource-content-right-top"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+	
+{% block tool_bar %}
+	{% render "BNSAppResourceBundle:Front:toolbar" with {'page' : "add-urls"} %}
+{% endblock %}

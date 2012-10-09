@@ -1,0 +1,11 @@
+<h4>Choisir mon fond de page</h4>
+<hr />
+
+<input type="hidden" name="selected_background_css_class" id="selected-background" value="{{ user_current_background_css_class }}" />
+{% for background in backgrounds %}
+	{% include 'BNSAppTemplateBundle:BackgroundPicker:background_block.html.twig' with {
+		'background_css_class': background, 
+		'user_current_background_css_class': user_current_background_css_class
+	} %}
+{% endfor %}
+	

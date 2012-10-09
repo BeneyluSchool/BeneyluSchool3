@@ -1,0 +1,22 @@
+<div class="sidebar-menu-container">
+	<div class="btn-sidebar {% if isMiniSiteRoute is defined %}active{% endif %}">Minisite<div class="color-active"></div><span class="icon-arrow-down-blue"></span></div>
+	<div class="section-article-category">
+		<div class="content-category">
+			<ul>
+				{% for pageRow in minisite.getMiniSitePages() %}
+					{% if pageRow.isActivated() %}
+						<li class="custom-sidebar" {% if page is defined and page.getId() == pageRow.getId() %}style="font-weight: bold; {# TODO faire une classe de style en cas de page sélectionnée #}"{% endif %}>
+							<a class="sub-category" href="{{ path('minisite_manager_page', {'slug': pageRow.getSlug()}) }}">{{ pageRow.getTitle() }}</a>
+							{% if pageRow.isHome() %}
+								- &star;
+							{% endif %}
+						</li>
+						{% if page is defined and page.getId() == pageRow.getId() and pageRow.getType() == 'NEWS' %}
+							{% include 'BNSAppMiniSiteBundle:Sidebar:block_page_news_filters.html.twig' %}
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,13 @@
+{# 0 -> 50 vert, 50 -> 75 orange, 75 -> 100 rouge #}
+
+{% set class = "" %}
+{% if 0 <= ratio and ratio <= 50 %}
+	{% set class = "success" %}
+{% elseif 50 < ratio and ratio <= 75 %}
+	{% set class = "warning" %}
+{% elseif 75 < ratio and ratio <= 100 %}
+	{% set class = "error" %}
+{% endif %}
+<div class="progress progress-{{ class }}">
+	<div class="bar" style="width: {{ ratio }}%"></div>
+</div>

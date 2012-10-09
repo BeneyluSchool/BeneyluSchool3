@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
+
+    <class name="BNS\App\UserBundle\Form\Model\PasswordGenerationFormModel">
+        <property name="password">
+            <constraint name="NotBlank">
+				<option name="message">Veuillez choisir votre mot de passe !</option>
+			</constraint>
+			<constraint name="Regex">
+				<option name="pattern">/[a-z]{6}[0-9]{3}/</option>
+				<option name="message">Le mot de passe sélectionné est invalide, veuillez réessayer</option>
+			</constraint>
+        </property>
+    </class>
+
+	<class name="BNS\App\UserBundle\Form\Model\PasswordResetFormModel">
+        <property name="email">
+            <constraint name="NotBlank">
+				<option name="message">Veuillez choisir votre adresse e-mail !</option>
+			</constraint>
+			<constraint name="Email">
+				<option name="message">L'adresse e-mail renseignée est invalide, veuillez réessayer</option>
+			</constraint>
+        </property>
+    </class>
+
+</constraint-mapping>

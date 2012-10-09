@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<GoogleCustomizations>
+    <CustomSearchEngine>
+        <Title>Beneylu School</Title>
+        <Description>Moteur de recherche de la Beneylu School</Description>
+         <Context>
+      		<BackgroundLabels>
+        		<Label name="_cse_on" mode="FILTER"/>
+      		</BackgroundLabels>
+    	</Context>
+        <LookAndFeel nonprofit="true">
+        </LookAndFeel>
+        <ImageSearchSettings enable="true" layout="0" >
+        </ImageSearchSettings>
+    </CustomSearchEngine>
+	<Annotations>
+		{% for link in links %}
+			<Annotation about="{{ link.value }}/*">
+      			<Label name="_cse_on"/>
+    		</Annotation>
+		{% endfor %}
+		{% for link in parent_white_list %}
+			<Annotation about="{{ link }}/*">
+      			<Label name="_cse_on"/>
+    		</Annotation>
+		{% endfor %}
+	</Annotations>
+</GoogleCustomizations>

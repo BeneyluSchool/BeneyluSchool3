@@ -1,0 +1,42 @@
+{% extends '::base_manager.html.twig' %}
+
+{% block title %}Médiathèque - Gestion{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+	{# Appel CSS du package layout manager #}
+   {% include "BNSAppMainBundle:Manager:layoutStyle.html.twig" %}
+	<link href="{{ asset('/medias/css/resource/manager.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+	<script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+	<script type="text/javascript" src="{{ asset('medias/js/resource/back.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+<div class="office blur"></div>
+{% block top_bar %}
+
+{% endblock %}
+<div class="container-fluid container">
+	<div class="row-fluid container-manager">
+		<div class="container-sidebar">
+			{% block sidebar %}Add your sidebar here!{% endblock %}
+			<div class="sidebar-shadow"></div>
+		</div>
+		<div class="span9 container-content no-margin">
+			{% block content %}Add your content here!{% endblock %}
+		</div>
+		<div class="container-manager-bottom">
+			<div class="content-manager-bottom"></div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+	
+{% block dock_bar %}
+	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "RESOURCE" , 'is_in_front' : false } %}
+{% endblock %}

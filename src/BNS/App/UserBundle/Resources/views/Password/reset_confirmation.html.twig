@@ -1,0 +1,34 @@
+{% extends '::base.html.twig' %}
+
+{% block css %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('/medias/css/registration/front.css') }}" />
+	<link href='https://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
+{% endblock css %}
+
+{% block body %}
+<div class="background-registration"></div>
+<div class="container-header-registration">
+	<div class="container-fluid container">
+		<div class="row-fluid">
+			<div class="span12">
+				<a href="#"><img src="/medias/images/registration/beneyluschool.png" /></a>
+				<h1>Confirmation</h1>
+				<p>Un mail a été envoyé</strong></p>
+				<div class="pattern"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container container-fluid container-fluid-registration">
+	<div class="container-registration">
+		<div class="row-fluid">
+			<div class="span12">
+				<h3 class="reset-password">Un e-mail vient de vous être envoyé.</h3>
+				<p class="reset-password">Vous y trouverez un lien de confirmation sur lequel cliquer pour terminer le processus de réinitialisation de votre mot de passe.</p>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock body %}

@@ -1,0 +1,98 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block title %}
+	Edition : {{ schoolInfo.getName() }}
+{% endblock %}
+	
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript">
+		$(function()
+		{
+			$('#school_creation_form_country').change(function (e)
+			{
+				var $this = $(e.currentTarget),
+					$uaiContainer = $('#uai_container'),
+					$uai = $uaiContainer.find('input');
+					
+				if ($this.val() != 'FR') {
+					$uaiContainer.slideUp('fast');
+					$uai.removeAttr('required');
+				}
+				else {
+					$uaiContainer.slideDown('fast');
+					$uai.attr('required', 'required');
+				}
+			});
+		});
+	</script>
+{% endblock javascripts %}
+
+{% block content %}
+	<h2>{{ schoolInfo.getName() }}</h2>
+			
+	<form action="{{ path('admin_school_information_edit', {'id': schoolInfo.getId()}) }}" method="POST" {{ form_enctype(form) }}>
+		<div>
+			<label>Pays</label>
+			{{ form_widget(form.country, {'attr': {'class': 'span5'} }) }}
+			{{ form_errors(form.country) }}
+		</div>
+
+		<div id="uai_container" class="clear-fix">
+			<label>Code UAI *</label>
+			{{ form_widget(form.uai, {'attr': {'class': 'span6'} }) }}
+			{{ form_errors(form.uai) }}
+		</div>
+
+		<div class="clear-fix">
+			<label>Nom *</label>
+			{{ form_widget(form.name, {'attr': {'class': 'span6'} }) }}
+			{{ form_errors(form.name) }}
+		</div>
+
+		<div>
+			<label>Adresse (rue & numéro) *</label>
+			{{ form_widget(form.address, {'attr': {'class': 'span6'} }) }}
+			{{ form_errors(form.address) }}
+		</div>
+
+		<div>
+			<label>Code Postal *</label>
+			{{ form_widget(form.zip_code, {'attr': {'class': 'span2'} }) }}
+			{{ form_errors(form.zip_code) }}
+		</div>
+			
+		<div>
+			<label>Ville *</label>
+			{{ form_widget(form.city, {'attr': {'class': 'span4'} }) }}
+			{{ form_errors(form.city) }}
+		</div>
+
+		<div>
+			<label>Adresse e-mail <strong>de l'établissement</strong> *</label>
+			{{ form_widget(form.email, {'attr': {'class': 'span6'} }) }}
+			{{ form_errors(form.email) }}
+		</div>
+
+		<div>
+			<label>Numéro de téléphone</label>
+			{{ form_widget(form.phone_number, {'attr': {'class': 'span3'} }) }}
+			{{ form_errors(form.phone_number) }}
+		</div>
+
+		<div>
+			<label>Numéro de FAX</label>
+			{{ form_widget(form.fax_number, {'attr': {'class': 'span3'} }) }}
+			{{ form_errors(form.fax_number) }}
+		</div>
+
+		<div class="rest">
+			{{ form_rest(form) }}
+			{{ form_errors(form) }}
+		</div>
+
+		<div class="submit">
+			<input type="submit" class="btn btn-success" value="Valider" />
+		</div>
+	</form>
+{% endblock content %}

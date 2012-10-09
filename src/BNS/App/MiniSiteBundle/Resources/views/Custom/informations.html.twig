@@ -1,0 +1,69 @@
+{% extends 'BNSAppMiniSiteBundle:Layout:manager.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ tinymce_init() }}
+
+	<script type="text/javascript">
+		$(function ()
+		{
+			// Finish button
+			$('.header-btn .finish').click(function ()
+			{
+				$('#form_informations').submit();
+				
+				return false;
+			});
+		});
+	</script>
+{% endblock javascripts %}
+
+{% block sidebar %}
+	{{ parent() }}
+{% endblock sidebar %}
+
+{% block header %}
+	<div class="span12">
+		<div class="button-manager-form float-left">
+			<div class="content-button-manager-form">
+				<button class="btn finish"><span class="finish"></span>{% trans %}MiniSite.Back.HeaderButtons.IFinished{% endtrans %}</button>
+			</div>
+		</div>
+	</div>
+{% endblock header %}
+
+{% block content %}
+	<div class="content admin-form">
+		<div class="informations-form form">
+			<form id="form_informations" action="{{ path('minisite_manager_custom_informations') }}" method="POST">
+				<div class="title">
+					{{ form_widget(form.title, {'attr': {'class': 'input-xlarge-bns input-title', 'placeholder': 'Titre du minisite'} }) }}
+				</div>
+				<div class="resource">
+					{{ form_widget(form.banner_resource_id) }}
+					<div id="resource-selection-callback">
+						{% if form.vars.value.getResource() != null %}
+							<img src="{{ getResourceImageUrl(form.vars.value.getResource()) }}" />
+						{% endif %}
+					</div>
+					{% include 'BNSAppResourceBundle:Front:selectImage.html.twig' with {
+						'label' : 'Modifier la bannière du site',
+						'input_id': 'minisite_form_banner_resourceId', 
+						'name': form.banner_resource_id.vars.full_name, 
+						'callback': 'resource-selection-callback' 
+					} %}
+				</div>
+				<div class="tinymce">
+					<div class="row-title">Description</div>
+					{{ form_widget(form.description, { 'attr': {'class': 'load_tinymce', 'data-theme': 'simple'} }) }}
+				</div>
+				<div class="errors">
+					{{ form_errors(form) }}
+				</div>
+				<div class="rest">
+					{{ form_rest(form) }}
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock content %}

@@ -1,0 +1,152 @@
+<div class="section active">
+	Article
+	<span class="shadow-section"></span>
+</div>
+<div class="title-container">
+	<div class="title active border-blue">Liste avec radio <span class="square icon-arrow"></span></div>
+	<div class="content-title agenda-selector">
+		<ul>
+			<li class="text-row">
+				<div class="content-agenda your-class-here">
+					<a href="#"><img src="" alt="" /></a> {# DELETE THIS, ADDED BY JAVASCRIPT #}
+					<span class="color-img"></span>
+					<span class="agenda-title">Agenda numéro 1 </span>
+					<input type="radio" name="my-radio-button">
+				</div>
+			</li>
+			<li class="text-row">
+				<div class="content-agenda your-class-here">
+					<a href="#"><img src="" alt="" /></a> {# DELETE THIS, ADDED BY JAVASCRIPT #}
+					<span class="color-img"></span>
+					<span class="agenda-title">Agenda numéro 2</span>
+					<input type="radio" name="my-radio-button">
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="title-container">
+	<div class="title active border-blue">Liste avec checkbox <span class="square icon-arrow"></span></div>
+	<div class="content-title agenda-selector">
+		<ul>
+			<li class="text-row">
+				<div class="your-class-here">
+					<span>Item numéro 1 </span>
+					<input type="checkbox">
+				</div>
+			</li>
+			<li class="text-row">
+				<div class="your-class-here">
+					<span>Item numéro 2</span>
+					<input type="checkbox">
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="title-container remove-this-class-filters">
+	<div class="title active border-blue">Choisir la date et la durée<span class="square icon-arrow"></span></div>
+	<div class="content-title">
+		<div class="form-widget">
+			<div class="datepicker">
+				<span class="date">Du</span> {# {{ form_widget(form.programmation_day, {'type': 'text', 'attr': {'placeholder': 'jour /mois / année'} }) }} #} <input type="text" placeholder="Cet évenement débute le :">  <img src="/medias/images/icons/sidebar/datepicker.png" alt="" />
+			</div>
+			<div class="datepicker">
+				<span class="date">Au</span> <input type="text" placeholder="Cet évenement se termine le :">  <img src="/medias/images/icons/sidebar/datepicker.png" alt="" />
+			</div>
+			<div class="hours">
+				<span class="date">De</span>
+				<select>
+					<option>8h00</option>
+					<option>8h30</option>
+					<option>9h00</option>
+					<option>9h30</option>
+					<option>10h00</option>
+					<option>10h30</option>
+					<option>11h00</option>
+					<option>11h30</option>
+					<option>12h00</option>
+					<option>12h30</option>
+					<option>13h00</option>
+					<option>13h30</option>
+					<option>14h00</option>
+					<option>14h30</option>
+					<option>15h00</option>
+					<option>15h30</option>
+					<option>16h00</option>
+					<option>16h30</option>
+					<option>17h00</option>
+					<option>17h30</option>
+					<option>18h00</option>
+					<option>18h30</option>
+					<option>19h00</option>
+					<option>19h30</option>
+					<option>20h00</option>
+				</select>
+				<span class="date label-right"> à</span>
+				<select>
+					<option>8h00</option>
+					<option>8h30</option>
+					<option>9h00</option>
+					<option>9h30</option>
+					<option>10h00</option>
+					<option>10h30</option>
+					<option>11h00</option>
+					<option>11h30</option>
+					<option>12h00</option>
+					<option>12h30</option>
+					<option>13h00</option>
+					<option>13h30</option>
+					<option>14h00</option>
+					<option>14h30</option>
+					<option>15h00</option>
+					<option>15h30</option>
+					<option>16h00</option>
+					<option>16h30</option>
+					<option>17h00</option>
+					<option>17h30</option>
+					<option>18h00</option>
+					<option>18h30</option>
+					<option>19h00</option>
+					<option>19h30</option>
+					<option>20h00</option>
+				</select>
+			</div>
+			<div class="all-day">
+				<input id="all-day-checkbox" type="checkbox">
+				<label for="all-day-checkbox">Cet événement durera toute la journée</label>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="title-container remove-this-class-filters">
+	<div class="title active border-blue">Choisir la récurrence<span class="square icon-arrow"></span></div>
+	<div class="content-title">
+		<div class="form-widget">
+			<div class="occurrence">
+				<select>
+					<option>Type d'occurrence...</option>
+					<option>Tous les jours</option>
+					<option>Toutes les semaines</option>
+					<option>Tous les mois</option>
+					<option>Tous les ans</option>
+				</select>
+			</div>
+			<div>
+				<span class="date repeat">Répété</span> <input type="text" class="occurrence-repeat" placeholder="Saisir la quantité"> <span class="date label-right">fois</span>
+			</div>
+			<div>
+				<span class="date">Ou jusqu'au</span> <input type="text" class="occurrence-date" placeholder="La récurrence se termine le...">
+			</div>
+		</div>
+	</div>
+</div>
+<div class="title-container remove-this-class-filters">
+	<div class="title active border-blue">Choisir le lieu<span class="square icon-arrow"></span></div>
+	<div class="content-title">
+		<div class="form-widget">
+			<input type="text" placeholder="Saisir un lieu de l'évenement" class="places">
+		</div>
+	</div>
+</div>
+<div class="sidebar-shadow"></div>

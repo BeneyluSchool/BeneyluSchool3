@@ -1,0 +1,59 @@
+<div class="span3">
+	<div class="well">
+		<ul class="nav nav-list">
+			<li class="nav-header">Utilisateurs</li>
+			<li>
+				<a href="{{ path('BNSAppAdminBundle_user') }}"><i class="icon-search"></i>Recherche</a>
+			</li>
+			<li>
+				<a href="{{ path('BNSAppAdminBundle_user_sheet_edit' ) }}"><i class="icon-plus"></i>Ajouter un utilisateur</a>
+			</li>
+
+			<li class="nav-header">Groupes</li>
+			<li>
+				<a href="{{ path('BNSAppAdminBundle_group') }}"><i class="icon-th-list"></i>Liste</a>
+			</li>
+			{#<li>
+				<a href="#"><i class="icon-search"></i>Recherche</a>
+			</li>#}
+			<li>
+				<a href="{{ path('BNSAppAdminBundle_group_add') }}"><i class="icon-plus"></i>Ajouter un groupe</a>
+			</li>
+
+			<li class="nav-header">Types de groupe</li>
+			<li>
+				<a href="{{ path('BNSAppAdminBundle_group_type') }}"><i class="icon-th-list"></i>Liste</a>
+			</li>
+			<li>
+				<a href="{{ path('BNSAppAdminBundle_group_type_data') }}"><i class="icon-list"></i>Données</a>
+			</li>
+			<li>
+				<a href="{{ path('BNSAppAdminBundle_group_type_add') }}"><i class="icon-plus"></i>Ajouter un type groupe</a>
+			</li>
+			<li class="nav-header">Emails</li>
+			<li>
+				<a href="{{ path('BNSAppAdminBundle_email') }}"><i class="icon-th-list"></i>Liste</a>
+			</li>
+			<li class="nav-header">Droits</li>
+			<li>
+				<a href="{{ path('BNSAppAdminBundle_module') }}"><i class="icon-th-list"></i>Modules</a>
+			</li>
+			<li>
+				<a href="{{ path('BNSAppAdminBundle_rank') }}"><i class="icon-th-list"></i>Rangs</a>
+			</li>
+			<li>
+				<a href="{{ path('BNSAppAdminBundle_permission') }}"><i class="icon-th-list"></i>Permissions</a>
+			</li>
+
+			<li class="nav-header">Recherche</li>
+			<li>
+				<a href="{{ path('BNSAppAdminBundle_white_list') }}"><i class="icon-th-list"></i>Listes blanches</a>
+			</li>
+
+			<li class="nav-header">Informations Écoles</li>
+			<li>
+				<a href="{{ path('admin_school_information') }}"><i class="icon-th-list"></i>Liste</a>
+			</li>
+		</ul>
+	</div>	
+</div>

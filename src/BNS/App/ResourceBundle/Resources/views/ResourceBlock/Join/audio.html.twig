@@ -1,0 +1,11 @@
+{% extends 'BNSAppResourceBundle:ResourceBlock:audio.html.twig' %}
+
+{% block content %}
+	<img id="" class="" src="{{ getResourceImageUrl(resource,"thumbnail") }}" />
+	<p><span>{{ resource.label }}</span> - {{ resource.printType }}</p>
+	<p>
+		{% block player %}
+			{{ parent() }}
+		{%endblock%}
+	</p>
+{% endblock %}

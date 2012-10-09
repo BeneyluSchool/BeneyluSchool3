@@ -1,0 +1,189 @@
+{% extends 'BNSAppBlogBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+	{{ article.getTitle() }} - Gestion
+{% endblock title %}
+
+{% block javascripts %}
+	{{ parent() }}
+	
+	<script type="text/javascript">
+		$(function ()
+		{
+			$('.header-buttons .delete-article').click(function (e)
+			{
+				$('#modal-article-delete').modal('show');
+				
+				return false;
+			});
+			
+			$('.header-buttons .pin-article').click(function (e)
+			{
+				var $this = $(e.currentTarget);
+				
+				if ($this.hasClass('loading')) {
+					return false;
+				}
+				
+				$this.addClass('loading');
+				var articleId = $this.data('article-id');
+				
+				$.ajax({
+					url: $this.attr('href'),
+					success: function ()
+					{
+						// Show success alert
+						if ($this.hasClass('toggle')) {
+							$('#article-was-released').slideDown('fast');
+						}
+						else {
+							$('#article-was-pinned').slideDown('fast');
+						}
+						
+						// Delete success alert
+						setTimeout(function ()
+						{
+							$('.bns-alert div').slideUp('fast', function () { $(this).parent().slideUp('fast', function () { $('.bns-alert div').show() }) });
+						}, 8000);
+						
+						// Switch the button
+						$('.pin-article').toggleClass('hide');
+					}
+				}).done(function ()
+				{
+					$this.removeClass('loading');
+				});
+				
+				return false;
+			});
+		});
+	</script>
+{% endblock javascripts %}
+
+{% block header %}
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span12">
+						<a href="{{ path('BNSAppBlogBundle_back') }}" class="btn bns-notice btn-24 medium-return">
+							<span class="icons-24 back-icon"></span>
+							<strong>Retourner</strong><br />à la liste
+						</a>
+						<a href="{{ path('blog_manager_edit_article', {'articleSlug': article.getSlug()}) }}" class="btn bns-info btn-24 medium-return button-return">
+							<span class="icons-24 edit-icon"></span>
+							<strong>Éditer</strong><br />l'article
+						</a>
+						<a href="{{ path('blog_article_permalink', {'slug': article.getSlug()}) }}" class="btn bns-notice btn-24 medium-return {% if not has_right('BLOG_ADMINISTRATION') %}button-return{% endif %}">
+							<span class="icons-24 preview-icon"></span>
+							<strong>Voir</strong><br />l'article
+						</a>
+						{% if has_right('BLOG_ADMINISTRATION') %}
+							<a href="{{ path('blog_manager_article_pin', {'articleSlug': article.getSlug()}) }}" class="btn bns-warning btn-24 medium-return button-return pin-article {% if article.isStar() %}hide{% endif %}">
+								<span class="icons-24 preview-icon" style="background: url('http://cdn2.iconfinder.com/data/icons/iconza/iconza_24x24_000000/push_pin.png');"></span>
+								<strong>Épingler</strong><br />l'article
+							</a>
+							<a href="{{ path('blog_manager_article_pin', {'articleSlug': article.getSlug()}) }}" class="btn bns-warning btn-24 medium-return button-return pin-article {% if not article.isStar() %}hide{% endif %} toggle">
+								<span class="icons-24 preview-icon" style="background: url('http://cdn2.iconfinder.com/data/icons/iconza/iconza_24x24_000000/push_pin.png');"></span>
+								<strong>Détacher</strong><br />l'article
+							</a>
+						{% endif %}
+							
+						{% if has_right('BLOG_ADMINISTRATION') or article.isDraft() %}
+							<a href="#" class="btn bns-danger btn-24 medium-return delete-article">
+								<span class="icons-24 delete-icon"></span>
+								<strong>Supprimer</strong><br />l'article
+							</a>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock header %}
+	
+{% block sidebar %}
+	<div class="section active">
+		{% trans %}Article{% endtrans %}
+		<span class="shadow-section"></span>
+	</div>
+	{% include 'BNSAppBlogBundle:Block:back_block_status.html.twig' %}
+
+	{% if has_right('BLOG_ADMINISTRATION') %}
+		<div class="container-section">
+			<div class="section">
+				<a href="{{ path('blog_manager_comment') }}">Commentaires</a>
+			</div>
+			<div class="section">
+				<a href="{{ path('blog_manager_custom') }}">{% trans %}Blog.Back.Sidebar.Customing{% endtrans %}</a>
+			</div>
+		</div>
+	{% endif %}
+{% endblock sidebar %}
+
+{% block content %}
+	{% if has_right('BLOG_ADMINISTRATION') or article.isDraft() %}
+		{% render 'BNSAppBlogBundle:BackAjax:renderDeleteArticleModal' with {'article': article} %}
+	{% endif %}
+	
+	<div class="item visualisation">
+		{% for message in app.session.flashbag.get('success') %}
+			<div class="alert alert-success alert-flash bns-alert">
+				{{ message }}
+				<div class="jim"></div>
+			</div>
+		{% endfor %}
+		<div class="alert alert-success bns-alert hide" id="article-was-pinned">
+			L'article a été épinglé avec succès !
+			<div class="jim"></div>
+		</div>
+		<div class="alert alert-success bns-alert hide" id="article-was-released">
+			L'article a été détaché avec succès !
+			<div class="jim"></div>
+		</div>
+			
+		<div class="header">
+			<h3>{{ article.getTitle() }}</h3>
+			{% if article.getSortedBlogCategories()|length > 0 %}
+				<div class="categories">
+					<ul>
+						{% for category in article.getSortedBlogCategories() %}
+							<li>
+								{% if category.hasIcon() %}<span class="sprite-icon {{ category.getIconClassname() }}"></span>{% endif %}
+								{{ category.getTitle() }}
+								{% if (category.getChildren()|length > 0) %}
+									<ul>
+										{% for child in category.getChildren() %}
+											<li>{{ child.getTitle() }}</li>
+										{% endfor %}
+									</ul>
+								{% endif %}
+							</li>
+						{% endfor %}
+					 </ul>
+				</div>
+			{% endif %}
+		</div>
+		<div class="footer">
+			{% if article.isPublished() or article.isProgrammed() %}
+				Écrit {{ date_from_now(article.getPublishedAt(), false, true) }}
+			{% else %}
+				Créé {{ date_from_now(article.getCreatedAt(), false, true) }}
+			{% endif %}
+			par <img src="{{ avatar(article.getAuthor(), 'thumbnail') }}" alt="" class="avatar" /> {{ article.getAuthor().getFullName() }}
+		</div>
+		<div class="text">
+			{% autoescape false %}
+				{{ article.getContent() }}
+			{% endautoescape %}
+		</div>
+		<div class="resources">
+			{% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': article.getResourceAttachments(), 'editable': false} %}
+		</div>
+		
+		{% render ('BNSAppCommentBundle:BackComment:visualize') with {
+			'objectId':		article.getId(),
+			'namespace':	'\\BNS\\App\\CoreBundle\\Model\\BlogArticleComment'
+		} %}
+	</div>
+{% endblock %}

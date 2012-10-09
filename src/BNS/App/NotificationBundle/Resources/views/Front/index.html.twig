@@ -1,0 +1,94 @@
+{% extends 'BNSAppNotificationBundle:Layout:front.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript">
+		$(function ()
+		{
+			// Gestion du load more
+			$('.content-load-more a').click(function (e)
+			{
+				var $this = $(e.currentTarget);
+					$row = $this.parent();
+					
+				$('.notification-content .layer').fadeIn('fast');
+				
+				loadNotification($this, $row, false, function ()
+				{
+					$('.notification-content .layer').fadeOut('fast');
+				});
+				
+				return false;
+			});
+			
+			$('.notification-sidebar a').click(function (e)
+			{
+				var $this = $(e.currentTarget);
+					$row = $this.parent();
+				
+				if ($this.hasClass('module-row')) {
+					$('.notification-sidebar ul li ul li a').removeClass('active');
+					$this.addClass('active');
+				}
+				else {
+					$('.notification-sidebar li').removeClass('active');
+					$row.addClass('active');
+				}
+				
+				$('.notification-content .layer').fadeIn('fast');
+				
+				loadNotification($this, $row, true, function ()
+				{
+					$('.notification-content .layer').fadeOut('fast');
+				});
+				
+				return false;
+			});
+			
+			function loadNotification($el, $row, replace, callback)
+			{
+				$.ajax({
+					url: $el.attr('href'),
+					dataType: 'json',
+					success: function (data)
+					{
+						var $notifications = $(data.notifications),
+							$notificationsList = $('.content-notification-list');
+						
+						if (replace) {
+							$notificationsList.html($notifications);
+						}
+						else {
+							$notifications.css('display', 'none');
+							$notificationsList.append($notifications);
+							$notifications.slideDown('slow');
+						}
+						
+						if (!data.hasNextPage) {
+							$('.content-load-more').slideUp('slow');
+						}
+						else {
+							$('.content-load-more a').attr('href', data.moreLink);
+							$('.content-load-more').slideDown('slow');
+						}
+					}
+				}).done(function ()
+				{
+					if (typeof callback == 'function') {
+						callback();
+					}
+				});
+			}
+		});
+	</script>
+{% endblock %}
+
+{% block content %}
+	<div class="content-notification-list">
+		{% render 'BNSAppNotificationBundle:Front:renderNotification' %}
+	</div>
+	<div class="content-load-more">
+		<a href="{{ path('notification_render_page', {'page': 2}) }}">Afficher plus de notifications...</a>
+		<div class="arrow"></div>
+	</div>
+{% endblock content %}

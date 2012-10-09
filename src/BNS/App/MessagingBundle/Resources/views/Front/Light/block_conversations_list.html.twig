@@ -1,0 +1,12 @@
+{% if title is defined %}
+	{% include 'BNSAppMessagingBundle:Front/Light:block_title.html.twig' with {'title': title} %} 
+{% endif %}
+<div class="messaging-no-overflow" {% if id is defined %} id="{{ id }}"{% endif %}>
+	<div class="container-message">
+		<div class="content-message">
+			{% for conversation in conversations %}
+				{% include 'BNSAppMessagingBundle:Front/Light:block_conversation.html.twig' with {'conversation': conversation, 'status': status } %} 
+			{% endfor %}
+		</div>
+	</div>
+</div>

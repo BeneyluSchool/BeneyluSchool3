@@ -1,0 +1,46 @@
+{% extends '::base_manager.html.twig' %}
+
+{% block title %}
+	Profil{% if user.getId() != app.user.id %} {{ user.getFullName() }}{% endif %} - 
+{% endblock title %}
+
+{% block css %}
+	{{ parent() }}
+
+	{# Appel CSS du package layout manager #}
+	{% include "BNSAppMainBundle:Manager:layoutStyle.html.twig" %}
+	
+    <link href="{{ asset('/medias/css/profile/manager.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ asset('/medias/js/profile/profile-back.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="office blur"></div>
+	{% block header %}{% endblock %}
+
+    <div class="container-fluid container">
+        <div class="row-fluid container-manager">
+            <div class="container-sidebar">
+				{% block sidebar %}Add your sidebar here!{% endblock %}
+				<div class="sidebar-shadow"></div>
+            </div>
+            <div class="span9 container-content no-margin">
+				<div class="profile-container">
+                	{% block content %}Add your content here!{% endblock %}
+				</div>
+            </div>
+			<div class="container-manager-bottom">
+				<div class="content-manager-bottom"></div>
+			</div>
+        </div>
+    </div>
+{% endblock body %}
+	
+{% block dock_bar %}
+	{% render 'BNSAppMainBundle:DockBar:index' with {'module_unique_name' : 'PROFILE' , 'is_in_front' : false } %}
+{% endblock %}

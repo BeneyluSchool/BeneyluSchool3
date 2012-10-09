@@ -1,0 +1,263 @@
+{% extends 'BNSAppBlogBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+	{% if (isEditionMode) %}
+		{{ blog.getTitle() }} - Éditer un 
+	{% else %}
+		{{ blog.getTitle() }} - Créer un nouvel article
+	{% endif %}
+{% endblock %}
+	
+{% block javascripts %}
+	{{ parent() }}
+	{{ tinymce_init() }}
+	
+	<script type="text/javascript" src="{{ asset('/medias/js/datepicker_i18n/jquery.ui.datepicker-fr.js') }}"></script>
+	<script type="text/javascript">
+		$(function ()
+		{
+			if ($('#blog_article_form_status_4').is(':checked')) {
+				$('.publish-programmation').removeClass('hide');
+			}
+			
+			// Filtres catégories
+			$('body').on('click', '.article-categories-filter li', function (e)
+			{
+				var $row = $(e.currentTarget),
+					$checkbox = $row.find('.select').first();
+
+				if ($(e.target).parent().hasClass('list-grip')) {
+					return;
+				}
+
+				$checkbox.toggleClass('checked');
+
+				var data = $row.attr('id').split('_'),
+					id = data[1];
+
+				var $categoriesList = $('.article-categories-list'),
+					categoriesId = $categoriesList.val().length > 0 ? $categoriesList.val().split(',') : [],
+					finalCategoriesId = [];
+					
+				if ($checkbox.hasClass('checked')) {
+					if (categoriesId.length > 0) {
+						for (var i in categoriesId) {
+							finalCategoriesId.push(categoriesId[i]);
+						}
+					}
+					
+					finalCategoriesId.push(id);
+				}
+				else {
+					for (var i in categoriesId) {
+						if (categoriesId[i] == id) continue;
+						finalCategoriesId.push(categoriesId[i]);
+					}
+				}
+				
+				finalCategoriesId = finalCategoriesId.join(',');
+				$categoriesList.val(finalCategoriesId);
+
+				return false;
+			});
+			
+			// Draft save button
+			$('.header-buttons .save').click(function (e)
+			{
+				var $this = $(e.currentTarget);
+				if ($this.hasClass('disabled')) {
+					return false;
+				}
+				
+				if (!doAutosave()) {
+					$('.alert.save-error').slideDown('fast');
+					
+					return false;
+				}
+				
+				$('.alert.save-error').slideUp('fast');
+				$this.addClass('disabled').attr('disabled', 'disabled').css('opacity', '.5');
+				
+				return false;
+			});
+			
+			// Finish button
+			$('.header-buttons .finish').click(function (e)
+			{
+				if ($(e.currentTarget).hasClass('disabled')) {
+					return false;
+				}
+				
+				$('#form_new_article').submit();
+				
+				return false;
+			});
+			
+			// Datepicker init
+			$('.container-sidebar .datepicker input').datepicker($.datepicker.regional['fr']);
+			$('.container-sidebar .article-statuses-choice li').click(function (e)
+			{
+				if ($(e.currentTarget).hasClass('show-programmation-block')) {
+					$('.container-sidebar .publish-programmation').slideDown('fast');
+				}
+				else {
+					$('.container-sidebar .publish-programmation').slideUp('fast');
+				}
+			});
+		});
+	</script>
+	<script type="text/javascript">
+		function onSuccessSave(object)
+		{
+			var $headerSaveButton = $('.header-buttons .save');
+			if ($headerSaveButton.hasClass('disabled')) {
+				$headerSaveButton.removeClass('disabled').removeAttr('disabled').css('opacity', '1');
+			}
+
+			var date = new Date(),
+				hours = date.getHours(),
+				minutes = date.getMinutes();
+
+			if (hours < 10) hours = '0' + hours;
+			if (minutes < 10) minutes = '0' + minutes;
+
+			$('.alert.save-error').slideUp('fast');
+			$('.save-success span').text(hours + 'h' + minutes);
+
+			if ($('.save-success').css('display') == 'none') {
+				$('.save-success').slideDown('fast');
+			}
+			else {
+				$('.save-success').removeClass('alert-info');
+				$('.save-success').addClass('alert-success');
+			}
+			
+			// Switch statuts to draft
+			$('#blog_article_form_status_0').click();
+
+			// Enable finish button
+			$('.header-buttons .finish').removeClass('disabled');
+
+			setTimeout(function ()
+			{
+				$('.save-success').removeClass('alert-success');
+				$('.save-success').addClass('alert-info');
+			}, 5000);
+
+			$('#form_new_article').attr('action', Routing.generate('blog_manager_edit_article', {'articleSlug': object.slug}));
+			if (null != window.history && typeof window.history.pushState == 'function') {
+				window.history.pushState(document.title, document.title, Routing.generate('blog_manager_edit_article', {'articleSlug': object.slug}));
+			}
+		}
+	</script>
+{% endblock %}
+	
+{% block header %}
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span8">
+						<a href="{{ path('BNSAppBlogBundle_back') }}" class="btn bns-notice btn-24 medium-return {% if not isEditionMode %}button-return{% endif %}">
+							<span class="icons-24 back-icon"></span>
+							<strong>Retourner</strong><br />aux articles
+						</a>
+						{% if isEditionMode %}
+							<a href="{{ path('blog_manager_article_visualisation', {'articleSlug': article.getSlug()}) }}" class="btn bns-danger btn-24 medium-return button-return">
+								<span class="icons-24 cancel-icon"></span>
+								<strong>Annuler</strong><br />les modifications
+							</a>
+						{% endif %}
+						<a href="#" class="btn save bns-warning btn-24 medium-return">
+							<span class="icons-24 save-icon"></span>
+							<strong>Enregistrer</strong><br />dans les brouillons
+						</a>
+					</div>
+					<div class="span4 align-right">
+						<a href="#" class="btn finish bns-success validate-medium btn-24 medium">
+							<span class="icons-24 validate-icon"></span>
+							<strong>J'ai terminé</strong>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock header %}
+
+{% block sidebar %}
+	<div class="section active">
+		Ecrire un article
+		<span class="shadow-section"></span>
+	</div>
+	{% if has_right('BLOG_ADMINISTRATION') %}
+		{% include 'BNSAppBlogBundle:Block:back_block_status_choice.html.twig' %}
+	{% endif %}
+	{% render 'BNSAppBlogBundle:Back:loadCategoriesBlock' with {'blog': blog, 'article': article} %}
+	{% if has_right('BLOG_ADMINISTRATION') %}
+		<div class="container-section">
+			<div class="section">
+				<a href="{{ path('blog_manager_comment') }}">Commentaires</a>
+			</div>
+			<div class="section">
+				<a href="{{ path('blog_manager_custom') }}">{% trans %}Blog.Back.Sidebar.Customing{% endtrans %}</a>
+			</div>
+		</div>
+	{% endif %}
+{% endblock sidebar %}
+	
+{% block form_start %}
+	{% if (isEditionMode) %}
+		<form id="form_new_article" action="{{ path('blog_manager_edit_article', {'articleSlug': article.getSlug()}) }}" method="POST" {{ form_enctype(form) }}>
+	{% else %}
+		<form id="form_new_article" action="{{ path('blog_manager_new_article_finish') }}" method="POST" {{ form_enctype(form) }}>
+	{% endif %}
+{% endblock form_start %}
+				
+{% block form_end %}
+	</form>
+{% endblock form_end %}
+	
+{% block content %}
+	<div class="item form">
+		{{ autosave_init(article, {'title': 'blog_article_form_title', 'content': 'blog_article_form_content'}, {
+			'data': {'blog_id': blog.getId()},
+			'onSuccess': 'onSuccessSave',
+			'debug': true
+		}) }}
+			
+		<div class="alert alert-error save-error bns-alert hide">
+			<strong>Attention</strong>, des champs ont été oubliés ! {% if is_child() %}Vérifie bien si tu as{% else %}Veuillez vérifier que vous avez correctement{% endif %} rempli tous les champs !
+			<div class="jim"></div>
+		</div>
+
+		{# Category list #}
+		<div>
+			{{ form_widget(form.categories_list_id, { 'attr': {'class': 'article-categories-list'} }) }}
+			{{ form_errors(form.categories_list_id) }}
+		</div>
+
+		{# Title #}
+		<div>
+			{{ form_widget(form.title, { 'attr': {'placeholder': "Titre de l'article"} }) }}
+			{{ form_errors(form.title) }}
+		</div>
+
+		<div class="alert alert-success save-success bns-alert hide">
+			<span></span> : {% trans %}Blog.Back.AutosaveFeedback{% endtrans %}
+			<div class="jim"></div>
+		</div>
+
+		{# Content #}
+		<div class="tinyarea">
+			{{ form_widget(form.content, { 'attr': {'class': 'load_tinymce', 'data-theme': 'simple'} }) }}
+			{{ form_errors(form.content) }}
+		</div>
+		<div>{{ form_rest(form) }}</div>
+
+		<div class="resources">
+			{# Pièces Jointes #}
+			{% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': article.getResourceAttachments(), 'editable': true} %}
+		</div>
+	</div>
+{% endblock content %}

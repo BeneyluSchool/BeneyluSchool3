@@ -1,0 +1,28 @@
+{% if moderatedMessage != false %}
+<div class="container-message">
+    <div class="content-message">
+        <div class="messages received">
+            <div class="header-message" id="{{ moderatedMessage.id }}">
+                <img src="/medias/images/messaging/avatar-message.png" alt="" />
+                <p class="subject">{{ moderatedMessage.mailSubject }}</p>
+                <p class="date">De <a href="#" class="from">{{ moderatedMessage.user.username | raw }}</a></p>
+            </div>
+            <div class="copy">
+                {% for to in toEmails %}
+                    {% if to != '' %}
+                        <p><img src="/medias/images/messaging/small-avatar-messaging.png" alt="" />{{ to | raw }}</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="clearfix"></div>
+            <div class="message-received">
+                <p class="message">{{ moderatedMessage.mailContent | raw }}</p>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="content-attachment">
+            {% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': moderatedMessage.getResourceAttachments(), 'editable': false} %} 
+        </div>
+    </div>
+</div>
+{% endif %}

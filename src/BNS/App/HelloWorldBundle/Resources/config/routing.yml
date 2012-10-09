@@ -1,0 +1,3 @@
+BNSAppHelloWorldBundle_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: BNSAppHelloWorldBundle:Default:index }

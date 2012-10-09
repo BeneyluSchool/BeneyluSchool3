@@ -1,0 +1,41 @@
+<h2>Explanation</h2>
+
+<table>
+    <tr>
+        {% for label in data[0]|keys %}
+            <th>{{ label }}</th>
+        {% endfor %}
+    </tr>
+    {% for row in data %}
+		<tr>
+			{% for item in row %}
+				<td>{{ item }}</td>
+			{% endfor %}
+		</tr>	
+    {% endfor %}
+</table>
+
+<h2>Stacktrace</h2>
+
+<table>
+	<tr>
+		<th>Class</th>
+		<th>File</th>
+		<th>Line</th>
+		<th>Method/Function</th>
+	</tr>
+	{% for line in stacktrace %}
+		<tr>
+			<td>{{ line.class }}</td>
+			<td>
+				{% if line.function == 'render' %}
+					{{ line.args[0] }}
+				{% else %}
+					{{ line.file }}
+				{% endif %}
+			</td>
+			<td>{{ line.line }}</td>
+			<td>{{ line.function }}</td>
+		</tr>
+	{% endfor %}
+</table>

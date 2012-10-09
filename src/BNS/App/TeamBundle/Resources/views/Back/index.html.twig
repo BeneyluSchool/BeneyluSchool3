@@ -1,0 +1,43 @@
+{% extends 'BNSAppTeamBundle:Layout:manager.html.twig' %}
+
+{% block content %}
+    <div class="span3"></div>
+    <div class="span9">
+        <div class="content">
+            <div class="row-fluid">
+                <div class="span12">
+                    <h1>Page d'administration de l'équipe</h1>
+                                        
+                    <div class="form-edit-home-message">
+                        <h3>Message d'accueil</h3>
+                        <form action="{{ path('BNSAppClassroomBundle_back') }}" method="POST" {{ form_enctype(form) }}>
+                            {{ form_widget(form.homeMessage) }}
+                            {{ form_rest(form) }}
+                            <input type="submit" class="btn btn-success" value="Mettre à jour !" />
+                        </form>
+                    </div>
+                    
+                    <h3>Mes modules et leurs états :</h3>
+					{% render "BNSAppMainBundle:Module:moduleActivation" with { 'roles': activation_role } %}
+                    {#<table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Module</th>
+                                <th>Les élèves membres de l'équipe "{{ team.getLabel() }}"</th>
+                                <th>Les autres élèves de la classe "{{ classroom.getLabel() }}"</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for module in activableModules %}
+                                <tr>
+                                    <td>{{ module.getUniqueName() }}</td>
+                                    <td><span id="module_unique_name-{{ module.getUniqueName() }}-for_role_unique_name-MEMBER" class="btn-change-module-state{% if module.isActivatedForMember() %} active{% else %} inactive{% endif %}"></span></td>
+                                    <td><span id="module_unique_name-{{ module.getUniqueName() }}-for_role_unique_name-OTHER" class="btn-change-module-state{% if module.isActivatedForOther() %} active{% else %} inactive{% endif %}"></span></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>#}
+                </div>
+            </div>
+    </div>
+{% endblock %}

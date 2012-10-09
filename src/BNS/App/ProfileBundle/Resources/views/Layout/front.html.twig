@@ -1,0 +1,23 @@
+{% extends '::base.html.twig' %}
+
+{% block css %}
+    {{ parent() }}
+	<link href='https://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
+    <link href="{{ asset('/medias/css/profile/front.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    <script type="text/javascript" src="/medias/js/profile/front.js"></script>
+{% endblock %}
+
+{% block body %}
+    <body>
+        {% block content %}{% endblock %}
+    </body>
+{% endblock body %}
+	
+{% block dock_bar %}
+	{% render 'BNSAppMainBundle:DockBar:index' with {'module_unique_name' : 'PROFILE' , 'is_in_front' : true } %}
+{% endblock %}

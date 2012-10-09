@@ -1,0 +1,9 @@
+{% set title = type == 'EXTERNAL' ? "Modération vers l'extérieur de la classe" : type == "GROUP" ? "Modération dans la classe" : "" %}
+
+{# <li id="moderation-action-button-{{type}}-{{group.id}}" class="moderation-action-button" data-type="{{ type }}" data-group-id="{{ group.id }}">
+	{{title}}<span {% if status[type] == true %}class="disabled"{% endif %}></span>
+</li> #}
+
+<li>
+	<a data-type="{{ type }}" data-group-id="{{ group.id }}" class=" switchable moderation-action-button {% if status[type] == true %}off{% endif %}">{{title}}<span class="btn-switch"></span></a>
+</li>

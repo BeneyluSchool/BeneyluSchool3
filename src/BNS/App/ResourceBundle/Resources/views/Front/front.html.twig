@@ -1,0 +1,24 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Médiathèque{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+{% endblock %}
+
+{% block lesses %}
+	{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+{% endblock %}	
+	
+{% block body %}
+	{% include "BNSAppResourceBundle:Front:callIframe.html.twig" with {"type" : 'none',"resourceId": resourceId} %}
+{% endblock %}
+
+{# Insertion du dock en précisant le module appelant (nécessaire car dockbar dans "mainBundle" #}
+{% block dock_bar %}
+	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "RESOURCE" , 'is_in_front' : true } %}
+{% endblock %}

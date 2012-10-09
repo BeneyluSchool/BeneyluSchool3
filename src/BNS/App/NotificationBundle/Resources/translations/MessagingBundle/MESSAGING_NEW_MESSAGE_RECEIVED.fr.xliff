@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+			<!-- Allowed attributes name : sender_slug, sender_full_name -->
+
+			<!-- EMAIL Engine -->
+            <trans-unit id="1">
+                <source>MESSAGING_NEW_MESSAGE_RECEIVED.EMAIL.title</source>
+                <target>Vous avez reçu un message de la part de %sender_full_name%</target>
+            </trans-unit>
+			<trans-unit id="2">
+                <source>MESSAGING_NEW_MESSAGE_RECEIVED.EMAIL.content</source>
+                <target><![CDATA[<strong>%sender_full_name%</strong> vous a envoyé un message sur la Beneyluschool ! Que diriez-vous d'aller voir le message en <a href="%message_route%">cliquant ici</a> ?]]></target>
+            </trans-unit>
+			
+			<!-- SYSTEM Engine -->
+			<trans-unit id="100">
+                <source>MESSAGING_NEW_MESSAGE_RECEIVED.SYSTEM.content</source>
+                <target><![CDATA[Vous avez reçu <a href="%message_route%">un message</a> de la part de <strong>%sender_full_name%</strong>]]></target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -1,0 +1,9 @@
+<a href="#" class="btn bns-danger btn-24 medium-return btn-delete-pupil pull-left"  data-toggle="modal" data-target="#delete-pupil-modal"><span class="icons-24 delete-icon"></span><strong>Supprimer</strong> <br> l'utilisateur</a>
+<div class="btn-group pull-left" style="display: inline-block">
+	<a href="#" class="btn bns-warning btn-24 medium-return dropdown-toggle" data-toggle="dropdown"><span class="icons-24 generate-icon"></span><strong>{% if pupil.getLastConnection() != null %}Générer un nouveau</strong><br />mot de passe{% else %}Générer une</strong><br /> nouvelle fiche{% endif %}</span><span class="caret"></span></a>
+	<ul class="dropdown-menu">
+		<li><a href="{{ path('back_classrooms_users_generate_pupil_pwd', {'pupilSlug': pupil.getSlug() }) }}">Pour l'élève {{ pupil.getFirstName() }}</a></li>
+		<li><a href="{{ path('back_classrooms_users_generate_parent_pwd', {'pupilSlug': pupil.getSlug() }) }}">Pour les parents de {{ pupil.getFirstName() }}</a></li>
+	</ul>
+</div>
+

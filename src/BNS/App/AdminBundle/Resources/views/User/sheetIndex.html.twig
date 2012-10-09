@@ -1,0 +1,39 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+	
+	{% include "BNSAppAdminBundle:User:menu.html.twig" with{'page' : 'index','user' : userManager.getUser} %}
+
+	<div class="row">
+		<h3>Liste des groupes dans lesquels l'utilisateur a des droits</h3> 
+	</div>
+
+	{% for group in userManager.getFullRightsAndGroups %}
+		<div class="row well">
+			<h4><a href="{{ path('BNSAppAdminBundle_group_sheet_index',{'id' : group.group.id})}}">{{ group.group.label }}</a></h4>
+			Rôle(s) dans ce groupe :
+			{% for role in group.roles %}
+				<a href="{{ path('BNSAppAdminBundle_group_type_details',{'id' : role.id})}}"> {{ role.label }} </a>
+			{% else %}
+				- Pas de rôle dans ce groupe -
+			{% endfor %}
+		</div>
+	{% endfor %}
+	
+	<div class="row">
+
+		<h3>Lier à un groupe</h3>
+
+		<div id="add-to-group">
+			<form action="{{ path('BNSAppAdminBundle_user_sheet', { 'id' : userManager.getUser.getId }) }}" method="post" {{ form_enctype(form) }} class="form-inline">
+				{{ form_errors(form) }}
+
+				{{ form_widget(form.group_id,{'attr': {'placeHolder': '# Id du groupe'}}) }}
+				{{ form_widget(form.group_type_role_id) }}
+
+				{{ form_rest(form) }}
+				<input type="submit" class="btn" value="Valider" />
+			</form>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html {% block html_class %}{% endblock %}>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{% block title %}Bienvenue sur Beneylu School !{% endblock %}</title>
+            <meta name="viewport" content="width=device-width,initial-scale=1">
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+		{% block css %}
+			<link href='http://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
+			<link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+			{% stylesheets 
+				'medias/css/bootstrap.css'
+				'medias/css/guiders-1.2.8.css'
+				'medias/css/commons.css'
+				'medias/css/resource/player/mediaelementplayer.min.css' filter="?yui_css" output='css/base.css' %}
+				<link rel="stylesheet" href="{{ asset_url }}" />
+			{% endstylesheets %}
+		{% endblock %}
+		{% block main_javascripts %}
+			{% javascripts
+				'medias/js/jquery-1.7.2.min.js'
+				'bundles/fosjsrouting/js/router.js'
+				'medias/js/bootstrap/bootstrap-tooltip.js'
+				'medias/js/bootstrap/bootstrap-dropdown.js'
+				'medias/js/bootstrap/*'
+				'medias/js/resource/mediaelement-and-player.min.js'
+				'medias/js/resource/common.js'
+				'medias/js/jquery-ui-1.8.19.custom.min.js'
+				'medias/js/guiders-1.2.8.js'
+				'medias/js/jquery.placeholder.min.js'
+				'medias/js/jquery.outside-events.min.js'
+				 filter='?yui_js' output='js/base.js' %}
+				<script src="{{ asset_url }}"></script>
+			{% endjavascripts %}
+			<script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+			<!--[if lt IE 9]>
+				<script src="{{ asset('medias/js/respond.min.js') }}"></script>
+			<![endif]-->
+			<script type="text/javascript">
+				$(function () { $('input[placeholder], textarea[placeholder]').placeholder(); });
+			</script>
+			{% if app.environment == 'app_prod' %}
+				<script type="text/javascript">
+					var _gaq = _gaq || [];
+					_gaq.push(['_setAccount', '{{ parameter('google_analytics_id') }}']);
+					_gaq.push(['_trackPageview']);
+
+					(function() {
+					var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+					ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www' ) + '.google-analytics.com/ga.js';
+					var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+					})();
+				</script>
+			{% endif %}
+		{% endblock %}
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+        {% block dock_bar %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+		{% if app.environment != 'app_dev' %}
+			{% render 'BNSAppGuideTourBundle:GuideTour:displayGuideTour' with {'currentRoute': app.request.get('_route') } %}
+		{% endif %}
+    </body>
+</html>

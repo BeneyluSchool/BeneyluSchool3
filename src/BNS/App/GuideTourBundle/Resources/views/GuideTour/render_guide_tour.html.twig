@@ -1,0 +1,13 @@
+{% if file_path != '' %}
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('.btn-never-display-guide-tour').live('click', function() {
+				$.ajax({
+					url: Routing.generate('save_never_display_guide_tour', {'currentRoute': '{{ current_route }}'}),
+					type: 'GET'
+				});
+			});
+		});
+	</script>
+	<script type="text/javascript" src="{{ file_path }}"></script>
+{% endif %}

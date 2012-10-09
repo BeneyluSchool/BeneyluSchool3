@@ -1,0 +1,39 @@
+<div class="row-fluid invitation-row" data-invitation-id="{{ invitation.invitation_id }}">
+	<div class="span3">
+		<strong>Vous avez été invité par :</strong>
+		<hr />
+		{% if invitation.author_object != null %}
+			<img src="{{ avatar(invitation.author_object, 'thumbnail') }}" alt="" class="" />
+			{{ invitation.author_object.getFullName() }}
+		{% else %}
+			<img src="{{ asset('/medias/images/profile/avatar/thumbnail/teacher.png') }}" alt="" class="" />
+			{{ invitation.author_full_name }}
+		{% endif %}
+	</div>
+	<div class="span5">
+		<strong>A rejoindre le groupe suivant :</strong>
+		<hr />
+		<img src="{{ asset('/medias/images/profile/avatar/thumbnail/classroom.png') }}" alt="" class="" /><br />
+		<strong>Nom du groupe et type du groupe :</strong>
+		{% if invitation.group_object != null %}
+			{{ invitation.group_object.getLabel() }} ({{ invitation.group_object.getGroupType().getLabel() }})
+		{% else %}
+			{{ invitation.group_label }} ({{ invitation.group_type_label }})
+		{% endif %}
+		<br />
+		<strong>Rôle qui vous sera attribué :</strong>
+		{% if invitation.role_object != null %}
+			{{ invitation.role_object.getLabel() }}
+		{% else %}
+			{{ invitation.group_type_role_label }}
+		{% endif %}
+	</div>
+	<div class="span4">
+		<strong>Que souhaitez-vous faire ?</strong>
+		<hr />
+		<button class="btn btn-success btn-medium btn-accept-invitation"><strong>Accepter l'invitation</strong></button><br />
+		<button class="btn btn-danger btn-medium btn-decline-invitation"><strong>Rejeter l'invitation</strong></button><br />
+		<button class="btn btn-inverse btn-medium btn-never-accept-invitation"><strong>Ne jamais accepter l'invitation</strong></button>
+	</div>
+</div>
+	

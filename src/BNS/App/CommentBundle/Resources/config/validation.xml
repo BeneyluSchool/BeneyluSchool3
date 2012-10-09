@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
+
+    <class name="BNS\App\CommentBundle\Form\Model\CommentForm">
+        <property name="content">
+            <constraint name="NotBlank">
+				<option name="message">Le commentaire ne peut pas être vide !</option>
+			</constraint>
+        </property>
+		<property name="object_id">
+            <constraint name="NotNull">
+				<option name="message">Veuillez sélectionner l'objet auquel le commentaire est lié</option>
+			</constraint>
+			<constraint name="Type">
+				<option name="type">integer</option>
+				<option name="message">L'ID de l'objet lié doit être un entier</option>
+			</constraint>
+        </property>
+		<property name="author_id">
+            <constraint name="NotNull">
+				<option name="message">Veuillez sélectionner l'auteur du commentaire</option>
+			</constraint>
+			<constraint name="Type">
+				<option name="type">integer</option>
+				<option name="message">L'ID de l'auteur doit être un entier</option>
+			</constraint>
+        </property>
+    </class>
+</constraint-mapping>

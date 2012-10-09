@@ -1,0 +1,19 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+	
+	<h2>Permission {{ permission.label}}</h2>
+	
+	<h3>Liée au module {{ permission.module.label }}</h3>
+	
+	
+	
+	<a href="{{ path('BNSAppAdminBundle_permission_manage',{'uniqueName' : permission.uniqueName })}}" class="btn btn-info">
+		Editer la permission
+	</a>
+	{# DESACTIVE
+	<a href="{{ path('BNSAppAdminBundle_permission_delete',{'uniqueName' : permission.uniqueName })}}" class="btn btn-danger" onclick="return confirm('Êtes vous sûr et certain de vouloir supprimer cette permission ?');">
+		Supprimer la permission
+	</a>
+	#}
+{% endblock %}

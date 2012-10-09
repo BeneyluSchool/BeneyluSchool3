@@ -1,0 +1,130 @@
+{% extends 'BNSAppMiniSiteBundle:Layout:back_page_news.html.twig' %}
+
+{% block title %}
+	{% if isNew is defined %}
+		Gestion du Minisite : éditer une actualité
+	{% else %}
+		Gestion du Minisite : créer une actualité
+	{% endif %}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ tinymce_init() }}
+
+	<script type="text/javascript">
+		$(function ()
+		{
+			// Draft save button
+			$('.header-btn .save').click(function ()
+			{
+				var $this = $(this);
+				
+				if ($this.hasClass('disabled')) {
+					return false;
+				}
+				
+				$this.addClass('disabled').attr('disabled', 'disabled').css('opacity', '.5');
+				
+				doAutosave();
+				
+				return false;
+			});
+			
+			// Finish button
+			$('.header-btn .finish').click(function ()
+			{
+				$('#mini_site_page_news_form').submit();
+				
+				return false;
+			});
+		});
+		
+		function onSuccessSave(object)
+		{
+			var $headerSaveButton = $('.header-btn .save');
+			if ($headerSaveButton.hasClass('disabled')) {
+				$headerSaveButton.removeClass('disabled').removeAttr('disabled').css('opacity', '1');
+			}
+			
+			var date = new Date(),
+				hours = date.getHours(),
+				minutes = date.getMinutes();
+
+			if (hours < 10) hours = '0' + hours;
+			if (minutes < 10) minutes = '0' + minutes;
+
+			$('.save-success span').text(hours + 'H' + minutes);
+			if ($('.save-success').css('display') == 'none') {
+				$('.save-success').slideDown('fast');
+			}
+			
+			$('#mini_site_page_news_form').attr('action', Routing.generate('minisite_manager_page_news_edit', {'slug': object.slug}));
+			if (null != window.history && typeof window.history.pushState == 'function') {
+				window.history.pushState(document.title, document.title, Routing.generate('minisite_manager_page_news_edit', {'slug': object.slug}));
+			}
+		}
+	</script>
+{% endblock javascripts %}
+	
+{% block header %}
+	<div class="span12">
+		<div class="button-manager-form float-left">
+			<div class="content-button-manager-form">
+				<a href="{{ path('minisite_manager_page', {'slug': news.getMiniSitePage().getSlug()}) }}"><button class="btn btn-calendar-return"><span class="return"></span><strong>Retourner</strong><br /> aux actualités</button></a>
+				{# Non fonctionnel, commenté (Eric)
+				<button class="btn overview"><span class="overview"></span><strong>Aperçu</strong> de l'actualité</button> #}
+				{% if not isNew is defined %}
+					<button class="btn btn-danger"><span class="delete"></span><strong>Supprimer</strong><br /> l'actualité</button>
+				{% endif %}
+				<button class="btn save"><span class="save"></span><strong>Enregistrer</strong><br /> en brouillon</button>
+				<button class="btn finish"><span class="finish"></span>J'ai terminé</button>
+				{% if isNew is defined %}
+					<a href="{{ path('minisite_manager_page', {'slug': news.getMiniSitePage().getSlug()}) }}"><button class="btn btn-danger btn-cancel-action pull-right"><strong>Annuler</strong></button></a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endblock header %}
+
+{% block content %}
+	<div class="content admin-form">
+		{% autoescape false %}
+			{{ autosave_init(news, {
+				'title': 'mini_site_page_news_form_title',
+				'content': 'mini_site_page_news_form_content'}, {
+					'data': {'page_id': news.getMiniSitePage().getId()},
+					'onSuccess': 'onSuccessSave',
+					'debug': true
+			}) }}
+		{% endautoescape %}
+		<div class="form news-form">
+			{% if isNew is defined %}
+				{# Creation mode #}
+				<form id="mini_site_page_news_form" action="{{ path('minisite_manager_page_news_new', {'slug': news.getMiniSitePage().getSlug()}) }}" method="POST">
+			{% else %}
+				{# Edition mode #}
+				<form id="mini_site_page_news_form" action="{{ path('minisite_manager_page_news_edit', {'slug': news.getSlug()}) }}" method="POST">
+			{% endif %}
+				<div class="title">
+					{{ form_widget(form.title, {'attr': {'class': 'input-xlarge-bns input-title', 'placeholder': 'Titre de l\'actualité'} }) }}
+				</div>
+				<div class="alert alert-success save-success">
+					<span></span> : {% trans %}MiniSite.Back.Page.NewsDraftSaved{% endtrans %}
+				</div>
+				<div class="tinymce">
+					{{ form_widget(form.content, { 'attr': {'class': 'load_tinymce', 'data-theme': 'simple'} }) }}
+				</div>
+				<div class="errors">
+					{{ form_errors(form) }}
+				</div>
+				<div class="rest">
+					{{ form_rest(form) }}
+				</div>
+						
+				{# Pièces Jointes #}
+				{% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': news.getResourceAttachments(), 'editable': true} %}
+			</form>
+		</div>
+	</div>
+{% endblock content %}

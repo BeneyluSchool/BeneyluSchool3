@@ -1,0 +1,25 @@
+<script type="text/javascript" src="{{ asset('/medias/js/homework/subjects.js') }}"></script>
+<div class="title-container homework-subjects-filter">
+	<div class="title active border-light-blue">Matière <span class="square icon-arrow"></span></div>
+	<div class="content-title">
+		<div class="form-title">
+			<div class="loader loader-h"></div>
+			<form action="{{ path('BNSAppHomeworkBundle_backajax_subject_add') }}" id="section-homework-subject" method="POST">
+				<div class="category-icons-list">
+					{% render 'BNSAppBlogBundle:Back:getCategoryIcons' %}
+					<a href="#" class="default">Aucune icône</a>
+				</div>
+				<input type="text" size="16" class="add-category" placeholder="Nouvelle matière" style="border-radius: 3px; width: 60% !important; {# BECAUSE WE DON'T HAVE ICON ! #}">
+				<img src="{{ asset('/medias/images/icons/enter-key.png') }}" alt="" class="add-category-help" />
+				<input type="submit" class="btn btn-info" value="Ajouter">
+			</form>
+		</div>
+		<div class="content-category">
+			<ol class="homework-subjects load-sortable">
+				{% for subject in subjects %}
+					{% include 'BNSAppHomeworkBundle:Block:back_block_subject_row.html.twig' with {'subject': subject} %}
+				{% endfor %}
+			</ol>
+		</div>
+	</div>
+</div>

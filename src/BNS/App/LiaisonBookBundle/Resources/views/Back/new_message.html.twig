@@ -1,0 +1,67 @@
+{% extends 'BNSAppLiaisonBookBundle:Back:layout.back.html.twig' %}
+
+{% block title %}
+	Beneyluschool - Carnet de liaison - Manager - Création
+{% endblock %}
+	
+{% block javascripts %}
+    {{ parent() }}
+	<script type="text/javascript" src="{{ asset('/medias/js/liaisonbook/Back/newMessage.js') }}"></script>
+	{{ tinymce_init() }}
+{% endblock %}
+{% block header %}
+	<div class="span6">
+		<a href="{{ path('BNSAppLiaisonBookBundle_back') }}" class="btn bns-notice btn-24 medium-return button-return">
+			<span class="icons-24 back-icon"></span>
+			<strong>Retourner</strong><br>à l'index
+		</a>
+	</div>
+	<div class="span6 align-right">
+		<a href="#" class="btn finish bns-success validate-medium btn-24 medium">
+			<span class="icons-24 validate-icon"></span><strong>J'ai terminé</strong>
+		</a>
+	</div>
+{% endblock header %}
+
+{% block content %}
+        <div class="liaisonbook-back-new-message">
+			<div class="news-title">
+				<h1 class="dashboard">Rédiger un message</h1>
+			</div>
+            {% set liaisonBook = form.vars.value %}
+            {% if (isEditionMode) %}
+                    <form id="form_new_message" action="{{ path('BNSAppLiaisonBookBundle_back_edit', {'liaisonBookId': liaisonBook.getId()}) }}" method="POST" {{ form_enctype(form) }}>
+            {% else %}
+                    <form id="form_new_message" action="{{ path('BNSAppLiaisonBookBundle_back_create_finish') }}" method="POST" {{ form_enctype(form) }}>
+            {% endif %}
+                <div>
+                        {{ form_widget(form.id, { 'attr': {'class': 'liaisonbook-id'} }) }}
+                        {{ form_errors(form.id) }}
+                </div>
+                <div>
+                        {{ form_widget(form.title, { 'attr': {'class': 'input-xlarge-bns', 'placeholder': 'Titre du message'} }) }}
+                        {% if form_errors(form.title) != '' %}
+                        <div class="errors-container span8 alert alert-error">
+                            {{ form_errors(form.title) }}
+                        </div>
+                        {% endif %}
+                </div>
+                <div class="tinyarea">
+                        {{ form_widget(form.content, { 'attr': {'class': 'load_tinymce', 'data-theme': 'simple'} }) }}<br />
+                        {% if form_errors(form.content) != '' %}
+                        <div class="errors-container span8 alert alert-error">
+                            {{ form_errors(form.content) }}
+                        </div>
+                        {% endif %}
+                </div>
+                <div>{{ form_rest(form) }}</div>
+            			
+				{% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': liaisonBook.getResourceAttachments,"editable": true} %}
+			
+			</form>
+        </div>
+{% endblock %}
+
+
+	
+	

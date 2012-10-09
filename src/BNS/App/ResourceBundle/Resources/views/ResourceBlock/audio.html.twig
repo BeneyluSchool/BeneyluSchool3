@@ -1,0 +1,13 @@
+{% block content %}
+	{% block player %}
+		<audio controls="controls">
+		  <source src="{{ url('BNSAppResourceBundle_download', { 'resource_slug': resource.getSlug }) }}" type="audio/mp3" />
+		</audio>
+
+		<script>
+		// using jQuery
+		$('audio').mediaelementplayer(/* Options */);
+		</script>
+	{% endblock %}
+{% endblock %}
+	

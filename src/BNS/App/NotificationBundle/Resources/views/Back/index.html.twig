@@ -1,0 +1,88 @@
+{% extends 'BNSAppNotificationBundle:Layout:manager.html.twig' %}
+
+{% block content %}
+<div class="container-notification">
+	<div class="new-title">
+		<h1 class="dashboard">Gestion des notifications</h1>
+	</div>
+	{# PERSONNAL MODULES #}
+	{% if personnalModules|length > 0 %}
+		<div class="content-group">
+			<div class="color-group"></div>
+			<table border="0" id="group-personnal">
+				<tbody>
+					<tr class="header-tab-group">
+						<td class="group-name">
+							Mes modules
+						</td>
+						<td width="25%" class="td-center">
+							<a href="{{ path('notification_manager_switch_group', {'contextGroupId': 'personnal', 'engine': 'SYSTEM'}) }}" data-group-id="personnal" data-engine="system" class="activable title system btn {% if not settings.isUserActivated('personnal', personnalModules, app.user.id, 'SYSTEM') %}btn-danger{% endif %}"><img src="http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/spechbubble_sq.png" alt="SYSTEM" />Tout sélectionner</a>
+						</td>
+						<td width="25%" class="td-center">
+							<a href="{{ path('notification_manager_switch_group', {'contextGroupId': 'personnal', 'engine': 'EMAIL'}) }}" data-group-id="personnal" data-engine="email" class="activable title email btn {% if not settings.isUserActivated('personnal', personnalModules, app.user.id, 'EMAIL') %}btn-danger{% endif %}"><img src="http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/mail_2.png" alt="EMAIL" />Tout sélectionner</a>
+						</td>
+						<td width="10%" class="collapse">
+							<img src="http://cdn2.iconfinder.com/data/icons/diagona/icon/16/129.png" alt="" />
+						</td>
+					</tr>
+					{# MODULES #}
+					{% for module in personnalModules %}
+						<tr class="tab-module">
+							<td>
+								{{ module.getLabel() }}
+							</td>
+							<td class="td-center">
+								<a href="{{ path('notification_manager_switch', {'contextGroupId': 'personnal', 'engine': 'SYSTEM', 'moduleUniqueName': module.getUniqueName()}) }}" data-group-id="personnal" data-engine="system" class="activable system btn-module {% if not settings.isModuleForUserActivated('personnal', app.user.id, module.getUniqueName(), 'SYSTEM') %}desactivated{% endif %}">&nbsp;</a>
+							</td>
+							<td class="td-center">
+								<a href="{{ path('notification_manager_switch', {'contextGroupId': 'personnal', 'engine': 'EMAIL', 'moduleUniqueName': module.getUniqueName()}) }}" data-group-id="personnal" data-engine="email" class="activable email btn-module {% if not settings.isModuleForUserActivated('personnal', app.user.id, module.getUniqueName(), 'EMAIL') %}desactivated{% endif %}">&nbsp;</a>
+							</td>
+							<td></td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	{% endif %}
+		
+	{# GROUP #}
+	{% for group in userGroups %}
+		<div class="content-group">
+			<div class="color-group"></div>
+			<table border="0" id="group-{{ group.getId() }}">
+				<tbody>
+					<tr class="header-tab-group">
+						<td class="group-name">
+							{{ group.getLabel() }}
+						</td>
+						<td width="25%" class="td-center">
+							<a href="{{ path('notification_manager_switch_group', {'contextGroupId': group.getId(), 'engine': 'SYSTEM'}) }}" data-group-id="{{ group.getId() }}" data-engine="system" class="activable title system btn {% if not settings.isUserActivated(group.getId(), group.getGroupType().getModules(), app.user.id, 'SYSTEM') %}btn-danger{% endif %}"><img src="http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/spechbubble_sq.png" alt="SYSTEM" />Tout sélectionner</a>
+						</td>
+						<td width="25%" class="td-center">
+							<a href="{{ path('notification_manager_switch_group', {'contextGroupId': group.getId(), 'engine': 'EMAIL'}) }}" data-group-id="{{ group.getId() }}" data-engine="email" class="activable title email btn {% if not settings.isUserActivated(group.getId(), group.getGroupType().getModules(), app.user.id, 'EMAIL') %}btn-danger{% endif %}"><img src="http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/mail_2.png" alt="EMAIL" />Tout sélectionner</a>
+						</td>
+						<td width="10%" class="collapse">
+							<img src="http://cdn2.iconfinder.com/data/icons/diagona/icon/16/129.png" alt="" />
+						</td>
+					</tr>
+					{# MODULES #}
+					{% for module in group.getGroupType().getModules(true) %}
+						<tr class="tab-module">
+							<td>
+								{{ module.getLabel() }}
+							</td>
+							<td class="td-center">
+								<a href="{{ path('notification_manager_switch', {'contextGroupId': group.getId(), 'engine': 'SYSTEM', 'moduleUniqueName': module.getUniqueName()}) }}" data-group-id="{{ group.getId() }}" data-engine="system" class="activable system btn-module {% if not settings.isModuleForUserActivated(group.getId(), app.user.id, module.getUniqueName(), 'SYSTEM') %}desactivated{% endif %}">&nbsp;</a>
+							</td>
+							<td class="td-center">
+								<a href="{{ path('notification_manager_switch', {'contextGroupId': group.getId(), 'engine': 'EMAIL', 'moduleUniqueName': module.getUniqueName()}) }}" data-group-id="{{ group.getId() }}" data-engine="email" class="activable email btn-module {% if not settings.isModuleForUserActivated(group.getId(), app.user.id, module.getUniqueName(), 'EMAIL') %}desactivated{% endif %}">&nbsp;</a>
+							</td>
+							<td></td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	{% endfor %}
+</div>
+{% endblock %}

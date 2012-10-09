@@ -1,0 +1,29 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+	
+	<h2>Liste des gabarits d'emails</h2>
+
+	<table class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<th>Nom</th>
+				<th>Sujet</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for email in emails %}
+				<tr>
+					<td>{{ email.label }}</td>
+					<td>{{ email.subject }}</td>
+					<td>
+						<a href="{{ path("BNSAppAdminBundle_email_edit" , { uniqueName: email.uniqueName }) }}">
+							<img src="{{ asset('/medias/images/icons/fugue/edit-list-order.png') }}" title="Editer cet email" />
+						</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

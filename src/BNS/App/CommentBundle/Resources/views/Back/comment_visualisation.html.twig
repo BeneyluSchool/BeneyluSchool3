@@ -1,0 +1,53 @@
+{% if comments|length > 0 %}
+	<script type="text/javascript">
+		$(function ()
+		{
+			// Buttons moderation process
+			$('body').on('click', '.comment-moderation a', function (e)
+			{
+				var $this = $(e.currentTarget),
+					$row = $this.parent().parent().parent(),
+					id = $row.attr('id').split('-'),
+					$loader = $row.find('.loader');
+
+				$loader.fadeIn('fast');
+
+				id = id[1];
+				$.ajax({
+					url: '{{ path('comment_manager_status_update_visualisation') }}',
+					type: 'POST',
+					dataType: 'json',
+					data: {
+						'namespace': '{{ namespace }}',
+						'status': $this.data('filter-status'),
+						'id': id
+					},
+					success: function (data)
+					{
+						$moderation = $row.find('.comment-moderation');
+						$moderation.fadeOut('fast', function ()
+						{
+							$(this).html(data.moderation);
+							$row.find('.vertical-separator').removeClass().addClass('vertical-separator').addClass(data.classe);
+							$(this).fadeIn('fast');
+						});
+					}
+				}).done(function ()
+				{
+					$loader.fadeOut('fast');
+				});
+
+				return false;
+			});
+		});
+	</script>
+
+	<div class="comments-list-container">
+		<div class="comments-list">
+			<h3>{{ comments|length }} commentaire{% if comments|length > 1 %}s{% endif %}</h3>
+			{% for comment in comments %}
+				{% include 'BNSAppCommentBundle:Back:comment_row.html.twig' %}
+			{% endfor %}
+		</div>
+	</div>
+{% endif %}

@@ -1,0 +1,18 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+	
+	<h2>Module {{ module.label}}</h2>
+	
+	<a href="{{ path('BNSAppAdminBundle_module_manage',{'uniqueName' : module.uniqueName })}}" class="btn btn-info">
+		Editer le module
+	</a>
+	{# Désactivation de la suppression
+	<a href="{{ path('BNSAppAdminBundle_module_delete',{'uniqueName' : module.uniqueName })}}" class="btn btn-danger" onclick="return confirm('Êtes vous sûr et certain de vouloir supprimer module ?');">
+		Supprimer le module
+	</a>
+	#}	
+	{% include "BNSAppAdminBundle:rank:list.html.twig" with {'ranks' : module.ranks} %}
+	{% include "BNSAppAdminBundle:permission:list.html.twig" with {'permissions' : module.permissions} %}
+	
+{% endblock %}

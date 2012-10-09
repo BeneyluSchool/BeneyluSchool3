@@ -1,0 +1,12 @@
+{% if newsArray|length > 0 or textsArray|length > 0 %}
+	{% for news in newsArray %}
+		{% include 'BNSAppMiniSiteBundle:Moderation:moderation_news_row.html.twig' %}
+	{% endfor %}
+	{% for text in textsArray %}
+		{% include 'BNSAppMiniSiteBundle:Moderation:moderation_text_row.html.twig' %}
+	{% endfor %}
+{% else %}
+	<div class="no-moderation">
+		{% trans %}MiniSite.Back.Moderation.NoModeration{% endtrans %}
+	</div>
+{% endif %}

@@ -1,0 +1,18 @@
+BNS\App\CoreBundle\Model\User:
+    properties:
+        login:
+            - NotBlank: ~
+            - MaxLength: 255
+        first_name:
+            - NotBlank: ~
+            - MaxLength: 45
+        last_name:
+            - NotBlank: ~
+            - MaxLength: 45
+        email:
+            - Email:
+                message: The email "{{ value }}" is not a valid email.
+            - MaxLength: 255
+        lang:
+            - NotBlank: ~
+            - MaxLength: 5

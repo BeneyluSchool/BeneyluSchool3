@@ -1,0 +1,9 @@
+{#<ul class="hover">
+	{% include 'BNSAppMessagingBundle:Back/Light:block_moderation_action_button.html.twig' with {'type' : 'GROUP','status': status, 'group' : group} %}
+	{% include 'BNSAppMessagingBundle:Back/Light:block_moderation_action_button.html.twig' with {'type' : 'EXTERNAL','status': status, 'group' : group} %}
+</ul>#}
+
+<ul>
+	{% include 'BNSAppMessagingBundle:Back/Light:block_moderation_action_button.html.twig' with {'type' : 'GROUP','status': status, 'group' : group} %}
+	{% include 'BNSAppMessagingBundle:Back/Light:block_moderation_action_button.html.twig' with {'type' : 'EXTERNAL','status': status, 'group' : group} %}
+</ul>

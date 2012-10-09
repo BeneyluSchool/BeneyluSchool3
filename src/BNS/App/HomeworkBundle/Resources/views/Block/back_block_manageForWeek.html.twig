@@ -1,0 +1,71 @@
+<a id="currentDay" href="{{ path('BNSAppHomeworkBundle_backajax_manage_week', {"day":day}) }}" class="hidden btn-change-week"></a>
+<div class="news-title dashboard">
+        <a href="{{ path('BNSAppHomeworkBundle_backajax_manage_week', {"day":previous_week}) }}" class="btn btn-prec pull-left btn-change-week"><span class="icons-arrow left"></span> Aller à la semaine <br/> précédente</a>
+        <div class="content-week">
+                <p class="week">Semaine du</p> <p class="days"> {{ start_day | localizeddate('medium', 'none') }} au {{ end_day | localizeddate('medium', 'none') }}</p>
+                {#<input type="text" style="display:none;" id="weekpicker">#}
+        </div>
+        <a href="{{ path('BNSAppHomeworkBundle_backajax_manage_week', {"day":next_week}) }}" class="btn btn-next btn-change-week"><span class="icons-arrow right"></span> Aller à la semaine <br/>suivante</a>
+</div>
+{% if due_sorted is empty %}
+    <h2 class="no-works-today">Pas de devoir, vous pouvez en créer un en cliquant en haut à gauche.</h2>
+{% else %}
+    {% for due_date, homeworkdues_sorted in due_sorted %}
+        {% for hd in homeworkdues_sorted %}
+            {% if loop.first %}
+				<div class="content-title-day">
+					<h2 class="title-day {{ due_date | date("l") | lower }}">{{ due_date | localizeddate('full', 'none') | capitalize }}</h2>
+					<div class="quick-add">
+						{#<a href="#" class="btn bns-info btn-16 small btn-quick-create" data-date="{{ due_date | date('d-m-Y') }}"><span class="icons-16 add-icon"></span><strong>Ajouter un travail</strong></a>
+						 <a class="btn btn-info btn-quick-create" data-date="{{ due_date | date('d-m-Y') }}">Ajouter un travail</a>
+						<div class="quick-add-form" class="hidden" style="display:none;"></div>#}
+					</div>
+				</div>
+            {% endif %}
+            <div class="hwdue-parent content-work">
+                {% include 'BNSAppHomeworkBundle:Back:homeworkdue.html.twig' with {'homeworkdue': hd} %}
+            </div>
+        {% endfor %}
+    {% endfor %}
+{% endif %}     
+                
+<script type="text/javascript">
+    $( "#weekpicker" ).datepicker({
+        showOn: "button",
+        buttonImage: "/medias/images/icons/fugue/calendar-select-week.png",
+        buttonImageOnly: true,
+        dateFormat: "dd-mm-yy",
+        onSelect: function(dateText, inst) { 
+            $('.manage-content').hide('fast');
+            $.ajax(
+            {
+                url: Routing.generate('BNSAppHomeworkBundle_backajax_manage_week', {day: dateText}),
+                success: function (data)
+                {
+                    $('.manage-content').html(data);
+                    $('.manage-content').show('fast');
+                },
+                error: function ()
+                {
+                    alert('Une erreur est survenue');
+                    $('.manage-content').show('fast');
+                }
+            });
+
+        }
+    });
+    
+    $(document).ready(function ()
+    { 
+        $('.task-done-users').hide();
+        
+        $('.show-tasksdone-users').click(function(){
+            $(this).siblings('.task-done-users').show('slow');
+            return false;
+        });
+        $('.hide-tasksdone-users').click(function(){
+            $(this).parent('.task-done-users').hide('slow');
+            return false;
+        });
+    });
+</script>

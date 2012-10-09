@@ -1,0 +1,67 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+	
+	<h3>Attribut : {{ groupTypeData.label }} <small>({{ groupTypeData.uniqueName }})</small></h3>
+	
+	<p>Valeur par défaut : <b>{{ groupTypeData.printDefaultValue }}</b></p>
+	
+	<p>
+		Utilisé dans : 
+		{% for getUsedGroupTypeData in getUsedGroupTypeDatas %}
+			<b>
+				<a href="{{ path('BNSAppAdminBundle_group_type_details',{'id':getUsedGroupTypeData.getGroupType.getId}) }}">{{ getUsedGroupTypeData.getGroupType.getLabel }}</a>
+			</b>
+			{% if not loop.last %}
+				-
+			{% endif %}
+		{% else %}
+			- Aucun -
+		{% endfor %}
+	</p>
+
+	{% if groupTypeData.isChoiceable() %}
+		<a href="{{ path('BNSAppAdminBundle_group_type_data_choice_edit' , {"template_unique_name" : groupTypeData.uniqueName }) }}" class="btn btn-large btn-primary">
+			Ajouter un choix
+		</a>
+	{% endif %}
+	
+	<a href="{{ path('BNSAppAdminBundle_group_type_data_edit' , {"unique_name": groupTypeData.uniqueName}) }}" class="btn btn-large btn-primary">
+		Editer l'attribut
+	</a>
+	
+	{% if groupTypeData.isChoiceable %}
+		<div class="row">
+			<table class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<th>Nom</th>
+						<th>Valeur</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for choice in choices %}
+						<tr>
+							<td>
+								{{ choice.label }}
+							</td>
+							<td>
+								{{ choice.value }}
+							</td>
+							<td>
+								<a href="{{ path('BNSAppAdminBundle_group_type_data_choice_edit', {'id': choice.id , 'template_unique_name': groupTypeData.uniqueName }) }}" title="Editer la valeur">
+									<img src="/medias/images/icons/fugue/document--pencil.png" alt="Editer" />
+								</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		
+	
+	{% endif %}
+	
+	
+{% endblock %}

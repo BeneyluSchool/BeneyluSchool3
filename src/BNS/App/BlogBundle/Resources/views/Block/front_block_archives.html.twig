@@ -1,0 +1,11 @@
+{% if blog.getArchives()|length > 0 %}
+	<h2 class="block-title">{% trans %}Blog.Front.Sidebar.Archives{% endtrans %}</h2>
+	<div class="block-archive">
+		<ul>
+			{% for label,item in blog.getArchives() %}
+				<li {% if archive_month is defined and archive_month == item['month'] and archive_year == item['year'] %}class="selected"{% endif %}><a href="{{ path('blog_articles_from_archives', {'month': item['month'], 'year': item['year']}) }}">{{ label }}</a> ({{ item['count'] }})</li>
+			{% endfor %}
+		</ul>
+	</div>
+	<div class="clearfix"></div>
+{% endif %}

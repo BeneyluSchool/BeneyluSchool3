@@ -1,0 +1,12 @@
+{% set object = obj.obj %}
+{% set type = obj.type %}
+{% spaceless %}
+    <div class="vich_info_window">
+        <span>{{ object.getlabel }}</span>
+		<p>
+			{% if type == "place" %}
+				{{ object.description }}
+			{% endif %}
+		</p>
+    </div>
+{% endspaceless %}

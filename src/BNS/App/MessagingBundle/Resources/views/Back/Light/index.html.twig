@@ -1,0 +1,11 @@
+{% extends 'BNSAppMessagingBundle:Back/Light:layout.html.twig' %}
+
+{% block javascripts %}	
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('/medias/js/messaging/Back/light.js') }}"></script>	
+{% endblock %}
+
+{% block content %}
+	{% render 'BNSAppMessagingBundle:BackLight:messages' with {'type' : 'IN_MODERATION' } %}
+{% endblock %}
+

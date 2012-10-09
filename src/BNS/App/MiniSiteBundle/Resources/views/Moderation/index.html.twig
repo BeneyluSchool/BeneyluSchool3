@@ -1,0 +1,106 @@
+{% extends 'BNSAppMiniSiteBundle:Layout:back_page_news.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+	
+	<script type="text/javascript">
+		$(function ()
+		{
+			// Filtres statut
+			$('.news-status-filters li').click(function (e)
+			{
+				var $this = $(e.currentTarget).find('.select');
+				if ($this.hasClass('unchecked')) {
+					$this.removeClass('unchecked');
+					$this.addClass('checked');
+					$this.attr('src', $('.news-status-filters .template .checked').attr('src'));
+				}
+				else {
+					$this.removeClass('checked');
+					$this.addClass('unchecked');
+					$this.attr('src', $('.news-status-filters .template .unchecked').attr('src'));
+				}
+
+				var id = $(e.currentTarget).attr('id').split('-');
+					id = id[2];
+
+				$('.moderation-container .layer').addClass('show');
+				$.ajax(
+				{
+					url: '{{ path('minisite_manager_moderation_page_list') }}',
+					type: 'POST',
+					dataType: 'html',
+					data: {'is_enabled': $this.hasClass('checked'), 'filter': id},
+					success: function (data)
+					{
+						$('.moderation-container .layer').removeClass('show');
+						$('.moderation-container .moderation-list').html(data);
+					}
+				});
+
+				return false;
+			});
+			
+			/* NEWS DELETE MODAL */
+			$('.actions-bar .delete').live('click', function(e)
+			{
+				var $this = $(e.currentTarget);
+
+				$this.addClass('disabled').attr('disabled', 'disabled');
+				$.ajax({
+					url: $this.attr('href'),
+					success: function (data)
+					{
+						var $modal = $(data);
+						$('body').prepend($modal);
+
+						$modal.modal('show').on('hidden', function ()
+						{
+							$(this).remove();
+						});
+						$this.removeClass('disabled').removeAttr('disabled');
+					}
+				});
+
+				return false;
+			});
+
+			/* NEWS DELETE CONFIRM */
+			$('#minisite_delete_modal .modal-footer .delete-process').live('click', function (e)
+			{
+				var $this = $(this);
+				$this.addClass('disabled').attr('disabled', 'disabled');
+
+				$.ajax({
+					url: $this.attr('href'),
+					success: function (data)
+					{
+						var newsId = $('#minisite_delete_modal .modal-body').data('object');
+						$('#news-' + newsId).slideUp('slow', function ()
+						{
+							$(this).remove();
+						});
+
+						$('#minisite_delete_modal').modal('hide');
+					}
+				});
+
+				return false;
+			});
+		});
+	</script>
+{% endblock %}
+
+{% block content %}
+	<div class="moderation-container">
+		<div class="layer">
+			<div class="message">
+				{% trans %}MiniSite.Back.General.LoadingProcess{% endtrans %}
+				<div><img src="{{ asset('/medias/images/icons/big-loader.gif') }}" alt="" /></div>
+			</div>
+		</div>
+		<div class="moderation-list">
+			{% render 'BNSAppMiniSiteBundle:BackModeration:getPages' with {'miniSite': minisite} %}
+		</div>
+	</div>
+{% endblock content %}

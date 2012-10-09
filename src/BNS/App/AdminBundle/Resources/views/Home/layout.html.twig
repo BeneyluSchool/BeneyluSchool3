@@ -1,0 +1,25 @@
+{% extends '::base.html.twig' %}
+
+{% block css %}
+    {{ parent() }}
+	<link href="{{ asset('/medias/css/admin/front.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+	
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript" src="{{ asset('medias/js/admin/main.js') }}"></script>
+{% endblock %}
+{% block body %}
+	<div class="container-fluid">
+		<div class="row-fluid">
+			{% include "BNSAppAdminBundle:Home:sideMenu.html.twig" %}
+			<div class="span9">
+				{% block content %}{% endblock %}
+			</div>
+		</div>
+	</div>
+{% endblock %}
+	
+{% block dock_bar %}
+	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "ADMIN" , 'is_in_front' : true } %}
+{% endblock %}

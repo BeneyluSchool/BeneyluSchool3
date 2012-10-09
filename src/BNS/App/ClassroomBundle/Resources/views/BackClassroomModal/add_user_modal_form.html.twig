@@ -1,0 +1,82 @@
+<div class="create-user-form-container">
+	{% if role == 'teacher' %}
+		<div class="invitation-form-container">
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="add-user-title">
+					<h4>L'enseignant a déjà un compte Beneylu School</h4>
+					</div>
+					<div class="alert hide">
+						<p>L'identifiant que vous avez renseigné est invalide, veuillez recommencer.</p>
+					</div>
+					<form action="#" method="POST">
+						<p class="user-id">Identifiant :</p> <input type="text" name="username-to-check" id="username-to-check" /> <button class="btn btn-check-user">Vérifier</button>
+					</form>
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class="check-user-container hide"></div>
+			</div>
+		</div>
+	{% endif %}
+
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="content-form-user">
+				{% if role == 'teacher' %}
+				<div class="add-user-title">
+					<h4>L'enseignant n'a pas encore de compte Beneylu School</h4>
+				</div>
+				{% endif %}
+				<form method="POST" action="{{ path('classroom_users_add_user') }}" id="add-user-classroom-form">
+					<input type="hidden" name="user_role" id="user-role" value="{{ role }}" />
+					<div>
+						{{ form_label(form.first_name) }}
+						{{ form_widget(form.first_name) }}
+						{{ form_errors(form.first_name) }}
+					</div>
+                                        
+                                        <div>
+						{{ form_label(form.last_name) }}
+						{{ form_widget(form.last_name) }}
+						{{ form_errors(form.last_name) }}
+					</div>
+					<div class="form">
+						{{ form_label(form.gender) }}
+						{{ form_widget(form.gender) }}
+						{{ form_errors(form.gender) }}
+					</div>
+
+					<div class="form birthday">
+						{{ form_label(form.birthday) }}
+						{{ form_widget(form.birthday) }}
+						{{ form_errors(form.birthday) }}
+					</div>
+
+					{{ form_rest(form) }}
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('span.role-label').html('{{ role }}' == 'teacher'? 'enseignant' : 'élève');
+		$('div.create-buttons-container').show();
+		
+		$('form#add-user-classroom-form').ajaxForm({
+			dataType: 'html',
+			success: function(data) {
+				// On ajoute le nouvel utilisateur parmi la liste des Enseignants ou des élèves
+				var $container = $('div.pupil-container');
+				if ($('#user-role').val() == 'teacher') {
+					$container = $('div.teacher-container');
+				}
+				$container.append(data);
+				
+				addUserLastProcess($('#user-role').val());
+			}
+		});
+	});
+</script>

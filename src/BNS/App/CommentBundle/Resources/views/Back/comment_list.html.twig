@@ -1,0 +1,11 @@
+{% if comments|length > 0 %}
+	{% for comment in comments %}
+		{% include 'BNSAppCommentBundle:Back:comment_row.html.twig' %}
+	{% endfor %}
+{% else %}
+	<div class="no-comment">
+		Aucun commentaire n'a été trouvé.
+	</div>
+{% endif %}
+
+{% include 'BNSAppCommentBundle:Back:comment_pager.html.twig' %}

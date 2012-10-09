@@ -1,0 +1,20 @@
+{% if conversations_none_read|length > 0 %}
+	{% include 'BNSAppMessagingBundle:Front/Light:block_conversations_list.html.twig' with {'title': "Messages non lus", 'conversations': conversations_none_read, 'status': 'NONE_READ' , 'id': 'messaging-messages-none-read'} %} 
+{% endif %}
+
+{% if conversations_read|length > 0 %}
+	{% include 'BNSAppMessagingBundle:Front/Light:block_conversations_list.html.twig' with {'title': "Messages lus", 'conversations': conversations_read, 'status': 'READ', 'id': 'messaging-messages-read' } %} 
+	{% include 'BNSAppMessagingBundle:Front/Light:block_paginate.html.twig' with {'limit': paginateLimit, 'total': nbConversationsRead, 'currentPage': page } %} 
+{% endif %}
+
+
+{% if conversations_read|length == 0 and  conversations_none_read|length == 0 %}
+	{% include 'BNSAppMessagingBundle:Front/Light:block_title.html.twig' with {'title': "Aucun message reçu"} %}
+	{% include 'BNSAppMessagingBundle:Front/Light:block_no_message.html.twig' with {'type' : 'received'} %}
+{% endif %}
+
+{# JS pour mettre à jour le compteur de la sidebar #}
+<script type="text/javascript">
+	updateInboxSidebar({{ conversations_none_read|length }});
+	updateDraftboxSidebar({{ nb_draft_messages }});
+</script>

@@ -1,0 +1,310 @@
+{% extends 'BNSAppGPSBundle:Back:layout.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript" src="{{ asset('/medias/js/manager-menu.js') }}"></script>
+	<script type="text/javascript">
+		var categoriesRoutes = {
+			'sort':		Routing.generate('BNSAppGpsBundle_back_category_order'),
+			'insert':	Routing.generate('BNSAppGpsBundle_back_category_create'),
+			'edit':		Routing.generate('BNSAppGpsBundle_back_category_edit'),
+			'remove':	Routing.generate('BNSAppGpsBundle_back_category_delete')
+		};
+	</script>
+	<script type="text/javascript" src="{{ asset('/medias/js/jquery.ui.nestedSortable.js') }}"></script>
+	
+	<script type="text/javascript">
+		$(function ()
+		{
+			//Suppression de l'icône à l'ajout
+			$('#new-category-modal').find('.category-icon-selector').remove();
+			
+			// Check if routes are parameted
+			if (typeof categoriesRoutes == undefined) {
+				throw new Error('Vous devez paramétrer les routes avant l\'utilisation du script des catégories !');
+			}
+
+			// Drag'n'drop categories
+			$('.content-categories-management ol.load-sortable').nestedSortable({
+				forcePlaceholderSize: true,
+				errorClass: 'nested-error',
+				handle: 'div .list-grip',
+				helper:	'original',
+				items: 'li',
+				maxLevels: 1, // si sous-catégorie, mettre 2, sinon 1
+				opacity: .6,
+				placeholder: 'nested-placeholder',
+				revert: 200,
+				tabSize: 25,
+				distance: 10,
+				tolerance: 'pointer',
+				toleranceElement: '> div'
+			});
+			
+			$('.content-categories-management ol.load-sortable').bind('sortupdate',
+				function(event, ui)
+				{
+					//Récupération du tableau pour mise à jour
+					var ordered = new Array();
+					
+					$('.load-sortable').find('li').each(function(){
+						ordered.push($(this).attr('id').split('_')[1]);
+					});
+														
+					$.ajax(	
+					{
+						url: categoriesRoutes.sort, 
+						type: 'POST',
+						dataType: 'json',
+						data: {'ordered': ordered}	
+					});
+
+				}
+			);
+
+			// Expand category editor process
+			$('body').on('click', '.content-categories-management ol.load-sortable li > div:first-child, .content-categories-management ol.load-sortable li > ol > li > div:first-child', function (e)
+			{
+				var $this = $(e.currentTarget);
+
+				if ($(e.target).hasClass('gps-category-toggle')) {
+					return false;
+				}
+
+				// Return true because we waiting for the delete modal event click
+				if ($(e.target).hasClass('close-button')) {
+					return true;
+				}
+
+				// Avoid click event on drag
+				if ($(e.target).hasClass('list-grip') || $this.hasClass('active') || $this.hasClass('loading')) {
+					return false;
+				}
+
+				// Remove active class & other category editor
+				$('.content-categories-management ol.load-sortable li > div:first-child, .content-categories-management ol.load-sortable li > ol > li > div:first-child').removeClass('active');
+				$('.content-categories-management ol.load-sortable .category-editor').slideUp('fast');
+
+				$this.addClass('active');
+				var $categoryEditor = $this.parent().find('.category-editor').first();
+				$categoryEditor.slideDown('fast');
+			});
+
+			// Show delete category modal process
+			$('body').on('click', '.content-categories-management ol.load-sortable span.close-button', function (e)
+			{
+				var $this = $(e.currentTarget),
+					$div = $this.parent(),
+					$row = $div.parent(),
+					$modalBody = $('#delete-category-modal .modal-body'),
+					categoryId = $row.attr('id').split('_');
+
+				$modalBody.find('span.title').text($div.find('div.title').text());
+				$modalBody.find('input#delete-category-id').val(categoryId[1]);
+
+				// This category has sub-categories, show the warn message
+				if ($row.find('ol').length > 0) {
+					$modalBody.find('p.sub-category-warning').show();
+				}
+
+				$('#delete-category-modal').modal('show');
+			});
+
+			// Deleting category modal process
+			$('#delete-category-modal .delete-category-button').click(function (e)
+			{
+				var $this = $(e.currentTarget),
+					$modal = $('#delete-category-modal'),
+					categoryId = $modal.find('input#delete-category-id').val();
+
+				$this.addClass('disabled').attr('disabled', 'disabled');
+				$('.content-categories-management ol.load-sortable li#list_' + categoryId).slideUp('fast', function ()
+				{
+					$modal.modal('hide');
+					$this.removeClass('disabled').removeAttr('disabled');
+					$this.find('p.sub-category-warning').hide();
+					$(this).remove();
+					
+					if($('.category-edition').length == 0){
+						location.reload(true);
+					}
+				});
+
+				$.ajax({
+					url: categoriesRoutes.remove,
+					type: 'POST',
+					data: {'id': categoryId}
+				});
+			});
+
+			// Cancel modifications
+			$('header.header-buttons #category-edit-mode .cancel-button').click(function (e)
+			{
+				closeCategory();
+			});
+
+			// Submit modifications
+			$('body').on('click', '.content-categories-management ol.load-sortable .submit-category', function (e)
+			{
+				var $this = $(e.currentTarget).parent().parent(),
+					categoryId = $this.attr('id').split('_'),
+					$input = $this.find('input').first(),
+					$loader = $this.find('.loader').first(),
+					categoryId = categoryId[1];
+
+				closeCategory();
+				$this.find('div').first().addClass('loading');
+				$loader.fadeIn('fast');
+
+				$.ajax({
+					url: categoriesRoutes.edit,
+					type: 'POST',
+					dataType: 'json',
+					data: {
+						'subject_title': $input.val(),
+						'id': categoryId
+					},
+					success: function (data)
+					{
+						$this.find('div.title').first().text($input.val());
+					}
+				}).done(function ()
+				{
+					$loader.fadeOut('fast');
+				});
+			});
+
+			// Submit new category
+			$('#new-category-modal .submit-create-category').click(function (e)
+			{
+				var $this = $(e.currentTarget),
+					$modalBody = $('#new-category-modal .modal-body'),
+					$loader = $modalBody.find('.loader');
+
+				$loader.fadeIn('fast');
+
+				$.ajax({
+					url: categoriesRoutes.insert,
+					type: 'POST',
+					dataType: 'html',
+					data: {'subject_title': $modalBody.find('input[type="text"]').val()},
+					success: function (data)
+					{
+						var $category = $(data);
+						$category.css('display', 'none').find('div').first().addClass('new-animation new');
+						$('.content-categories-management ol.load-sortable').append($category);
+
+						$category.slideDown('fast', function ()
+						{
+							$category.find('div').first().removeClass('new');
+							setTimeout(function ()
+							{
+								$category.find('div').first().removeClass('new-animation');
+							}, 5000);
+						});
+						
+						if($('.category-edition').length == 0){
+							 location.reload(true);
+						}
+					}
+				}).done(function ()
+				{
+					// Reset modal
+					$modalBody.find('input[type="text"]').val('');
+					$loader.fadeOut('fast');
+
+					if ($this.data('dismiss') == 'modal') {
+						$('#new-category-modal').modal('hide');
+					}
+				});
+
+				return false;
+			});
+
+			function closeCategory()
+			{
+				$('.content-categories-management ol.load-sortable div.active').removeClass('active');
+				$('.content-categories-management ol.load-sortable .category-editor').slideUp('fast');
+			}
+		});
+	</script>
+{% endblock %}
+
+{% block action_bar %}
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span6">
+						<a href="#" class="btn bns-info btn-24 large button-return add-category-button" data-target="#new-category-modal" data-toggle="modal">
+							<span class="icons-24 add-icon"></span>
+							Ajouter une catégorie
+						</a>
+					</div>
+					<div class="span6 align-right switchable-menu" id="default-header"></div>
+					<div class="span6 align-right switchable-menu" id="category-edit-mode" style="display: none;">
+						<a href="#" data-toggle="menu" data-target="#default-header" class="btn bns-danger btn-24 medium-return cancel-button">
+							<span class="icons-24 cancel-icon"></span>
+							<strong>Annuler</strong><br />les modifications
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block side_bar %}
+	<div class="container-sidebar" id="gps-sidebar">
+		<div class="section active">
+			Catégories
+			<span class="shadow-section"></span>
+		</div>
+		<div class="container-section">
+			<div class="section">
+				<a href="{{ path('BNSAppGpsBundle_back') }}">Lieux</a>
+			</div>
+		</div>	
+	</div>
+{% endblock %}
+
+{% block content %}
+	
+	<div id="gps-categories-list" class="content-categories-management">
+		
+		<h1>Liste des catégories</h1>
+		
+		{{ modal('new-category-modal', {
+			'title': 'Ajouter une catégorie de lieux',
+			'body_template': {'template': 'BNSAppGPSBundle:Modal:category_management_add_body.html.twig'},
+			'footer_template': {'template': 'BNSAppGPSBundle:Modal:category_management_add_footer.html.twig'},
+			'type': 'info'
+		}) }}
+
+		{{ modal('delete-category-modal', {
+			'title': "Suppression d'une catégorie de lieux",
+			'body_template': {'template': 'BNSAppGPSBundle:Modal:category_management_delete_body.html.twig'},
+			'footer_template': {'template': 'BNSAppGPSBundle:Modal:category_management_delete_footer.html.twig'},
+			'type': 'error'
+		}) }}
+		
+		{% if categories|length == 0 %}
+			<p class="no-information">Vous n'avez pas encore de catégorie de lieux dans votre GPS : vous pouvez en ajouter une</p>
+
+			<p class="no-information">en cliquant sur
+
+				<a href="#" class="btn bns-info btn-24 large button-return add-category-button" data-target="#new-category-modal" data-toggle="modal">
+					<span class="icons-24 add-icon"></span>
+					Ajouter une catégorie
+				</a>
+			</p>
+		{% else %}	
+			
+			<ol class="load-sortable ui-sortable gps">
+				{% for category in categories %}
+					{% include "BNSAppGPSBundle:Back:blockRowCategory.html.twig" with {'category' : category } %}					
+				{% endfor %}
+			</ol>
+		{% endif %}
+	</div>
+{% endblock %}

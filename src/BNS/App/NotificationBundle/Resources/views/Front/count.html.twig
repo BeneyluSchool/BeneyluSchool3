@@ -1,0 +1,8 @@
+<a href="{{ path(route) }}" class="module-popover notif {% if count == 0 %}empty{% endif %}"
+    rel="popover"
+	data-title="<div class='dock-popover'><img src='{{ asset('/medias/images/icons/modules/btn-notification-big.png' ) }}' alt='Mes Notifications' />Mes Notifications</div>"
+	data-content="<div class='dock-popover'>Voir les dernières activités sur Beneyluschool</div>">
+	{% if count > 0 %}
+		{{ count }}
+	{% endif %}
+</a>

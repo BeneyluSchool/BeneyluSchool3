@@ -1,0 +1,39 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+	<a href="{{ path('BNSAppAdminBundle_group_type_add') }}" class="btn btn-large btn-primary">
+		{% trans %}GroupType.Index.button.add{% endtrans %}
+	</a>
+	<div class="row">
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th>Nom unique</th>
+					<th>Type</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for groupTypeData in groupTypeDatas %}
+					<tr>
+						<td>
+							{{ groupTypeData.getLabel }}
+						</td>
+						<td>
+							{{ groupTypeData.getUniqueName }}
+						</td>
+						<td>
+							{{ groupTypeData.getTypeToString}}
+						</td>
+						<td>
+							<a href="{{ path('BNSAppAdminBundle_group_type_data_sheet', {'unique_name': groupTypeData.uniqueName }) }}" title="Voir sa fiche">
+								<img src="{{ asset('/medias/images/icons/fugue/edit-list-order.png') }}" alt="" />
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

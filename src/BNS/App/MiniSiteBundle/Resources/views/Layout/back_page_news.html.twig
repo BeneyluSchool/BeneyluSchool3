@@ -1,0 +1,43 @@
+{% extends 'BNSAppMiniSiteBundle:Layout:manager.html.twig' %}
+
+{% block javascripts %}
+	<script type="text/javascript">
+		// Gestion de la liste d'action des articles
+		$('.edit-status a').live('click', function (e)
+		{
+			var $this = $(this);
+			var id = $this.parent().parent().attr('id').split('-'); id = id[2];
+			var $container = $('#toolbar-news-' + id);
+			var $actionBar = $container.find('.actions-bar');
+
+			// Déploiement de la barre de publication programmée
+			var $button = $actionBar.find('.status');
+			if ($button.hasClass('disabled')) {
+				return false;
+			}
+
+			$button.addClass('disabled');
+
+			$.ajax(
+			{
+				url: $this.attr('href'),
+				type: 'POST',
+				dataType: 'json',
+				success: function (data)
+				{
+					$button.html(data.button);
+					$actionBar.find('.dropdown-menu').html(data.dropdown);
+					$button.removeClass('disabled');
+				}
+			});
+
+			return false;
+		});
+	</script>
+{% endblock javascripts %}
+
+{% block sidebar_blocks %}
+	{% include 'BNSAppMiniSiteBundle:Sidebar:block_pages.html.twig' %}
+	{% include 'BNSAppMiniSiteBundle:Sidebar:block_moderation.html.twig' %}
+	{% include 'BNSAppMiniSiteBundle:Sidebar:block_custom.html.twig' %}
+{% endblock sidebar_blocks %}

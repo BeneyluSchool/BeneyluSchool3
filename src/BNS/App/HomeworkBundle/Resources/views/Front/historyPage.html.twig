@@ -1,0 +1,21 @@
+{% if homeworks_sorted is not empty %}
+    {% for due_date, homeworkdues in homeworks_sorted %}
+        <div class="homeworkdue">
+        <div class="next-week">
+        <h2>{{ due_date | localizeddate('full', 'none') | capitalize }}</h2>
+        </div>
+        <div class="clearfix"></div>                                
+        {% for homeworkdue in homeworkdues %}
+            {% include 'BNSAppHomeworkBundle:Front:subject.html.twig' with {'homeworkdue': homeworkdue, 'preferences': preferences, 'admin': admin} %}
+        {% endfor %}
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="homeworkdue">
+        <p class="no-works-today">Il n'y a pas de travaux passés</p>
+    </div>
+{% endif %}
+
+{% if not pager.isLastPage %}
+<div class="homeworknav"><a href="{{ path('BNSAppHomeworkBundle_front_history_page', { 'page': pager.nextPage }) }}">Travaux précédents</a></div>
+{% endif %}

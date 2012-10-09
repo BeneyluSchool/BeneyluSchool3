@@ -1,0 +1,36 @@
+<div class="resource-filter-column">
+	
+	<a id="favorite" class="
+		{% if(favorite_filter) %}
+			active
+		{% endif %}
+	">
+		<img src="{{ asset('/medias/images/resource/integration/filter-favorite.png') }}" />
+	</a>
+	
+	<hr class="resource-filter-separator"/>
+	
+	{% for filter in filters %}
+		<a id="{{ filter.type }}" class="{{ filter.type|lower }} {% if(filter.is_active) %}	active {% endif %}">
+			<span class="{{ filter.type|lower }}-filter"></span>
+		</a>
+	{% endfor %}
+	
+	<hr class="resource-filter-separator"/>
+	
+	<a id="toggle-view" class="{% if display == "list" %} active {% endif %}">
+		<span class="toggle-view"></span>
+	</a>
+	
+	<hr class="resource-filter-separator"/>
+	
+	<a id="sort-alpha" class="{% if sort == "alpha" %} active {% endif %}">
+		<span class="sort-alpha"></span>
+	</a>
+	
+	<a id="sort-chrono" class="{% if sort == "chrono" %} active {% endif %}">
+		<span class="sort-chrono"></span>
+	</a>
+		   
+	
+</div>

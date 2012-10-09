@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\RegistrationBundle\Model">
+  <table name="school_information">
+    <column name="id" primaryKey="true" autoIncrement="true" required="true" type="INTEGER" />
+    <column name="group_id" required="false" type="INTEGER" />
+    <column name="country" required="true" type="VARCHAR" size="5" />
+    <column name="uai" size="255" type="VARCHAR" />
+    <column name="name" required="true" size="255" type="VARCHAR" />
+    <column name="address" size="255" type="VARCHAR" />
+    <column name="zip_code" size="15" type="VARCHAR" />
+    <column name="phone_number" size="25" type="VARCHAR" />
+    <column name="fax_number" size="25" type="VARCHAR" />
+    <column name="city" size="150" type="VARCHAR" />
+    <column name="email" size="100" type="VARCHAR" />
+    <column name="status" type="ENUM" valueSet="VALIDATED, PENDING_VALIDATION" defaultValue="PENDING_VALIDATION" />
+	<foreign-key foreignTable="group" name="FK_SCHOOLINFORMATION_GROUP" onDelete="SET NULL" onUpdate="CASCADE">
+      <reference foreign="id" local="group_id" />
+    </foreign-key>
+	<index name="FK_SCHOOLINFORMATION_GROUPID">
+      <index-column name="group_id" />
+    </index>
+  </table>
+</database>

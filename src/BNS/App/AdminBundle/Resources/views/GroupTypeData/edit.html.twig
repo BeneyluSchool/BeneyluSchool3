@@ -1,0 +1,14 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+	
+	<h3>{{ groupTypeData.label }} ({{ groupTypeData.uniqueName }})</h3>
+	
+	<form action="{{ path('BNSAppAdminBundle_group_type_data_edit' , {"unique_name": groupTypeData.uniqueName}) }}" method="post" {{ form_enctype(form) }}>
+		
+		{{ form_widget(form) }}
+
+		<input type="submit" />
+	</form>
+
+{% endblock %}

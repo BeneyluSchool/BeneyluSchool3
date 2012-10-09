@@ -1,0 +1,35 @@
+<div class="school-subject">
+    <h2><span class="icons-earth"></span>{{ homeworkdue.homework.name }}</h2>
+    <p>{{ homeworkdue.homework.homeworksubject.name }}</p>
+</div>
+<div class="content-school-subject">
+	<div class="decoration-bottom"></div>
+    <div class="works">
+        <p>{{ homeworkdue.homework.description | raw }}</p>
+    </div>
+    {% if admin != 1 %}
+        {% if preferences.getActivateValidation() == 1 %}
+            {% set validated = false %}
+            {% for task in homeworkdue.homeworktasks %}
+                {% if currentUser.id == task.userId %}
+                    {% set validated = true %}
+                {% endif %}
+            {% endfor %}
+            {% if validated %}
+                <a class="btn validate btn-large" data-task-id="{{ homeworkdue.id }}" data-task-done="1" href="#"><span class="icons-validated"></span>Travail validé</a>
+            {% else %}
+                <a class="btn not-validate btn-large" data-task-id="{{ homeworkdue.id }}" data-task-done="0" href="#"><span class="icons-not-validated"></span>Clique pour valider</a>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+    {% if homeworkdue.homework.helptext is defined and homeworkdue.homework.helptext | trim != '' %}
+        <p class="tips"><span class="icons-tips"></span>{{ homeworkdue.homework.helptext }}</p>
+    {% endif %}
+    <div class="clearfix"></div>
+</div>
+<div class="content-attachment">
+	<div class="decoration-top"></div>
+	{#<div class="shadow top"></div>#}
+	{% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': homeworkdue.homework.getResourceAttachments, "editable": false} %}
+</div>
+<div class="clearfix"></div>

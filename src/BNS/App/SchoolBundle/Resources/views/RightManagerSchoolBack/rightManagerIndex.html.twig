@@ -1,0 +1,67 @@
+{% extends '::bns_base.html.twig' %}
+
+{% block lesses %}
+	<link rel="stylesheet/less" href="{{ asset('medias/less/school.less') }}" />
+{% endblock %}
+
+{% block javascripts %}
+	<script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+	<script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+	<script type="text/javascript" src="{{ asset('medias/js/school.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+	<body class="transparent-white">
+		<div class="overlay">
+			<div class="container-fluid container">
+				<div class="row-fluid">
+					{% render "BNSAppMainBundle:SideBar:index" with {'group' : school } %}
+					<div class="content span9">
+						<div class="title-content">
+							<h1>{% trans %}Admin.School.RightManager.title{% endtrans %}</h1>
+							<div class="clear"></div>
+						</div>
+						
+						<div class="description-content">
+						
+							<table class="table">
+								<tbody>
+									<tr>
+										<th></th>
+										<th>{% trans %}Admin.School.RightManager.column.teacher{% endtrans %}</th>
+										<th>{% trans %}Admin.School.RightManager.column.pupil{% endtrans %}</th>
+										<th>{% trans %}Admin.School.RightManager.column.parent{% endtrans %}</th>
+									</tr>
+									{% for module in school.getModules() %}
+										<tr>
+											<td>{{ module.getLabel() }}</td>
+											<td>
+												<img src="{{ asset("/medias/images/icons/fugue/tick.png") }}" class="switch-module" id="{{ school.getSlug() }}_{{ module.getSlug() }}_role_0" />
+											</td>
+											<td>
+												<img src="{{ asset("/medias/images/icons/fugue/tick.png") }}" class="switch-module" id="{{ school.getSlug() }}_{{ module.getSlug() }}_role_1" />
+											</td>
+											<td>
+												<img src="{{ asset("/medias/images/icons/fugue/tick.png") }}" class="switch-module" id="{{ school.getSlug() }}_{{ module.getSlug() }}_role_2" />
+											</td>
+										</tr>
+										{# TODO: récupérer toutes les persmissions liées au module ainsi que l'état de ces permissions selon les rôles #}
+										{% for i in 0..5 %}
+											<tr class="module-cell">
+												<td>Permission {{ i }}</td>
+												<td class="{{ school.getSlug() }}_role_1_permission_{{ i }}"><span class="allow switch-permission">Autorisée</span></td>
+												<td class="{{ school.getSlug() }}_role_2_permission_{{ i }}"><span class="allow switch-permission">Autorisée</span></td>
+												<td class="{{ school.getSlug() }}_role_3_permission_{{ i }}"><span class="allow switch-permission">Autorisée</span></td>
+											</tr>
+										{% endfor %}
+									{% endfor %}
+								</tbody>
+							</table>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+{% endblock %}

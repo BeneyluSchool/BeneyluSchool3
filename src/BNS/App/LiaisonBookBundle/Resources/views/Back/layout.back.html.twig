@@ -1,0 +1,55 @@
+{% extends '::base_manager.html.twig' %}
+
+{% block title %}
+	Carnet de liaison - Gestion
+{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+	{# Appel CSS du package layout manager #}
+    {% include "BNSAppMainBundle:Manager:layoutStyle.html.twig" %}
+    <link href="{{ asset('/medias/css/liaisonbook/manager.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+        
+{% block javascripts %}
+    {{ parent() }}
+	
+    <script type="text/javascript" src="{{ asset('/medias/js/liaisonbook/Back/layout.js') }}"></script>
+{% endblock %} 
+        
+{% block body %}
+	<div class="book-binding-admin"></div>
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					{% block header %}{% endblock header %}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid container">
+		<div class="row-fluid container-manager">
+			<div class="container-sidebar">
+				{% block archives %}
+					{% render 'BNSAppLiaisonBookBundle:Common:archives' with { 'newsDate' : newsDate, 'admin' : true } %}
+				{% endblock %}
+				<div class="sidebar-shadow"></div>
+			</div>
+			<div class="span9 container-content no-margin">
+				{% include 'BNSAppMainBundle::notice.html.twig' %}
+				{% block content %}
+
+				{% endblock %}
+			</div>
+			<div class="container-manager-bottom">
+				<div class="content-manager-bottom"></div>
+			</div>
+		</div>
+	</div>
+{% endblock %} 
+
+{% block dock_bar %}
+	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "LIAISONBOOK" , 'is_in_front' : false } %}
+{% endblock %}
+

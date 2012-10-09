@@ -1,0 +1,37 @@
+{% extends '::bns_base.html.twig' %}
+
+{% block lesses %}
+	<link rel="stylesheet/less" href="{{ asset('medias/less/school.less') }}" />
+{% endblock %}
+
+{% block javascripts %}
+	<script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+	<script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+	<script type="text/javascript" src="{{ asset('medias/js/school.js') }}"></script>
+{% endblock %}
+
+{% block body %}	
+	<body class="transparent-white">
+		<div class="overlay">
+			<div class="container-fluid container">
+				<div class="row-fluid">
+					{% render "BNSAppMainBundle:SideBar:index" with {'group' : school } %}
+					<div class="content span9">
+						<div class="title-content">
+							<h1>{% trans %}Admin.School.Index.title{% endtrans %}</h1>
+							<div class="clear"></div>
+						</div>
+						
+						<div class="description-content">
+							<form action="{{ path('BNSAppSchoolBundle_admin_index', { 'slug' : school.getSlug() }) }}" method="post" {{ form_enctype(form) }}>
+									{{ form_widget(form) }}
+								
+								<input type="submit" value="{% trans %}Admin.School.Index.button.submit{% endtrans %}" />
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+{% endblock %}

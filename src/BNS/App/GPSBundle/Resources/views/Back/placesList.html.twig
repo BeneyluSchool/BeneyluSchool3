@@ -1,0 +1,14 @@
+<h1 class="dashboard places-list">Liste des lieux</h1>
+{% for place in places %}
+	{% include "BNSAppGPSBundle:Back:blockPlace.html.twig" with {'place' : place} %}
+{% else %}
+	<p class="no-information">Vous n'avez pas encore de lieu dans votre GPS : vous pouvez en ajouter un</p>
+	
+	<p class="no-information">en cliquant sur
+		
+		<a href="{{ path('BNSAppGpsBundle_back_new_place') }}" class="btn bns-info btn-24 large">
+			<span class="icons-24 add-icon"></span>
+			Ajouter un lieu
+		</a>
+	</p>
+{% endfor %}

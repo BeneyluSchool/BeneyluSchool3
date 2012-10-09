@@ -1,0 +1,35 @@
+{% set last_level = -1 %}
+{% set last_label = '' %}
+
+{% for label in labels %}
+	
+	{% if label.isChoiceable %}
+
+		{% if(last_level < label.level and last_level != -1) %}
+			<ul>
+		{% endif %}
+
+		{% if(last_level > label.level) %}
+			</li></ul>
+		{% endif %}
+
+		{% if(last_level == label.level) %}
+			</li>
+		{% endif %}	
+
+		<li>
+			<a id="{{ unique_id }}_{{ label.id }}" href="">
+				{{ for_user == true and label.level == 0 ? "Mes documents" : label.label }}
+			</a>
+
+
+		{% set last_level = label.level %}
+		{% set last_label = label.label %}
+	{% endif %}
+{% endfor %}
+</li>
+{% if(last_level != 0) %}
+		{% for i in 0..last_level - 1%}
+			</ul>
+		{% endfor %}
+{% endif %}

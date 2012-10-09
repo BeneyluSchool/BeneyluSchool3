@@ -1,0 +1,24 @@
+{% if render == "form" %}
+
+	{% set formId = "group-attribute-form-" ~ group.getId ~ "-" ~ attributeUniqueName %}
+
+	{% if type == 'SINGLE' %}
+		<input type="text" value="{{ value }}" id="{{ formId }}" />
+	{% endif %}
+
+	{% if type == 'TEXT' %}
+		<textarea id="{{ formId }}">{{ value }}</textarea>
+	{% endif %}
+
+	{% if type == 'ONE_CHOICE' or type == 'MULTIPLE_CHOICE' %}
+		<select id="{{ formId }}" {% if type == 'MULTIPLE_CHOICE' %} multiple {%endif%}>
+			{% for item in collection %}
+				<option {% if item.getValue in collectionArray %} selected="selected" {% endif %} value="{{ item.getValue }}">{{ item.label }}</option>
+			{% endfor %}
+		</select>
+	{% endif %}
+
+	<button id="submit-{{ group.getId ~ "-" ~ attributeUniqueName }}" class="btn group-attribute-form-submit">Ok</button>
+{% else %}
+	{{ group.printAttribute(attributeUniqueName) }} <img src="{{ asset('/medias/images/icons/edit.png')}}" class="edit-btn" />
+{% endif %}

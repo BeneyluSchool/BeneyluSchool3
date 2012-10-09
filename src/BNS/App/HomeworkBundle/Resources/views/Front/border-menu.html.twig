@@ -1,0 +1,9 @@
+{# Gestion des jours suivant les préférences #}
+<div class="border-menu">
+    {% if 'MO' in preferences.getDays() %}<div class="monday"></div>{% endif %}
+    {% if 'TU' in preferences.getDays() %}<div class="tuesday"></div>{% endif %}
+    {% if 'WE' in preferences.getDays() %}<div class="wednesday"></div>{% endif %}
+    {% if 'TH' in preferences.getDays() %}<div class="thursday"></div>{% endif %}
+    {% if 'FR' in preferences.getDays() %}<div class="friday"></div>{% endif %}
+    {% if 'SA' in preferences.getDays() %}<div class="saturday"></div>{% endif %}
+</div>

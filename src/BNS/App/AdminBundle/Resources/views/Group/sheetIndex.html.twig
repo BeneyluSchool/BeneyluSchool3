@@ -1,0 +1,44 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% set parent = group_manager.parent %}
+
+{% block content %}
+		
+{% include "BNSAppAdminBundle:Group:menu.html.twig" with{'page' : 'index'} %}
+	<div class="row group-parent-form">
+		<h4>
+			Groupe parent : 
+			<small>
+				{{ parent ? parent : "N'a pas de groupe parent" }}
+			</small>
+			
+			<a class="group-parent-edit" href="#">
+				<img src="{{ asset('/medias/images/icons/fugue/pencil.png') }}" title="Editer le groupe parent"/>
+			</a>
+			{% if parent %}
+				<a href="{{ path('BNSAppAdminBundle_group_sheet_index',{"id": parent.id}) }}">
+					<img src="{{ asset('/medias/images/icons/fugue/arrow-curve.png') }}" title="Voir le groupe parent"/>
+				</a>
+			{% endif %}
+		</h4>
+	</div>
+	<div class="row group-parent-form" style='display:none;'>
+		<form action="{{path('BNSAppAdminBundle_group_update_parent',{'group_id' : group.id }) }}" method="POST" >
+			#<input name="group_parent_id" type="text" value="{{ parent.id is defined ? parent.id : "" }}" placeholder="Id du groupe" />
+			<input class="btn btn-small group-parent-edit" type="reset" value="Annuler" />
+			<input class="btn btn-small btn-success" type="submit" value="Valider" />
+		</form>
+	</div>
+	{% if group.getGroupType.getType == "CLASSROOM" %}
+		<div class="row">
+			<h3>Enseignants</h3>
+			{% include "BNSAppAdminBundle:User:list.html.twig" with{'users' : group_manager.getUsersByRoleUniqueName('TEACHER',true)} %}
+		</div>
+		
+		<div class="row">
+			<h3>Elèves</h3>
+			{% include "BNSAppAdminBundle:User:list.html.twig" with{'users' : group_manager.getUsersByRoleUniqueName('PUPIL',true)} %}
+		</div>
+	{% endif %}
+		
+{% endblock %}

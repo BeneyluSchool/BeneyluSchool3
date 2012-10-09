@@ -1,0 +1,13 @@
+<div class="title-container article-statuses-filter">
+	<div class="title active border-blue">Filter les articles<span class="square icon-arrow"></span></div>
+	<div class="content-title">
+		<div class="loader loader-h"></div>
+		<ul>
+			<li data-filter="{{ constant('BNS\\App\\CoreBundle\\Model\\BlogArticlePeer::STATUS_PUBLISHED_INTEGER') }}"><div><span class="vertical-separator green"></span> <span>{% trans %}Blog.Back.Sidebar.PublishedArticles{% endtrans %}</span> <span class="select"></span></div></li>
+			<li data-filter="programmed"><div><span class="vertical-separator purple"></span> <span>{% trans %}Blog.Back.Sidebar.ProgrammedArticles{% endtrans %}</span> <span class="select"></span></div></li>
+			<li data-filter="{{ constant('BNS\\App\\CoreBundle\\Model\\BlogArticlePeer::STATUS_WAITING_FOR_CORRECTION_INTEGER') }}"><div><span class="vertical-separator orange"></span> <span>{% trans %}Blog.Back.Sidebar.CorrectionArticles{% endtrans %}</span> <span class="select"></span></div></li>
+			<li data-filter="{{ constant('BNS\\App\\CoreBundle\\Model\\BlogArticlePeer::STATUS_FINISHED_INTEGER') }}"><div><span class="vertical-separator blue"></span> <span>{% trans %}Blog.Back.Sidebar.FinishedArticles{% endtrans %}</span> <span class="select"></span></div></li>
+			<li data-filter="{{ constant('BNS\\App\\CoreBundle\\Model\\BlogArticlePeer::STATUS_DRAFT_INTEGER') }}"><div><span class="vertical-separator gray"></span> <span>{% trans %}Blog.Back.Sidebar.DraftArticles{% endtrans %}</span> <span class="select"></span></div></li>
+		</ul>
+	</div>
+</div>

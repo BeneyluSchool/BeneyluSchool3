@@ -1,0 +1,30 @@
+{% extends 'BNSAppHelloWorldBundle:Back:layout.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+{% endblock javascripts %}
+
+{% block sidebar %}
+	{% include 'BNSAppHelloWorldBundle:Back:sidebar_forms.html.twig' with {'section' : 'home-example' , 'title' : 'title-example'} %}
+{% endblock sidebar %}
+
+{% block header %}
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span12">
+						<a href="{{ path('BNSAppHelloWorldBundle_back') }}" class="btn bns-notice btn-24 medium-return">
+							<span class="icons-24 back-icon"></span>
+							<strong>Retourner</strong><br />à l'index
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock header %}
+
+{% block content %}
+
+{% endblock %}

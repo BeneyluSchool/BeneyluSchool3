@@ -1,0 +1,39 @@
+{# On étend forcément base.html.twig #}
+{% extends '::base.html.twig' %}
+
+{# Si CSS spécifique au module et en front incorporer ici #}
+{% block css %}
+	{{ parent() }}
+{% endblock %}
+
+{# Si Less spécifique au module et en front, incorporer ici #}
+{% block lesses %}
+	{{ parent() }}
+	<link rel="stylesheet/less" href="{{ asset('medias/less/commons.less') }}" />
+{% endblock %}
+
+{# Si Javascripts spécifique au module et en front, incorporer ici #}
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript" src="{{ asset('/medias/js/helloworld/helloworld.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('medias/js/bootstrap/bootstrap-alert.js') }}" ></script>
+{% endblock %}	
+	
+{# Body = layout du module en front, page => block content #}
+{% block body %}
+	<div class="class">
+		<div class="overlay">
+			<div class="container">
+				<div class="row-fluid well">
+				<div class="row well">
+					{% block content %}{% endblock %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{# Insertion du dock en précisant le module appelant (nécessaire car dockbar dans "mainBundle" #}
+{% block dock_bar %}
+	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "HELLOWORLD" , 'is_in_front' : true } %}
+{% endblock %}

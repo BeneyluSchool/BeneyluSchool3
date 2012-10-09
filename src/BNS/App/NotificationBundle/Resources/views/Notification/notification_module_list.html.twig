@@ -1,0 +1,39 @@
+<script type="text/javascript">
+	$(function ()
+	{
+		var $loadMore = $('.content-load-more');
+		{% if not hasNextPage %}
+			$loadMore.css('display', 'none');
+		{% endif %}
+			
+		{% if countClassNames|length > 0 %}
+			{% for className,count in countClassNames %}
+				decreaseCount($('{{ className }}'), {{ count }});
+			{% endfor %}
+		{% endif %}
+	});
+</script>
+
+{% if unreadNotifications|length > 0 %}
+	<div class="new-notifications">
+		{% for module,notifications in unreadNotifications %}
+			{% include 'BNSAppNotificationBundle:Notification:notification_list.html.twig' %}
+		{% endfor %}
+	</div>
+{% elseif firstCall %}
+	<div class="no-notification">
+		Aucune nouvelle notification.
+	</div>
+{% endif %}
+
+{% if readNotifications|length > 0 %}
+	<div class="old-notifications">
+		{% for module,notifications in readNotifications %}
+			{% include 'BNSAppNotificationBundle:Notification:notification_list.html.twig' %}
+		{% endfor %}
+	</div>
+{% elseif page == 1 and not firstCall and unreadNotifications|length == 0 %}
+	<div class="no-notification">
+		Aucune notification.
+	</div>
+{% endif %}

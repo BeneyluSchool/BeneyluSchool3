@@ -1,0 +1,56 @@
+{% extends '::base_manager.html.twig' %}
+
+{% block title %}Minisite - Gestion{% endblock %}
+	
+{% block css %}
+    {{ parent() }}
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:400,700" rel="stylesheet" type="text/css">
+	<link href="{{ asset('/medias/css/manager.css') }}" rel="stylesheet" type="text/css">
+	<link href="{{ asset('/medias/css/minisite/manager.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+	
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript" src="{{ asset('/medias/js/manager-menu.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="blur office"></div>
+	<div class="header-btn">
+		<div class="container-fluid container">
+			<div class="row-fluid">
+				<div class="span12">
+					{% block header %}
+						<div id="default"></div>
+					{% endblock header %}
+				</div>
+			</div>
+		</div>
+		<div class="border-grey"></div>
+	</div>
+	<div class="container container-fluid" style="margin-top: 50px;">
+		<div class="row-fluid content-manager">
+			<div class="span3">
+				{% block sidebar %}
+					<div class="sidebar shadow">
+						<div class="section-sidebar color-grey">
+							{% block sidebar_blocks %}
+								{% include 'BNSAppMiniSiteBundle:Sidebar:block_pages.html.twig' %}
+								{% include 'BNSAppMiniSiteBundle:Sidebar:block_moderation.html.twig' %}
+								{% include 'BNSAppMiniSiteBundle:Sidebar:block_custom.html.twig' %}
+							{% endblock sidebar_blocks %}
+						</div>
+					</div>
+				{% endblock sidebar %}
+			</div>
+			<div class="span9 no-margin">
+				{% block content %}Add your custom content here!{% endblock %}
+			</div>
+            <div class="content-manager-bottom"></div>
+		</div>
+	</div>
+{% endblock body %}
+
+{% block dock_bar %}
+	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "MINISITE" , 'is_in_front' : false } %}
+{% endblock %}

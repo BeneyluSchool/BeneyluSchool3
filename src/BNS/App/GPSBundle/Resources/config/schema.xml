@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\GPSBundle\Model">
+  <table name="gps_place">
+    <column name="id" autoIncrement="true" primaryKey="true" required="true" type="INTEGER" />
+    <column name="label" required="true" size="255" type="VARCHAR" primaryString="true" />
+    <column name="description" type="LONGVARCHAR" />
+    <column name="image_id" required="false" type="INTEGER" />
+	<column name="gps_category_id" required="false" type="INTEGER" />
+	<column name="latitude" required="false" size="255" type="VARCHAR" />
+	<column name="longitude" required="false" size="255" type="VARCHAR" />
+	<column name="address" required="true" size="255" type="VARCHAR" />
+	<column name="is_active" required="true" type="BOOLEAN" default="0"/>
+    <foreign-key foreignTable="resource" name="fk_place_resource1">
+      <reference foreign="id" local="image_id" />
+    </foreign-key>
+	<foreign-key foreignTable="gps_category" name="fk_place_category1" onDelete="cascade">
+      <reference foreign="id" local="gps_category_id" />
+    </foreign-key>
+    <behavior name="sluggable" />
+	<behavior name="timestampable" />
+  </table>
+  <table name="gps_category">
+    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+    <column name="label" required="true" size="255" type="VARCHAR" primaryString="true" />
+	<column name="is_active" required="true" type="BOOLEAN" default="0"/>
+	<column name="group_id" required="false" type="INTEGER" />
+	<column name="order" required="false" type="INTEGER" />
+	<foreign-key foreignTable="group" name="fk_category_group1">
+      <reference foreign="id" local="group_id" />
+    </foreign-key>
+  </table>
+</database>

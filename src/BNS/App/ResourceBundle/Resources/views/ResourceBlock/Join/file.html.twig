@@ -1,0 +1,7 @@
+{% extends 'BNSAppResourceBundle:ResourceBlock:file.html.twig' %}
+
+{% block content %}
+	<img id="" class="" src="{{ getResourceImageUrl(resource,"thumbnail") }}" />
+	<p><span>{{ resource.label }}</span> - {{ resource.printType }}</p>	
+	<a href="{{ path('BNSAppResourceBundle_download', { 'resource_slug': resource.getSlug }) }}" class="btn btn-joined" target='_blank'>Télécharger</a>
+{% endblock %}

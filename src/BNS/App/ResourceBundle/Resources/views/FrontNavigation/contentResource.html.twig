@@ -1,0 +1,60 @@
+<div class="header-btn">
+    <a class="btn resource-return" href="#">Retour navigation</a>
+	
+	{% if getResourceNavigationType() == "select_image" %}
+		<button 
+			data-final-id="{{ app.session.get('resource_select_image_final_id') }}"
+			data-callback="{{ app.session.get('resource_select_image_callback') }}"
+			data-resource-id="{{ resource.id }}"
+			class="btn btn-warning resource-image-selection resource-selection-select select-image">Sélectionner cette image
+		</button>
+	{% else %}
+		<div class="btn-group">
+			<a class="btn add resource resource-select" id="{{ resource.getId }}-add_from_resource" href="#"><span class="use"></span>Sélectionner</a>
+		</div>
+
+		<div class="btn-group">
+			<a class="btn add resource" href="#" data-toggle="dropdown"><span class="star"></span>Associer</a>
+			<ul class="dropdown-menu">
+				<li><a class="resource-selection-add-to-favorite single-file" href="#">Ajouter à mes favoris</a></li>
+				<li><a href="#">Ajouter à mes documents</a></li>
+			</ul>
+		</div>
+	{% endif %}
+    <a id="resource-edit-{{ resource.getId }}" class="btn cancel-upload resource-edit" href="#"><span class="edit"></span>Editer</a>
+</div>
+<div class="content-title-resource row-fluid">
+    <div class="title-resource span6">
+        <h3>{{ resource.label|wordwrap(35) }}</h3>
+        <p>Dernière modification : le {{ resource.getUpdatedAt| date_bns('full', 'none') }} à {{ resource.getUpdatedAt| date_bns('none', 'short') }}</p>
+    </div>
+    <div class="description-resource span4">
+        <img src="{{ getFileTypeImageUrl(resource,"tiny") }}" />
+        <p class="title">{{ resource.printType }} déposé{{ resource.gender == "f" ? "e" : "" }}  par <span>{{ resource.getUser.getFullName }}</span></p>
+    </div>
+</div>
+
+<div class="content-image-description">
+	<div class="image">
+		{% include 'BNSAppResourceBundle:ResourceBlock:'~ rm.getTemplateName ~'.html.twig' with {"resource" : resource , 'size' : "medium"} %}
+	</div>
+	<div class="description">
+		<h3>Description :</h3>
+		{% if resource.getDescription is not empty %}
+			<p>{{ resource.getDescription }}</p>
+		{% else %}
+			<p>Il n'y a pas de description pour ce document.</p>
+		{% endif %}
+    </div>
+	{% if resource.typeUniqueName == "IMAGE" %}
+		<a class="btn btn-warning look-image" target="_blank" href="{{ path('BNSAppResourceBundle_download', { 'resource_slug': resource.getSlug }) }}"><span class="look-image"></span> Télécharger</a>
+	{% endif %}
+</div>
+<div class="content-libel">
+	<div class="libel">
+		<p class="libel-associate">Libellés associés :</p>
+		{% for label in resource.getAllLabels %}
+			<p><span class="disabled libel"></span>{{ label.getLabel }}</p>
+		{% endfor %}
+	</div>
+</div>

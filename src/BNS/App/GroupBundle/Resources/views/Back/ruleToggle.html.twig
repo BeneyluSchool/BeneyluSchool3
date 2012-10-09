@@ -1,0 +1,4 @@
+{% set image = rule.state ? 'btn-green' : 'btn-red' %}
+<a id="rule-{{ rule.id }}-toggle" class="rule-toggle" href="{{ path('BNSAppGroupBundle_group_rule_toggle',{'status' : rule.state ? 0 : 1, 'id' : rule.id}) }}">
+	<img src="{{ asset('/medias/images/icons/' ~ image ~ '.png') }}" />
+</a>

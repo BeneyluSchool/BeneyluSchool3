@@ -1,0 +1,56 @@
+
+
+{% if page == 'index' %}
+	<div class="section active">
+		Tableau de bord
+		<span class="shadow-section"></span>
+	</div>
+	<div class="container-section">
+{% else %}
+	<div class="container-section">
+		<div class="section">
+			<a href="{{ path('BNSAppClassroomBundle_back') }}">Tableau de bord</a>
+		</div>
+{% endif %}
+
+{% if page == 'classroom' %}
+	</div>
+	<div class="clearfix"></div>
+
+	<div class="section active">
+		Ma classe
+		<span class="shadow-section"></span>
+	</div>
+	<div class="title-container">
+		<div class="content-title">
+			<ul>
+				<li>
+					<a class="{% if section == 'users' %}active{% endif %}" href="{{ path('BNSAppClassroomBundle_back_classroom') }}">Utilisateurs</a>
+				</li>
+				{#<li>
+					<a class="{% if section == 'team' %}active{% endif %}" href="{{ path('BNSAppClassroomBundle_back_team') }}">Equipes</a>
+				</li>#}
+			</ul>
+		</div>
+	</div>
+	<div class="container-section">
+{% else %}
+	<div class="section">
+		<a href="{{ path('BNSAppClassroomBundle_back_classroom') }}">Ma classe</a>
+	</div>
+{% endif %}
+
+{% if page == 'custom' %}
+	</div>
+	<div class="section active">
+		Personnalisation
+		<span class="shadow-section"></span>
+	</div>
+{% else %}
+	<div class="section">
+		<a href="{{ path('BNSAppClassroomBundle_back_custom') }}">Personnalisation</a>
+	</div>
+</div>
+{% endif %}
+
+

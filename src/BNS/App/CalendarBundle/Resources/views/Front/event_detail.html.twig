@@ -1,0 +1,133 @@
+{% extends 'BNSAppCalendarBundle:Layout:front.html.twig' %}
+
+{% block title %}Calendrier - {{ event.title() }}{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+	<link href="{{ asset('/medias/css/calendar/wdcalendar/dailog.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('/medias/css/calendar/wdcalendar/calendar.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('/medias/css/calendar/wdcalendar/main.css') }}" rel="stylesheet" type="text/css" />
+    <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet' type='text/css'>
+    <link href="{{ asset('/medias/css/ui-lightness/jquery-ui-1.8.19.custom.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block lesses %}
+    {{ parent() }}
+    <link rel="stylesheet/less" href="{{ asset('/medias/less/calendar/calendar-front.less') }}" />
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+{% endblock %}
+
+{% block content %}
+    <div class="container-calendar">
+        <div class="span3">
+            <div class="container-clock-hour">
+                {# ICI ROTATE IMAGE CADRAN SOLAIRE #}
+
+                <div class="content-clock-hour">
+                    <div class="clock-hour" style="-webkit-transform: rotate({{ sundial }}deg); -moz-transform: rotate({{ sundial }}deg); -ms-transform: rotate({{ sundial }}deg); -o-transform: rotate({{ sundial }}deg); transform: rotate({{ sundial }}deg);"></div>
+                {% if currentHour > 11 %}
+                    <img src="/medias/images/calendar/hours-12-23.png" alt="" class="sundial"/>
+                {% else %}
+                    <img src="/medias/images/calendar/hours-0-11.png" alt="" class="sundial"/>
+                {% endif %}
+                <div class="sundial" style="-webkit-transform: rotate({{ hoursdial }}deg); -moz-transform: rotate({{ hoursdial }}deg); -ms-transform: rotate({{ hoursdial }}deg); -o-transform: rotate({{ hoursdial }}deg); transform: rotate({{ hoursdial }}deg);"></div>
+                </div>
+            </div>
+            <div class="sidebar-calendar event">
+                <div class="menu-calendar">
+                    <div class="content-title-event">
+                        <h1 class="title-event">Informations</h1>
+                    </div>
+                    {% if event.getAuthor() != null %}
+                        <p class="event"><strong>Créé par</strong> {{ event.getAuthor() }}</p>
+                    {% endif %}
+                    
+                    <p class="event"><strong>Dans le</strong><br />
+                        {% set agenda = event.getAgenda() %}
+                       <button id="agenda-{{ agenda.getId() }}" class="{{ agenda.getColorClass }} btn-cal-filter btn btn-class-actif disabled event">
+                            <span class="icons-stick-calendar-actif"></span>
+                            <p>Calendrier de {{ agenda.getTitle() }}</p>
+                        </button>
+                    </p>
+                
+                    {% if event.getLocation() != '' %}
+                        <p class="event"><strong>Cet événement aura lieu</strong><br />{{ event.getLocation() }}<p>
+                    {% endif %}
+
+                    {% if event.isRecurring() %}
+                        <p class="event"><strong>Type de récurrence</strong><br />{{ event.getRecurrenceString() }}<p>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+        <div class="span9 no-margin bns-calendar-front">
+            <div class="event-detail-container">
+                {# HEADER #}
+                <div class="event-detail-header">
+                    <span class="btn-backto-list">
+                        <a href="{{ path('BNSAppCalendarBundle_front') }}">
+                            Retour au calendrier
+                        </a>
+                    </span>
+
+                    <div class="event-date">
+                        <p class="month-calendar">
+                            {% if event.getIsAllDay() == 1 %}
+                                Toute la journée du
+                                <p class="week-calendar">
+                                    {{ event.getDateStart()|date_bns('full', 'none') }}
+                                </p>
+                            {% else %} 
+                                {% if event.getDateStart()|date('d/m/Y') == event.getDateEnd()|date('d/m/Y') %}
+                                    Le {{ event.getDateStart()|date_bns('full', 'none') }}
+                                    <p class="week-calendar">
+                                        de {{ event.getTimeStart()|date_bns('none', 'short') }}
+                                        à {{ event.getTimeEnd()|date_bns('none', 'short') }}
+                                    </p>
+                                {% else %}
+                                    du {{ event.getDateStart()|date_bns('full', 'none') }}
+                                    {% if event.getTimeStart() != "00:00"  %}
+                                        à <strong>{{ event.getTimeStart()|date_bns('full', 'none') }}</strong>
+                                    {% endif %}
+                                    <p class="week-calendar">
+                                        au {{ event.getDateEnd()|date_bns('full', 'none') }}
+                                        {% if event.getTimeEnd() != "23:59" and event.getTimeEnd() != "00:00"  %}
+                                            à <strong>{{ event.getTimeEnd()|date_bns('none', 'short') }} }}</strong>
+                                        {% endif %}
+                                    </p>
+                                {% endif %}
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="event-detail-title">
+                    <p class="event-title {{ agenda.getColorClass }}">{{ event.getTitle() }}</p>
+                </div>
+
+                <div class="event-detail-content-border">
+                    <div class="event-detail-content">
+                       {% if event.getDescription() != '' %}
+                            {% autoescape false %}
+                                <div class="event-tinymce-description">{{ event.getDescription() }}</div>
+                            {% endautoescape %}
+                        {% else %}
+                            <p><i>Cet événement ne comporte pas de description.</i></p>
+                        {% endif %}
+
+                        <div class="event-joined-content">
+                            {% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': event.getResourceAttachments(), 'editable': false} %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

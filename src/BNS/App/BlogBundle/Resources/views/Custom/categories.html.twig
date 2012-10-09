@@ -1,0 +1,115 @@
+{% extends 'BNSAppBlogBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+	{{ blog.getTitle() }} - Catégories
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	
+	<script type="text/javascript" src="{{ asset('/medias/js/manager-menu.js') }}"></script>
+	<script type="text/javascript">
+		var categoriesRoutes = {
+			sort: '{{ path('blog_manager_category_save') }}',
+			edit: '{{ path('blog_manager_category_edit') }}',
+			remove: '{{ path('blog_manager_category_delete') }}',
+			insert: '{{ path('blog_manager_category_add_management') }}',
+		};
+	</script>
+	<script type="text/javascript" src="{{ asset('/medias/js/category/category.js') }}"></script>
+{% endblock javascripts %}
+	
+{% block header %}
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span6">
+						<a href="#" class="btn bns-info btn-24 large button-return add-category-button" data-target="#new-category-modal" data-toggle="modal">
+							<span class="icons-24 add-icon"></span>
+							Ajouter une catégorie
+						</a>
+					</div>
+					<div class="span6 align-right switchable-menu" id="default-header"></div>
+					<div class="span6 align-right switchable-menu hide" id="category-edit-mode" data-effect="drop">
+						<a href="#" data-toggle="menu" data-target="#default-header" class="btn bns-danger btn-24 medium-return cancel-button">
+							<span class="icons-24 cancel-icon"></span>
+							<strong>Annuler</strong><br />les modifications
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock header %}
+
+{% block sidebar %}
+	<div class="container-section">
+		<div class="section">
+			<a href="{{ path('BNSAppBlogBundle_back') }}">{% trans %}Blog.Back.Sidebar.Articles{% endtrans %}</a>
+		</div>
+		<div class="section">
+			<a href="{{ path('blog_manager_comment') }}">Commentaires</a>
+		</div>
+	</div>
+	<div class="section active">
+		{% trans %}Blog.Back.Sidebar.Customing{% endtrans %}
+		<span class="shadow-section"></span>
+	</div>
+	<div class="title-container article-statuses-filter">
+		<div class="content-title">
+			<ul>
+				<li>
+					<a href="{{ path('blog_manager_custom') }}">Personnalisation du blog</a>
+				</li>
+				<li>
+					<a href="{{ path('blog_manager_categories') }}" class="active">Gestion des catégories</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+{% endblock sidebar %}
+
+{% block content %}
+	<div class="content-categories-management">
+		<h1>Gérer les catégories</h1>
+		
+		{# Attention à ne pas oublier de copier les templates des modals et à ne pas modifier l'ID de la modal, sinon le JS ne fonctionnera plus #}
+		{{ modal('new-category-modal', {
+			'title': 'Ajouter une catégorie',
+			'body_template': {'template': 'BNSAppHelloWorldBundle:Modal:category_management_add_body.html.twig'},
+			'footer_template': {'template': 'BNSAppHelloWorldBundle:Modal:category_management_add_footer.html.twig'},
+			'type': 'info'
+		}) }}
+		
+		{{ modal('delete-category-modal', {
+			'title': "Suppression d'une catégorie",
+			'body_template': {'template': 'BNSAppHelloWorldBundle:Modal:category_management_delete_body.html.twig'},
+			'footer_template': {'template': 'BNSAppHelloWorldBundle:Modal:category_management_delete_footer.html.twig'},
+			'type': 'error'
+		}) }}
+		
+		<div class="category-icons-list">
+			{% render 'BNSAppBlogBundle:Back:getCategoryIcons' %}
+			<a href="#" class="default">Aucune icône</a>
+		</div>
+		
+		<ol class="load-sortable">
+			{% if blog.getSortedBlogCategories()|length > 0 %}
+				{% for category in blog.getSortedBlogCategories() %}
+					{% include 'BNSAppBlogBundle:Category:back_categories_management_row.html.twig' with {'category': category['parent']} %}
+
+					{% if (category['children']|length > 0) %}
+						<ol>
+							{% for subCategory in category['children'] %}
+								{% include 'BNSAppBlogBundle:Category:back_categories_management_row.html.twig' with {'category': subCategory} %}
+							{% endfor %}
+						</ol>
+					{% endif %}
+				{% endfor %}
+			{% else %}
+				<p>Il n'existe pas encore de catégorie. Pourquoi ne pas en créer une dès maintenant ?<br />C'est simple : cliquez sur le bouton "Ajouter une catégorie" en haut à gauche !</p>
+			{% endif %}
+		</ol>
+	</div>
+{% endblock content %}

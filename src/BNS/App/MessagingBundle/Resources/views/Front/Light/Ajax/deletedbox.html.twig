@@ -1,0 +1,9 @@
+{% if conversations_deleted|length > 0 %}
+	{% include 'BNSAppMessagingBundle:Front/Light:block_conversations_list.html.twig' with {'title': "Messages supprimés", 'conversations': conversations_deleted, 'status': 'DELETED' } %} 
+	{% include 'BNSAppMessagingBundle:Front/Light:block_paginate.html.twig' with {'limit': paginateLimit, 'total': nb_conversations_deleted, 'currentPage': page } %} 
+{% endif %}
+
+{% if conversations_deleted|length == 0 %}
+	{% include 'BNSAppMessagingBundle:Front/Light:block_title.html.twig' with {'title': "Aucun message supprimé"} %}
+{% endif %}
+

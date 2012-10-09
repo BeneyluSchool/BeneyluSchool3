@@ -1,0 +1,72 @@
+{% extends 'BNSAppHelloWorldBundle:Front:layout.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script type="text/javascript">
+		$(function ()
+		{
+			$('.read-it').click(function ()
+			{
+				var $this = $(this);
+				$this.addClass('disabled');
+				
+				$.ajax(
+				{
+					url: $this.attr('href'),
+					type: 'POST'
+				}).done(function ()
+				{
+					$this.remove();
+				});
+				
+				return false;
+			});
+		});
+	</script>
+{% endblock %}
+	
+{% block css %}
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row-fluid">
+				<h1>Liste des notifications</h1>
+				<br />
+				<div class="span12" style="margin-left: 0;">
+					<table class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th>Date</th>
+								<th>Texte</th>
+								<th>Group ID</th>
+								<th>Lu ?</th>
+								<th>Marq. Lu</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for notification in notifications %}
+								<tr>
+									<td>{{ notification.getDate() }}</td>
+									<td>
+										{% autoescape false %}
+											{{ notification.trans('SYSTEM').content }}
+										{% endautoescape %}
+									</td>
+									<td>{{ notification.getGroupId() }}</td>
+									<td>{% if (notification.getIsNew()) %}Non{% else %}Oui{% endif %}</td>
+									<td>
+										{% if (notification.getIsNew()) %}
+											<a href="{{ path('BNSAppHelloWorldBundle_front_notifications_mark_as_read', {'notificationId': notification.getId()}) }}" class="btn btn-danger read-it">&cross;</a>
+										{% endif %}
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+{% endblock %}

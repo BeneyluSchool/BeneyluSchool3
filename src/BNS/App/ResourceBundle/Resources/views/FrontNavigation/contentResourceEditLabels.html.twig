@@ -1,0 +1,7 @@
+{% for label in resource.getAllLabels %}
+	<p id="{{ label.getType }}_{{ resource.getId }}_{{ label.getId }}" class="label-text">
+		<span class="disabled libel"></span>
+		{{ label.getLabel }}
+		<span class="delete label"></span>
+	</p>
+{% endfor %}

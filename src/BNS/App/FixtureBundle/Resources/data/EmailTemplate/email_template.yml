@@ -1,0 +1,89 @@
+WELCOME:
+  vars: first_name,last_name,password,login
+  i18n:
+    fr:
+      subject: Bienvenue sur la Beneyluschool !
+      label: E-mail d'inscription
+    en:
+      subject: Welcome %last_name% !
+      label: Registration e-mail
+
+NOTIFICATION:
+  vars: title,notification
+  i18n:
+    fr:
+      subject: "Nouvelle notification : %title%"
+      label: Email de notification
+    en:
+      subject: "New notification : %title%"
+      label: Notification's email
+      
+CLASSROOM_CONFIRMATION_FOR_SCHOOL:
+  vars: classroom_name,confirmation_url
+  i18n:
+    fr:
+      subject: Une vos classes vient de s'inscrire sur la Beneyluschool
+      label: E-mail de confirmation d'une classe pour l'école
+    en:
+      subject: One of your classrooms just registered on Beneyluschool
+      label: Classroom confirmation e-mail for school
+      
+CLASSROOM_CONFIRMED_BY_SCHOOL:
+  vars: classroom_name
+  i18n:
+    fr:
+      subject: Votre classe a été validée !
+      label: E-mail de confirmation lorsqu'une classe a été validée par une école (reçu par la classe validée)
+    en:
+      subject: Your classroom has been validated !
+      label: Confirmation e-mail when a classroom has been validated by a school (received by the validated classroom)
+      
+MISSING_EMAIL_FOR_SCHOOL:
+  vars: school_name,edition_url
+  i18n:
+    fr:
+      subject: La Beneyluschool a besoin de l'adresse e-mail de votre école !
+      label: E-mail d'avertissement dans le cas où l'école n'a pas renseigné son adresse e-mail
+    en:
+      subject: The Beneyluschool needs your school's e-mail address !
+      label: Warning e-mail in case of the school hasn't filled in his e-mail address
+      
+REQUEST_FOR_SCHOOL_CREATION:
+  vars: school_name,confirmation_url
+  i18n:
+    fr:
+      subject: Une demande de création d'école a été effectuée
+      label: E-mail d'avertissement aux administrateurs lors d'une demande de création d'une école
+    en:
+      subject: A request to school creation has been created
+      label: Warning e-mail to the administrators when a creation school is requested
+      
+SCHOOL_CREATED:
+  vars: school_name,registration_url
+  i18n:
+    fr:
+      subject: Votre école "%school_name%" a été créée !
+      label: E-mail d'avertissement pour le directeur d'une école lors celle-ci a été validée par un administrateur
+    en:
+      subject: Your school "%school_name%" has been created !
+      label: Warning e-mail to the school director when it has been validated by an administrator
+      
+REQUEST_RESET_PASSWORD:
+  vars: first_name,confirmation_url
+  i18n:
+    fr:
+      subject: Vous avez demandé à réinitialiser votre mot de passe
+      label: E-mail de confirmation pour réinitialiser le mot de passe d'un utilisateur
+    en:
+      subject: You requested to reset your password
+      label: Confirmation e-mail to reset a user password
+      
+RESET_PASSWORD_SUCCESS:
+  vars: first_name,plain_password,login
+  i18n:
+    fr:
+      subject: Votre mot de passe a été réinitialisé
+      label: E-mail de confirmation après une réinitialisation d'un mot de passe utilisateur
+    en:
+      subject: Your password has been reset
+      label: Confirmation e-mail after resetting a user password

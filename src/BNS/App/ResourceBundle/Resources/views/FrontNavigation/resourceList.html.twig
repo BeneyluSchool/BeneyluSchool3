@@ -1,0 +1,36 @@
+{% set is_favorite = resource.id in favorites_ids or (is_favorite is defined and is_favorite) %}
+{% if is_favorite %}
+	{% set div_class = '' %}
+	{% set image_size = 'small' %}
+	{% set truncate_size = 150 %}
+	{% set favorite_class = '' %}
+{% else %}
+	{% set div_class = '' %}
+	{% set image_size = 'small' %}
+	{% set truncate_size = 150 %}
+	{% set favorite_class = '' %}
+{% endif %}
+
+{% set is_selected = resource.id in selection_ids %}
+
+{% if is_selected %}
+	{% set selection_class = 'active' %}
+{% else %}
+	{% set selection_class = '' %}
+{% endif %}
+
+<div class="row-fluid container-list-resource">
+	<div id="resource-{{resource.id}} " class="resource-view resource-drag list-resource {{ div_class }}">
+		<div class="content-list-resource">
+			<img src="{{ getResourceImageUrl(resource,image_size) }}" class="resource-img span1" />
+			<div class="title-link">
+				<p><span class="icon-type {{ resource.typeUniqueName }}"></span>{{ resource.label|truncate(truncate_size) }}</p>
+				<p class="description-resource">Il n'y a pas de description pour ce document.</p>
+				<div class="content-button-list-resource">
+					<a class="resource-favorite selection-button  {{ favorite_class }}" id="{{ resource.id }}"></a>
+					<a class="btn resource-select selection-button {{ selection_class }}" id="{{ resource.id }}-add">{% if is_selected %}Retirer{% else %}Sélectionner{% endif %}</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

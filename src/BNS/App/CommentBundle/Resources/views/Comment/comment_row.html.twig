@@ -1,0 +1,10 @@
+{% if comment.getStatus() == 'VALIDATED' or has_right(admin_right) or (comment.getAuthor().getId() == app.user.id and comment.getStatus() == 'PENDING_VALIDATION') %}
+	{% set isPendingValidation = comment.getStatus() == 'PENDING_VALIDATION' and (has_right(admin_right) or app.user.id == comment.getAuthor().getId()) %}
+
+	<div class="comment {% if comment.getObjectAuthor().getId() == comment.getAuthor().getId() %}owner{% endif %} {% if isPendingValidation %}moderate{% endif %}">
+		{# Not implemented yet! <a class="btn btn-share" href="#"><span class="copy-link"></span>Editer</a> #}
+		<img src="{{ avatar(comment.getAuthor(), 'thumbnail') }}" alt=""/>
+		<p class="comment-information">{{ comment.getAuthor().getFullName() }} <span class="date">- {{ date_from_now(comment.getDate(), true) }}{% if isPendingValidation %} - en attente de modération{% endif %}</span></p>
+		<p class="text">{{ comment.getContent()|nl2br }}</p>
+	</div>
+{% endif %}

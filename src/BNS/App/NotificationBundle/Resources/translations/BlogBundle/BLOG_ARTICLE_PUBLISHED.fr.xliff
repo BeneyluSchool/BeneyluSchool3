@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+			<!-- Allowed attributes name : articleId,  -->
+
+			<!-- EMAIL Engine -->
+            <trans-unit id="1">
+                <source>BLOG_ARTICLE_PUBLISHED.EMAIL.title</source>
+                <target>Un article vient d'être publié</target>
+            </trans-unit>
+			<trans-unit id="2">
+                <source>BLOG_ARTICLE_PUBLISHED.EMAIL.content</source>
+                <target><![CDATA[Un article "<a href="%articleUrl%" title="Voir l'article"><b>%articleTitle%</b></a>" vient d'être publié par <b>%articleAuthor%</b>]]></target>
+            </trans-unit>
+			
+			<!-- SYSTEM Engine -->
+			<trans-unit id="100">
+                <source>BLOG_ARTICLE_PUBLISHED.SYSTEM.content</source>
+                <target><![CDATA[Un article "<a href="%articleUrl%" title="Voir l'article"><b>%articleTitle%</b></a>" vient d'être publié par <b>%articleAuthor%</b>]]></target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

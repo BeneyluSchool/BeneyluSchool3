@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+			<!-- Allowed attributes name : articleUrl, articleTitle -->
+
+			<!-- EMAIL Engine -->
+            <trans-unit id="1">
+                <source>BLOG_ARTICLE_TO_CORRECT.EMAIL.title</source>
+                <target>Un de vos articles doit être corrigé</target>
+            </trans-unit>
+			<trans-unit id="2">
+                <source>BLOG_ARTICLE_TO_CORRECT.EMAIL.content</source>
+                <target><![CDATA[Votre article "<a href="%articleUrl%" title="Voir l'article et le corriger"><b>%articleTitle%</b></a>" doit être corrigé pour être publié]]></target>
+            </trans-unit>
+			
+			<!-- SYSTEM Engine -->
+			<trans-unit id="100">
+                <source>BLOG_ARTICLE_TO_CORRECT.SYSTEM.content</source>
+                <target><![CDATA[Votre article "<a href="%articleUrl%" title="Voir l'article et le corriger"><b>%articleTitle%</b></a>" doit être corrigé pour être publié]]></target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

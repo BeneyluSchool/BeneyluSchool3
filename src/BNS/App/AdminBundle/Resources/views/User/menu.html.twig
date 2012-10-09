@@ -1,0 +1,18 @@
+{% if type is defined %}
+	{% if type == "creation" %}
+		{% set written = true %}
+		<h2>Création d'un nouvel utilisateur</h2>
+	{% endif %}
+{% endif %}
+		
+{% if written is not defined %}
+	<h2>{{ user.fullName }} <small>( #{{user.id }} )</small></h2>
+
+	<div class="subnav">
+		<ul class="nav nav-pills">
+			<li class="{% if page == "index" %} active <{% endif %}"><a href="{{path('BNSAppAdminBundle_user_sheet' , { 'id': user.id }) }}">Index</a></li>
+			<li class="{% if page == "edit" %} active <{% endif %}"><a href="{{path('BNSAppAdminBundle_user_sheet_edit' , { 'id': user.id }) }}">Edition</a></li>
+			<li class="{% if page == "rights" %} active <{% endif %}"><a href="{{path('BNSAppAdminBundle_user_sheet_rights' , { 'id': user.id }) }}">Droits</a></li>
+		</ul>
+	</div>
+{% endif %}

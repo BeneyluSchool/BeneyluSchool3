@@ -1,0 +1,39 @@
+<div class="item {% if (article.isStar()) %}favorite{% endif %}" id="article-{{ article.getId() }}">
+	<div class="vertical-separator {{ article.getStatus()|lower }} {% if article.isProgrammed() %}programmed{% endif %}"></div>
+	<div class="header">
+		<div class="buttons-container">
+			<a href="{{ path('blog_manager_article_visualisation', {'articleSlug': article.getSlug()}) }}" class="btn bns-notice btn-16 small right btn-visualisation">
+				<span class="icons-16 arrow-right-icon right"></span>
+				<strong>Voir la fiche</strong>
+			</a>
+		</div>
+		<h3>{{ article.getTitle() }}</h3>
+		<div class="categories">
+			{% for category in article.getSortedBlogCategories() %}
+				<ul>
+					<li>
+						{% if category.getIconClassname()|length > 0 %}
+							<span class="sprite {{ category.getIconClassname() }}"></span>
+						{% endif %}
+						{{ category.getTitle() }}
+						{% if (category.getChildren()|length > 0) %}
+							{% for child in category.getChildren() %}
+								<li>
+									{{ child.getTitle() }}
+								</li>
+							{% endfor %}
+						{% endif %}
+					</li>
+				</ul>
+			{% endfor %}
+		</div>
+	</div>
+	<div class="text">
+		{% autoescape false %}
+			{{ article.getShortContent() }}
+		{% endautoescape %}
+	</div>
+	<div class="footer">
+		Écrit {{ date_from_now(article.getCreatedAt(), false, true) }} par <img src="{{ avatar(article.getAuthor(), 'thumbnail') }}" alt="" class="avatar" /> {{ article.getAuthor().getFullName() }}
+	</div>
+</div>

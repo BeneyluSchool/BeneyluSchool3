@@ -1,0 +1,170 @@
+{% extends 'BNSAppProfileBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+	{{ parent() }} Gestion
+{% endblock title %}
+	
+{% block javascripts %}
+	{{ parent() }}
+	
+	<script type="text/javascript">
+		$(function ()
+		{
+			if ($('.alert-success').length > 0) {
+				setTimeout(function ()
+				{
+					$('.alert-success').slideUp('fast');
+				}, 8000);
+			}
+		});
+	</script>
+{% endblock javascripts %}
+
+{% block header %}
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					{% if user.getId() != app.user.getId() %}
+						<div class="span6">
+							<a href="{{ path('BNSAppClassroomBundle_back_pupil_detail', {'userSlug': user.getSlug()}) }}" class="btn bns-notice btn-24 medium-return button-return">
+								<span class="icons-24 back-icon"></span>
+								<strong>Retourner à</strong><br />la fiche élève
+							</a>
+						</div>
+						<div class="span6 align-right">
+							<a href="#" class="btn finish bns-success validate-medium btn-24 medium submit-profile">
+								<span class="icons-24 validate-icon"></span>
+								<strong>J'ai terminé</strong>
+							</a>
+						</div>
+					{% else %}
+						<div class="span12 align-right">
+							<a href="#" class="btn finish bns-success validate-medium btn-24 medium submit-profile">
+								<span class="icons-24 validate-icon"></span>
+								<strong>J'ai terminé</strong>
+							</a>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+{% endblock %}
+
+{% block sidebar %}
+    {% if user.getId() != app.user.getId() %}
+        {% include "BNSAppClassroomBundle:Sidebar:sidebar.html.twig" with {'page': 'classroom', 'section': 'users'} %}
+    {% else %}
+        {% include 'BNSAppProfileBundle:Sidebar:sidebar.html.twig' with {'section': 'home', 'profile': user.getProfile()} %}
+    {% endif %}
+{% endblock %}
+    
+{% block content %}
+	<div class="container-profile-description">
+		<form id="save-profile" action="{{ path('BNSAppProfileBundle_back_save', {'userSlug': user.getSlug()}) }}" method="POST" {{ form_enctype(form) }}>
+		{% for message in app.session.flashbag.get('success') %}
+			<div class="alert alert-success">
+				{{ message }}
+			</div>
+		{% endfor %}
+		{{ form_errors(form) }}
+		<div class="profile-general-informations-container">
+
+                    <input type="hidden" id="default-avatar" value="{{ avatar(user, 'small', true) }}"/>
+			<div id="resource-selection-callback">
+				<img src="{{ avatar(user, 'small') }}" />
+			</div>
+
+			<h3>{{ user.getFirstName() }} {{ user.getLastName() }}</h3>
+
+			<div class="form-profil birthday">
+				<p>
+					{% if user.getId() != app.user.getId() %}
+						Né{% if user.getGender() == 'F'%}e{% endif %} le 
+					{% else %}
+						Mon anniversaire 
+					{% endif %}
+				</p>
+				{{ form_widget(form.birthday) }}
+				{{ form_errors(form.birthday) }}
+			</div>
+
+			<div class="form-profil avatar">
+				{% if user.getId() == app.user.getId() %}
+					{% set button_label = 'Choisir mon avatar' %}
+					{% set button_delete_label = 'Supprimer mon avatar' %}
+				{% else %}
+					{% set button_label = "Changer l'avatar" %}
+					{% set button_delete_label = "Supprimer l'avatar" %}
+				{% endif %}
+				{{ form_widget(form.avatarId) }}
+				{% include 'BNSAppResourceBundle:Front:selectImage.html.twig' with {
+					'label' : button_label,
+					'input_id': 'profile_header_form_avatar',
+					'name': form.avatarId.vars.full_name,
+					'callback': 'resource-selection-callback'
+				} %}
+				{% if form.avatarId.vars.value != '' %}
+					<a href="#" class="remove-avatar btn">{{ button_delete_label }}</a>
+				{% endif %}
+			</div>
+		</div>
+
+		{% if form.email is defined %}
+			<div class="form-profil mail">
+				<div class="profile-email-container">
+					<p>Adresse électronique</p> {{ form_widget(form.email) }}
+					{% if form.email.vars.errors|length > 0 %}
+						<div class="alert alert-danger">
+							{{ form_errors(form.email) }}
+						</div>
+					{% endif %}
+				</div>
+			</div>
+		{% endif %}
+
+	</div>
+	<div class="container-profile-description">
+
+		<div class="profile-user-detail-informations-container">
+
+			<div class="description-profil">
+				<p>
+					{% if user.getId() != app.user.getId() %}
+						Voudrait devenir
+					{% else %}
+						Plus tard je voudrais devenir
+					{% endif %}
+				</p>
+				{{ form_widget(form.job) }}
+				{{ form_errors(form.job) }}
+
+				<p class="description">
+					{% if app.user.getId() == user.getId() %}
+						J'écris ma présentation
+						{%if form.description.vars.value == '' %}
+							maintenant
+						{% endif %} 
+					{% else %}
+						Présentation
+					{% endif %}
+				</p>
+				{{ form_widget(form.description) }}
+				{{ form_errors(form.description) }}
+
+				{{ form_rest(form) }}
+			</form>
+			</div>
+
+			<div class="feelings">
+				{% if user.getId() != app.user.getId() %}
+					{% render 'BNSAppProfileBundle:Preferences:index' with {'user': user, 'editable': true, 'isMyPreferences': false} %}
+				{% else %}
+					{% render 'BNSAppProfileBundle:Preferences:index' with {'user': user, 'editable': true} %}
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

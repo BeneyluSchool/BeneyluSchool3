@@ -1,0 +1,23 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+
+	{% include "BNSAppAdminBundle:Group:menu.html.twig" with{'page' : 'params'} %}
+
+	<h3>Paramètres</h3>
+	<div class="row">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Attribut</th>
+					<th>Valeur</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for attribute in  group.getAttributes %}
+					{% include "BNSAppAdminBundle:Group:attributeBlock.html.twig" with {"attribute" : attribute } %}
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}							

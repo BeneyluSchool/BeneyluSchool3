@@ -1,0 +1,88 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+	Minisite : {{ minisite.getTitle() }}
+{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+	<link href="{{ asset('/medias/css/minisite/front.css') }}" rel="stylesheet" type="text/css"/>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+{% endblock css %}
+
+{% block body %}
+	<div class="background-mini-site"></div>
+	<div class="container container-fluid">
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="header">
+					<div class="banniere">
+						<img class="" src="http://www.placehold.it/1150x190" alt="#" />
+						<div class="title">
+							<p>Le site de l'école de Jolio Curie</p>
+						</div>
+					</div>
+					<div class="menu">
+						<ul>
+							<li><a href="#" class="active">Accueil</a></li>
+							<li><a href="#">Les actualités</a></li>
+							<li><a href="#">Les locaux</a></li>
+							<li><a href="#">La vie à l'école</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row-fluid content-mini-site">
+			<div class="span3">
+				<div class="widget clock">
+					<img src="/medias/images/mini-site/front/clock.png" alt="">
+				</div>
+				<div class="widget meteo">
+					<img src="/medias/images/mini-site/front/meteo.png" alt="">
+				</div>
+				<div class="widget map">
+				  	<h2>Informations</h2>
+					<div class="informations">
+						<p>L'école est ouverte de :</p>
+						<p class="hour"><strong>8h00 à 12h00</strong></p>
+						<p class="hour"><strong>13h00 à 18h30</strong></p>
+						<img src="http://www.placehold.it/250x103" alt="#"/>
+						<p>Coordonnées :</p>
+						<p class="hour"><strong>56 rue de Navarre</strong></p>
+						<p class="hour"><strong>33003 Zitoville</strong></p>
+					</div>
+				</div>
+				<div class="widget partners">
+					<h2>Les sites de nos Classes</h2>
+					<ul>
+						<li><a href="#">Site de la classe de CM1</a></li>
+						<li><a href="#">Le blog du punisher</a></li>
+						<li><a href="#">Le site de l'école Henri Barbusse</a></li>
+						<li><a href="#">Site de la classe de CM2</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="span9">
+			 	<div class="content-article">
+					<h1>Actus</h1>
+					<div class="article">
+						<h3>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt</h3>
+						<p class="date">Posté le 20/07/2012</p>
+						<p class="article">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. </p>
+					</div>
+					<div class="article">
+						<h3>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt</h3>
+						<p class="date">Posté le 20/07/2012</p>
+						<p class="article">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. </p>
+					</div>
+					<div class="article">
+						<h3>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt</h3>
+						<p class="date">Posté le 20/07/2012</p>
+						<p class="article"><img src="/medias/images/mini-site/front/img-article.png" alt="#"/>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. </p>
+					</div>
+			 	</div>
+			</div>
+		</div>
+	</div>
+{% endblock body %}

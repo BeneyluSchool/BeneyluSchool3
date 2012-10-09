@@ -1,0 +1,55 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+	<a href="{{ path('BNSAppAdminBundle_group_type_add') }}" class="btn btn-large btn-primary">
+		{% trans %}GroupType.Index.button.add{% endtrans %}
+	</a>
+	
+	<div class="row">
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>{% trans %}GroupType.Index.column.name{% endtrans %}</th>
+					<th>{% trans %}GroupType.Index.column.description{% endtrans %}</th>
+					<th>Centralisé</th>
+					<th>Rôle</th>
+					<th>{% trans %}GroupType.Index.column.action{% endtrans %}</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for groupType in groupTypes %}
+					<tr>
+						<td>
+							{{ groupType.getLabel }}
+						</td>
+						<td>
+							{{ groupType.getDescription }}
+						</td>
+						<td>
+							{% if groupType.centralize %}
+								<img src="{{ asset('/medias/images/icons/btn-OK.png') }}" />
+							{% else %}
+								<img src="{{ asset('/medias/images/icons/btn-NOK.png') }}" />
+							{% endif %}
+						</td>
+						<td>
+							{% if groupType.simulateRole %}
+								<img src="{{ asset('/medias/images/icons/btn-OK.png') }}" />
+							{% else %}
+								<img src="{{ asset('/medias/images/icons/btn-NOK.png') }}" />
+							{% endif %}
+						</td>
+						<td>
+							<a href="{{ path('BNSAppAdminBundle_group_type_details', {'id': groupType.id}) }}" title="Voir sa fiche">
+								<img src="{{ asset('/medias/images/icons/fugue/magnifier-left.png') }}" alt="Voir sa fiche" />
+							</a>
+							<a href="{{ path('BNSAppAdminBundle_group', {'type': groupType.getSlug }) }}" title="Voir sa fiche">
+								<img src="{{ asset('/medias/images/icons/fugue/edit-list-order.png') }}" alt="Voir les groupes de ce type" />
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

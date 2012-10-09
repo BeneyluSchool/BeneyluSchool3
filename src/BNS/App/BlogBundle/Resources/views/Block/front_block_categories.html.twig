@@ -1,0 +1,22 @@
+<h2 class="block-title">Catégories</h2>
+<div class="block-categories">
+	<ul>
+		<li><a href="{{ path('BNSAppBlogBundle_front') }}">{% trans %}Blog.Back.Sidebar.AllCategories{% endtrans %}</a></li>
+		{% for category in blog.getSortedBlogCategories() %}
+			<li {% if category_slug is defined and category_slug == category['parent'].getSlug() %}class="selected"{% endif %}>
+				<span class="{% if category['parent'].getIconClassname()|length > 0 %}sprite {{ category['parent'].getIconClassName() }}{% endif %}"></span>
+				<a href="{{ path('blog_articles_from_category', {'categorySlug': category['parent'].getSlug()}) }}">
+					{{ category['parent'].getTitle() }}
+				</a>
+			</li>
+			{% if (category['children']|length > 0) %}
+				<ul>
+					{% for subCategory in category['children'] %}
+						<li {% if category_slug is defined and category_slug == subCategory.getSlug() %}class="selected"{% endif %}><a href="{{ path('blog_articles_from_category', {'categorySlug': subCategory.getSlug()}) }}">{{ subCategory.getTitle() }}</a></li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+		{% endfor %}
+	</ul>
+</div>
+<div class="clearfix"></div>

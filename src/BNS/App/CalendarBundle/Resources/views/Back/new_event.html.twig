@@ -1,0 +1,60 @@
+{% extends 'BNSAppCalendarBundle:Layout:manager.html.twig' %}
+
+{% block title %}Calendrier - Ajouter un évènement{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script type="text/javascript">
+		$(function ()
+		{
+			$('#submitButton').click(function()
+			{
+				$('#new-form').submit();
+				
+				return false;
+			});
+		});
+	</script>
+{% endblock %}
+	
+{% block header %}
+<div class="header-buttons">
+	<div class="inner-header">
+		<div class="container container-fluid">
+			<div class="row-fluid">
+				<div class="span8">
+					<a href="{{ path('BNSAppCalendarBundle_back') }}" class="btn bns-notice btn-24 medium-return button-return">
+						<span class="icons-24 back-icon"></span>
+						<strong>Retourner</strong><br />au calendrier
+					</a>
+					<a href="{{ path('BNSAppCalendarBundle_back') }}" class="btn bns-danger btn-24 medium cancel-button">
+						<span class="icons-24 cancel-icon"></span>
+						<strong>Annuler</strong>
+					</a>
+				</div>
+				<div class="span4 align-right">
+					<a href="#" id="submitButton" class="btn bns-success btn-24 large pull-right">
+						<span class="icons-24 validate-icon"></span>
+						Créer l'évènement
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock header %}
+	
+{% block sidebar %}
+	{% include 'BNSAppCalendarBundle:Sidebar:back_sidebar.html.twig' with {'section': 'new_event', 'title': null} %}
+{% endblock sidebar %}
+
+{% block content %}
+	<div class="content admin-form">
+		<form id="new-form" action="{{ path('BNSAppCalendarBundle_back_add_event') }}" method="POST" {{ form_enctype(form) }}>
+			{{ form_errors(form) }}
+
+			{% include 'BNSAppCalendarBundle:Back:block_event_form.html.twig' with {'form' : form, 'locale': locale } %}
+		</form>
+	</div>
+{% endblock %}

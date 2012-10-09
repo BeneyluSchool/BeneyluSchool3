@@ -1,0 +1,19 @@
+<div class="content-joined">
+	{% if resources|length > 1 %}
+		<h3>Pièces Jointes</h3>
+	{% endif %}
+	{% if resources|length == 1 %}
+		<h3>Pièce Jointe</h3>
+	{% endif %}
+
+	{% if editable == true %}
+		<div class="content-btn-resource-join">
+			<a class="btn btn-large resource-join">Joindre des documents</a>
+		</div>
+	{% endif %}
+	<div id="resource-join-{{ random(1000000) }}" class="resource-list">
+		{% for attachement in resources %}
+			{% include 'BNSAppResourceBundle:Front:joinedResource.html.twig' with {'resource' : attachement, 'editable' : editable} %}
+		{% endfor %}
+	</div>
+</div>

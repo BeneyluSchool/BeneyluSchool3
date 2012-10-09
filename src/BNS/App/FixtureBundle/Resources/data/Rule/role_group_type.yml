@@ -1,0 +1,84 @@
+# SCHOOL ################
+teacher_school:
+  who:
+    group_type: TEACHER
+  rank_unique_name:
+    value: [DIRECTORY_READ]
+  where:
+    group_type: SCHOOL
+    belong: true
+  state: true
+
+
+# CLASSROOM ################
+teacher_classroom:
+  who:
+    group_type: TEACHER
+  rank_unique_name:
+    value: [NOTIFICATION_READ, CLASSROOM_MANAGE , PROFILE_MANAGE, HELLOWORLD_MANAGE, CALENDAR_MANAGE, RESOURCE_ADMINISTRATION, BLOG_MANAGE, MESSAGING_MANAGE, LIAISONBOOK_MANAGE, HOMEWORK_MANAGE , GPS_MANAGE, MINISITE_MANAGE , DIRECTORY_MANAGE]
+  where:
+    group_type: CLASSROOM
+    belong: true
+  state: true
+
+# Par défaut les élèves ne peuvent qu'accéder à la classe, c'est à l'enseignant d'activer les modules
+pupil_classroom:
+  who:
+    group_type: PUPIL
+  rank_unique_name:
+    value: [ CLASSROOM_USE ]
+  where:
+    group_type: CLASSROOM
+    belong: true
+  state: true
+
+parent_classroom:
+  who:
+    group_type: PARENT
+  rank_unique_name:
+    value: [ CLASSROOM_USE ]
+  where:
+    group_type: CLASSROOM
+    belong: true
+  state: true
+
+# TEAM ################
+teacher_team:
+  who:
+    group_type: TEACHER
+  rank_unique_name:
+    value: [TEAM_MANAGE, CALENDAR_MANAGE, BLOG_MANAGE, DIRECTORY_MANAGE]
+  where:
+    group_type: TEAM
+    belong: true
+  state: true
+
+pupil_team:
+  who:
+    group_type: PUPIL
+  rank_unique_name:
+    value: [DIRECTORY_READ]
+  where:
+    group_type: TEAM
+    belong: true
+  state: true
+  
+editor_minisite:
+  who:
+    group_type: TEACHER
+  rank_unique_name:
+    value: [MINISITE_USE]
+  where:
+    group_type: EDITOR_MINISITE
+    belong: true
+  state: true
+# ADMIN ###############
+admin_env:
+  who:
+    group_type: ADMIN
+  rank_unique_name:
+    value: [ADMIN_ADMINISTRATION]
+  where:
+    group_type: ENVIRONMENT
+    belong: true
+  state: true

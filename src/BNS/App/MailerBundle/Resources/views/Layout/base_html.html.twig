@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{% block title %}{{ title }}{% endblock %}</title>
+        <link rel="shortcut icon" href="{{ baseUrl }}/favicon.ico" />
+		{% block css %}
+			
+		{% endblock %}
+    </head>
+    <body>
+        {% block body %}
+			{% autoescape false %}
+				{{ body }}
+			{% endautoescape %}
+		{% endblock %}
+    </body>
+</html>

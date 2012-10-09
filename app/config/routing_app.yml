@@ -1,0 +1,350 @@
+# Security (Symfony 2 native)
+_security_login_check:
+    pattern:   /login_check
+
+_security_logout:
+    pattern:   /logout
+
+
+# Main
+BNSAppMainBundle_logon:
+    resource: "@BNSAppMainBundle/Controller/LogonController.php"
+    type:     annotation
+    prefix:   /
+    
+BNSAppMainBundle_logout:
+    resource: "@BNSAppMainBundle/Controller/LogoutController.php"
+    type:     annotation
+    prefix:   /
+    
+BNSAppMainBundle_culture:
+    resource: "@BNSAppMainBundle/Controller/CultureController.php"
+    type:     annotation
+    prefix:   /
+
+BNSAppMainBundle_context:
+    resource: "@BNSAppMainBundle/Controller/ContextController.php"
+    type:     annotation
+    prefix:   /
+    
+BNSAppMainBundle_invitation:
+    resource: "@BNSAppMainBundle/Controller/InvitationController.php"
+    type:			annotation
+    prefix:		/mes-invitations
+
+BNSAppMainBundle_user_picker:
+    resource: "@BNSAppMainBundle/Controller/UserPickerController.php"
+    type:     annotation
+    prefix:   /
+
+BNSAppMainBundle_module:
+    resource: "@BNSAppMainBundle/Controller/ModuleController.php"
+    type:     annotation
+    prefix:   /
+
+
+#Group
+BNSAppGroupBundle_front:
+    resource: "@BNSAppGroupBundle/Controller/FrontController.php"
+    prefix:    /groupe
+    type:     annotation
+   
+BNSAppGroupBundle_back:
+    resource: "@BNSAppGroupBundle/Controller/BackController.php"
+    prefix:    /groupe/gestion
+    type:     annotation
+
+
+# Classroom
+BNSAppClassroomBundle_front:
+    resource: "@BNSAppClassroomBundle/Controller/FrontController.php"
+    prefix:    /classe
+    type:     annotation
+   
+BNSAppClassroomBundle_back:
+    resource: "@BNSAppClassroomBundle/Controller/BackController.php"
+    prefix:    /classe/gestion
+    type:     annotation
+    
+BNSAppClassroomBundle_back_moderation:
+    resource: "@BNSAppClassroomBundle/Controller/BackModerationController.php"
+    prefix:    /classe/gestion/moderation
+    type:     annotation
+
+BNSAppClassroomBundle_back_classroom:
+    resource: "@BNSAppClassroomBundle/Controller/BackClassroomController.php"
+    prefix:    /classe/gestion/utilisateurs
+    type:     annotation
+
+BNSAppClassroomBundle_back_custom:
+    resource: "@BNSAppClassroomBundle/Controller/BackCustomController.php"
+    prefix:    /classe/gestion/personnalisation
+    type:     annotation
+
+BNSAppClassroomBundle_back_team:
+    resource: "@BNSAppClassroomBundle/Controller/BackTeamController.php"
+    prefix:    /classe/gestion/equipes
+    type:     annotation    
+    
+    
+# Team
+BNSAppTeamBundle_front:
+    resource: "@BNSAppTeamBundle/Controller/FrontController.php"
+    type:     annotation
+    prefix:   /equipe
+
+BNSAppTeamBundle_admin:
+    resource: "@BNSAppTeamBundle/Controller/BackController.php"
+    type:     annotation
+    prefix:   /equipe/gestion
+
+
+# School
+BNSAppSchoolBundle_admin:
+    resource: "@BNSAppSchoolBundle/Controller/SchoolBackController.php"
+    type:     annotation
+    prefix:   /ecole
+
+BNSAppSchoolBundle_admin_classroom:
+    resource: "@BNSAppSchoolBundle/Controller/ClassroomSchoolBackController.php"
+    type:     annotation
+    prefix:   /ecole
+    
+BNSAppSchoolBundle_admin_user:
+    resource: "@BNSAppSchoolBundle/Controller/UserSchoolBackController.php"
+    type:     annotation
+    prefix:   /ecole
+
+BNSAppSchoolBundle_admin_right_manager:
+    resource: "@BNSAppSchoolBundle/Controller/RightManagerSchoolBackController.php"
+    type:     annotation
+    prefix:   /ecole
+
+
+# Fixture
+BNSAppFixtureBundle:
+    resource: "@BNSAppFixtureBundle/Resources/config/routing.yml"
+
+
+# Admin
+BNSAppAdminBundle_login:
+    resource: "@BNSAppAdminBundle/Controller/"
+    prefix:   /administration
+    type:     annotation
+    
+
+# Profile
+BNSAppProfileBundle_home:
+    resource: "@BNSAppProfileBundle/Controller/FrontController.php"
+    prefix:    /
+    type:     annotation
+
+BNSAppProfileBundle_back:
+    resource: "@BNSAppProfileBundle/Controller/BackController.php"
+    prefix:    /profil/gestion
+    type:     annotation
+    
+BNSAppProfileBundle_back_moderation:
+    resource: "@BNSAppProfileBundle/Controller/BackModerationController.php"
+    prefix:    /profile/gestion/moderation
+    type:     annotation 
+    
+BNSAppProfileBundle_back_feed_status:
+    resource: "@BNSAppProfileBundle/Controller/BackFeedStatusController.php"
+    prefix:    /profil/statut/gestion
+    type:     annotation
+    
+BNSAppProfileBundle_back_preferences:
+    resource: "@BNSAppProfileBundle/Controller/PreferencesController.php"
+    prefix:    /profil/gestion/preference
+    type:     annotation
+
+BNSAppProfileBundle_back_template:
+    resource: "@BNSAppProfileBundle/Controller/BackTemplateController.php"
+    prefix:    /profil/gestion/personnaliser-theme
+    type:     annotation
+    
+    
+# Ressources    
+BNSAppResourceBundle:
+    resource: "@BNSAppResourceBundle/Controller/"
+    type:     annotation
+    prefix:    /ressource
+    
+    
+# Hello World Bundle
+# A prendre pour exemple pour la création de nouveaux Bundle
+BNSAppHelloWorldBundle_front:
+    resource: "@BNSAppHelloWorldBundle/Controller/"
+    type:     annotation
+    prefix:   /hello-world
+
+BNSAppHelloWorldBundle_back:
+    resource: "@BNSAppHelloWorldBundle/Controller/BackController.php"
+    type:     annotation
+    prefix:   /hello-world
+
+#HomeworkBundle
+BNSAppHomeworkBundle_front:
+    resource: "@BNSAppHomeworkBundle/Controller/FrontController.php"
+    type:     annotation
+    prefix:   /cahier-de-texte
+    
+BNSAppHomeworkBundle_frontajax:
+    resource: "@BNSAppHomeworkBundle/Controller/FrontAjaxController.php"
+    type:     annotation
+    prefix:   /cahier-de-texte
+
+BNSAppHomeworkBundle_backajax:
+    resource: "@BNSAppHomeworkBundle/Controller/BackAjaxController.php"
+    type:     annotation
+    prefix:   /cahier-de-texte
+
+
+BNSAppHomeworkBundle_back:
+    resource: "@BNSAppHomeworkBundle/Controller/BackController.php"
+    type:     annotation
+    prefix:   /cahier-de-texte/gestion
+   
+   
+# Calendar
+BNSAppCalendarBundle_front:
+    resource: "@BNSAppCalendarBundle/Controller/FrontController.php"
+    type:     annotation
+    prefix:   /calendrier
+
+BNSAppCalendarBundle_back:
+    resource: "@BNSAppCalendarBundle/Controller/BackController.php"
+    type:     annotation
+    prefix:   /calendrier/gestion
+   
+    
+# Blog
+BNSAppBlogBundle:
+    resource: "@BNSAppBlogBundle/Controller/"
+    type:     annotation
+    prefix:   /blog
+    
+# GPS
+BNSAppGPSBundle:
+    resource: "@BNSAppGPSBundle/Controller/"
+    type:     annotation
+    prefix:   /gps
+    
+    
+# LiaisonBook
+BNSAppLiaisonBookBundle_front:
+    resource: "@BNSAppLiaisonBookBundle/Controller/FrontController.php"
+    type:     annotation
+    prefix:   /carnet-de-liaison/
+
+BNSAppLiaisonBookBundle_back:
+    resource: "@BNSAppLiaisonBookBundle/Controller/BackController.php"
+    type:     annotation
+    prefix:   /carnet-de-liaison/gestion
+
+
+# Autosave
+BNSAppAutosaveBundle:
+    resource: "@BNSAppAutosaveBundle/Controller/"
+    type:     annotation
+    prefix:   /autosave
+    
+    
+# Messaging
+BNSAppMessagingBundle:
+    resource: "@BNSAppMessagingBundle/Controller/"
+    type:     annotation
+    prefix:   /messagerie
+
+
+# Comment
+CommentBundle_back:
+    resource: "@BNSAppCommentBundle/Controller/"
+    type:     annotation
+    prefix:   /commentaire
+    
+    
+# MiniSite
+BNSAppMiniSiteBundle:
+    resource: "@BNSAppMiniSiteBundle/Controller/"
+    type:     annotation
+    prefix:   /site
+
+
+# Template
+BNSAppTemplateBundle_homepage:
+    resource: "@BNSAppTemplateBundle/Controller/TemplateController.php"
+    type:     annotation
+    prefix:   /theme/gestion
+
+
+# Notification
+BNSAppNotificationBundle:
+    resource: "@BNSAppNotificationBundle/Controller/"
+    type:     annotation
+    prefix:   /notification
+
+
+# Annuaire
+BNSAppDirectoryBundle_homepage:
+    resource: "@BNSAppDirectoryBundle/Controller/DirectoryController.php"
+    type:			annotation
+    prefix:		/annuaire
+    
+# Guide Tour
+BNSAppGuideTourBundle_homepage:
+    resource: "@BNSAppGuideTourBundle/Controller/GuideTourController.php"
+    type:			annotation
+    prefix:		/visite-guidee
+
+
+# Registration
+BNSAppRegistrationBundle:
+    resource: "@BNSAppRegistrationBundle/Controller/"
+    type:     annotation
+    prefix:   /inscription
+
+
+
+# Registration
+BNSAppRegistrationBundle:
+    resource: "@BNSAppRegistrationBundle/Controller/"
+    type:     annotation
+    prefix:   /inscription
+
+
+
+# Registration
+BNSAppRegistrationBundle:
+    resource: "@BNSAppRegistrationBundle/Controller/"
+    type:     annotation
+    prefix:   /inscription
+
+
+
+# Registration
+BNSAppRegistrationBundle:
+    resource: "@BNSAppRegistrationBundle/Controller/"
+    type:     annotation
+    prefix:   /inscription
+
+
+
+# Registration
+BNSAppRegistrationBundle:
+    resource: "@BNSAppRegistrationBundle/Controller/"
+    type:     annotation
+    prefix:   /inscription
+    
+
+# User
+BNSAppUserBundle:
+    resource: "@BNSAppUserBundle/Controller/"
+    type:     annotation
+    prefix:   /gestion
+
+
+# Others
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

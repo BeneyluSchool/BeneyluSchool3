@@ -1,0 +1,84 @@
+{% if page == 'index' %}
+	<div class="section active">
+		Activité
+		<span class="shadow-section"></span>
+	</div>
+{% endif %}
+{#
+<div class="btn-sidebar custom-sidebar {% if page == 'index' %}active{% endif %}">
+	<a class="resource" href="{{ path('BNSAppResourceBundle_back') }}">Activité <div class="color-active"></div><span class="icon-arrow-down-blue"></span></a>
+</div>
+
+
+
+
+<div class="btn-sidebar resource {% if page == 'catalog' %}active{% endif %} ">
+	<a class="resource" href="{{ path('BNSAppResourceBundle_back_catalog') }}">Abonnements <div class="color-active"></div><span class="icon-arrow-down-blue"></span></a>
+</div>
+#}
+{% if page == 'custom' and can_administrate %}
+	<div class="container-section">
+		<div class="section">
+			<a href="{{ path('BNSAppResourceBundle_back') }}">Activité</a>
+		</div>
+	</div>
+	<div class="section active">
+		Personnalisation
+		<span class="shadow-section"></span>
+	</div>
+	<div class="title-container">
+		<div class="content-title">
+			<ul>
+				<li>
+					<a class="{% if section == 'labels' %}active{% endif %}" href="{{ path('BNSAppResourceBundle_back_custom') }}">Libellés</a>
+				</li>
+				<li>
+					<a class="{% if section == 'white_list' %}active{% endif %}" href="{{ path('BNSAppResourceBundle_back_custom_white_list') }}">Ma Liste blanche</a>
+				</li>
+				<li>
+					<a class="{% if section == 'white_list_general' %}active{% endif %}" href="{{ path('BNSAppResourceBundle_back_custom_white_list_general') }}">Liste blanche générale</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	{#
+	<div class="section-sidebar bottom custom-sidebar moderation">
+		<div class="btn-sidebar custom-sidebar">Personnalisation <div class="color-active"></div><span class="icon-arrow-down-blue"></span></div>
+		<div class="sidebar-links-container">
+			<div class="section-article-category custom-sidebar first  {% if section == 'labels' %}active{% endif %}">
+				<a class="sub-category" href="{{ path('BNSAppResourceBundle_back_custom') }}">
+					Libellés
+				</a>
+			</div>
+			<div class="section-article-category custom-sidebar first  {% if section == 'white_list' %}active{% endif %}">
+				<a class="sub-category" href="{{ path('BNSAppResourceBundle_back_custom_white_list') }}">
+					Ma Liste blanche
+				</a>
+			</div>
+			<div class="section-article-category custom-sidebar first  {% if section == 'white_list_general' %}active{% endif %}">
+				<a class="sub-category" href="{{ path('BNSAppResourceBundle_back_custom_white_list_general') }}">
+					Liste blanche générale
+				</a>
+			</div>
+			{% if section == 'white_list_general' %}
+				<div id="section-article-statut">
+					<ul class="hover">
+						<li>
+							<a href="{{ path('BNSAppResourceBundle_back_custom_white_list_general_toggle') }}">Activation de la liste générale {% if white_list_use == true %}OUI{% endif %}<span class="{% if white_list_use == false %}disabled{% endif %}"></span></a>
+						</li>
+					</ul>
+				</div>
+			{% endif %}
+		</div>
+	</div>#}
+{% else %}
+	<div class="container-section">
+		<div class="section">
+			<a href="{{ path('BNSAppResourceBundle_back_custom') }}">Personnalisation</a>
+		</div>
+	</div>
+	{# <div class="btn-sidebar resource">
+		<a class="resource" href="{{ path('BNSAppResourceBundle_back_custom') }}">Personnalisation</a>
+	</div> #}
+{% endif %}
+

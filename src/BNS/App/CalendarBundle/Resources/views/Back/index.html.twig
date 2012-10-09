@@ -1,0 +1,258 @@
+{% extends 'BNSAppCalendarBundle:Layout:manager.html.twig' %}
+
+{% block title %}Calendrier - Gestion{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+
+	<link href="{{ asset('/medias/css/calendar/jquery.colourPicker.css') }}" rel="stylesheet" type="text/css" />
+	
+	<link href="{{ asset('/medias/css/calendar/wdcalendar/dailog.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('/medias/css/calendar/wdcalendar/calendar.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('/medias/css/calendar/wdcalendar/dp.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('/medias/css/calendar/wdcalendar/alert.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('/medias/css/calendar/wdcalendar/main.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	
+	<script type="text/javascript">
+		var hiddingAgendas;
+	</script>
+	
+	<script type="text/javascript" src="{{ asset('/medias/js/calendar/jquery.colourPicker.js') }}"></script>
+	
+	<script type="text/javascript" src="{{ asset('/medias/js/calendar/wdcalendar/Plugins/Common.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/calendar/wdcalendar/Plugins/datepicker_lang_FR.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/calendar/wdcalendar/Plugins/jquery.datepicker.js') }}"></script>
+	
+	<script type="text/javascript" src="{{ asset('/medias/js/calendar/wdcalendar/Plugins/jquery.alert.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/calendar/wdcalendar/Plugins/jquery.ifrmdailog.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/calendar/wdcalendar/Plugins/wdCalendar_lang_FR.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/calendar/wdcalendar/Plugins/jquery.calendar.js') }}"></script>
+	
+	<script type="text/javascript">
+        $(function () {     
+           var view = "week";
+
+            var op = {
+                view: view,
+                theme:0,
+                showday: new Date({% if dateShow is defined %}"{{ dateShow }}"{% endif %}),
+                ViewCmdhandler:View,
+                onWeekOrMonthToDay:wtd,
+                onBeforeRequestData: "",
+                onAfterRequestData: "",
+                onRequestDataError: "", 
+                autoload: true,
+                enableDrag: true,
+                url: Routing.generate('BNSAppCalendarBundle_front_list_events', {'isAdmin': 1 }),
+                quickUpdateUrl: "{{ path('BNSAppCalendarBundle_back_update_event') }}",
+            };
+            var $dv = $("#calhead");
+            var _MH = document.documentElement.clientHeight;
+            var dvH = $dv.height() + 2;
+            op.height = dvH + 15 * 42;
+            
+            op.eventItems = [];
+			op.readonly = false;
+            var p = $("#gridcontainer").bcalendar(op).BcalGetOp();
+            p = $("#gridcontainer").nextRange().BcalGetOp();
+            p = $("#gridcontainer").previousRange().BcalGetOp();
+            if (p && p.datestrshow) {
+                $("#txtdatetimeshow").text(p.datestrshow);
+				displayDate(p.datestrshow);
+            }
+           
+            if (p && p.datestrshow) {
+                $("#txtdatetimeshow").text(p.datestrshow);
+            }
+			
+            $("#caltoolbar").noSelect();
+            
+            $("#hdtxtshow").datepicker({ picker: "#txtdatetimeshow", showtarget: $("#hdtxtshow"),
+            onReturn:function(r) {                          
+					var p = $("#gridcontainer").gotoDate(r).BcalGetOp();
+					if (p && p.datestrshow) {
+						$("#txtdatetimeshow").text(p.datestrshow);
+					}
+				 } 
+            });
+
+            // Tweak: pour pouvoir activer et afficher le datepicker
+            $("#txtdatetimeshow").trigger('click');
+            
+            function View(data)
+            {
+	        	var link = Routing.generate('BNSAppCalendarBundle_back_edit_event', { 'slug': data[0] })
+            	window.location = link;
+            	
+            	return;
+            }
+			
+            function wtd(p)
+            {
+               if (p && p.datestrshow) {
+                    $("#txtdatetimeshow").text(p.datestrshow);
+                }
+                $("#caltoolbar div.fcurrent").each(function() {
+                    $(this).removeClass("fcurrent");
+                })
+                $("#showdaybtn").addClass("fcurrent");
+            }
+            //previous date range
+            $("#sfprevbtn").click(function(e) {
+                var p = $("#gridcontainer").previousRange().BcalGetOp();
+                if (p && p.datestrshow) {
+                    $("#txtdatetimeshow").text(p.datestrshow);
+                    displayDate(p.datestrshow);
+                }
+
+            });
+            //next date range
+            $("#sfnextbtn").click(function(e) {
+                var p = $("#gridcontainer").nextRange().BcalGetOp();
+                if (p && p.datestrshow) {
+                    $("#txtdatetimeshow").text(p.datestrshow);
+					displayDate(p.datestrshow);
+                }
+            });
+
+            $(".colorpicker").colourPicker({
+                ico:    '{{ asset('/medias/images/calendar/color-picker-bg-transparent.png') }}', 
+                title:  false
+            });
+            
+            $(".agenda-filter-container input[type=text]").change(function(e) {
+				var $this = $(e.currentTarget),
+					$agendaContainer = $('.agenda-filter-container'),
+					$colorImg = $this.parent().find(".color-img");
+					
+				if ($agendaContainer.hasClass('loading')) {
+					return false;
+				}
+				
+				$agendaContainer.addClass('loading');
+				$agendaContainer.find('.loader').fadeIn('fast');
+					
+                $colorImg.css("background-color", "#" + $this.val());
+                $this.parent().find(".agenda-title").css("color", "#" + $this.val());
+				
+                $.get(Routing.generate('BNSAppCalendarBundle_back_color_change',
+					{
+						'agendaId': $colorImg.attr('id'),
+						'colorHex': $this.val()
+					}),
+                    function(data)
+					{
+                        $("#gridcontainer").bcalendar(op).reload();
+						setTimeout(function ()
+						{
+							$agendaContainer.removeClass('loading');
+							$agendaContainer.find('.loader').fadeOut('fast');
+						}, 500);
+                    }
+                );
+            });
+
+            // On repositionne correctement le datepicker de wdCalendar
+            var wdDatePicker = $('#BBIT_DP_CONTAINER');
+            wdDatePicker.appendTo('#dp-location');
+            wdDatePicker.css('left', '0');
+            wdDatePicker.css('top', '0');
+            wdDatePicker.css('position', 'relative');
+
+            // Réajuste en permanence la hauteur du gridcontainer (le conteneur de wdCalendar)
+            setInterval(function() {
+            	$("#gridcontainer").height($("#dvwkcontaienr").height() + 12 * 42 - 10);
+            },
+            1000);
+        });
+        
+        function displayDate(datestr)
+        {
+            datestr = datestr.split(" ");
+            var optionalMonth = (datestr[0] == datestr[4]? "" : ' ' + datestr[0] + ' ');
+            var monthYearStr = datestr[4] + " ";
+            if (datestr[6]) {
+                    monthYearStr += datestr[6];
+                    optionalMonth += datestr[2] + ' ';
+            }
+            else {
+                    monthYearStr += datestr[2];
+            }
+			
+            $(".week-calendar").html("du " + datestr[1] + optionalMonth + " au " + datestr[5] + " " + monthYearStr);
+        };
+
+        function updateDateRangeView(date) 
+        {
+            var p = $("#gridcontainer").gotoDate(date).BcalGetOp();
+            if (p && p.datestrshow) {
+                    displayDate(p.datestrshow);
+            }
+            
+            return false;
+        };
+    </script>
+{% endblock %}
+	
+{% block header %}
+<div class="header-buttons">
+	<div class="inner-header">
+		<div class="container container-fluid">
+			<div class="row-fluid">
+				<div class="span9">
+					<a href="{{ path('BNSAppCalendarBundle_back_add_event') }}" class="btn bns-info btn-24 large">
+						<span class="icons-24 add-icon"></span>
+						Créer un évènement
+					</a>
+				</div>
+				<div class="span3">
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock header %}
+
+{% block sidebar %}
+	{% include 'BNSAppCalendarBundle:Sidebar:back_sidebar.html.twig' with {'section': 'home', 'title': null} %}
+{% endblock sidebar %}
+	
+{% block content %}
+	<div class="calendar-manager">
+		<h2>Voir les événements</h2>
+		<div id="calhead" class="header-calendar">
+			<div class="cHead">
+			</div>
+			<div id="caltoolbar" class="ctoolbar content-calendar">
+				<div id="faddbtn" class="fbutton"></div>
+				<div id="sfprevbtn" title="Voir la semaine dernière"  class="fbutton">
+					<span class="fprev btn-calendar-prev"><p>Voir la<br/>semaine dernière</p></span>
+				</div>
+				<div class="title-calendar">
+					<p class="week-title">Semaine</p>
+					<p class="week-calendar"></p>
+				</div>
+				<div id="sfnextbtn" title="Voir la semaine prochaine" class="fbutton">
+					<span class="fnext btn-calendar-next"><p>Voir la<br/>semaine prochaine</p></span>
+				</div>
+				<div class="fshowdatep fbutton">
+					<div>
+						<span id="txtdatetimeshow" style="display: none;"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="calendar-bns">
+		  <div id="dvCalMain" class="calmain printborder">
+			  <div id="gridcontainer" style="overflow-y: visible;"></div>
+		  </div>
+		  <div class="t2 chromeColor">&nbsp;</div>
+		  <div class="t1 chromeColor">&nbsp;</div>
+		</div>
+	</div>
+{% endblock %}

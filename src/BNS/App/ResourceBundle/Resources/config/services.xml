@@ -1,0 +1,56 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+	<services>
+        <service id="bns.s3" class="AmazonS3">
+			<argument type="collection">
+				<argument key="key">%bns3.aws_key%</argument>
+				<argument key="secret">%bns3.aws_secret_key%</argument>
+				<argument key="certificate_authority">true</argument>	
+			</argument>
+		</service>
+
+		<service id="bns.s3.adapter" class="Gaufrette\Adapter\AmazonS3">
+			<argument type="service" id="bns.s3"></argument>
+			<argument>%bns3.s3.bucket_name%</argument>
+		</service>
+		
+		<service id="bns.local.adapter" class="Gaufrette\Adapter\Local">
+			<argument>%resource_files_dir%</argument>
+			<argument>true</argument>
+		</service>
+		
+		<service id="bns.file_system_manager" class="BNS\App\ResourceBundle\FileSystem\BNSFileSystemManager">
+			<argument>%resource_storage%</argument>
+			<argument type="service" id="bns.local.adapter"></argument>
+			<argument type="service" id="bns.s3.adapter"></argument>
+			<argument>%resource_temp_dir%</argument>
+		</service>
+		
+		<service id="bns.resource_manager" class="BNS\App\ResourceBundle\BNSResourceManager">
+			<argument>%tools_dir%</argument>
+			<argument type="service" id="bns.user_manager" />
+			<argument type="service" id="bns.group_manager" />
+			<argument type="service" id="bns.file_system_manager" />
+			<argument>%resource_files_dir%</argument>
+		</service>
+
+		<service id="bns.resource_right_manager" class="BNS\App\ResourceBundle\Right\BNSResourceRightManager">
+			<argument type="service" id="bns.resource_manager" />
+		</service>
+		
+		<service id="bns.resource_creator" class="BNS\App\ResourceBundle\Creator\BNSResourceCreator">
+			<argument type="service" id="bns.resource_manager" />
+			<argument type="service" id="knp_snappy.image" />
+			<argument>%uploaded_files_dir%</argument>
+		</service>
+		<!-- Twig Extensions -->
+		<service id="twig.extension.resource" class="BNS\App\ResourceBundle\DependencyInjection\TwigExtensions\ResourceExtension">
+            <argument type="service" id="service_container"></argument>
+            <tag name="twig.extension" alias="resource" />
+        </service>
+    </services>
+</container>

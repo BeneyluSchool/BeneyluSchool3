@@ -1,0 +1,24 @@
+<script type="text/javascript" src="{{ asset('/medias/js/messaging/Front/mailSelectSearch.js') }}"></script>	
+
+<!-- For each des messages retourné par le controller --> 
+{% if emailsList == false %}
+    Il n'y a aucun email dans ce dossier !
+{% else %}
+    {%if page > 1 %}<a href="#" id="{{ query }}" class="previous-page">Page précedente</a>{%endif%} <span id="currentPage">{{ page }}</span> / <span id="nbPages">{{ nbPages }}</span> {%if nbPages > page %}<a href="#" id="{{ query }}" class="next-page">Page suivante</a>{% endif %}    
+{% endif %}
+{% for email in emailsList %}
+    {% if email.unread == true %}
+    <div class="messages unread" style="background-color: lightblue;">
+    {% else %}
+    <div class="messages">
+    {% endif %}
+        <img src="/medias/images/messaging/avatar-message.png" alt="" />
+        <p class="subject">{{ email.subject | raw }}</p>
+        <p class="date">Reçu {{ email.date | date_bns('full', 'none') }} de <a href="#">{{ email.from | raw }}</a></p>
+        <p class="message">...</p>
+        <button id="{{ email.id.msgId }} - {{ email.id.folder }}" class="btn read-mail">Lire le message</button>
+        <div class="clearfix"></div>
+    </div>
+{% endfor %}
+            
+

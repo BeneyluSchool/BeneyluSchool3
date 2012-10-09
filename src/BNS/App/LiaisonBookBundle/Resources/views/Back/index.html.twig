@@ -1,0 +1,70 @@
+{% extends 'BNSAppLiaisonBookBundle:Back:layout.back.html.twig' %}
+
+{% block title %}
+	Beneyluschool - Carnet de liaison - Manager
+{% endblock %}
+
+		
+{% block javascripts %}
+	{{ parent() }}
+    <script type="text/javascript" src="{{ asset('/medias/js/liaisonbook/Back/index.js') }}"></script>
+{% endblock %}
+
+{% block header %}
+	<div class="span6">
+		<a href="{{ path('BNSAppLiaisonBookBundle_back_create') }}" class="btn bns-info btn-24 large"><span class="icons-24 add-icon"></span>Ecrire un message</a>
+	</div>
+	<div class="span6">
+		<a href="#" class="btn btn-danger btn-delete-article pull-right" data-target="#deleteModal" data-toggle="modal"><span class="delete"></span><strong>Supprimer</strong><br/>le message</a>
+		<a href="#" class="btn btn-info btn-edit-article pull-right"><span class="edit"></span><strong>Editer</strong><br/>le message</a>
+	</div>
+{% endblock header %}
+	
+{% block content %}
+	<div id="liaisonbook-messages" class="content-liaisonbook">
+		{# afficher la liste des news #}
+		{% if news == false %}
+		<div class="news-title-no-information">
+			<h1 class="dashboard">{{newsDate|year_month_bns()}}</h1>
+		</div>
+		<p class="no-information-liaisonbook">Il n'y a aucune information pour ce mois-ci</p>
+		{% endif %} 
+		{% for new in news %}
+			<div class="content-news" id="{{ new.id }}">
+				<div class="news-title">
+					<h1 class="dashboard">{{ new.title }}</h1>
+					<p>le {{ new.date | date_bns('full', 'short') }}</p>
+				</div>
+				<div class="news">
+					<p>{{ new.content | raw }}</p>
+					<br />
+				</div>
+
+					<div class="signature">
+					<span class="signing up">{{ new.liaisonBookSignatures.count }}</span> <span class="signing"> / {{ totalSignatures }}</span>  <span class="title">{% if new.liaisonBookSignatures.count > 1 %}Signatures{% else %}Signature{% endif %}</span>
+				</div>
+				<div class="content-list-signature">
+					{% for signature in new.liaisonBookSignatures %}
+						<div class="list-signature">
+							<img src="/medias/images/book-binding/avatar.png" alt="" />
+							<p>{{ signature.user.firstName }} {{ signature.user.lastName }} </p>
+						</div>
+					{% endfor %}
+				</div>
+				{% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': new.getResourceAttachments,"editable": false} %}
+				<div class="clearfix"></div>
+			</div>
+		{% endfor %}
+	</div>
+    
+    	{# Modale de suppression STPLé #}
+        {% autoescape false %}
+	{{ modal('deleteModal', {
+		'title': 'Suppression du message',
+		'body': 'Êtes-vous sûr de vouloir supprimer ce message ?',
+		'type': 'error',
+		'footer_template': {'template': 'BNSAppLiaisonBookBundle:Back:modal_footer_delete_message.html.twig' },
+	}) }}
+	{% endautoescape %}
+{% endblock %}    
+            

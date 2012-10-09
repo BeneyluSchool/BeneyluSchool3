@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+   
+    <services>
+        <service id="bns.front_map" class="BNS\App\GPSBundle\Map\FrontMap">
+			<tag name="vichgeo.map" alias="front_map" />
+			<argument type="service" id="bns.geocoords_manager" />
+			<argument type="service" id="bns.info_window_builder" />
+			<argument type="service" id="bns.icon_generator" />
+			<argument type="service" id="bns.group_manager" />
+		</service>
+		<service id="bns.geocoords_manager" class="BNS\App\GPSBundle\GeoCoords\GeoCoordsManager">
+			<argument type="service" id="vich_geographical.query_service.default" />
+		</service>
+		<service id="bns.info_window_builder" class="Vich\GeographicalBundle\Map\Marker\InfoWindow\InfoWindowRenderer" public="true">
+            <argument type="service" id="twig" />
+            <argument>%vich_geographical.info_window.template_name%</argument>
+        </service>
+		<service id="bns.icon_generator" class="BNS\App\GPSBundle\Map\IconGenerator" />
+    </services>
+   
+</container>

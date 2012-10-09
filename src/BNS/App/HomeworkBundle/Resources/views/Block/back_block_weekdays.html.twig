@@ -1,0 +1,26 @@
+{# <div class="title-section-sidebar homework active">Jours<div class="color-active"></div><span class="icon-arrow-down"></span></div>
+<div class="sidebar-links-container">
+	<ul id="weekdays">
+            {% if 'MO' in preferences.getDays() %}<li>Lundi {% if 'MO' in app.session.get('weekdays-session') %}<img src="{{ asset('/medias/images/icons/check.png') }}" alt="" id="listcheck_MO" class="filter checked day-filter" />{% else %}<img src="{{ asset('/medias/images/icons/uncheck.png') }}" alt="" id="listcheck_MO" class="filter unchecked day-filter" />{% endif %}</li>{% endif %}
+            {% if 'TU' in preferences.getDays() %}<li>Mardi {% if 'TU' in app.session.get('weekdays-session') %}<img src="{{ asset('/medias/images/icons/check.png') }}" alt="" id="listcheck_TU" class="filter checked day-filter" />{% else %}<img src="{{ asset('/medias/images/icons/uncheck.png') }}" alt="" id="listcheck_TU" class="filter unchecked day-filter" />{% endif %}</li>{% endif %}
+            {% if 'WE' in preferences.getDays() %}<li>Mercredi {% if 'WE' in app.session.get('weekdays-session') %}<img src="{{ asset('/medias/images/icons/check.png') }}" alt="" id="listcheck_WE" class="filter checked day-filter" />{% else %}<img src="{{ asset('/medias/images/icons/uncheck.png') }}" alt="" id="listcheck_WE" class="filter unchecked day-filter" />{% endif %}</li>{% endif %}
+            {% if 'TH' in preferences.getDays() %}<li>Jeudi {% if 'TH' in app.session.get('weekdays-session') %}<img src="{{ asset('/medias/images/icons/check.png') }}" alt="" id="listcheck_TH" class="filter checked day-filter" />{% else %}<img src="{{ asset('/medias/images/icons/uncheck.png') }}" alt="" id="listcheck_TH" class="filter unchecked day-filter" />{% endif %}</li>{% endif %}
+            {% if 'FR' in preferences.getDays() %}<li>Vendredi {% if 'FR' in app.session.get('weekdays-session') %}<img src="{{ asset('/medias/images/icons/check.png') }}" alt="" id="listcheck_FR" class="filter checked day-filter" />{% else %}<img src="{{ asset('/medias/images/icons/uncheck.png') }}" alt="" id="listcheck_FR" class="filter unchecked day-filter" />{% endif %}</li>{% endif %}
+            {% if 'SA' in preferences.getDays() %}<li>Samedi {% if 'SA' in app.session.get('weekdays-session') %}<img src="{{ asset('/medias/images/icons/check.png') }}" alt="" id="listcheck_SA" class="filter checked day-filter" />{% else %}<img src="{{ asset('/medias/images/icons/uncheck.png') }}" alt="" id="listcheck_SA" class="filter unchecked day-filter" />{% endif %}</li>{% endif %}
+            {% if 'SU' in preferences.getDays() %}<li>Dimanche {% if 'SU' in app.session.get('weekdays-session') %}<img src="{{ asset('/medias/images/icons/check.png') }}" alt="" id="listcheck_SU" class="filter checked day-filter" />{% else %}<img src="{{ asset('/medias/images/icons/uncheck.png') }}" alt="" id="listcheck_SU" class="filter unchecked day-filter" />{% endif %}</li>{% endif %}
+	</ul>
+</div> #}
+<div class="title-container">
+	<div class="title active border-blue">Jours<span class="square icon-arrow"></span></div>
+	<div class="content-title">
+		<ul id="weekdays" class="weekdays">
+			{% if 'MO' in preferences.getDays() %}<li><div class="monday">Lundi <span id="listcheck_MO" class="day-filter select {% if 'MO' in app.session.get('weekdays-session') %}checked{% endif %}"></span></div></li>{% endif %}
+			{% if 'TU' in preferences.getDays() %}<li><div class="tuesday">Mardi <span id="listcheck_TU" class="day-filter select {% if 'TU' in app.session.get('weekdays-session') %}checked{% endif %}"></span></div></li>{% endif %}
+			{% if 'WE' in preferences.getDays() %}<li><div class="wednesday">Mercredi <span id="listcheck_WE" class="day-filter select {% if 'WE' in app.session.get('weekdays-session') %}checked{% endif %}"></span></div></li>{% endif %}
+			{% if 'TH' in preferences.getDays() %}<li><div class="thursday">Jeudi <span id="listcheck_TH" class="day-filter select {% if 'TH' in app.session.get('weekdays-session') %}checked{% endif %}"></span></div></li>{% endif %}
+			{% if 'FR' in preferences.getDays() %}<li><div class="friday">Vendredi <span id="listcheck_FR" class="day-filter select {% if 'FR' in app.session.get('weekdays-session') %}checked{% endif %}"></span></div></li>{% endif %}
+			{% if 'SA' in preferences.getDays() %}<li><div class="saturday">Samedi <span id="listcheck_SA" class="day-filter select {% if 'SA' in app.session.get('weekdays-session') %}checked{% endif %}"></span></div></li>{% endif %}
+			{% if 'SU' in preferences.getDays() %}<li><div class="sunday">Dimanche <span id="listcheck_SU" class="day-filter select {% if 'SU' in app.session.get('weekdays-session') %}checked{% endif %}"></span></div></li>{% endif %}
+		</ul>
+	</div>
+</div>

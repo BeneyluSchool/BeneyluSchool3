@@ -1,0 +1,15 @@
+<div class="edit-news btn-toolbar" id="toolbar-news-{{ text.getMiniSitePage().getId() }}">
+	<div class="actions-bar">
+		<div class="btn-group input-prepend">
+			<button class="btn status dropdown-toggle" data-toggle="dropdown">
+				{% include 'BNSAppMiniSiteBundle:ActionBar:back_text_inner_status_button.html.twig' %}
+			</button>
+			<ul class="dropdown-menu edit-status" id="status-news-{{ text.getMiniSitePage().getId() }}">
+				{% include 'BNSAppMiniSiteBundle:ActionBar:back_text_inner_status_dropdown.html.twig' %}
+			</ul>
+		</div>
+		<div class="actions">
+			<a href="{{ path('minisite_manager_page', {'slug': text.getMiniSitePage().getSlug()}) }}" class="btn btn-info standard"><span class="icon-edit"></span>{% trans %}MiniSite.Back.General.Edit{% endtrans %}</a>
+		</div>
+	</div>
+</div>

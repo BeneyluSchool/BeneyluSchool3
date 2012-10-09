@@ -1,0 +1,80 @@
+{% extends 'BNSAppGroupBundle:Back:layout.html.twig' %}
+
+{% block header %}
+	
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="align-right">
+						<a id="group-submit-home-message" href="#" class="btn bns-success validate-medium btn-24 medium submit-custom-classroom-form">
+							<span class="icons-24 validate-icon"></span><strong>Enregistrer le message</strong>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock header %}
+
+{% block content %}
+	<div class="content-group">
+		<div class="news-title">
+			<h1 class="dashboard">Message d'accueil</h1>
+		</div>
+		<div class="form-home-message content-custom">
+			<form action="{{ path('BNSAppGroupBundle_back') }}" method="POST" id="group-home-message" {{ form_enctype(form) }}>
+				{{ form_widget(form.home_message, {'attr': {'class': 'custom-classroom', 'placeholder': "Message d'accueil" }}) }}
+				{{ form_errors(form.home_message) }}
+			</form>
+		</div>
+	
+
+
+		<div class="news-title">
+			<h1 class="dashboard">Droits</h1>
+		</div>
+			
+		{% for rule in rules %}
+			{% if loop.first %}
+				<table class="table table-striped">
+					<tr>
+						<th>Pour</th>
+						<th>Rang</th>
+						<th>Etat</th>
+						<th>Groupe cible</th>
+					</tr>
+			{% endif %}
+
+				<tr>
+					<td>
+						{{ruleDatas.group[rule.who_group_id].label }}
+					</td>
+					<td>
+						{{rule.rank_unique_name }}
+					</td>
+					<td>
+						{% include "BNSAppGroupBundle:Back:ruleToggle.html.twig" with{'rule' : rule} %}
+					</td>
+					<td>
+						{% if rule.rule_where.group_type_id is defined %}
+							{{ ruleDatas.group_type[rule.rule_where.group_type_id].type }}
+						{% else %}
+							{{ group.label }}
+						{% endif %}
+					</td>
+				</tr>
+				
+				{% if loop.last %}
+					</table>
+				{% endif %}
+			{% else %}	
+				<div class="alert">
+					Il n'y a pas encore de règle en place pour ce groupe.
+				</div>
+			{% endfor %}
+		
+	</div>
+
+{% endblock %}

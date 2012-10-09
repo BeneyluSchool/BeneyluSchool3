@@ -1,0 +1,19 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Cahier de texte{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+	<link href='https://fonts.googleapis.com/css?family=Acme' rel='stylesheet' type='text/css'>
+	<link href="{{ asset('/medias/css/homework/front.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block body %}
+    <div class="homework"> </div>
+        <div class="container-fluid container">
+        {% block homework_body %}{% endblock %}
+        {% block homework_dock %}
+                {% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "HOMEWORK" , 'is_in_front' : true } %}
+        {% endblock %}
+        </div>
+{% endblock %}

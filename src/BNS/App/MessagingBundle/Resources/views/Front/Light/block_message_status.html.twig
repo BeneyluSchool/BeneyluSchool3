@@ -1,0 +1,7 @@
+{% if message.printStatus == "accepted" %}
+	Ce message a été accepté
+{% elseif message.printStatus == "rejected" %}
+	Ce message a été refusé
+{% elseif message.printStatus == "in_moderation" %}
+	Ce message est en attente de modération
+{% endif %}

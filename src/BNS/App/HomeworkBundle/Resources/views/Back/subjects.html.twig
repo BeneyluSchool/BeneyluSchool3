@@ -1,0 +1,301 @@
+{% extends 'BNSAppHomeworkBundle:Back:layout.html.twig' %}
+
+{% block title %}
+	Cahier de texte - Catégories
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	
+	<script type="text/javascript" src="{{ asset('/medias/js/jquery.ui.nestedSortable.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/manager-menu.js') }}"></script>
+	<script type="text/javascript">
+		var categoriesRoutes = {
+			sort: '{{ path('homework_manager_subject_save') }}',
+			edit: '{{ path('BNSAppHomeworkBundle_backajax_subject_edit') }}',
+			remove: '{{ path('BNSAppHomeworkBundle_backajax_subject_delete') }}',
+			insert: '{{ path('homework_manager_subject_add_management') }}',
+		};
+	</script>
+	<script type="text/javascript">
+		$(function ()
+		{
+			// Check if routes are parameted
+			if (typeof categoriesRoutes == undefined) {
+				throw new Error('Vous devez paramétrer les routes avant l\'utilisation du script des catégories !');
+			}
+
+			// Drag'n'drop categories
+			$('.content-categories-management ol.load-sortable').nestedSortable({
+				forcePlaceholderSize: true,
+				errorClass: 'nested-error',
+				handle: 'div .list-grip',
+				helper:	'original',
+				items: 'li',
+				maxLevels: 1, // si sous-catégorie, mettre 2, sinon 1
+				opacity: .6,
+				placeholder: 'nested-placeholder',
+				revert: 200,
+				tabSize: 25,
+				distance: 10,
+				tolerance: 'pointer',
+				toleranceElement: '> div'
+			});
+			
+			$('.content-categories-management ol.load-sortable').bind('sortupdate',
+				function(event, ui)
+				{
+					// Récupérer la div que l'on a drag pour récupérer l'id
+					// Ensuite sauvegarder cet objet après l'avoir sérialisé
+					var target = $(ui.item);
+					var targetId = target.attr('id').split('_')[1];
+					var leftId = target.prev().attr('id') ? target.prev().attr('id').split('_')[1] : null;
+					var rightId = target.next().attr('id') ? target.next().attr('id').split('_')[1] : null;
+					var parentId = target.parents('li').attr('id') ? target.parents('li').attr('id').split('_')[1] : null;
+
+					$.ajax(	
+					{
+						url: categoriesRoutes.sort, 
+						type: 'POST',
+						dataType: 'json',
+						data: {'left_id': leftId, 'right_id': rightId, 'parent_id': parentId, 'subject_id' : targetId}	
+					});
+
+				}
+			);
+
+			// Expand category editor process
+			$('body').on('click', '.content-categories-management ol.load-sortable li > div:first-child', function (e)
+			{
+				var $this = $(e.currentTarget);
+
+				// Return true because we waiting for the delete modal event click
+				if ($(e.target).hasClass('close-button')) {
+					return true;
+				}
+
+				// Avoid click event on drag
+				if ($(e.target).hasClass('list-grip') || $this.hasClass('active') || $this.hasClass('loading')) {
+					return false;
+				}
+
+				// Remove active class & other category editor
+				$('.content-categories-management ol.load-sortable li > div:first-child').removeClass('active');
+				$('.content-categories-management ol.load-sortable .category-editor').slideUp('fast');
+
+				$this.addClass('active');
+				var $categoryEditor = $this.parent().find('.category-editor').first();
+				$categoryEditor.slideDown('fast');
+			});
+
+			// Show delete category modal process
+			$('body').on('click', '.content-categories-management ol.load-sortable span.close-button', function (e)
+			{
+				var $this = $(e.currentTarget),
+					$div = $this.parent(),
+					$row = $div.parent(),
+					$modalBody = $('#delete-category-modal .modal-body'),
+					categoryId = $row.attr('id').split('_');
+
+				$modalBody.find('span.title').text($div.find('div.title').text());
+				$modalBody.find('input#delete-category-id').val(categoryId[1]);
+
+				// This category has sub-categories, show the warn message
+				if ($row.find('ol').length > 0) {
+					$modalBody.find('p.sub-category-warning').show();
+				}
+
+				$('#delete-category-modal').modal('show');
+			});
+
+			// Deleting category modal process
+			$('#delete-category-modal .delete-category-button').click(function (e)
+			{
+				var $this = $(e.currentTarget),
+					$modal = $('#delete-category-modal'),
+					categoryId = $modal.find('input#delete-category-id').val();
+
+				$this.addClass('disabled').attr('disabled', 'disabled');
+				$('.content-categories-management ol.load-sortable li#list_' + categoryId).slideUp('fast', function ()
+				{
+					$modal.modal('hide');
+					$this.removeClass('disabled').removeAttr('disabled');
+					$this.find('p.sub-category-warning').hide();
+					$(this).remove();
+				});
+
+				$.ajax({
+					url: categoriesRoutes.remove,
+					type: 'POST',
+					data: {'id': categoryId}
+				});
+			});
+
+			// Cancel modifications
+			$('div.header-buttons #category-edit-mode .cancel-button').click(function (e)
+			{
+				closeCategory();
+			});
+
+			// Submit modifications
+			$('body').on('click', '.content-categories-management ol.load-sortable .submit-category', function (e)
+			{
+				var $this = $(e.currentTarget).parent().parent(),
+					categoryId = $this.attr('id').split('_'),
+					$input = $this.find('input').first(),
+					$loader = $this.find('.loader').first(),
+					categoryId = categoryId[1];
+
+				closeCategory();
+				$this.find('div').first().addClass('loading');
+				$loader.fadeIn('fast');
+
+				$.ajax({
+					url: categoriesRoutes.edit,
+					type: 'POST',
+					dataType: 'json',
+					data: {
+						'subject_title': $input.val(),
+						'id': categoryId
+					},
+					success: function (data)
+					{
+						$this.find('div.title').first().text($input.val());
+					}
+				}).done(function ()
+				{
+					$loader.fadeOut('fast');
+					$this.find('div').first().removeClass('loading');
+				});
+			});
+
+			// Submit new category
+			$('#new-category-modal .submit-create-category').click(function (e)
+			{
+				var $this = $(e.currentTarget),
+					$modalBody = $('#new-category-modal .modal-body'),
+					$loader = $modalBody.find('.loader');
+
+				$loader.fadeIn('fast');
+
+				$.ajax({
+					url: categoriesRoutes.insert,
+					type: 'POST',
+					dataType: 'html',
+					data: {'subject_title': $modalBody.find('input[type="text"]').val()},
+					success: function (data)
+					{
+						var $category = $(data);
+						$category.css('display', 'none').find('div').first().addClass('new-animation new');
+						$('.content-categories-management ol.load-sortable').prepend($category);
+
+						$category.slideDown('fast', function ()
+						{
+							$category.find('div').first().removeClass('new');
+							setTimeout(function ()
+							{
+								$category.find('div').first().removeClass('new-animation');
+							}, 5000);
+						});
+					}
+				}).done(function ()
+				{
+					// Reset modal
+					$modalBody.find('input[type="text"]').val('');
+					$loader.fadeOut('fast');
+
+					if ($this.data('dismiss') == 'modal') {
+						$('#new-category-modal').modal('hide');
+					}
+				});
+
+				return false;
+			});
+
+			function closeCategory()
+			{
+				$('.content-categories-management ol.load-sortable div.active').removeClass('active');
+				$('.content-categories-management ol.load-sortable .category-editor').slideUp('fast');
+			}
+		});
+	</script>
+{% endblock javascripts %}
+	
+{% block header %}
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span6">
+						<a href="#" class="btn bns-info btn-24 large button-return" data-target="#new-category-modal" data-toggle="modal">
+							<span class="icons-24 add-icon"></span>
+							Ajouter une matière
+						</a>
+					</div>
+					<div class="span6 align-right switchable-menu" id="default-header"></div>
+					<div class="span6 align-right switchable-menu hide" id="category-edit-mode" data-effect="drop">
+						<a href="#" data-toggle="menu" data-target="#default-header" class="btn bns-danger btn-24 medium-return cancel-button">
+							<span class="icons-24 cancel-icon"></span>
+							<strong>Annuler</strong><br />les modifications
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock header %}
+
+{% block sidebar %}
+	<div class="container-section">
+		<div class="section">
+			<a href="{{ path('BNSAppHomeworkBundle_back') }}">Travaux</a>
+		</div>
+	</div>
+	<div class="section active">
+		Personnalisation
+		<span class="shadow-section"></span>
+	</div>
+	<div class="title-container article-statuses-filter">
+		<div class="content-title">
+			<ul>
+				<li>
+					<a href="{{ path('BNSAppHomeworkBundle_back_preferences') }}">Gestion des jours</a>
+				</li>
+				<li>
+					<a class="active" href="{{ path('homework_manager_categories') }}">Gestion des matières</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+{% endblock sidebar %}
+
+{% block content %}
+	<div class="content-categories-management">
+		<h1>Gérer les matières</h1>
+		
+		{# Attention à ne pas oublier de copier les templates des modals et à ne pas modifier l'ID de la modal, sinon le JS ne fonctionnera plus #}
+		{{ modal('new-category-modal', {
+			'title': 'Ajouter une matière',
+			'body_template': {'template': 'BNSAppHomeworkBundle:Subject:modal_subject_management_add_body.html.twig'},
+			'footer_template': {'template': 'BNSAppHelloWorldBundle:Modal:category_management_add_footer.html.twig'},
+			'type': 'info'
+		}) }}
+		
+		{{ modal('delete-category-modal', {
+			'title': "Suppression d'une matière",
+			'body_template': {'template': 'BNSAppHomeworkBundle:Subject:modal_subject_management_delete_body.html.twig'},
+			'footer_template': {'template': 'BNSAppHelloWorldBundle:Modal:category_management_delete_footer.html.twig'},
+			'type': 'error'
+		}) }}
+		
+		<ol class="load-sortable">
+			{% if subjects|length > 0 %}
+				{% for subject in subjects %}
+					{% include 'BNSAppHomeworkBundle:Subject:back_subject_management_row.html.twig' %}
+				{% endfor %}
+			{% else %}
+				<p>Il n'existe pas encore de matière. Pourquoi ne pas en créer une dès maintenant ?<br />C'est simple : cliquez sur le bouton "Ajouter une matière" en haut à gauche.</p>
+			{% endif %}
+		</ol>
+	</div>
+{% endblock content %}

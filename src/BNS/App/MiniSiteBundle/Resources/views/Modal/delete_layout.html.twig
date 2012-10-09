@@ -1,0 +1,8 @@
+{% autoescape false %}
+	{{ modal('minisite_delete_modal', {
+		'type': 'error',
+		'body_template': {'template': 'BNSAppMiniSiteBundle:Modal:delete_' ~ type ~ '_body.html.twig', 'values': bodyValues},
+		'footer_template': {'template': 'BNSAppMiniSiteBundle:Modal:delete_footer.html.twig', 'values': footerValues},
+		'title': 'Êtes-vous sûr de vouloir supprimer : ' ~ title
+	}) }}
+{% endautoescape %}

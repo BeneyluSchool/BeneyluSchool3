@@ -1,0 +1,42 @@
+<div class="loading-container">
+	<img src="{{ asset('/medias/images/icons/medium-loader.gif') }}" alt="Gif animé de chargement" /> Chargement en cours, veuillez patienter...
+</div>
+
+<div class="directory-container"></div>
+<script type="text/javascript">
+	var $isDirectoryFirstLoad = true;
+	$(document).ready(function()
+	{
+		$('div.content-dockbar img').click(function(event)
+		{
+			if ($(this).parent().attr('href').indexOf(Routing.generate('BNSAppDirectoryBundle_front')) == -1) {
+				return;
+			}
+
+			event.preventDefault();
+			$('#directory-modal').modal({
+				backdrop: false
+			});
+			var realHeight = $(window).height() - 150 + 'px';
+			$('#directory-modal').css('height',realHeight);
+			$('#directory-modal').css('min-height',realHeight);
+			$('#directory-modal').css('max-height',realHeight);
+			
+			if ($isDirectoryFirstLoad) {
+				$.ajax({
+					url: Routing.generate('BNSAppDirectoryBundle_front'),
+					type: 'GET',
+					dataType: 'html',
+					success: function(data)
+					{
+						$('div.loading-container').hide();
+						$('div.directory-container').html(data);
+						
+					}
+				});
+
+				$isDirectoryFirstLoad = false;
+			}
+		});
+	});
+</script>

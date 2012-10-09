@@ -1,0 +1,34 @@
+<h2>Liste des permissions</h2>
+<table class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<th>Identifiant</th>
+			<th>Module</th>
+			<th>Nom</th>
+			<th>Description</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for permission in permissions %}
+			<tr>
+				<td>{{ permission.uniqueName }}</td>
+				<td>{{ permission.module.label }}</td>
+				<td>{{ permission.label }}</td>
+				<td>{{ permission.description }}</td>
+				<td>
+					<a href="{{ path("BNSAppAdminBundle_permission_sheet" , { uniqueName: permission.uniqueName }) }}">
+						<img src="{{ asset('/medias/images/icons/fugue/edit-list-order.png') }}" title="Voir la fiche" />
+					</a>
+					{% if with_delete is defined %}
+						{% if rank is defined %}
+							<a href="{{ path("BNSAppAdminBundle_rank_delete_permission" , { 'rankUniqueName': rank.uniqueName , 'permissionUniqueName': permission.uniqueName }) }}" onclick="return confirm('Êtes vous sûr et certain de vouloir supprimer cette liaison ?');">
+								<img src="{{ asset('/medias/images/icons/fugue/cross.png') }}" title="Supprimer la permission du rang" />
+							</a>
+						{% endif %}
+					{% endif %}
+				</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>

@@ -1,0 +1,41 @@
+<div>
+    <form action="{{ path('BNSAppHomeworkBundle_backajax_quick_add') }}" id="quickadd-homework-{{ day }}" method="post" {{ form_enctype(homework_form) }}>
+        <div>
+            <div>Nom</div>
+            {{ form_errors(homework_form.name) }}
+            {{ form_widget(homework_form.name) }}
+        </div>
+        <div style="display:none;">
+            {{ form_widget(homework_form.recurrence_type) }}
+            {{ form_widget(homework_form.recurrence_days) }}
+            {{ form_widget(homework_form.date) }}
+            {{ form_widget(homework_form.recurrence_end_date) }}
+        </div>
+        <div>
+            <div>Description</div>
+            {{ form_errors(homework_form.description) }}
+            {{ form_widget(homework_form.description, { 'attr': {'class': 'load_tinymce', 'data-theme': 'simple'} }) }}
+        </div>
+        <div>
+            <div>Texte d'aide</div>
+            {{ form_errors(homework_form.helptext) }}
+            {{ form_widget(homework_form.helptext) }}
+        </div>
+        <div>
+            <div>Matière</div>
+            {{ form_errors(homework_form.subject_id) }}
+            {% for subjectField in homework_form.subject_id %}
+                <li><div>{{ subjectField.vars.label | raw }}<div class="crud">{{ form_widget(subjectField) }}</div></div></li>
+            {% endfor %}
+        </div>
+        <div>
+            <div>Groupes</div>
+            {{ form_errors(homework_form.groups) }}
+            {{ form_widget(homework_form.groups) }}
+        </div>
+
+        {{ form_rest(homework_form) }}
+        <input type="submit" class="btn btn-info" value="Ajouter" />
+    </form>
+    {{ tinymce_init() }}
+</div>

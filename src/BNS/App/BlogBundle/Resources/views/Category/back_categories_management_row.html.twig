@@ -1,0 +1,18 @@
+<li id="list_{{ category.getId() }}" data-toggle="menu" data-target="#category-edit-mode">
+<div>
+	<div class="loader loader-h"></div>
+	<span class="list-grip"></span>
+	<span class="category-icon {% if category.getIconClassname()|length > 0 and category.getIconClassname() != 'default' %}sprite {{ category.getIconClassname() }}{% endif %}"></span>
+	<div class="title">{{ category.getTitle() }}</div>
+	<span class="close-button">&times</span>
+</div>
+<div class="category-editor">
+	<div class="category-icon-selector">
+		<span class="{% if category.getIconClassname()|length == 0 %}default{% else %}{{ category.getIconClassname() }}{% endif %}"></span>
+	</div>
+	<input type="text" name="" value="{{ category.getTitle() }}" />
+	<a href="#" class="btn bns-success btn-16 validate-small submit-category" data-toggle="menu" data-target="#default-header">
+		<span class="icons-16 validate-icon"></span>
+		<strong>Valider</strong>
+	</a>
+</div>

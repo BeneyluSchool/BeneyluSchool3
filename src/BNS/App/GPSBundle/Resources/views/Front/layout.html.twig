@@ -1,0 +1,19 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}GPS{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+{% endblock %}
+	
+{% block body %}
+	{% block content %}{% endblock %}
+{% endblock %}
+
+{% block dock_bar %}
+	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "GPS" , 'is_in_front' : true } %}
+{% endblock %}

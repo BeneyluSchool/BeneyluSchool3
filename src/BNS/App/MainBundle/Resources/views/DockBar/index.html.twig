@@ -1,0 +1,112 @@
+{% block dock_bar %}
+    <div class="content-footer{% if app.debug %} debug{% endif %}">
+		<div class="dockbar-left"></div>
+		<div class="dockbar-middle">
+			<div class="content-dockbar">
+				<div class="avatar">
+					{% if has_right('PROFILE_ACCESS') and is_in_front %}
+						<a class="module-popover user-information" href="{{ path('BNSAppProfileBundle_front') }}" rel="popover" data-title="<div class='dock-popover'><img src='{{ asset('/medias/images/icons/modules/btn-profile-big.png' ) }}' alt='Mon Profil' />Mon Profil</div>" data-content="<div class='dock-popover'>Communiquer sur mon humeur ou mon activité</div>">
+							<img src="{{ avatar(app.user, 'thumbnail') }}" class="avatar-thumbnail-size" alt="avatar" />
+							<span class="name"><span class="first_name">{{ app.user.firstName  }}</span> <span class="last_name"> {{ app.user.lastName  }}</span></span>
+						</a>
+					{% elseif has_right('PROFILE_ACCESS_BACK') and is_in_front == false  %}
+						<a class="module-popover user-information" href="{{ path('BNSAppProfileBundle_back') }}" rel="popover" data-title="<div class='dock-popover'><img src='{{ asset('/medias/images/icons/modules/btn-profile-big.png' ) }}' alt='Mon Profil' />Mon Profil</div>" data-content="<div class='dock-popover'>Communiquer sur mon humeur ou mon activité</div>">
+							<img src="{{ avatar(app.user, 'thumbnail') }}" class="avatar-thumbnail-size" alt="avatar" />
+							<span class="name"><span class="first_name">{{ app.user.firstName  }}</span> <span class="last_name"> {{ app.user.lastName  }}</span></span>
+						</a>
+					{% else %}
+						<img src="{{ avatar(app.user, 'thumbnail') }}" class="avatar-thumbnail-size" alt="avatar" />
+						<span class="name"><span class="first_name">{{ app.user.firstName  }}</span> <span class="last_name"> {{ app.user.lastName  }}</span></span>
+					{% endif %}
+					{% render 'BNSAppNotificationBundle:Front:count' with {'isInFront': is_in_front} %}
+					<div class="nav-tool">
+						<ul>
+							{% for module in constant_modules %}
+								{% include "BNSAppMainBundle:DockBar:module.html.twig" with {'module' : module, 'is_in_front' : is_in_front, 'size' : 'medium' } %}
+							{% endfor %}
+						</ul>
+					</div>
+					<div class="shadow"></div>
+				</div>
+				<div class="nav-tool context-list">
+					<ul>
+						{% for module in context_modules %}
+							{% if module.uniqueName != currentGroupType and module.uniqueName != "GROUP" %}
+								{% include "BNSAppMainBundle:DockBar:module.html.twig" with {'module' : module , 'is_in_front' : is_in_front  , 'size' : 'medium' } %}
+							{% endif %}
+						{% endfor %}
+					</ul>
+					<div class="btn-jim"></div>
+					{# Switch admin #}
+					<div class="pull-right switch-button">
+						{% if moduleContextBackAccess %}
+							{% include "BNSAppMainBundle:DockBar:module.html.twig" with {'module' : current_module , 'is_in_front' :  is_in_front ? false : true  , 'title': "Basculer administration" , 'is_admin': true, 'size' : 'medium' } %}
+						{% endif %}
+					</div>
+					
+				</div>
+				<div class="btn-group dropdown-switch-context dropup">
+					<a class="dropdown-toggle" href="#" data-toggle="dropdown">
+						<span class="context-change-label"></span>
+					</a>
+						
+					{% if (is_in_front and has_right(currentGroupType ~ '_ACCESS')) or (not is_in_front and has_right(currentGroupType ~ '_ACCESS_BACK'))  %}
+						<a href="{{ path(currentGroupRoute) }}">
+							<span class="context-icon {{ currentGroupType|lower }}"></span>
+						</a>
+					{% elseif is_in_front and has_right('GROUP_ACCESS') %}
+						<a href="{{ path("BNSAppGroupBundle_front") }}">
+							<span class="context-icon {{ currentGroupType|lower }}"></span>
+						</a>
+					{% elseif not is_in_front and has_right('GROUP_ACCESS_BACK') %}
+						<a href="{{ path("BNSAppGroupBundle_back") }}">
+							<span class="context-icon {{ currentGroupType|lower }}"></span>
+						</a>
+					{% endif %}
+					
+					<ul class="dropdown-menu pull-right">
+						<li class="title-context"><img src="{{ asset(group_type_icon("",currentGroupType,'large')) }}" />Changer d'espace de travail</li>
+						{% for groupContext in groupsContext %}
+						<li><a href="{{ path('BNSAppMainBundle_switch_context', { 'slug': groupContext.getSlug() }) }}"><img src="{{ asset(group_type_icon(groupContext)) }}" />{{ groupContext.getLabel() }}</a></li>
+						{% endfor %}
+						<li><a href="{{ path('disconnect_user') }}" title="Deconnexion"><img src="{{ asset('/medias/images/icons/group_context/disconnection.png') }}" alt="Déconnexion" /> Se déconnecter</a></li>
+						<div class="bulle"></div>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="dockbar-right"></div>
+		{% autoescape false %}
+		{{ modal('directory-modal', {
+			'title': '',
+			'body_template': {'template': 'BNSAppDirectoryBundle:Directory:loading_modal_body.html.twig' },
+			'header_template': {'template': 'BNSAppDirectoryBundle:Common:modal_header_footer.html.twig' },
+			'footer_template': {'template': 'BNSAppDirectoryBundle:Common:modal_header_footer.html.twig' },
+			'type': 'info directory-modal',
+		}) }}
+		{% endautoescape %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+<script type="text/javascript">
+	
+	$('.module-popover').popover(
+		{ 
+			delay: { show: 0, hide: 0 },
+			placement: "top",
+			animation: false
+		}
+	);
+		
+	$('.module-popover-right').popover(
+		{ 
+			delay: { show: 0, hide: 0 },
+			placement: "right",
+			animation: false
+		}
+	);
+</script>
+
+{% endblock %}

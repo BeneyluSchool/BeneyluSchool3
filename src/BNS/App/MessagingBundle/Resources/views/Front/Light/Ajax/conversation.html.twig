@@ -1,0 +1,51 @@
+<div class="content-title-messaging">
+	<div class="title-left"></div>
+	<div class="title-messaging">
+		<h1>Message {% if status == "DELETED" %}supprimé{% endif %}</h1>
+	</div>
+	<div class="title-right"></div>
+</div>
+<div class="messaging-no-overflow">
+	<div id="messaging-conversation-content" data-messaging-conversation-id="{{ conversation_id}}" class="container-message">
+		<div class="content-message">
+			{% include 'BNSAppMessagingBundle:Front/Light:block_message_row.html.twig' with {'message': message } %}
+			{% for child in children %}
+				<div class="messages received">
+					<div class="header-message"></div>
+					<div class="copy author">
+						<p><img class="conversation-thumbnails" src="{{ avatar(child.user, 'thumbnail') }}" />{{ child.user.fullName }}</p>
+						<p class="date">{{ date_from_now(child.createdAt.getTimestamp,false,true) }}</a></p>
+					</div>
+					<div class="clearfix"></div>
+					<div class="message-received">
+						{% autoescape %}
+							{{ child.content|raw }}
+						{% endautoescape  %}
+					</div>
+					{% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': child.getResourceAttachments, 'editable': false} %}
+					<div class="clearfix"></div>
+				</div>
+			{% endfor %}
+
+			{% if status != "DELETED" %}
+				<div class="answer">
+					<h2>Répondre</h2>
+					<form id="messaging-answer-form" action="{{ path("BNSAppMessagingBundle_front_light_ajax_answer_message") }}" method="post" {{ form_enctype(form) }}>
+						{{ form_widget(form.answer, { 'attr': {'class': 'load_tinymce span8', 'data-theme': 'simple'} }) }}
+						{{ form_rest(form) }}
+						{% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': null, 'editable': true} %}
+						<input id="messaging-answer-message-submit" type="submit" style="display:none" />
+						<div class="clearfix"></div>
+					</form>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% if status != "DELETED" %}
+	{{ tinymce_init() }}
+	<script type="text/javascript" src="{{ asset('/medias/js/jquery.form.js') }}"></script>
+	<script type="text/javascript">
+		prepareAnswerForm();
+	</script>
+{% endif %}

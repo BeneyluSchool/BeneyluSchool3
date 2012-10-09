@@ -1,0 +1,98 @@
+{% if section == 'home' or section == 'status' %}
+	<div class="section active">
+		Mon profil
+		<span class="shadow-section"></span>
+	</div>
+	<div class="title-container">
+		<div class="content-title">
+			{% if profile is defined and profile != null and profile.isFilled() %}
+			<ul>
+				<li>
+					<a href="{{ path('BNSAppProfileBundle_back_status') }}" class="{% if section == 'status' %}active{% endif %}"">Mes statuts</a>
+				</li>
+				<li>
+					<a href="{{ path('profile_back_edit', {'userSlug': user.getSlug()}) }}" class="{% if section == 'home' %}active{% endif %}">Mes informations</a>
+				</li>
+			</ul>
+			{% else %}
+			<ul>
+				<li>
+					<a href="{{ path('profile_back_edit', {'userSlug': user.getSlug()}) }}" class="{% if section == 'home' %}active{% endif %}">Mes informations</a>
+				</li>
+				<li>
+					<a href="{{ path('BNSAppProfileBundle_back_status') }}" class="{% if section == 'status' %}active{% endif %}">Mes statuts</a>
+				</li>
+			</ul>
+			{% endif %}
+		</div>
+	</div>
+{% else %}
+	<div class="container-section">
+		<div class="section">
+			<a href="{{ path('BNSAppProfileBundle_back') }}">Mon profil</a>
+		</div>
+		{% if has_right('PROFILE_ADMINISTRATION') and section != 'moderation' %}
+			<div class="section">
+				<a href="{{ path('profile_manager_moderation') }}">Modération</a>
+			</div>
+		{% endif %}
+	</div>
+{% endif %}
+
+{% if has_right('PROFILE_ADMINISTRATION') %}
+	{% if section == 'comments' %}
+		<div class="section active">
+			Commentaires
+			<span class="shadow-section"></span>
+		</div>
+
+		<div class="title-container">
+			<div class="title active border-blue">Modération<span class="square icon-arrow"></span></div>
+			<div class="content-title">
+				<ul>
+					<li>
+						<a href="{{ path('profile_manager_comment_moderation_switch') }}" class="switchable moderation-comment {% if not is_moderate %}off{% endif %}">
+							Modération des commentaires
+							<span class="btn-switch"></span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		{% include 'BNSAppCommentBundle:Sidebar:back_block_moderation_filters.html.twig' %}
+	{% elseif section == 'moderation' %}
+		<div class="section active">
+			Modération
+			<span class="shadow-section"></span>
+		</div>
+		<div class="title-container">
+			<div class="title active border-blue">Modération<span class="square icon-arrow"></span></div>
+			<div class="content-title">
+				<ul>
+					<li>
+						<a href="{{ path('profile_manager_moderation_switch') }}" class="switchable moderation-statuses {% if not is_moderate %}off{% endif %}">
+							Modération des statuts
+							<span class="btn-switch"></span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		{% include 'BNSAppProfileBundle:Sidebar:back_block_statuses_moderation_filters.html.twig' %}
+		
+		<div class="container-section">
+			<div class="section">
+				<a href="{{ path('profile_manager_comment') }}">Commentaires</a>
+			</div>
+		</div>
+	{% else %}
+		<div class="container-section">
+			<div class="section">
+				<a href="{{ path('profile_manager_moderation') }}">Modération</a>
+			</div>
+			<div class="section">
+				<a href="{{ path('profile_manager_comment') }}">Commentaires</a>
+			</div>
+		</div>
+	{% endif %}
+{% endif %}

@@ -1,0 +1,47 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript" src="{{ asset('medias/js/jquery.dataTables.min.js') }}"></script>
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function ()
+		{
+			$('#groups').dataTable(
+			{
+				"bJQueryUI": true,
+				"sPaginationType": "full_numbers",
+				"sAjaxSource": "{{ path('admin_school_information_list') }}",
+				"bServerSide": true
+			});
+		});
+	</script>
+{% endblock %}
+	
+{% block css %}
+	{{ parent() }}
+	<link title="style" type="text/css" rel="stylesheet" href="{{ asset('medias/css/dataTable_jui.css') }}" />
+{% endblock %}
+
+{% block content %}
+	
+	<a class="btn pull-right btn-success" href="{{ path('BNSAppAdminBundle_group_add') }}" >Ajouter une école</a>
+	
+	<div class="container">			
+		<table cellpadding="0" cellspacing="0" border="0" class="display" id="groups">
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th>UAI</th>
+					<th>Adresse</th>
+					<th>Ville</th>
+					<th>Code Postal</th>
+					<th>Statut</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

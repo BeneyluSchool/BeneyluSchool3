@@ -1,0 +1,168 @@
+{% autoescape false %}
+	<script type="text/javascript">
+		{# Checking if jQuery is enabled #}
+		if (!window.jQuery) {
+			console.log('jQuery is not enabled, please enable it before using autosave script.');
+		}
+
+		var countLetter = 0,
+			autosaveTimer,
+			saveIsLaunched = false;
+		
+		{% if (isNew) %}
+			var primaryKey = null;
+		{% else %}
+			var primaryKey = '{{ primary_key }}';
+		{% endif %}
+			
+		{# Add letter to timer #}
+		var onAutosaveKeypress = function (e)
+		{
+			{% if (debug) %} console.log('countLetter', countLetter); {% endif %}
+			countLetter++;
+			if (countLetter > {{ configs['default_keypress'] }}) {
+				doAutosave();
+			}
+		},
+		
+		{# Start autosave timer #}
+		waitingForKeypress = function (e)
+		{
+			{% if (debug) %} console.log('waitingForKeypress'); {% endif %}
+			autosaveTimer = setTimeout(function ()
+			{
+				doAutosave();
+			}, {{ configs['default_timer'] }});
+			
+			{% for attributeName, inputName in attributesToSave %}
+				$('#{{ inputName }}').die('keypress', waitingForKeypress);
+			{% endfor %}
+		},
+		
+		{# Handler for TinyMCE #}
+		onTinyMCEKeypress = function (e)
+		{
+			if (e.type != 'keypress') return true;
+			
+			{% if (debug) %} console.log('onTinyMCEKeypress'); {% endif %}
+			if (primaryKey != null) {
+				if (countLetter == 0) {
+					waitingForKeypress();
+				}
+				
+				onAutosaveKeypress();
+			}
+			else {
+				doAutosave();
+			}
+		},
+		
+		{# Do the autosave #}
+		doAutosave = function (e)
+		{
+			if (saveIsLaunched) {
+				return false;
+			}
+			
+			{% if (debug) %} console.log('doAutosave'); {% endif %}
+			{# An input is empty ? #}
+			if ({{ condition }}) {
+				return false;
+			}
+			
+			{# Save is launched, all next saves must die #}
+			saveIsLaunched = true;
+			
+			{% if (isNew) %}
+				{% for attributeName, inputName in attributesToSave %}
+					$('#{{ inputName }}').die('keypress', function () { doAutosave() });
+				{% endfor %}
+			{% endif %}
+				
+			{# Clear all vars & timer #}
+			clearTimeout(autosaveTimer);
+			autosaveTimer = null;
+			countLetter = 0;
+			
+			{# Sending data to controller #}
+			{% if (onStart|length > 0) %}
+				if (typeof {{ onStart }} == 'function') {
+					{{ onStart }}();
+				}
+			{% endif %}
+			$.ajax(
+			{
+				url: '{{ path('autosave_bundle_save') }}',
+				type: 'POST',
+				dataType: 'json',
+				data: {{ params }},
+				success: function (data)
+				{
+					var object = data;
+					primaryKey = object.object_primary_key;
+					
+					{% if (onSuccess|length > 0) %}
+						if (typeof {{ onSuccess }} == 'function') {
+							{{ onSuccess }}(object);
+						}
+					{% endif %}
+				}
+			}).done(function ()
+			{
+				saveIsLaunched = false;
+			});
+			
+			{# Delagate the new autosave loop #}
+			{% for attributeName, inputName in attributesToSave %}
+				$('#{{ inputName }}').live('keypress', waitingForKeypress);
+			{% endfor %}
+			
+			return true;
+		};
+		
+		/**
+		 * @param inputId The input id
+		 *
+		 * @return string The content of the input
+		 */
+		function getContentFor(inputId)
+		{
+			{% if (debug) %} console.log('getContentFor(' + inputId + ')'); {% endif %}
+			var $input = $('#' + inputId);
+			
+			if ($input.length == 0) {
+				throw new Error('Unkwown input with id : ' + inputId + ' !');
+			}
+			
+			var tagName = $input[0].tagName;
+			if (tagName == 'INPUT') {
+				return $input.val();
+			}
+			else if (tagName == 'TEXTAREA') {
+				if ($input.hasClass('{{ textarea_class }}') && typeof tinyMCE === 'object') {
+					// TinyMCE is enabled, return the content of the editor instance
+					return tinyMCE.activeEditor.getContent();
+				}
+				else {
+					return $input.val();
+				}
+			}
+			else {
+				throw new Error('Type : ' + tagName + ' is not implemented!');
+			}
+		}
+		
+		$(function ()
+		{
+			{# Old : autosave after X seconds or X key pressed, New : autosave when keypress then old system #}
+			{% for attributeName, inputName in attributesToSave %}
+				{% if (isNew) %}
+						$('#{{ inputName }}').live('keypress', function () { doAutosave() });
+				{% else %}
+						$('#{{ inputName }}').live('keypress', waitingForKeypress);
+				{% endif %}
+				$('#{{ inputName }}').live('keypress', onAutosaveKeypress);
+			{% endfor %}
+		});
+	</script>
+{% endautoescape %}

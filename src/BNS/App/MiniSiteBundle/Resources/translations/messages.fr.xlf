@@ -1,0 +1,248 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+			<!-- GENERAL -->
+			<trans-unit id="1">
+                <source>MiniSite.Back.General.Edit</source>
+                <target>Editer</target>
+            </trans-unit>
+			<trans-unit id="2">
+                <source>MiniSite.Back.General.Delete</source>
+                <target>Supprimer</target>
+            </trans-unit>
+			<trans-unit id="3">
+                <source>MiniSite.Back.General.Cancel</source>
+                <target>Annuler</target>
+            </trans-unit>
+			<trans-unit id="4">
+                <source>MiniSite.Back.General.MiniSiteManager</source>
+                <target>Gestion du Minisite</target>
+            </trans-unit>
+			<trans-unit id="5">
+                <source>MiniSite.Back.General.LoadingProcess</source>
+                <target>Chargement en cours, veuillez patienter...</target>
+            </trans-unit>
+			<trans-unit id="6">
+                <source>MiniSite.Back.General.WroteAtBy</source>
+                <target>Ecrit le %date% par</target>
+            </trans-unit>
+			<trans-unit id="7">
+                <source>MiniSite.Back.General.Page</source>
+                <target>Page</target>
+            </trans-unit>
+
+
+			<!-- HEADER BUTTONS -->
+			<trans-unit id="51">
+                <source>MiniSite.Back.HeaderButtons.AddEditor</source>
+                <target>Ajouter un éditeur</target>
+            </trans-unit>
+			<trans-unit id="52">
+                <source>MiniSite.Back.HeaderButtons.AddPage</source>
+                <target>Ajouter une page</target>
+            </trans-unit>
+			<trans-unit id="53">
+                <source>MiniSite.Back.HeaderButtons.AddNews</source>
+                <target>Ajouter une actualité</target>
+            </trans-unit>
+			<trans-unit id="54">
+                <source>MiniSite.Back.HeaderButtons.IFinished</source>
+                <target>J'ai terminé</target>
+            </trans-unit>
+
+			<!-- CUSTOM -->
+			<!-- Custom/index -->
+			<trans-unit id="101">
+                <source>MiniSite.Back.Custom.SitePublic</source>
+                <target>Site public</target>
+            </trans-unit>
+			<trans-unit id="102">
+                <source>MiniSite.Back.Custom.Editors</source>
+                <target>Les Editeurs</target>
+            </trans-unit>
+			<trans-unit id="103">
+                <source>MiniSite.Back.Custom.DeleteBoxDescription</source>
+                <target>Cliquez et déposez un éditeur dans cette zone pour le supprimer.</target>
+            </trans-unit>
+			<trans-unit id="104">
+                <source>MiniSite.Back.Custom.Pages</source>
+                <target>Les Pages</target>
+            </trans-unit>
+			<!-- Custom/widgets -->
+			<trans-unit id="105">
+                <source>MiniSite.Back.Custom.Sidebar</source>
+                <target>Barre latérale</target>
+            </trans-unit>
+			<trans-unit id="106">
+                <source>MiniSite.Back.Custom.Modules</source>
+                <target>Widgets disponibles</target>
+            </trans-unit>
+
+			<!-- WIDGETS -->
+			<trans-unit id="151">
+                <source>MiniSite.Back.Custom.Widgets.Delete</source>
+                <target>Supprimer le widget</target>
+            </trans-unit>
+			<trans-unit id="152">
+                <source>MiniSite.Back.Custom.Widgets.RSS.URL</source>
+                <target>Flux RSS</target>
+            </trans-unit>
+			<trans-unit id="153">
+                <source>MiniSite.Back.Custom.Widgets.RSS.Limit</source>
+                <target>Nombre de Flux à afficher</target>
+            </trans-unit>
+			
+			<!-- SIDEBAR -->
+			<!-- block_page_news_filters.html -->
+			<trans-unit id="201">
+                <source>MiniSite.Back.Sidebar.NewsStatus</source>
+                <target>Filter les actualités</target>
+            </trans-unit>
+			<trans-unit id="202">
+                <source>MiniSite.Back.Sidebar.PublishedNews</source>
+                <target>Actualités publiées</target>
+            </trans-unit>
+			<trans-unit id="203">
+                <source>MiniSite.Back.Sidebar.CorrectionNews</source>
+                <target>Actualités à corriger</target>
+            </trans-unit>
+			<trans-unit id="204">
+                <source>MiniSite.Back.Sidebar.FinishedNews</source>
+                <target>Actualités terminées</target>
+            </trans-unit>
+			<trans-unit id="205">
+                <source>MiniSite.Back.Sidebar.DraftNews</source>
+                <target>Brouillons</target>
+            </trans-unit>
+			<trans-unit id="206">
+                <source>MiniSite.Back.Sidebar.Menu.Personalization</source>
+                <target>Personnalisation</target>
+            </trans-unit>
+			<trans-unit id="207">
+                <source>MiniSite.Back.Sidebar.Menu.General</source>
+                <target>Général</target>
+            </trans-unit>
+			<trans-unit id="208">
+                <source>MiniSite.Back.Sidebar.Menu.Informations</source>
+                <target>Informations</target>
+            </trans-unit>
+			<trans-unit id="209">
+                <source>MiniSite.Back.Sidebar.Menu.Template</source>
+                <target>Thème</target>
+            </trans-unit>
+			<trans-unit id="210">
+                <source>MiniSite.Back.Sidebar.Menu.Moderation</source>
+                <target>Modération</target>
+            </trans-unit>
+
+			<!-- ACTION BAR -->
+			<trans-unit id="251">
+                <source>MiniSite.Back.ActionBar.NewsPublished</source>
+                <target>Actualité publiée</target>
+            </trans-unit>
+			<trans-unit id="252">
+                <source>MiniSite.Back.ActionBar.Draft</source>
+                <target>Brouillon</target>
+            </trans-unit>
+			<trans-unit id="253">
+                <source>MiniSite.Back.ActionBar.NewsFinished</source>
+                <target>Actualité terminée</target>
+            </trans-unit>
+			<trans-unit id="254">
+                <source>MiniSite.Back.ActionBar.NewsToCorrect</source>
+                <target>Actualité à corriger</target>
+            </trans-unit>
+			<trans-unit id="255">
+                <source>MiniSite.Back.ActionBar.Unpublish</source>
+                <target>Dépublier</target>
+            </trans-unit>
+			<trans-unit id="256">
+                <source>MiniSite.Back.ActionBar.ValidateAndPublish</source>
+                <target>Valider et publier</target>
+            </trans-unit>
+			<trans-unit id="257">
+                <source>MiniSite.Back.ActionBar.Validate</source>
+                <target>Valider sans publier</target>
+            </trans-unit>
+			<trans-unit id="258">
+                <source>MiniSite.Back.ActionBar.ToCorrect</source>
+                <target>Soumettre à une correction</target>
+            </trans-unit>
+			<trans-unit id="259">
+                <source>MiniSite.Back.ActionBar.Publish</source>
+                <target>Publier</target>
+            </trans-unit>
+			<trans-unit id="260">
+                <source>MiniSite.Back.ActionBar.PagePublish</source>
+                <target>Page publiée</target>
+            </trans-unit>
+			<trans-unit id="261">
+                <source>MiniSite.Back.ActionBar.PageDraft</source>
+                <target>Brouillon</target>
+            </trans-unit>
+			<trans-unit id="262">
+                <source>MiniSite.Back.ActionBar.PageFinished</source>
+                <target>Page terminée</target>
+            </trans-unit>
+			<trans-unit id="263">
+                <source>MiniSite.Back.ActionBar.PageToCorrect</source>
+                <target>Page à corriger</target>
+            </trans-unit>
+
+			<!-- MODALS -->
+			<trans-unit id="301">
+                <source>MiniSite.Back.Modal.NewsBody</source>
+                <target>
+					<![CDATA[<h2>Vous allez supprimer une actualité.</h2>
+					<p>Vous perdrez la totalité du contenu de cette actualité.</p>]]>
+				</target>
+            </trans-unit>
+			<trans-unit id="302">
+                <source>MiniSite.Back.Modal.PageBodyText</source>
+                <target>
+					<![CDATA[<h2>Vous allez supprimer une page de type "statique".</h2>
+					<p>Vous perdrez la totalité du contenu de la page (textes, images, etc).</p>]]>
+				</target>
+            </trans-unit>
+			<trans-unit id="303">
+                <source>MiniSite.Back.Modal.PageBodyNews</source>
+                <target>
+					<![CDATA[<h2>Vous allez supprimer une page de type "actualité".</h2>
+					<p>Vous perdrez la totalité du contenu de la page (textes, images, etc) ainsi que toutes les actualités qui sont liées à cette page.</p>]]>
+				</target>
+            </trans-unit>
+			<trans-unit id="304">
+                <source>MiniSite.Back.Modal.WidgetBody</source>
+                <target>
+					<![CDATA[<h2>Vous allez supprimer un widget de votre mini site.</h2>
+					<p>Vous perdrez toutes les données relatives aux paramètres du widget.</p>]]>
+				</target>
+            </trans-unit>
+
+			<!-- MODERATION -->
+			<trans-unit id="351">
+                <source>MiniSite.Back.Moderation.NoModeration</source>
+                <target>Aucune modération n'a été trouvée.</target>
+            </trans-unit>
+
+			<!-- PAGE -->
+			<trans-unit id="401">
+                <source>MiniSite.Back.Page.NewsDraftSaved</source>
+                <target>l'actualité a été sauvegardée dans vos brouillons.</target>
+            </trans-unit>
+			<trans-unit id="402">
+                <source>MiniSite.Back.Page.PageDraftSaved</source>
+                <target>la page a été sauvegardée dans vos brouillons.</target>
+            </trans-unit>
+			<trans-unit id="403">
+                <source>MiniSite.Back.Page.NoNewsFound</source>
+                <target>Aucune actualité n'a été trouvée.</target>
+            </trans-unit>
+			<trans-unit id="404">
+                <source>MiniSite.Back.Page.Posted</source>
+                <target>Posté le </target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

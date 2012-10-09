@@ -1,0 +1,48 @@
+{% if (blog.getBlogArticles()|length > 0) %}
+	{% for i,article in blog.getBlogArticles() %}
+		{% include 'BNSAppBlogBundle:Article:front_article_row.html.twig' %}
+	{% endfor %}
+{% else %}
+	<div class="no-article">
+		{% if has_right('BLOG_ACCESS_BACK') %}
+			{% if app.request.get('_route') == 'blog_articles_from_category' %}
+				Il n'existe aucun article dans cette catégorie.
+				{% if is_adult() %}
+					Pour en créer un nouveau, rendez-vous sur la page de <a href="{{ path('blog_manager_new_article') }}">création d'un article</a>.
+				{% else %}
+					Sois le premier à en proposer un en cliquant sur <a href="{{ path('blog_manager_new_article') }}">ce lien</a>.
+				{% endif %}
+			{% else %}
+				Personne n'a encore écrit dans le blog, sois le premier à proposer un article en cliquant sur <a href="{{ path('blog_manager_new_article') }}">ce lien</a>.
+			{% endif %}
+		{% else %}
+			{% if app.request.get('_route') == 'blog_articles_from_category_page' %}
+				Il n'existe aucun article dans cette catégorie.
+			{% else %}
+				Aucun article n'a été trouvé.
+			{% endif %}
+		{% endif %}
+	</div>
+{% endif %}
+
+{% if (pager.getLastPage() > 1) %}
+	<div class="pagination" style="text-align :center;">
+		<ul>
+			{% if (pager.getPage() > pager.getFirstPage()) %}
+				<li><a class="article-pager" href="{{ path('blog_articles_page', {'blogId': blog.getId(), 'page': pager.getPreviousPage()}) }}">←</a></li>
+			{% else %}
+				<li class="disabled"><a href="#" onclick="return false;">←</a></li>
+			{% endif %}
+
+			{% for i in range(pager.getFirstPage(), pager.getLastPage()) %}
+				<li{% if (pager.getPage() == i) %} class="active"{% endif %}><a class="article-pager" href="{{ path('blog_manager_articles_page', {'page': i}) }}">{{ i }}</a></li>
+			{% endfor %}
+
+			{% if (pager.getPage() < pager.getLastPage()) %}
+				<li><a class="article-pager" href="{{ path('blog_articles_page', {'blogId': blog.getId(), 'page': pager.getNextPage()}) }}">→</a></li>
+			{% else %}
+				<li class="disabled"><a href="#" onclick="return false;">→</a></li>
+			{% endif %}
+		</ul>
+	</div>
+{% endif %}

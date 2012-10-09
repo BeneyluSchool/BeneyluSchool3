@@ -1,0 +1,12 @@
+<div class="sidebar-menu-container">
+	<div class="section-sidebar bottom custom-sidebar moderation">
+		<a href="{{ path('minisite_manager_moderation') }}" class="btn-sidebar btn-action custom-sidebar {% if isModerationRoute is defined %}active{% endif %}">
+			{% trans %}MiniSite.Back.Sidebar.Menu.Moderation{% endtrans %}
+			<div class="color-active"></div><span class="icon-arrow-down-blue"></span>
+		</a>
+	</div>
+	{% if isModerationRoute is defined %}
+		{% include 'BNSAppMiniSiteBundle:Sidebar:block_page_news_filters.html.twig' %}
+	{% endif %}
+</div>
+<div class="clearfix"></div>

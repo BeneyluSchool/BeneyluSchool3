@@ -1,0 +1,56 @@
+{% extends '::base_manager.html.twig' %}
+
+{% block title %}Messagerie - Gestion{% endblock %}
+
+{% block css %}
+    {{ parent() }}
+	{# Appel CSS du package layout manager #}
+	{% include "BNSAppMainBundle:Manager:layoutStyle.html.twig" %}
+	<link href="{{ asset('/medias/css/messaging/manager.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="background-messaging-admin"></div>
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span12 align-right">
+						<a href="{{ path('BNSAppMessagingBundle_back_light_messages_validation') }}" id="messaging-moderate-validation" class="btn bns-success validate-medium btn-24 medium"><span class="icons-24 validate-icon"></span><strong>Valider tout</strong></a>
+						<a href="{{ path('BNSAppMessagingBundle_back_light_messages_delete') }}" style="display:none;" id="messaging-rejected-delete" class="btn bns-danger btn-24 medium-return"><span class="icons-24 delete-icon"></span><strong>Supprimer</strong> <br> les messages</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+    <div class="container-fluid container">
+        <div class="row-fluid container-manager">
+            <div class="container-sidebar">
+                {% include 'BNSAppMessagingBundle:Back/Light:sidebar.html.twig' %}
+				<div class="sidebar-shadow"></div>
+            </div>
+            <div class="span9 container-content no-margin ">
+                <div id="messagin-back-main-loader" class="layer">
+					<div class="message">
+						Chargement des messages en cours
+						<div><img src="{{ asset('/medias/images/icons/big-loader.gif') }}" alt="" /></div>
+					</div>
+				</div>
+				<div id="messaging-moderation-container" class="content-messaging">
+					{% block content %}{% endblock %}
+				</div>
+            </div>
+			<div class="container-manager-bottom">
+				<div class="content-manager-bottom"></div>
+			</div>
+        </div>
+    </div>
+{% endblock body %}
+	
+{% block dock_bar %}
+	{% render 'BNSAppMainBundle:DockBar:index' with {'module_unique_name' : 'MESSAGING' , 'is_in_front' : false } %}
+{% endblock %}

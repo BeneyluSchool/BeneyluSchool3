@@ -1,0 +1,45 @@
+{% extends '::base.html.twig' %}
+
+{% block css %}
+	<link rel="stylesheet" href="{{ app.request.uriForPath('/css/base.css') }}" type="text/css"/>
+	<link rel="stylesheet" href="{{ app.request.uriForPath('/medias/css/classroom/card.css') }}" type="text/css"/>
+{% endblock %}
+	
+{% block body %}
+	{% block content %}
+		<div class="card-container">
+			<div class="card-header">
+				<img src="{{ app.request.uriForPath('/medias/images/classroom/pupil_parent_card/bns_logo.png') }}" class="header-logo" />
+				<h1>FICHE {% block user_role %} {{ role.getLabel()|upper }} {% endblock %}</h1>
+				<span class="username">{{ user.getFullName()|upper }}</span>
+			</div>
+			<div class="clearfix"></div>
+
+			<div class="card-body">
+				<div class="user-login-pwd">
+					<p><span class="item-label">IDENTIFIANT</span> {{ user.getUserName() }}</p>
+					<p class="pwd-item"><span class="item-label">MOT DE PASSE</span> {{ user.getPassword() }}</p>
+					<p><span class="warn-note">Ce mot de passe est confidentiel, vous ne devez pas le communiquer.</span></p>
+				</div>
+
+				<div class="bns-link">
+					<img src="{{ app.request.uriForPath('/medias/images/classroom/pupil_parent_card/beneylu-jim.png') }}" class="beneylu-jim-img" />
+					{% if role.getType == 'PUPIL' %}
+						<p>Beneylu Jim se fera une joie de t'accueillir à l'adresse :</p>
+					{% elseif role.getType == 'PARENT' %}
+						<p>La classe de {{ user.getChild.firstName }} vous attend à l'adresse :</p>
+					{% endif %}
+					<p><span class="bns-url">www.beneyluschool.net</span></p>
+					<div class="clearfix"></div>
+				</div>
+			</div>	
+
+			<div class="card-footer">
+				<p>L'équipe BeneyluSchool</p>
+			</div>
+		</div>
+	{% endblock %}
+{% endblock %}
+
+
+

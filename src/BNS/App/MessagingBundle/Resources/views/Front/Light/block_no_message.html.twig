@@ -1,0 +1,46 @@
+{% set wordType = type == "sent" ? "envoyé" : "reçu" %}
+
+<div class="messaging-no-overflow">
+	<div class="container-message">
+		<div class="content-message">
+			<div class="messages">
+				{% if is_child() %}
+
+					<p class="message no-message">
+						Tu n'as pas encore {{ wordType }} de message <img src="{{ asset('medias/images/icons/fugue/smiley-sad.png') }}" />
+					</p>
+					<p class="message no-message">
+						Tu peux en envoyer un en cliquant sur
+						
+						<button id="messaging-top-new-message" class="btn write-new-msg btn-messaging write messaging-top-button pull-left">
+							<span class="background-button blue">
+								<span class="icons-message new"></span>
+								<span class="text">Ecrire un <br />nouveau message</span>
+							</span>
+						</button>
+						
+					</p>
+
+				{% else %}
+
+					<p class="message no-message">
+						Vous n'avez pas encore {{ wordType }} de message <img src="{{ asset('medias/images/icons/fugue/smiley-sad.png') }}" />
+					</p>
+					<p class="message no-message">
+						Vous pouvez en envoyer un en cliquant sur 
+						
+						<button id="messaging-top-new-message" class="btn write-new-msg btn-messaging write messaging-top-button pull-left">
+							<span class="background-button blue">
+								<span class="icons-message new"></span>
+								<span class="text">Ecrire un <br />nouveau message</span>
+							</span>
+						</button>
+						
+					</p>
+
+				{% endif %}
+				<div class="clearfix"></div>
+			</div>	
+		</div>
+	</div>
+</div>

@@ -1,0 +1,45 @@
+<li id="list_{{ page.getId() }}">
+	<div>
+		<div class="content-title-page">
+			<span class="list-style-bns"><img src="{{ asset('/medias/images/icons/puce.png') }}" alt="" /></span>
+			<div class="title">{{ page.getTitle() }}</div>
+			<input type="text" name="mini_site_page_form[title]" value="{{ page.getTitle() }}" placeholder="Nom de votre page" />
+			<div class="crud">
+				<a class="btn-activation" href="{{ path('minisite_manager_switch_activation_page') }}"><span {% if not page.isActivated() %}class="disabled"{% endif %}></span></a>
+				<span class="delete-button"><a href="#"><img src="{{ asset('/medias/images/blog/dialog-close.png') }}" alt="{% trans %}Blog.General.Del{% endtrans %}" /></a></span>
+				<span class="edit-button"><a href="#"><img src="{{ asset('/medias/images/icons/fugue/pencil.png') }}" alt="{% trans %}Blog.General.Edit{% endtrans %}" /></a></span>
+			</div>
+			<div class="edit btn-group content-btn-event">
+				<button class="btn btn-mini btn-inverse cancel">{% trans %}Blog.General.Cancel{% endtrans %}</button>
+				<a href="{{ path('minisite_manager_custom_page_save', {'id': page.getId()}) }}" class="btn btn-mini btn-success confirm">OK</a>
+			</div>
+			<div class="delete btn-group content-btn-event">
+				<a href="{{ path('minisite_manager_custom_page_delete_confirm', {'pageId': page.getId()}) }}" class="btn btn-mini btn-danger confirm">{% trans %}Blog.General.Del{% endtrans %}</a>
+				<button class="btn btn-mini btn-inverse cancel">{% trans %}Blog.General.Cancel{% endtrans %}</button>
+			</div>
+		</div>
+		<div class="content-form-edit">
+			{% if isNew is defined %}
+				<div class="page-type">
+					<p>Type de la page</p>
+					<select name="mini_site_page_form[type]">
+						<option value="TEXT" {% if page.getType() == 'TEXT' %}selected="selected"{% endif %}>Page statique</option>
+						<option value="NEWS" {% if page.getType() == 'NEWS' %}selected="selected"{% endif %}>Page d'actualités</option>
+					</select>
+				</div>
+			{% else %}
+				<input type="hidden" name="mini_site_page_form[type]" value="{{ page.getType() }}" />
+			{% endif %}
+			{% if not page.isHome() %}
+				<div class="page-checkbox">
+					<label class="checkbox">
+						Mettre en page d'accueil
+					</label>
+					<input type="checkbox" value="true" name="mini_site_page_form[is_home]" />
+				</div>
+			{% else %}
+				<input type="hidden" value="true" name="mini_site_page_form[is_home]" />
+			{% endif %}
+		</div>
+	</div>
+</li>

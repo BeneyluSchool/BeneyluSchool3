@@ -1,0 +1,106 @@
+<style type="text/css">
+	.arrow_box {
+		position: absolute;
+		top: 0px;
+		background: #EEE;
+		border: 4px solid #BBB;
+		left: 394px;
+		padding: 15px;
+		display: none;
+		z-index: 15;
+		width: 722px;
+	}
+	
+	.arrow_box:after, .arrow_box:before {
+		right: 100%;
+		border: solid transparent;
+		content: " ";
+		height: 0;
+		width: 0;
+		position: absolute;
+		pointer-events: none;
+	}
+
+	.arrow_box:after {
+		border-color: rgba(213, 210, 207, 0);
+		border-right-color: #EEE;
+		border-width: 30px;
+		top: 53px;
+		margin-top: -30px;
+	}
+	
+	.arrow_box:before {
+		border-color: rgba(255, 250, 235, 0);
+		border-right-color: #BBB;
+		border-width: 36px;
+		top: 53px;
+		margin-top: -36px;
+	}
+	
+	.arrow_box .close {
+		margin: 0;
+		padding: 3px 7px;
+		background: #CCC;
+		border: 2px solid #BBB;
+		margin-top: -8px;
+		border-radius: 3px;
+	}
+	
+	.arrow_box textarea {
+		font-family: Consolas;
+		height: 500px;
+		width: 99%;
+	}
+	
+	.show-javascripts {
+		position: absolute;
+		top: 10px;
+		left: -156px;
+		opacity: .2;
+	}
+	
+	.show-javascripts:hover {
+		opacity: 1;
+	}
+</style>
+<script type="text/javascript">
+	$(function ()
+	{
+		var $injector = $('.show-javascripts');
+		$('.remove-this-class-filters').append($injector.clone()).append($('.javascript-filters')).removeClass('remove-this-class-filters');
+		$('.remove-this-class-category').append($injector.clone()).append($('.javascript-category')).removeClass('remove-this-class-category');
+		$('.remove-this-class-options').append($injector.clone()).append($('.javascript-options')).removeClass('remove-this-class-options');
+		
+		$('.show-javascripts').click(function (e)
+		{
+			var $tooltip = $(e.currentTarget).parent().find('.javascript-tooltip');
+			if ($tooltip.css('display') == 'none') {
+				$('.javascript-tooltip').fadeOut('fast');
+				$tooltip.fadeIn('fast');
+			}
+			else {
+				$tooltip.fadeOut('fast');
+			}
+			
+			return false;
+		});
+		
+		$('.arrow_box .close').click(function (e)
+		{
+			$(e.currentTarget).parent().fadeOut('fast');
+			
+			return false;
+		});
+	});
+</script>
+
+<div class="show-javascripts">
+	<a href="#" class="btn bns-notice btn-16 small">
+		<span class="icons-16 preview-icon"></span>
+		<strong>Voir</strong> le JavaScript
+	</a>
+</div>
+
+{% include 'BNSAppHelloWorldBundle:Javascripts:filters.html.twig' %}
+{% include 'BNSAppHelloWorldBundle:Javascripts:category.html.twig' %}
+{% include 'BNSAppHelloWorldBundle:Javascripts:options.html.twig' %}

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+			<!-- Allowed attributes name : commentAuthor, commentUrl, articleTitle -->
+
+			<!-- EMAIL Engine -->
+            <trans-unit id="1">
+                <source>BLOG_COMMENT_TO_MODERATE.EMAIL.title</source>
+                <target>%commentAuthor% a soumis un commentaire à modération</target>
+            </trans-unit>
+			<trans-unit id="2">
+                <source>BLOG_COMMENT_TO_MODERATE.EMAIL.content</source>
+                <target><![CDATA[<b>%commentAuthor%</b> a soumis un commentaire à modération sur l'article "<a href="%commentUrl%" title="Voir le commentaire"><b>%articleTitle%</b></a>]]></target>
+            </trans-unit>
+			
+			<!-- SYSTEM Engine -->
+			<trans-unit id="100">
+                <source>BLOG_COMMENT_TO_MODERATE.SYSTEM.content</source>
+                <target><![CDATA[<b>%commentAuthor%</b> a soumis un commentaire à modération sur l'article "<a href="%commentUrl%" title="Voir le commentaire"><b>%articleTitle%</b></a>]]></target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

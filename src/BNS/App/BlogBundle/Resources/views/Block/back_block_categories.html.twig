@@ -1,0 +1,39 @@
+<div class="title-container article-categories-filter">
+	<div class="title active border{% if has_right('BLOG_ADMINISTRATION') %}-light{% endif %}-blue">{% trans %}Blog.Back.Sidebar.Categories{% endtrans %}  <span class="square icon-arrow"></span></div>
+	<div class="content-title">
+		{% if has_right('BLOG_ADMINISTRATION') %}
+			<div class="form-title">
+				<div class="loader loader-h"></div>
+				<form action="{{ path('blog_manager_category_add') }}" method="POST">
+					<div class="add-on category-icon" rel="tooltip" title="{% trans %}Blog.Back.Sidebar.Tooltip.AddIcon{% endtrans %}">
+						<span class="default"></span>
+					</div>
+					<div class="category-icons-list">
+						{% render 'BNSAppBlogBundle:Back:getCategoryIcons' %}
+						<a href="#" class="default">Aucune icône</a>
+					</div>
+					<input type="text" size="16" class="add-category" placeholder="Nouvelle Catégorie">
+					<img src="{{ asset('/medias/images/icons/enter-key.png') }}" alt="" class="add-category-help" />
+					<input type="submit" class="btn btn-info" value="Ajouter">
+				</form>
+			</div>
+		{% endif %}
+			
+		<div class="content-category">
+			{% set isAdmin = has_right('BLOG_ADMINISTRATION') %}
+			<ol class="{% if isAdmin %}load-sortable{% endif %}">
+				{% for category in blog.getSortedBlogCategories() %}
+					{% include 'BNSAppBlogBundle:Category:back_block_categories_row.html.twig' with {'blogId': blog.getId(), 'category': category['parent'], 'isAdmin': isAdmin} %}
+
+					{% if (category['children']|length > 0) %}
+						<ol>
+							{% for subCategory in category['children'] %}
+								{% include 'BNSAppBlogBundle:Category:back_block_categories_row.html.twig' with {'blogId': blog.getId(), 'category': subCategory, 'isAdmin': isAdmin} %}
+							{% endfor %}
+						</ol>
+					{% endif %}
+				{% endfor %}
+			</ol>
+		</div>
+	</div>
+</div>

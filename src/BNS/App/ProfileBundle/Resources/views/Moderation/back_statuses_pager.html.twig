@@ -1,0 +1,21 @@
+{% if (pager.getLastPage() > 1) %}
+	<div class="pagination" data-status="{{ status }}" data-current-page="{{ pager.getPage() }}">
+		<ul>
+			{% if (pager.getPage() > pager.getFirstPage()) %}
+				<li><a class="article-pager" href="{{ path('profile_manager_moderation_statuses_load') }}" data-page="{{ pager.getPreviousPage() }}">←</a></li>
+			{% else %}
+				<li class="disabled"><a href="#" onclick="return false;">←</a></li>
+			{% endif %}
+
+			{% for i in range(pager.getFirstPage(), pager.getLastPage()) %}
+				<li{% if (pager.getPage() == i) %} class="active"{% endif %}><a class="article-pager" href="{{ path('profile_manager_moderation_statuses_load') }}" data-page="{{ i }}">{{ i }}</a></li>
+			{% endfor %}
+
+			{% if (pager.getPage() < pager.getLastPage()) %}
+				<li><a class="article-pager" href="{{ path('profile_manager_moderation_statuses_load') }}" data-page="{{ pager.getNextPage() }}">→</a></li>
+			{% else %}
+				<li class="disabled"><a href="#" onclick="return false;">→</a></li>
+			{% endif %}
+		</ul>
+	</div>
+{% endif %}

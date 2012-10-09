@@ -1,0 +1,10 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+	
+	<a href="{{ path('BNSAppAdminBundle_permission_manage')}}" class="btn btn-success">
+		Ajouter une permission
+	</a>
+	{% include "BNSAppAdminBundle:Permission:list.html.twig" with {'permissions' : permissions} %}
+
+{% endblock %}

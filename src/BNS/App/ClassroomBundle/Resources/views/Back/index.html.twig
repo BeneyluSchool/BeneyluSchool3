@@ -1,0 +1,71 @@
+{% extends 'BNSAppClassroomBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+Classe - Tableau de bord
+{% endblock %}
+
+{% block top_bar %}{% endblock %}
+
+{% block sidebar %}
+    {% include "BNSAppClassroomBundle:Sidebar:sidebar.html.twig" with {"page" : "index", "section" : "general" } %}
+{% endblock sidebar %}
+
+{% block content %}
+	{% if app.session.hasFlash('update_home_message_success') %}
+		<div class="alert alert-success">{{ app.session.getFlash('update_home_message_success') }}</div>
+	{% endif %}
+	{#<div class="write-home-message-container hide">
+		<div class="news-title">
+			<h1 class="dashboard">Ecrire un message d'accueil</h1>
+		</div>
+		<div class="content-new-message-home">
+			<form action="{{ path('BNSAppClassroomBundle_back') }}" method="POST" {{ form_enctype(form) }}>
+				<div class="textarea-new-message">
+					{{ form_widget(form.homeMessage) }}
+					{{ form_rest(form) }}
+				</div>
+				<button class="btn cancel-write-home-message">Annuler</button> <input type="submit" class="btn btn-success" value="Mettre à jour" />
+			</form>
+		</div>
+	</div>#}
+	<div class="container-classroom">
+		<div class="news-title dashboard-connect">
+			<h1 class="dashboard modules">Mes modules</h1>
+			<h1 class="dashboard connect">Dernières connexions</h1>
+			<div class="content-user-dashboard">
+				<div class="user-dashboard"><img src="{{ asset('/medias/images/profile/avatar/thumbnail/pupil_M.png') }}" alt="avatar" /> <p>Elèves</p></div>
+				<div class="user-dashboard"><img src="{{ asset('/medias/images/profile/avatar/thumbnail/parent.png') }}" alt="avatar" /> <p>Parents</p></div>
+			</div>
+		</div>
+		<div class="content-dashboard-connexion-management">
+			<div class="row-fluid">
+				<div class="span8">
+					{% render "BNSAppMainBundle:Module:moduleActivation" with { 'roles': activationRoles } %}
+				</div>
+				<div class="span4 last-connexion">
+					{% for user in last_users_connected %}
+						<div class="content-last-connexion">
+							<p><img src="{{ avatar(user, 'thumbnail') }}" alt="avatar" /> {{ user.getFullName() }}</p>
+							<p class="date">{{ date_from_now(user.getLastConnection(), true, false) }}</p>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+
+
+
+		<div class="container-actu">
+			<div class="news-title">
+				<h1 class="dashboard">Actualités</h1>
+			</div>
+			{% for item in feed_items %}
+				<div class="item">
+					<h4><a href="{{ item.link }}" title="{{ item.title }}" target="_blank">{{ item.title }}</a></h4>
+					<img src="{{ item.image }}" width="50px" height="50px" />
+					<p>{{ item.description }}</p>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}

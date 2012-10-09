@@ -1,0 +1,198 @@
+{% block css %}
+	<link href="{{ asset('/medias/css/calendar/timePicker.css') }}" rel="stylesheet" type="text/css" />
+    <link type="text/css" href="{{ asset('medias/css/ui-twitter-theme/jquery-ui-1.8.16.custom.css') }}" rel="stylesheet" />
+	
+{% endblock %}
+
+{% block javascripts %}
+	<script type="text/javascript" src="{{ asset('/medias/js/calendar/jquery.timePicker.min.js') }}"></script>
+	<script src="http://jquery-ui.googlecode.com/svn/tags/latest/ui/minified/i18n/jquery-ui-i18n.min.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		jQuery(function($){ $.datepicker.setDefaults($.datepicker.regional['fr']); });
+	</script>
+	<script type="text/javascript">
+        $(document).ready(function() {
+            // Init process
+            var isRecurringCheckbox = $("#{{ form.isRecurring.vars.id }}");
+            toggleRecurringOptions(isRecurringCheckbox.is(':checked'));
+
+            var isAllDayCheckbox = $("#{{ form.isAllDay.vars.id }}");
+            toggleAllDayOption(isAllDayCheckbox.is(':checked'));
+
+            // Enable DatePicker
+			$.datepicker.setDefaults(jQuery.datepicker.regional['fr']);
+            $("#{{ form.recurringEndDate.vars.id }}, #{{ form.dateStart.vars.id }}, #{{ form.dateEnd.vars.id }}").datepicker();
+
+            // Enable TimePicker
+            $("#{{ form.timeStart.vars.id }}, #{{ form.timeEnd.vars.id }}").timePicker({
+                startTime: new Date(0, 0, 0, 8, 0, 0), // Using string. Can take string or Date object.
+                endTime: new Date(0, 0, 0, 20, 00, 0), // Using Date object here.
+                show24Hours: true,
+                separator: {% if locale == 'fr' %}'h'{% else %}':'{% endif %},
+                step: 30});
+
+            // listener process
+            {% if locale == 'fr' %}
+                    var timeStart = $("#{{ form.timeStart.vars.id }}");
+                    timeStart.val(convertTimeToUserLocalFormat(timeStart.val()));
+                    var timeEnd = $("#{{ form.timeEnd.vars.id }}");
+                    timeEnd.val(convertTimeToUserLocalFormat(timeEnd.val()));
+
+                    $("form").submit(function() {
+                            timeStart.val(convertTimeToSF2Format(timeStart.val()));
+                            timeEnd.val(convertTimeToSF2Format(timeEnd.val()));
+                    });
+            {% endif %}
+
+            isRecurringCheckbox.click(function() {
+                    toggleRecurringOptions(isRecurringCheckbox.is(':checked'));
+            });
+            isAllDayCheckbox.click(function() {
+                    toggleAllDayOption(isAllDayCheckbox.is(':checked'));
+            });
+
+            $(".recurring_count").blur(function() {
+                    if ($(this).val().replace(/ /g, '') != '')
+                    {
+                            $(".recurring_until").val('');
+                    }
+            });
+
+            $(".recurring_until").blur(function() {
+                    if ($(this).val().replace(/ /g, '') != '')
+                    {
+                            $(".recurring_count").val('');
+                    }
+            });
+            
+            $(".errors-container").each(function() {
+                if ($.trim( $(this).html() ).length)
+                {
+                    $(this).show();
+                }
+            });
+            
+            // function
+            function toggleAllDayOption(state)
+            {
+                    if (state)
+                    {
+                            $(".time_field").fadeOut("slow");
+                    }
+                    else
+                    {
+                            $(".time_field").fadeIn("slow");
+                    }
+            }
+
+            function toggleRecurringOptions(state)
+            {
+                    if (state)
+                    {
+                            $(".recurring_options").fadeIn("fast");
+                    }
+                    else
+                    {
+                            $(".recurring_options").fadeOut("fast");
+                    }
+            }
+
+            function convertTimeToUserLocalFormat(time)
+            {
+                    return time.replace(':', 'h');
+            }
+
+            function convertTimeToSF2Format(time)
+            {
+                    return time.replace('h', ':');
+            }
+        });
+    </script>
+	{{ tinymce_init() }}
+{% endblock %}
+
+{% block content %}
+	<div class="errors-container span8 alert alert-error">
+		{{ form_errors(form.isRecurring) }}
+		{{ form_errors(form.recurringType) }}
+		{{ form_errors(form.recurringCount) }}
+		{{ form_errors(form.recurringEndDate) }}
+	</div>
+	<div>
+		{{ form_widget(form.title , { 'attr': {'placeholder': 'Saisissez un titre pour l\'événement...', 'class': 'input-xlarge-bns'} }) }}
+		<div class="errors-container span8 alert alert-error">
+			{{ form_errors(form.title) }}
+		</div>
+	</div>
+	
+	<div class="selection-agenda">
+		{{ form_label(form.agendaId, 'Sélectionner l\'agenda concerné') }}
+		{{ form_widget(form.agendaId) }}
+		<div class="errors-container span8 alert alert-error">
+			{{ form_errors(form.agendaId) }}
+		</div>
+	</div>
+	
+	<div>
+		<span class="date">Du</span> {{ form_widget(form.dateStart) }}
+		<span class="time_field"><span class="date">à</span> {{ form_widget(form.timeStart) }}</span>
+		<div class="errors-container span8 alert alert-error">
+			{{ form_errors(form.dateStart) }}
+			{{ form_errors(form.timeStart) }}
+		</div>
+	</div>
+	
+	<div>
+		<span class="date">Au</span> {{ form_widget(form.dateEnd) }}
+		<span class="time_field"><span class="date">à</span> {{ form_widget(form.timeEnd) }}</span>
+		<div class="errors-container span8 alert alert-error">
+			{{ form_errors(form.dateEnd) }}
+			{{ form_errors(form.timeEnd) }}
+		</div>            
+	</div>
+	
+	<div class="all-day">
+		{{ form_widget(form.isAllDay) }}
+		{{ form_label(form.isAllDay, 'Cet événement durera toute la journée') }}
+		<div class="errors-container span8 alert alert-error">
+			{{ form_errors(form.isAllDay) }}
+		</div>
+		
+	</div>
+	
+	<div class="description tinyarea">
+		 <p>Description de l'évenement</p>
+		{{ form_widget(form.description, { 'attr': {'class': 'load_tinymce', 'data-theme': 'simple'} }) }}
+		 <div class="errors-container span8 alert alert-error">
+			{{ form_errors(form.description) }}
+		</div>
+	</div>
+	
+	{% if resources is not defined %}{% set resources = false %}{% endif %}
+	{% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources' : resources, 'editable': true } %}
+
+	<div>
+		{{ form_label(form.location, 'Lieu :') }}
+		{{ form_widget(form.location) }}
+		<div class="errors-container span8 alert alert-error">
+			{{ form_errors(form.location) }}
+		</div>
+	</div>
+
+	<div class="recurring-event">
+		{{ form_widget(form.isRecurring) }}
+		{{ form_label(form.isRecurring, 'Evénement récurrent') }}
+	</div>
+	
+	<div class="recurring_options">
+		<div class="shadow"></div>
+		<div class="content-select-recurring">                
+			{{ form_widget(form.recurringType, { 'attr': {'class': 'blockselect'} }) }}                
+		</div>
+		<span class="recurring_count_field">répété {{ form_widget(form.recurringCount, { 'attr': {'class': 'smalltextinput recurring_count'} }) }} fois</span>
+		<br />
+		<span class="recurring_until_field">ou jusqu'au {{ form_widget(form.recurringEndDate, { 'attr': {'class': 'recurring_until'} }) }}</span>
+	</div>
+			
+	{{ form_rest(form) }}
+{% endblock %}

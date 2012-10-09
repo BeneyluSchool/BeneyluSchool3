@@ -1,0 +1,4 @@
+<button class="btn btn-medium one-font-choice {{ font.getCssClass() }} {% if font.getCssClass() == user_current_font_css_class  %}disabled{% endif %}"
+		id="{{ font.getCssClass() }}_font">
+	{{ font.getLabel() }}
+</button>

@@ -1,0 +1,28 @@
+{% if comment.getStatus() == 'PENDING_VALIDATION' %}
+	<a href="#" class="btn-16 small btn bns-danger" data-filter-status="REFUSED">
+		<span class="icons-16 delete-icon"></span>
+		<strong>Refuser</strong>
+	</a>
+	<a href="#" class="btn-16 small btn bns-success" data-filter-status="VALIDATED">
+		<span class="icons-16 validate-icon"></span>
+		<strong>Valider</strong>
+	</a>
+{% elseif comment.getStatus() == 'VALIDATED' %}
+	<a href="#" class="btn-16 small btn bns-warning" data-filter-status="PENDING_VALIDATION">
+		<span class="icons-16 preview-icon"></span>
+		<strong>Passer en modération</strong>
+	</a>
+	<a href="#" class="btn-16 small btn bns-danger" data-filter-status="REFUSED">
+		<span class="icons-16 delete-icon"></span>
+		<strong>Refuser</strong>
+	</a>
+{% else %} {# REFUSED #}
+	<a href="#" class="btn-16 small btn bns-warning" data-filter-status="PENDING_VALIDATION">
+		<span class="icons-16 preview-icon"></span>
+		<strong>Passer en modération</strong>
+	</a>
+	<a href="#" class="btn-16 small btn bns-success" data-filter-status="VALIDATED">
+		<span class="icons-16 validate-icon"></span>
+		<strong>Valider</strong>
+	</a>
+{% endif %}

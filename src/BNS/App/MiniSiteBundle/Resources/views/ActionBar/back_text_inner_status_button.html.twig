@@ -1,0 +1,10 @@
+{% if text.isPublished() %}
+	<img src="{{ asset('/medias/images/icons/fugue/flag-blue.png') }}" alt="" class="icon" /> {% trans %}MiniSite.Back.ActionBar.PagePublish{% endtrans %}
+{% elseif text.isDraft() %}
+	<img src="{{ asset('/medias/images/icons/fugue/flag-white.png') }}" alt="" class="icon" /> {% trans %}MiniSite.Back.ActionBar.PageDraft{% endtrans %}
+{% elseif text.isFinished() %}
+	<img src="{{ asset('/medias/images/icons/fugue/flag-green.png') }}" alt="" class="icon" /> {% trans %}MiniSite.Back.ActionBar.PageFinished{% endtrans %}
+{% elseif text.isWaitingForCorrection() %}
+	<img src="{{ asset('/medias/images/icons/fugue/flag.png') }}" alt="" class="icon" /> {% trans %}MiniSite.Back.ActionBar.PageToCorrect{% endtrans %}
+{% endif %}
+<span class="caret"></span>

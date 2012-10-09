@@ -1,0 +1,16 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+
+	{% if permission.isNew %}
+		<h2>Création d'une permission</h2>
+	{% else %}
+		<h2>Edition de la permission {{ permission.label}}</h2>
+	{% endif %}
+
+	<form action="{{ permission.isNew ? path('BNSAppAdminBundle_permission_manage') : path('BNSAppAdminBundle_permission_manage',{'uniqueName' : permission.uniqueName}) }}" method="post" {{ form_enctype(form) }} class="form-horizontal">			
+		{{ form_widget(form) }}
+		<input type="submit" />
+	</form>
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'BNSAppHomeworkBundle:Front:layout.html.twig' %}
+
+{% block homework_body %}
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="container-text-book">
+
+                <div class="content-text-book">
+                    {% include 'BNSAppHomeworkBundle:Front:border-menu.html.twig' with {'preferences': preferences }%}
+
+                    <div class="title-text-book worked">
+                        <h1>Travaux passés</h1>
+                    </div>
+
+                    <div id="homework">
+                    {% render "BNSAppHomeworkBundle:Front:historyPage" with {'page' : page } %}
+                    </div>
+
+                    <div class="ring-text-book"></div>
+                </div>
+
+                {% include 'BNSAppHomeworkBundle:Front:menu.html.twig' with {'day_of_week': 'history', 'preferences': preferences } %}
+
+            </div> <!-- container-text-book -->
+        </div>   <!-- span12 -->
+    </div> <!-- row-fluid -->
+{% endblock homework_body %}
+
+{% block main_javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('medias/js/homework/jquery.infinitescroll.min.js') }}"></script>
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('medias/js/homework/Front/history.js') }}"></script>	
+{% endblock %}

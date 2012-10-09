@@ -1,0 +1,8 @@
+{% block content %}
+	{% block download %}
+		<div class="content-file-resource">
+			<h2>{{ resource.label }}</h2>
+			<a href="{{ path('BNSAppResourceBundle_download', { 'resource_slug': resource.getSlug }) }}" class="btn look-image btn-warning" target='_blank'><span class="look-image"></span>Télécharger</a>
+		</div>
+	{% endblock %}
+{% endblock %}

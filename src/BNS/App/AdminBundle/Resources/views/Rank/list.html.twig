@@ -1,0 +1,29 @@
+<h2>Liste des rangs</h2>
+
+<table class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<th>Identifiant</th>
+			<th>Nom</th>
+			<th>Module</th>
+			<th>Description</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for rank in ranks %}
+			<tr>
+				<td>{{ rank.uniqueName }}</td>
+				<td>{{ rank.label }}</td>
+				{% set module = rank.module %}
+				<td>{{ module.label }}</td>
+				<td>{{ rank.module.description }}</td>
+				<td>
+					<a href="{{ path("BNSAppAdminBundle_rank_sheet" , { uniqueName: rank.uniqueName }) }}">
+						<img src="{{ asset('/medias/images/icons/fugue/edit-list-order.png') }}" title="Voir la fiche" />
+					</a>
+				</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>

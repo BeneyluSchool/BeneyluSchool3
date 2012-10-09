@@ -1,0 +1,23 @@
+{% extends 'BNSAppHelloWorldBundle:Back:layout.html.twig' %}
+
+{% block header %}
+	{% include 'BNSAppHelloWorldBundle:Back:header.html.twig' %}
+{% endblock header %}
+
+{% block content %}
+	<div class="content-helloworld">
+		<h2>Navigation</h2>
+		<div class="well" style="padding: 8px 0;">
+			<ul class="nav nav-list">
+				<li class="nav-header">How To</li>
+				<li><a href="{{ path('hello_world_manager_buttons') }}"><i class="icon-hand-up"></i> Les boutons</a></li>
+				<li><a href="{{ path('hello_world_manager_flash_messages') }}"><i class="icon-exclamation-sign"></i> Les messages "flash"</a></li>
+				<li class="nav-header">Components</li>
+				<li><a href="{{ path('hello_world_manager_categories_management') }}"><i class="icon-list"></i> Administration du block des catégories</a></li>
+				<li><a href="{{ path('hello_world_manager_forms') }}"><i class="icon-check"></i> Blocks formulaire</a></li>
+				<li><a href="{{ path('hello_world_manager_administration') }}"><i class="icon-wrench"></i> Exemples de pages d'administration</a></li>
+			</ul>
+		</div>
+		{% include 'BNSAppHelloWorldBundle:Back:javascripts.html.twig' %}
+	</div
+{% endblock %}

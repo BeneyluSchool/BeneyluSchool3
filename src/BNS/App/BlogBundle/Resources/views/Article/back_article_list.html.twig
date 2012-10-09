@@ -1,0 +1,48 @@
+{% for article in blog.getBlogArticles() %}
+	{% include 'BNSAppBlogBundle:Article:back_article_row.html.twig' %}
+{% else %}
+	<div class="no-item">
+		{% if isAjaxCall %} {# In case of AJAX calling like filters, etc #}
+			Aucun article n'a été trouvé.
+		{% else %}
+			<div class="bnj-not-found"></div>
+			<p>
+				{% if is_adult() %}
+					Votre blog est vide.
+				{% else %}
+					Il n'y a pas encore d'article. Pour en créer un nouveau, il te suffit de cliquer sur le bouton ci-dessous.
+				{% endif %}
+			</p>
+				
+			<p class="buttons-container">
+				<a href="{{ path('blog_manager_new_article') }}" class="btn bns-info btn-24 large add-icon">
+					<span class="icons-24 add-icon"></span>
+					Ecrire un article
+				</a>
+			</p>
+			<div class="clearfix"></div>
+		{% endif %}
+	</div>
+{% endfor %}
+
+{% if (blog.getBlogArticles()|length > 0 and pager.getLastPage() > 1) %}
+	<div class="pagination">
+		<ul>
+			{% if (pager.getPage() > pager.getFirstPage()) %}
+				<li><a class="article-pager" href="{{ path('blog_manager_articles_page', {'page': pager.getPreviousPage()}) }}">←</a></li>
+			{% else %}
+				<li class="disabled"><a href="#" onclick="return false;">←</a></li>
+			{% endif %}
+
+			{% for i in range(pager.getFirstPage(), pager.getLastPage()) %}
+				<li{% if (pager.getPage() == i) %} class="active"{% endif %}><a class="article-pager" href="{{ path('blog_manager_articles_page', {'page': i}) }}">{{ i }}</a></li>
+			{% endfor %}
+
+			{% if (pager.getPage() < pager.getLastPage()) %}
+				<li><a class="article-pager" href="{{ path('blog_manager_articles_page', {'page': pager.getNextPage()}) }}">→</a></li>
+			{% else %}
+				<li class="disabled"><a href="#" onclick="return false;">→</a></li>
+			{% endif %}
+		</ul>
+	</div>
+{% endif %}

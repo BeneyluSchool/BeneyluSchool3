@@ -1,0 +1,32 @@
+{# On étend forcément base.html.twig #}
+{% extends '::base_manager.html.twig' %}
+
+{% block title %}Messagerie - Gestion{% endblock %}
+
+{% block css %}
+    {{ parent() }}
+    <link href='https://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
+    <link href="{{ asset('/medias/css/messaging/front.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('/medias/css/messaging/ajaxdisabled.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('/medias/css/messaging/jtags.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+        
+{% block javascripts %}	
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('/bundles/fosjsrouting/js/router.js') }}"></script> }}"></script>
+    <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    <script type="text/javascript" src="{{ asset('/medias/js/messaging/Back/layout.js') }}"></script>	
+{% endblock %}	
+
+    
+{% block body %}
+<div class="ajaxLoad"><!-- Disabled while ajax load --></div>
+{% include "BNSAppMessagingBundle:Back:header.html.twig" %}
+{% include "BNSAppMessagingBundle:Back:sidebar.html.twig" %}
+
+{% block content %}{% endblock %}
+{% endblock %}
+        
+{% block dock_bar %}
+	{% render 'BNSAppMainBundle:DockBar:index' with {'module_unique_name' : 'MESSAGING' , 'is_in_front' : false } %}
+{% endblock %}

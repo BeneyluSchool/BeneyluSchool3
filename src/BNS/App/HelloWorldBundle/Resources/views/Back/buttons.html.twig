@@ -1,0 +1,143 @@
+{% extends 'BNSAppHelloWorldBundle:Back:layout.html.twig' %}
+
+{% block header %}
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span12">
+						<a href="{{ path('BNSAppHelloWorldBundle_back') }}" class="btn bns-notice btn-24 medium-return button-return">
+							<span class="icons-24 back-icon"></span>
+							<strong>Retourner</strong><br/>à l'index
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock header %}
+
+{% block content %}
+	<div class="content-helloworld" style="padding: 2%;">
+		<div class="row-fluid">
+			<p>Classe à utiliser sur le lien "a" :</p>
+			<ul>
+				<li>.btn + .bns-info => forme du bouton + couleur</li>
+				<li>la taille : large, medium, medium-return, small</li>
+				<li>Selon la taille de l'icone: btn-32, btn-24, btn-16  </li>
+			</ul>
+			<p>Classe à utiliser sur le span :</p>
+			<ul>
+				<li>Selon la taille de l'icône: icons-32, icons-24, icons-16  </li>
+				<li>l'icône (par exemple la classe "edit-icon" pour le crayon) </li>
+			</ul>
+		</div>
+		<hr>
+		<h2>Boutons info</h2>
+
+		<div class="row-fluid">
+			<a href="#" class="btn bns-info btn-32 big"><span class="icons-32 edit-icon"></span><strong>Bouton</strong> info Big</a>
+			<a href="#" class="btn bns-info btn-24 large"><span class="icons-24 add-icon"></span><strong>Bouton</strong> info Large</a>
+			<a href="#" class="btn bns-info btn-24 medium"><span class="icons-24 add-icon"></span><strong>Bouton</strong> info Medium</a>
+			<a href="#" class="btn bns-info btn-16 small"><span class="icons-16 edit-icon"></span><strong>Bouton</strong> info Small</a>
+
+			<h3>Exemple :</h3>
+			<a href="#" class="btn bns-info btn-24 large add-icon"><span class="icons-24 add-icon"></span>Ecrire un message</a>
+			<a href="#" class="btn bns-info btn-16 small"><span class="icons-16 edit-icon"></span><strong>Editer</strong></a>
+		</div>
+		<hr>
+		<h2>Boutons Danger</h2>
+
+		<div class="row-fluid">
+			<a href="#" class="btn bns-danger btn-32 big"><span class="icons-32 delete-icon"></span><strong>Bouton</strong> danger Big</a>
+			<a href="#" class="btn bns-danger btn-24 large"><span class="icons-24 cancel-icon"></span><strong>Bouton</strong> danger Large</a>
+			<a href="#" class="btn bns-danger btn-24 medium"><span class="icons-24 delete-icon"></span><strong>Bouton</strong> danger Medium</a>
+			<br />  <br />
+			<a href="#" class="btn bns-danger btn-16 small"><span class="icons-16 cancel-icon"></span><strong>Bouton</strong> danger Small</a>
+
+			<h3>Exemple :</h3>
+			<a href="#" class="btn bns-danger btn-24 medium-return"><span class="icons-24 delete-icon"></span><strong>Supprimer</strong> <br /> le message</a>
+			<a href="#" class="btn bns-danger btn-16 small"><span class="icons-16 delete-icon"></span><strong>Supprimer</strong></a>
+			<a href="#" class="btn bns-danger btn-16 small"><span class="icons-16 cancel-icon"></span><strong>Annuler</strong></a>
+		</div>
+		<hr>
+		<h2>Boutons Notice</h2>
+
+		<div class="row-fluid">
+			<a href="#" class="btn bns-notice btn-32 big"><span class="icons-32 preview-icon"></span><strong>Bouton</strong> notice Big</a>
+			<a href="#" class="btn bns-notice btn-24 large"><span class="icons-24 preview-icon"></span><strong>Bouton</strong> notice Large</a>
+			<a href="#" class="btn bns-notice btn-24 medium-return"><span class="icons-24 back-icon"></span><strong>Bouton</strong> <br /> notice Medium return</a>
+			<br />  <br />
+			<a href="#" class="btn bns-notice btn-24 medium"><span class="icons-24 back-icon"></span><strong>Bouton</strong> notice medium</a>
+			<a href="#" class="btn bns-notice btn-16 small"><span class="icons-16 preview-icon"></span><strong>Bouton</strong> notice small</a>
+			<a href="#" class="btn bns-notice btn-16 small right"><span class="icons-16 arrow-right-icon right"></span><strong>Bouton</strong> notice small right</a>
+
+			<h3>Exemple :</h3>
+			<a href="#" class="btn bns-notice btn-24 medium-return"><span class="icons-24 preview-icon"></span><strong>Aperçu</strong> <br /> de l'article</a>
+			<a href="#" class="btn bns-notice btn-24 medium-return"><span class="icons-24 back-icon"></span><strong>Retourner</strong> <br /> à la liste</a>
+			<a href="#" class="btn bns-notice btn-16 small"><span class="icons-16 preview-icon"></span><strong>Aperçu</strong></a>
+		</div>
+		<hr>
+		<h2>Boutons warning</h2>
+
+		<div class="row-fluid">
+			<a href="#" class="btn bns-warning btn-32 big"><span class="icons-32 save-icon"></span><strong>Bouton</strong> warning Big</a>
+			<a href="#" class="btn bns-warning btn-24 large"><span class="icons-24 save-icon"></span><strong>Bouton</strong> warning Large</a>
+			<a href="#" class="btn bns-warning btn-24 medium-return"><span class="icons-24 save-icon"></span><strong>Bouton</strong> <br /> warning Medium return</a>
+			<br />  <br />
+			<a href="#" class="btn bns-warning btn-24 medium"><span class="icons-24 save-icon"></span><strong>Bouton</strong> warning medium</a>
+			<a href="#" class="btn bns-warning btn-16 small"><span class="icons-16 save-icon"></span><strong>Bouton</strong> warning small</a>
+			<a href="#" class="btn bns-warning btn-16 small toggle"><span class="icons-16 save-icon"></span><strong>Bouton</strong> warning small toggle</a>
+
+			<h3>Exemple :</h3>
+			<a href="#" class="btn bns-warning btn-24 medium-return"><span class="icons-24 save-icon"></span><strong>Enregistrer</strong> <br /> dans les brouillons</a>
+			<a href="#" class="btn bns-warning btn-16 small"><span class="icons-16 save-icon"></span><strong>Enregistrer</strong></a>
+		</div>
+		<hr>
+		<h2>Boutons success</h2>
+
+		<div class="row-fluid">
+			<a href="#" class="btn bns-success btn-32 big"><span class="icons-32 validate-icon"></span><strong>Bouton</strong> success Big</a>
+			<a href="#" class="btn bns-success btn-24 large"><span class="icons-24 validate-icon"></span><strong>Bouton</strong> success Large</a>
+			<a href="#" class="btn bns-success btn-24 medium-return"><span class="icons-24 validate-icon"></span><strong>Bouton</strong> <br /> success Medium return</a>
+			<br />  <br />
+			<a href="#" class="btn bns-success btn-24 medium"><span class="icons-24 validate-icon"></span><strong>Bouton</strong> success Medium</a>
+			<a href="#" class="btn bns-success btn-16 small"><span class="icons-16 validate-icon"></span><strong>Bouton</strong> success Small</a>
+
+			<h3>Exemple :</h3>
+			<a href="#" class="btn bns-success validate-medium btn-24 medium"><span class="icons-24 validate-icon"></span><strong>Publier le message</strong></a>
+			<a href="#" class="btn bns-success validate-small btn-16"><span class="icons-16 validate-icon"></span><strong>Valider</strong></a>
+
+			<p><strong>classes spéciales pour les boutons de validation : validate-medium et validate-small</strong></p>
+		</div>
+		<hr>
+		<h2>Boutons utilisateurs et avatars</h2>
+
+		<div class="row-fluid">
+			<h3>Petit format</h3>
+
+			<a href="#" class="bns-user small"><img src="/medias/images/profile/avatar/24x24/garcon.png" />Alexandre Zitouni <span class="action-icons"></span></a>
+			<a href="#" class="bns-user small bns-checkbox"><img src="/medias/images/profile/avatar/24x24/garcon.png" />Alexandre Zitouni <span class="action-icons"></span></a>
+			<a href="#" class="bns-user small bns-cancel"><img src="/medias/images/profile/avatar/24x24/garcon.png" />Alexandre Zitouni <span class="action-icons"></span></a>
+			<br /><br />
+			<a href="#" class="bns-user small bns-selected"><img src="/medias/images/profile/avatar/24x24/garcon.png" />Alexandre Zitouni <span class="action-icons"></span></a>
+			<br /><br />
+			<h4>Exemple :</h4>
+			<a href="#" class="bns-user small"><img src="/medias/images/profile/avatar/24x24/garcon.png" />Bob Chau <span class="action-icons"></span></a>
+			<a href="#" class="bns-user small"><img src="/medias/images/profile/avatar/24x24/garcon.png" />Jean-Michel De la Préfecture de justice <span class="action-icons"></span></a>
+			<h3>Grand format</h3>
+
+			<a href="#" class="btn bns-user big"><img src="/medias/images/profile/avatar/32x32/garcon.png" />Franck Castle <span class="action-icons"></span></a>
+			<a href="#" class="btn bns-user big bns-checkbox"><img src="/medias/images/profile/avatar/32x32/garcon.png" />Franck Castle <span class="action-icons"></span></a>
+			<a href="#" class="btn bns-user big bns-cancel"><img src="/medias/images/profile/avatar/32x32/garcon.png" />Franck Castle <span class="action-icons"></span></a>
+			<br /><br />
+			<a href="#" class="btn bns-user big bns-selected"><img src="/medias/images/profile/avatar/32x32/garcon.png" />Franck Castle <span class="action-icons"></span></a>
+			<br /><br />
+			<h4>Exemple :</h4>
+			<a href="#" class="btn bns-user big"><img src="/medias/images/profile/avatar/32x32/garcon.png" />Bob Chau<span class="action-icons"></span></a>
+			<a href="#" class="btn bns-user big"><img src="/medias/images/profile/avatar/32x32/garcon.png" />Jean-Michel De la Préfecture de justice<span class="action-icons"></span></a>
+		</div>
+	</div>
+			
+	{% include 'BNSAppHelloWorldBundle:Back:javascripts.html.twig' %}
+{% endblock %}

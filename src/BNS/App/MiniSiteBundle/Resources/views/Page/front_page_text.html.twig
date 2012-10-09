@@ -1,0 +1,17 @@
+{% if null != page.getMiniSitePageText() %}
+<div class="content-article">
+	<h1>{{ page.getMiniSitePageText().getPublishedTitle() }}</h1>
+	<p class="article">
+		{% autoescape false %}
+			{{ page.getMiniSitePageText().getPublishedContent() }}
+		{% endautoescape %}
+	</p>
+</div>
+{% else %}
+<div class="content-article">
+	<h1>Créez votre page !</h1>
+	<p class="article">
+		Bienvenue sur votre minisite ! Vous n'avez actuellement pas configuré le texte de votre page, rendez-vous dans l'administration pour ajouter du contenu à votre page.
+	</p>
+</div>
+{% endif %}

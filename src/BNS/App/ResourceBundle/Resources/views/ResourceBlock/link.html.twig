@@ -1,0 +1,10 @@
+{% block content %}
+	{% if size is not defined %}
+		{% set size = "medium" %}
+	{% endif %}
+
+	<img id="" class="span5" src="{{ getResourceImageUrl(resource,size) }}" />
+	<div class="link-web">
+		Adresse : <a href="{{ resource.value }}" target='_blank'>{{ resource.value }}</a>
+	</div>
+{% endblock %}

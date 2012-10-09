@@ -1,0 +1,84 @@
+{% include 'BNSAppMainBundle::notice.html.twig' %}
+
+<div class="news-title dashboard-h3">
+	<h3>{{ name }}</h3>
+</div>
+
+<div id="edit_tree_{{ unique_id }}" class="resource-content-category">
+	{% set last_level = -1 %}
+	{% set last_label = '' %}
+
+	{% for label in labels %}
+		{% if label.isMoveable %}
+			{% set last_label = '' %}
+			{% if(last_level < label.level) %}
+				<ol {% if last_level == -1 %} id="{{ unique_id }}" {% endif%} class="nav nav-tabs nav-stacked {% if last_level == -1 %} sortable {% endif%}">
+			{% endif %}
+
+			{% if(last_level > label.level) %}
+				</li></ol>
+			{% endif %}
+
+			{% if(last_level == label.level) %}
+				</li>
+			{% endif %}	
+
+			{% include "BNSAppResourceBundle:Label:listEditRow.html.twig" with {"label" : label,'type' : type} %}
+
+			{% set last_level = label.level %}
+			{% set last_label = label.label %}
+		{% endif %}
+	{% else %}
+		<div class="alert alert-info">
+			Il n'y a pas de libellé dans ce dossier, cliquez sur "Ajouter un libellé"
+		</div>
+	{% endfor %}
+		</li>
+	{% for i in 0..last_level %}
+		</ol>
+	{% endfor %}
+</div>
+
+{% if labels|length > 0 %} 
+
+	<script type="text/javascript">
+		
+		$(function() {
+
+		$('#{{ unique_id }}').nestedSortable({
+		forcePlaceholderSize: true,
+		errorClass: 'nested-error',
+		handle: 'div',
+		helper:	'original',
+		items: 'li',
+		//maxLevels: 2,
+		opacity: .6,
+		placeholder: 'nested-placeholder',
+		revert: 200,
+		tabSize: 25,
+		distance: 10,
+		tolerance: 'pointer',
+		toleranceElement: '> div',
+		apply: function (e, h)
+		{
+
+			var dump = $('#{{ unique_id }}').nestedSortable('toArray', {
+				startDepthCount: 0,
+				placeholder: 'nested-placeholder'
+			});
+
+			$.ajax(
+			{
+				url: '{{ path('BNSAppResourceBundle_label_save_tree', {'object':  unique_id }) }}',
+				type: 'POST',
+				dataType: 'json',
+				data: {'categories': dump},
+				complete: function(){
+
+				}
+			});
+		}
+	});
+	});
+	</script>
+{% endif %}

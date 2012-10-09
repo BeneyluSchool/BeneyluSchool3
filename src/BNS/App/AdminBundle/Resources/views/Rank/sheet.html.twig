@@ -1,0 +1,32 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+	
+	<h2>Rank {{ rank.label}}</h2>
+	
+	
+	
+	<a href="{{ path('BNSAppAdminBundle_rank_manage',{'uniqueName' : rank.uniqueName })}}" class="btn btn-info">
+		Editer le rang
+	</a>
+	{# Désactivation de la suppression
+	<a href="{{ path('BNSAppAdminBundle_rank_delete',{'uniqueName' : rank.uniqueName })}}" class="btn btn-danger" onclick="return confirm('Êtes vous sûr et certain de vouloir supprimer ce rang ?');">
+		Supprimer le rang
+	</a>
+	#}
+	{% include "BNSAppAdminBundle:Permission:list.html.twig" with {'permissions' : usedPermissions,'with_delete' : true, 'rank' : rank } %}
+	
+	<h3>Lier une permission</h3>
+	
+	<form action="{{ path('BNSAppAdminBundle_rank_add_permission',{'rankUniqueName' : rank.uniqueName})}}" method="post" >
+		<select name="permissionUniqueName" id="rank-add-permission" class="span6">
+			<option value="">Choisir une permission</option>
+			{% for permission in rankPermissions %}
+				{% if permission not in usedPermissions %}
+					<option value="{{ permission.uniqueName }}">{{ permission.label }} - {{ permission.uniqueName }}</option>
+				{% endif %}
+			{% endfor %}
+		</select>
+		<input type="submit" value="Lier" id="rank-add-permission-button" style="display:none;" class="btn btn-success" />
+	</form>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends '::bns_base.html.twig' %}
+
+{% block lesses %}
+	<link rel="stylesheet/less" href="{{ asset('medias/less/school.less') }}" />
+{% endblock %}
+
+{% block javascripts %}
+	<script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+	<script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+	<script type="text/javascript" src="{{ asset('medias/js/school.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+	<body class="transparent-white">
+		<div class="overlay">
+			<div class="container-fluid container">
+				<div class="row-fluid">
+					{% render "BNSAppMainBundle:SideBar:index" with {'group' : school } %}
+					<div class="content span9">
+						<div class="title-content">
+							<h1>{% trans %}Admin.School.Classroom.title{% endtrans %}</h1>
+							<div class="clear"></div>
+						</div>
+						
+						<div class="description-content">
+						
+							<div class="toggle-add-classroom">
+								<img src="/medias/images/icons/fugue/plus.png" alt="Ajouter une nouvelle classe" />{% trans %}Admin.School.Classroom.create.classroom{% endtrans %}
+							</div>
+							<div class="add-classroom-form">
+								<form action="{{ path('BNSAppSchoolBundle_classroom_index', { 'slug' : school.getSlug() }) }}" method="post" {{ form_enctype(form) }}>
+						
+							
+									{{ form_widget(form) }}
+									
+									<input type="submit" value="{% trans %}Admin.School.Classroom.form.add{% endtrans %}" />
+								</form>
+							</div>
+							
+							<div class="classroom-container">
+								<table class="table">
+									<tr>
+										<th>{% trans %}Admin.School.Classroom.column.level{% endtrans %}</th>
+										<th>{% trans %}Admin.School.Classroom.column.name{% endtrans %}</th>
+										<th>{% trans %}Admin.School.Classroom.column.children.count{% endtrans %}</th>
+										<th>{% trans %}Admin.School.Classroom.column.action{% endtrans %}</th>
+									</tr>
+									{% for classroom in classrooms %}
+										<tr>
+											<td>
+												{% for level in classroom.getAttributeValue('LEVEL') %}
+													{{ level }} / 
+												{% endfor %}
+											</td>
+											<td>{{ classroom.getAttributeValue('NAME') }}</td>
+											<td>{{ classroom.getAttributeValue('CHILDREN_COUNT') }}</td>
+											<td><a href="{{ path('BNSAppClassroomBundle_back_home', { 'slug': classroom.getSlug() }) }}" title="Aller sur la fiche de la classe {{ classroom.getSlug() }}">{% trans %}Admin.School.Classroom.detail.classroom{% endtrans %}</a></td>
+										</tr>
+									{% endfor %}
+								</table>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+{% endblock %}

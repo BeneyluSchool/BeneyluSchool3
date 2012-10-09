@@ -1,0 +1,27 @@
+{% if type == "IN_MODERATION" %}
+		<div class="news-title">
+			<h1 class="dashboard">Messages à modérer</h1>
+		</div>
+	{% elseif type == "ACCEPTED" %}
+		<div class="news-title">
+			<h1 class="dashboard">Messages validés</h1>
+		</div>
+	{% elseif type == "REJECTED" %}
+		<div class="news-title">
+			<h1 class="dashboard">Messages suspendus</h1>
+		</div>
+	{% endif %}
+
+{% for message in messages %}
+	{% include 'BNSAppMessagingBundle:Back/Light:block_message.html.twig' with {"message": message} %}
+{% else %}
+	{% if type == "IN_MODERATION" %}
+		<p class="message-status">Il n'y a pas de message en modération.</p>
+	{% elseif type == "ACCEPTED" %}
+		<p class="message-status">Il n'y a pas encore de message validé.</p>
+	{% elseif type == "REJECTED" %}
+		<p class="message-status">Il n'y a pas encore de message suspendu.</p>
+	{% endif %}
+{% endfor %}
+
+{% include 'BNSAppMessagingBundle:Back/Light:block_paginate.html.twig' with {"limit": limit,'total': nbMessages,'currentPage':page} %}

@@ -1,0 +1,62 @@
+{% extends '::base_manager.html.twig' %}
+
+{% if blog is defined %}
+	{% block title %}
+		{{ blog.getTitle() }} - Gestion
+	{% endblock %}
+{% endif %}
+
+{% block css %}
+    {{ parent() }}
+		
+	{# Appel CSS du package layout manager #}
+	{% include "BNSAppMainBundle:Manager:layoutStyle.html.twig" %}
+		
+	<link type="text/css" href="{{ asset('medias/css/ui-twitter-theme/jquery-ui-1.8.16.custom.css') }}" rel="stylesheet" />
+	<link href="{{ asset('/medias/css/blog/manager.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	
+	<script type="text/javascript" src="{{ asset('/medias/js/bootstrap/bootstrap-tooltip.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/bootstrap/bootstrap-popover.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/jquery.ui.nestedSortable.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/blog/categories.js') }}"></script>
+	<script type="text/javascript">
+		$(function ()
+		{
+			if ($('.alert-flash').length > 0) {
+				setTimeout(function ()
+				{
+					$('.alert-flash div').slideUp('fast', function () { $(this).parent().slideUp('fast', function () { $('.bns-alert div').show() }) });
+				}, 8000);
+			}
+		});
+	</script>
+{% endblock %}
+
+{% block body %}
+	{% block header %}{% endblock header %}
+	<div class="office blog"></div>
+    <div class="container container-fluid blog-container">
+		{% block form_start %}{% endblock %}
+		<div class="row-fluid container-manager">
+			<div class="container-sidebar">
+				{% block sidebar %}Add your sidebar here!{% endblock %}
+				<div class="sidebar-shadow"></div>
+            </div>
+			<div class="span9 container-content no-margin">
+                {% block content %}Add your content here!{% endblock %}
+            </div>
+			<div class="container-manager-bottom">
+				<div class="content-manager-bottom"></div>
+			</div>
+		</div>
+		{% block form_end %}{% endblock %}
+	</div>
+{% endblock %}
+	
+{% block dock_bar %}
+	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "BLOG" , 'is_in_front' : false } %}
+{% endblock %}

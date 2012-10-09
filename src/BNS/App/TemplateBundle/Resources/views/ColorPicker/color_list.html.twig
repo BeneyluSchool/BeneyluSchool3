@@ -1,0 +1,11 @@
+<h4>Choisir ma couleur de fond pour les blocs</h4>
+<hr />
+
+<input type="hidden" name="selected_color_css_class" id="selected-color" value="{{ user_current_color_css_class }}" />
+{% for color in colors %}
+	{% include 'BNSAppTemplateBundle:ColorPicker:color_block.html.twig' with {
+		'font': color, 
+		'user_current_font_css_class': user_current_color_css_class
+	} %}
+{% endfor %}
+	

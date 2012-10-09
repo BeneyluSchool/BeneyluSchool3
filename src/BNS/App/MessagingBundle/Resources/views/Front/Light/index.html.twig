@@ -1,0 +1,24 @@
+{% extends 'BNSAppMessagingBundle:Front/Light:layout.html.twig' %}
+
+{% block content %}
+	<div class="span7">
+		{% include 'BNSAppMessagingBundle:Front/Light:loader.html.twig' %}
+		<div id="messaging-main-container"></div>
+	</div>
+{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript">
+		showInbox();
+		{% if firstRequest is defined %}
+			$('.user-block.selectable').live('click',function(e)
+			{ 
+				e.preventDefault();
+				$(this).clone().addClass('bns-cancel small').removeClass("bns-checkbox big selectable").prependTo('.selected-user-container');
+				$(this).removeClass('selectable bns-checkbox').addClass("bns-selected is-selected");
+				$('.no-selection').hide();
+			});
+		{% endif %}
+	</script>
+	{{ tinymce_init() }}
+{% endblock %}

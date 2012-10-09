@@ -1,0 +1,11 @@
+<h4>Choisir ma police d'écriture</h4>
+<hr />
+
+<input type="hidden" name="selected_font_css_class" id="selected-font" value="{{ user_current_font_css_class }}" />
+{% for font in fonts %}
+	{% include 'BNSAppTemplateBundle:FontPicker:font_block.html.twig' with {
+		'font': font, 
+		'user_current_font_css_class': user_current_font_css_class
+	} %}
+{% endfor %}
+	

@@ -1,0 +1,58 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+	<div class="container">
+		<div class="admin-spacer"></div>
+		
+		<div class="nav-buttons">
+			<a href="{{ path('BNSAppAdminBundle_group_type') }}" class="btn">{% trans %}GroupType.Detail.button.back{% endtrans %}</a>
+		</div>
+		<h2>{% trans %}GroupType.Detail.attr.name{% endtrans %} : {{ groupType.label }}</h2>
+		
+		<p>{{ groupType.description }}</p>
+		
+		<p>
+			<b>{% trans %}GroupType.Detail.attr.centralize{% endtrans %}</b> : {% if groupType.centralize %} Oui {% else %} Non {% endif %}
+		</p>
+		
+		<p>
+			<b>Est un rôle</b> : {% if groupType.simulateRole %} Oui {% else %} Non {% endif %}
+		</p>
+		{% if groupType.simulateRole == false %}
+		
+			<h3>{% trans %}GroupType.Detail.attr.attributes{% endtrans %} : </h3>
+		
+			<div class="row margint8">
+				<div class="span8">
+					
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>Nom de l'attribut</th>
+								<th>Type</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for groupTypeData in groupType.getFullGroupTypeDatas %}
+								<tr>
+									<td>
+										{{ groupTypeData.getGroupTypeDataTemplate().getLabel() }}
+									</td>
+									<td>
+										{{ groupTypeData.getGroupTypeDataTemplate().getTypeToString() }}
+									</td>
+									<td>
+										<a href="{{ path('BNSAppAdminBundle_group_type_data_sheet', {'unique_name': groupTypeData.getGroupTypeDataTemplate().uniqueName }) }}" title="Voir sa fiche">
+											<img src="{{ asset('/medias/images/icons/fugue/document--pencil.png')}}" alt="Editer" />
+										</a>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>		
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}

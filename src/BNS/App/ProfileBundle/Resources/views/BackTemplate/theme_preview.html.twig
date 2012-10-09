@@ -1,0 +1,36 @@
+<div class="{{ theme_css_class_for_preview }} preview content">
+	<div class="row-fluid">
+		{# User's avatar #}
+		<div class="span3">
+			<img src="{{ asset('/medias/images/commons/jim/avatar-profile.png') }}" />
+		</div>
+
+		{# User's general informations #}
+		<div class="span9">
+			<h1>{{ user.getFullName() }}</h1>
+			<hr />
+			<p>Classroom TODO - School TODO - Town TODO</p>
+
+			{% if user.getBirthday() != null %}
+				<p>Aujourd'hui j'ai <strong>{{ user.getAge() }} ans</strong> et mon anniversaire est le {{ user.getBirthday('full') }}</p>
+			{% endif %}
+
+			{% if user.getProfile().getJob() != null %}
+				<p>Plus tard je voudrais être {{ user.getProfile().getJob() }}</p>
+			{% endif %}
+		</div>
+	</div>
+
+	{# Description #}
+	<div class="row-fluid">
+		<div class="span12">
+			<h2>Un peu plus sur moi</h2>
+			<hr />
+			{% if user.getProfile().getDescription() != null %}
+				{{ user.getProfile().getDescription() }}
+			{% else %}
+				<i>Je n'ai pas pas encore eu le temps de remplir ma description !</i>
+			{% endif %}
+		</div>
+	</div>
+</div>

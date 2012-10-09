@@ -1,0 +1,8 @@
+BNS\App\CoreBundle\Model\GroupType:
+  properties:
+    type:
+      - NotBlank: ~
+BNS\App\CoreBundle\Model\GroupTypeI18n:
+  properties:
+    label:
+       - NotBlank: ~

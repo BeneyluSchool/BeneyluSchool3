@@ -1,0 +1,821 @@
+# HelloWorld Bundle -> Exemple pour les autres :)
+
+#################### HELLO WORLD ####################
+
+# _access => accéder au front du module
+hello_world_access:
+  # unique_name du module
+  module: HELLOWORLD
+  # unique_name de la permission
+  unique_name: HELLOWORLD_ACCESS
+  #Données I18n
+  i18n:
+    fr:
+      label: Voir Hello world
+      description: Permet de voir les principales conventions à respecter en termes de développement, en mode visualisation
+    en:
+      label: Hello World's access
+      description: 
+# _access_back => accéder au back du module
+hello_world_access_back:
+  module: HELLOWORLD
+  unique_name: HELLOWORLD_ACCESS_BACK
+  i18n:
+    fr:
+      label: Gérer Hello World
+      description: Permet de voir les principales conventions à respecter en termes de développement, en mode gestion
+    en:
+      label: Hello World's back access 
+      description: 
+# _activation => Pouvoir activer / désactiver le module dans le groupe
+hello_world_activation:
+  module: HELLOWORLD
+  unique_name: HELLOWORLD_ACTIVATION
+  i18n:
+    fr:
+      label: Activer Hello World
+      description: Permet d'activer ou désactiver le module Hello World dans le groupe
+    en:
+      label: Can activate / desactivate the hello world
+      description: 
+# _administration => Pouvoir administrer le module (administrer > accès au back, typiquement pourle blog ou 
+# accéder à ses articles != manager le blog)
+hello_world_administration:
+  module: HELLOWORLD
+  unique_name: HELLOWORLD_ADMINISTRATION
+  i18n:
+    fr:
+      label: Administrater Hello World
+      description: Permet d'administrer le module Hello World
+    en:
+      label: Can administrate the Hello World !
+      description: 
+
+#Modules par modules, classés par ordre alpha sur le unique_name
+
+belongs: 
+  # unique_name de la permission
+  unique_name: BELONGS
+  #Données I18n
+  i18n:
+    fr:
+      label: Permission d'appartenance
+      description: 
+    en:
+      label: Belongs
+      description: 
+
+
+
+#################### ADMIN ####################
+# Toutes les permissions qui n'appartiennent pas à un module en particulier doit être relié au module Admin
+
+admin_access:
+  module: ADMIN
+  unique_name: ADMIN_ACCESS
+  i18n:
+    fr:
+      label: Voir super administration
+      description: Donne tous les droits d'accès en termes d'administration
+    en:
+      label: BNS3 Admin access
+      description: 
+        
+admin_access_back:
+  module: ADMIN
+  unique_name: ADMIN_ACCESS_BACK
+  i18n:
+    fr:
+      label: Gérer super administration
+      description: Donne tous les droits d'accès en termes d'administration
+    en:
+      label: Super Admin access
+      description:
+
+create_team:
+    module: ADMIN
+    unique_name: CREATE_TEAM
+    i18n:
+      fr:
+        label: Créer équipes
+        description: Donne la possibilité de créer des équipes
+      en:
+        label: enable create team option
+        description:
+
+
+#################### BLOG ####################
+
+blog_access:
+  module: BLOG
+  unique_name: BLOG_ACCESS
+  #Roles pour lesquels on autorisera coté application l'activation / désactivation de la permission
+  roles: pupil , teacher , parent
+  i18n:
+    fr:
+      label: Voir blog
+      description: Donne l'accès au blog du groupe
+    en:
+      label: Blog access
+      description: 
+        
+blog_access_back:
+  module: BLOG
+  unique_name: BLOG_ACCESS_BACK
+  i18n:
+    fr:
+      label: Gérer blog
+      description: Donne l'accès à la gestion du blog pour ses données uniquement
+    en:
+      label: blog management access
+      description: 
+      
+blog_activation:
+  module: BLOG
+  unique_name: BLOG_ACTIVATION
+  i18n:
+    fr:
+      label: Activer blog
+      description: Peut activer ou désactiver le blog dans le groupe
+    en:
+      label: Can activate / deasctivate the blog
+      description: 
+        
+blog_administration:
+  module: BLOG
+  unique_name: BLOG_ADMINISTRATION
+  i18n:
+    fr:
+      label: Administrater blog
+      description: Peut administrer toutes les données du blog, ainsi que les états de publication
+    en:
+      label: Can administrate the blog
+      description: 
+
+#################### CALENDAR ####################
+
+calendar_access:
+  module: CALENDAR
+  unique_name: CALENDAR_ACCESS
+  i18n:
+    fr:
+      label: Voir calendrier
+      description: Donne l'accès au calendrier du groupe
+    en:
+      label: Calendar access
+      description: 
+        
+calendar_access_back:
+  module: CALENDAR
+  unique_name: CALENDAR_ACCESS_BACK
+  i18n:
+    fr:
+      label: Gérer calendrier
+      description: Donne accès à la gestion du calendrier, création et modification d'évènements
+    en:
+      label: calendar management access
+      description:
+        
+calendar_activation:
+  module: CALENDAR
+  unique_name: CALENDAR_ACTIVATION
+  i18n:
+    fr:
+      label: Activer calendrier
+      description: Peut activer ou désactiver le calendrier
+    en:
+      label: Can activate / desactivate the calendar
+      description:
+        
+#################### CLASSROOM ####################
+
+classroom_access:
+  module: CLASSROOM
+  unique_name: CLASSROOM_ACCESS
+  i18n:
+    fr:
+      label: Voir classe
+      description: Donne accès au module de la classe
+    en:
+      label: Class access
+      description: 
+        
+classroom_access_back:
+  module: CLASSROOM
+  unique_name: CLASSROOM_ACCESS_BACK
+  i18n:
+    fr:
+      label: Gérer classe
+      description: Donne accès à la gestion de la classe, création d'élèves, invitations d'enseignants ...
+    en:
+      label: Class management
+      description:
+        
+#################### GPS ####################
+
+gps_access:
+  module: GPS
+  unique_name: GPS_ACCESS
+  i18n:
+    fr:
+      label: Voir GPS
+      description: Donne l'accès au module GPS
+    en:
+      label: GPS's access
+      description: 
+        
+gps_access_back:
+  module: GPS
+  unique_name: GPS_ACCESS_BACK
+  i18n:
+    fr:
+      label: Gérer GPS
+      description: Donne accès à la gestion du GPS, ajouter et prévisualiser des lieux
+    en:
+      label: GPS management access
+      description:
+        
+gps_activation:
+  module: GPS
+  unique_name: GPS_ACTIVATION
+  i18n:
+    fr:
+      label: Peut activer ou désactiver le GPS
+      description: 
+    en:
+      label: Can activate / desactivate the GPS
+      description:
+
+#################### GROUP ####################
+
+group_access:
+  module: GROUP
+  unique_name: GROUP_ACCESS
+  i18n:
+    fr:
+      label: Voir groupe
+      description: Donne l'accès au module Groupe
+    en:
+      label: Group access
+      description: 
+        
+group_access_back:
+  module: GROUP
+  unique_name: GROUP_ACCESS_BACK
+  i18n:
+    fr:
+      label: Gérer groupe
+      description: Donne l'accès à la gestion du groupe 
+    en:
+      label: Group management access
+      description: 
+        
+#A partir d'ici les permissions Custom permettant d'affiner les droits dans les groupes
+
+group_invite_in_classroom:
+  module: GROUP
+  unique_name: GROUP_INVITE_IN_CLASSROOM
+  i18n:
+    fr:
+      label: S'inviter dans une classe
+      description: Donne la possibilité de s'inviter dans une classe en tant qu'enseignant
+    en:
+      label: Invite in classroom
+      description: 
+        
+#################### LIAISONBOOK ####################        
+
+liaisonbook_access:
+  module: LIAISONBOOK
+  unique_name: LIAISONBOOK_ACCESS
+  i18n:
+    fr:
+      label: Voir carnet de liaison
+      description: Donne l'accès au carnet de liaison
+    en:
+      label: Liaisonbook access
+      description: Give access to liaison book
+
+liaisonbook_access_sign:
+  module: LIAISONBOOK
+  unique_name: LIAISONBOOK_ACCESS_SIGN
+  i18n:
+    fr:
+      label: Voir et signer carnet de liaison
+      description: Donne l'accès au carnet de liaison et à la signature
+    en:
+      label: Liaisonbook access and sign it
+      description: Give access to liaison book and to signature
+      
+        
+liaisonbook_access_back:
+  module: LIAISONBOOK
+  unique_name: LIAISONBOOK_ACCESS_BACK
+  i18n:
+    fr:
+      label: Gérer carnet de liaison
+      description: Donne l'accès à la gestion du carnet de liaison
+    en:
+      label: Liaisonbook management access
+      description: Give access to liaisonbook management
+      
+liaisonbook_activation:
+  module: LIAISONBOOK
+  unique_name: LIAISONBOOK_ACTIVATION
+  i18n:
+    fr:
+      label: Activer carnet de liaison
+      description: Peut activer ou désactiver le carnet de liaison
+    en:
+      label: Can activate / desactivate the notebook
+      description:
+        
+#################### MESSAGING  ####################
+
+messaging_access:
+  module: MESSAGING
+  unique_name: MESSAGING_ACCESS
+  i18n:
+    fr:
+      label: Voir messagerie
+      description: Donne accès à la messagerie
+    en:
+      label: Messaging access
+      description: 
+        
+messaging_access_back:
+  module: MESSAGING
+  unique_name: MESSAGING_ACCESS_BACK
+  i18n:
+    fr:
+      label: Gérer messagerie
+      description: Donne accès à la modération de la messagerie
+    en:
+      label: Messages management
+      description:
+        
+messaging_no_group_moderation:
+  module: MESSAGING
+  unique_name: MESSAGING_NO_GROUP_MODERATION
+  i18n:
+    fr:
+      label: Pas de modération interne
+      description: Pas de modération pour l'envoi de messages dans son groupe
+    en:
+      label: No moderation for sending emails in his classroom
+      description:
+
+messaging_no_external_moderation:
+  module: MESSAGING
+  unique_name: MESSAGING_NO_EXTERNAL_MODERATION
+  i18n:
+    fr:
+      label: Pas de modération externe
+      description: Pas de modération pour l'envoi de messages à l'extérieur de son groupe
+    en:
+      label: No moderation for sending externals emails
+      description:
+        
+messaging_send_parents:
+  module: MESSAGING
+  unique_name: MESSAGING_SEND_PARENTS
+  i18n:
+    fr:
+      label: Envoyer aux parents
+      description: Peut envoyer des messages aux parents du groupe
+    en:
+      label: Send messages to parents group
+      description:
+        
+messaging_send_pupils:
+  module: MESSAGING
+  unique_name: MESSAGING_SEND_PUPILS
+  i18n:
+    fr:
+      label: Envoyer aux élèves
+      description: 
+    en:
+      label: Send message to pupils group
+      description:    
+        
+messaging_send_teachers:
+  module: MESSAGING
+  unique_name: MESSAGING_SEND_TEACHERS
+  i18n:
+    fr:
+      label: Envoyer aux enseignants
+      description: Peut envoyer des messages aux enseignants du groupe
+    en:
+      label: Send message to teachers group
+      description:
+        
+messaging_send_all:
+  module: MESSAGING
+  unique_name: MESSAGING_SEND_ALL
+  i18n:
+    fr:
+      label: Envoyer tous
+      description: Peut envoyer des messages à tous les membres du groupe
+    en:
+      label: Send message to all group members
+      description:
+      
+messaging_send_child:
+  module: MESSAGING
+  unique_name: MESSAGING_SEND_CHILD
+  i18n:
+    fr:
+      label: Envoyer son enfant
+      description: Peut envoyer des messages à ses enfants de ce groupe
+    en:
+      label: Send messages to his childs
+      description:
+        
+messaging_send_parent:
+  module: MESSAGING
+  unique_name: MESSAGING_SEND_PARENT
+  i18n:
+    fr:
+      label: Envoyer son parent
+      description: Peut envoyer des messages à ses parents de ce groupe
+    en:
+      label: Send messages to his childs
+      description:
+        
+messaging_activation:
+  module: MESSAGING
+  unique_name: MESSAGING_ACTIVATION
+  i18n:
+    fr:
+      label: Activer messagerie
+      description: peut activer ou désactiver la messagerie
+    en:
+      label: Can activate / deasctivate the messaging
+      description: 
+
+#################### NOTIFICATION ####################
+
+notification_access:
+  module: NOTIFICATION
+  unique_name: NOTIFICATION_ACCESS
+  i18n:
+    fr:
+      label: Voir notifications
+      description: Donne l'accès aux notifications
+    en:
+      label: Notification access
+      description: 
+        
+        
+#Eymeric : A priori permission pas nécessaire, je laisse quand même
+notification_access_back:
+  module: NOTIFICATION
+  unique_name: NOTIFICATION_ACCESS_BACK
+  i18n:
+    fr:
+      label: Gérer notifications
+      description: Donne accès à la gestion des notifications
+    en:
+      label: profile management
+      description:
+
+#################### PROFILE ####################
+
+profile_access:
+  module: PROFILE
+  unique_name: PROFILE_ACCESS
+  i18n:
+    fr:
+      label: Voir profil
+      description: Donne l'accès au module profil pour le groupe
+    en:
+      label: Profiles access
+      description: 
+        
+profile_access_back:
+  module: PROFILE
+  unique_name: PROFILE_ACCESS_BACK
+  i18n:
+    fr:
+      label: Gérer profil
+      description: Donne accès à la gestion de son profil
+    en:
+      label: profile management
+      description:
+        
+profile_administration:
+  module: PROFILE
+  unique_name: PROFILE_ADMINISTRATION
+  i18n:
+    fr:
+      label: Administrer profil
+      description:  Donne accès à la gestion des profils du groupe et leur modération
+    en:
+      label: Manage group's profile
+      description:
+        
+profile_activation:
+  module: PROFILE
+  unique_name: PROFILE_ACTIVATION
+  i18n:
+    fr:
+      label: Activater profil
+      description: Peut activer ou désactiver le module profil
+    en:
+      label: Profiles activation
+      description:
+        
+profile_no_moderate_comment:
+  module: PROFILE
+  unique_name: PROFILE_NO_MODERATE_COMMENT
+  i18n:
+    fr:
+      label: Pas de modération des commentaires
+      description: Désactive la modération automatique des commentaires
+    en:
+      label: Disable the automatic comment moderation
+      description:
+        
+profile_no_moderate_status:
+  module: PROFILE
+  unique_name: PROFILE_NO_MODERATE_STATUS
+  i18n:
+    fr:
+      label: Pas de modération des statuts
+      description: Désactive la modération automatique des statuts
+    en:
+      label: Disable the automatic statuses moderation
+      description:
+
+#################### RESOURCE ####################
+
+resource_access:
+  module: RESOURCE
+  unique_name: RESOURCE_ACCESS
+  i18n:
+    fr:
+      label: Voir médiathèque
+      description: Donne l'accès au module médiathèque
+    en:
+      label: Resources access
+      description: 
+        
+resource_my_resources:
+  module: RESOURCE
+  unique_name: RESOURCE_MY_RESOURCES
+  i18n:
+    fr:
+      label: Avoir mes documents
+      description: Donne l'accès au stockage de documents personnels
+    en:
+      label: Own resources access
+      description: 
+        
+resource_access_back:
+  module: RESOURCE
+  unique_name: RESOURCE_ACCESS_BACK
+  i18n:
+    fr:
+      label: Accès à la gestion des documents et l'organisation de ses libellés
+      description: 
+    en:
+      label: Resources management
+      description:
+        
+resource_users_administration:
+  module: RESOURCE
+  unique_name: RESOURCE_USERS_ADMINISTRATION
+  i18n:
+    fr:
+      label: Administrer utilisateurs
+      description: Accès à la gestion des documents des utilisateurs faisant partie du groupe
+    en:
+      label: Resources management for group's Users
+      description:
+        
+       
+resource_administration:
+  module: RESOURCE
+  unique_name: RESOURCE_ADMINISTRATION
+  i18n:
+    fr:
+      label: Administrer médiathèque
+      description: Accès à la gestion des documents et l'organisation des libellés du groupe
+    en:
+      label: Resources management
+      description:
+        
+resource_activation:
+  module: RESOURCE
+  unique_name: RESOURCE_ACTIVATION
+  i18n:
+    fr:
+      label: Activater médiathèque
+      description: Peut activer ou désactiver la médiathèque
+    en:
+      label: Resources activation
+      description:
+
+#################### SCHOOL ####################
+
+school_access:
+  module: SCHOOL
+  unique_name: SCHOOL_ACCESS
+  i18n:
+    fr:
+      label: Voir école
+      description: Donne l'accès au module école
+    en:
+      label: School access
+      description: 
+        
+school_access_back:
+  module: SCHOOL
+  unique_name: SCHOOL_ACCESS_BACK
+  i18n:
+    fr:
+      label: Gérer école
+      description: Donne accès à la gestion de l'école 
+    en:
+      label: School management
+      description:
+
+#################### TEAM ####################        
+
+team_access:
+  module: TEAM
+  unique_name: TEAM_ACCESS
+  i18n:
+    fr:
+      label: Voir équipes
+      description: Donne l'accès aux équipes
+    en:
+      label: Team access
+      description: 
+        
+team_access_back:
+  module: TEAM
+  unique_name: TEAM_ACCESS_BACK
+  i18n:
+    fr:
+      label: Gérer équipes
+      description: Donne l'accès à la gestion des équipes dans le groupe
+    en:
+      label: Teams management
+      description:
+
+team_activation:
+  module: TEAM
+  unique_name: TEAM_ACTIVATION
+  i18n:
+    fr:
+      label: Activer équipes
+      description: Peut activer ou désactiver l'accès aux équipes
+    en:
+      label: Can activate / desactivate workgroup's access
+      description: 
+
+#################### HOMEWORK ####################        
+
+homework_access:
+  module: HOMEWORK
+  unique_name: HOMEWORK_ACCESS
+  i18n:
+    fr:
+      label: Voir cahier de texte
+      description: Donne l'accès au cahier de texte
+    en:
+      label: Homework access
+      description: 
+        
+homework_sign:
+  module: HOMEWORK
+  unique_name: HOMEWORK_SIGN
+  i18n:
+    fr:
+      label: Signer cahier de texte
+      description: Permet de signer dans le cahier de texte ses travaux
+    en:
+      label: Use homework
+      description: 
+        
+homework_access_back:
+  module: HOMEWORK
+  unique_name: HOMEWORK_ACCESS_BACK
+  i18n:
+    fr:
+      label: Gérer cahier de texte
+      description: Donne l'accès à la gestion du cahier de texte
+    en:
+      label: Homework management access
+      description:
+        
+homework_activation:
+  module: HOMEWORK
+  unique_name: HOMEWORK_ACTIVATION
+  i18n:
+    fr:
+      label: Activer cahier de texte
+      description: Pouvoir activer ou désactiver le cahier de texte
+    en:
+      label: Homework activation
+      description:
+        
+#################### MINISITE ####################
+
+minisite_access:
+  module: MINISITE
+  unique_name: MINISITE_ACCESS
+  # Roles pour lesquels on autorisera coté application l'activation / désactivation de la permission
+  roles: pupil , teacher , parent
+  i18n:
+    fr:
+      label: Voir minisite
+      description: Donne l'accès au minisite du groupe
+    en:
+      label: Minisite access
+      description: 
+        
+minisite_access_back:
+  module: MINISITE
+  unique_name: MINISITE_ACCESS_BACK
+  i18n:
+    fr:
+      label: Gérer minisite
+      description: Accès à la gestion de ses données minisite
+    en:
+      label: Minisite management access
+      description: 
+      
+minisite_activation:
+  module: MINISITE
+  unique_name: MINISITE_ACTIVATION
+  i18n:
+    fr:
+      label: Activer mini site
+      description: Peut activer ou désactiver le minisite
+    en:
+      label: Can enable / disable the minisite
+      description: 
+        
+minisite_administration:
+  module: MINISITE
+  unique_name: MINISITE_ADMINISTRATION
+  i18n:
+    fr:
+      label: Administrer minisite
+      description: Peut administrer toutes les données du minisite, gérer les publications
+    en:
+      label: Can administrate the minisite
+      description: 
+        
+ #################### DIRECTORY ####################        
+
+directory_ACCESS:
+  module: DIRECTORY
+  unique_name: DIRECTORY_ACCESS
+  i18n:
+    fr:
+      label: Voir annuaire
+      description: Donne accès à l'annuaire dans le groupe
+    en:
+      label: Homework access
+      description: 
+        
+directory_activation:
+  module: DIRECTORY
+  unique_name: DIRECTORY_ACTIVATION
+  i18n:
+    fr:
+      label: Activer annuaire
+      description: Peut activer ou désactiver l'accès à l'annuaire
+    en:
+      label: Can enable / disabled the directory access
+      description: 
+        
+        
+        
+####### NOTIFICATION #######
+notification_access:
+  module: NOTIFICATION
+  unique_name: NOTIFICATION_ACCESS
+  # Roles pour lesquels on autorisera coté application l'activation / désactivation de la permission
+  roles: pupil , teacher , parent
+  i18n:
+    fr:
+      label: Voir notifications
+      description: Donne l'accès aux notifications du groupe
+    en:
+      label: Notifications access
+      description: 
+        
+notification_access_back:
+  module: NOTIFICATION
+  unique_name: NOTIFICATION_ACCESS_BACK
+  i18n:
+    fr:
+      label: Gérer notifications
+      description: Accès à la gestion de ses notifications
+    en:
+      label: Notification management access
+      description: 

@@ -1,0 +1,19 @@
+<div class="status-row">
+	{% if feed.getProfileFeedStatus().getResource() != null %}
+		<img src="{{ getResourceImageUrl(feed.getProfileFeedStatus().getResource(), 'small') }}" alt="" />
+	{% endif %}
+	<p class="author"><strong>{{ feed.getAuthor().getFullName() }}</strong> - {{ date_from_now(feed.getDate().getTimestamp(), true, true) }}</p>
+	<p class="text-status">{{ feed.getProfileFeedStatus().getContent() }}</p>
+	<div class="clearfix"></div>
+</div>
+<div class="feed-{{ feed.getId() }}-comment-container">
+	{% render ('BNSAppCommentBundle:FrontComment:show') with {
+		'namespace': '\\BNS\\App\\CoreBundle\\Model\\ProfileComment',
+		'objectId': feed.getId(),
+		'comments': feed.getProfileCommentsInverse(),
+		'author': feed.getAuthor(),
+		'nbComments': feed.getNbComments(),
+		'ajaxLoading': true
+	} %}
+	<div class="clearfix"></div>
+</div>

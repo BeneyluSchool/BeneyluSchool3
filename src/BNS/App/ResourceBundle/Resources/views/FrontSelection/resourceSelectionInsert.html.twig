@@ -1,0 +1,5 @@
+{% for resource in resources %}
+	{% set templateName = rm.setObject(resource) %}
+	{% set templateName = rm.getTemplateName() %}
+	{% include "BNSAppResourceBundle:ResourceBlock:Insert/"~ templateName ~".html.twig" with {"resource" : resource } %}
+{% endfor %}

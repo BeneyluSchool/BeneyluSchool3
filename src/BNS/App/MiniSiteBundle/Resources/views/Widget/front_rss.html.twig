@@ -1,0 +1,10 @@
+{% extends 'BNSAppMiniSiteBundle:Layout:front_widget.html.twig' %}
+
+{% block widget_content %}
+	<div class="widget-content">
+		<b>Flux RSS:</b> {{ widget.getRssUrl() }}
+		<b>Nombre à afficher:</b> {{ widget.getLimit() }}
+	</div>
+
+
+{% endblock %}

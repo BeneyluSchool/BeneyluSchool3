@@ -1,0 +1,67 @@
+
+{% include 'BNSAppMessagingBundle:Front/Light:block_title.html.twig' with {'title': "Nouveau message"} %}
+<div class="messaging-no-overflow">
+	<div id="container-message" class="container-message">
+		<form id="messaging-send-form" action="{{ path("BNSAppMessagingBundle_front_light_ajax_new_message") }}" method="post" {{ form_enctype(form) }}>
+			<input id="messaging-new-message-submit" type="submit" style="display:none;width:0px;height:0px;" />
+			<div class="content-message new-message">
+				<div class="content-form">
+					{{ form_errors(form) }}
+					
+					<h3 id="tos-label">Choisir le destinataire</h3>
+						
+					<div id="tos-list" style="display:none;"></div>
+					
+					<button id="messaging-write-new-msg-choose" class="btn write-new-msg add-user">
+						<span class="background-button">
+							<span class="icons-add-user"></span>
+							Ajouter <br>un contact
+						</span>
+					</button>	
+						
+					<div class="controls">
+						{{ form_widget(form.subject,{'attr':{'class': 'receiver','placeholder': "Sujet du message"}}) }}
+					</div>
+						
+					<div id="tos-error" class="alert alert-error" style="display:none;">
+						Il faut choisir au moins un destinataire
+					</div>
+					
+					<div class="controls">
+						{{ form_widget(form.content, { 'attr': {'class': 'load_tinymce', 'data-theme': 'simple'} }) }}
+					</div>
+					
+					{{ form_rest(form) }}
+					<div class="content-attachment">
+						{% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': attachements is defined ? attachements : null, 'editable': true} %}
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+ {% include 'BNSAppDirectoryBundle:UserPicker:activable_userpicker.html.twig' with {
+	'name_for_form': 'to',
+	'input_id': 'messaging_message_to',
+	'modal_id': 'messaging-write-new-msg-choose-modal',
+	'element_activate_modal_id': 'messaging-write-new-msg-choose',
+	'auto_close_modal': true,
+	'auto_load_and_hide': true,
+	'roles_filter': shownRoles,
+	'module': "MESSAGING"
+ } %}
+
+{{ tinymce_init() }}
+<script type="text/javascript" src="{{ asset('/medias/js/jquery.form.js') }}"></script>
+
+<script type="text/javascript">
+	prepareSendForm();
+	manageTos();
+	
+	$("#messaging-write-new-msg-choose-modal").live('modalLoaded',function(e){
+		initTos();
+		hideMainLoader();
+	});
+</script>

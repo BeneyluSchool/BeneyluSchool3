@@ -1,0 +1,24 @@
+<div class="widget {{ widget.getMiniSiteWidgetTemplate().getType()|lower }}" id="widget-{{ widget.getId() }}">
+	{% block widget_content %}Add my content!{% endblock widget_content %}
+</div>
+<div class="widget clock">
+	<div class="days">
+		<p>12</p>
+		<p class="month">06</p>
+	</div>
+	<div class="hours">
+		<p>12:00</p>
+	</div>
+</div>
+<div class="widget meteo">
+	<div class="content-weather">
+		<p>Aujourd'hui</p>
+		<p class="weather">Soleil</p>
+	</div>
+	<div class="degrees">
+		<p class="morning">12°</p>
+		<p>21°</p>
+	</div>
+	<div class="cloud"></div>
+	<div class="sun"></div>
+</div>

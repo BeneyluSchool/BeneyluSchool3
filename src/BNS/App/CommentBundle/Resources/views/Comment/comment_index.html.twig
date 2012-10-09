@@ -1,0 +1,214 @@
+<div class="container-comments">
+	<div class="comments-information">
+		<span class="icons-comments"></span>
+		<div class="comment-text">
+			<span class="nb">{% if nb_comments == 0 %}Aucun{% else %}{{ nb_comments }}{% endif %}</span>
+			<span class="label-comment">commentaire{% if nb_comments > 1 %}s{% endif %}</span>
+		</div>
+		<a href="#" class="collapse-{{ object_id }}">
+			<span class="icons-arrow"></span>
+		</a>
+		<div class="comment-shadow"></div>
+		<div class="clearfix"></div>
+	</div>
+	<div id="comments_{{ object_id }}" class="collapse-container">
+		{% if need_ajax %}
+			<script type="text/javascript">
+				$(function ()
+				{
+					{#
+						Show all previous comments process :
+							- Show loader
+							- Call AJAX
+							- Create prev comments DOM
+							- Remove loader
+							- Show prev comments
+					#}
+					$('.more-comment a').live('click', function ()
+					{
+						var $this = $(this),
+							$row = $this.parent().parent();
+
+						if ($row.hasClass('loading')) {
+							return false;
+						}
+
+						{# Show loader #}
+						$row.addClass('loading');
+						$row.find('.comment-loading').fadeIn('fast');
+						$this.css('opacity', '0');
+
+						{# Call AJAX #}
+						$.ajax({
+							url: $this.attr('href'),
+							type: 'POST',
+							data: {
+								'namespace': '{{ namespace }}',
+								'object_id': {{ object_id }},
+								'nb_comments': {{ comments|length }},
+								'total_comments': {{ nb_comments }}
+							},
+							dataType: 'html',
+							success: function (data)
+							{
+								{# Create prev comments DOM #}
+								var $div = $('<div />').html(data),
+									$comments = $div.find('.comment');
+									
+								$comments.css('display', 'none').addClass('new');
+								$('#comments_{{ object_id }} .comments-list').prepend($div);
+								
+								{# Remove loader #}
+								$row.slideUp('fast', function ()
+								{
+									{# Show prev comments #}
+									showComments($comments, 0, $comments.length);
+								});
+							}
+						});
+
+						return false;
+					});
+					
+					{# Animate the comments display #}
+					function showComments($comments, i, length, $moreContainer)
+					{
+						var speed = 150 - i * 2;
+						if (speed < 50) {
+							speed = 50;
+						}
+						
+						$($comments[i]).slideDown(speed, function ()
+						{
+							$(this).removeClass('new');
+							
+							if (i + 1 >= length) {
+								return false;
+							}
+							
+							showComments($comments, i + 1, length);
+						});
+					}
+				});
+			</script>
+			<div class="more-comment">
+				<div class="comment-loading"></div>
+				<div class="content-more-comment">
+					<a href="{{ path('comment_load') }}">Afficher les précédents commentaires</a>
+				</div>
+			</div>
+		{% endif %}
+		<script type="text/javascript">
+			$(function ()
+			{
+				{#
+					Add comment process :
+						- Show loader
+						- Call AJAX
+						- Increase comment count
+						- Remove loader
+				#}
+				$('#comments_{{ object_id }} .comment-form').live('submit', function ()
+				{
+					var $this = $(this),
+						$textarea = $this.find('textarea'),
+						$submitButton = $this.find('input[type="submit"]'),
+						$row = $this.parent();
+
+					if ($row.hasClass('loading')) {
+						return false;
+					}
+
+					{# Show loader #}
+					$row.addClass('loading');
+					$row.find('.comment-loading').fadeIn('fast');
+					$textarea.attr('disabled', 'disabled');
+					$submitButton.attr('disabled', 'disabled');
+
+					{# Call AJAX #}
+					$.ajax({
+						url: $this.find('form').attr('action'),
+						type: 'POST',
+						dataType: 'json',
+						data: {'content': $textarea.val(), 'object_id': {{ object_id }}, 'namespace': '{{ namespace }}'},
+						success: function (data)
+						{
+							$alert = $('#comments_{{ object_id }} .comment-form .alert');
+							if (null != data.error) {
+								$alert.html(data.error);
+								$alert.slideDown('slow');
+							}
+							else {
+								$alert.slideUp('fast');
+								
+								var $commentRow = $('#comments_{{ object_id }}');
+								$commentRow.find('.comments-list .clearfix').before(data.html);
+								$textarea.val('');
+								
+								{# Increase comment count #}
+								var $nb = $commentRow.parent().find('.nb'),
+									$label = $commentRow.parent().find('.label-comment');
+
+								if ($nb.text() == 'Aucun') {
+									$nb.text('1');
+								}
+								else if ($nb.text() == 1) {
+									$nb.text('2');
+									$label.text($label.text() + 's');
+								}
+								else {
+									$nb.text(parseInt($nb.text()) + 1);
+								}
+
+							}
+						}
+					}).done(function ()
+					{
+						{# Remove Loader #}
+						$textarea.removeAttr('disabled');
+						$submitButton.removeAttr('disabled');
+						$row.find('.comment-loading').fadeOut('fast');
+						$row.removeClass('loading');
+					});
+
+					return false;
+				});
+
+				{# Collapse process, slide the content and rotate the arrow #}
+				$('.collapse-{{ object_id }}').click(function (e)
+				{
+					var $this = $(e.currentTarget),
+						$row = $this.parent(),
+						$commentsList = $('#comments_{{ object_id }}');
+						
+					if ($commentsList.css('display') == 'inline-block') {
+						$commentsList.slideUp('slow', function () { $row.toggleClass('collapsed'); });
+					}
+					else {
+						$commentsList.slideDown('slow', function () { $row.toggleClass('collapsed'); });
+					}
+					
+					return false;
+				});
+			});
+		</script>
+		<div class="comments-list">
+			{% include 'BNSAppCommentBundle:Comment:comment_list.html.twig' %}
+			<div class="clearfix"></div>
+		</div>
+		<div class="comment-form">
+			<div class="comment-loading"></div>
+			<form action="{{ path('comment_add') }}" method="POST">
+				<div class="avatar-comment">
+					<img src="{{ avatar(app.user.getUser(), 'thumbnail') }}" alt=""/>
+					<p>{{ app.user.getUser.getFullName() }}</p>
+				</div>
+				<textarea name="content" class="field textarea" rows="5" cols="50" value="" tabindex="2" placeholder="Laisser un commentaire..."></textarea>
+				<div class="alert alert-danger"></div>
+				<input type="submit" class="btn add-comment" value="Je commente" />
+			</form>
+			<div class="shadow-bot"></div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+</div>

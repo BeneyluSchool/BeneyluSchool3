@@ -1,0 +1,166 @@
+{% extends 'BNSAppClassroomBundle:Layout:manager.html.twig' %}
+
+{% block title %}Classe - Importer vos fichier CSV{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script type="text/javascript">
+		$(function ()
+		{
+			$('.btn-confirm-import-pupil').click(function (e)
+			{
+				var $this = $(e.currentTarget);
+				if ($this.hasClass('disabled')) {
+					return false;
+				}
+				
+				$this.addClass('disabled').attr('disabled', 'disabled');
+				
+				$('#import-pupil-form').submit();
+				$('.alert-error').slideUp('fast');
+				$('#import-pupil-form').slideUp('fast', function ()
+				{
+					$('.alert-loading').slideDown('fast');
+				});
+			});
+		});
+	</script>
+{% endblock %}
+
+{% block header %}
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span7">
+						<a href="{{ path('BNSAppClassroomBundle_back_classroom') }}" class="btn bns-notice btn-24 medium-return button-return">
+							<span class="icons-24 back-icon"></span>
+							<strong>Retourner</strong><br>à la liste des utilisateurs
+						</a>
+						<a href="{{ path('BNSAppClassroomBundle_back_classroom') }}" class="btn bns-danger btn-24 medium-return">
+							<span class="icons-24 cancel-icon"></span>
+							<strong>Annuler</strong><br>l'import
+						</a>
+					</div>
+					<div class="span5 align-right">
+						<a href="#" class="btn bns-success validate-medium btn-24 medium btn-confirm-import-pupil">
+							<span class="icons-24 validate-icon"></span><strong>J'ai terminé</strong>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock header %}
+
+{% block sidebar %}
+    {% include 'BNSAppClassroomBundle:Sidebar:sidebar.html.twig' with {'page': 'classroom', 'section': 'users' } %}
+{% endblock sidebar %}
+
+{% block content %}
+	<div class="container-csv">
+		{% for message in app.session.flashbag.get('error') %}
+			<div class="alert alert-danger">
+				{{ message }}
+			</div>
+		{% endfor %}
+			
+		<div class="news-title">
+			<h1 class="dashboard">Import d'élèves depuis un fichier CSV</h1>
+		</div>
+
+		<div class="content-csv">
+			<div class="alert alert-info alert-loading">
+				<img src="{{ asset('/medias/images/icons/big-loader.gif') }}" alt="" />
+				<h3>Import en cours... veuillez patienter pendant que vos élèves se mettent en rang pour rentrer dans leur nouvelle classe virtuelle.</h3>
+			</div>
+				
+			{% if app.session.hasFlash('submit_import_form_error') %}
+				<div class="alert alert-error">
+					{{ app.session.getFlash('submit_import_form_error') }}
+					Une erreur est survenue lors de la soumission du formulaire. Veuillez vérifier que vous avez bien renseigné tous les champs du formulaire.
+				</div>
+			{% endif %}
+			<form action="{{ path('back_classroom_users_do_import_pupil_from_csv') }}" method="POST" id="import-pupil-form" {{ form_enctype(form) }}>
+				{{ form_widget(form) }}
+				<div class="clearfix"></div>
+				<p>
+					<i>Nb: les fichiers CSV ne sont pas conservés sur nos serveurs, ils sont traités par un robot puis supprimés.</i>
+				</p>
+			</form>
+		</div>
+
+		<div class="news-title">
+			<h1 class="dashboard">Mode d'emploi</h1>
+		</div>
+		<div class="content-csv">
+			<h3>Qu'est-ce qu'un fichier CSV ?</h3>
+
+			<p>Un fichier CSV n'est rien d'autre qu'une <strong>liste de données</strong> (la liste détaillée de vos élèves par exemple) dans laquelle on a remplacé les séparations par <strong>des point-virgules</strong> ( ; ). </p>
+
+			<p>C'est ainsi qu'on dit que "le point-virgule est le séparateur du fichier CSV", tout simplement !</p>
+
+
+			<h3>Quel est l'intérêt ?</h3>
+
+			<p>Le principal intérêt du fichier CSV est de <strong>permettre à des machines d'interpréter</strong> des listes de données.</p>
+
+			<p>C'est ainsi que vous pouvez envoyer la liste de tous vos élèves en une seule fois sur la Beneylu School : tous les comptes seront créés.	Cela <strong>évite la tâche fastidieuse</strong> de les créer un par un.</p>
+
+			<h3>Quels sont les formats acceptés ?</h3>
+
+			<p> Hélàs, tout cela n'est pas magique. Il faut que la machine "comprenne" la liste que vous lui envoyez.</p>
+
+			<p>	Pour cela, il est nécessaire d'écrire le fichier CSV d'une certaine façon, en <strong>respectant une nomenclature</strong>. C'est ce qu'on appelle "<strong>le format</strong>". </p>
+
+			<p>Aujourd'hui la Beneylu School accepte 2 formats : le format "<strong>Base Elèves</strong>" et le format "<strong>Beneylu School</strong>" beaucoup plus simple.</p>
+
+			<h3>Comment écrire un fichier CSV ?</h3>
+
+			<p>	Il est très facile d'écrire un fichier CSV (si si !).</p>
+			<p>Pour cela, <strong>munissez-vous d'un tableur</strong> comme Excel ou OpenOffice Calc. C'est de loin la solution la plus simple car le tableur se chargera pour vous de placer les points-virgules.</p>
+
+			<p>Nous vous conseillons très fortement de <strong>télécharger l'un des fichiers exemples</strong> (voir ci-après) et de vous en servir comme base de rédaction de votre propre fichier. N'hésitez pas, c'est fait pour !</p>
+
+			<p>La 1ère ligne de votre "tableau" doit-être celle du format choisi (voir ci-après), elle définit les colonnes (nom prénom, ...). Les lignes suivantes sont tout simplement vos élèves, avec leurs informations dans chacune des colonnes : nom, prénom, ... </p>
+
+			<p>Il ne reste plus qu'à enregistrer votre fichier au format CSV. Votre tableur doit vous proposer ce format lorsque vous choisissez "<strong>Enregistrer sous</strong>".</p>
+
+			<p>	Voilà, votre fichier "<strong>nom_de_mon_fichier.csv</strong>" est prêt pour la Beneylu School !</p>
+		</div>
+		<div class="news-title">
+			<h1 class="dashboard">Téléchargement</h1>
+		</div>
+		<div class="row-fluid">
+			<div class="span6">
+				<div class="content-csv">
+					<h4>Le format Base Elèves</h4>
+					<p>
+						Si vous disposez d'une <strong>extraction Base Eleves</strong> de votre classe, vous pouvez la soumettre telle quelle à la Beneylu School,
+						sans <strong>aucune modification à apporter</strong>.
+						<br /><br />
+						Seuls les champs nécessaires seront pris en compte, les autres seront simplement ignorés.
+						<br /><br />
+						<a href="{{ asset('/medias/file/classroom/exemple_base_eleves.csv') }}">Télécharger un exemple au format Base Elèves</a><br />
+						<a href="{{ asset('/medias/file/classroom/exemple_base_eleves_vierge.csv') }}">Télécharger un fichier vierge au format Base Elèves</a>
+					</p>
+				</div>
+			</div>
+			<div class="span6">
+				<div class="content-csv">
+					<h4>Le format Beneylu School</h4>
+					<p>
+						Si vous souhaitez construire vous même votre fichier, nous vous invitons à télécharger le fichier exemple au format Beneylu School et à
+						le compléter.
+						<br /><br />
+						Cette solution est <strong>très simple à mettre en oeuvre</strong>.
+						<br /><br />
+						<a href="{{ asset('/medias/file/classroom/exemple_beneylu_school.csv') }}">Télécharger un exemple au format Beneylu School</a><br />
+						<a href="{{ asset('/medias/file/classroom/exemple_beneylu_school_vierge.csv') }}">Télécharger un fichier vierge au format Beneylu School</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,144 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+	Création d'une classe
+{% endblock %}
+	
+{% block css %}
+	{{ parent() }}
+	<link href='https://fonts.googleapis.com/css?family=Audiowide' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="{{ asset('/medias/css/user/front_password.css') }}" />
+{% endblock css %}
+	
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript" src="{{ asset('/medias/js/jquery.maphilight.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/user/password.js') }}"></script>
+{% endblock javascripts %}
+
+{% block body %}
+<div class="background-password"></div>
+	<div class="container container-fluid content-password-generation">
+		<div class="row-fluid">
+			<div class="span5">
+				<div class="background-left"></div>
+				<div class="wheel-container" style="opacity: 0;">
+					<div class="door-container">
+						<div class="door door-left"></div>
+						<div class="door door-right"></div>
+					</div>
+					<div id="wheel-numbers">
+						<div class="wheel numbers">
+							<img src="{{ asset('/medias/images/registration/password/wheel-empty.png') }}" class="wheel empty" usemap="#numbers" />
+						</div>
+					</div>
+					<div id="wheel-letters">
+						<div class="wheel consonant">
+							<img src="{{ asset('/medias/images/registration/password/wheel-vowel.png') }}" class="wheel vowel" usemap="#letters" />
+						</div>
+					</div>
+					<div class="wheel confirm disabled">
+						<div class="under"></div>
+						<a href="#" onclick="return false;" class="inner">OK</a>
+					</div>
+				</div>
+
+				<map name="letters" id="letters"> 
+					<area class="map-area" data-type="consonant" data-letter="m" href="#" onclick="return false;" alt="" shape="poly" coords="268,345,244,300,231,306,221,309,203,312,213,362,245,354" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="consonant" data-letter="l" href="#" onclick="return false;" alt="" shape="poly" coords="313,312,277,276,267,285,255,294,245,299,268,345,293,327" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="consonant" data-letter="k" href="#" onclick="return false;" alt="" shape="poly" coords="300,242,345,266,335,284,325,298,312,310,276,275,287,263,295,252" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="consonant" data-letter="j" href="#" onclick="return false;" alt="" shape="poly" coords="312,203,363,211,359,228,355,244,348,261,346,264,301,242,305,231,309,217" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="consonant" data-letter="r" href="#" onclick="return false;" alt="" shape="poly" coords="56,311,45,297,36,285,29,276,24,266,69,242,77,256,85,267,92,275" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="consonant" data-letter="q" href="#" onclick="return false;" alt="" shape="poly" coords="101,344,82,332,67,321,58,310,93,276,107,288,124,299" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="consonant" data-letter="p" href="#" onclick="return false;" alt="" shape="poly" coords="156,361,136,357,116,351,102,343,125,299,142,306,147,308,164,311" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="consonant" data-letter="s" href="#" onclick="return false;" alt="" shape="poly" coords="24,265,16,248,12,234,7,211,57,203,62,224,69,242" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="consonant" data-letter="t" href="#" onclick="return false;" alt="" shape="poly" coords="7,211,5,194,5,176,7,154,59,162,56,177,56,189,57,203" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="consonant" data-letter="v" href="#" onclick="return false;" alt="" shape="poly" coords="7,153,12,134,16,121,24,100,72,125,65,137,62,148,58,161" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="consonant" data-letter="w" href="#" onclick="return false;" alt="" shape="poly" coords="26,101,35,86,46,69,59,56,95,92,83,104,71,123" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="consonant" data-letter="x" href="#" onclick="return false;" alt="" shape="poly" coords="59,56,74,43,89,32,104,24,128,71,117,75,107,82,96,93" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="consonant" data-letter="z" href="#" onclick="return false;" alt="" shape="poly" coords="105,24,123,15,139,11,157,8,165,57,148,60,128,69" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="consonant" data-letter="b" href="#" onclick="return false;" alt="" shape="poly" coords="166,58,158,7,177,5,195,5,212,6,204,58,191,56,178,56" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="consonant" data-letter="c" href="#" onclick="return false;" alt="" shape="poly" coords="205,58,213,7,231,11,252,18,266,24,242,71,233,66,222,62" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="consonant" data-letter="d" href="#" onclick="return false;" alt="" shape="poly" coords="242,71,266,25,282,33,295,43,311,56,275,93,263,83,252,75" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="consonant" data-letter="f" href="#" onclick="return false;" alt="" shape="poly" coords="275,94,311,57,325,73,335,86,344,102,298,125,294,115,285,104" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="consonant" data-letter="g" href="#" onclick="return false;" alt="" shape="poly" coords="344,103,352,118,357,135,362,154,312,163,307,143,298,126" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="consonant" data-letter="h" href="#" onclick="return false;" alt="" shape="poly" coords="312,163,362,155,363,172,364,188,362,209,311,202,313,189,313,173" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="vowel" data-letter="o" href="#" onclick="return false;" alt="" shape="poly" coords="184,312,184,249,172,248,159,244,148,238,140,231,132,222,129,215,73,247,82,262,93,274,104,284,119,294,138,303,161,310" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="vowel" data-letter="u" href="#" onclick="return false;" alt="" shape="poly" coords="130,153,123,169,122,184,123,201,129,215,72,247,64,227,58,204,57,187,59,164,63,145,73,119" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="vowel" data-letter="y" href="#" onclick="return false;" alt="" shape="poly" coords="129,152,74,119,91,98,109,82,128,70,145,63,166,58,184,57,185,120,169,123,155,128,141,138" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="vowel" data-letter="a" href="#" onclick="return false;" alt="" shape="poly" coords="185,121,185,57,205,58,226,63,244,72,261,82,276,96,288,109,295,122,241,151,230,137,213,126,199,122" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="vowel" data-letter="e" href="#" onclick="return false;" alt="" shape="poly" coords="242,152,295,122,303,136,309,155,312,177,311,202,306,224,296,249,241,218,249,197,249,176,246,164" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="vowel" data-letter="i" href="#" onclick="return false;" alt="" shape="poly" coords="241,217,264,231,296,248,278,271,264,284,246,296,227,305,204,311,185,311,184,250,202,247,217,241,230,231" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="consonant" data-letter="n" href="#" onclick="return false;" alt="" shape="poly" coords="157,362,176,364,199,364,212,362,203,312,187,314,174,312,164,311" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' />
+					<area id="confirm-button" onclick="return false;" alt="" shape="poly" coords="128,187,136,155,155,136,184,129,210,134,229,150,239,169,240,199,223,228,194,241,159,236,139,217" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0,"alwaysOn":false}' />
+				</map>
+
+				<map name="numbers" id="numbers"> 
+					<area class="map-area" data-type="number" data-number="5" href="#" onclick="return false;" alt="" shape="poly" coords="146,306,131,357,149,360,165,363,187,364,207,362,225,359,242,354,225,306,205,311,184,313,160,310" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="number" data-number="4" href="#" onclick="return false;" alt="" shape="poly" coords="225,305,243,356,268,344,286,334,298,324,312,311,324,298,330,289,288,259,277,272,266,283,254,292,243,299" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="number" data-number="3" href="#" onclick="return false;" alt="" shape="poly" coords="289,258,331,288,339,278,345,265,353,249,358,231,362,214,364,196,364,183,313,184,312,197,310,213,305,230,297,246" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="number" data-number="2" href="#" onclick="return false;" alt="" shape="poly" coords="313,183,364,183,362,154,358,137,353,121,344,101,336,88,329,77,288,108,297,123,304,138,309,153,311,166" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="number" data-number="1" href="#" onclick="return false;" alt="" shape="poly" coords="287,108,329,77,313,58,303,49,288,38,272,27,255,19,238,13,224,62,241,69,258,79,276,94" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="number" data-number="0" href="#" onclick="return false;" alt="" shape="poly" coords="238,13,217,7,194,5,176,5,157,7,136,11,127,14,144,63,162,58,183,56,198,57,208,58,223,62" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="number" data-number="9" href="#" onclick="return false;" alt="" shape="poly" coords="126,14,110,21,94,29,81,38,65,50,48,68,38,81,79,111,94,93,110,80,125,71,143,62,135,39" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="number" data-number="8" href="#" onclick="return false;" alt="" shape="poly" coords="37,81,79,109,72,125,65,138,60,153,57,171,56,186,5,186,6,161,12,136,18,115" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="number" data-number="7" href="#" onclick="return false;" alt="" shape="poly" coords="41,293,82,262,73,248,67,237,62,223,57,206,56,186,4,186,8,222,14,242,24,265" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+					<area class="map-area" data-type="number" data-number="6" href="#" onclick="return false;" alt="" shape="poly" coords="130,355,146,307,129,301,114,293,99,281,91,273,84,265,82,262,42,293,62,316,81,331,101,343" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.15,"alwaysOn":false}' /> 
+				</map>
+			</div>
+			<div class="span7">
+				<div class="content-message-password">
+					<h1>Création de mot de passe</h1>
+					<br />
+					<p>
+						Vous pouvez désormais créer votre propre mot de passe : rien de plus simple, tout se passe en 3 étapes :
+
+						<ol>
+							<li>Choisir ses lettres : il faut cliquer sur une consonne, une voyelle, puis sur "OK" (recommencer 3 fois)</li>
+							<li>Choisir ses chiffres : il faut cliquer 3 chiffres différents, puis sur "OK"</li>
+							<li>Bien noter le mot de passe choisi !!! Il apparaît ci dessous.</li>
+						</ol>
+					</p>
+				
+					<div class="content-password-hud">
+						<h5>Voici la combinaison choisie :</h5>
+						<h1><div id="password-hud" class="password-hud"></div></h1>
+						<div class="alert alert-danger">
+
+						</div>
+
+						<form action="{{ path('user_password') }}" method="POST" {{ form_enctype(form) }}>
+							<div>
+								{{ form_widget(form.password) }}
+								{{ form_errors(form.password) }}
+							</div>
+
+							<div class="rest">
+								{{ form_rest(form) }}
+								{{ form_errors(form) }}
+							</div>
+
+							<div class="submit">
+								<a id="confirm_password" class="btn bns-success disabled btn-24 medium" href="#"><span class="icons-24 validate-icon"></span><strong>J'utilise cette combinaison</strong></a>
+								<div class="clearfix"></div>
+								<a id="clear_password" href="#" class="reset">Utiliser une autre combinaison</a>
+								{#<input id="confirm_password" class="btn btn-success disabled btn-large" type="submit" value="OK" disabled="disabled" />
+								<input id="clear_password" class="btn btn-danger btn-large" type="submit" value="Recommencer" />#}
+							</div>
+						</form>
+						<div class="beneylu-jim"></div>
+					</div>
+					<div class="container-warning-password">
+						<div class="content-warning-password">
+							<div class="warning-password"></div>
+						   <h2>Attention !</h2>
+							<p>Note bien la combinaison de ton mot de passe car une fois que tu auras quitté cette page tu ne pourras plus y revenir</p>
+							<a href="#" class="link-print">Imprimer mon mot de passe</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock body %}

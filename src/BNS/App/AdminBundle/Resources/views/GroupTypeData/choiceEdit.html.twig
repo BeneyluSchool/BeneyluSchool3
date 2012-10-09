@@ -1,0 +1,14 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+	
+	<h3>{{ groupTypeDataChoice.label }} ({{ groupTypeDataChoice.groupTypeDataTemplateUniqueName }})</h3>
+	
+	<form action="{{ path('BNSAppAdminBundle_group_type_data_choice_edit' , {"id": groupTypeDataChoice.id,"template_unique_name": template_unique_name} ) }}" method="post" {{ form_enctype(form) }}>
+		
+		{{ form_widget(form) }}
+
+		<input type="submit" />
+	</form>
+
+{% endblock %}

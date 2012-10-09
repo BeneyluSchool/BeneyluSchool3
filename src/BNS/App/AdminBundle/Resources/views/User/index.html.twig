@@ -1,0 +1,29 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+	
+	<h3>Recherche d'utilisateurs</h3> 
+
+	<form action="{{ path('BNSAppAdminBundle_user') }}" method="post" {{ form_enctype(form) }} class="well form-inline">
+		
+		{{ form_widget(form.id,{ 'attr': {'class': 'input-small','placeholder': "#Id"}}) }}
+		{{ form_widget(form.firstName,{ 'attr': {'class': 'input-small','placeholder': "Prénom"}}) }}
+		{{ form_widget(form.lastName,{ 'attr': {'class': 'input-small','placeholder': "Nom"}}) }}
+		{{ form_widget(form.login,{ 'attr': {'class': 'input-small','placeholder': "Login"}}) }}
+		{{ form_widget(form.email,{ 'attr': {'class': 'input-small','placeholder': "Email"}}) }}
+		
+		<input type="submit" value="Rechercher" class="btn-success"/>
+	 </form>
+
+	 {% if users|length > 0 %}
+		{% include "BNSAppAdminBundle:User:list.html.twig" with{'users' : users } %}
+	{% else %}
+		<div class="alert alert-info">
+			Votre recherche n'a pas remonté de résultat.
+		</div>
+	{% endif %}
+
+	 
+
+
+{% endblock %}

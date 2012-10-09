@@ -1,0 +1,35 @@
+<div class="arrow_box javascript-tooltip javascript-filters">
+	<div class="close">&times;</div>
+	<p>Fonction pour cocher/décocher les checkboxs. Attention à bien target la <strong>LI</strong> et pas simplement la checkbox.</p>
+	
+	<textarea>$(function ()
+{
+	$('.your-class-here').click(function (e)
+	{
+		var $row = $(e.currentTarget),
+			$parent = $row.parent().parent(),
+			$checkbox = $row.find('.select');
+
+		// Show loader
+		var $loader = $parent.find('.loader');
+		$loader.fadeIn('fast');
+		$checkbox.toggleClass('checked');
+
+		$.ajax({
+			url: 'your-url',
+			type: 'GET or POST',
+			dataType: 'json or html',
+			data: {'state': $checkbox.hasClass('checked'), filter: ''} // $row.data('filter'), for example
+			success: function (data)
+			{
+				// process data object & on success event
+			}
+		}).done(function ()
+		{
+			$loader.fadeOut('fast');
+		});
+		
+		return false;
+	});
+});</textarea>
+</div>

@@ -1,0 +1,41 @@
+{% extends '::base_manager.html.twig' %}
+
+{% block css %}
+	{{ parent() }}
+
+	{# Appel CSS du package layout manager #}
+	{% include "BNSAppMainBundle:Manager:layoutStyle.html.twig" %}
+
+	{# Appel CSS du package calendar #}
+	{% include "BNSAppMainBundle:Manager:layoutCalendarStyle.html.twig" %}
+
+	<link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet' type='text/css'>
+    <link href="{{ asset('/medias/css/calendar/manager.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block title %}Calendrier - Gestion{% endblock %}
+
+{% block body %}
+	<div class="background-admin-calendar"></div>
+	{% block header %}{% endblock header %}
+    <div class="container container-fluid">
+		<div class="row-fluid container-manager">
+			<div class="container-sidebar">
+				{% block sidebar %}
+					Hey, did you forget your sidebar ?
+				{% endblock %}
+				<div class="sidebar-shadow"></div>
+			</div>
+			<div class="span9 container-content no-margin">
+				{% block content %}{% endblock %}
+			</div>
+			<div class="container-manager-bottom">
+				<div class="content-manager-bottom"></div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block dock_bar %}
+	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "CALENDAR" , 'is_in_front' : false } %}
+{% endblock %}

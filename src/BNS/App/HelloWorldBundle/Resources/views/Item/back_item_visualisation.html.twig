@@ -1,0 +1,97 @@
+{% extends 'BNSAppHelloWorldBundle:Back:layout.html.twig' %}
+
+{% block title %}
+	{{ item.title }} - Gestion
+{% endblock title %}
+
+{% block javascripts %}
+	{{ parent() }}
+	
+	<script type="text/javascript">
+		$(function ()
+		{
+			$('.header-buttons .delete-item').click(function (e)
+			{
+				$('#modal-article-delete').modal('show');
+				
+				return false;
+			});
+		});
+	</script>
+{% endblock javascripts %}
+
+{% block header %}
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span12">
+						<a href="{{ path('BNSAppHelloWorldBundle_back') }}" class="btn bns-notice btn-24 medium-return">
+							<span class="icons-24 back-icon"></span>
+							<strong>Retourner</strong><br />à l'index
+						</a>
+						<a href="#" class="btn bns-info btn-24 medium-return button-return">
+							<span class="icons-24 edit-icon"></span>
+							<strong>Éditer</strong><br />l'item
+						</a>
+						<a href="#" class="btn bns-notice btn-24 medium-return button-return">
+							<span class="icons-24 preview-icon"></span>
+							<strong>Voir</strong><br />l'item
+						</a>
+						<a href="#" class="btn bns-danger btn-24 medium-return delete-item">
+							<span class="icons-24 delete-icon"></span>
+							<strong>Supprimer</strong><br />l'item
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock header %}
+
+{% block content %}
+	{# See this render for delete modal example #}
+	{# {% render 'BNSAppBlogBundle:BackAjax:renderDeleteArticleModal' with {'article': item} %} #}
+	<div class="item visualisation">
+		<div class="header">
+			<h3>{{ item.title }}</h3>
+			{% if item.hasCategories %}
+				<div class="categories">
+					<ul>
+						<li>
+							<span class="sprite-icon Soccer_Ball"></span>
+							Catégorie
+
+							<ul>
+								<li>Sous-catégorie</li>
+							</ul>
+						</li>
+						<li>
+							<span class="sprite-icon kbugbuster"></span>
+							Catégorie
+						</li>
+						<li>
+							Catégorie
+
+							<ul>
+								<li>Sous-catégorie</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			{% endif %}
+		</div>
+		<div class="footer">
+			Écrit {{ date_from_now(item.date, false, true) }} par <img src="{# {{ avatar(item.getAuthor(), 'thumbnail') }} #}http://www.placehold.it/20x20" alt="" class="avatar" /> {{ item.author.fullname }}
+		</div>
+		<div class="text">
+			{% autoescape false %}
+				{{ item.description }}
+			{% endautoescape %}
+		</div>
+		{# If you want to link resources #}
+		{# <div class="resources">
+			{% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': article.getResourceAttachments(), 'editable': false} %}
+		</div> #}
+	</div>
+{% endblock %}

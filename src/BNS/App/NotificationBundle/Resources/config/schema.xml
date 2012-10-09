@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\NotificationBundle\Model">
+  <table name="notification">
+    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+    <column name="target_user_id" required="true" type="INTEGER" />
+    <column name="notification_type_unique_name" required="true" size="255" type="VARCHAR" />
+    <column name="group_id" type="INTEGER" />
+    <column name="date" required="true" type="TIMESTAMP" />
+    <column name="objects" type="LONGVARCHAR" />
+    <column name="is_new" defaultValue="1" required="true" type="BOOLEAN" />
+    <foreign-key foreignTable="user" name="FK_NOTIFICATION_TARGET_USER0" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="target_user_id" />
+    </foreign-key>
+    <foreign-key foreignTable="notification_type" name="FK_NOTIFICATION_TYPENOTIFICATION0">
+      <reference foreign="unique_name" local="notification_type_unique_name" />
+    </foreign-key>
+    <index name="FK_NOTIFICATION_TARGET_USER">
+      <index-column name="target_user_id" />
+    </index>
+    <index name="FK_NOTIFICATION_TYPENOTIFICATION">
+      <index-column name="notification_type_unique_name" />
+    </index>
+  </table>
+  <table name="notification_type">
+    <column name="module_unique_name" primaryKey="true" required="true" size="255" type="VARCHAR" />
+    <column name="unique_name" primaryKey="true" required="true" size="255" type="VARCHAR" />
+	<column name="is_correction" defaultValue="0" required="true" type="BOOLEAN" />
+    <column name="disabled_engine" size="255" type="VARCHAR" />
+    <foreign-key foreignTable="module" name="FK_TYPENOTIFICATION_MODULE0" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="unique_name" local="module_unique_name" />
+    </foreign-key>
+    <index name="FK_TYPENOTIFICATION_MODULE">
+      <index-column name="module_unique_name" />
+    </index>
+  </table>
+  <table name="notification_settings">
+    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+    <column name="context_group_id" type="INTEGER" required="true" />
+    <column name="module_unique_name" size="255" type="VARCHAR" required="true" />
+    <column name="user_id" type="INTEGER" required="true" />
+    <column name="notification_engine" type="ENUM" valueSet="SYSTEM, EMAIL" required="true" />
+    <foreign-key foreignTable="user" name="FK_NOTIFICATIONSETTINGS_USER" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="user_id" />
+    </foreign-key>
+    <foreign-key foreignTable="module" name="FK_NOTIFICATIONSETTINGS_MODULE">
+      <reference foreign="unique_name" local="module_unique_name" />
+    </foreign-key>
+    <index name="FK_USERTYPENOTIFICATION_USER">
+      <index-column name="user_id" />
+    </index>
+    <index name="FK_USERTYPENOTIFICATION_MODULE">
+      <index-column name="module_unique_name" />
+    </index>
+    <index name="FK_NOTIFICATIONSETTINGS_GROUP">
+      <index-column name="context_group_id" />
+    </index>
+  </table>
+</database>

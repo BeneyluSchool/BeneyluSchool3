@@ -1,0 +1,15 @@
+<div class="sidebar-menu-container">
+	<div class="btn-sidebar custom-sidebar {% if isCustomRoute is defined %}active{% endif %}">{% trans %}MiniSite.Back.Sidebar.Menu.Personalization{% endtrans %}<div class="color-active"></div><span class="icon-arrow-down-blue"></span></div>
+
+	<div class="sidebar-links-container">
+		<div class="section-article-category custom-sidebar first {% if app.request.attributes.get('_route') == 'minisite_manager_custom' %}active{% endif %}">
+			<a class="sub-category" href="{{ path('minisite_manager_custom') }}">{% trans %}MiniSite.Back.Sidebar.Menu.General{% endtrans %}</a>
+		</div>
+		<div class="section-article-category custom-sidebar {% if app.request.attributes.get('_route') == 'minisite_manager_custom_informations' %}active{% endif %}">
+			<a class="sub-category" href="{{ path('minisite_manager_custom_informations') }}">{% trans %}MiniSite.Back.Sidebar.Menu.Informations{% endtrans %}</a>
+		</div>
+		<div class="section-article-category custom-sidebar {% if app.request.attributes.get('_route') == 'minisite_manager_custom_widgets' %}active{% endif %}">
+			<a class="sub-category" href="{{ path('minisite_manager_custom_widgets') }}">{% trans %}MiniSite.Back.Sidebar.Menu.Template{% endtrans %}</a>
+		</div>
+	</div>
+</div>

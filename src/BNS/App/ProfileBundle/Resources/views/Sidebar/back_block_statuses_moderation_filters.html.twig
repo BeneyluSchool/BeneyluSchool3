@@ -1,0 +1,25 @@
+<div class="title-container">
+	<div class="title active border-blue">Filtre par état <span class="square icon-arrow"></span></div>
+	<div class="content-title">
+		<ul>
+			<li>
+				<a class="statuses-sidebar-filter active" data-filter-status="PENDING_VALIDATION" href="{{ path('profile_manager_moderation_statuses_load') }}">
+					<img src="{{ asset('/medias/images/icons/correction_small.png') }}">
+					Statuts en modération
+				</a>
+			</li>
+			<li>
+				<a class="statuses-sidebar-filter" data-filter-status="VALIDATED" href="{{ path('profile_manager_moderation_statuses_load') }}">
+					<img src="{{ asset('/medias/images/icons/valid_small.png') }}">
+					Statuts publiés
+				</a>
+			</li>
+			<li>
+				<a class="statuses-sidebar-filter" data-filter-status="REFUSED" href="{{ path('profile_manager_moderation_statuses_load') }}">
+					<img src="{{ asset('/medias/images/icons/refused_small.png') }}">
+					Statuts refusés
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>

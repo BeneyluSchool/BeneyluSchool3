@@ -1,0 +1,7 @@
+<li>{{ preference.getItem() }} 
+    {% if editable %}
+        <a class="delete-preference" href="{{ path('BNSAppProfileBundle_back_preferences_delete', {'preferenceId': preference.getId()}) }}">
+            <img src="{{ asset('/medias/images/icons/fugue/cross-small.png') }}" />
+        </a>
+    {% endif %}
+</li>

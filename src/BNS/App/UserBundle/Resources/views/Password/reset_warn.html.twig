@@ -1,0 +1,25 @@
+{% extends 'BNSAppRegistrationBundle:Layout:confirmation.html.twig' %}
+
+{% block title %}
+Merci, votre école sera bientôt validée !
+{% endblock %}
+
+{% block header %}
+	<a href="#"><img src="/medias/images/registration/beneyluschool.png" /></a>
+	<h1>Confirmation </h1>
+	<p>Un mail a été envoyé.</p>
+{% endblock header %}
+
+{% block confirmation_type %} confirmation warning {% endblock %}
+
+{% block content %}
+	<h3>Votre mot de passe a été envoyé par e-mail.</h3>
+	<p>	Attention, vous devez attendre trente minutes entre chaque demande de réinitialisation de mot de passe. </p>
+	<p>Vous n'avez toujours pas reçu l'e-mail ? Nous vous conseillons de regarder votre boite de messages indésirables, peut-être que le message s'est glissé à cet endroit.</p>
+	<p>
+		<strong>L'équipe Beneyluschool</strong>
+	</p>
+{% endblock content %}
+
+{% block beneylu_jim %}{% endblock %}
+

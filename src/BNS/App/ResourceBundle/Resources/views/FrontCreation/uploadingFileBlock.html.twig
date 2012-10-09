@@ -1,0 +1,45 @@
+{% raw %}
+
+	<script id="template-upload" type="text/x-tmpl">
+		{% for (var i=0, file; file=o.files[i]; i++) { %}
+			<tr class="template-upload">
+				<td class="preview">
+					{%#printImageFromFileName(file.name,false,'thumbnail')%}
+					<span class="fade"></span>
+				</td>
+				<td class="name">
+					{% if (file.error) { %}
+						{%=file.name%} <br />ne peut être envoyé car il est trop volumineux
+					{% } else { %}
+						<input type="text" value='{%=file.name%}' name="label[]" required />
+						<textarea name="description[]" placeholder="Description du document" />
+						<input type="hidden" name="destination[]" class="resource-label" />
+					{% } %}
+				</td>
+				<td class="size">
+					<div class="progress progress-success progress-striped active">
+						<div class="bar" style="width:0%;"></div>
+					</div>
+					<span>{%=o.formatFileSize(file.size)%}</span>
+				</td>
+				
+				<td style="display:none;" class="start">
+					{% if (!o.options.autoUpload) { %}
+						<button class="btn btn-primary">
+							<i class="icon-upload icon-white"></i>
+							<span>{%=locale.fileupload.start%}</span>
+						</button>
+					{% } %}
+				</td>
+				
+				<td class="cancel">
+					<button class="btn cancel-upload {% if (file.error) { %} error {% } %}">
+						<i class="icon-ban-circle icon-white"></i>
+						<span>{%=locale.fileupload.cancel%}</span>
+					</button>
+				</td>
+			</tr>
+		{% } %}
+	</script>
+
+{% endraw %}

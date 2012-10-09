@@ -1,0 +1,34 @@
+{% extends 'BNSAppNotificationBundle:Layout:manager.html.twig' %}
+
+{% block content %}
+	{# GROUP #}
+	{% for group in userGroups %}
+		<table border="0" style="width: 100%;" id="group-{{ group.getId() }}">
+			<tbody>
+				<tr style="background: #DDD;">
+					<td width="40%">
+						{{ group.getLabel() }}
+					</td>
+					<td width="40%">
+						<a href="{{ path('notification_manager_switch_group', {'contextGroupId': group.getId(), 'engine': 'SYSTEM'}) }}" data-group-id="{{ group.getId() }}" data-engine="system" class="activable title system btn {% if not settings.isUserActivated(group.getId(), group.getGroupType().getModules(), app.user.id, 'SYSTEM') %}btn-danger{% endif %}"><img src="http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/spechbubble_sq.png" alt="SYSTEM" /></a>
+					</td>
+					<td width="10%">
+						<img src="http://cdn2.iconfinder.com/data/icons/diagona/icon/16/129.png" alt="" />
+					</td>
+				</tr>
+				{# MODULES #}
+				{% for module in group.getGroupType().getModules() %}
+					<tr>
+						<td>
+							{{ module.getLabel() }}
+						</td>
+						<td>
+							<a href="{{ path('notification_manager_switch', {'contextGroupId': group.getId(), 'engine': 'SYSTEM', 'moduleUniqueName': module.getUniqueName()}) }}" data-group-id="{{ group.getId() }}" data-engine="system" class="activable system btn {% if not settings.isModuleForUserActivated(group.getId(), app.user.id, module.getUniqueName(), 'SYSTEM') %}btn-danger{% endif %}">&nbsp;</a>
+						</td>
+						<td></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endfor %}
+{% endblock %}

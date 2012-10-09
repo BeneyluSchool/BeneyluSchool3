@@ -1,0 +1,43 @@
+<div class="item">
+	<div class="vertical-separator {{ item.type }}"></div>
+	<div class="header">
+		<div class="buttons-container">
+			<a href="{{ path('hello_world_manager_administration_see') }}" class="btn bns-notice btn-16 small right btn-visualisation">
+				<span class="icons-16 arrow-right-icon right"></span>
+				<strong>Voir la fiche</strong>
+			</a>
+		</div>
+		<h3>{{ item.title }}</h3>
+		{% if item.hasCategories %}
+			<div class="categories">
+				<ul>
+					<li>
+						<span class="sprite-icon Soccer_Ball"></span>
+						Catégorie
+
+						<ul>
+							<li>Sous-catégorie</li>
+						</ul>
+					</li>
+					<li>
+						<span class="sprite-icon kbugbuster"></span>
+						Catégorie
+					</li>
+					<li>
+						Catégorie
+
+						<ul>
+							<li>Sous-catégorie</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		{% endif %}
+	</div>
+	<div class="text">
+		{{ item.description }}
+	</div>
+	<div class="footer">
+		Écrit {{ date_from_now(item.date, false, true) }} par <img src="http://www.placehold.it/20x20" alt="" class="avatar" /> {{ item.author.fullname }}
+	</div>
+</div>

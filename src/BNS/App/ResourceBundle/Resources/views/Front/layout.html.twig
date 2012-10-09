@@ -1,0 +1,43 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Médiathèque{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+	<link href="https://fonts.googleapis.com/css?family=Ubuntu:400,700" rel="stylesheet" type="text/css">
+	<link href="{{ asset('medias/css/resource/front.css') }}" rel='stylesheet' type='text/css'>
+	<link href="{{ asset("medias/css/jquery-ui/ui.all.css") }}" type="text/css"  media="screen" rel="stylesheet" />
+	<link href="{{ asset("medias/css/fg.menu.css") }}" type="text/css" media="screen" rel="stylesheet" />
+	{# manager pour les modals #}
+	<link href="{{ asset("medias/css/manager.css") }}" type="text/css" media="screen" rel="stylesheet" />
+{% endblock %}
+	
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script type="text/javascript">
+		$('#close-resource-iframe-button').click(function(){
+			$(window.parent.document).find('#resource-iframe').remove();
+		});
+	</script>
+	<script type="text/javascript" src="{{ asset('medias/js/resource/front_navigation.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('medias/js/resource/main.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('medias/js/jquery.ae.image.resize.min.js') }}" ></script>
+	<script type="text/javascript" src="{{ asset('medias/js/jquery.form.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/fg.menu.js') }}"></script>
+
+{% endblock %}
+	
+{% block body %}
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span12">
+				{% block tool_bar %}{% endblock %}
+			</div>
+		</div>
+		<div id="layout" class="row-fluid content-background main-content">
+			{% block content %}{% endblock %}
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends '::base_manager.html.twig' %}
+
+{% block css %}
+	{{ parent() }}
+
+	{# Appel CSS du package layout manager #}
+	{% include "BNSAppMainBundle:Manager:layoutStyle.html.twig" %}
+
+	{# Appel CSS du package calendar #}
+	{% include "BNSAppMainBundle:Manager:layoutCalendarStyle.html.twig" %}
+
+	{# ONLY INCLUDED BY HELLOWORLD #}
+	<link rel='stylesheet' type='text/css' href="{{ asset('medias/css/manager/manager-helloworld.css') }}" />
+{% endblock %}
+
+{% block body %}
+	{% block header %}{% endblock header %}
+	<div class="office blur helloworld-bundle"></div>
+	<div class="container container-fluid helloworld-container">
+		<div class="row-fluid container-manager">
+			<div class="container-sidebar">
+				{% block sidebar %}
+					{% include 'BNSAppHelloWorldBundle:Back:sidebar.html.twig' with {'section' : 'home-example' , 'title' : 'title-example'} %}
+				{% endblock sidebar %}
+				<div class="sidebar-shadow"></div>
+			</div>
+			<div class="span9 container-content no-margin">
+				{% block content %}
+					Hey, did you forget your content ? This part must be extended by a view !
+				{% endblock %}
+			</div>
+			<div class="container-manager-bottom">
+				<div class="content-manager-bottom"></div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+	
+{% block dock_bar %}
+	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "HELLOWORLD" , 'is_in_front' : false } %}
+{% endblock %}

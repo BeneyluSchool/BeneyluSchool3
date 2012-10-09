@@ -1,0 +1,21 @@
+{% if user != null %}
+	{% if is_already_invited %}
+		<div class="user-not-found">
+			<strong>L'utilisateur {{ user.getFullName() }} fait déjà l'objet une invitation de votre part.</strong>
+	{% elseif is_already_teacher %}
+		<div class="user-not-found">
+			<strong>L'utilisateur {{ user.getFullName() }} est déjà enseignant dans la classe.</strong>
+	{% else %}
+	<div class="user-found">
+		<img src="{{ avatar(user, 'thumbnail') }}" alt="" /> <p>{{ user.getFullName() }}</p>
+		<button data-username="{{ user.getUsername() }}" class="btn btn-info btn-invite-teacher">
+			Inviter l'utilisateur {{ user.getFullName() }}
+		</button>
+	{% endif %}
+	</div>
+	
+{% else %}
+	<div class="user-not-found">
+		<strong>Aucun utilisateur associé pour l'identifiant que vous avez saisie : {{ username }}</strong>
+	</div>
+{% endif %}

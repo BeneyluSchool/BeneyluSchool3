@@ -1,0 +1,9 @@
+{% for feed in feeds %}
+	{% include 'BNSAppProfileBundle:Moderation:back_statuses_row.html.twig' %}
+{% else %}
+	<div class="no-feed">
+		Aucun statut n'a été trouvé.
+	</div>
+{% endfor %}
+
+{% include 'BNSAppProfileBundle:Moderation:back_statuses_pager.html.twig' %}

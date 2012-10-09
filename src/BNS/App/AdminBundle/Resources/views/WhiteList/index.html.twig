@@ -1,0 +1,16 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+	
+	<h1>Gestion des listes blanches globales</h1>
+
+	<h2>Liste des environnements</h2>
+	
+	{% for group in groups %}
+		
+		<a href="{{ path("BNSAppAdminBundle_white_list_edit" , { "groupId" : group.id }) }}">{{ group }}<br /></a>
+	
+	{% endfor %}
+	
+	
+{% endblock %}

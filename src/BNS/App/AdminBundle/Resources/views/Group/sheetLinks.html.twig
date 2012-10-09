@@ -1,0 +1,43 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+	
+	{% include "BNSAppAdminBundle:Group:menu.html.twig" with{'page' : 'links'} %}
+
+	{% set parent = group_manager.getParent %}
+
+	{% if parent %}
+
+		<h3>Groupe parent</h3>
+
+		<p>
+			<b>ID : </b>{{parent.id}}
+		</p>
+		<p>
+			<b>Nom : </b><a href="{{ path("BNSAppAdminBundle_group_sheet_index" , { id: parent.id }) }}"> {{parent.label}}</a>
+		</p>
+	{% endif %}
+
+	<h3>Sous groupe</h3>
+
+	<div class="row">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Nom</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for group in  group_manager.getSubgroups %}
+					<tr>
+						<td>{{ group.getId }}</td>
+						<td><a href="{{ path("BNSAppAdminBundle_group_sheet_index" , { id: group.id }) }}"> {{ group.getLabel }}</a></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+
+	
+{% endblock %}							

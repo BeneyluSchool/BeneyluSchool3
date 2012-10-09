@@ -1,0 +1,293 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+	Création d'une classe
+{% endblock %}
+	
+{% block css %}
+	{{ parent() }}
+	
+	<link rel="stylesheet" href="{{ asset('/medias/css/ui-twitter-theme/jquery-ui-1.8.16.custom.css') }}" />
+	<link rel="stylesheet" href="{{ asset('/medias/css/registration/front.css') }}" />
+	<link href='https://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Gochi+Hand' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
+{% endblock css %}
+	
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript">
+		$(function()
+		{
+			// Transform checkboxes into buttons
+			$('#classroom_registration_form_levels input[type=checkbox]').button();
+			
+			// Autcompletion
+			var lastSchoolSearchValue = '',
+				searchTimeOut;
+			$('#school-info').keyup(function (e)
+			{
+				var $this = $(e.currentTarget);
+				
+				// Same value ?
+				if (lastSchoolSearchValue == $this.val()) {
+					return true;
+				}
+				
+				// Clear
+				if ($this.val().length == 0) {
+					$('#school-autocompletion').slideUp('slow', function ()
+					{
+						$(this).html('');
+					});
+					
+					return true;
+				}
+				
+				// Wrong format
+				if ($this.val().length < 5 || $this.val().length > 10) {
+					return true;
+				}
+				
+				// Prevent fast typing
+				clearTimeout(searchTimeOut);
+				searchTimeOut = setTimeout(function ()
+				{
+					$('.school-loader').show();
+					$.ajax({
+						url: Routing.generate('registration_search_school'),
+						type: 'POST',
+						dataType: 'json',
+						data: {'data': $('#school-info').val()},
+						success: function (data)
+						{
+							if (data.is_found) {
+								$('#school-autocompletion').slideUp('fast', function ()
+								{
+									$(this).html(data.html);
+									$(this).slideDown('fast');
+									$('.school-loader').hide();
+									$('#school-not-found').show();
+								});
+							}
+						}
+					});
+				}, 300);
+			});
+			
+			// Select the school info
+			$('.school-search').live('click', function (e)
+			{
+				var $this = $(e.currentTarget);
+				
+				$('.school-search').removeClass('selected');
+				$this.addClass('selected');
+				
+				$('#classroom_registration_form_school_information_id').val($this.data('information-id'));
+			});
+			
+			$('form').submit(function (e)
+			{
+				var $this = $(e.currentTarget);
+				if (!$this.get()[0].checkValidity()) {
+					return true;
+				}
+				
+				var $submit = $this.find('input[type="submit"]');
+				if ($submit.hasClass('disabled')) {
+					return false;
+				}
+
+				$submit.addClass('disabled').attr('disabled', 'disabled');
+
+				return true;
+			});
+			
+			$('form input').change(function (e)
+			{
+				$('form input[type="submit"]').removeClass('disabled').removeAttr('disabled');
+			});
+			
+			
+			$('#see_more_levels').click(function (e)
+			{
+				var $this = $(e.currentTarget);
+				if ($this.text() == 'Voir plus') {
+					$this.text('Voir moins');
+					$this.parent().find('div.level-row.hide').slideDown('slow').removeClass('hide').addClass('show');
+				}
+				else {
+					$this.text('Voir plus');
+					$this.parent().find('div.level-row.show').slideUp('slow').removeClass('show').addClass('hide');
+				}
+				
+				return false;
+			});
+		});
+	</script>
+{% endblock javascripts %}
+
+{% block body %}
+	<div class="background-registration"></div>
+	<div class="container-header-registration">
+		<div class="container-fluid container">
+			<div class="row-fluid">
+				<div class="span12">
+					<a href="#"><img src="/medias/images/registration/beneyluschool.png" /></a>
+					<h1>Pré-inscrire ma classe</h1>
+					<p>Vous êtes en train de pré-inscrire votre classe à Beneylu School.
+						<br /><span style="color: red;">Si vous avez déjà un compte Beneylu School cette étape n'est pas nécessaire car votre identifiant et votre mot de passe seront intégrés automatiquement.</span></p>
+					<div class="pattern"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container container-fluid container-fluid-registration">
+		<div class="container-registration">
+
+			{% for message in app.session.flashbag.get('success') %}
+				<div class="alert alert-success">
+					{{ message }}
+				</div>
+			{% endfor %}
+
+			<form action="{{ path('registration_free') }}" method="POST" {{ form_enctype(classRoomForm) }}>
+				<div class="row-fluid">
+					<div class="span4">
+						<div class="content-my-account">
+							<div class="background background-top"></div>
+							<div class="container-my-account">
+								<h3>1. Mon Compte</h3>
+								<div>
+									{{ form_widget(userForm.first_name, {'attr': {'placeholder': 'Votre prénom'} }) }}
+									{% if form_errors(userForm.first_name)|length > 0 %}
+										<div class="alert alert-danger user-error">
+											{{ form_errors(userForm.first_name) }}
+										</div>
+									{% endif %}
+								</div>
+								<div>
+									{{ form_widget(userForm.last_name, {'attr': {'placeholder': 'Votre nom'} }) }}
+									{% if form_errors(userForm.last_name)|length > 0 %}
+										<div class="alert alert-danger user-error">
+											{{ form_errors(userForm.last_name) }}
+										</div>
+									{% endif %}
+								</div>
+								<div>
+									{{ form_widget(userForm.email, {'attr': {'placeholder': 'Votre adresse e-mail'} }) }}
+									{% if form_errors(userForm.email)|length > 0 %}
+										<div class="alert alert-danger user-error">
+											{{ form_errors(userForm.email) }}
+										</div>
+									{% endif %}
+								</div>
+								<p class="email-notice">
+									Vous recevrez votre mot de passe à cette adresse.
+								</p>
+
+								<div class="rest">
+									{{ form_rest(userForm) }}
+								</div>
+
+								<div class="password">
+									<h3>Et mon mot de passe ?</h3>
+									<p>Nous nous en chargeons.<br />Nous vous ferons parvenir un e-mail avec vos informations de connexion.</p>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+							<div class="background background-bottom"></div>
+						</div>
+					</div>
+					<div class="span8">
+						<div class="my-school">
+							<fieldset>
+								<h3>2. Ma classe</h3>
+								<div class="content-class">
+									<div>
+										<img src="/medias/images/registration/class.png" />
+										{{ form_widget(classRoomForm.label, {'attr': {'placeholder': 'Le nom de ma classe'} }) }}
+										{% if form_errors(classRoomForm.label)|length > 0 %}
+											<div class="alert alert-danger">
+												{{ form_errors(classRoomForm.label) }}
+											</div>
+										{% endif %}
+									</div>
+
+									<div class="class-name">
+										<p>Niveaux de ma classe</p>
+										<div class="clearfix"></div>
+										<div id="classroom_registration_form_levels">
+											<div class="level-row">
+											{% for i,level in classRoomForm.levels.children %}
+												{% set level_label = level.vars.label %}
+												{% if level_label in level_separators|keys %}
+													</div>
+													{% if level_label == '6ème' %}
+														<a href="#" id="see_more_levels">Voir plus</a>
+														<div class="clearfix"></div>
+													{% endif %}
+													<div class="level-row{% if level_label|length > 3 %} hide{% endif %}">
+														<span class="level-separator-label">{{ level_separators[level_label] }}</span>
+												{% endif %}
+												{% if level_label|length > 3 %}
+													<label for="classroom_registration_form_levels_{{ i }}" class="other">{{ level.vars.label }}</label>
+													{{ form_widget(level, {'attr': {'class': 'other'} }) }}
+												{% else %}
+													{{ form_label(level) }}
+													{{ form_widget(level) }}
+												{% endif %}
+											{% endfor %}
+											</div>
+												
+											{% if form_errors(classRoomForm.levels)|length > 0 %}
+												<div class="alert alert-danger">
+													{{ form_errors(classRoomForm.levels) }}
+												</div>
+											{% endif %}
+										</div>
+									</div>
+								</div>
+								<h3>3. Mon école</h3>
+								<p class="school-tip">Une liste d'écoles va vous apparaître au fur et à mesure de votre saisie.</p>
+								<div class="registration-school">
+									<img src="/medias/images/registration/school.png" />
+									<input type="text" id="school-info" placeholder="Code postal ou code UAI de votre école" />
+									<img src="{{ asset('/medias/images/icons/big-loader.gif') }}" alt="" class="school-loader"/>
+									<p id="school-not-found" class="school-tip" style="display:none;">
+										Vous n'avez pas trouvé votre école ? 
+										<a href="{{ path('registration_free_create_school') }}" class="">
+											Faire une demande de création d'école
+										</a>
+									</p>
+									<div id="school-autocompletion" class="code-uai">
+
+									</div>
+								</div>
+								<div class="rest">
+									{{ form_rest(classRoomForm) }}
+									{% if form_errors(classRoomForm)|length > 0 %}
+										<div class="alert alert-danger">
+											{{ form_errors(classRoomForm) }}
+										</div>
+									{% endif %}
+								</div>
+							</fieldset>
+						</div>
+					</div>
+				</div>
+				<div class="row-fluid">
+					<div class="span12">
+						<div class="submit">
+							<p>
+								Si vous avez déjà un compte Beneylu School cette étape n'est pas nécessaire car votre identifiant et votre mot de passe seront intégrés automatiquement.
+							</p>
+							<input id="confirm_registration" class="btn btn-success" type="submit" value="Valider mon inscription" />
+							<br clear="all" />
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock body %}

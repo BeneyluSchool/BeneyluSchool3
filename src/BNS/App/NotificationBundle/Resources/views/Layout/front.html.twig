@@ -1,0 +1,61 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+	Les Notifications
+{% endblock %}
+	
+{% block javascripts %}
+	{{ parent() }}
+	
+	<script type="text/javascript">
+		function decreaseCount($el, countUnread)
+		{
+			var count = parseInt($el.text()) - countUnread;
+
+			if (count <= 0) {
+				$el.fadeOut('fast');
+			}
+			else {
+				$el.text(count);
+			}
+		}
+	</script>
+{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+	<link href="{{ asset('/medias/css/notification/front.css') }}" rel="stylesheet" type="text/css"/>
+	<link href='https://fonts.googleapis.com/css?family=Gochi+Hand' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+{% endblock css %}
+	
+{% block body %}
+	<div class="background-notification"></div>
+	<div class="container container-fluid">
+		<div class="notification-container">
+			<div class="row-fluid notification-content-container">
+				<div class="notification-sidebar">
+					{% block sidebar %}
+						{% include 'BNSAppNotificationBundle:Sidebar:sidebar.html.twig' %}
+					{% endblock sidebar %}
+				</div>
+				<div class="notification-content">
+					<div class="notification-content-inner">
+						<div class="layer">
+							<div class="message">
+								Chargement des notifications en cours, veuillez patienter...
+								<div><img src="{{ asset('/medias/images/icons/big-loader.gif') }}" alt=""></div>
+							</div>
+						</div>
+						<div class="border-right-notification"></div>
+						{% block content %}Add my content!{% endblock %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock body %}
+	
+{% block dock_bar %}
+	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "NOTIFICATION" , 'is_in_front' : true } %}
+{% endblock %}

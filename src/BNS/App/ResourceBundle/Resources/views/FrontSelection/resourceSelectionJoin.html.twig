@@ -1,0 +1,3 @@
+{% for resource in resources %}
+	{% include 'BNSAppResourceBundle:Front:joinedResource.html.twig' with {'resource':resource,"editable": true} %}
+{% endfor %}

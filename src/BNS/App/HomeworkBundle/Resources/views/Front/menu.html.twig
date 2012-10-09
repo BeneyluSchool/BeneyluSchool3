@@ -1,0 +1,13 @@
+{# Gestion des jours suivant les préférences #}
+{# Gestion des travaux passés suivant les préférences #}
+<div class="content-menu-text-book">
+    <ul>
+        {% if 'MO' in preferences.getDays() %}<li><a href="{{ path('BNSAppHomeworkBundle_front_display_for_day', { 'dayOfWeek': 'monday' }) }}" class="monday {% if day_of_week == "monday" %}active{% endif %}">Lundi</a></li>{% endif %}
+        {% if 'TU' in preferences.getDays() %}<li><a href="{{ path('BNSAppHomeworkBundle_front_display_for_day', { 'dayOfWeek': 'tuesday' }) }}" class="tuesday {% if day_of_week == "tuesday" %}active{% endif %}">Mardi</a></li>{% endif %}
+        {% if 'WE' in preferences.getDays() %}<li><a href="{{ path('BNSAppHomeworkBundle_front_display_for_day', { 'dayOfWeek': 'wednesday' }) }}" class="wednesday {% if day_of_week == "wednesday" %}active{% endif %}">Mercredi</a></li>{% endif %}
+        {% if 'TH' in preferences.getDays() %}<li><a href="{{ path('BNSAppHomeworkBundle_front_display_for_day', { 'dayOfWeek': 'thursday' }) }}" class="thursday {% if day_of_week == "thursday" %}active{% endif %}">Jeudi</a></li>{% endif %}
+        {% if 'FR' in preferences.getDays() %}<li><a href="{{ path('BNSAppHomeworkBundle_front_display_for_day', { 'dayOfWeek': 'friday' }) }}" class="friday {% if day_of_week == "friday" %}active{% endif %}">Vendredi</a></li>{% endif %}
+        {% if 'SA' in preferences.getDays() %}<li><a href="{{ path('BNSAppHomeworkBundle_front_display_for_day', { 'dayOfWeek': 'saturday' }) }}" class="saturday {% if day_of_week == "saturday" %}active{% endif %}">Samedi</a></li>{% endif %}
+        {% if preferences.getShowTasksDone() == 1 %}<li><a href="{{ path('BNSAppHomeworkBundle_front_history') }}" class="work-finished {% if day_of_week == "history" %}active{% endif %}"><span>Voir les</span> Travaux passés</a></li>{% endif %}
+    </ul>
+</div>

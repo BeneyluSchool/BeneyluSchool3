@@ -1,0 +1,28 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Groupe{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+	<link href="{{ asset('/medias/css/group/front.css') }}" rel="stylesheet" type="text/css" />
+	<link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block body %}
+	{% block content %}
+		<div class="background-group">
+			<div class="board">
+				<div class="message">
+					<p>{{ group_name }}</p>
+					<div class="border"></div>
+					<p>{{ group_home_message }}</p>
+				</div>
+			</div>
+		</div>
+	{% endblock %}
+{% endblock %}
+
+{% block dock_bar %}
+	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "GROUP" , 'is_in_front' : true } %}
+{% endblock %}
+

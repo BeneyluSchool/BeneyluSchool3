@@ -1,0 +1,45 @@
+{% extends 'BNSAppGroupBundle:Back:layout.html.twig' %}
+
+{% block header %}
+	
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="align-left">
+						<a href="{{ path('BNSAppGroupBundle_group_add' , {'type' : groupType.type }) }}" class="btn bns-info btn-24 large"><span class="icons-24 add-icon"></span>Créer un(e) {{ groupType.label }}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock header %}
+
+{% block content %}
+	
+	<div class="news-title">
+		<h1 class="dashboard">Liste des {{ groupType.label }}s</h1>
+	</div>
+	
+	{% for group in groups %}
+		{% if loop.first %}
+			<table class="table table-striped group-list">
+				<tbody>
+		{% elseif loop.last %}
+			
+						
+		{% endif %}
+
+		<tr>
+			<td><a href="{{ path('BNSAppGroupBundle_group_sheet', {'groupSlug': group.slug , 'type': group.groupType.type }) }}">{{ group.label }}</a></td>
+		</tr>
+						
+						
+	{% else %}
+		<div class="alert">
+			Il n'y a pas encore de groupe créé, vous pouvez le faire en cliquant en haut à gauche
+		</div>
+	{% endfor %}
+
+{% endblock %}

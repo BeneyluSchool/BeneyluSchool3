@@ -1,0 +1,100 @@
+{% extends 'BNSAppResourceBundle:Front:layout.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="https://www.google.com/jsapi"></script>
+	<script type="text/javascript" src="{{ asset('medias/js/resource/custom_search.js') }}"></script>
+	
+	{% if resourceId is defined %}
+		{% if resourceId != 'none' %}
+
+			<script type="text/javascript">
+				prepareLoading();
+				endSidebarLoading();
+				$(function(){
+					$.post(
+						Routing.generate('BNSAppResourceBundle_front_navigation_content_resource', {}),
+						{resource_id: {{ resourceId }} },
+						function complete(data)
+						{
+							$("#resource-navigation").hide();
+							$("#resource-current").html(data);
+							$("#resource-current").show();
+							$(".header-btn").hide();
+							$('.container-block').addClass('resource-list-bg');
+							endNavigationLoading();
+						}
+					);
+				});
+			</script>
+		{% endif %}
+	{% endif %}
+{% endblock %}
+	
+{% block css %}
+	{{ parent() }}
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu:400,700' rel='stylesheet' type='text/css'>
+{% endblock %}
+	
+{% block content %}
+    <div class="container-sidebar-resource">
+        <div class="resource-content-left">
+            <div class="resource-content-left-top"></div>
+        </div>
+		
+		<div id="resource-sidebar-loading" class="row layer" style='display:none;'>
+			<div class="message">
+				<div><img src="{{ asset('/medias/images/icons/big-loader.gif') }}" alt="" /></div>
+			</div>
+		</div>	
+			
+        <div id="resource-sidebar" class="resource-sidebar">
+			<div style="width: 100%;">
+				{% render "BNSAppResourceBundle:FrontNavigation:sidebar" %}
+			</div>
+		</div>
+		
+		<div class="container-block">
+			<div class="left-zone" >
+				<div class="resource-content" id="resource-content">
+					<div class="container-current-file">
+						<div id="resource-current" class="content-current-file" style="display:none;"></div>
+					</div>
+					<div id="resource-navigation-loading" class="row layer" style='display:none;'>
+						<div class="message">
+							<div><img src="{{ asset('/medias/images/icons/big-loader.gif') }}" alt="" /></div>
+						</div>
+					</div>
+					<div id="resource-navigation" class="content-resources">
+						{% if current_label is defined %}
+							{% render "BNSAppResourceBundle:FrontNavigation:contentNavigation" with {'page' : 0} %}
+							<script type="text/javascript">
+								$('.container-block').addClass('resource-list-bg');
+							</script>
+						{% else %}
+						{% render "BNSAppResourceBundle:Front:indexContent" %}
+							<div id="search-results" class="search-results">Chargement ...</div>
+						{% endif %}
+					</div>
+				</div>
+				<div class="resource-content-right main-content" id="index">
+					<div class="resource-content-right-top"></div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+		
+		{# Placement des modal pour éviter les problèmes de z-index #}
+		{% autoescape false %}
+			{{ modal('resourceAddLabel', {
+				'title': 'Créer un nouveau dossier',
+				'body_template': {'template': 'BNSAppResourceBundle:FrontNavigation:modalAddLabelBody.html.twig'},
+				'footer_template': {'template': 'BNSAppResourceBundle:FrontNavigation:modalAddLabelFooter.html.twig'},
+				'type': ''
+			}) }}
+		{% endautoescape %}
+{% endblock %}
+	
+{% block tool_bar %}
+	{% render "BNSAppResourceBundle:Front:toolbar" with {'page' : "home"} %}
+{% endblock %}

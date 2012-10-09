@@ -1,0 +1,10 @@
+<h2>{{ group.label }} <small>( #{{group.id }} )</small></h2>
+
+<div class="subnav">
+	<ul class="nav nav-pills">
+		<li class="{% if page == "index" %} active <{% endif %}"><a href="{{path('BNSAppAdminBundle_group_sheet_index' , { 'id': group.id }) }}">Index</a></li>
+		<li class="{% if page == "params" %} active <{% endif %}"><a href="{{path('BNSAppAdminBundle_group_sheet_params' , { 'slug': group.slug }) }}">Paramètres</a></li>
+		<li class="{% if page == "links" %} active <{% endif %}"><a href="{{path('BNSAppAdminBundle_group_sheet_links' , { 'slug': group.slug }) }}">Liens</a></li>
+		<li class="{% if page == "rules" %} active <{% endif %}"><a href="{{path('BNSAppAdminBundle_group_sheet_rules' , { 'slug': group.slug }) }}">Règles</a></li>
+	</ul>
+</div>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+			<!-- Allowed attributes name : sender_id,  -->
+
+			<!-- EMAIL Engine -->
+            <trans-unit id="1">
+                <source>MESSAGING_NEW_MESSAGE_RECEIVED.EMAIL.title</source>
+                <target>Titre de l'email</target>
+            </trans-unit>
+			<trans-unit id="2">
+                <source>MESSAGING_NEW_MESSAGE_RECEIVED.EMAIL.content</source>
+                <target>Corps de la notification pour l'email</target>
+            </trans-unit>
+			
+			<!-- SYSTEM Engine -->
+			<trans-unit id="100">
+                <source>MESSAGING_NEW_MESSAGE_RECEIVED.SYSTEM.content</source>
+                <target>Corps de la notification de base</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

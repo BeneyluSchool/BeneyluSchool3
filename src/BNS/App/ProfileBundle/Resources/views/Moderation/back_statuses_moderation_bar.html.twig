@@ -1,0 +1,46 @@
+{% if feed.getStatus() == 'PENDING_VALIDATION' %}
+	<a href="#" class="btn-16 small btn bns-success" data-filter-status="VALIDATED">
+		<span class="icons-16 validate-icon"></span>
+		<strong>Valider</strong>
+	</a>
+	<div class="btn-group">
+		<a href="#" class="btn-16 small btn bns-danger dropdown-toggle" data-toggle="dropdown">
+			<span class="icons-16 delete-icon"></span>
+			<strong>Refuser</strong>
+			<span class="caret"></span>
+		</a>
+		<ul class="dropdown-menu">
+			<li><a href="#" data-filter-status="REFUSED">Refuser</a></li>
+			<li><a href="#" data-filter-status="DELETED">Refuser et supprimer définitivement</a></li>
+		</ul>
+	</div>
+{% elseif feed.getStatus() == 'VALIDATED' %}
+	<a href="#" class="btn-16 small btn bns-warning" data-filter-status="PENDING_VALIDATION">
+		<span class="icons-16 preview-icon"></span>
+		<strong>Passer en modération</strong>
+	</a>
+	<div class="btn-group">
+		<a href="#" class="btn-16 small btn bns-danger dropdown-toggle" data-toggle="dropdown">
+			<span class="icons-16 delete-icon"></span>
+			<strong>Refuser</strong>
+			<span class="caret"></span>
+		</a>
+		<ul class="dropdown-menu">
+			<li><a href="#" data-filter-status="REFUSED">Refuser</a></li>
+			<li><a href="#" data-filter-status="DELETED">Refuser et supprimer définitivement</a></li>
+		</ul>
+	</div>
+{% else %} {# REFUSED #}
+	<a href="#" class="btn-16 small btn bns-success" data-filter-status="VALIDATED">
+		<span class="icons-16 validate-icon"></span>
+		<strong>Valider</strong>
+	</a>
+	<a href="#" class="btn-16 small btn bns-warning" data-filter-status="PENDING_VALIDATION">
+		<span class="icons-16 preview-icon"></span>
+		<strong>Passer en modération</strong>
+	</a>
+	<a href="#" class="btn-16 small btn bns-danger" data-filter-status="DELETED">
+		<span class="icons-16 delete-icon"></span>
+		<strong>Supprimer définitivement</strong>
+	</a>
+{% endif %}

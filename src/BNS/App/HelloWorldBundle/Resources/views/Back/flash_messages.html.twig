@@ -1,0 +1,52 @@
+{% extends 'BNSAppHelloWorldBundle:Back:layout.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+{% endblock javascripts %}
+
+{% block header %}
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span12">
+						<a href="{{ path('BNSAppHelloWorldBundle_back') }}" class="btn bns-notice btn-24 medium-return">
+							<span class="icons-24 back-icon"></span>
+							<strong>Retourner</strong><br />à l'index
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock header %}
+
+{% block content %}
+	<div class="content-flash-messages" style="padding: 0 2%;">
+		<h1>Les Flash Messages</h1>
+		
+		<h2>Contrôleurs</h2>
+		<pre>$this->get('session')->getFlashBag()->add('error', 'My flash message');</pre>
+		
+		<h2>Vues</h2>
+		<pre>{% filter escape %}{% raw %}{% for message in app.session.flashbag.get('error') %}
+	<div class="alert alert-danger">
+		{{ message }}
+	</div>
+{% endfor %}{% endraw %}{% endfilter %}</pre>
+		
+		<h2>JavaScript</h2>
+		<p>Effet de disparition pour les alert-success après 8 secondes, inutile de les laisser</p>
+		
+		<pre>{% filter escape %}{% raw %}$(function ()
+{
+	if ($('.your-container-class .alert.alert-success') > 0) {
+		setTimeout(function ()
+		{
+			$('.your-container-class .alert.alert-success').slideUp('fast');
+		}, 8000); // 8 seconds
+	}
+});{% endraw %}{% endfilter %}</pre>
+		
+	</div>
+{% endblock %}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>HTML Image Map Generator</title>
+		<link rel="stylesheet" href="css/base.css" />
+		<style type="text/css">
+			.clear { clear:both; height:0px; overflow:hidden; }
+			.clear5px { clear:both; height:5px; overflow:hidden; }
+			.container { float:left; margin: 10px; }
+			.fullImage { background:#fff; float:left; }
+			#button-finish { display:none; }
+			#canvas-cover { position:absolute; }
+			#button-delete { display: none; }
+			#code-container { word-break:break-all; font-family: Consolas; margin-top: 10px; }
+		</style>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/fabric.js"></script>
+		<script type="text/javascript" src="js/underscore-min.js"></script>
+		<script type="text/javascript" src="js/scripts.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="span12">
+					<form action="#" method="get">
+						<div id="canvas-cover">
+							<canvas id="canvas" width="0" height="0"></canvas>
+						</div>
+						<div class="fullImage">
+							<img id="taggedImage" src="img/lettres.png" alt="" />
+						</div>
+						<div class="clear5px"></div>
+
+						<input type="button" class="btn btn-info" id="button-add" value="Ajouter une forme" />
+						<input type="submit" class="btn btn-success" value="Sauvegarder" />
+						<input type="button" class="btn btn-danger" id="button-delete" value="Supprimer" />
+						<input type="button" class="btn btn-warning" id="button-finish" value="J'ai terminé" />
+						<div class="clear5px"></div>
+						
+						<div id="code-container"></div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var mapItems = [
+				// Paste here
+				
+				
+				// Lettres
+				{ type:'polygon', fill:'#19c501', left:235.5, top:331, scaleX:1, scaleY:1, points:[ { x: 32.5, y: 14 }, { x: 8.5, y: -31 }, { x: -4.5, y: -25 }, { x: -14.5, y: -22 }, { x: -32.5, y: -19 }, { x: -22.5, y: 31 }, { x: 9.5, y: 23 } ] }, { type:'polygon', fill:'#af97be', left:279, top:310.5, scaleX:1, scaleY:1, points:[ { x: 34, y: 1.5 }, { x: -2, y: -34.5 }, { x: -12, y: -25.5 }, { x: -24, y: -16.5 }, { x: -34, y: -11.5 }, { x: -11, y: 34.5 }, { x: 14, y: 16.5 } ] }, { type:'polygon', fill:'#f34113', left:310.5, top:276, scaleX:1, scaleY:1, points:[ { x: -10.5, y: -34 }, { x: 34.5, y: -10 }, { x: 24.5, y: 8 }, { x: 14.5, y: 22 }, { x: 1.5, y: 34 }, { x: -34.5, y: -1 }, { x: -23.5, y: -13 }, { x: -15.5, y: -24 } ] }, { type:'polygon', fill:'#f150f9', left:332, top:233.5, scaleX:1, scaleY:1, points:[ { x: -20, y: -30.5 }, { x: 31, y: -22.5 }, { x: 27, y: -5.5 }, { x: 23, y: 10.5 }, { x: 16, y: 27.5 }, { x: 14, y: 30.5 }, { x: -31, y: 8.5 }, { x: -27, y: -2.5 }, { x: -23, y: -16.5 } ] }, { type:'polygon', fill:'#fcd63c', left:58, top:276.5, scaleX:1, scaleY:1, points:[ { x: -2, y: 34.5 }, { x: -13, y: 20.5 }, { x: -22, y: 8.5 }, { x: -29, y: -0.5 }, { x: -34, y: -10.5 }, { x: 11, y: -34.5 }, { x: 19, y: -20.5 }, { x: 27, y: -9.5 }, { x: 34, y: -1.5 } ] }, { type:'polygon', fill:'#3bdbcb', left:91, top:310, scaleX:1, scaleY:1, points:[ { x: 10, y: 34 }, { x: -9, y: 22 }, { x: -24, y: 11 }, { x: -33, y: 0 }, { x: 2, y: -34 }, { x: 16, y: -22 }, { x: 33, y: -11 } ] }, { type:'polygon', fill:'#39ba9c', left:133, top:330, scaleX:1, scaleY:1, points:[ { x: 23, y: 31 }, { x: 3, y: 27 }, { x: -17, y: 21 }, { x: -31, y: 13 }, { x: -8, y: -31 }, { x: 9, y: -24 }, { x: 14, y: -22 }, { x: 31, y: -19 } ] }, { type:'polygon', fill:'#586e36', left:38, top:234, scaleX:1, scaleY:1, points:[ { x: -14, y: 31 }, { x: -22, y: 14 }, { x: -26, y: 0 }, { x: -31, y: -23 }, { x: 19, y: -31 }, { x: 24, y: -10 }, { x: 31, y: 8 } ] }, { type:'polygon', fill:'#ff460e', left:32, top:182.5, scaleX:1, scaleY:1, points:[ { x: -25, y: 28.5 }, { x: -27, y: 11.5 }, { x: -27, y: -6.5 }, { x: -25, y: -28.5 }, { x: 27, y: -20.5 }, { x: 24, y: -5.5 }, { x: 24, y: 6.5 }, { x: 25, y: 20.5 } ] }, { type:'polygon', fill:'#7b519c', left:39.5, top:130.5, scaleX:1, scaleY:1, points:[ { x: -32.5, y: 22.5 }, { x: -27.5, y: 3.5 }, { x: -23.5, y: -9.5 }, { x: -15.5, y: -30.5 }, { x: 32.5, y: -5.5 }, { x: 25.5, y: 6.5 }, { x: 22.5, y: 17.5 }, { x: 18.5, y: 30.5 } ] }, { type:'polygon', fill:'#bccb7b', left:60.5, top:89.5, scaleX:1, scaleY:1, points:[ { x: -34.5, y: 11.5 }, { x: -25.5, y: -3.5 }, { x: -14.5, y: -20.5 }, { x: -1.5, y: -33.5 }, { x: 34.5, y: 2.5 }, { x: 22.5, y: 14.5 }, { x: 10.5, y: 33.5 } ] }, { type:'polygon', fill:'#9c1903', left:93.5, top:58.5, scaleX:1, scaleY:1, points:[ { x: -34.5, y: -2.5 }, { x: -19.5, y: -15.5 }, { x: -4.5, y: -26.5 }, { x: 10.5, y: -34.5 }, { x: 34.5, y: 12.5 }, { x: 23.5, y: 16.5 }, { x: 13.5, y: 23.5 }, { x: 2.5, y: 34.5 } ] }, { type:'polygon', fill:'#bccbc8', left:135, top:38.5, scaleX:1, scaleY:1, points:[ { x: -30, y: -14.5 }, { x: -12, y: -23.5 }, { x: 4, y: -27.5 }, { x: 22, y: -30.5 }, { x: 30, y: 18.5 }, { x: 13, y: 21.5 }, { x: -7, y: 30.5 } ] }, { type:'polygon', fill:'#61a111', left:185, top:31.5, scaleX:1, scaleY:1, points:[ { x: -19, y: 26.5 }, { x: -27, y: -24.5 }, { x: -8, y: -26.5 }, { x: 10, y: -26.5 }, { x: 27, y: -25.5 }, { x: 19, y: 26.5 }, { x: 6, y: 24.5 }, { x: -7, y: 24.5 } ] }, { type:'polygon', fill:'#cb197e', left:235.5, top:39, scaleX:1, scaleY:1, points:[ { x: -30.5, y: 19 }, { x: -22.5, y: -32 }, { x: -4.5, y: -28 }, { x: 16.5, y: -21 }, { x: 30.5, y: -15 }, { x: 6.5, y: 32 }, { x: -2.5, y: 27 }, { x: -13.5, y: 23 } ] }, { type:'polygon', fill:'#edc088', left:276.5, top:59, scaleX:1, scaleY:1, points:[ { x: -34.5, y: 12 }, { x: -10.5, y: -34 }, { x: 5.5, y: -26 }, { x: 18.5, y: -16 }, { x: 34.5, y: -3 }, { x: -1.5, y: 34 }, { x: -13.5, y: 24 }, { x: -24.5, y: 16 } ] }, { type:'polygon', fill:'#57c9e7', left:309.5, top:91, scaleX:1, scaleY:1, points:[ { x: -34.5, y: 3 }, { x: 1.5, y: -34 }, { x: 15.5, y: -18 }, { x: 25.5, y: -5 }, { x: 34.5, y: 11 }, { x: -11.5, y: 34 }, { x: -15.5, y: 24 }, { x: -24.5, y: 13 } ] }, { type:'polygon', fill:'#72d8b2', left:330, top:133, scaleX:1, scaleY:1, points:[ { x: 14, y: -30 }, { x: 22, y: -15 }, { x: 27, y: 2 }, { x: 32, y: 21 }, { x: -18, y: 30 }, { x: -23, y: 10 }, { x: -32, y: -7 } ] }, { type:'polygon', fill:'#ae877b', left:337.5, top:182, scaleX:1, scaleY:1, points:[ { x: -25.5, y: -19 }, { x: 24.5, y: -27 }, { x: 25.5, y: -10 }, { x: 26.5, y: 6 }, { x: 24.5, y: 27 }, { x: -26.5, y: 20 }, { x: -24.5, y: 7 }, { x: -24.5, y: -9 } ] }, { type:'polygon', fill:'#dd5878', left:128.5, top:263.5, scaleX:1, scaleY:1, points:[ { x: 55.5, y: 48.5 }, { x: 55.5, y: -14.5 }, { x: 43.5, y: -15.5 }, { x: 30.5, y: -19.5 }, { x: 19.5, y: -25.5 }, { x: 11.5, y: -32.5 }, { x: 3.5, y: -41.5 }, { x: 0.5, y: -48.5 }, { x: -55.5, y: -16.5 }, { x: -46.5, y: -1.5 }, { x: -35.5, y: 10.5 }, { x: -24.5, y: 20.5 }, { x: -9.5, y: 30.5 }, { x: 9.5, y: 39.5 }, { x: 32.5, y: 46.5 } ] }, { type:'polygon', fill:'#8ebba6', left:93.5, top:183, scaleX:1, scaleY:1, points:[ { x: 36.5, y: -30 }, { x: 29.5, y: -14 }, { x: 28.5, y: 1 }, { x: 29.5, y: 18 }, { x: 35.5, y: 32 }, { x: -21.5, y: 64 }, { x: -29.5, y: 44 }, { x: -35.5, y: 21 }, { x: -36.5, y: 4 }, { x: -34.5, y: -19 }, { x: -30.5, y: -38 }, { x: -20.5, y: -64 } ] }, { type:'polygon', fill:'#c8f90c', left:129.5, top:104.5, scaleX:1, scaleY:1, points:[ { x: -0.5, y: 47.5 }, { x: -55.5, y: 14.5 }, { x: -38.5, y: -6.5 }, { x: -20.5, y: -22.5 }, { x: -1.5, y: -34.5 }, { x: 15.5, y: -41.5 }, { x: 36.5, y: -46.5 }, { x: 54.5, y: -47.5 }, { x: 55.5, y: 15.5 }, { x: 39.5, y: 18.5 }, { x: 25.5, y: 23.5 }, { x: 11.5, y: 33.5 } ] }, { type:'polygon', fill:'#c7ad67', left:240, top:104, scaleX:1, scaleY:1, points:[ { x: -55, y: 17 }, { x: -55, y: -47 }, { x: -35, y: -46 }, { x: -14, y: -41 }, { x: 4, y: -32 }, { x: 21, y: -22 }, { x: 36, y: -8 }, { x: 48, y: 5 }, { x: 55, y: 18 }, { x: 1, y: 47 }, { x: -10, y: 33 }, { x: -27, y: 22 }, { x: -41, y: 18 } ] }, { type:'polygon', fill:'#046f4f', left:276.5, top:185.5, scaleX:1, scaleY:1, points:[ { x: -34.5, y: -33.5 }, { x: 18.5, y: -63.5 }, { x: 26.5, y: -49.5 }, { x: 32.5, y: -30.5 }, { x: 35.5, y: -8.5 }, { x: 34.5, y: 16.5 }, { x: 29.5, y: 38.5 }, { x: 19.5, y: 63.5 }, { x: -35.5, y: 32.5 }, { x: -27.5, y: 11.5 }, { x: -27.5, y: -9.5 }, { x: -30.5, y: -21.5 } ] }, { type:'polygon', fill:'#838f72', left:240, top:264, scaleX:1, scaleY:1, points:[ { x: 1, y: -47 }, { x: 24, y: -33 }, { x: 56, y: -16 }, { x: 38, y: 7 }, { x: 24, y: 20 }, { x: 6, y: 32 }, { x: -13, y: 41 }, { x: -36, y: 47 }, { x: -55, y: 47 }, { x: -56, y: -14 }, { x: -38, y: -17 }, { x: -23, y: -23 }, { x: -10, y: -33 } ] }, { type:'polygon', fill:'#5f3c9a', left:184.5, top:337.5, scaleX:1, scaleY:1, points:[ { x: -27.5, y: 24.5 }, { x: -8.5, y: 26.5 }, { x: 14.5, y: 26.5 }, { x: 27.5, y: 24.5 }, { x: 18.5, y: -25.5 }, { x: 2.5, y: -23.5 }, { x: -10.5, y: -25.5 }, { x: -20.5, y: -26.5 } ] }, { type:'polygon', fill:'#05c51a', left:184, top:185, scaleX:1, scaleY:1, points:[ { x: -56, y: 2 }, { x: -48, y: -30 }, { x: -29, y: -49 }, { x: 0, y: -56 }, { x: 26, y: -51 }, { x: 45, y: -35 }, { x: 55, y: -16 }, { x: 56, y: 14 }, { x: 39, y: 43 }, { x: 10, y: 56 }, { x: -25, y: 51 }, { x: -45, y: 32 } ] }
+				
+				// Chiffres
+				// { type:'polygon', fill:'#cba085', left:186.5, top:335, scaleX:1, scaleY:1, points:[ { x: -40.5, y: -29 }, { x: -55.5, y: 22 }, { x: -37.5, y: 25 }, { x: -21.5, y: 28 }, { x: 0.5, y: 29 }, { x: 20.5, y: 27 }, { x: 38.5, y: 24 }, { x: 55.5, y: 19 }, { x: 38.5, y: -29 }, { x: 18.5, y: -24 }, { x: -2.5, y: -22 }, { x: -26.5, y: -25 } ] }, { type:'polygon', fill:'#3820f6', left:277.5, top:307.5, scaleX:1, scaleY:1, points:[ { x: -52.5, y: -2.5 }, { x: -34.5, y: 48.5 }, { x: -9.5, y: 36.5 }, { x: 8.5, y: 26.5 }, { x: 20.5, y: 16.5 }, { x: 34.5, y: 3.5 }, { x: 46.5, y: -9.5 }, { x: 52.5, y: -18.5 }, { x: 10.5, y: -48.5 }, { x: -0.5, y: -35.5 }, { x: -11.5, y: -24.5 }, { x: -23.5, y: -15.5 }, { x: -34.5, y: -8.5 } ] }, { type:'polygon', fill:'#ebb04c', left:326.5, top:235.5, scaleX:1, scaleY:1, points:[ { x: -37.5, y: 22.5 }, { x: 4.5, y: 52.5 }, { x: 12.5, y: 42.5 }, { x: 18.5, y: 29.5 }, { x: 26.5, y: 13.5 }, { x: 31.5, y: -4.5 }, { x: 35.5, y: -21.5 }, { x: 37.5, y: -39.5 }, { x: 37.5, y: -52.5 }, { x: -13.5, y: -51.5 }, { x: -14.5, y: -38.5 }, { x: -16.5, y: -22.5 }, { x: -21.5, y: -5.5 }, { x: -29.5, y: 10.5 } ] }, { type:'polygon', fill:'#bde32b', left:326, top:130, scaleX:1, scaleY:1, points:[ { x: -13, y: 53 }, { x: 38, y: 53 }, { x: 36, y: 24 }, { x: 32, y: 7 }, { x: 27, y: -9 }, { x: 18, y: -29 }, { x: 10, y: -42 }, { x: 3, y: -53 }, { x: -38, y: -22 }, { x: -29, y: -7 }, { x: -22, y: 8 }, { x: -17, y: 23 }, { x: -15, y: 36 } ] }, { type:'polygon', fill:'#f5b1af', left:276.5, top:60.5, scaleX:1, scaleY:1, points:[ { x: 10.5, y: 47.5 }, { x: 52.5, y: 16.5 }, { x: 36.5, y: -2.5 }, { x: 26.5, y: -11.5 }, { x: 11.5, y: -22.5 }, { x: -4.5, y: -33.5 }, { x: -21.5, y: -41.5 }, { x: -38.5, y: -47.5 }, { x: -52.5, y: 1.5 }, { x: -35.5, y: 8.5 }, { x: -18.5, y: 18.5 }, { x: -0.5, y: 33.5 } ] }, { type:'polygon', fill:'#56604a', left:182.5, top:34, scaleX:1, scaleY:1, points:[ { x: 55.5, y: -21 }, { x: 34.5, y: -27 }, { x: 11.5, y: -29 }, { x: -6.5, y: -29 }, { x: -25.5, y: -27 }, { x: -46.5, y: -23 }, { x: -55.5, y: -20 }, { x: -38.5, y: 29 }, { x: -20.5, y: 24 }, { x: 0.5, y: 22 }, { x: 15.5, y: 23 }, { x: 25.5, y: 24 }, { x: 40.5, y: 28 } ] }, { type:'polygon', fill:'#9a5a21', left:90.5, top:62.5, scaleX:1, scaleY:1, points:[ { x: 35.5, y: -48.5 }, { x: 19.5, y: -41.5 }, { x: 3.5, y: -33.5 }, { x: -9.5, y: -24.5 }, { x: -25.5, y: -12.5 }, { x: -42.5, y: 5.5 }, { x: -52.5, y: 18.5 }, { x: -11.5, y: 48.5 }, { x: 3.5, y: 30.5 }, { x: 19.5, y: 17.5 }, { x: 34.5, y: 8.5 }, { x: 52.5, y: -0.5 }, { x: 44.5, y: -23.5 } ] }, { type:'polygon', fill:'#d5b66a', left:42, top:133.5, scaleX:1, scaleY:1, points:[ { x: -5, y: -52.5 }, { x: 37, y: -24.5 }, { x: 30, y: -8.5 }, { x: 23, y: 4.5 }, { x: 18, y: 19.5 }, { x: 15, y: 37.5 }, { x: 14, y: 52.5 }, { x: -37, y: 52.5 }, { x: -36, y: 27.5 }, { x: -30, y: 2.5 }, { x: -24, y: -18.5 } ] }, { type:'polygon', fill:'#bd8758', left:43, top:239.5, scaleX:1, scaleY:1, points:[ { x: -2, y: 53.5 }, { x: 39, y: 22.5 }, { x: 30, y: 8.5 }, { x: 24, y: -2.5 }, { x: 19, y: -16.5 }, { x: 14, y: -33.5 }, { x: 13, y: -53.5 }, { x: -39, y: -53.5 }, { x: -35, y: -17.5 }, { x: -29, y: 2.5 }, { x: -19, y: 25.5 } ] }, { type:'polygon', fill:'#8ecfd4', left:94, top:308.5, scaleX:1, scaleY:1, points:[ { x: 36, y: 46.5 }, { x: 52, y: -1.5 }, { x: 35, y: -7.5 }, { x: 20, y: -15.5 }, { x: 5, y: -27.5 }, { x: -3, y: -35.5 }, { x: -10, y: -43.5 }, { x: -12, y: -46.5 }, { x: -52, y: -15.5 }, { x: -32, y: 7.5 }, { x: -13, y: 22.5 }, { x: 7, y: 34.5 } ] }
+			]
+		</script>
+
+		<script type="text/underscoreTemplate" id="map_template">
+			<h3>Map Areas</h3>
+			<div class="well">
+				&lt;map name="simple"&gt;
+					<% for(var i=0; i<areas.length; i++) { var a=areas[i]; %>
+						<br />&nbsp; &nbsp; &lt;area class="map-area" href="#" onclick="return false;" alt="" shape="<%= a.shape %>" coords="<%= a.coords %>" data-maphilight='{"stroke":false,"fillColor":"73b9cf","fillOpacity":0.25,"alwaysOn":false}' /&gt;
+					<% } %>
+				<br />&lt;/map&gt;
+			</div>
+			<br />
+			
+			<h3>Sauvegarde de la map JS à copier dans le fichier ("// Paste here")</h3>
+			<div class="well">
+				<% for(var i=0; i<areas.length; i++) { var a=areas[i]; %>
+					{
+						type:'polygon',
+						fill:'<%= a.fill %>',
+						left:<%= a.left %>,
+						top:<%= a.top %>,
+						scaleX:1,
+						scaleY:1,
+						points:[<% for(var j=0; j<a.jsCoords.length; j++) { var c=a.jsCoords[j]; %>
+							{ x: <%= c.x %>, y: <%= c.y %> }<% if (j < (a.jsCoords.length - 1)) { %>,<% } %>
+						<% } %>]
+					}<% if (i < (areas.length - 1)) { %>, <% } %>
+				<% } %>
+			</div>
+		</script>
+	</body>
+</html>

@@ -1,0 +1,7 @@
+{% block content %}
+	{% block player %}
+		{% autoescape false %}
+			{{ resource.getEmbeddedVideoCode }}
+		{% endautoescape %}
+	{% endblock %}
+{% endblock %}

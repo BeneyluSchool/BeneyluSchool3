@@ -1,0 +1,48 @@
+{% extends '::base_manager.html.twig' %}
+
+{% block title %}
+	GPS - Gestion
+{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+    {% include "BNSAppMainBundle:Manager:layoutStyle.html.twig" %}
+	<link href="{{ asset('/medias/css/gps/manager.css') }}" rel="stylesheet" type="text/css">
+	{{ vichgeo_include_css() }}
+{% endblock %}
+
+{% block  javascripts %}
+	{{ parent() }}
+	{% javascripts
+		'medias/js/gps/back.js'
+		'medias/js/jquery.form.js'
+		 filter='?yui_js' output='js/gps/back.js' %}
+		<script src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+	{{ vichgeo_include_js() }}
+{% endblock %}
+
+{% block body %}
+	<div class="background-gps-admin"></div>
+	
+	{% block action_bar %}{% endblock %}
+	
+	<div class="container-fluid container">
+		<div class="row-fluid container-manager">
+			
+			{% block side_bar %}{% endblock %}
+
+			<div class="span9 container-content no-margin">
+				{% block content %}{% endblock %}
+			</div>
+			<div class="container-manager-bottom">
+				<div class="content-manager-bottom"></div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+	
+{% block dock_bar %}
+	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "GPS" , 'is_in_front' : false } %}
+{% endblock %}
+	

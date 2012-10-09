@@ -1,0 +1,36 @@
+{% extends '::base_manager.html.twig' %}
+
+{% block javascripts %}	
+	<script type="text/javascript" src="{{ asset('/medias/js/group/group.js') }}"></script>
+{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+	{% include "BNSAppMainBundle:Manager:layoutStyle.html.twig" %}
+	<link href="{{ asset('/medias/css/classroom/manager.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('/medias/css/group/manager.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block body %}
+	{% block header %}{% endblock header %}
+	<div class="container container-fluid">
+		<div class="row-fluid container-manager">
+			<div class="container-sidebar">
+				{% block sidebar %}
+					{% render "BNSAppGroupBundle:Back:sidebar" %}
+				{% endblock sidebar %}
+				<div class="sidebar-shadow"></div>
+			</div>
+			<div class="span9 container-content no-margin">
+				{% block content %}{% endblock %}
+			</div>
+			<div class="container-manager-bottom">
+				<div class="content-manager-bottom"></div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block dock_bar %}
+	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "GROUP" , 'is_in_front' : false } %}
+{% endblock %}

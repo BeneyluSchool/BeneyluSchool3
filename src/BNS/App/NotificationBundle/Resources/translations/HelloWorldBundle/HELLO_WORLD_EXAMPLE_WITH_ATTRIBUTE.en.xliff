@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+			<!-- Allowed attributes name : testAttribute, exampleAttribute, pixelCookersName,  -->
+
+			<!-- EMAIL Engine -->
+            <trans-unit id="1">
+                <source>HELLO_WORLD_EXAMPLE_WITH_ATTRIBUTE.EMAIL.title</source>
+                <target>An example of a notification with attributes</target>
+            </trans-unit>
+			<trans-unit id="2">
+                <source>HELLO_WORLD_EXAMPLE_WITH_ATTRIBUTE.EMAIL.content</source>
+                <target><![CDATA[An example of a notification via e-mail with attributes (testAttribute: <i>%testAttribute%</i>, exampleAttribute: <b>%exampleAttribute%</b>, pixelCookersName: <u>%pixelCookersName%</u>).]]></target>
+            </trans-unit>
+			
+			<!-- SYSTEM Engine -->
+			<trans-unit id="100">
+                <source>HELLO_WORLD_EXAMPLE_WITH_ATTRIBUTE.SYSTEM.content</source>
+                <target><![CDATA[An example of a notification with attributes (testAttribute: <i>%testAttribute%</i>, exampleAttribute: <b>%exampleAttribute%</b>, pixelCookersName: <u>%pixelCookersName%</u>).]]></target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -1,0 +1,32 @@
+{% extends 'BNSAppResourceBundle:Back:layout.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+{% endblock %}	
+
+{% block css %}
+	{{ parent() }}
+{% endblock %}
+
+{% block top_bar %}{% endblock %}
+
+{% block container_class %}{% endblock %}
+
+{% block sidebar %} {% include "BNSAppResourceBundle:Back:sidebar.html.twig" with {"page" : 'custom' , 'section' : 'white_list'}%} {% endblock %}
+
+{% block content %}
+<div class="content-resource-white-list">
+	<div class="news-title">
+		<h1 class="dashboard">Liste blanche Internet</h1>
+	</div>
+	<div class="content-list-white">
+		<ul class="manager-white-list">
+			{% for link in links %}
+				{% include "BNSAppResourceBundle:Back:whiteListBlock.html.twig" with {"link" : link,"status": link.id in whiteList }%}
+			{% else %}
+				<p>Vous n'avez pas de site dans votre liste blanche.</p>
+			{% endfor %}
+		</ul>
+	</div>
+ </div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+	
+<h2>Edition de l'email : <small>{{ emailTemplate.label }}</small></h2>
+
+	<form action="{{ path('BNSAppAdminBundle_email_edit' , { "uniqueName" : emailTemplate.uniqueName }) }}" method="post" {{ form_enctype(form) }}>
+					
+		{{ form_widget(form) }}
+
+		<input type="submit" />
+	</form>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+	
+	<h2>Liste des modules</h2>
+
+	<table class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<th>Identifiant</th>
+				<th>Nom</th>
+				<th>Description</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for module in modules %}
+				<tr>
+					<td>{{ module.uniqueName }}</td>
+					<td>{{ module.label }}</td>
+					<td>{{ module.description }}</td>
+					<td>
+						<a href="{{ path("BNSAppAdminBundle_module_sheet" , { uniqueName: module.uniqueName }) }}">
+							<img src="{{ asset('/medias/images/icons/fugue/edit-list-order.png') }}" title="Voir la fiche" />
+						</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	<a href="{{ path('BNSAppAdminBundle_module_manage')}}" class="btn btn-success">
+		Ajouter un module
+	</a>
+	
+{% endblock %}

@@ -1,0 +1,25 @@
+<div class="page-news" id="news-{{ news.getId() }}">
+	<div class="news-informations">
+        <div class="news-title">
+            <span class="title">{{ news.getTitle() }}</span>
+			<div class="news-author">
+				<p>{{ date_from_now(news.getCreatedAt()) }} <a href="#"><img src="{{ avatar(news.getAuthor(), 'thumbnail') }}" alt="" width="16" /> {{ news.getAuthor().getFullName() }}</a></p>
+			</div>
+			{% if has_right('MINISITE_ADMINISTRATION') %}
+				{% include 'BNSAppMiniSiteBundle:ActionBar:back_news_action_bar_admin.html.twig' %}
+			{% else %}
+				{% include 'BNSAppMiniSiteBundle:ActionBar:back_news_action_bar.html.twig' %}
+			{% endif %}
+        </div>
+
+
+	</div>
+	<div class="clearfix"></div>
+	<div class="news-content">
+		<p>
+			{% autoescape false %}
+				{{ news.getContent() }}
+			{% endautoescape %}
+		</p>
+	</div>
+</div>

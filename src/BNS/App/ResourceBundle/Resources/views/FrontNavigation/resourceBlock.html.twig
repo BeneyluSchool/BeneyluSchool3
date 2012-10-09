@@ -1,0 +1,33 @@
+{% set is_favorite = resource.id in favorites_ids or (is_favorite is defined and is_favorite) %}
+{% if is_favorite %}
+	{% set div_class = 'favorite' %}
+	{% set image_size = 'favorite' %}
+	{% set truncate_size = 45 %}
+	{% set favorite_class = 'active' %}
+{% else %}
+	{% set div_class = '' %}
+	{% set image_size = 'small' %}
+	{% set truncate_size = 13 %}
+	{% set favorite_class = '' %}
+{% endif %}
+
+{% set is_selected = resource.id in selection_ids %}
+
+{% if is_selected %}
+	{% set selection_class = 'active' %}
+{% else %}
+	{% set selection_class = '' %}
+{% endif %}
+
+<div id="resource-{{resource.id}} " class=" resource-view resource-drag block-resource {{ div_class }}">
+	<div class="content-block-resource">
+		<img src="{{ getResourceImageUrl(resource,image_size) }}" class="resource-img {{ image_size }}" />
+		<div class="title-link">
+			<a class="resource-favorite selection-button  {{ favorite_class }}" id="{{ resource.id }}">    </a>
+			{{ resource.label|truncate(truncate_size) }}
+			{% if getResourceNavigationType() != "select_image" %}
+				<a class="resource-select selection-button {{ selection_class }}" id="{{ resource.id }}-add"></a>
+			{% endif %}
+		</div>
+    </div>
+</div>

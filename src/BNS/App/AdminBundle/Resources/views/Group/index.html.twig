@@ -1,0 +1,54 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript" src="{{ asset('medias/js/jquery.dataTables.min.js') }}"></script>
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function ()
+		{
+			$('#groups').dataTable(
+			{
+				"bJQueryUI": true,
+				"sPaginationType": "full_numbers",
+				"sAjaxSource": "{{ path('BNSAppAdminBundle_group_list') }}",
+				"bServerSide": true
+			});
+		});
+	</script>
+{% endblock %}
+	
+{% block css %}
+	{{ parent() }}
+	<link title="style" type="text/css" rel="stylesheet" href="{{ asset('medias/css/dataTable_jui.css') }}" />
+{% endblock %}
+
+{% block content %}
+	
+	<div class="pull-left">
+		<h5>Triés par</h5>
+
+		<select id="admin_group_list_select">
+			<option>Choisir un type de groupe</option>
+			{% for groupType in groupTypes %}
+				<option value="{{ groupType.getSlug }}" {% if app.session.get('admin_group_list_type') == groupType.getSlug %}selected="selected"{% endif %} >{{ groupType.getLabel }}</option>
+			{% endfor %}
+		</select>
+	</div>
+	
+	<a class="btn pull-right btn-success" href="{{ path('BNSAppAdminBundle_group_add') }}" >Ajouter un groupe</a>
+	
+	<div class="container">			
+			<table cellpadding="0" cellspacing="0" border="0" class="display" id="groups">
+				<thead>
+					<tr>
+						<th>{% trans %}Group.Index.column.name{% endtrans %}</th>
+						<th>{% trans %}Group.Index.column.type{% endtrans %}</th>
+						<th>{% trans %}Group.Index.column.action{% endtrans %}</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+	</div>
+{% endblock %}

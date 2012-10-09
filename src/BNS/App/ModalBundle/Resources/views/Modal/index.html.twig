@@ -1,0 +1,31 @@
+<div id="{{ id }}" class="modal hide fade {{ type }}">
+	{% if header_template|length > 0 %}
+		{% if header_template.type == 'view' %}
+			{% include header_template.template with header_template.values %}
+		{% else %}
+			{% render header_template.template with header_template.values %}
+		{% endif %}
+	{% else %}
+		{% include 'BNSAppModalBundle:Modal:header.html.twig' %}
+	{% endif %}
+		
+	{% if body_template|length > 0 %}
+		{% if body_template.type == 'view' %}
+			{% include body_template.template with body_template.values %}
+		{% else %}
+			{% render body_template.template with body_template.values %}
+		{% endif %}
+	{% else %}
+		{% include 'BNSAppModalBundle:Modal:body.html.twig' %}
+	{% endif %}
+		
+	{% if footer_template|length > 0 %}
+		{% if footer_template.type == 'view' %}
+			{% include footer_template.template with footer_template.values %}
+		{% else %}
+			{% render footer_template.template with footer_template.values %}
+		{% endif %}
+	{% else %}
+		{% include 'BNSAppModalBundle:Modal:footer.html.twig' %}
+	{% endif %}
+</div>

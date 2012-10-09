@@ -1,0 +1,80 @@
+{% extends 'BNSAppHomeworkBundle:Front:layout.html.twig' %}
+
+{% block homework_body %}
+    <div class="row-fluid">
+        <div class="span12">
+             <div class="container-text-book">
+
+                <div class="content-text-book">
+                    {% include 'BNSAppHomeworkBundle:Front:border-menu.html.twig' with {'preferences': preferences } %}
+                    <div class="title-text-book {{ day_of_week }}">
+                        <h1>{{ start_day | localizeddate('full', 'none') | capitalize }}</h1>
+                    </div>
+
+                    {% if admin %}
+                        {% if due_admin is empty %}
+                            <p class="no-works-today">Aucun travaux pour cette journée</p>
+                        {% else %}
+                            {% for homeworkdue in due_admin %}
+                                {% include 'BNSAppHomeworkBundle:Front:subject.html.twig' with {'homeworkdue': homeworkdue, 'preferences': preferences} %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if due_later_admin_sorted is not empty %}
+                            {% for due_date, homeworkdues in due_later_admin_sorted %}
+                                <div class="next-week">
+                                {% if loop.first %}
+                                    <h3>Prochaines semaines</h3>
+                                {% endif %}
+                                    <h2>{{ due_date | localizeddate('full', 'none') | capitalize }}</h2>
+                                </div>
+                                <div class="clearfix"></div>                                
+                                {% for homeworkdue in homeworkdues %}
+                                    {% include 'BNSAppHomeworkBundle:Front:subject.html.twig' with {'homeworkdue': homeworkdue, 'preferences': preferences} %}
+                                {% endfor %}
+                            {% endfor %}
+                        {% endif %}              
+                    {% else %}
+                                    
+                        {% if due_this_week is empty %}
+                            <p class="no-works-today">Tu n’as pas de travaux pour cette journée</p>
+                        {% else %}
+                            {% for homeworkdue in due_this_week %}
+                                {% include 'BNSAppHomeworkBundle:Front:subject.html.twig' with {'homeworkdue': homeworkdue, 'preferences': preferences} %}
+                            {% endfor %}
+                        {% endif %}
+                            
+                        {% if due_later_sorted is not empty %}
+                            {% for due_date, homeworkdues in due_later_sorted %}
+                                <div class="next-week">
+                                {% if loop.first %}
+                                    <h3>Prochaines semaines</h3>
+                                {% endif %}
+                                    <h2>{{ due_date | localizeddate('full', 'none') | capitalize }}</h2>
+									<div class="shadow-homework"></div>
+                                </div>
+                                <div class="clearfix"></div>
+								<div class="content-next-week">
+                                {% for homeworkdue in homeworkdues %}
+                                    {% include 'BNSAppHomeworkBundle:Front:subject.html.twig' with {'homeworkdue': homeworkdue, 'preferences': preferences} %}
+                                {% endfor %}
+								</div>
+                            {% endfor %}
+                        {% endif %}                           
+                    {% endif %}
+                    <div class="ring-text-book"></div>
+                </div>
+
+                {% include 'BNSAppHomeworkBundle:Front:menu.html.twig' with {'day_of_week': day_of_week, 'preferences': preferences} %}
+
+            </div> <!-- span12 -->
+        </div> <!-- container-text-book -->
+    </div> <!-- row-fluid -->
+{% endblock homework_body %}
+
+{% block main_javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('/medias/js/homework/Front/displayForDay.js') }}"></script>	
+{% endblock %}

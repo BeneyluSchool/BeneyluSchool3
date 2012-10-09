@@ -1,0 +1,49 @@
+{% extends 'BNSAppResourceBundle:Back:layout.html.twig' %}
+
+{% block sidebar %}
+	{% include "BNSAppResourceBundle:Back:sidebar.html.twig" with {"page" : 'index','can_administrate' : can_administrate } %}
+{% endblock %}
+
+{% block content %}
+		<div class="news-title">
+			<h1 class="dashboard">Espace d'utilisation</h1>
+		</div>
+		<div class="content-back-resource">
+			{% if can_administrate %}
+
+				<h4>Utilisation de l'espace pour {{ current_group_label }}</h4>
+
+				{% include "BNSAppResourceBundle:Common:progressBar.html.twig" with {"ratio" : group_ratio } %}
+
+			{% endif %}
+
+			<h4>Utilisation de mon espace</h4>
+
+			{% include "BNSAppResourceBundle:Common:progressBar.html.twig" with {"ratio" : user_ratio } %}
+		</div>
+
+		<div class="row-fluid">
+			<div class="span7">
+				<h3 class="title-resource">Dernièrs documents déposés</h3>
+				{% for resource in last_resources %}
+					<div class="last-ressource-back">
+					{% include "BNSAppResourceBundle:Back:block_last_resource.html.twig" with {"resource" : resource } %}
+					</div>
+					{% else %}
+						<p>Aucune resource n'a encore été déposée</p>
+				{% endfor %}
+			</div>
+			<div class="span5">
+				<div class="last-research">
+					<h3 class="title-resource no-padding">Dernières recherches</h3>
+					{% for research in last_researchs %}
+						{% include "BNSAppResourceBundle:Back:block_research.html.twig" with {"search" : research } %}
+					{% else %}
+						<p>Aucune recherche n'a encore été effectuée</p>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+
+
+{% endblock %}

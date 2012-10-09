@@ -1,0 +1,53 @@
+{% if text.isPublished() %}
+	<li>
+		<a href="{{ path('ministe_manager_page_news_status', {'slug': text.getMiniSitePage().getSlug(), 'statusId': constant('BNS\\App\\CoreBundle\\Model\\MiniSitePageTextPeer::STATUS_FINISHED_INTEGER')}) }}">
+			<img src="{{ asset('/medias/images/icons/fugue/flag-green.png') }}" alt="" /> 
+			{% trans %}MiniSite.Back.ActionBar.Unpublish{% endtrans %}
+		</a>
+	</li>
+{% elseif text.isDraft() %}
+	<li>
+		<a href="{{ path('ministe_manager_page_news_status', {'slug': text.getMiniSitePage().getSlug(), 'statusId': constant('BNS\\App\\CoreBundle\\Model\\MiniSitePageTextPeer::STATUS_PUBLISHED_INTEGER')}) }}">
+			<img src="{{ asset('/medias/images/icons/fugue/flag-blue.png') }}" alt="" />
+			{% trans %}MiniSite.Back.ActionBar.ValidateAndPublish{% endtrans %}
+		</a>
+	</li>
+	<li>
+		<a href="{{ path('ministe_manager_page_news_status', {'slug': text.getMiniSitePage().getSlug(), 'statusId': constant('BNS\\App\\CoreBundle\\Model\\MiniSitePageTextPeer::STATUS_FINISHED_INTEGER')}) }}">
+			<img src="{{ asset('/medias/images/icons/fugue/flag-green.png') }}" alt="" /> 
+			{% trans %}MiniSite.Back.ActionBar.Validate{% endtrans %}
+		</a>
+	</li>
+	<li>
+		<a href="{{ path('ministe_manager_page_news_status', {'slug': text.getMiniSitePage().getSlug(), 'statusId': constant('BNS\\App\\CoreBundle\\Model\\MiniSitePageTextPeer::STATUS_WAITING_FOR_CORRECTION_INTEGER')}) }}">
+			<img src="{{ asset('/medias/images/icons/fugue/flag.png') }}" alt="" /> 
+			{% trans %}MiniSite.Back.ActionBar.ToCorrect{% endtrans %}
+		</a>
+	</li>
+{% elseif text.isFinished() %}
+	<li>
+		<a href="{{ path('ministe_manager_page_news_status', {'slug': text.getMiniSitePage().getSlug(), 'statusId': constant('BNS\\App\\CoreBundle\\Model\\MiniSitePageTextPeer::STATUS_PUBLISHED_INTEGER')}) }}">
+			<img src="{{ asset('/medias/images/icons/fugue/flag-blue.png') }}" alt="" />
+			{% trans %}MiniSite.Back.ActionBar.Publish{% endtrans %}
+		</a>
+	</li>
+	<li>
+		<a href="{{ path('ministe_manager_page_news_status', {'slug': text.getMiniSitePage().getSlug(), 'statusId': constant('BNS\\App\\CoreBundle\\Model\\MiniSitePageTextPeer::STATUS_WAITING_FOR_CORRECTION_INTEGER')}) }}">
+			<img src="{{ asset('/medias/images/icons/fugue/flag.png') }}" alt="" /> 
+			{% trans %}MiniSite.Back.ActionBar.ToCorrect{% endtrans %}
+		</a>
+	</li>
+{% elseif text.isWaitingForCorrection() %}
+	<li>
+		<a href="{{ path('ministe_manager_page_news_status', {'slug': text.getMiniSitePage().getSlug(), 'statusId': constant('BNS\\App\\CoreBundle\\Model\\MiniSitePageTextPeer::STATUS_PUBLISHED_INTEGER')}) }}">
+			<img src="{{ asset('/medias/images/icons/fugue/flag-blue.png') }}" alt="" />
+			{% trans %}MiniSite.Back.ActionBar.ValidateAndPublish{% endtrans %}
+		</a>
+	</li>
+	<li>
+		<a href="{{ path('ministe_manager_page_news_status', {'slug': text.getMiniSitePage().getSlug(), 'statusId': constant('BNS\\App\\CoreBundle\\Model\\MiniSitePageTextPeer::STATUS_FINISHED_INTEGER')}) }}">
+			<img src="{{ asset('/medias/images/icons/fugue/flag-green.png') }}" alt="" /> 
+			{% trans %}MiniSite.Back.ActionBar.Validate{% endtrans %}
+		</a>
+	</li>
+{% endif %}

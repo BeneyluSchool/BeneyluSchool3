@@ -1,0 +1,93 @@
+{% extends 'BNSAppClassroomBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+	Classe - Ma classe
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script type="text/javascript">
+				{# Variable qui permet de garder en mémoire quel formulaire il faut rappeler lorsque l''utilisateur clique sur le bouton "Créer et continuer" #}
+			 var $createMore = false;
+	</script>
+	<script type="text/javascript" src="{{ asset('medias/js/jquery.form.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/classroom/back-users.js') }}"></script>
+{% endblock %}
+
+{% block sidebar %}
+	{% include 'BNSAppClassroomBundle:Sidebar:sidebar.html.twig' with {'page': 'classroom', 'section': 'users' } %}
+{% endblock sidebar %}
+
+
+
+{% block header %}
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span5">
+						<div class="content-add-btn agenda btn-group">
+							<a href="#" class="btn save btn-new-article bns-info btn-24 large dropdown-toggle" data-toggle="dropdown"><span class="icons-24 add-icon"></span>Ajouter un nouvel utilisateur <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="#add-user-modal" data-role="teacher" data-role-label="enseignant" data-toggle="modal" class="add-user-button">Ajouter un enseignant</a></li>
+								<li><a href="#add-user-modal" data-role="pupil" data-role-label="élève" data-toggle="modal" class="add-user-button">Ajouter un élève</a></li>
+								<li><a href="{{ path('back_classroom_users_import_csv_pupil') }}">Importer mes élèves depuis un fichier CSV</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="span7 align-right">
+						{% if teachers|length > 1 %}
+							<a href="#" class="btn bns-danger btn-24 medium-return leave-classroom-teacher"  data-toggle="modal" data-target="#leave-classroom-modal">
+								<span class="icons-24 cancel-icon"></span>
+								<strong>Quitter</strong><br>la classe
+							</a>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block content %}
+<div class="container-classroom">
+	{% if app.session.hasFlash('success') %}
+	<div class="alert alert-success">{{ app.session.getFlash('success') }}</div>
+	{% elseif app.session.hasFlash('error') %}
+	<div class="alert alert-error">{{ app.session.getFlash('error') }}</div>
+	{% endif %}
+	<div class="news-title">
+		<h1 class="dashboard">Elèves</h1>
+	</div>
+	<div class="pupil-container content-list-info">
+		{% for pupil in pupils %}
+		{% include 'BNSAppClassroomBundle:BackClassroom:row_pupil.html.twig' with {'pupil' : pupil } %}
+		{% else %}
+		<p class="no-data-label">Vous n'avez encore inscrit aucun élève, vous pouvez le faire en cliquant sur "Ajouter un utilisateur" en haut à gauche.</p>
+		{% endfor %}
+	</div>
+
+	<div class="news-title">
+		<h1 class="dashboard">Enseignants</h1>
+	</div>
+
+	<div class="teacher-container content-list-info">
+		{% for teacher in teachers %}
+		{% include 'BNSAppClassroomBundle:BackClassroom:row_teacher.html.twig' with {'teacher' : teacher, 'teacher_count': teachers|length } %}
+		{% endfor %}
+	</div>
+</div>
+
+{# Modal d'ajout d'utilisateurs #}
+   {% autoescape false %}
+{{ modal('add-user-modal', {
+			'body_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:add_user_modal_body.html.twig' },
+			'title': 'Ajouter un nouvel <span class="user-role-label"></span>',
+			'footer_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:add_user_modal_footer.html.twig' }
+		}) }}
+{% endautoescape %}
+{% endblock %}
+
+
+

@@ -1,0 +1,30 @@
+{% extends 'BNSAppMiniSiteBundle:Layout:front.html.twig' %}
+
+{% block header %}
+	<div class="header">
+		<div class="banniere">
+			<img src="http://www.placehold.it/1150x190" alt="#" />
+			<div class="title">
+				<p>{{ minisite.getTitle() }}</p>
+			</div>
+		</div>
+		<div class="menu">
+			<ul>
+				{% for menuPage in minisite.getMiniSitePages() %}
+					<li><a href="{{ path('minisite_page', {'miniSiteSlug': minisite.getSlug(), 'pageSlug': menuPage.getSlug()}) }}"{% if menuPage.getId() == page.getId() %}class="active"{% endif %}>{{ menuPage.getTitle() }}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+{% endblock header %}
+
+{% block content %}
+	<div class="span3">
+		{% for widget in minisite.getMiniSiteWidgets() %}
+			{% render 'BNSAppMiniSiteBundle:Front:renderWidget' with {'abstractWidget': widget} %}
+		{% endfor %}
+	</div>
+	<div class="span9">
+		{% render 'BNSAppMiniSiteBundle:FrontPage:renderPage' with {'pageSlug': page.getSlug(), 'miniSite': minisite} %}
+	</div>
+{% endblock content %}

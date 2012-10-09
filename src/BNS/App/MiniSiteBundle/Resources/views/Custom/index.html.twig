@@ -1,0 +1,359 @@
+{% extends 'BNSAppMiniSiteBundle:Layout:manager.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript" src="{{ asset('/medias/js/jquery.scrollTo.js') }}"></script>
+	<script type="text/javascript">
+		$(function() {
+			// Drag'n'drop categories
+			$('.load-sortable').sortable({
+				placeholder: 'placeholder',
+				cancel: '.open',
+				distance: 20,
+				update: function ()
+				{
+					$.ajax({
+						url: '{{ path('minisite_manager_custom_page_order') }}',
+						type: 'POST',
+						data: {'pages': $('.load-sortable').sortable('toArray')}
+					});
+				}
+			});
+			
+			// Editor drag
+			$('.editor').draggable({
+				helper: 'original',
+				revert: true,
+				refreshPositions: true
+			});
+
+			/* DELETE EDITOR PROCESS */
+			$('.editor-delete-zone').droppable({
+				accept: '.editor',
+				activeClass: 'active-delete-zone',
+				hoverClass: 'hover-delete-zone',
+				drop: function(event, ui)
+				{
+					var $editor = $(ui.draggable[0]),
+						editorId = $editor.attr('id').split('-');
+						
+					editorId = editorId[1];					
+					$editor.fadeOut('slow');
+					
+					$.ajax({
+						url: Routing.generate('minisite_manager_editor_delete'),
+						type: 'POST',
+						dataType: 'json',
+						data: {'editor_id': editorId}
+					});
+				}
+			});
+			
+			/* EDITION MODE OPEN */
+			$('.pages-sort .content-title-page .edit-button').live('click', function (e)
+			{
+				var $this = $(this),
+					$row = $this.parent().parent().parent();
+					
+				openEdition($row);
+				
+				return false;
+			});
+			
+			function openEdition($row)
+			{
+				// Change title label into input
+				$row.find('.content-title-page .title').fadeOut('fast', function ()
+				{
+					$row.find('.content-title-page input').fadeIn('slow');
+				});
+				// Close crud, open edit buttons
+				$row.find('.crud').slideUp('fast', function ()
+				{
+					$row.find('.edit').slideDown('fast', function ()
+					{
+						// Open edit form
+						$row.addClass('open');
+						$row.find('.content-form-edit').slideDown('slow');
+						$row.find('input[type="text"]').focus();
+					});
+				});
+			}
+			
+			/* EDITION MODE CLOSE */
+			function closeEdition($row)
+			{
+				// Change title input into label
+				$row.find('.content-title-page input').fadeOut('fast', function ()
+				{
+					$row.find('.content-title-page .title').fadeIn('fast');
+				});
+				
+				// Close edit form
+				$row.find('.content-form-edit').slideUp('fast');
+				
+				// Close edit, open crud buttons
+				$row.find('.edit').slideUp('fast', function ()
+				{
+					$row.removeClass('open');
+					$row.find('.crud').slideDown('fast');
+				});
+			}
+			
+			/* DELETE MODE OPEN */
+			$('.delete-button a').click(function (e)
+			{
+				var $this = $(this),
+					$row = $this.parent().parent().parent();
+				
+				// Close crud, open delete mode
+				$row.find('.crud').slideUp('fast', function ()
+				{
+					$row.find('.delete').slideDown('fast', function ()
+					{
+						$row.addClass('open');
+					});
+				});
+				
+				return false;
+			});
+			
+			// Cancel edition
+			$('.pages-sort .edit .cancel').live('click', function (e)
+			{
+				closeEdition($(this).parent().parent().parent());
+			});
+			
+			// Validation edition
+			$('.pages-sort .edit .confirm').live('click', function (e)
+			{
+				if ($(this).hasClass('disabled')) {
+					return;
+				}
+				
+				var $this = $(this),
+					$row = $this.parent().parent().parent();
+				
+				// Edit the title
+				$input = $row.find('.content-title-page input');
+				$row.find('.content-title-page .title').text($input.val());
+				$row.find('input, .btn').addClass('disabled').attr('disabled', 'disabled');
+				$row.css('opacity', '.5');
+				
+				$.ajax({
+					url: $this.attr('href'),
+					type: 'POST',
+					dataType: 'json',
+					data: {
+						'mini_site_page_form[title]': $input.val(),
+						'mini_site_page_form[type]': $row.find('select').val(),
+						'mini_site_page_form[is_home]': $row.find('input[type="checkbox"]').val(),
+						'mini_site_page_form[_token]': $('#csrf-token').val()
+					}
+				}).done(function ()
+				{
+					$row.find('input, .btn').removeClass('disabled').removeAttr('disabled');
+					closeEdition($row);
+					$row.css('opacity', '1');
+				});
+				
+				return false;
+			});
+			
+			/* ADD PAGE PROCESS */
+			$('.header-btn .add-page').click(function (e)
+			{
+				var $this = $(this);
+				if ($this.hasClass('disabled')) {
+					return false;
+				}
+				
+				$this.addClass('disabled');
+				
+				$.ajax({
+					url: $this.attr('href'),
+					success: function (data)
+					{
+						var $data = $(data);
+						$data.css('display', 'none');
+						$('.load-sortable').append($data);
+						$.scrollTo('#scroll-anchor', 500, {
+							onAfter: function ()
+							{
+								$data.slideDown('slow', function ()
+								{
+									openEdition($data);
+									$this.removeClass('disabled');
+								});
+							}
+						});
+					}
+				});
+				
+				return false;
+			});
+			
+			$('.load-sortable .btn-activation').live('click', function (e)
+			{
+				var $this = $(this),
+					$span = $this.find('span'),
+					$row = $this.parent().parent().parent().parent(),
+					pageId = $row.attr('id').split('_');
+					
+				pageId = pageId[1];
+			
+				if ($span.hasClass('disabled')) {
+					$span.removeClass('disabled');
+					$row.find('.page-checkbox').css('display', 'block');
+				}
+				else {
+					$span.addClass('disabled');
+					$row.find('.page-checkbox').css('display', 'none');
+				}
+				
+				$.ajax({
+					url: $this.attr('href'),
+					type: 'POST',
+					dataType: 'json',
+					data: {'page_id': pageId}
+				});
+				
+				return false;
+			});
+			
+			$('.news-title .btn-activation').click(function (e)
+			{
+				var $this = $(this),
+					$span = $this.find('span');
+			
+				if ($span.hasClass('disabled')) {
+					$span.removeClass('disabled');
+				}
+				else {
+					$span.addClass('disabled');
+				}
+				
+				$.ajax({
+					url: $this.attr('href')
+				});
+				
+				return false;
+			});
+			
+			$('.load-sortable .delete .confirm').live('click', function(e)
+			{
+				var $this = $(this);
+				
+				$this.addClass('disabled').attr('disabled', 'disabled');
+				$.ajax({
+					url: $this.attr('href'),
+					success: function (data)
+					{
+						var $modal = $(data);
+						$('body').prepend($modal);
+						
+						$modal.modal('show').on('hidden', function ()
+						{
+							$(this).remove();
+						});
+						$this.removeClass('disabled').removeAttr('disabled');
+					}
+				});
+				
+				return false;
+			});
+			
+			$('.load-sortable .delete .cancel').click(function (e)
+			{
+				var $this = $(this),
+					$row = $this.parent().parent().parent();
+				
+				// Close delete, open crud
+				$row.find('.delete').slideUp('fast', function ()
+				{
+					$row.find('.crud').slideDown('fast', function ()
+					{
+						$row.removeClass('open');
+					});
+				});
+				
+				return false;
+			});
+			
+			$('#minisite_delete_modal .modal-footer .delete-process').live('click', function (e)
+			{
+				var $this = $(this);
+				$this.addClass('disabled').attr('disabled', 'disabled');
+				
+				$.ajax({
+					url: $this.attr('href'),
+					success: function (data)
+					{
+						var listId = $('#minisite_delete_modal .modal-body').data('object');
+						$('#list_' + listId).slideUp('slow', function ()
+						{
+							$(this).remove();
+						});
+						
+						$('#minisite_delete_modal').modal('hide');
+					}
+				});
+				
+				return false;
+			});
+		});
+	</script>
+{% endblock javascripts %}
+
+{% block sidebar %}
+	{{ parent() }}
+{% endblock sidebar %}
+
+{% block header %}
+	<div class="content-add-btn agenda">
+		<a class="btn btn-info btn-new-article" href="#"><span class="icon-add-article blog"></span>{% trans %}MiniSite.Back.HeaderButtons.AddEditor{% endtrans %}</a>
+		<a class="btn btn-info btn-new-article add-page" href="{{ path('minisite_manager_page_add') }}"><span class="icon-add-article blog"></span>{% trans %}MiniSite.Back.HeaderButtons.AddPage{% endtrans %}</a>
+	</div>
+{% endblock header %}
+
+{% block content %}
+    <div class="content-mini-site">
+		{% if switchPublicIsAllowed %}
+			<div class="content-title">
+				<div class="news-title">
+					<h1 class="dashboard">{% trans %}MiniSite.Back.Custom.SitePublic{% endtrans %}</h1>
+					<a class="btn-activation" href="{{ path('minisite_manager_switch_public') }}"><span {% if minisite.isPublic() %}class="disabled"{% endif %}></span></a>
+				</div>
+			</div>
+		{% endif %}
+        <div class="content-title">
+            <div class="news-title title-editor">
+                <h1 class="dashboard">{% trans %}MiniSite.Back.Custom.Editors{% endtrans %}</h1>
+            </div>
+        </div>
+        <div class="editor-list">
+            {% for editor in editors %}
+                <div class="editor content-editor" id="editor-{{ editor.getId() }}">
+                    <img src="{{ asset('/medias/images/blog/avatar-student.png') }}" alt="" /> <p>{{ editor.getFirstName() }}</p> <p>{{ editor.getLastName() }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="editor-delete-zone content-delete-zone">
+           <p> <span class="delete-ico"></span> {% trans %}MiniSite.Back.Custom.DeleteBoxDescription{% endtrans %}</p>
+        </div>
+
+        <div class="content-title">
+            <div class="news-title title-no-shadow">
+                <h1 class="dashboard">{% trans %}MiniSite.Back.Custom.Pages{% endtrans %}</h1>
+            </div>
+        </div>
+
+        <ol class="pages-sort load-sortable">
+            {% for page in minisite.getMiniSitePages() %}
+                {% include 'BNSAppMiniSiteBundle:Page:back_page_row.html.twig' %}
+            {% endfor %}
+        </ol>
+		<div id="scroll-anchor"></div>
+		<input type="hidden" id="csrf-token" name="mini_site_page_form[_token]" value="{{ csrf_token }}" />
+    </div>
+{% endblock content %}

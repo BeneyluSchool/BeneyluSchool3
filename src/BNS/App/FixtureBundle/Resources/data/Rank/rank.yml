@@ -1,0 +1,605 @@
+#################### HELLO WORLD ####################
+
+# Module Hello World, puis par ordre alphabétique
+
+#Par exemple READ : ne peut QUE lire le module (pas d'accès back) - convient généralement bien aux parents
+HELLOWORLD_READ:
+  unique_name: HELLOWORLD_READ
+  module: HELLOWORLD
+  i18n:
+    fr:
+      label: Lire le module Hello world
+      description: 
+    en:
+      label: Use the Hello World module
+      description:
+  permissions: [HELLOWORLD_ACCESS]
+
+# Dans ce module, utiliser signifie avoir accès au back
+HELLOWORLD_USE:
+  unique_name: HELLOWORLD_USE
+  module: HELLOWORLD
+  i18n:
+    fr:
+      label: Utiliser le module Hello World
+      description: 
+    en:
+      label: Use the Hello World
+      description:
+  permissions: [HELLOWORLD_ACCESS , HELLOWORLD_ACCESS_BACK]
+
+#Pour finir manage : vraie administration
+HELLOWORLD_MANAGE:
+  unique_name: HELLOWORLD_MANAGE
+  module: HELLOWORLD
+  i18n:
+    fr:
+      label: Gérer le module Hello World
+      description: 
+    en:
+      label: Manage the Hello World
+      description:
+  permissions: [HELLOWORLD_ACCESS , HELLOWORLD_ACCESS_BACK , HELLOWORLD_ACTIVATION , HELLOWORLD_ADMINISTRATION]
+
+
+#Par ordre Alphabétique
+
+#################### ADMIN ####################
+
+ADMIN_ADMINISTRATION:
+  unique_name: ADMIN_ADMINISTRATION
+  module: ADMIN
+  i18n:
+    fr:
+      label: Super - Administrer le groupe
+      description: 
+    en:
+      label: Group's management
+      description:
+  permissions: [ADMIN_ACCESS]
+
+#################### BLOG ####################
+
+BLOG_READ:
+  unique_name: BLOG_READ
+  module: BLOG
+  i18n:
+    fr:
+      label: Lire le blog
+      description: 
+    en:
+      label: Use the blog
+      description:
+  permissions: [BLOG_ACCESS]
+
+BLOG_USE:
+  unique_name: BLOG_USE
+  module: BLOG
+  i18n:
+    fr:
+      label: Utiliser le blog
+      description: 
+    en:
+      label: Use the blog
+      description:
+  permissions: [BLOG_ACCESS , BLOG_ACCESS_BACK]
+
+BLOG_MANAGE:
+  unique_name: BLOG_MANAGE
+  module: BLOG
+  i18n:
+    fr:
+      label: Gérer le blog
+      description: 
+    en:
+      label: Manage the blog
+      description:
+  permissions: [BLOG_ACCESS , BLOG_ACCESS_BACK , BLOG_ACTIVATION , BLOG_ADMINISTRATION]
+
+#################### CALENDAR ####################
+
+CALENDAR_USE:
+  unique_name: CALENDAR_USE
+  module: CALENDAR
+  i18n:
+    fr:
+      label: Utiliser le calendrier
+      description: 
+    en:
+      label: Use the calendar
+      description:
+  permissions: [CALENDAR_ACCESS]
+
+CALENDAR_MANAGE:
+  unique_name: CALENDAR_MANAGE
+  module: CALENDAR
+  i18n:
+    fr:
+      label: Gérer le calendrier
+      description: 
+    en:
+      label: Manage the calendar
+      description:
+  permissions: [CALENDAR_ACCESS , CALENDAR_ACCESS_BACK , CALENDAR_ACTIVATION]
+  
+#################### CLASSROOM ####################
+
+CLASSROOM_USE:
+  unique_name: CLASSROOM_USE
+  module: CLASSROOM
+  i18n:
+    fr:
+      label: Utiliser la classe
+      description: 
+    en:
+      label: Use the classroom
+      description:
+  permissions: [CLASSROOM_ACCESS]
+
+CLASSROOM_MANAGE:
+  unique_name: CLASSROOM_MANAGE
+  module: CLASSROOM
+  i18n:
+    fr:
+      label: Gérer la classe
+      description: 
+    en:
+      label: Manage the classroom
+      description:
+  permissions: [CLASSROOM_ACCESS , CLASSROOM_ACCESS_BACK, CREATE_TEAM ]
+  
+  
+#################### GROUP ####################
+
+GROUP_USE:
+  unique_name: GROUP_USE
+  module: GROUP
+  i18n:
+    fr:
+      label: Utiliser le module groupe
+      description: 
+    en:
+      label: Use the group
+      description:
+  permissions: [GROUP_ACCESS]
+
+GROUP_MANAGE:
+  unique_name: GROUP_MANAGE
+  module: GROUP
+  i18n:
+    fr:
+      label: Gérer le groupe "customisé"
+      description: 
+    en:
+      label: Manage the classroom
+      description:
+  permissions: [GROUP_ACCESS , GROUP_ACCESS_BACK]
+
+#################### LIAISONBOOK ####################
+
+LIAISONBOOK_READ:
+  unique_name: LIAISONBOOK_READ
+  module: LIAISONBOOK
+  i18n:
+    fr:
+      label: Lire le carnet de liaison
+      description: 
+    en:
+      label: Read the liaisonbook
+      description:
+  permissions: [LIAISONBOOK_ACCESS]
+  
+LIAISONBOOK_USE:
+  unique_name: LIAISONBOOK_USE
+  module: LIAISONBOOK
+  i18n:
+    fr:
+      label: Utiliser le carnet de liaison et le signer
+      description: 
+    en:
+      label: Use the liaisonbook and sign it
+      description:
+  permissions: [LIAISONBOOK_ACCESS, LIAISONBOOK_ACCESS_SIGN]
+
+LIAISONBOOK_MANAGE:
+  unique_name: LIAISONBOOK_MANAGE
+  module: LIAISONBOOK
+  i18n:
+    fr:
+      label: Gérer le carnet de liaison
+      description: 
+    en:
+      label: Manage the liaisonbook
+      description:
+  permissions: [LIAISONBOOK_ACCESS , LIAISONBOOK_ACCESS_BACK, LIAISONBOOK_ACTIVATION ]  
+
+#################### GPS ####################
+
+GPS_USE:
+  unique_name: GPS_USE
+  module: GPS
+  i18n:
+    fr:
+      label: Utiliser le GPS
+      description: 
+    en:
+      label: Use the gps
+      description:
+  permissions: [GPS_ACCESS]
+
+GPS_MANAGE:
+  unique_name: GPS_MANAGE
+  module: GPS
+  i18n:
+    fr:
+      label: Gérer le GPS
+      description: 
+    en:
+      label: Manage the gps
+      description:
+  permissions: [GPS_ACCESS , GPS_ACCESS_BACK , GPS_ACTIVATION ] 
+
+#################### HOMEWORK ####################
+
+HOMEWORK_READ:
+  unique_name: HOMEWORK_READ
+  module: HOMEWORK
+  i18n:
+    fr:
+      label: Lire le cahier de texte
+      description: 
+    en:
+      label: Read the textbook
+      description:
+  permissions: [HOMEWORK_ACCESS]
+
+HOMEWORK_USE:
+  unique_name: HOMEWORK_USE
+  module: HOMEWORK
+  i18n:
+    fr:
+      label: Utiliser le cahier de texte
+      description: 
+    en:
+      label: Use the homework agenda
+      description:
+  permissions: [HOMEWORK_ACCESS, HOMEWORK_SIGN]
+
+HOMEWORK_MANAGE:
+  unique_name: HOMEWORK_MANAGE
+  module: HOMEWORK
+  i18n:
+    fr:
+      label: Gérer le cahier de texte
+      description: 
+    en:
+      label: Manage the homework agenda
+      description:
+  permissions: [HOMEWORK_ACCESS , HOMEWORK_ACCESS_BACK ] 
+
+#################### MESSAGING ####################
+
+MESSAGING_USE:
+  unique_name: MESSAGING_USE
+  module: MESSAGING
+  i18n:
+    fr:
+      label: Utiliser la messagerie
+      description: 
+    en:
+      label: Use the messaging
+      description:
+  permissions: [MESSAGING_ACCESS]
+
+MESSAGING_USE_CHILD:
+  unique_name: MESSAGING_USE_CHILD
+  module: MESSAGING
+  i18n:
+    fr:
+      label: Utiliser la messagerie pour les enfants
+      description: 
+    en:
+      label: Use the messaging for children
+      description:
+  permissions: [MESSAGING_ACCESS,MESSAGING_SEND_TEACHERS,MESSAGING_SEND_PARENT,MESSAGING_SEND_PUPILS]
+
+MESSAGING_USE_ADULT:
+  unique_name: MESSAGING_USE_ADULT
+  module: MESSAGING
+  i18n:
+    fr:
+      label: Utiliser la messagerie pour les adultes
+      description: 
+    en:
+      label: Use the messaging for adults
+      description:
+  permissions: [MESSAGING_ACCESS,MESSAGING_SEND_ALL]
+  
+MESSAGING_USE_PARENT:
+  unique_name: MESSAGING_USE_PARENT
+  module: MESSAGING
+  i18n:
+    fr:
+      label: Utiliser la messagerie pour les parents
+      description: 
+    en:
+      label: Use the messaging for parents
+      description:
+  permissions: [MESSAGING_ACCESS,MESSAGING_SEND_CHILD,MESSAGING_SEND_TEACHERS]
+  
+MESSAGING_SEND_EXTERNAL:
+  unique_name: MESSAGING_SEND_EXTERNAL
+  module: MESSAGING
+  i18n:
+    fr:
+      label: Envoyer des messages à l'extérieur sans modération
+      description: 
+    en:
+      label: Send external messages without moderation
+      description:
+  permissions: [MESSAGING_NO_EXTERNAL_MODERATION]
+  
+MESSAGING_SEND_INTERNAL:
+  unique_name: MESSAGING_SEND_INTERNAL
+  module: MESSAGING
+  i18n:
+    fr:
+      label: Envoyer des messages à l'intérieur sans modération
+      description: 
+    en:
+      label: Send internal messages without moderation
+      description:
+  permissions: [MESSAGING_NO_GROUP_MODERATION]
+
+MESSAGING_USE_NO_MODERATION:
+  unique_name: MESSAGING_USE_NO_MODERATION
+  module: MESSAGING
+  i18n:
+    fr:
+      label: Utiliser la messagerie
+      description: 
+    en:
+      label: Use the messaging
+      description:
+  permissions: [MESSAGING_ACCESS, MESSAGING_NO_GROUP_MODERATION, MESSAGING_NO_EXTERNAL_MODERATION]
+
+MESSAGING_MANAGE:
+  unique_name: MESSAGING_MANAGE
+  module: MESSAGING
+  i18n:
+    fr:
+      label: Modérer la messagerie
+      description: 
+    en:
+      label: Manage the messaging
+      description:
+  permissions: [MESSAGING_ACCESS , MESSAGING_ACCESS_BACK, MESSAGING_SEND_ALL , MESSAGING_ACTIVATION ]
+
+  
+#################### PROFILE ####################
+
+PROFILE_READ:
+  unique_name: PROFILE_READ
+  module: PROFILE
+  i18n:
+    fr:
+      label: Lire les profils du groupe
+      description: 
+    en:
+      label: See the group's profiles
+      description:
+  permissions: [PROFILE_ACCESS]
+
+PROFILE_USE:
+  unique_name: PROFILE_USE
+  module: PROFILE
+  i18n:
+    fr:
+      label: Utiliser le profil
+      description: 
+    en:
+      label: Use the profile
+      description:
+  permissions: [PROFILE_ACCESS , PROFILE_ACCESS_BACK ]
+
+PROFILE_MANAGE:
+  unique_name: PROFILE_MANAGE
+  module: PROFILE
+  i18n:
+    fr:
+      label: Gérer les profils
+      description: 
+    en:
+      label: Manage the profils
+      description:
+  permissions: [PROFILE_ACCESS , PROFILE_ACCESS_BACK , PROFILE_ADMINISTRATION , PROFILE_ACTIVATION ]
+  
+PROFILE_NO_MODERATE_COMMENT:
+  unique_name: PROFILE_NO_MODERATE_COMMENT
+  module: PROFILE
+  i18n:
+    fr:
+      label: Désactiver la modération automatique des commentaires
+      description: 
+    en:
+      label: Disable the automatic comment moderation
+      description:
+  permissions: [PROFILE_NO_MODERATE_COMMENT]
+  
+PROFILE_NO_MODERATE_STATUS:
+  unique_name: PROFILE_NO_MODERATE_STATUS
+  module: PROFILE
+  i18n:
+    fr:
+      label: Désactiver la modération automatique des statuts
+      description: 
+    en:
+      label: Disable the automatic statuses moderation
+      description:
+  permissions: [PROFILE_NO_MODERATE_STATUS]
+  
+#################### RESOURCE ####################
+
+RESOURCE_READ:
+  unique_name: RESOURCE_READ
+  module: RESOURCE
+  i18n:
+    fr:
+      label: Consulter les resources
+      description: 
+    en:
+      label: See the resources
+      description:
+  permissions: [RESOURCE_ACCESS]
+
+RESOURCE_USE:
+  unique_name: RESOURCE_USE
+  module: RESOURCE
+  i18n:
+    fr:
+      label: Utiliser les ressources
+      description: 
+    en:
+      label: Use the resources
+      description:
+  permissions: [RESOURCE_ACCESS , RESOURCE_ACCESS_BACK , RESOURCE_MY_RESOURCES ]
+
+RESOURCE_MANAGE:
+  unique_name: RESOURCE_MANAGE
+  module: RESOURCE
+  i18n:
+    fr:
+      label: Manager les ressources
+      description: 
+    en:
+      label: Manage the resources
+      description:
+  permissions: [RESOURCE_ACCESS , RESOURCE_ACCESS_BACK , RESOURCE_MY_RESOURCES , RESOURCE_ACTIVATION ]
+
+RESOURCE_ADMINISTRATION:
+  unique_name: RESOURCE_ADMINISTRATION
+  module: RESOURCE
+  i18n:
+    fr:
+      label: Administrer les ressources
+      description: 
+    en:
+      label: Admin the resources
+      description:
+  permissions: [RESOURCE_ACCESS , RESOURCE_ACCESS_BACK , RESOURCE_MY_RESOURCES , RESOURCE_ACTIVATION , RESOURCE_ADMINISTRATION , RESOURCE_USERS_ADMINISTRATION ]
+
+
+#################### TEAM ####################
+
+TEAM_READ:
+  unique_name: TEAM_READ
+  module: TEAM
+  i18n:
+    fr:
+      label: Accès en lecture au le groupe de travail
+      description: 
+    en:
+      label: Can only read the workgroup
+      description:
+  permissions: [TEAM_ACCESS]
+
+TEAM_USE:
+  unique_name: TEAM_USE
+  module: TEAM
+  i18n:
+    fr:
+      label: Utiliser le groupe de travail
+      description: 
+    en:
+      label: Use the workgroup
+      description:
+  permissions: [TEAM_ACCESS , TEAM_ACCESS_BACK]
+
+TEAM_MANAGE:
+  unique_name: TEAM_MANAGE
+  module: TEAM
+  i18n:
+    fr:
+      label: Manager l'équipe de travail
+      description: 
+    en:
+      label: Manage the workgroup
+      description:
+  permissions: [TEAM_ACCESS , TEAM_ACCESS_BACK , TEAM_ACTIVATION ]
+
+#################### MINISITE ####################
+
+MINISTE_READ:
+  unique_name: MINISITE_READ
+  module: MINISITE
+  i18n:
+    fr:
+      label: Accès en lecture au minisite
+      description: 
+    en:
+      label: Read access for the minisite
+      description:
+  permissions: [MINISITE_ACCESS]
+
+MINISITE_USE:
+  unique_name: MINISITE_USE
+  module: MINISITE
+  i18n:
+    fr:
+      label: Utiliser le minisite
+      description: 
+    en:
+      label: Use the minisite
+      description:
+  permissions: [MINISITE_ACCESS , MINISITE_ACCESS_BACK]
+
+MINISITE_MANAGE:
+  unique_name: MINISITE_MANAGE
+  module: MINISITE
+  i18n:
+    fr:
+      label: Manager le minisite
+      description: 
+    en:
+      label: Manage the minisite
+      description:
+  permissions: [MINISITE_ACCESS , MINISITE_ACCESS_BACK , MINISITE_ACTIVATION , MINISITE_ADMINISTRATION]
+
+# DIRECTORY
+DIRECTORY_READ:
+    unique_name: DIRECTORY_READ
+    module: DIRECTORY
+    i18n:
+      fr:
+        label: Accès en lecture à l'annuaire
+        description:
+      en:
+        label: Read access for the directory
+        description:
+    permissions: [DIRECTORY_ACCESS]
+        
+DIRECTORY_MANAGE:
+    unique_name: DIRECTORY_MANAGE
+    module: DIRECTORY
+    i18n:
+      fr: 
+        label: Manager l'annuaire
+        description:
+      en:
+        label: Manage the minisite
+        description:
+    permissions: [DIRECTORY_ACCESS , DIRECTORY_ACTIVATION]
+        
+      
+# NOTIFICATION
+NOTIFICATION_READ:
+    unique_name: NOTIFICATION_READ
+    module: NOTIFICATION
+    i18n:
+      fr:
+        label: Accès en lecture aux notifications
+        description:
+      en:
+        label: Read access for the notifications
+        description:
+    permissions: [NOTIFICATION_ACCESS, NOTIFICATION_ACCESS_BACK]

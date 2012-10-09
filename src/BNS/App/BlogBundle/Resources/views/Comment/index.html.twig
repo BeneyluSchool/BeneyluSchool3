@@ -1,0 +1,85 @@
+{% extends 'BNSAppBlogBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+	{{ blog.getTitle() }} - Commentaires
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	
+	<script type="text/javascript">
+		// Moderation comments
+		$('.moderation-comment').click(function (e)
+		{
+			var $this = $(e.currentTarget);
+			if ($this.hasClass('loading')) {
+				return false;
+			}
+
+			$this.addClass('loading');
+			
+			$.ajax({
+				url: $this.attr('href'),
+				success: function (data)
+				{
+					$this.removeClass('loading');
+					$this.toggleClass('off');
+				}
+			});
+
+			return false;
+		});
+	</script>
+{% endblock javascripts %}
+
+{% block sidebar %}
+	<div class="container-section">
+		<div class="section">
+			<a href="{{ path('BNSAppBlogBundle_back') }}">{% trans %}Blog.Back.Sidebar.Articles{% endtrans %}</a>
+		</div>
+	</div>
+	<div class="section active">
+		Commentaires
+		<span class="shadow-section"></span>
+	</div>
+	<div class="title-container remove-this-class-options">
+		<div class="title active border-blue">Modérations <span class="square icon-arrow"></span></div>
+		<div class="content-title">
+			<ul>
+				<li>
+					<a class="switchable {% if not blog.isCommentModerate() %}off{% endif %} moderation-comment" href="{{ path('blog_manager_moderation_switch') }}">
+						Modération des commentaires
+						<span class="btn-switch"></span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	{% include 'BNSAppCommentBundle:Sidebar:back_block_moderation_filters.html.twig' %}
+	<div class="container-section">
+		<div class="section">
+			<a href="{{ path('blog_manager_custom') }}">{% trans %}Blog.Back.Sidebar.Customing{% endtrans %}</a>
+		</div>
+	</div>
+{% endblock sidebar %}
+
+{% block header %}
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span12 align-right">
+						<a href="#" class="btn validate-all-comments bns-success validate-medium btn-24 medium">
+							<span class="icons-24 validate-icon"></span>
+							<strong>Valider tout les commentaires</strong>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock header %}
+
+{% block content %}
+	{% include 'BNSAppCommentBundle:Back:comment_index.html.twig' %}
+{% endblock content %}

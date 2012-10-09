@@ -1,0 +1,44 @@
+{% extends '::base_manager.html.twig' %}
+
+{% block css %}
+    {{ parent() }}
+
+    <link href="{{ asset('/medias/css/template/manager.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block body %}
+    {#<div class="office blur"></div>#}
+    <div class="header-btn">
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span3">
+                    {% block top_left_buttons_action %}{% endblock %}
+                </div>
+                <div class="span9 no-margin">
+                    <div class="button-manager-form">
+                        <div class="content-button-manager-form">
+                            {% block top_right_buttons_action %}{% endblock %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="border-grey"></div>
+    </div>
+    <div class="container-fluid container">
+        <div class="row-fluid">
+            <div class="span3">
+                <div class="sidebar">
+                    {% block sidebar %}Add your sidebar here!{% endblock %}
+                </div>
+            </div>
+            <div class="span9">
+                {% block content %}Add your content here!{% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+	
+{% block dock_bar %}
+	{% render 'BNSAppMainBundle:DockBar:index' with {'module_unique_name' : templatable_object.getTemplateClassName()|upper, 'is_in_front' : false } %}
+{% endblock %}

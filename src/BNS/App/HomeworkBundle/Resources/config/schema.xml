@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\HomeworkBundle\Model">
+
+    <table name="homework">
+        <column name="id" type="INTEGER" primaryKey="true" required="true" autoIncrement="true"/>
+        <column name="name" type="VARCHAR" size="255" required="true"/>
+        <column name="date" type="DATE" required="true"/>
+        <column name="subject_id" type="INTEGER" required="true"/>
+        <column name="description" type="LONGVARCHAR"/>
+        <column name="helptext" type="LONGVARCHAR"/>
+        <column name="recurrence_type" type="ENUM" valueSet="ONCE,EVERY_WEEK,EVERY_TWO_WEEKS,EVERY_MONTH" required="true"/>
+        <column name="recurrence_days" type="ARRAY"/>
+        <column name="recurrence_end_date" type="DATE"/>
+        <behavior name="sluggable">
+            <parameter name="slug_column" value="slug" />
+            <parameter name="slug_pattern" value="{name}" />
+            <parameter name="replace_pattern" value="/[^\w\/]+/u" />
+            <parameter name="replacement" value="-" />
+            <parameter name="separator" value="-" />
+            <parameter name="permanent" value="true" />
+        </behavior>
+        <behavior name="bns_resource_attachmentable" />
+        <foreign-key foreignTable="homework_subject" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference local="subject_id" foreign="id"/>
+        </foreign-key>
+        <index name="subject_id">
+            <index-column name="subject_id"/>
+        </index>
+    </table>    
+    <table name="homework_due">
+        <column name="id" type="INTEGER" primaryKey="true" required="true" autoIncrement="true"/>
+        <column name="homework_id" type="INTEGER" required="true"/>
+        <column name="due_date" type="DATE" required="true"/>
+        <column name="numberOfTasksDone" type="INTEGER" default="0" required="true"/>
+        <column name="numberOfTasksTotal" type="INTEGER" default="0" required="true"/>
+        <column name="day_of_week" type="ENUM" valueSet="SU, MO, TU, WE, TH, FR, SA" required="true"/>
+        <foreign-key foreignTable="homework" onDelete="cascade" onUpdate="cascade">
+            <reference local="homework_id" foreign="id"/>
+        </foreign-key>
+        <index name="id">
+            <index-column name="homework_id"/>
+        </index>
+    </table>
+    <table name="homework_task">
+        <column name="id" type="INTEGER" primaryKey="true" required="true" autoIncrement="true"/>
+        <column name="homework_due_id" type="INTEGER" required="true"/>
+        <column name="user_id" type="INTEGER" required="true"/>
+        <column name="done" type="BOOLEAN" default="false"/>
+        <foreign-key foreignTable="homework_due" onDelete="cascade" onUpdate="cascade">
+            <reference local="homework_due_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="user" onDelete="cascade" onUpdate="cascade">
+            <reference local="user_id" foreign="id"/>
+        </foreign-key>
+        <index name="homework_due_id">
+            <index-column name="homework_due_id"/>
+        </index>
+        <index name="user_id">
+            <index-column name="user_id"/>
+        </index>
+    </table>
+    <table name="homework_group" isCrossRef="true">
+        <column name="homework_id" type="INTEGER" primaryKey="true" required="true"/>
+        <column name="group_id" type="INTEGER" primaryKey="true" required="true"/>
+        <foreign-key foreignTable="homework" onDelete="cascade" onUpdate="cascade">
+            <reference local="homework_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="group" onDelete="cascade" onUpdate="cascade">
+            <reference local="group_id" foreign="id"/>
+        </foreign-key>
+        <index name="FK_HOMEWORK_ID">
+            <index-column name="homework_id"/>
+        </index>
+        <index name="FK_GROUP_ID">
+            <index-column name="group_id"/>
+        </index>
+    </table>
+    <table name="homework_subject">
+        <column name="id" type="INTEGER" primaryKey="true" required="true" autoIncrement="true"/>
+        <column name="name" type="VARCHAR" size="255" required="true"/>
+        <column name="group_id" type="INTEGER" required="true"/>
+        <behavior name="nested_set">
+            <parameter name="use_scope" value="true" />
+            <parameter name="scope_column" value="group_id" />
+        </behavior>
+        <behavior name="sluggable">
+            <parameter name="slug_column" value="slug" />
+            <parameter name="slug_pattern" value="{name}" />
+            <parameter name="replace_pattern" value="/[^\w\/]+/u" />
+            <parameter name="replacement" value="-" />
+            <parameter name="separator" value="-" />
+            <parameter name="permanent" value="true" />
+        </behavior>
+        <foreign-key foreignTable="group" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference local="group_id" foreign="id" />
+        </foreign-key>
+    </table>
+    <table name="homework_preferences">
+        <column name="id" type="INTEGER" primaryKey="true" required="true" autoIncrement="true"/>
+        <column name="group_id" type="INTEGER" required="true"/>
+        <column name="days" type="ARRAY" required="true"/>
+        <column name="activate_validation" type="BOOLEAN" default="false"/>
+        <column name="show_tasks_done" type="BOOLEAN" default="true"/>
+        <foreign-key foreignTable="group" onDelete="cascade">
+            <reference local="group_id" foreign="id" />
+        </foreign-key>
+    </table> 
+</database>

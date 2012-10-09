@@ -1,0 +1,48 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+	{{ blog.getTitle() }}
+{% endblock %}
+
+{% block css %}
+    {{ parent() }}
+    <link href="{{ asset('/medias/css/blog/front.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('/medias/css/blog/templates/sky.css') }}" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+{% endblock %}
+
+
+{% block body %}
+    <div class="office blog"></div>
+    <div class="container container-fluid">
+        <div class="blog-container">
+            <div class="row-fluid">
+                {% include 'BNSAppBlogBundle:Front:header.html.twig' %}
+            </div>
+            <div class="row-fluid blog-content-container">
+                <div class="blog-content">
+                    <div class="blog-articles">
+                        {% include 'BNSAppBlogBundle:Article:front_article_list.html.twig' %}
+                    </div>
+                </div>
+                <div class="blog-sidebar">
+                    <div class="blog-blocks">
+                        <div>
+                            {% if (blog.getSortedBlogCategories()|length > 0) %}
+								{% include 'BNSAppBlogBundle:Block:front_block_categories.html.twig' %}
+                            {% endif %}
+							{% include 'BNSAppBlogBundle:Block:front_block_authors.html.twig' %}
+							{% render 'BNSAppBlogBundle:Front:getContextBlogs' %}
+							{% render 'BNSAppBlogBundle:Front:getArchives' with {'blog': blog} %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+	
+{% block dock_bar %}
+	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "BLOG" , 'is_in_front' : true } %}
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+
+	{% if rank.isNew %}
+		<h2>Création d'un rang</h2>
+	{% else %}
+		<h2>Edition du module {{ rank.label}}</h2>
+	{% endif %}
+
+	<form action="{{ rank.isNew ? path('BNSAppAdminBundle_rank_manage') : path('BNSAppAdminBundle_rank_manage',{'uniqueName' : rank.uniqueName}) }}" method="post" {{ form_enctype(form) }} class="form-horizontal">			
+		{{ form_widget(form) }}
+		<input type="submit" />
+	</form>
+
+{% endblock %}

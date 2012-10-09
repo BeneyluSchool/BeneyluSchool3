@@ -1,0 +1,123 @@
+{% set location = app.session.get('resource_navigation_type') %}
+{% if type != "select_image" and (location == 'garbage' or resources|length > 0) %}
+	{% if location != "garbage" %}
+		<div class="content-selection-drag">
+			<div class="btn-group">
+				<a id="resource-multiple-move" class="icon-move resource-drag"></a>
+				<button class="btn dropdown-toggle create" data-toggle="dropdown">Déplacer ces documents<span class="caret"></span></button>
+				<ul class="dropdown-menu">
+					<li><a href="#" class="resource-selection-add-to-favorite">Ajouter à mes favoris</a></li>
+					<li class="divider"></li>
+					<li><a href="#" class="resource-selection-add-to-my-document">Ajouter à mes documents</a></li>
+				</ul>
+			</div>
+			{% if type not in ["search"] %}
+			<div class="btn-group">
+				<button class="btn dropdown-toggle create" data-toggle="dropdown">
+					<span class="btn-icon"></span>
+					Utiliser ces documents
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu">
+					{% if type == "insert" %}
+					<li><a href="#" class="resource-selection-insert">Insérer</a></li>
+					<li class="divider"></li>
+					{% endif %}
+					<li><a href="#" class="resource-selection-join" data-reference="{{ app.session.get('resource_reference') }}">Joindre</a></li>
+				</ul>
+			</div>
+			{% endif %}
+
+			<div class="btn-group">
+				<button class="btn create resource-selection-empty">Annuler la sélection</button>
+			</div>
+				
+			<div class="btn-group">
+				<button class="btn create empty resource-selection-delete" data-target="#resourceSelectionDelete" data-toggle="modal">Supprimer ces documents</button>
+			</div>
+			
+
+			{% autoescape false %}
+				{{ modal('resourceSelectionDelete', {
+					'title': 'Suppression des documents',
+					'body': '<div id="resource-selection-delete-content"></div>',
+					'footer_template': {'template': 'BNSAppResourceBundle:FrontNavigation:modalDeleteFooter.html.twig'},
+					'type': 'error'
+				}) }}
+			{% endautoescape %}
+
+		</div>
+	{% else %}
+		<div class="content-selection-drag">
+			<div class="btn-group">
+				<button id="garbage-empty" class="btn garbage-empty create" data-target="#resourceGarbageEmpty" data-toggle="modal" >
+					<span  class="garbage-btn-icon "></span>Vider la corbeille
+				</button>	
+			</div>
+				
+			{% if resources|length > 0 %}
+			
+				<div class="btn-group">
+					<button id="garbage-restore" class="btn create">
+						<span  class="garbage-btn-icon "></span>Restaurer ces documents
+					</button>	
+				</div>
+				
+				<div class="btn-group">
+					<button class="btn create empty dropdown-toggle" data-toggle="dropdown">Vider le panier<span class="caret"></span></button>
+					<ul class="dropdown-menu">
+						<li><a href="#" class="resource-selection-empty">Vider la sélection</a></li>
+						<li class="divider"></li>
+						<li><a href="#" class="resource-selection-delete" data-target="#resourceGarbageSelectionDeleteForever" data-toggle="modal" >Supprimer définitivement la sélection</a></li>
+						</ul>
+				</div>
+
+				{% autoescape false %}
+					{{ modal('resourceGarbageSelectionDeleteForever', {
+						'title': 'Suppression définitive des documents',
+						'body': '<div id="resource-selection-delete-content"></div>',
+						'footer_template': {'template': 'BNSAppResourceBundle:FrontNavigation:modalDeleteForeverFooter.html.twig'},
+						'type': 'error'
+					}) }}
+				{% endautoescape %}
+
+			{% endif %}
+
+		</div>
+		
+	{% endif %}
+	
+	{% if resources|length > 0 %}
+		<div class="content-selection-drag elements">
+
+			{% for resource in resources %}
+
+			<div class="fade in resource-selected resources">
+				<button id="{{ resource.id }}-delete" class="close resource-select" data-dismiss="alert" >×</button>
+				<img src="{{ getResourceImageUrl(resource,"thumbnail") }}" class="resource-img tiny" />
+				<p class="resource-label">{{ resource.getLabel|wordwrap(20)|truncate(35) }}</p>
+			</div>
+			{% if loop.last %}
+				{% raw %}
+					<script type="text/javascript">
+						$("#resource-selection").show();
+					</script>
+				{% endraw %}
+			{% endif %}
+
+			{% else %}
+				{% raw %}
+					<script type="text/javascript">
+						$("#resource-selection").hide();
+					</script>
+				{% endraw %}
+
+			{% endfor %}
+		</div>
+		<script type="text/javascript">
+			$(function(){ 
+				activeResourceSelectionDrag();
+			});
+		</script>
+	{% endif %}
+{% endif %}

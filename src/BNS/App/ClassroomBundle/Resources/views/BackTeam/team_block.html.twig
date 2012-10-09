@@ -1,0 +1,74 @@
+<div class="team-container {{ team.getSlug() }}-block row-fluid">
+	<div class="news-title">
+		<h1 class="dashboard">{{ team.getLabel() }}</h1>
+		<div class="content-button-management-team">
+			<a href="{{ path('BNSAppMainBundle_switch_context', { 'slug': team.getSlug() }) }}" class="btn btn-plug">Aller voir le groupe</a>
+			<button type="button" class="btn btn-info btn-small" id="btn-add-user-{{ team.getSlug() }}"><span class="add-icon"></span>Gestion des utilisateurs</button>
+			{% include 'BNSAppDirectoryBundle:UserPicker:activable_userpicker.html.twig' with {
+				'name_for_form': '',
+				'group_ids': group_ids_for_userpicker,
+				'input_id': team.getSlug() ~ '-user-id-to-manage',
+				'modal_id': team.getSlug() ~ '-userpicker-modal',
+				'element_activate_modal_id': 'btn-add-user-' ~ team.getSlug(),
+				'auto_close_modal': false,
+				'group_target_slug': team.getSlug(),
+				'group_types_filter': ['CLASSROOM', 'TEAM'],
+				'roles_filter': ['TEACHER', 'PUPIL', 'PARENT'],
+				'only_one_load': false
+			} %}
+			<img src="{{ asset('/medias/images/icons/loading.gif') }}" class="loading" style="display: none;"/>
+		</div>
+	</div>
+	<div id="team-{{ team.getSlug() }}" ondragover="return false;" ondrop="drop(this, event);">
+		{% for user in team.getUsers() %}
+			<div class="user" id="team_{{ team.getSlug() }}_user_{{ user.getId() }}" ondragstart="drag(this, event);">
+				<img src="{{ avatar(user, 'thumbnail') }}"  />
+				<p>{{ user.getFullName() }}</p>
+			</div>
+		{% else %}
+			<p class="no-user">Aucun utilisateur dans ce groupe pour le moment</p>
+		{% endfor %}
+	</div>
+	<div id="trash-{{ team.getSlug() }}" class="trash delete-zone" ondragover="return false;" ondrop="dropIntoTrash(this, event);">
+		<p><span class="icon-delete"></span>Glisser l'avatar ici pour sortir la personne du groupe.</p>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function()
+	{
+		$('#{{ team.getSlug() }}-user-id-to-manage').change(function()
+		{
+			$.post(
+				Routing.generate('BNSAppClassroomBundle_back_team_add_remove_users'),
+				{ 
+					team_slug: '{{ team.getSlug() }}', 
+					user_ids: $(this).val().split(',') 
+				},
+				function(data)
+				{
+					var userPickerModalDiv = $('div#{{ team.getSlug() }}-userpicker-modal');
+					if (data == 'true')
+					{
+						$.get(
+							Routing.generate('BNSAppClassroomBundle_back_team_reload_block', { 'teamSlug': '{{ team.getSlug() }}' }),
+							function(data)
+							{
+								var currentTeamContainer = $('div.{{ team.getSlug() }}-block');
+								currentTeamContainer.after(data);
+								currentTeamContainer.remove();
+								userPickerModalDiv.modal('hide');
+							}
+						);
+					}
+					else
+					{
+						userPickerModalDiv.modal('hide');
+					}
+
+				}
+			);
+		});
+	});
+</script>
+

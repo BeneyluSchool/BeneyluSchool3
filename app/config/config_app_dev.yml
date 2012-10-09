@@ -1,0 +1,36 @@
+imports:
+    - { resource: config_app.yml }
+    - { resource: parameters_dev.yml }
+    - { resource: secret_dev.yml }
+
+framework:
+    router:   { resource: "%kernel.root_dir%/config/routing_app_dev.yml" }
+    profiler: { only_exceptions: false }
+
+web_profiler:
+    toolbar: true
+    intercept_redirects: false
+
+monolog:
+    handlers:
+        main:
+            type:  stream
+            path:  %kernel.logs_dir%/%kernel.environment%.log
+            level: debug
+        firephp:
+            type:  firephp
+            level: debug
+        mailer:
+            type:  stream
+            level: debug
+            path:  %kernel.logs_dir%/mailer_%kernel.environment%.log
+
+assetic:
+    use_controller: false
+    java: "java"
+    
+knp_snappy:
+    pdf:
+        binary:     %kernel.root_dir%/../bin/windows/wkhtml/wkhtmltopdf
+    image:
+        binary:     %kernel.root_dir%/../bin/windows/wkhtml/wkhtmltoimage

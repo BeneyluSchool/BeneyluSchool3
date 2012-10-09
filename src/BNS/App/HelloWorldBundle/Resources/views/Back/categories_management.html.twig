@@ -1,0 +1,314 @@
+{% extends 'BNSAppHelloWorldBundle:Back:layout.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	{# COPY FROM HERE #}
+	<script type="text/javascript" src="{{ asset('/medias/js/manager-menu.js') }}"></script>
+	<script type="text/javascript">
+		var categoriesRoutes = {
+			
+		};
+	</script>
+	<script type="text/javascript" src="{{ asset('/medias/js/category/category.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/jquery.ui.nestedSortable.js') }}"></script>
+	{# END OF COPY #}
+{% endblock javascripts %}
+
+{% block header %}
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					{# COPY FROM HERE #}
+					<div class="span6">
+						<a href="#" class="btn bns-info btn-24 large button-return add-category-button" data-target="#new-category-modal" data-toggle="modal">
+							<span class="icons-24 add-icon"></span>
+							Ajouter une catégorie
+						</a>
+						<a href="{{ path('BNSAppHelloWorldBundle_back') }}" class="btn bns-notice btn-24 medium-return">
+							<span class="icons-24 back-icon"></span>
+							<strong>Retourner</strong><br />à l'index
+						</a>
+					</div>
+					<div class="span6 align-right switchable-menu" id="default-header"></div>
+					<div class="span6 align-right switchable-menu hide" id="category-edit-mode" data-effect="drop">
+						<a href="#" data-toggle="menu" data-target="#default-header" class="btn bns-danger btn-24 medium-return cancel-button">
+							<span class="icons-24 cancel-icon"></span>
+							<strong>Annuler</strong><br />les modifications
+						</a>
+					</div>
+					{# END OF COPY #}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock header %}
+
+{% block content %}
+	{# COPY FROM HERE #}
+	<div class="content-categories-management">
+		<h1>Gérer les catégories</h1>
+		
+		{# Attention à ne pas oublier de copier les templates des modals et à ne pas modifier l'ID de la modal, sinon le JS ne fonctionnera plus #}
+		{{ modal('new-category-modal', {
+			'title': 'Ajouter une catégorie',
+			'body_template': {'template': 'BNSAppHelloWorldBundle:Modal:category_management_add_body.html.twig'},
+			'footer_template': {'template': 'BNSAppHelloWorldBundle:Modal:category_management_add_footer.html.twig'},
+			'type': 'info'
+		}) }}
+		
+		{{ modal('delete-category-modal', {
+			'title': "Suppression d'une catégorie",
+			'body_template': {'template': 'BNSAppHelloWorldBundle:Modal:category_management_delete_body.html.twig'},
+			'footer_template': {'template': 'BNSAppHelloWorldBundle:Modal:category_management_delete_footer.html.twig'},
+			'type': 'error'
+		}) }}
+		
+		<div class="category-icons-list">
+			<img class="applix" src="/medias/images/icons/categories/applix.png" alt="">
+			<img class="applixware" src="/medias/images/icons/categories/applixware.png" alt="">
+			<img class="bookcase" src="/medias/images/icons/categories/bookcase.png" alt="">
+			<img class="book_open" src="/medias/images/icons/categories/book_open.png" alt="">
+			<img class="chat" src="/medias/images/icons/categories/chat.png" alt="">
+			<img class="colors" src="/medias/images/icons/categories/colors.png" alt="">
+			<img class="color_fill" src="/medias/images/icons/categories/color_fill.png" alt="">
+			<img class="color_line" src="/medias/images/icons/categories/color_line.png" alt="">
+			<img class="cookie" src="/medias/images/icons/categories/cookie.png" alt="">
+			<img class="cut" src="/medias/images/icons/categories/cut.png" alt="">
+			<img class="edu_mathematics" src="/medias/images/icons/categories/edu_mathematics.png" alt="">
+			<img class="email" src="/medias/images/icons/categories/email.png" alt="">
+			<img class="font_bitmap" src="/medias/images/icons/categories/font_bitmap.png" alt="">
+			<img class="gettext" src="/medias/images/icons/categories/gettext.png" alt="">
+			<img class="gohome" src="/medias/images/icons/categories/gohome.png" alt="">
+			<img class="kaboodle" src="/medias/images/icons/categories/kaboodle.png" alt="">
+			<img class="kalarm" src="/medias/images/icons/categories/kalarm.png" alt="">
+			<img class="kbugbuster" src="/medias/images/icons/categories/kbugbuster.png" alt="">
+			<img class="kdmconfig" src="/medias/images/icons/categories/kdmconfig.png" alt="">
+			<img class="kfm_home" src="/medias/images/icons/categories/kfm_home.png" alt="">
+			<img class="klettres" src="/medias/images/icons/categories/klettres.png" alt="">
+			<img class="kmoon" src="/medias/images/icons/categories/kmoon.png" alt="">
+			<img class="knotes" src="/medias/images/icons/categories/knotes.png" alt="">
+			<img class="kpercentage" src="/medias/images/icons/categories/kpercentage.png" alt="">
+			<img class="kteatime" src="/medias/images/icons/categories/kteatime.png" alt="">
+			<img class="ktimer" src="/medias/images/icons/categories/ktimer.png" alt="">
+			<img class="kuser" src="/medias/images/icons/categories/kuser.png" alt="">
+			<img class="kweather" src="/medias/images/icons/categories/kweather.png" alt="">
+			<img class="package_edutainment" src="/medias/images/icons/categories/package_edutainment.png" alt="">
+			<img class="package_games_arcade" src="/medias/images/icons/categories/package_games_arcade.png" alt="">
+			<img class="package_games_board" src="/medias/images/icons/categories/package_games_board.png" alt="">
+			<img class="package_games_strategy" src="/medias/images/icons/categories/package_games_strategy.png" alt="">
+			<img class="package_graphics" src="/medias/images/icons/categories/package_graphics.png" alt="">
+			<img class="package_utilities" src="/medias/images/icons/categories/package_utilities.png" alt="">
+			<img class="playsound" src="/medias/images/icons/categories/playsound.png" alt="">
+			<img class="preferences-desktop-notification-bell" src="/medias/images/icons/categories/preferences-desktop-notification-bell.png" alt="">
+			<img class="services" src="/medias/images/icons/categories/services.png" alt="">
+			<img class="Soccer_Ball" src="/medias/images/icons/categories/Soccer_Ball.png" alt="">
+			<img class="sport_basketball" src="/medias/images/icons/categories/sport_basketball.png" alt="">
+			<img class="thumbn" src="/medias/images/icons/categories/thumbn.png" alt="">
+			<img class="viewmag" src="/medias/images/icons/categories/viewmag.png" alt="">
+			<img class="wizard" src="/medias/images/icons/categories/wizard.png" alt="">
+			<img class="www" src="/medias/images/icons/categories/www.png" alt="">
+
+			<a href="#" class="default">Aucune icône</a>
+		</div>
+		
+		<ol class="load-sortable">
+			{# /!\ ATTENTION, BUG AVEC LE PLUGIN : NE PAS FERMER LA BALISE <LI> !! #}
+			<li id="list_1" data-toggle="menu" data-target="#category-edit-mode">
+			<div>
+				<div class="loader loader-h"></div>
+				<span class="list-grip"></span>
+				<span class="category-icon sprite kweather"></span>
+				<div class="title">Catégorie 1</div>
+				<span class="close-button">&times</span>
+			</div>
+			<div class="category-editor">
+				<div class="category-icon-selector">
+					<span class="kweather"></span>
+				</div>
+				<input type="text" name="" value="Catégorie 1" />
+				<a href="#" class="btn bns-success btn-16 validate-small submit-category" data-toggle="menu" data-target="#default-header">
+					<span class="icons-16 validate-icon"></span>
+					<strong>Valider</strong>
+				</a>
+			</div>
+			<li id="list_4" data-toggle="menu" data-target="#category-edit-mode">
+			<div>
+				<div class="loader loader-h"></div>
+				<span class="list-grip"></span>
+				<span class="category-icon"></span>
+				<div class="title">Catégorie sans icône (classe "sprite" de "category-icon" supprimée)</div>
+				<span class="close-button">&times</span>
+			</div>
+			<div class="category-editor">
+				<div class="category-icon-selector">
+					<span class="book_open"></span>
+				</div>
+				<input type="text" name="" value="Catégorie 1" />
+				<a href="#" class="btn bns-success btn-16 validate-small submit-category" data-toggle="menu" data-target="#default-header">
+					<span class="icons-16 validate-icon"></span>
+					<strong>Valider</strong>
+				</a>
+			</div>
+			<ol>
+				<li id="list_13" data-toggle="menu" data-target="#category-edit-mode">
+				<div>
+					<div class="loader loader-h"></div>
+					<span class="list-grip"></span>
+					<span class="category-icon"></span>
+					<div class="title">Catégorie 13</div>
+					<span class="close-button">&times</span>
+				</div>
+				<div class="category-editor">
+					<div class="category-icon-selector">
+						<span class="book_open"></span>
+					</div>
+					<input type="text" name="" value="Catégorie 1" />
+					<a href="#" class="btn bns-success btn-16 validate-small submit-category" data-toggle="menu" data-target="#default-header">
+						<span class="icons-16 validate-icon"></span>
+						<strong>Valider</strong>
+					</a>
+				</div>
+				<li id="list_11" data-toggle="menu" data-target="#category-edit-mode">
+				<div>
+					<div class="loader loader-h"></div>
+					<span class="list-grip"></span>
+					<span class="category-icon"></span>
+					<div class="title">Catégorie 11</div>
+					<span class="close-button">&times</span>
+				</div>
+				<div class="category-editor">
+					<div class="category-icon-selector">
+						<span class="book_open"></span>
+					</div>
+					<input type="text" name="" value="Catégorie 1" />
+					<a href="#" class="btn bns-success btn-16 validate-small submit-category" data-toggle="menu" data-target="#default-header">
+						<span class="icons-16 validate-icon"></span>
+						<strong>Valider</strong>
+					</a>
+				</div>
+			</ol>
+			<li id="list_5" data-toggle="menu" data-target="#category-edit-mode">
+			<div class="active">
+				<div class="loader loader-h"></div>
+				<span class="list-grip"></span>
+				<span class="category-icon sprite sport_basketball"></span>
+				<div class="title">Catégorie active</div>
+				<span class="close-button">&times</span>
+			</div>
+			<div class="category-editor">
+				<div class="category-icon-selector">
+					<span class="sport_basketball"></span>
+				</div>
+				<input type="text" name="" value="Catégorie 1" />
+				<a href="#" class="btn bns-success btn-16 validate-small submit-category" data-toggle="menu" data-target="#default-header">
+					<span class="icons-16 validate-icon"></span>
+					<strong>Valider</strong>
+				</a>
+			</div>
+			<li id="list_15" data-toggle="menu" data-target="#category-edit-mode">
+			<div>
+				<div class="loader loader-h"></div>
+				<span class="list-grip"></span>
+				<span class="category-icon sprite kmoon"></span>
+				<div class="title">Catégorie 15</div>
+				<span class="close-button">&times</span>
+			</div>
+			<div class="category-editor">
+				<div class="category-icon-selector">
+					<span class="kmoon"></span>
+				</div>
+				<input type="text" name="" value="Catégorie 1" />
+				<a href="#" class="btn bns-success btn-16 validate-small submit-category" data-toggle="menu" data-target="#default-header">
+					<span class="icons-16 validate-icon"></span>
+					<strong>Valider</strong>
+				</a>
+			</div>
+			<li id="list_19" data-toggle="menu" data-target="#category-edit-mode">
+			<div>
+				<div class="loader loader-h"></div>
+				<span class="list-grip"></span>
+				<span class="category-icon sprite book_open"></span>
+				<div class="title">Catégorie 19</div>
+				<span class="close-button">&times</span>
+			</div>
+			<div class="category-editor">
+				<div class="category-icon-selector">
+					<span class="book_open"></span>
+				</div>
+				<input type="text" name="" value="Catégorie 1" />
+				<a href="#" class="btn bns-success btn-16 validate-small submit-category" data-toggle="menu" data-target="#default-header">
+					<span class="icons-16 validate-icon"></span>
+					<strong>Valider</strong>
+				</a>
+			</div>
+		</ol>
+	</div>
+	{# END COPY #}
+
+	<div class="well" style="margin: 15px; padding: 5px; text-align: center;">
+		<em>Le javascript est activé, vous pouvez tester les fonctionnalités. Seul l'AJAX ne fonctionne pas.</em>
+	</div>
+	
+	<div class="well" style="margin: 15px; padding: 5px;">
+		Pour faire fonctionner le JavaScript vous avez deux choix :
+		<ul>
+			<li>Soit vous paramétrez les routes pour l'AJAX si vous n'avez aucune modification à faire.</li>
+			<li>Soit vous copiez/collez le contenu du fichier dans "/medias/js/category/category.js" et vous le mettez dans votre vue après y avoir fait vos modifications.</li>
+		</ul>
+		
+		Si vous choisissez le premier choix, voici comment parameter les routes :
+		<pre style="background: white;">var categoriesRoutes = {
+	'sort':		'your route',
+	'insert':	'your route',
+	'edit':		'your route',
+	'remove':	'your route'
+};</pre>
+		
+	Description de chacune des routes :<br />
+	<ul>
+		<li>
+			<h3>sort :</h3>
+			<p>
+				Appelée lors de la sauvegarde du nouveau tri des catégories, sauvegarde la nouvelle arborescence des catégories.<br />
+				Envoi un tableau d'objet dans l'ordre ayant pour seul paramètre "id".<br />
+				Il suffit de boucler sur toutes les catégories d'utiliser la méthode :<br />
+				$parentCat->moveToLastChildOf($root) ou $subCat->moveToLastChildOf($parentCat).
+
+				<pre style="background: white;">Header POST: categories</pre>
+			</p>
+		</li>
+		<li>
+			<h3>insert :</h3>
+			<p>
+				Appelée lors du clic sur le bouton d'ajout d'une catégorie dans la modal, insère une nouvelle catégorie.<br />
+				Envoi les informations concernant la nouvelle catégorie.<br />
+				Doit retourner une vue comportant un <li> avec toutes les informations de la catégorie (titre, icône, etc).
+
+				<pre style="background: white;">Header POST: title, iconName</pre>
+			</p>
+		</li>
+		<li>
+			<h3>edit :</h3>
+			<p>
+				Appelée lors du clic sur le bouton "Valider" lors de l'édition d'une catégorie, édite les informations d'une catégorie.<br />
+				Envoi les nouvelles informations concernant la catégorie a éditer.<br />
+
+				<pre style="background: white;">Header POST: id, title, iconName</pre>
+			</p>
+		</li>
+		<li>
+			<h3>remove :</h3>
+			<p>
+				Appelée lors du clic sur le bouton "Oui, je suis sûr" dans la modal de suppression d'une catégorie, supprime une catégorie et ses sous-catégories.<br />
+				Envoi l'ID de la catégorie a supprimer.<br />
+
+				<pre style="background: white;">Header POST: id</pre>
+			</p>
+		</li>
+	</ul>
+	</div>
+			
+	{% include 'BNSAppHelloWorldBundle:Back:javascripts.html.twig' %}
+{% endblock %}

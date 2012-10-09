@@ -1,0 +1,181 @@
+{% extends 'BNSAppMiniSiteBundle:Layout:manager.html.twig' %}
+
+{% block javascripts %}
+	<script type="text/javascript" src="{{ asset('/medias/js/bootstrap/bootstrap-tooltip.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/jquery.ui.nestedSortable.js') }}"></script>
+	<script type="text/javascript">
+		$(function() {
+			$('.load-sortable').sortable({
+				placeholder: 'placeholder',
+				update: function ()
+				{
+					$.ajax({
+						url: '{{ path('minisite_manager_custom_widget_order') }}',
+						type: 'POST',
+						data: {'widgets': $('.load-sortable').sortable('toArray')}
+					});
+				}
+			});
+			
+			/* WIDGET SAVE PROCESS */
+			$('.widget input[type="submit"]').live('click', function (e)
+			{
+				var $this = $(this),
+					widgetId = $this.attr('id');
+					
+				if ($this.hasClass('disabled')) {
+					return false;
+				}
+					
+				widgetId = widgetId.split('-');
+				widgetId = widgetId[2];
+				
+				var $widget = $('#widget-' + widgetId);
+				
+				var inputNames = $widget.data('input-names').split(','),
+					inputsData = new Object();
+					
+				for (i in inputNames) {
+					inputsData['mini_site_widget_form_' + widgetId + '[' + inputNames[i] +']'] = $('#mini_site_widget_form_' + widgetId + '_' + inputNames[i]).val();
+				}
+				
+				// Token exception
+				inputsData['mini_site_widget_form_' + widgetId + '[' + inputNames[i] +']'] = $('#widget_csrf_token').val();
+				
+				$widget.css('opacity', '.5');
+				$widget.find('input').addClass('disabled').attr('disabled', 'disabled');
+				
+				$.ajax({
+					url: Routing.generate('minisite_manager_custom_widget_save', {'widgetId': widgetId}),
+					type: 'POST',
+					dataType: 'json',
+					data: inputsData,
+					success: function (data)
+					{
+						// TODO errors
+					}
+				}).done(function ()
+				{
+					$widget.css('opacity', '1');
+					$widget.find('input').removeClass('disabled').removeAttr('disabled');
+				});
+				
+				return false;
+			});
+			
+			/* WIDGET NEW PROCESS */
+			$('.widget-template').click(function (e)
+			{
+				var $this = $(this),
+					widgetType = $this.data('type');
+					
+				if ($this.hasClass('disabled')) {
+					return false;
+				}
+					
+				$this.addClass('disabled');
+				
+				$.ajax({
+					url: Routing.generate('minisite_manager_custom_widget_new', {'widgetType': widgetType}),
+					dataType: 'html',
+					success: function (data)
+					{
+						var $data = $(data);
+						$data.css('display', 'none');
+						$('.widget-list').prepend($data);
+						$data.slideDown('slow');
+					}
+				}).done(function ()
+				{
+					$this.removeClass('disabled');
+				});
+				
+				return false;
+			});
+			
+			/* WIDGET DELETE MODAL */
+			$('.load-sortable .delete').live('click', function(e)
+			{
+				var $this = $(e.currentTarget);
+				
+				$this.addClass('disabled').attr('disabled', 'disabled');
+				$.ajax({
+					url: $this.attr('href'),
+					success: function (data)
+					{
+						var $modal = $(data);
+						$('body').prepend($modal);
+						
+						$modal.modal('show').on('hidden', function ()
+						{
+							$(this).remove();
+						});
+						$this.removeClass('disabled').removeAttr('disabled');
+					}
+				});
+				
+				return false;
+			});
+			
+			/* WIDGET DELETE CONFIRM */
+			$('#minisite_delete_modal .modal-footer .delete-process').live('click', function (e)
+			{
+				var $this = $(this);
+				$this.addClass('disabled').attr('disabled', 'disabled');
+				
+				$.ajax({
+					url: $this.attr('href'),
+					success: function (data)
+					{
+						var widgetId = $('#minisite_delete_modal .modal-body').data('object');
+						$('#widget-' + widgetId).fadeOut('slow', function ()
+						{
+							$(this).remove();
+						});
+						
+						$('#minisite_delete_modal').modal('hide');
+					}
+				});
+				
+				return false;
+			});
+		});
+	</script>
+{% endblock javascripts %}
+
+{% block sidebar %}
+	{{ parent() }}
+{% endblock sidebar %}
+
+{% block content %}
+	<div class="content-mini-site widget">
+		<div class="row-fluid content-widget">
+			<div class="span7">
+				<h1 class="dashboard">{% trans %}MiniSite.Back.Custom.Sidebar{% endtrans %}</h1>
+			</div>
+			<div class="span5">
+				<h1 class="dashboard">{% trans %}MiniSite.Back.Custom.Modules{% endtrans %}</h1>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="span7">
+				<ol class="widget-list load-sortable">
+					{% for widget in widgets %}
+						{% render 'BNSAppMiniSiteBundle:BackCustom:renderWidget' with {'widget': widget, 'view': widget.getViewPath(true)} %} {# true for back view #}
+					{% endfor %}
+				</ol>
+				<input id="widget_csrf_token" type="hidden" value="{{ csrf_token }}" />
+			</div>
+			<div class="span5">
+				<div class="widget-templates">
+					{% for template in templates %}
+						<div class="btn widget-template" {% if template.getDescription()|length > 0 %}rel="tooltip" title="{{ template.getDescription() }}"{% endif %} data-type="{{ template.getType() }}">
+							{{ template.getLabel() }}
+							<span class="add-widget"></span>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock content %}

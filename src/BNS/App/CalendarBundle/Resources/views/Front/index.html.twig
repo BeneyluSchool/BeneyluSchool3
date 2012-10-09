@@ -1,0 +1,286 @@
+{% extends 'BNSAppCalendarBundle:Layout:front.html.twig' %}
+
+{% block css %}
+	<link href="{{ asset('/medias/css/calendar/wdcalendar/dailog.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('/medias/css/calendar/wdcalendar/calendar.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('/medias/css/calendar/wdcalendar/dp.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('/medias/css/calendar/wdcalendar/alert.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('/medias/css/calendar/wdcalendar/main.css') }}" rel="stylesheet" type="text/css" />
+	
+	{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	
+	<script type="text/javascript">
+		var hiddingAgendas = new Array(), nbAgendaInArray = 0;
+	</script>
+	<script type="text/javascript" src="{{ asset('/medias/js/calendar/wdcalendar/Plugins/Common.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/calendar/wdcalendar/Plugins/datepicker_lang_FR.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/calendar/wdcalendar/Plugins/jquery.datepicker.js') }}"></script>
+	
+	<script type="text/javascript" src="{{ asset('/medias/js/calendar/wdcalendar/Plugins/jquery.alert.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/calendar/wdcalendar/Plugins/jquery.ifrmdailog.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/calendar/wdcalendar/Plugins/wdCalendar_lang_FR.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/calendar/wdcalendar/Plugins/jquery.calendar.js') }}"></script>
+	
+	<script type="text/javascript">
+        $(document).ready(function() {     
+            var view="week";
+
+            var op = {
+                view: view,
+                theme:0,
+                showday: new Date({% if dateShow is defined %}"{{ dateShow }}"{% endif %}),
+                ViewCmdhandler:View,
+                onWeekOrMonthToDay:wtd,
+                onBeforeRequestData: "",
+                onAfterRequestData: "",
+                onRequestDataError: "",
+                autoload: true,
+                enableDrag: true,
+                url: Routing.generate('BNSAppCalendarBundle_front_list_events'),
+                quickUpdateUrl: "{{ path('BNSAppCalendarBundle_back_update_event') }}",
+            };
+            var $dv = $("#calhead");
+            var _MH = document.documentElement.clientHeight;
+            var dvH = $dv.height() + 2;
+            op.height = dvH + 15 * 42;
+
+            $("#myDiv").bind("resize", function() {
+                alert( $("#myDiv").height() ); 
+            });
+            
+            op.eventItems = [];
+			op.readonly = true;
+            var p = $("#gridcontainer").bcalendar(op).BcalGetOp();
+            p = $("#gridcontainer").nextRange().BcalGetOp();
+            p = $("#gridcontainer").previousRange().BcalGetOp();
+            if (p && p.datestrshow) {
+                $("#txtdatetimeshow").text(p.datestrshow);
+				displayDate(p.datestrshow);
+            }
+           
+            if (p && p.datestrshow) {
+                $("#txtdatetimeshow").text(p.datestrshow);
+            }
+            $("#caltoolbar").noSelect();
+            
+            $("#hdtxtshow").datepicker({ picker: "#txtdatetimeshow", showtarget: $("#hdtxtshow"),
+            onReturn:function(r){                          
+                            var p = $("#gridcontainer").gotoDate(r).BcalGetOp();
+                            if (p && p.datestrshow) {
+                                $("#txtdatetimeshow").text(p.datestrshow);
+                            }
+                     } 
+            });
+
+            // Tweak: pour pouvoir activer et afficher le datepicker
+            $("#txtdatetimeshow").trigger('click');
+            
+            function View(data)
+            {
+                if (data[0].indexOf('anniversaire/') == 0) {
+                    var eventInfos = data[0].split('_');
+                    console.log(eventInfos);
+
+                    var $birthdayHiddenForm = $('form#birthday_form');
+                    $birthdayHiddenForm.attr('action', Routing.generate('front_birthday_event_detail'));
+                    // Set title, description, date in form
+                    $('input#birthday_title').val(eventInfos[1]);
+                    $('input#birthday_description').val(eventInfos[2]);
+                    $('input#birthday_date').val(eventInfos[0].substring(13, eventInfos[0].length));
+
+                    $birthdayHiddenForm.submit();
+                }
+                else {
+             		var link = Routing.generate('BNSAppCalendarBundle_front_event_detail', { 'slug': data[0] });
+                	window.location = link;
+            	}
+
+            	return;
+            }
+            function wtd(p)
+            {
+               if (p && p.datestrshow) {
+                    $("#txtdatetimeshow").text(p.datestrshow);
+                }
+                $("#caltoolbar div.fcurrent").each(function() {
+                    $(this).removeClass("fcurrent");
+                })
+                $("#showdaybtn").addClass("fcurrent");
+            }
+            //previous date range
+            $("#sfprevbtn").click(function(e) {
+                var p = $("#gridcontainer").previousRange().BcalGetOp();
+                if (p && p.datestrshow) {
+                    $("#txtdatetimeshow").text(p.datestrshow);
+                    displayDate(p.datestrshow);
+                }
+
+            });
+            //next date range
+            $("#sfnextbtn").click(function(e) {
+                var p = $("#gridcontainer").nextRange().BcalGetOp();
+                if (p && p.datestrshow) {
+                    $("#txtdatetimeshow").text(p.datestrshow);
+					displayDate(p.datestrshow);
+                }
+            });
+			
+			$(".btn-cal-filter").click(function(e) {
+				var eventsOfCurrentAgenda = $(this).attr('id');
+				
+				if (!$(this).hasClass('icons-stick-calendar-actif'))
+				{
+					hiddingAgendas[nbAgendaInArray++] = eventsOfCurrentAgenda;
+				}
+				else
+				{
+					hiddingAgendas = jQuery.grep(hiddingAgendas, function(agenda) {
+						return agenda != eventsOfCurrentAgenda;
+					});
+					nbAgendaInArray--;
+				}
+				$("."+eventsOfCurrentAgenda).toggleClass('show hide');
+				$(this).toggleClass('btn-class-actif btn-class').find('span').toggleClass('icons-stick-calendar-actif icons-stick-calendar');
+				$(this).find('p').toggle();
+            });
+
+            
+
+			// On repositionne correctement le datepicker de wdCalendar
+            var wdDatePicker = $('#BBIT_DP_CONTAINER');
+            wdDatePicker.appendTo('#dp-location');
+
+         	// Réajuste en permanence la hauteur du gridcontainer (le conteneur de wdCalendar)
+            setInterval(function() {
+            	$("#gridcontainer").height($("#dvwkcontaienr").height() + 12 * 42 - 10);
+            }, 
+            1000);
+        });
+        
+        function displayDate(datestr)
+        {
+			datestr = datestr.split(" ");
+			var optionalMonth = (datestr[0] == datestr[4]? "" : ' ' + datestr[0] + ' ');
+			var monthYearStr = datestr[4] + " ";
+			if (datestr[6])
+			{
+				monthYearStr += datestr[6];
+				optionalMonth += datestr[2] + ' ';
+			}
+			else
+			{
+				monthYearStr += datestr[2];
+			}
+			$(".week-calendar").html("du lundi " + datestr[1] + optionalMonth + " au dimanche " + datestr[5]);
+			$(".month-calendar").html(monthYearStr);
+        };
+
+        function updateDateRangeView(date) {
+			var p = $("#gridcontainer").gotoDate(date).BcalGetOp();
+			if (p && p.datestrshow) {
+				displayDate(p.datestrshow);
+            }
+            
+			return false;
+        };
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="container-calendar">
+        <div class="span3">
+            <div class="container-clock-hour">
+                {# ICI ROTATE IMAGE CADRAN SOLAIRE #}
+
+                <div class="content-clock-hour">
+                    <div class="clock-hour" style="-webkit-transform: rotate({{ sundial }}deg); -moz-transform: rotate({{ sundial }}deg); -ms-transform: rotate({{ sundial }}deg); -o-transform: rotate({{ sundial }}deg); transform: rotate({{ sundial }}deg);"></div>
+                {% if currentHour > 11 %}
+                    <img src="/medias/images/calendar/hours-12-23.png" alt="" class="sundial"/>
+                {% else %}
+                    <img src="/medias/images/calendar/hours-0-11.png" alt="" class="sundial"/>
+                {% endif %}
+                <div class="sundial" style="-webkit-transform: rotate({{ hoursdial }}deg); -moz-transform: rotate({{ hoursdial }}deg); -ms-transform: rotate({{ hoursdial }}deg); -o-transform: rotate({{ hoursdial }}deg); transform: rotate({{ hoursdial }}deg);"></div>
+                </div>
+            </div>
+            <div class="sidebar-calendar">
+                <div class="menu-calendar">
+					<div id="dp-location">
+						<div class="week-selector"></div>
+					</div>
+                    <div id="hdtxtshow" class="date-picker-position"></div>
+
+                    <h1>Mes calendriers</h1>
+                    <div class="shadow-sidebar"></div>
+
+					<div class="agenda-container">
+						{% for agenda in agendas %}
+							<button id="agenda-{{ agenda.getId() }}" class="{{ agenda.getColorClass }} btn-cal-filter btn btn-class-actif">
+                                <span class="icons-stick-calendar-actif"></span>
+                                <p>Calendrier de {{ agenda.getTitle() }} affiché</p>
+                                <p style="display: none;">Afficher le calendrier de {{ agenda.getTitle() }}</p>
+                            </button><br />
+						{% endfor %}
+					</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="span9 no-margin bns-calendar-front">
+
+            <div id="calhead" class="header-calendar">
+                <div class="cHead">
+            </div>
+
+                <div id="caltoolbar" class="ctoolbar content-calendar">
+                    <div id="faddbtn" class="fbutton">
+                </div>
+
+                <div id="sfnextbtn" title="Voir la semaine prochaine" class="fbutton">
+                    <span class="fnext btn-calendar-next cal-nav"><p>Voir la semaine prochaine</p></span>
+                </div>
+
+                <div id="sfprevbtn" title="Voir la semaine dernière"  class="fbutton">
+                    <span class="fprev btn-calendar-prev cal-nav"><p>Voir la semaine dernière</p></span>
+
+                </div>
+
+                <div class="title-calendar">
+                    <p class="week-calendar"></p>
+                    <p class="month-calendar"></p>
+                </div>
+
+                <div class="fshowdatep fbutton">
+                    <div>
+                        <span id="txtdatetimeshow" style="display: none;"></span>
+                    </div>
+                </div>
+
+                <div class="clear"></div>
+                </div>
+            </div>
+
+            <div class="calendar-bns">
+                <div id="dvCalMain" class="calmain printborder">
+                    <div id="gridcontainer" style="overflow-y: visible; min-height: 587px">
+                    </div>
+                </div>
+
+                <div class="t2 chromeColor">&nbsp;</div>
+                <div class="t1 chromeColor">&nbsp;</div>
+            </div>
+       </div>
+    </div>
+
+    {# Simulation d'un formulaire pour envoyer des données en méthode POST #}
+    <div class="hide">
+        <form action="#" method="POST" id="birthday_form">
+            <input type="hidden" id="birthday_title" name="title" />
+            <input type="hidden" id="birthday_description" name="description" />
+            <input type="hidden" id="birthday_date" name="date" />
+        </form>
+    </div>
+{% endblock %}

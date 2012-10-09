@@ -1,0 +1,395 @@
+<div class="section active">
+	Article
+	<span class="shadow-section"></span>
+</div>
+<div class="title-container remove-this-class-filters">
+	<div class="title active border-blue">Statut des articles <span class="square icon-arrow"></span></div>
+	<div class="content-title">
+		<div class="loader loader-h"></div>
+		<ul>
+			<li data-filter=""><div><span class="vertical-separator green"></span> <span>Articles publiés</span> <span class="select"></span></div></li>
+			<li data-filter=""><div><span class="vertical-separator purple"></span> <span>Articles programmés</span> <span class="select"></span></div></li>
+			<li data-filter=""><div><span class="vertical-separator orange"></span> <span>Articles à corriger</span> <span class="select checked"></div></span></li>
+			<li data-filter=""><div><span class="vertical-separator blue"></span> <span>Articles terminés</span> <span class="select"></span></div></li>
+			<li data-filter=""><div><span class="vertical-separator gray"></span> <span>Brouillons</span> <span class="select"></span></div></li>
+		</ul>
+	</div>
+</div>
+<div class="title-container remove-this-class-category">
+	<div class="title active border-light-blue">Catégories <span class="square icon-arrow"></span></div>
+	<div class="content-title">
+		<div class="form-title">
+			<div class="loader loader-h"></div>
+			<form action="" method="POST" onsubmit="return false;">
+				<div class="add-on category-icon" rel="tooltip" title="Ajouter une icône">
+					<span class="default"></span>
+				</div>
+				<div class="category-icons-list">
+					{# /!\ CHARGER LES ICÔNES DYNAMIQUEMENT DEPUIS UN DOSSIER, VOIR BlogBundle:BackController:getCategoryIconsAction() /!\ #}
+					<img class="applix" src="/medias/images/icons/categories/applix.png" alt="">
+					<img class="applixware" src="/medias/images/icons/categories/applixware.png" alt="">
+					<img class="bookcase" src="/medias/images/icons/categories/bookcase.png" alt="">
+					<img class="book_open" src="/medias/images/icons/categories/book_open.png" alt="">
+					<img class="chat" src="/medias/images/icons/categories/chat.png" alt="">
+					<img class="colors" src="/medias/images/icons/categories/colors.png" alt="">
+					<img class="color_fill" src="/medias/images/icons/categories/color_fill.png" alt="">
+					<img class="color_line" src="/medias/images/icons/categories/color_line.png" alt="">
+					<img class="cookie" src="/medias/images/icons/categories/cookie.png" alt="">
+					<img class="cut" src="/medias/images/icons/categories/cut.png" alt="">
+					<img class="edu_mathematics" src="/medias/images/icons/categories/edu_mathematics.png" alt="">
+					<img class="email" src="/medias/images/icons/categories/email.png" alt="">
+					<img class="font_bitmap" src="/medias/images/icons/categories/font_bitmap.png" alt="">
+					<img class="gettext" src="/medias/images/icons/categories/gettext.png" alt="">
+					<img class="gohome" src="/medias/images/icons/categories/gohome.png" alt="">
+					<img class="kaboodle" src="/medias/images/icons/categories/kaboodle.png" alt="">
+					<img class="kalarm" src="/medias/images/icons/categories/kalarm.png" alt="">
+					<img class="kbugbuster" src="/medias/images/icons/categories/kbugbuster.png" alt="">
+					<img class="kdmconfig" src="/medias/images/icons/categories/kdmconfig.png" alt="">
+					<img class="kfm_home" src="/medias/images/icons/categories/kfm_home.png" alt="">
+					<img class="klettres" src="/medias/images/icons/categories/klettres.png" alt="">
+					<img class="kmoon" src="/medias/images/icons/categories/kmoon.png" alt="">
+					<img class="knotes" src="/medias/images/icons/categories/knotes.png" alt="">
+					<img class="kpercentage" src="/medias/images/icons/categories/kpercentage.png" alt="">
+					<img class="kteatime" src="/medias/images/icons/categories/kteatime.png" alt="">
+					<img class="ktimer" src="/medias/images/icons/categories/ktimer.png" alt="">
+					<img class="kuser" src="/medias/images/icons/categories/kuser.png" alt="">
+					<img class="kweather" src="/medias/images/icons/categories/kweather.png" alt="">
+					<img class="package_edutainment" src="/medias/images/icons/categories/package_edutainment.png" alt="">
+					<img class="package_games_arcade" src="/medias/images/icons/categories/package_games_arcade.png" alt="">
+					<img class="package_games_board" src="/medias/images/icons/categories/package_games_board.png" alt="">
+					<img class="package_games_strategy" src="/medias/images/icons/categories/package_games_strategy.png" alt="">
+					<img class="package_graphics" src="/medias/images/icons/categories/package_graphics.png" alt="">
+					<img class="package_utilities" src="/medias/images/icons/categories/package_utilities.png" alt="">
+					<img class="playsound" src="/medias/images/icons/categories/playsound.png" alt="">
+					<img class="preferences-desktop-notification-bell" src="/medias/images/icons/categories/preferences-desktop-notification-bell.png" alt="">
+					<img class="services" src="/medias/images/icons/categories/services.png" alt="">
+					<img class="Soccer_Ball" src="/medias/images/icons/categories/Soccer_Ball.png" alt="">
+					<img class="sport_basketball" src="/medias/images/icons/categories/sport_basketball.png" alt="">
+					<img class="thumbn" src="/medias/images/icons/categories/thumbn.png" alt="">
+					<img class="viewmag" src="/medias/images/icons/categories/viewmag.png" alt="">
+					<img class="wizard" src="/medias/images/icons/categories/wizard.png" alt="">
+					<img class="www" src="/medias/images/icons/categories/www.png" alt="">
+					{# FIN CHARGEMENT DYNAMIQUE #}
+
+					<a href="#" class="default">Aucune icône</a>
+				</div>
+				<input type="text" size="16" class="add-category" placeholder="Nouvelle Catégorie">
+				<img src="{{ asset('/medias/images/icons/enter-key.png') }}" alt="" class="add-category-help" />
+				<input type="submit" class="btn btn-info" value="Ajouter">
+			</form>
+		</div>
+		<div class="content-category">
+			<ol class="load-sortable">
+				{# /!\ ATTENTION, BUG AVEC LE PLUGIN, NE PAS FERMER LA BALISE <LI> !! #}
+				<li id="list_15">
+				<div>
+					<span class="list-grip"></span>
+					<span class="icon-category sprite playsound" data-icon-class="default"></span>
+					<div>TEST</div>
+					<span class="select"></span>
+				</div>
+				<li id="list_14">
+				<div>
+					<span class="list-grip"></span>
+					<span class="icon-category sprite applixware" data-icon-class="smiley-cool"></span>
+					<div>Coucou</div>
+					<span class="select"></span>
+				</div>
+				<li id="list_11">
+				<div>
+					<span class="list-grip"></span>
+					<span class="icon-category sprite klettres" data-icon-class="default"></span>
+					<div>TEST</div>
+					<span class="select"></span>
+				</div>
+				<ol>
+					<li id="list_13">
+					<div>
+						<span class="list-grip"></span>
+						<div>Français</div>
+						<span class="select"></span>
+					</div>
+				</ol>
+				<li id="list_12">
+				<div>
+					<span class="list-grip"></span>
+					<div>Maths</div>
+					<span class="select"></span>
+				</div>
+			</ol>
+		</div>
+	</div>
+</div>
+<div class="title-container">
+	<div class="title border-blue">Elèves<span class="square icon-arrow"></span></div>
+</div>
+<div class="title-container">
+	<div class="title border-blue">Dates <span class="square icon-arrow"></span></div>
+</div>
+<div class="title-container remove-this-class-options">
+	<div class="title active border-blue">Options <span class="square icon-arrow"></span></div>
+	<div class="content-title">
+		<ul>
+			<li>
+				<a class="switchable off">
+					Modération des commentaires
+					<span class="btn-switch"></span>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="title-container">
+	<div class="title active border-blue">Statut des articles <span class="square icon-arrow"></span></div>
+	<div class="content-title">
+		<ul>
+			<li>
+				<a>
+					<img src="/medias/images/icons/valid_small.png?v2">
+					Commentaires publiés
+				</a>
+			</li>
+			<li>
+				<a>
+					<img src="/medias/images/icons/refused_small.png">
+					Commentaires refusés
+				</a>
+			</li>
+			<li>
+				<a>
+					<img src="/medias/images/icons/correction_small.png?v2">
+					Commentaires en modération
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="title-container">
+	<div class="content-title">
+		<div id="dp-location" class="datepicker-back">
+			<div id="hdtxtshow" class="date-picker-position bbit-dp-input" style=""></div>
+
+			<div id="BBIT_DP_CONTAINER" class="bbit-dp" style="width: 175px; z-index: 999; left: 0px; top: 0px; visibility: visible; position: relative; ">
+				<table class="dp-maintable" cellspacing="0" cellpadding="0" style="width:175px;">
+					<tbody>
+						<tr>
+							<td>
+								<table class="bbit-dp-top" cellspacing="0">
+									<tbody>
+										<tr>
+											<td class="bbit-dp-top-left"> <a id="BBIT_DP_LEFTBTN" href="javascript:void(0);" title="mois précédent">&nbsp;</a></td>
+											<td class="bbit-dp-top-center" align="center"><em><button id="BBIT_DP_YMBTN">Septembre 2012</button></em></td>
+											<td class="bbit-dp-top-right"><a id="BBIT_DP_RIGHTBTN" href="javascript:void(0);" title="mois suivant">&nbsp;</a></td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<table id="BBIT_DP_INNER" class="bbit-dp-inner" cellspacing="0">
+									<thead>
+										<tr>
+											<th class="monday"><span>Lun</span></th>
+											<th class="tuesday"><span>Mar</span></th>
+											<th class="wednesday"><span>Mer</span></th>
+											<th class="thursday"><span>Jeu</span></th>
+											<th class="friday"><span>Ven</span></th>
+											<th class="saturday"><span>Sam</span></th>
+											<th class="sunday"><span>Dim</span></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="monday bbit-dp-prevday bbit-dp-active dp-day-btn" title="8/27/2012" xdate="8/27/2012"><a href="javascript:void(0);"><em><span>27</span></em></a></td>
+											<td class="tuesday bbit-dp-prevday bbit-dp-active dp-day-btn" title="8/28/2012" xdate="8/28/2012"><a href="javascript:void(0);"><em><span>28</span></em></a></td>
+											<td class="wednesday bbit-dp-prevday bbit-dp-active dp-day-btn" title="8/29/2012" xdate="8/29/2012"><a href="javascript:void(0);"><em><span>29</span></em></a></td>
+											<td class="thursday bbit-dp-prevday bbit-dp-active dp-day-btn" title="8/30/2012" xdate="8/30/2012"><a href="javascript:void(0);"><em><span>30</span></em></a></td>
+											<td class="friday bbit-dp-prevday bbit-dp-active dp-day-btn" title="8/31/2012" xdate="8/31/2012"><a href="javascript:void(0);"><em><span>31</span></em></a></td>
+											<td class="saturday bbit-dp-active dp-day-btn" title="9/1/2012" xdate="9/1/2012"><a href="javascript:void(0);"><em><span>1</span></em></a></td>
+											<td class="sunday bbit-dp-active dp-day-btn" title="9/2/2012" xdate="9/2/2012"><a href="javascript:void(0);"><em><span>2</span></em></a></td>
+										</tr>
+										<tr>
+											<td class="monday bbit-dp-active dp-day-btn" title="9/3/2012" xdate="9/3/2012"><a href="javascript:void(0);"><em><span>3</span></em></a></td>
+											<td class="tuesday bbit-dp-active dp-day-btn" title="9/4/2012" xdate="9/4/2012"><a href="javascript:void(0);"><em><span>4</span></em></a></td>
+											<td class="wednesday bbit-dp-active dp-day-btn" title="9/5/2012" xdate="9/5/2012"><a href="javascript:void(0);"><em><span>5</span></em></a></td>
+											<td class="thursday bbit-dp-active dp-day-btn bbit-dp-today" title="9/6/2012" xdate="9/6/2012"><a href="javascript:void(0);"><em><span>6</span></em></a></td>
+											<td class="friday bbit-dp-active dp-day-btn" title="9/7/2012" xdate="9/7/2012"><a href="javascript:void(0);"><em><span>7</span></em></a></td>
+											<td class="saturday bbit-dp-active dp-day-btn" title="9/8/2012" xdate="9/8/2012"><a href="javascript:void(0);"><em><span>8</span></em></a></td>
+											<td class="sunday bbit-dp-active dp-day-btn" title="9/9/2012" xdate="9/9/2012"><a href="javascript:void(0);"><em><span>9</span></em></a></td>
+										</tr>
+										<tr>
+											<td class="monday bbit-dp-active dp-day-btn" title="9/10/2012" xdate="9/10/2012"><a href="javascript:void(0);"><em><span>10</span></em></a></td>
+											<td class="tuesday bbit-dp-active dp-day-btn" title="9/11/2012" xdate="9/11/2012"><a href="javascript:void(0);"><em><span>11</span></em></a></td>
+											<td class="wednesday bbit-dp-active dp-day-btn" title="9/12/2012" xdate="9/12/2012"><a href="javascript:void(0);"><em><span>12</span></em></a></td>
+											<td class="thursday bbit-dp-active dp-day-btn" title="9/13/2012" xdate="9/13/2012"><a href="javascript:void(0);"><em><span>13</span></em></a></td>
+											<td class="friday bbit-dp-active dp-day-btn" title="9/14/2012" xdate="9/14/2012"><a href="javascript:void(0);"><em><span>14</span></em></a></td>
+											<td class="saturday bbit-dp-active dp-day-btn" title="9/15/2012" xdate="9/15/2012"><a href="javascript:void(0);"><em><span>15</span></em></a></td>
+											<td class="sunday bbit-dp-active dp-day-btn" title="9/16/2012" xdate="9/16/2012"><a href="javascript:void(0);"><em><span>16</span></em></a></td>
+										</tr>
+										<tr>
+											<td class="monday bbit-dp-active dp-day-btn" title="9/17/2012" xdate="9/17/2012"><a href="javascript:void(0);"><em><span>17</span></em></a></td>
+											<td class="tuesday bbit-dp-active dp-day-btn" title="9/18/2012" xdate="9/18/2012"><a href="javascript:void(0);"><em><span>18</span></em></a></td>
+											<td class="wednesday bbit-dp-active dp-day-btn" title="9/19/2012" xdate="9/19/2012"><a href="javascript:void(0);"><em><span>19</span></em></a></td>
+											<td class="thursday bbit-dp-active dp-day-btn" title="9/20/2012" xdate="9/20/2012"><a href="javascript:void(0);"><em><span>20</span></em></a></td>
+											<td class="friday bbit-dp-active dp-day-btn" title="9/21/2012" xdate="9/21/2012"><a href="javascript:void(0);"><em><span>21</span></em></a></td>
+											<td class="saturday bbit-dp-active dp-day-btn" title="9/22/2012" xdate="9/22/2012"><a href="javascript:void(0);"><em><span>22</span></em></a></td>
+											<td class="sunday bbit-dp-active dp-day-btn" title="9/23/2012" xdate="9/23/2012"><a href="javascript:void(0);"><em><span>23</span></em></a></td>
+										</tr>
+										<tr>
+											<td class="monday bbit-dp-active dp-day-btn" title="9/24/2012" xdate="9/24/2012"><a href="javascript:void(0);"><em><span>24</span></em></a></td>
+											<td class="tuesday bbit-dp-active dp-day-btn" title="9/25/2012" xdate="9/25/2012"><a href="javascript:void(0);"><em><span>25</span></em></a></td>
+											<td class="wednesday bbit-dp-active dp-day-btn" title="9/26/2012" xdate="9/26/2012"><a href="javascript:void(0);"><em><span>26</span></em></a></td>
+											<td class="thursday bbit-dp-active dp-day-btn" title="9/27/2012" xdate="9/27/2012"><a href="javascript:void(0);"><em><span>27</span></em></a></td>
+											<td class="friday bbit-dp-active dp-day-btn" title="9/28/2012" xdate="9/28/2012"><a href="javascript:void(0);"><em><span>28</span></em></a></td>
+											<td class="saturday bbit-dp-active dp-day-btn" title="9/29/2012" xdate="9/29/2012"><a href="javascript:void(0);"><em><span>29</span></em></a></td>
+											<td class="sunday bbit-dp-active dp-day-btn" title="9/30/2012" xdate="9/30/2012"><a href="javascript:void(0);"><em><span>30</span></em></a></td>
+										</tr>
+										<tr>
+											<td class="monday bbit-dp-nextday bbit-dp-active dp-day-btn" title="10/1/2012" xdate="10/1/2012"><a href="javascript:void(0);"><em><span>1</span></em></a></td>
+											<td class="tuesday bbit-dp-nextday bbit-dp-active dp-day-btn" title="10/2/2012" xdate="10/2/2012"><a href="javascript:void(0);"><em><span>2</span></em></a></td>
+											<td class="wednesday bbit-dp-nextday bbit-dp-active dp-day-btn" title="10/3/2012" xdate="10/3/2012"><a href="javascript:void(0);"><em><span>3</span></em></a></td>
+											<td class="thursday bbit-dp-nextday bbit-dp-active dp-day-btn" title="10/4/2012" xdate="10/4/2012"><a href="javascript:void(0);"><em><span>4</span></em></a></td>
+											<td class="friday bbit-dp-nextday bbit-dp-active dp-day-btn" title="10/5/2012" xdate="10/5/2012"><a href="javascript:void(0);"><em><span>5</span></em></a></td>
+											<td class="saturday bbit-dp-nextday bbit-dp-active dp-day-btn" title="10/6/2012" xdate="10/6/2012"><a href="javascript:void(0);"><em><span>6</span></em></a></td>
+											<td class="sunday bbit-dp-nextday bbit-dp-active dp-day-btn" title="10/7/2012" xdate="10/7/2012"><a href="javascript:void(0);"><em><span>7</span></em></a></td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div id="BBIT-DP-MP" class="bbit-dp-mp" style="z-index: auto; display: none; ">
+					<table id="BBIT-DP-T" style="width: 175px; height: 174px; " border="0" cellspacing="0">
+						<tbody>
+							<tr>
+								<td class="bbit-dp-mp-month" xmonth="0"><a href="javascript:void(0);">Janvier</a></td>
+								<td class="bbit-dp-mp-month bbit-dp-mp-sep" xmonth="6"><a href="javascript:void(0);">Juillet</a></td>
+								<td class="bbit-dp-mp-ybtn" align="middle"><a id="BBIT-DP-MP-PREV" class="bbit-dp-mp-prev"></a></td>
+								<td class="bbit-dp-mp-ybtn" align="middle"><a id="BBIT-DP-MP-NEXT" class="bbit-dp-mp-next"></a></td>
+							</tr>
+							<tr>
+								<td class="bbit-dp-mp-month" xmonth="1"><a href="javascript:void(0);">Fevrier</a></td>
+								<td class="bbit-dp-mp-month bbit-dp-mp-sep" xmonth="7"><a href="javascript:void(0);">Août</a></td>
+								<td class="bbit-dp-mp-year"><a href="javascript:void(0);"></a></td><td class="bbit-dp-mp-year"><a href="javascript:void(0);"></a></td>
+							</tr>
+							<tr>
+								<td class="bbit-dp-mp-month" xmonth="2"><a href="javascript:void(0);">Mars</a></td>
+								<td class="bbit-dp-mp-month bbit-dp-mp-sep" xmonth="8"><a href="javascript:void(0);">Septembre</a></td>
+								<td class="bbit-dp-mp-year"><a href="javascript:void(0);"></a></td><td class="bbit-dp-mp-year"><a href="javascript:void(0);"></a></td>
+							</tr>
+							<tr>
+								<td class="bbit-dp-mp-month" xmonth="3"><a href="javascript:void(0);">Avril</a></td>
+								<td class="bbit-dp-mp-month bbit-dp-mp-sep" xmonth="9"><a href="javascript:void(0);">Octobre</a></td>
+								<td class="bbit-dp-mp-year"><a href="javascript:void(0);"></a></td>
+								<td class="bbit-dp-mp-year"><a href="javascript:void(0);"></a></td>
+							</tr>
+							<tr>
+								<td class="bbit-dp-mp-month" xmonth="4"><a href="javascript:void(0);">Mai</a></td>
+								<td class="bbit-dp-mp-month bbit-dp-mp-sep" xmonth="10"><a href="javascript:void(0);">Novembre</a></td>
+								<td class="bbit-dp-mp-year"><a href="javascript:void(0);"></a></td>
+								<td class="bbit-dp-mp-year"><a href="javascript:void(0);"></a></td>
+							</tr>
+							<tr>
+								<td class="bbit-dp-mp-month" xmonth="5"><a href="javascript:void(0);">Juin</a></td>
+								<td class="bbit-dp-mp-month bbit-dp-mp-sep" xmonth="11"><a href="javascript:void(0);">Décembre</a></td>
+								<td class="bbit-dp-mp-year"><a href="javascript:void(0);"></a></td>
+								<td class="bbit-dp-mp-year"><a href="javascript:void(0);"></a></td>
+							</tr>
+							<tr class="bbit-dp-mp-btns">
+								<td colspan="4">
+									<button id="BBIT-DP-MP-OKBTN" class="bbit-dp-mp-ok"> Ok </button>
+									<button id="BBIT-DP-MP-CANCELBTN" class="bbit-dp-mp-cancel">Annuler</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="title-container">
+	<div class="title active border-blue">Agendas <span class="square icon-arrow"></span></div>
+	<div class="content-title agenda-selector">
+		<ul>
+			<li class="text-row">
+				<div class="content-agenda your-class-here">
+					<a href="#"><img src="" alt="" /></a> {# DELETE THIS, ADDED BY JAVASCRIPT #}
+					<span class="color-img"></span>
+					<span class="agenda-title">Agenda numéro 1 </span>
+				</div>
+			</li>
+			<li class="text-row">
+				<div class="content-agenda your-class-here">
+					<a href="#"><img src="" alt="" /></a> {# DELETE THIS, ADDED BY JAVASCRIPT #}
+					<span class="color-img"></span>
+					<span class="agenda-title">Agenda numéro 2</span>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="title-container">
+	<div class="title active border-blue">Liste de choses <span class="square icon-arrow"></span></div>
+	<div class="content-title">
+		<ul>
+			<li class="text-row">
+				<div>Ceci est un exemple</div>
+			</li>
+			<li class="text-row">
+				<div>Cette celulle n'a pas de hover</div>
+			</li>
+			<li class="text-row">
+				<div>Ni ne change de curseur</div>
+			</li>
+			<li>
+				<a>Mais celle-ci, oui</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="container-section">
+	<div class="section">
+		<a href="#">Moderation</a>
+	</div>
+	<div class="section">
+		<a href="#">Personnalisation</a>
+	</div>
+</div>
+<div class="section active">
+	Activité
+	<span class="shadow-section"></span>
+</div>
+<div class="title-container">
+	<div class="content-title">
+		<ul>
+			<li>
+				<a>Lien non actif</a>
+			</li>
+			<li>
+				<a class="active">Lien actif</a>
+			</li>
+			<li>
+				<a>Autre lien non actif</a>
+			</li>
+			<li>
+				<a class="disabled">Lien désactivé</a>
+			</li>
+		</ul>
+	</div>
+		
+	{# NOT USED
+	<div class="active border-blue sub-category">
+		<a href="#" class="sub-category">Lien non actif</a></span>
+	</div>
+	<div class="active border-blue sub-category">
+		<a class="active" href="#" class="sub-category">Lien actif</a>
+	</div>
+	<div class="active border-blue sub-category">
+		<a href="#" class="sub-category">Autre lien non actif</a></span>
+	</div>
+	#}
+</div>
+<div class="sidebar-shadow"></div>

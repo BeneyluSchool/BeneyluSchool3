@@ -1,0 +1,15 @@
+<div class="span12">
+    <div class="blog-header">
+        <img src="{{ getResourceImageUrl(blog.getResource(), 'small') }}" alt="" width="150" />
+
+        <h1>{{ blog.getTitle() }}</h1>
+
+        <p>
+			{% autoescape false %}
+				{{ blog.getDescription() }}
+			{% endautoescape %}
+		</p>
+
+        <div class="shadow"></div>
+    </div>
+</div>

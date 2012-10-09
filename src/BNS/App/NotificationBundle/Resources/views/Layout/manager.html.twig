@@ -1,0 +1,115 @@
+{% extends '::base_manager.html.twig' %}
+
+{% block title %}
+	Gestion des notifications
+{% endblock %}
+	
+{% block css %}
+    {{ parent() }}
+
+	{# Appel CSS du package layout manager #}
+	{% include "BNSAppMainBundle:Manager:layoutStyle.html.twig" %}
+	<link href="{{ asset('/medias/css/notification/manager.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+	
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript">
+		$(function ()
+		{
+			$('.activable').click(function (e)
+			{
+				var $this = $(e.currentTarget);
+				
+				$this.addClass('disabled').attr('disabled', 'disabled');
+				
+				$.ajax({
+					url: $this.attr('href')
+				}).done(function (e)
+				{
+					if ($this.hasClass('desactivated')) {
+						$this.removeClass('desactivated');
+					}
+					else {
+						$this.addClass('desactivated');
+					}
+					
+					var groupId = $this.data('group-id'),
+						engine = $this.data('engine');
+						
+						// Feedback sur toutes les notifications
+						if ($this.hasClass('title')) {
+							if ($this.hasClass('desactivated')) {
+								$('#group-' + groupId + ' .activable.' + engine).addClass('desactivated');
+							}
+							else {
+								$('#group-' + groupId + ' .activable.' + engine).removeClass('desactivated');
+							}
+						}
+						// Feedback sur le titre
+						else {
+							var isDisabled = $this.hasClass('desactivated'),
+								needChange = true,
+								$title = $('#group-' + groupId + ' .activable.' + engine + '.title');
+								
+							if (isDisabled && !$title.hasClass('desactivated')) {
+								$.each($('#group-' + groupId + ' .activable.' + engine), function (i, item) {
+									if (i > 0) { // first is the title
+										if ($(item).hasClass('desactivated') && !isDisabled ||
+											!$(item).hasClass('desactivated') && isDisabled) {
+											needChange = false;
+										}
+									}
+								});
+							}
+							else if (!isDisabled && $title.hasClass('desactivated')) {
+								$title.removeClass('desactivated');
+							}
+							
+							if (needChange) {
+								if (isDisabled) {
+									$title.addClass('desactivated');
+								}
+								else {
+									$title.removeClass('desactivated');
+								}
+							}
+						}
+					
+					$this.removeClass('disabled').removeAttr('disabled');
+				});
+				
+				return false;
+			});
+		});
+	</script>
+{% endblock %}
+
+{% block body %}
+	<div class="office blur"></div>
+	{% block header %}{% endblock %}
+
+	<div class="container container-fluid">
+		<div class="row-fluid container-manager">
+			<div class="container-sidebar">
+				{% block sidebar %}
+					<div class="section active">
+						Notification
+						<span class="shadow-section"></span>
+					</div>
+				{% endblock sidebar %}
+				<div class="sidebar-shadow"></div>
+			</div>
+			<div class="span9 container-content no-margin">
+				{% block content %}Add your custom content here!{% endblock %}
+			</div>
+			<div class="container-manager-bottom">
+				<div class="content-manager-bottom"></div>
+			</div>
+		</div>
+	</div>
+{% endblock body %}
+
+{% block dock_bar %}
+	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "NOTIFICATION" , 'is_in_front' : false } %}
+{% endblock %}

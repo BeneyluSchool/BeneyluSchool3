@@ -1,0 +1,80 @@
+{% extends 'BNSAppResourceBundle:Back:layout.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript" src="{{ asset('/medias/js/jquery.ui.nestedSortable.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/fg.menu.js') }}"></script>
+	<script type="text/javascript">
+		function itemClicked(item){
+			$('#choice').show();
+			$('#add-label-submit').show();
+			$('#choice-label').text($(item).text());
+			$('#label_input_parent_id').val($(item).attr('id'));
+		}	
+    </script>
+{% endblock %}	
+
+{% block css %}
+	{{ parent() }}
+	<link type="text/css" href="{{ asset("medias/css/fg.menu.css") }}" media="screen" rel="stylesheet" />
+	<link type="text/css" href="{{ asset("medias/css/jquery-ui/ui.all.css") }}" media="screen" rel="stylesheet" />
+{% endblock %}
+
+{% block sidebar %}
+	{% include "BNSAppResourceBundle:Back:sidebar.html.twig" with {"page" : 'custom' , 'section' : 'labels', 'can_administrate': can_administrate }%}
+{% endblock %}
+
+{% block top_bar %}
+<div class="header-buttons">
+	<div class="inner-header">
+		<div class="container container-fluid">
+			<div class="row-fluid">
+				<div class="span9">
+					<a href="#" id="add-label-button" class="btn bns-info btn-24 large"><span class="icons-24 add-icon"></span>Ajouter un libellé</a>
+				</div>
+				<div class="span3 align-right">
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+	
+{% block content %}
+	<div class="content-resource-back">
+		<div class="news-title">
+			<h1 class="dashboard">Personnalisation</h1>
+		</div>
+
+		<form id="add-label-form" style="display:none" action="{{ path('BNSAppResourceBundle_label_add') }}" method="POST" style="margin: 0" id="add_label" onsubmit="return false;">
+			<input id="label_input_parent_id" type="hidden" />
+			
+			<div class="controls">
+				<div class="input-append personnalisation-libel">
+					<input id="label-input-label" class="span4" type="text" required="true" placeholder="Titre du nouveau libellé">
+					<button id="add-label-cancel" class="btn btn-danger" type="button" style="display:none;">Annuler</button>
+					<button id="add-label-submit" class="btn btn-success btn-access" type="button" style="display:none;">Valider</button>
+				</div>
+			</div>
+			<div class="input-append alert-resource">
+				<div id="choice" style="display:none;" class="alert alert-success span3">
+					<b>Destination :</b> <span id="choice-label"></span>
+				</div>
+			</div>
+			<div class="button-destination">
+				{% render "BNSAppResourceBundle:Label:choose" with{ 'show_destination': false} %}
+			</div>
+		</form>
+
+		<div id="user_{{app.user.getUser.getId}}_list">
+			{% render "BNSAppResourceBundle:Label:listEdit" with {'type' : "user", 'user' : app.user.getUser } %}
+		</div>
+		{% for group in manageable_groups %}
+			<div id="group_{{ group.getId }}_list">
+				{% render "BNSAppResourceBundle:Label:listEdit" with {'type' : "group", 'group' : group } %}
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+	<div class="container">
+		<div class="admin-spacer"></div>
+		
+		<div class="nav-buttons">
+			<a href="{{ path('BNSAppAdminBundle_group') }}" class="btn">{% trans %}GroupType.Add.button.back{% endtrans %}</a>
+		</div>
+		<h2>{% trans %}Ajouter un groupe{% endtrans %}</h2>
+		
+		<div class="row margint10">
+			<div class="span16">
+				<form action="{{ path('BNSAppAdminBundle_group_add') }}" method="post" {{ form_enctype(form) }}>
+					
+					{{ form_widget(form) }}
+					
+					<input type="submit" />
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}

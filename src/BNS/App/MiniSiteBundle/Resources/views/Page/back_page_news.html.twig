@@ -1,0 +1,115 @@
+{% extends 'BNSAppMiniSiteBundle:Layout:back_page_news.html.twig' %}
+
+
+{% block javascripts %}
+	{{ parent() }}
+	
+	<script type="text/javascript">
+		$(function ()
+		{
+			// Filtres statut
+			$('.news-status-filters li').click(function (e)
+			{
+				$this = $(e.currentTarget).find('.select');
+				if ($this.hasClass('unchecked')) {
+					$this.removeClass('unchecked');
+					$this.addClass('checked');
+					$this.attr('src', $('.news-status-filters .template .checked').attr('src'));
+				}
+				else {
+					$this.removeClass('checked');
+					$this.addClass('unchecked');
+					$this.attr('src', $('.news-status-filters .template .unchecked').attr('src'));
+				}
+
+				var id = $(e.currentTarget).attr('id').split('-');
+					id = id[2];
+
+				$('.page-news-container .layer').addClass('show');
+				$.ajax(
+				{
+					url: '{{ path('minisite_manager_page_list', {'slug': page.getSlug()}) }}',
+					type: 'POST',
+					dataType: 'html',
+					data: {'is_enabled': $this.hasClass('checked'), 'filter': id},
+					success: function (data)
+					{
+						$('.page-news-container .layer').removeClass('show');
+						$('.page-news-container .page-news-list').html(data);
+					}
+				});
+
+				return false;
+			});
+			
+			{% if has_right('MINISITE_ADMINISTRATION') %}
+				/* NEWS DELETE MODAL */
+				$('.actions-bar .delete').live('click', function(e)
+				{
+					var $this = $(e.currentTarget);
+
+					$this.addClass('disabled').attr('disabled', 'disabled');
+					$.ajax({
+						url: $this.attr('href'),
+						success: function (data)
+						{
+							var $modal = $(data);
+							$('body').prepend($modal);
+
+							$modal.modal('show').on('hidden', function ()
+							{
+								$(this).remove();
+							});
+							$this.removeClass('disabled').removeAttr('disabled');
+						}
+					});
+
+					return false;
+				});
+
+				/* NEWS DELETE CONFIRM */
+				$('#minisite_delete_modal .modal-footer .delete-process').live('click', function (e)
+				{
+					var $this = $(this);
+					$this.addClass('disabled').attr('disabled', 'disabled');
+
+					$.ajax({
+						url: $this.attr('href'),
+						success: function (data)
+						{
+							var newsId = $('#minisite_delete_modal .modal-body').data('object');
+							$('#news-' + newsId).slideUp('slow', function ()
+							{
+								$(this).remove();
+							});
+
+							$('#minisite_delete_modal').modal('hide');
+						}
+					});
+
+					return false;
+				});
+			{% endif %}
+		});
+	</script>
+{% endblock %}
+
+{% block header %}
+	<div class="content-add-btn agenda">
+		<a class="btn btn-info btn-new-article" href="{{ path('minisite_manager_page_news_new', {'slug': page.getSlug()}) }}"><span class="icon-add-article blog"></span>{% trans %}MiniSite.Back.HeaderButtons.AddNews{% endtrans %}</a>
+	</div>
+{% endblock header %}
+
+{% block content %}
+	<div class="page-news-container">
+		<div class="layer">
+			<div class="message">
+				{% trans %}MiniSite.Back.General.LoadingProcess{% endtrans %}
+				<div><img src="{{ asset('/medias/images/icons/big-loader.gif') }}" alt="" /></div>
+			</div>
+		</div>
+		<div class="page-news-list">
+			{% render 'BNSAppMiniSiteBundle:BackPageNews:getPageNews' with {'slug': page.getSlug(), 'miniSite': minisite} %}
+		</div>
+	</div>
+{% endblock content %}

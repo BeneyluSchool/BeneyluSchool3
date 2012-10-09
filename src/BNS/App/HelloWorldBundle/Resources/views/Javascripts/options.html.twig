@@ -1,0 +1,31 @@
+<div class="arrow_box javascript-tooltip javascript-options">
+	<div class="close">&times;</div>
+	<p>Fonction pour activer/désactiver le bouton.</p>
+	
+	<textarea>$(function ()
+{
+	$('.your-class-here a').click(function (e)
+	{
+		var $this = $(e.currentTarget);
+		if ($this.hasClass('loading')) {
+			return false;
+		}
+
+		$this.addClass('loading');
+
+		$.ajax({
+			url: 'your url here',
+			type: 'POST or GET',
+			dataType: 'json or html',
+			data: {'state': !$this.hasClass('off')}, // futur état, d'où la négation
+			success: function (data)
+			{
+				// Process your data object & callbacks success
+			}
+		}).done(function ()
+		{
+			$this.removeClass('loading');
+		});
+	});
+});</textarea>
+</div>

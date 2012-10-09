@@ -1,0 +1,12 @@
+<div class="messages messaging-container-conversation {% if status == "DELETED" %} conversation-deleted{% endif %} {% if status == "NONE_READ"%} unread{% endif %}" data-conversation-id="{{ conversation.id }}">
+	<img src="{{ avatar(conversation.message.user, 'thumbnail') }}" />
+	<p class="subject">{{ conversation.message.subject }}</p>
+	<p class="date">Reçu {{ date_from_now(conversation.message.createdAt.getTimestamp,false,true) }} de <a href="#">{{ conversation.message.user.fullName }}</a></p>
+	<p class="message">
+		{% autoescape %}
+			{{ conversation.message.extract|raw }}
+		{% endautoescape  %}
+	</p>
+	<button class="btn read-mail messaging-container-conversation {% if status == "DELETED" %}conversation-deleted{% endif %}" data-conversation-id="{{ conversation.id }}">Lire le message</button>
+	<div class="clearfix"></div>
+</div>

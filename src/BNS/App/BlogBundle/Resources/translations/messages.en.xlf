@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+			<!-- GENERAL -->
+            <trans-unit id="1">
+                <source>Blog.General.Loading</source>
+                <target>Loading...</target>
+            </trans-unit>
+			<trans-unit id="2">
+                <source>Blog.General.Add</source>
+                <target>Add</target>
+            </trans-unit>
+			<trans-unit id="3">
+                <source>Blog.General.Del</source>
+                <target>Del.</target>
+            </trans-unit>
+			<trans-unit id="4">
+                <source>Blog.General.Edit</source>
+                <target>Edit</target>
+            </trans-unit>
+			<trans-unit id="5">
+                <source>Blog.General.Cancel</source>
+                <target>Cancel</target>
+            </trans-unit>
+			<trans-unit id="6">
+                <source>Blog.General.Warning</source>
+                <target>Warning</target>
+            </trans-unit>
+			
+			
+			<!-- SIDEBAR -->
+			<!-- index_manager.html -->
+			<trans-unit id="100">
+                <source>Blog.Back.Sidebar.Articles</source>
+                <target>Articles</target>
+            </trans-unit>
+			<trans-unit id="101">
+                <source>Blog.Back.Sidebar.Comments</source>
+                <target>Comments</target>
+            </trans-unit>
+			<trans-unit id="102">
+                <source>Blog.Back.Sidebar.Customing</source>
+                <target>Customisation</target>
+            </trans-unit>
+			
+			<!-- back_block_categories.html -->
+			<trans-unit id="103">
+                <source>Blog.Back.Sidebar.Tooltip.AddIcon</source>
+                <target>Add an icon</target>
+            </trans-unit>
+			<trans-unit id="104">
+                <source>Blog.Back.Sidebar.NewCategory</source>
+                <target>New Category</target>
+            </trans-unit>
+			<trans-unit id="105">
+                <source>Blog.Back.Sidebar.Categories</source>
+                <target>Categories</target>
+            </trans-unit>
+			
+			<!-- back_block_dates.html -->
+			<trans-unit id="106">
+                <source>Blog.Back.Sidebar.Dates</source>
+                <target>Dates</target>
+            </trans-unit>
+			
+			<!-- back_block_filters.html -->
+			<trans-unit id="107">
+                <source>Blog.Back.Sidebar.ArticlesStatus</source>
+                <target>Articles statuses</target>
+            </trans-unit>
+			<trans-unit id="108">
+                <source>Blog.Back.Sidebar.PublishedArticles</source>
+                <target>Published articles</target>
+            </trans-unit>
+			<trans-unit id="109">
+                <source>Blog.Back.Sidebar.ProgrammedArticles</source>
+                <target>Programmed articles</target>
+            </trans-unit>
+			<trans-unit id="110">
+                <source>Blog.Back.Sidebar.CorrectionArticles</source>
+                <target>Articles to be corrected</target>
+            </trans-unit>
+			<trans-unit id="111">
+                <source>Blog.Back.Sidebar.FinishedArticles</source>
+                <target>Finished articles</target>
+            </trans-unit>
+			<trans-unit id="112">
+                <source>Blog.Back.Sidebar.DraftArticles</source>
+                <target>Drafts</target>
+            </trans-unit>
+			
+			<!-- back_block_status.html -->
+			<trans-unit id="113">
+                <source>Blog.Back.Sidebar.ArticleStatus</source>
+                <target>Article status</target>
+            </trans-unit>
+			<trans-unit id="114">
+                <source>Blog.Back.Sidebar.DraftArticle</source>
+                <target>Draft</target>
+            </trans-unit>
+			<trans-unit id="115">
+                <source>Blog.Back.Sidebar.FinishedArticle</source>
+                <target>Finished</target>
+            </trans-unit>
+			<trans-unit id="116">
+                <source>Blog.Back.Sidebar.PublishedArticle</source>
+                <target>Published</target>
+            </trans-unit>
+			<trans-unit id="117">
+                <source>Blog.Back.Sidebar.CorrectionArticle</source>
+                <target>Article to be corrected</target>
+            </trans-unit>
+			<trans-unit id="118">
+                <source>Blog.Back.Sidebar.ProgrammedArticle</source>
+                <target>Programmed publication</target>
+            </trans-unit>
+			
+			<!-- back_block_students.html -->
+			<trans-unit id="119">
+                <source>Blog.Back.Sidebar.Students</source>
+                <target>Pupils</target>
+            </trans-unit>
+			
+			<!-- front_block_archives.html -->
+			<trans-unit id="120">
+                <source>Blog.Front.Sidebar.Archives</source>
+                <target>Archives</target>
+            </trans-unit>
+			
+			<!-- front_block_categories.html -->
+			<trans-unit id="121">
+                <source>Blog.Back.Sidebar.AllCategories</source>
+                <target>All categories</target>
+            </trans-unit>
+			
+			<!-- front_block_partners.html -->
+			<!-- front_block_students.html -->
+			
+			<!-- back_block_categories_row.html -->
+			<trans-unit id="122">
+                <source>Blog.Back.Sidebar.DeleteCategoryWarningMessage</source>
+                <target>Deleting this category will also remove its subcategories!</target>
+            </trans-unit>
+			
+			
+			<!-- CONTENT -->
+			<!-- index_manager.html -->
+			<trans-unit id="200">
+                <source>Blog.Back.ArticleLoading</source>
+                <target>Loading articles, please wait...</target>
+            </trans-unit>
+			
+			<!-- back_article_list.html -->
+			<trans-unit id="201">
+                <source>Blog.Back.NoArticleWasFound</source>
+                <target>No article was found.</target>
+            </trans-unit>
+			<trans-unit id="202">
+                <source>Blog.Back.Comment</source>
+                <target>Comment</target>
+            </trans-unit>
+			<trans-unit id="203">
+                <source>Blog.Back.WroteAtBy</source>
+                <target>Written on %date% by</target>
+            </trans-unit>
+			
+			<!-- back_article_form.html -->
+			<trans-unit id="204">
+                <source>Blog.Back.AutosaveFeedback</source>
+                <target>the content of the article has been automatically saved in the drafts.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

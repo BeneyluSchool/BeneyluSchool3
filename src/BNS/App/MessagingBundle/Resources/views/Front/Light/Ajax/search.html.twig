@@ -1,0 +1,29 @@
+{% if results is null %}
+	{% include 'BNSAppMessagingBundle:Front/Light:block_title.html.twig' with {'title': "Pas de résultat"} %}
+	<div class="messaging-no-overflow">
+		<div class="container-message">
+			<div class="content-message">
+				<div class="messages">
+					<p class="message no-message">
+						Le champ de recherche est vide.
+					</p>
+					<div class="clearfix"></div>
+				</div>	
+			</div>
+		</div>
+	</div>
+{% else %}
+	{% if results.count == 0 %}
+		{% include 'BNSAppMessagingBundle:Front/Light:block_title.html.twig' with {'title': "Pas de résultat"} %}
+	{% elseif results.count == 1 %}
+		{% include 'BNSAppMessagingBundle:Front/Light:block_title.html.twig' with {'title': "1 résultat"} %}
+	{% else %}
+		{% set title = results.count ~ " résultats" %}
+	{% endif %}
+
+
+	{% if results.count > 0 %}
+		{% include 'BNSAppMessagingBundle:Front/Light:block_conversations_list.html.twig' with {'conversations': results.messages,'status': "SEARCH"} %} 
+		{% include 'BNSAppMessagingBundle:Front/Light:block_paginate.html.twig' with {'limit': paginate_limit, 'total': results.count, 'currentPage': page } %} 
+	{% endif %}
+{% endif %}

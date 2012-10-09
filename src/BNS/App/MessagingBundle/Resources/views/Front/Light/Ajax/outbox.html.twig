@@ -1,0 +1,19 @@
+{% for message in messages %}
+	{% if loop.first == true %}
+		{% include 'BNSAppMessagingBundle:Front/Light:block_title.html.twig' with {'title': "Messages envoyés"} %}
+			<div class="messaging-no-overflow">
+				<div class="container-message">
+					<div class="content-message">
+	{% endif %}
+	{% include 'BNSAppMessagingBundle:Front/Light:block_message_sent.html.twig' with {'message': message } %}
+	{% if loop.last == true %}
+				</div>
+			</div>
+		</div>
+		
+	{% endif %}
+{% else %}
+	{% include 'BNSAppMessagingBundle:Front/Light:block_title.html.twig' with {'title': "Pas de message envoyé"} %}
+	{% include 'BNSAppMessagingBundle:Front/Light:block_no_message.html.twig' with {'type' : 'sent'} %}
+{% endfor %}
+{% include 'BNSAppMessagingBundle:Front/Light:block_paginate.html.twig' with {'limit': paginate_limit, 'total': nb_sent_messages, 'currentPage': page } %} 

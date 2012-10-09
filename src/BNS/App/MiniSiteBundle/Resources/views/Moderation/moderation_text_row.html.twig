@@ -1,0 +1,19 @@
+<div class="page-news">
+	<div class="news-informations">
+        <div class="news-title">
+            <span class="title">{% trans %}MiniSite.Back.General.Page{% endtrans %} : {{ text.getMiniSitePage().getTitle() }}</span>
+        </div>
+        <div class="news-author">
+            <p>{{ date_from_now(text.getCreatedAt()) }} <a href="#"><img src="{{ avatar(text.getAuthor(), 'thumbnail') }}" alt="" width="16" /> {{ text.getAuthor().getFullName() }}</a></p>
+        </div>
+		{% include 'BNSAppMiniSiteBundle:ActionBar:back_text_action_bar_admin.html.twig' %}
+	</div>
+	<div class="clearfix"></div>
+	<div class="news-content">
+		<p>
+			{% autoescape false %}
+				{{ text.getDraftContent() }}
+			{% endautoescape %}
+		</p>
+	</div>
+</div>

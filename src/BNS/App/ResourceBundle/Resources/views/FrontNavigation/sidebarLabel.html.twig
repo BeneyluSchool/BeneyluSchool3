@@ -1,0 +1,46 @@
+
+	{# current - on affiche de base #}
+	{% if node.getId == current_label.getId and current_label.getType == node.getType %}
+		{% set show = true %}
+		{% set show_children = true %}
+        {% set a_class = 'active' %}
+        {% set li_class = 'active' %}
+		
+	{# ancetres - on affiche de base #}
+
+	{% elseif node.getId in selection_ids and current_label.getType == node.getType %}
+		{% set show = true %}
+		{% set show_children = false %}  
+        {% set a_class = '' %}
+        {% set li_class = '' %}
+
+    {# enfants de current #}
+	{% else %}
+
+		{% set show_children = false %}
+        {% set a_class = 'open' %}
+        {% set ul_class = 'lag' %}
+		{% set li_class = '' %}
+
+	{% endif %}
+		
+		
+	<li class="nav nav-tabs nav-stacked resource-nav-tab current {{ li_class }} {% if show == false %}resource-nav-hidden" style="display:none;" {% else %}resource-nav-shown" {% endif %}>
+		<a href="#" id="{{ node.getType }}-{{ node.id}}" class="resource-nav {{ a_class }}">
+			<span class="resources"></span>
+            <span class="file {{ a_class }}"></span>
+            {{ node.label }}
+		</a>
+	</li>
+
+	
+
+	{% for child in node.getChildren %}
+		{% if loop.first %}
+			<ul id="{{ node.getId }}-children" class="children lag">
+		{% endif %}
+			{% include 'BNSAppResourceBundle:FrontNavigation:sidebarLabel.html.twig' with {'node' : child , 'current_label' : current_label , 'selection_ids' : selection_ids , 'show' : show_children} %}
+		{% if loop.last %}
+			</ul>
+		{% endif %}
+	{% endfor %}

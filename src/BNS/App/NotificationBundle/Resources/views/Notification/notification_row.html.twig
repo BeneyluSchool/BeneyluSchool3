@@ -1,0 +1,5 @@
+<li>
+	<p class="notification">{% autoescape false %}{{ notification.trans('SYSTEM').content }}{% endautoescape %}</p>
+	<p class="date">{{ date_from_now(notification.getDate()) }}</p>
+	<div class="border-list"></div>
+</li>

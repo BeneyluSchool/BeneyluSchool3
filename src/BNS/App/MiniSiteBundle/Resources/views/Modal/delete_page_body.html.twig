@@ -1,0 +1,7 @@
+<div class="modal-body" data-object="{{ page.getId() }}">
+	{% if page.getType() == 'TEXT' %}
+		{% trans %}MiniSite.Back.Modal.PageBodyText{% endtrans %}
+	{% else %}
+		{% trans %}MiniSite.Back.Modal.PageBodyNews{% endtrans %}
+	{% endif %}
+</div>

@@ -1,0 +1,60 @@
+{% extends 'BNSAppAdminBundle:Home:layout.html.twig' %}
+
+{% block content %}
+
+	{% include "BNSAppAdminBundle:Group:menu.html.twig" with{'page' : 'rules'} %}
+	
+	{% render "BNSAppAdminBundle:Rule:manage" with {'groupId': group.id } %}
+
+	
+	<h3>Règles en place</h3>
+
+	<table class="table table-bordered">
+		<tr>
+			<th>Id</th>
+			<th>Qui ?</th>
+			<th>Rang</th>
+			<th>Etat</th>
+			<th>Type de groupe cible</th>
+			<th>Pour les membres</th>
+			<th>Supprimer</th>
+		</tr>
+		{% for rule in rules %}
+			<tr>
+				<td>
+					{{rule.id }}
+				</td>
+				<td>
+					{{ruleDatas.group[rule.who_group_id].label }}
+				</td>
+				<td>
+					{{rule.rank_unique_name }}
+				</td>
+				<td>
+					{% include "BNSAppAdminBundle:Group:ruleToggle.html.twig" with{'rule' : rule} %}
+				</td>
+				<td>
+					{% if rule.rule_where.group_type_id is defined %}
+						{{ ruleDatas.group_type[rule.rule_where.group_type_id].type }}
+					{% else %}
+						- Lui même -
+					{% endif %}
+				</td>
+				<td>
+					{% if rule.rule_where.belongs is defined %}
+						<img src="{{ asset('/medias/images/icons/btn-green.png') }}" />
+					{% else %}
+						<img src="{{ asset('/medias/images/icons/btn-red.png') }}" />
+					{% endif %}
+				</td>
+				<td>
+					<a href="{{ path('BNSAppAdminBundle_group_rule_delete',{"id": rule.id, 'groupSlug' : group.slug})}}"  onclick="return confirm('Êtes vous sûr ?')">
+						<img src="{{ asset('/medias/images/icons/btn-NOK.png') }}" />
+					</a>
+				</td>
+			</tr>
+		{% endfor %}
+	</table>
+	
+{% endblock %}
+{# {{ group_manager.printRuleAttribute(rule.rule_where) }} #}

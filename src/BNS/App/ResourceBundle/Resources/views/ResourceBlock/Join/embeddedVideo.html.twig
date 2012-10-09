@@ -1,0 +1,19 @@
+{% extends 'BNSAppResourceBundle:ResourceBlock:embeddedVideo.html.twig' %}
+
+{% block content %}
+	<img id="" class="" src="{{ getResourceImageUrl(resource,"thumbnail") }}" />
+	<p><span>{{ resource.label }}</span> - {{ resource.printType }}</p>
+	{% if resource.description %}
+		<p>{{resource.description }}</p>
+	{% endif %}	
+		
+	<a href="#" class="btn resource-attachment-embedded-video-launcher btn-joined">Voir la vidéo</a>
+	<a href="#" class="btn resource-attachment-embedded-video-hidder btn-joined" style="display:none;">Cacher la vidéo</a>
+		
+	<div class="resource-attachment-embedded-video" style="display:none;">
+		{% block player %}
+			{{ parent() }}
+		{%endblock%}
+	</div>
+	
+{% endblock %}

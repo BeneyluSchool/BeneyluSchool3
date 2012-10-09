@@ -1,0 +1,8 @@
+{% include 'BNSAppMessagingBundle:Front/Light:block_title.html.twig' with {'title': "Message envoyé" } %}
+<div class="messaging-no-overflow">
+	<div id="messaging-message-content" data-messaging-message-id="{{ message.id }}" class="container-message">
+		<div class="content-message">
+			{% include 'BNSAppMessagingBundle:Front/Light:block_message_row.html.twig' with {'message': message } %}
+		</div>
+	</div>
+</div>

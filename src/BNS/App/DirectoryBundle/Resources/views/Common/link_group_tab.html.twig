@@ -1,0 +1,12 @@
+{% if group != null %}
+	<li class="{% if is_default_group %} active default-group{% endif %}{% if context != 'default' %} hide{% endif %}"
+		{% if group.hasSubgroup() %} data-switch-context="{{ group.getSlug() }}"{% endif %} data-context="{{ context }}">
+		<a href="#{{ group.getSlug() }}-tab">
+			<img src="{{ asset(group_type_icon(group)) }}" alt="" /> <span>{{ group.getLabel() }}</span>
+		</a>
+	</li>
+
+	{% if group.hasSubgroup() %}
+		{% include 'BNSAppDirectoryBundle:Common:link_group_tab_list.html.twig' with {'groups': group.getSubgroups(), 'context': group.getSlug()} %}
+	{% endif %}
+{% endif %}

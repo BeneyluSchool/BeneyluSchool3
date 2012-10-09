@@ -1,0 +1,96 @@
+<input type="hidden" name="{{ name_for_form }}" id="{{ input_id }}" />
+
+{% autoescape false %}
+{{ modal(modal_id, {
+	'title': '',
+	'body_template': {'template': 'BNSAppDirectoryBundle:UserPicker:loading_modal_body.html.twig' },
+	'header_template': {'template': 'BNSAppDirectoryBundle:Common:modal_header_footer.html.twig' },
+	'footer_template': {'template': 'BNSAppDirectoryBundle:Common:modal_header_footer.html.twig' },
+	'type': 'info directory-modal',
+}) }}
+{% endautoescape %}
+
+<script type="text/javascript">
+	$(document).ready(function()
+	{
+		$('#{{ element_activate_modal_id }}').live('click',function(e)
+		{
+			e.preventDefault();
+			LoadModal();
+		});
+		
+		$('#{{ modal_id }}-add-selected-user').live('click', function(e)
+		{
+			e.preventDefault();
+			var $userIds = new Array();
+			$(this).parent().parent().find('.selected-user-container').find('.user-block').each(function()
+			{
+				$userIds.push($(this).attr('data-user-id'));
+			});
+			
+			$('#{{ input_id }}').val($userIds).trigger('change');
+			{% if auto_close_modal is defined and auto_close_modal %}
+				$('#{{ modal_id }}').modal('hide');
+			{% else %}
+				$(this).parent().find('img.loading').show();
+			{% endif %}
+		});
+		
+		{% if auto_load_and_hide is defined and auto_load_and_hide %}
+			
+			LoadModal();
+			$('#{{ modal_id }}').modal('hide');
+			
+		{% endif %}
+	});
+	
+	function LoadModal(){
+		$('#{{ modal_id }}').modal({
+			backdrop: false
+		});
+		{% if only_one_load is defined and only_one_load == false %}
+			$('div#{{ modal_id }} div.loading-container').show();
+			$('div#{{ modal_id }} div.directory-container').html('');
+		{% endif %}
+
+		if ($.trim($('div#{{ modal_id }} div.directory-container').html()) == '') {
+			$('div.loading-container').show();
+			$('div.directory-container').hide();
+			$.ajax({
+				url: Routing.generate('display_userpicker'),
+				type: 'POST',
+				data: {
+					modal_id: '{{ modal_id }}',
+					group_ids: {% if group_ids is defined %} {% autoescape false %} {{ group_ids|json_encode() }} {% endautoescape %} {% else %}[]{% endif %}
+					{% if group_target_slug is defined %}
+						, group_target_slug: '{{ group_target_slug }}'
+					{% endif %}
+					{% if group_types_filter is defined %}
+						, group_types_filter: {% autoescape false %} {{ group_types_filter|json_encode() }} {% endautoescape %}
+					{% endif %}
+					{% if roles_filter is defined %}
+						, roles_filter: {% autoescape false %} {{ roles_filter|json_encode() }} {% endautoescape %}
+					{% endif %}
+					{% if module is defined %}
+						, module: '{{ module }}'
+					{% endif %}
+				},
+				dataType: 'html',
+				success: function(data)
+				{
+					$('div#{{ modal_id }} div.loading-container').hide();
+					$('div#{{ modal_id }} div.directory-container').html(data).show();
+					{% if auto_load_and_hide is defined and auto_load_and_hide %}
+						$("#{{ modal_id }}").trigger('modalLoaded');
+					{% endif %}
+					var realHeight = $(window).height() - 150 + 'px';
+					$('#{{ modal_id }}').css('height',realHeight).css('min-height',realHeight).css('max-height',realHeight);
+				}
+			});
+		}
+		else {
+			$('img.loading').hide();
+		}
+	}
+	
+</script>

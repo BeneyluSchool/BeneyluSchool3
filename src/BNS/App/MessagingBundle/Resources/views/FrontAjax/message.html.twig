@@ -1,0 +1,54 @@
+{% if email != false %}
+<script type="text/javascript" src="{{ asset('/medias/js/messaging/Front/mailSelected.js') }}"></script>	
+<div class="container-message">
+    <div class="content-message">
+        <div class="messages received">
+            <div class="header-message" id="{{ email.header.id.msgId }}">
+                <img src="/medias/images/messaging/avatar-message.png" alt="" />
+                <p class="subject">{{ email.header.subject }}</p>
+                <p class="date">Reçu {{ email.header.date | date_bns('full', 'none') }} de <a href="#" class="from">{{ email.header.from | raw }}</a></p>
+            </div>
+            <div class="copy">
+                {% for to in toEmails %}
+                    {% if to != '' %}
+                        <p><img src="/medias/images/messaging/small-avatar-messaging.png" alt="" />{{ to | raw }}</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="clearfix"></div>
+            <div class="message-received">
+                <p class="message">{{ email.message | raw }}</p>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+       
+        {% if email.header.id.folder == 'SF_DRAFT' %}<button id="{{ email.header.id.msgId }}" class="btn write-new-msg add-user edit-draft">Editer le brouillon</button>{% endif %}
+            <div class="content-attachment">       
+            {% if att != false %}
+                {% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': att.getResourceAttachments(), 'editable': false} %} 
+            {% endif %}
+            {% if email.attachment != false %}
+            
+                <h3>Pièces-jointes à télécharger</h3>
+                {% for attachment in email.attachment %}
+                <div class="attachment">
+                    <div class="shadow-attachment-top"></div>
+                    <div class="shadow-attachment-bottom"></div>
+                    {#<img src="/medias/images/messaging/attachment.png" alt="" />#}
+                    <p class="subject">{{ attachment.attachmentName }}</p>
+                    <form>
+                        <input type="hidden" name="url" value="{{ attachment.attachmentLink }}" />
+                        <input type="hidden" name="name" value="{{ attachment.attachmentName }}" />
+                        <input type="hidden" class="msgId" name="msgId" value="{{ email.header.id.msgId }}" />
+                        <input type="hidden" class="folder" name="folder" value="{{ email.header.id.folder }}" />
+                    </form>
+                    <button class="btn write-new-msg add-user get-attachment">Récupérer la pièce jointe</button>
+                    <div class="clearfix"></div>
+                </div>
+                {% endfor %}
+           
+        {% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}

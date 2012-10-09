@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+			<!-- Traduction pour l'extension Twig DateFromNow -->
+            <trans-unit id="1">
+                <source>twig-extension.date-from-now.since</source>
+                <target>Since</target>
+            </trans-unit>
+			<trans-unit id="2">
+                <source>twig-extension.date-from-now.seconde</source>
+                <target>quelques secondes</target>
+            </trans-unit>
+			<trans-unit id="3">
+                <source>twig-extension.date-from-now.minute</source>
+                <target>[0,10[ quelques minutes|[10,60[ %count% minutes</target>
+            </trans-unit>
+			<trans-unit id="4">
+                <source>twig-extension.date-from-now.hour</source>
+                <target>{1} %count% hour|]1, 24[ %count% hours</target>
+            </trans-unit>
+			<trans-unit id="5">
+                <source>twig-extension.date-from-now.day</source>
+                <target>{1} %count% day|]1,30] %count% days</target>
+            </trans-unit>
+			<trans-unit id="6">
+                <source>twig-extension.date-from-now.week</source>
+                <target>{1} %count% week|]1,5[ %count% weeks</target>
+            </trans-unit>
+			<trans-unit id="7">
+                <source>twig-extension.date-from-now.month</source>
+                <target>{1} %month|[1,12] %count% months</target>
+            </trans-unit>
+			<trans-unit id="8">
+                <source>twig-extension.date-from-now.year</source>
+                <target>{1} %count% year|]1,100] %count% years</target>
+            </trans-unit>
+			<trans-unit id="9">
+                <source>twig-extension.date-from-now.today</source>
+                <target>Today, at</target>
+            </trans-unit>
+			<trans-unit id="10">
+                <source>twig-extension.date-from-now.yesterday</source>
+                <target>Yesterday, at</target>
+            </trans-unit>
+			<trans-unit id="11">
+                <source>twig-extension.date-from-now.at</source>
+                <target>at</target>
+            </trans-unit>
+			<trans-unit id="12">
+                <source>twig-extension.date-from-now.on</source>
+                <target>On</target>
+            </trans-unit>
+
+			<!-- Traductions DATE -->
+			<trans-unit id="50">
+                <source>January</source>
+                <target>January</target>
+            </trans-unit>
+			<trans-unit id="51">
+                <source>Febuary</source>
+                <target>Febuary</target>
+            </trans-unit>
+			<trans-unit id="52">
+                <source>March</source>
+                <target>March</target>
+            </trans-unit>
+			<trans-unit id="53">
+                <source>April</source>
+                <target>April</target>
+            </trans-unit>
+			<trans-unit id="54">
+                <source>May</source>
+                <target>May</target>
+            </trans-unit>
+			<trans-unit id="55">
+                <source>June</source>
+                <target>June</target>
+            </trans-unit>
+			<trans-unit id="56">
+                <source>July</source>
+                <target>July</target>
+            </trans-unit>
+			<trans-unit id="57">
+                <source>August</source>
+                <target>August</target>
+            </trans-unit>
+			<trans-unit id="58">
+                <source>September</source>
+                <target>September</target>
+            </trans-unit>
+			<trans-unit id="59">
+                <source>October</source>
+                <target>October</target>
+            </trans-unit>
+			<trans-unit id="60">
+                <source>November</source>
+                <target>November</target>
+            </trans-unit>
+			<trans-unit id="61">
+                <source>December</source>
+                <target>December</target>
+            </trans-unit>
+			<trans-unit id="62">
+                <source>Monday</source>
+                <target>Monday</target>
+            </trans-unit>
+			<trans-unit id="63">
+                <source>Tuesday</source>
+                <target>Tuesday</target>
+            </trans-unit>
+			<trans-unit id="64">
+                <source>Wednesday</source>
+                <target>Wednesday</target>
+            </trans-unit>
+			<trans-unit id="65">
+                <source>Thursday</source>
+                <target>Thursday</target>
+            </trans-unit>
+			<trans-unit id="66">
+                <source>Friday</source>
+                <target>Friday</target>
+            </trans-unit>
+			<trans-unit id="67">
+                <source>Saturday</source>
+                <target>Saturday</target>
+            </trans-unit>
+			<trans-unit id="68">
+                <source>Sunday</source>
+                <target>Sunday</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -1,0 +1,19 @@
+<script type="text/javascript" src="{{ asset('/medias/js/messaging/Back/mailSelect.js') }}"></script>	
+
+<!-- For each des messages retourné par le controller --> 
+{% if moderatedMessages == false %}
+    Il n'y a aucun email a modérer
+{% else %}
+    {%if page > 1 %}<a href="#" class="previous-page">Page précedente</a>{%endif%} <span id="currentPage">{{ page }}</span> / <span id="nbPages">{{ nbPages }}</span> {%if nbPages > page %}<a href="#" class="next-page">Page suivante</a>{% endif %}    
+{% endif %}
+{% for email in moderatedMessages %}
+    <div class="messages">
+        <img src="/medias/images/messaging/avatar-message.png" alt="" />
+        <p class="subject">{{ email.mailSubject | raw }}</p>
+        <p class="date">De <a href="#">{{ email.user.username | raw }}</a></p>
+        <button id="{{ email.id }}" class="btn read-mail">Modérer le message</button>
+        <div class="clearfix"></div>
+    </div>
+{% endfor %}
+            
+

@@ -1,0 +1,3 @@
+{% for group in groups %}
+	{% include 'BNSAppDirectoryBundle:Common:group_tab.html.twig' with {'group': group, 'is_default_group':false} %}
+{% endfor %}

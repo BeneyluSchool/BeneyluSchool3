@@ -1,0 +1,283 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>TopBar.link.home</source>
+                <target>Accueil</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>TopBar.link.user</source>
+                <target>Les utilisateurs</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>TopBar.link.group</source>
+                <target>Les groupes</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>TopBar.link.group.type</source>
+                <target>Les types de groupes</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>TopBar.msg.welcome</source>
+                <target>Bienvenue</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>TopBar.msg.logout</source>
+                <target>Me déconnecter</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>TopBar.lang.fr</source>
+                <target>Français</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>TopBar.lang.en</source>
+                <target>Anglais</target>
+            </trans-unit>
+
+            
+            <trans-unit id="51">
+                <source>Home.subtitle.user</source>
+                <target>Les utilisateurs</target>
+            </trans-unit>                       
+            <trans-unit id="52">
+                <source>Home.subtitle.group</source>
+                <target>Les groupes</target>
+            </trans-unit>                       
+            <trans-unit id="53">
+                <source>Home.subtitle.group.type</source>
+                <target>Les types de groupe</target>
+            </trans-unit>                       
+            <trans-unit id="54">
+                <source>Home.description.user</source>
+                <target>Visualisez et modifiez les informations des utilisateurs de la Beneylu School</target>
+            </trans-unit>                       
+            <trans-unit id="55">
+                <source>Home.description.group</source>
+                <target>Visualisez et modifiez les informations des groupes de la Beneylu School</target>
+            </trans-unit>                       
+            <trans-unit id="56">
+                <source>Home.description.group.type</source>
+                <target>Visualisez et modifiez les informations des types de groupe de la Beneylu School</target>
+            </trans-unit>                       
+            <trans-unit id="57">
+                <source>Home.button.access</source>
+                <target>Accéder</target>
+            </trans-unit>                       
+
+
+            <trans-unit id="101">
+                <source>User.Index.column.id</source>
+                <target>Identifiant</target>
+            </trans-unit>
+            <trans-unit id="102">
+                <source>User.Index.column.first.name</source>
+                <target>Prénom</target>
+            </trans-unit>
+            <trans-unit id="103">
+                <source>User.Index.column.last.name</source>
+                <target>Nom</target>
+            </trans-unit>
+            <trans-unit id="104">
+                <source>User.Index.column.email</source>
+                <target>E-mail</target>
+            </trans-unit>
+            <trans-unit id="105">
+                <source>User.Index.column.action</source>
+                <target>Actions</target>
+            </trans-unit>
+
+
+            <trans-unit id="151">
+                <source>User.Detail.title</source>
+                <target>Profil utilisateur</target>
+            </trans-unit>
+            <trans-unit id="152">
+                <source>User.Detail.attr.id</source>
+                <target>Identifiant</target>
+            </trans-unit>
+            <trans-unit id="153">
+                <source>User.Detail.attr.first.name</source>
+                <target>Prénom</target>
+            </trans-unit>
+            <trans-unit id="154">
+                <source>User.Detail.attr.last.name</source>
+                <target>Nom</target>
+            </trans-unit>
+            <trans-unit id="155">
+                <source>User.Detail.attr.birthday</source>
+                <target>Date de naissance</target>
+            </trans-unit>
+            <trans-unit id="156">
+                <source>User.Detail.attr.email</source>
+                <target>E-mail</target>
+            </trans-unit>
+            <trans-unit id="157">
+                <source>User.Detail.attr.lang</source>
+                <target>Langue</target>
+            </trans-unit>
+            <trans-unit id="158">
+                <source>User.Detail.button.back</source>
+                <target>Retour à la liste</target>
+            </trans-unit>
+            <trans-unit id="159">
+                <source>User.Detail.button.edit</source>
+                <target>Editer le profil</target>
+            </trans-unit>
+
+
+            <trans-unit id="201">
+                <source>User.Edit.title</source>
+                <target>Edition du profil utilisateur</target>
+            </trans-unit>
+            <trans-unit id="202">
+                <source>User.Edit.attr.id</source>
+                <target>Identifiant</target>
+            </trans-unit>
+            <trans-unit id="203">
+                <source>User.Edit.attr.first.name</source>
+                <target>Prénom</target>
+            </trans-unit>
+            <trans-unit id="204">
+                <source>User.Edit.attr.last.name</source>
+                <target>Nom</target>
+            </trans-unit>
+            <trans-unit id="205">
+                <source>User.Edit.attr.email</source>
+                <target>E-mail</target>
+            </trans-unit>
+            <trans-unit id="206">
+                <source>User.Edit.attr.lang</source>
+                <target>Langue</target>
+            </trans-unit>
+            <trans-unit id="207">
+                <source>User.Edit.button.back</source>
+                <target>Retour au profil</target>
+            </trans-unit>
+            <trans-unit id="208">
+                <source>User.Edit.button.back.list</source>
+                <target>Retour à la liste</target>
+            </trans-unit>
+            <trans-unit id="209">
+                <source>User.Edit.button.submit</source>
+                <target>Valider</target>
+            </trans-unit>
+
+
+            <trans-unit id="251">
+                <source>Group.Index.column.name</source>
+                <target>Nom du groupe</target>
+            </trans-unit>
+            <trans-unit id="252">
+                <source>Group.Index.column.type</source>
+                <target>Type</target>
+            </trans-unit>
+            <trans-unit id="253">
+                <source>Group.Index.column.action</source>
+                <target>Actions</target>
+            </trans-unit>
+
+
+            <trans-unit id="301">
+                <source>Group.Detail.attr.name</source>
+                <target>Nom du groupe</target>
+            </trans-unit>
+            <trans-unit id="302">
+                <source>Group.Detail.attr.group.type</source>
+                <target>Type du groupe</target>
+            </trans-unit>
+            <trans-unit id="303">
+                <source>Group.Detail.attr.group.data</source>
+                <target>Les données du groupe</target>
+            </trans-unit>
+            <trans-unit id="304">
+                <source>Group.Detail.button.back</source>
+                <target>Retour à la liste</target>
+            </trans-unit>
+
+
+            <trans-unit id="351">
+                <source>GroupType.Index.column.name</source>
+                <target>Nom</target>
+            </trans-unit>
+            <trans-unit id="352">
+                <source>GroupType.Index.column.description</source>
+                <target>Description</target>
+            </trans-unit>
+            <trans-unit id="353">
+                <source>GroupType.Index.column.action</source>
+                <target>Actions</target>
+            </trans-unit>
+            <trans-unit id="354">
+                <source>GroupType.Index.button.add</source>
+                <target>Ajouter un type de groupe</target>
+            </trans-unit>
+            <trans-unit id="355">
+                <source>GroupType.Index.flash.delete.successful</source>
+                <target>La suppression du type de groupe s'est correctement déroulé</target>
+            </trans-unit>
+
+
+            <trans-unit id="401">
+                <source>GroupType.Detail.attr.name</source>
+                <target>Nom du type de groupe</target>
+            </trans-unit>
+            <trans-unit id="402">
+                <source>GroupType.Detail.attr.attributes</source>
+                <target>Les attributs du type de groupe</target>
+            </trans-unit>
+            <trans-unit id="403">
+                <source>GroupType.Detail.attr.centralize</source>
+                <target>Centralisé</target>
+            </trans-unit>
+            <trans-unit id="404">
+                <source>GroupType.Detail.button.back</source>
+                <target>Retour à la liste</target>
+            </trans-unit>
+            <trans-unit id="405">
+                <source>GroupType.Detail.button.delete</source>
+                <target>Supprimer</target>
+            </trans-unit>
+            <trans-unit id="406">
+                <source>GroupType.Detail.button.delete.data</source>
+                <target>Supprimer la donnée</target>
+            </trans-unit>
+            <trans-unit id="407">
+                <source>GroupType.Detail.button.modify.data</source>
+                <target>Modifier ce jeu de données</target>
+            </trans-unit>            
+
+
+            <trans-unit id="451">
+                <source>GroupType.Add.title</source>
+                <target>Ajouter un type de groupe</target>
+            </trans-unit>            
+            <trans-unit id="452">
+                <source>GroupType.Add.button.back</source>
+                <target>Retour à la liste</target>
+            </trans-unit>            
+            <trans-unit id="453">
+                <source>GroupType.Add.button.cancel</source>
+                <target>Annuler</target>
+            </trans-unit>            
+            <trans-unit id="454">
+                <source>GroupType.Add.button.create</source>
+                <target>Créer</target>
+            </trans-unit>            
+            <trans-unit id="455">
+                <source>GroupType.Add.attr.centralize</source>
+                <target>Est centralisé</target>
+            </trans-unit>            
+            <trans-unit id="456">
+                <source>GroupType.Add.attr.lang</source>
+                <target>Langue</target>
+            </trans-unit>            
+
+
+            <trans-unit id="501">
+                <source>ModuleBlock.title</source>
+                <target>Les modules</target>
+            </trans-unit>
+		</body>
+	</file>
+</xliff>

@@ -1,0 +1,33 @@
+<div class="row-fluid header">
+	<div class="title pull-left">
+		Mes contacts
+	</div>
+	<div class="pull-right">
+		 <a type="button" class="close close-button" data-dismiss="modal"></a>
+	</div>
+	<div class="user-filter-form pull-right">
+		<input type="text" class="search-input" placeholder="Rechercher..." /> <button class="btn btn-warning filter-user"><span class="icons-search"></span> Rechercher</button>
+	</div>	
+</div>
+
+<div class="row-fluid directory-content" id="directory-content">
+	<div class="side span3 sidebar">
+		<ul>
+			{% include 'BNSAppDirectoryBundle:Common:link_group_tab.html.twig' with {'group': current_group, 'is_default_group': true, 'context': 'default'} %}
+		</ul>
+		<ul>
+			{% include 'BNSAppDirectoryBundle:Common:link_group_tab_list.html.twig' with {'groups': groups, 'is_default_group': true, 'context': 'default'} %}
+		</ul>
+	</div>
+	<div class="side span9 main pull-left">
+		{% include 'BNSAppDirectoryBundle:Common:group_tab.html.twig' with {'group': current_group, 'is_default_group': true} %}
+
+		{% include 'BNSAppDirectoryBundle:Common:group_tab_list.html.twig' with {'groups': groups} %}
+	</div>
+</div>
+
+<script type="text/javascript" src="{{ asset('/medias/js/directory/directory.js') }}"></script>
+
+{#<div class="offset-block"></div>
+<span class="label label-inverse hide reset-filter">Réinitialisation des filtres</span>
+{% include 'BNSAppDirectoryBundle:Common:group_context_label_list.html.twig' with {'groups': groups} %}#}

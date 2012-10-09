@@ -1,0 +1,78 @@
+<div class="tab-pane {% if is_default_group %}active default-group{% endif %}">
+	{% if is_userpicker %}
+		<div class="title-block">
+			<h2 class="selection">Ma sélection</h2>
+			<div class="border-blue"></div>
+		</div>
+		<div class="row-fluid content-user-selected">
+			<a href="#" id="{{ modal_id }}-add-selected-user" class="btn bns-success validate-medium btn-24 medium add-selected-user pull-right"><span class="icons-24 validate-icon"></span><strong>Enregistrer</strong></a>	
+			<img src="{{ asset('/medias/images/icons/small-loader.gif') }}" class="loading hide" />
+			<div class="selected-user-container">
+				{% if group_target is defined and group_target != null%}
+					{% for subgroup_role in group_target.getSubgroupsRoleWithUsers() %}
+						{% if subgroup_role.getUsers()|length > 0 %}
+							{% for user in subgroup_role.getUsers() %}
+								{% include 'BNSAppDirectoryBundle:Common:user_block.html.twig' with {'user': user, 'is_userpicker': is_userpicker} %}
+							{% endfor %}
+						{% endif %}
+					{% endfor %}
+				{% else %}
+					<p class="no-selection">{% if is_child() %}Tu n'as pas encore choisi de destinataire.{% else %}Vous n'avez pas encore choisi de destinataire.{% endif %}</p>
+				{% endif %}
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	{% endif %}
+	{% if has_right_somewhere('MESSAGING_SEND_CHILD') and module is defined and module == "MESSAGING" %}
+		{% set children = app.user.children %}
+		{% if children|length > 0 %}
+			<div class="title-block">
+				{% if children|length == 1 %}
+					<h2>Mon enfant</h2>
+				{% else %}
+					<h2>Mes enfants</h2>
+				{% endif %}
+				<div class="border-blue"></div>
+			</div>
+			{% for user in children %}
+				{% include 'BNSAppDirectoryBundle:Common:user_block.html.twig' with {'user': user, 'is_userpicker': is_userpicker} %}
+			{% endfor %}
+			<div class="clearfix"></div>						
+		{% endif %}
+	{% endif %}
+			
+	{% if has_right_somewhere('MESSAGING_SEND_PARENT') and module is defined and module  == "MESSAGING" %}
+		{% set parents = app.user.parents %}
+		{% if parents|length > 0 %}
+			<div class="title-block">
+				<h2>Mes parents</h2>
+				<div class="border-blue"></div>
+			</div>
+			{% for user in parents %}
+				{% include 'BNSAppDirectoryBundle:Common:user_block.html.twig' with {'user': user, 'is_userpicker': is_userpicker} %}
+			{% endfor %}
+			<div class="clearfix"></div>						
+		{% endif %}
+	{% endif %}		
+			
+			
+	{% if group is defined and group != null %}
+		{% for subgroup_role in group.getSubgroupsRoleWithUsers() %}
+			{% if subgroup_role.getUsers()|length > 0 %}
+				<div class="title-block">
+					<h2>{{ subgroup_role.getGroupType().getLabel() }} </h2>
+					<div class="border-blue"></div>
+				</div>
+				{% for user in subgroup_role.getUsers() %}
+					{% include 'BNSAppDirectoryBundle:Common:user_block.html.twig' with {'user': user, 'is_userpicker': is_userpicker} %}
+				{% endfor %}
+				<div class="clearfix"></div>
+			{% endif %}
+		{% endfor %}
+	{% endif %}
+</div>
+{% if group is defined and group != null %}
+	{% if group.hasSubgroup() %}
+		{% include 'BNSAppDirectoryBundle:Common:group_tab_list.html.twig' with {'groups': group.getSubgroups()} %}
+	{% endif %}
+{% endif %}

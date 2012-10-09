@@ -1,0 +1,7 @@
+<span 
+	id="{{ role.id }}-{{ groupId }}-{{ module.getUniqueName() }}" 
+	data-module-unique-name="{{ module.getUniqueName() }}" 
+	data-role-id="{{ role.id }}"
+	data-group-id="{{ groupId }}"
+	class="btn-change-module-state{% if module in moduleStates[role.id] %} active {% endif %}">
+</span>

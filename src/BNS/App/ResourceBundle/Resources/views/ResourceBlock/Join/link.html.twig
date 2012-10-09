@@ -1,0 +1,16 @@
+{% extends 'BNSAppResourceBundle:ResourceBlock:file.html.twig' %}
+
+{% block content %}
+	<img id="" class="" src="{{ getResourceImageUrl(resource,"thumbnail") }}" />
+	<p>
+		<span>{{ resource.label }}</span> - {{ resource.printType }}
+	</p>
+	<p>
+		<span>
+			Adresse : <a href="{{ resource.value }}" target="_blank" >{{ resource.value }}</a>
+		</span>
+	</p>
+	{% if resource.description %}
+		<p>{{resource.description }}</p>
+	{% endif %}
+{% endblock %}

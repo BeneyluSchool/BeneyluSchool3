@@ -1,0 +1,11 @@
+<h2>Thèmes</h2>
+<hr />
+
+<input type="hidden" name="selected_template_css_class" id="selected-template" value="{{ user_current_template.getCssClass() }}" />
+{% for template in templates %}
+	{% include 'BNSAppTemplateBundle:ThemePicker:theme_block.html.twig' with {
+		'template_css_class': template.getCssClass(), 
+		'user_current_template_css_class': user_current_template.getCssClass()
+	} %}
+{% endfor %}
+	

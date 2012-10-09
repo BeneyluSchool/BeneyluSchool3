@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+			<!-- EMAIL Engine -->
+            <trans-unit id="1">
+                <source>HELLO_WORLD_EXAMPLE_WITHOUT_ATTRIBUTE.EMAIL.title</source>
+                <target>Exemple de notification sans attribut</target>
+            </trans-unit>
+			<trans-unit id="2">
+                <source>HELLO_WORLD_EXAMPLE_WITHOUT_ATTRIBUTE.EMAIL.content</source>
+                <target>Un simple exemple de notification via e-mail sans attribut à traduire.</target>
+            </trans-unit>
+			
+			<!-- SYSTEM Engine -->
+			<trans-unit id="100">
+                <source>HELLO_WORLD_EXAMPLE_WITHOUT_ATTRIBUTE.SYSTEM.content</source>
+                <target>Un simple exemple de notification sans attribut à traduire.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

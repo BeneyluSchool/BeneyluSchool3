@@ -1,0 +1,57 @@
+<div class="header-resource-edit">
+    <form id="resource-edit-form" action="{{ path('BNSAppResourceBundle_front_navigation_content_resource_edit' , { 'resource_id': resource.getId }) }}" method="post" enctype="multipart/form-data">
+		{{ form_errors(form) }}
+		{{ form_widget(form.label) }}
+		{{ form_row(form.id) }}
+		<div class="description-edit">
+			<p>
+				<img src="{{ getFileTypeImageUrl(resource,"tiny") }}" />
+				<span class="title">
+					{{ resource.printType }}
+				</span>déposé{{ resource.gender == "f" ? "e" : "" }} par <span>{{ resource.getUser.getFullName }}</span>
+			</p>
+			<p class="right">
+				Dernière modification : le {{ resource.getUpdatedAt| date_bns('full', 'none') }} à {{ resource.getUpdatedAt| date_bns('none', 'short') }}
+			</p>
+		</div>
+		<div class="container-image-edit">
+			<img class="span3" src="{{ getResourceImageUrl(resource,'medium')}}" />
+
+			<div class="content-image-edit">
+				<p>Description :</p>
+				{{ form_widget(form.description, { 'attr': {'class': 'container-description-edit','placeholder': "Vous pouvez saisir une description" } }) }}
+			</div>
+
+			<div class="content-libel edit">
+				<p>Libellés</p>
+				<div class="libel">
+					{% render "BNSAppResourceBundle:Label:choose" %}
+					<div class="labels-list">
+						{% include 'BNSAppResourceBundle:FrontNavigation:contentResourceEditLabels.html.twig' with {"resource" : resource } %}
+					</div>
+				</div>
+				<button id="resource-edit-save" class="btn btn-warning">Enregistrer</button>
+			</div>
+	</form>
+</div>    {#fermeture container-image-edit#}
+<script type="text/javascript">
+	$('#resource-edit-form').ajaxForm({
+		target: '#resource-current'
+	});
+	function itemClicked(item)
+	{  
+		var params = $(item).attr('id').split('_');
+		var type = params[0];
+		var object_id = params[1];
+		var label_id = params[2];
+		
+		$.post(
+			Routing.generate('BNSAppResourceBundle_front_navigation_content_resource_add_label', {}),
+			{ 'resource_id' : $('#resource_id').val() , 'label_id' : label_id, 'type': type },
+			function complete(data)
+			{					
+				$(".labels-list").html(data);
+			}
+		);
+	}
+</script>

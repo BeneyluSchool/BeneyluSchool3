@@ -1,0 +1,31 @@
+<div class="row-fluid notice-message">
+{% if app.session.hasFlash('notice') %}
+	<div class="alert alert-info span6">
+		<strong>Ok !</strong> {% trans with {'%notice%': app.session.flash('notice')} from "app" %}%notice%{% endtrans %}
+	</div>
+{% endif %}
+
+{% if app.session.hasFlash('notice_success_msg_only') %}
+    <div class="alert alert-success span6">
+            {% trans with {'%notice%': app.session.flash('notice_success_msg_only')} %}%notice%{% endtrans %}
+    </div>
+{% endif %}   
+        
+{% if app.session.hasFlash('notice_success') %}
+	<div class="alert alert-success span6">
+		<strong>Bien joué !</strong> {% trans with {'%notice%': app.session.flash('notice_success')} %}%notice%{% endtrans %}
+	</div>
+{% endif %}
+
+{% if app.session.hasFlash('notice_error') %}
+	<div class="alert alert-error span6">
+		<strong>Mince !</strong> {% trans with {'%notice%': app.session.flash('notice_error')} %}%notice%{% endtrans %}
+	</div>
+{% endif %}
+
+{% if app.session.hasFlash('notice_warning') %}
+	<div class="alert alert span6">
+		<strong>Attention !</strong> {% trans with {'%notice%': app.session.flash('notice_warning')} %}%notice%{% endtrans %}
+	</div>
+{% endif %}
+</div>

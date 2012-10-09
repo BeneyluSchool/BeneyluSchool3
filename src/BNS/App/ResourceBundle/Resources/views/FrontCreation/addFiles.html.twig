@@ -1,0 +1,101 @@
+{% extends 'BNSAppResourceBundle:Front:layout.html.twig' %}
+
+{% block css %}
+	{{ parent() }}
+	<link rel="stylesheet" type='text/css' href="{{ asset('/medias/css/resource/fileupload/jquery.fileupload-ui.css') }}" />
+	<link type="text/css" href="{{ asset("medias/css/jquery-ui/ui.all.css") }}" media="screen" rel="stylesheet" />
+{% endblock %}	
+
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript" src="{{ asset('/medias/js/resource/fileupload/jquery.postmessage-transport.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/resource/fileupload/jquery.xdr-transport.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/resource/fileupload/tmpl.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/resource/fileupload/load-image.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/resource/fileupload/canvas-to-blob.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/resource/fileupload/jquery.iframe-transport.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/resource/fileupload/jquery.fileupload.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/resource/fileupload/jquery.fileupload-fp.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/resource/fileupload/jquery.fileupload-ui.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/resource/fileupload/locale.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/resource/fileupload/custom.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/resource/fileupload/main.js') }}"></script>
+	<script type="text/javascript">    	
+		//Appelé au click dans le choix de l'arborescence
+		function itemClicked(item)
+		{ 
+			$('.destination-choice').show();
+			$('#chosen-choice').text($(item).text());
+			$('.destination-choice').attr('id',$(item).attr('id'));
+			checkLoadButton();
+		}
+		
+	</script>
+	
+{% endblock %}
+
+{% block content %}
+<div class="span12">
+    <div class="resource-content add">
+        <div class="resource-content-left">
+            <div class="resource-content-left-top"></div>
+        </div>
+        <div class="content-upload-background">
+            <div class="content-upload main-content">
+
+                <form id="fileupload" action="{{ path('BNSAppResourceBundle_add_files_submit') }}" method="POST" enctype="multipart/form-data">
+
+                    <div class="resource-add-choose-title fileupload-buttonbar">
+
+                        <div class="fileinput-button btn btn-large add-file-button">
+                            <span>Ajouter des fichiers</span>
+                            <input id="upload-button" type="file" name="files[]" multiple>
+                        </div>
+
+                        {% render "BNSAppResourceBundle:Label:choose" %}
+
+                        <a id="load-button" type="submit" class="step-3 btn btn-large btn-success start load-button" style="display:none;">
+                            <span>Charger les fichiers</span>
+                        </a>
+						
+						<a id="load-button-disabled" class="step-3 btn btn-large disabled btn-success load-button">
+                            <span>Charger les fichiers</span>
+                        </a>
+
+                    </div>
+
+                    <table class="uploaded-files"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
+
+                </form>
+                
+				<div id="informations" class="upload-completed span6" style="">
+                    <div class="background-confirmation">
+                        <h3>Envoi de fichier</h3>
+						<p>Vous pouvez envoyer des fichiers depuis votre ordinateur en cliquant sur "Ajouter des fichiers"</p>
+                    </div>
+                </div>
+
+                <div id="upload-completed" class="upload-completed span7" style="display:none">
+                    <div class="background-confirmation">
+                        <h3>Les envois sont terminés.</h3>
+                        <a id="completed-continue" class="btn btn-large add"><span class="add"></span>Ajouter d'autres fichiers</a>
+                        <a id="completed-return" href="{{path('BNSAppResourceBundle_home') }}" class="btn btn-large cancel-upload confirmation">Voir dans la médiathèque</a>
+                    </div>
+                </div>
+
+
+                <div class="fileupload-loading"></div>
+            </div>
+            <div class="resource-content-right add-choose-right">
+                <div class="resource-content-right-top"></div>
+            </div>
+        </div>
+    </div>
+</div>
+	{% include 'BNSAppResourceBundle:FrontCreation:uploadingFileBlock.html.twig' %}
+	{% include 'BNSAppResourceBundle:FrontCreation:downloadingFileBlock.html.twig' %}
+{% endblock %}
+
+{% block tool_bar %}
+	{% render "BNSAppResourceBundle:Front:toolbar" with {'page' : "add-files"} %}
+{% endblock %}

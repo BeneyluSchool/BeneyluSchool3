@@ -7,13 +7,8 @@ vendor/*
 */cache/*
 web/uploads/*
 web/bundles/*
-web/js/base_*
-web/css/base_*
-web/js/*/*_*
-
-#Donnees d'import
-src/BNS/App/FixtureBundle/Resources/data/Migration/*
-src/BNS/App/FixtureBundle/Resources/logs/*
+web/css/*
+web/js/*
 
 # BNS resources
 /app/data/resources/*
@@ -22,8 +17,7 @@ src/BNS/App/FixtureBundle/Resources/logs/*
 # Configuration files
 app/config/parameters.ini
 # Secret files
-app/config/secret_prod.yml
-app/config/secret_test.yml
+app/config/parameters_test.yml
 app/config/parameters_prod.yml
 
 # Windows Commands
@@ -71,11 +65,19 @@ nbproject/*
 .buildpath
 
 # Propel generated files
-app/propel
+app/propel/sql
 /src/BNS/App/*Bundle/Model/map
 /src/BNS/App/*Bundle/Model/om
-/src/BNS/Central/*Bundle/Model/map
-/src/BNS/Central/*Bundle/Model/om
+/app/data/temp/
+
+#Commandes perso
+rjs
+ass
 
 # GIT
 *.orig
+.elasticbeanstalk/
+/web/app_dev.php
+/web/auth_dev.php
+/web/app_test.php
+/web/auth_test.php

@@ -7,7 +7,7 @@ $(function(){
 		var id = $(this).parent().parent().attr('id').split('_')[1];
 		$this.addClass('loading');
 		$.post(
-			Routing.generate('BNSAppGpsBundle_back_category_toggle_activation', {}),
+			Routing.generate('BNSAppGPSBundle_back_category_toggle_activation', {}),
 			{'category_id': id}, 
 			function complete(returnedId)
 			{
@@ -31,7 +31,7 @@ $(function(){
 		showLayer();		
 		
 		$.ajax({
-			url: Routing.generate('BNSAppGpsBundle_back_places_list',{'categoryId' : categoryId}),
+			url: Routing.generate('BNSAppGPSBundle_back_places_list',{'categoryId' : categoryId}),
 			success: function(data){
 				$('#gps-places-list').html(data);
 				hideLayer();
@@ -43,15 +43,36 @@ $(function(){
 	
 	
 	//Sélection d'une catégorie sur la formulaire d'édition / création
-	$(".gps-choose-category-parent").find('.gps-choose-category').click(function(){
-		if(!$(this).find('.select').hasClass('checked')){
-			$('#gps_place_form_gps_category_id').val($(this).attr('data-category-id'));
-		}else{
-			$('#gps_place_form_gps_category_id').val("");
-		}
-		$(this).find('.select').toggleClass('checked');
-		$(".gps-choose-category:not([data-category-id='" + $(this).attr('data-category-id') +"'])").find('.select').removeClass('checked');
+	$(".gps-category-label").live('click',function(){
+		$("#gps_place_form_gps_category_id").val($(this).find('input').val());
 	});
+	
+	$('.gps-place-switch').click(function (e)
+	{
+		var $this = $(e.currentTarget);
+		if ($this.hasClass('loading')) {
+			return false;
+		}
+
+		$this.addClass('loading');
+
+		$.ajax({
+			url: Routing.generate('BNSAppGPSBundle_back_place_toggle_activation'),
+			type: 'POST',
+			dataType: 'html',
+			data: {'place_id': $this.attr('data-place-id')},
+			success: function (data)
+			{
+				$this.toggleClass('off');
+			}
+		}).done(function ()
+		{
+			$this.removeClass('loading');
+		});
+	});
+	
+	
+	
 	
 	if($('#gps_place_form_gps_category_id').val() != ""){
 		$('.gps-choose-category[data-category-id=' + $('#gps_place_form_gps_category_id').val() + ']').find('.select').addClass('checked');
@@ -90,7 +111,7 @@ $(function(){
 	
 	//Suppression d'une catégorie
 	$('.gps-category-delete').live('click',function(){
-		$('#delete-category-confirm').attr('href',Routing.generate('BNSAppGpsBundle_back_category_delete', {'id' : $(this).attr('data-category-id')}))
+		$('#delete-category-confirm').attr('href',Routing.generate('BNSAppGPSBundle_back_category_delete', {'id' : $(this).attr('data-category-id')}))
 	});
 	
 	//Annulation de l'édition d'une catégorie'
@@ -112,35 +133,35 @@ $(function(){
 		}
 	});
 	
-	//Selection d'une catégorie
-	$('.gps-category-select').live('click',function(e){
-		if(e.srcElement.childElementCount == 3){
-			$('.gps-category').removeClass('active');
-			var id = $(this).attr('id');
-			var params = id.split('-');
-			var category_id = params[2];
-			var parent = $(this);
-			parent.find(".gps-category-toggle").attr('src',"/medias/images/icons/loader-24x24.gif");
-			showLayer();		
-			$.post(
-				Routing.generate('BNSAppGpsBundle_back_category_select', {}),
-				{category_id: category_id}, 
-				function complete(data)
-				{
-					parent.replaceWith(data);
-					//Mise à jour du contenu
-					$.ajax({
-						url: Routing.generate('BNSAppGpsBundle_back_places_list'),
-						success: function(data){
-							$('#gps-places-list').html(data);
-							activePlaceDrag()
-							hideLayer();
-						}
-					});
-				}
-			);
-		}
+	$('.gps-category-select').click(function (e)
+	{
+	    	showLayer();
+		var $row = $(e.currentTarget),
+			$parent = $row.parent().parent(),
+			$checkbox = $row.find('.select');
+
+		// Show loader
+		var $loader = $parent.find('.loader');
+		$loader.fadeIn('fast');
+		$checkbox.toggleClass('checked');
+
+		$.ajax({
+			url: Routing.generate('BNSAppGPSBundle_back_category_select'),
+			type: 'POST',
+			dataType: 'html',
+			data: {'state': $checkbox.hasClass('checked'), 'category_id': $row.data('category-id')},
+			success: function (data)
+			{
+				$('#gps-places-list').html(data);
+			}
+		}).done(function ()
+		{
+		    hideLayer();
+		    $loader.fadeOut('fast');
+		});
+		return false;
 	});
+	
 	
 	//Tri des catégories
 	$( ".sortable" ).sortable({
@@ -154,7 +175,7 @@ $(function(){
 				i = i + 1;
 			});
 			$.post(
-				Routing.generate('BNSAppGpsBundle_back_category_order', {}),
+				Routing.generate('BNSAppGPSBundle_back_category_order', {}),
 				{categories_ordered: categories_ordered}, 
 				function complete(data)
 				{
@@ -166,23 +187,6 @@ $(function(){
 	
 	//Pour les lieux
 	
-	//Activation / désactivation d'un lieu
-	$(".gps-place-toggle").live('click', function(event){
-		event.preventDefault();
-		$(this).attr('src',"/medias/images/icons/loader-24x24.gif");
-		var parent =  $(this).parents('.gps-place');
-		var id = parent.attr('id');
-		var params = id.split('-');
-		var place_id = params[2];
-		$.post(
-			Routing.generate('BNSAppGpsBundle_back_place_toggle_activation', {}),
-			{place_id: place_id}, 
-			function complete(data)
-			{
-				parent.replaceWith(data);
-			} 
-		);
-	});
 	//Clic sur un lieu (en dehors du toggle et du see-map)
 	$(".gps-place").live('click', function(event){
 		event.preventDefault();
@@ -198,10 +202,10 @@ $(function(){
 				selected_place = params[2];
 				
 				$('.delete-gps-place').css('display','inline-block');
-				$('.delete-gps-place').attr('href',Routing.generate('BNSAppGpsBundle_back_delete_place', { slug: $(this).find('.gps-place-slug').val()}));
+				$('.delete-gps-place').attr('href',Routing.generate('BNSAppGPSBundle_back_delete_place', { slug: $(this).find('.gps-place-slug').val()}));
 								
 				$('.edit-gps-place').css('display','inline-block');
-				$('.edit-gps-place').attr('href',Routing.generate('BNSAppGpsBundle_back_edit_place', { slug: $(this).find('.gps-place-slug').val()}));
+				$('.edit-gps-place').attr('href',Routing.generate('BNSAppGPSBundle_back_edit_place', { slug: $(this).find('.gps-place-slug').val()}));
 				
 			}else{
 				selected_place = null;
@@ -219,7 +223,7 @@ $(function(){
 		var params = id.split('-');
 		place_id = params[2];
 		$.post(
-			Routing.generate('BNSAppGpsBundle_back_place_show_map', {}),
+			Routing.generate('BNSAppGPSBundle_back_place_show_map', {}),
 			{place_id: place_id}, 
 			function complete(data)
 			{
@@ -240,7 +244,7 @@ $(function(){
 			$('.gps-place-back-map').remove();
 			var address = $('#gps_place_form_address').val();
 			$.post(
-				Routing.generate('BNSAppGpsBundle_back_place_show_map', {}),
+				Routing.generate('BNSAppGPSBundle_back_place_show_map', {}),
 				{address: address}, 
 				function complete(data)
 				{
@@ -315,7 +319,7 @@ function activeLabelDrop(){
 			var placeId = ui.draggable.attr('data-id');
 			var categoryId = $(this).attr('data-id');
 			$.post(
-				Routing.generate('BNSAppGpsBundle_back_move_place', {}),
+				Routing.generate('BNSAppGPSBundle_back_move_place', {}),
 				{ 'categoryId' : categoryId , 'placeId' : placeId }, 
 				function complete(data)
 				{					

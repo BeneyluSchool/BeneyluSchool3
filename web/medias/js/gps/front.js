@@ -1,5 +1,7 @@
 //Info window en cours d'affichage
 var visibleInfoWindow = null;
+var marker_search;
+var geocoder = new google.maps.Geocoder();
 
 $(function(){ 		
 	addListeners();
@@ -13,6 +15,7 @@ $(function(){
     $(window).resize(function() {
         adjustHeight();
     });
+	
 });
 
 function adjustHeight(){
@@ -104,7 +107,6 @@ $('.map_type_map').live("click", function(event){
 //Recherche
 
 function search(){
-	event.preventDefault();
 	clearInfoWindows();
 	clearMarkers();
 	$('.category').removeClass('active');
@@ -114,11 +116,19 @@ function search(){
 
 $('#search-submit').live('click',function(event){
 	search();
+    $.ajax({
+			url: Routing.generate('BNSAppGPSBundle_front_search'),
+			type: 'POST'
+		});
 });
 
 $("#input-address").keypress(function(event) {
   if ( event.which == 13 ) {
      search();
+     $.ajax({
+			url: Routing.generate('BNSAppGPSBundle_front_search'),
+			type: 'POST'
+		});
   }
 });
 
@@ -129,17 +139,17 @@ $('#search-cancel').live('click',function(event){
 	marker_search.setVisible(false);
 });
 
-var geocoder = new google.maps.Geocoder();
-var marker_search;
+
 function codeAddress() {
 	var address = $('#input-address').val();
+        var geocoder = new google.maps.Geocoder();
 	geocoder.geocode( { 'address': address}, function(results, status) {
 		if (status == google.maps.GeocoderStatus.OK) {
 			BNSMap.setCenter(results[0].geometry.location);
 			marker_search = new google.maps.Marker({
 				map: BNSMap, 
 				position: results[0].geometry.location,
-				icon: '/medias/images/gps/search.png'
+				icon: cdn_url + '/medias/images/gps/search.png'
 			});
 		}else{
 			//Si STATUS = ZERO_RESULTS => pas de résultat

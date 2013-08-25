@@ -1,0 +1,14 @@
+<li id="list_{{ category.id }}" data-category-id="{{ category.id }}">
+	<label class="gps-category-label" for="gps_category_{{ category.id }}">
+		<span>{{ category.label }}</span>
+		<input 
+			type="radio" 
+			id="gps_category_{{ category.id }}" 
+			name="gps_category" 
+			value="{{ category.id }}" 
+			{% if form is defined %}
+				{% if form.vars.value.gpsCategoryId == category.id %}checked="checked"{% endif %}
+			{% endif %}
+		 />		
+	</label>
+</li>

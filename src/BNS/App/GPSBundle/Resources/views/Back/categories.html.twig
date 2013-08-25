@@ -5,20 +5,19 @@
 	<script type="text/javascript" src="{{ asset('/medias/js/manager-menu.js') }}"></script>
 	<script type="text/javascript">
 		var categoriesRoutes = {
-			'sort':		Routing.generate('BNSAppGpsBundle_back_category_order'),
-			'insert':	Routing.generate('BNSAppGpsBundle_back_category_create'),
-			'edit':		Routing.generate('BNSAppGpsBundle_back_category_edit'),
-			'remove':	Routing.generate('BNSAppGpsBundle_back_category_delete')
+			'sort':		Routing.generate('BNSAppGPSBundle_back_category_order'),
+			'insert':	Routing.generate('BNSAppGPSBundle_back_category_create',{from : 'modal'}),
+			'edit':		Routing.generate('BNSAppGPSBundle_back_category_edit'),
+			'remove':	Routing.generate('BNSAppGPSBundle_back_category_delete')
 		};
 	</script>
-	<script type="text/javascript" src="{{ asset('/medias/js/jquery.ui.nestedSortable.js') }}"></script>
-	
+
 	<script type="text/javascript">
 		$(function ()
 		{
 			//Suppression de l'icône à l'ajout
 			$('#new-category-modal').find('.category-icon-selector').remove();
-			
+
 			// Check if routes are parameted
 			if (typeof categoriesRoutes == undefined) {
 				throw new Error('Vous devez paramétrer les routes avant l\'utilisation du script des catégories !');
@@ -40,23 +39,23 @@
 				tolerance: 'pointer',
 				toleranceElement: '> div'
 			});
-			
+
 			$('.content-categories-management ol.load-sortable').bind('sortupdate',
 				function(event, ui)
 				{
 					//Récupération du tableau pour mise à jour
 					var ordered = new Array();
-					
+
 					$('.load-sortable').find('li').each(function(){
 						ordered.push($(this).attr('id').split('_')[1]);
 					});
-														
-					$.ajax(	
+
+					$.ajax(
 					{
-						url: categoriesRoutes.sort, 
+						url: categoriesRoutes.sort,
 						type: 'POST',
 						dataType: 'json',
-						data: {'ordered': ordered}	
+						data: {'ordered': ordered}
 					});
 
 				}
@@ -124,7 +123,7 @@
 					$this.removeClass('disabled').removeAttr('disabled');
 					$this.find('p.sub-category-warning').hide();
 					$(this).remove();
-					
+
 					if($('.category-edition').length == 0){
 						location.reload(true);
 					}
@@ -138,7 +137,7 @@
 			});
 
 			// Cancel modifications
-			$('header.header-buttons #category-edit-mode .cancel-button').click(function (e)
+			$('.cancel-button').click(function (e)
 			{
 				closeCategory();
 			});
@@ -152,6 +151,11 @@
 					$loader = $this.find('.loader').first(),
 					categoryId = categoryId[1];
 
+                if($.trim($input.val()) == "")
+                {
+                    return false;
+                }
+                
 				closeCategory();
 				$this.find('div').first().addClass('loading');
 				$loader.fadeIn('fast');
@@ -171,6 +175,7 @@
 				}).done(function ()
 				{
 					$loader.fadeOut('fast');
+					$this.find('div').first().removeClass('loading');
 				});
 			});
 
@@ -181,6 +186,11 @@
 					$modalBody = $('#new-category-modal .modal-body'),
 					$loader = $modalBody.find('.loader');
 
+                if($.trim($modalBody.find('input[type="text"]').val()) == "")
+                {
+                    return false;
+                }
+                
 				$loader.fadeIn('fast');
 
 				$.ajax({
@@ -202,7 +212,7 @@
 								$category.find('div').first().removeClass('new-animation');
 							}, 5000);
 						});
-						
+
 						if($('.category-edition').length == 0){
 							 location.reload(true);
 						}
@@ -254,26 +264,25 @@
 	</div>
 {% endblock %}
 
-{% block side_bar %}
-	<div class="container-sidebar" id="gps-sidebar">
+{% block sidebar %}
+	<div class="container-sidebar list" id="gps-sidebar">
+		<div class="container-section">
+			<div class="section">
+				<a href="{{ path('BNSAppGPSBundle_back') }}">Lieux</a>
+			</div>
+		</div>
+
 		<div class="section active">
 			Catégories
 			<span class="shadow-section"></span>
 		</div>
-		<div class="container-section">
-			<div class="section">
-				<a href="{{ path('BNSAppGpsBundle_back') }}">Lieux</a>
-			</div>
-		</div>	
 	</div>
 {% endblock %}
 
 {% block content %}
-	
+
 	<div id="gps-categories-list" class="content-categories-management">
-		
-		<h1>Liste des catégories</h1>
-		
+
 		{{ modal('new-category-modal', {
 			'title': 'Ajouter une catégorie de lieux',
 			'body_template': {'template': 'BNSAppGPSBundle:Modal:category_management_add_body.html.twig'},
@@ -287,22 +296,22 @@
 			'footer_template': {'template': 'BNSAppGPSBundle:Modal:category_management_delete_footer.html.twig'},
 			'type': 'error'
 		}) }}
-		
+
 		{% if categories|length == 0 %}
-			<p class="no-information">Vous n'avez pas encore de catégorie de lieux dans votre GPS : vous pouvez en ajouter une</p>
 
-			<p class="no-information">en cliquant sur
-
-				<a href="#" class="btn bns-info btn-24 large button-return add-category-button" data-target="#new-category-modal" data-toggle="modal">
+			{% set button_complete_dom =
+				'<a href="#" class="btn bns-info btn-24 large button-return add-category-button" data-target="#new-category-modal" data-toggle="modal">
 					<span class="icons-24 add-icon"></span>
 					Ajouter une catégorie
-				</a>
-			</p>
-		{% else %}	
-			
+				</a>' %}
+
+			{% include "BNSAppMainBundle:NoInformation:index.html.twig" with {'text' : "Vous n'avez pas encore de catégorie de lieu dans votre GPS", button : { 'complete_dom' : button_complete_dom }} %}
+
+		{% else %}
+
 			<ol class="load-sortable ui-sortable gps">
 				{% for category in categories %}
-					{% include "BNSAppGPSBundle:Back:blockRowCategory.html.twig" with {'category' : category } %}					
+					{% include "BNSAppGPSBundle:Back:blockRowCategory.html.twig" with {'category' : category } %}
 				{% endfor %}
 			</ol>
 		{% endif %}

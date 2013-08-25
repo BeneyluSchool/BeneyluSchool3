@@ -41,6 +41,8 @@ class FrontMap extends VichMap
 		$this->setVarName('BNSMap');
 		$this->setShowZoomControl(true);
 		$this->setShowStreetViewControl(true);
+		
+		$this->setZoom(10);
     }
 	
 	public function initialize($group_id)
@@ -54,20 +56,32 @@ class FrontMap extends VichMap
 			$fullAddress = $this->groupManager->getAttribute('ADDRESS') . " " . $this->groupManager->getAttribute('ZIPCODE') . " " . $this->groupManager->getAttribute('CITY');
 			$coord = $this->geoCoordsManager->queryService->queryCoordinates($fullAddress);
 			$groupGeocoords = $coord->getLatitude() . ';' . $coord->getLongitude();
-			$this->groupManager->setAttribute('GEOCOORDS',$groupGeocoords);
+			$this->groupManager->setAttribute('GEOCOORDS',str_replace(',','.',$groupGeocoords));
 		}
 	
+		$has_geocoords = false;
+		
 		if($groupGeocoords){
-			$marker = new MapMarker(strstr($groupGeocoords,';',true),substr(strstr($groupGeocoords,';',false),1));
-			$marker->setVarname('marker_'.$group_id);
-			$marker->setInfoWindow($this->infoWindowBuilder->build(array('obj' => $this->groupManager->getGroup(),'type' =>  'group')));
-			$marker->getInfoWindow()->setVarName('info_window_' . $group_id);
+			
+			$grpLat = strstr($groupGeocoords,';',true);
+			$grpLong = substr(strstr($groupGeocoords,';',false),1);
+			//Si coordonnées différentes de 0;0
+			if($grpLat != '0' && $grpLong != '0') {
+				$marker = new MapMarker($grpLat,$grpLong);
+				$marker->setVarname('marker_'.$group_id);
+				$marker->setInfoWindow($this->infoWindowBuilder->build(array('obj' => $this->groupManager->getGroup(),'type' =>  'group')));
+				$marker->getInfoWindow()->setVarName('info_window_' . $group_id);
 
-			$iconUrl = $this->iconGenerator->generateIcon(new GpsPlace());
-			if (null !== $iconUrl) {
-				$marker->setIcon($iconUrl);
+				$iconUrl = $this->iconGenerator->generateIcon(new GpsPlace());
+				if (null !== $iconUrl) {
+					$marker->setIcon($iconUrl);
+				}
+				$this->addMarker($marker);
+				
+				$this->setCenter($grpLat,$grpLong);
+				
+				$has_geocoords = true;
 			}
-			$this->addMarker($marker);
 		}
 		
 		$categories = GpsCategoryQuery::create()
@@ -94,10 +108,25 @@ class FrontMap extends VichMap
 				}
 				$this->addMarker($marker);
 				
+				if( !$has_geocoords ) {
+					$this->setCenter($place->getLatitude(),$place->getLongitude());
+				}
+				
 			}
 		}
+		
+		if(count($this->getMarkers()) == 1){
+			//Si 1 marker => école
+			
+		}else{
+			
+		}
 		$this->setShowInfoWindowsForMarkers(false);
-		return array('categories' => $categories, 'group' => $this->groupManager->getGroup());
+		return array(
+			'categories' => $categories,
+			'group' => $this->groupManager->getGroup(),
+			'has_geocoords' => $has_geocoords
+		);
     }
 	
 }

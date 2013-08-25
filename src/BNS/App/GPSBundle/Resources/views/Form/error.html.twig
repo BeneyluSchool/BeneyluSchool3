@@ -1,0 +1,24 @@
+{% block field_errors %}
+	{% spaceless %}
+		{% if errors|length > 0 %}
+		<div class="alert alert-danger bns-alert">
+			{% for error in errors %}
+				{{ error.messageTemplate|trans(error.messageParameters, 'validators') }}
+			{% endfor %}
+			<div class="jim"></div>
+		</div>
+		{% endif %}
+	{% endspaceless %}
+{% endblock field_errors %}
+
+{% block form_errors %}
+	{% spaceless %}
+		{% if errors|length > 0 %}
+		<div class="alert alert-danger bns-alert">
+			{% for error in errors %}
+					<ul><li>{{ error.messageTemplate|trans(error.messageParameters, 'validators') }}</li></ul>
+			{% endfor %}
+		</div>
+		{% endif %}
+	{% endspaceless %}
+{% endblock form_errors %}

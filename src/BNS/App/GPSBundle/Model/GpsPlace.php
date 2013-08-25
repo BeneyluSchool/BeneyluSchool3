@@ -18,6 +18,8 @@ use Vich\GeographicalBundle\Annotation as Vich;
  * @package    propel.generator.src.BNS.App.GPSBundle.Model
  */
 
+//ATTENTION ANNOTATION DESACTIVER LE TEMPS DE LA MIGRATION
+
 /**
  * @Vich\Geographical(on="update")
  */
@@ -26,7 +28,7 @@ class GpsPlace extends BaseGpsPlace {
 	
 	public function setLatitude($value)
     {
-        parent::setLatitude($value);
+        parent::setLatitude(str_replace(',','.',$value));
     }
 
     /**
@@ -34,7 +36,7 @@ class GpsPlace extends BaseGpsPlace {
      */
     public function setLongitude($value)
     {
-        parent::setLongitude($value);
+        parent::setLongitude(str_replace(',','.',$value));
     }
 	
 	/**

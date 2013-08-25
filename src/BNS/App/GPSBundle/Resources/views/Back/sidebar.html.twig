@@ -3,14 +3,14 @@
 
 
 
-	
+
 			{#
 
 
 <div class="title-container">
 		<div class="content-title">
 			<div class="form-title">
-				<form id="gps-add-category" method="post" action="{{ path('BNSAppGpsBundle_back_category_create') }}">
+				<form id="gps-add-category" method="post" action="{{ path('BNSAppGPSBundle_back_category_create') }}">
 					<input id="gps-add-category-label" class="add-category" type="text" name="label" size="12" placeholder="Ajouter une catégorie" />
 					<input type="submit" value="Ajouter" class="btn btn-info"/>
 				</form>
@@ -40,7 +40,7 @@
 
 <div class="search-category-gps">
 				   <div class="input-prepend input-append input-cat">
-					   <form id="gps-add-category" method="post" action="{{ path('BNSAppGpsBundle_back_category_create') }}">
+					   <form id="gps-add-category" method="post" action="{{ path('BNSAppGPSBundle_back_category_create') }}">
 						   <input id="gps-add-category-label" class="add-category" type="text" name="label" size="12" placeholder="Ajouter une catégorie" />
 						   <input type="submit" value="Ok" class="btn btn-info"/>
 					   </form>
@@ -64,8 +64,8 @@
 	   </div>
    </div>#}
 
-   {# Placement des modal pour éviter les problèmes de z-index #}
-   {% autoescape false %}
+{# Placement des modal pour éviter les problèmes de z-index #}
+{% autoescape false %}
 	{{ modal('gps-delete-category', {
 		'title': 'Supprimer la catégorie',
 		'body': "Êtes vous sûr de vouloir supprimer cette catégorie et ses lieux associés ?",

@@ -11,6 +11,11 @@
 	{{ vichgeo_include_css() }}
 {% endblock %}
 
+{% block  main_javascripts %}
+	{{ parent() }}
+	<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
+{% endblock %}	
+	
 {% block  javascripts %}
 	{{ parent() }}
 	{% javascripts
@@ -18,20 +23,16 @@
 		'medias/js/jquery.form.js'
 		 filter='?yui_js' output='js/gps/back.js' %}
 		<script src="{{ asset_url }}"></script>
+		<script type="text/javascript" src="{{ asset('/medias/js/jquery.ui.nestedSortable.js') }}"></script>
 	{% endjavascripts %}
-	{{ vichgeo_include_js() }}
 {% endblock %}
 
 {% block body %}
 	<div class="background-gps-admin"></div>
-	
 	{% block action_bar %}{% endblock %}
-	
-	<div class="container-fluid container">
+	<div class="container-fluid container gps-container">
 		<div class="row-fluid container-manager">
-			
-			{% block side_bar %}{% endblock %}
-
+			{% block sidebar %}{% endblock %}
 			<div class="span9 container-content no-margin">
 				{% block content %}{% endblock %}
 			</div>

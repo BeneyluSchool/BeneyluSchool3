@@ -1,23 +1,26 @@
 {% extends 'BNSAppGPSBundle:Back:layout.html.twig' %}
 
+
+{% form_theme form 'BNSAppGPSBundle:Form:error.html.twig' %}
+
 {% block action_bar %}
 	<div class="header-buttons">
 		<div class="inner-header">
 			<div class="container container-fluid">
 				<div class="row-fluid">
 					<div class="span8">
-						<a href="{{ path('BNSAppGpsBundle_back') }}" class="btn bns-notice btn-24 medium-return button-return">
+						<a href="{{ path('BNSAppGPSBundle_back') }}" class="btn bns-notice btn-24 medium-return button-return">
 							<span class="icons-24 back-icon"></span>
 							<strong>Retourner</strong><br>à la liste
 						</a>
-						<a href="{{ path('BNSAppGpsBundle_back') }}" class="btn bns-danger btn-24 medium-return">
+						<a href="{{ is_edit ? path('BNSAppGPSBundle_back_place_sheet',{'slug' : place.slug} ) : path('BNSAppGPSBundle_back') }}" class="btn bns-danger btn-24 medium-return">
 							<span class="icons-24 cancel-icon"></span>
-							<strong>Annuler</strong><br>l'ajout du lieu
+							<strong>Annuler</strong><br>{{ is_edit ? "l'édition" : "l'ajout" }} du lieu
 						</a>
 					</div>
 					<div class="span4 align-right">
 						<a href="#" class="btn bns-success validate-medium btn-24 medium" id="submit-gps-place">
-							<span class="icons-24 validate-icon"></span><strong>Enregister le lieu</strong>
+							<span class="icons-24 validate-icon"></span><strong>Enregister</strong>
 						</a>
 					</div>
 				</div>
@@ -26,50 +29,41 @@
 	</div>
 {% endblock %}
 
-{% block side_bar %}
-	<div class="container-sidebar" id="gps-sidebar">
+{% block sidebar %}
+	<div class="container-sidebar editor" id="gps-sidebar">
 		<div class="section active">
-			Lieux
+			{{ is_edit ? "Editer" : "Créer" }} un Lieu
 			<span class="shadow-section"></span>
 		</div>
-			
-			
+
 		<div class="title-container gps-choose-category-parent">
 			<div class="title active border-blue">
 				Choisissez une catégorie<span class="square icon-arrow"></span>
 			</div>
-			{% include "BNSAppGPSBundle:Back:blockCategorySidebar.html.twig" with {'categories' : categories} %}
-		</div>	
-			
-		<div class="container-section">
-			<div class="section">
-				<a href="{{ path('BNSAppGpsBundle_back_categories') }}">Catégories</a>
-			</div>
-		</div>	
+			{% include "BNSAppGPSBundle:Back:blockCategorySidebar.html.twig" with {'categories' : categories, 'form' : form, 'isEditionMode': true} %}
+		</div>
+
 	</div>
 {% endblock %}
 
 {% block content %}
-	<h1>Ajout d'un lieu</h1>
-	<form id="gps-place-form" class="place-form" action="{{ path('BNSAppGpsBundle_back_edit_place_submit') }}" method="post" {{ form_enctype(form) }}>
+	<form id="gps-place-form" class="place-form" action="{{ path('BNSAppGPSBundle_back_edit_place_submit') }}" method="post" {{ form_enctype(form) }}>
 
-		{{ form_errors(form) }}
-		
 		{{ form_row(form.id) }}
 
 		{{ form_errors(form.label) }}
 		{{ form_widget(form.label, { 'attr': {'class': 'input-xlarge-bns', 'placeholder': 'Nom du lieu'} }) }}
-		
-		 {{ form_errors(form.address) }}
+
+		{{ form_errors(form.address) }}
 		{{ form_widget(form.address, { 'attr': {'class': 'input-xlarge-bns address', 'placeholder': 'Adresse du lieu'} }) }}
-		
+
 		<a class="btn bns-info btn-16 small view-map {{ show_place_button == false ? "disabled" : "" }} " id="gps-place-map-preview" href="#">
 			<span class="icons-16 preview-icon"></span>
 			<strong>Voir sur la carte</strong>
 		</a>
-		
+
 		<div id="gps-place-map-preview-render" class="gps-place-map-preview-render"></div>
-		
+
 		{{ form_widget(form.description,{'attr': {'class': 'input-xlarge-bns','placeholder' :'Description du lieu'}}) }}
 
 		{{ form_rest(form) }}

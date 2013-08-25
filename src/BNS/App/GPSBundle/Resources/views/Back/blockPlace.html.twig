@@ -1,26 +1,20 @@
-<div class="gps-place place-drag" id="gps-place-{{place.getId}}" data-id="{{place.getId}}">
-	<div class="description-location">
-		<h1>
-			{{ place.getLabel }}
-			<small>
-				{{ place.getGpsCategory.label }} {% if place.getGpsCategory.isActive == false %} - <i>désactivé</i>{% endif %}
-			</small>
-			
-		</h1>
-		<p class="address">Adresse : {{ place.getAddress }}</p>
-		<p>{{ place.getDescription }}</p>
+<div class="item">
+	<div class="vertical-separator {{ place.isActive ? "green" : "orange"}}"></div>
+	<div class="header">
+		<div class="buttons-container">
+			<a href="{{ path('BNSAppGPSBundle_back_place_sheet',{'slug' : place.slug })}}" class="btn bns-notice btn-16 small right btn-visualisation">
+				<span class="icons-16 arrow-right-icon right"></span>
+				<strong>Voir la fiche</strong>
+			</a>
+		</div>
+		<h3>{{ place.label }}</h3>
+		<div class="categories">
+			<ul>
+				<li>
+					{{ place.getGpsCategory.label }}
+				</li>
+			</ul>
+		</div>
 	</div>
-	<div class="map-view">
-		<input type="hidden" class="gps-place-slug" value="{{ place.getSlug }}" />
-		<div class="map-view" style="display:none;"></div>
-		<a href="#" class="btn bns-notice btn-16 small gps-place-see-map"><span class="icons-16 preview-icon"></span><strong>Voir sur la carte</strong></a>
-		<img
-			{% if place.getIsActive == true %}
-				src="{{ asset('/medias/images/icons/btn-green.png') }}"
-			{% else %}
-				src="{{ asset('/medias/images/icons/btn-red.png') }}"
-			{% endif %}
-			class="gps-place-toggle"
-		/>
-	</div>
+
 </div>

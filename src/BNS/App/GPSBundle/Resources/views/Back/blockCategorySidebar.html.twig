@@ -1,18 +1,150 @@
 <div class="content-title">
-	<div class="loader loader-h"></div>
-	<ul>
-		{% for category in categories %}
-			<li class="gps-choose-category" data-category-id="{{ category.id }}">
-				<div>
-					{{ category.label }}{% if category.isActive == false %} <small><i>- Désactivé</i></small>{% endif %}<span class="select"></span>
-				</div>
-			</li>
+	{% if isEditionMode %}
+		{% if form is defined %}
+			{{ form_errors(form) }}
+		{% endif %}
+		<div class="form-title">
+			<div class="loader loader-h"></div>
+			<form action="" method="POST" onsubmit="return false;" class="gps-add-category">
+				<input type="text" size="16" class="add-category" placeholder="Nouvelle Catégorie">
+				<img src="{{ asset('/medias/images/icons/enter-key.png') }}" alt="" class="add-category-help">
+				<input type="submit" class="btn btn-info" value="Ajouter">
+			</form>
+		</div>
+	{% endif %}
+
+	{% if form is defined %}
+		<ul class="gps-category-form-list">
+	{% else %}
+		<div class="content-category">
+			<div class="loader loader-h"></div>
+			<ol class="load-sortable">
+	{% endif %}
+
+	{% for category in categories %}
+		{% if form is defined %}
+			{% include "BNSAppGPSBundle:Back:blockCategoryRowSidebarForm.html.twig" with {'category' : category, 'form' : form } %}
 		{% else %}
-			<li>
-				<div>
-					<a href="{{ path('BNSAppGpsBundle_back_categories') }}">Vous n'avez pas encore de catégorie, <br /> cliquez pour en créer une</a>
-				</div>
-			</li>
-		{% endfor %}
-	</ul>
+			{% include "BNSAppGPSBundle:Back:blockCategoryRowSidebar.html.twig" with {'category' : category } %}
+		{% endif %}
+	{% else %}
+		<div class="content-category">
+			<div class="no-category">
+				Il n'y pas encore de catégorie.
+				{% if isEditionMode %}
+					Vous pouvez en créer grâce au champs ci-dessus pour organiser vos lieux.
+				{% else %}
+					Vous pouvez en créer sur la page de <a href="{{ path('BNSAppGPSBundle_back_categories') }}">gestion des catégories</a>.
+				{% endif %}
+			</div>
+		</div>
+	{% endfor %}
+
+	{% if form is defined %}
+		</ul>
+	{% else %}
+			</ol>
+		</div>
+	{% endif %}
 </div>
+
+<script type="text/javascript">
+
+	$(function ()
+	{
+
+		// Show category input help - fadeIn
+		$('.gps-add-category input.add-category').keypress(function (e)
+		{
+			var $row = $(e.currentTarget).parent();
+			if (e.which != 13) {
+				$row.find('.add-category-help').fadeIn('slow');
+			}
+		});
+
+		// Add category process
+		$('.gps-add-category').submit(function (e)
+		{
+			var $this = $(e.currentTarget),
+				$row = $this.parent(),
+				$input = $row.find('input[type="text"]').first();
+            
+            if($.trim($input.val()) == "")
+            {
+                return false;
+            }
+
+			if ($row.hasClass('loading')) {
+				return false;
+			}
+
+			$row.addClass('loading');
+			var $loader = $row.find('.loader');
+			$loader.fadeIn('fast');
+
+			$.ajax({
+				url: Routing.generate('BNSAppGPSBundle_back_category_create', {from: 'sidebar'}),
+				type: 'POST',
+				dataType: 'html',
+				data: {'subject_title': $input.val() {% if form is defined %} , 'type' : 'for_form' {% endif %} },
+				success: function (data)
+				{
+					// Process with data object & callback on success
+
+					// Here example to prepend a row into the categories list
+					var $category = $(data);
+					$category.css('display', 'none');
+					{% if form is defined %}
+						$row.parent().find('.gps-category-form-list').append($category);
+					{% else %}
+						$row.parent().find('.content-category > .load-sortable').append($category);
+					{% endif %}
+					$category.slideDown('fast');
+
+					// Reset
+					$input.val('');
+					$('.no-category').hide();
+				}
+			}).done(function ()
+			{
+				$row.removeClass('loading');
+				$loader.fadeOut('fast');
+			});
+
+			return false;
+		});
+
+		// Drag'n'drop categories
+		$('.content-category > ol.load-sortable').nestedSortable({
+			forcePlaceholderSize: true,
+			errorClass: 'nested-error',
+			handle: 'div .list-grip',
+			helper:	'original',
+			items: 'li',
+			maxLevels: 1, // si sous-catégorie, mettre 2, sinon 1
+			opacity: .6,
+			placeholder: 'nested-placeholder',
+			revert: 200,
+			tabSize: 25,
+			distance: 10,
+			tolerance: 'pointer',
+			toleranceElement: '> div',
+			apply: function (e, h)
+			{
+				var dump = $('.remove-this-class-category ol.load-sortable').nestedSortable('toHierarchy', {
+					startDepthCount: 0,
+					placeholder: 'nested-placeholder'
+				});
+
+				// Save dump
+				$.ajax({
+					url: 'your saving route',
+					type: 'POST',
+					dataType: 'json',
+					data: {'categories': dump}
+				});
+			}
+		});
+	});
+
+</script>

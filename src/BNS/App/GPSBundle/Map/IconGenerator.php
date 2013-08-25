@@ -9,9 +9,16 @@ class IconGenerator implements IconGeneratorInterface
     /**
      * {@inheritDoc}
      */
+	protected $container;
+	
+	public function __construct($container)
+    {
+		$this->container = $container;
+	}
+	
     public function generateIcon($obj)
     {
 		//Selon le lieu et donc sa catégorie renvoyer une Urlk
-        return '/medias/images/gps/flag.png';
+        return  $this->container->get('templating.helper.assets')->getUrl('/medias/images/gps/flag.png');
     }
 }

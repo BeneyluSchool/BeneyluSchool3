@@ -4,7 +4,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-   
+	
     <services>
         <service id="bns.front_map" class="BNS\App\GPSBundle\Map\FrontMap">
 			<tag name="vichgeo.map" alias="front_map" />
@@ -20,7 +20,8 @@
             <argument type="service" id="twig" />
             <argument>%vich_geographical.info_window.template_name%</argument>
         </service>
-		<service id="bns.icon_generator" class="BNS\App\GPSBundle\Map\IconGenerator" />
+		<service id="bns.icon_generator" class="BNS\App\GPSBundle\Map\IconGenerator">
+			<argument type="service" id="service_container" />
+		</service>
     </services>
-   
 </container>

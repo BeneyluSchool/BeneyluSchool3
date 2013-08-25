@@ -20,4 +20,19 @@
 			</constraint>
         </property>
     </class>
+
+    <class name="BNS\App\GPSBundle\DataReset\ChangeYearGPSDataReset">
+        <property name="choice">
+			<constraint name="NotBlank">
+				<option name="message">Vous devez sélectionner une des options</option>
+			</constraint>
+            <constraint name="Choice">
+                <option name="choices">
+                    <value>KEEP</value>
+                    <value>DELETE</value>
+                </option>
+                <option name="message">Votre choix est invalide</option>
+            </constraint>
+        </property>
+    </class>
 </constraint-mapping>

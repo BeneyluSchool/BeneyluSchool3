@@ -1,6 +1,6 @@
-BeneyluSchool3
+BeneyluSchool
 ==============
 
 Beneylu School est un ENT dédié aux classes du premier degré
 
-Pour plus d'informations : http://www.beneyluschool.com
+Pour plus d'informations : http://beneylu.com/school

@@ -1,0 +1,5 @@
+0 5 * * * php /home/beneyluschool/www/app/console notification:clear --env=app_prod
+30 5 * * * php /home/beneyluschool/www/app/console notification:cron --env=app_prod
+0 * * * * php /home/beneyluschool/www/app/console bns:statistics --env=app_prod
+0,5,10,15,20,25,30,35,40,45,50,55 * * * * php /home/beneyluschool/www/app/console bns:run-cron --env=app_prod
+0 6 * * * sudo service httpd reload

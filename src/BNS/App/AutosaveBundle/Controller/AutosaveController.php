@@ -28,7 +28,7 @@ class AutosaveController extends Controller
 		// On parse les attributs à sauvegarder
 		$attributesToSave = $autosaveQuery['attributes_to_save'];
 		foreach ($attributesToSave as $attributeName => $value) {
-			if (null == $this->getRequest()->get($attributeName, null)) {
+			if (null == $this->getRequest()->get($attributeName, null) && !in_array($attributeName, $autosaveQuery['optionnal_attributes'])) {
 				throw new InvalidArgumentException('Missing POST parameter : ' . $attributeName . ' ! Make sure the input exists.');
 			}
 			

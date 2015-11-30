@@ -42,6 +42,7 @@
 		{# Handler for TinyMCE #}
 		onTinyMCEKeypress = function (e)
 		{
+            console.log(e);
 			if (e.type != 'keypress') return true;
 			
 			{% if (debug) %} console.log('onTinyMCEKeypress'); {% endif %}

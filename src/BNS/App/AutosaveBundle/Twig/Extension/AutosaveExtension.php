@@ -66,7 +66,8 @@ class AutosaveExtension extends Twig_Extension
 		$autosaveQuery = array(
 			'object_class'				=> Crypt::encrypt(get_class($object)),
 			'attributes_to_save'		=> $attributesToSave,
-			'additionnal_attributes'	=> isset($options['data']) ? $options['data'] : array()
+			'additionnal_attributes'	=> isset($options['data']) ? $options['data'] : array(),
+			'optionnal_attributes'		=> isset($options['optionnal_attributes']) ? $options['optionnal_attributes'] : array()
 		);
 		
 		// On créer le JSon pour le contrôleur
@@ -76,6 +77,11 @@ class AutosaveExtension extends Twig_Extension
 		$condition = '';
 		foreach ($attributesToSave as $attributeName => $inputName) {
 			$params .= '"' . $attributeName . '": getContentFor("' . $inputName . '"), ';
+			
+			if (in_array($attributeName, $autosaveQuery['optionnal_attributes'])) {
+				continue;
+			}
+			
 			$condition .= "getContentFor('" . $inputName . "').length == 0 || ";
 		}
 		$params .= '"object_primary_key": primaryKey, "autosave_query": ' . json_encode($autosaveQuery) . '}';
@@ -92,7 +98,7 @@ class AutosaveExtension extends Twig_Extension
 			'attributesToSave'	=> $attributesToSave,
 			'isNew'				=> null == $object->getPrimaryKey(),
 			'primary_key'		=> Crypt::encrypt($object->getPrimaryKey()),
-			'textarea_class'	=> $tinyMCEConfigs['textarea_class'],
+			'textarea_class'	=> "load_tinymce",
 			'configs'			=> $configs,
 			'onSuccess'			=> isset($options['onSuccess']) ? $options['onSuccess'] : '',
 			'onStart'			=> isset($options['onStart']) ? $options['onStart'] : '',

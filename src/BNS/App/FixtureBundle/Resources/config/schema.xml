@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\FixtureBundle\Model">
+    <table name="migration">
+        <column name="id" autoIncrement="true" primaryKey="true" required="true" type="INTEGER" />
+        <column name="old_id" required="true" type="INTEGER" />
+        <column name="new_id" required="true" type="INTEGER" />
+        <column name="object_class" required="true" size="255" type="VARCHAR" />
+        <column name="datas" type="LONGVARCHAR" />
+        <column name="environment" type="VARCHAR" size="255" />
+    </table>
+</database>

@@ -30,6 +30,8 @@ class LoadFixturesCommand extends ContainerAwareCommand {
         $auth_env = 'auth_' . $env[1];
         $app_env = 'app_' . $env[1];
 
+        $output->writeln("Creation des marqueurs de statistique");
+        $this->execCommand("php app/console bns:load-statistic", $app_env, $output);
         $output->writeln("Creation des classrooms");
         $this->execCommand("php app/console bns:load-classrooms", $app_env, $output);
         $output->writeln("Creation des blogs");

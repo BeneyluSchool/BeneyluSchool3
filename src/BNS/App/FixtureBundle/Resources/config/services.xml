@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="fixture.marker_manager.class">BNS\App\FixtureBundle\Marker\MarkerManager</parameter>
+
+        <parameter key="fixture.marker.column_type.timestamp.class">BNS\App\FixtureBundle\Marker\ColumnType\TimestampMarker</parameter>
+        <parameter key="fixture.marker.column_type.text_resource.class">BNS\App\FixtureBundle\Marker\ColumnType\TextResourceMarker</parameter>
+        <parameter key="fixture.marker.foreign_table_name.user.class">BNS\App\FixtureBundle\Marker\ForeignTableName\UserMarker</parameter>
+        <parameter key="fixture.marker.foreign_table_name.group.class">BNS\App\FixtureBundle\Marker\ForeignTableName\GroupMarker</parameter>
+        <parameter key="fixture.marker.foreign_table_name.resource.class">BNS\App\FixtureBundle\Marker\ForeignTableName\ResourceMarker</parameter>
+    </parameters>
+
+    <services>
+        <service id="fixture.marker_manager" class="%fixture.marker_manager.class%">
+            <argument type="service" id="bns.classroom_manager" />
+        </service>
+
+        <!-- MARKERS -->
+        <service id="fixture.marker.column_type.timestamp" class="%fixture.marker.column_type.timestamp.class%">
+            <tag name="fixture.marker" />
+        </service>
+        <service id="fixture.marker.column_type.text_resource" class="%fixture.marker.column_type.text_resource.class%">
+            <argument type="service" id="fixture.marker.foreign_table_name.resource" />
+            <argument type="service" id="twig.extension.resource" />
+            <tag name="fixture.marker" />
+        </service>
+
+        <service id="fixture.marker.foreign_table_name.user" class="%fixture.marker.foreign_table_name.user.class%">
+            <argument type="service" id="fixture.marker_manager" />
+            <tag name="fixture.marker" />
+        </service>
+        <service id="fixture.marker.foreign_table_name.group" class="%fixture.marker.foreign_table_name.group.class%">
+            <argument type="service" id="fixture.marker_manager" />
+            <tag name="fixture.marker" />
+        </service>
+        <service id="fixture.marker.foreign_table_name.resource" class="%fixture.marker.foreign_table_name.resource.class%">
+            <argument type="service" id="fixture.marker_manager" />
+            <argument type="service" id="bns.media.manager" />
+            <argument type="service" id="bns.media.creator" />
+            <tag name="fixture.marker" />
+        </service>
+    </services>
+   
+</container>

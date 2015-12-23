@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\ReservationBundle\Model">
+  <table name="reservation">
+    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+    <column name="title" size="255" type="VARCHAR" />
+    <column name="group_id" type="INTEGER" />
+    <column name="color_class" required="true" size="255" type="VARCHAR" />
+    <foreign-key foreignTable="group" name="FK_RESERVATION_GROUP">
+      <reference foreign="id" local="group_id" />
+    </foreign-key>
+  </table>
+  <table name="reservation_event">
+    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+    <column name="title" required="true" size="255" type="VARCHAR" />
+    <column name="date_start" required="true" type="DATE" />
+    <column name="date_end" required="true" type="DATE" />
+    <column name="reservation_id" required="true" type="INTEGER" />
+    <column name="reservation_item_id" required="true" type="INTEGER" />
+    <column defaultValue="0" name="is_recurring" required="true" type="BOOLEAN" />
+    <column name="icalendar_vevent" required="true" type="LONGVARCHAR" />
+    <column defaultValue="0" name="is_all_day" required="true" type="BOOLEAN" />
+    <foreign-key foreignTable="reservation" name="FK_RESERVATION_EVENT_RESERVATION" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="reservation_id" />
+    </foreign-key>
+    <foreign-key foreignTable="reservation_item" name="FK_RESERVATION_EVENT_RESERVATION_ITEM" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="reservation_item_id" />
+    </foreign-key>
+    <behavior name="sluggable">
+      <parameter name="slug_column" value="slug" />
+      <parameter name="slug_pattern" value="{title}" />
+      <parameter name="replace_pattern" value="/[^\w]+/u" />
+      <parameter name="replacement" value="-" />
+      <parameter name="separator" value="-" />
+      <parameter name="permanent" value="true" />
+    </behavior>
+  </table>
+  
+  <table name="reservation_item">
+    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+    <column name="title" required="true" size="255" type="VARCHAR" />
+    <column name="type" required="true" defaultValue="ROOM" type="ENUM" valueSet="ROOM, ITEM" />
+    <column name="reservation_id" required="true" type="INTEGER" />
+    <foreign-key foreignTable="reservation" name="FK_RESERVATION_ITEM_RESERVATION" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="reservation_id" />
+    </foreign-key>
+    <behavior name="sluggable">
+      <parameter name="slug_column" value="slug" />
+      <parameter name="slug_pattern" value="{title}" />
+      <parameter name="replace_pattern" value="/[^\w]+/u" />
+      <parameter name="replacement" value="-" />
+      <parameter name="separator" value="-" />
+      <parameter name="permanent" value="true" />
+    </behavior>
+  </table>
+</database>

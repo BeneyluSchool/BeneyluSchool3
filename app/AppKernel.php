@@ -61,7 +61,6 @@ class AppKernel extends Kernel
 			$bundles[] = new BNS\App\RegistrationBundle\BNSAppRegistrationBundle();
 			$bundles[] = new BNS\App\DirectoryBundle\BNSAppDirectoryBundle();
 			$bundles[] = new BNS\App\UserBundle\BNSAppUserBundle();
-			$bundles[] = new BNS\App\GuideTourBundle\BNSAppGuideTourBundle();
         }
 
         if (in_array($this->getEnvironment(), array('app_dev', 'app_test'))) {

@@ -1,0 +1,39 @@
+{% extends '::base_manager.html.twig' %}
+
+{% set app_unique_name = 'RESERVATION' %}
+{% set app_mode = 'back' %}
+
+{% block css %}
+	{{ parent() }}
+
+	{# Appel CSS du package layout manager #}
+	{% include "BNSAppMainBundle:Manager:layoutStyle.html.twig" %}
+
+	{# Appel CSS du package reservation #}
+	{% include "BNSAppMainBundle:Manager:layoutCalendarStyle.html.twig" %}
+
+	<link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet' type='text/css'>
+    <link href="{{ asset('/medias/css/reservation/manager.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block title %}Réservations - Gestion{% endblock %}
+
+{% block body %}
+	<div class="background-reservation"></div>
+	{% block header %}{% endblock header %}
+    <div class="container container-fluid">
+		{% block form_start %}{% endblock %}
+		<div class="row-fluid container-manager reservation-container">
+			{% block sidebar %}
+				Hey, did you forget your sidebar ?
+			{% endblock %}
+			<div class="span9 container-content no-margin">
+				{% block content %}{% endblock %}
+			</div>
+			<div class="container-manager-bottom">
+				<div class="content-manager-bottom"></div>
+			</div>
+		</div>
+		{% block form_end %}{% endblock %}
+	</div>
+{% endblock %}

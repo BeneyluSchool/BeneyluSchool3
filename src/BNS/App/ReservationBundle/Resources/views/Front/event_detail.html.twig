@@ -1,0 +1,108 @@
+{% extends 'BNSAppReservationBundle:Layout:front.html.twig' %}
+
+{% block title %}Calendrier - {{ event.getTitle() }}{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+	<link href="{{ asset('/medias/css/calendar/wdcalendar/dailog.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('/medias/css/calendar/wdcalendar/calendar.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('/medias/css/calendar/wdcalendar/main.css') }}" rel="stylesheet" type="text/css" />
+    <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet' type='text/css'>
+    <link href="{{ asset('/medias/css/ui-lightness/jquery-ui-1.8.19.custom.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block lesses %}
+    {{ parent() }}
+    <link rel="stylesheet/less" href="{{ asset('/medias/less/calendar/calendar-front.less') }}" />
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+{% endblock %}
+
+{% block content %}
+    <div class="container-reservation">
+        <div class="span3 no-margin">
+            <div class="sidebar-reservation event">
+                <h1 class="title-event">Informations</h1>
+                <div class="menu-reservation">
+                    <div class="content-title-event">
+                    </div>
+                    {% if event.getAuthor() != null %}
+                        <p class="event"><strong>Réservé par</strong> {{ event.getAuthor() }}</p>
+                    {% endif %}
+
+                    {% if event.isRecurring() %}
+                        <p class="event"><strong>Type de récurrence</strong><br />{{ event.getRecurrenceString() }}<p>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+
+        <div class="span9 no-margin bns-reservation-front">
+            <div class="event-detail-container">
+                {# HEADER #}
+                <div class="event-detail-header">
+                    <span class="btn-backto-list">
+                        <a href="{{ path('BNSAppReservationBundle_front') }}">
+                            Retour aux réservations
+                        </a>
+                    </span>
+
+                    <div class="event-date">
+                        <p class="month-reservation">
+                            {% if event.getIsAllDay() == 1 %}
+                                Toute la journée du
+                                <p class="week-reservation">
+                                    {{ event.getDateStart()|date_bns('full', 'none') }}
+                                </p>
+                            {% else %}
+                                {% if event.getDateStart()|date('d/m/Y') == event.getDateEnd()|date('d/m/Y') %}
+                                    Le {{ event.getDateStart()|date_bns('full', 'none') }}
+                                    <p class="week-reservation">
+                                        de {{ event.getTimeStart()|date_bns('none', 'short') }}
+                                        à {{ event.getTimeEnd()|date_bns('none', 'short') }}
+                                    </p>
+                                {% else %}
+                                    Du {{ event.getDateStart()|date_bns('full', 'none') }}
+                                    {% if event.getTimeStart() != "00h00"  %}
+                                        à <strong>{{ event.getTimeStart()|date_bns('none', 'short') }}</strong>
+                                    {% endif %}
+                                    <p class="week-reservation">
+                                        au {{ event.getDateEnd()|date_bns('full', 'none') }}
+                                        {% if event.getTimeEnd() != "23h59" and event.getTimeEnd() != "00h00"  %}
+                                            à <strong>{{ event.getTimeEnd()|date_bns('none', 'short') }}</strong>
+                                        {% endif %}
+                                    </p>
+                                {% endif %}
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="event-detail-title">
+                    <p class="event-title
+                        {{ event.colorClass }}">{{ event.getTitle() }}
+                    </p>
+                </div>
+
+                <div class="event-detail-content-border">
+                    <div class="event-detail-content">
+                       {% if event.getDescription() != '' %}
+                            {% autoescape false %}
+                                <div class="event-tinymce-description">{{ event.getDescription() }}</div>
+                            {% endautoescape %}
+                        {% else %}
+                            <p><i>Cette réservation ne comporte pas de description.</i></p>
+                        {% endif %}
+
+						<div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

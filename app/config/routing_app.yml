@@ -296,7 +296,7 @@ BNSAppDirectoryBundle_homepage:
 BNSAppGuideTourBundle_homepage:
     resource: "@BNSAppGuideTourBundle/Controller/GuideTourController.php"
     type:			annotation
-    prefix:		/visite-guidee
+    prefix:		/visite
 
 
 # Registration

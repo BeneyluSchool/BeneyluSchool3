@@ -1,0 +1,131 @@
+{% extends 'BNSAppPupilMonitoringBundle:Layout:manager.html.twig' %}
+
+{% block css %}
+	{{ parent() }}
+	<link type="text/css" href="{{ asset("medias/css/fg.menu.css") }}" media="screen" rel="stylesheet" />
+    <link href="{{ asset('/medias/css/ui-twitter-theme/jquery-ui-1.8.16.custom.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('/medias/js/pupilmonitoring/common.js') }}"></script>
+{% endblock %}
+    
+{% set view = not is_in_front ? 'back' : 'front' %}
+
+{% block sidebar %}
+    {% include 'BNSAppPupilMonitoringBundle:Common:sidebar.html.twig' with { 'user ' : user  , 'view' : view } %}
+{% endblock sidebar %}
+
+{% block header %}
+    {% if backLink %}
+        <div class="header-buttons">
+            <div class="inner-header">
+                <div class="container container-fluid">
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <a href="{{ path('BNSAppPupilMonitoringBundle_lpc_' ~ view ~ '_index') }}" class="btn bns-notice btn-24 medium-return">
+                                <span class="icons-24 back-icon"></span>
+                                <strong>Retourner</strong><br>à la liste des livrets
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="container-classroom content-categories-management lpc">
+        <ol class="load-sortable">
+            {% for child in root.children %}
+                <li>
+                    <div class="section">
+                        <div class="title palier">
+                            <span class="lpc-label">{{ child.label }}</span>
+                            <span class="datePicker">
+                                {% if canEdit %}
+                                    <img src="{{ asset('/medias/images/icons/sidebar/datepicker.png') }}" class="img-calendar" alt="">
+                                    <input id="{{ child.slug }}" data-login="{{ user.login }}" type="text" name="lpc[date]" required="required" class="jq-date" placeholder="jour / mois / année" value="{{ links[child.id] is defined ? links[child.id] | date('d/m/Y') : ''}}" />
+                                {% else %}
+                                    {{ links[child.id] is defined ? links[child.id] | date('d/m/Y') : 'Non défini'}}
+                                {% endif %}
+                                <img class="toggle-arrow opened"  src="{{ asset('/medias/images/icons/arrow-right.png') }}" />
+                            </span>
+                        </div>
+                    </div>
+                    {% if child.hasChildren %}
+                        <ol class="toggable">
+                            {% for subchild in child.children %}
+                                <li>
+                                    <div class="section">
+                                        <div class="title competence">
+                                            <span class="lpc-label">{{ subchild.label }} </span>
+                                            <span class="datePicker">
+                                                {% if canEdit %}
+                                                   <img src="{{ asset('/medias/images/icons/sidebar/datepicker.png') }}" class="img-calendar" alt="">
+                                                   <input id="{{ subchild.slug }}" data-login="{{ user.login }}" type="text" name="lpc[{{ subchild.slug }}][date]" required="required" class="jq-date" placeholder="jour / mois / année" value="{{ links[subchild.id] is defined ? links[subchild.id] | date('d/m/Y') : ''}}" />
+                                                {% else %}
+                                                    {{ links[subchild.id] is defined ? links[subchild.id] | date('d/m/Y') : 'Non défini'}}
+                                                {% endif %}
+                                                <img class="toggle-arrow"  src="{{ asset('/medias/images/icons/arrow-right.png') }}" />
+                                            </span>
+                                        </div>
+                                        <div class="clear-both"></div>
+                                    </div>
+                                    {% if subchild.hasChildren %}
+                                        <ol class="hide">
+                                            {% for subsubchild in subchild.children %}
+                                                <li>
+                                                    <div class="section">
+                                                        <div class="title domaine">
+                                                            <span class="lpc-label">{{ subsubchild.label }}</span>
+                                                            <span class="datePicker">
+                                                                {% if canEdit %}
+                                                                    <img src="{{ asset('/medias/images/icons/sidebar/datepicker.png') }}" class="img-calendar" alt="">
+                                                                    <input id="{{ subsubchild.slug }}" data-login="{{ user.login }}" type="text" name="lpc[{{ subsubchild.slug }}][date]" required="required" class="jq-date" placeholder="jour / mois / année" value="{{ links[subsubchild.id] is defined ? links[subsubchild.id] | date('d/m/Y') : ''}}" />
+                                                                {% else %}
+                                                                    {{ links[subsubchild.id] is defined ? links[subsubchild.id] | date('d/m/Y') : 'Non défini'}}
+                                                                {% endif %}
+                                                                <img class="toggle-arrow"  src="{{ asset('/medias/images/icons/arrow-right.png') }}" />
+                                                            </span>
+                                                            <div class="clear-both"></div>
+                                                        </div>
+                                                    </div>
+                                                    {% if subsubchild.hasChildren %}
+                                                        <ol class="hide">
+                                                            {% for subsubsubchild in subsubchild.children %}
+                                                                <li>
+                                                                    <div class="section">
+                                                                        <div class="title">
+                                                                            <span class="lpc-label">{{ subsubsubchild.label }}</span>
+                                                                            <span class="datePicker">
+                                                                                {% if canEdit %}
+                                                                                    <img src="{{ asset('/medias/images/icons/sidebar/datepicker.png') }}" class="img-calendar" alt="">
+                                                                                    <input id="{{ subsubsubchild.slug }}" data-login="{{ user.login }}" type="text" name="lpc[{{ subsubsubchild.slug }}][date]" required="required" class="jq-date" placeholder="jour / mois / année" value="{{ links[subsubsubchild.id] is defined ? links[subsubsubchild.id] | date('d/m/Y') : ''}}" />
+                                                                                {% else %}
+                                                                                    {{ links[subsubsubchild.id] is defined ? links[subsubsubchild.id] | date('d/m/Y') : 'Non défini'}}
+                                                                                {% endif %}
+                                                                            </span>
+                                                                        </div>
+                                                                        <div class="clear-both"></div>
+                                                                    </div>
+                                                                </li>    
+                                                            {% endfor %}
+                                                        </ol>
+                                                    {% endif %}
+                                                </li>
+                                            {% endfor %}
+                                        </ol>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ol>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ol>
+    </div>    
+{% endblock %}
+

@@ -1,0 +1,36 @@
+{% extends '::base_manager.html.twig' %}
+
+{% set app_unique_name = 'PUPILMONITORING' %}
+{% set app_mode = 'front' %}
+
+{% block title %}
+    Suivi des élèves
+{% endblock %}
+
+{% block css %}
+    {{ parent() }}
+    {# Appel CSS du package layout manager #}
+    {% include "BNSAppMainBundle:Manager:layoutStyle.html.twig" %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% block header %}{% endblock header %}
+    <div class="office forum"></div>
+    <div class="container container-fluid forum-container">
+        <div class="row-fluid container-manager">
+            {% block sidebar %}
+                {% include "BNSAppPupilMonitoringBundle:Common:sidebar.html.twig" %}
+            {% endblock %}
+            <div class="span9 container-content no-margin">
+                {% block content %}Add your content here!{% endblock %}
+            </div>
+            <div class="container-manager-bottom">
+                <div class="content-manager-bottom"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'BNSAppReservationBundle:Back:new_event.html.twig' %}
+
+{% block title %}Calendrier - Editer un évènement{% endblock %}
+
+{% block javascripts %}
+	<script type="text/javascript">
+		$(".finish").click(function() {
+			$("#edit-form").submit();
+		});
+	</script>
+{% endblock %}
+
+{% block header %}
+<div class="header-buttons">
+	<div class="inner-header">
+		<div class="container container-fluid">
+			<div class="row-fluid">
+				<div class="span8">
+					<a href="{{ path('BNSAppReservationBundle_back') }}" class="btn bns-notice btn-24 medium-return button-return">
+						<span class="icons-24 back-icon"></span>
+						<strong>Retourner</strong><br />aux réservations
+					</a>
+					<a href="{{ path('BNSAppReservationBundle_back') }}" class="btn bns-danger btn-24 medium cancel-button">
+						<span class="icons-24 cancel-icon"></span>
+						<strong>Annuler</strong>
+					</a>
+					<a href="#" data-target="#deleteModal" data-toggle="modal" class="btn bns-danger btn-24 medium-return delete-button">
+						<span class="icons-24 delete-icon"></span>
+						<strong>Supprimer</strong><br />la réservation
+					</a>
+				</div>
+				<div class="span4 align-right">
+					<a href="#" id="submitButton" class="btn bns-success btn-24 large finish">
+						<span class="icons-24 validate-icon"></span>
+						Mettre à jour
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock header %}
+
+{% block content %}
+	<div class="content admin-form">
+		{# PAS TOUCHE #}
+		<form action="{{ path('BNSAppReservationBundle_back_edit_event', { 'slug': event.getSlug() }) }}" id="edit-form" method="POST" {{ form_enctype(form) }}>
+			{{ form_errors(form) }}
+			{% include 'BNSAppReservationBundle:Back:block_event_form.html.twig' with {'form' : form, 'locale': locale, 'resources': event.getResourceAttachments } %}
+		</form>
+		{# FIN PAS TOUCHE #}
+	</div>
+
+	{% autoescape false %}
+		{{ modal('deleteModal', {
+			'title': event.getTitle(),
+			'body': 'Êtes-vous sûr de vouloir supprimer cet évènement ?',
+			'type': 'error',
+			'footer_template': {'template': 'BNSAppReservationBundle:Back:modal_footer_delete_event.html.twig', 'values': { 'event': event } },
+		}) }}
+	{% endautoescape %}
+{% endblock %}

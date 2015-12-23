@@ -1,0 +1,15 @@
+BNS\App\ReservationBundle\Form\Model\ReservationEventFormModel:
+  properties:
+    reservationItem:
+      - NotBlank: { message: Vous devez choisir une salle ou un matériel à réserver. }
+    dateStart:
+      - NotBlank: { message: La date de début de l'événement doit être renseignée. }
+      - Date: { message: La date de début que vous avez saisi n'est pas une date valide. }
+    dateEnd:
+      - NotBlank: { message: La date de fin de l'événement doit être renseignée. }
+      - Date: { message: La date de fin que vous avez saisi n'est pas une date valide. }
+    recurringEndDate:
+      - Date: { message: La date de fin de récurrence que vous avez saisi n'est pas une date valide. }
+  constraints:
+    - Callback:
+        methods:  [isValidRecurringOptions, isValidDateTimeStartAndEnd]

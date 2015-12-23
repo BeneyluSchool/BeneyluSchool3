@@ -1,0 +1,109 @@
+{% extends 'BNSAppPupilMonitoringBundle:Layout:manager.html.twig' %}
+
+{% set view = not is_in_front ? 'back' : 'front' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% if canEdit %}
+        <script type="text/javascript" src="{{ asset('/medias/js/pupilmonitoring/common.js') }}"></script>
+    {% endif %}
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'BNSAppPupilMonitoringBundle:Common:sidebar.html.twig' with { 'section' : 'absences' , 'view' : view } %}
+{% endblock sidebar %}
+
+{% block content %}
+    <div class="container-classroom absence">
+        
+        <div class="news-title dashboard absence">
+            <a href="{{ path('BNSAppPupilMonitoringBundle_absence_' ~ view ~ '_week' , {'date' : weekBefore }) }}" class="btn btn-prec pull-left btn-change-week"><span class="icons-arrow left"></span> Aller à la semaine <br> précédente</a>
+            <div class="content-week">
+                <p class="week">Semaine du</p> <p class="days"> {{ week | localizeddate('medium', 'none') }} au {{ date(week ~ '+5days') | localizeddate('medium', 'none') }}</p>
+            </div>
+            <a href="{{ path('BNSAppPupilMonitoringBundle_absence_' ~ view ~ '_week' , {'date' : weekAfter }) }}" class="btn btn-next btn-change-week"><span class="icons-arrow right"></span> Aller à la semaine <br>suivante</a>
+        </div>
+        
+        <a href="{{ path('BNSAppPupilMonitoringBundle_absence_' ~ view ~ '_index_date' , {'date' : week }) }}" class="btn bns-notice btn-16 small change-view">
+            <span class="icons-16 preview-icon"></span>
+            <strong>Passer en vue jour</strong>
+        </a>
+        
+        <div class="item-list-container pupil absence">
+            <div class="absences-labels">
+                <span class='pupil-label'>
+                    Elèves
+                </span>
+                <span class='day-label'>
+                    Samedi
+                </span>
+                <span class='day-label'>
+                    Vendredi
+                </span>
+                <span class='day-label'>
+                    Jeudi
+                </span>
+                <span class='day-label'>
+                    Mercredi
+                </span>
+                <span class='day-label'>
+                    Mardi
+                </span>
+                <span class='day-label'>
+                    Lundi
+                </span>
+            </div>
+            {% for pupil in pupils %}
+                <div class="item {% if loop.first %}first{% endif %}">
+                    {% if pupil.isEnabled() %}
+                        <div class="vertical-separator {% if pupil.getGender() == 'F' %}female{% endif %}"></div>
+                    {% else %}
+                        <div class="vertical-separator disabled"></div>
+                    {% endif %}
+                    <div class="buttons-container week">
+                        {% for i in 5..0 %}
+                            <input  
+                                class="legitimate-week {{ date(week ~ '+' ~ i ~ 'days') | date('l')  }}" 
+                                {{ 
+                                orderedAbsences[pupil.id][date(week ~ '+' ~ i ~ 'days') | date('Y-m-d')]['type'] is defined 
+                                    and 
+                                orderedAbsences[pupil.id][date(week ~ '+' ~ i ~ 'days') | date('Y-m-d')]['type'] in [0,2] 
+                                    ? 'checked' : '' 
+                                }}
+                                data-date="{{ date(week ~ '+' ~ i ~ 'days') | date('Y-m-d') }}" 
+                                data-login="{{ pupil.login }}" 
+                                data-type="MORNING" 
+                                type="checkbox" 
+                                {{ not canEdit ? 'disabled' : '' }}
+                            />
+                        {% endfor %}
+                        <hr class="separator" />
+                        {% for i in 5..0 %}
+                            <input 
+                                class="legitimate-week {{ date(week ~ '+' ~ i ~ 'days') | date('l')  }}" 
+                                {{ 
+                                orderedAbsences[pupil.id][date(week ~ '+' ~ i ~ 'days') | date('Y-m-d')]['type'] is defined 
+                                    and 
+                                orderedAbsences[pupil.id][date(week ~ '+' ~ i ~ 'days') | date('Y-m-d')]['type'] in [1,2] 
+                                    ? 'checked' : '' 
+                                }}
+                                data-date="{{ date(week ~ '+' ~ i ~ 'days') | date('Y-m-d') }}" 
+                                data-login="{{ pupil.login }}" 
+                                data-type="AFTERNOON" 
+                                type="checkbox"
+                                {{ not canEdit ? 'disabled' : '' }}
+                            />
+                        {% endfor %}
+                    </div>
+                    <div class="header">
+                        <a href="{{ path('BNSAppPupilMonitoringBundle_absence_' ~ view ~ '_pupil' , { 'login' : pupil.login }) }}">
+                             <img class="avatar" src="{{ avatar(pupil, 'thumbnail') }}" alt="" />
+                             <p class="name">{{ pupil.getFullName() }}</p>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+

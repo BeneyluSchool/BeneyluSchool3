@@ -1,0 +1,38 @@
+{% trans_default_domain "CORE" %}
+{% extends '::base.html.twig' %}
+	
+{% block body %}
+	<div class="background-error"></div>
+    <div class="container container-fluid content-error">
+        <h1>
+            {% if is_adult() %}
+                {{ 'ADULT_HAVENT_RIGHT'|trans |desc('Vous n\'avez pas le droit de voir cette page') }}
+            {% else %}
+                {{ 'CHILD_HAVENT_RIGHT'|trans |desc('Tu n\'as pas le droit de voir cette page.') }}
+
+            {% endif %}
+        </h1>
+        <p>
+            {% if is_adult() %}
+                {{ 'ADULT_MODULE_DESACTIVATE_BAD_WORKING_SPACE'|trans |desc('Ce module est probablement désactivé, ou vous n\'êtes pas dans le bon espace de travail.') }}
+            {% else %}
+                {{ 'CHILD_MODULE_DESACTIVATE_BAD_WORKING_SPACE'|trans |desc('Ce module est probablement désactivé, ou tu n\'es pas dans le bon espace de travail.') }}
+            {% endif %}
+        </p>
+
+        <p>{% if is_adult() %}{{ 'ADULT_DONT_PANIK'|trans |desc('Pas de panique, vous pouvez : ') }}{% else %}{{ 'CHILD_DONT_PANIK'|trans |desc('Pas de panique, tu peux : ') }}{% endif %}</p>
+		<ul>
+			<li><a href="{{ path('home') }}">{{ 'LINK_BACK_TO_HOMEPAGE'|trans |desc('Revenir à la page d\'accueil') }}</a></li>
+			<li>
+                <a href="{{ path('disconnect_user') }}">
+                    {% if is_adult() %}
+                        {{ 'LINK_DISCONNECT_USER'|trans }}
+                    {% else %}
+                        {{ 'CHILD_LINK_DISCONNECT_USER'|trans |desc('Te déconnecter puis te reconnecter')}}
+                    {% endif %}
+                </a>
+            </li>
+		</ul>
+	</div>
+{% endblock %}
+

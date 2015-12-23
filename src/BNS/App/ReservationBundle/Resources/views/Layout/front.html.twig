@@ -1,0 +1,25 @@
+{% extends '::base.html.twig' %}
+
+{% set app_unique_name = 'RESERVATION' %}
+{% set app_mode = 'front' %}
+
+{% block title %}Réservations{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+
+    <link href="{{ asset('/medias/css/reservation/front.css') }}" rel="stylesheet" type="text/css">
+	<link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block body %}
+
+<div class="background-reservation"></div>
+<div class="container-fluid">
+	<div class="row-fluid">
+		{% block content %}{% endblock %}
+	</div>
+</div>
+
+{% endblock %}

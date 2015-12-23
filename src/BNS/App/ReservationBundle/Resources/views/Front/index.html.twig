@@ -1,0 +1,365 @@
+{% extends 'BNSAppReservationBundle:Layout:front.html.twig' %}
+
+{% block css %}
+	<link href="{{ asset('/medias/css/calendar/jquery.colourPicker.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('/medias/css/calendar/wdcalendar/dailog.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('/medias/css/calendar/wdcalendar/calendar.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('/medias/css/calendar/wdcalendar/dp.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('/medias/css/calendar/wdcalendar/alert.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('/medias/css/calendar/wdcalendar/main.css') }}" rel="stylesheet" type="text/css" />
+
+	{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script type="text/javascript">
+		var hiddingReservations = new Array();
+		var hiddingAgendas = new Array();
+	</script>
+	<script type="text/javascript" src="{{ asset('/medias/js/calendar/jquery.colourPicker.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/calendar/wdcalendar/Plugins/Common.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/calendar/wdcalendar/Plugins/datepicker_lang_FR.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/calendar/wdcalendar/Plugins/jquery.datepicker.js') }}"></script>
+
+	<script type="text/javascript" src="{{ asset('/medias/js/calendar/wdcalendar/Plugins/jquery.alert.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/calendar/wdcalendar/Plugins/jquery.ifrmdailog.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/calendar/wdcalendar/Plugins/wdCalendar_lang_FR.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/calendar/wdcalendar/Plugins/jquery.calendar.js') }}"></script>
+
+	<script type="text/javascript">
+        $(document).ready(function() {
+
+
+
+	    $('.colorpicker').colourPicker({
+		ico:    '{{ asset('/medias/images/calendar/color-picker-bg-transparent.png') }}',
+                title:  false
+	    });
+
+	    $("input[name=colour]").change(function() {
+		var color = $(this).attr('value');
+		var selectedItem = $('.option-color[rel='+color+']')
+		var newClass = selectedItem.attr('title');
+		var agendaId = $('.color-img').attr('id');
+
+		var classes = $('.content-agenda').attr('class').split(" ").map(function(item) {
+		    return item.indexOf("cal-") === -1 ? item : "";
+		});
+		$('.content-agenda').attr("class", classes.join(" "));
+
+		$('.content-agenda').addClass(newClass);
+
+		var classes = $('#agenda-'+agendaId).attr('class').split(" ").map(function(item) {
+		    return item.indexOf("cal-") === -1 ? item : "";
+		});
+		$('#agenda-'+agendaId).attr("class", classes.join(" "));
+
+		$('#agenda-'+agendaId).addClass(newClass);
+
+		link = Routing.generate('BNSAppReservationBundle_front_color_change', {'agendaId' : agendaId, 'colorHex': color});
+		$('.loader').fadeIn('fast');
+
+		//Appel de la génération de template
+		$.ajax({
+		    url: link,
+		    success:function(response){
+			$("#gridcontainer").reload();
+			$('.loader').fadeOut('fast');
+		    }
+		});
+
+            });
+
+            var view="week";
+
+            var op = {
+                view: view,
+                theme:0,
+                showday: new Date({% if dateShow is defined %}"{{ dateShow }}"{% endif %}),
+                ViewCmdhandler:View,
+                onWeekOrMonthToDay:wtd,
+                onBeforeRequestData: "",
+                onAfterRequestData: "",
+                onRequestDataError: "",
+                autoload: true,
+                enableDrag: true,
+                url: Routing.generate('BNSAppReservationBundle_front_list_events'),
+                quickUpdateUrl: "{{ path('BNSAppReservationBundle_back_update_event') }}",
+            };
+            var $dv = $("#calhead");
+            var _MH = document.documentElement.clientHeight;
+            var dvH = $dv.height() + 2;
+            op.height = dvH + 15 * 42;
+
+            $("#myDiv").bind("resize", function() {
+                alert( $("#myDiv").height() );
+            });
+
+            op.eventItems = [];
+			op.readonly = true;
+            var p = $("#gridcontainer").bcalendar(op).BcalGetOp();
+            p = $("#gridcontainer").nextRange().BcalGetOp();
+            p = $("#gridcontainer").previousRange().BcalGetOp();
+            if (p && p.datestrshow) {
+                $("#txtdatetimeshow").text(p.datestrshow);
+				displayDate(p.datestrshow);
+            }
+
+            if (p && p.datestrshow) {
+                $("#txtdatetimeshow").text(p.datestrshow);
+            }
+            $("#caltoolbar").noSelect();
+
+            $("#hdtxtshow").datepicker({ picker: "#txtdatetimeshow", showtarget: $("#hdtxtshow"),
+			onReturn:function(r)
+			{
+				var p = $("#gridcontainer").gotoDate(r).BcalGetOp();
+				if (p && p.datestrshow) {
+					$("#txtdatetimeshow").text(p.datestrshow);
+				}
+			}
+			});
+
+            // Tweak: pour pouvoir activer et afficher le datepicker
+            $("#txtdatetimeshow").trigger('click');
+
+            function View(data)
+            {
+                if (data[0].indexOf('anniversaire/') == 0) {
+                    var eventInfos = data[0].split('_');
+
+                    var $birthdayHiddenForm = $('form#birthday_form');
+                    $birthdayHiddenForm.attr('action', Routing.generate('front_birthday_event_detail'));
+                    // Set title, description, date in form
+                    $('input#birthday_title').val(eventInfos[1]);
+                    $('input#birthday_description').val(eventInfos[2]);
+                    $('input#birthday_date').val(eventInfos[0].substring(13, eventInfos[0].length));
+
+                    $birthdayHiddenForm.submit();
+                }
+		else if (data[0].indexOf('cahier-de-texte/') == 0) {
+			var link = Routing.generate('BNSAppHomeworkBundle_front_detail_search', { 'id': data[0].split('/')[1] });
+                	window.location = link;
+                }
+                else {
+             		var link = Routing.generate('BNSAppReservationBundle_front_event_detail', { 'slug': data[0] });
+                	window.location = link;
+            	}
+
+            	return;
+            }
+            function wtd(p)
+            {
+               if (p && p.datestrshow) {
+                    $("#txtdatetimeshow").text(p.datestrshow);
+                }
+                $("#caltoolbar div.fcurrent").each(function() {
+                    $(this).removeClass("fcurrent");
+                })
+                $("#showdaybtn").addClass("fcurrent");
+            }
+            //previous date range
+            $("#sfprevbtn").click(function(e) {
+                var p = $("#gridcontainer").previousRange().BcalGetOp();
+                if (p && p.datestrshow) {
+                    $("#txtdatetimeshow").text(p.datestrshow);
+                    displayDate(p.datestrshow);
+                }
+
+            });
+            //next date range
+            $("#sfnextbtn").click(function(e) {
+                var p = $("#gridcontainer").nextRange().BcalGetOp();
+                if (p && p.datestrshow) {
+                    $("#txtdatetimeshow").text(p.datestrshow);
+					displayDate(p.datestrshow);
+                }
+            });
+
+			$(".btn-cal-filter").click(function(e)
+			{
+				var $this = $(e.currentTarget),
+					agendaId = $this.attr('id');
+
+				// Add to hidding list process
+				if ($this.hasClass('btn-class-actif')) {
+					hiddingReservations.push(agendaId);
+				}
+				// Remove
+				else {
+					tmpArray = new Array();
+					for (i in hiddingReservations) {
+						if (hiddingReservations[i] == agendaId) {
+							continue;
+						}
+
+						tmpArray.push(hiddingReservations[i]);
+					}
+
+					hiddingReservations = tmpArray;
+					delete tmpArray;
+				}
+
+				$("." + agendaId).toggleClass('hide');
+				$this.toggleClass('btn-class-actif btn-class').find('span').toggleClass('icons-stick-reservation-actif icons-stick-reservation');
+            });
+
+
+
+			// On repositionne correctement le datepicker de wdCalendar
+            var wdDatePicker = $('#BBIT_DP_CONTAINER');
+            wdDatePicker.appendTo('#dp-location');
+
+         	// Réajuste en permanence la hauteur du gridcontainer (le conteneur de wdCalendar)
+            setInterval(function() {
+            	$("#gridcontainer").height($("#dvwkcontaienr").height() + 12 * 42 - 10);
+            },
+            1000);
+        });
+
+        function displayDate(datestr)
+        {
+			datestr = datestr.split(" ");
+			var optionalMonth = (datestr[0] == datestr[4]? "" : ' ' + datestr[0] + ' ');
+			var monthYearStr = datestr[4] + " ";
+			if (datestr[6])
+			{
+				monthYearStr += datestr[6];
+				optionalMonth += datestr[2] + ' ';
+			}
+			else
+			{
+				monthYearStr += datestr[2];
+			}
+			$(".week-reservation").html("du lundi " + datestr[1] + optionalMonth + " au dimanche " + datestr[5]);
+			$(".month-reservation").html(monthYearStr);
+        };
+
+        function updateDateRangeView(date) {
+			var p = $("#gridcontainer").gotoDate(date).BcalGetOp();
+			if (p && p.datestrshow) {
+				displayDate(p.datestrshow);
+            }
+
+			return false;
+        };
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="container-reservation">
+        <div class="span3 no-margin">
+            <div class="sidebar-reservation">
+                <div class="menu-reservation">
+					<div id="dp-location">
+						<div class="week-selector"></div>
+					</div>
+                    <div id="hdtxtshow" class="date-picker-position"></div>
+
+		    <a href="{{ path('BNSAppReservationBundle_front_add_event') }}" class="btn bns-info btn-24 medium">
+			<span class="icons-24 add-icon"></span>
+			<strong>Créer</strong> une réservation
+		    </a>
+
+{#                     <h1>Mes calendriers</h1>#}
+{#                     <div class="shadow-sidebar"></div>#}
+
+{# 		    <div class="agenda-container">#}
+{# 			    {% for agenda in agendas %}#}
+{# 				    {% if agenda.getGroup() != null%}#}
+{# 				    <button id="agenda-{{ agenda.getId() }}" class="{{ agenda.getColorClass }} btn-cal-filter btn btn-class-actif">#}
+{# 					<span class="icons-stick-reservation-actif"></span>#}
+{# 					<p>Calendrier de {{ agenda.getTitle() }} affiché</p>#}
+{# 					<p style="display: none;">Afficher le calendrier de {{ agenda.getTitle() }}</p>#}
+{# 				    </button><br />#}
+{# 				    {% else %}#}
+{# 				    <button id="agenda-{{ agenda.getId() }}" class="{{ agenda.getColorClass }} btn-cal-filter btn btn-class-actif">#}
+{# 					<span class="icons-stick-reservation-actif"></span>#}
+{# 					<p>{{ agenda.getTitle() }} affiché</p>#}
+{# 					<p style="display: none;">Afficher {{ agenda.getTitle() }}</p>#}
+{# 				    </button><br />#}
+{# 				    <div class="loader loader-h" style="display: none;"></div>#}
+{# 				    <div class="content-agenda {{ agenda.getColorClass() }}">#}
+{# 					<select class="colorpicker"  name="colour">#}
+{# 						{% for id, value in colors %}#}
+{# 							<option value="{{ value }}">{{ id }}</option>#}
+{# 						{% endfor %}#}
+{# 					</select>#}
+{# 					    <span id="{{ agenda.getId() }}" class="color-img"></span> <span class="legend">Changer la couleur de Mon agenda</span>				    </div>#}
+{# 				    {% endif %}#}
+{# 			    {% endfor %}#}
+{# 				    <button id="agenda-0" class="cal-green btn-cal-filter btn btn-class-actif">#}
+{# 					<span class="icons-stick-reservation-actif"></span>#}
+{# 					<p>Cahier de textes affiché</p>#}
+{# 					<p style="display: none;">Afficher le cahier de textes</p>#}
+{# 				    </button><br />#}
+{# 		    </div>#}
+                    <br />
+                    <br />
+                    <div class="content-agenda cal-green">
+                        <span class="color-img" id="11"></span> <span class="legend">Salles réservées</span>
+                    </div>
+                    <div class="content-agenda cal-blue">
+                        <span class="color-img" id="11"></span> <span class="legend">Matériels réservés</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="span9 no-margin bns-reservation-front">
+
+            <div id="calhead" class="header-reservation">
+                <div class="cHead">
+            </div>
+
+                <div id="caltoolbar" class="ctoolbar content-reservation">
+                    <div id="faddbtn" class="fbutton">
+                </div>
+
+                <div id="sfnextbtn" title="Voir la semaine suivante" class="fbutton">
+                    <span class="fnext btn-reservation-next cal-nav"><p>Voir la semaine suivante</p></span>
+                </div>
+
+                <div id="sfprevbtn" title="Voir la semaine précédente"  class="fbutton">
+                    <span class="fprev btn-reservation-prev cal-nav"><p>Voir la semaine précédente</p></span>
+
+                </div>
+
+                <div class="title-reservation">
+                    <p class="week-reservation"></p>
+                    <p class="month-reservation"></p>
+                </div>
+
+                <div class="fshowdatep fbutton">
+                    <div>
+                        <span id="txtdatetimeshow" style="display: none;"></span>
+                    </div>
+                </div>
+
+                <div class="clear"></div>
+                </div>
+            </div>
+
+            <div class="reservation-bns">
+                <div id="dvCalMain" class="calmain printborder">
+                    <div id="gridcontainer" style="overflow-y: visible; min-height: 587px">
+                    </div>
+                </div>
+
+                <div class="t2 chromeColor">&nbsp;</div>
+                <div class="t1 chromeColor">&nbsp;</div>
+            </div>
+       </div>
+    </div>
+
+    {# Simulation d'un formulaire pour envoyer des données en méthode POST #}
+    <div class="hide">
+        <form action="#" method="POST" id="birthday_form">
+            <input type="hidden" id="birthday_title" name="title" />
+            <input type="hidden" id="birthday_description" name="description" />
+            <input type="hidden" id="birthday_date" name="date" />
+        </form>
+    </div>
+{% endblock %}

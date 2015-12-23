@@ -1,0 +1,26 @@
+<div class="container-sidebar">
+    {% if user is defined == "user" %}
+        <div class="section full-name active">
+            <div class="section-title">
+                <h1 class="dashboard">
+                    <img src="{{ avatar(user, 'thumbnail') }}">
+                    {{ user.fullName }}
+                </h1>
+            </div>
+            <span class="shadow-section"></span>
+        </div>
+        <div class="sidebar-shadow"></div>
+    {%  endif %}
+    <div class="container-section">
+        {% if section != "lpc" %}
+            <div class="section">
+                <a href="{{ path('BNSAppPupilMonitoringBundle_lpc_' ~ view ~ '_index') }}">Livrets personnels</a>
+            </div>
+        {% endif %}
+        {% if section != "absences" %}
+            <div class="section">
+                <a href="{{ path('BNSAppPupilMonitoringBundle_absence_' ~ view ~ '_index') }}">Absences</a>
+            </div>
+        {% endif %}
+    </div>
+</div>

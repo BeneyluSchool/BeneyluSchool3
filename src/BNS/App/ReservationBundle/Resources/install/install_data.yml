@@ -1,0 +1,57 @@
+module:
+  unique_name: RESERVATION
+  is_contextable: false
+  name:
+    fr: Gestion des réservations
+    en: Reservation handler
+  description:
+    fr: Permet de réserver des salles ou des objets
+    en: Room and object reservation management
+  default_rank:
+    pupil: USE
+    parent: USE
+    teacher: MANAGE
+    other: MANAGE
+
+permissions:
+  ACCESS:
+    label:
+      fr: Accéder au tableau des réservations
+      en: Access to reservations
+    description:
+      fr: Peut voir les réservation faites
+      en: Can see the reservations
+
+  ACCESS_BACK:
+    label:  
+      fr: Accéder à la gestion des réservations + des objets réservables
+      en: Access to reservation and objects management
+    description:
+      fr: Peut créer des réservations, des salles et des objets
+      en: Can create reservation, rooms et objects
+
+  ACTIVATION:
+    label:
+      fr: Peut activer la gestion des réservations
+      en: Can enable the reservations
+    description:
+      fr: Permission d'activation
+      en: Activation permission
+ranks:
+  USE:
+    label:
+      fr: Voir les réservations
+      en: See reservations
+    description:
+      fr: Accéder au tableau des réservations
+      en: Can see the reservations
+    permissions: [ACCESS]
+
+  MANAGE:
+    label:
+      fr: Gérer les réservations
+      en: Manage reservation
+    description:
+      fr: Accéder à la gestion des réservations + des objets réservables
+      en: Access to reservation and objects management
+    permissions: [ACCESS, ACCESS_BACK]

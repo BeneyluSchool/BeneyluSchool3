@@ -1,0 +1,61 @@
+{% extends 'BNSAppPupilMonitoringBundle:Layout:manager.html.twig' %}
+
+{% set view = not is_in_front ? 'back' : 'front' %}
+
+{% block sidebar %}
+    {% include 'BNSAppPupilMonitoringBundle:Common:sidebar.html.twig' with { 'user ' : user , 'view' : view } %}
+{% endblock sidebar %}
+
+{% block header %}
+    {% if backLink %}
+        <div class="header-buttons">
+            <div class="inner-header">
+                <div class="container container-fluid">
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <a href="{{ path('BNSAppPupilMonitoringBundle_absence_' ~ view ~ '_index') }}" class="btn bns-notice btn-24 medium-return">
+                                <span class="icons-24 back-icon"></span>
+                                <strong>Retourner</strong><br>à la liste des absences
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="container-classroom absence">
+        <div class="item-list-container pupil absence">
+            <div class="absences-labels">
+                <span class='pupil-label'>
+                    Date de l'absence
+                </span>
+                <span class='time-label'>
+                    Durée
+                </span>
+                <span class='legitimate-user-label'>
+                    Légitimité
+                </span>
+            </div>
+            {% for absence in absences %}
+                <div class="item {% if loop.first %}first{% endif %}">
+                    <p class="datas">
+                        <span class="date">{{ absence.date('d/m/Y') }}</span>
+                        <span class="type">{{ absence.printType }}</span>
+                        <span class="legitimate-value">{{ absence.printLegitimate }}</span>
+                    </p>
+                    
+                </div>
+            {% else %}
+                {% include 'BNSAppMainBundle:NoInformation:index.html.twig' with 
+                    {
+                        'text': "Cet élève n'a pas encore été absent."
+                    }
+                 %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+

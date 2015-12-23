@@ -364,7 +364,7 @@ class BNSClassroomManager extends BNSGroupManager implements IBundleActivation
 	 * @param \Symfony\Component\HttpFoundation\File\UploadedFile $file le fichier CSV
 	 * @param type $format Format Beneylu School (=0) || Format Base Elèves (=1)
 	 * @return array tableau contenant les informations sur l'opération d'importation : key 'user_count' = le nombre d'utilisateur que le processus
-	 * a essayé d'insérer; key 'success_insertion_count' : le nombre d'utilisateur inséré avec succès
+	 * a essayé d'insérer; key 'success_insertion_count' : le nombre d'utilisateurs insérés avec succès
 	 */
 	public function importPupilFromCSVFile(UploadedFile $file, $format)
 	{

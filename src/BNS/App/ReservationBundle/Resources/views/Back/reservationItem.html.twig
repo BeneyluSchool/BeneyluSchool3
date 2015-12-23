@@ -1,0 +1,80 @@
+{% extends 'BNSAppReservationBundle:Layout:manager.html.twig' %}
+
+{% block title %}Réservation - Gestion salles et matériels{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript" src="{{ asset('/medias/js/reservation/Back/items.js') }}"></script>
+
+{% endblock %}
+
+{% block header %}
+<div class="header-buttons">
+    <div class="inner-header">
+        <div class="container container-fluid">
+            <div class="row-fluid">
+                <div class="span9">
+                    <a href="{{ path('BNSAppReservationBundle_back_new_item') }}" class="btn bns-info btn-24 large add-button">
+                        <span class="icons-24 add-icon"></span>
+                        Ajouter une salle ou un matériel
+                    </a>
+                </div>
+                <div class="span3">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock header %}
+
+{% block sidebar %}
+    {% include 'BNSAppReservationBundle:Sidebar:back_sidebar.html.twig' with {'section': 'listItem', 'title': null} %}
+{% endblock sidebar %}
+
+{% block content %}
+    <div class="reservation-manager">
+        <div class="item-list-container">
+        {% for item in items %}
+        <div class="item">
+            <div class="vertical-separator {{ item.getColorClass|replace({'cal-':''}) }}"></div>
+            <div class="header">
+                <div class="buttons-container">
+                    <a href="{{ path('BNSAppReservationBundle_back_edit_item', {'slug': item.slug}) }}" class="btn bns-info btn-16 small">
+                        <span class="icons-16 edit-icon"></span>
+                        <strong>Editer</strong>
+                    </a>
+
+                    <a href="#" class="btn bns-danger btn-16 small delete-item-button" data-slug="{{ item.slug }}">
+                        <span class="icons-16 delete-icon"></span>
+                        <strong>Supprimer</strong>
+                        <span class="title hide">{{ 'ROOM' == item.type ? 'la salle':'le matériel' }} "{{ item.title }}"</span>
+                    </a>
+                </div>
+                <h3>{{ item.title }}</h3>
+                <div class="categories">
+                    <ul>
+                        <li>
+                            {{ item.type|trans }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% else %}
+            {% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {"text": "Il n'y a aucune salle ni matériel.<br />Vous pouvez ", "button": {'link':path('BNSAppReservationBundle_back_new_item'), 'text':'Ajouter une salle ou un matériel'  } } %}
+        {% endfor %}
+        {% if items.haveToPaginate %}
+            {{ pagerfanta(items, 'twitter_bootstrap_translated', {'prev_message': '←', 'next_message': '→' } ) }}
+        {% endif %}
+        </div>
+
+        {{ modal('delete-item-modal', {
+            'title': "Suppression d'une salle ou d'un matériel",
+            'body_template': {'template': 'BNSAppReservationBundle:Modal:modal_item_delete_body.html.twig'},
+            'footer_template': {'template': 'BNSAppReservationBundle:Modal:modal_item_delete_footer.html.twig'},
+            'type': 'error'
+        }) }}
+
+    </div>
+{% endblock %}

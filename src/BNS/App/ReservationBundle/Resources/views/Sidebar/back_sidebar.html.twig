@@ -1,0 +1,153 @@
+{% if section == 'event_form' %}
+	<div class="container-sidebar editor">
+		<div class="section active">
+			{% if isEdition %}Réservation{% else %}Créer une Réservation{% endif %}
+			<span class="shadow-section"></span>
+		</div>
+		<div class="title-container agenda-date">
+			<div class="title active border-blue">Choisir la date et la durée<span class="square icon-arrow"></span></div>
+			<div class="content-title">
+				<div class="form-widget">
+					<div class="datepicker dstart">
+						<span class="date">Du</span> {{ form_widget(form.dateStart, {'attr': {'placeholder': 'jour / mois / année'} }) }} <img class="show-calendar" src="{{ asset('/medias/images/icons/sidebar/datepicker.png') }}" alt="">
+					</div>
+					<div class="datepicker dend">
+						<span class="date">Au</span> {{ form_widget(form.dateEnd, {'attr': {'placeholder': 'jour / mois / année'} }) }} <img class="show-calendar" src="{{ asset('/medias/images/icons/sidebar/datepicker.png') }}" alt="">
+					</div>
+					<div class="hours">
+						<span class="date">De</span>
+						{{ form_widget(form.timeStart) }}
+						<span class="date label-right"> à</span>
+						{{ form_widget(form.timeEnd) }}
+					</div>
+					<div class="all-day">
+						{{ form_widget(form.isAllDay) }}
+						{{ form_label(form.isAllDay, 'Cet évènement durera toute la journée') }}
+					</div>
+				</div>
+
+				{% if form.dateStart.vars.errors|length > 0 or form.dateEnd.vars.errors|length > 0 or
+					  form.timeStart.vars.errors|length > 0 or form.timeEnd.vars.errors|length > 0 or
+					  form.isAllDay.vars.errors|length > 0 %}
+				  <div class="alert alert-danger bns-alert">
+					  {{ form_errors(form.dateStart) }}
+					  {{ form_errors(form.dateEnd) }}
+					  {{ form_errors(form.timeStart) }}
+					  {{ form_errors(form.timeEnd) }}
+					  {{ form_errors(form.isAllDay) }}
+				  </div>
+			  {% endif %}
+			</div>
+		</div>
+		<div class="title-container agenda-recursive">
+		<div class="title active border-blue">Choisir la récurrence<span class="square icon-arrow"></span></div>
+			<div class="content-title">
+				<div class="form-widget">
+					<div class="all-day">
+						{{ form_widget(form.isRecurring) }}
+						{{ form_label(form.isRecurring, 'Cet évènement est récurrent') }}
+					</div>
+					<div class="recursive {% if not event.isRecurring() %}hide{% endif %}">
+						<div class="occurrence">
+							{{ form_widget(form.recurringType) }}
+						</div>
+						<div>
+							<span class="date repeat">Répété</span> {{ form_widget(form.recurringCount, { 'attr': {'class': 'occurrence-repeat', 'placeholder': 'Saisir la quantité'} }) }} <span class="date label-right">fois</span>
+						</div>
+						<div>
+							<span class="date"><strong>Ou</strong> jusqu'au</span> {{ form_widget(form.recurringEndDate, { 'attr': {'class': 'occurrence-date', 'placeholder': 'jour / mois / année'} }) }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% elseif section == 'home' %}
+	<div class="container-sidebar list">
+		<div class="section active">
+			Calendrier
+			<span class="shadow-section"></span>
+		</div>
+		<div class="title-container">
+			<div class="content-title">
+				<div id="dp-location" class="datepicker-back">
+					<div id="hdtxtshow" class="date-picker-position"></div>
+				</div>
+			</div>
+		</div>
+		<div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppReservationBundle_back_list_item') }}">Personnalisation</a>
+            </div>
+        </div>
+	</div>
+{% elseif section == 'listItem' %}
+    <div class="container-sidebar list">
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppReservationBundle_back') }}">Réservations</a>
+            </div>
+        </div>
+        <div class="section active">
+            Personnalisation
+            <span class="shadow-section"></span>
+        </div>
+    </div>
+{% elseif section == 'formItem' %}
+<div class="container-sidebar editor">
+		<div class="section active">
+			{% if isEdition %}Editer un élément{% else %}Créer un élément{% endif %}
+			<span class="shadow-section"></span>
+		</div>
+		<div class="title-container item-type">
+			<div class="title active border-blue">Choisir le type<span class="square icon-arrow"></span></div>
+			<div class="content-title">
+                <ul>
+                {% for i,item in form.type.vars.choices %}
+                    <li>
+                        <label for="reservation_item_form_type_{{ i }}">
+                            <strong>{{ item.label }}</strong>
+                            {{ form_widget(form.type[i]) }}
+                        </label>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% if form.type.vars.errors|length > 0 %}
+                <div class="alert alert-danger bns-alert">
+                    {{ form_errors(form.type) }}
+                </div>
+            {% endif %}
+			</div>
+		</div>
+
+	</div>
+{% elseif section == 'visualisation' %}
+	<div class="container-sidebar">
+		<div class="section active">
+			Réservations
+			<span class="shadow-section"></span>
+		</div>
+{# 		<div class="title-container">#}
+{# 			<div class="content-title">#}
+{# 				<div id="dp-location" class="datepicker-back">#}
+{# 					<div id="hdtxtshow" class="date-picker-position"></div>#}
+{# 				</div>#}
+{# 			</div>#}
+{# 		</div>#}
+{# 		<div class="title-container">#}
+{# 			<div class="title active border-blue">Reservation <span class="square icon-arrow"></span></div>#}
+{# 			<div class="content-title agenda-selector agenda-filter-container">#}
+{# 				<div class="loader loader-h"></div>#}
+{# 				<ul>#}
+{# 					<li class="text-row">#}
+{# 						<div class="content-agenda {{ event.getReservation().getColorClass() }}">#}
+{# 							<img src="{{ asset('/medias/images/calendar/color-picker-bg-transparent.png') }}" />#}
+{# 							<span class="color-img"></span>#}
+{# 							<span class="agenda-title">Reservation de {{ event.getReservation().getTitle() }}</span>#}
+{# 						</div>#}
+{# 					</li>#}
+{# 				</ul>#}
+{# 			</div>#}
+{# 		</div>#}
+	</div>
+{% endif %}

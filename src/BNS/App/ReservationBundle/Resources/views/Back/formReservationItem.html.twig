@@ -1,0 +1,77 @@
+{% extends 'BNSAppReservationBundle:Layout:manager.html.twig' %}
+
+{% block title %}Réservation - Gestion salles et matériels{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+
+<script type="text/javascript">
+$('#save-btn').on('click', function(e) {
+    $('#form_reservation_item').submit();
+});
+</script>
+{% endblock %}
+
+{% block header %}
+<div class="header-buttons">
+	<div class="inner-header">
+		<div class="container container-fluid">
+			<div class="row-fluid">
+				<div class="span8">
+					<a href="{{ path('BNSAppReservationBundle_back_list_item') }}" class="btn bns-notice btn-24 medium-return {% if not isEdition %}button-return{% endif %}">
+						<span class="icons-24 back-icon"></span>
+						<strong>Retourner</strong><br />à la liste
+					</a>
+					{% if isEdition %}
+						<a href="{{ path('BNSAppReservationBundle_back_list_item') }}" class="btn bns-danger btn-24 medium-return button-return">
+							<span class="icons-24 cancel-icon"></span>
+							<strong>Annuler</strong><br />les modifications
+						</a>
+					{% endif %}
+				</div>
+				<div class="span4 align-right">
+					<a id="save-btn" href="#" class="btn finish bns-success validate-medium btn-24 medium">
+						<span class="icons-24 validate-icon"></span>
+						<strong>Enregistrer</strong>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock header %}
+
+{% block sidebar %}
+    {% include 'BNSAppReservationBundle:Sidebar:back_sidebar.html.twig' with {'section': 'formItem', 'title': null} %}
+{% endblock sidebar %}
+
+{% block form_start %}
+    {% if (item.isNew) %}
+        <form id="form_reservation_item" action="{{ path('BNSAppReservationBundle_back_new_item') }}" method="POST" {{ form_enctype(form) }}>
+    {% else %}
+        <form id="form_reservation_item" action="{{ path('BNSAppReservationBundle_back_edit_item', {'slug': item.slug}) }}" method="POST" {{ form_enctype(form) }}>
+    {% endif %}
+{% endblock form_start %}
+
+{% block form_end %}
+    </form>
+{% endblock form_end %}
+
+{% block content %}
+    <div class="reservation-manager">
+        <div class="item form content-form-manager">
+        {# Title #}
+        <div>
+            {{ form_widget(form.title, { 'attr': {'placeholder': "Titre de l'élément"} }) }}
+            {% if form.title.vars.errors|length > 0 %}
+                <div class="alert alert-danger bns-alert">
+                    {{ form_errors(form.title) }}
+                    <div class="jim"></div>
+                </div>
+            {% endif %}
+        </div>
+
+        <div>{{ form_rest(form) }}</div>
+    </div>
+    </div>
+{% endblock %}

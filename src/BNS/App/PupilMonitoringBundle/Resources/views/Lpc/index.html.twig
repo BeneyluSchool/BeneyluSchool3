@@ -1,0 +1,40 @@
+{% extends 'BNSAppPupilMonitoringBundle:Layout:manager.html.twig' %}
+
+{% set view = canEdit ? 'back' : 'front' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% if canEdit %}
+        <script type="text/javascript" src="{{ asset('/medias/js/pupilmonitoring/common.js') }}"></script>
+    {% endif %}
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'BNSAppPupilMonitoringBundle:Common:sidebar.html.twig' with { 'section' : 'lpc'  , 'view' : view } %}
+{% endblock sidebar %}
+
+{% block content %}
+    <div class="container-classroom lpc">
+        <div class="item-list-container pupil">
+            {% for pupil in pupils %}
+                <div class="item">
+                    {% if pupil.isEnabled() %}
+                        <div class="vertical-separator {% if pupil.getGender() == 'F' %}female{% endif %}"></div>
+                    {% else %}
+                        <div class="vertical-separator disabled"></div>
+                    {% endif %}
+                    <div class="buttons-container">
+                        <a href="{{ path('BNSAppPupilMonitoringBundle_lpc_' ~ view ~ '_pupil', {'login': pupil.login}) }}" class="btn bns-notice btn-16 small right btn-visualisation">
+                            <span class="icons-16 arrow-right-icon right"></span>
+                            <strong>Voir le livret</strong>
+                        </a>
+                    </div>
+                    <div class="header">
+                        <img class="avatar" src="{{ avatar(pupil, 'thumbnail') }}" alt="" />
+                        <p class="name">{{ pupil.getFullName() }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

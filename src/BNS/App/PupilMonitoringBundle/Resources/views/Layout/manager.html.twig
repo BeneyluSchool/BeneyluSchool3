@@ -1,0 +1,37 @@
+{% extends '::base_manager.html.twig' %}
+
+{% set app_unique_name = 'PUPILMONITORING' %}
+{% set app_mode = is_in_front ? 'front' : 'back' %}
+
+{% block title %}
+    Suivi des élèves
+{% endblock %}
+
+{% block css %}
+    {{ parent() }}
+    {# Appel CSS du package layout manager #}
+    {% include "BNSAppMainBundle:Manager:layoutStyle.html.twig" %}
+    <link href="{{ asset('/medias/css/classroom/manager.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/medias/css/pupilmonitoring/common.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/medias/css/homework/manager.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="office mini-site"></div>
+	{% block header %}{% endblock header %}
+	<div class="container container-fluid">
+		<div class="row-fluid container-manager">
+			{% block sidebar %}Add your sidebar here!{% endblock %}
+			<div class="span9 container-content no-margin">
+                {% block content %}Add your content here!{% endblock %}
+            </div>
+			<div class="container-manager-bottom">
+				<div class="content-manager-bottom"></div>
+			</div>
+		</div>
+	</div>
+{% endblock body %}

@@ -1,1 +1,0 @@
-php app/console rabbitmq:consumer -m n mailer

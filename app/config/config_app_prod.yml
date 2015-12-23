@@ -4,7 +4,7 @@ imports:
     - { resource: secret_prod.yml }
 
 assetic:
-    use_controller: false
+    use_controller: true
     java: "java"
 
 monolog:

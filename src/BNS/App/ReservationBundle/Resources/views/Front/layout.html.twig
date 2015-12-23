@@ -1,0 +1,26 @@
+{% extends '::base.html.twig' %}
+
+{% block css %}
+	{{ parent() }}
+
+	<link href="{{ asset('/medias/css/reservation/front.css') }}" rel="stylesheet" type="text/css">
+
+	<link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet' type='text/css'>
+
+	<!--[if lte IE 9]>
+		<link href="{{ asset('/medias/css/reservation/front-ie.css') }}" rel="stylesheet" type="text/css">
+	<![endif]-->
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+	<div class="row-fluid">
+		{% block content %}{% endblock %}
+	</div>
+</div>
+{% endblock %}
+
+{% block dock_bar %}
+	{{ render(controller('BNSAppMainBundle:DockBar:index', {'module_unique_name' : "RESERVATION" , 'is_in_front' : true } )) }}
+{% endblock %}

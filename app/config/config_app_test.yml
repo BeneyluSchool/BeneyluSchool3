@@ -5,7 +5,7 @@ imports:
 
 web_profiler:
     toolbar: false
-    intercept_redirects: false
+    intercept_redirects: true
 
 swiftmailer:
     disable_delivery: false

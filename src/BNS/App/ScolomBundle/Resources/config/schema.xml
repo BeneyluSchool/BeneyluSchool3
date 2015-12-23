@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\ScolomBundle\Model">
+    <table name="scolom_template">
+        <column name="unique_name" primaryKey="true" required="true" type="VARCHAR" size="30" />
+        <column name="type" required="true" type="ENUM" valueSet="NULL, MULTIPLE_NULL, STRING, MULTIPLE_STRING, CHOICE, MULTIPLE_CHOICE" defaultValue="STRING" />
+        <column name="parent_scolom_unique_name" required="false" type="VARCHAR" size="30" />
+        <column name="label" required="true" type="VARCHAR" size="255" />
+        <column name="description" required="true" type="VARCHAR" size="255" />
+
+        <foreign-key foreignTable="scolom_template" name="FK_SCOLOMTEMPLATE_SCOLOMTEMPLATE_PARENT" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="unique_name" local="parent_scolom_unique_name" />
+        </foreign-key>
+        
+        <behavior name="i18n">
+            <parameter name="i18n_columns" value="label, description" />
+            <parameter name="locale_column" value="lang" />
+            <parameter name="i18n_table" value="scolom_template_i18n" />
+            <parameter name="i18n_phpname" value="ScolomTemplateI18n" />
+        </behavior>
+    </table>
+
+    <table name="scolom_data_template">
+        <column name="id" primaryKey="true" required="true" type="INTEGER" autoIncrement="true" />
+        <column name="scolom_unique_name" required="true" type="VARCHAR" size="30" />
+        <column name="unique_name" required="true" type="VARCHAR" size="60"  />
+        <column name="label" required="true" type="VARCHAR" size="255" />
+        <column name="description" required="false" type="VARCHAR" size="255" />
+
+        <foreign-key foreignTable="scolom_template" name="FK_SCOLOMDATATEMPLATE_SCOLOMTEMPLATE" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="unique_name" local="scolom_unique_name" />
+        </foreign-key>
+
+        <behavior name="i18n">
+            <parameter name="i18n_columns" value="label, description" />
+            <parameter name="locale_column" value="lang" />
+            <parameter name="i18n_table" value="scolom_data_template_i18n" />
+            <parameter name="i18n_phpname" value="ScolomDataTemplateI18n" />
+        </behavior>
+    </table>
+</database>

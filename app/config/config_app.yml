@@ -172,7 +172,7 @@ parameters:
     resource_files_dir:                 %kernel.root_dir%/data/resources
     uploaded_files_dir:                 %kernel.root_dir%/../web/uploads
     csv_import_files_tmp_dir:						%kernel.root_dir%/data/temp/
-    resource_temp_dir:                  %kernel.root_dir%/data/temp
+    resource_temp_dir:                  %kernel.root_dir%/data/
     #Clé d'utilisation pour AWS (en dev uniquement sur bucket de dev)
     bns3.aws_key:                       %secret_bns_bns3.aws_key%
     bns3.aws_secret_key:                %secret_bns_bns3.aws_secret_key%

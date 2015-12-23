@@ -1,0 +1,106 @@
+module:
+  unique_name: PUPILMONITORING
+  is_contextable: true
+  name:
+    fr: Suivi des élèves
+    en: Pupils monitoring
+  description:
+    fr: Gérer les absences et le livret des élèves
+    en: Handle absences
+  default_rank:
+    pupil: USE
+    parent: USE
+    teacher: MANAGE
+    other: USE
+
+permissions:
+  ACCESS:
+    label:
+      fr: Voir le suivi des élèves
+      en: Pupil monitoring access
+    description:
+      fr: Donne l'accès au suivi de l'élève
+      en: Give access to pupl monitoring
+
+  ACCESS_BACK:
+    label:  
+      fr: Accès à la gestion du suivi des élèves
+      en: Access to the pupils admin
+    description:
+      fr: Donne accès à la gestion des élèves
+      en: Access to the pupils admin
+
+  ACTIVATION:
+    label:
+      fr: Peut activer le suivi des élèves
+      en: Can enable the pupils monitoring
+    description:
+      fr: Peut activer ou désactiver le suivi des élèves
+      en: Can enable or disable the pupils monitoring
+      
+  ABSENCES_ACCESS:
+    label:
+      fr: Peut voir les absences de ses enfants dans le groupe
+      en: Can see the pupils absences
+    description:
+      fr: 
+      en: 
+        
+  ABSENCES_FULL_ACCESS:
+    label:
+      fr: Peut voir les absences de tous les élèves du groupe
+      en: Can see the pupils absences
+    description:
+      fr: 
+      en: 
+        
+  ABSENCES_ACCESS_BACK:
+    label:
+      fr: Peut gérer les absences
+      en: Can handle the pupils absences
+    description:
+      fr: 
+      en: 
+        
+  LPC_ACCESS:
+    label:
+      fr: Peut voir le LPC de ses enfants
+      en: Can see the pupils LPC
+    description:
+      fr: 
+      en: 
+        
+  LPC_FULL_ACCESS:
+    label:
+      fr: Peut voir le LPC de tous les élèves du groupe
+      en: Can see the pupils LPC
+    description:
+      fr: 
+      en: 
+        
+  LPC_ACCESS_BACK:
+    label:
+      fr: Peut gérer les LPC
+      en: Can handle the pupils LPC
+    description:
+      fr: 
+      en: 
+
+ranks:
+  USE:
+    label:
+      fr: Utiliser le suivi des élèves
+      en: Use pupil monitoring
+    description:
+      fr: 
+      en: 
+    permissions: [ACCESS, ABSENCES_ACCESS, LPC_ACCESS]
+
+  MANAGE:
+    label:
+      fr: Gérer le suivi des élèves
+      en: Manage pupils
+    description:
+      fr: 
+      en: 
+    permissions: [ACCESS, ACCESS_BACK, ACTIVATION, ABSENCES_ACCESS, ABSENCES_FULL_ACCESS, LPC_ACCESS, LPC_FULL_ACCESS, ABSENCES_ACCESS_BACK, LPC_ACCESS_BACK]

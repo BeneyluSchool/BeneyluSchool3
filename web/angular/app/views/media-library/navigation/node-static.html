@@ -1,0 +1,8 @@
+<div ng-class="{ 'node-selected': tree.equality(shared.context, node) }" class="node-handle">
+  <div ng-click="navFolder(node)" class="node-label">
+    <div class="node-icon">
+      <span class="ml-icon" ng-class="nodeTypeClass()"></span>
+    </div>
+    {{ node.label }}
+  </div>
+</div>

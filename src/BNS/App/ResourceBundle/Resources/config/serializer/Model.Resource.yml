@@ -1,0 +1,14 @@
+BNS\App\ResourceBundle\Model\Resource:
+  exclusion_policy: All
+  virtual_properties:
+    # use custom getter for value
+    getValueForApi:
+      expose: true
+      serialized_name: value
+
+  relations:
+    - rel: user
+      embedded:
+        content: expr(object.getUser())
+        exclusion:
+          groups: [list , detail]

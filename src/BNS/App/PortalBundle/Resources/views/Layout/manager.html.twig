@@ -1,0 +1,52 @@
+{% trans_default_domain "PORTAL" %}
+{% extends '::base_manager.html.twig' %}
+
+{% set app_unique_name = 'PORTAL' %}
+{% set app_mode = 'back' %}
+
+{% block css %}
+	{{ parent() }}
+	{# Appel CSS du package layout manager #}
+	{% include "BNSAppMainBundle:Manager:layoutStyle.html.twig" %}
+	<link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet' type='text/css'>
+    <link href='{{ asset('/medias/css/portal/manager.css') }}' rel='stylesheet' type='text/css'>
+    <link href='{{ asset('/medias/css/portal/front.css') }}' rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('/medias/js/portal/holder.js') }}" ></script>
+    <script type="text/javascript" src="{{ parameter('application_base_url') ~ '/' ~ 'bundles/stfalcontinymce/vendor/tinymce/tinymce.min.js' }}"></script>
+    <script type="text/javascript" src="{{ parameter('application_base_url') ~ '/' ~ 'bundles/stfalcontinymce/js/ready.min.js' }}"></script>
+    <script type="text/javascript" src="{{ parameter('application_base_url') ~ '/' ~ 'bundles/stfalcontinymce/vendor/tinymce/jquery.tinymce.min.js' }}"></script>
+    <script type="text/javascript">
+        $(function(){
+            $('#submit-form').live('click' , function(e){
+                e.preventDefault();
+               $('#main-form').submit();
+            });
+
+            setTimeout(function ()
+            {
+                $('.alert.alert-success').slideUp('fast');
+            }, 8000); // 8 seconds
+
+        });
+    </script>
+{% endblock %}
+
+{% block title %}{{ 'TITLE_PORTAL_MANAGEMENT'|trans |desc('Portail - Gestion') }}{% endblock %}
+
+{% block body %}
+	{% block header %}{% endblock header %}
+    <div class="container container-fluid ">
+		{% block form_start %}{% endblock %}
+		<div class="row-fluid container-manager">
+			{% block sidebar %}{% endblock %}
+			<div class="span9 container-content ">
+				{% block content %}{% endblock %}
+				<div class="content-manager-bottom"></div>
+			</div>
+		</div>
+		{% block form_end %}{% endblock %}
+	</div>
+{% endblock %}

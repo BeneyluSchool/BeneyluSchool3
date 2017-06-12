@@ -2,6 +2,7 @@
 
 namespace BNS\App\BlogBundle\Form\Type;
 
+use BNS\App\CoreBundle\Translation\TranslatorTrait;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -11,13 +12,21 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class BlogType extends AbstractType
 {
+
+    use TranslatorTrait;
+
 	/**
 	 * @param FormBuilderInterface $builder
 	 * @param array $options 
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('title', 'text', array('required' => true));
+        $translator = $this->getTranslator();
+
+        $builder->add('title', 'text', array(
+            'required' => true,
+            'label' => $translator->trans('TITLE_BLOG', [], 'BLOG'),
+        ));
         $builder->add('description', 'textarea', array('required' => false));
         $builder->add('avatar_resource_id', 'hidden', array('required' => false));
     }

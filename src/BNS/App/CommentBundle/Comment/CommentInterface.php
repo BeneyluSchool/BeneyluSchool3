@@ -13,9 +13,14 @@ interface CommentInterface
 	public function getAuthor();
 	
 	/**
-	 * @return int The object parent id
+	 * @return int The parent object id
 	 */
 	public function getObjectId();
+	
+	/**
+	 * @return The parent object
+	 */
+	public function getObject();
 	
 	/**
 	 * @return ExtendedDatetime 
@@ -39,9 +44,20 @@ interface CommentInterface
 	 * @return string The comment status
 	 */
 	public function getStatus();
+
+	/**
+	 * The route when user go on the related object
+	 *  - [0]: string - route name
+	 *  - [1]: array  - route parameters
+	 * 
+	 * @return array
+	 */
+	public function getObjectRoute();
 	
 	/**
 	 * @return string The comment right to manage the comments
 	 */
 	public static function getCommentAdminRight();
+
+    public static function getCommentFilter();
 }

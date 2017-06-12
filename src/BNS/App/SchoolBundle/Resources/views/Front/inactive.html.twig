@@ -1,0 +1,434 @@
+{% trans_default_domain "SCHOOL" %}
+{% extends '::base.html.twig' %}
+
+{% block css %}
+	{{ parent() }}
+	<link href="{{ asset('/medias/css/group/front.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/medias/css/school/front.css') }}" rel="stylesheet" type="text/css" />
+	<link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Bree+Serif' rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block body %}
+    <div class="background-group "></div>
+    <div class="inactive-page">
+        <div class="container">
+            <div class="row">
+                <div class="span8">
+                    <h1 class="title main-title">
+                        {{ 'START_WITH_SCHOOL_OFFER'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |raw }}
+
+                    </h1>
+                    <p class="explanations">
+                        {{ 'EXPLANATIONS_SCHOOL_OFFER'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |raw }}
+
+                    </p>
+
+                    <ul class="question big">
+                        <li class="bns">
+                            <div class="question-content">
+                                <h3 class="title">{{ 'BENEYLU_SCHOOL_FULL_VERSION'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) }}</h3>
+                                <p>{% trans %}BENEYLU_SCHOOL_FULL_VERSION{% endtrans %}</p>
+                            </div>
+                        </li>
+                        <li class="school">
+                            <div class="question-content">
+                                <h3 class="title">{% trans %}TITLE_SCHOOL_LIFE{% endtrans %}</h3>
+                                <p>{% trans %}SCHOOL_LIFE{% endtrans %}</p>
+                            </div>
+                        </li>
+                        <li class="lock">
+                            <div class="question-content">
+                                <h3 class="title">{% trans %}TITLE_HOST_FRANCE{% endtrans %}</h3>
+                                <p>{{ 'HOST_FRANCE'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) }}</p>
+                            </div>
+                        </li>
+                        <li class="cool">
+                            <div class="question-content">
+                                <h3 class="title">{% trans %}TITLE_TEACHERS_ALREADY_USING{% endtrans %}</h3>
+                                <p>{{ 'TEACHERS_ALREADY_USING'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |raw }}</p>
+                            </div>
+                        </li>
+                    </ul>
+
+
+                    <h1 class="sublined title main-title">
+                        <span class="big">
+                            {% trans %}FREQUENT_QUESTIONS{% endtrans %}
+                        </span>
+                    </h1>
+
+                    <h2 class="title subtitle">{{ 'BENEYLU_VERSION_SCHOOL'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) }}</h2>
+
+                    <ul class="question small">
+                        <li class="">
+                            <div class="question-content">
+                                {% trans %}QUESTION_SCHOOL{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                                {{ 'QUESTION_BUY_SCHOOL'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |raw }}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                                {% trans %}QUESTION_APPS_SCHOOL{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                                {% trans %}QUESTION_MINISITE{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                                {{ 'QUESTION_VISIBILITY_MINISITE'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |raw }}
+                            </div>
+                        </li>
+                    </ul>
+
+                    <h2 class="title subtitle">{% trans %}SCHOOL_SUBSCRIPTION{% endtrans %}</h2>
+
+                    <ul class="question small">
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_SUBSCRIPTION{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                              {{ 'QUESTION_PRICE'|trans({'%price%': '4.90'|localizedcurrency('EUR')}) |raw }}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_ENGAGEMENT{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_TRY{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_KEEP_DATA{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_ACTIVATION{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_END_SUBSCRIPTION{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_REACTIVATE{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_MINIMAL_DURATION{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_REBUY_BEFORE_END{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_MONTH_DECOMPT{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_SUMMER{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                                {{ 'QUESTION_WHY_MONTHLY'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |raw }}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_LOW_PRICE{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_PAYMENT{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_RENEWAL{% endtrans %}
+                            </div>
+                        </li>
+                    </ul>
+
+                    <h2 class="title subtitle">{% trans %}SECURITY_SCHOOL_VERSION{% endtrans %}</h2>
+
+                    <ul class="question small">
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_OTHER_CLASSES{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_DOCUMENTS_SHARING{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_WHO_CAN_CONNECT{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_CNIL{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_SECURED_DATA{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_COLLEAGUE{% endtrans %}
+                            </div>
+                        </li>
+                    </ul>
+
+                    <h2 class="title subtitle">{% trans %}SECTION_SCHOOL_MANAGEMENT{% endtrans %}</h2>
+
+                    <ul class="question small">
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_SCHOOL_ADMIN{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_ENT_REFERENT{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_ADMIN_ENT{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_HOW_ADMIN_SCHOOL{% endtrans %}
+                            </div>
+                        </li>
+                    </ul>
+
+                    <h2 class="title subtitle">{% trans %}CONFIGURATION_NEEDED{% endtrans %}</h2>
+
+                    <ul class="question small">
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_INSTALL_SOFTWARE{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                                {{ 'QUESTION_NEEDED_CONFIG'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |raw }}
+
+                            </div>
+                        </li>
+                    </ul>
+
+                    <h2 class="title subtitle">{% trans %}UNCLASSIFIABLE{% endtrans %}</h2>
+
+                    <ul class="question small">
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_MAYOR_FUNDING{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                              {% trans %}QUESTION_BENEYLU_SPOT{% endtrans %}
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                                {{ 'QUESTION_ORDER_FROM_SPOT'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |raw }}
+
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                                {{ 'QUESTION_BENEYLU_BECOME_PAYING'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |raw }}
+
+                            </div>
+                        </li>
+                        <li class="">
+                            <div class="question-content">
+                                {% trans %}QUESTION_OTHER_QUESTIONS{% endtrans %}
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+
+
+                <div class="span4">
+                    <div class="process">
+                        <div class="school"></div>
+                        <div class="price">
+                            <span class="amount title">
+                                {{ '4.90'|localizedcurrency('EUR') }}
+                            </span>
+                            <span class="time">
+                                {% trans %}PRICE_BY_SCHOOL_AND_MONTH{% endtrans %}
+                            </span>
+                            <span class="engagment">{% trans %}PRICE_WITHOUT_ENGAGEMENT{% endtrans %}</span>
+                        </div>
+
+                        <a class="ctoa" href="https://beneylu.com/spot/beneylu-school/abonnement-ecole?username={{ login }}&uai={{ schoolUai }}">
+                          {% trans %}I_REGISTER_MY_SCHOOL{% endtrans %}
+                        </a>
+                        <div class="payment">
+                            <div class="title">{% trans %}SECURED_PAYMENT{% endtrans %}</div>
+                            <p>
+                                {% trans %}PAYMENT_METHOD{% endtrans %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block dock_bar %}
+    <div class="content-footer" ng-hide="hideDockBar">
+        <div class="dockbar-left"></div>
+        <div class="dockbar-middle">
+            <div class="content-dockbar">
+                <div class="avatar">
+                    <a class="module-popover-left user-information desaturate" href="#" rel="popover" data-title="<div class='dock-popover'><img src='{{ asset('/medias/images/icons/modules/profile/big.png') }}' alt='{{ 'DATA_MY_PROFIL'|trans |desc('Mon Profil') }}' class='desaturate' />{{ 'DATA_MY_PROFIL'|trans }}</div>" data-content="<div class='dock-popover'>{{ 'DATA_SHARE_PROFIL_TO_SCHOOL'|trans |desc('Partagez vos profils au sein de toute l\'école') }}</div>" data-original-title="">
+                        <img src='{{ asset('/medias/images/profile/avatar/thumbnail/classroom.png') }}' class="avatar-thumbnail-size" alt="avatar">
+                        <div class="name">
+                            <div class="first_name"></div>
+                            <div class="complete_name">{{ app.user.fullName }}</div>
+                        </div>
+                    </a>
+
+                    <a href="#" class="module-popover-left notif empty desaturate" rel="popover" data-title="<div class='dock-popover'><img src='{{ asset('/medias/images/icons/modules/notification/big.png') }}' alt={{ 'DATA_NOTIFICATION'|trans |desc('Mes Notifications') }}class='desaturate'/>{{ 'DATA_NOTIFICATION'|trans }}</div>" data-content="<div class='dock-popover'>{{ 'DATA_LAST_NEW_OF_SCHOOL'|trans |desc('Retrouvez les dernières actualités de l\'école') }}</div>" data-original-title=""></a>
+
+                    <div class="shadow"></div>
+                </div>
+                <div class="nav-tool context-list">
+                    <ul>
+                        <li>
+                            <a href="#" data-module="CALENDAR" title="">
+                                <img rel="popover" data-title="<div class='dock-popover'><img src='{{ asset('/medias/images/icons/modules/calendar/big.png') }}' alt={{ 'DATA_CALENDAR'|trans |desc('Calendrier') }} class='desaturate' />{{ 'DATA_CALENDAR'|trans }}</div>" data-content="<div class='dock-popover'>{{ 'DATA_SHARE_EVENT'|trans |desc('Partagez les évènements à venir à toute l\'école dans un seul calendrier') }}</div>" class="module-popover module-icon desaturate" src='{{ asset('/medias/images/icons/modules/calendar/medium.png') }}' alt={{ 'DATA_CALENDAR'|trans }} data-original-title="">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" data-module="MESSAGING" title="">
+                                <img rel="popover" data-title="<div class='dock-popover'><img src='{{ asset('/medias/images/icons/modules/messaging/big.png') }}' alt={{ 'DATA_MESSAGERIE'|trans |desc('Messagerie dans toute l\'école') }} class='desaturate'/>{{ 'DATA_MESSAGERIE'|trans }}</div>" data-content="<div class='dock-popover'>{{ 'DATA_OPEN_MESSAGERIE_FOR_ALL_USER'|trans |desc('Ouvrez la messagerie à tous les utilisateurs de l\'école en gardant le système de modération') }}</div>" class="module-popover module-icon desaturate" src='{{ asset('/medias/images/icons/modules/messaging/medium.png') }}' alt={{ 'DATA_MESSAGERIE'|trans }} data-original-title="">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" data-module="RESOURCE" title="">
+                                <img rel="popover" data-title="<div class='dock-popover'><img src='{{ asset('/medias/images/icons/modules/resource/big.png') }}' alt={{ 'DATA_MULTIMEDIA'|trans |desc('Médiathèque de l\école') }} class='desaturate'/>{{ 'DATA_MULTIMEDIA'|trans }}</div>" data-content="<div class='dock-popover'>{{ 'DATA_OPEN_SCHOOL_MULTIMEDIA'|trans |desc('Ouvrez un espace école à votre médiathèque pour faciliter la diffusion de ressources') }}</div>" class="module-popover module-icon desaturate" src='{{ asset('/medias/images/icons/modules/resource/medium.png') }}' alt="{{ 'DATA_MULTIMEDIA'|trans }}" data-original-title="">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" data-module="BLOG" title="">
+                                <img rel="popover" data-title="<div class='dock-popover'><img src='{{ asset('/medias/images/icons/modules/blog/big.png') }}' alt={{ 'DATA_BLOG'|trans |desc('Blog de l\'école') }} class='desaturate'/>{{ 'DATA_BLOG'|trans }}</div>" data-content="<div class='dock-popover'>{{ 'DATA_BLOG_FOR_ALL_SCHOOL'|trans |desc('Profitez d\'un espace de rédaction accessible uniquement aux utilisateurs de l\'école') }}</div>" class="module-popover module-icon desaturate" src='{{ asset('/medias/images/icons/modules/blog/medium.png') }}' alt={{ 'DATA_BLOG'|trans }}data-original-title="">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" data-module="MINISITE" title="">
+                                <img rel="popover" data-title="<div class='dock-popover'><img src='{{ asset('/medias/images/icons/modules/minisite/big.png') }}' alt={{ 'DATA_MINISITE'|trans |desc('Minisite de l\'école') }} class='desaturate'/>{{ 'DATA_MINISITE'|trans }}</div>" data-content="<div class='dock-popover'>{{ 'DATA_PUBLISH_CONTENT_MINISITE'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('Lancez vous dans la publication de contenu public sur Internet tout en gardant la simplicité de %beneylu_brand_name') }}</div>" class="module-popover module-icon desaturate" src='{{ asset('/medias/images/icons/modules/minisite/medium.png') }}' alt={{ 'DATA_MINISITE'|trans }} data-original-title="">
+                            </a>
+                        </li>
+
+                    </ul>
+                    <div class="btn-jim "></div>
+                    <div class="pull-right switch-button desaturate">
+                        <a href="#" class="module-popover" rel="popover" data-title="<div class='dock-popover'><img src='{{ asset('/medias/images/icons/modules/admin/medium.png') }}' class='desaturate' />{{ 'DATA_MANAGEMENT'|trans |desc('Passer en Gestion') }}</div>" data-content="" data-original-title="">
+                        <span class="switch-img "></span>
+                        </a>
+                    </div>
+
+                </div>
+                <div class="btn-group dropdown-switch-context dropup">
+                    <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                        <span class="context-change-label"></span>
+                    </a>
+                    <a href="#">
+                        <span class="context-icon module-popover-right school" rel="popover" data-title="<div class='dock-popover'><img src='{{ asset('/medias/images/icons/group_context/school/large.png') }}' alt='{{ schoolName }}' />{{ schoolName }} </div>" data-content="" data-class="" data-original-title=""></span>
+                    </a>
+
+                    <ul class="dropdown-menu pull-right">
+                        <li class="title-context small "><img src='{{ asset('/medias/images/icons/group_context/school/large.png') }}'>
+                            <span class="current-group-label">
+                                {{ schoolName }}
+                            </span>
+                        </li>
+                        <div class="group-context-container">
+                            <li>
+                                <a class="" href="{{ path('BNSAppClassroomBundle_front') }}">
+                                    <img src='{{ asset('/medias/images/icons/group_context/classroom/medium.png') }}'>
+                                    {% trans %}LINK_BACK_TO_MY_CLASS{% endtrans %}
+                                </a>
+                            </li>
+                        </div>
+                        <li>
+                            <a href="{{ path('disconnect_user') }}" title="Deconnexion">
+                                <img src='{{ asset('/medias/images/icons/group_context/disconnection.png') }}' alt="{{ 'DISCONNECTION'|trans }}"> {% trans %}LINK_LOG_OFF{% endtrans %}
+                            </a>
+                        </li>
+                        <div class="bulle"></div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="dockbar-right"></div>
+    </div>
+
+    <script type="text/javascript">
+        $('.module-popover').popover(
+                {
+                    delay: { show: 0, hide: 0 },
+                    placement: "top",
+                    animation: false
+                }
+        );
+        $('.module-popover-right').popover(
+                {
+                    delay: { show: 0, hide: 0 },
+                    placement: "left",
+                    animation: false
+                }
+        );
+        $('.module-popover-left').popover(
+                {
+                    delay: { show: 0, hide: 0 },
+                    placement: "right",
+                    animation: false
+                }
+        );
+        $('.module-popover').css('cursor','default');
+        $('.module-popover-right').css('cursor','default');
+        $('.module-popover-left').css('cursor','default');
+    </script>
+
+{% endblock %}
+

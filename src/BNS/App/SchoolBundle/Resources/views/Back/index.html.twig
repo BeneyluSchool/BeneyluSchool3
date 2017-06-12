@@ -1,0 +1,60 @@
+{% trans_default_domain "SCHOOL" %}
+{% extends 'BNSAppSchoolBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+  {% trans %}TITLE_SCHOOL_DASHBOARD{% endtrans %}
+{% endblock %}
+
+{% block top_bar %}{% endblock %}
+
+{% block sidebar %}
+    {% include "BNSAppSchoolBundle:Sidebar:sidebar.html.twig" with {"page" : "index", "section" : "general" } %}
+{% endblock sidebar %}
+
+{% block content %}
+    <div class="container-classroom">
+        {% if hasApplicationManagement() %}
+            <div class="container-connexion">
+                <div class="left-line-border">
+                    <h1 class="dashboard connect">{% trans %}TITLE_LAST_CONNECTION{% endtrans%}</h1>
+
+                    <div class="row-fluid">
+                        <div class="last-connexion">
+                            {% for user in last_users_connected %}
+                                <div class="content-last-connexion">
+                                    <p><img src="{{ avatar(user, 'thumbnail') }}" alt="ALTERNATIVE_AVATAR" /> {{ user.getFullName() }}</p>
+                                    <p class="date">{{ date_from_now(user.getLastConnection(),false,true) }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="news-title dashboard-connect">
+                <div class="left-line-border">
+                    <table class="table">
+                        <thead>
+                        <td>
+                          <h1 class="dashboard modules">{% trans %}TITLE_MINE_SCHOOL_MODULE{% endtrans %}</h1>
+                        </td>
+                        <td class="userType">
+                            <img src="{{ asset('/medias/images/profile/avatar/thumbnail/teacher.png') }}" alt="avatar" />
+                          <p>{% trans %}TITLE_TEACHERS{% endtrans %}</p>
+                        </td>
+                        <td class="userType">
+                            <img src="{{ asset('/medias/images/profile/avatar/thumbnail/pupil_M.png') }}" alt="avatar" />
+                          <p>{% trans %}TITLE_PUPILS{% endtrans %}</p>
+                        </td>
+                        <td class="userType">
+                            <img src="{{ asset('/medias/images/profile/avatar/thumbnail/parent.png') }}" alt="avatar" />
+                          <p>{% trans %}TITLE_PARENTS{% endtrans %}</p>
+                        </td>
+                        </thead>
+                    </table>
+                    {{ render(controller('BNSAppMainBundle:Module:moduleActivation', { 'roles': activationRoles } )) }}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

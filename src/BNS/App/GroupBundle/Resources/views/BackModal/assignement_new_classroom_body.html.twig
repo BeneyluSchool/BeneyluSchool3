@@ -1,0 +1,23 @@
+{% trans_default_domain "GROUP" %}
+<div class="modal-body">
+	<div class="content-modal-body">
+		<h4>{{ 'TITLE_CREATE_NEW_CLASS'|trans |desc('Créer une nouvelle classe') }}</h4>
+        <br />
+        <input id="new-classroom-label-temp" type="text" name="newClassroomLabelTemp" value="" placeholder="{{ 'PLACEHOLDER_CHOICE_CLASS_NAME'|trans |desc('Nom de la classe') }}"  />
+        <div id="user-quick-linker-return" class="hide"></div>
+
+        <h4>{{ 'TITLE_OR_CHOICE_EXISTING_CLASS'|trans |desc('Ou choisissez une classe existante') }}</h4>
+        <br />
+
+        {% for classroom in classrooms %}
+            <a href="#" class="bns-user small checkbox no-padding  toggle">
+                <span class="name" style="font-size: 10px;">{{ classroom.label }}</span>
+                <span class="action-icons"></span>
+                <input class="form-checkbox hidden" type="checkbox" name="classroom[]" value="{{ classroom.id}}" />
+            </a>
+        {% endfor %}
+        <div id="user-quick-linker-return" class="hide"></div>
+
+	</div>
+</div>
+<div class="beneylu-jim"></div>

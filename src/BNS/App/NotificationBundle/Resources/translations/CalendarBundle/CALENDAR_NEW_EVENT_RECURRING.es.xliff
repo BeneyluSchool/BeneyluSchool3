@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:44:36Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="af691a856690131795ab0a9bc5bbf3e2ce714ea3" resname="CALENDAR_NEW_EVENT_RECURRING.EMAIL.content">
+        <source>CALENDAR_NEW_EVENT_RECURRING.EMAIL.content</source>
+        <target><![CDATA[El evento repetitivo "<a href="%eventRoute%">%eventTitle%</a>" se ha añadido al calendario. %eventRecurrence%]]></target>
+        <note><![CDATA[%eventRoute% is a placeholder
+%eventTitle% is a placeholder
+%eventRecurrence% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="49ddc15571a9e7a50925292b238725a93715c51b" resname="CALENDAR_NEW_EVENT_RECURRING.EMAIL.title">
+        <source>CALENDAR_NEW_EVENT_RECURRING.EMAIL.title</source>
+        <target>Se ha añadido al calendario un nuevo evento repetitivo</target>
+      </trans-unit>
+      <trans-unit id="ffcffbb98dcf6f2c8cb7412dd1a2f892bfd527f0" resname="CALENDAR_NEW_EVENT_RECURRING.SYSTEM.content">
+        <source>CALENDAR_NEW_EVENT_RECURRING.SYSTEM.content</source>
+        <target><![CDATA[El evento repetitivo "<a href="%eventRoute%">%eventTitle%</a>" se ha añadido al calendario. %eventRecurrence%]]></target>
+        <note><![CDATA[%eventRoute% is a placeholder
+%eventTitle% is a placeholder
+%eventRecurrence% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

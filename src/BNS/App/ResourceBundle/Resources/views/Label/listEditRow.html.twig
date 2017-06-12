@@ -1,32 +1,24 @@
 {% set id_pattern = type ~ '-' ~ label.getId %}
 
-<li id="{{ id_pattern }}" class="resource-category-row">
-<div class="bordered">
-	<span class="move-button">
-		<img src="{{ asset('/medias/images/icons/puce.png') }}" alt="" />
-	</span>
-	<span id="{{ id_pattern }}-label" class="title">{{ label.label }}</span>
-	
-	<span id="{{ id_pattern }}-form" class="form" style="display:none;">
-		<input id="{{ id_pattern }}-input" type="text" value="{{ label.label }}" />
-		<a class="btn btn-mini cancel" href="#">Annuler</a>
-		<a id="{{ id_pattern }}-submit" class="btn btn-mini btn-success submit" href="#">Valider</a>
-	</span>
-
-	<div id="{{ id_pattern }}-delete" class="delete alert alert-block" style="display:none;">
-		<h4 class="alert-heading">Attention</h4>
-		<p>La suppression du libellé ne supprimera pas les documents qui y sont associés</p>
-		<a class="btn btn-mini cancel" href="#">Annuler</a>
-		<a id="{{ id_pattern }}-submit" class="btn btn-mini btn-success submit" href="#">Valider</a>
-	</div>		
-	{% if label.isEditable %}
-		<span class="crud">
-			<span id="{{ id_pattern }}-edit-button" class="edit-button"><a href="#"><img src="{{ asset('/medias/images/icons/fugue/pencil.png') }}" alt="Editer" /></a></span>
-			<span id="{{ id_pattern }}-edit-button" class="delete-button">
-				<a href="#">
-					<img src="{{ asset('/medias/images/icons/fugue/cross.png') }}" alt="Suppr." />
-				</a>
-			</span>
-		</span>
-	{% endif %}
+<li id="list_{{ id_pattern }}" data-toggle="menu" data-target="#category-edit-mode">
+<div>
+    <div class="loader loader-h" style="display: none;"></div>
+    <span class="list-grip"></span>
+    <div class="title">{{ label.label }}</div>
+    <span class="close-button">×</span>
 </div>
+<div class="category-editor" style="display: none;">
+    <input type="text" name="" value="{{ label.label }}">
+    <a href="#" class="btn bns-success btn-16 validate-small submit-category" data-toggle="menu" data-target="#default-header">
+	    <span class="icons-16 validate-icon"></span>
+	    <strong>Valider</strong>
+    </a>
+</div>
+{% if label.getChildren()|length > 0 %}
+    <ol>
+	    {% for subLabel in label.getChildren() %}
+		    {% include "BNSAppResourceBundle:Label:listEditRow.html.twig" with {"label" : subLabel,'type' : type} %}
+	    {% endfor %}
+    </ol>
+{% endif %}
+</li>

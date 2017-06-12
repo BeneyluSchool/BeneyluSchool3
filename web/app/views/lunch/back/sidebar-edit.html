@@ -1,0 +1,6 @@
+
+<bns-expander label="{{'LUNCH.LABEL_CHOSEN_WEEK' | translate}}" is-open="true">
+  <div class="md-padding">{{ ::shared.date.format('dddd D MMMM') }} - {{ ::shared.date.clone().add(4, 'days').format('dddd D MMMM') }}</div>
+</bns-expander>
+
+<bns-form-proxy source="form" du-scroll-container="content"></bns-form-proxy>

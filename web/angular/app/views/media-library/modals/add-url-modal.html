@@ -1,0 +1,26 @@
+<bns-modal modal-close="closeModal" modal-title="{{ 'MEDIA_LIBRARY.ADD_LINK_FROM_INTERNET' | translate }}" modal-icon="plus">
+  <form ng-submit="confirm()">
+    <div class="modal-body">
+
+      <label for="model-url" translate>MEDIA_LIBRARY.LINK_ADDRESS</label>
+      <input type="text" id="model-url" ng-model="model.url" placeholder="{{ 'MEDIA_LIBRARY.INPUT_LINK_ADDRESS' | translate }}" bns-focus-request>
+
+      <div class="help-block text-danger">
+        {{ model.error | translate }}
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <div class="content-btn-footer">
+        <button type="submit" ng-disabled="!model.url" class="btn btn-success">
+          <i class="bns-icon-checked round"></i>
+          <strong translate>MEDIA_LIBRARY.IMPORT_LINK</strong>
+        </button>
+        <button class="btn" ng-click="closeModal()">
+          <i class="bns-icon-arrow-left-curved round"></i>
+          <strong translate>MEDIA_LIBRARY.CANCEL_ADD</strong>
+        </button>
+      </div>
+    </div>
+  </form>
+</bns-modal>

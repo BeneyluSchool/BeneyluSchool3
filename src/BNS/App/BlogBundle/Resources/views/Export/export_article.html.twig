@@ -1,0 +1,57 @@
+{% trans_default_domain "BLOG" %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <h1>{{ blog.getTitle() }}</h1>
+        {% if blog.getResource() != null %}
+            <img src="{{ getResourceImageUrl(blog.getResource(), 'small') }}" />
+        {% endif %}
+
+        {% for article in articles %}
+            <hr />
+            <h2>{{ article.getTitle() }}</h2>
+            <div class="underline"></div>
+            <div class="container-description-article">
+                <div class="article-categories">
+                    {% for category in article.getSortedBlogCategories() %}
+                        <ul>
+                            {% if (category.getChildren()|length > 0) %}
+                                {% for child in category.getChildren() %}
+                                    <li>
+                                        /{{ child.getTitle() }}
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    {% endfor %}
+                </div>
+
+                <div class="description-article">
+
+                  <p>
+                      {{ 'WRITE_AT_FROM'|trans({'%dateCreation%': date_from_now(article.getPublishedAt(), false, true), '%image%': '<img class="#" src=" ' ~ avatar(article.getAuthor(), 'thumbnail') ~ '" width="16" class="avatar"/>', '%userFullName%': article.getAuthor().getFullName()|escape})  |desc('Publiée %dateCreation% par %image% %userFullName%') |raw }} </p>
+                </div>
+            </div>
+            <div class="article">
+                {% autoescape false %}
+                    {{ parse_public_resources(article.getContent(),false,'medium',true) }}
+                {% endautoescape %}
+            </div>
+            {% if include_comments %}
+                <div class="comments">
+                    {% render controller('BNSAppCommentBundle:FrontComment:showPdf', {
+                    'namespace':	'\\BNS\\App\\CoreBundle\\Model\\BlogArticleComment',
+                    'objectId':		article.getId(),
+                    'comments':		article.getBlogArticleCommentsInverse(10,blog.id),
+                    'ajaxLoading':	true,
+                    }) %}
+                </div>
+            {% endif %}
+        {% else %}
+            <h2>{% trans %}BLOG_NO_ARTICLE{% endtrans %}</h2>
+        {% endfor %}
+    </body>
+</html>

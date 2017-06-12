@@ -1,0 +1,21 @@
+<div class="stat-btn-toolbar">
+  <md-menu>
+    <md-button class="md-accent md-raised" ng-click="$mdOpenMenu()" ng-disabled="!(ctrl.state.chartConfig && ctrl.state.chartConfig.getHighcharts)">
+      <span ng-bind-html="'STATISTIC.EXPORT_BUTTON'|translate|buttonize">.</span>
+      <md-icon>arrow_drop_down</md-icon>
+    </md-button>
+    <md-menu-content>
+      <md-menu-item>
+        <md-button ng-click="ctrl.exportChartPng()">
+          {{'STATISTIC.EXPORT_AS_IMAGE'|translate|buttonize}}
+        </md-button>
+      </md-menu-item>
+      <md-menu-item>
+        <md-button ng-click="ctrl.exportChartPdf()">
+          {{'STATISTIC.EXPORT_AS_PDF'|translate|buttonize}}
+        </md-button>
+      </md-menu-item>
+    </md-menu-content>
+  </md-menu>
+
+</div>

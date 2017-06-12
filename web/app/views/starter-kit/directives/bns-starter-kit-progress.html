@@ -1,0 +1,21 @@
+<md-content ng-if="ctrl.enabled" class="starter-kit-progress flex layout-column md-whiteframe-z3">
+  <div class="layout-margin">
+    <md-button ng-click="ctrl.exit()" class="exit-btn layout-column" href>
+      <md-icon>chevron_left</md-icon>
+      <md-divider></md-divider>
+      <span ng-bind-html="'STARTER_KIT.BUTTON_EXIT'|translate"></span>
+    </md-button>
+  </div>
+
+  <div class="flex layout-column layout-margin layout-align-space-between-center starter-kit-progress-steps">
+    <md-button ng-repeat="step in ctrl.getSteps()"
+      ng-click="ctrl.navigate(step)"
+      ng-class="ctrl.getStepClass(step)+($last?' step-bigger':'')"
+      class="md-icon-button"
+      href
+    >
+      <md-icon>{{::$last?'star':'lens'}}</md-icon>
+      <md-tooltip md-direction="right">{{step.data.title||step.step}}</md-tooltip>
+    </md-button>
+  </div>
+</md-content>

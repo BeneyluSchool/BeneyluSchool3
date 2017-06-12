@@ -1,109 +1,147 @@
+{% trans_default_domain "CLASSROOM" %}
 {% extends 'BNSAppClassroomBundle:Layout:manager.html.twig' %}
 
 {% block title %}
-	Classe - Personnalisation
+  {% trans %}TITLE_CLASS_CUSTOMIZE{% endtrans %}
+
 {% endblock %}
 
 {% block sidebar %}
-    {% include "BNSAppClassroomBundle:Sidebar:sidebar.html.twig" with {"page" : "custom" } %}
+  {% include "BNSAppClassroomBundle:Sidebar:sidebar.html.twig" with {"page" : "custom" } %}
 {% endblock sidebar %}
 
 {% block header %}
-	<div class="header-buttons">
-		<div class="inner-header">
-			<div class="container container-fluid">
-				<div class="row-fluid">
-					<div class="span8">
-						<a href="{{ path('BNSAppClassroomBundle_back') }}" class="btn bns-notice btn-24 medium-return button-return">
-							<span class="icons-24 back-icon"></span>
-							<strong>Retourner</strong><br>à la classe
-						</a>
-						<a href="{{ path('BNSAppClassroomBundle_back') }}" class="btn bns-danger btn-24 medium-return">
-							<span class="icons-24 cancel-icon"></span>
-							<strong>Annuler</strong><br>la personnalisation
-						</a>
-					</div>
-					<div class="span4 align-right">
-						<a href="#" class="btn bns-success validate-medium btn-24 medium submit-custom-classroom-form" data-target="#confirmModal" data-toggle="modal">
-							<span class="icons-24 validate-icon"></span><strong>J'ai terminé</strong>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="header-buttons">
+    <div class="inner-header">
+      <div class="container container-fluid">
+        <div class="row-fluid">
+          <div class="span8">
+            <a href="{{ path('BNSAppClassroomBundle_back') }}" class="btn bns-notice btn-24 medium-return button-return">
+              <span class="icons-24 back-icon"></span>
+                {{ 'LINK_BACK_TO_CLASS'|trans |desc('<strong>Retourner</strong><br />à la classe') |raw}}
+            </a>
+            <a href="{{ path('BNSAppClassroomBundle_back') }}" class="btn bns-danger btn-24 medium-return">
+              <span class="icons-24 cancel-icon"></span>
+                {{ 'LINK_CANCEL_MODIFICATION'|trans |desc('<strong>Annuler</strong><br />les modifications') |raw}}
+            </a>
+          </div>
+          <div class="span4 align-right">
+            <a href="#" class="btn bns-success validate-medium btn-24 medium submit-custom-classroom-form">
+              <span class="icons-24 validate-icon"></span><strong>{% trans %}LINK_SAVE{% endtrans %}</strong>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
 
 {% block content %}
-<div class="container-classroom">
-	<div class="news-title">
-		<h1 class="dashboard">Personnaliser sa classe</h1>
-	</div>
-	<div class="content-custom">
-		<form action="{{ path('classroom_custom_save') }}" method="POST" id="custom-classroom-form" {{ form_enctype(form) }}>
-			
-				
-			<div id="resource-selection-callback">
-				<img src="{{ avatar(classroom, 'small') }}" />
-			</div>
-                        <div>
-				{{ form_widget(form.name, {'attr': {'class': 'custom-classroom', 'placeholder': 'Nom'}}) }}
-				{{ form_errors(form.name) }}
-			</div>
-                        <div>
-                                {{ form_widget(form.description, {'attr': {'class': 'custom-classroom', 'placeholder': 'Présentation'}}) }}
-                                {{ form_errors(form.description) }}
-                        </div>
-			<div class="form-profil avatar">
-				{{ form_widget(form.avatarId) }}
-				{% include 'BNSAppResourceBundle:Front:selectImage.html.twig' with {
-					'label' : 'Choisir un avatar',
-					'input_id': 'classroom_custom_form_avatar',
-					'name': form.avatarId.vars.full_name,
-					'callback': 'resource-selection-callback'
-				} %}
-			</div>
-			
-			<div class="news-title">
-				<h1 class="dashboard">Message d'accueil</h1>
-			</div>
-			<div class="form-home-message">
-				{{ form_widget(form.home_message, {'attr': {'class': 'custom-classroom', 'placeholder': "Message d'accueil"}}) }}
-				{{ form_errors(form.home_message) }}
-			</div>
-			<div class="news-title">
-				<h1 class="dashboard">Niveau(x)</h1>
-			</div>
-			<div class="form-checkbox">
-				<div class="row-fluid">
-					<div class="level-group">
-						{% for level in form.level %}
-							{% if loop.index0 in level_separator_labels|keys %}
-								</div>
-								<div class="level-group span2">
-									<span class="level-group-label">{{ level_separator_labels[loop.index0] }}</span>
-							{% endif %}
-							<div class="one-level">
-								{{ form_label(level) }}
-								{{ form_widget(level) }}
-							</div>
-						{% endfor %}
-					</div>
-				</div>
-				{{ form_errors(form.level) }}
-			</div>
-				
-			{{ form_rest(form) }}
-		</form>
-                
-                {% autoescape false %}
-                    {{ modal('confirmModal', {
-                        'title': 'Confirmation',
-                        'body': 'Voulez-vous réellement sauvegarder vos changements ?',
-                        'footer_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:confirm_save_custom_footer.html.twig'},
-                        'type': 'confirm'
-                    }) }}
-                {% endautoescape %}
-	</div>
-</div>
+  <div class="container-classroom">
+    <div class="news-title">
+      <h1 class="dashboard">{% trans %}TITLE_CUSTOMIZE_CLASS{% endtrans %}</h1>
+
+    </div>
+    <div class="content-custom">
+      <form action="{{ path('classroom_custom_save') }}" method="POST" id="custom-classroom-form" {{ form_enctype(form) }}>
+        {% if form.name.vars.errors | length > 0 %}
+          <div class="alert alert-danger bns-alert">
+            {{ form.name.vars.errors[0].message }}
+            <div class="jim"></div>
+          </div>
+        {% endif %}
+        <div id="resource-selection-callback">
+          <img src="{{ avatar(classroom, 'large') }}" />
+        </div>
+        <div>
+          {{ form_widget(form.name, {'attr': {'class': 'custom-classroom', 'placeholder': 'PLACEHOLDER_NAME'|trans}}) }}
+        </div>
+        <div>
+          {{ form_widget(form.description, {'attr': {'class': 'custom-classroom', 'placeholder': 'PLACEHOLDER_PRESENTATION'|trans}}) }}
+          {{ form_errors(form.description) }}
+        </div>
+        <div class="form-profil avatar">
+          {{ form_widget(form.avatarId) }}
+          {% include 'BNSAppMediaLibraryBundle:Front:selection.html.twig' with {
+          'label' : 'LABEL_CHOOSE_AVATAR'|trans,
+
+          'input_id': 'edit_classroom_form_avatarId',
+          'allowed_type': 'IMAGE',
+          'name': form.avatarId.vars.full_name,
+          'callback': 'resource-selection-callback',
+          'with_cancel': true,
+          'current_src': avatar(classroom, 'large'),
+          'default_src': avatar(classroom, 'large',true),
+          'current_value': classroom.getAttribute('AVATAR_ID'),
+          'label_delete' : 'DELETE_AVATAR'|trans
+          } %}
+        </div>
+
+        <div class="news-title">
+
+          <h1 class="dashboard">{% trans %}LABEL_DEFINE_CLASSROOM_LANGUAGE{% endtrans %}</h1>
+
+        </div>
+
+        <div class="form-language">
+          {{ form_widget(form.lang) }}
+          {{ form_widget(form.timezone) }}
+          <p><br /> {% trans %}WARNING_CHANGE_LANGUAGE{% endtrans %}</p>
+
+          {% if form.country is defined %}
+          <div class="form-country">
+            {{ form_label(form.country) }}
+            <div class="control">
+              {{ form_widget(form.country) }}
+              {% if form.country.vars.errors | length > 0 %}
+                <div class="alert alert-danger bns-alert">
+                  {{ form_errors(form.country) }}
+                  <div class="jim"></div>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="news-title">
+            <h1 class="dashboard">{% trans %}TITLE_WRITE_ON_BOARD{% endtrans %}</h1>
+
+
+
+        </div>
+
+        <div class="form-home-message">
+          {{ form_widget(form.home_message, {'attr': {'class': 'custom-classroom board-message'}}) }}
+          {{ form_errors(form.home_message) }}
+        </div>
+
+        <div class="news-title">
+          <h1 class="dashboard">{% trans %}TITLE_LEVEL{% endtrans %}</h1>
+
+        </div>
+
+        <div class="form-checkbox">
+          <div class="row-fluid">
+            <div class="level-group">
+              {% for level in form.level %}
+              {% if loop.index0 in level_separator_labels|keys %}
+            </div>
+            <div class="level-group span3">
+              <span class="level-group-label">{{ level_separator_labels[loop.index0] }}</span>
+              {% endif %}
+              <div class="one-level">
+                {{ form_widget(level) }}
+                {{ form_label(level) }}
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {{ form_errors(form.level) }}
+        </div>
+
+        {{ form_rest(form) }}
+      </form>
+    </div>
+  </div>
 {% endblock %}

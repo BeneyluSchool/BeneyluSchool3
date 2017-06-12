@@ -11,12 +11,6 @@ class GroupTypeDataTemplateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('default_value', 'text');
-		$builder->add('group_type_data_template_i18ns', 'collection', array(
-            'type'          => new \BNS\App\CoreBundle\Form\Type\GroupTypeDataTemplateI18nType(),
-            'allow_add'     => false,
-            'allow_delete'  => false,
-            'by_reference'  => false
-        ));
     }
 
 	/**

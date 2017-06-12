@@ -5,7 +5,6 @@ namespace BNS\App\HelloWorldBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
 use BNS\App\CoreBundle\Annotation\Rights;
 
 /**
@@ -22,7 +21,6 @@ class BackController extends Controller
 	 * vous pouvez aussi mettre plusieurs permissions à la suite, séparées par une virgule, exemple : Rights("HELLOWORLD_ADMINISTRATION, HELLOWORLD_DELETE_USER")
 	 * 
 	 * @Route("/", name="BNSAppHelloWorldBundle_back")
-	 * @Rights("HELLOWORLD_ACCESS_BACK")
 	 * @Template()
 	 */
 	public function indexAction()
@@ -71,5 +69,13 @@ class BackController extends Controller
 	public function administrationAction()
 	{
 		return $this->render('BNSAppHelloWorldBundle:BackExample:index.html.twig');
+	}
+	
+	/**
+	 * @Route("/exemples-alert", name="hello_world_manager_alert")
+	 */
+	public function alertAction()
+	{
+		return $this->render('BNSAppHelloWorldBundle:Back:alert.html.twig');
 	}
 }

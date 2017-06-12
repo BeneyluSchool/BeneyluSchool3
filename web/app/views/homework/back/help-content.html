@@ -1,0 +1,24 @@
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools layout-align-space-between-center">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+
+    <h3 translate>HOMEWORK.TITLE_HOMEWORK_HELP</h3>
+  </div>
+</md-toolbar>
+
+<md-content>
+
+  <div class="md-padding">
+    <h3 class="md-headline">
+      <span class="md-padding">
+        <md-icon>help_outline</md-icon>
+      </span>
+      <span translate>HOMEWORK.TITLE_STARTER_KIT</span>
+    </h3>
+
+    <div class="md-body-1" ng-bind-html="'HOMEWORK.DESCRIPTION_STARTER_KIT'|translate"></div>
+  </div>
+
+  <bns-starter-kit-management app="HOMEWORK"></bns-starter-kit-management>
+
+</md-content>

@@ -1,0 +1,109 @@
+{% trans_default_domain "CLASSROOM" %}
+{% extends 'BNSAppClassroomBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+    {% trans %}TITLE_CLASS_BLACKBOARD{% endtrans %}
+
+{% endblock %}
+
+{% block sidebar %}
+    {% include "BNSAppClassroomBundle:Sidebar:sidebar.html.twig" with {"page" : "blackboard" } %}
+{% endblock sidebar %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ tinymce_init() }}
+{% endblock %}
+
+{% block header %}
+    <div class="header-buttons">
+        <div class="inner-header">
+            <div class="container container-fluid">
+                <div class="row-fluid">
+                    <div class="span8">
+                        <a href="{{ path('BNSAppClassroomBundle_back') }}" class="btn bns-notice btn-24 medium-return button-return">
+                            <span class="icons-24 back-icon"></span>
+                            {{ 'LINK_BACK_TO_CLASS'|trans |desc('<strong>Retourner</strong><br />à la classe') |raw}}
+                        </a>
+                        <a href="{{ path('BNSAppClassroomBundle_back') }}" class="btn bns-danger btn-24 medium-return">
+                            <span class="icons-24 cancel-icon"></span>
+                            {{ 'LINK_CANCEL_MODIFICATION'|trans |desc('<strong>Annuler</strong><br />les modifications') |raw}}
+                        </a>
+                    </div>
+                    <div class="span4 align-right">
+                        <a href="#" class="btn bns-success validate-medium btn-24 medium submit-blackboard-classroom-form">
+                            <span class="icons-24 validate-icon"></span><strong>{% trans %}LINK_SAVE{% endtrans %}</strong>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+  <div class="news-title">
+    <h1 class="dashboard">{% trans %}BLACKBOARD_BACK_TITLE{% endtrans %}</h1>
+  </div>
+  <div class="form-container">
+    {{ form_start(form, {attr:{id: 'submit-blackboard-classroom-form'} }) }}
+    {% if form.vars.errors|length > 0 %}
+      <div class="alert alert-error bns-alert">
+        {{ form_errors(form) }}
+        <span class="jim"></span>
+      </div>
+    {% endif %}
+    <h3>{% trans %}BLACKBOARD_PRESENTATION_IMG{% endtrans %}</h3>
+    <div id="resource-selection-callback">
+      {% if image %}
+        <img src="{{ getResourceImageUrlFromId(image) }}" />
+      {% endif %}
+    </div>
+    <div class="select-image">
+      {% do form.image_id.setRendered %}
+      {% include 'BNSAppMediaLibraryBundle:Front:selection.html.twig' with {
+      'label' : 'LABEL_CHOOSE_IMAGE'|trans,
+
+      'input_id': 'edit_classroom_form_imageId',
+      'allowed_type': 'IMAGE',
+      'name': form.image_id.vars.full_name,
+      'callback': 'resource-selection-callback',
+      'with_cancel': true,
+      'current_src': getResourceImageUrlFromId(image),
+      'default_src': NULL,
+      'current_value': image,
+      'label_delete' : 'DELETE_IMAGE'|trans,
+      } %}
+    </div>
+    <div class="form-element">
+      <h3>{% trans %}BLACKBOARD_TITLE{% endtrans %}</h3>
+      <div>
+        {{ form_widget(form.title) }}
+      </div>
+    </div>
+    <div class="form-element">
+      <h3>{% trans %}BLACKBOARD_DESCRIPTION{% endtrans %}</h3>
+      <div class="tinyarea">
+        {{ form_widget(form.description, { 'attr': {'bns-tinymce':''} }) }}
+      </div>
+    </div>
+    <div class="form-element">
+      <h3>{% trans %}BLACKBOARD_NOTICE{% endtrans %}</h3>
+      <div>
+        {{ form_widget(form.notice) }}
+      </div>
+    </div>
+    <div class="form-element">
+      <h3>{% trans %}BLACKBOARD_FLUX{% endtrans %}</h3>
+      <div>
+        {{ form_widget(form.flux) }}
+      </div>
+    </div>
+    {{ form_rest(form) }}
+    {% set formJoin = form.vars.value %}
+    {% if formJoin is not null %}
+      {% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias': formJoin.getResourceAttachments, "editable": true, 'objectType': 'Blackboard', 'objectId': formJoin.id} %}
+    {% endif %}
+    {{ form_end(form) }}
+</div>
+{% endblock %}

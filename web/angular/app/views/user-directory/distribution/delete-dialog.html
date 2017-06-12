@@ -1,0 +1,34 @@
+<md-dialog class="bns-dialog bns-dialog-warn" aria-label="{{'USER_DIRECTORY.TITLE_DELETE_DISTRIBUTION_LISTS'|translate}}">
+  <form name="ctrl.form" ng-submit="ctrl.submit()">
+    <md-toolbar class="md-warn">
+      <div class="md-toolbar-tools">
+        <h3 translate>USER_DIRECTORY.TITLE_DELETE_DISTRIBUTION_LISTS</h3>
+        <span class="flex"></span>
+        <md-button ng-click="ctrl.cancel()" class="md-icon-button" type="button">
+          <md-icon>close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content class="md-dialog-content">
+      <div class="md-body-1" translate>USER_DIRECTORY.DESCRIPTION_DELETE_DISTRIBUTION_LISTS</div>
+
+      <md-list>
+        <md-list-item ng-repeat="list in ctrl.preselected" ng-init="checked = true">
+          <md-checkbox ng-model="checked" ng-change="ctrl.selection.toggle(list)" aria-label="{{::list.name}}" class="md-warn"></md-checkbox>
+          <div>{{::list.name}}</div>
+        </md-list-item>
+      </md-list>
+    </md-dialog-content>
+
+    <div class="md-actions">
+      <md-button href ng-click="ctrl.cancel()">
+        <span ng-bind-html="'USER_DIRECTORY.BUTTON_CANCEL'|translate|buttonize">cancel</span>
+      </md-button>
+      <md-button type="submit" class="md-warn md-raised" ng-disabled="ctrl.form.$invalid">
+        <md-icon>delete</md-icon>
+        <span ng-bind-html="'USER_DIRECTORY.BUTTON_DELETE_DISTRIBUTION_LISTS'|translate|buttonize"></span>
+      </md-button>
+    </div>
+  </form>
+</md-dialog>

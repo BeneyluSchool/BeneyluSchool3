@@ -1,0 +1,45 @@
+<div ng-class="{ 'selection-disabled': !shared.globalSelectionEnabled }" class="media-library-sidebar-section">
+  <div ng-class="{ quiet: !shared.selection.list.length }" class="media-library-sidebar-header">
+    <div class="media-library-selection-counter">{{ shared.selection.list.length }}</div>
+    <h4 class="media-library-selection-heading" translate>MEDIA_LIBRARY.MY_SELECTION</h4>
+  </div>
+
+  <div class="media-library-sidebar-content">
+    <scrollable>
+      <div ng-class="{ 'selection-empty': !shared.selection.list.length }" class="media-library-selection">
+        <bns-starter-kit-pointer step="1-1.1" pointer="selection"></bns-starter-kit-pointer>
+        <div class="media-library-selection-empty-placeholder">
+          {{ 'MEDIA_LIBRARY.NO_DOCUMENT_SELECTED' | translate }}
+        </div>
+
+
+
+        <span ng-click="emptySelection()"
+          class="media-library-empty-selection action-link"
+          translate
+        >MEDIA_LIBRARY.EMPTY_SELECTION</span>
+
+        <ul class="media-library-selection-list">
+          <li ng-repeat="item in shared.selection.list" class="media-library-selection-item">
+            <div class="item-check" ng-click="toggleSelection(item)">
+              <input type="checkbox" ng-checked="shared.selection.has(item)" ng-model="dummy">
+            </div>
+            <div ng-click="(item | isMediaLibraryFile) && viewMedia(item)" ng-class="{action: (item | isMediaLibraryFile) }" class="item-handle">
+              <div class="item-display">
+                <div bns-media-preview media="item" class="item-preview"></div>
+                <div class="item-label">
+                  <span bns-favorite-flag="item"></span>
+                  <span bns-private-flag="item"></span>
+                  {{ item.label }}
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+    </scrollable>
+  </div>
+
+  <div class="media-library-selection-disabled-overlay"></div>
+</div>

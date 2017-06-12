@@ -1,28 +1,29 @@
+{% trans_default_domain "BLOG" %}
 {% if groups|length > 0 %}
-	<h2 class="block-title">Les autres</h2>
-	<div class="block-other-blog">
-		<ul>
-			{% for group in groups %}
-				<li><a href="{{ path('BNSAppMainBundle_switch_context', {'slug': group.getSlug()}) }}"><img class="#" src="{{ asset('/medias/images/blog/blog-other.png') }}" />{{ group.getLabel() }}</a></li>
-			{% endfor %}
-		</ul>
-	</div>
-	<div class="clearfix"></div>
-	<script type="text/javascript">
-		$(function ()
-		{
-			$('.block-other-blog a').click(function ()
-			{
-				$.ajax({
-					url: $(this).attr('href'),
-					success: function (data)
-					{
-						window.location = window.location;
-					}
-				});
-				
-				return false;
-			});
-		});
-	</script>
+  <h2 class="block-title">{% if groups | length > 1 %}{% trans %}TITLE_OTHER{% endtrans %}{% else %}{% trans %}TITLE_OTHER_BLOG{% endtrans %}{% endif %}</h2>
+  <div class="block-other-blog">
+    <ul>
+      {% for group in groups %}
+        <li><a href="{{ path('BNSAppMainBundle_switch_context', {'slug': group.getSlug()}) }}"><img class="#" src="{{ getResourceImageUrl(group.getBlog().getResource(), 'thumbnail') }}" width="32" />{{ group.getBlog().getTitle() }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="clearfix"></div>
+  <script type="text/javascript">
+    $(function ()
+    {
+      $('.block-other-blog a').click(function ()
+      {
+        $.ajax({
+          url: $(this).attr('href'),
+          success: function (data)
+          {
+            window.location = window.location;
+          }
+        });
+
+        return false;
+      });
+    });
+  </script>
 {% endif %}

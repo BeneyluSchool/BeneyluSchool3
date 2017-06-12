@@ -1,0 +1,727 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2017-03-22T10:31:29Z" source-language="en" target-language="en-US" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="f9460492306d4b99cd31848c3a99a26a7e978d96" resname="ADD">
+        <source>ADD</source>
+        <target>Add</target>
+      </trans-unit>
+      <trans-unit id="20e0599481170ec0770542f82972b492c1a00f81" resname="ADD_FILE_HTML">
+        <source>ADD_FILE_HTML</source>
+        <target><![CDATA[<strong>a document</strong><br>from the computer]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="f67b5690c57e8b353dba41e89acca52a724aae1b" resname="ADD_FOLDER_ERROR">
+        <source>ADD_FOLDER_ERROR</source>
+        <target>Error while creating the new folder</target>
+      </trans-unit>
+      <trans-unit id="94613c9f669e659cc834495abfde802d289e15c3" resname="ADD_FOLDER_ERROR_NO_CONTEXT">
+        <source>ADD_FOLDER_ERROR_NO_CONTEXT</source>
+        <target>Cannot create a folder here</target>
+      </trans-unit>
+      <trans-unit id="c87f7e8f6263686333658b028fa010c120bacad0" resname="ADD_FOLDER_HTML">
+        <source>ADD_FOLDER_HTML</source>
+        <target><![CDATA[<strong>a folder</strong><br>in my media library]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="29799b237b7d6f8d1face5c6668c89623ded7173" resname="ADD_FOLDER_MODAL_TITLE">
+        <source>ADD_FOLDER_MODAL_TITLE</source>
+        <target>Add a new folder</target>
+      </trans-unit>
+      <trans-unit id="c8e4ae252df83521c17e978f53f2e6b03ecc847e" resname="ADD_FOLDER_SUCCESS">
+        <source>ADD_FOLDER_SUCCESS</source>
+        <target>Folder created</target>
+      </trans-unit>
+      <trans-unit id="c72d2b648e185af1f152cfa05cc2d1cdfb401f48" resname="ADD_LINK_ERROR">
+        <source>ADD_LINK_ERROR</source>
+        <target>Error while importing the link</target>
+      </trans-unit>
+      <trans-unit id="b7e89fefa5bd7e360f82ebf4be3a77edd5eb5639" resname="ADD_LINK_FROM_INTERNET">
+        <source>ADD_LINK_FROM_INTERNET</source>
+        <target>Add a link from the internet</target>
+      </trans-unit>
+      <trans-unit id="bbf6576511d5b5889e5cc0c15addb6b905472fab" resname="ADD_LINK_HTML">
+        <source>ADD_LINK_HTML</source>
+        <target><![CDATA[<strong>a link</strong><br>from the internet]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="59b33d752bb59a149802ad61d211c5c232c27169" resname="ADD_LINK_SUCCESS">
+        <source>ADD_LINK_SUCCESS</source>
+        <target>Link imported</target>
+      </trans-unit>
+      <trans-unit id="64808a3dc5aa1046d30c6642990f47624bc28663" resname="ADD_THIS_FOLDER">
+        <source>ADD_THIS_FOLDER</source>
+        <target>Add this folder</target>
+      </trans-unit>
+      <trans-unit id="48db542653b3a4e5048a8dbf8082f58578209cbd" resname="ARRANGEMENT">
+        <source>ARRANGEMENT</source>
+        <target>Arrangement</target>
+      </trans-unit>
+      <trans-unit id="587eac1112fa27cc0682922beceef7a3a8afa60c" resname="BACK">
+        <source>BACK</source>
+        <target>Go back</target>
+      </trans-unit>
+      <trans-unit id="13367dd5a320cd1ceda37be2ad75c70bcefc2e8f" resname="BUTTON_VIEW_RESOURCE">
+        <source>BUTTON_VIEW_RESOURCE</source>
+        <target>View resource</target>
+      </trans-unit>
+      <trans-unit id="1507c40f043249fe6b5e25ba0cc97010cefa6d12" resname="CANCEL">
+        <source>CANCEL</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="aabbaea6721ccf421b7cbc70a62c1defd8b8fb0b" resname="CANCEL_ADD">
+        <source>CANCEL_ADD</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="a8f4a3a3923c600dcfa74567e38e75792f461b5f" resname="CANCEL_DELETE_HTML">
+        <source>CANCEL_DELETE_HTML</source>
+        <target><![CDATA[<strong>Cancel</strong><br>deletion]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="172059d8e1f5da7915b16b553c81e090f5f246d8" resname="CHANGE_INTO_FOLDER_HTML">
+        <source>CHANGE_INTO_FOLDER_HTML</source>
+        <target><![CDATA[<strong>Change into</strong><br>normal folder]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="8f28c4a5d4b00dd43b8d2672dedeb875be617aab" resname="CHANGE_INTO_LOCKER_HTML">
+        <source>CHANGE_INTO_LOCKER_HTML</source>
+        <target><![CDATA[<strong>Change into</strong><br>submission folder]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="ff3dbb4248bc293f229f569fdd3cf5e3712d0ddf" resname="CONTINUE">
+        <source>CONTINUE</source>
+        <target>Continue</target>
+      </trans-unit>
+      <trans-unit id="c0f4d9698c83b156e940d4ee8eb4615c60080f4a" resname="COPY_IN_DOCUMENTS_ERROR">
+        <source>COPY_IN_DOCUMENTS_ERROR</source>
+        <target>Error while copying the document</target>
+      </trans-unit>
+      <trans-unit id="0daa7fbd76b2e8e10c5aee059a9b881bf314cc1e" resname="COPY_IN_DOCUMENTS_HTML">
+        <source>COPY_IN_DOCUMENTS_HTML</source>
+        <target><![CDATA[<strong>Copy</strong><br>in my documents]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="2fa94b041273801a25a1d2f602d1930a4663b5d7" resname="COPY_IN_DOCUMENTS_SUCCESS">
+        <source>COPY_IN_DOCUMENTS_SUCCESS</source>
+        <target>Document copied</target>
+      </trans-unit>
+      <trans-unit id="d767486691395b6b8708233d54fcbe5fbcb89d22" resname="COPY_SELECTION_ERROR">
+        <source>COPY_SELECTION_ERROR</source>
+        <target>Error while copying the selection</target>
+      </trans-unit>
+      <trans-unit id="dee652d37bdca901f18f057be34ad44825307c32" resname="COPY_SELECTION_HTML">
+        <source>COPY_SELECTION_HTML</source>
+        <target><![CDATA[<strong>Copy the selection</strong><br>in this folder]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="41e537822d31f3e0c9a6c1e4cf3e9f41d69bd9e5" resname="COPY_SELECTION_SUCCESS">
+        <source>COPY_SELECTION_SUCCESS</source>
+        <target>Selection copied</target>
+      </trans-unit>
+      <trans-unit id="fe2c9116c9da8a451bcf0a4e3c7d2096a1a1652c" resname="COPY_SELECTION_SUCCESS_PARTIAL">
+        <source>COPY_SELECTION_SUCCESS_PARTIAL</source>
+        <target>{NUM, plural, 1{One item could not be copied} other{# items could not be copied}}</target>
+      </trans-unit>
+      <trans-unit id="b20949ded53f0f4da3cd007159798eadd66352f3" resname="DELETE_DOCUMENTS">
+        <source>DELETE_DOCUMENTS</source>
+        <target>Delete documents</target>
+      </trans-unit>
+      <trans-unit id="f471b43c8dd7b35312a483fa69f62b73143d3c12" resname="DELETE_ITEM_HTML">
+        <source>DELETE_ITEM_HTML</source>
+        <target><![CDATA[<strong>Delete</strong><br>the document]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="e784b6c53a86cf016cd9875ed42dbd4bdf48a7c0" resname="DELETE_MOVE_SELECTION_SUCCESS">
+        <source>DELETE_MOVE_SELECTION_SUCCESS</source>
+        <target>Selection has been sent to the recycle bin</target>
+      </trans-unit>
+      <trans-unit id="234cb7440c96e9a723522f26731bc38d607ec342" resname="DELETE_MOVE_SELECTION_SUCCESS_NOT_ALL">
+        <source>DELETE_MOVE_SELECTION_SUCCESS_NOT_ALL</source>
+        <target>Some items could not be moved to the recycle bin</target>
+      </trans-unit>
+      <trans-unit id="4aec7a9e82d968fe7e58b0fff3128b1f1f3b37f0" resname="DELETE_REMOVE_SELECTION_SUCCESS">
+        <source>DELETE_REMOVE_SELECTION_SUCCESS</source>
+        <target>Selection has been deleted</target>
+      </trans-unit>
+      <trans-unit id="7eb95b49aadfc41a141d08223a9b5c8f6bc06208" resname="DELETE_REMOVE_SELECTION_SUCCESS_NOT_ALL">
+        <source>DELETE_REMOVE_SELECTION_SUCCESS_NOT_ALL</source>
+        <target>Some items could not be deleted</target>
+      </trans-unit>
+      <trans-unit id="3fdccea925c3861220f145f218f7fde04cd8f10e" resname="DELETE_SELECTION_ERROR">
+        <source>DELETE_SELECTION_ERROR</source>
+        <target>Error while deleting selection</target>
+      </trans-unit>
+      <trans-unit id="29d66bcea457cd6a8f1194c5a43bbfbcfdeaaf3d" resname="DELETE_SELECTION_FOREVER_HTML">
+        <source>DELETE_SELECTION_FOREVER_HTML</source>
+        <target><![CDATA[<strong>Permanently delete</strong><br>selection]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="383d41ece711fb71df9ee441b8d31c6298f6286d" resname="DELETE_SELECTION_HTML">
+        <source>DELETE_SELECTION_HTML</source>
+        <target><![CDATA[<strong>Delete</strong><br>selection]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="27f0c01e0fade5f4a48f204e1545b562b58f8c68" resname="DELETE_THESE_DOCUMENTS">
+        <source>DELETE_THESE_DOCUMENTS</source>
+        <target>Delete these documents</target>
+      </trans-unit>
+      <trans-unit id="d049ca02f3f1a91f72b4893614092a7f3f835200" resname="DELETE_THESE_ELEMENTS_PLURAL">
+        <source>DELETE_THESE_ELEMENTS_PLURAL</source>
+        <target>{NUM, plural, 1{Delete this element} other{Delete these elements}}</target>
+      </trans-unit>
+      <trans-unit id="487c227e4a1a45b6e7752d2475f3e93d88764bc3" resname="DISTRIBUTE_DOCUMENTS_HTML">
+        <source>DISTRIBUTE_DOCUMENTS_HTML</source>
+        <target><![CDATA[<strong>Give out</strong><br>selected documents]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="5acf1f8d57039c77a567de32f43119253f49f24c" resname="DISTRIBUTE_SELECTION_ERROR">
+        <source>DISTRIBUTE_SELECTION_ERROR</source>
+        <target>Error while distributing the documents</target>
+      </trans-unit>
+      <trans-unit id="afcd651739274f5897b8803c44e7da8b5b8db4af" resname="DISTRIBUTE_SELECTION_SUCCESS">
+        <source>DISTRIBUTE_SELECTION_SUCCESS</source>
+        <target>Documents distributed</target>
+      </trans-unit>
+      <trans-unit id="9b45cdaca7fe488c5d2763dd405036b9675a08ce" resname="DISTRIBUTE_SELECTION_SUCCESS_PARTIAL">
+        <source>DISTRIBUTE_SELECTION_SUCCESS_PARTIAL</source>
+        <target>{NUM, plural, 1{One document could not be distributed to some users} other{# documents could not be distributed to some users}}</target>
+      </trans-unit>
+      <trans-unit id="0c0c47ef4c88e3b39f0fc42903ece1c8b998852c" resname="DOWNLOAD_ARCHIVE_SELECTION">
+        <source>DOWNLOAD_ARCHIVE_SELECTION</source>
+        <target>Download an archive of the selection</target>
+      </trans-unit>
+      <trans-unit id="a6acf7e2cccddd4fa8ae54fc1910d5fb15248fbf" resname="DOWNLOAD_ARCHIVE_SELECTION_ERROR">
+        <source>DOWNLOAD_ARCHIVE_SELECTION_ERROR</source>
+        <target>Error while downloading an archive of the selection</target>
+      </trans-unit>
+      <trans-unit id="1b9b8460387540aa8319579ba4bccc1cc9a424be" resname="DOWNLOAD_ARCHIVE_SELECTION_SUCCESS">
+        <source>DOWNLOAD_ARCHIVE_SELECTION_SUCCESS</source>
+        <target>Downloaded selected archives</target>
+      </trans-unit>
+      <trans-unit id="68cb3bc6f50bddfd3fe63db170c778a05424b4b9" resname="DOWNLOAD_DOCUMENT">
+        <source>DOWNLOAD_DOCUMENT</source>
+        <target>Download the document</target>
+      </trans-unit>
+      <trans-unit id="8b95056a1f863ac1e9846f8c7f685bc4d7a958a3" resname="EDIT_DOCUMENT_ERROR">
+        <source>EDIT_DOCUMENT_ERROR</source>
+        <target>Error while modifying the document</target>
+      </trans-unit>
+      <trans-unit id="ac14009910b43543a97f9dc625c80f0f7af77958" resname="EDIT_DOCUMENT_SUCCESS">
+        <source>EDIT_DOCUMENT_SUCCESS</source>
+        <target>The document has been modified</target>
+      </trans-unit>
+      <trans-unit id="72a26543bca8f4cd766e8830ef319f66dbd7e25e" resname="EDIT_INFORMATION">
+        <source>EDIT_INFORMATION</source>
+        <target>Edit information</target>
+      </trans-unit>
+      <trans-unit id="adc542a0d0644e39ab18131e76e17a5af7658bf7" resname="EMPTY_SELECTION">
+        <source>EMPTY_SELECTION</source>
+        <target>Empty selection</target>
+      </trans-unit>
+      <trans-unit id="b7efe5e33244cd379cb7ee97f4918af8e7dbc5bc" resname="EMPTY_TRASH_ERROR">
+        <source>EMPTY_TRASH_ERROR</source>
+        <target>An error occurred while emptying the recycle bin</target>
+      </trans-unit>
+      <trans-unit id="6c8bad9cabedbea6059e5457533e265d64b64cb0" resname="EMPTY_TRASH_HTML">
+        <source>EMPTY_TRASH_HTML</source>
+        <target><![CDATA[<strong>Empty</strong><br>recycle bin]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="02101822d8bac9da56368f84548a057cd7d380e2" resname="EMPTY_UPLOAD_QUEUE">
+        <source>EMPTY_UPLOAD_QUEUE</source>
+        <target>Empty the upload list</target>
+      </trans-unit>
+      <trans-unit id="e593852928076a084788f0a6b4f005859a447dd9" resname="ERROR_FILE_IS_TOO_LARGE">
+        <source>ERROR_FILE_IS_TOO_LARGE</source>
+        <target>'The file {{file}} you are uploading is too large, maximum size is {{size}}.</target>
+      </trans-unit>
+      <trans-unit id="3b668c479682e8e725ff6785716f1fd9410ff2f9" resname="ERROR_NOT_ENOUGH_SPACE_GROUP">
+        <source>ERROR_NOT_ENOUGH_SPACE_GROUP</source>
+        <target>There is not enough space in this workspace</target>
+      </trans-unit>
+      <trans-unit id="f224aa7e1d527d4bb9356c48ba97ab9140a0804a" resname="ERROR_NOT_ENOUGH_SPACE_USER">
+        <source>ERROR_NOT_ENOUGH_SPACE_USER</source>
+        <target>There is not enough space in your user folder</target>
+      </trans-unit>
+      <trans-unit id="eabc034cf3327688f561d1170d72b7dd2edbb06b" resname="ERROR_USER_HAS_NO_FOLDER_ACCESS">
+        <source>ERROR_USER_HAS_NO_FOLDER_ACCESS</source>
+        <target>This user has no access to the media library</target>
+      </trans-unit>
+      <trans-unit id="a7dc556be41dd55030332ee80582d1ad7236a653" resname="EXTERNAL_RESOURCES">
+        <source>EXTERNAL_RESOURCES</source>
+        <target>External resources</target>
+      </trans-unit>
+      <trans-unit id="8f063f649cf7cefb16df060735385668d80253ab" resname="FAVORITES">
+        <source>FAVORITES</source>
+        <target>Favorites</target>
+      </trans-unit>
+      <trans-unit id="45785283b59d92f81c8747eed0c87ae9db398844" resname="FAVORITE_DOCUMENT_ERROR">
+        <source>FAVORITE_DOCUMENT_ERROR</source>
+        <target>Error while adding the document to favorites</target>
+      </trans-unit>
+      <trans-unit id="7913ec48ea510cb05c0f4d403ae2fda287c29e31" resname="FAVORITE_DOCUMENT_SUCCESS">
+        <source>FAVORITE_DOCUMENT_SUCCESS</source>
+        <target>The document has been added to favorites</target>
+      </trans-unit>
+      <trans-unit id="3c1675eab44ccec73135099111884ef59d2fce49" resname="FAVORITE_ITEM_HTML">
+        <source>FAVORITE_ITEM_HTML</source>
+        <target><![CDATA[<strong>Add</strong><br>to favorites]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="a7e7c38a1f3dc05d9a9d87a4c32405136e3f65bd" resname="FAVORITE_SELECTION_ERROR">
+        <source>FAVORITE_SELECTION_ERROR</source>
+        <target>Error while adding the selection to favorites</target>
+      </trans-unit>
+      <trans-unit id="11a3384e195da8b6f844307cb3172cf826b640cd" resname="FAVORITE_SELECTION_HTML">
+        <source>FAVORITE_SELECTION_HTML</source>
+        <target><![CDATA[<strong>Add selection</strong><br>to favorites]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="6409eb3813579bfa426dc3a220fa2b0123ffd044" resname="FAVORITE_SELECTION_SUCCESS">
+        <source>FAVORITE_SELECTION_SUCCESS</source>
+        <target>The selection has been added to favorites</target>
+      </trans-unit>
+      <trans-unit id="41779c14aea38a855cc2fa06d3b233b58bc8ef03" resname="FAVORITE_SELECTION_SUCCESS_PARTIAL">
+        <source>FAVORITE_SELECTION_SUCCESS_PARTIAL</source>
+        <target>{NUM, plural, 1{One item could not be added to favorites} other{# items could not be added to favorites}}</target>
+      </trans-unit>
+      <trans-unit id="97f39df9571328bcba87e1671894382f2d75f3b8" resname="FINISHED_F">
+        <source>FINISHED_F</source>
+        <target>Finished</target>
+      </trans-unit>
+      <trans-unit id="216aae151c457b6a63b3750b8a8f180edac0c49d" resname="FOLDER_IS_EMPTY">
+        <source>FOLDER_IS_EMPTY</source>
+        <target>This folder is empty</target>
+      </trans-unit>
+      <trans-unit id="b1d22b7050dbc1a543e4e720e15ec0691f06a642" resname="FOLDER_NAME">
+        <source>FOLDER_NAME</source>
+        <target>New folder name</target>
+      </trans-unit>
+      <trans-unit id="b7cbeee836aa3aa6591ba4d9d420ff7678316caf" resname="GET_FOLDER_ERROR">
+        <source>GET_FOLDER_ERROR</source>
+        <target>Error while loading folder</target>
+      </trans-unit>
+      <trans-unit id="b034fe864d511351df0ee4a7cfd55942cb62d4ba" resname="IMPORT">
+        <source>IMPORT</source>
+        <target>Uploading</target>
+      </trans-unit>
+      <trans-unit id="e320f37fca380f3bb0f3bc314bd8ab4ec16140f1" resname="IMPORT_LINK">
+        <source>IMPORT_LINK</source>
+        <target>Import the link</target>
+      </trans-unit>
+      <trans-unit id="285a6742643af2eea624ffd6fe12c3f2d1421b0a" resname="INIT_ERROR">
+        <source>INIT_ERROR</source>
+        <target>Error while loading the media library</target>
+      </trans-unit>
+      <trans-unit id="715e69e2ef40b1d8a87c4295fb63ffea453c1d9e" resname="INIT_SUCCESS">
+        <source>INIT_SUCCESS</source>
+        <target>Media library loaded</target>
+      </trans-unit>
+      <trans-unit id="9f324ccd22b1c525acedc741b8c81f4bca2d600b" resname="INPUT_LINK_ADDRESS">
+        <source>INPUT_LINK_ADDRESS</source>
+        <target>Enter link address</target>
+      </trans-unit>
+      <trans-unit id="3d8827dc92d3c8d4cbd49d776d7e4fc09563e35d" resname="IN_PROGRESS">
+        <source>IN_PROGRESS</source>
+        <target>In progress</target>
+      </trans-unit>
+      <trans-unit id="a9d439d6085d50aa468f7885299acb1c7be9c50a" resname="JOIN_DOCUMENT">
+        <source>JOIN_DOCUMENT</source>
+        <target>Attach this document</target>
+      </trans-unit>
+      <trans-unit id="e902ff97065995c88947c1e6fd5210d79b02ac01" resname="LINK_ADDRESS">
+        <source>LINK_ADDRESS</source>
+        <target>Link address</target>
+      </trans-unit>
+      <trans-unit id="2c3c705d8b9d2ac5515510e98a5ffef5d0012804" resname="LOCKERIZE_FOLDER_ERROR">
+        <source>LOCKERIZE_FOLDER_ERROR</source>
+        <target>Error while changing this folder into a submission folder</target>
+      </trans-unit>
+      <trans-unit id="2c335187428d1292fc93d50119e069ea004c04cc" resname="LOCKERIZE_FOLDER_SUCCESS">
+        <source>LOCKERIZE_FOLDER_SUCCESS</source>
+        <target>This folder is now a submission folder</target>
+      </trans-unit>
+      <trans-unit id="5e7e1ef8796a0d64e461db33fe02c93765047711" resname="MEDIA_LIBRARY">
+        <source>MEDIA_LIBRARY</source>
+        <target>Media library</target>
+      </trans-unit>
+      <trans-unit id="bba1b28b9d75b11b9045970e725992bbd81f0fb6" resname="MEDIA_NOT_FOUND">
+        <source>MEDIA_NOT_FOUND</source>
+        <target>Media not found</target>
+      </trans-unit>
+      <trans-unit id="3bf08a84f15b98ce4d14b707f4a093b3cc8b853e" resname="MOVE">
+        <source>MOVE</source>
+        <target>Move</target>
+      </trans-unit>
+      <trans-unit id="4b17222addf94db61eb6e2958bdb1d39121b4b7c" resname="MOVE_MEDIA_ERROR">
+        <source>MOVE_MEDIA_ERROR</source>
+        <target>Error while moving the media</target>
+      </trans-unit>
+      <trans-unit id="597a76b3775b2487ce4f515218d5cd2d210b28ac" resname="MOVE_MEDIA_FOLDER_ERROR">
+        <source>MOVE_MEDIA_FOLDER_ERROR</source>
+        <target>Error while moving the folder</target>
+      </trans-unit>
+      <trans-unit id="e99afe5fb691162ebf81f2a31760be6cd0ee31a9" resname="MOVE_MEDIA_FOLDER_SUCCESS">
+        <source>MOVE_MEDIA_FOLDER_SUCCESS</source>
+        <target>Folder moved</target>
+      </trans-unit>
+      <trans-unit id="5b98e8516cdf7ec6f4d8dce6856dde225805e772" resname="MOVE_MEDIA_SUCCESS">
+        <source>MOVE_MEDIA_SUCCESS</source>
+        <target>Media moved</target>
+      </trans-unit>
+      <trans-unit id="354d9af99d67efb11f397533bf75fed677c478d0" resname="MOVE_SELECTION_ERROR">
+        <source>MOVE_SELECTION_ERROR</source>
+        <target>Error while moving the selection</target>
+      </trans-unit>
+      <trans-unit id="0814036ee7f9485e5d3e57eb7cb82edc297fdc00" resname="MOVE_SELECTION_HTML">
+        <source>MOVE_SELECTION_HTML</source>
+        <target><![CDATA[<strong>Move the selection</strong><br>in this folder]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="c22e86ea26234b62cb7cc6c5bdaa660792d6edc2" resname="MOVE_SELECTION_SUCCESS">
+        <source>MOVE_SELECTION_SUCCESS</source>
+        <target>Selection moved</target>
+      </trans-unit>
+      <trans-unit id="b486aca5b66ed7ccd16a32a143ae82b68e32f98d" resname="MOVE_SELECTION_SUCCESS_PARTIAL">
+        <source>MOVE_SELECTION_SUCCESS_PARTIAL</source>
+        <target>{NUM, plural, 1{One item could not be moved} other{# items could not be moved}}</target>
+      </trans-unit>
+      <trans-unit id="3e2982a8816784968619bda49f6e4ba2415dc804" resname="MOVE_TRASH_DOCUMENT_ERROR">
+        <source>MOVE_TRASH_DOCUMENT_ERROR</source>
+        <target>Error while moving the document to the recycle bin</target>
+      </trans-unit>
+      <trans-unit id="71e347144ddc2237277c4b5d669f900a6f5d23da" resname="MOVE_TRASH_DOCUMENT_SUCCESS">
+        <source>MOVE_TRASH_DOCUMENT_SUCCESS</source>
+        <target>Document moved to the recycle bin</target>
+      </trans-unit>
+      <trans-unit id="5dcc5ee7355b3d1d42d3694014817e2de1c6a58b" resname="MY_DOCUMENTS">
+        <source>MY_DOCUMENTS</source>
+        <target>My documents</target>
+      </trans-unit>
+      <trans-unit id="387c7732889a1a56b617634bed65b8623032bed1" resname="MY_FAVORITES">
+        <source>MY_FAVORITES</source>
+        <target>My favorites</target>
+      </trans-unit>
+      <trans-unit id="a78de74fe97ac1505a06af6d0424b174835d0ec1" resname="MY_SELECTION">
+        <source>MY_SELECTION</source>
+        <target>My selection</target>
+      </trans-unit>
+      <trans-unit id="a54b84b73ae09b1efe2881272da1bb589681b75c" resname="MY_TRASH">
+        <source>MY_TRASH</source>
+        <target>My recycle bin</target>
+      </trans-unit>
+      <trans-unit id="f8bfc33c671e43b54074d70e8511a02919d2d33e" resname="MY_WORKSPACES">
+        <source>MY_WORKSPACES</source>
+        <target>My workspaces</target>
+      </trans-unit>
+      <trans-unit id="5584546e373e7513f8709930fa1ff773c50dc311" resname="NEW_FOLDER_NAME">
+        <source>NEW_FOLDER_NAME</source>
+        <target>New folder name</target>
+      </trans-unit>
+      <trans-unit id="9282c6ff5e8e2ae8dbb622bd7afcecad810e4058" resname="NOTHING_TO_DELETE">
+        <source>NOTHING_TO_DELETE</source>
+        <target>There is nothing to delete</target>
+      </trans-unit>
+      <trans-unit id="e13fcc30c87da9172764d49e8de3c216b5090026" resname="NO_DOCUMENT_SELECTED">
+        <source>NO_DOCUMENT_SELECTED</source>
+        <target>No selected document</target>
+      </trans-unit>
+      <trans-unit id="0ebff298e185aa996202aca7d9b3f55b233abdfd" resname="NO_FAVORITES">
+        <source>NO_FAVORITES</source>
+        <target>No favorites</target>
+      </trans-unit>
+      <trans-unit id="f4d4fe48ae0dd1cb5f7a672b95c22143f37f47a4" resname="NO_RECENT_DOCUMENTS">
+        <source>NO_RECENT_DOCUMENTS</source>
+        <target>No recent documents</target>
+      </trans-unit>
+      <trans-unit id="8ddf4b7d8c624a6e7f624964e8d15c4fcfd86bc2" resname="OPEN_DOCUMENTS_PLURAL">
+        <source>OPEN_DOCUMENTS_PLURAL</source>
+        <target>{NUM, plural, 1{Open the document} other{Open the documents}}</target>
+      </trans-unit>
+      <trans-unit id="f579c523960af1aec824c6fdc57af6d4abd76a1f" resname="OR">
+        <source>OR</source>
+        <target>Or</target>
+      </trans-unit>
+      <trans-unit id="77eac899f74646ae38609b20dac35a36a1c000dc" resname="PRIVATIZE_DOCUMENT_ERROR">
+        <source>PRIVATIZE_DOCUMENT_ERROR</source>
+        <target>An error occurred while making the document private</target>
+      </trans-unit>
+      <trans-unit id="cb0d18264db9dd40c483ed38c975fa5966e2dea3" resname="PRIVATIZE_DOCUMENT_SUCCESS">
+        <source>PRIVATIZE_DOCUMENT_SUCCESS</source>
+        <target>The document is now private</target>
+      </trans-unit>
+      <trans-unit id="a22be2b8f55d5cf9b636ff6ec639b028614d628c" resname="PRIVATIZE_ITEM_HTML">
+        <source>PRIVATIZE_ITEM_HTML</source>
+        <target><![CDATA[Make document <br><strong>private</strong>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="488929e0d47b743e07c09758f7f8f931a68480d9" resname="PRIVATIZE_SELECTION">
+        <source>PRIVATIZE_SELECTION</source>
+        <target>Make selection private</target>
+      </trans-unit>
+      <trans-unit id="2ee8d622ac4967bbdde9c0c9c7a4e78fa8782395" resname="PRIVATIZE_SELECTION_ERROR">
+        <source>PRIVATIZE_SELECTION_ERROR</source>
+        <target>Error while making the selection private</target>
+      </trans-unit>
+      <trans-unit id="c0082bbbe29c3149cfdeea5a5207dd151d6bf901" resname="PRIVATIZE_SELECTION_HTML">
+        <source>PRIVATIZE_SELECTION_HTML</source>
+        <target><![CDATA[Make selection<br><strong>private</strong>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="e571e47401f773e660278c4823eb3d85826839a3" resname="PRIVATIZE_SELECTION_SUCCESS">
+        <source>PRIVATIZE_SELECTION_SUCCESS</source>
+        <target>Selection is now private</target>
+      </trans-unit>
+      <trans-unit id="faf2d842ff066b77ea3c374db96d760ce8b20312" resname="PRIVATIZE_SELECTION_SUCCESS_PARTIAL">
+        <source>PRIVATIZE_SELECTION_SUCCESS_PARTIAL</source>
+        <target>{NUM, plural, 1{One item could not be made private} other{# items could not be made private}}</target>
+      </trans-unit>
+      <trans-unit id="a2d8270773c2def4119e377fcf7516cffe04e40a" resname="PUBLICIZE_DOCUMENT_ERROR">
+        <source>PUBLICIZE_DOCUMENT_ERROR</source>
+        <target>Error while making the document public</target>
+      </trans-unit>
+      <trans-unit id="0d148873602587a790720fa61b37c6d6daf70346" resname="PUBLICIZE_DOCUMENT_SUCCESS">
+        <source>PUBLICIZE_DOCUMENT_SUCCESS</source>
+        <target>The document is now public</target>
+      </trans-unit>
+      <trans-unit id="6b5a17b713857bbe36058fc48785078e71ba03df" resname="PUBLICIZE_ITEM_HTML">
+        <source>PUBLICIZE_ITEM_HTML</source>
+        <target><![CDATA[Make document <br><strong>public</strong>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="0089c38be619c1d816b30116c0695dd285a7e110" resname="PUBLICIZE_SELECTION">
+        <source>PUBLICIZE_SELECTION</source>
+        <target>Make selection public</target>
+      </trans-unit>
+      <trans-unit id="8ae718fe63e2b66a97be3a5c1d9629ec6fc84a07" resname="PUBLICIZE_SELECTION_ERROR">
+        <source>PUBLICIZE_SELECTION_ERROR</source>
+        <target>Error while making the selection public</target>
+      </trans-unit>
+      <trans-unit id="5b0b7ec04bb894a5704d4166d6fd428e980690b1" resname="PUBLICIZE_SELECTION_HTML">
+        <source>PUBLICIZE_SELECTION_HTML</source>
+        <target><![CDATA[Make selection<br><strong>public</strong>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="6ce92f1d502daa079229f98761c397a18b653349" resname="PUBLICIZE_SELECTION_SUCCESS">
+        <source>PUBLICIZE_SELECTION_SUCCESS</source>
+        <target>Selection is now public</target>
+      </trans-unit>
+      <trans-unit id="7b071ede36f2c217b6209c6a248fb424165760ce" resname="PUBLICIZE_SELECTION_SUCCESS_PARTIAL">
+        <source>PUBLICIZE_SELECTION_SUCCESS_PARTIAL</source>
+        <target>{NUM, plural, 1{One item could not be made public} other{# items could not be made public}}</target>
+      </trans-unit>
+      <trans-unit id="223703d1b2fcb682f54d13c40cb34cc175e85ad6" resname="RECENT_DOCUMENTS">
+        <source>RECENT_DOCUMENTS</source>
+        <target>Recent documents</target>
+      </trans-unit>
+      <trans-unit id="452767e4069fd4c607513a6057bd6d7e5dec990b" resname="RENAME_FOLDER_ERROR">
+        <source>RENAME_FOLDER_ERROR</source>
+        <target>Error while renaming the folder</target>
+      </trans-unit>
+      <trans-unit id="fff3f584c641c36dd9e58dd19eb99cce526ed6aa" resname="RENAME_FOLDER_HTML">
+        <source>RENAME_FOLDER_HTML</source>
+        <target><![CDATA[<strong>Rename</strong><br>this folder]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="0be132a47bdb4ea612774ec19aba033e2f826049" resname="RENAME_FOLDER_MODAL_TITLE">
+        <source>RENAME_FOLDER_MODAL_TITLE</source>
+        <target>Rename a folder</target>
+      </trans-unit>
+      <trans-unit id="1989ecdd5dd513f21b70dcaf79cc7333a37867b6" resname="RENAME_FOLDER_SUCCESS">
+        <source>RENAME_FOLDER_SUCCESS</source>
+        <target>Folder renamed</target>
+      </trans-unit>
+      <trans-unit id="a4fe6c6947747fd583c16c30985e6d4c6ec605b1" resname="RENAME_THIS_FOLDER">
+        <source>RENAME_THIS_FOLDER</source>
+        <target>Rename this folder</target>
+      </trans-unit>
+      <trans-unit id="d2f74d05b702c18484b48d4be8cf53a1afad2a4e" resname="RESTORE_SELECTION_ERROR">
+        <source>RESTORE_SELECTION_ERROR</source>
+        <target>Error while restoring the selection</target>
+      </trans-unit>
+      <trans-unit id="9f5738c6f96f7edc79d4744928d3848cb2dd2999" resname="RESTORE_SELECTION_HTML">
+        <source>RESTORE_SELECTION_HTML</source>
+        <target><![CDATA[<strong>Restore</strong><br>the selection]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="2049b93254e5e6cbdaafb965d6e1d06143d8ad50" resname="RESTORE_SELECTION_SUCCESS">
+        <source>RESTORE_SELECTION_SUCCESS</source>
+        <target>The selection has been restored</target>
+      </trans-unit>
+      <trans-unit id="8f43bda6314b1577dda49abb78f10c99744f1665" resname="RESTORE_SELECTION_SUCCESS_PARTIAL">
+        <source>RESTORE_SELECTION_SUCCESS_PARTIAL</source>
+        <target>{NUM, plural, 1{One item could not be restored} other{# items could not be restored}}</target>
+      </trans-unit>
+      <trans-unit id="2187b4339e7ba749f0b13bac16fcd7cf60de92aa" resname="RESTORE_TRASH_ERROR">
+        <source>RESTORE_TRASH_ERROR</source>
+        <target>Error while restoring the recycle bin content</target>
+      </trans-unit>
+      <trans-unit id="fe740337a98231180f249bf9b65172a672bec1a4" resname="RESTORE_TRASH_HTML">
+        <source>RESTORE_TRASH_HTML</source>
+        <target><![CDATA[<strong>Restore</strong><br>recycle bin]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="ff3027799c36ef18d0b73cb3c7e7c958dc6966ad" resname="RESTORE_TRASH_SUCCESS">
+        <source>RESTORE_TRASH_SUCCESS</source>
+        <target>Recycle bin content has been restored</target>
+      </trans-unit>
+      <trans-unit id="43829421220bc6a13b2fa300b3cabcf4c8e30bc0" resname="SAVE_INFORMATION">
+        <source>SAVE_INFORMATION</source>
+        <target>Save information</target>
+      </trans-unit>
+      <trans-unit id="90e8f758890645912105152e014e95279fc70283" resname="SELECT_ALL">
+        <source>SELECT_ALL</source>
+        <target>Select all</target>
+      </trans-unit>
+      <trans-unit id="1d0a38217d1e359561f6905ca3e00fa0c2c50213" resname="SELECT_DOCUMENTS_PLURAL">
+        <source>SELECT_DOCUMENTS_PLURAL</source>
+        <target>{MODE, select, join{Join} insert{Insert} other{Select}} {NUM, plural, 0{a document} 1{this document} other{these documents}}</target>
+      </trans-unit>
+      <trans-unit id="73ae87b5b28eb38952f0ca5b3fb52be480a37107" resname="THESE_DOCUMENTS_DELETED_PLURAL">
+        <source>THESE_DOCUMENTS_DELETED_PLURAL</source>
+        <target>{NUM, plural, 1{This document will be deleted} other{These documents will be deleted}}</target>
+      </trans-unit>
+      <trans-unit id="1a4d80051fa04c8fc0bb101b7b25120c3c48d78c" resname="THESE_DOCUMENTS_MOVED_TRASH_PLURAL">
+        <source>THESE_DOCUMENTS_MOVED_TRASH_PLURAL</source>
+        <target>{NUM, plural, 1{This document will be moved to the recycle bin} other{These documents will be moved to the recycle bin}}</target>
+      </trans-unit>
+      <trans-unit id="0004824c81ca376d9f13ca995fbb2173b22a7363" resname="THESE_DOCUMENTS_NOT_DELETED_PLURAL">
+        <source>THESE_DOCUMENTS_NOT_DELETED_PLURAL</source>
+        <target>{NUM, plural, 1{This document will not be deleted} other{These documents will not be deleted}}</target>
+      </trans-unit>
+      <trans-unit id="d0e5aceee9b5da7a39a6d6ca9d0a78ae952e613c" resname="THESE_DOCUMENTS_NOT_MOVED_TRASH_PLURAL">
+        <source>THESE_DOCUMENTS_NOT_MOVED_TRASH_PLURAL</source>
+        <target>{NUM, plural, 1{This document will not be moved to the recycle bin} other{These documents will not be moved to the recycle bin}}</target>
+      </trans-unit>
+      <trans-unit id="cd7e7b0f86954abe885fc420fda5ccede25bab3c" resname="THESE_FOLDERS_DELETED_PLURAL">
+        <source>THESE_FOLDERS_DELETED_PLURAL</source>
+        <target>{NUM, plural, 1{This folder will be deleted} other{These folders will be deleted}}</target>
+      </trans-unit>
+      <trans-unit id="4117c60162b51c2bc55dfc222d77a5dd0a167162" resname="THESE_FOLDERS_MOVED_TRASH_PLURAL">
+        <source>THESE_FOLDERS_MOVED_TRASH_PLURAL</source>
+        <target>{NUM, plural, 1{This folder will be moved to the recycle bin} other{These folders will be moved to the recycle bin}}</target>
+      </trans-unit>
+      <trans-unit id="8503f6720782c64bd100892ea7efb4de1f864fe0" resname="THESE_FOLDERS_NOT_DELETED_PLURAL">
+        <source>THESE_FOLDERS_NOT_DELETED_PLURAL</source>
+        <target>{NUM, plural, 1{This folder will not be deleted} other{These folders will not be deleted}}</target>
+      </trans-unit>
+      <trans-unit id="e783f3aa708e38b9178447b33a95841f206833c5" resname="THESE_FOLDERS_NOT_MOVED_TRASH_PLURAL">
+        <source>THESE_FOLDERS_NOT_MOVED_TRASH_PLURAL</source>
+        <target>{NUM, plural, 1{This folder will not be moved to the recycle bin} other{These folders will not be moved to the recycle bin}}</target>
+      </trans-unit>
+      <trans-unit id="c989be254d626c7cba043230c806d1afdc90e55d" resname="THIS_WILL_DELETE_FOLDERS_CONTENT_PLURAL">
+        <source>THIS_WILL_DELETE_FOLDERS_CONTENT_PLURAL</source>
+        <target>{NUM, plural, 1{This will also delete all contents in this folder} other{This will also delete all contents in these folders}}</target>
+      </trans-unit>
+      <trans-unit id="8182f3069c484b6cde043c0d8602d9abdbddc7a9" resname="THIS_WILL_PRIVATIZE_SELECTED_FOLDERS_CONTENT_PLURAL">
+        <source>THIS_WILL_PRIVATIZE_SELECTED_FOLDERS_CONTENT_PLURAL</source>
+        <target>{NUM, plural, 1{Everything stored in the selected folder will be made private} other{Everything stored in the selected folders will be made private}}</target>
+      </trans-unit>
+      <trans-unit id="8c50b5303a008d8413f788b4cb40e2675c8019c1" resname="THIS_WILL_PUBLICIZE_SELECTED_FOLDERS_CONTENT_PLURAL">
+        <source>THIS_WILL_PUBLICIZE_SELECTED_FOLDERS_CONTENT_PLURAL</source>
+        <target>{NUM, plural, 1{Everything stored in the selected folder will be made public} other{Everything stored in the selected folders will be made public}}</target>
+      </trans-unit>
+      <trans-unit id="72048f92046b937ed60fdd7f6e8c9ac700242fde" resname="TRASH">
+        <source>TRASH</source>
+        <target>Recycle bin</target>
+      </trans-unit>
+      <trans-unit id="a682b6b46a8b40c6d26cd918e441070b92bf132f" resname="TRASH_IS_EMPTY">
+        <source>TRASH_IS_EMPTY</source>
+        <target>The recycle bin is empty</target>
+      </trans-unit>
+      <trans-unit id="9180404361724fa60fa4d4719912c7cb0664e54f" resname="UNFAVORITE_DOCUMENT_ERROR">
+        <source>UNFAVORITE_DOCUMENT_ERROR</source>
+        <target>Error while withdrawing the document from favorites</target>
+      </trans-unit>
+      <trans-unit id="a795ddabdf09f1918e3119d74844ed0593d88526" resname="UNFAVORITE_DOCUMENT_SUCCESS">
+        <source>UNFAVORITE_DOCUMENT_SUCCESS</source>
+        <target>The document has been withdrawn from favorites</target>
+      </trans-unit>
+      <trans-unit id="9389e2ac79df6e8c938aa43d1ed3ca501abf7832" resname="UNFAVORITE_ITEM_HTML">
+        <source>UNFAVORITE_ITEM_HTML</source>
+        <target><![CDATA[Withdraw from <br><strong>favorites</strong>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="d5e13b0b37a13fd8c685e2180a4e2dfb9c53ae1a" resname="UNFAVORITE_SELECTION_ERROR">
+        <source>UNFAVORITE_SELECTION_ERROR</source>
+        <target>Error while withdrawing selection from favorites</target>
+      </trans-unit>
+      <trans-unit id="76baad7863871c2865b0810eae1ecdfc14ec44da" resname="UNFAVORITE_SELECTION_HTML">
+        <source>UNFAVORITE_SELECTION_HTML</source>
+        <target><![CDATA[Withdraw selection from <br><strong>favourites</strong>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="078e26b249c79d7cd50658d42f5a87217be626f6" resname="UNFAVORITE_SELECTION_SUCCESS">
+        <source>UNFAVORITE_SELECTION_SUCCESS</source>
+        <target>The selection has been withdrawn from favorites</target>
+      </trans-unit>
+      <trans-unit id="301e0f6c6de9a8d43ad107c7c8f706804df8493f" resname="UNFAVORITE_SELECTION_SUCCESS_PARTIAL">
+        <source>UNFAVORITE_SELECTION_SUCCESS_PARTIAL</source>
+        <target>{NUM, plural, 1{One item could not be removed from favorites} other{# items could not be removed from favorites}}</target>
+      </trans-unit>
+      <trans-unit id="101eb17eb23b4a905d87868665ec73b7ef70d289" resname="UNLOCKERIZE_FOLDER_ERROR">
+        <source>UNLOCKERIZE_FOLDER_ERROR</source>
+        <target>Error while changing this submission folder into a normal folder</target>
+      </trans-unit>
+      <trans-unit id="e98e9139be9d58c44b0dda445d391b8b21da95af" resname="UNLOCKERIZE_FOLDER_SUCCESS">
+        <source>UNLOCKERIZE_FOLDER_SUCCESS</source>
+        <target>This submission folder is now a normal folder</target>
+      </trans-unit>
+      <trans-unit id="f8a045d66881b4151522939e98b9b1cc16623a48" resname="UNSELECT_ALL">
+        <source>UNSELECT_ALL</source>
+        <target>Unselect all</target>
+      </trans-unit>
+      <trans-unit id="8502dc1850b4d6d25553b4af169ed45593c6c8e9" resname="UPLOAD_DROP_INCENTIVE_HTML">
+        <source>UPLOAD_DROP_INCENTIVE_HTML</source>
+        <target><![CDATA[<strong>Drag documents</strong><br>to this area to add them]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="e0fbc6273c671fa1f688515167453caacf92c04e" resname="UPLOAD_MEDIA_ERROR">
+        <source>UPLOAD_MEDIA_ERROR</source>
+        <target>Error while uploading the media</target>
+      </trans-unit>
+      <trans-unit id="f949bc052f427171eff3da0c64fcb75a229b34db" resname="UPLOAD_MEDIA_SUCCESS">
+        <source>UPLOAD_MEDIA_SUCCESS</source>
+        <target>Media uploaded</target>
+      </trans-unit>
+      <trans-unit id="9fc6dc48149d77ac8cb34ac9a5cf5b8a270a532f" resname="USED_ON">
+        <source>USED_ON</source>
+        <target>used on</target>
+      </trans-unit>
+      <trans-unit id="0139615b45a6dbbf5642c71a6636437970401c7b" resname="WELCOME">
+        <source>WELCOME</source>
+        <target>Welcome to the new media library</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

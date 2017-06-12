@@ -1,0 +1,92 @@
+module:
+  unique_name: GPS
+  is_contextable: true
+  name:
+    fr: GPS
+    en: GPS
+  description:
+    fr: Voyager de lieux en lieux
+    en: BNS's GPS
+  default_rank:
+    pupil: USE
+    parent: USE
+    teacher: MANAGE
+    other: USE
+
+permissions:
+  ACCESS:
+    label:
+      fr: Voir GPS
+      en: GPS's access
+    description:
+      fr: Donne l'accès au module GPS
+      en: GPS's access
+
+  ACCESS_BACK:
+    label:
+      fr: Gérer GPS
+      en: GPS management access
+    description:
+      fr: Donne accès à la gestion du GPS, ajouter et prévisualiser des lieux
+      en:
+
+  ACTIVATION:
+    label:
+      fr: Peut activer ou désactiver le GPS
+      en: Can activate / desactivate the GPS
+    description:
+      fr:
+      en:
+
+  ACTIVATION_PARTNERSHIP:
+    label:
+      fr: Peut activer ou désactiver le GPS dans le partenariat
+      en: Can activate / desactivate the GPS in partnership
+    description:
+      fr: Peut activer ou désactiver l'accès au GPS dans le partenariat
+      en:
+
+ranks:
+  USE:
+    label:
+      fr: Utiliser le GPS
+      en: Use the gps
+    description:
+      fr:
+      en:
+    permissions: [ACCESS]
+
+  MANAGE:
+    label:
+      fr: Gérer le GPS
+      en: Manage the gps
+    description:
+      fr:
+      en:
+    permissions: [ACCESS, ACCESS_BACK, ACTIVATION]
+
+  MANAGE_PARTNERSHIP:
+    label:
+      fr: Gérer le GPS dans le partenariat
+      en: Manage the gps in partnership
+    description:
+      fr:
+      en:
+    permissions: [ACTIVATION_PARTNERSHIP]
+
+  ACTIVATION_TEAM:
+    label:
+      fr: Gérer le GPS dans le groupe de travail
+      en: Manage the gps in team
+    description:
+      fr:
+      en:
+    permissions: [ACTIVATION]
+
+markers:
+  GPS_CREATE_PLACE:
+    description: Création d'un lieu sur le GPS
+  GPS_DO_SEARCH:
+    description: Faire une recherche sur le GPS
+  GPS_VISIT:
+    description:  Visite sur le GPS

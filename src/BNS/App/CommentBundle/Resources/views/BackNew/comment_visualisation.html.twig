@@ -1,0 +1,179 @@
+{% trans_default_domain "COMMENT" %}
+
+{% if comments|length > 0 %}
+	<script type="text/javascript">
+		$(function ()
+		{
+			var commentStatuses = ['pending_validation', 'validated', 'refused'];
+				
+			// Buttons moderation process
+			$('body').on('click', '.comment-sidebar-filter', function (e)
+			{
+				var $this = $(e.currentTarget),
+					$row = $('.comment');
+					id = $('.feed-id').attr('id');
+					$loader = $row.find('.loader');
+
+				//$loader.fadeIn('fast');
+				$.ajax({
+					url: '{{ path('comment_manager_load') }}',
+					type: 'POST',
+					//dataType: 'json',
+					data: {
+						'object_namespace': '{{ namespace }}',
+						'object_status': $this.data('filter-status'),
+						'feed_id': id,
+						'edit_route': '{{ editRoute }}',
+						'material' : 'true',
+					},
+					success: function (data)
+					{
+						var injector = $(document).injector();
+						var $compile = injector.get('$compile');
+						var scope = injector.get('$rootScope').$new();
+						var linkFn = $compile(data);
+						var element = linkFn(scope);
+						$('.comments-list').html(element);
+					},
+				}).done(function (data)
+				{
+					$loader.fadeOut('fast');
+				});
+
+				return false;
+			});
+
+			$('button.moderation-button').live('click', function (e)
+			{
+				var $this = $(e.currentTarget),
+						id = this.id,
+						$row = $('#comment-' + id);
+
+
+				//id = id[1];
+				$row.css('opacity', '.4').addClass('disabled');
+				var page = $('.pagination').length > 0 ? $('.pagination').data('current-page') : 1;
+
+				$.ajax({
+					url: '{{ path('comment_manager_status_update') }}',
+					type: 'POST',
+					dataType: 'json',
+					data: {
+						'namespace': '{{ namespace }}',
+						'status': $this.data('filter-status'),
+						'id': id,
+						'page': page,
+						'editRoute': '{{ editRoute }}'
+					},
+					success: function (data)
+					{
+						var injector = $(document).injector();
+						var $compile = injector.get('$compile');
+						var scope = injector.get('$rootScope').$new();
+						var linkFn = $compile(data.comment);
+						var element = linkFn(scope);
+						$data = $(element);
+						$data.css('display', 'none');
+
+						if ($('.pagination').length > 0) {
+							$('.pagination').before($data);
+						}
+						else {
+							$('.comments-list').append($data);
+						}
+
+						$data.slideDown('slow');
+
+						if (data.pager != '') {
+							$('.pagination').replaceWith(data.pager);
+						}
+						else {
+							$('.pagination').slideUp('slow');
+						}
+					}
+				}).done(function ()
+				{
+					$row.slideUp('slow');
+				});
+
+				return false;
+			});
+
+			if ($('.comment-statuses-filter').length > 0) {
+				$('.comment-statuses-filter').css('display', 'block');
+				
+				var updateIndicators = function ()
+				{
+					$.each($('.comment-statuses-filter a'), function (i, item) {
+						var $item = $(item),
+							status = $item.data('filter-status').toLowerCase();
+
+						if (status == 'all') {
+							$item.find('span.indicator').text('(' + $('.comments-list-container .comments-list h3 .indicator').text() + ')');
+						}
+						else {
+							$item.find('span.indicator').text('(' + $('.comments-list-container .comments-list .status-' + status).length + ')');
+						}
+					});
+				};
+
+				// First indicators update				
+				updateIndicators();
+
+				$('.comment-statuses-filter a').click(function (e)
+				{
+					console.log('toto');
+					var $this = $(e.currentTarget),
+						status = $this.data('filter-status').toLowerCase();
+
+					if ($this.hasClass('active')) {
+						return false;
+					}
+
+					$('.comment-statuses-filter a').removeClass('active');
+					$this.addClass('active');
+
+					// Open all comments
+					if (status == 'all') {
+						$('.no-item.comment-filter').slideUp('fast');
+						for (i in commentStatuses) {
+							$('.comments-list-container .comments-list .status-' + commentStatuses[i]).slideDown('slow');
+						}
+
+						return false;
+					}
+
+					// Close process
+					for (i in commentStatuses) {
+						$('.comments-list-container .comments-list .status-' + commentStatuses[i]).fadeOut('fast');
+					}
+
+					// Open process
+					var $comments = $('.comments-list-container .comments-list .status-' + status);
+					if ($comments.length > 0) {
+						$('.no-item.comment-filter').slideUp('fast');
+						$('.comments-list-container .comments-list .status-' + status).slideDown('slow');
+					}
+					else {
+						$('.no-item.comment-filter').slideDown('fast');
+					}
+
+					return false;
+				});
+			}
+		});
+	</script>
+
+		<md-list class="list comments-list">
+			<h3 class="heading">
+                    {{ 'TITLE_NUMBER_COMMENT'|transchoice(comments|length, {'%commentsLength%': comments|length}) |desc('[0,1] <span class="indicator">%commentsLength%</span> commentaire | ]1,Inf[ <span class="indicator">%commentsLength%</span> commentaires') |raw }}
+            </h3>
+			{% for comment in comments %}
+				{% include 'BNSAppCommentBundle:BackNew:comment_row.html.twig' %}
+			{% else %}
+			<div class="no-item comment-filter">
+				<p>{{ 'NO_COMMENT_FOR_THIS_FILTER'|trans |desc('Il n\'y a aucun commentaire pour le filtre sélectionné.') }}</p>
+			</div>
+			{% endfor %}
+		</md-list>
+{% endif %}

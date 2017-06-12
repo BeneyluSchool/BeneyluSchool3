@@ -1,0 +1,30 @@
+<bns-modal modal-close="closeModal" modal-title="{{ (privatize ? 'MEDIA_LIBRARY.PRIVATIZE_SELECTION' : 'MEDIA_LIBRARY.PUBLICIZE_SELECTION') | translate }}">
+  <div class="modal-body type">
+    <h4 class="text-center">
+      <br>
+      <span ng-if="privatize"
+        translate
+        translate-values="{ NUM: folders.length }"
+        translate-interpolation="messageformat"
+      >MEDIA_LIBRARY.THIS_WILL_PRIVATIZE_SELECTED_FOLDERS_CONTENT_PLURAL</span>
+      <span ng-if="publicize"
+        translate
+        translate-values="{ NUM: folders.length }"
+        translate-interpolation="messageformat"
+      >MEDIA_LIBRARY.THIS_WILL_PUBLICIZE_SELECTED_FOLDERS_CONTENT_PLURAL</span>
+    </h4>
+  </div>
+
+  <div class="modal-footer">
+    <div class="content-btn-footer">
+      <button ng-click="confirm()" class="btn btn-success">
+        <i class="bns-icon-checked round"></i>
+        <strong translate>MEDIA_LIBRARY.CONTINUE</strong>
+      </button>
+      <button class="btn" ng-click="closeModal()">
+        <i class="bns-icon-arrow-left-curved round"></i>
+        <strong translate>MEDIA_LIBRARY.CANCEL</strong>
+      </button>
+    </div>
+  </div>
+</bns-modal>

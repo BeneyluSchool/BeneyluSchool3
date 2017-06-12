@@ -1,0 +1,22 @@
+{% if subjects|length > 0 %}
+    <table class="table table-striped table-condensed table-bordered">
+        <tr>
+            <th class="subjects">Sujets</th>
+            <th>Auteurs</th>
+            <th>Date</th>
+        </tr>
+    {% for subject in subjects %}
+        <tr>
+            <td><a href="{{ path('BNSAppForumBundle_back_view_subject', {'slug': subject.slug}) }}">{{ subject.title }}</a></td>
+            <td>{{ subject.user.fullName|default('anonyme') }}</td>
+            <td>{{ date_from_now(subject.createdAt) }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+{% else %}
+    {% include 'BNSAppMainBundle:BNSAlert:row.html.twig' with {'message' : "Il n'y a aucun sujet dans ce forum." , 'type' : 'info' } %}
+{% endif %}
+
+{% if subjects.haveToPaginate %}
+    {{ pagerfanta(subjects, 'twitter_bootstrap_translated', {'prev_message': '←', 'next_message': '→', 'routeName': 'BNSAppForumBundle_back_slug', 'routeParams':{'slug':forum.slug}} ) }}
+{% endif %}

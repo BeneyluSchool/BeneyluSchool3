@@ -1,0 +1,288 @@
+{% extends 'BNSAppBoardBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+    {% if (isEditionMode) %}
+        Tableau d'information - Éditer un information
+    {% else %}
+        Tableau d'information - Créer un nouvel information
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ tinymce_init() }}
+
+    <script type="text/javascript" src="{{ asset('/medias/js/datepicker_i18n/jquery.ui.datepicker-fr.js') }}"></script>
+    <script type="text/javascript">
+        $(function () {
+            if ($('#board_information_form_status_1').is(':checked')) {
+                $('.publish-programmation').removeClass('hide');
+                $('.publish-end-date').removeClass('hide');
+            }
+
+            // Draft save button
+            $('.header-buttons .save').click(function (e)
+            {
+                var $this = $(e.currentTarget);
+                if ($this.hasClass('disabled')) {
+                    return false;
+                }
+
+                if (!doAutosave()) {
+                    $('.alert.save-error').slideDown('fast');
+
+                    return false;
+                }
+
+                $('.alert.save-error').slideUp('fast');
+                $this.addClass('disabled').attr('disabled', 'disabled').css('opacity', '.5');
+
+                return false;
+            });
+
+            // Finish button
+            $('.header-buttons .finish').click(function (e)
+            {
+                if ($(e.currentTarget).hasClass('disabled')) {
+                    return false;
+                }
+
+                $('#form_new_information').submit();
+
+                return false;
+            });
+
+            // Form submit, check publish date
+            $('#form_new_information').submit(function (e)
+            {
+                // Is publish & publication date is set ?
+                if ($('#board_information_form_status_1').is(':checked') && $('#board_information_form_publication_day').val().length > 0) {
+                    var date = $('#board_information_form_publication_day').datepicker( "getDate" ),
+                        now = new Date();
+
+                    date.setHours($('#board_information_form_publication_time_hour').val());
+                    date.setMinutes($('#board_information_form_publication_time_minute').val());
+
+                    if (date.getTime() > now.getTime()) {
+                        $('#programmed-publication-warning').modal('show');
+
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+
+            // Published to programmed on confirm
+            $('#programmed-publication-warning .confirm').click(function (e)
+            {
+                // Populate programmed fields
+                $('#board_information_form_status_4').click();
+                $('#board_information_form_programmation_day').val($('#board_information_form_publication_day').val());
+                $('#board_information_form_programmation_time_hour').val($('#board_information_form_publication_time_hour').val());
+                $('#board_information_form_programmation_time_minute').val($('#board_information_form_publication_time_minute').val());
+
+                // Clear fields
+                $('#board_information_form_publication_day').val('');
+                $('#board_information_form_publication_time_hour').val('');
+                $('#board_information_form_publication_time_minute').val('');
+
+                $('#form_new_information').submit();
+            });
+
+            // Datepicker init
+            $.extend($.datepicker.regional["{{ app.request.locale }}"], { dateFormat: "dd/mm/yy"});
+            var dpOptions = $.datepicker.regional['{{ app.request.locale }}'];
+            $('.container-sidebar .datepicker input').datepicker(dpOptions);
+
+            dpOptions['maxDate'] = new Date();
+            $('.container-sidebar .publish-datepicker input').datepicker(dpOptions);
+            $('.container-sidebar .information-statuses-choice li').click(function (e)
+            {
+                var $this = $(e.currentTarget);
+                if ($this.hasClass('show-programmation-block')) {
+                    $('.container-sidebar .publish-date').slideUp('fast', function () {
+                        $('.container-sidebar .publish-programmation').slideDown('fast');
+                        $('.container-sidebar .publish-end-date').slideDown('fast');
+                    });
+                }
+                else if ($this.hasClass('show-publish-block')) {
+                    $('.container-sidebar .publish-programmation').slideUp('fast', function () {
+                        $('.container-sidebar .publish-date').slideDown('fast');
+                        $('.container-sidebar .publish-end-date').slideDown('fast');
+                    });
+                }
+                else {
+                    $('.container-sidebar .publish-date').slideUp('fast');
+                    $('.container-sidebar .publish-end-date').slideUp('fast');
+                    $('.container-sidebar .publish-programmation').slideUp('fast');
+                }
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        function onStartSave()
+        {
+            $('.header-buttons .finish').addClass('disabled');
+        }
+
+        function onSuccessSave(object)
+        {
+            var $headerSaveButton = $('.header-buttons .save');
+            if ($headerSaveButton.hasClass('disabled')) {
+                $headerSaveButton.removeClass('disabled').removeAttr('disabled').css('opacity', '1');
+            }
+
+            var date = new Date(),
+                hours = date.getHours(),
+                minutes = date.getMinutes();
+
+            if (hours < 10) hours = '0' + hours;
+            if (minutes < 10) minutes = '0' + minutes;
+
+            $('.alert.save-error').slideUp('fast');
+            $('.save-success span').text(hours + 'h' + minutes);
+
+            if ($('.save-success').css('display') == 'none') {
+                $('.save-success').slideDown('fast');
+            }
+            else {
+                $('.save-success').removeClass('alert-info');
+                $('.save-success').addClass('alert-success');
+            }
+
+            // Switch statuts to draft
+            $('#board_information_form_status_0').click();
+
+            // Enable finish button
+            $('.header-buttons .finish').removeClass('disabled');
+
+            setTimeout(function ()
+            {
+                $('.save-success').removeClass('alert-success');
+                $('.save-success').addClass('alert-info');
+            }, 5000);
+
+            $('#form_new_information').attr('action', Routing.generate('board_manager_edit_information', {'informationSlug': object.slug}));
+            if (null != window.history && typeof window.history.pushState == 'function') {
+                window.history.pushState(document.title, document.title, Routing.generate('board_manager_edit_information', {'informationSlug': object.slug}));
+            }
+        }
+    </script>
+{% endblock %}
+
+{% block header %}
+    <div class="header-buttons">
+        <div class="inner-header">
+            <div class="container container-fluid">
+                <div class="row-fluid">
+                    <div class="span8">
+                        <a href="{{ path('BNSAppBoardBundle_back') }}" class="btn bns-notice btn-24 medium-return">
+                            <span class="icons-24 back-icon"></span>
+                            <strong>Retourner</strong><br />aux informations
+                        </a>
+                        {% if isEditionMode %}
+                            <a href="{{ path('board_manager_information_visualisation', {'informationSlug': information.getSlug()}) }}" class="btn bns-danger btn-24 medium-return button-return">
+                                <span class="icons-24 cancel-icon"></span>
+                                <strong>Annuler</strong><br />les modifications
+                            </a>
+                        {% else %}
+                            <a href="{{ path('BNSAppBoardBundle_back') }}" class="btn bns-danger btn-24 medium-return button-return">
+                                <span class="icons-24 cancel-icon"></span>
+                                <strong>Annuler</strong><br />la création
+                            </a>
+                        {% endif %}
+						{#<a href="#" class="btn save bns-warning btn-24 medium-return">
+							<span class="icons-24 save-icon"></span>
+							<strong>Enregistrer</strong><br />dans les brouillons
+						</a>#}
+                    </div>
+                    <div class="span4 align-right">
+                        <a href="#" class="btn finish bns-success validate-medium btn-24 medium">
+                            <span class="icons-24 validate-icon"></span>
+                            <strong>Enregistrer</strong>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock header %}
+
+{% block sidebar %}
+    <div class="container-sidebar editor">
+        <div class="section active">
+            Ecrire une information
+            <span class="shadow-section"></span>
+        </div>
+        {% if not isEditionMode %}
+            {% include 'BNSAppBoardBundle:Block:back_block_destination.html.twig' %}
+        {% endif %}
+		{% include 'BNSAppBoardBundle:Block:back_block_status_choice.html.twig' %}
+		{% include 'BNSAppBoardBundle:Block:back_block_publication_end.html.twig' %}
+		{% include 'BNSAppBoardBundle:Block:back_block_is_alert.html.twig' %}
+    </div>
+{% endblock sidebar %}
+
+{% block form_start %}
+    {% if (isEditionMode) %}
+        <form id="form_new_information" action="{{ path('board_manager_edit_information', {'informationSlug': information.getSlug()}) }}" method="POST" {{ form_enctype(form) }}>
+    {% else %}
+        <form id="form_new_information" action="{{ path('board_manager_new_information_finish') }}" method="POST" {{ form_enctype(form) }}>
+    {% endif %}
+{% endblock form_start %}
+
+{% block form_end %}
+    </form>
+{% endblock form_end %}
+
+{% block content %}
+    {{ modal('programmed-publication-warning', {
+        'title': 'Vous allez publier une information dans le futur !',
+        'body_template': {'template': 'BNSAppBoardBundle:Modal:programmed_publication_warning_body.html.twig'},
+        'footer_template': {'template': 'BNSAppBoardBundle:Modal:programmed_publication_warning_footer.html.twig'},
+        'type': 'info'
+    }) }}
+    <div class="item form">
+         {#{{ autosave_init(information, {'title': 'board_information_form_title', 'content': 'board_information_form_content' }, {
+             'data': {'board_id': board.getId()},
+             'onStart': 'onStartSave',
+             'onSuccess': 'onSuccessSave',
+             'optionnal_attributes': ['categories_list_id'],
+             'debug': false
+         }) }}#}
+
+        <div class="alert alert-error save-error bns-alert hide">
+            <strong>Attention</strong>, des champs ont été oubliés. Veuillez vérifier que vous avez correctement rempli tous les champs
+            <div class="jim"></div>
+        </div>
+
+        {# Title #}
+        <div>
+            {% if form.title.vars.errors|length > 0 %}
+                <div class="alert alert-danger bns-alert">
+                    {{ form_errors(form.title) }}
+                    <div class="jim"></div>
+                </div>
+            {% endif %}
+            {{ form_widget(form.title, { 'attr': {'placeholder': "Titre de l'information"} }) }}
+        </div>
+
+        <div class="alert alert-success save-success bns-alert hide">
+            <span></span> : {% trans %}Board.Back.AutosaveFeedback{% endtrans %}
+            <div class="jim"></div>
+        </div>
+
+        {# Content #}
+        {% if form.content.vars.errors|length > 0 %}
+            <div class="alert alert-danger bns-alert">
+                {{ form_errors(form.content) }}
+                <div class="jim"></div>
+            </div>
+        {% endif %}
+        <div class="tinyarea">
+            {{ form_widget(form.content, { 'attr': {'bns-tinymce': ''} }) }}
+        </div>
+        <div>{{ form_rest(form) }}</div>
+    </div>
+{% endblock content %}

@@ -1,32 +1,39 @@
+{% trans_default_domain "MESSAGING" %}
 <div id="messaging-message-{{ message.id }}" class="messaging-moderation-message">
-	<div class="messaging-moderation-message-header">
-		<img src="{{ avatar(message.user, 'thumbnail') }}" />
-		<p class="subject">{{ message.subject }}</p>
-		<p class="date">Envoyé par {{ message.user.fullName }} {{ date_from_now(message.createdAt.getTimestamp,true,false) }}</p>
-		<div class="content-link-moderation">
-			{% if message.printStatus == 'in_moderation' %}
-				{% include 'BNSAppMessagingBundle:Back/Light:block_message_action.html.twig' with {"type": "REJECTED","message": message } %}
-				{% include 'BNSAppMessagingBundle:Back/Light:block_message_action.html.twig' with {"type": "ACCEPTED","message": message } %}
-			{% elseif message.printStatus == 'accepted' %}
-				{% include 'BNSAppMessagingBundle:Back/Light:block_message_action.html.twig' with {"type": "REJECTED","message": message } %}
-				{% include 'BNSAppMessagingBundle:Back/Light:block_message_action.html.twig' with {"type": "IN_MODERATION","message": message } %}
-			{% elseif message.printStatus == 'rejected' %}
-				{% include 'BNSAppMessagingBundle:Back/Light:block_message_action.html.twig' with {"type": "DELETE_FOREVER","message": message } %}
-				{% include 'BNSAppMessagingBundle:Back/Light:block_message_action.html.twig' with {"type": "ACCEPTED","message": message } %}
-			{% endif %}
-		</div>
-		<div class="clearfix"></div>
-	</div>
-	<div class="messaging-moderation-message-receivers">
-		<p class="receiver">Destinataires :</p>
-		{% for to in message.getTos %}
-			<a class="btn bns-user small"><img src="{{ avatar(to, 'thumbnail') }}">{{ to.fullName }}</a>
-		{% endfor %}
-	</div>
-	<div class="messaging-moderation-message-content">
-		{% autoescape %}
-			{{ message.content|raw }}
-		{% endautoescape  %}
-	</div>
+    <div class="messaging-moderation-message-header">
+        <img src="{{ avatar(message.user, 'thumbnail') }}" />
+        <p class="subject">{{ message.subject }}</p>
+        <p class="date">{{  'SENT_BY' | trans({'%userFullName%': message.user.fullName |escape, '%dateCreation%': date_from_now(message.createdAt.getTimestamp,false,true) })| raw  }}</p>
+        <div class="content-link-moderation">
+            {% if message.printStatus == 'in_moderation' %}
+                {% include 'BNSAppMessagingBundle:Back/Light:block_message_action.html.twig' with {"type": "REJECTED","message": message } %}
+                {% include 'BNSAppMessagingBundle:Back/Light:block_message_action.html.twig' with {"type": "ACCEPTED","message": message } %}
+            {% elseif message.printStatus == 'accepted' %}
+                {% include 'BNSAppMessagingBundle:Back/Light:block_message_action.html.twig' with {"type": "REJECTED","message": message } %}
+                {% include 'BNSAppMessagingBundle:Back/Light:block_message_action.html.twig' with {"type": "IN_MODERATION","message": message } %}
+            {% elseif message.printStatus == 'rejected' %}
+                {% include 'BNSAppMessagingBundle:Back/Light:block_message_action.html.twig' with {"type": "DELETE_FOREVER","message": message } %}
+                {% include 'BNSAppMessagingBundle:Back/Light:block_message_action.html.twig' with {"type": "ACCEPTED","message": message } %}
+            {% endif %}
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="messaging-moderation-message-receivers">
+        <p class="receiver">{{ 'MESSAGE_RECEIVERS' |transchoice(message.getTos|length) }}</p>
+        {% for to in message.getTos %}
+            <a class="bns-user small">
+                <img src="{{ avatar(to, 'thumbnail') }}" alt="" />
+                <span class="name">{{ to.fullName }}</span>
+            </a>
+        {% endfor %}
+    </div>
+    <div class="messaging-moderation-message-content">
+        {% autoescape %}
+            {{ message.content|purify }}
+        {% endautoescape  %}
+    </div>
+
+    {% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias': message.getResourceAttachments(), 'editable': false, 'objectType': 'MessagingMessage', 'objectId': message.id} %}
+
 </div>
 

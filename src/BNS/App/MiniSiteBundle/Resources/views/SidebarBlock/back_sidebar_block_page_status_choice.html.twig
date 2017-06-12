@@ -1,0 +1,41 @@
+{% trans_default_domain "MINISITE" %}
+<bns-form-proxy source="mini_site_page_text_form" du-scroll-container="content"></bns-form-proxy>
+  {#<bns-expander label="{{ 'PAGE_STATUS' | trans }}" class="ng-scope ng-isolate-scope" is-open="true">#}
+
+
+
+    {#
+    <div class="content-title">
+      <ul>
+        <li>
+          <label for="{{ form.status[0].vars.id }}">
+            <span class="vertical-separator gray"></span><span>{% trans %}NEWS_DRAFT_PLURAL{% endtrans %}</span>
+            {{ form_widget(form.status[0]) }}
+          </label>
+        </li>
+        <li>
+          <label for="{{ form.status[2].vars.id }}">
+            <span class="vertical-separator blue"></span> <span>{% trans %}FINISH{% endtrans %}</span>
+            {{ form_widget(form.status[2]) }}
+          </label>
+        </li>
+        <li>
+          <label for="{{ form.status[3].vars.id }}">
+            <span class="vertical-separator orange"></span> <span>{% trans %}WAITING_TO_MODERATION{% endtrans %}</span>
+            {{ form_widget(form.status[3]) }}
+          </label>
+        </li>
+        <li>
+          <label for="{{ form.status[1].vars.id }}">
+            <span class="vertical-separator green"></span> <span>{% trans %}PUBLISH{% endtrans %}</span>
+            {{ form_widget(form.status[1]) }}
+          </label>
+        </li>
+      </ul>
+      {% if form.status.vars.errors|length > 0 %}
+        <div class="alert alert-danger bns-alert">
+          {{ form_errors(form.status) }}
+        </div>
+      {% endif %}
+    </div>#}
+  {#</bns-expander>#}

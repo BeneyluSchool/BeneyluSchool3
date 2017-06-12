@@ -40,9 +40,12 @@ class BackController extends Controller
      */
     public function indexAction()
     {
+        $this->get('stat.gps')->visit();
+
         $rm = $this->get('bns.right_manager');
         $currentGroupId = $rm->getCurrentGroupId();
         $this->get('session')->remove('gps_back_selected_category');
+
         return array(
             'categories' => GpsCategoryQuery::create()->orderByOrder()->findByGroupId($currentGroupId)
         );
@@ -142,41 +145,48 @@ class BackController extends Controller
             $this->checkRights($place);
         }else{
             $place = new GpsPlace();
-            return $this->processPlaceForm($place,$request,'CREATE');
+            return $this->processPlaceForm($place->setIsActive(true),$request,'CREATE');
         }
+        $place->setIsActive(true);
+        $message = $this->get('translator')->trans('PLACE_WAS_MODIFY', array(), 'GPS');
+
+        $this->get('session')->getFlashBag()->add('success', $message);
         return $this->processPlaceForm($place,$request);
     }
 
-    protected function processPlaceForm($object,$request,$action=null)
+    protected function processPlaceForm($object, $request, $action = null, $options = [])
     {
-        $form = $this->createForm(new GpsPlaceType(), $object);
+        $rightManager = $this->get('bns.right_manager');
+        $currentGroupId = $rightManager->getCurrentGroupId();
+
+        $options['group_id'] = $currentGroupId;
+
+        $form = $this->createForm(new GpsPlaceType($this->get('router')->generate('BNSAppGPSBundle_back_category_create')), $object, $options );
 
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
             if ($form->isValid()) {
                 //Création du lieu et settage des geecords
                 $gs = $this->get('bns.geocoords_manager');
                 $gs->setGeoCoords($object);
                 $object->save();
-                
+
                 //statistic action
-                if(null != $action && 'CREATE' == $action) {  
+                if(null != $action && 'CREATE' == $action) {
                     $this->get("stat.gps")->newPlace();
+                    $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('FLASH_PLACE_CREATE_SUCCESS', [], 'GPS'));
                 }
 
                 return $this->redirect($this->generateUrl('BNSAppGPSBundle_back'));
             }
         }
 
-        $rm = $this->get('bns.right_manager');
-        $currentGroupId = $rm->getCurrentGroupId();
-
         return array(
             'form' => $form->createView(),
             'show_place_button' => $object->getAddress() != null,
             'is_edit' => !$object->isNew(),
             'place' => $object,
-            'categories' => GpsCategoryQuery::create()->orderByOrder()->findByGroupId($currentGroupId)
+            /*'categories' => GpsCategoryQuery::create()->orderByOrder()->findByGroupId($currentGroupId)*/
         );
     }
 
@@ -191,6 +201,9 @@ class BackController extends Controller
         $place = GpsPlaceQuery::create()->findOneBySlug($slug);
         $this->checkRights($place);
         $place->delete();
+        $message = $this->get('translator')->trans('PLACE_WAS_DELETE', array(), 'GPS');
+
+        $this->get('session')->getFlashBag()->add('success', $message);
         return $this->redirect($this->generateUrl('BNSAppGPSBundle_back'));
     }
 
@@ -216,7 +229,7 @@ class BackController extends Controller
      * Visualisation de la carte coté back
      * @Route("/voir-carte", name="BNSAppGPSBundle_back_place_show_map", options={"expose"=true})
      * @Rights("GPS_ACCESS_BACK")
-     * @Template("")
+     * @Template()
      */
     public function placeShowMapAction()
     {
@@ -242,7 +255,7 @@ class BackController extends Controller
      * Page des categories
      * @Route("/categories", name="BNSAppGPSBundle_back_categories", options={"expose"=true})
      * @Rights("GPS_ACCESS_BACK")
-     * @Template("")
+     * @Template()
      */
     public function categoriesAction()
     {
@@ -315,18 +328,19 @@ class BackController extends Controller
      * @Route("/ajouter-categorie/{from}", name="BNSAppGPSBundle_back_category_create", options={"expose"=true})
      * @Rights("GPS_ACCESS_BACK")
      */
-    public function categoryCreateAction($from)
+    public function categoryCreateAction($from = '')
     {
         $request = $this->getRequest();
         $rm = $this->get('bns.right_manager');
         $groupId = $rm->getCurrentGroupId();
+        $title = $request->get('subject_title', $request->get('title'));
 
-        if(trim($request->get('subject_title')) != "")
+        if(trim($title) != "")
         {
             $category = new GpsCategory();
-            $category->setLabel($request->get('subject_title'));
+            $category->setLabel($title);
             $category->setGroupId($groupId);
-            $category->setIsActive(false);
+            $category->setIsActive(true);
             $biggest = GpsCategoryQuery::create()->orderByOrder('desc')->findOneByGroupId($groupId);
             if($biggest)
                 $category->setOrder($biggest->getOrder() + 1);
@@ -341,6 +355,18 @@ class BackController extends Controller
                 return $this->render('BNSAppGPSBundle:Back:blockCategoryRowSidebarForm.html.twig', array('category' => $category));
             else
                 return $this->render('BNSAppGPSBundle:Back:blockCategoryRowSidebar.html.twig', array('category' => $category));
+        } else {
+            if (isset($category)) {
+                $data = $this->get('serializer')->serialize([
+                    'id' => ''.$category->getId(),
+                    'title' => $category->getLabel(),
+                ], 'json');
+
+                return new Response($data);
+            } else {
+                return new Response(null, 400);
+            }
+
         }
     }
 
@@ -400,4 +426,3 @@ class BackController extends Controller
         return $this->forward('BNSAppGPSBundle:Back:placesList');
     }
 }
-

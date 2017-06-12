@@ -1,0 +1,85 @@
+{% extends 'BNSAppWorkshopBundle:Layout:front_layout.html.twig' %}
+{% import 'BNSAppCoreBundle:Macros:forms.html.twig' as forms %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script type="text/javascript">
+		$(function ()
+		{
+			// Submit form
+			$('.header-buttons .finish').click(function (e) {
+				var $this = $(e.currentTarget);
+				if ($this.hasClass('disabled')) {
+					return false;
+				}
+				
+				$this.addClass('disabled');
+				$('#document-form').submit();
+				
+				return false;
+			});
+		});
+	</script>
+{% endblock javascripts %}
+	
+{% block header %}
+	<div class="header-buttons workshop-header">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span12">
+						<a href="{{ path('workshop_visualisation', {'slug': resource.getSlug()}) }}" class="btn bns-danger btn-24 medium-return spacer">
+							<span class="icons-24 cancel-icon"></span>
+							<strong>Annuler</strong><br />
+							les modifications
+						</a>
+
+						<a href="#" class="btn finish bns-success validate-medium btn-24 medium pull-right">
+							<span class="icons-24 validate-icon"></span>
+							<strong>Enregistrer</strong>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock header %}
+	
+{% block form_start %}
+	<form id="document-form" method="POST">
+{% endblock %}
+
+{% block content %}
+	<h1>L'atelier</h1>
+	
+	<div class="item form">
+		{% include 'BNSAppWorkshopBundle:Front:flash_messages.html.twig' %}
+			
+		{# LABEL #}
+		<div>
+			{{ form_widget(formResource.label, {'attr': {'placeholder': 'Titre du document'} }) }}
+			{{ forms.errors(formResource.label) }}
+		</div>
+			
+		{# DESCRIPTION #}
+		<div>
+			{{ form_widget(formResource.description, {'attr': {'placeholder': 'Description du document'} }) }}
+			{{ forms.errors(formResource.description) }}
+		</div>
+			
+		<div>
+			{{ form_rest(formResource) }}
+		</div>
+	</div>
+	
+	<div id="document-inputs">
+		{% for i, document in formDocuments %}
+			{{ render(controller('BNSAppWorkshopBundle:Front:templateChoice', {'slug': document.getData().getTemplateUniqueName(), 'form': document, 'canDeletePage': i > 0 ? true : false} )) }}
+		{% endfor %}
+	</div>
+{% endblock %}
+	
+{% block form_end %}
+	</form>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% trans_default_domain "INFO" %}
+{% extends 'BNSAppInfoBundle:Front:layout.html.twig' %}
+
+{% block content %}
+    <div class="row-fluid">
+        <div class="blog-items span12 item-list-container">
+            <h1>{{ 'LINK_NEWS'|trans |desc('Les nouveautés') }}</h1>
+            {% for announcement in updateAnnouncements %}
+                {% include "BNSAppInfoBundle:Block:announcement_update.html.twig" %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    {% include "BNSAppInfoBundle:Front:sidebar.html.twig" %}
+{% endblock %}

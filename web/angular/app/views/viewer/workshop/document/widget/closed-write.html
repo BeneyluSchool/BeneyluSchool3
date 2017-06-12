@@ -1,0 +1,20 @@
+<div class="workshop-layer">
+  <div class="workshop-widget-text" ng-bind-html="ctrl.widget.content | trustHtml"></div>
+  <md-input-container class="md-input-has-placeholder">
+    <label><span translate>WORKSHOP.QUESTIONNAIRE.ANSWER</span></label>
+    <input placeholder="{{ 'WORKSHOP.QUESTIONNAIRE.WRITE_AN_ANSWER' | translate }}">
+  </md-input-container>
+  <br>
+  <div class="layout-row layout-align-center-center advanced-setting-block">
+    <md-whiteframe class="md-whiteframe-2dp layout-row layout-align-center-center widget-whiteframe flex-20">
+      <div>
+        <md-icon>bookmark</md-icon>
+        <span translate>WORKSHOP.QUESTIONNAIRE.SOLUTION</span>
+      </div>
+    </md-whiteframe>
+    <div class="flex">
+      <span>{{ctrl.widget._embedded.extended_settings.correct_answers}}</span>
+    </div>
+  </div>
+  <div ng-include="ctrl.templateAdvancedSettings"></div>
+</div>

@@ -1,31 +1,42 @@
 imports:
     - { resource: config.yml }
     - { resource: security_app.yml }
-    
+
 framework:
     router:   { resource: "%kernel.root_dir%/config/routing_app.yml" }
-    
     csrf_protection:
         enabled:              true
         field_name:           _token
-    
+
 propel:
     dbal:
         default_connection: app
         connections:
             app:
                 driver:     %database_driver%
-                user:       %secret_app_database_user%
-                password:   %secret_app_database_password%
-                dsn:        %database_driver%:host=%database_host%;dbname=%app_database_name%;charset=UTF8
+                user:       %app_database_user%
+                password:   %app_database_password%
+                dsn:        %database_driver%:host=%database_host%;port=%database_port%;dbname=%app_database_name%;charset=UTF8
+            stat:
+                driver:     %database_driver%
+                user:       %stat_database_user%
+                password:   %stat_database_password%
+                dsn:        %database_driver%:host=%database_host%;port=%database_port%;dbname=%stat_database_name%;charset=UTF8
+#            import:
+#                driver:     %database_driver%
+#                user:       %import_database_user%
+#                password:   %import_database_password%
+#                dsn:        %database_driver%:host=%import_database_host%;port=%database_port%;dbname=%import_database_name%;charset=UTF8
     build_properties:
         propel.useDateTimeClass: true
         propel.dateTimeClass: \BNS\App\CoreBundle\Date\ExtendedDateTime
         propel.mysql.tableType: InnoDB
         propel.packageObjectModel: true
+        propel.migration.parallel: true
     behaviors:
         typehintable: vendor.willdurand.TypehintableBehavior.src.TypehintableBehavior
         bns_resource_attachmentable: src.BNS.App.ResourceBundle.Propel.BNSResourceAttachmentableBehavior
+        bns_media_attachmentable: src.BNS.App.MediaLibraryBundle.Propel.BNSMediaAttachmentableBehavior
         extra_properties: vendor.CarpeHora.ExtraPropertiesBehavior.src.ExtraPropertiesBehavior
         bns_templatable: src.BNS.App.TemplateBundle.Propel.BNSTemplatableBehavior
 
@@ -34,14 +45,56 @@ old_sound_rabbit_mq:
         default:
             host:      '%rmq_host%'
             port:      '%rmq_port%'
-            user:      '%secret_rmq_user%'
-            password:  '%secret_rmq_password%'
+            user:      '%rmq_user%'
+            password:  '%rmq_password%'
             vhost:     '%rmq_vhost%'
+            lazy: true
     producers:
         mailer:
             connection: default
             exchange_options:
-                name: 'mailer'
+                name: '%rmq_exchange_mailer%'
+                type: direct
+                auto-delete: false
+                durable: true
+                internal: false
+        notification:
+            connection: default
+            exchange_options:
+                name: '%rmq_exchange_notification%'
+                type: direct
+                auto-delete: false
+                durable: true
+                internal: false
+        campaign:
+            connection: default
+            exchange_options:
+                name: '%rmq_exchange_campaign%'
+                type: direct
+                auto-delete: false
+                durable: true
+                internal: false
+        campaign_message:
+            connection: default
+            exchange_options:
+                name: '%rmq_exchange_campaign_message%'
+                type: direct
+                auto-delete: false
+                durable: true
+                internal: false
+        import_user:
+            connection: default
+            exchange_options: {name: 'import-user', type: direct}
+        import_class:
+            connection: default
+            exchange_options: {name: 'import-class', type: direct}
+        import_school:
+            connection: default
+            exchange_options: {name: 'import-school', type: direct}
+        account_link:
+            connection: default
+            exchange_options:
+                name: 'account_link'
                 type: direct
                 auto-delete: false
                 durable: true
@@ -50,15 +103,85 @@ old_sound_rabbit_mq:
         mailer:
             connection: default
             exchange_options:
-                name: 'mailer'
+                name: '%rmq_exchange_mailer%'
                 type: direct
                 auto-delete: false
                 durable: true
                 internal: false
             queue_options:
-                name: 'mailer'
+                name: '%rmq_queue_mailer%'
             callback:         mailer_consumer
-            
+        notification:
+            connection: default
+            exchange_options:
+                name: '%rmq_exchange_notification%'
+                type: direct
+                auto-delete: false
+                durable: true
+                internal: false
+            queue_options:
+                name: '%rmq_queue_notification%'
+            callback:         notification_consumer
+        campaign:
+            connection: default
+            exchange_options:
+                name: '%rmq_exchange_campaign%'
+                type: direct
+                auto-delete: false
+                durable: true
+                internal: false
+            queue_options:
+                name: '%rmq_queue_campaign%'
+            callback: bns_app_campaign.campaign_consumer
+        campaign_message:
+            connection: default
+            exchange_options:
+                name: '%rmq_exchange_campaign_message%'
+                type: direct
+                auto-delete: false
+                durable: true
+                internal: false
+            queue_options:
+                name: '%rmq_queue_campaign_message%'
+            callback: bns_app_campaign.campaign_message_consumer
+        import_user:
+            connection: default
+            exchange_options: {name: 'import-user', type: direct}
+            queue_options: {name: 'import-user'}
+            callback: import.user.consumer
+        import_class:
+            connection: default
+            exchange_options: {name: 'import-class', type: direct}
+            queue_options: {name: 'import-class'}
+            callback: import.class.consumer
+        import_school:
+            connection: default
+            exchange_options: {name: 'import-school', type: direct}
+            queue_options: {name: 'import-school'}
+            callback: import.school.consumer
+        realtime:
+            connection: default
+            exchange_options:
+                name: 'realtime'
+                type: direct
+                auto-delete: false
+                durable: true
+                internal: false
+            queue_options:
+                name: 'realtime'
+            callback: bns.realtime.consumer
+        account_link:
+            connection: default
+            exchange_options:
+                name: 'account_link'
+                type: direct
+                auto-delete: false
+                durable: true
+                internal: false
+            queue_options:
+                name: 'account_link'
+            callback: bns.user.account_link_consumer
+
 services:
     # Surcharge du UserProvider du KNPOAuthBundle
     # default:
@@ -67,80 +190,132 @@ services:
     knp_oauth.user.provider.entity:
          class: BNS\App\CoreBundle\Security\Core\UserProvider\ModelUserProvider
          #parent: BNS\App\CoreBundle\Security\Propel\ModelUserProvider
-         
+
     bns.controller_listener:
         class: BNS\App\CoreBundle\Listener\ControllerListener
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onCoreController, priority:-255 }
-        arguments: [@annotation_reader]
-    
-    
+        arguments: [@annotation_reader, @service_container]
+
     #propel.orm.security.user.provider:
       #class: Propel\PropelBundle\Security\User\ModelUserProvider
       #public: false
-      #abstract: false    
-    
+      #abstract: false
+
+    bns.form.type.propel1_translation_collection:
+        class: Symfony\Bridge\Propel1\Form\Type\TranslationCollectionType
+        tags:
+            - { name: form.type, alias: propel1_translation_collection }
+
+    bns.form.type.propel1_translation:
+        class: Symfony\Bridge\Propel1\Form\Type\TranslationType
+        tags:
+            - { name: form.type, alias: propel1_translation }
+
+
 # @see: https://github.com/stfalcon/TinymceBundle
 stfalcon_tinymce:
-    tinymce_buttons:
-        resource: 
-            title: "Ressources"
-            image: /medias/images/resource/tiny_icon.png
-    include_jquery: false
-    textarea_class: "load_tinymce"
+    use_callback_tinymce_init: true
+    external_plugins:
+        beneylu:
+            url: %cdn_url%/medias/js/tinymce/beneylu.js
+        emojis:
+            url: %cdn_url%/medias/js/tinymce/emojis.js
+        changemode:
+            url: %cdn_url%/medias/js/tinymce/changemode.js
+        translation:
+            url: %cdn_url%/medias/js/tinymce/translation.js
+        cordial:
+            url: %cdn_url%/medias/js/cordial/pluginCordial.js
+    base_url: "%application_base_url%/"
+    selector: ".load_tinymce"
     theme:
         simple:
-            mode: "textareas"
-            theme: "advanced"
-            theme_advanced_buttons1: "justifyleft,justifycenter,justifyright,justifyfull,separator,bold,italic,underline,strikethrough,formatselect,fontselect,fontsizeselect"
-            theme_advanced_buttons2: "bullist,numlist,separator,undo,redo,separator,forecolor,backcolor,separator,link,unlink,separator,fullscreen,emotions,image,resource"
-            theme_advanced_buttons3: ""
-            theme_advanced_toolbar_location: "top"
-            theme_advanced_toolbar_align: "left"
-            theme_advanced_statusbar_location: "bottom"
-            theme_advanced_resizing : "true"
-            plugins: "advimage,advlink,emotions,inlinepopups"
-            theme_advanced_buttons1_add: ""
+            theme: "modern"
+            plugins:
+                - advlist autolink lists charmap hr anchor pagebreak paste
+                - searchreplace wordcount visualblocks visualchars code fullscreen
+                - insertdatetime nonbreaking save table directionality
+                - textcolor link fullscreen image
+            toolbar1: "changemode fullscreen | undo redo aligncenter | emojis bold italic underline strikethrough | fontselect | fontsizeselect | forecolor backcolor | media | bullist numlist outdent indent"
+            menu:
+              insert: { title: 'Insert', items: 'charmap hr anchor link' }
+              format: { title: 'Format', items: 'superscript subscript | formats | removeformat'}
+              table: { title: 'Table', items: 'inserttable tableprops deletetable | cell row column '}
+              tools: { title: 'Tools', items: 'code searchreplace'}
+            browser_spellcheck: true
             paste_auto_cleanup_on_paste: true
-            handle_event_callback : "onTinyMCEKeypress"
+            paste_retain_style_properties: "color font-size font-family line-height"
             body_class : "body_tinymce"
-            content_css : "/medias/css/manager.css"
-            height: "480"
+            content_css : /%url_prefix%/medias/css/commons/tiny-mce.css
+            use_callback_tinymce_init: true
+            height: "240"
             width: "100%"
-            language: "fr"
-        no_resources:
-            mode: "textareas"
-            theme: "advanced"
-            theme_advanced_buttons1: "justifyleft,justifycenter,justifyright,justifyfull,separator,bold,italic,underline,strikethrough,formatselect,fontselect,fontsizeselect"
-            theme_advanced_buttons2: "bullist,numlist,separator,undo,redo,separator,forecolor,backcolor,separator,link,unlink,separator,fullscreen,emotions"
-            theme_advanced_buttons3: ""
-            theme_advanced_toolbar_location: "top"
-            theme_advanced_toolbar_align: "left"
-            theme_advanced_statusbar_location: "bottom"
-            theme_advanced_resizing : "true"
-            plugins: "advlink,emotions,inlinepopups"
-            theme_advanced_buttons1_add: ""
-            paste_auto_cleanup_on_paste: true
-            handle_event_callback : "onTinyMCEKeypress"
-            body_class : "body_tinymce"
-            content_css : "/medias/css/manager.css"
-            height: "480"
-            width: "100%"
-            language: fr
-            
+            elements : "nourlconvert"
+            convert_urls : false
+            valid_elements:
+            extended_valid_elements: "source[src|type|class],audio[controls],video[controls|width|height],embed[src|height|width|allowscriptaccess|allowfullscreen|flashvars|mode]"
+
+
 bns_app_autosave:
     # Default timer before the autosave is launched, in seconds
     default_timer: 60
     # Default number of letter before the autosave is launched
     default_keypress: 50
-    
+
+
+#bns_app_resource:
+#    #Default Adapter for resources storage
+#    default_adapter: local
+
+bns_app_media_library:
+    #Default Adapter for resources storage
+    default_adapter: local
+
+bns_app_info:
+    feeds:
+      twitter:  beneyluschool
+      updates:  http://beneylu.com/forum/categories/mises-a-jour/feed.rss
+      blog:     http://beneylu.com/blog/feed/
+      forum:    http://beneylu.com/forum/discussions/feed.rss
+    nb_announcements:
+      index:
+        blog:    3
+        forum:   10
+        custom:  4
+
 vich_geographical:
     db_driver: orm
     templating:
         info_window: BNSAppGPSBundle:Front:infoWindow.html.twig
-        
+
+
+fkr_simple_pie:
+    cache_enabled: true
+    cache_dir: %kernel.cache_dir%/rss
+    cache_duration: 3600
+
 hwi_oauth:
+    http_client:
+      verify_peer: false
     firewall_name: oauth_area
+    resource_owners:
+        bns_auth_provider:
+            type:                oauth2
+            client_id:           %oauth_security_client_id%
+            client_secret:       %oauth_client_secret%
+            access_token_url:    %oauth_host%/oauth/v2/token
+            authorization_url:   %oauth_host%/oauth/v2/authorize
+            infos_url:           %oauth_host%/oauth/v2/users
+            scope:               "ent_read_write update_credentials"
+            user_response_class: HWI\Bundle\OAuthBundle\OAuth\Response\PathUserResponse
+            paths:
+                identifier: username
+                username: username
+                nickname: username
+                realname: username
+                displayname: username
+                email: email
 
 knp_snappy:
     pdf:
@@ -148,34 +323,388 @@ knp_snappy:
         options:    []
     image:
         enabled:    true
-        options:    []
+        options:
+          disable-javascript: true
+
+#knp_gaufrette:
+#    adapters:
+#        importENT1DLocal:
+#            local:
+#                directory: %aaf_dir%
+#                create:    true
+#    filesystems:
+#        importENT1DLocal:
+#            adapter:    importENT1DLocal
+
+exercise_html_purifier:
+    default:
+        Filter.YouTube: true
+        HTML.SafeIframe: true
+#        URI.SafeIframeRegexp: "#^(?:https?://)?(?:www\.)?((?:youtu\.be|youtube\.com)|dailymotion\.com|vimeo\.com)/#"
+        URI.SafeIframeRegexp: "#.*#"
+        CSS.AllowTricky: true
+    import:
+        Core.Encoding: "utf-8"
+        AutoFormat.AutoParagraph: true
+    yerbook:
+        Core.Encoding: "utf-8"
+        AutoFormat.AutoParagraph: true
+        AutoFormat.RemoveEmpty: true
+        AutoFormat.RemoveEmpty.RemoveNbsp: true
+        HTML.Allowed:     "h1,h2,h3,h4,h5,h6,p,b,i,u,ul,ol,li,strong,em,img[src],img[height],img[width]"
+
+opensky_runtime_config:
+    provider: bns.runtime_parameter
+    cascade:  true
+    logging:
+        enabled: true
+        level:   debug
 
 parameters:
-    available_languages:
-        - en
-        - fr
-        
+    exercise_html_purifier.class: BNS\App\CoreBundle\Purifier\BNSHTMLPurifier
+    exercise_html_purifier.twig_extension.class: BNS\App\CoreBundle\Twig\Extension\HTMLPurifierExtension
+    bns_cookie_settings :
+       cookieURL :
+            fr : 'http://fr.wikipedia.org/wiki/Cookie_(informatique)'
+            en : 'https://en.wikipedia.org/wiki/HTTP_cookie'
+       WindowsURL :
+            fr : 'http://windows.microsoft.com/fr-FR/windows-vista/Block-or-allow-cookies'
+            en : 'http://windows.microsoft.com/en-US/windows-vista/Block-or-allow-cookies'
+       AppleURL :
+            fr : 'https://support.apple.com/fr-fr/ht1677'
+            en : 'https://support.apple.com/en-us/HT201265'
+       GoogleURL :
+            fr : 'https://support.google.com/chrome/answer/95647?hl=fr'
+            en : 'https://support.google.com/chrome/answer/95647?hl=en'
+       MozillaURL :
+            fr : 'https://support.mozilla.org/fr/kb/activer-desactiver-cookies'
+            en : 'https://support.mozilla.org/en-US/kb/enable-and-disable-cookies-website-preferences'
+       OperaURL :
+            fr : 'http://help.opera.com/Windows/10.20/fr/cookies.html'
+            en : 'http://help.opera.com/Windows/10.20/en/cookies.html'
+    bns_date_patterns:
+           - { pattern: 'd LLLL', locales : {fr : 'd LLLL', en : 'LLLL d'}}
+           - { pattern: 'LLLL y', locales : {fr : 'LLLL y', en : 'LLLL y'}}
+    #Must use YYYY instead of y here because it's use by Moment
+    bns_date_calendar_patterns:
+          fr : 'dddd D MMMM YYYY'
+          en : 'dddd, D MMMM YYYY'
+          en_US : 'dddd, MMMM D YYYY'
+          es : 'dddd, D [de] MMMM [de] YYYY'
+    bns_homepage_links:
+      fr:
+        school_link: https://beneylu.com/school/
+        guides: https://beneylu.com/school/doc/
+        child_account_guide: https://beneylu.com/school/doc/ajouter-ses-eleves/
+        app_panel_guide: https://beneylu.com/school/doc/le-panneau-des-applications/
+        contact_link: https://beneylu.com/school/contact/
+      en:
+        school_link: https://beneylu.com/school/en/
+        guides: https://beneylu.com/school/en/documentation/
+        child_account_guide: https://beneylu.com/school/en/documentation/add-your-pupils/
+        app_panel_guide: https://beneylu.com/school/en/documentation/apps-board
+        contact_link: https://beneylu.com/school/en/contact/
+      en_US:
+        school_link: https://beneylu.com/school/us/
+        guides: https://beneylu.com/school/us/documentation/
+        child_account_guide: https://beneylu.com/school/en/documentation/add-your-pupils/
+        app_panel_guide: https://beneylu.com/school/en/documentation/apps-board
+        contact_link: https://beneylu.com/school/us/contact/
+      es:
+        school_link: https://beneylu.com/school/es/
+        guides: https://beneylu.com/school/es/documentation/
+        child_account_guide: https://beneylu.com/school/en/documentation/add-your-pupils/
+        app_panel_guide: https://beneylu.com/school/en/documentation/apps-board
+        contact_link: https://beneylu.com/school/es/contacto/
+
+    database_port: 3306
+    preferred_countries:
+        - FR
+        - GB
+        - US
+        - ES
+    api_key : ~
+    api_secret : ~
+
+    onesky_api_key:     ~
+    onesky_api_secret:  ~
+
+    # TODO: remove this temporary stuff
+    premium_subscription_prices:
+        default: 49,00€
+        FR: 4,90€
+        GB: £49.00
+        US: $49.00
+        ES: 49,00€
+
+    dual_translation_domains:
+        - CALENDAR
+        - MESSAGING
+        - SEARCH
+        - MODULE
+
     session_listener.class: BNS\App\CoreBundle\Listener\SessionListener
-    
+
+    router.options.generator_base_class: BNS\App\CoreBundle\Routing\HashtagDecodedUrlGenerator
+
     # OAuth authentification
-    
+    auth_url:                           %oauth_host%
+    auth_logout_route:                  /logout
+    auth_login_check_route:             /login_check
+    security.oauth.authorization_url:   /oauth/v2/authorize
+    security.oauth.client_id:           %oauth_security_client_id%
+
     # Id du domaine sur la centrale
     domain_id: %bns_domain_id%
     domain_name: %bns_domain_name%
-    
-    # Environnement de l'application
-    application_environment:
-    
+
+    # Environnement de l'application (ID)
+    application_environment: 1
+
+    fos_js_routing.request_context_base_url: /ent
+
     #Paramètres pour les ressources
     #mode de stockage : local || s3 (pour l'instant)
-    resource_storage:                   %bns_resource_storage%
+#    Deprecated
+#    resource_storage:                   %bns_resource_storage%
     resource_files_dir:                 %kernel.root_dir%/data/resources
+    resource_deleted_dir:               %kernel.root_dir%/data/deleted
     uploaded_files_dir:                 %kernel.root_dir%/../web/uploads
-    csv_import_files_tmp_dir:						%kernel.root_dir%/data/temp/
-    resource_temp_dir:                  %kernel.root_dir%/data/
+    csv_import_files_tmp_dir:           %kernel.root_dir%/data/temp/
+    resource_temp_dir:                  %kernel.cache_dir%/
     #Clé d'utilisation pour AWS (en dev uniquement sur bucket de dev)
-    bns3.aws_key:                       %secret_bns_bns3.aws_key%
-    bns3.aws_secret_key:                %secret_bns_bns3.aws_secret_key%
+    bns3.aws_key:                       %bns_bns3.aws_key%
+    bns3.aws_secret_key:                %bns_bns3.aws_secret_key%
     bns3.s3.bucket_name:                %bns_bns3.s3.bucket_name%
     tools_dir:                          %kernel.root_dir%/Tools/
+    api_key:                            %api_key_for_app%
+    cdn_url_ie8:                        %cdn_url%
+    #Validation par les écoles en Back Office (ENT)
+    check_group_validated:              false
+    #Autorisation de groupe en Back Office (ENT MTP)
+    check_group_enabled:                false
+    url_prefix:                         "ent"
+    #paypal_username:                    "none"
+    #paypal_password:                    "none"
+    #paypal_signature:                   "none"
+    stripe_api_secret_key:               "none"
+    stripe_api_public_key:               "none"
+    paas_secret_key:                     "none"
+    trusted_proxies:                     []
+    knp_snappy.pdf.internal_generator.class:       BNS\App\CoreBundle\Snappy\BnsPdf
+    stfalcon_tinymce.twig.extension.class: BNS\App\CoreBundle\Twig\Extension\BnsStfalconTinymceExtension
+    beneylu_brand_name: Beneylu School
+    bns_breakfast_item_id: 2
 
+    # default values
+    rmq_exchange_campaign: campaign
+    rmq_queue_campaign: campaign
+    rmq_exchange_campaign_message: campaign_message
+    rmq_queue_campaign_message: campaign_message
+
+    # List of embedded items, formatted as name: href, or name: { permission, href }
+    bns_embed_items:
+        tour:
+            permission: TOUR_ACCESS
+            href: https://beneylu.com/tour/?utm_medium=referral&utm_source=beneylu+ent
+        pssst:
+            permission: PSSST_ACCESS
+            href:
+                default: https://beneylu.com/pssst/?utm_medium=referral&utm_source=beneylu+ent
+                en: https://beneylu.com/pssst/en/?utm_medium=referral&utm_source=beneylu+ent
+                es: https://beneylu.com/pssst/es/?utm_medium=referral&utm_source=beneylu+ent
+
+# config.yml
+jms_translation:
+    configs:
+        app:
+            dirs: [%kernel.root_dir%/../src]
+            output_dir: %kernel.root_dir%/Resources/translations
+#            ignored_domains: [routes]
+            excluded_names: ["*TestCase.php", "*Test.php", "*.orig"]
+            excluded_dirs: [cache, data, logs, Model/om, Model/map, Resources/skeleton]
+#            extractors: [alias_of_the_extractor]
+
+fos_rest:
+    param_fetcher_listener:  true
+    routing_loader:
+        default_format:       json
+        include_format:       true
+    body_converter:
+        enabled:              true
+        validate:             false
+        validation_errors_argument:  validationErrors
+    serializer:
+        version:              ~
+        groups:               []
+        serialize_null:       false
+    view:
+        default_engine:       twig
+        force_redirects:
+        view_response_listener:  true
+        serialize_null:       false
+    format_listener:
+        rules:
+          - { path: "^/api/", priorities: ['json'], prefer_extension: false, fallback_format: json }
+          - { path: '^/', priorities: [ 'text/html', '*/*'], fallback_format: html, prefer_extension: true }
+
+
+jms_payment_core:
+    secret: gYeknNmPwE4DBlK7v6SMSSob7Wg82N
+    orm: propel
+
+#rezzza_payment_be2bill:
+#    identifier: %be2bill_identifier%
+#    password: %be2bill_password%
+
+#jms_payment_paypal:
+#    username: %paypal_username%
+#    password: %paypal_password%
+#    signature: %paypal_signature%
+#
+#    password: %paypal_password%
+#    signature: %paypal_signature%
+#    force_standard_checkout: true
+
+ruudk_payment_stripe:
+    api_key:  %stripe_api_secret_key%
+    logger:   true
+    methods:
+      - checkout
+
+white_october_tcpdf:
+    class: 'BNS\App\YerbookBundle\Pdf\CustomPDF'
+    tcpdf:
+      k_path_main: %kernel.cache_dir%/tcpdf/images/
+
+bns_app_core:
+ #API limits, by hour
+  api_limit:
+    home_subscription: 100
+  application_management:
+    enabled: false
+    base_applications:
+      - USER_DIRECTORY
+      - MESSAGING
+      - MEDIA_LIBRARY
+      - NOTIFICATION
+      - PROFILE
+      - SPACE_OPS
+      - TOUR
+      - CIRCUS_BIRTHDAY
+      - OLYMPICS
+    system_applications:
+      - ADMIN
+      - SCHOOL
+      - CLASSROOM
+      - MAIN
+      - GROUP
+      - TEAM
+      - SPOT
+      - PSSST
+    private_applications:
+      - SPOT
+      - ADMIN
+      - STATISTICS
+      - PSSST
+      - CAMPAIGN
+    restricted_applications:
+      HERITAGE_DAYS: ['fr']
+      TOUR: ['fr']
+      YERBOOK: ['fr']
+      BUILDERS: ['fr']
+      CIRCUS_BIRTHDAY: ['fr']
+      OLYMPICS: ['fr']
+      SCIENCE_FEST: ['fr']
+  assistant_rights:
+    modules:
+      - TEAM
+      - SCHOOL
+      - CLASSROOM
+      - BLOG
+      - CALENDAR
+      - GPS
+      - HOMEWORK
+      - MEDIA_LIBRARY
+      - SEARCH
+      - MINISITE
+      - LUNCH
+
+bns_app_main:
+  statistics:
+    visit_indicators:
+      - blog_visit
+      - calendar_visit
+      - userdirectory_visit
+#      - forum_visit
+      - gps_visit
+      - homework_visit
+      - liaisonbook_visit
+      - medialibrary_visit
+      - messaging_visit
+      - profile_visit
+      - search_visit
+#      - workshop_visit
+
+
+nelmio_cors:
+    defaults:
+        allow_credentials: false
+        allow_origin: []
+        allow_headers: []
+        allow_methods: []
+        expose_headers: []
+        max_age: 0
+        hosts: []
+        origin_regex: false
+    paths:
+      '^/api/[0-9]+(\.[0-9]+)?/users/me/school.json':
+        allow_credentials: true
+        allow_origin: ['https://beneylu.com']
+        allow_methods: ['GET']
+        allow_headers: ['Content-Type']
+        max_age: 3600
+
+translation:
+    api_key: %onesky_api_key%
+    secret:  %onesky_api_secret%
+    mappings:
+            - { sources: ["messages.xliff"], locales: ["en-US", "fr"] }
+
+snc_redis:
+  session:
+      client: session
+      prefix: "app:"
+      locking: false
+      ttl: 86400 # 24 hours
+
+mobile_detect:
+    redirect:
+        full:
+            is_enabled: false            # default false
+#            host: http://site.com       # with scheme (http|https), default null, url validate
+#            status_code: 301            # default 302
+#            action: redirect            # redirect, no_redirect, redirect_without_path
+        mobile:
+            is_enabled: false            # default false
+#            host: http://m.site.com     # with scheme (http|https), default null, url validate
+#            status_code: 301            # default 302
+#            action: redirect            # redirect, no_redirect, redirect_without_path
+        tablet:
+            is_enabled: false            # default false
+#            host: http://t.site.com     # with scheme (http|https), default null, url validate
+#            status_code: 301            # default 302
+#            action: redirect            # redirect, no_redirect, redirect_without_path
+        detect_tablet_as_mobile: false   # default false
+    switch_device_view:
+        save_referer_path: false        # default true
+                                        # true  redirectUrl = http://site.com/current/path?currentQuery=string
+                                        # false redirectUrl = http://site.com
+    service:
+        mobile_detector: mobile_detect.mobile_detector.default
+    cookie_key: "device_view"                     # default
+    cookie_expire_datetime_modifier: "+1 month"   # default
+    switch_param: "device_view"                   # default
+    device_view_class: "BNS\App\CoreBundle\MobileDetect\DeviceView"
+    request_response_listener_class: "SunCat\MobileDetectBundle\EventListener\RequestResponseListener"
+    twig_extension_class: "SunCat\MobileDetectBundle\Twig\Extension\MobileDetectExtension"

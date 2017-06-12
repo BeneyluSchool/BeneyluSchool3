@@ -1,0 +1,42 @@
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+
+    <h3 translate>SEARCH.LINK_MY_WHITE_LIST</h3>
+  </div>
+</md-toolbar>
+
+<bns-inset ng-show="!ctrl.search.links.length && !ctrl.busy" class="layout-row layout-margin text-center">
+    <div class="md-padding" translate>SEARCH.NO_LINK</div>
+    <md-button
+      class="md-raised md-primary"
+      ng-click="ctrl.showDialog()">
+      <md-icon>add_circle</md-icon>
+      <span ng-bind-html="'SEARCH.ADD_LINK'|translate|buttonize">.</span>
+    </md-button>
+</bns-inset>
+
+<md-content>
+  <md-list ng-show="!ctrl.busy">
+    <md-list-item class="" ng-repeat="link in ctrl.search.links">
+      <bns-switch manager="ctrl.getSwitchManager(link)" class="links-switch flex" label-left>
+        {{ link.media_value }}
+      </bns-switch>
+      <md-divider ></md-divider>
+      <md-button ng-click="ctrl.showDeleteDialog(link)">
+        <md-icon>delete</md-icon>
+      </md-button>
+      <md-button
+        class="md-raised md-primary"
+        ng-click="ctrl.showEditDialog(link)"
+      >
+        <md-icon>create</md-icon>
+        <span ng-bind-html="'SEARCH.EDIT_LINK'|translate|buttonize">.</span>
+      </md-button>
+    </md-list-item>
+  </md-list>
+
+  <div class="layout-row layout-align-center-center">
+    <md-progress-circular ng-show="ctrl.busy" md-mode="indeterminate"></md-progress-circular>
+  </div>
+</md-content>

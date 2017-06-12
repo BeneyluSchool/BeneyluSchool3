@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-06-03T17:31:25Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="0cdcada74746bf0baef6d3be8e44bc7abaa881c9" resname="INVALID_CHOOSE_INVALID">
+        <source>INVALID_CHOOSE_INVALID</source>
+        <target>Tu selección es incorrecta</target>
+      </trans-unit>
+      <trans-unit id="89de922cf6c8a7853ecde70f1deed71a70dac740" resname="INVALID_CHOOSE_ONE_BLOG">
+        <source>INVALID_CHOOSE_ONE_BLOG</source>
+        <target>Debe seleccionar al menos un blog.</target>
+      </trans-unit>
+      <trans-unit id="4eb0cb2c9f9cfa1ee28fb0ad0455ac10f4199493" resname="INVALID_CHOOSE_ONE_OPTION">
+        <source>INVALID_CHOOSE_ONE_OPTION</source>
+        <target>Tienes que seleccionar una de las opciones</target>
+      </trans-unit>
+      <trans-unit id="aedcc10945ba883d894286bbe603ab68473763d4" resname="INVALID_ENTER_CONTENT">
+        <source>INVALID_ENTER_CONTENT</source>
+        <target>Introduce el contenido</target>
+      </trans-unit>
+      <trans-unit id="9abf9ea6d7b3d81f96a525afcc87a5a959e297a8" resname="INVALID_ENTER_TITLE">
+        <source>INVALID_ENTER_TITLE</source>
+        <target>Introduce un título</target>
+      </trans-unit>
+      <trans-unit id="67f410735c600ec6167e173a20dbcc2fd65f9228" resname="INVALID_TITLE_TOO_BIG">
+        <source>INVALID_TITLE_TOO_BIG</source>
+        <target>El título es demasiado largo</target>
+      </trans-unit>
+      <trans-unit id="b193a400fd9e268072129acacaca09eeff74beb9" resname="INVALID_TITLE_TOO_SMALL">
+        <source>INVALID_TITLE_TOO_SMALL</source>
+        <target>|El título es demasiado corto (mínimo {{ limit }} caracteres)</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

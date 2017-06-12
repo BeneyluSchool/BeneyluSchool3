@@ -1,0 +1,29 @@
+<md-list>
+  <div class="layout-row layout-align-space-around-center" ng-show="ctrl.busy">
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+  </div>
+
+  <md-list-item ng-repeat="title in ctrl.levels" ng-init="level = $index + 1; done = ctrl.state.max_level >= level;" ng-class="{done: done}" class="starter-kit-level md-2-line">
+    <div class="layout-padding layout-sm-column layout-gt-sm-row flex">
+      <div class="flex flex-none starter-kit-icon-container">
+        <md-icon>check</md-icon>
+      </div>
+      <div class="md-list-item-text flex layout-sm-column layout-align-sm-center-center layout-align-gt-sm-start-center layout-gt-sm-row layout-padding">
+        <div class="flex layout-sm-column layout-align-sm-center-center">
+          <h3 class="md-title">{{::title}}</h3>
+          <p translate translate-values="{level: level}">STARTER_KIT.LABEL_LEVEL</p>
+        </div>
+        <div class="flex flex-none starter-kit-stars-container">
+          <bns-icon ng-repeat="l in ctrl.range(level)" name="done?'star':'star-empty'"></bns-icon>
+        </div>
+        <div class="starter-kit-action-container text-right">
+          <md-button class="md-primary md-hue-3 btn-nav" href="" ng-disabled="level > ctrl.state.max_level + 1" ng-click="ctrl.doLevel(level)">
+            <span ng-bind-html="('STARTER_KIT.BUTTON_'+(done?'RE':'')+'DO_LEVEL')|translate|buttonize"></span>
+            <md-icon>chevron_right</md-icon>
+          </md-button>
+        </div>
+      </div>
+    </div>
+    <md-divider></md-divider>
+  </md-list-item>
+</md-list>

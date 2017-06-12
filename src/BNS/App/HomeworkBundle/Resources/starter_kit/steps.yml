@@ -1,0 +1,444 @@
+# Level 0
+-
+  -
+    step: 0-0
+    type: start
+    data:
+      - title
+      - content
+      - levels: [level_1, level_2, level_3]
+      - durations: [15, 15, 15]
+
+# Level 1
+-
+  -
+    step: 1-0
+    type: introduction
+    data:
+      - title
+      - content
+      - duration: 15
+  -
+    step: 1-1.1
+    type: explanation
+    state: app.homework.front
+    reload: true
+    data: [ content, action ]
+  -
+    step: 1-1.2
+    type: pointer
+    state: app.homework.front.day
+    data:
+      - pointers: [ calendar, toolbar, homework ]
+  -
+    step: 1-1.3
+    type: achievement
+    data: [ content ]
+    achievement: VALIDATE_FIRST_HOMEWORK
+  -
+    step: 1-1.4
+    type: explanation
+    state: app.homework.front
+    reload: true
+    target: '.homework:nth-child(3) .md-more'
+    validate: limit === homeworkDue._embedded.homework.description.length
+    data: [ content, action ]
+  -
+    step: 1-2.1
+    type: validate
+    target: '#navbar-switch-mode'
+    validate: ctrl.navbar.mode === 'back'
+  -
+    step: 1-2.2
+    type: pointer
+    state: app.homework.back.week
+    data:
+      - content
+      - pointers: [ form, actionbar, calendar, next, toolbar, work, switcher, count ]
+  -
+    step: 1-3.1
+    type: explanation
+    state: app.homework.back.week
+    data: [ content ]
+  -
+    step: 1-3.2
+    type: explanation
+    state: app.homework.back.create
+    data: [ content, accept ]
+  -
+    step: 1-3.3.1
+    type: stepper
+    state: app.homework.back.create
+    data: [ title, content ]
+  -
+    step: 1-3.3.2
+    type: stepper
+    state: app.homework.back.create
+    data: [ title, content ]
+  -
+    step: 1-3.3.3
+    type: stepper
+    state: app.homework.back.create
+    data: [ title, content ]
+  -
+    step: 1-3.3.4
+    type: stepper
+    state: app.homework.back.create
+    data: [ title, content ]
+  -
+    step: 1-3.3.5
+    type: stepper
+    state: app.homework.back.create
+    data: [ title, content ]
+  -
+    step: 1-3.3.6
+    type: stepper
+    state: app.homework.back.create
+    data: [ title, content ]
+  -
+    step: 1-3.4
+    type: explanation
+    state: app.homework.back.create
+    data: [ content, action ]
+  -
+    step: 1-3.5
+    type: achievement
+    state: app.homework.back.week
+    data: [ content ]
+    achievement: PUBLISH_FIRST_HOMEWORK
+  -
+    step: 1-3.6
+    type: explanation
+    state: app.homework.back.week
+    target: '#navbar-switch-mode'
+    validate: ctrl.navbar.mode === 'front'
+    data: [ content, action ]
+  -
+    step: 1-4.1
+    type: explanation
+    state: app.homework.front
+    target: .homework:nth-child(3) .btn-mark-done
+    validate: homeworkDue.done
+    data: [ content, action ]
+  -
+    step: 1-5.1
+    type: conclusion
+    data: [ title, content, action ]
+
+# Level 2
+-
+  -
+    step: 2-0
+    type: introduction
+    data:
+      - title
+      - content
+      - duration: 15
+  -
+    step: 2-1.1
+    type: explanation
+    state: app.homework.front
+    reload: true
+    data: [ content, action, accept ]
+  -
+    step: 2-1.2
+    type: validate
+    state: app.homework.front
+    scope: 'body'
+    validate: app.state.current.name === 'app.homework.back.create'
+    data: [ secondary ]
+    skip: 2-2.1
+  -
+    step: 2-1.2.1
+    type: copy
+    copy: 1-2.1
+  -
+    step: 2-1.2.2
+    type: copy
+    copy: 1-2.2
+  -
+    step: 2-1.2.3
+    type: copy
+    copy: 1-3.1
+  -
+    step: 2-1.2.4
+    type: copy
+    copy: 1-3.2
+  -
+    step: 2-2.1
+    type: explanation
+    state: app.homework.back.create
+    data: [ content, action, accept ]
+  -
+    step: 2-2.2.1
+    type: stepper
+    state: app.homework.back.create
+    data: [ title, content ]
+  -
+    step: 2-2.2.2
+    type: stepper
+    state: app.homework.back.create
+    data: [ title, content ]
+  -
+    step: 2-2.3
+    type: stepper
+    state: app.homework.back.create
+    data: [ content, action ]
+    # check that a media is inserted in the description of the first homework (evaluated in the stepper scope)
+    validate: shared.form.homeworks[0].description.value.indexOf('bns-insert-resources') > -1
+    skip: 2-4.1 # todo: steps in media library
+  -
+    step: 2-3.1
+    type: stepper
+    state: app.homework.back.create
+    data: [ content, action ]
+  -
+    step: 2-3.2.1
+    type: stepper
+    state: app.homework.back.create
+    data: [ content, action ]
+  -
+    step: 2-3.2.2
+    type: stepper
+    state: app.homework.back.create
+    data: [ content, action ]
+  -
+    step: 2-3.2.3
+    type: stepper
+    state: app.homework.back.create
+    data: [ content, action ]
+  -
+    step: 2-3.3
+    type: explanation
+    state: app.homework.back.create
+    data: [ content, action ]
+  -
+    step: 2-3.4
+    type: explanation
+    state: app.homework.back.create
+    data: [ content ]
+  -
+    step: 2-4.1
+    type: achievement
+    state: app.homework.back.create
+    data: [ content ]
+    achievement: INSERT_IMAGE_IN_HOMEWORK
+  -
+    step: 2-4.2.1
+    type: stepper
+    state: app.homework.back.create
+    data: [ title, content, action ]
+  -
+    step: 2-4.2.2
+    type: stepper
+    state: app.homework.back.create
+    data: [ title, content ]
+  -
+    step: 2-4.3
+    type: achievement
+    state: app.homework.back.create
+    data: [ content ]
+    achievement: ADD_HELP_TO_HOMEWORK
+  -
+    step: 2-5.1
+    type: explanation
+    state: app.homework.back.create
+    target: .media-join
+    validate: attachments.source.length
+    data: [ content, secondary ]
+    skip: 2-6.1
+  -
+    step: 2-5.1.1
+    type: copy
+    copy: 2-3.1
+  -
+    step: 2-5.1.2
+    type: copy
+    copy: 2-3.2.1
+  -
+    step: 2-5.1.3
+    type: copy
+    copy: 2-3.2.2
+  -
+    step: 2-5.1.4
+    type: copy
+    copy: 2-3.2.3
+  -
+    step: 2-5.1.5
+    type: copy
+    copy: 2-3.3
+  -
+    step: 2-6.1
+    type: achievement
+    state: app.homework.back.create
+    data: [ content ]
+    achievement: JOIN_DOCUMENT_TO_HOMEWORK
+  -
+    step: 2-6.2
+    type: explanation
+    state: app.homework.back.create
+    data: [ content, action ]
+  -
+    step: 2-7.1
+    type: explanation
+    state: app.homework.front
+    data: [ content, accept ]
+  -
+    step: 2-7.2
+    type: achievement
+    state: app.homework.front
+    data: [ content ]
+    achievement: CREATE_COOL_HOMEWORK
+  -
+    step: 2-7.3
+    type: explanation
+    target: .homework:nth-child(5) .btn-mark-done
+    validate: homeworkDue.done
+    data: [ content, action ]
+  -
+    step: 2-8.1
+    type: conclusion
+    data: [ title, content, action ]
+
+# Level 3
+-
+  -
+    step: 3-0
+    type: introduction
+    data:
+      - title
+      - content
+      - duration: 15
+  -
+    step: 3-1.1
+    type: explanation
+    state: app.homework.front
+    data: [ content ]
+    target: '.homework:nth-child(7) .md-more'
+    validate: limit === homeworkDue._embedded.homework.description.length
+  -
+    step: 3-1.2
+    type: validate
+    data: [ content ]
+    scope: 'body'
+    validate: app.state.current.name === 'app.homework.back.create'
+  -
+    step: 3-2.1
+    type: explanation
+    state: app.homework.back.create
+    data: [ content, accept ]
+  -
+    step: 3-2.2
+    type: stepper
+    state: app.homework.back.create
+    data: [ title, content ]
+  -
+    step: 3-2.3
+    type: stepper
+    state: app.homework.back.create
+    data: [ title, content ]
+  -
+    step: 3-2.4
+    type: explanation
+    state: app.homework.back.create
+    data: [ content ]
+    target: .media-join
+    validate: attachments.source.length
+  -
+    step: 3-3.1
+    type: explanation
+    state: app.homework.back.create
+    data: [ content, action ]
+    target: .add-other-homework
+    validate: shared.form.homeworks.length > 1
+  -
+    step: 3-3.2
+    type: stepper
+    state: app.homework.back.create
+    data: [ title, content ]
+  -
+    step: 3-3.3
+    type: stepper
+    state: app.homework.back.create
+    data: [ title, content ]
+  -
+    step: 3-3.4
+    type: explanation
+    state: app.homework.back.create
+    data: [ content ]
+    target: ".homework-subform:nth-of-type(2) .media-join"
+    validate: attachments.source.length
+  -
+    step: 3-3.5
+    type: explanation
+    state: app.homework.back.create
+    data: [ content, action ]
+  -
+    step: 3-3.6
+    type: achievement
+    data: [ content ]
+    achievement: CREATE_FIRST_HOMEWORK_MULTIPLE
+  -
+    step: 3-4.1
+    type: explanation
+    state: app.homework.back.week
+    data: [ content ]
+  -
+    step: 3-4.2.1
+    type: stepper
+    state: app.homework.back.create
+    data: [ title, content ]
+  -
+    step: 3-4.2.2
+    type: stepper
+    state: app.homework.back.create
+    data: [ title, content ]
+  -
+    step: 3-4.3
+    type: explanation
+    state: app.homework.back.create
+    data: [ content, action ]
+    target: .media-join
+    validate: attachments.source.length
+  -
+    step: 3-4.4
+    type: stepper
+    state: app.homework.back.create
+    data: [ title, content ]
+  -
+    step: 3-4.5
+    type: achievement
+    state: app.homework.back.create
+    data: [ content, action ]
+    achievement: CREATE_FIRST_HOMEWORK_LOCKER
+  -
+    step: 3-4.6
+    type: explanation
+    state: app.homework.back.create
+    data: [ content ]
+  -
+    step: 3-5.1
+    type: explanation
+    data: [ content, action, accept ]
+  -
+    step: 3-5.2
+    type: explanation
+    data: [ content, action ]
+    target: '#navbar-switch-mode'
+    validate: ctrl.navbar.mode === 'front'
+  -
+    step: 3-5.3
+    type: explanation
+    state: app.homework.front
+    data: [ action ]
+    target: .homework:nth-child(7) .btn-mark-done
+    validate: homeworkDue.done
+  -
+    step: 3-6.1
+    type: achievement
+    data: [ content ]
+    achievement: HOMEWORK_EXPERT
+  -
+    step: 3-7.1
+    type: conclusion
+    data: [ title, content ]

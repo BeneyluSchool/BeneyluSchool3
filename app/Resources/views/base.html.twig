@@ -1,65 +1,358 @@
+{% trans_default_domain "CORE" %}
+
+{# Material components #}
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+
 <!DOCTYPE html>
-<html {% block html_class %}{% endblock %}>
+<html class="{% block html_class %}{% endblock %}" {% block html_attr %}ng-controller="AppController as app"{% endblock %}>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>{% block title %}Bienvenue sur Beneylu School !{% endblock %}</title>
-            <meta name="viewport" content="width=device-width,initial-scale=1">
-        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
-		{% block css %}
-			<link href='http://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
-			<link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
-			{% stylesheets 
-				'medias/css/bootstrap.css'
-				'medias/css/guiders-1.2.8.css'
-				'medias/css/commons.css'
-				'medias/css/resource/player/mediaelementplayer.min.css' filter="?yui_css" output='css/base.css' %}
-				<link rel="stylesheet" href="{{ asset_url }}" />
-			{% endstylesheets %}
-		{% endblock %}
-		{% block main_javascripts %}
-			{% javascripts
-				'medias/js/jquery-1.7.2.min.js'
-				'bundles/fosjsrouting/js/router.js'
-				'medias/js/bootstrap/bootstrap-tooltip.js'
-				'medias/js/bootstrap/bootstrap-dropdown.js'
-				'medias/js/bootstrap/*'
-				'medias/js/resource/mediaelement-and-player.min.js'
-				'medias/js/resource/common.js'
-				'medias/js/jquery-ui-1.8.19.custom.min.js'
-				'medias/js/guiders-1.2.8.js'
-				'medias/js/jquery.placeholder.min.js'
-				'medias/js/jquery.outside-events.min.js'
-				 filter='?yui_js' output='js/base.js' %}
-				<script src="{{ asset_url }}"></script>
-			{% endjavascripts %}
-			<script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-			<!--[if lt IE 9]>
-				<script src="{{ asset('medias/js/respond.min.js') }}"></script>
-			<![endif]-->
-			<script type="text/javascript">
-				$(function () { $('input[placeholder], textarea[placeholder]').placeholder(); });
-			</script>
-			{% if app.environment == 'app_prod' %}
-				<script type="text/javascript">
-					var _gaq = _gaq || [];
-					_gaq.push(['_setAccount', '{{ parameter('google_analytics_id') }}']);
-					_gaq.push(['_trackPageview']);
+        {% set meta_title -%}
+            {%- if parameter('graphic_chart') != false -%}
+                {%- set chartValue = parameter('graphic_chart') -%}
+                {{- 'WELCOME_CHART'|trans({'%chart%': chartValue.label}) |desc('Bienvenue sur %chart%') -}}
+            {%- else -%}
+                {{- 'WELCOME_BENEYLU'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) -}}
+            {%- endif -%}
+        {%- endset %}
+        <title ng-bind="title || appTitle || '{{- block("title")|replace("'", "\'")|raw -}}'">
+            {% block title %}
+                {{- meta_title -}}
+            {% endblock %}
+        </title>
+        <meta name="viewport" content="width=device-width,initial-scale=1" ng-attr-content="{% verbatim %}{{ 'width=device-width,initial-scale=1' + (disableZoom ? ' maximum-scale=1, user-scalable=no' : '') }}{% endverbatim %}">
+        <meta name="description" content="{% block meta_description %}{% verbatim %}{{description}}{% endverbatim %}{% endblock %}">
+        <link rel="shortcut icon" href="{{ asset(parameter('graphic_chart')['name'] is defined ? 'medias/images/main/graphic_chart/' ~ parameter('graphic_chart')['name'] ~ '/favicon.ico' : 'favicon.ico') }}" />
 
-					(function() {
-					var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-					ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www' ) + '.google-analytics.com/ga.js';
-					var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-					})();
-				</script>
-			{% endif %}
-		{% endblock %}
+        {# App-wide fonts
+            Source Sans Pro, Open Sans: body fonts
+            Boogaloo, Jockey One, Bree Serif: heading fonts
+            Bubblegum Sans, Architects Daughter, Ubuntu: legacy and old modules
+            Gravitas One: advent calendar
+            Amatic SC: breakfast tour
+            Ranga, Dekko: two degrees
+            Cabin Sketch, Margarine: builders
+            Oswald, Varela Round: classroom newspaper
+        #}
+        {% set google_fonts = google_fonts|default([
+            'Bubblegum Sans',
+            'Architects Daughter',
+            'Ubuntu',
+            'Boogaloo',
+            'Source Sans Pro',
+            'Open Sans',
+            'Jockey One',
+            'Bree Serif',
+            'Gravitas One',
+            'Amatic SC',
+            'Ranga',
+            'Dekko',
+            'Cabin Sketch:700',
+            'Margarine',
+            'Oswald',
+            'Varela Round',
+        ]) %}
+        {% if google_fonts|length %}
+            <link href="https://fonts.googleapis.com/css?family={{ google_fonts|join('|')|replace(' ', '+') }}" rel="stylesheet" type="text/css">
+        {% endif %}
+
+        {% set google_icons = google_icons|default([
+            'Material Icons'
+        ]) %}
+        {% if google_icons|length %}
+            <link href="https://fonts.googleapis.com/icon?family={{ google_icons|join('|')|replace(' ', '+') }}" rel="stylesheet">
+        {% endif %}
+        {% block locales_link %}
+        {% endblock %}
+        {% block css %}
+            {% stylesheets
+                'medias/css/bootstrap.css'
+                'medias/css/guiders-1.2.8.css'
+                'medias/css/commons.css'
+                'medias/css/resource/player/mediaelementplayer.min.css' filter="?yui_css" output='css/base.css' %}
+                <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}
+            <link rel="stylesheet" href="{{ asset('angular/assets/styles/main.css') }}"/>
+            <link rel="stylesheet" href="{{ asset('angular/assets/styles/viewer.css') }}"/>
+
+            {# Material styles #}
+            <link rel="stylesheet" href="{{ asset('assets/styles/vendors.css') }}"/>
+            <link rel="stylesheet" href="{{ asset('assets/styles/styles.css') }}"/>
+
+        {% endblock %}
+        {% block main_javascripts %}
+
+            <script type="text/javascript" src="{{ asset('js/vendors.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('js/scripts.js') }}"></script>
+
+            {% javascripts
+                'bundles/fosjsrouting/js/router.js'
+                'medias/js/bootstrap/bootstrap-tooltip.js'
+                'medias/js/bootstrap/bootstrap-dropdown.js'
+                'medias/js/bootstrap/*'
+                'medias/js/resource/mediaelement-and-player.min.js'
+                'medias/js/resource/common.js'
+                'medias/js/front.js'
+                'medias/js/guiders-1.2.8.js'
+                'medias/js/jquery.placeholder.min.js'
+                'medias/js/jquery.outside-events.min.js'
+                'medias/js/fos_js_routes.js'
+                'medias/js/json.js'
+                'medias/js/tinymce/tinymce_dialog.js'
+                 filter='?yui_js' output='js/base.js' %}
+                <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+
+            {% if parameter('analytics_enabled') != false and is_authenticated() %}
+                {% block analytics %}
+                {% endblock %}
+            {% endif %}
+
+          <!-- Respond.js proxy on CDN -->
+          <!-- Respond.js files on your origin server -->
+          <!--[if lt IE 9]>
+            <link href="{{ cdn_url }}/respond/cross-domain/respond-proxy.html" id="respond-proxy" rel="respond-proxy" />
+            <link href="/ent/respond/cross-domain/respond.proxy.gif" id="respond-redirect" rel="respond-redirect" />
+          <![endif]-->
+
+            <script type="text/javascript">
+                {# Fonction JS globales à appeler sur toutes les pages #}
+
+                window.bns_locale = '{{ app.request.locale }}';
+                window.bns_anonymous = {{ app.user ? 'false' : 'true' }};
+                window.bns_cerise = {{ hasCerise() ? ("'" ~ path('BNSAppSchoolBundle_back_cerise_login') ~ "'")|raw : "false" }};
+
+                {# Placeholder pour IE #}
+                $(function () { $('input[placeholder], textarea[placeholder]').placeholder(); });
+
+                {# var cdn pour tous les js #}
+                var cdn_url = '{{ cdn_url }}';
+
+                {# js pour lecteur audio / video #}
+                $(function(){
+                    $('audio,video').mediaelementplayer({
+                    enableAutosize: false,
+                    plugins: ['flash','silverlight'],
+                    pluginPath: '/ent/medias/js/resource/',
+                    audioHeight: 30,
+                    flashName: 'flashmediaelement.swf',
+                    silverlightName: 'silverlightmediaelement.xap'
+                });
+                });
+            </script>
+
+
+            {% if app.environment == 'app_prod' %}
+                {% if(not is_authenticated() or (is_authenticated() and app.user.login != 'test')) %}
+                    {% if parameter('google_analytics_id') %}
+                        <script type="text/javascript">
+                            var _gaq = _gaq || [];
+                            _gaq.push(['_setAccount', '{{ parameter('google_analytics_id') }}']);
+                            _gaq.push(['_trackPageview']);
+
+                            (function() {
+                            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www' ) + '.google-analytics.com/ga.js';
+                            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                            })();
+                        </script>
+                    {% endif %}
+                    {% if parameter('piwik_site_id') and parameter('piwik_url') %}
+                        <script type="text/javascript">
+                            var _paq = _paq || [];
+                            _paq.push(["trackPageView"]);
+                            _paq.push(["enableLinkTracking"]);
+
+                            (function() {
+                                var u=(("https:" == document.location.protocol) ? "https" : "http") + "://{{ parameter('piwik_url') }}/";
+                                _paq.push(["setTrackerUrl", u+"piwik.php"]);
+                                _paq.push(["setSiteId", "{{ parameter('piwik_site_id') }}"]);
+                                var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+                                g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+                            })();
+                        </script>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+
+            {% block analytics_identify %}
+                {% if is_authenticated() and parameter('analytics_enabled') %}
+                    {{ analyticsIdentify(app.user.getUser(), app.session) }}
+                {% endif %}
+            {% endblock analytics_identify %}
+
+            <!--[if lte IE 8]>
+                <script type="text/javascript" src="/js/vendors-ie8.js"></script>
+            <![endif]-->
+        {% endblock %}
+
     </head>
-    <body>
+
+    {% set alert_message = parameter('alert_message') %}
+    {% set showAlert = app.session.has('bns.assistance_for') or (alert_message and alert_message[app.user.user.highRoleId] is defined) %}
+
+    {# check if a flash message must be displayed #}
+    {% set hasValidationAlert = parameter('flash_message') %}
+
+    {# override flash message with email validation alert, if necessary #}
+    {% if is_authenticated() and app.user.emailValidated == false %}
+        {% set hasValidationAlert %}
+            {{ 'EMAIL_NOT_VALIDATED'|trans({'%mail%': app.user.email})|desc('Votre adresse email %mail% n\'a pas encore été validée. Les comptes non validés sont supprimés au bout d\'un mois.')  }}
+            <br />
+            <a href="{{ path('main_emailConfirmation_emailCheckSend') }}">{{ 'RECEIVE_AGAIN'|trans |desc('Recevoir à nouveau le message') }}</a>
+        {% endset %}
+    {% endif %}
+
+    <body class="{% block body_class %}{{ showAlert ? 'withAlert' : '' }}{{ hasValidationAlert ? ' has-validation-alert' }}{% endblock %}" {% block body_attr %}ng-class="{ touch: $mdMedia.hasTouch, 'navbar-shown': navbar.shown }"{% endblock %}>
+
+
+        {% block alert %}
+
+            {% if hasValidationAlert %}
+                {# Message d'alerte à destination des classes nons validées #}
+                <div class="validation-alert navbar-fixed-top navbar navbar-inverse navbar-fixed-top">
+                    <div class="top-container">
+                        <div class="">
+                            <div class="alert-validation-info">
+                                <div class="container" style="">
+                                    <span class="text-aqua">
+                                        <span class="h4">
+                                            {{ hasValidationAlert | raw }}
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if app.session.has('bns.assistance_for') %}
+              <div class="validation-alert navbar-fixed-top navbar navbar-inverse navbar-fixed-top">
+                <div class="top-container">
+                  <div class="">
+                    <div class="alert-validation-info">
+                      <div class="container" style="">
+                        <span class="text-aqua">
+                            <span class="h4">
+                                {{ 'Group.Back.Assistance.Alert.Message' | trans({'%fullname%': app.session.get('bns.assistance_for')}) }}
+                            </span>
+                            <span class="pull-right">
+                              <a href="{{ path('BNSAppGroupBundle_back_user_assistance_quit') }}">{{ 'Group.Back.Assistance.Alert.Disconnect' | trans }}</a>
+                            </span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+            {% if parameter('alert_message') %}
+
+                {% if is_authenticated() %}
+                    {% if alert_message[app.user.user.highRoleId] is defined %}
+                        <div class="validation-alert navbar-fixed-top navbar navbar-inverse navbar-fixed-top">
+                            <div class="top-container">
+                                <div class="">
+                                    <div class="alert-validation-info">
+                                        <div class="container" style="">
+                                            <span class="text-aqua">
+                                                <span class="h4">
+                                                    {{ alert_message[app.user.user.highRoleId] }}
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="validation-alert navbar-fixed-top navbar navbar-inverse navbar-fixed-top">
+                        <div class="top-container">
+                            <div class="">
+                                <div class="alert-validation-info">
+                                    <div class="container" style="">
+                                        <span class="text-aqua">
+                                            <span class="h4">
+                                                {{ alert_message['disconnected'] }}
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+
+        {% endblock %}
         {% block body %}{% endblock %}
-        {% block dock_bar %}{% endblock %}
+
+        {% set app_mode = app_mode | default('front') %}
+        {% set app_unique_name = app_unique_name | default('') %}
+        {% block dock_bar %}
+            {% if app.user != null %}
+                {% if hasApplicationManagement() %}
+                    <bns-navbar mode="{{ app_mode }}" app="{{ app_unique_name }}"
+                                ng-show="!hideDockBar"
+                                has-help="{{ is_authenticated() and has_help() and parameter('analytics_enabled') }}"
+                                {% if app.session.get('open_applications_modal') %}{% set sessionItemRemoved = app.session.remove('open_applications_modal') %}auto-open="true"{% endif %}
+                        ></bns-navbar>
+
+                  {% for flashMessage in app.session.flashbag.get('toast-error') %}
+                    <bns-toast-invoke type="error" content="{{ flashMessage }}"></bns-toast-invoke>
+                  {% endfor %}
+                  {% for flashMessage in app.session.flashbag.get('toast-success') %}
+                    <bns-toast-invoke type="success" content="{{ flashMessage }}"></bns-toast-invoke>
+                  {% endfor %}
+
+                    {# TODO: remove when old directory is disabled #}
+                    {% autoescape false %}
+                        {{ modal('directory-modal', {
+                            'title': '',
+                            'body_template': {'template': 'BNSAppDirectoryBundle:Directory:loading_modal_body.html.twig' },
+                            'header_template': {'template': 'BNSAppDirectoryBundle:Common:modal_header_footer.html.twig' },
+                            'footer_template': {'template': 'BNSAppDirectoryBundle:Common:modal_header_footer.html.twig' },
+                            'type': 'info directory-modal',
+                        }) }}
+                    {% endautoescape %}
+                {% elseif app_unique_name %}
+                    {{ render(controller('BNSAppMainBundle:DockBar:index', {
+                        'module_unique_name' : app_unique_name , 'is_in_front' : 'front' == app_mode
+                    } )) }}
+                {% endif %}
+            {% endif %}
+        {% endblock %}
+
+        {% block angular_app %}
+            <div ui-view="app" class="app-root app-root-default" ng-class="rootClasses"></div>
+            <div ui-view="user-directory-root" class="app-root app-root-user-directory" ng-show="userDirectory.active"></div>
+        {% endblock %}
+
         {% block javascripts %}{% endblock %}
-		{% if app.environment != 'app_dev' %}
-			{% render 'BNSAppGuideTourBundle:GuideTour:displayGuideTour' with {'currentRoute': app.request.get('_route') } %}
-		{% endif %}
+
+        {% block angular_scripts %}
+
+            {# Load the material app #}
+            <script src="{{ asset('assets/scripts/vendors.js') }}"></script>
+            <script src="{{ asset('assets/scripts/vendors-'~app.request.locale~'.js') }}"></script>
+            <script src="{{ asset('assets/scripts/scripts.js') }}"></script>
+            <script src="{{ asset('assets/scripts/views.js') }}"></script>
+
+            {% block angular_bootstrap %}
+                <script type="text/javascript">
+                    angularBootstrap();
+                </script>
+            {% endblock %}
+        {% endblock %}
+
+        {% block respond_script %}
+        <!-- second part respond.js -->
+        <!--[if lt IE 9]>
+                    <script src="{{ asset('respond/respond.min.js') }}"></script>
+                    <script type="text/javascript" src="/ent/respond/cross-domain/respond.proxy.js"></script>
+        <![endif]-->
+        {% endblock %}
     </body>
 </html>

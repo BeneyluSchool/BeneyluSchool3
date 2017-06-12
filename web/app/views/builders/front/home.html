@@ -1,0 +1,40 @@
+<md-toolbar class="builders-toolbar">
+  <div container class="md-toolbar-tools">
+    <md-button ng-click="ctrl.showMenu()" href>
+      <div class="menu-icon"></div>
+      <span translate>BUILDERS.BUTTON_MENU</span>
+    </md-button>
+  </div>
+</md-toolbar>
+
+<md-content class="flex">
+  <div container>
+    <div class="layout-gt-sm-row builders-story-tiles layout-wrap">
+      <md-button ui-sref="^.story({story: '1'})" class="tile-jim flex tile-container" aria-label="{{::'BUILDERS.TITLE_STORY_1'|translate}}">
+        <div class="tile-bg"></div>
+        <h3 class="tile-content md-padding md-whiteframe-z2" ng-bind-html="'BUILDERS.TITLE_STORY_1' | translate"></h3>
+      </md-button>
+      <md-button ui-sref="^.story({story: '2'})" class="tile-brabrabra flex tile-container" aria-label="{{::'BUILDERS.TITLE_STORY_2'|translate}}">
+        <div class="tile-bg"></div>
+        <h3 class="tile-content md-padding md-whiteframe-z2" ng-bind-html="'BUILDERS.TITLE_STORY_2' | translate"></h3>
+      </md-button>
+      <md-button ui-sref="^.story({story: '3'})" class="tile-carla flex tile-container" aria-label="{{::'BUILDERS.TITLE_STORY_3'|translate}}">
+        <div class="tile-bg"></div>
+        <h3 class="tile-content md-padding md-whiteframe-z2" ng-bind-html="'BUILDERS.TITLE_STORY_3' | translate"></h3>
+      </md-button>
+      <md-button ui-sref="^.story-4-intro" class="flex tile-default tile-container" aria-label="{{::'BUILDERS.TITLE_STORY_4'|translate}}">
+        <md-icon class="story4-lock">lock</md-icon>
+        <h3 class="text-center" translate>BUILDERS.TITLE_STORY_4</h3>
+      </md-button>
+    </div>
+
+    <h1 class="home-title" translate>BUILDERS.HOME_TITLE</h1>
+    <p class="home-paragraph md-padding" translate>BUILDERS.HOME_PARAGRAPH</p>
+
+    <div ng-if="hasBack" class="layout-row layout-align-center-center md-padding">
+      <bns-app-toggle app="navbar.app" group="navbar.group" type="'activities'" notify="true" class="md-whiteframe-z1">
+        <span translate>APPS.LABEL_ACTIVITIES_OPENING_TO_USERS</span>
+      </bns-app-toggle>
+    </div>
+  </div>
+</md-content>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:44:51Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="43a45afc0c8a5b6b89b4c86dc94a8e5760297f11" resname="HELLO_WORLD_EXAMPLE_WITH_ATTRIBUTE_AND_DISABLED_ENGINE.EMAIL.content">
+        <source>HELLO_WORLD_EXAMPLE_WITH_ATTRIBUTE_AND_DISABLED_ENGINE.EMAIL.content</source>
+        <target>Motor desactivado</target>
+      </trans-unit>
+      <trans-unit id="ce291b65b3878561e97992adeb38b743c9867d8b" resname="HELLO_WORLD_EXAMPLE_WITH_ATTRIBUTE_AND_DISABLED_ENGINE.EMAIL.title">
+        <source>HELLO_WORLD_EXAMPLE_WITH_ATTRIBUTE_AND_DISABLED_ENGINE.EMAIL.title</source>
+        <target>Motor desactivado</target>
+      </trans-unit>
+      <trans-unit id="7599779f3af6bd4f52121a1f1c824dd96dbaa1ad" resname="HELLO_WORLD_EXAMPLE_WITH_ATTRIBUTE_AND_DISABLED_ENGINE.SYSTEM.content">
+        <source>HELLO_WORLD_EXAMPLE_WITH_ATTRIBUTE_AND_DISABLED_ENGINE.SYSTEM.content</source>
+        <target><![CDATA[Ejemplo de notificación con atributos (atributoPrueba: <i>%testAttribute%</i>, atributoEjemplo: <b>%exampleAttribute%</b>, nombrePixelCookers: <u>%pixelCookersName%</u>) con un motor desactivado (correo electrónico).]]></target>
+        <note><![CDATA[%testAttribute% is a placeholder
+%exampleAttribute% is a placeholder
+%pixelCookersName% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

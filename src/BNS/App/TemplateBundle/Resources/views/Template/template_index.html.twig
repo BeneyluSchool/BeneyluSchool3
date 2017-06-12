@@ -1,9 +1,10 @@
+{% trans_default_domain "TEMPLATE" %}
 {% extends 'BNSAppTemplateBundle:Layout:manager.html.twig' %}
 
 {% block css %}
 	{{ parent() }}
 
-	{% render 'BNSAppTemplateBundle:Template:renderFontCssToIncludeBlock' with {'template': templatable_object.getTemplate() } %}
+	{{ render(controller('BNSAppTemplateBundle:Template:renderFontCssToIncludeBlock', {'template': templatable_object.getTemplate() } )) }}
 {% endblock %}
 
 {% block javascripts %}
@@ -20,31 +21,33 @@
 {% endblock %}
 
 {% block top_left_buttons_action %}
-    <button data-toggle="modal" href="#theme-preview-modal" class="btn btn-medium btn-theme-preview"><strong>Aperçu</strong><br />du thème</button>
+    <button data-toggle="modal" href="#theme-preview-modal" class="btn btn-medium btn-theme-preview">
+        {{ 'BUTTON_OVERVIEW_THEME'|trans |desc('<strong>Aperçu</strong><br />du thème') |raw }}</button>
 	
 	{% autoescape false %}
 		{{ modal('theme-preview-modal', {
 			'body_template': {'template': 'BNSAppTemplateBundle:Preview:theme_preview_modal_body.html.twig' },
-			'title': 'Prévisualisation'
+			'title': 'MODAL_VIEWING'|trans |desc('Prévisualisation')
 		}) }}
 	{% endautoescape %}
 {% endblock %}
 
 {% block top_right_buttons_action %}
-    <button class="btn btn-large btn-success pull-right btn-save-theme"><strong>J'ai terminé</strong></button>
+    <button class="btn btn-large btn-success pull-right btn-save-theme">
+        {{ 'BUTTON_I_FINISH'|trans |desc('<strong>J\'ai terminé</strong>') |raw }}</button>
 {% endblock %}        
 
 {% block sidebar %}
-    <p>Vous devez inclure votre sidebar !</p>
+    <p>{% trans %}MUST_INCLUDE_SIDEBAR{% endtrans %}</p>
 {% endblock %}
 
 {% block content %}
 	<form id="select-theme-form" action="{{ path('template_bundle_save') }}" method="POST">
-		{% render 'BNSAppTemplateBundle:Template:secureTemplatableObject' with {'templatableObject': templatable_object} %}
+		{{ render(controller('BNSAppTemplateBundle:Template:secureTemplatableObject', {'templatableObject': templatable_object} )) }}
 		<div class="container-fluid" style="margin-bottom: 70px"> {# TODO: css à virer de là #}
 			<div class="row-fluid">
 				<div class="span12">
-					{% render 'BNSAppTemplateBundle:Template:renderThemePicker' with {'currentUserTemplate': templatable_object.getTemplate()} %}
+					{{ render(controller('BNSAppTemplateBundle:Template:renderThemePicker', {'currentUserTemplate': templatable_object.getTemplate()} )) }}
 				</div>
 			</div>
 			<div class="row-fluid">

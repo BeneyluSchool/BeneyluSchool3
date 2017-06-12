@@ -1,0 +1,15 @@
+<md-menu>
+  <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button">
+    <md-icon>settings</md-icon>
+  </md-button>
+  <md-menu-content width="3" class="bns-calendar-color-picker-menu-content">
+    <div class="layout-row layout-wrap">
+      <md-menu-item ng-repeat="(className, color) in ::ctrl.colors">
+        <md-button ng-click="::ctrl.setColor(color, className)" md-prevent-menu-close ng-style="::{'background-color': color}" aria-label="{{::color}}"></md-button>
+      </md-menu-item>
+    </div>
+    <div ng-show="ctrl.busy" class="layout-row layout-align-center-center layout-padding bns-calendar-color-picker-loader">
+      <md-progress-circular md-mode="indeterminate" md-diameter="32"></md-progress-circular>
+    </div>
+  </md-menu-content>
+</md-menu>

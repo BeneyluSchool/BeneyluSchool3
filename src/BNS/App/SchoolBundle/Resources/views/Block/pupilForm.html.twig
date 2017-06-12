@@ -1,0 +1,90 @@
+{% trans_default_domain "SCHOOL" %}
+{% import 'BNSAppCoreBundle:Macros:forms.html.twig' as forms %}
+<script type="text/javascript">
+    $(function ()
+    {
+        var andContinue = false;
+
+        $('.finish.pupil').click(function(){
+            $('#add-new-pupil-form').submit();
+            if($(this).hasClass('continue')){
+                andContinue = true;
+            }
+        });
+
+        $('#add-new-pupil-form').ajaxForm({
+            beforeSubmit: function(){
+                $('#new-pupil-form-error').hide();
+                $('#add-pupil-modal .loader:not(.loader-h)').show();
+            },
+            success: function (data) {
+                $('#add-pupil-modal .loader').hide();
+                $('#new-pupil-form').html(data);
+                $('.item-list-container.pupil').prepend($('#lastInsertedPupil').html());
+                $('#lastInsertedPupil').empty();
+                $('#add-pupil-success').show().delay(5000).fadeOut();
+                $('.bnj-not-found.pupil').parent().fadeOut();
+                if(!andContinue){
+                    $('#add-pupil-modal').modal('hide');
+                }
+            }
+        });
+    });
+</script>
+
+<div class="create-user-form-container" id="new-pupil-form">
+    <div class="content-form-user ">
+
+        {% include 'BNSAppMainBundle::notice.html.twig' %}
+
+        <form method="POST" action="{{ path('BNSAppSchoolBundle_back_add_pupil' , {'classroomId' : classroomId}) }}" id="add-new-pupil-form">
+
+            <div>
+                {{ form_label(form.first_name) }}
+                {{ form_widget(form.first_name) }}
+            </div>
+
+            <div>
+                {{ form_label(form.last_name) }}
+                {{ form_widget(form.last_name) }}
+            </div>
+            <div class="form gender">
+                {{ form_label(form.gender) }}
+                {{ form_widget(form.gender) }}
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="form birthday">
+                {{ form_label(form.birthday) }}
+                {{ form_widget(form.birthday) }}
+            </div>
+
+            {{ form_rest(form) }}
+        </form>
+    </div>
+
+    <div class="modal-footer ">
+        <div class="content-btn-footer">
+            <a href="#" class="btn bns-success btn-16 small finish pupil">
+                <span class="icons-16 validate-icon"></span>
+              {{ 'LINK_CREATE_PUPIL_ACCOUNT'|trans |raw }}
+            </a>
+            <a href="#" class="btn bns-success btn-16 small finish continue pupil">
+                <span class="icons-16 validate-icon"></span>
+                {{ 'CREATE_PUPIL_ACCOUNT_AND_CONTINUE'|trans |raw }}
+
+            </a>
+            <a href="#" class="btn bns-danger btn-16 small" data-dismiss="modal">
+                <span class="icons-16 cancel-icon"></span>
+              <strong>{% trans %}LINK_CANCEL{% endtrans %}</strong>
+            </a>
+        </div>
+    </div>
+</div>
+
+{% if success is defined %}
+    <div id="lastInsertedPupil">
+        {% include 'BNSAppSchoolBundle:Block:pupilRow.html.twig' with{'pupil' : user} %}
+    </div>
+{% endif %}

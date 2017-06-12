@@ -1,0 +1,106 @@
+{% trans_default_domain "INFO" %}
+{% extends 'BNSAppInfoBundle:Front:layout.html.twig' %}
+
+{% block css %}
+    {{ parent() }}
+    <link href='https://fonts.googleapis.com/css?family=Tahoma' rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block content %}
+
+    <h1>{{ 'TITLE_MY_SUBSCRIPTION'|trans |desc('Mon abonnement') }}</h1>
+
+    {% if onPublicVersion %}
+        <div class="current-subscription large {{ premiumInformation == false ? 'classroom' : 'school' }}">
+            {% if premiumInformation != false %}
+                <div class="offer-text">
+                    <p>
+                        {{ 'YOUR_IN_SCHOOL_BENEYLU_VERSION'|trans({'%beneylu_brand%': parameter('beneylu_brand_name')}) |raw }}
+                    </p>
+                    <p>
+                        {{ 'SUBSCRIPTION_VALID_UNTIL_DATE'|trans({'%date%': premiumInformation['end']|date('d/m/Y')}) |desc('<span class="small">Abonnement valide jusqu\'au : </span><b>%date%</b>') |raw }}
+                    </p>
+                </div>
+            {% else %}
+
+                <div class="offer-text">
+                    <p>
+                        {{ 'FREE_VERSION_UNTIL_DATE'|trans({'%beneylu_brand%': parameter('beneylu_brand_name'), '%date%': subscriptionDate|date('d/m/Y')}) |desc('Vous êtes en <b>version gratuite</b> <br />de %beneylu_brand% depuis le <br /><strong>%date%</strong>') |raw }}
+                    </p>
+                </div>
+
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="current-subscription large school">
+            <div class="offer-text">
+                <p>
+                    {{ 'YOUR_IN_FULL_BENEYLU_VERSION'|trans({'%beneylu_brand%': parameter('beneylu_brand_name')}) |desc('Vous êtes en <b>version complète</b><br /> de %beneylu_brand%.') |raw }}
+
+                </p>
+            </div>
+        </div>
+    {% endif %}
+
+
+    {% if premiumInformation == false and onPublicVersion %}
+
+        <div class="subscription">
+            <div class="cms-box blue-box">
+                <div class="row-fluid">
+                    <div class="span4"><a href="https://beneylu.com/spot/beneylu-school/abonnement-ecole{{ queryString }}" target="_blank"><img height="175" width="280" class="media-element file-default" typeof="foaf:Image" src="http://beneylu.com/school/sites/default/files/offre-ecole.png" alt="" title=""></a></div>
+                    <div class="span8">
+                        {{ 'DESCRIPTION_BEGIN_WITH'|trans({'%beneylu_brand%': parameter('beneylu_brand_name'), '%linkStart%': '<a href="https://beneylu.com/spot/beneylu-school{{ queryString }}" target="_blank">', '%linkEnd%': '</a>'}) |desc('
+                        <h2>Démarrer avec l\roffre école</h2>
+
+                        <p>Pour activer votre abonnement, il suffit de <strong>le commander en ligne</strong> sur %linkStart%Beneylu Spot%linkEnd%.</p>
+                        <p>Vous pourrez alors <strong>profiter de la version complète</strong> de %beneylu_brand% pour votre école.</p>
+                        <p>&nbsp;</p>
+                        ') |raw
+                        }}
+                        <p>
+
+                            <a href="https://beneylu.com/spot/beneylu-school{{ queryString }}" target="_blank" class="btn bns-info small">
+                                {{ 'LINK_ORDER_ONE_MONTH'|trans({'%price%': '4.90'|localizedcurrency('EUR')}) |desc('<strong>Commander</strong> un mois d\'abonnement à %price%') |raw }}
+
+                            </a>
+                            <a href="http://beneylu.com/school/ent-ecole-primaire{{ queryString }}" target="_blank" class="btn bns-notice small">
+                                {{ 'LINK_DISCOVER_SCHOOL_OFFER'|trans |desc('<strong>Découvrir</strong> l\'offre école')|raw }}
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if onPublicVersion %}
+        <div class="subscription">
+            <div class="spot cms-box blue-box">
+
+                <div class="row-fluid">
+                    <div class="span12">
+                        <a href="https://beneylu.com/spot{{ queryString }}" target="_blank" alt="Découvrir Beneylu Spot">
+                            <img src="{{ asset('medias/images/info/spot-home.jpg') }}" />
+                        </a>
+                    </div>
+                </div>
+{{ 'DESCRIPTION_BENEYLU_SPOT'|trans |desc('<h2>Beneylu Spot, le Grand Magasin culturel des 5-12 ans</h2>
+
+                <p>Venez découvrir au meilleur tarif garanti notre Grand Magasin de la culture jeunesse Beneylu Spot.</p>') |raw }}
+
+                <a href="https://beneylu.com/spot{{ queryString }}" target="_blank" class="btn bns-info small">
+                    {{ 'LINK_DISCOVER_BENEYLU_SPOT'|trans |desc(' <strong>Découvrir</strong> Beneylu Spot') |raw}}
+                </a>
+            </div>
+        </div>
+    {% endif %}
+
+
+
+
+{% endblock %}
+
+{% block sidebar %}
+    {% include "BNSAppInfoBundle:Front:sidebar.html.twig" %}
+{% endblock %}

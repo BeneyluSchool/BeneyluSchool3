@@ -1,0 +1,32 @@
+<div >
+  <md-menu>
+    <md-button class="md-primary md-raised" ng-click="$mdOpenMenu()" href>
+      <md-icon>add_circle</md-icon><span ng-bind-html="'CAMPAIGN.WRITE'|translate|buttonize">.</span>
+      <md-icon>arrow_drop_down</md-icon>
+    </md-button>
+    <md-menu-content>
+      <md-menu-item>
+        <md-button ng-click="ctrl.newCampaign('SMS')" href>
+          <md-icon>phone_android</md-icon>
+          {{'CAMPAIGN.WRITE_SMS'|translate|buttonize}}
+        </md-button>
+      </md-menu-item>
+      <md-menu-item>
+        <md-button ng-click="ctrl.newCampaign('EMAIL')" href>
+          <md-icon>email</md-icon>
+          {{'CAMPAIGN.WRITE_EMAIL'|translate|buttonize}}
+        </md-button>
+      </md-menu-item>
+      <md-menu-item>
+        <md-button ng-click="ctrl.newCampaign('MESSAGING')" href>
+          <md-icon><img src="../assets/images/apps/messaging/icon-40.png"></md-icon>
+          {{'CAMPAIGN.WRITE_MESSAGING'|translate|buttonize}}
+        </md-button>
+      </md-menu-item>
+    </md-menu-content>
+  </md-menu>
+  <md-button class="md-raised md-warn btn-hover" ng-show="ctrl.shared.ids.length > 0" ng-click="ctrl.deleteCampaign()" ng-disabled="ctrl.busy" href>
+    <md-icon>delete</md-icon>
+    <span ng-bind-html="'CAMPAIGN.BUTTON_DELETE_CAMPAIGNS' | translate | buttonize"></span>
+  </md-button>
+</div>

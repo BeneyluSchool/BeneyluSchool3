@@ -1,0 +1,29 @@
+<md-button ui-sref="^"
+  class="btn-nav"
+>
+  <md-icon>chevron_left</md-icon>
+  <span ng-bind-html="'MESSAGING.BUTTON_BACK'|translate|buttonize">.</span>
+</md-button>
+
+<span class="bns-separator"></span>
+
+<md-button ng-if="ctrl.shared.handler.canRemoveDraft()"
+  ng-click="ctrl.removeDraft()"
+  class="md-warn md-raised"
+  href
+>
+  <bns-icon>messaging:trash</bns-icon>
+  <span ng-bind-html="'MESSAGING.BUTTON_DELETE_DRAFT'|translate|buttonize">.</span>
+</md-button>
+
+<span class="flex"></span>
+
+<md-button ng-if="ctrl.shared.handler.canSave()"
+  form="compose-form"
+  ng-disabled="ctrl.shared.type.form.$invalid"
+  class="md-accent md-raised"
+  href
+>
+  <bns-icon>messaging:send</bns-icon>
+  <span ng-bind-html="'MESSAGING.BUTTON_SEND'|translate|buttonize">.</span>
+</md-button>

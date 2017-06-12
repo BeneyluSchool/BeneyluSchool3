@@ -1,0 +1,213 @@
+{% trans_default_domain "CLASSROOM" %}
+{% extends 'BNSAppClassroomBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+  {% trans %}TITLE_WORKING_ADMINISTRATION_OF_GROUP{% endtrans %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {# REQUIRE FOR USERPICKER #}
+<script type="text/javascript" src="{{ asset('/medias/js/main/userpicker.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/medias/js/bootstrap/bootstrap-tab.js') }}"></script>
+	{# END REQUIRE #}
+<script type="text/javascript">
+    $(function()
+    {
+        $('#delete-team-modal .modal-footer .bns-danger').click(function(e)
+        {
+            $('#delete-team-modal .loader').fadeIn('fast');
+        });
+
+        // On se met en écoute sur le bouton "Confirmer" du modal UserPicker
+        // Effectue les traitements adéquats pour que les utilisateurs soit correctement ajoutés au groupe
+        $("a.add-selected-user").live("click", function() {
+            var loadingImg = $('.loader-sb');
+            var userPickerModalDiv = $("#" + '{{ team.getSlug() }}' + "-userpicker-modal");
+            userPickerModalDiv.modal('hide');
+            loadingImg.fadeIn('fast');
+
+            //On récupère les userIds
+            var modalUserContainer = $(".selected-user-container");
+            var userIds = new Array();
+            modalUserContainer.find(".user-block.bns-user.small").each(function() {
+                var userClass = ($(this).attr("data-user-id"));
+                userIds.push(userClass);
+            });
+
+            var currentTeamSlug = '{{ team.getSlug() }}';
+            if ("" === currentTeamSlug)
+            {
+                return false;
+            }
+
+            $.post(
+                Routing.generate('BNSAppClassroomBundle_back_team_add_remove_users'),
+                {
+                    team_slug: currentTeamSlug,
+                    user_ids: userIds
+                },
+            function(data)
+            {
+                if (null != data && "false" != data)
+                {
+                    window.location.reload();
+                }
+                else
+                {
+                    loadingImg.fadeOut('fast');
+                }
+
+            });
+        });
+    });
+    </script>
+{% endblock %}
+
+{% block angular_scripts %}
+    {{ parent() }}
+
+    <script>
+        angularBootstrap().then(function ($injector) {
+            var $compile = $injector.get('$compile');
+            var $rootScope = $injector.get('$rootScope');
+            var app = angular.module('beneyluSchoolMaterialApp');
+
+            app.controllerProvider.register('ClassroomTeamController', function ($scope) {
+                var ctrl = this;
+                ctrl.ids = [{{ teamManager.getTeamUsersIds() | join(',') }}];
+
+                $scope.$watchCollection('ctrl.ids', function (ids, oldIds) {
+                    if (ids === oldIds) {
+                        return;
+                    }
+
+                    addRemoveUsers(ids);
+                });
+            });
+
+            app.loadLegacyApp().then(function () {
+                var $root = angular.element('#angularize-classroom-team');
+                $root.attr('ng-controller', 'ClassroomTeamController as ctrl');
+                $root.find('.btn').attr('bns-user-directory-invoke', '')
+                    .attr('selection', 'ctrl.ids')
+                    .attr('locked', 'ctrl.ids')
+                ;
+
+                $compile($root)($rootScope);
+            });
+
+            function addRemoveUsers (userIds) {
+                var teamSlug = '{{ team.getSlug() }}';
+                var loadingImg = $('.loader-sb');
+                loadingImg.fadeIn('fast');
+
+                $.post(
+                    Routing.generate('BNSAppClassroomBundle_back_team_add_remove_users'),
+                    {
+                        team_slug: teamSlug,
+                        user_ids: userIds
+                    },
+                    function (data) {
+                        if (null != data && "false" != data) {
+                            window.location.reload();
+                        } else {
+                            loadingImg.fadeOut('fast');
+                        }
+                    }
+                );
+            }
+        });
+    </script>
+{% endblock %}
+
+{% block top_bar %}{% endblock %}
+
+{% block header %}
+    <div class="header-buttons">
+        <div class="inner-header">
+            <div class="container container-fluid">
+                <div class="row-fluid">
+                    <div class="span9">
+                        <a href="{{ path('BNSAppClassroomBundle_back_team') }}" class="btn bns-notice btn-24 medium-return button-return">
+                            <span class="icons-24 back-icon"></span>
+                         {{ 'LINK_COMEBACK_TO_LIST'|trans |desc('<strong>Revenir</strong><br>à la liste') |raw}}
+                        </a>
+                        <span id="angularize-classroom-team">
+                            <a href="#"
+                                class="btn save btn-new-team bns-info btn-24 spacer large"
+                                id="btn-add-user-{{ team.getSlug() }}"
+                                style="line-height: 18px;">
+                                <span class="icons-24 add-icon"></span>
+                              {% trans %}LINK_ADD_USER{% endtrans %}
+                            </a>
+                        </span>
+                        <a href="{{ path('BNSAppClassroomBundle_back_team_edit_team', { 'slug': team.getSlug() }) }}" class="btn bns-info btn-24 medium-return spacer">
+
+                            <span class="icons-24 edit-icon"></span>
+                          {{ 'LINK_EDIT_WORKING_GROUP'|trans |desc('<strong>Éditer</strong><br>le groupe de travail') |raw}}
+                        </a>
+                        <a href="#" class="btn bns-danger btn-24 medium-return btn-delete-pupil" data-toggle="modal" data-target="#delete-team-modal">
+                            <span class="icons-24 cancel-icon"></span>
+                            {{ 'LINK_DELETE_WORKING_GROUP'|trans |desc('<strong>Supprimer</strong><br>le groupe de travail') |raw }}
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+        {% include "BNSAppClassroomBundle:Sidebar:sidebar.html.twig" with {"page" : "team_details"} %}
+{% endblock sidebar %}
+
+{% block content %}
+	{% if app.session.flashBag.has('update_home_message_success') %}
+        {% for message in app.session.flashbag.get('update_home_message_success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+	{% endif %}
+
+    <div class="modal hide" id="userPickerModal"></div>
+
+    <div class="container-classroom">
+        <div class="news-title dashboard-connect">
+            <div class="left-line-border">
+                <table class="table">
+                    <thead>
+                    <td>
+                      <h1 class="dashboard modules team">{% trans %}TITLE_MODULE_OF_WORKING_GROUP{% endtrans %}</h1>
+                    </td>
+                    <td>
+                        <img src="{{ asset('/medias/images/profile/avatar/thumbnail/teacher.png') }}" alt="avatar" />
+                      <p>{% trans %}LABEL_IMG_TEACHERS{% endtrans %}</p>
+                    </td>
+                    <td>
+                        <img src="{{ asset('/medias/images/profile/avatar/thumbnail/pupil_M.png') }}" alt="avatar" />
+                      <p>{% trans %}LABEL_IMG_PUPILS{% endtrans %}</p>
+                    </td>
+                    <td>
+                        <img src="{{ asset('/medias/images/profile/avatar/thumbnail/parent.png') }}" alt="avatar" />
+                      <p>{% trans %}LABEL_IMG_PARENTS{% endtrans %}</p>
+                    </td>
+                    </thead>
+                </table>
+                    {{ render(controller('BNSAppMainBundle:Module:moduleActivation', { 'roles': activationRoles, 'group' : team, 'groupType' : 'TEAM' } )) }}
+            </div>
+        </div>
+        {% include "BNSAppClassroomBundle:BackTeam:team_block_details.html.twig" with {'teachers' : teachers, 'pupils':pupils} %}
+        {{ modal('delete-team-modal', {
+          'title': 'MODAL_DELETE_GROUP'|trans,
+                'body_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:delete_team_body.html.twig', 'values': {
+                        'team': team,
+                } },
+                'footer_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:delete_team_footer.html.twig', 'values': {
+                        'team': team} },
+                'type': 'error'
+        }) }}
+            </div>
+
+{% endblock %}

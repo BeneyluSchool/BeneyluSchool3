@@ -1,30 +1,30 @@
 {% extends 'BNSAppHelloWorldBundle:Front:layout.html.twig' %}
 
 {% block javascripts %}
-	{{ parent() }}	
+	{{ parent() }}
 {% endblock %}
 
 
-	
+
 {% block css %}
 	{{ parent() }}
 {% endblock %}
 
 {% block content %}
 
-	
+
 	<h1>{% trans %}Front.Index.title{% endtrans %}</h1>
 
 	<p>{% trans %}Front.Index.description{% endtrans %}</p>
-	
+
 	<div class="alert alert-success">
 		Vous êtes : {{ app.user.fullName  }}
 	</div>
-	
+
 	{% include 'BNSAppMainBundle::notice.html.twig' %}
 
 		<div class="span5">
-			
+
 			<p>Vous naviguez dans le contexte <strong>{{ context.group_name }}</strong> dans lequel vous avez les droits :</p>
 
 			<table class="table table-striped table-bordered">
@@ -41,9 +41,9 @@
 					{% endfor %}
 				</tbody>
 			</table>
-			
+
 			<p> et le ou les <strong>rôles</strong></p>
-			
+
 			<table class="table table-striped table-bordered">
 				<thead>
 					<tr>
@@ -62,7 +62,7 @@
 		</div>
 
 		<div class="span5">
-			
+
 			<div class="row">
 				<div class="well span5">
 					<h3>Exemples d'actions</h3>
@@ -90,14 +90,14 @@
 					<h4>Changement de langue</h4>
 					<br />
 					<p>
-						Votre langue actuelle : 
-						{% if locale == "fr" %}
+						Votre langue actuelle : {{ locale }} {{ app.request.locale }}
+						- {% if locale starts with "fr" %}
 							Français
 						{% else %}
 							Anglais
 						{% endif %}
 					</p>
-					
+
 					<br />
 					<a href="{{ path('BNSAppHelloWorldBundle_front_change_culture', { 'culture': 'en' }) }}" class="btn btn-info">
 						Anglais
@@ -106,13 +106,13 @@
 						Français
 					</a>
 				</div>
-					
+
 				<div class="well span5">
 					<a class="btn btn-primary" id=".call_ressource" href="#">
 						Appel des ressources
 					</a>
 				</div>
-					
-					
+
+
 		</div>
 {% endblock %}

@@ -1,0 +1,13 @@
+<h2 translate>WORKSHOP.AUDIO.PROPERTIES</h2>
+
+<form name="documentForm" ng-submit="ctrl.submit()">
+  <div ng-show="documentForm.label.$error.required" class="pull-right text-danger" translate>WORKSHOP.AUDIO.REQUIRED</div>
+  <label for="media_label" translate>WORKSHOP.AUDIO.RECORD_NAME</label>
+  <input name="label" id="media_label" type="text" ng-model="ctrl.state.newAudio._embedded.media.label" ng-disabled="ctrl.busy" required>
+
+  <label for="media_description" translate>WORKSHOP.AUDIO.DESCRIPTION</label>
+  <textarea id="media_description" rows="10" ng-model="ctrl.state.newAudio._embedded.media.description" ng-disabled="ctrl.busy"></textarea>
+
+  <div bns-workshop-content-contributors="ctrl.contributors" content="ctrl.state.newAudio" ng-class="{busy: ctrl.busy}"></div>
+
+</form>

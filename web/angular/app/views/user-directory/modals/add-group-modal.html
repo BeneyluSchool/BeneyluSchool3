@@ -1,0 +1,37 @@
+<bns-modal modal-close="ctrl.closeModal" modal-title="{{ 'USER_DIRECTORY.ADD_WORKGROUP_MODAL_TITLE' | translate }}" modal-icon="plus" modal-busy="ctrl.busy">
+  <form ng-submit="ctrl.confirm()">
+    <div class="modal-body">
+
+      <h4 ng-if="ctrl.context" translate translate-values="{ name: ctrl.context.label }">USER_DIRECTORY.ADD_WORKGROUP_IN</h4>
+
+      <div class="help-block text-danger">
+        {{ ctrl.group.error | translate }}
+      </div>
+
+      <label for="group-label" translate>USER_DIRECTORY.WORKGROUP_NAME</label>
+      <input type="text" id="group-label" ng-model="ctrl.group.label" bns-focus-request>
+
+      <div ng-show="ctrl.users.length">
+        <p translate>USER_DIRECTORY.USERS_TO_ADD_TO_WORKGROUP</p>
+        <div bns-user-directory-editable-list="ctrl.users"
+          empty-text="USER_DIRECTORY.NO_NEW_USER_TO_ADD"
+          class="generic-user-directory-list deletable"
+          whole-selector="true"
+        ></div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <div class="content-btn-footer">
+        <button type="submit" ng-disabled="!ctrl.group.label" class="btn btn-success">
+          <i class="bns-icon-checked round"></i>
+          <strong translate>USER_DIRECTORY.ADD_THIS_WORKGROUP</strong>
+        </button>
+        <button class="btn" ng-click="ctrl.closeModal()">
+          <i class="bns-icon-arrow-left-curved round"></i>
+          <strong translate>USER_DIRECTORY.CANCEL</strong>
+        </button>
+      </div>
+    </div>
+  </form>
+</bns-modal>

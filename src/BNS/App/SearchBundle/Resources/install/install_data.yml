@@ -1,0 +1,62 @@
+module:
+  unique_name: SEARCH
+  is_contextable: true
+  name:
+    fr: Moteur de recherche
+    en: Search engine
+  description:
+    fr: Rechercher sur internet
+    en: Search on Internet
+  default_rank:
+    pupil: USE
+    parent: USE
+    teacher: MANAGE
+    other: USE
+
+permissions:
+  ACCESS:
+    label:
+      fr: Accès au moteur de recherche
+      en: Search Engine Access
+    description:
+      fr:
+      en:
+
+  ACCESS_BACK:
+    label:
+      fr: Gérer le moteur de recherche
+      en: Search engine management
+    description:
+      fr:
+      en:
+
+  ACTIVATION:
+      label:
+        fr: Activer le moteur de recherche
+        en: activate search engine
+      description:
+        fr:
+        en:
+
+ranks:
+  USE:
+    label:
+      fr: Utiliser le moteur de recherche
+      en: Serach Engine use
+    description:
+      fr:
+      en:
+    permissions: [ACCESS]
+
+  MANAGE:
+    label:
+      fr: Gérer le moteur de recherche
+      en: Search engine management
+    description:
+      fr:
+      en:
+    permissions: [ACCESS, ACCESS_BACK, ACTIVATION]
+
+markers:
+  SEARCH_VISIT:
+    description: 'Visite sur la recherche'

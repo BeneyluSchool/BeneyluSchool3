@@ -1,0 +1,39 @@
+<scrollable>
+  <div ng-if="shared.context" class="media-library-scene">
+
+    <div class="media-library-scene-actions">
+      <span class="action-link" ng-click="selectAll()" translate>MEDIA_LIBRARY.SELECT_ALL</span>
+      <span class="action-link" ng-click="selectAll(true)" translate>MEDIA_LIBRARY.UNSELECT_ALL</span>
+    </div>
+
+    <h2 class="media-library-scene-title">{{ shared.context.label }}</h2>
+
+    <div class="media-library-scene-grid">
+
+      <div ng-repeat="file in shared.context.medias"
+        ng-class="{ selected: shared.contextSelection.has(file) }"
+        class="media-library-scene-element file"
+      >
+        <div ng-click="shared.contextSelection.toggle(file)" class="media-library-scene-element-nav">
+          <div class="media-library-scene-element-visual">
+            <div class="centerer"></div><span bns-media-preview media="file"></span>
+            <div class="flags">
+              <div ng-show="file.is_private" class="flag-lock"></div>
+            </div>
+          </div>
+          <div class="media-library-scene-element-label">
+            <input type="checkbox" ng-checked="shared.contextSelection.has(file)" ng-model="dummy">
+            <span bns-favorite-flag="file"></span>
+            {{ file.label }}
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div ng-if="!(shared.context.children.length || shared.context.medias.length)">
+      <div class="media-library-empty-folder-notice" translate>MEDIA_LIBRARY.TRASH_IS_EMPTY</div>
+    </div>
+
+  </div>
+</scrollable>

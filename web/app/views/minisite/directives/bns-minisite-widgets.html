@@ -1,0 +1,27 @@
+<section class="widget-section" ng-repeat="widget in widgets">
+  <div class="time-widget" ng-if="widget.type === 'TIME'">
+    <div class="widget-content">
+      <span class="hour">{{ date.format('H:mm') }}</span>
+      <span class="date">{{ date.format('D MMMM') }}</span>
+    </div>
+  </div>
+  <div class="text-widget" ng-if="widget.type === 'RICH_TEXT'">
+    <div class="widget-content">
+      <h4 class="widget-title">{{ ::widget.title }}</h4>
+      <p ng-bind-html="widget.property_value[0].property_value |nl2br"></p>
+    </div>
+  </div>
+  <div class="text-widget" ng-if="widget.type === 'RSS'">
+    <div class="widget-content">
+      <div ng-show="widget.busyRSS" layout="row" layout-align="center center" class="md-padding">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+      </div>
+      <div ng-if="!ctrl.busyRSS">
+        <h4 class="widget-title">{{ ::widget.title }}</h4>
+        <ul ng-repeat="flux in widget.rss">
+          <li><a ng-href="{{ ::flux.link }}" target="_blank">{{ ::flux.title }}</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,79 @@
+{% trans_default_domain "GROUP" %}
+{% extends 'BNSAppGroupBundle:Back:layout.html.twig' %}
+
+
+{% block header %}
+	{% include "BNSAppGroupBundle:BackUser:menu.html.twig" with{'page' : 'index','user' : user, 'canEdit' : canEdit, 'canViewAs' : canViewAs, 'canDelete' : canDelete } %}
+{% endblock header %}
+
+{% block css %}
+    {{ parent() }}
+    <link title="style" type="text/css" rel="stylesheet" href="{{ asset('medias/css/dataTable_jui.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+	<div class="news-title">
+		<h1 class="dashboard">{{ user.fullName }} - <i>{{ user.username}}</i></h1>
+	</div>
+
+	{% for message in app.session.flashbag.get('error') %}
+		<div class="alert bns-alert alert-danger">
+			{{ message }}
+		</div>
+	{% endfor %}
+	{% set i = 0 %}
+	{% set has_role = false %}
+	{% for groupRole in groupsRoles %}
+        {% set i = i + 1 %}
+        {% set has_role = true %}
+		<div class="well">
+            <h4>{{ groupRole.group.label }}</h4>
+			{% if groupRole.roles|length > 0 %}
+			{{ 'ROLE_PLURAL_IN_GROUP'|transchoice(groupRole.roles|length) |desc('[0,1]Rôle dans ce groupe :| ]1,Inf[ Rôles dans ce groupe :') }}
+				{% for role in groupRole.roles %}
+					{{ role.label }}
+						{% if canDelete and groupRole.group.groupType.type != 'ENVIRONMENT' %}
+                            <a href="{{ path('BNSAppGroupBundle_user_link_delete',{'login' : user.login, 'roleType' : role.type, 'groupId' : groupRole.group.id }) }}" onclick="return confirm('{{ 'SURE_TO_DELETE_LINK'|trans |desc('Êtes vous sûr de vouloir supprimer ce lien ?') }}')">
+                                <img src="{{ asset('/medias/images/icons/btn-NOK.png') }}" style="width:16px;"/>
+                            </a>
+                        {% endif %}
+					{% if not loop.last %}
+						- 
+					{% endif %}
+				{% else %}
+					-{{ 'NO_ROLE_IN_THIS_GROUP'|trans |desc('Pas de rôle dans ce groupe ') }} -
+				{% endfor %}
+            {% endif %}
+        </div>
+	{% endfor %}
+
+	{% if i == 0 %}
+		<div class="alert alert-notice bns-alert">
+{{ 'ALERT_USER_HAVENT_ROLE'|trans |desc('Cet utilisateur n\'a pas encore de rôle.') }}
+			<div class="jim"></div>
+		</div>
+	{% endif %}
+	
+	{% if canView %}
+
+		<h3>{{ 'TITLE_TIE_GROUP'|trans |desc('Lier à un groupe') }}</h3>
+
+		<div id="add-to-group">
+			<form action="{{ path('BNSAppGroupBundle_back_user_sheet', { 'userId' : user.id }) }}" method="post" {{ form_enctype(form) }} class="form-inline">
+				{{ form_errors(form) }}
+
+                <input id="group-finder" type="text" name="term" value="" placeholder="{{ 'PLACEHOLDER_NAME_OR_UAI_OF_WORKING_SPACE'|trans |desc('Nom ou UAI de l\'espace de travail') }}" />
+                {{ form_widget(form.group_id) }}
+
+				{{ form_widget(form.group_type_role_id,{'attr': {'style': 'width:300px;'}}) }}
+
+                {{ form_rest(form) }}
+
+				<input type="submit" class="btn" value="{{ 'LINK_VALIDATE'|trans |desc('Valider') }}" />
+			</form>
+		</div>
+	{% endif %}
+</div>
+
+{% endblock %}

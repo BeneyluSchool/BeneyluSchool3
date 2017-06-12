@@ -141,7 +141,7 @@
         var cp = $("#BBIT_DP_CONTAINER");
         if (cp.length == 0) {
             var cpHA = [];
-            cpHA.push("<div id='BBIT_DP_CONTAINER' class='bbit-dp' style='width:175px;z-index:999;'>");
+            cpHA.push("<div id='BBIT_DP_CONTAINER' class='bbit-dp' style='width:175px;z-index:9;'>");
             if ($.browser.msie6) {
                 cpHA.push('<iframe style="position:absolute;z-index:-1;width:100%;height:205px;top:0;left:0;scrolling:no;" frameborder="0" src="about:blank"></iframe>');
             }

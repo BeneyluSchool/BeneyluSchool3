@@ -1,27 +1,26 @@
-{% if type == "IN_MODERATION" %}
-		<div class="news-title">
-			<h1 class="dashboard">Messages à modérer</h1>
-		</div>
-	{% elseif type == "ACCEPTED" %}
-		<div class="news-title">
-			<h1 class="dashboard">Messages validés</h1>
-		</div>
-	{% elseif type == "REJECTED" %}
-		<div class="news-title">
-			<h1 class="dashboard">Messages suspendus</h1>
-		</div>
-	{% endif %}
-
+{% trans_default_domain "MESSAGING" %}
 {% for message in messages %}
-	{% include 'BNSAppMessagingBundle:Back/Light:block_message.html.twig' with {"message": message} %}
+    {% include 'BNSAppMessagingBundle:Back/Light:block_message.html.twig' with {"message": message} %}
 {% else %}
-	{% if type == "IN_MODERATION" %}
-		<p class="message-status">Il n'y a pas de message en modération.</p>
-	{% elseif type == "ACCEPTED" %}
-		<p class="message-status">Il n'y a pas encore de message validé.</p>
-	{% elseif type == "REJECTED" %}
-		<p class="message-status">Il n'y a pas encore de message suspendu.</p>
-	{% endif %}
+
+    <div class="no-item">
+        <div class="bnj-not-found"></div>
+        <p>
+            {% if type == "IN_MODERATION" %}
+        <p class="message-status">{{ 'NO_MESSAGE_IN_MODERATION'|trans }}</p>
+
+        {% elseif type == "ACCEPTED" %}
+            <p class="message-status">{{ 'NO_MESSAGE_VALIDATE'|trans }}</p>
+
+        {% elseif type == "REJECTED" %}
+            <p class="message-status">{{ 'NO_MESSAGE_IN_SUSPENDED'|trans }}</p>
+
+        {% endif %}
+        </p>
+        <div class="clearfix"></div>
+    </div>
+
+
 {% endfor %}
 
 {% include 'BNSAppMessagingBundle:Back/Light:block_paginate.html.twig' with {"limit": limit,'total': nbMessages,'currentPage':page} %}

@@ -1,4 +1,10 @@
+{% trans_default_domain "MINISITE" %}
 {% extends 'BNSAppMiniSiteBundle:Layout:manager.html.twig' %}
+{% import 'BNSAppCoreBundle:Macros:forms.html.twig' as forms %}
+
+{% block title %}
+    {{ 'TITLE_MINISITE_PAGE'|trans({'%title%': page.getTitle()}) |desc('Minisite - %title%') }}
+{% endblock title %}
 
 {% block javascripts %}
 	{{ parent() }}
@@ -7,96 +13,149 @@
 	<script type="text/javascript">
 		$(function ()
 		{
+			// Finish button
+			$('.bns-actionbar .finish').click(function ()
+			{
+				$('#mini_site_page_text_form').submit();
+
+				return false;
+			});
+
 			// Draft save button
-			$('.header-btn .save').click(function ()
+			$('.bns-actionbar .save').click(function ()
 			{
 				var $this = $(this);
-				
+
 				if ($this.hasClass('disabled')) {
 					return false;
 				}
-				
+
 				$this.addClass('disabled').attr('disabled', 'disabled').css('opacity', '.5');
-				
+
 				doAutosave();
-				
-				return false;
-			});
-			
-			// Finish button
-			$('.header-btn .finish').click(function ()
-			{
-				$('#mini_site_page_text_form').submit();
-				
+
 				return false;
 			});
 		});
-		
+
+    function checkSave(){
+      if (primaryKey != null) {
+        if (countLetter == 0) {
+          waitingForKeypress();
+        }
+
+        onAutosaveKeypress();
+      }
+      else {
+        doAutosave();
+      }
+    }
+
 		function onSuccessSave()
 		{
-			var $headerSaveButton = $('.header-btn .save');
+			var $headerSaveButton = $('.bns-actionbar .save');
 			if ($headerSaveButton.hasClass('disabled')) {
 				$headerSaveButton.removeClass('disabled').removeAttr('disabled').css('opacity', '1');
 			}
-			
-			var date = new Date(),
-				hours = date.getHours(),
-				minutes = date.getMinutes();
 
-			if (hours < 10) hours = '0' + hours;
-			if (minutes < 10) minutes = '0' + minutes;
+            var date = moment();
+            date.locale('{{ app.request.locale }}');
 
-			$('.save-success span').text(hours + 'H' + minutes);
-			if ($('.save-success').css('display') == 'none') {
-				$('.save-success').slideDown('fast');
-			}
+			$('.save-success').removeClass('bns-primary').addClass('bns-accent');
+			$('.save-success .autosave-date').text(date.format('LT'));
+			$('.save-success').slideDown('fast', function () {
+				var $this = $(this);
+				setTimeout(function () {
+					$this.removeClass('bns-accent').addClass('bns-primary');
+				}, 5000);
+			});
 		}
 	</script>
 {% endblock javascripts %}
-	
+
+{% block sidebar %}
+
+
+  {% include 'BNSAppMiniSiteBundle:Sidebar:sidebar.html.twig' with {'index': 'edito', 'section': 'edition'} %}
+
+{% endblock sidebar %}
+
 {% block header %}
-	<div class="span12">
-		<div class="button-manager-form float-left">
-			<div class="content-button-manager-form">
-				<button class="btn overview"><span class="overview"></span><strong>Aperçu</strong> de la page</button>
-				<button class="btn save"><span class="save"></span><strong>Enregistrer</strong><br /> en brouillon</button>
-				<button class="btn finish"><span class="finish"></span>J'ai terminé</button>
-			 </div>
-		</div>
-	</div>
+
+            {{ components.button( 'LINK_CANCEL_MODIFICATION' | trans , { href: path('minisite_manager_page', {'slug': page.getSlug()}) , icon: 'close', raised: true }) }}
+
+      {{ components.button( 'LINK_SAVE_AS_DRAFT' | trans , { href: '#' , icon: 'save', raised: true, attr:{'class':'save'} }) }}
+
+      <span class="flex"></span>
+
+      {{ components.button( 'LINK_I_FINISH' | trans , { intent: 'accent', href: '#' , icon: 'check', raised: true, attr:{'class':'finish'} }) }}
+
+
 {% endblock header %}
 
+
+
 {% block content %}
-	<div class="content admin-form">
-		{% autoescape false %}
-			{{ autosave_init(page.getMiniSitePageText(), {
-				'draft_title': 'mini_site_page_text_form_draft_title',
-				'draft_content': 'mini_site_page_text_form_draft_content'}, {
-					'onSuccess': 'onSuccessSave',
-					'debug': true
-			}) }}
-		{% endautoescape %}
-		<div class="form text-form">
-			<form id="mini_site_page_text_form" action="{{ path('minisite_manager_page', {'slug': page.getSlug()}) }}" method="POST">
-				<div class="title">
-					{{ form_widget(form.draft_title, {'attr': {'class': 'input-xlarge-bns input-title', 'placeholder': 'Titre de la page'} }) }}
-				</div>
-				<div class="alert alert-success save-success">
-					<span></span> : {% trans %}MiniSite.Back.Page.PageDraftSaved{% endtrans %}
-				</div>
-				<div class="tinymce">
-					{{ form_widget(form.draft_content, { 'attr': {'class': 'load_tinymce', 'data-theme': 'simple'} }) }}
-				</div>
-				<div class="errors">
-					{{ form_errors(form) }}
-				</div>
-				<div class="rest">
-					{{ form_rest(form) }}
-				</div>
-					
-				{# Pièces Jointes #}
-				{% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': page.getMiniSitePageText().getResourceAttachments(), 'editable': true} %}
-			</form>
-		</div>
+
+  <md-toolbar class="content-toolbar">
+      <div class="md-toolbar-tools layout-align-start-center">
+        <bns-sidebar-toggle></bns-sidebar-toggle>
+        <h1 class="md-title text-primary">{{ page.getTitle() }}</h1>
+      </div>
+    </md-toolbar>
+
+
+    <md-content  id="content">
+      {{ form_start(form, {action:  path('minisite_manager_page_edit', {'slug': page.getSlug()}), attr:{'id': 'mini_site_page_text_form'}}) }}
+
+
+	<div class="admin-form">
+		{{ autosave_init(page.getMiniSitePageText(), {
+			'draft_title': 'mini_site_page_text_form_draft_title',
+			'draft_content': 'mini_site_page_text_form_draft_content'}, {
+				'onSuccess': 'onSuccessSave',
+				'debug': false
+		}) }}
+
+    <bns-inset class="md-padding bns-small bns-accent hide save-success">
+      <span class="autosave-date"></span>&nbsp;: {% if is_adult() %}{% trans %}ADULT_PAGE_SAVE_IN_DRAFT{% endtrans %}{% else %}{% trans %}CHILD_PAGE_SAVE_IN_DRAFT{% endtrans %}{% endif %}
+    </bns-inset>
+
+		<div class="form text-form md-padding">
+
+      {{ form_row(form.draft_title, {
+        label: false,
+        attr: {
+          placeholder: 'PLACEHOLDER_PAGE_TITLE'|trans
+        }
+      }) }}
+
+      {{ form_row(form.draft_content, {
+        label: false,
+        attr: {
+          placeholder: 'content',
+          'bns-tinymce': ''
+        }
+      }) }}
+
+    </div>
+    <div class="rest proxy">
+      {% if form.status is defined %}
+        {{ form_row(form.status, {
+          label_attr: {
+            class: 'md-title md-padding',
+          }
+        }) }}
+      {% endif %}
+      {{ form_rest(form) }}
+    </div>
+
+			{# Pièces Jointes #}
+			{% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias': page.miniSitePageText.resourceAttachments, 'editable': true, 'objectType': 'MiniSitePageText', 'objectId': page.miniSitePageText.pageId} %}
 	</div>
+
+      {{ form_end(form) }}
+      </md-content>
+
+
 {% endblock content %}

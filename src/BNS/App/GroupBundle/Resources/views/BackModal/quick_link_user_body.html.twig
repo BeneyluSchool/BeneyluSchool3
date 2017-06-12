@@ -1,0 +1,25 @@
+{% trans_default_domain "GROUP" %}
+<div class="modal-body">
+	<div class="content-modal-body">
+        <div id="user-quick-linker-loader" class="loader loader-sb hide" style="">
+            <div class="message">
+                {{ 'LOADING_PLEASE_WAIT'|trans |desc('Chargement en cours, veuillez patienter...') }}
+            </div>
+        </div>
+		<h4>{{ 'TITLE_CHOICE_USER_TO_TIE_TO_GROUP'|trans |desc('Choisissez l\'utilisateur que vous souhaitez lier au groupe') }}</h4>
+		<form id="user-quick-linker" action="{{ path('back_group_users_quick_linker') }}">
+            <input id="user-finder" type="text" name="userId" value="" placeholder="{{ 'PLACEHOLDER_NAME_USER'|trans |desc('Nom de l\'utilisateur') }}" />
+            <input type="hidden" id="user-finder-value" value="" name='login' />
+            <input type="hidden" value="{{ group.slug }}" name='groupSlug' />
+            <select id="user-role" name='roleType'>
+                {% for role in viewableRoles %}
+                    <option value="{{ role.type }}">{{ role.label }}</option>
+                {% endfor %}
+            </select>
+            <label><input id="quick-link-follow" type="checkbox" name="follow" value="true" />{{ 'LABEL_DELETE_LAST_ALLOCATION_USER'|trans |desc('Supprimer l\'ancienne affectation de cet utilisateur') }}</label>
+            <a href="#" id="user-quick-linker-submit" class="btn bns-success validate-small btn-16 hide"><span class="icons-16 validate-icon"></span><strong>{{ 'LINK_VALIDATE'|trans |desc('Valider') }}</strong></a>
+        </form>
+        <div id="user-quick-linker-return" class="hide"></div>
+	</div>
+</div>
+<div class="beneylu-jim"></div>

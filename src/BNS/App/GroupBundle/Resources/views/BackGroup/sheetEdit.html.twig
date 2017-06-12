@@ -1,0 +1,111 @@
+{% trans_default_domain "GROUP" %}
+{% extends 'BNSAppGroupBundle:Back:layout.html.twig' %}
+
+{% block header %}
+	
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="align-left">
+						<a href="{{ path('BNSAppGroupBundle_group_sheet' , {'groupSlug' : group.slug }) }}" class="btn bns-notice btn-24 medium-return ">
+							<span class="icons-24 back-icon"></span>
+                            {{ 'LINK_RETURN_TO_LIST'|trans |desc('<strong>Retourner</strong><br>à la liste') |raw }}
+						</a>
+					</div>
+						
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock header %}
+
+{% block content %}
+	
+	<div class="content-group">
+		<div class="news-title">
+			<h1 class="dashboard">{{ group.label }}</h1>
+		</div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>{{ 'TABLE_ATTRIBUTE'|trans |desc('Attribut') }}</th>
+					<th>{{ 'TABLE_VALUE'|trans |desc('Valeur') }}</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for attribute in  attributes %}
+					{% include "BNSAppGroupBundle:BackGroup:attributeBlock.html.twig" with {"attribute" : attribute } %}
+				{% endfor %}
+			</tbody>
+		</table>
+			
+		<div class="news-title">
+			<h1 class="dashboard">{{ 'TITLE_GROUPS_PARENTS'|trans |desc('Groupes parents') }}</h1>
+		</div>
+        <table class="table">
+			<tbody>
+				<tr id='label-row'>
+                    {% for parent in parents %} 
+                        <tr>
+                            <td>{{ parent.label }}</td>
+                            <td>
+                                {% if has_right(group.groupType.type ~ '_DELETE') and parents|length > 1 %}
+                                    <a href="{{ path('BNSAppGroupBundle_group_delete_parent',{'groupSlug' : group.slug, 'parentSlug' : parent.slug }) }}" class="btn bns-danger btn-24 medium-return" onclick="return confirm('{{ 'SURE_TO_DELETE_PARENT_GROUP'|trans |desc('Êtes vous certain de vouloir supprimer ce groupe parent.') }}')">
+                                        <span class="icons-16 cancel-icon"></span>
+                                        {{ 'LINK_DELETE'|trans |desc('Supprimer') }}
+                                    </a>
+                                {% endif %}
+                                {% if has_right(parent.groupType.type ~ '_VIEW') %}
+                                    <a href="{{ path('BNSAppGroupBundle_group_sheet', {'groupSlug': parent.slug }) }}" class="btn bns-notice btn-16 small">
+                                        <span class="icons-16 preview-icon"></span>
+                                        {{ 'LINK_SEE_CARD'|trans |desc('<strong>Voir</strong> la fiche') |raw }}
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+					{% else %}
+						<td>{{ 'TABLE_NO_PARENT'|trans |desc('N\'a pas de parent') }}</td>
+					{% endfor %}
+				</tr>           
+                <tr>
+                    <td class="" id="form-row">
+                        {% if form != null %}
+                            <form id="parent-form" action="{{path('BNSAppGroupBundle_group_add_parent',{'groupSlug' : group.slug }) }}" method="post" onsubmit="return confirm('{{ 'SURE_TO_ADD_PARENT_GROUP'|trans |desc('Êtes vous certain de vouloir ajouter ce nouveau groupe parent.') }}')">
+                                    {{ form_widget(form.group_id,{'attr': {'placeHolder': 'PLACEHOLDER_GROUP_ID'| trans}}) }}
+                                    <a id="submit-form" href="#" class="btn bns-success btn-16 small" style="vertical-align:top;"><span class="icons-16 validate-icon"></span><strong>{{ 'LINK_VALIDATE'|trans |desc('Valider') }}</strong></a>
+                            </form>
+                        {% else %}
+                            <b>{{ 'NO_GROUP_TO_ADD_AS_PARENT'|trans |desc('Aucun groupe à ajouter comme parent') }}</b>
+                        {% endif %}
+                    </td>
+                </tr>
+			</tbody>
+		</table>
+		
+			
+		
+	</div>
+
+	<script type="text/javascript">
+		$('#show-form').click(function(e){
+			e.preventDefault();
+			$('#label-row').hide();
+			$('#form-row').slideDown();
+		});
+		
+		$('#cancel-form').click(function(e){
+			e.preventDefault();
+			$('#form-row').hide();
+			$('#label-row').slideDown();
+			
+		});
+		
+		$('#submit-form').click(function(e){
+			e.preventDefault();
+			$('#parent-form').submit();
+		});
+	</script>
+
+{% endblock %}

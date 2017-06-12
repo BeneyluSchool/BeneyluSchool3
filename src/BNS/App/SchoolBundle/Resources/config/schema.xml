@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\SchoolBundle\Model">
+  <table name="classroom_signal">
+    <column name="id" primaryKey="true" required="true" type="INTEGER" autoIncrement="true" />
+    <column name="status" required="true" type="BOOLEAN" />
+    <column name="user_id" required="true" size="255" type="INTEGER" />
+    <column name="reason" required="true" type="VARCHAR" />
+    <column name="response" required="true" type="LONGVARCHAR" />
+    <column name="school_id" required="true" type="INTEGER" />
+    <column name="classroom_id" required="true" type="INTEGER" />
+    <behavior name="timestampable" />
+  </table>
+</database>

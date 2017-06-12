@@ -1,12 +1,13 @@
+{% trans_default_domain "HOMEWORK" %}
 <div class="modal-body">
-	<div class="content-modal-body">
-		<h2>Êtes-vous sûr de vouloir supprimer la matière "<span class="title"></span> ?</h2>
+    <div class="content-modal-body">
+        <h2>{% trans %}TITLE_SURE_TO_DELETE_DISCIPLINE{% endtrans %}</h2>
 
-		<p class="sub-category-warning">
-			Attention, la suppression de cette matière entraînera également la suppression de toutes ses sous-matière !
-		</p>
-		
-		<input type="hidden" id="delete-category-id" />
-	</div>
+        <p class="sub-category-warning">
+            {% trans %}DELETE_DISCIPLINE_INFO{% endtrans %}
+        </p>
+
+        <input type="hidden" id="delete-category-id" />
+    </div>
 </div>
 <div class="beneylu-jim"></div>

@@ -1,0 +1,16 @@
+{% trans_default_domain "GROUP" %}
+<div class="loader loader-sb"></div>
+<div class="modal-body">
+	<div class="content-modal-body">
+        {{ 'TITLE_SURE_DELETE_ACCOUNT_USER'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name'), '%user%': user.getFullName() |escape}) |desc('
+        <h2>Êtes-vous sûr de vouloir supprimer le compte de "%user%" ?</h2>
+		<h3>
+			Cet utilisateur ne pourra plus se connecter à %beneylu_brand_name%.<br />
+			<strong>A noter :</strong> <br />- Les données associées à l\'utilisateur seront supprimées.
+        <br />- Vous ne pourrez pas réactiver l\'utilisateur par la suite.
+        </h3>
+       ') |raw }}
+
+	</div>
+</div>
+<div class="beneylu-jim"></div>

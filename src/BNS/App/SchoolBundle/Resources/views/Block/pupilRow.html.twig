@@ -1,0 +1,29 @@
+{% trans_default_domain "SCHOOL" %}
+<div class="item">
+	{% if pupil.isEnabled() %}
+		<div class="vertical-separator {% if pupil.getGender() == 'F' %}female{% endif %}"></div>
+	{% else %}
+		<div class="vertical-separator disabled"></div>
+	{% endif %}
+	<div class="buttons-container">
+		<a href="{{ path('BNSAppSchoolBundle_back_user_sheet', {'userSlug': pupil.getSlug()}) }}" class="btn bns-notice btn-16 small right btn-visualisation">
+			<span class="icons-16 arrow-right-icon right"></span>
+      <strong>{% trans %}LINK_SEE_CARD{% endtrans %}</strong>
+		</a>
+	</div>
+	<div class="header">
+		<img class="avatar" src="{{ avatar(pupil, 'thumbnail') }}" alt="" />
+		<p class="name">{{ pupil.getFullName() }}</p>
+		<p class="informations">
+			{% if pupil.getLastConnection() != null %}
+                {{ 'PUPIL_LAST_CONNECTION'|trans({'%date%': date_from_now(pupil.getLastConnection(), false, true)}) |desc('Dernière connexion %date%') |raw }}
+			{% else %}
+                {% if pupil.getGender() == 'F' %}
+                    {{ 'PUPIL_NEVER_CONNECT'|transchoice(0) |desc('{0} Ne s\'est jamais connectée | {1} Ne s\'est jamais connecté') }}
+                {% else %}
+                    {{ 'PUPIL_NEVER_CONNECT'|transchoice(1) |desc('{0} Ne s\'est jamais connectée | {1} Ne s\'est jamais connecté') }}
+                {% endif %}
+            {% endif %}
+		</p>
+	</div>
+</div>

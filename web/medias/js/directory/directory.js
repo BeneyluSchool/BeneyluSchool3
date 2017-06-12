@@ -1,5 +1,5 @@
 $(document).ready(function()
-{
+{	
 	// Listener sur la pression sur la touche entrée dans la barre de recherche de filtre d'utilisateur
 	$('input[type=text].search-input').keypress(function(event) 
 	{
@@ -13,6 +13,15 @@ $(document).ready(function()
 	$(' .filter-user').click(function()
 	{
 		filterUser($('input[type=text].search-input'));
+	});
+	
+	//Changement de contexte
+	$('.directory-sidebar .group-directory:not(.active)').live('click',function(e)
+	{
+		$('.directory-sidebar .group-directory').removeClass('active');
+		$('.directory-sidebar .group-directory[data-group-id|="'+ $(this).attr('data-group-id') + '"]').addClass('active');
+		$('.directory-main-content .group-directory').hide();
+		$('.directory-main-content .group-directory[data-group-id|="'+ $(this).attr('data-group-id') + '"]').show();
 	});
 	
 	// Listener sur le click d'un groupe qui a des groupes fils (Ecole, Mairie, etc.)
@@ -55,18 +64,20 @@ $(document).ready(function()
 		});
 		$('li.default-group').addClass('active');
 	});
-	
-	$('.selected-user-container > .user-block.bns-cancel > span').live('click', function(e)
+
+    //Suppression de la liste de sélection
+	$('.selected-user-container > .user-block.cancel').live('click', function(e)
 	{
 		e.preventDefault();
-		var $currentSelectedUserId = $(this).parent().attr('data-user-id');
-		$(this).parent().remove();
-		$('.user-block[data-user-id="' + $currentSelectedUserId + '"]').addClass('selectable bns-checkbox').removeClass('bns-selected');
-		if($('.selected-user-container > .user-block.bns-cancel').length == 0){
+		var $currentSelectedUserId = $(this).attr('data-user-id');
+		$(this).remove();
+		$('.user-block[data-user-id="' + $currentSelectedUserId + '"]').addClass('selectable checkbox').removeClass('selected');
+		if($('.selected-user-container > .user-block.cancel').length == 0){
 			$('.no-selection').show();
 		}
 	});
-	
+
+    //Utilisé dans le userPicker avec utilisateur déjà sélectionné
 	$('.selected-user-container:first .user-block').each(function()
 	{
 		var $currentSelectedUserId = $(this).attr('data-user-id');
@@ -81,6 +92,22 @@ $(document).ready(function()
 			}
 		});
 	});
+
+    //Action de sélectionner l'intégralité d'un sous groupe
+    $('.checkbox-select-group').live('click', function(e)
+    {
+        var cb = $(this);
+        e.preventDefault();
+        $(this).parents(".user-group-selectable").find('.user-block.selectable').each(function()
+        {
+            $(this).click();
+        });
+    });
+
+    //Les profils non visualisables ne sont pas des liens , mais quand même des <a>
+    $('.not-link').click(function(e){
+        e.preventDefault();
+    });
 });
 
 function showHideLiNavDependsOnContext($context) 
@@ -103,7 +130,7 @@ function showHideLiNavDependsOnContext($context)
 function filterUser($inputText)
 {
 	var $str = $.trim($inputText.val()).toLowerCase();
-	$('.tab-content .user-block').each(function() 
+	$('.directory-main-content .user-block').each(function() 
 	{
 		if ($(this).parent().hasClass('selected-user-container')) {
 			return;

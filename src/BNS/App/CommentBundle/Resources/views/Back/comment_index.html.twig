@@ -1,3 +1,4 @@
+{% trans_default_domain 'COMMENT' %}
 <script type="text/javascript">
 	$(function ()
 	{
@@ -7,38 +8,50 @@
 			$('.comment-sidebar-filter').removeClass('active');
 			var $this = $(e.currentTarget),
 				$layer = $('#comment-layer');
-				
+
 			$this.addClass('active');
 			$layer.fadeIn('fast');
-			
+
 			$.ajax({
 				url: $this.attr('href'),
 				type: 'POST',
 				dataType: 'html',
-				data: {'namespace': '{{ namespace }}', 'page': 1, 'status': $this.data('filter-status')},
+				data: {
+					'object_namespace': '{{ namespace }}',
+					'page': 1,
+					'object_status': $this.data('filter-status'),
+					'edit_route': '{{ editRoute }}'
+				},
 				success: function (data)
 				{
 					$('.comments-list').html(data);
+
+					if ($this.data('filter-status') != 'PENDING_VALIDATION') {
+						$('.header-buttons .validate-all-comments').fadeOut('fast');
+					}
+					else {
+						$('.header-buttons .validate-all-comments').fadeIn('fast');
+					}
 				}
 			}).done(function ()
 			{
 				$layer.fadeOut('fast');
 			});
-			
+
 			return false;
 		});
-		
+
 		// Buttons moderation process
-		$('.comment-moderation a').live('click', function (e)
+		$('.comment-moderation a.moderation-button').live('click', function (e)
 		{
 			var $this = $(e.currentTarget),
 				$row = $this.parent().parent().parent(),
 				id = $row.attr('id').split('-');
-				
+
 			id = id[1];
 			$row.css('opacity', '.4').addClass('disabled');
 			var page = $('.pagination').length > 0 ? $('.pagination').data('current-page') : 1;
-			
+
 			$.ajax({
 				url: '{{ path('comment_manager_status_update') }}',
 				type: 'POST',
@@ -47,7 +60,8 @@
 					'namespace': '{{ namespace }}',
 					'status': $this.data('filter-status'),
 					'id': id,
-					'page': page
+					'page': page,
+                    'editRoute': '{{ editRoute }}'
 				},
 				success: function (data)
 				{
@@ -62,7 +76,7 @@
 					}
 
 					$data.slideDown('slow');
-					
+
 					if (data.pager != '') {
 						$('.pagination').replaceWith(data.pager);
 					}
@@ -74,30 +88,31 @@
 			{
 				$row.slideUp('slow');
 			});
-			
+
 			return false;
 		});
-		
+
 		// Pagination process
 		$('.pagination a').live('click', function (e)
 		{
 			var $this = $(e.currentTarget),
 				$layer = $('#comment-layer');
-			
+
 			$layer.fadeIn('fast');
 			setTimeout(function ()
 			{
 				$layer.find('.message').addClass('bottom');
 			}, 50);
-			
+
 			$.ajax({
 				url: $this.attr('href'),
 				type: 'POST',
 				dataType: 'html',
 				data: {
-					'namespace': '{{ namespace }}',
-					'page': $this.data('page'),
-					'status': $this.parent().parent().parent().data('status')
+					'object_namespace': '{{ namespace }}',
+					'pageR': $this.data('page'),
+					'edit_route': '{{ editRoute }}',
+					'object_status': $this.parent().parent().parent().data('status')
 				},
 				success: function (data)
 				{
@@ -108,19 +123,19 @@
 				$layer.fadeOut('fast');
 				$layer.find('.message').removeClass('bottom');
 			});
-			
+
 			return false;
 		});
-		
+
 		// Validate all button process
 		$('div.header-buttons .validate-all-comments').click(function (e)
 		{
 			var $this = $(e.currentTarget);
-			
+
 			if ($this.hasClass('disabled')) {
 				return false;
 			}
-			
+
 			$this.addClass('disabled').attr('disabled', 'disabled');
 			$.ajax({
 				url: '{{ path('comment_manager_validate_all') }}',
@@ -131,20 +146,34 @@
 					window.location.reload(true);
 				}
 			});
-			
+
 			return false;
 		});
+
+		if ($('.comments-list-container .alert.alert-success').length > 0) {
+			setTimeout(function ()
+			{
+				$('.bns-alert div').slideUp('fast', function () { var $this = $(this); $this.parent().slideUp('fast', function () { $this.show() }) });
+			}, 8000); // 8 seconds
+		}
 	});
 </script>
 
 <div class="comments-list-container">
+	{% for message in app.session.flashbag.get('success') %}
+		<div class="alert alert-success bns-alert">
+			{{ message }}
+			<div class="jim"></div>
+		</div>
+	{% endfor %}
+
 	<div id="comment-layer" class="layer span9 no-margin">
 		<div class="message">
-			Chargement des commentaires en cours
+			{{ 'COMMENT_LOADING' | trans }}
 			<div><img src="{{ asset('/medias/images/icons/big-loader.gif') }}" alt=""></div>
 		</div>
 	</div>
 	<div class="comments-list">
-		{% render 'BNSAppCommentBundle:BackComment:show' with {'namespace': namespace, 'page': page} %}
+		{{ render(controller('BNSAppCommentBundle:BackComment:show', {'namespace': namespace, 'editRoute': editRoute, 'page': page} )) }}
 	</div>
 </div>

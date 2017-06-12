@@ -1,0 +1,84 @@
+{% trans_default_domain "GROUP" %}
+{% extends 'BNSAppGroupBundle:Back:layout.html.twig' %}
+{% import 'BNSAppCoreBundle:Macros:forms.html.twig' as forms %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(function ()
+        {
+            $('.header-buttons .btn.finish').click(function (e)
+            {
+                $('#form_new_home_new').submit();
+            });
+        });
+    </script>
+    {{ tinymce_init() }}
+
+
+{% endblock javascripts %}
+
+{% block header %}
+    <div class="header-buttons">
+        <div class="inner-header">
+            <div class="container container-fluid">
+                <div class="row-fluid">
+                    <div class="span8">
+                        <a href="{{ path('BNSAppGroupBundle_back_home_manage') }}" class="btn bns-notice btn-24 medium-return">
+                            <span class="icons-24 back-icon"></span>
+                            {{ 'LINK_RETURN_TO_LIST'|trans |desc('<strong>Retourner</strong><br>à la liste') |raw }}
+                        </a>
+                    </div>
+                    <div class="span4 align-right">
+                        <a id="group-submit-home-message" href="#" class="btn finish bns-success validate-medium btn-24 medium submit-custom-classroom-form">
+                            <span class="icons-24 validate-icon"></span><strong>{{ 'LINK_SAVE_MESSAGE'|trans |desc('Enregistrer le message') }}</strong>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock header %}
+
+{% block sidebar %}
+    {{ render(controller('BNSAppGroupBundle:Back:sidebar', {'section' : 'logon_message'} )) }}
+{% endblock sidebar %}
+
+{% block content %}
+    <div class="item form" >
+
+        <form id="form_new_home_new" action="" method="POST" {{ form_enctype(form) }}>
+
+            {{ forms.errors(form.title) }}
+
+            {{ form_widget(form.title, {'attr': {'placeHolder': 'PLACEHOLDER_NEWS_TITLE'|trans |desc('Titre de votre actualité') , 'class': 'input-xlarge-bns'}}) }}
+            <div class="tinyarea">
+            {{ form_widget(form.description, { 'attr': {'bns-tinymce': ''} }) }}
+            </div>
+            <div class="resources">
+                {{ form_widget(form.image_id) }}
+
+                {% include 'BNSAppMediaLibraryBundle:Front:selection.html.twig' with {
+                    'label' : 'ADD_PICTURE'|trans |desc("Ajouter une image"),
+                    'input_id': 'profile_feed_form_resourceId',
+                    'allowed_type': 'IMAGE',
+                    'name': form.image_id.vars.full_name,
+                    'callback': 'resource-selection-callback',
+                    'with_cancel': true,
+                    'current_src': "",
+                    'default_src': "",
+                    'current_value': form.image_id.vars.value
+                } %}
+
+                <div id="resource-selection-callback" class="image-joined"></div>
+            </div>
+
+            {{ form_rest(form) }}
+
+        </form>
+    </div>
+{% endblock %}
+
+
+

@@ -1,0 +1,32 @@
+BNS\App\ClassroomBundle\Model\ClassroomNewspaper:
+  exclusion_policy: All
+  virtual_properties:
+    getId:
+      expose: true
+      groups: [front]
+    getMediaUrl:
+      expose: true
+      serialized_name: media_url
+    getMediaPreviewUrl:
+      expose: true
+      serialized_name: image_preview_url
+    getCaption:
+      expose: true
+      groups: [Default, front]
+    getLendedBy:
+      expose: true
+      groups: [Default, front]
+    getMediaRelatedByMediaId:
+      expose: true
+      serialized_name: media
+      groups: [front]
+    getMediaRelatedByMediaPreviewId:
+      expose: true
+      serialized_name: preview
+      groups: [front]
+    getLastRiddle:
+      expose: true
+      groups: [front]
+    getLastRiddleAnswer:
+      expose: true
+      groups: [front]

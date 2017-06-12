@@ -1,14 +1,10 @@
 $(function ()
 {
 	// Filtres statut
-	$('.article-statuses-filter li').click(function (e)
+	$('body').on('click', '.article-statuses-filter md-checkbox', function (e)
 	{
 		var $row = $(e.currentTarget),
-			$parent = $row.parent().parent(),
-			$checkbox = $row.find('.select');
-
-		// Show loader
-		$checkbox.toggleClass('checked');
+			$checkbox = $(this);
 		// Articles loader
 		var $articlesLoader = $('.container-content .layer');
 		$articlesLoader.addClass('show');
@@ -17,10 +13,15 @@ $(function ()
 			url: Routing.generate('blog_manager_articles'),
 			type: 'POST',
 			dataType: 'html',
-			data: {'is_enabled': $checkbox.hasClass('checked'), 'filter': $row.data('filter')},
+			data: {'is_enabled': $checkbox.hasClass('md-checked'), 'filter': $row.attr('value')},//data('filter')},
 			success: function (data)
 			{
-				$('.blog-container .item-list-container').html(data);
+				var injector = $(document).injector();
+				var $compile = injector.get('$compile');
+				var scope = injector.get('$rootScope').$new();
+				var linkFn = $compile(data);
+				var element = linkFn(scope);
+				$('.item-list-container').html(element);
 			}
 		}).done(function ()
 		{
@@ -31,32 +32,33 @@ $(function ()
 	});
 	
 	// Filtres catégories
-	$('body').on('click', '.article-categories-filter li', function (e)
+	$('body').on('click', '.article-categories-filter md-checkbox', function (e)
 	{
-		var $row = $(e.currentTarget),
-			$checkbox = $row.find('.select').first();
-			
+		var $row = $(e.currentTarget);
+
 		if ($(e.target).parent().hasClass('list-grip')) {
 			return;
 		}
 
-		$checkbox.toggleClass('checked');
-		
 		// Articles loader
 		var $articlesLoader = $('.container-content .layer');
 		$articlesLoader.addClass('show');
 		
-		var data = $row.attr('id').split('_'),
-			id = data[1];
+		var id = $row.attr('value');
 
 		$.ajax({
 			url: Routing.generate('blog_manager_articles'),
 			type: 'POST',
 			dataType: 'html',
-			data: {'is_enabled': $checkbox.hasClass('checked'), 'category': id},
+			data: {'is_enabled': $row.hasClass('md-checked'), 'category': id},
 			success: function (data)
 			{
-				$('.blog-container .item-list-container').html(data);
+				var injector = $(document).injector();
+				var $compile = injector.get('$compile');
+				var scope = injector.get('$rootScope').$new();
+				var linkFn = $compile(data);
+				var element = linkFn(scope);
+				$('.item-list-container').html(element);
 			}
 		}).done(function ()
 		{
@@ -78,7 +80,12 @@ $(function ()
 			url: $this.attr('href'),
 			success: function (data)
 			{
-				$('.blog-container .item-list-container').html(data);
+				var injector = $(document).injector();
+				var $compile = injector.get('$compile');
+				var scope = injector.get('$rootScope').$new();
+				var linkFn = $compile(data);
+				var element = linkFn(scope);
+				$('.item-list-container').html(element);
 				$layer.removeClass('show');
 			}
 		});

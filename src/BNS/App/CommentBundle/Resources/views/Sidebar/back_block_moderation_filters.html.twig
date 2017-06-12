@@ -1,23 +1,46 @@
-<div class="title-container">
-	<div class="title active border-blue">Filtre par statut <span class="square icon-arrow"></span></div>
+{% trans_default_domain "COMMENT" %}
+
+<div class="title-container comment-statuses-filter {% if visualize is defined %}hide{% endif %}">
+	<div class="title active border-blue">
+        {% if visualize is defined %}
+          {{ 'FILTER_COMMENT'|trans |desc('Filtre des commentaires') }}
+        {% else %}
+        {{ 'FILTER_BY_STATUS'|trans |desc('Filtre par statut ') }}
+        {% endif %}
+    <span class="square icon-arrow"></span></div>
 	<div class="content-title">
 		<ul>
+			{% if visualize is defined %}
+				<li>
+					<a class="comment-sidebar-filter active" data-filter-status="ALL" href="#">
+						<img src="{{ asset('/medias/images/icons/draft_small.png') }}" width="16" />
+                        {{ 'LINK_SEE_ALL_COMMENT' |trans |desc('Voir tous les commentaires ') }}
+						<span class="indicator pending_validation"></span>
+					</a>
+				</li>
+			{% endif %}
 			<li>
-				<a class="comment-sidebar-filter active" data-filter-status="PENDING_VALIDATION" href="{{ path('comment_manager_load') }}">
+				<a class="comment-sidebar-filter {% if not visualize is defined %}active{% endif %}" data-filter-status="PENDING_VALIDATION" href="{{ path('comment_manager_load') }}">
 					<img src="{{ asset('/medias/images/icons/correction_small.png') }}">
-					Commentaires en modération
+                    {{ 'LINK_COMMENT_IN_MODERATION' |trans |desc('Commentaires en modération') }}
+
+                    {% if visualize is defined %}<span class="indicator"></span>{% endif %}
 				</a>
 			</li>
 			<li>
 				<a class="comment-sidebar-filter" data-filter-status="VALIDATED" href="{{ path('comment_manager_load') }}">
 					<img src="{{ asset('/medias/images/icons/valid_small.png') }}">
-					Commentaires publiés
+                    {{ 'LINK_COMMENT_PUBLISH' |trans |desc('Commentaires publiés') }}
+
+                    {% if visualize is defined %}<span class="indicator"></span>{% endif %}
 				</a>
 			</li>
 			<li>
 				<a class="comment-sidebar-filter" data-filter-status="REFUSED" href="{{ path('comment_manager_load') }}">
 					<img src="{{ asset('/medias/images/icons/refused_small.png') }}">
-					Commentaires refusés
+                    {{ 'LINK_COMMENT_DENY' |trans |desc('Commentaires refusés') }}
+
+                    {% if visualize is defined %}<span class="indicator"></span>{% endif %}
 				</a>
 			</li>
 		</ul>

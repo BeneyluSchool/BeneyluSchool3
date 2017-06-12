@@ -1,0 +1,29 @@
+{% trans_default_domain "GROUP" %}
+{% extends 'BNSAppGroupBundle:Back:layout.html.twig' %}
+
+{% block title %}
+	{{ 'TITLE_GROUPS_STATISTICS'|trans |desc('Groupes - Statistiques') }}
+{% endblock title%}
+	
+{% block css %}
+    {{ parent() }}
+    {% include "BNSAppStatisticsBundle::statsCSS.html.twig" %}
+{% endblock css%}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script	type="text/javascript" src="{{ asset('/medias/js/date.js') }}"></script>
+    <script	type="text/javascript" src="{{ asset('/medias/js/highcharts.js') }}"></script>
+    <script	type="text/javascript" src="{{ asset('/medias/js/highcharts-exporting.js') }}"></script>
+    <script	type="text/javascript" src="{{ asset('/medias/js/statistics/statistics.js') }}"></script>
+{% endblock javascripts%}  
+
+{% block sidebar %}
+    {{ render(controller('BNSAppGroupBundle:Back:sidebar', {'section' : 'stats'} )) }}
+{% endblock sidebar %}
+
+
+{% block content %}
+
+    {{ render(controller('BNSAppStatisticsBundle:DisplayStatistics:displayStats', { 'isExport': is_export, 'request': request, 'originPath': origin_path} )) }}
+{% endblock %}

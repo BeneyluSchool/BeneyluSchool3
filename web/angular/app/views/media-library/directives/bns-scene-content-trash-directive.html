@@ -1,0 +1,37 @@
+<div ng-repeat="folder in shared.context.children"
+  ng-class="{ empty: !(folder.children.length || folder.medias.length), selected: shared.contextSelection.has(folder) }"
+  class="media-library-scene-element folder"
+>
+  <div ng-click="shared.contextSelection.toggle(folder)" class="media-library-scene-element-nav" title="{{ folder.label }}">
+    <div class="media-library-scene-element-visual">
+      <i></i>
+      <div class="flags">
+        <div ng-show="folder.is_private" class="flag-lock"></div>
+      </div>
+    </div>
+    <div class="media-library-scene-element-label">
+      <input type="checkbox" ng-checked="shared.contextSelection.has(folder)" ng-model="dummy">
+      <span bns-favorite-flag="folder"></span>
+      {{ folder.label }}
+    </div>
+  </div>
+</div>
+
+<div ng-repeat="file in shared.context.medias"
+  ng-class="{ selected: shared.contextSelection.has(file) }"
+  class="media-library-scene-element file"
+>
+  <div ng-click="shared.contextSelection.toggle(file)" class="media-library-scene-element-nav" title="{{ file.label }}">
+    <div class="media-library-scene-element-visual">
+      <div class="centerer"></div><span bns-media-preview media="file"></span>
+      <div class="flags">
+        <div ng-show="file.is_private" class="flag-lock"></div>
+      </div>
+    </div>
+    <div class="media-library-scene-element-label">
+      <input type="checkbox" ng-checked="shared.contextSelection.has(file)" ng-model="dummy">
+      <span bns-favorite-flag="file"></span>
+      {{ file.label }}
+    </div>
+  </div>
+</div>

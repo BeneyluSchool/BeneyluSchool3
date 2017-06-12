@@ -1,0 +1,82 @@
+{% extends 'BNSAppNoteBookBundle:Back:layout.back.html.twig' %}
+
+{% block title %}
+    Beneylu School - Cahier journal - Manager
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ asset('/medias/js/notebook/Back/index.js') }}"></script>
+{% endblock %}
+
+{% block header %}
+    <div class="span6">
+        <a href="{{ path('BNSAppNoteBookBundle_back_create') }}" class="btn bns-info btn-24 large"><span class="icons-24 add-icon"></span>Ecrire un message</a>
+    </div>
+    {% if datesArchives|length > 0 %}
+    <div class="pull-right btn-group">
+		<a href="#" class="btn btn-24 medium-return dropdown-toggle" data-toggle="dropdown"><span class="icons-24 generate-icon"></span><strong>Exporter</strong> le<br /> cahier journal</span><span class="caret"></span></a>
+		<ul class="dropdown-menu">
+		    {% for date in datesArchives %}
+			<li><a href="{{ path('BNSAppNoteBookBundle_back_export', {'date': date }) }}">{{ date| year_month_bns }}</a></li>
+			{% endfor %}
+		</ul>
+	</div>
+	{% endif %}
+
+{% endblock header %}
+
+{% block sidebar %}
+    <div class="container-sidebar list">
+        {% block archives %}
+            {{ render(controller('BNSAppNoteBookBundle:Common:archives', { 'newsDate' : newsDate, 'admin' : true } )) }}
+        {% endblock %}
+        <div class="sidebar-shadow"></div>
+    </div>
+{% endblock sidebar %}
+
+{% block content %}
+    <div id="notebook-messages" class="item-list-container">
+    {# afficher la liste des news #}
+    {% if news == false %}
+        {% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+                    'text' : "Il n'y a aucun message ce mois-ci.",
+                    'button': {
+                        'text' : "Ecrire un nouveau message",
+                        'link' : path('BNSAppNoteBookBundle_back_create')
+                }
+            } 
+        %}
+    {% endif %}
+    {% for new in news %}
+        <div class="content-news item" id="{{ new.slug }}">
+            <div class="vertical-separator blue"></div>
+            <div class="header">
+                <div class="buttons-container">
+                    <a href="#" class="btn bns-notice btn-16 small right btn-visualisation">
+                        <span class="icons-16 arrow-right-icon right"></span>
+                        <strong>Voir le message</strong>
+                    </a>
+                </div>
+                <h3>{{ new.title }}</h3>
+                <h5>{{ new.date | date_bns('full', 'none') | capitalize }}</h5>
+            </div>
+            <div class="text">
+                {{ new.getShortContent() | purify }}
+            </div>
+            <div class="footer">
+                {{ date_from_now(new.createdAt, true, true, 'full') }} par <img src="{{ avatar(new.user, 'thumbnail') }}" alt="" class="avatar" /> {{ new.user.fullName }}
+            </div>
+        </div>
+    {% else %}
+        {% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+            'text' : "Il n'y a aucun message en " ~ newsDate | date_bns('none', 'none', 'LLLL y') ~ ". Vous pouvez :",
+            'button': {
+                'text' : "Ecrire un nouveau message",
+                'link' : path('BNSAppNoteBookBundle_back_create')
+            }
+        } %}
+    {% endfor %}
+    </div>
+{% endblock %}

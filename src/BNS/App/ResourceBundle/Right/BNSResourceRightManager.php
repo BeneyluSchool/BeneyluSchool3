@@ -2,16 +2,20 @@
 
 namespace BNS\App\ResourceBundle\Right;
 
-use \Exception;
+use \BNS\App\CoreBundle\Access\BNSAccess;
+use \BNS\App\CoreBundle\Model\GroupQuery;
+use \BNS\App\ResourceBundle\Model\Resource;
+use \BNS\App\ResourceBundle\Model\ResourceInternetSearch;
+use \BNS\App\ResourceBundle\Model\ResourceJoinObjectQuery;
+use \BNS\App\ResourceBundle\Model\ResourceLabelGroup;
+use \BNS\App\ResourceBundle\Model\ResourceLabelGroupQuery;
+use \BNS\App\ResourceBundle\Model\ResourceLabelUser;
+use \BNS\App\ResourceBundle\Model\ResourceLinkGroupQuery;
+use \BNS\App\ResourceBundle\Model\ResourceLinkUserQuery;
+use \BNS\App\ResourceBundle\Model\ResourceQuery;
+use \BNS\App\ResourceBundle\Model\ResourceWhiteListQuery;
 use \Criteria;
-
-use BNS\App\ResourceBundle\Model\ResourceQuery,
-	BNS\App\ResourceBundle\Model\Resource,
-	BNS\App\ResourceBundle\Model\ResourceWhiteListQuery,
-	BNS\App\ResourceBundle\Model\ResourceJoinObjectQuery,
-	BNS\App\CoreBundle\Model\GroupQuery,
-	BNS\App\ResourceBundle\Model\ResourceInternetSearch,
-    BNS\App\CoreBundle\Access\BNSAccess;
+use \Exception;
 
 
 
@@ -21,42 +25,58 @@ use BNS\App\ResourceBundle\Model\ResourceQuery,
  */
 
 class BNSResourceRightManager
-{	
-	
+{
+	/**
+	 * @var \BNS\App\ResourceBundle\BNSResourceManager
+	 */
 	protected $resource_manager;
-		
+
+
+	/**
+	 * @param \BNS\App\ResourceBundle\BNSResourceManager $resource_manager
+	 */
 	public function __construct($resource_manager)
 	{
 		$this->resource_manager = $resource_manager;
     }
-	
+
 	//////////////////////     Fonctions racourcies     \\\\\\\\\\\\\\\\\\\\\\\\
-	
+
 	public function getResourceManager()
 	{
 		return $this->resource_manager;
 	}
-	
+
 	public function getUserManager()
 	{
 		return $this->resource_manager->getUserManager();
 	}
-	
+
 	public function getGroupManager()
 	{
 		return $this->resource_manager->getGroupManager();
 	}
-	
+
+	/**
+	 * @param User $user
+	 *
+	 * @return \BNS\App\ResourceBundle\Right\BNSResourceRightManager
+	 */
 	public function setUser($user)
 	{
 		$this->getResourceManager()->setUser($user);
+
+		return $this;
 	}
-	
+
+	/**
+	 * @return User
+	 */
 	public function getUser()
 	{
 		return $this->getResourceManager()->getUser();
 	}
-	
+
 	/**
 	 * Renvoie le right manager pour les vérifications de droits
 	 * N'est pas instancié avec le système de service container car en scope Request => conflits
@@ -66,30 +86,36 @@ class BNSResourceRightManager
 	{
 		return BNSAccess::getContainer()->get('bns.right_manager');
 	}
-		
+
 	/**
 	 * L'utilisateur set dans le resourceManager peut il administrer l'utilisateur en paramètre ?
+	 *
 	 * @param int $userId
+	 *
 	 * @return boolean
 	 */
 	public function canManageUser($userId)
 	{
 		$currentUser = $this->getUser();
-		if($currentUser->getId() == $userId){
+		if ($currentUser->getId() == $userId) {
 			return true;
 		}
+
 		$userManager = $this->getUserManager();
 		$userManager->setUser($currentUser);
-		$adminUsersGroups = $userManager->getGroupsWherePermission("RESOURCE_USERS_ADMINISTRATION");
-		foreach($adminUsersGroups as $group){
+		$adminUsersGroups = $userManager->getGroupsWherePermission('RESOURCE_USERS_ADMINISTRATION');
+
+		foreach ($adminUsersGroups as $group) {
 			$this->getGroupManager()->setGroup($group);
-			if(in_array($userId,$this->getGroupManager()->getUsersIds())){
+
+			if (in_array($userId, $this->getGroupManager()->getUsersIds())) {
 				return true;
 			}
 		}
+
 		return false;
 	}
-	
+
 	/**
 	 * L'utilisateur set dans le resourceManager peut il administrer le groupe en paramètre ?
 	 * @param int $groupId
@@ -102,10 +128,12 @@ class BNSResourceRightManager
 		$userManager->setUser($currentUser);
 		return in_array($groupId,$userManager->getGroupIdsWherePermission("RESOURCE_ADMINISTRATION"));
 	}
-	
+
 	/**
 	 * L'utilisateur set dans le resourceManager peut il lire le groupe en paramètre ?
+	 *
 	 * @param int $groupId
+	 *
 	 * @return boolean
 	 */
 	public function canReadGroup($groupId)
@@ -113,48 +141,59 @@ class BNSResourceRightManager
 		$currentUser = $this->getUser();
 		$userManager = $this->getUserManager();
 		$userManager->setUser($currentUser);
-		return in_array($groupId,$userManager->getGroupIdsWherePermission("RESOURCE_ACCESS"));
+
+		return in_array($groupId, $userManager->getGroupIdsWherePermission('RESOURCE_ACCESS'));
 	}
-	
+
 	/**
 	 * L'utilisateur set dans le resourceManager peut il lire l'utilisateur en paramètre ?
+	 *
 	 * @param int $userId
+	 *
 	 * @return boolean
 	 */
 	public function canReadUser($userId)
 	{
 		$currentUser = $this->getUser();
 		$userManager = $this->getUserManager();
-		$groupManager = $this->getGroupManager();
 		$userManager->setUser($currentUser);
-		foreach($userManager->getGroupsWherePermission("RESOURCE_ACCESS") as $group){
+
+        if ($currentUser->getId() == $userId) {
+            return $this->getRightManager()->hasRightSomeWhere('RESOURCE_ACCESS');
+        }
+
+		$groupManager = $this->getGroupManager();
+		foreach ($userManager->getGroupsWherePermission('RESOURCE_ACCESS') as $group) {
 			$groupManager->setGroup($group);
-			if(in_array($userId,$groupManager->getUsersIds())){
+			if (in_array($userId, $groupManager->getUsersIds())) {
 				return true;
 			}
 		}
+
 		return false;
 	}
-	
+
 	//////////////  FONCTIONS LIEES AUX LIBELLES  \\\\\\\\\\\\\\\\
-	
+
 	/**
 	 * Vérification des droits du User en cours sur un label (utilisé pour les droits en CRUD)
+	 *
 	 * @param $label (ResourceLabelUser OU ResourceLabelGroup)
+	 *
 	 * @return boolean
 	 */
 	public function canManageLabel($label)
 	{
-		//Selon type
-		$type = $label->getType();
-		if($type == 'user'){
+		if ($label->getType() == 'user') {
 			return $this->canManageUser($label->getUserId());
-		}elseif($type == 'group'){
+		}
+		elseif ($label->getType() == 'group') {
 			return $this->canManageGroup($label->getGroupId());
 		}
+
 		return false;
 	}
-	
+
 	/**
 	 * L'utilisateur set dans le resourceManager peut il lire $label
 	 * @param $label (ResourceLabelUser OU ResourceLabelGroup)
@@ -162,16 +201,17 @@ class BNSResourceRightManager
 	 */
 	public function canReadLabel($label)
 	{
-		//Selon type
-		$type = $label->getType();
-		if($type == 'user'){
+		// Selon type
+		if ($label->getType() == 'user') {
 			return $this->canReadUser($label->getUserId());
-		}elseif($type == 'group'){
+		}
+		elseif ($label->getType() == 'group') {
 			return $this->canReadGroup($label->getGroupId());
 		}
+
 		return false;
 	}
-	
+
 	/**
 	 * L'utilisateur set dans le resourceManager peut il créer dans $parent un label
 	 * @param $parent (ResourceLabelUser OU ResourceLabelGroup)
@@ -181,7 +221,7 @@ class BNSResourceRightManager
 	{
 		return $this->canManageLabel($parent);
 	}
-	
+
 	/**
 	 * L'utilisateur set dans le resourceManager peut il éditer $label
 	 * @param $label (ResourceLabelUser OU ResourceLabelGroup)
@@ -191,7 +231,7 @@ class BNSResourceRightManager
 	{
 		return $this->canManageLabel($label);
 	}
-	
+
 	/**
 	 * L'utilisateur set dans le resourceManager peut il supprimer $label
 	 * @param $label (ResourceLabelUser OU ResourceLabelGroup)
@@ -203,7 +243,7 @@ class BNSResourceRightManager
 	}
 
 	//////////////  FONCTIONS LIEES AUX RESSOURCES  \\\\\\\\\\\\\\\\
-	
+
 	/**
 	 * Est il l'auteur de la ressource
 	 * @param type Resource $resource
@@ -213,7 +253,7 @@ class BNSResourceRightManager
 	{
 		return $resource->getUserId() == $this->getUser()->getId();
 	}
-	
+
 	/**
 	 * L'utilisateur peut il créer une resource dans ce label ?
 	 * @param $label
@@ -223,100 +263,162 @@ class BNSResourceRightManager
 	{
 		return $label == null ? false : $this->canManageLabel($label);
 	}
-	
+
 	/**
 	 * L'utilisateur peut il lire la ressource ?
+	 *
 	 * @param Resource $resource
+	 *
 	 * @return boolean
 	 */
-	public function canReadResource(Resource $resource)
-	{
-		$currentUser = $this->getUser();
-		$userManager = $this->getUserManager();
-		$userManager->setUser($currentUser);
-		//Cas le plus simple
-		if($this->isAuthor($resource)){
-			return true;
-		}
-		$userAccessGroupIds = $userManager->getGroupIdsWherePermission("RESOURCE_ACCESS");
-		/*
-		 * Pour le READ : est lisible si la ressource est linkée à un label, dans un group dans lequel j'ai le droit RESOURCE_ACCESS
-		 */
-		$resourceLinkedGroups = $resource->getResourceLinkGroups();
-		foreach($resourceLinkedGroups as $resourceLinkedGroup){
-			if(in_array($resourceLinkedGroup->getGroupId(),$userAccessGroupIds)){
-				return true;
-			}
-		}
-		//Sinon est elle liée à un utilisateur sur lequel j'ai les droits de lecture
-		$resourceLinkedUsers = $resource->getResourceLinkUsers();
-		foreach($resourceLinkedUsers as $resourceLinkedUser){
-			if($this->canReadUser($resourceLinkedUser->getResourceLabelUserId())){
-				return true;
-			}
-		}
-		//Sinon elle est en pièce jointe
-		$attachmentLinks = ResourceJoinObjectQuery::create()
-			->filterByResourceId($resource->getId())
-			->joinResourceJoinObjectLinks('ResourceJoinObjectLinks')
-			->where('ResourceJoinObjectLinks.userId = ?',$currentUser->getId())
-			->orWhere('ResourceJoinObjectLinks.groupId IN ?',$userAccessGroupIds)
-			->count();
-		if($attachmentLinks > 0){
-			return true;
-		}
-		return false;
-	}
-	
+    public function canReadResource(Resource $resource, $isVisualise = false)
+    {
+        $currentUser = $this->getUser();
+        $userManager = $this->getUserManager();
+        $userManager->setUser($currentUser);
+
+        // Cas le plus simple
+        if ($this->isAuthor($resource)) {
+            return true;
+        }
+
+        $accessGroupIds = array_merge($userManager->getGroupIdsWherePermission('RESOURCE_USERS_ADMINISTRATION'),$userManager->getGroupIdsWherePermission('RESOURCE_ADMINISTRATION'));
+
+        // Si visualisation ou si publique
+        if ($isVisualise || !$resource->isPrivate()) {
+            $accessGroupIds = array_merge($accessGroupIds,$userManager->getGroupIdsWherePermission('RESOURCE_ACCESS'));
+        }
+
+        // TODO test me
+        $attachmentLinks = ResourceJoinObjectQuery::create('rjo')
+            ->join('rjo.ResourceJoinObjectLinks rjol')
+            ->where('rjo.ResourceId = ?', $resource->getId())
+            ->where('rjol.userId = ?', $currentUser->getId())
+            ->orWhere('rjol.groupId IN ?', $accessGroupIds)
+            ->count();
+
+        if ($attachmentLinks > 0) {
+            return true;
+        }
+
+        $resourceGroupIds = $this->resource_manager->getResourceGroupIds($resource);
+        foreach ($accessGroupIds as $groupId) {
+            if (in_array($groupId, $resourceGroupIds)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 	/**
 	 * L'utilisateur peut il manager la ressource ?
-	 * @param Resource $resource
+	 *
+	 * @param Resource				  $resource
+	 * @param null|ResourceLabelGroup $label	Si null, c'est un label User donc inutile de le lier
+	 *
 	 * @return boolean
 	 */
-	public function canManageResource(Resource $resource)
+	public function canManageResource(Resource $resource, $label = null)
 	{
 		$currentUser = $this->getUser();
 		$userManager = $this->getUserManager();
 		$userManager->setUser($currentUser);
-		
-		if($this->isAuthor($resource)){
+
+		// Est l'auteur
+		if ($this->isAuthor($resource)) {
 			return true;
 		}
-		
-		if($this->canManageUser($resource->getUserId())){
+
+		// Peut gérer l'utilisateur et donc ses publications
+		if ($this->canManageUser($resource->getUserId())) {
 			return true;
 		}
-		
-		$strongLinkedGroup = $resource->getStrongLinkedGroup();
-		if($strongLinkedGroup){
-			$actionUserRights = $userManager->getGroupIdsWherePermission("RESOURCE_ADMINISTRATION");
-			if(in_array($strongLinkedGroup->getId(),$actionUserRights)){
-				return true;
-			}
+
+		// Peut gérer le groupe
+		if (null != $label && $label->getType() == 'group') {
+			return $userManager->hasRight('RESOURCE_ADMINISTRATION', $label->getGroup()->getId());
 		}
+
 		return false;
 	}
-	
+
+	/**
+	 * L'utilisateur peut-il agir sur un document sélectionnée
+	 *
+	 * @param Resource		$resource
+	 * @param int			$userId
+	 * @param ResourceLabel $label
+	 * @param null|boolean	$canManage
+	 *
+	 * @return boolean
+	 */
+	public function canManageResourceFromSelection(Resource $resource, $userId, $label, $canManage = null)
+	{
+		// Tous les droits, on accepte
+		if (null == $canManage && $this->canManageResource($resource, $label) || $canManage === true) {
+			return true;
+		}
+
+		if ($label->getType() == 'user') {
+			$link = ResourceLinkUserQuery::create('rlu')
+				->join('rlu.ResourceLabelUser rlau')
+				->join('rlu.Resource r')
+				->where('r.Id = ?', $resource->getId())
+				->where('rlau.UserId = ?', $userId)
+				->where('rlau.Id = ?', $label->getId())
+			->findOne();
+
+			return null != $link;
+		}
+
+		return false;
+	}
+
 	/**
 	 * L'utilisateur peut il mettre à jour la ressource
-	 * @param type $resource
-	 * @return type
+	 *
+	 * @param Resource $resource
+	 *
+	 * @return boolean
 	 */
 	public function canUpdateResource($resource)
 	{
 		return $this->canManageResource($resource);
 	}
-	
+
 	/**
 	 * L'utilisateur peut il supprimer la ressource ?
-	 * @param Resource $resource
-	 * @return type
+	 *
+	 * @param Resource		$resource
+	 * @param int			$userId
+	 * @param ResourceLabel $label
+	 * @param null|boolean	$canManage
+	 *
+	 * @return boolean
 	 */
-	public function canDeleteResource(Resource $resource)
+	public function canDeleteResource(Resource $resource, $userId, $label, $canManage = null)
 	{
-		return $this->canManageResource($resource);
+		// Tous les droits, on accepte
+		if (null == $canManage && $this->canManageResource($resource, $label) || $canManage === true) {
+			return true;
+		}
+
+		if ($label->getType() == 'user') {
+			$link = ResourceLinkUserQuery::create('rlu')
+				->join('rlu.ResourceLabelUser rlau')
+				->join('rlu.Resource r')
+				->where('r.Id = ?', $resource->getId())
+				->where('rlau.UserId = ?', $userId)
+				->where('rlau.Id = ?', $label->getId())
+			->findOne();
+
+			return null != $link;
+		}
+
+		return false;
 	}
-	
+
 	/**
 	 * Peut il tagger la ressource ?
 	 * @param Resource $resource
@@ -326,7 +428,7 @@ class BNSResourceRightManager
 	{
 		return $this->canRead($resource);
 	}
-	
+
 	/**
 	 * Peut il uploader une ressource ? (vérification des droits de stockage)
 	 * @param Resource $size

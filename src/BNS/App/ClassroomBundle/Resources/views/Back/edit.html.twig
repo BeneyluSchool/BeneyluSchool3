@@ -1,8 +1,9 @@
+{% trans_default_domain "CLASSROOM" %}
+
 {% extends 'BNSAppClassroomBundle:Back:layout.html.twig' %}
 
 {% block javascripts %}
 	 {{ parent() }}
-	<script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 {% endblock %}
 
 {% block content %}
@@ -11,20 +12,20 @@
 			<div class="title-content">				
 				{{ form_errors(form.NAME) }}
 				{{ form_widget(form.NAME, { 'attr': {'class': 'field text span5'} }) }}
-				<img src="{{ asset('/medias/images/common/icon/level/cm2.png') }}" alt="La classe" class="pull-right" />
-				<img src="{{ asset('/medias/images/common/icon/level/cm1.png') }}" alt="La classe" class="pull-right" />
-				<img src="{{ asset('/medias/images/common/icon/level/ce2.png') }}" alt="La classe" class="pull-right" />
-				<img src="{{ asset('/medias/images/common/icon/level/ce1.png') }}" alt="La classe" class="pull-right" />
-				<img src="{{ asset('/medias/images/common/icon/level/cp.png') }}" alt="La classe" class="pull-right" />
+				<img src="{{ asset('/medias/images/common/icon/level/cm2.png') }}" alt="ALTERNATIVE_CLASS" class="pull-right" />
+				<img src="{{ asset('/medias/images/common/icon/level/cm1.png') }}" alt="ALTERNATIVE_CLASS" class="pull-right" />
+				<img src="{{ asset('/medias/images/common/icon/level/ce2.png') }}" alt="ALTERNATIVE_CLASS" class="pull-right" />
+				<img src="{{ asset('/medias/images/common/icon/level/ce1.png') }}" alt="ALTERNATIVE_CLASS" class="pull-right" />
+				<img src="{{ asset('/medias/images/common/icon/level/cp.png') }}" alt="ALTERNATIVE_CLASS" class="pull-right" />
 				<div class="clear"></div>
 			</div>
 			<div class="description-content-edit description-content">
 				<div class="span4 img-class">
-					<img src="{{ asset('/medias/images/classroom/avatar-class.png') }}" alt="L'avatar de la classe" />
+					<img src="{{ asset('/medias/images/classroom/avatar-class.png') }}" alt="ALTERNATIVE_AVATAR_CLASS" />
 					<input type="file" name="file" class="input-file">
 				</div>
 				<div class="span8 description-class-edit">
-					<h3>Description</h3>
+					<h3>{{ 'TITLE_DESCRIPTION'|trans }}</h3>
 					{{ form_errors(form.DESCRIPTION) }}
 					{{ form_widget(form.DESCRIPTION, { 'attr': {'class': 'field textarea'} }) }}
 
@@ -53,7 +54,7 @@
 					</ul>
 
 					{{ form_rest(form) }}
-					<input type="submit" class="btn" value="Valider" />
+					<input type="submit" class="btn" value="BUTTON_VALIDATE" />
 				</div>
 			</div>
 

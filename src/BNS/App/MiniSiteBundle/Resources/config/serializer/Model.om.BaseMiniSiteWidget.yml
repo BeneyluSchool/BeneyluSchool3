@@ -1,0 +1,9 @@
+BNS\App\MiniSiteBundle\Model\om\BaseMiniSiteWidget:
+  exclusion_policy: All
+  properties:
+    id:
+      expose: true
+    title:
+      expose: true
+    rank:
+      expose: true

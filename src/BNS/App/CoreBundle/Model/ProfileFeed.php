@@ -8,7 +8,7 @@ use BNS\App\CoreBundle\Model\om\BaseProfileFeed;
 /**
  * Skeleton subclass for representing a row from the 'profile_feed' table.
  *
- * 
+ *
  *
  * You should add additional methods to this class to meet the
  * application requirements.  This class will only be generated as
@@ -20,12 +20,12 @@ class ProfileFeed extends BaseProfileFeed
 {
 	const TYPE_STATUS		= 'status';
 	const TYPE_RESOURCE		= 'resource';
-	
-	const PROFILE_FEED_LIMIT = 3;
-	
+
+	const PROFILE_FEED_LIMIT = 5;
+
 	/**
 	 * @return string Le type de la publication (constante TYPE_*)
-	 * 
+	 *
 	 * @throws \RuntimeException Si aucun type n'est trouvé ou si celui-ci n'est pas spécifié dans le code
 	 */
 	public function getType()
@@ -34,57 +34,81 @@ class ProfileFeed extends BaseProfileFeed
 			return self::TYPE_STATUS;
 		else if (isset($this->singleProfileFeedResource))
 			return self::TYPE_RESOURCE;
-		
+
 		throw new \RuntimeException('Unknown feed type ! Please, specify the feed type in the ProfileFeed::getType() method.');
-		
+
 		return null;
 	}
-	
+
 	/**
 	 * Simple shortcut
-	 * 
-	 * @return ProfileFeedResource 
+	 *
+	 * @return ProfileFeedResource
 	 */
 	public function getResource()
 	{
 		return $this->getProfileFeedResource();
 	}
-	
+
 	/**
 	 * @return User L'auteur de la publication
 	 */
 	public function getAuthor()
 	{
-        $user = $this->getProfile()->getUser();
-		
-		return $user;
+		return $this->getProfile()->getUser();
 	}
-    
+
+    /**
+     * @return int
+     */
+    public function getAuthorId()
+    {
+        return $this->getProfile()->getUserId();
+    }
+
     /**
 	 * Inverse the comments order
-	 * 
-	 * @return array<ProfileComment> 
+	 *
+	 * @param type $limit
+	 *
+	 * @return array<ProfileComment>
 	 */
-	public function getProfileCommentsInverse()
+	public function getProfileCommentsInverse($limit = null)
 	{
 		$comments = array();
 		$coms = $this->getProfileComments();
-		$max = count($coms);
-		
+		$count = count($coms);
+		$max = null != $limit ? $limit > $count ? $count : $limit : $count;
+
 		for ($i=$max-1; $i>=0; $i--) {
 			$comments[] = $coms[$i];
 		}
-		
+
 		return $comments;
 	}
-	
-	public function getNbComments()
+
+	/**
+	 * @return boolean
+	 */
+	public function isPendingValidation()
 	{
-		if (null == parent::getNbComments())
-		{
-			return 0;
-		}
-		
-		return parent::getNbComments();
+		return $this->getStatus() == ProfileFeedPeer::STATUS_PENDING_VALIDATION;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->getProfile()->getUser()->getFullName();
+	}
+
+    /**
+     * Pour l'instant utilisé pour les status de nouvelle année
+     */
+    public function togglePublication()
+    {
+        $this->setPublishable(!$this->getPublishable());
+        $this->save();
+    }
 }

@@ -1,0 +1,17 @@
+<scrollable>
+  <div class="workshop-scene">
+    <div class="workshop-page-container workshop-document-view">
+      <div bns-workshop-document-page="ctrl.page" document="ctrl.document" font-size-reference-width="880" view-mode="write" bns-workshop-document-page-write="ctrl.page"></div>
+
+      <div ng-if="::!ctrl.document.is_questionnaire" class="workshop-page-current-position">
+        {{ ctrl.page.position }}
+      </div>
+
+      <a ng-if="::!ctrl.document.is_questionnaire" ui-sref="app.workshop.document.base.pages({ pagePosition: ctrl.prevPosition })" class="workshop-page-nav prev" ng-show="ctrl.prevPosition" translate>WORKSHOP.DOCUMENT.GOTO_PREVIOUS_PAGE</a>
+      <a ng-if="::!ctrl.document.is_questionnaire" ui-sref="app.workshop.document.base.pages({ pagePosition: ctrl.nextPosition })" class="workshop-page-nav next" ng-show="ctrl.nextPosition" translate>WORKSHOP.DOCUMENT.GOTO_NEXT_PAGE</a>
+      <a ng-if="::!ctrl.document.is_questionnaire" href="" ng-click="ctrl.addPage(true)" class="workshop-page-nav next" ng-show="!ctrl.nextPosition" translate>WORKSHOP.DOCUMENT.NEW_PAGE</a>
+    </div>
+  </div>
+</scrollable>
+
+<div class="workshop-scene-overlay" ng-show="WorkshopDocumentState.isEditingWidget"></div>

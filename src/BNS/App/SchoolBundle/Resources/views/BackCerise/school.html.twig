@@ -1,0 +1,33 @@
+{% trans_default_domain "SCHOOL" %}
+{% extends 'BNSAppSchoolBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+  {% trans %}TITLE_SCHOOL_DASHBOARD{% endtrans %}
+{% endblock %}
+
+{% block top_bar %}{% endblock %}
+
+{% block sidebar %}
+  {% include "BNSAppSchoolBundle:Sidebar:sidebar.html.twig" with {"page" : "cerise" } %}
+{% endblock sidebar %}
+
+{% block content %}
+
+    <h3 class="whitelist-title">{{ 'TITLE_ACCESS_CERISE_PRISM'|trans([] , 'GROUP') |desc('Accès à CERISE Prim') }}</h3>
+
+    {% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+        'text': 'CLICK_TO_ACCESS_CERISE'|trans([] , 'GROUP') |desc("Cliquez pour accéder à CERISE Prim"),
+        'button': {
+        'text': 'LOG_IN'|trans([] , 'GROUP') |desc('Se connecter'),
+        'link': path('BNSAppSchoolBundle_back_cerise_login')
+        }
+    } %}
+
+    {% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+        'text': 'CLICK_TO_UPDATE_CERISE'|trans([] , 'GROUP') |desc("Cliquez pour mettre à jour vos données sur CERISE Prim"),
+        'button': {
+        'text':'UPDATE'|trans([] , 'GROUP') |desc('Mettre à jour'),
+        'link': path('BNSAppSchoolBundle_back_cerise_update')
+        }
+    } %}
+{% endblock %}

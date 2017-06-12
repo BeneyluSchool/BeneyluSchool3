@@ -1,6 +1,12 @@
+{% if widget.getMiniSiteWidgetTemplate().getType()=="RSS" and widget.getRssUrl() == null %}
+{% else %}
 <div class="widget {{ widget.getMiniSiteWidgetTemplate().getType()|lower }}" id="widget-{{ widget.getId() }}">
-	{% block widget_content %}Add my content!{% endblock widget_content %}
-</div>
+	{% block widget_content %}
+		Add my content!
+	{% endblock widget_content %}
+</div>{% endif %}
+
+{#
 <div class="widget clock">
 	<div class="days">
 		<p>12</p>
@@ -22,3 +28,4 @@
 	<div class="cloud"></div>
 	<div class="sun"></div>
 </div>
+#}

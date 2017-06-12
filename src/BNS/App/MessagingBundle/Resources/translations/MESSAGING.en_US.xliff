@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-06-21T10:46:14Z" source-language="en" target-language="en-US" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="65794aa8bf1ee1a4e6e7df0a4350901f45c7235f" resname="ADD_CONTACT">
+        <source>ADD_CONTACT</source>
+        <target state="new"><![CDATA[Add  <br/>a recipient]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="09e345684625cd771c82353a99f1e0eb7c374ae3" resname="ADULT_CHOOSE_RECEIVER">
+        <source>ADULT_CHOOSE_RECEIVER</source>
+        <target state="new">Choose a recipient</target>
+      </trans-unit>
+      <trans-unit id="ffecdf42e4d832541c45fe62a880682b2f8af3e9" resname="BUTTON_ANSWER">
+        <source>BUTTON_ANSWER</source>
+        <target state="new">Send an answer</target>
+      </trans-unit>
+      <trans-unit id="19fb57aad78aa81f4e2d5286f4fd2e4ee41d755f" resname="BUTTON_ATTACHED_DOCUMENT_TO_DOWNLOAD">
+        <source>BUTTON_ATTACHED_DOCUMENT_TO_DOWNLOAD</source>
+        <target state="new">Retrieve attachment</target>
+      </trans-unit>
+      <trans-unit id="a3693c3519b24f02d5a10d5ee80255229873a648" resname="BUTTON_BACK_TO_DELETED_MESSAGE">
+        <source><![CDATA[Revenir aux <br />messages supprimés]]></source>
+        <target state="new"><![CDATA[Go back to <br />deleted messages]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="23ff7b93f8c2dc8185e2c8dbc1323bbc7cf55d97" resname="BUTTON_BACK_TO_DRAFT">
+        <source><![CDATA[Revenir aux <br />brouillons]]></source>
+        <target state="new"><![CDATA[Go back to <br />drafts]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="b0636e4ddb0518163bd900056234a546a708f146" resname="BUTTON_BACK_TO_INBOX">
+        <source><![CDATA[Revenir à la <br>boite de reception]]></source>
+        <target state="new"><![CDATA[Go back to <br>inbox]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="b5807275919533966ed35ad7107f32be00659416" resname="BUTTON_BACK_TO_RECEIVED_MESSAGE">
+        <source><![CDATA[Revenir aux <br />messages reçus]]></source>
+        <target state="new"><![CDATA[Go back to <br />received messages]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="dc1e9e7160e58b0782a60d93724776e9987c68fd" resname="BUTTON_BACK_TO_SEARCH">
+        <source><![CDATA[Revenir à la <br />recherche]]></source>
+        <target state="new"><![CDATA[Go back to <br />search]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="edf9061c45b672a93a14463d45ba62829cded7e4" resname="BUTTON_BACK_TO_SENT_MESSAGE">
+        <source><![CDATA[Revenir aux <br />messages envoyés]]></source>
+        <target state="new"><![CDATA[Go back to <br />sent messages]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="d993dcffcadd2385009f3b21f397b6388bc7a09b" resname="BUTTON_DELETE">
+        <source>BUTTON_DELETE</source>
+        <target state="new">Delete</target>
+      </trans-unit>
+      <trans-unit id="b7dfd70ca996a8fe0773879d67ed65da47f650f2" resname="BUTTON_DELETE_DRAFT">
+        <source><![CDATA[Supprimer<br/>le brouillon]]></source>
+        <target state="new"><![CDATA[Delete | draft]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="46735de06ca10d9f3366ebe98f59ee9625592770" resname="BUTTON_DELETE_MESSAGE">
+        <source><![CDATA[Supprimer<br/>le message]]></source>
+        <target state="new"><![CDATA[Delete | message]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="173816341b77d299adc56760015b738d8238c2ed" resname="BUTTON_DENY">
+        <source>BUTTON_DENY</source>
+        <target state="new">Decline</target>
+      </trans-unit>
+      <trans-unit id="ea54c69618facc11bbb7bac9293f34283fb855d1" resname="BUTTON_MODERATE_MESSAGE">
+        <source>BUTTON_MODERATE_MESSAGE</source>
+        <target state="new">Moderate message</target>
+      </trans-unit>
+      <trans-unit id="1963aa50e32c781833c611650b19ff5fd61503a1" resname="BUTTON_MODERATION">
+        <source>BUTTON_MODERATION</source>
+        <target state="new">Switch back to moderation</target>
+      </trans-unit>
+      <trans-unit id="b0faf7b7791503e377408f89ee7194d32ae34bb9" resname="BUTTON_READ_MESSAGE">
+        <source>BUTTON_READ_MESSAGE</source>
+        <target state="new">Read message</target>
+      </trans-unit>
+      <trans-unit id="1aa6340ffed9870fe6c6bba8eabd3142997df158" resname="BUTTON_RESTORE">
+        <source>BUTTON_RESTORE</source>
+        <target state="new">Restore</target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="25ded961ff327eee289ec9ce40dfa5c44d39f401" resname="BUTTON_SAVE_AS_DRAFT">
+        <source><![CDATA[Enregistrer en <br/>brouillon]]></source>
+        <target state="new"><![CDATA[Save <br/>draft]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="cc64f35d044f3c8be7b46ded0b495c36ab2c18c8" resname="BUTTON_SEARCH">
+        <source>BUTTON_SEARCH</source>
+        <target state="new">Search</target>
+      </trans-unit>
+      <trans-unit id="f8f72ccae76f73ca7df07a57ce6cb98576ed13dc" resname="BUTTON_SEE_MESSAGE">
+        <source>BUTTON_SEE_MESSAGE</source>
+        <target state="new">View message</target>
+      </trans-unit>
+      <trans-unit id="2f6d9b0bfe4882253bb3dceccb824ab9f91bbf0d" resname="BUTTON_SEND">
+        <source>BUTTON_SEND</source>
+        <target state="new">Send</target>
+      </trans-unit>
+      <trans-unit id="43ec614b34c2fb2de74b4b1e8e4842bfe2b8d943" resname="BUTTON_SEND_RESPONSE">
+        <source><![CDATA[Envoyer <br >la réponse]]></source>
+        <target state="new"><![CDATA[Send answer]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="fd4b69be5901d7090725f9414280e8f8c91c2f5a" resname="BUTTON_VALIDATE">
+        <source>BUTTON_VALIDATE</source>
+        <target state="new">Validate</target>
+      </trans-unit>
+      <trans-unit id="feaa9e301a070eb377b2aed4872558770febe073" resname="BUTTON_WRITE_NEW_MESSAGE">
+        <source><![CDATA[Ecrire un <br />nouveau message]]></source>
+        <target state="new"><![CDATA[Write a <br />new message]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="6c6cad8caa05df4bc2b2fcfed7e2c511e780eeea" resname="CALL_HAVENT_YOU_CAN">
+        <source><![CDATA[Vous n'avez pas de %wordType%.<br /> Vous pouvez]]></source>
+        <target state="new"><![CDATA[You do not have any %wordType%.<br /> You can]]></target>
+        <note><![CDATA[%wordType% is a placeholder
+This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="fa4092cee8294e0b3cc4a01da3858ad57ca92248" resname="CHILD_CHOOSE_RECEIVER">
+        <source>CHILD_CHOOSE_RECEIVER</source>
+        <target state="new">Choose a recipient</target>
+      </trans-unit>
+      <trans-unit id="fc29a34e2910f1b2d79b4d7eb6547fe58b008f25" resname="CHILD_HAVENT_YOU_CAN">
+        <source><![CDATA[Tu n'as pas de %wordType%.<br /> Tu peux ]]></source>
+        <target state="new"><![CDATA[You don't have any %wordType%.<br /> You can]]></target>
+        <note><![CDATA[%wordType% is a placeholder
+This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="25361f9c123adeaa0593c8d43d2da1b5220f7ee4" resname="CHOOSE_MIN_ONE_RECEIVER">
+        <source>CHOOSE_MIN_ONE_RECEIVER</source>
+        <target state="new">You need to choose at least one recipient</target>
+      </trans-unit>
+      <trans-unit id="ec0fa1e8e59d7da3d81fe39dadd28083a460b407" resname="DESCRIPTION_ENABLED_DISABLED_MODERATION">
+        <source>DESCRIPTION_ENABLED_DISABLED_MODERATION</source>
+        <target state="new">A green light means that the moderation mode is switched on, messages will need to be confirmed before they reach the recipients. A red light means that the messages go straight to the recipients.</target>
+      </trans-unit>
+      <trans-unit id="47faf427bba31153617d0bc0ff1552ff19521709" resname="EDIT_DRAFT">
+        <source>EDIT_DRAFT</source>
+        <target state="new">Edit draft</target>
+      </trans-unit>
+      <trans-unit id="52c181e215ab18dedef9c38bed6fd9f093b2c69d" resname="EMAIL_MESSAGE">
+        <source>Message</source>
+        <target state="new">Message</target>
+      </trans-unit>
+      <trans-unit id="451959e46d6825672b66c3e61f05e461253403d4" resname="EMAIL_SUBJECT">
+        <source>Objet</source>
+        <target state="new">Subject</target>
+      </trans-unit>
+      <trans-unit id="472786b70eee78fa0504ffbba8164d1babff8945" resname="FLASH_CHILD_DRAFT_WAS_SAVE">
+        <source>FLASH_CHILD_DRAFT_WAS_SAVE</source>
+        <target state="new">Your draft has been successfully saved.</target>
+      </trans-unit>
+      <trans-unit id="8372117b1d3f1abdcb71b9e1e5a26436b2e1bd3b" resname="FLASH_CHILD_MESSAGE_IN_MODERATION">
+        <source>FLASH_CHILD_MESSAGE_IN_MODERATION</source>
+        <target state="new">Your message is awaiting moderation.</target>
+      </trans-unit>
+      <trans-unit id="9e832289294ce0b55c983ccc8f13146c069ad3be" resname="FLASH_CHILD_MESSAGE_SENT">
+        <source>FLASH_CHILD_MESSAGE_SENT</source>
+        <target state="new">Your message has been successfully sent.</target>
+      </trans-unit>
+      <trans-unit id="fbee9e5596506c265b0e719caa2fb3f8f084687e" resname="FLASH_DRAFT_WAS_SAVE">
+        <source>FLASH_DRAFT_WAS_SAVE</source>
+        <target state="new">Your draft has been successfully saved.</target>
+      </trans-unit>
+      <trans-unit id="55673c2197754bf2e6dc0fa3f750fd5f0bf1f077" resname="FLASH_MESSAGE_IN_MODERATION">
+        <source>FLASH_MESSAGE_IN_MODERATION</source>
+        <target state="new">Messages being moderated</target>
+      </trans-unit>
+      <trans-unit id="c07cc34af7edfeace7adcee2fc0360bed5f6ded4" resname="FLASH_MESSAGE_SENT">
+        <source>FLASH_MESSAGE_SENT</source>
+        <target state="new">Sent message</target>
+      </trans-unit>
+      <trans-unit id="23e4d6a6430e6bcebee2d3b7eff05d9e1efe377c" resname="LAST_MESSAGE_RECEIVE">
+        <source>LAST_MESSAGE_RECEIVE</source>
+        <target state="new"><![CDATA[Last received message %dateCreation% from <span class="to">%userConversation%</span>]]></target>
+        <note><![CDATA[%dateCreation% is a placeholder
+%userConversation% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="c7f9f659735790c3a84e306c56473cf04eddf9f1" resname="LAST_MESSAGE_SEND">
+        <source>LAST_MESSAGE_SEND</source>
+        <target state="new"><![CDATA[Last message sent %dateCreation% from <span class="to">%userConversation%</span>]]></target>
+        <note><![CDATA[%dateCreation% is a placeholder
+%userConversation% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="1f8524949b59bf473e5b31304582c62cb6d54e28" resname="LINK_CANCEL">
+        <source>LINK_CANCEL</source>
+        <target state="new">Cancel</target>
+      </trans-unit>
+      <trans-unit id="f7f5f41cfeeb9f7d0e2f18abed80083759cf787a" resname="LINK_DELETE_DRAFT">
+        <source><![CDATA[<strong>Supprimer</strong><br />ce brouillon]]></source>
+        <target state="new"><![CDATA[<strong>Delete</strong><br />this draft]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="f01c9b825c3b8c4283baa10fadd68f1148d78851" resname="LINK_DELETE_FOREVER">
+        <source>LINK_DELETE_FOREVER</source>
+        <target state="new">Permanently delete</target>
+      </trans-unit>
+      <trans-unit id="d5e759b916039cfd12a3b29f006a6e885b7c18b3" resname="LINK_DELETE_MESSAGES">
+        <source>LINK_DELETE_MESSAGES</source>
+        <target state="new"><![CDATA[<strong>Delete</strong> <br/> messages]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="bcabdfabca18c301809b4a3fb59fd3585f2e2aa1" resname="LINK_MESSAGES_RECEIVE">
+        <source>LINK_MESSAGES_RECEIVE</source>
+        <target state="new">Received messages</target>
+      </trans-unit>
+      <trans-unit id="602623150ffced7316c249b2a5a436a795b56598" resname="LINK_MODERATION">
+        <source>LINK_MODERATION</source>
+        <target state="new">Moderation</target>
+      </trans-unit>
+      <trans-unit id="8b1de7c9c2a19c8929d159992410d84ad8fd3026" resname="LINK_PAGE_NEXT">
+        <source>LINK_PAGE_NEXT</source>
+        <target state="new">Next page</target>
+      </trans-unit>
+      <trans-unit id="9ee9fb21f2f848dc42d50a0b65532ae4d09fc63a" resname="LINK_PAGE_PRECEDENT">
+        <source>LINK_PAGE_PRECEDENT</source>
+        <target state="new">Previous page</target>
+      </trans-unit>
+      <trans-unit id="b3756c124d276da7b1e657548e5ae12242c661f6" resname="LINK_REJECTED">
+        <source>LINK_REJECTED</source>
+        <target state="new">Decline</target>
+      </trans-unit>
+      <trans-unit id="41a9d027d835f2726cbc2bd4085f72dbb183dfb0" resname="LINK_SEE_DRAFT">
+        <source>Brouillons</source>
+        <target state="new">Drafts</target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="31bd19b20b4ae5f528a95e253bfe58ac07006a94" resname="LINK_SEE_MESSAGES_DELETED">
+        <source>Messages supprimés</source>
+        <target state="new">Deleted messages</target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="2295b0d3d6aa789eb37c6ad8bc8dd94ba22517d7" resname="LINK_SEE_MESSAGES_SENT">
+        <source>Messages envoyés</source>
+        <target state="new">Sent messages</target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="4371622a6f9e94d8cf91969174eb586807ea8bc4" resname="LINK_VALIDATE_ALL">
+        <source>LINK_VALIDATE_ALL</source>
+        <target state="new"><![CDATA[<strong>Validate all messages</strong>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="28f16de4f9504f7ec70af8b2a4e23cedc2848055" resname="LOADING_MESSAGE">
+        <source>LOADING_MESSAGE</source>
+        <target state="new">Loading messages...</target>
+      </trans-unit>
+      <trans-unit id="ec26e357fe7bb7acb96c48e251e6010aca691a14" resname="MESSAGES_DELETED">
+        <source>MESSAGES_DELETED</source>
+        <target state="new">deleted messages</target>
+      </trans-unit>
+      <trans-unit id="4dc24e617c42d3ca40f94afe046f518f1db5fbc8" resname="MESSAGE_ACCEPTED">
+        <source>MESSAGE_ACCEPTED</source>
+        <target state="new">This message has been accepted</target>
+      </trans-unit>
+      <trans-unit id="a5ace8555393b962b7d1de50a4ef56aaccea62a3" resname="MESSAGE_CREATED">
+        <source>MESSAGE_CREATED</source>
+        <target state="new">Created %dateCreation%</target>
+        <note><![CDATA[%dateCreation% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="4a01a5a237c4f2d37551f3e13c2a1ce6e5abba70" resname="MESSAGE_DENY">
+        <source>MESSAGE_DENY</source>
+        <target state="new">Messages declined</target>
+      </trans-unit>
+      <trans-unit id="7e854ec8f60c00d18cb4ed929fb7e7594118ab72" resname="MESSAGE_DRAFT">
+        <source>MESSAGE_DRAFT</source>
+        <target state="new">drafts</target>
+      </trans-unit>
+      <trans-unit id="1f005b36a6a35efba4bf40f28add7a213206ff5f" resname="MESSAGE_FROM_USER">
+        <source>MESSAGE_FROM_USER</source>
+        <target state="new">From %linkStartHtml%%username% %linkEndHtml%</target>
+        <note><![CDATA[%linkStartHtml% is a placeholder
+%username% is a placeholder for name of user
+%linkEndHtml% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="68140317d58f79cea112410e4d3565355ef41dbb" resname="MESSAGE_IN_MODERATION">
+        <source>MESSAGE_IN_MODERATION</source>
+        <target state="new">Messages being moderated</target>
+      </trans-unit>
+      <trans-unit id="5ae9d74283af01b5fe5158c7a3d9181392e1ac04" resname="MESSAGE_PUBLISH">
+        <source>MESSAGE_PUBLISH</source>
+        <target state="new">Messages published</target>
+      </trans-unit>
+      <trans-unit id="179880c086019f7e650e7c90879745de297b74be" resname="MESSAGE_RECEIVED">
+        <source>MESSAGE_RECEIVED</source>
+        <target state="new">received messages</target>
+      </trans-unit>
+      <trans-unit id="d5224781f2ae8d7feb0ac05b5d3526ac9e022242" resname="MESSAGE_RECEIVERS">
+        <source>MESSAGE_RECEIVERS</source>
+        <target state="new">{0} No recipient|{1} Recipient: |]1,Inf[ Recipients:</target>
+        <note><![CDATA[This text has plural translations based on %count% variable
+http://symfony.com/doc/current/components/translation/usage.html#pluralization]]></note>
+      </trans-unit>
+      <trans-unit id="5be8ec8c3e64db5e4abf74027351cef00b13eff4" resname="MESSAGE_REJECTED">
+        <source>MESSAGE_REJECTED</source>
+        <target state="new">This message has been declined</target>
+      </trans-unit>
+      <trans-unit id="eb13e2e563dbf2412ea6f2aab8f20dc1327ee6d0" resname="MESSAGE_SEND">
+        <source>MESSAGE_SEND</source>
+        <target state="new">sent messages</target>
+      </trans-unit>
+      <trans-unit id="6fddc230986bd3afc98d3c2c819c82fff63e4ecc" resname="MESSAGE_SENT">
+        <source>MESSAGE_SENT</source>
+        <target state="new">Sent %dateCreation%</target>
+        <note><![CDATA[%dateCreation% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="1a8990d9b34ac3f3d0d941d1153abdf7a2956fcf" resname="MESSAGE_STATUS">
+        <source>MESSAGE_STATUS</source>
+        <target state="new">Messages status</target>
+      </trans-unit>
+      <trans-unit id="d750a2b46d4a18f982faf46811fcd3a8b639a251" resname="MESSAGE_STATUS_WAIT_TO_MODERATION">
+        <source>MESSAGE_STATUS_WAIT_TO_MODERATION</source>
+        <target state="new">This message is awaiting moderation</target>
+      </trans-unit>
+      <trans-unit id="f20ceb2959a22dc01e13743ee7f43211d0781ccf" resname="MESSAGE_SUBJECT">
+        <source>MESSAGE_SUBJECT</source>
+        <target state="new">Message subject</target>
+      </trans-unit>
+      <trans-unit id="7a33bb0d02bef4204573cb2414b65540e918ff39" resname="MODERATE_MESSAGE">
+        <source>MODERATE_MESSAGE</source>
+        <target state="new">Moderate messages</target>
+      </trans-unit>
+      <trans-unit id="6643e345e66c2a31e4ebf4ccc76954062d585814" resname="NO_EMAIL_IN_DIRECTORY">
+        <source>NO_EMAIL_IN_DIRECTORY</source>
+        <target state="new">No emails in this file!</target>
+      </trans-unit>
+      <trans-unit id="0e185495de0dfe1b2fd25da8b1ae5a2e30075a6b" resname="NO_EMAIL_TO_MODERATE">
+        <source>NO_EMAIL_TO_MODERATE</source>
+        <target state="new">No emails to moderate</target>
+      </trans-unit>
+      <trans-unit id="b11782992897fb7681f01f479738c1a2c1675ae8" resname="NO_MESSAGE_IN_MODERATION">
+        <source>NO_MESSAGE_IN_MODERATION</source>
+        <target state="new">No messages are awaiting moderation.</target>
+      </trans-unit>
+      <trans-unit id="7efe291441d74b08d9d69bf1e6b56d911b5343d5" resname="NO_MESSAGE_IN_SUSPENDED">
+        <source>NO_MESSAGE_IN_SUSPENDED</source>
+        <target state="new">No messages declined.</target>
+      </trans-unit>
+      <trans-unit id="135bc946e9e278dcb3a9d2c5b300604a1b85e55c" resname="NO_MESSAGE_VALIDATE">
+        <source>NO_MESSAGE_VALIDATE</source>
+        <target state="new">No messages confirmed.</target>
+      </trans-unit>
+      <trans-unit id="6e22a2b699de17b8b68df6b00e25bc0b68a42b9f" resname="PLACEHOLDER_ENTER_SEARCH">
+        <source>PLACEHOLDER_ENTER_SEARCH</source>
+        <target state="new">Type your search</target>
+      </trans-unit>
+      <trans-unit id="6523a379b2ba4914bfe69cfd87e88db30b21c61b" resname="READ_MESSAGE">
+        <source>READ_MESSAGE</source>
+        <target state="new">Read the message</target>
+      </trans-unit>
+      <trans-unit id="3a776952f86ad19f81ae95e9852e075fe1a743e7" resname="RECEIVED_AT_FROM">
+        <source><![CDATA[Reçu %date% de <a href="#">%from%</a>]]></source>
+        <target state="new"><![CDATA[Received %date% from <a href="#">%from%</a>]]></target>
+        <note><![CDATA[%date% is a placeholder
+%from% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="5f316187ad1d776614d83fdf662e75ca175d522d" resname="RECEIVED_AT_FROM_HEADER">
+        <source><![CDATA[Reçu %date% de <a href="#">%from%</a>]]></source>
+        <target state="new"><![CDATA[Received %date% from <a href="#">%from%</a>]]></target>
+        <note><![CDATA[%date% is a placeholder
+%from% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="208a8615ee36bf90ae98eab0bf548b7dd18b0938" resname="SEARCH_FIELD_EMPTY">
+        <source>SEARCH_FIELD_EMPTY</source>
+        <target state="new">The search field is empty.</target>
+      </trans-unit>
+      <trans-unit id="9f8e50125fedf07ff2009291a688a424207aa530" resname="SEND_AT_TO_X_RECEIVERS">
+        <source>SEND_AT_TO_X_RECEIVERS</source>
+        <target state="new">{0} Sent %dateCreation%to no recipients|{1} Sent  %dateCreation% to %count% recipient |]1,Inf[ Sent %dateCreation% to %count% recipients</target>
+        <note><![CDATA[%dateCreation% is a placeholder
+%count% is a placeholder
+This text has plural translations based on %count% variable
+http://symfony.com/doc/current/components/translation/usage.html#pluralization]]></note>
+      </trans-unit>
+      <trans-unit id="8b51a10f528774eb4b286a685ea88dabc4cadb70" resname="SENT_BY">
+        <source>SENT_BY</source>
+        <target state="new">Sent by %userFullName%%dateCreation%</target>
+        <note><![CDATA[%userFullName% is a placeholder
+%dateCreation% is a placeholder]]></note>
+      </trans-unit>
+      <trans-unit id="bb6f4e7db7e7ecd1670aab3a7ffad8b83d2fde64" resname="TITLE_ADULT_SURE_DELETE_DRAFT">
+        <source>TITLE_ADULT_SURE_DELETE_DRAFT</source>
+        <target state="new">Do you really want to delete this draft?</target>
+      </trans-unit>
+      <trans-unit id="f0d5fffce9befad7bb216f6cce195ee1f69aa4a1" resname="TITLE_ANSWER">
+        <source>TITLE_ANSWER</source>
+        <target state="new">Reply</target>
+      </trans-unit>
+      <trans-unit id="f4ce51fdaf77f2b460d8aa2132c71f9258588613" resname="TITLE_ATTACHED_DOCUMENT_TO_DOWNLOAD">
+        <source>TITLE_ATTACHED_DOCUMENT_TO_DOWNLOAD</source>
+        <target state="new">Attachments to be downloaded</target>
+      </trans-unit>
+      <trans-unit id="a32694fedd1048dfd8ebd564d0d1d7a4c92e034d" resname="TITLE_CHILD_SURE_DELETE_DRAFT">
+        <source>TITLE_CHILD_SURE_DELETE_DRAFT</source>
+        <target state="new">Do you really want to delete this draft?</target>
+      </trans-unit>
+      <trans-unit id="ac4edbab9f59009bf18a78a2e22ebb046b30f8d3" resname="TITLE_CONVERSATION">
+        <source>TITLE_CONVERSATION</source>
+        <target state="new">message</target>
+      </trans-unit>
+      <trans-unit id="c81513f5694b389fb494593e9febd70813574420" resname="TITLE_DELETE_DRAFT">
+        <source>TITLE_DELETE_DRAFT</source>
+        <target state="new">Delete draft</target>
+      </trans-unit>
+      <trans-unit id="60e98a1c1c6750e56bc2dae71091191876e7795a" resname="TITLE_DRAFTS">
+        <source>TITLE_DRAFTS</source>
+        <target state="new">Drafts</target>
+      </trans-unit>
+      <trans-unit id="e78a8d2259a0f1811db1d62a2096d3a0048e4448" resname="TITLE_DRAFT_WILL_UNATTAINABLE_ACTION_IRREDEEMABLE">
+        <source><![CDATA[Ce brouillon ne sera plus accessible après l'éxécution de cette action.<br />
+            <strong>Attention</strong>, cette action est irréversible !]]></source>
+        <target state="new"><![CDATA[This draft will no longer be accessible after this operation.<br />
+<strong>Warning</strong>, this action cannot be undone!]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="64bdef6eb8596d77c65a65505a67c965a4cd0aa7" resname="TITLE_EDIT_DRAFT">
+        <source>TITLE_EDIT_DRAFT</source>
+        <target state="new">Edit draft</target>
+      </trans-unit>
+      <trans-unit id="b6fa6cb732b023a8b6e2df94aca38552c21171dd" resname="TITLE_LOADING">
+        <source>TITLE_LOADING</source>
+        <target state="new">Loading</target>
+      </trans-unit>
+      <trans-unit id="7ad2296c56bb480b4d3e16e9a9ac495f1391a625" resname="TITLE_MESSAGES">
+        <source>TITLE_MESSAGES</source>
+        <target state="new">Messages</target>
+      </trans-unit>
+      <trans-unit id="84927994987f33d4d631687bd0e7e64f8aef2f6f" resname="TITLE_MESSAGES_DELETED">
+        <source>TITLE_MESSAGES_DELETED</source>
+        <target state="new">Deleted messages</target>
+      </trans-unit>
+      <trans-unit id="0db271ada1c2417c970dc4da9f5c1d6ca1df9336" resname="TITLE_MESSAGES_NOT_READ">
+        <source>TITLE_MESSAGES_NOT_READ</source>
+        <target state="new">Unread messages</target>
+      </trans-unit>
+      <trans-unit id="a039c8cf72fd66c55daa16421833372417540f84" resname="TITLE_MESSAGES_READ">
+        <source>TITLE_MESSAGES_READ</source>
+        <target state="new">Read messages</target>
+      </trans-unit>
+      <trans-unit id="fa774bbd43c18fbbc5bc09bfc18f3e3f8a1600fb" resname="TITLE_MESSAGES_RECEIVE">
+        <source>TITLE_MESSAGES_RECEIVE</source>
+        <target state="new">Received messages</target>
+      </trans-unit>
+      <trans-unit id="fd404fadfa63a4ee94994e025e4fa0ea570af9f5" resname="TITLE_MESSAGES_SEND">
+        <source>TITLE_MESSAGES_SEND</source>
+        <target state="new">Sent messages</target>
+      </trans-unit>
+      <trans-unit id="626537d57266a26fcc94da69d7f1e13350034b71" resname="TITLE_MESSAGE_DELETED">
+        <source>TITLE_MESSAGE_DELETED</source>
+        <target state="new">Deleted message</target>
+      </trans-unit>
+      <trans-unit id="e76f763c75cd0bc55ec676cd62701cba65c20360" resname="TITLE_MESSAGE_SEND">
+        <source>TITLE_MESSAGE_SEND</source>
+        <target state="new">Sent message</target>
+      </trans-unit>
+      <trans-unit id="201cf50d4b03f07092396868cf9425fe8d2a077d" resname="TITLE_MESSAGING">
+        <source>TITLE_MESSAGING</source>
+        <target state="new">Mail</target>
+      </trans-unit>
+      <trans-unit id="ef0eb1d447d768995ca01dac95e28370628b7efd" resname="TITLE_MESSAGING_MANAGEMENT">
+        <source>TITLE_MESSAGING_MANAGEMENT</source>
+        <target state="new">Mail - Management</target>
+      </trans-unit>
+      <trans-unit id="c54152473b6f72a5e7bdd5363f2c1afca20f8464" resname="TITLE_MODERATE_IN_CLASS">
+        <source>TITLE_MODERATE_IN_CLASS</source>
+        <target state="new">Classroom moderation</target>
+      </trans-unit>
+      <trans-unit id="f1d5084801f3fe051fca155769e749c3809794b4" resname="TITLE_MODERATE_MESSAGING">
+        <source>TITLE_MODERATE_MESSAGING</source>
+        <target state="new">Mail moderation</target>
+      </trans-unit>
+      <trans-unit id="5ade20fb7ca0df11b03d8a93bf5d9e2190fa0966" resname="TITLE_MODERATE_OUTWARD">
+        <source>TITLE_MODERATE_OUTWARD</source>
+        <target state="new">External moderation</target>
+      </trans-unit>
+      <trans-unit id="750904e63ac5c03990352b98bad8c6555952591a" resname="TITLE_MODERATION">
+        <source>TITLE_MODERATION</source>
+        <target state="new">Moderation</target>
+      </trans-unit>
+      <trans-unit id="2badff1cebcd8af3cd4521be201333010d9b238f" resname="TITLE_NEW_MESSAGE">
+        <source>TITLE_NEW_MESSAGE</source>
+        <target state="new">New message</target>
+      </trans-unit>
+      <trans-unit id="72c6231c6e5a6781cb6ced073e1903a278e61ae3" resname="TITLE_SEARCH_RESULT">
+        <source>TITLE_SEARCH_RESULT</source>
+        <target state="new">{0} No results|{1} 1 result|]1,Inf[ %count% results</target>
+        <note><![CDATA[%count% is a placeholder
+This text has plural translations based on %count% variable
+http://symfony.com/doc/current/components/translation/usage.html#pluralization]]></note>
+      </trans-unit>
+      <trans-unit id="e52cc532d45f8f31b6ce09b2f9ea7d9c936cafae" resname="TO_EMAIL_COMMA_SEPARATED">
+        <source>TO_EMAIL_COMMA_SEPARATED</source>
+        <target state="new">To (Each email address is separated by a comma)</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

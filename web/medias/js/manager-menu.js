@@ -10,7 +10,7 @@
 		toggleKeypress	= '[data-toggle="menu-keypress"]';
 
 	// Vars
-	var header			= 'div.header-buttons',
+	var isEnabled		= true,
 		defaultMenu		= '.switchable-menu',
 		$el,
 		
@@ -24,37 +24,48 @@
 		
 		toggle: function (e)
 		{
-			var $this = $el = $(this),
-				target = $this.attr('data-target'),
-				$menu = $(header + ' ' + target),
-				isActive = $menu.css('display') == 'block';
-				
-			console.log(header + ' ' + target);
-				
-			if (target.length == 0) {
-				throw new Error('You must be specify a target with data-target attribute !');
-			}
+			$el = $(this);
 			
-			// Run only if the menu is not already active
-			if (!isActive) {
-				run(function ()
-				{
-					if (defaultMenu == target) {
-						// We must clear menu & $el
-						$el = null;
-					}
-
-					$menu.fadeIn('fast');
-				});
-			}
-
-			// Delegate the event for keypress only
-			if (e.type == 'keypress') {
-				return true;
-			}
-			
+			return process($el.attr('data-target'), e);
+		}
+	}
+	
+	/**
+	 * @params target The target DOM selector
+	 */
+	function process(target, e)
+	{
+		// Only if managment is enabled
+		if (!isEnabled) {
 			return false;
 		}
+		
+		if (target.length == 0) {
+			throw new Error('You must be specify a target with data-target attribute !');
+		}
+			
+		var $menu = $(target);
+		
+		// Run only if the menu is not already active
+		var isActive = $menu.css('display') == 'block';
+		if (!isActive) {
+			run(function ()
+			{
+				if (defaultMenu == target) {
+					// We must clear menu & $el
+					$el = null;
+				}
+
+				$menu.fadeIn('fast');
+			});
+		}
+
+		// Delegate event for keypress event & inputs
+		if (e && e.type == 'keypress' || e.target.tagName == 'INPUT' || e.target.tagName == 'SELECT') {
+			return true;
+		}
+		
+		return false;
 	}
 
 	/**
@@ -74,7 +85,7 @@
 			}
 		;
 		
-		$.each($(header + ' ' + defaultMenu), function (i, item)
+		$.each($(defaultMenu), function (i, item)
 		{
 			var $item = $(item),
 				effect = $item.data('effect') != null ? $item.data('effect') : 'slideUp',
@@ -93,15 +104,29 @@
 	
 	$.menu = {
 		/**
-		* Return the current active element menu
-		*/
-		el: function ()
-		{
+	 	 * Return the current active element menu
+	 	 */
+		el: function () {
 			if (undefined == $el || null == $el) {
 				return false;
 			}
 
 			return $el;
+		},
+		
+		/**
+		 * Drop manually the menu
+		 */
+		drop: function (target) {
+			return process(target);
+		},
+		
+		disable: function () {
+			isEnabled = false;
+		},
+		
+		enable: function () {
+			isEnabled = true;
 		}
 	}
 

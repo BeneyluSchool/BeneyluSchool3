@@ -3,6 +3,8 @@
 namespace BNS\App\CoreBundle\Model;
 
 use BNS\App\CoreBundle\Model\om\BaseBlog;
+use BNS\App\CoreBundle\Model\BlogCategoryQuery;
+use BNS\App\YerbookBundle\Model\YerbookSelectionQuery;
 use RuntimeException;
 
 /**
@@ -54,6 +56,11 @@ class Blog extends BaseBlog
 	private $authors;
 	
 	/**
+	 * @var array<BlogCategory>
+	 */
+	private $usedCategories;
+	
+	/**
 	 * @return array 
 	 */
 	public function getArchives()
@@ -93,20 +100,40 @@ class Blog extends BaseBlog
 	{
 		if (!isset($this->sortedCategories)) {
 			$this->sortedCategories = array();
-			
 			// Récupération des parents en cachant la catégorie principale (Root Category), puis des enfants
-			foreach ($this->getBlogCategories() as $category) {
+            $categories = BlogCategoryQuery::create()
+                ->filterByBlogId($this->getId())
+                ->orderBy('left',\Criteria::ASC)
+                ->find();
+            $criteria = new \Criteria();
+            $criteria->addAscendingOrderByColumn(BlogCategoryPeer::LEFT);
+			foreach ($categories as $category) {
 				if ($category->getLevel() == 1 && !$category->isRoot()) {
 					$this->sortedCategories[$category->getId()] = array(
 						'parent'	=> $category,
-						'children'	=> $category->getChildrenFromCollection($this->getBlogCategories())
+						'children'	=> $category->getChildrenFromCollection($this->getBlogCategories($criteria), true)
 					);
 				}
 			}
 		}
-		
 		return $this->sortedCategories;
 	}
+
+    /**
+     * Renvoie la catégorie parente de tous pour le blog, qui a été créée par défaut
+     *
+     * @param \PropelPDO $con
+     * @return BlogCategory
+     */
+    public function getRootCategory(\PropelPDO $con = null)
+    {
+        return BlogCategoryQuery::create()->findRoot($this->getId(), $con);
+    }
+
+    public function getOrderedCategories()
+    {
+        return $this->getRootCategory()->getChildren();
+    }
 	
 	/**
 	 * @param array<BlogArticle> $articles 
@@ -136,7 +163,7 @@ class Blog extends BaseBlog
 		}
 		
 		if (!isset($this->parentCategoriesFromChild[$childCategory->getId()])) {
-			throw new RuntimeException('Category id : ' . $childCategory->getId() . ' is not found !');
+			return false;
 		}
 		
 		return $this->parentCategoriesFromChild[$childCategory->getId()];
@@ -149,17 +176,17 @@ class Blog extends BaseBlog
 	{
 		if (!isset($this->authors)) {
 			$this->authors = UserQuery::create()
-				->join('BlogArticle')
+				->useBlogArticleQuery()
+                    ->filterByBlog($this)
+                ->endUse()
 				->joinWith('Profile')
 				->joinWith('Profile.Resource', \Criteria::LEFT_JOIN)
-				->add(BlogArticlePeer::BLOG_ID, $this->getId())
 				->addAnd(BlogArticlePeer::STATUS, BlogArticlePeer::STATUS_PUBLISHED_INTEGER)
 				->addAnd(BlogArticlePeer::PUBLISHED_AT, time(), \Criteria::LESS_EQUAL)
 				->addGroupByColumn(UserPeer::ID)
 				->addAscendingOrderByColumn(UserPeer::LAST_NAME)
 			->find();
 		}
-		
 		return $this->authors;
 	}
 	
@@ -187,10 +214,86 @@ class Blog extends BaseBlog
 	}
 	
 	/**
+	 * Return only used categories in the blog
+	 * Associated with keys :
+	 *  - parent (BlogCategory)
+	 *  - count (int)
+	 *  - children (array)
+	 *    - child (BlogCategory)
+     *    - count (int)
+	 * 
+	 * @return array<BlogCategory>
+	 */
+	public function getUsedBlogCategories()
+	{
+		if (!isset($this->usedCategories)) {
+			$categories = $this->getBlogCategories();
+			$articleCategories = BlogArticleCategoryQuery::create('bac')
+				->join('bac.BlogArticle ba')
+				->where('ba.Status = ?', BlogArticlePeer::STATUS_PUBLISHED)
+				->where('ba.PublishedAt <= ?', time())
+				->where('bac.CategoryId IN ?', $categories->getPrimaryKeys())
+				->setFormatter(\ModelCriteria::FORMAT_ARRAY)
+			->find();
+			
+			$sortedCategories = $this->getSortedBlogCategories();
+			$articleCategoriesIds = array();
+			
+			// Count process
+			foreach ($articleCategories as $articleCategory) {
+				if (!isset($articleCategoriesIds[$articleCategory['CategoryId']])) {
+					$articleCategoriesIds[$articleCategory['CategoryId']] = 0;
+				}
+
+				++$articleCategoriesIds[$articleCategory['CategoryId']];
+			}
+
+			$this->usedCategories = array();
+			foreach ($sortedCategories as $category) {
+				// Parent category process
+				if (isset($articleCategoriesIds[$category['parent']->getId()])) {
+					$this->usedCategories[$category['parent']->getId()] = array(
+						'parent'	=> $category['parent'],
+						'children'	=> array(),
+						'count'		=> $articleCategoriesIds[$category['parent']->getId()]
+					);
+				}
+
+				// Children categories process
+				foreach ($category['children'] as $subCategory) {
+					if (isset($articleCategoriesIds[$subCategory->getId()])) {
+						if (!isset($articleCategoriesIds[$category['parent']->getId()])) {
+							$this->usedCategories[$category['parent']->getId()] = array(
+								'parent'	=> $category['parent'],
+								'children'	=> array(array(
+									'child' => $subCategory,
+									'count'	=> $articleCategoriesIds[$subCategory->getId()]
+								)),
+								'count'		=> 1
+							);
+						}
+						else {
+							++$this->usedCategories[$category['parent']->getId()]['count'];
+							$this->usedCategories[$category['parent']->getId()]['children'][] = array(
+								'child' => $subCategory,
+								'count'	=> $articleCategoriesIds[$subCategory->getId()]
+							);
+						}
+					}
+				}
+			}
+		}
+		
+		return $this->usedCategories;
+	}
+	
+	/**
 	 * @return string 
 	 */
 	public function __toString()
 	{
 		return '#' . $this->getId() . ': ' . $this->getTitle();
 	}
+
+
 }

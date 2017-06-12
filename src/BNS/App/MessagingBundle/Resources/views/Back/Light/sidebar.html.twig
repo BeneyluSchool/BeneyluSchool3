@@ -1,70 +1,33 @@
-{# <div class="sidebar shadow">
-	<div class="sidebar-menu-container">
-		<div class="btn-sidebar custom-sidebar active">
-			Modération
-			<div class="color-active"></div>
-		</div>
-		<div class="title-section-sidebar active">
-			Personnalisation
-			<div class="color-active"></div>
-			<span class="icon-arrow-down"></span>
-		</div>
-		{% render 'BNSAppMessagingBundle:BackLight:rule' %}
-		<div class="title-section-sidebar active">
-			Statuts des messages
-			<div class="color-active"></div>
-			<span class="icon-arrow-down"></span>
-		</div>
-		<div id="section-article-statut">
-			<ul class="hover">
-				<li class="messaging-back-sidebar-filter" data-filter-status="IN_MODERATION">
-					<img src="{{ asset('/medias/images/messaging/message-in_moderation.png') }}">
-					En modération
-					<img src="{{ asset('/medias/images/icons/arrow-right-blue.png') }}" class="select">
-				</li>
-				<li class="messaging-back-sidebar-filter" data-filter-status="ACCEPTED">
-					<img src="{{ asset('/medias/images/messaging/message-accepted.png') }}">
-					Validés
-					<img src="{{ asset('/medias/images/icons/arrow-right-blue.png') }}" class="select">
-				</li>
-				<li class="messaging-back-sidebar-filter" data-filter-status="REJECTED">
-					<img src="{{ asset('/medias/images/messaging/message-rejected.png') }}">
-					Suspendus
-					<img src="{{ asset('/medias/images/icons/arrow-right-blue.png') }}" class="select">
-				</li>
-			</ul>
-		</div>
-	</div>
-</div> #}
-
+{% trans_default_domain "MESSAGING" %}
 <div class="section active">
-	Modération
-	<span class="shadow-section"></span>
+    {{ 'MODERATE_MESSAGE'|trans }}
+
+    <span class="shadow-section"></span>
 </div>
 <div class="title-container">
-	<div class="title active border-blue">Modération <span class="square icon-arrow"></span></div>
-	{% render 'BNSAppMessagingBundle:BackLight:rule' %}
+    <div class="title active border-blue">{{ 'TITLE_MODERATION'|trans }} <span class="square icon-arrow"></span></div>
+    {{ render(controller('BNSAppMessagingBundle:BackLight:rule')) }}
 </div>
 <div class="title-container">
-	<div class="title active border-blue">Statut des messages <span class="square icon-arrow"></span></div>
-	<div class="content-title">
-		<div class="loader loader-h"></div>
-		<ul>
-			<li data-filter-status="IN_MODERATION" class="messaging-back-sidebar-filter">
-				<div>
-					<img src="/medias/images/icons/correction_small.png?v2"> Messages en modération <span class="select checked"></span>
-				</div>
-			</li>
-			<li data-filter-status="ACCEPTED" class="messaging-back-sidebar-filter">
-				<div>
-					<img src="/medias/images/icons/valid_small.png?v2"> Messages publiés <span class="select"></span>
-				</div>
-			</li>
-			<li data-filter-status="REJECTED" class="messaging-back-sidebar-filter">
-				<div>
-					<img src="/medias/images/icons/refused_small.png"> Messages refusés <span class="select"></span>
-				</div>
-			</li>
-		</ul>
-	</div>
+    <div class="title active border-blue">{{ 'MESSAGE_STATUS'|trans }} <span class="square icon-arrow"></span></div>
+    <div class="content-title">
+        <div class="loader loader-h"></div>
+        <ul>
+            <li data-filter-status="IN_MODERATION" class="messaging-back-sidebar-filter">
+                <a class="active">
+                    <img src="{{ asset('/medias/images/icons/correction_small.png') }}">{{ 'MESSAGE_IN_MODERATION'|trans }}
+                </a>
+            </li>
+            <li data-filter-status="ACCEPTED" class="messaging-back-sidebar-filter">
+                <a>
+                    <img src="{{ asset('/medias/images/icons/valid_small.png') }}">{{ 'MESSAGE_PUBLISH'|trans }}
+                </a>
+            </li>
+            <li data-filter-status="REJECTED" class="messaging-back-sidebar-filter">
+                <a>
+                    <img src="{{ asset('/medias/images/icons/refused_small.png') }}">  {{ 'MESSAGE_DENY'|trans }}
+                </a>
+            </li>
+        </ul>
+    </div>
 </div>

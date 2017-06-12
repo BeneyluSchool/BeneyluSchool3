@@ -1,0 +1,24 @@
+<div class="title-container information-is-alert-choice">
+    <div class="title active border-blue">Statut<span class="square icon-arrow"></span></div>
+    <div class="content-title">
+        <ul>
+            <li>
+                <label for="board_information_form_is_alert_1">
+                    <span class="vertical-separator green"></span> <span>Activé</span>
+                    {{ form_widget(form.enable[1]) }}
+                </label>
+            </li>
+            <li>
+                <label for="board_information_form_is_alert_0">
+                    <span class="vertical-separator orange"></span> <span>{% trans %}Désactivé{% endtrans %}</span>
+                    {{ form_widget(form.enable[0]) }}
+                </label>
+            </li>
+        </ul>
+        {% if form.enable.vars.errors|length > 0 %}
+        <div class="alert alert-danger bns-alert">
+            {{ form_errors(form.enable) }}
+        </div>
+        {% endif %}
+    </div>
+</div>

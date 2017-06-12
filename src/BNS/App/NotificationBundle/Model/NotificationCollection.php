@@ -11,11 +11,15 @@ class NotificationCollection
 	 * @var array<Notification> 
 	 */
 	private $collection;
+
+	private $announcementsCount = 0;
 	
 	/**
-	 * @param array<Notification> $collection 
+	 * @param array<Notification> $collection
+	 * @param NotificationSettingsCollection $settings
+	 * @param int $announcementsCount
 	 */
-	public function __construct($collection, NotificationSettingsCollection $settings)
+	public function __construct($collection, NotificationSettingsCollection $settings, $announcementsCount = 0)
 	{
 		$this->collection = array();
 		
@@ -34,6 +38,8 @@ class NotificationCollection
 				}
 			}
 		}
+
+		$this->announcementsCount = $announcementsCount;
 	}
 	
 	/**
@@ -96,6 +102,11 @@ class NotificationCollection
 		
 		return $count;
 	}
+
+	public function getAnnouncementCount()
+	{
+		return $this->announcementsCount;
+	}
 	
 	/**
 	 * Get all notification count, only unread
@@ -112,6 +123,8 @@ class NotificationCollection
 				}
 			}
 		}
+
+		$count += $this->getAnnouncementCount();
 		
 		return $count;
 	}

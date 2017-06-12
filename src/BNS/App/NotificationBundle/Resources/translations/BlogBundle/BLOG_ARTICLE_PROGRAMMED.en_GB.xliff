@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:44:29Z" source-language="en" target-language="en-GB" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="1b9030248155a05a88d8ba66baf5cdd3661c7fbd" resname="BLOG_ARTICLE_PROGRAMMED.EMAIL.content">
+        <source>BLOG_ARTICLE_PROGRAMMED.EMAIL.content</source>
+        <target><![CDATA[The article "<strong>%articleTitle%</strong>" created by <strong>%articleAuthor%</strong> will be posted on the blog on %articlePublishedAtHours% at %articlePublishedAtMinutes%. Don't forget to go and see it as soon as it's posted!]]></target>
+        <note><![CDATA[%articleTitle% is a placeholder
+%articleAuthor% is a placeholder
+%articlePublishedAtHours% is a placeholder
+%articlePublishedAtMinutes% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="5bbc312616daf42d831b87097ca004e84085008b" resname="BLOG_ARTICLE_PROGRAMMED.EMAIL.title">
+        <source>BLOG_ARTICLE_PROGRAMMED.EMAIL.title</source>
+        <target>An article will be published on the blog</target>
+      </trans-unit>
+      <trans-unit id="aca74a5f82b039cf997d5ac7cb567017618bdc73" resname="BLOG_ARTICLE_PROGRAMMED.SYSTEM.content">
+        <source>BLOG_ARTICLE_PROGRAMMED.SYSTEM.content</source>
+        <target><![CDATA[The article "<strong>%articleTitle%</strong>" created by <strong>%articleAuthor%</strong> will be posted on the blog on %articlePublishedAtHours% at %articlePublishedAtMinutes%]]></target>
+        <note><![CDATA[%articleTitle% is a placeholder
+%articleAuthor% is a placeholder
+%articlePublishedAtHours% is a placeholder
+%articlePublishedAtMinutes% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,17 @@
+<div class="data-reset">
+    <div class="form pull-right {{ dataReset.getName() }}">
+        {% block form %}
+            <form action="{% block form_action %}{{ path('data_reset_changeyear_validate') }}{% endblock %}" method="POST">
+                {% block inputs %}{% endblock %}
+                <input type="hidden" name="name" value="{{ dataReset.getName() }}" />
+                <input type="hidden" name="group_id" value="{{ group.getId() }}" />
+            </form>
+            <div class="alert alert-danger hide"></div>
+        {% endblock %}
+    </div>
+    <div class="title">
+        {% block thumbnail %}{% endblock %}
+        <span>{% block title %}{% endblock %}</span>
+    </div>
+    <div class="clearfix"></div>
+</div>

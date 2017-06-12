@@ -1,0 +1,47 @@
+<div class="md-padding previous-account">
+  <h1 class="md-headline" translate>ACCOUNT.TITLE_DATA_RECOVERY</h1>
+
+  <div ng-if="!ctrl.hasOldAccount">
+    <p class="md-body-2" translate translate-values="{beneylu_brand_name: parameters.brand_name}">ACCOUNT.DESCRIPTION_HAD_PREVIOUS_ACCOUNT</p>
+    <div class="layout-row layout-align-end-center">
+      <md-button ng-click="ctrl.skipRecoverUser()">
+        <span translate>ACCOUNT.BUTTON_NO</span>
+      </md-button>
+      <md-button ng-click="ctrl.hasOldAccount = true">
+        <span translate>ACCOUNT.BUTTON_YES</span>
+      </md-button>
+    </div>
+  </div>
+
+  <form ng-if="ctrl.hasOldAccount" ng-submit="ctrl.validateOldCredentials()" name="ctrl.oldCredentials">
+    <p class="md-body-2" translate>ACCOUNT.DESCRIPTION_RECOVER_PROCESS</p>
+    <!-- <div class="text-warn"><kbd>TODO:</kbd> captures d'écran des étapes</div> -->
+    <p class="md-body-2" translate>ACCOUNT.DESCRIPTION_PREVIOUS_CREDENTIALS</p>
+
+    <div class="layout-column layout-align-center-center">
+      <div class="flex">
+        <md-input-container bns-no-message>
+          <label translate>ACCOUNT.LABEL_OLD_USERNAME</label>
+          <input type="text" name="username" ng-model="ctrl.oldUsername" required>
+        </md-input-container>
+      </div>
+      <div class="flex">
+        <md-input-container bns-no-message>
+          <label translate>ACCOUNT.LABEL_OLD_PASSWORD</label>
+          <input type="password" name="password" ng-model="ctrl.oldPassword" required>
+        </md-input-container>
+      </div>
+    </div>
+    <p class="md-body-1 text-warn">&nbsp;{{ctrl.errorMessage|translate}}</p>
+    <div class="layout-column layout-gt-sm-row layout-align-start-center">
+      <md-button href="" ng-click="ctrl.showForgotLoginDialog($event)" class="md-primary">
+        <span ng-bind-html="'ACCOUNT.LINK_FORGOT_CREDENTIALS'|translate|buttonize">.</span>
+      </md-button>
+      <span class="flex"></span>
+      <md-button type="submit" ng-disabled="ctrl.oldCredentials.$invalid" class="flex-none md-raised md-accent">
+        <md-icon>check</md-icon>
+        <span translate>ACCOUNT.BUTTON_SUBMIT</span>
+      </md-button>
+    </div>
+  </form>
+</div>

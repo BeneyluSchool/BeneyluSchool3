@@ -1,0 +1,50 @@
+<div ng-show="ctrl.hasAccess">
+
+  <div class="workshop-audio-recorder-container">
+    <div class="workshop-audio-recorder viewer-audio-player" ng-class="ctrl.cssClasses()">
+      <section class="volume-management">
+        <div bns-workshop-audio-volume value="ctrl.volume"></div>
+      </section>
+
+      <section class="visualization">
+        <div bns-workshop-audio-visualization></div>
+
+        <div class="record-duration timer">{{ ctrl.record.duration | timer }}</div>
+        <div class="play-time timer">{{ ctrl.wavesurfer.getCurrentTime() | timer }}</div>
+
+        <div class="record-tooltip state-recording"><i class="bns-icon-record"></i> <span translate>WORKSHOP.AUDIO.RECORDING_IN_PROGRESS</span></div>
+        <div class="record-tooltip state-paused blink"><i class="bns-icon-pause"></i> <span translate>WORKSHOP.AUDIO.RECORDING_PAUSED</span></div>
+
+        <div class="state-paused pause-overlay visualization-overlay">
+          <i class="bns-icon-pause blink"></i>
+        </div>
+
+        <div class="state-inactive record-overlay visualization-overlay">
+          <button ng-click="ctrl.controls.record.action()" ng-disabled="ctrl.controls.record.disabled" translate>WORKSHOP.AUDIO.START_RECORDING_HTML</button>
+        </div>
+      </section>
+
+      <div class="clearfix"></div>
+
+      <section class="controls workshop-audio-recorder-controls">
+        <button id="control-record" ng-click="ctrl.controls.record.action()" ng-disabled="ctrl.controls.record.disabled" class="control danger record">
+          <i ng-class="{ 'bns-icon-record': 'inactive' === ctrl.recorder.state || 'paused' === ctrl.recorder.state, 'bns-icon-pause': 'recording' === ctrl.recorder.state }"></i>
+          <span ng-if="'inactive' === ctrl.recorder.state" translate>WORKSHOP.AUDIO.START_RECORDING</span>
+          <span ng-if="'recording' === ctrl.recorder.state" translate>WORKSHOP.AUDIO.STOP_RECORDING</span>
+          <span ng-if="'paused' === ctrl.recorder.state" translate>WORKSHOP.AUDIO.RESUME_RECORDING</span>
+        </button>
+        <button id="control-play" ng-click="ctrl.controls.play.action()" ng-disabled="ctrl.controls.play.disabled" class="control success play">
+          <i ng-class="{ 'bns-icon-play': ctrl.wavesurfer.backend.isPaused(), 'bns-icon-pause': !ctrl.wavesurfer.backend.isPaused() }"></i>
+          <span ng-if="ctrl.wavesurfer.backend.isPaused()" translate>WORKSHOP.AUDIO.PLAY_RECORD</span>
+          <span ng-if="!ctrl.wavesurfer.backend.isPaused()" translate>WORKSHOP.AUDIO.STOP_PLAY</span>
+        </button>
+        <button id="control-reset" ng-click="ctrl.controls.reset.action()" ng-disabled="ctrl.controls.reset.disabled" class="control primary vertical reset">
+          <i class="bns-icon-arrow-left-curved"></i>
+          <span translate>WORKSHOP.AUDIO.RESTART_RECORD</span>
+        </button>
+      </section>
+
+    </div>
+  </div>
+
+</div>

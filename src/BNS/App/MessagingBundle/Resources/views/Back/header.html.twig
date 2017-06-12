@@ -1,3 +1,4 @@
+{% trans_default_domain "MESSAGING" %}
 <div class="container-messaging">
     <div class="container container-fluid">
         <div class="row-fluid">
@@ -6,8 +7,8 @@
                 <div class="container-header-messaging">
                     <div class="content-header-messaging">
                         <div class="border-messaging">
-                            <button class="btn write-new-msg btn-messaging validate"><span class="background-button answer"><span class="icons-new-message"></span>Valider</span></button>
-                            <button class="btn write-new-msg btn-messaging refuse"><span class="background-button send"><span class="icons-new-message"></span>Refuser</span></button>
+                            <button class="btn write-new-msg btn-messaging validate"><span class="background-button answer"><span class="icons-new-message"></span>{{ 'BUTTON_VALIDATE'|trans }}</span></button>
+                            <button class="btn write-new-msg btn-messaging refuse"><span class="background-button send"><span class="icons-new-message"></span>{{ 'BUTTON_DENY'|trans }}</span></button>
                         </div>
                     </div>
                 </div>

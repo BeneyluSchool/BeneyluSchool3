@@ -1,0 +1,7 @@
+{% trans_default_domain "PORTAL" %}
+<div class="school {{ zone }}">
+    <div class="title background-{{ portal.color }} {{ portal.font }}">
+{{ 'TITLE_MY_SCHOOL'|trans |desc('Mon école') }}
+    </div>
+    {{ render(controller('BNSAppPortalBundle:Front:schoolWidget', {'groupId' : portal.groupId } )) }}
+</div>

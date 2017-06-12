@@ -1,0 +1,30 @@
+<bns-modal modal-close="ctrl.closeModal" modal-title="{{ 'USER_DIRECTORY.REMOVE_USERS_MODAL_TITLE' | translate:{name: ctrl.context.label} }}" modal-icon="cross" modal-busy="ctrl.busy" class="modal-danger">
+  <div class="modal-body">
+
+    <h4 translate translate-values="{ name: ctrl.context.label }">USER_DIRECTORY.THESE_USERS_WILL_BE_REMOVED_FROM_WORKGROUP</h4>
+
+    <div bns-user-directory-editable-list="ctrl.users"
+      empty-text="USER_DIRECTORY.NO_USER_TO_REMOVE"
+      class="generic-user-directory-list deletable"
+      whole-selector="true"
+    ></div>
+
+  </div>
+
+  <div class="modal-footer">
+    <div class="content-btn-footer">
+      <div ng-show="ctrl.group.error" class="help-block text-danger pull-left">
+        {{ ctrl.group.error | translate }}
+      </div>
+
+      <button class="btn btn-danger" ng-click="ctrl.confirm()">
+        <i class="bns-icon-cross round"></i>
+        <strong translate>USER_DIRECTORY.REMOVE_THESE_USERS</strong>
+      </button>
+      <button class="btn" ng-click="ctrl.closeModal()">
+        <i class="bns-icon-arrow-left-curved round"></i>
+        <strong translate>USER_DIRECTORY.CANCEL</strong>
+      </button>
+    </div>
+  </div>
+</bns-modal>

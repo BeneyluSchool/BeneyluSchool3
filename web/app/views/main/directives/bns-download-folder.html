@@ -1,0 +1,12 @@
+<div ng-if="ctrl.canSeeFolder">
+
+  <md-button ng-click="ctrl.getFolder()" ng-disabled="ctrl.busy" class="md-raised md-primary btn-lg">
+      <img src="../assets/images/apps/media-library/icon-40@2x.png" alt="" shrink-none style="position: absolute; left: 12px; top: 6px; height: 46px;">
+      <span style="margin-left: 54px;"ng-bind-html="'MAIN.BUTTON_DOWNLOAD_FOLDER_MEDIA_LIBRARY'|translate|buttonize"></span>
+  </md-button>
+
+  <div ng-if="ctrl.preparationSheet">
+    <a ng-href="{{ ctrl.preparationSheet }}" target="_blank" translate>MAIN.LINK_DOWNLOAD_PREPARATION_SHEET</a>
+  </div>
+
+</div>

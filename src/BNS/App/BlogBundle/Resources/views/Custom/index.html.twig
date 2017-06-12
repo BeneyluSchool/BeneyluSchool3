@@ -1,118 +1,137 @@
+{% trans_default_domain "BLOG" %}
 {% extends 'BNSAppBlogBundle:Layout:manager.html.twig' %}
 
 {% block title %}
-	{{ blog.getTitle() }} - Personnalisation
+    {{ 'TITLE_PERSONNALIZATION'|trans({'%blogTitle%': blog.getTitle()}) |desc('%blogTitle% - Personnalisation') }}
+
 {% endblock %}
 
 {% block javascripts %}
-	{{ parent() }}
-	{{ tinymce_init() }}
+  {{ parent() }}
+  {{ tinymce_init() }}
 
-	<script type="text/javascript">
-		$(function ()
-		{
-			// Finish button
-			$('.header-buttons .finish').click(function ()
-			{
-				$('#form_informations').submit();
-				
-				return false;
-			});
-			
-			if ($('.alert.alert-success').length > 0) {
-				setTimeout(function ()
-				{
-					$('.alert.alert-success').slideUp('fast');
-				}, 8000);
-			}
-		});
-	</script>
+  <script type="text/javascript">
+    $(function ()
+    {
+      // Finish button
+      $('.header-buttons .finish').click(function ()
+      {
+        $('#form_informations').submit();
+
+        return false;
+      });
+
+      if ($('.alert.alert-success').length > 0) {
+        setTimeout(function ()
+        {
+          $('.alert-example div').slideUp('fast', function () { var $this = $(this); $this.parent().slideUp('fast', function () { $this.show() }) });
+        }, 8000);
+      }
+    });
+  </script>
 {% endblock javascripts %}
 
-{% block header %}
-	<div class="header-buttons">
-		<div class="inner-header">
-			<div class="container container-fluid">
-				<div class="row-fluid">
-					<div class="span12 align-right">
-						<a href="#" class="btn finish bns-success validate-medium btn-24 medium">
-							<span class="icons-24 validate-icon"></span><strong>{% trans %}MiniSite.Back.HeaderButtons.IFinished{% endtrans %}</strong>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-{% endblock header %}
+{% block actionbar_content %}
+  <span flex></span>
+  <div class="header-buttons">
+    {{ components.button( 'LINK_SAVE_MODIFICATION' | trans , { intent: 'accent', href: '#', icon: 'done', raised: true, attr : {'class':'finish'} }) }}
+  </div>
+{% endblock actionbar_content %}
 
-{% block sidebar %}
-	<div class="container-section">
-		<div class="section">
-			<a href="{{ path('BNSAppBlogBundle_back') }}">{% trans %}Blog.Back.Sidebar.Articles{% endtrans %}</a>
-		</div>
-		<div class="section">
-			<a href="{{ path('blog_manager_comment') }}">Commentaires</a>
-		</div>
-	</div>
-	<div class="section active">
-		{% trans %}Blog.Back.Sidebar.Customing{% endtrans %}
-		<span class="shadow-section"></span>
-	</div>
-	<div class="title-container article-statuses-filter">
-	<div class="content-title">
-		<ul>
-			<li>
-				<a href="{{ path('blog_manager_custom') }}" class="active">Personnalisation du blog</a>
-			</li>
-			<li>
-				<a href="{{ path('blog_manager_categories') }}" href="#">Gestion des catégories</a>
-			</li>
-		</ul>
-	</div>
-</div>
-{% endblock sidebar %}
-	
+{% block sidebar_content %}
+    <section>
+      {{ components.button( 'TITLE_ARTICLES' | trans , { href:   path('BNSAppBlogBundle_back'), icon: 'insert_drive_file' }) }}
+    </section>
+
+    <section>
+      {{ include('BNSAppBlogBundle:Sidebar:sidebar_comments.html.twig') }}
+    </section>
+
+    <section class="lg current">
+        {{ include('BNSAppBlogBundle:Sidebar:sidebar_customize.html.twig') }}
+
+        <div class="nav-list layout-column">
+          {{ components.button( 'PERSONNALIZATION_BLOG' | trans , {
+            intent: 'primary',
+            href: path('blog_manager_custom'),
+            icon :'edit'
+          }) }}
+          {{ components.button( 'CATEGORY_MANAGEMENT' | trans , {
+            href: path('blog_manager_categories'),
+            icon : 'list',
+          }) }}
+        </div>
+    </section>
+
+    {% if hasYerbook %}
+      <section>
+        {{ components.button( 'LINK_YERBOOK' | trans, { href: path('blog_manager_yerbook'), icon: 'book' }) }}
+      </section>
+    {% endif %}
+{% endblock sidebar_content %}
+
 {% block content %}
-	<div class="admin-form">
-		<div class="informations-form form">
-			{% for message in app.session.flashbag.get('success') %}
-				<div class="alert alert-success">
-					{{ message }}
-				</div>
-			{% endfor %}
-				
-			<div class="news-title">
-				<h1 class="dashboard">Rédiger une description</h1>
-			</div>
-			<form id="form_informations" action="{{ path('blog_manager_custom') }}" method="POST">
-				<div class="resource">
-					{{ form_widget(form.avatar_resource_id) }}
-					<div id="resource-selection-callback">
-						{% if form.vars.value.getResource() != null %}
-							<img src="{{ getResourceImageUrl(form.vars.value.getResource(), 'small') }}" />
-						{% else %}
-						 	<img src="{{ asset('/medias/images/profile/avatar/small/classroom.png') }}" />
-						{% endif %}
-					</div>
-					{{ form_widget(form.title, {'attr': {'class': 'input-xlarge-bns input-title', 'placeholder': 'Titre du blog'} }) }}
-					{% include 'BNSAppResourceBundle:Front:selectImage.html.twig' with {
-						'label' : 'Modifier l\'avatar du blog',
-						'input_id': 'blog_form_avatar_resourceId', 
-						'name': form.avatar_resource_id.vars.full_name, 
-						'callback': 'resource-selection-callback' 
-					} %}
-				</div>
-				<div class="tinyarea">
-					<div class="row-title">Description</div>
-					{{ form_widget(form.description, { 'attr': {'class': 'load_tinymce', 'data-theme': 'no_resources'} }) }}
-				</div>
-				<div class="errors">
-					{{ form_errors(form) }}
-				</div>
-				<div class="rest">
-					{{ form_rest(form) }}
-				</div>
-			</form>
-		</div>
-	</div>
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools layout-align-start-center">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+    <h1 class="md-title text-primary text-left flex flex-gt-sm-33">{% trans%}TITLE_WRITE_DESCRIPTION{% endtrans %}</h1>
+  </div>
+</md-toolbar>
+<md-content class="md-padding">
+  <div class="admin-form">
+    <div class="informations-form form">
+      {#{% for message in app.session.flashbag.get('success') %}#}
+        {#<div class="alert alert-success bns-alert">#}
+          {#{{ message }}#}
+          {#<div class="jim"></div>#}
+        {#</div>#}
+      {#{% endfor %}#}
+
+      {{ form_start(form, { action: path('blog_manager_custom'), attr: { id: 'form_informations' } }) }}
+
+        <div class="layout-gt-md-row">
+          <div class="layout-column layout-align-center-center resource">
+            {{ form_widget(form.avatar_resource_id) }}
+            <div id="resource-selection-callback">
+              {% if form.vars.value.getResource() != null %}
+                <img src="{{ getResourceImageUrl(form.vars.value.getResource(), 'small') }}" class="md-whiteframe-z1"/>
+              {% else %}
+                <img src="{{ asset('/medias/images/profile/avatar/small/classroom.png') }}" class="md-whiteframe-z1"/>
+              {% endif %}
+            </div>
+
+            {% set current = form.vars.value.getResource() %}
+            {% include 'BNSAppMediaLibraryBundle:Front:selection.html.twig' with {
+              'label' : 'LABEL_MODIFICATION_AVATAR'|trans,
+              'input_id': 'blog_form_avatar_resource_id',
+              'allowed_type': 'IMAGE',
+              'name': form.avatar_resource_id.vars.full_name,
+              'callback': 'resource-selection-callback',
+              'with_cancel': true,
+              'current_src': current != "" ? getResourceImageUrl(current , 'small') : asset('/medias/images/profile/avatar/small/classroom.png'),
+              'default_src': asset('/medias/images/profile/avatar/small/classroom.png') ,
+              'current_value': form.vars.value.getResource ? form.vars.value.getResource.getId : null,
+              'label_delete' : 'DELETE_AVATAR'|trans
+            } %}
+          </div>
+
+          <div class="flex">
+            {{ form_row(form.title) }}
+          </div>
+        </div>
+
+        <div class="tinyarea">
+          <h3>{% trans %}DESCRIPTION{% endtrans %}</h3>
+          {{ form_widget(form.description, { 'attr': {'bns-tinymce': ''} }) }}
+        </div>
+        <div class="errors">
+          {{ form_errors(form) }}
+        </div>
+        <div class="rest">
+          {{ form_rest(form) }}
+        </div>
+      {{ form_end(form) }}
+    </div>
+  </div>
+  </md-content>
 {% endblock content %}

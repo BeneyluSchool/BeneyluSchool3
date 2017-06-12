@@ -45,7 +45,7 @@ class ClassRoomFormModel
 	 * 
 	 * @return BNS\App\CoreBundle\Group 
 	 */
-	public function save(BNSClassroomManager $classRoomManager, $domainId, $schoolId, User $teacher, SchoolInformation $schoolInfo)
+	public function save(BNSClassroomManager $classRoomManager, $domainId, $schoolId, User $teacher, SchoolInformation $schoolInfo, $currentYear)
 	{
 		// Creating classroom
 		$this->classRoom = $classRoomManager->createClassroom(array(
@@ -53,7 +53,8 @@ class ClassRoomFormModel
 			'label'				=> $this->label,
 			'group_parent_id'	=> $schoolId,
 			'attributes'		=> array(
-				'LEVEL'	=> $this->levels
+				'LEVEL'        => $this->levels,
+                'CURRENT_YEAR' => $currentYear
 			)
 		));
 		
@@ -63,9 +64,8 @@ class ClassRoomFormModel
 		$classRoomManager->assignTeacher($teacher);
 		
 		// Send confirmation e-mail
-		//TEMPORAIRE
-		//$classRoomManager->sendConfirmation($teacher, $schoolInfo);
-		//FIN TEMPORAIRE
+		$classRoomManager->sendConfirmation($teacher, $schoolInfo);
+		
 		return $this->classRoom;
 	}
 }

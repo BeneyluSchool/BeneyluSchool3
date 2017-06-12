@@ -1,0 +1,191 @@
+{% trans_default_domain "HOMEWORK" %}
+{% extends 'BNSAppHomeworkBundle:Back:layout.html.twig' %}
+
+{% block header %}
+<div class="header-buttons">
+    <div class="inner-header">
+	<div class="container container-fluid">
+	    <div class="row-fluid">
+		<div class="span12">
+		    <a href="{{ path('BNSAppHomeworkBundle_back') }}" class="btn bns-notice btn-24 medium-return button-return"><span class="icons-24 back-icon"></span>
+                {{ 'LINK_BACK_TO_WORK_LIST'|trans |desc('<strong>Retourner</strong><br/> à la liste des travaux') |raw }}
+            </a>
+		    <a href="{{ path('BNSAppHomeworkBundle_back_edit_homework', { 'slug' : homeworkdue.homework.getSlug() }) }}" class="btn bns-info btn-24 medium-return button-return">
+			<span class="icons-24 edit-icon"></span>
+                {{ 'LINK_EDIT_WORK'|trans |desc('<strong>Éditer</strong><br/>le travail') |raw }}
+		    </a>
+		    <div class="btn-group bns-group-delete">
+			<a href="#" class="btn save btn-new-article bns-danger btn-24 medium dropdown-toggle" data-toggle="dropdown"><span class="icons-24 delete-icon"></span>
+                <strong>{% trans %}LINK_DELETE{% endtrans %}</strong><span class="caret"></span>
+            </a>
+			<ul class="dropdown-menu">
+			    {% if homeworkdue.homework.getHomeworkDues() | length > 1%}
+				<li><a href="#" class="add-user-button" data-target="#homeworkDeleteModal" data-toggle="modal" >
+                        {{ 'LINK_DELETE_SERIE_WORK'|trans({'%workName%': homeworkdue.homework.name |escape}) |desc('Supprimer toute la série des travaux "%workName%"') |raw }}
+                    </a>
+                </li>
+				<li><a href="#" class="add-user-button" data-target="#occurenceDeleteModal" data-toggle="modal" >
+                        {% trans %}LINK_DELETE_WORK_FOR_THIS_DAY{% endtrans %}
+                    </a>
+                </li>
+			    {% else %}
+				<li><a href="#" class="add-user-button" data-target="#occurenceDeleteModal" data-toggle="modal" >
+                        {% trans %}LINK_DELETE_THIS_WORK{% endtrans %}
+                    </a>
+                </li>
+			    {% endif %}
+			</ul>
+		    </div>
+		</div>
+
+	    </div>
+	</div>
+    </div>
+</div>
+{% endblock header %}
+
+{% block sidebar %}
+	<div class="container-sidebar">
+		<div class="section active">
+            {% trans %}OCCURENCE_DETAIL{% endtrans %}
+		<span class="shadow-section"></span>
+		</div>
+		<div class="container-section">
+			<div class="section">
+				<a href="{{ path('homework_manager_categories') }}">{% trans %}LINK_CUSTOMIZATION{% endtrans %}</a>
+			</div>
+		</div>
+	</div>
+{% endblock sidebar %}
+
+{% block content %}
+
+{% include 'BNSAppMainBundle::notice.html.twig' %}
+<div class="content-title-day">
+    <h2 class="title-day {{ homeworkdue.getDueDate() | date("l") | lower }}">{{ homeworkdue.getDueDate() | localizeddate('full', 'none') | capitalize }}</h2>
+	<div class="hwdue-parent content-work-details">
+	    <div class="manage-content">
+		<div class="header-enunciated ">
+		    <div class="enunciated">
+			<div class="matter">
+				    {{ homeworkdue.homework.name }}
+			    </div>
+			    <div class="name-work">
+				    {% if homeworkdue.homework.homeworksubject  %}{{ homeworkdue.homework.homeworksubject.name }}{% endif %}
+				</div>
+			    </div>
+			    <div class="groups">
+				<p>
+			    {% for group in homeworkdue.homework.groups %}
+				    {{ group.label|e }}
+			    {% endfor %}
+				    </p>
+				</div>
+				<div class="clearfix"></div>
+			    </div>
+			    <div class="content-article">
+				<div class="enunciated-work">
+				    <p>{{ homeworkdue.homework.description | purify }}</p>
+				    {% if homeworkdue.homework.helptext is defined %}
+					    <p class="help-work">{{ homeworkdue.homework.helptext }}</p>
+				    {% endif %}
+				</div>
+				{% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias': homeworkdue.homework.getResourceAttachments, "editable": false, 'objectType': 'Homework', 'objectId': homeworkdue.homework.id } %}
+				{% if preferences.getActivateValidation() == 1 %}
+					<div class="signatures">
+						<div class="signature">
+							<span class="signing up">
+							    {% if (homeworkdue.getHomeworkTasks() | length) > 0%}
+								{{ homeworkdue.getHomeworkTasks() | length }}
+							    {% else %}
+                                    {% trans %}NOTHING{% endtrans %}
+                                {% endif %}
+							</span>
+							<span class="signing">
+							    {% if homeworkdue.numberOfTasksTotal > 0 %}
+								/ {{ homeworkdue.numberOfTasksTotal }}
+							    {% endif %}
+							</span>
+							<span class="title">
+                                {{ 'SIGNATURE_NUMBER'|transchoice(homeworkdue.getHomeworkTasks() | length) |desc('[0,1] Signature | ]1,Inf[ Signatures') }}
+							</span>
+						</div>
+						<div>
+							{% for task in homeworkdue.getHomeworkTasks() %}
+								<a href="#" class="btn bns-user small selected">
+									<img src="{{ avatar(task.getUser(), 'small') }}" alt="" />
+									<span class="name">{{ task.getUser().getFullName()}}</span>
+									<span class="action-icons"></span>
+								</a>
+							{% endfor %}
+						</div>
+					</div>
+
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+
+
+
+{{ modal('occurenceDeleteModal', {
+    'title': "MODAL_DELETE_OCCURENCE"|trans,
+    'body_template': {'template': 'BNSAppHomeworkBundle:Modal:occurenceDeleteBody.html.twig', 'values': {} },
+    'footer_template': {'template': 'BNSAppHomeworkBundle:Modal:occurenceDeleteFooter.html.twig', 'values': { 'id': homeworkdue.getId() }},
+			    'type': 'error'
+			    }) }}
+
+
+{{ modal('homeworkDeleteModal', {
+    'title': "MODAL_DELETE_WORK"|trans,
+    'body_template': {'template': 'BNSAppHomeworkBundle:Modal:homeworkDeleteBody.html.twig', 'values': {} },
+    'footer_template': {'template': 'BNSAppHomeworkBundle:Modal:homeworkDeleteFooter.html.twig', 'values': { 'slug': homeworkdue.homework.getSlug() }},
+			    'type': 'error'
+			    }) }}
+
+{% endblock content %}
+
+{% block main_javascripts %}
+    {{ parent() }}
+			    <script type="text/javascript">
+	    $( "#weekpicker" ).datepicker({
+		showOn: "button",
+		buttonImage: "/medias/images/icons/fugue/calendar-select-week.png",
+		buttonImageOnly: true,
+		dateFormat: "dd-mm-yy",
+		onSelect: function(dateText, inst) {
+		    $('.manage-content').hide('fast');
+		    $.ajax(
+		    {
+			url: Routing.generate('BNSAppHomeworkBundle_backajax_manage_week', {day: dateText}),
+			success: function (data)
+			{
+			    $('.manage-content').html(data);
+			    $('.manage-content').show('fast');
+			},
+			error: function ()
+			{
+			    alert('Une erreur est survenue');
+			    $('.manage-content').show('fast');
+			}
+		    });
+
+		}
+	    });
+
+	    $(document).ready(function ()
+	    {
+		$('.task-done-users').hide();
+
+		$('.show-tasksdone-users').live("click", function(){
+		    $(this).siblings('.task-done-users').toggle('slow');
+		    return false;
+		});
+	    });
+				</script>
+{% endblock %}
+
+{% block javascripts %}
+	<script type="text/javascript" src="{{ asset('/medias/js/jquery-ui-1.8.19.custom.min.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,88 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+
+    <parameters>
+        <parameter key="paas_origin_id">1</parameter>
+        <parameter key="bns_paas.nathan_url">https://www.e-interforum.com/intra/webservices/connecteur-universel/wsConnecteurUniversel.php?wsdl</parameter>
+        <parameter key="bns_paas.nathan_pf">123456</parameter>
+        <parameter key="bns_paas.nathan_key">123456</parameter>
+        <parameter key="cas_client_id">123456</parameter>
+        <parameter key="cas_client_secret">123456</parameter>
+        <parameter key="nathan_ressource.clients" type="collection" />
+        <!--
+        <argument type="collection" key="nathan">
+            <argument type="string" key="url">%bns_paas.nathan_url%</argument>
+            <argument type="string" key="pf">%bns_paas.nathan_pf%</argument>
+            <argument type="string" key="key">%bns_paas.nathan_key%</argument>
+        </argument>
+        -->
+
+    </parameters>
+
+    <services>
+        <service id="bns.paas_manager" class="BNS\App\PaasBundle\Manager\PaasManager">
+            <argument type="service" id="buzz" />
+            <argument type="service" id="bns.user_manager" />
+            <argument type="service" id="bns.group_manager" />
+            <argument type="service" id="bns.mailer" />
+            <argument>%paas_secret_key%</argument>
+            <argument>%paas_url%</argument>
+            <argument type="service" id="snc_redis.default" />
+            <argument type="service" id="bns.media.creator" />
+            <argument type="service" id="bns.right_manager" />
+            <argument type="service" id="bns_core.application_manager" />
+            <argument type="service" id="bns_paas.activity_manager" />
+            <argument type="service" id="logger" />
+            <argument type="service" id="router" />
+            <argument type="service" id="translator" />
+            <argument type="service" id="bns.analytics.manager" />
+            <argument>%paas_origin_id%</argument>
+            <argument type="service" id="bns_app_paas.manager.nathan_resource_manager" />
+
+            <tag name="kernel.event_listener" event="bns_event.application_uninstall" method="onApplicationUninstallEvent" />
+            <tag name="kernel.event_listener" event="bns_event.activity_uninstall" method="onActivityUninstallEvent" />
+        </service>
+
+        <service id="bns.paas_without_request_manager" class="BNS\App\PaasBundle\Manager\PaasWithoutRequestManager">
+            <argument>%paas_url%</argument>
+            <argument type="service" id="buzz" />
+            <argument type="service" id="logger" />
+            <argument type="service" id="bns.paas.security_manager" />
+        </service>
+
+        <service id="bns.paas.security_manager" class="BNS\App\PaasBundle\Manager\PaasSecurityManager">
+            <argument>%paas_origin_id%</argument>
+            <argument>%paas_secret_key%</argument>
+        </service>
+
+        <service class="BNS\App\PaasBundle\Activities\ActivityManager" id="bns_paas.activity_manager">
+            <argument id="event_dispatcher" type="service"/>
+            <argument id="logger" type="service"/>
+        </service>
+
+        <service class="BNS\App\PaasBundle\Manager\NathanResourceManager" id="bns_app_paas.manager.nathan_resource_manager">
+            <argument>%cas_client_id%</argument>
+            <argument>%cas_client_secret%</argument>
+            <argument>%nathan_ressource.clients%</argument>
+            <!--
+            <argument type="collection">
+                <argument type="collection" key="nathan">
+                    <argument type="string" key="url">%bns_paas.nathan_url%</argument>
+                    <argument type="string" key="pf">%bns_paas.nathan_pf%</argument>
+                    <argument type="string" key="key">%bns_paas.nathan_key%</argument>
+                </argument>
+            </argument>
+            -->
+            <argument type="service" id="bns.group_manager" />
+            <argument id="logger" type="service"/>
+            <argument>%kernel.debug%</argument>
+            <argument type="service" id="snc_redis.default" />
+            <argument type="service" id="mobile_detect.mobile_detector" />
+        </service>
+
+    </services>
+
+</container>

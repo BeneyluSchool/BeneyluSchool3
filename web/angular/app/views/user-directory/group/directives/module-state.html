@@ -1,0 +1,6 @@
+<div ng-show="!ctrl.busy"
+  ng-click="ctrl.toggle()"
+  ng-class="{ active: ctrl.state, disabled: undefined === ctrl.state }"
+  class="user-directory-group-module-state"
+></div>
+<div ng-show="ctrl.busy" class="loader loader-sm"></div>

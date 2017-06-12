@@ -1,0 +1,152 @@
+{% trans_default_domain "CALENDAR" %}
+{% extends 'BNSAppCalendarBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+    {{ 'TITLE_CALENDAR_EVENT_TITLE'|trans({'%eventTitle%': event.getTitle()}) |desc('Calendrier - %eventTitle%') }}
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+
+  <script type="text/javascript">
+    $(function ()
+    {
+      $('#submitButton').click(function()
+      {
+        $('#new-form').submit();
+
+        return false;
+      });
+    });
+  </script>
+{% endblock %}
+
+{% block header %}
+  <div class="header-buttons">
+    <div class="inner-header">
+      <div class="container container-fluid">
+        <div class="row-fluid">
+          <div class="span12">
+            <a href="{{ path('BNSAppCalendarBundle_back') }}" class="btn bns-notice btn-24 medium-return">
+              <span class="icons-24 back-icon"></span>
+                {{ 'LINK_BACK_TO_CALENDAR'|trans |raw }}
+
+            </a>
+            <a href="{{ path('BNSAppCalendarBundle_back_edit_event', {'slug': event.getSlug()}) }}" class="btn bns-info btn-24 medium-return button-return">
+              <span class="icons-24 edit-icon"></span>
+
+                {{ 'LINK_EDIT_EVENT'|trans |raw }}
+
+            </a>
+            <a href="{{ path('BNSAppCalendarBundle_front_event_detail', {'slug': event.getSlug()}) }}" class="btn bns-notice btn-24 medium-return button-return">
+              <span class="icons-24 preview-icon"></span>
+                {{ 'LINK_SEE_EVENT'|trans |raw }}
+
+
+            </a>
+            <a href="#" class="btn bns-danger btn-24 medium-return delete-item" data-toggle="modal" data-target="#deleteModal">
+              <span class="icons-24 delete-icon"></span>
+                {{ 'LINK_DELETE_EVENT'|trans |raw }}
+
+
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock header %}
+
+{% block sidebar %}
+  {% include 'BNSAppCalendarBundle:Sidebar:back_sidebar.html.twig' with {'section': 'visualisation', 'title': null} %}
+{% endblock sidebar %}
+
+{% block content %}
+  {{ modal('deleteModal', {
+    'title': "TITLE_SURE_DELETE_EVENT"|trans,
+
+    'body_template': {'template': 'BNSAppCalendarBundle:Modal:modal_body_delete_event.html.twig', 'values': { 'event': event } },
+    'type': 'error',
+    'footer_template': {'template': 'BNSAppCalendarBundle:Modal:modal_footer_delete_event.html.twig', 'values': { 'event': event } },
+  }) }}
+  <div class="item visualisation">
+    <div class="header">
+      <h3>{{ event.getTitle() }}</h3>
+    </div>
+    <div class="footer">
+      <p>
+        {% if event.getIsAllDay() == 1 %}
+            {{ 'ALL_DAY_OF'|trans({'%date%': event.getDateStart()|date_bns('full', 'none')})
+                |desc('Toute la journée du %date%') |raw
+            }}
+        {% else %}
+            {% if event.getDateStart()|date('d/m/Y') == event.getDateEnd()|date('d/m/Y') %}
+                {{ 'DATE_FROM_TO_THE'|trans({
+                    '%date%': event.getDateStart()|date_bns('full', 'none'),
+                    '%dateFrom%': event.getTimeStart()|date_bns('none', 'short'),
+                '%dateAt%': event.getTimeEnd()|date_bns('none', 'short')
+                })
+                    |desc('Le %date% de %dateFrom% à %dateAt%') |raw
+                }}
+
+            {% else %}
+                {% if event.getTimeStart() != "00h00" and event.getTimeEnd() != "23h59" and event.getTimeEnd() != "00h00" %}
+                    {{ 'DATE_FROM_AT_TO_AT'|trans({
+                        '%date%': event.getDateStart()|date_bns('full', 'none'),
+                        '%dateFrom%': event.getTimeStart()|date_bns('none', 'short'),
+                        '%dateAt%': event.getTimeEnd()|date_bns('none', 'short'),
+                        '%dateEnd%': event.getDateEnd()|date_bns('full', 'none'),
+                    })
+                    |desc('Du %date% à <strong>%dateFrom%</strong> au %dateEnd% à <strong>%dateAt%</strong>') |raw
+                    }}
+                {% elseif event.getTimeStart() == "00h00" and event.getTimeEnd() != "23h59" and event.getTimeEnd() != "00h00"%}
+                    {{ 'DATE_FROM_TO_AT'|trans({
+                        '%date%': event.getDateStart()|date_bns('full', 'none'),
+                        '%dateAt%': event.getTimeEnd()|date_bns('none', 'short'),
+                        '%dateEnd%': event.getDateEnd()|date_bns('full', 'none'),
+                    })
+                    |desc('Du %date% au %dateEnd% à <strong>%dateAt%</strong>') |raw
+                    }}
+                {% elseif event.getTimeStart() != "00h00" and event.getTimeEnd() == "23h59" and event.getTimeEnd() == "00h00"%}
+                    {{ 'DATE_FROM_AT_TO'|trans({
+                        '%date%': event.getDateStart()|date_bns('full', 'none'),
+                        '%dateFrom%': event.getTimeStart()|date_bns('none', 'short'),
+                        '%dateEnd%': event.getDateEnd()|date_bns('full', 'none'),
+                    })
+                    |desc('Du %date% à <strong>%dateFrom%</strong> au %dateEnd%') |raw
+                    }}
+                {% else %}
+                    {{ 'DATE_FROM_TO'|trans({
+                        '%date%': event.getDateStart()|date_bns('full', 'none'),
+                        '%dateEnd%': event.getDateEnd()|date_bns('full', 'none'),
+                    })
+                    |desc('Du %date% au %dateEnd%') |raw
+                    }}
+                {% endif %}
+            {% endif %}
+        {% endif %}
+      </p>
+      {% if event.getLocation()|length > 0 %}
+        <p>
+            {{ 'EVENT_TAKE_PLACE'|trans({'%eventPlace%': event.getLocation()}) |desc('Lieu de l\'évènement <strong>%eventPlace%</strong>') |raw }}
+        </p>
+      {% endif %}
+      {% if event.isRecurring() %}
+        <p><strong>{{ event.getRecurrenceString() }}</strong></p>
+      {% endif %}
+      <p>{{ 'ADD_BY_AUTHOR'|trans({'%author%': event.getAuthor()}) |desc('Ajouté par %author%')  }}</p>
+
+    </div>
+    <div class="text">
+      {% if event.getDescription()|length > 0 %}
+          <div class="event-tinymce-description">{{ event.getDescription()|purify }}</div>
+      {% else %}
+        <em>{% trans %}EVENT_HAVENT_DESCRIPTION{% endtrans %}</em>
+
+      {% endif %}
+    </div>
+		<div class="resources">
+			{% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias': event.getResourceAttachments(), 'editable': false, 'objectType': 'AgendaEvent', 'objectId': event.id} %}
+		</div>
+	</div>
+{% endblock %}

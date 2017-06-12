@@ -1,0 +1,38 @@
+<div ng-if="!error" class="viewer-audio-player" ng-class="{ 'playback-play': ctrl.ready && !ctrl.wavesurfer.backend.isPaused(), 'playback-pause': ctrl.ready && ctrl.wavesurfer.backend.isPaused(), 'playback-error': ctrl.fallback }">
+  <section ng-hide="ctrl.noVisualization" class="volume-management">
+    <div bns-workshop-audio-volume value="ctrl.volume"></div>
+  </section>
+
+  <section ng-hide="ctrl.noVisualization" class="visualization">
+    <div bns-workshop-audio-visualization></div>
+
+    <div class="state-paused pause-overlay visualization-overlay">
+      <i class="bns-icon-pause blink"></i>
+    </div>
+
+    <div ng-if="ctrl.fallback" class="state-error fallback-overlay visualization-overlay">
+      <div>
+        <div translate>VIEWER.BROWSER_CANNOT_PLAY_THIS_AUDIO</div>
+        <div translate translate-values="{ url: ctrl.media.download_url }">VIEWER.DOWNLOAD_POSSIBILITY_HTML</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="clearfix"></div>
+
+  <section class="controls">
+    <button id="control-play" ng-click="ctrl.wavesurfer.playPause()" ng-disabled="!ctrl.ready" class="control success play">
+      <i ng-class="{ 'bns-icon-play': ctrl.wavesurfer.backend.isPaused(), 'bns-icon-pause': !ctrl.wavesurfer.backend.isPaused() }"></i>
+      <span ng-if="ctrl.wavesurfer.backend.isPaused()" translate>VIEWER.PLAY</span>
+      <span ng-if="!ctrl.wavesurfer.backend.isPaused()" translate>VIEWER.PAUSE</span>
+    </button>
+    <div class="progress-container">
+      <div id="progress" ng-click="ctrl.seek($event)" class="progress">
+        <div class="bar loaded"></div>
+        <div class="bar played" ng-style="{ 'width': ctrl.getPlayProgress() + '%' }"></div>
+        <div ng-show="ctrl.ready" class="bar-label">{{ ctrl.wavesurfer.getCurrentTime() | timer }}/{{ ctrl.wavesurfer.getDuration() | timer }}</div>
+      </div>
+    </div>
+  </section>
+</div>
+<div ng-if="error" translate>{{error}}</div>

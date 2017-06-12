@@ -1,0 +1,32 @@
+<div layout="row"
+  layout-align="space-between center"
+  md-swipe-left="calendar.next()"
+  md-swipe-right="calendar.prev()"
+  class="calendar-toolbar"
+>
+  <md-button class="md-icon-button" ng-click="calendar.prev()">
+    <md-icon>chevron_left</md-icon>
+  </md-button>
+
+  <h3 class="md-title">{{ calendar.cal.start.format('MMMM YYYY') }}</h3>
+
+  <md-button class="md-icon-button" ng-click="calendar.next()">
+    <md-icon>chevron_right</md-icon>
+  </md-button>
+</div>
+
+<table md-swipe-left="calendar.next()" md-swipe-right="calendar.prev()">
+  <thead>
+    <tr class="days">
+      <td></td>
+      <th ng-repeat="day in calendar.cal.weeks[0].days">{{ ::day.format('ddd').replace('.', '') }}</th>
+    </tr>
+  </thead>
+  <tbody ng-click="calendar.handleClick($event)">
+    <tr ng-repeat="week in calendar.cal.weeks" ng-class="{ selected: 'week' === calendar.mode && calendar.selection.isSame(week.days[0], 'day') }" class="week" data-week="{{ ::week.number }}">
+      <th class="week-number" data-date="{{ ::week.days[0].format('YYYY-MM-DD') }}">{{ ::week.number }}</th>
+      <td ng-repeat="day in week.days" ng-class="{ 'today': day.isSame(calendar.today, 'day'), 'other-month': day.month() !== calendar.cal.start.month(), selected: 'day' === calendar.mode && calendar.selection.isSame(day, 'day')}" class="day" data-date="{{ ::day.format('YYYY-MM-DD') }}">{{ ::day.format('D') }}
+      </td>
+    </tr>
+  </tbody>
+</table>

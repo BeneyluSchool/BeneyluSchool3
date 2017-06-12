@@ -1,0 +1,78 @@
+BNS\App\WorkshopBundle\Model\WorkshopDocument:
+  exclusion_policy: All
+  virtual_properties:
+    # WorkshopContentInterface
+    getLabel:
+      expose: true
+      groups: [Default,list,detail]
+    getMediaId:
+      expose: true
+      groups: [Default,list,detail]
+      serialized_name: media_id
+    # END WorkshopContentInterface
+
+    getAttemptsNumber:
+      expose: true
+      groups: [detail]
+
+    isLocked:
+      expose: true
+
+    isQuestionnaire:
+      expose: true
+
+  relations:
+    # WorkshopContentInterface
+    - rel: media
+      embedded:
+        content: expr(object.getMedia())
+    - rel: contributor_group_ids
+      embedded:
+        content: expr(service('bns.workshop.content.manager').getContributorGroupIds(object.getWorkshopContent()))
+      exclusion:
+        groups: [detail, contributors]
+    - rel: contributor_user_ids
+      embedded:
+        content: expr(service('bns.workshop.content.manager').getContributorUserIds(object.getWorkshopContent()))
+      exclusion:
+        groups: [detail, contributors]
+    # END WorkshopContentInterface
+
+    - rel: self
+      href:
+        route: workshop_document_api_get
+        parameters:
+            id: expr(object.getId())
+            version: "1.0"
+        absolute: true
+
+    - rel: pages
+      embedded:
+        content: expr(object.getWorkshopPages())
+      exclusion:
+        groups: [detail]
+    - rel: widget_groups
+      embedded:
+        content: expr(object.getWidgetGroups())
+      exclusion:
+        groups: [detail]
+    - rel: locks
+      embedded:
+        content: expr(object.getWorkshopWidgetGroupLocks())
+      exclusion:
+        groups: [detail]
+    - rel: contributor_groups
+      embedded:
+        content: expr(service('bns.workshop.content.manager').getContributorGroups(object.getWorkshopContent()))
+      exclusion:
+        groups: [contributors_list]
+    - rel: contributor_users
+      embedded:
+        content: expr(service('bns.workshop.content.manager').getContributorUsers(object.getWorkshopContent()))
+      exclusion:
+        groups: [contributors_list]
+    - rel: theme
+      embedded:
+        content: expr(service('bns.workshop.theme.manager').getForObject(object))
+      exclusion:
+        groups: [detail]

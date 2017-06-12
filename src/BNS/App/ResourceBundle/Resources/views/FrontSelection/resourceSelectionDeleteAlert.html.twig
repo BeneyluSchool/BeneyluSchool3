@@ -1,6 +1,10 @@
 {% for resource in resources %}
 	{% if loop.first %}
-		<h2>Vous êtes sur le point de supprimer les documents :</h2>
+		{% if is_child() %}
+			<h2>Attention tu vas supprimer les documents :</h2>
+		{% else %}
+			<h2>Vous êtes sur le point de supprimer les documents :</h2>
+		{% endif %}
 	{% endif %}
 	
 	<div class="resource-delete-preview">
@@ -9,5 +13,9 @@
 	</div>
 	
 {% else %}
-	<h3>Vous n'avez pas les droits pour supprimer {% if resources|length > 1 %}ces documents{% elseif resources|length == 1 %}ce document{% endif %}.</h3>
+	{% if is_child() %}
+		<h3>Tu ne peux pas supprimer ces documents.</h3>
+	{% else %}
+		<h3>Vous n'avez pas les droits pour supprimer ces documents.</h3>
+	{% endif %}
 {% endfor %}

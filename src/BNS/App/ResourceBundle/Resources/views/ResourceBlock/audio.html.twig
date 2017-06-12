@@ -1,13 +1,15 @@
 {% block content %}
 	{% block player %}
 		<audio controls="controls">
-		  <source src="{{ url('BNSAppResourceBundle_download', { 'resource_slug': resource.getSlug }) }}" type="audio/mp3" />
+			<source data-slug="{{ resource.getSlug() }}" data-uid="{{ resource.getUserId() }}" data-id="{{ resource.getId() }}" src="{{ url('BNSAppResourceBundle_download', { 'resourceSlug': resource.getSlug }) }}" type="{{ rm.getHtml5AudioMimeType() }}" />
 		</audio>
-
-		<script>
-		// using jQuery
-		$('audio').mediaelementplayer(/* Options */);
-		</script>
 	{% endblock %}
+
+    <div class="download">
+        <a href="{{ path('BNSAppResourceBundle_download', { 'resourceSlug': resource.getSlug() }) }}" class="btn bns-notice btn-24 large" target='_blank'>
+            <span class="icons-24 preview-icon"></span>
+            Télécharger
+        </a>
+    </div>
+
 {% endblock %}
-	

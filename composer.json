@@ -1,67 +1,91 @@
 {
+    "name": "beneyluschool/beneyluschool",
+    "description": "Beneylu School ENT",
     "repositories": [
         {
             "type": "vcs",
-            "url":  "https://github.com/videlalvaro/php-amqplib.git"
+            "url":  "https://github.com/pixel-cookers/JMSPaymentCoreBundle.git"
         },
         {
-            "type": "package",
-            "package": {
-                "name": "videlalvaro/php-amqplib",
-                "version": "dev-master",
-                "dist": {
-                    "url": "https://github.com/videlalvaro/php-amqplib/zipball/master",
-                    "type": "zip"
-                },
-                "source": {
-                    "url": "https://github.com/videlalvaro/php-amqplib",
-                    "type": "git",
-                    "reference": "master"
-                }
-            }
+            "type": "vcs",
+            "url":  "https://github.com/BeneyluSchool/LexikTranslationBundle.git"
+        },
+        {
+            "type":"vcs",
+            "url": "https://github.com/pixel-cookers/Propel.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/pixel-cookers/SncRedisBundle.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@git.pixel-cookers.com:beneylu-school/simplesamlphp-module-redis.git"
         }
     ],
 
     "require": {
-        "php": ">=5.3.9",
-        "symfony/framework-standard-edition": "2.7.2",
-        "symfony/symfony": "2.7.2",
-        "monolog/monolog": "1.9.1",
-        "twig/twig": "v1.18.2",
-        "propel/propel-bundle": "1.1.7",
-        "propel/propel1": "1.6.x-dev#7b8597359b1048bdd7d2e2afa4731d17b01a1716",
-        "phing/phing": "2.4.12",
-        "willdurand/propel-typehintable-behavior": "1.0.3",
-        "knplabs/knp-menu-bundle": "v1.1.0",
-        "white-october/pagerfanta-bundle": "dev-master",
-        "friendsofsymfony/jsrouting-bundle": "dev-master#481f24ec727ecd47409e36fd18739b44bac78b15",
-        "friendsofsymfony/oauth-server-bundle": "dev-master",
-        "friendsofsymfony/rest-bundle": "0.8.0",
-        "friendsofsymfony/user-bundle": "dev-master",
-        "hwi/oauth-bundle": "*",
-        "sensio/buzz-bundle": "dev-master",
-        "snc/redis-bundle": "dev-master",
-        "oldsound/rabbitmq-bundle": "dev-master",
-        "videlalvaro/php-amqplib": "dev-master",
-        "behat/behat": "2.3.5",
-        "behat/behat-bundle": "dev-master",
-        "stfalcon/tinymce-bundle": "dev-master#915a9029238ea5b201f9505e6d4d7c52362de1eb",
+        "php": "^5.5|^7.0",
+        "symfony/symfony": "2.7.15",
+        "symfony/framework-standard-edition": "v2.7.15",
+        "sensio/distribution-bundle": "v4.0.38",
+        "monolog/monolog": "~1.22.0",
+        "twig/twig": "1.23.*",
+        "propel/propel-bundle": "1.4.5",
+        "propel/propel1": "dev-beneylu as 1.6.9",
+        "phing/phing": "2.7.0",
+        "willdurand/propel-typehintable-behavior": "1.0.4",
+        "knplabs/knp-menu-bundle": "v1.1.2",
+        "white-october/pagerfanta-bundle": "v1.0.0",
+        "friendsofsymfony/jsrouting-bundle": "1.5.3",
+        "friendsofsymfony/oauth-server-bundle": "1.4.1",
+        "friendsofsymfony/rest-bundle": "~1.3.0",
+        "jms/serializer-bundle": "~0.13.0",
+        "nelmio/api-doc-bundle": "2.9.0",
+        "willdurand/hateoas-bundle": "~0.2.0",
+        "nelmio/cors-bundle": "~1.0",
+        "friendsofsymfony/user-bundle": "v1.3.6",
+        "hwi/oauth-bundle": "0.3.3",
+        "sensio/buzz-bundle": "dev-master#929c883f8d8ad7adafa36b652007af81c3c8b976",
+        "snc/redis-bundle": "dev-feat-sentinel as 2.0.0",
+        "php-amqplib/rabbitmq-bundle": "v1.12.0",
+        "php-amqplib/php-amqplib": "v2.6.2",
+        "stfalcon/tinymce-bundle": "v0.3.8",
         "CarpeHora/ExtraPropertiesBehavior": "dev-master",
-        "imagine/Imagine": "dev-master",
-        "knplabs/gaufrette": "dev-master",
-        "knplabs/knp-gaufrette-bundle": "dev-master",
-        "amazonwebservices/aws-sdk-for-php": "dev-master",
-        "vich/geographical-bundle": "dev-master",
-        "knplabs/knp-snappy-bundle": "dev-master",
-        "predis/predis": "0.7.*",
-        "exercise/htmlpurifier-bundle": "dev-master",
-        "opensky/runtime-config-bundle": "dev-master",
-        "elao/web-profiler-extra-bundle": "2.1.x-dev"
+        "imagine/Imagine": "v0.6.2",
+        "knplabs/gaufrette": "v0.1.8",
+        "knplabs/knp-gaufrette-bundle": "v0.1.7",
+        "rackspace/php-opencloud" : "1.12.*",
+        "vich/geographical-bundle": "dev-master#fc68b2c52e3b925fb31e51ee87fefe325491d266",
+        "knplabs/knp-snappy-bundle": "v1.2",
+        "predis/predis": "^1.0",
+        "exercise/htmlpurifier-bundle": "~0.1.0",
+        "opensky/runtime-config-bundle": "~1.0",
+        "elao/web-profiler-extra-bundle": "2.3.*@dev",
+        "jms/payment-core-bundle": "dev-propel-support as 1.0.x-dev",
+        "fkr/simplepie-bundle": "v1.0.2",
+        "simplepie/simplepie": "~1.4.2",
+        "tecnickcom/tcpdf": "6.0.080",
+        "whiteoctober/tcpdf-bundle": "1.0.2",
+        "segmentio/analytics-php": "1.0.0",
+        "guzzle/plugin-log": "~3.8.1",
+        "namshi/jose": "~2.2",
+        "pulse00/ffmpeg-bundle": "0.5.2",
+        "lexik/translation-bundle": "dev-master#919b0de0212b26803cb6036eea067a7491b492d3",
+        "sensio/generator-bundle": "v2.5.3",
+        "twig/extensions": "v1.2.0",
+        "jms/translation-bundle": "~1.2.3",
+        "willdurand/negotiation": "1.5.0",
+        "onesky/api-library-php5": "~1.0",
+        "misd/phone-number-bundle": "~1.1.3",
+        "kigkonsult/icalcreator": "dev-master#ae7c760c13816cab6ba4d76bbad25a503b03c6e2",
+        "suncat/mobile-detect-bundle": "~1.0.5",
+        "simplesamlphp/simplesamlphp": "~1.13",
+        "beneylu-school/simplesamlphp-module-redis": "^0.1.1",
+        "ruudk/payment-stripe-bundle": "~2.0"
     },
 
-    "minimum-stability": "dev",
-
-    "scripts": {
+ "scripts": {
         "post-install-cmd": [
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
@@ -89,12 +113,16 @@
             "BNS\\Central": "src/",
             "BNS\\Vendor": "src/"
         },
+        "psr-4": {
+            "BNS\\": "src/BNS/"
+        },
         "classmap": [
             "vendor/propel/propel1/generator/lib/util/PropelPHPParser.php",
             "src/BNS/App/CoreBundle/Utils/vendor/simple_html_dom.php",
             "src/BNS/App/CoreBundle/Utils/vendor/rss_php.php",
             "src/BNS/App/CoreBundle/Utils/vendor/videopian.php",
-            "src/BNS/App/FixtureBundle/Vendor/Spyc/Spyc.php"
+            "src/BNS/App/FixtureBundle/Vendor/Spyc/Spyc.php",
+            "vendor/segmentio/analytics-php/lib/Segment.php"
         ],
         "files": [
             "src/BNS/App/CoreBundle/Utils/vendor/url_to_absolute/url_to_absolute.php"

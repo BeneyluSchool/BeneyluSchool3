@@ -1,4 +1,15 @@
 <li id="{{ link.id }}">
-	<p>{{ link.label }} :</p>  <p><i>{{ link.value }}</i></p>
-	<span class="white-list-toggle {% if status == true %}active{% endif %}"></span>
+	<p class="white-list-link">{{ link.label }} : <i>{{ link.value }}</i></p>
+    {%  set active = status == true ? 'active' : '' %}
+    {% include 'BNSAppMainBundle::popover.html.twig'
+        with {
+            'element' : 'span',
+            'class'   : 'white-list-toggle ' ~ active,
+            'title'   : "Activation d'un site pour liste blanche",
+            'placement' : 'left',
+            'content' : "Un feu vert signifie que le site est intégré à votre liste blanche.<br /> Il sera alors inclus dans les remontées de votre moteur de recherche.",
+            'module'  : 'resource',
+            'size'    : 'medium',
+        }
+    %}
 </li>

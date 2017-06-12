@@ -1,20 +1,19 @@
-<div class="title-container articles-statuses-info">
-	<div class="title active border-blue">Statut de l'article <span class="square icon-arrow"></span></div>
-	<div class="content-title">
-		<ul>
-			{% if (article.isDraft()) %}
-				<li class="text-row"><div><span class="vertical-separator gray"></span> <span>Brouillon</span></div></li>
-			{% elseif (article.isFinished()) %}
-				<li class="text-row"><div><span class="vertical-separator blue"></span> <span>Article terminé</span></div></li>
-			{% elseif (article.isWaitingForCorrection()) %}
-				<li class="text-row"><div><span class="vertical-separator orange"></span> <span>Article à corriger</span></div></li>
-			{% elseif (article.isProgrammed()) %}
-				<li class="text-row"><div><span class="vertical-separator purple"></span> <span>Article programmé</span></div></li>
-			{% elseif article.isPublished() %}
-				<li class="text-row"><div><span class="vertical-separator green"></span> <span>Article publié</span></div></li>
-			{% else %}
-				Unkwown article status !
-			{% endif %}
-		</ul>
-	</div>
-</div>
+{% trans_default_domain "BLOG" %}
+
+<bns-expander class="articles-statuses-info" label="{{ 'ARTICLE_STATUS' | trans }}" is-open="true">
+  <div class="md-padding article-status status-{{ article.getStatus() }}">
+    {% if (article.isDraft()) %}
+      <span class="vertical-separator gray"></span> <span>{% trans %}DRAFT{% endtrans %} </span>
+    {% elseif (article.isFinished()) %}
+      <span class="vertical-separator blue"></span> <span>{% trans %}ARTICLE_FINISHED{% endtrans %}</span>
+    {% elseif (article.isWaitingForCorrection()) %}
+      <span class="vertical-separator orange"></span> <span>{% trans %}ARTICLE_TO_CORRECT{% endtrans %} </span>
+    {% elseif (article.isProgrammed()) %}
+      <span class="vertical-separator purple"></span> <span>{% trans %}ARTICLE_PROGRAM{% endtrans %}</span>
+    {% elseif article.isPublished() %}
+      <span class="vertical-separator green"></span> <span>{% trans %}ARTICLE_PUBLISH{% endtrans %} </span>
+    {% else %}
+      Unkwown article status !
+    {% endif %}
+  </div>
+</bns-expander>

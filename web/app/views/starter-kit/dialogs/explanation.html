@@ -1,0 +1,15 @@
+<md-dialog class="starter-kit-explanation-dialog speech-dialog left">
+  <md-dialog-content class="md-dialog-content">
+    <div class="md-body-2" ng-bind-html="ctrl.step.data.content|trustHtml"></div>
+    <div ng-if="ctrl.step.data.action" class="md-body-2 text-primary" ng-bind-html="ctrl.step.data.action|trustHtml"></div>
+    <div ng-if="ctrl.targetTemplate" class="md-padding starter-kit-target-template" ng-bind-html="ctrl.targetTemplate|trustHtml">
+    </div>
+  </md-dialog-content>
+  <div ng-if="ctrl.step.data.accept" class="md-actions">
+    <md-button ng-click="ctrl.accept()" class="md-primary">
+      <span ng-bind-html="'STARTER_KIT.BUTTON_CONTINUE'|translate|buttonize"></span>
+      <md-icon>chevron_right</md-icon>
+    </md-button>
+  </div>
+</md-dialog>
+<div class="bns-starter-kit-dialog-jim"></div>

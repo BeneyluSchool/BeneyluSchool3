@@ -1,0 +1,2051 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2017-03-27T18:49:47Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="a0ad3c142cca2e567a79c614d93d6fc9e3763ad9" resname="ADD_NEW_ASSISTANT">
+        <source>Ajouter un nouvel auxiliaire</source>
+        <target state="new">Añadir un nuevo asistente</target>
+      </trans-unit>
+      <trans-unit id="a35f6094280359a430fbb6de264d1703af527a70" resname="ADD_NEW_PUPIL">
+        <source>Ajouter un nouvel élève</source>
+        <target state="new">Añadir un nuevo estudiante</target>
+      </trans-unit>
+      <trans-unit id="43f70d68db0a1ecbc06578dad2865ff38b917748" resname="ADD_NEW_TEACHER">
+        <source>Ajouter un nouvel enseignant</source>
+        <target state="new">Añadir un nuevo profesor</target>
+      </trans-unit>
+      <trans-unit id="c6abac6bd0230164ccf775fde861c513717bc5e7" resname="ADULT_FILENAME_BENEYLU">
+        <source>ADULT_FILENAME_BENEYLU</source>
+        <target>%beneylu_brand_name%- Ficha para padres - %user%.pdf</target>
+        <note><![CDATA[%user% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="af9a9a7be7d081dc0ba2fdd8faf46807e38b73e4" resname="ADULT_PASSWORD_PRIVATE">
+        <source>ADULT_PASSWORD_PRIVATE</source>
+        <target>Esta contraseña es confidencial, no la reveles a nadie.</target>
+      </trans-unit>
+      <trans-unit id="14c6282da5e9d4505b0017deaf80ce8e5a9a7095" resname="ADULT_PUBLISH_MESSAGE">
+        <source>ADULT_PUBLISH_MESSAGE</source>
+        <target>Pon la #%date% en tu mensaje para publicarlo</target>
+        <note><![CDATA[%date% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="392aeeabda9308ad32ca1e5c93cdcf990d8d7aa7" resname="ALREADY_PARTNERSHIP_MEMBER">
+        <source>ALREADY_PARTNERSHIP_MEMBER</source>
+        <target>Ya eres miembro de la asociación</target>
+      </trans-unit>
+      <trans-unit id="5ba0a0380ce00495a832024cb25eebd839f9d98c" resname="ASSISTANT_ASSOCIATE">
+        <source>ASSISTANT_ASSOCIATE</source>
+        <target state="new">Asistentes relacionados</target>
+      </trans-unit>
+      <trans-unit id="56acfed7eda5682029d07f8e9078663b0491bd74" resname="ASSISTANT_CREATED_SUCCESS">
+        <source>ASSISTANT_CREATED_SUCCESS</source>
+        <target state="new">El asistente ha sido creado con éxito</target>
+      </trans-unit>
+      <trans-unit id="345830cf130774473e6e05b34394a9cf4e3cf251" resname="BACKBOARD_FLUX_LABEL_1">
+        <source>BACKBOARD_FLUX_LABEL_1</source>
+        <target>Blog</target>
+      </trans-unit>
+      <trans-unit id="db7908eabf7e0f537b748d1b3bf1fb32ccdae96a" resname="BACKBOARD_FLUX_LABEL_2">
+        <source>BACKBOARD_FLUX_LABEL_2</source>
+        <target>Blog y mediateca</target>
+      </trans-unit>
+      <trans-unit id="e6422a291769f98f74837486c9f7aad55b9e975f" resname="BACKBOARD_FLUX_LABEL_3">
+        <source>BACKBOARD_FLUX_LABEL_3</source>
+        <target>Todos</target>
+      </trans-unit>
+      <trans-unit id="a154f3b6dcc69bba69fef1cb57dac5c00c298a21" resname="BENEYLU_NEWS">
+        <source>BENEYLU_NEWS</source>
+        <target>novedades de %beneylu_brand_name%</target>
+      </trans-unit>
+      <trans-unit id="53a5eaccbfa6248edd0a77f3de2ec82c4fbae530" resname="BENEYLU_TEAM">
+        <source>L'équipe %beneylu_brand_name%</source>
+        <target state="new">equipo de %beneylu_brand_name%</target>
+      </trans-unit>
+      <trans-unit id="6d40b5728bf43d930b66243b8006f0ff882934a5" resname="BIRTHDAY">
+        <source>BIRTHDAY</source>
+        <target>Fecha de nacimiento</target>
+      </trans-unit>
+      <trans-unit id="f664c66c8d0a7417cec1fb65fc45b93218ac9ffb" resname="BLACKBOARD_BACK_TITLE">
+        <source>BLACKBOARD_BACK_TITLE</source>
+        <target state="new">Personalizar el panel</target>
+      </trans-unit>
+      <trans-unit id="010e9ae69cbd462d5a9e0656c3bcaa07476e7e9e" resname="BLACKBOARD_DESCRIPTION">
+        <source>BLACKBOARD_DESCRIPTION</source>
+        <target state="new">Descripción</target>
+      </trans-unit>
+      <trans-unit id="2d46d1b4f101518973537398ef20836f03c1228f" resname="BLACKBOARD_FLUX">
+        <source>BLACKBOARD_FLUX</source>
+        <target state="new">Flujo de información</target>
+      </trans-unit>
+      <trans-unit id="758642701f6492b9f5b8a6c717473abf0e011ca2" resname="BLACKBOARD_FRONT_NOTIF">
+        <source>BLACKBOARD_FRONT_NOTIF</source>
+        <target state="new">Últimamente en la clase...</target>
+      </trans-unit>
+      <trans-unit id="d01705eaddec0d40cad61e97f3980517ccf4e6ba" resname="BLACKBOARD_NEW_ARTICLE">
+        <source>BLACKBOARD_NEW_ARTICLE</source>
+        <target state="new">Un artículo ha sido añadido al blog</target>
+      </trans-unit>
+      <trans-unit id="4c365ddabf25303a02e1058d0a8c9a287278c606" resname="BLACKBOARD_NEW_HOMEWORK">
+        <source>BLACKBOARD_NEW_HOMEWORK</source>
+        <target state="new">Una nueva tarea ha sido añadida</target>
+      </trans-unit>
+      <trans-unit id="86d67ab5caa493de4f2f0937c519f927f57a77b5" resname="BLACKBOARD_NEW_LIAISONBOOK_MESSAGE">
+        <source>BLACKBOARD_NEW_LIAISONBOOK_MESSAGE</source>
+        <target state="new">Un nuevo mensaje ha sido añadido al cuaderno de comunicación</target>
+      </trans-unit>
+      <trans-unit id="da63bf09568867cf90ed2e3bf8eab6379d973a6c" resname="BLACKBOARD_NEW_MEDIA">
+        <source>BLACKBOARD_NEW_MEDIA</source>
+        <target state="new">Un documento ha sido añadido a la mediateca</target>
+      </trans-unit>
+      <trans-unit id="82561fce379d118bff44c52a440bc3402a33e1b6" resname="BLACKBOARD_NEW_MINISITE_NEWS">
+        <source>BLACKBOARD_NEW_MINISITE_NEWS</source>
+        <target>Una actualidad ha sido añadida al sitio web de la escuela</target>
+      </trans-unit>
+      <trans-unit id="2ff30d02bfeb3bb863649b6479f43dcb74298233" resname="BLACKBOARD_NOTICE">
+        <source>BLACKBOARD_NOTICE</source>
+        <target state="new">Mostrar un anuncio</target>
+      </trans-unit>
+      <trans-unit id="a9376138620d0669ad893087c43d5b3f1041c622" resname="BLACKBOARD_NO_FLUX">
+        <source>BLACKBOARD_NO_FLUX</source>
+        <target state="new">Ninguna actualidad</target>
+      </trans-unit>
+      <trans-unit id="842a8b2a253e3a7663a49149cf3ae01be49c89d9" resname="BLACKBOARD_PRESENTATION_IMG">
+        <source>BLACKBOARD_PRESENTATION_IMG</source>
+        <target state="new">imagen de presentación</target>
+      </trans-unit>
+      <trans-unit id="8af04752ffb257b48850745b3895aac3c5f28f3e" resname="BLACKBOARD_TITLE">
+        <source>BLACKBOARD_TITLE</source>
+        <target state="new">Título</target>
+      </trans-unit>
+      <trans-unit id="1c1f0456f3d7df7ecb984a5770408a7ad651e75f" resname="BORN_USER">
+        <source><![CDATA[{0} <strong> Né le : %date%</strong> | {1} <strong> Née le :</strong> %date%]]></source>
+        <target state="new"><![CDATA[{0}<strong> Fecha de nacimiento:</strong> %date%| {1}<strong> Fecha de nacimiento:</strong> %date%]]></target>
+        <note><![CDATA[%date% is a placeholder
+This text has plural translations based on %count% variable
+http://symfony.com/doc/current/components/translation/usage.html#pluralizationThis text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="d42be092ea85cba799fccf744b47cd0054a65ab8" resname="BUTTON_DELETE_USER">
+        <source>BUTTON_DELETE_USER</source>
+        <target><![CDATA[<strong>Eliminar </strong><br /> a este usuario de mi clase]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="c990e5440b0bb2d8ad688a126a88228ec1b50529" resname="BUTTON_GENERATE_NEW_CARD">
+        <source><![CDATA[<strong>Générer une</strong><br /> nouvelle fiche]]></source>
+        <target state="new"><![CDATA[<strong>Crear una </strong><br /> ficha]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="fdea9eacf0d3420f0677894e66f48011151e67e6" resname="BUTTON_GENERATE_NEW_PASSWORD">
+        <source><![CDATA[<strong>Générer un nouveau</strong><br />mot de passe]]></source>
+        <target state="new"><![CDATA[<strong>Crear una nueva</strong><br />contraseña]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="055d36d8008e3aaddcf0f223382ce6d0c8928666" resname="BUTTON_QUIT_CLASS">
+        <source><![CDATA[<strong>Quitter</strong><br /> la classe]]></source>
+        <target state="new"><![CDATA[<strong>Dejar</strong><br /> la clase]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="dffd7f33a063ae93c42ed89ea79cf0f649957342" resname="BUTTON_VERIFY">
+        <source>BUTTON_VERIFY</source>
+        <target state="new">Verificar</target>
+      </trans-unit>
+      <trans-unit id="b9a66baf7684879faa8a07e2571980f24a77c70c" resname="CANT_TRANFERT_PUPILIN_SAME_SCHOOL">
+        <source>CANT_TRANFERT_PUPILIN_SAME_SCHOOL</source>
+        <target>Solo puedes transferir alumnos de tu escuela</target>
+      </trans-unit>
+      <trans-unit id="9ecd8651b6024db7bd8c0eae3cd0c699fee0707f" resname="CHANGE_MY_AVATAR">
+        <source>CHANGE_MY_AVATAR</source>
+        <target>Elegir un avatar nuevo</target>
+      </trans-unit>
+      <trans-unit id="537801ab1a34e608887d6de5bce167928e3fe99b" resname="CHANGE_YEAR">
+        <source>CHANGE_YEAR</source>
+        <target>Empezar de nuevo el año escolar</target>
+      </trans-unit>
+      <trans-unit id="7c3bb1587b7faf1a233926c3d1b5627db0a4fbc1" resname="CHECKING_DATA">
+        <source>CHECKING_DATA</source>
+        <target><![CDATA[Estamos verificando los datos.<br />Espera...]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="1bebda39121dd65764c4a92a83a7d403e2a34810" resname="CHILD_FILENAME_BENEYLU">
+        <source>CHILD_FILENAME_BENEYLU</source>
+        <target>%beneylu_brand_name% - Ficha para alumnos - %user%.pdf</target>
+        <note><![CDATA[%user% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="4beaecedc0d6ea449a5f9b49d96b84523473911b" resname="CHILD_PASSWORD_PRIVATE">
+        <source>CHILD_PASSWORD_PRIVATE</source>
+        <target>Esta contraseña es confidencial, no la reveles a nadie. </target>
+      </trans-unit>
+      <trans-unit id="8a03bbb91dfe37ad7119dee8f477e5b6a8e76828" resname="CHILD_PUBLISH_MESSAGE">
+        <source>CHILD_PUBLISH_MESSAGE</source>
+        <target>Pon la #%date% en tu mensaje para publicarlo</target>
+        <note><![CDATA[%date% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="69d4a3344c2a6a97da1c61f07520decc77e29338" resname="CHOICES_FEMALE">
+        <source>CHOICES_FEMALE</source>
+        <target>Chica</target>
+      </trans-unit>
+      <trans-unit id="54bcc68f931bc1a78007f0ef9331387ad34cbe28" resname="CHOICES_MALE">
+        <source>CHOICES_MALE</source>
+        <target>Chico</target>
+      </trans-unit>
+      <trans-unit id="2105757f5b5f69d6c7830956890196100bbfe8d6" resname="CHOICE_DELETE_PUPIL">
+        <source>DELETE_PUPIL</source>
+        <target>Eliminar a los alumnos de esta clase</target>
+      </trans-unit>
+      <trans-unit id="1de650a721962a3cb83838c8565b6e8f2cf78e38" resname="CHOICE_FORMAT_BENEYLU">
+        <source>CHOICE_FORMAT_BENEYLU</source>
+        <target>Formato simplificado</target>
+      </trans-unit>
+      <trans-unit id="f1d2e7c37936db711c5c0c60e69d9be451f0ca34" resname="CHOICE_FORMAT_PUPIL">
+        <source>CHOICE_FORMAT_PUPIL</source>
+        <target>Formato base de alumnos</target>
+      </trans-unit>
+      <trans-unit id="ffd33be2db149c6e0718d767498fcbeb77966cbd" resname="CHOICE_KEEP_PUPIL">
+        <source>KEEP_PUPIL</source>
+        <target>Conservar a los alumnos</target>
+      </trans-unit>
+      <trans-unit id="f696cf78fe4c9b264997f7257986c27cd38dfac8" resname="CHOICE_TRANSFER_PUPIL_TO_OTHER_CLASS">
+        <source>CHOICE_TRANSFER_PUPIL_TO_OTHER_CLASS</source>
+        <target>Transferir a los alumnos a otra clase</target>
+      </trans-unit>
+      <trans-unit id="7bf10f9862f5d6fd6f6836ecd7b4230fb60265a9" resname="CHOOSE_MY_AVATAR">
+        <source>CHOOSE_MY_AVATAR</source>
+        <target>Elegir mi avatar</target>
+      </trans-unit>
+      <trans-unit id="9186bcf45ace751f597a51824c4348f773a2ea93" resname="CLASSROOM_CODE">
+        <source>CLASSROOM_CODE</source>
+        <target>Código de la clase</target>
+      </trans-unit>
+      <trans-unit id="138c9e31d0a67cda63381be82b56bb99f86a61c6" resname="CLASS_CODE">
+        <source>CLASS_CODE</source>
+        <target>Tu código de la clase</target>
+      </trans-unit>
+      <trans-unit id="17470736dc7e691496f1b286f5af911460e575b0" resname="CLASS_HAVENT_WORKING_GROUP">
+        <source>CLASS_HAVENT_WORKING_GROUP</source>
+        <target state="new">Tu clase no tiene grupos de trabajo.</target>
+      </trans-unit>
+      <trans-unit id="d72edad5bbac5e5cea64fad4b9ef9e752e0c4c18" resname="CLIS">
+        <source>CLIS</source>
+        <target>Clases de integración escolar</target>
+      </trans-unit>
+      <trans-unit id="104666dbe54d80433499591a38ce3159c67e9efe" resname="CLOSE_DEADLINE">
+        <source>CLOSE_DEADLINE</source>
+        <target>Caducidad próxima</target>
+      </trans-unit>
+      <trans-unit id="16de25af888480da1af57a71855f3e8c515dcb61" resname="CODE">
+        <source>CODE</source>
+        <target>Código:</target>
+      </trans-unit>
+      <trans-unit id="dd561d1f84e92f8248426d79f779d66e4f6cd1ab" resname="CODE_ASSOCIATE_TO_PARTNERSHIP">
+        <source>Le code %code% est associé au partenariat %partnership%</source>
+        <target state="new">El código %code% está vinculado a la asociación %partnership% </target>
+        <note><![CDATA[%code% is a placeholder
+%partnership% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="4393b286c69f41089a561f53e8f5d6769795301b" resname="CODE_PARTNERSHIP">
+        <source><![CDATA[<strong>Code : </strong>%code%]]></source>
+        <target state="new"><![CDATA[<strong>Código: </strong>%code%]]></target>
+        <note><![CDATA[%code% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="9e9c36cb70432862fe87d61d55c35e6a6013e8b0" resname="CONFIDENTIAL_PASSWORD_ADULT">
+        <source>CONFIDENTIAL_PASSWORD_ADULT</source>
+        <target>Esta contraseña es confidencial, no la reveles a nadie.</target>
+      </trans-unit>
+      <trans-unit id="ea4767ebe84df88eda935e3f3aa12d6b1b173d4d" resname="CONFIDENTIAL_PASSWORD_CHILD">
+        <source>CONFIDENTIAL_PASSWORD_CHILD</source>
+        <target>Esta contraseña es confidencial, no la reveles a nadie.</target>
+      </trans-unit>
+      <trans-unit id="e976e65a1d0712ca1e4e65ab60dcefc8090d541c" resname="CONFIRM_RESET">
+        <source>CONFIRM_RESET</source>
+        <target>¿Seguro que quieres reiniciar tu clase?</target>
+      </trans-unit>
+      <trans-unit id="165de63b4e99b691c61b6d36a9b7d4a6f6059d0c" resname="CREATE_AT_BY">
+        <source>%date% par %imageLink% %user%</source>
+        <target state="new">%date% por %imageLink% %user%</target>
+        <note><![CDATA[%date% is a placeholder
+%imageLink% is a placeholder
+%user% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="fb72accc2a99afb2e6beed48721a6c4240a8a955" resname="CSV_BASE_PUPIL_FORMAT">
+        <source>CSV_BASE_PUPIL_FORMAT</source>
+        <target><![CDATA[Si posees una<strong>extracción de la base de datos de los alumnos</strong> de tu clase, puedes agregarla tal cual a %beneylu_brand_name%, sin <strong>necesidad de hacerle modificaciones</strong>.<br /><br />Solo los campos necesarios serán tomados en cuenta, los otros serán simplemente ignorados.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="eefc916dbf7f9b3b5016533ac6f51dcdf8e4b91a" resname="CSV_BASE_PUPIL_FORMAT_DOWNLOAD">
+        <source>CSV_BASE_PUPIL_FORMAT_DOWNLOAD</source>
+        <target>Descarga un ejemplo de formato Base de Alumnos</target>
+      </trans-unit>
+      <trans-unit id="3f4643ae58d90bd7ba6260973fadd8397bd56321" resname="CSV_BASE_PUPIL_FORMAT_VIRGIN_DOWNLOAD">
+        <source>CSV_BASE_PUPIL_FORMAT_VIRGIN_DOWNLOAD</source>
+        <target>Descarga una plantilla del formato Base de Alumnos</target>
+      </trans-unit>
+      <trans-unit id="baea8b7103d67cdf1c6a785c9f6ba719f0b4c7f4" resname="CSV_BENEYLU_SCHOOL_FORMAT">
+        <source>CSV_BENEYLU_SCHOOL_FORMAT</source>
+        <target><![CDATA[Si quieres crear tu propio archivo, descarga nuestra plantilla en formato simplificado y complétala.<br /><br />Esta solución es muy<strong> sencilla</strong>.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="ed74281604d253bf5464881ec341fa2b7977f446" resname="CSV_BENEYLU_SCHOOL_FORMAT_DOWNLOAD">
+        <source>CSV_BENEYLU_SCHOOL_FORMAT_DOWNLOAD</source>
+        <target>Descarga un ejemplo en formato simplificado</target>
+      </trans-unit>
+      <trans-unit id="f1437ad29af3a00c0dc4bf564dd58d3b874dc838" resname="CSV_BENEYLU_SCHOOL_FORMAT_VIRGIN_DOWNLOAD">
+        <source>CSV_BENEYLU_SCHOOL_FORMAT_VIRGIN_DOWNLOAD</source>
+        <target>Descarga nuestra plantilla en formato simplificado</target>
+      </trans-unit>
+      <trans-unit id="97a3bad2df26a7b22cb32134a1de4066c43f01a5" resname="CSV_IMPORT_INTEREST">
+        <source>CSV_IMPORT_INTEREST</source>
+        <target><![CDATA[<p>El objetivo principal de un archivo CSV es<strong> permitir que las máquinas interpreten</strong> listas de datos.</p><p>De esta manera, basta con enviar la lista a todos los alumnos una sola vez a %beneylu_brand_name%: se crearán todas las cuentas. <strong>Así evitarás la tarea tan tediosa</strong> de tener que crear las cuentas una a una. </p>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="26063d456ca50dcb947b0f9e4170152350057861" resname="CSV_IMPORT_SUPPORTED_FORMATS">
+        <source>CSV_IMPORT_SUPPORTED_FORMATS</source>
+        <target><![CDATA[<p> Por desgracia, no todo es magia. La máquina tiene que "entender" la lista que le envías.</p><p>Por eso tienes que escribir el archivo CSV de una manera concreta,<strong> respetando la nomenclatura</strong>. Es lo que llamamos "<strong>el formato</strong>". </p><p>Al día de hoy, %beneylu_brand_name% solo acepta un formato: "<strong>el formato simplificado</strong>".</p>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="b39e274a14f0f4967606706ae9d836fd19d59781" resname="CSV_IMPORT_TITLE_SUPPORTED_FORMATS">
+        <source>CSV_IMPORT_TITLE_SUPPORTED_FORMATS</source>
+        <target>¿Qué formatos se admiten?</target>
+      </trans-unit>
+      <trans-unit id="054f822797d222d3827f412d2a4c0c21c3f71473" resname="CSV_IMPORT_TITLE_WRITE">
+        <source>CSV_IMPORT_TITLE_WRITE</source>
+        <target>¿Cómo puedo escribir en un archivo CSV?</target>
+      </trans-unit>
+      <trans-unit id="8012f4769dab165f8c0f69f4a070adf561e4c5be" resname="CSV_IMPORT_WRITE">
+        <source>CSV_IMPORT_WRITE</source>
+        <target><![CDATA[<p>Escribir en un archivo CSV es fácil (¡no es broma!).</p><p>Solo necesitas una <strong>hoja de cálculo</strong> como Excel o OpenOffice Calc. Es la solución más fácil, ya que la hoja de cálculo añadirá automáticamente los puntos y comas.</p><p>Recomendamos que <strong>descargues nuestra plantilla</strong> (ver abajo) para poder usarla de ejemplo. ¡Pruébala, para eso está! </p><p>La primera línea de tu "tabla" debe tener el formato seleccionado (ver abajo), ya que define las columnas (apellido, nombre...). Las líneas siguientes corresponden a tus alumnos y constan de información en cada columna: apellido, nombre,..</p><p>Finalmente, solo necesitas guardar tu archivo en formato CSV. La hoja de cálculo deberá sugerir este formato al seleccionar "<strong>Guardar como</strong>". He aquí, ¡tu "<strong>name_of_my_file.csv</strong>" está preparado para %beneylu_brand_name%!</p>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="6ab17d093de3e0fd5258881c908f25b3e4f06087" resname="CSV_TITLE_BASE_PUPIL_FORMAT">
+        <source>CSV_TITLE_BASE_PUPIL_FORMAT</source>
+        <target>El formato Base de Alumnos</target>
+      </trans-unit>
+      <trans-unit id="a1fb2f4d0b69da29049b9d18b357460d03d10794" resname="CSV_TITLE_BENEYLU_SCHOOL_FORMAT">
+        <source>CSV_TITLE_BENEYLU_SCHOOL_FORMAT</source>
+        <target>El formato simplificado</target>
+      </trans-unit>
+      <trans-unit id="5a6ecc1b49e11811cbf77d531be09ed1e43fd4c8" resname="CSV_TITLE_PRESENTATION">
+        <source>CSV_TITLE_PRESENTATION</source>
+        <target>¿Qué es un archivo CSV?</target>
+      </trans-unit>
+      <trans-unit id="1716c8f89a0f9a8292226e3b5dbdaf803fbd5aa9" resname="DATE_CREATION_PARTNERSHIP">
+        <source><![CDATA[<strong>Date de création :</strong> %date%]]></source>
+        <target state="new"><![CDATA[<strong>Fecha de creación:</strong> %date%]]></target>
+        <note><![CDATA[%date% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="0a791bffeda8c674ec9091b721419b372512b855" resname="DATE_CREATION_TEAM">
+        <source>DATE_CREATION_TEAM</source>
+        <target state="new"><![CDATA[<strong>Fecha de creación:</strong> %date%]]></target>
+        <note><![CDATA[%date% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="70ea5bd8a2674d9254d7a08110df84a7953fc818" resname="DEADLINE_DATE">
+        <source>DEADLINE_DATE</source>
+        <target><![CDATA[Fecha de caducidad: <span class="expiration-date">%date%</span>]]></target>
+        <note><![CDATA[%date% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="632654cd79755eb9d36ea250978c0f6fd5ba8e03" resname="DEADLINE_SOON">
+        <source>DEADLINE_SOON</source>
+        <target>Caducidad próxima</target>
+      </trans-unit>
+      <trans-unit id="fdd1f42d0fdc3cf4f7f735570b69bad8a2d2ce8e" resname="DELETE_AVATAR">
+        <source>DELETE_AVATAR</source>
+        <target>Eliminar el avatar</target>
+      </trans-unit>
+      <trans-unit id="ebfd090c289f7de78000847c9262d8678f15b33d" resname="DELETE_IMAGE">
+        <source>DELETE_IMAGE</source>
+        <target state="new">Eliminar la imagen</target>
+      </trans-unit>
+      <trans-unit id="f8267685658ead05e5ce2e0f2aa560c333353921" resname="DELETE_MY_AVATAR">
+        <source>DELETE_MY_AVATAR</source>
+        <target>Más utilizado</target>
+      </trans-unit>
+      <trans-unit id="683cb431a569666a35fb28d06e19c2833e381890" resname="DESCRIPTION_FILE_NOT_SAVE_ON_SERVER">
+        <source>DESCRIPTION_FILE_NOT_SAVE_ON_SERVER</source>
+        <target>Atención: los archivos CSV no se guardan en nuestros servidores, sino que son tratados por un robot y posteriormente se eliminan.</target>
+      </trans-unit>
+      <trans-unit id="20080c2d456f1be2bb573d8846a538da37cb1327" resname="DESCRIPTION_PARTNERSHIP">
+        <source><![CDATA[<strong>Description : </strong><br/>%description%]]></source>
+        <target state="new"><![CDATA[<strong>Descripción: </strong><br/>%description%]]></target>
+        <note><![CDATA[%description% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="aa886ec49b039e6ef448c6dea17b6c2e65bb6280" resname="DESCRIPTION_TEAM">
+        <source><![CDATA[<strong>Description : </strong> %description%]]></source>
+        <target state="new"><![CDATA[<strong>Descripción: </strong> %description%]]></target>
+        <note><![CDATA[%description% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="21bb02ec1540793255e0c157e4aa7417d9bb1587" resname="DESCRIPTION_USER_MANUAL">
+        <source><![CDATA[
+            <p>Un fichier CSV n'est rien d'autre qu'une <strong>liste de données</strong> (la liste détaillée de vos élèves par exemple) dans laquelle on a remplacé les séparations par <strong>des point-virgules</strong> ( ; ). </p>
+            <h3>Quel est l'intérêt ?</h3>
+            ]]></source>
+        <target state="new"><![CDATA[
+<p>Un archivo CSV solo es una <strong>lista de datos</strong> (por ejemplo, una lista detallada de tus alumnos) en la que algunas secciones se han sustituido por un <strong>punto y coma</strong> ( ; ).</p>
+<h3>¿Para qué?</h3>
+            ]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="564af6829fbc28663111b67b7dc01480e3585725" resname="DOWNLOAD">
+        <source>DOWNLOAD</source>
+        <target>Descargar</target>
+      </trans-unit>
+      <trans-unit id="2210469a8ecee370edc0af4404058b5915ef336f" resname="DOWNLOAD_START_IN_FEW_SECOND">
+        <source>DOWNLOAD_START_IN_FEW_SECOND</source>
+        <target>La descarga empezará en unos segundos, espera...</target>
+      </trans-unit>
+      <trans-unit id="78fec86689d7f3f9d365fa993238b40875368798" resname="ELEMENTARY">
+        <source>ELEMENTARY</source>
+        <target>Primaria</target>
+      </trans-unit>
+      <trans-unit id="564269323e6a7fccff1f236f3209e6b63492d40b" resname="EMAIL">
+        <source>EMAIL</source>
+        <target>Dirección de correo electrónico</target>
+      </trans-unit>
+      <trans-unit id="44dbca518a82801f0e3f4e753d1c4dbab9d22b3e" resname="EMAIL_ALREADY_USED">
+        <source>EMAIL_ALREADY_USED</source>
+        <target>La dirección de correo electrónico que has introducido ya está en uso, introduce otra.</target>
+      </trans-unit>
+      <trans-unit id="84285121fd922a076350779a0d051f850e10ba93" resname="EMAIL_ALREADY_USED_CHOOSE_ANOTHER">
+        <source>EMAIL_ALREADY_USED_CHOOSE_ANOTHER</source>
+        <target>La dirección de correo electrónico que has introducido ya está en uso, introduce otra.</target>
+      </trans-unit>
+      <trans-unit id="fa85fc8b82dde9c29418bc9b5a0acb788912f777" resname="EMAIL_EMPTY">
+        <source>EMAIL_EMPTY</source>
+        <target>La dirección de correo electrónico no puede estar en blanco</target>
+      </trans-unit>
+      <trans-unit id="d5d26ffd720c54a83656fe2a81eeb2e6c769333e" resname="ENDED">
+        <source>ENDED</source>
+        <target>Terminada</target>
+      </trans-unit>
+      <trans-unit id="f028c73568398811a9808ae25afcce2b3d7b4ba4" resname="ENTER_EMAIL">
+        <source>ENTER_EMAIL</source>
+        <target>Introduce tu correo electrónico</target>
+      </trans-unit>
+      <trans-unit id="d7863633e702cd60171343e4838f8df8eea08900" resname="ENTER_NAME">
+        <source>ENTER_NAME</source>
+        <target>Introduce un nombre</target>
+      </trans-unit>
+      <trans-unit id="a9e56211040bc11c4528692d8bdb6c1a2328ed4b" resname="EXPORT_INFOS_CSV">
+        <source>EXPORT_INFOS_CSV</source>
+        <target>Exportar la información en CSV</target>
+      </trans-unit>
+      <trans-unit id="080ad2f3c49225d15530f087d7865d30b9cc942f" resname="FILENAME_EXPORT">
+        <source>FILENAME_EXPORT</source>
+        <target>%beneylu_brand_name%-exportación-alumno-%group%.csv</target>
+        <note><![CDATA[%group% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="0200c424a31fc56a8667c4fcc3ac915bef2c12d7" resname="FIND_CLASSROOM_CODE">
+        <source>FIND_CLASSROOM_CODE</source>
+        <target><![CDATA[Puedes encontrar el código de la clase en el panel de control, en la barra lateral.<br /><br />Solo las clases de tu escuela pueden recibir alumnos.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="105e85efccb096c96690a7924f20eb2a6b03388e" resname="FIRSTNAME">
+        <source>FIRSTNAME</source>
+        <target>Nombre:</target>
+      </trans-unit>
+      <trans-unit id="362ef7a07a4b546a57aa4ebc1c606577105dd8cb" resname="FIRSTNAME_USER">
+        <source><![CDATA[<strong>Prénom :</strong> %user%]]></source>
+        <target state="new"><![CDATA[<strong>Nombre:</strong> %user%]]></target>
+        <note><![CDATA[%user% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="6fb2f708f9777d627785b309393c7e9432da62a9" resname="FLASH_CSV_INCORRECT">
+        <source>FLASH_CSV_INCORRECT</source>
+        <target>El archivo CSV seleccionado no es correcto, vuelve a intentarlo.</target>
+      </trans-unit>
+      <trans-unit id="71c34dd8204e99099ccd4bc59737a2f6a5b147e9" resname="FLASH_CSV_INCORRECT_BENEYLU_FORMAT">
+        <source>FLASH_CSV_INCORRECT_BENEYLU_FORMAT</source>
+        <target>El archivo CSV que has seleccionado no se corresponde con el formato simplificado. Verifica tu archivo.</target>
+      </trans-unit>
+      <trans-unit id="c04917957d59c52fe871c9259c2cf5b8b61daa8f" resname="FLASH_CSV_INCORRECT_PUPIL_FORMAT">
+        <source>FLASH_CSV_INCORRECT_PUPIL_FORMAT</source>
+        <target>El archivo CSV que has seleccionado no se corresponde con el formato Alumno. Verifica tu archivo.</target>
+      </trans-unit>
+      <trans-unit id="101818f63ec785b87821f4c261d960fc33a79683" resname="FLASH_ERROR_CONTACT_BENEYLU">
+        <source>FLASH_ERROR_CONTACT_BENEYLU</source>
+        <target>Se ha producido un error, vuelve a intentarlo. Si el problema persiste, contacta con el equipo de %beneylu_brand_name%.</target>
+      </trans-unit>
+      <trans-unit id="8bc1751247e4b5c61b2bce612d758b95df348722" resname="FLASH_PARTNERSHIP_ALREADY_IN">
+        <source>FLASH_PARTNERSHIP_ALREADY_IN</source>
+        <target state="new">Ya formas parte de esta asociación.</target>
+      </trans-unit>
+      <trans-unit id="ce722651ce9ec5015fa215c26893818759dc71d1" resname="FLASH_PARTNERSHIP_CREATE_SUCCESS_WITH_CODE">
+        <source>FLASH_PARTNERSHIP_CREATE_SUCCESS_WITH_CODE</source>
+        <target><![CDATA[Tu asociación se ha creado correctamente. Envía el siguiente código a tus futuros compañeros: <strong>%code%</strong>]]></target>
+        <note><![CDATA[%code% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="364c3f17b6debc8d3f255f75d1f8474cdf668fc7" resname="FLASH_PARTNERSHIP_DELETED">
+        <source>FLASH_PARTNERSHIP_DELETED</source>
+        <target>La asociación se ha eliminado correctamente.</target>
+      </trans-unit>
+      <trans-unit id="fb4a7f669e62666641ad569e19d666c8384048f0" resname="FLASH_PARTNERSHIP_JOIN">
+        <source>FLASH_PARTNERSHIP_JOIN</source>
+        <target state="new">Te has unido correctamente a la asociación.</target>
+      </trans-unit>
+      <trans-unit id="6b210b500599053951450ffad8de75926a55e0ca" resname="FLASH_PARTNERSHIP_LEAVE">
+        <source>FLASH_PARTNERSHIP_LEAVE</source>
+        <target state="new">Has abandonado correctamente la asociación.</target>
+      </trans-unit>
+      <trans-unit id="686b253ef899027754d65e3a32d69fc9fb573f99" resname="FLASH_PROCESS_CSV_IMPORT">
+        <source>FLASH_PROCESS_CSV_IMPORT</source>
+        <target>El proceso de importación del alumno (%userCount%) desde tu archivo CSV se ha realizado correctamente.</target>
+        <note><![CDATA[%userCount% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="edde900ee3f05cac6848da4efe17f77ca8a82300" resname="FLASH_PROCESS_CSV_IMPORT_ERROR">
+        <source>FLASH_PROCESS_IMPORT_CSV_ERROR</source>
+        <target>Se ha producido un error durante el proceso de importación de los alumnos desde tu archivo CSV: %resultSuccess% correcto(s), %skiped% ya estaba(n) creado(s), %failed% rechazado(s).</target>
+        <note><![CDATA[%resultSuccess% is a placeholder
+%skiped% is a placeholder
+%failed% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="a2400538b30b22fb1361127aafd75c6c049e6c70" resname="FLASH_PROCESS_IMPORT_ERROR">
+        <source>FLASH_PROCESS_IMPORT_ERROR</source>
+        <target>Se ha producido un error durante el proceso de importación de los alumnos: %resultSuccess% correcto(s), %skiped% ya estaba(n) creado(s).</target>
+        <note><![CDATA[%resultSuccess% is a placeholder
+%skiped% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="7926fa99d37aa9dfa8e9664e6a263bfb39f0ddc5" resname="FLASH_PROCESS_IMPORT_ERROR_SUCCESSES">
+        <source>FLASH_PROCESS_IMPORT_ERROR_SUCCESSES</source>
+        <target>correcto(s)</target>
+      </trans-unit>
+      <trans-unit id="6d9a074bfe84751aa3eb45d649147754eef45f02" resname="FLASH_PROCESS_IMPORT_FAILS">
+        <source>FLASH_PROCESS_IMPORT_FAILS</source>
+        <target>rechazado(s).</target>
+      </trans-unit>
+      <trans-unit id="c3d80f86709e0a37428f2780418f4ebe43e5b54d" resname="FLASH_PROCESS_IMPORT_SUCCESS">
+        <source>FLASH_PROCESS_IMPORT_SUCCESS</source>
+        <target>El proceso de importación de alumno(s) (%user%) se ha realizado correctamente.</target>
+        <note><![CDATA[%user% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="d92395873d027371ae2425429133b4e3c2dff3e2" resname="FLASH_RESET_PASSWORD_SUCCESS">
+        <source>FLASH_RESET_PASSWORD_SUCCESS</source>
+        <target><![CDATA[Tu solicitud de restablecimiento de la contraseña se ha procesado correctamente.<br /> El usuario tendrá que restablecer la contraseña la próxima vez que acceda.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="41e70972134f9c823cb8e8fc879d34a9cd92cddc" resname="FLASH_SUBSCRIPTIONS_CHANGE">
+        <source>FLASH_SUBSCRIPTIONS_CHANGE</source>
+        <target state="new">Tus suscripciones se han modificado correctamente</target>
+      </trans-unit>
+      <trans-unit id="49427ff57fe098161983fc62e8d57c03a2ffb09a" resname="GENDER">
+        <source>GENDER</source>
+        <target>Genero:</target>
+      </trans-unit>
+      <trans-unit id="5ec5a9858505862e34365d30378e98f747eaad57" resname="GENERAL_INFORMATION">
+        <source>GENERAL_INFORMATION</source>
+        <target>Información general</target>
+      </trans-unit>
+      <trans-unit id="26485a042dac12de3be9570868cb8c03386c73f8" resname="GROUP_CREATE_SUCCESS">
+        <source>GROUP_CREATE_SUCCESS</source>
+        <target>El grupo se ha creado correctamente.</target>
+      </trans-unit>
+      <trans-unit id="9102c84bf18cfebf5747f578e45e3e5c3b1d5c06" resname="GROUP_DELETE_SUCCESS">
+        <source>GROUP_DELETE_SUCCESS</source>
+        <target>El grupo se ha eliminado correctamente.</target>
+      </trans-unit>
+      <trans-unit id="0a89a2cd0ea01a88849c955baeabf66d6e1f3ffb" resname="GROUP_FILENAME_BENEYLU">
+        <source>GROUP_FILENAME_BENEYLU</source>
+        <target>ficha-clase-%group%.pdf</target>
+        <note><![CDATA[%group% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="09a216af6ddb56957a13ffabcccc9b37d0ab8fbc" resname="HIGH_SCHOOL">
+        <source>HIGH_SCHOOL</source>
+        <target>Secundaria</target>
+      </trans-unit>
+      <trans-unit id="80d22c31d2a94d4bf82fb79ff63df9ef9466316c" resname="IMAGE_CLICK_DOCUMENT">
+        <source>IMAGE_CLICK_DOCUMENT</source>
+        <target>Pulsa sobre la imagen para abrir el documento</target>
+      </trans-unit>
+      <trans-unit id="ba36d6dc8a63f535381473c0a1ddfc5b6dbe24ac" resname="IMAGE_PARENT">
+        <source>IMAGE_PARENT</source>
+        <target>Padres de familia</target>
+      </trans-unit>
+      <trans-unit id="ab46900d185c40d6232e92c4049571f51c09792d" resname="IMAGE_PARENT_PUPIL">
+        <source>IMAGE_PARENT_PUPIL</source>
+        <target>Padres de los alumnos</target>
+      </trans-unit>
+      <trans-unit id="3428158eccd96cdcf005eb0f1b4443ec588b71c3" resname="IMAGE_PUPIL">
+        <source>IMAGE_PUPIL</source>
+        <target>Alumnos</target>
+      </trans-unit>
+      <trans-unit id="6302e5cbd1c3189cbd824f2e1a0d30bba6e98ef2" resname="INFANT_SCHOOL">
+        <source>INFANT_SCHOOL</source>
+        <target>Preescolar</target>
+      </trans-unit>
+      <trans-unit id="6706c735875851d41136a8549a3d7f33c2543ab3" resname="INVALID_TRANSFERT_CODE">
+        <source>INVALID_TRANSFERT_CODE</source>
+        <target>El código de la clase que has introducido no es válido</target>
+      </trans-unit>
+      <trans-unit id="3d8827dc92d3c8d4cbd49d776d7e4fc09563e35d" resname="IN_PROGRESS">
+        <source>IN_PROGRESS</source>
+        <target state="new">En curso</target>
+      </trans-unit>
+      <trans-unit id="08ee0758962d3161a87fd15ae807f4a5a64b7b45" resname="I_WILL_WANT_BECOME">
+        <source>I_WILL_WANT_BECOME</source>
+        <target><![CDATA[Quiero ser <i>%job%</i>]]></target>
+        <note><![CDATA[%job% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="ea6b3d4b158aea963e21a35c2e179de4eff647f7" resname="JOKE">
+        <source>JOKE</source>
+        <target>Una historia divertida</target>
+      </trans-unit>
+      <trans-unit id="55887ec4dc004e58aeecc3ba7822473bcbfcf669" resname="LABEL_ALL_ROLES">
+        <source>LABEL_ALL_ROLES</source>
+        <target>Todos los roles</target>
+      </trans-unit>
+      <trans-unit id="08b3c5ef33ffc78d2b1e61e28bcc50870f216dad" resname="LABEL_BORN_USER">
+        <source><![CDATA[{0} <strong> Né le : </strong> | {1} <strong> Née le : </strong>]]></source>
+        <target state="new"><![CDATA[{0} <strong> Fecha de nacimiento:</strong>| {1} <strong> Fecha de nacimiento:</strong>]]></target>
+        <note><![CDATA[This text has plural translations based on %count% variable
+http://symfony.com/doc/current/components/translation/usage.html#pluralizationThis text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="906100e4f96a687ef78e75bd80cb0fa860a454f3" resname="LABEL_BOY">
+        <source>LABEL_BOY</source>
+        <target>Chico</target>
+      </trans-unit>
+      <trans-unit id="d19527ae11bf15896963cb8842a02b254748bec0" resname="LABEL_CHANGE_LANGUAGE">
+        <source>LABEL_CHANGE_LANGUAGE</source>
+        <target>Idioma</target>
+      </trans-unit>
+      <trans-unit id="dbf42ad30c6c21d05492e0846c7019986a0456c7" resname="LABEL_CHOOSE_AVATAR">
+        <source>LABEL_CHOOSE_AVATAR</source>
+        <target>Elegir un avatar</target>
+      </trans-unit>
+      <trans-unit id="5584020e16a7e78e2724bcb1622c586fcd9e29ec" resname="LABEL_CHOOSE_IMAGE">
+        <source>LABEL_CHOOSE_IMAGE</source>
+        <target state="new">Escoger una imagen</target>
+      </trans-unit>
+      <trans-unit id="31c25de772d9273b9e1354534c44f4c115d0fa9c" resname="LABEL_COUNTRY">
+        <source>LABEL_COUNTRY</source>
+        <target state="new">País</target>
+      </trans-unit>
+      <trans-unit id="5e6dd972eab943a0de39ab64c32d993349352b23" resname="LABEL_DAY">
+        <source>LABEL_DAY</source>
+        <target>Día</target>
+      </trans-unit>
+      <trans-unit id="ca18f6511843447505ba851fd5e46666acdb2cef" resname="LABEL_DEFINE_CLASSROOM_LANGUAGE">
+        <source>LABEL_DEFINE_CLASSROOM_LANGUAGE</source>
+        <target>Define un idioma y una zona horaria para la clase</target>
+      </trans-unit>
+      <trans-unit id="a67652a6d6781a7fb25a33ab12af1cc7985f90bd" resname="LABEL_DESCRIPTION">
+        <source>LABEL_DESCRIPTION</source>
+        <target>Descripción:</target>
+      </trans-unit>
+      <trans-unit id="cb0b3c0d0e4a91062e11a305054392dd8d38d2c9" resname="LABEL_EMAIL">
+        <source>LABEL_EMAIL</source>
+        <target>Correo electrónico</target>
+      </trans-unit>
+      <trans-unit id="49305445862aed0014cbf60aa12c77a0bb34611e" resname="LABEL_FILE_FORMAT">
+        <source>LABEL_FILE_FORMAT</source>
+        <target>Formato del archivo</target>
+      </trans-unit>
+      <trans-unit id="ee1f5cbba4b034c38c7375431600f6697c6654f0" resname="LABEL_FILE_PATH">
+        <source>LABEL_FILE_PATH</source>
+        <target>Ruta del archivo</target>
+      </trans-unit>
+      <trans-unit id="633b0d8d2e30b487cd5556774e66a774e17b87e4" resname="LABEL_FIRSTNAME">
+        <source>LABEL_FIRSTNAME</source>
+        <target>Nombre:</target>
+      </trans-unit>
+      <trans-unit id="a94cb7f1302f44475866f7d223006dd64a8c48a4" resname="LABEL_GENDER">
+        <source>LABEL_GENDER</source>
+        <target>Género:</target>
+      </trans-unit>
+      <trans-unit id="c30d701a87cb892fbb5f2abd0a7314d211489284" resname="LABEL_GIRL">
+        <source>LABEL_GIRL</source>
+        <target>Chica</target>
+      </trans-unit>
+      <trans-unit id="3764fc9ec22bc6e3db2e491563ac8a1a16d46a7c" resname="LABEL_HOUR">
+        <source>LABEL_HOUR</source>
+        <target>hora</target>
+      </trans-unit>
+      <trans-unit id="41b2da070cbb9ef7c96c43728cfcd5931fd46a81" resname="LABEL_IMG_PARENTS">
+        <source>LABEL_IMG_PARENTS</source>
+        <target>Padres</target>
+      </trans-unit>
+      <trans-unit id="207b3c43025a4aa89a513d48654524b496d248f0" resname="LABEL_IMG_PUPILS">
+        <source>LABEL_IMG_PUPILS</source>
+        <target>Alumnos</target>
+      </trans-unit>
+      <trans-unit id="a3c6247243fe936bdf4749034b1e39f0c11275a3" resname="LABEL_IMG_TEACHERS">
+        <source>LABEL_IMG_TEACHERS</source>
+        <target>Profesores</target>
+      </trans-unit>
+      <trans-unit id="fb952d52ad97add568e1907250000d739d8c0299" resname="LABEL_LEVEL">
+        <source>LABEL_LEVEL</source>
+        <target>Nivel:</target>
+      </trans-unit>
+      <trans-unit id="da5d49d96150cc1ace0b11789756c6fa1f5d00f4" resname="LABEL_MAN">
+        <source>LABEL_MAN</source>
+        <target>Hombre</target>
+      </trans-unit>
+      <trans-unit id="127e383c4d75783b66d3b3faf3f6da30178aa9ad" resname="LABEL_MONTH">
+        <source>LABEL_MONTH</source>
+        <target>Mes</target>
+      </trans-unit>
+      <trans-unit id="61611682049d38ac723ed49f4a314d154ed78d15" resname="LABEL_NAME">
+        <source>LABEL_NAME</source>
+        <target state="new">Apellido:</target>
+      </trans-unit>
+      <trans-unit id="d58ad40d949a7d4a88d02e767c66edf3b4ffc399" resname="LABEL_NAME_WORKING_GROUP">
+        <source>LABEL_NAME_WORKING_GROUP</source>
+        <target>Nombre del grupo de trabajo</target>
+      </trans-unit>
+      <trans-unit id="db3aee31a9c59024f10411fc271a48094d5eed47" resname="LABEL_PARENTS">
+        <source>LABEL_PARENTS</source>
+        <target state="new">Padres de familia</target>
+      </trans-unit>
+      <trans-unit id="0f5f77ac63e26193c96b85bc6cf23ae41733a3b0" resname="LABEL_PARENTS_OF">
+        <source>LABEL_PARENTS_OF</source>
+        <target state="new">Padres de</target>
+      </trans-unit>
+      <trans-unit id="75bc21181b90d40fcf8a97dfe716ae2489f36b23" resname="LABEL_PARTNERS">
+        <source>LABEL_PARTNERS</source>
+        <target>Compañeros</target>
+      </trans-unit>
+      <trans-unit id="3c237405032bf674ea7d7428ee378f43f456ef47" resname="LABEL_PUPIL">
+        <source>LABEL_PUPIL</source>
+        <target>Alumno</target>
+      </trans-unit>
+      <trans-unit id="f3bd3ea737fe060d1cefca451fc9ddd6f036875e" resname="LABEL_PUPILS">
+        <source>LABEL_PUPILS</source>
+        <target>Alumnos</target>
+      </trans-unit>
+      <trans-unit id="9567ed98ca26ec0dc3d296673da37aa2cc424cb6" resname="LABEL_QUICK_TEXT_INPUT">
+        <source>LABEL_QUICK_TEXT_INPUT</source>
+        <target><![CDATA[<strong>Formato de entrada</strong>: Nombre Apellido Fecha de nacimiento Género]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="3256870bf6912fb546db948433eb451f6cb78eee" resname="LABEL_TEACHER">
+        <source>LABEL_TEACHER</source>
+        <target>Profesor</target>
+      </trans-unit>
+      <trans-unit id="01fd506f4c500f4dcb0b038207e1520fb96ce114" resname="LABEL_TEACHERS">
+        <source>LABEL_TEACHERS</source>
+        <target>Profesores</target>
+      </trans-unit>
+      <trans-unit id="8df703fd079fbf42506f09b5e8ca7a16dd463731" resname="LABEL_USER_BIRTH">
+        <source>LABEL_USER_BIRTH</source>
+        <target>Fecha de nacimiento:</target>
+      </trans-unit>
+      <trans-unit id="9e55bd4d3ee6957c063424e5c18a2ba08b7c2ffd" resname="LABEL_WELCOME_MESSAGE">
+        <source>LABEL_WELCOME_MESSAGE</source>
+        <target state="new">Mensaje de bienvenida:</target>
+      </trans-unit>
+      <trans-unit id="182554879bcba0a6667e93162adfca92dc40a4bc" resname="LABEL_WOMAN">
+        <source>LABEL_WOMAN</source>
+        <target>Mujer</target>
+      </trans-unit>
+      <trans-unit id="ddef7850f72dcebadd754180387508e13cc9c670" resname="LASTNAME_USER">
+        <source><![CDATA[<strong>Nom :</strong> %user%]]></source>
+        <target state="new"><![CDATA[<strong>Apellido:</strong> %user%]]></target>
+        <note><![CDATA[%user% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="3e13d092c99377fbc176d049361524ad640c96a1" resname="LAST_CONNECTION_AT">
+        <source>Dernière connexion %date%</source>
+        <target state="new">Última conexión %date%</target>
+        <note><![CDATA[%date% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="981eb1dc4e4c035b307852eb529fa58f7d17d9ba" resname="LATER_WANT_BECOME">
+        <source>LATER_WANT_BECOME</source>
+        <target>Cuando sea mayor, quiero ser</target>
+      </trans-unit>
+      <trans-unit id="cec260f93511128fd1b16074593041ebb6f4efe9" resname="LINK_ADD">
+        <source>LINK_ADD</source>
+        <target>Crear un grupo de trabajo</target>
+      </trans-unit>
+      <trans-unit id="1b184b235fbfe3d86e2561133daaf5f3841703f9" resname="LINK_ADD_ASSISTANT">
+        <source>LINK_ADD_ASSISTANT</source>
+        <target state="new">Añadir un asistente</target>
+      </trans-unit>
+      <trans-unit id="354d2becfee66cf09bf4e13a75e925a6d400a023" resname="LINK_ADD_ASSISTANT_ACCOUNT">
+        <source>LINK_ADD_ASSISTANT_ACCOUNT</source>
+        <target state="new">Añadir una cuenta asistente</target>
+      </trans-unit>
+      <trans-unit id="4c9b310750cd63bc3c2c17785bbfabbf5fa9ade4" resname="LINK_ADD_CONTINUE">
+        <source>LINK_ADD_CONTINUE</source>
+        <target>Crear y continuar</target>
+      </trans-unit>
+      <trans-unit id="f174aa6e051a168bc0cd7a5b49ccb8a564a589f5" resname="LINK_ADD_NEW_PUPIL">
+        <source>LINK_ADD_NEW_PUPIL</source>
+        <target>Añadir un nuevo alumno</target>
+      </trans-unit>
+      <trans-unit id="6c869c069f7aba1c587032266d0723cd558c741a" resname="LINK_ADD_NEW_USER">
+        <source>LINK_ADD_NEW_USER</source>
+        <target>Añadir un nuevo usuario</target>
+      </trans-unit>
+      <trans-unit id="19cffd87a162fba889bc0956caca16710c743bda" resname="LINK_ADD_PARENT_ACCOUNT">
+        <source>LINK_ADD_PARENT_ACCOUNT</source>
+        <target>Añadir una cuenta padre de familia</target>
+      </trans-unit>
+      <trans-unit id="f6846ba099108d775d55b397dd1f590833f3c522" resname="LINK_ADD_PARTNERSHIP">
+        <source>LINK_ADD_PARTNERSHIP</source>
+        <target>Añadir una asociación</target>
+      </trans-unit>
+      <trans-unit id="7cc187dde94879291f3c0b335fb19405efc2cb86" resname="LINK_ADD_PUPIL">
+        <source>LINK_ADD_PUPIL</source>
+        <target>Añadir un nuevo alumno</target>
+      </trans-unit>
+      <trans-unit id="16d9caa4d674f7398944672450fd38a1580c4a70" resname="LINK_ADD_TEACHER">
+        <source>LINK_ADD_TEACHER</source>
+        <target>Añadir un profesor</target>
+      </trans-unit>
+      <trans-unit id="01386776fdfe697a7c86919ddc04e13972066f03" resname="LINK_ADD_USER">
+        <source>LINK_ADD_USER</source>
+        <target>Añadir usuarios</target>
+      </trans-unit>
+      <trans-unit id="18f6f3bbb950a72e673ef701d6c136023b470d28" resname="LINK_ASSOCIATE_ACCOUNT">
+        <source><![CDATA[<strong>Associer</strong><br /> un compte]]></source>
+        <target state="new"><![CDATA[<strong>Vincular</strong><br /> una cuenta]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="ac56ebf529f26d81b53796200c45837726d3652e" resname="LINK_BACK_TO_CLASS">
+        <source><![CDATA[<strong>Retourner</strong><br />à la classe]]></source>
+        <target state="new"><![CDATA[<strong>Volver</strong><br /> a la clase]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="d8be7dd02f85a983a8d9ac68de97a3624ae6e657" resname="LINK_BACK_TO_LIST">
+        <source><![CDATA[<strong>Retourner</strong><br /> à la liste]]></source>
+        <target state="new"><![CDATA[<strong>Volver</strong><br />a la lista]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="7303a41a9bb79a02fadc2a7793f405a176f79e3d" resname="LINK_BACK_TO_PUPIL">
+        <source><![CDATA[<strong>Retourner</strong><br /> à l'élève]]></source>
+        <target state="new"><![CDATA[<strong>Volver</strong><br /> a la ficha alumno]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="0310e3cef4ec072427fc1f9cc4a770a2f4e57f7e" resname="LINK_BACK_TO_TEACHER">
+        <source><![CDATA[<strong>Retourner</strong><br /> à l'enseignant]]></source>
+        <target state="new"><![CDATA[<strong>Volver</strong><br /> a la ficha profesor]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="7e11a049bdff6eea84ee8934fc8668b049683825" resname="LINK_BACK_TO_USER_LIST">
+        <source><![CDATA[<strong>Retourner</strong><br>à la liste des utilisateurs]]></source>
+        <target state="new"><![CDATA[<strong>Volver</strong><br>a la lista de usuarios]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="e8b1e6e9da4ba00a0c8ccb84913c0efd44fd7050" resname="LINK_BLACKBOARD">
+        <source>LINK_BLACKBOARD</source>
+        <target state="new">Gestión de la pizarra</target>
+      </trans-unit>
+      <trans-unit id="1f8524949b59bf473e5b31304582c62cb6d54e28" resname="LINK_CANCEL">
+        <source>LINK_CANCEL</source>
+        <target state="new">Cancelar</target>
+      </trans-unit>
+      <trans-unit id="588919bca6344699fa4d21899e36b0552dfc6bce" resname="LINK_CANCEL_CREATION">
+        <source><![CDATA[<strong>Annuler</strong><br />la création]]></source>
+        <target state="new"><![CDATA[<strong>Cancelar</strong><br/>la creación]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="732065614fe63f0edc4125d9eba40ebe1a6c5a04" resname="LINK_CANCEL_GENERATE">
+        <source><![CDATA[<strong>Annuler</strong><br />la génération]]></source>
+        <target state="new"><![CDATA[<strong>Cancelar</strong><br /> el restablecimiento]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="f423ba855cc19679c57dccf08e927658d2632662" resname="LINK_CANCEL_IMPORT">
+        <source><![CDATA[<strong>Annuler</strong><br>l'import]]></source>
+        <target state="new"><![CDATA[<strong>Cancelar</strong><br>la importación]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="2b8d3f6bcc98097f3c8e1e40e7f27930c6a4cbf3" resname="LINK_CANCEL_MODIFICATION">
+        <source><![CDATA[<strong>Annuler</strong><br />les modifications]]></source>
+        <target state="new"><![CDATA[<strong>Descartar</strong><br />los cambios]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="bea1df5071ac346952e1745c99533d059d6fbf92" resname="LINK_CHECK_INPUT">
+        <source>LINK_CHECK_INPUT</source>
+        <target>Verificar la entrada</target>
+      </trans-unit>
+      <trans-unit id="c6311905618e28e93c73c42cebe8ec81b555e28e" resname="LINK_COMEBACK_TO_LIST">
+        <source><![CDATA[<strong>Revenir</strong><br>à la liste]]></source>
+        <target state="new"><![CDATA[<strong>Volver a</strong><br>la lista]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="b7a99b0de071c92f78ba2681127b8c8c1903f2a6" resname="LINK_CONFIRM_ADDITION">
+        <source>LINK_CONFIRM_ADDITION</source>
+        <target>Confirmar los datos añadidos</target>
+      </trans-unit>
+      <trans-unit id="8ba7e1a2135bea477aaae0c75e93fc3792206d2b" resname="LINK_CREATE_ADD_ASSISTANT">
+        <source><![CDATA[<strong>Créer</strong> et ajouter un autre auxiliaire]]></source>
+        <target state="new"><![CDATA[<strong>Crear</strong> y añadir otro asistente]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="8f64fcc815603bce9a533b18b878ddd86b0c97b3" resname="LINK_CREATE_ADD_PUPIL">
+        <source><![CDATA[<strong>Créer</strong> et ajouter un autre élève]]></source>
+        <target state="new"><![CDATA[<strong>Crear</strong> y añadir otro alumno]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="aac9fd3ded6c7dd6a606173cdfa42fd478d19f88" resname="LINK_CREATE_ADD_TEACHER">
+        <source><![CDATA[<strong>Créer</strong> et ajouter un autre enseignant]]></source>
+        <target state="new"><![CDATA[<strong>Crear</strong> y añadir otro profesor]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="62cf683ddda26c5a9def54cf35b8a4e09f5186db" resname="LINK_CREATE_ASSISTANT_ACCOUNT">
+        <source><![CDATA[<strong>Créer</strong> le compte auxiliaire]]></source>
+        <target state="new"><![CDATA[<strong>Crear</strong> una cuenta asistente]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="f8661779210c4e6ca830fd3940ff811f9deec36c" resname="LINK_CREATE_A_PARTNERSHIP">
+        <source>LINK_CREATE_A_PARTNERSHIP</source>
+        <target>Crear una asociación</target>
+      </trans-unit>
+      <trans-unit id="989122f258b7dc008b1f535a8c77eb3b5a42b604" resname="LINK_CREATE_NEW_PARENT">
+        <source><![CDATA[<strong>Créer</strong><br /> nouveau parent]]></source>
+        <target state="new"><![CDATA[<strong>Crear</strong><br />un padre nuevo]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="2af93957b35b3542443bd905139496c442b5d1ad" resname="LINK_CREATE_NEW_PARTNERSHIP">
+        <source>LINK_CREATE_NEW_PARTNERSHIP</source>
+        <target>Crear una asociación nueva</target>
+      </trans-unit>
+      <trans-unit id="ed66e22d1b4d08afae0c0d8e3ee51d5bec8797bf" resname="LINK_CREATE_PARTNERSHIP">
+        <source>LINK_CREATE_PARTNERSHIP</source>
+        <target>Crear la asociación</target>
+      </trans-unit>
+      <trans-unit id="0ab7cc5db1fb86173c1bcd56030af386dbbebf61" resname="LINK_CREATE_TEACHER_ACCOUNT">
+        <source><![CDATA[<strong>Créer</strong> le enseignant]]></source>
+        <target state="new"><![CDATA[<strong>Crear</strong> la cuenta profesor]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="11e9cfef7401537044096b99ab58a8b7a0abe07d" resname="LINK_CREATE_TEACHER_PUPIL">
+        <source><![CDATA[<strong>Créer</strong> le compte élève]]></source>
+        <target state="new"><![CDATA[<strong>Crear</strong> la cuenta alumno]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="3551639ab565b8408ebb7c64ea6e049c29edf193" resname="LINK_CREATE_WORKING_GROUP">
+        <source>LINK_CREATE_WORKING_GROUP</source>
+        <target state="new">Crear grupo de trabajo</target>
+      </trans-unit>
+      <trans-unit id="a14dd84cdd936625497432e4e1b6e2e4508865b3" resname="LINK_CUSTOMIZE">
+        <source>LINK_CUSTOMIZE</source>
+        <target>Personalización</target>
+      </trans-unit>
+      <trans-unit id="059b1ae6713a41aaf904395c681e82064208d40d" resname="LINK_DASHBOARD">
+        <source>LINK_DASHBOARD</source>
+        <target>Panel de control</target>
+      </trans-unit>
+      <trans-unit id="baa2b2bf58858aa024d06a0a2ba728d5edb7ed25" resname="LINK_DELETE_GROUP">
+        <source><![CDATA[<strong>Supprimer</strong><br />le groupe]]></source>
+        <target state="new"><![CDATA[<strong>Eliminar</strong><br />grupo]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="e4869ea5e1ad27856275d46a8461d9d88a1e5324" resname="LINK_DELETE_PARTNERSHIP">
+        <source><![CDATA[<strong>Supprimer</strong><br />le partenariat]]></source>
+        <target state="new"><![CDATA[<strong>Eliminar</strong><br />la asociación]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="9ff0a87bceede918a60a172dd42bca9cec02a5fc" resname="LINK_DELETE_USER">
+        <source>LINK_DELETE_USER</source>
+        <target><![CDATA[<strong>Eliminar</strong><br>al usuario de mi clase]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="443509ff037fda9f7b025bc365a36840d189ba66" resname="LINK_DELETE_WORKING_GROUP">
+        <source><![CDATA[<strong>Supprimer</strong><br>le groupe de travail]]></source>
+        <target state="new"><![CDATA[<strong>Eliminar</strong><br>el grupo de trabajo]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="109b56740202e878cbc2c6735c512e93413deb18" resname="LINK_DESACTIVATE_ACCOUNT">
+        <source><![CDATA[<strong>Désactiver</strong><br /> le compte]]></source>
+        <target state="new"><![CDATA[<strong>Desactivar</strong><br />la cuenta]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="b33fa860a8954933efb43638d3024815de89ef0e" resname="LINK_DESACTIVATE_USER">
+        <source>LINK_DESACTIVATE_USER</source>
+        <target>Desactivar el usuario</target>
+      </trans-unit>
+      <trans-unit id="8d41bf7812b341b0cb3939166213aec9feffafe1" resname="LINK_DISABLE_USER">
+        <source><![CDATA[<strong>Désactiver</strong><br />l'utilisateur de la classe]]></source>
+        <target state="new"><![CDATA[<strong>Desactivar</strong><br />al usuario de la clase]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="17248f29fa4c7fadc487bc827771a2d63d4104a3" resname="LINK_DISPLAY_QUICK_INPUT">
+        <source>LINK_DISPLAY_QUICK_INPUT</source>
+        <target>Utilizar la entrada rápida</target>
+      </trans-unit>
+      <trans-unit id="1f04288a25db36ed48a03d919a77945296d1be07" resname="LINK_EDIT_MY_PROFILE">
+        <source><![CDATA[<strong>Editer</strong><br /> mon profil]]></source>
+        <target state="new"><![CDATA[<strong>Editar</strong><br />mi perfil]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="d3df7654f5c3a02a763ea17b3f6e035a53d3bd7f" resname="LINK_EDIT_PARTNERSHIP">
+        <source><![CDATA[<strong>Editer</strong><br /> le partenariat]]></source>
+        <target state="new"><![CDATA[<strong>Editar</strong><br />la asociación]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="96dbaeff983d6edfdce8fa7a21f75cc3539763ae" resname="LINK_EDIT_THE_PROFILE">
+        <source><![CDATA[<strong>Editer</strong><br /> le profil]]></source>
+        <target state="new"><![CDATA[<strong>Editar</strong><br />perfil]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="27b28a84beece35487862bf083ebe104d42619d1" resname="LINK_EDIT_WORKING_GROUP">
+        <source><![CDATA[<strong>Éditer</strong><br>le groupe de travail]]></source>
+        <target state="new"><![CDATA[<strong>Editar</strong><br>el grupo de trabajo]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="8ae6db68867bab38f4447acdaf4c8f40979fa3bd" resname="LINK_GENERATE_CLASS_CARD">
+        <source><![CDATA[<strong>Générer la fiche</strong><br />pour la sélection]]></source>
+        <target state="new"><![CDATA[<strong>Generar el archivo</strong><br />para la selección]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="04ed7032fa510c7c3d66fce3e39a8527f92f9456" resname="LINK_GENERATE_NEW_NOTE">
+        <source><![CDATA[<strong>Générer une</strong><br />  nouvelle fiche]]></source>
+        <target state="new"><![CDATA[<strong>Crear una ficha</strong><br /> para la clase]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="2495bc330eeeb72d636e3a61dd0b6b54b444d60a" resname="LINK_GENERATE_NEW_PASSWORD">
+        <source><![CDATA[<strong>Générer</strong><br />un nouveau mot de passe]]></source>
+        <target state="new"><![CDATA[<strong>Generar</strong><br />una contraseña nueva]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="dc2d6177172bcc34aec08fc0e051cd570e729119" resname="LINK_IMPORT_MY_PUPIL_CSV">
+        <source>LINK_IMPORT_MY_PUPIL_CSV</source>
+        <target>Importar mis alumnos desde un archivo CSV</target>
+      </trans-unit>
+      <trans-unit id="9ceab12fd476da8ff14d83f978f612be167cf826" resname="LINK_IMPOR_PUPIL_CSV">
+        <source>LINK_IMPOR_PUPIL_CSV</source>
+        <target>Importación de los alumnos desde un archivo CSV</target>
+      </trans-unit>
+      <trans-unit id="214b52ff585412d26906576fac7726b30e867231" resname="LINK_INVITE_USER">
+        <source><![CDATA[Inviter <strong>%user%</strong>]]></source>
+        <target state="new"><![CDATA[Invitar a <strong>%user%</strong>]]></target>
+        <note><![CDATA[%user% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="ae634bf8b95d877ea7af369f4496c37a1f719138" resname="LINK_JOIN_A_PARTNERSHIP">
+        <source>LINK_JOIN_A_PARTNERSHIP</source>
+        <target>Unirse a una asociación</target>
+      </trans-unit>
+      <trans-unit id="fb81afcf7f5cad89e9d0f102484ec868e54ac30d" resname="LINK_JOIN_PARTNERSHIP">
+        <source>Rejoindre %partnership%</source>
+        <target state="new">Unirse a %partnership%</target>
+        <note><![CDATA[%partnership% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="9ead8c92173eca0ae4a933cb1d16816d326218bb" resname="LINK_LEAVE_CLASS">
+        <source><![CDATA[<strong>Quitter</strong><br />la classe]]></source>
+        <target state="new"><![CDATA[<strong>Dejar</strong><br />la clase]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="9701ccab4a5dd904cb601d6b9f5f0b06837c14e4" resname="LINK_LEAVE_PARTNERSHIP">
+        <source><![CDATA[<strong>Quitter</strong><br /> le partenariat]]></source>
+        <target state="new"><![CDATA[<strong>Dejar</strong><br />la asociación]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="b7933be9b323e2101484c5c1cbb95db95a6073c4" resname="LINK_LOADING_EDITOR_IN_PROGRESS">
+        <source>LINK_LOADING_EDITOR_IN_PROGRESS</source>
+        <target><![CDATA[Cargando los editores...<br />
+Espera unos segundos]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="9e78386ec2d5eebff00a32c0445c2ce31b6672f0" resname="LINK_LOAD_FILE">
+        <source>LINK_LOAD_FILE</source>
+        <target>Cargar archivo</target>
+      </trans-unit>
+      <trans-unit id="a9a77f09397b6d723b5949d458a1683662e32b2f" resname="LINK_MANAGE_MINE_SUBSCRIPTION">
+        <source>LINK_MANAGE_MINE_SUBSCRIPTION</source>
+        <target>Gestionar mis suscripciones</target>
+      </trans-unit>
+      <trans-unit id="b281e5325bdb1d45223e806789eb33a06f42bd1a" resname="LINK_MINE_PARTNERSHIP">
+        <source>LINK_MINE_PARTNERSHIP</source>
+        <target>Mis asociaciones</target>
+      </trans-unit>
+      <trans-unit id="c94f419057bdc68deb40effc449ae3ce3f577b75" resname="LINK_MY_CLASS">
+        <source>LINK_MY_CLASS</source>
+        <target>Mi clase</target>
+      </trans-unit>
+      <trans-unit id="302ad6bcae0b47c8e51141020cd0d12bca535330" resname="LINK_REMOVE_PARTNERSHIP">
+        <source><![CDATA[<strong>Supprimer</strong><br /> un partenariat]]></source>
+        <target state="new"><![CDATA[<strong>Eliminar</strong><br /> una asociación]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="9ec3585cd4c499560cf2baafda665f60c6824125" resname="LINK_RENEW">
+        <source>LINK_RENEW</source>
+        <target>Renovar</target>
+      </trans-unit>
+      <trans-unit id="754a18222273b64ab62b67727d72bff67bea257b" resname="LINK_RESET_CLASS">
+        <source>LINK_RESET_CLASS</source>
+        <target><![CDATA[<strong>Reiniciar</strong><br />mi clase]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="0a753cdcc6cea7be79a4423a5a067af427dd7b06" resname="LINK_REVIVE_USER">
+        <source>LINK_REVIVE_USER</source>
+        <target state="new"><![CDATA[<strong>Reactivar</strong> el usuario]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="bb6ad193e27769b05bdfe6c17eb48de419278745" resname="LINK_SAVE">
+        <source>LINK_SAVE</source>
+        <target>Guardar mis preferencias</target>
+      </trans-unit>
+      <trans-unit id="b490d0c6331304ada7edb0bed31eae8430710441" resname="LINK_SAVE_MODIFICATION">
+        <source>LINK_SAVE_MODIFICATION</source>
+        <target>Guardar los cambios</target>
+      </trans-unit>
+      <trans-unit id="eca5272832e604d0fdf1255f9632083003c5cde3" resname="LINK_SAVE_MODIFICATIONS">
+        <source>LINK_SAVE_MODIFICATIONS</source>
+        <target>Guardar los cambios</target>
+      </trans-unit>
+      <trans-unit id="ed23f3970d79c7b2490404df8d7c8fdc6ea31797" resname="LINK_SEE_CARD">
+        <source>LINK_SEE_CARD</source>
+        <target>Ver la ficha</target>
+      </trans-unit>
+      <trans-unit id="d44b1d4b1acbd904b38f7258f090f128757d9aa9" resname="LINK_SPONSORSHIP">
+        <source>Mes parrainages</source>
+        <target state="new">Mis referencias</target>
+      </trans-unit>
+      <trans-unit id="86fe7a9150eaa0f1d56933f3629f7643e7e02dbc" resname="LINK_STATS">
+        <source>LINK_STATS</source>
+        <target>Estadísticas</target>
+      </trans-unit>
+      <trans-unit id="86c86376c121dcbe99661f06afa63f6a49b47038" resname="LINK_SUBSCRIPTION">
+        <source>LINK_SUBSCRIPTION</source>
+        <target>Suscripciones</target>
+      </trans-unit>
+      <trans-unit id="52e9c9811d3a6c2719d822531b9bcf58c79f8ce3" resname="LINK_TO_PUPIL">
+        <source>LINK_TO_PUPIL</source>
+        <target>Para el alumno</target>
+      </trans-unit>
+      <trans-unit id="5e5c8ee6506013f1212aa1f224362358742b631b" resname="LINK_USER">
+        <source>LINK_USER</source>
+        <target>Usuarios</target>
+      </trans-unit>
+      <trans-unit id="d200b64ba386d8d5826b1fb02a0f6d40ccd7c53a" resname="LINK_WORKING_GROUP">
+        <source>LINK_WORKING_GROUP</source>
+        <target>Grupos de trabajo</target>
+      </trans-unit>
+      <trans-unit id="6c8e2dd48ea015f469ab7fb839516e6193331b94" resname="LOADING_PLEASE_WAIT">
+        <source>Chargement en cours, veuillez patienter...</source>
+        <target state="new">Cargando, espere por favor...</target>
+      </trans-unit>
+      <trans-unit id="d4fc4761f015d39c1d3bd6424c485e8c1b23849c" resname="LOGIN">
+        <source>LOGIN</source>
+        <target>Nombre de usuario: </target>
+      </trans-unit>
+      <trans-unit id="ea37cf3c6b9bdf9bbfeabdda5471061a9cd4c8fe" resname="LOGIN_CARD">
+        <source>LOGIN_CARD</source>
+        <target>Formulario de conexión</target>
+      </trans-unit>
+      <trans-unit id="4e7ee07231d250c2ed3f8b7a7a28cf485ea96a28" resname="LOGIN_USER">
+        <source><![CDATA[<strong>Identifiant :</strong> %user%]]></source>
+        <target state="new"><![CDATA[<strong>Nombre de usuario:</strong> %user%]]></target>
+        <note><![CDATA[%user% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="f259455fc3f8cdbbd56e1503c3f64cdf2be23e1e" resname="LOGIN_USERNAME">
+        <source><![CDATA[<span class="item-label">IDENTIFIANT</span> %userName%]]></source>
+        <target state="new"><![CDATA[<span class="item-label">Nombre de usuario</span> %userName%]]></target>
+        <note><![CDATA[%userName% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="76c28bb31afc29c5bcae87411e419f98488aba19" resname="MESSAGE_WRITE">
+        <source>MESSAGE_WRITE</source>
+        <target>Escribir un mensaje</target>
+      </trans-unit>
+      <trans-unit id="b5a4aeea4e44ff4652c7b35615e7dbefc4883051" resname="MIDDLE_SCHOOL">
+        <source>MIDDLE_SCHOOL</source>
+        <target>Secundaria</target>
+      </trans-unit>
+      <trans-unit id="291feea874148ea373140c386ee3a26fe20edf64" resname="MODAL_CREATE_PARENT_PUPIL">
+        <source>MODAL_CREATE_PARENT_PUPIL</source>
+        <target>Crear una cuenta padre para un alumno</target>
+      </trans-unit>
+      <trans-unit id="3fdb15dab2cc78b9d6d1a1910b6143f4d80d56b3" resname="MODAL_DELETE_GROUP">
+        <source>MODAL_DELETE_GROUP</source>
+        <target>Eliminar un grupo</target>
+      </trans-unit>
+      <trans-unit id="a219315e164b337159329ef17d5314010f02a016" resname="MODAL_DELETE_PARTNERSHIP">
+        <source>MODAL_DELETE_PARTNERSHIP</source>
+        <target>Eliminar una asociación</target>
+      </trans-unit>
+      <trans-unit id="773a11c90b12a27b56d2b4e850291d973debb6d1" resname="MODAL_DELETE_USER_OF_CLASS">
+        <source>MODAL_DELETE_USER_OF_CLASS</source>
+        <target>Eliminar un usuario de la clase</target>
+      </trans-unit>
+      <trans-unit id="a35f5d6d047d0659ee80e1f3ec6e797b9042ca7b" resname="MODAL_DESACTIVATE_USER">
+        <source>MODAL_DESACTIVATE_USER</source>
+        <target>Desactivar una cuenta usuario</target>
+      </trans-unit>
+      <trans-unit id="f7b5c8a023c986339cf2f1a955e0ce2002f5674d" resname="MODAL_GENERATE_NEW_PASSWORD">
+        <source>MODAL_GENERATE_NEW_PASSWORD</source>
+        <target>Crear una contraseña nueva</target>
+      </trans-unit>
+      <trans-unit id="b81f2c2839453f46420526efcfcc881c3c900df9" resname="MODAL_LEAVE_PARTNERSHIP">
+        <source>MODAL_LEAVE_PARTNERSHIP</source>
+        <target>Dejar la asociación</target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="a7378d61d4171971c1da10ea43a8631e16fc99cb" resname="MODAL_QUIT_CLASS">
+        <source>MODAL_QUIT_CLASS</source>
+        <target>Dejar mi clase</target>
+      </trans-unit>
+      <trans-unit id="6000db294e5f10c482b0ccea58abd32bc181a41c" resname="MODAL_REVIVE_USER">
+        <source>MODAL_REVIVE_USER</source>
+        <target>Reactivar una cuenta usuario</target>
+      </trans-unit>
+      <trans-unit id="08c5033ab4130c92a7e2c3ad621820ec729d17d8" resname="MODAL_SAVE_MODIFICATION">
+        <source>MODAL_SAVE_MODIFICATION</source>
+        <target>Guardar los cambios</target>
+      </trans-unit>
+      <trans-unit id="f8e5e926e16d7fd3c19913eb643c3b1fea9c276e" resname="MODERATION">
+        <source>MODERATION</source>
+        <target>Moderación</target>
+      </trans-unit>
+      <trans-unit id="ed2428e8e9a461b54c841033982ff44846547a9f" resname="MY_SUBSCRIPTIONS">
+        <source>MY_SUBSCRIPTIONS</source>
+        <target>Mis suscripciones</target>
+      </trans-unit>
+      <trans-unit id="9c039d4b410644de14130cbd5c2c5eb25f60fa13" resname="NAME_PARTNERSHIP">
+        <source>NAME_PARTNERSHIP</source>
+        <target><![CDATA[<strong>Nombre:</strong> %teamName%]]></target>
+        <note><![CDATA[%teamName% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="658a6be71054bf24719dc31e7ae0c382ca58682e" resname="NAME_TEAM">
+        <source><![CDATA[<strong>Nom :</strong> %teamName%]]></source>
+        <target state="new"><![CDATA[<strong>Nombre:</strong> %teamName%]]></target>
+        <note><![CDATA[%teamName% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="e78bcb947f1656122d085e18c347a3fd282e66e5" resname="NEVER_CONNECT">
+        <source>NEVER_CONNECT</source>
+        <target>{0} Nunca se ha conectado | [1,Inf[ Nunca se ha conectado</target>
+        <note><![CDATA[Not plural, it's gender]]></note>
+      </trans-unit>
+      <trans-unit id="67bf72ea2eb27a29fdf711f45eade2ce531733be" resname="NEW_OF_THE_DAY">
+        <source>NEW_OF_THE_DAY</source>
+        <target>Suceso del día</target>
+      </trans-unit>
+      <trans-unit id="61370c5b6cfbf52309103bcb209a8a0da648f962" resname="NOT_PARTNER_YET_BACK_LATER">
+        <source>NOT_PARTNER_YET_BACK_LATER</source>
+        <target>Todavía no tenemos ninguna asociación, ¡vuelve más tarde!</target>
+      </trans-unit>
+      <trans-unit id="1deabadcab1f51d7f7e4a53b89af7544e0e48086" resname="NO_DESCRIPTION_TEAM">
+        <source><![CDATA[<strong>Description : </strong> Ajoutez une description à votre groupe de travail !]]></source>
+        <target state="new"><![CDATA[<strong>Descripción: </strong> ¡añade una descripción a tu grupo de trabajo!]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="7afc444da2a0baa57b67113e1f6b0a23a1876bb6" resname="NO_GROUP_HAS_JOIN_PARTNERSHIP_INVITE_THEM">
+        <source><![CDATA[Aucun groupe n'a encore rejoint ce partenariat.<br /> Invitez de nouveaux partenaires en leur transmettant le code du partenariat : %code%]]></source>
+        <target state="new"><![CDATA[Ningún grupo se ha unido todavía a esta asociación.<br /> Invita a tus nuevos compañeros y envíales el código siguiente: %code%]]></target>
+        <note><![CDATA[%code% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="9e106d118f64cce4a23b62c5ba46ea19c1fb2870" resname="NO_OTHER_MEMBER">
+        <source>NO_OTHER_MEMBER</source>
+        <target>Ningún miembro</target>
+      </trans-unit>
+      <trans-unit id="544cf88cabe81f61280ceebf75e1f4ad59619337" resname="NO_PARENTS_REGISTERED">
+        <source>NO_PARENTS_REGISTERED</source>
+        <target>Todavía no se ha registrado ningún padre de familia.</target>
+      </trans-unit>
+      <trans-unit id="e1413cf02d4fdf5a37a875bc64e50f94ecc84288" resname="NO_PARENT_ASSOCIATE">
+        <source>NO_PARENT_ASSOCIATE</source>
+        <target>No hay padres de familia vinculados</target>
+      </trans-unit>
+      <trans-unit id="d7a3ede48d25c665633604b0d69917d7e74305c4" resname="NO_PARTNERSHIP_FOR_THIS_CODE">
+        <source><![CDATA[Aucun partenariat n'existe pour le code : <strong>%code%</strong>]]></source>
+        <target state="new"><![CDATA[No existe ninguna asociación para el siguiente código: <strong>%code%</strong>]]></target>
+        <note><![CDATA[%code% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="364d43e90da8e07e08fb5b6caec768b9f2ce3526" resname="NO_PRENSENTATION_GIVE">
+        <source>NO_PRENSENTATION_GIVE</source>
+        <target>No hay ninguna presentación completa</target>
+      </trans-unit>
+      <trans-unit id="f23e110b2d04015deed73d83a7d250719a131f5c" resname="NO_PUPILS_REGISTERED">
+        <source>NO_PUPILS_REGISTERED</source>
+        <target>Todavía no se ha registrado ningún alumno.</target>
+      </trans-unit>
+      <trans-unit id="76b1f6cc2b6c5b6475e5d72547762b55806e9d0e" resname="NO_PUPIL_REGISTERED">
+        <source>NO_PUPIL_REGISTERED</source>
+        <target>Todavía no se ha registrado ningún alumno.</target>
+      </trans-unit>
+      <trans-unit id="f64e18f708f894be0b34e86405e4246ceaf766d3" resname="NO_PUPIL_REGISTERED_CLICK_TO_REGISTER">
+        <source>NO_PUPIL_REGISTERED_CLICK_TO_REGISTER</source>
+        <target>Todavía no has registrado ningún alumno. ¿Por qué no pulsas aquí para registrar al primero?</target>
+      </trans-unit>
+      <trans-unit id="868a7c2cc31eed7c37b1c5a77d32230b82c0720f" resname="NO_SUBSCRIPTION_TO_YOUR_FILTER">
+        <source>NO_SUBSCRIPTION_TO_YOUR_FILTER</source>
+        <target>Ninguna suscripción se corresponde con tu filtro</target>
+      </trans-unit>
+      <trans-unit id="b8b84b9ce8eab94b1f8b079ff9e846212d32a8da" resname="NO_TEACHER_REGISTERED">
+        <source>NO_TEACHER_REGISTERED</source>
+        <target state="new">Todavía no se ha registrado ningún profesor.</target>
+      </trans-unit>
+      <trans-unit id="cded365da5db54e303683bcd3fa0044249847ba4" resname="NO_USER_IN_THIS_GROUP">
+        <source>NO_USER_IN_THIS_GROUP</source>
+        <target state="new">Todavía no hay ningún usuario en el grupo.</target>
+      </trans-unit>
+      <trans-unit id="fe44dc445b3e15ae2c41227dbce2b66c4fa40817" resname="NO_USER_WITH_THIS_LOGIN">
+        <source><![CDATA[Aucun utilisateur associé à l'identifiant <strong>%user%</strong>]]></source>
+        <target state="new"><![CDATA[No hay ningún usuario vinculado al nombre de usuario <strong>%user%</strong>]]></target>
+        <note><![CDATA[%user% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="7723406085021d65342fc6520924f5911052d6e2" resname="NUMBER_MEMBER">
+        <source>[0,1]%memberNumber% Membre | ]1,Inf[ %memberNumber% Membres</source>
+        <target state="new">[0,1]%memberNumber% miembro| ]1,Inf[ %memberNumber% miembros</target>
+        <note><![CDATA[%memberNumber% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="6856f6616424924c0c1532e93e28d8a644a8bca5" resname="OPTION_DELETE_USER">
+        <source>OPTION_DELETE_USER</source>
+        <target>Eliminar al usuario de mi clase</target>
+      </trans-unit>
+      <trans-unit id="2fac0bdf53abbb3701c67c23ccf2f94d63cf0004" resname="PARENT_ASSOCIATE">
+        <source>PARENT_ASSOCIATE</source>
+        <target>Padres de familia vinculados</target>
+      </trans-unit>
+      <trans-unit id="1b019956b5100e8f4a391d3d0e566da496a12c7e" resname="PARENT_PROFILE">
+        <source>PARENT_PROFILE</source>
+        <target state="new">Perfil del padre de familia</target>
+      </trans-unit>
+      <trans-unit id="a6c6825e36f74516b818105b5f86931d593ea6db" resname="PARTNERSHIP_OTHER_NUMBER">
+        <source>[0,1]%partnershipNumber% Autre | ]1,Inf[ %partnershipNumber% Autres</source>
+        <target state="new">[0,1]%partnershipNumber% otro | ]1,Inf[ %partnershipNumber% otros</target>
+        <note><![CDATA[%partnershipNumber% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="112bb791304791ddcf692e29fd5cf149b35fea37" resname="PASSWORD">
+        <source>PASSWORD</source>
+        <target>Contraseña:</target>
+      </trans-unit>
+      <trans-unit id="29cd9a8cdb0ef3246cf0dabb0c468c5841ae1234" resname="PLACEHOLDER_ENTER_CODE">
+        <source>PLACEHOLDER_ENTER_CODE</source>
+        <target>Introduce el código único</target>
+      </trans-unit>
+      <trans-unit id="199c58c2d17b87c1599325e8011cd110493d88cb" resname="PLACEHOLDER_ENTER_PARTNERSHIP_DESCRIPTION">
+        <source>PLACEHOLDER_ENTER_PARTNERSHIP_DESCRIPTION</source>
+        <target>Introduce una descripción de la asociación</target>
+      </trans-unit>
+      <trans-unit id="ab67848a009e2fa1b082881aa6f845d86a22fdfa" resname="PLACEHOLDER_ENTER_PARTNERSHIP_NAME">
+        <source>PLACEHOLDER_ENTER_PARTNERSHIP_NAME</source>
+        <target>Introduce el nombre de la asociación</target>
+      </trans-unit>
+      <trans-unit id="1c78a9aa93106b6e6201bb4fe6dfadffa807a1c0" resname="PLACEHOLDER_ENTER_PUPIL_WITH_FORMAT">
+        <source>PLACEHOLDER_ENTER_PUPIL_WITH_FORMAT</source>
+        <target>P. ej.: Pérez María 21/01/2009 F</target>
+      </trans-unit>
+      <trans-unit id="9ab86835d5e9e9b64762e79a2ac27c8fd48b8afa" resname="PLACEHOLDER_ENTER_WELCOME_MESSAGE">
+        <source>PLACEHOLDER_ENTER_WELCOME_MESSAGE</source>
+        <target>Introduce un mensaje de bienvenida para la asociación</target>
+      </trans-unit>
+      <trans-unit id="4d836afa734a6387f5b4e652d25fa1cee27c82a4" resname="PLACEHOLDER_ENTER_WORKING_GROUP_DESCRIPTION">
+        <source>Saisissez une description pour le groupe de travail</source>
+        <target state="new">Introduce una descripción del grupo de trabajo</target>
+      </trans-unit>
+      <trans-unit id="395b297565962c56eed30c5b184c6afeef425ed7" resname="PLACEHOLDER_ENTER_WORKING_GROUP_NAME">
+        <source>Saisissez un nom pour le groupe de travail</source>
+        <target state="new">Introduce el nombre del grupo de trabajo</target>
+      </trans-unit>
+      <trans-unit id="d866f51471abb30c50f52889481e584f64fd2ec9" resname="PLACEHOLDER_GROUP_NAME">
+        <source>PLACEHOLDER_GROUP_NAME</source>
+        <target>Nombre del grupo</target>
+      </trans-unit>
+      <trans-unit id="6c309f6090bed5f75f889a0289d723a0159b3450" resname="PLACEHOLDER_NAME">
+        <source>PLACEHOLDER_NAME</source>
+        <target>Apellido</target>
+      </trans-unit>
+      <trans-unit id="3ee59d72d13a6d708e0bf1a9d4f3d2a7d272cfd0" resname="PLACEHOLDER_PRESENTATION">
+        <source>PLACEHOLDER_PRESENTATION</source>
+        <target>Introducción</target>
+      </trans-unit>
+      <trans-unit id="f348a70e40904b751b46ef7e3010bf592dae6b17" resname="PLEASE_CHOOSE">
+        <source>PLEASE_CHOOSE</source>
+        <target>Elije por favor</target>
+      </trans-unit>
+      <trans-unit id="2d8d790e7b0f2be3a471f170358c6bc0ef5f474a" resname="PRESENTATION">
+        <source>PRESENTATION</source>
+        <target>Introducción</target>
+      </trans-unit>
+      <trans-unit id="7fcfc4be4f28c2bd1d2e0450632d2a7033e4c8f0" resname="PUPIL_CREATED_SUCCESS">
+        <source>PUPIL_CREATED_SUCCESS</source>
+        <target>El alumno se ha creado correctamente</target>
+      </trans-unit>
+      <trans-unit id="7816b83aefd132110c670b87fca93bcf4398fb17" resname="RESETTING_CLASSROOM_DESCRIPTION">
+        <source>RESETTING_CLASSROOM_DESCRIPTION</source>
+        <target><![CDATA[Cada año puedes reiniciar la clase y dar la bienvenida a los nuevos alumnos con sus nuevas publicaciones, etc. ¡Es el comienzo de una nueva aventura!<br />
+Para algunos módulos, puedes elegir entre eliminar, conservar o exportar los datos.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="d725ab61cdcd1505b3820bb64ab8ea4e9d39d986" resname="RESETTING_CLASSROOM_SUCCESS">
+        <source>RESETTING_CLASSROOM_SUCCESS</source>
+        <target><![CDATA[<strong>Felicidades</strong>, tu clase se ha reiniciado correctamente.<br />Ahora puedes añadir contenidos nuevos para tus alumnos.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="d2c395ed1135cd3435779c13135de6b7df1dd60b" resname="RESETTING_CLASSROOM_WAIT">
+        <source>RESETTING_CLASSROOM_WAIT</source>
+        <target><![CDATA[Tus clases se están reiniciando en estos momentos.<br />Este proceso puede tardar unos minutos, es hora de borrar la pizarra y ordenar los libros y las sillas.<br /><br />Espera...]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="ea2dbf7b562b9ce42a734e6ef19588e280a32899" resname="RESETTING_CLASSROOM_WARNING">
+        <source>RESETTING_CLASSROOM_WARNING</source>
+        <target><![CDATA[<strong>Atención</strong>, los datos de otros módulos (mensajería, calendario de actividades anteriores, cuaderno de comunicación, etc.)<strong> se eliminarán de forma permanente.</strong><br />
+<strong>Piénsalo bien, porque una vez iniciado el proceso de reinicio, ya no podrás cambiar de opinión.</strong>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="7f7fd040cd7a0bd20cf8e39711b89c4267d05c4e" resname="RESETTING_CLASSROOM_WARNING_ERRORS">
+        <source>RESETTING_CLASSROOM_WARNING_ERRORS</source>
+        <target><![CDATA[<strong>Atención</strong>, hay algunos errores.<br />¡No te preocupes! Puedes reiniciar en cuanto se hayan corregido.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="101f55366892c10c841919d36f52b2c224a29e22" resname="RESET_MY_CLASSROOM">
+        <source>RESET_MY_CLASSROOM</source>
+        <target>Reiniciar mi clase</target>
+      </trans-unit>
+      <trans-unit id="8fae470ddaabbf2f3990a8a888dc2dbc2443dfcd" resname="RIDDLE">
+        <source>RIDDLE</source>
+        <target>Acertijo</target>
+      </trans-unit>
+      <trans-unit id="4fae90e02f4979e6eb862a175ee9fea67108dbed" resname="RIDDLE_ANSWER">
+        <source>RIDDLE_ANSWER</source>
+        <target>Respuesta al acertijo de ayer</target>
+      </trans-unit>
+      <trans-unit id="62d7964d3a43cbaea0fca9c42d473223092b311d" resname="SEE_WISHES">
+        <source>SEE_WISHES</source>
+        <target>Ver los mejores deseos</target>
+      </trans-unit>
+      <trans-unit id="7783269cdc74eed8a240e825a9cd765a74f26cba" resname="SELECT_CSV_FILE_CHECK_FORMAT">
+        <source>SELECT_CSV_FILE_CHECK_FORMAT</source>
+        <target>Selecciona un archivo CSV para enviar y marca su formato.</target>
+      </trans-unit>
+      <trans-unit id="a2469c47824560f8054ab9e6c0cc7613158a31d8" resname="SEND">
+        <source>SEND</source>
+        <target>Enviar</target>
+      </trans-unit>
+      <trans-unit id="65566fc92656fc285c2ab86655ef8a7da3a69ecb" resname="STATUS_FINISH">
+        <source>STATUS_FINISH</source>
+        <target>Terminada</target>
+      </trans-unit>
+      <trans-unit id="fd7a0eb297ec074a27847414c7b165b9a4ba5d94" resname="SUBSCRIPTIONS_LOADING">
+        <source>SUBSCRIPTIONS_LOADING</source>
+        <target>Cargando las suscripciones...</target>
+      </trans-unit>
+      <trans-unit id="6039d4aece89c644ad30b69251e4ceda8d018b62" resname="SUBSCRIPTION_DISPLAY_CAN_TAKE_A_DAY">
+        <source>SUBSCRIPTION_DISPLAY_CAN_TAKE_A_DAY</source>
+        <target>La suscripción a los recursos puede tardar hasta 24 horas en aparecer</target>
+      </trans-unit>
+      <trans-unit id="89741dee0be52f101f681041068a0acd5a6d95b7" resname="SUBSCRIPTION_ENDED">
+        <source>SUBSCRIPTION_ENDED</source>
+        <target>Suscripción caducada</target>
+      </trans-unit>
+      <trans-unit id="031c6d145b002cf8d5c25f5775561f3f261fde0c" resname="SUBSCRIPTION_LIFE">
+        <source>SUBSCRIPTION_LIFE</source>
+        <target>Suscripción vitalicia</target>
+      </trans-unit>
+      <trans-unit id="9b0858cfb64a6bbd3a3a65873dd905db8050e864" resname="SUBSCRIPTION_STATUS">
+        <source>SUBSCRIPTION_STATUS</source>
+        <target>Estado de la suscripción</target>
+      </trans-unit>
+      <trans-unit id="38865ebd2cbb25f0169c1d23a123409c60f72b6f" resname="TEACHER_CREATED_SUCCESS">
+        <source>TEACHER_CREATED_SUCCESS</source>
+        <target>El profesor se ha creado correctamente</target>
+      </trans-unit>
+      <trans-unit id="ee653c64de20696a870d71da4d1dc5443d79734f" resname="THIS_PUPIL_IS_DESACTIVATE">
+        <source>THIS_PUPIL_IS_DESACTIVATE</source>
+        <target>Este alumno está desactivado</target>
+      </trans-unit>
+      <trans-unit id="37c1d10781432d77a6ef73fd0c00a80e6375491f" resname="TITLE_ADD_SUBSCRIPTION_TO_THIS_ACCOUNT">
+        <source>TITLE_ADD_SUBSCRIPTION_TO_THIS_ACCOUNT</source>
+        <target>Añadir una suscripción a esta cuenta</target>
+      </trans-unit>
+      <trans-unit id="fa8d926f0d2ef2fc5ceab5573a6aa64c922e9daa" resname="TITLE_ASSISTANTS">
+        <source>[0,1] Auxiliaire | ]1,Inf[ Auxiliaires </source>
+        <target state="new">[0,1] Asistente | ]1,Inf[ Asistentes </target>
+        <note><![CDATA[This text has plural translations based on %count% variable
+        <jms:reference-file line="401">views/BackClassroom/classroom_users_index.html.twig</jms:reference-file>
+http://symfony.com/doc/current/components/translation/usage.html#pluralization]]></note>
+      </trans-unit>
+      <trans-unit id="18b90446d73b40dddf1ff9e7d6741f05d331e38c" resname="TITLE_ASSISTANT_HAS_ALREADY_ACCOUNT">
+        <source>TITLE_ASSISTANT_HAS_ALREADY_ACCOUNT</source>
+        <target state="new">El asistente ya tiene una cuenta en %beneylu_brand_name%</target>
+      </trans-unit>
+      <trans-unit id="0000e2f2d9fed58f289263a70cc8c11849216263" resname="TITLE_ASSISTANT_HAVENT_ACCOUNT">
+        <source>TITLE_ASSISTANT_HAVENT_ACCOUNT</source>
+        <target state="new">El asistente todavía no tiene una cuenta en %beneylu_brand_name%</target>
+      </trans-unit>
+      <trans-unit id="43d5d58f9966ece0f21908a54972c51e36bb1727" resname="TITLE_CHILDREN">
+        <source>TITLE_CHILDREN</source>
+        <target>Niños</target>
+      </trans-unit>
+      <trans-unit id="8185911c3ace250dcab263d7a8d4eece89940dae" resname="TITLE_CLASS">
+        <source>TITLE_CLASS</source>
+        <target>Aula</target>
+      </trans-unit>
+      <trans-unit id="6b86ca136f1a2efcf11d81ac3278f97bef8db068" resname="TITLE_CLASS_ADD_SUBSCRIPTION">
+        <source>TITLE_CLASS_ADD_SUBSCRIPTION</source>
+        <target>Clase - Añadir una suscripción</target>
+      </trans-unit>
+      <trans-unit id="fea42f256e28716916474e181d25203a4bd1a3d6" resname="TITLE_CLASS_BLACKBOARD">
+        <source>TITLE_CLASS_BLACKBOARD</source>
+        <target state="new">Gestión de la pizarra</target>
+      </trans-unit>
+      <trans-unit id="8e5acd96cb4a3284a3ec20d7427a61e8b748fcb6" resname="TITLE_CLASS_CARD">
+        <source>TITLE_CLASS_CARD</source>
+        <target>Ficha de la clase</target>
+      </trans-unit>
+      <trans-unit id="f10eef754e9eae7efa4720ca130549ff0665a0f3" resname="TITLE_CLASS_CHANGE_YEAR">
+        <source>Classe - Changement d'année</source>
+        <target state="new">Clase - Cambio de año</target>
+      </trans-unit>
+      <trans-unit id="1f12d6674e6b8590f225c7c14679ca828a6b431a" resname="TITLE_CLASS_CUSTOMIZE">
+        <source>TITLE_CLASS_CUSTOMIZE</source>
+        <target>Clase - Personalización</target>
+      </trans-unit>
+      <trans-unit id="011fb6fd285eee3d46d4e8cf976ec9ef960e2a75" resname="TITLE_CLASS_DASHBOARD">
+        <source>Classe - Tableau de bord</source>
+        <target state="new">Clase - Panel de control</target>
+      </trans-unit>
+      <trans-unit id="502d126688b5d6198fc1eb09a3d4fcca37ccc907" resname="TITLE_CLASS_EDIT_PARTNERSHIP">
+        <source>Classe - Édition du partenariat</source>
+        <target state="new">Clase - Edición de asociaciones</target>
+      </trans-unit>
+      <trans-unit id="d0b6de2c48ef45b36e3e38209ea3b8269ef7ce11" resname="TITLE_CLASS_MANAGEMENT">
+        <source>TITLE_CLASS_MANAGEMENT</source>
+        <target>Clase - Gestión</target>
+      </trans-unit>
+      <trans-unit id="3f5b22ad66b17a741241fa9a10019daf8428cbf4" resname="TITLE_CLASS_NEW_PARTNERSHIP">
+        <source>Classe - Nouveau partenariat</source>
+        <target state="new">Clase - Nueva asociación</target>
+      </trans-unit>
+      <trans-unit id="6368d5e1c8db81915c7d71be1cecb875451fdc35" resname="TITLE_CLASS_STATS">
+        <source>Classe - Statistiques</source>
+        <target state="new">Clase - Estadísticas</target>
+      </trans-unit>
+      <trans-unit id="410ac002381a5d161aba52967cbe83b86fd3cace" resname="TITLE_CURRENTLY_ON_BENEYLU_SCHOOL">
+        <source>TITLE_CURRENTLY_ON_BENEYLU_SCHOOL</source>
+        <target state="new">Actualmente en %beneylu_brand_name%</target>
+      </trans-unit>
+      <trans-unit id="d89e64b22456675396e6f1daac09b2ed3e9d72c2" resname="TITLE_CUSTOMIZE">
+        <source>TITLE_CUSTOMIZE</source>
+        <target>Personalizar</target>
+      </trans-unit>
+      <trans-unit id="42a9bdf25d9b8f4b292368cec865ee1edcbd22c7" resname="TITLE_CUSTOMIZE_CLASS">
+        <source>TITLE_CUSTOMIZE_CLASS</source>
+        <target>Personalizar la clase</target>
+      </trans-unit>
+      <trans-unit id="47ad16e730628b38ffcdb506f29edc97baaf1778" resname="TITLE_DESCRIPTION">
+        <source>TITLE_DESCRIPTION</source>
+        <target>Descripción</target>
+      </trans-unit>
+      <trans-unit id="eda6600e11692d95865469a822211b8d35fafb4b" resname="TITLE_GENERATE_NOTE_FOR_CLASS">
+        <source>TITLE_GENERATE_NOTE_FOR_CLASS</source>
+        <target>Crear una ficha para la clase</target>
+      </trans-unit>
+      <trans-unit id="c5ce1c81adb7495dbbd2449c8aab9b106eadf609" resname="TITLE_IMPORT_CSV_FILE">
+        <source>Classe - Importer vos fichiers CSV</source>
+        <target state="new">Clase - Importar tus archivos CSV</target>
+      </trans-unit>
+      <trans-unit id="4dea59b7fcc6c3be733b249c461299975dd6eaf5" resname="TITLE_IMPORT_IN_PROGRESS">
+        <source>TITLE_IMPORT_IN_PROGRESS</source>
+        <target>Cargando la importación... Espera mientras tus alumnos hacen fila y entran a su nueva clase virtual.</target>
+      </trans-unit>
+      <trans-unit id="377f596cf1039f8df5908fe256aded145cfd83df" resname="TITLE_LAST_CONNECTION">
+        <source>TITLE_LAST_CONNECTION</source>
+        <target>Últimas conexiones</target>
+      </trans-unit>
+      <trans-unit id="c17350714ef10b69d8f3ac4e60f46589db95b744" resname="TITLE_LEVEL">
+        <source>TITLE_LEVEL</source>
+        <target>Nivel(es)</target>
+      </trans-unit>
+      <trans-unit id="30f3c4de67293c0c1c208ce44d5227fd7a5f563e" resname="TITLE_MINE_PARTNERSHIP">
+        <source>Classe - Mes partenariats</source>
+        <target state="new">Clase - Mis asociaciones</target>
+      </trans-unit>
+      <trans-unit id="0585445670a9f8f056911f34f7ed9167d42f0c1e" resname="TITLE_MODULE_OF_WORKING_GROUP">
+        <source>TITLE_MODULE_OF_WORKING_GROUP</source>
+        <target state="new">Módulos del grupo de trabajo</target>
+      </trans-unit>
+      <trans-unit id="2d25ae9932c4fafeca6062e39eb13702f7ef3fe7" resname="TITLE_MY_CLASS">
+        <source>Classe - Ma Classe</source>
+        <target state="new">Clase - Mi clase</target>
+      </trans-unit>
+      <trans-unit id="dd14f4a178e49ccc4e66ccdbf384dfed6c1c972f" resname="TITLE_MY_CLASS_MODULE">
+        <source>TITLE_MY_CLASS_MODULE</source>
+        <target>Los módulos de mi clase</target>
+      </trans-unit>
+      <trans-unit id="1347365b24780627929dbb7b05f0ef8a977324da" resname="TITLE_NOTE">
+        <source>Note</source>
+        <target state="new">Nota</target>
+      </trans-unit>
+      <trans-unit id="9bd5d909030bb99e3d619086477a0b3352b3a233" resname="TITLE_PARENT_TEAM">
+        <source>TITLE_PARENT_TEAM</source>
+        <target>[0,1] Padre | ]1,Inf[ Padres</target>
+      </trans-unit>
+      <trans-unit id="01d37d722d54b5677293ccd7dbe24a3186bfa5ce" resname="TITLE_PARTNERSHIP">
+        <source>TITLE_PARTNERSHIP</source>
+        <target state="new">Asociación</target>
+      </trans-unit>
+      <trans-unit id="86b23a0872a1728d501d20df4b48feca2edf5dac" resname="TITLE_PARTNERSHIP_ADMINISTRATION_PARTNERSHIP">
+        <source>TITLE_PARTNERSHIP_ADMINISTRATION_PARTNERSHIP</source>
+        <target>Asociación - Administración de la asociación</target>
+      </trans-unit>
+      <trans-unit id="1a94075231b205996af74fb1e5eff88db87655f9" resname="TITLE_PARTNERSHIP_MODULES">
+        <source>TITLE_PARTNERSHIP_MODULES</source>
+        <target>Módulos de la asociación</target>
+      </trans-unit>
+      <trans-unit id="5f0e26c75ea32193f0355e66362bf6cbce2fc3c1" resname="TITLE_PROFILE">
+        <source>TITLE_PROFILE</source>
+        <target>Perfil</target>
+      </trans-unit>
+      <trans-unit id="841f128303523213955fd778e6b73f4817cdfc31" resname="TITLE_PROFIL_OF">
+        <source>Classe - Profil de %user%</source>
+        <target state="new">Clase - Perfil de %user%</target>
+        <note><![CDATA[%user% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="2c88365c1f6c33718039ec83fbc0db015cf14ade" resname="TITLE_PUPILS">
+        <source>[0,1] Élève | ]1,Inf[ Élèves</source>
+        <target state="new">[0,1] Alumno | ]1,Inf[ Alumnos</target>
+      </trans-unit>
+      <trans-unit id="50fdb46e49230469fda3b975f44b21a097f8c3f7" resname="TITLE_REGENERATE_PASSWORD">
+        <source>TITLE_REGENERATE_PASSWORD</source>
+        <target>¿Seguro que quieres restablecer tu contraseña?</target>
+      </trans-unit>
+      <trans-unit id="282c12e76de142cd0bd7c3d937ae00776e9d338d" resname="TITLE_REGENERATE_PASSWORD_OF">
+        <source>Êtes-vous sûr de vouloir regénérer le mot de passe du compte de %user% ?</source>
+        <target state="new">¿Seguro que quieres restablecer la contraseña de la cuenta de %user%?</target>
+        <note><![CDATA[%user% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="032d1af859a2391dd6d10fb078540571b8f57526" resname="TITLE_SUBCRIPTION_MANAGEMENT">
+        <source>Classe - Gestion des abonnements</source>
+        <target state="new">Clase - Gestión de suscripciones</target>
+      </trans-unit>
+      <trans-unit id="a6a5b45a82910857e4b7d2c014c8195fd9bbbc61" resname="TITLE_SUBSCRIPTION">
+        <source>TITLE_SUBSCRIPTION</source>
+        <target>Suscripción</target>
+      </trans-unit>
+      <trans-unit id="b6d79ce8e84553f42d27aa94c03ef9b5a1e0632b" resname="TITLE_SUBSCRIPTION_STATUS">
+        <source>TITLE_SUBSCRIPTION_STATUS</source>
+        <target>Estado de la suscripción</target>
+      </trans-unit>
+      <trans-unit id="a248ffb8c26e0bcbb8367078f115a0d0f06e81d0" resname="TITLE_SUBSCRIPTION_TYPE">
+        <source>TITLE_SUBSCRIPTION_TYPE</source>
+        <target>Tipo de suscripción</target>
+      </trans-unit>
+      <trans-unit id="c2f5facb63c0a9b078117bb514432fd82bfcbc6d" resname="TITLE_SURE_RESET_DATA">
+        <source><![CDATA[
+        <h2>Êtes-vous sûr de vouloir réinitialiser votre classe pour le changement d'année ?</h2>
+        <h3>
+            Vous perdrez <strong>toutes vos données</strong> (sauf celles que vous avez choisies de conserver) !<br />
+            Cette action est <strong>irréversible</strong> !
+        </h3>]]></source>
+        <target state="new"><![CDATA[
+<h2>¿Seguro que quieres reiniciar tu clase para el cambio de año?</h2>
+<h3>
+Perderás <strong>todos tus datos</strong> (¡a menos que los guardes)!<br />
+Esta acción no se puede<strong> deshacer</strong>
+</h3>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="8dea39c3689123adddffd8138a6e9fef2905056d" resname="TITLE_SURE_TO_CREATE_PARENT_FOR">
+        <source>TITLE_SURE_TO_CREATE_PARENT_FOR</source>
+        <target>¿Seguro que quieres crear un padre nuevo para %user%?</target>
+        <note><![CDATA[%user% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="304ae9de6b570ec2f07147334bb6a7424c1a984f" resname="TITLE_SURE_TO_DELETE_GROUP">
+        <source><![CDATA[
+        	<h2>Êtes-vous sûr de vouloir supprimer <strong>"%group%"</strong>  ?</h2>
+		<h3>
+			Le groupe ne pourra plus être utilisé pour %beneylu_brand_name%.<br />
+			<strong>A noter :</strong> <br />- Les données associées au groupe seront supprimées. (Blog, Calendrier, ...)
+                        <br />- Vous ne pourrez pas récupérer le groupe par la suite.
+		</h3>
+
+        ]]></source>
+        <target state="new"><![CDATA[
+<h2>¿Seguro que quieres eliminar <strong>"%group%"</strong>?</h2>
+<h3>
+Ya no podrás utilizar el grupo para %beneylu_brand_name%.<br />
+<strong>Nota: </strong><br />- Se eliminarán todos los datos vinculados al grupo (blog, calendario...)
+<br />- Una vez eliminado, no podrás restablecer el grupo.
+</h3>
+
+        ]]></target>
+        <note><![CDATA[%group% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="16a4dded6bf14d74a17e043844420a388d3193e6" resname="TITLE_SURE_TO_DELETE_PARTNERSHIP">
+        <source><![CDATA[
+        <h2>Êtes-vous sûr de vouloir supprimer le partenariat <strong>"%partnership%"</strong>  ?</h2>
+		<h3>
+			Le partenariat ne pourra plus être utilisé.<br />
+			<strong>Attention  :</strong> <br />- Les données associées au partenariat seront supprimées. (Blog, Calendrier, ...)
+                        <br />- Vous ne pourrez pas récupérer le partenariat par la suite.
+		</h3>
+
+        ]]></source>
+        <target state="new"><![CDATA[
+<h2>¿Seguro que quieres eliminar la asociación <strong>"%partnership%"</strong>?</h2>
+<h3>
+Ya no podrás utilizar la asociación.<br />
+<strong>Atención: </strong><br />- Se eliminarán todos los datos vinculados a la asociación (blog, calendario...)
+<br />- Una vez eliminada, no podrás restablecer la asociación.
+</h3>
+
+        ]]></target>
+        <note><![CDATA[%partnership% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="854a115ef6573391ec367820d36bf63848c2402a" resname="TITLE_SURE_TO_DELETE_USER">
+        <source><![CDATA[
+        			<h2>Êtes-vous sûr de vouloir supprimer "%user%" de la classe "%class%" ?</h2>
+		<h3>
+			Cet utilisateur ne pourra plus intéragir avec cette classe ainsi que ses élèves.<br />
+			<strong>Attention</strong>, cette action est irréversible !
+		</h3>
+
+        ]]></source>
+        <target state="new"><![CDATA[
+<h2>¿Seguro que quieres eliminar a "%user%" de la clase "%class%"?</h2>
+<h3>
+Este usuario ya no podrá interactuar con la clase y los alumnos.<br />
+<strong>Atención</strong>, esta acción no se puede deshacer.
+</h3>
+
+        ]]></target>
+        <note><![CDATA[%user% is a placeholder
+%class% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="ed0babb1f82f4cd34d220d2b7a8bb7f7ff2473f2" resname="TITLE_SURE_TO_DISABLE_USER">
+        <source><![CDATA[
+        			<h2>Êtes-vous sûr de vouloir désactiver le compte de "%user%" ?</h2>
+		<h3>
+			Cet utilisateur ne pourra plus se connecter à %beneylu_brand_name%.<br />
+			<strong>A noter :</strong> <br />- Les données associées à l'utilisateur seront conservées.
+        <br />- Vous pouvez à tout moment réactiver l'utilisateur depuis cette même page.
+        </h3>
+        ]]></source>
+        <target state="new"><![CDATA[
+<h2>¿Seguro que quieres desactivar la cuenta de %user%?</h2>
+<h3>
+Este usuario ya no podrá iniciar sesión en %beneylu_brand_name%.<br />
+<strong>Atención:</strong> <br />- Se guardarán todos los datos asociados al usuario.
+<br />- Puedes reactivar al usuario en cualquier momento desde esta página.
+</h3>
+        ]]></target>
+        <note><![CDATA[%user% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="827ec784dc7b8d788794e7414d175de66c8589cd" resname="TITLE_SURE_TO_GENERATE_CARD_CLASS">
+        <source><![CDATA[
+        			<h2>Êtes-vous sûr de vouloir générer une fiche pour votre classe "%class%" ?</h2>
+		<h3>
+			<strong>Attention</strong>, cette action va régénérer tous les mots de passe de vos élèves et de leurs parents ! Leur ancien mot de passe sera perdu et vous devrez leur communiquer les nouveaux.<br />
+			Cette action est recommandée lors de la première génération de mot de passe, à la rentrée par exemple.
+		</h3>
+        ]]></source>
+        <target state="new"><![CDATA[
+<h2>¿Seguro que quieres crear una ficha para la clase "%class%"?</h2>
+<h3>
+<strong>Atención</strong>, esta acción restablecerá la contraseña de todos los padres y los alumnos. Su contraseña antigua dejará de funcionar. Por lo tanto, tendrás que enviarles su contraseña nueva.<br />
+Recomendamos esta acción cuando las contraseñas se tienen que restablecer por primera vez, por ejemplo al inicio del curso.
+</h3> ]]></target>
+        <note><![CDATA[%class% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="ae1412d68594fbf6427ac20ee7203cc8a37e41bb" resname="TITLE_SURE_TO_LEAVE_CLASS">
+        <source><![CDATA[
+        			<h2>Êtes-vous sûr de vouloir quitter la classe  ?</h2>
+		<h3>
+			Vous ne pourrez plus intéragir avec cette classe ainsi que ses élèves.<br />
+			<strong>Attention</strong>, cette action est irréversible !
+		</h3>
+        ]]></source>
+        <target state="new"><![CDATA[
+<h2>¿Seguro que quieres dejar la clase?</h2>
+<h3>
+Ya no podrás interactuar con la clase ni los alumnos.<br />
+<strong>Atención</strong>, esta acción no se puede deshacer.
+</h3>
+        ]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="5ed3e3e574b0992278c1e4ba056b743ae3278a97" resname="TITLE_SURE_TO_LEAVE_PARTNERSHIP">
+        <source><![CDATA[
+        			 <h2>Êtes-vous sûr de vouloir quitter le partenariat <strong>"%partnership%"</strong> ?</h2>
+		<h3>
+			Vous ne pourrez plus interagir avec ce partenariat ainsi que ses membres.<br />
+			Si vous avez toujours le code du partenariat vous pourrez le rejoindre à nouveau.
+		</h3>
+        ]]></source>
+        <target state="new"><![CDATA[
+<h2>¿Seguro que quieres dejar la asociación <strong>"%partnership%"</strong>?</h2>
+<h3>
+Ya no podrás interactuar con la asociación ni con sus miembros.
+Siempre que tengas el código de la asociación, podrás volver a unirte.
+</h3>
+        ]]></target>
+        <note><![CDATA[%partnership% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="fa93bb2196c4ba6b72c2f7e12a9798c72d02e26c" resname="TITLE_SURE_TO_REACTIVATE_USER">
+        <source><![CDATA[
+        			<h2>Êtes-vous sûr de vouloir réactiver le compte de "%user%" ?</h2>
+		<h3>
+			Cet utilisateur pourra à nouveau se connecter à %beneylu_brand_name%.
+		</h3>
+        ]]></source>
+        <target state="new"><![CDATA[
+<<h2>¿Seguro que quieres reactivar la cuenta de "%user%"?</h2>
+<h3>
+Este usuario podrá volver a conectarse a %beneylu_brand_name%.
+</h3>
+        ]]></target>
+        <note><![CDATA[%user% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="63481f47363b227846c77ece37cd121be54fe8d0" resname="TITLE_SURE_TO_SAVE_MODIFICATION">
+        <source><![CDATA[
+        			<h2>Êtes-vous sûr de vouloir enregistrer les changements effectués ?</h2>
+		<h3>
+			Tous les changements effectués vont être appliqués,<br />et les utilisateurs sélectionnés retirés du groupe.<br />
+		</h3>
+        ]]></source>
+        <target state="new"><![CDATA[
+<h2>¿Seguro que quieres guardar los cambios realizados?</h2>
+<h3>
+Se aplicarán todos los cambios realizados,<br /> y los usuarios seleccionados se eliminarán del grupo.<br />
+</h3>
+        ]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="2111884f81ed83af19e8d8936ab773c7213cd88d" resname="TITLE_TEACHERS">
+        <source>[0,1] Enseignant | ]1,Inf[ Enseignants </source>
+        <target state="new">[0,1] Profesor | ]1,Inf[ Profesores </target>
+        <note><![CDATA[This text has plural translations based on %count% variable
+http://symfony.com/doc/current/components/translation/usage.html#pluralization]]></note>
+      </trans-unit>
+      <trans-unit id="49f341fd58517d073c8d3d723d625818eb98c9d9" resname="TITLE_TEACHER_HAS_ALREADY_ACCOUNT">
+        <source>TITLE_TEACHER_HAS_ALREADY_ACCOUNT</source>
+        <target>El profesor ya tiene una cuenta en %beneylu_brand_name%</target>
+      </trans-unit>
+      <trans-unit id="1abc9d3fa6576f8efcae5711c83256d1a7992d56" resname="TITLE_TEACHER_HAVENT_ACCOUNT">
+        <source>TITLE_TEACHER_HAVENT_ACCOUNT</source>
+        <target>El profesor aún no tiene una cuenta en %beneylu_brand_name%</target>
+      </trans-unit>
+      <trans-unit id="9eefe4f26cef20a4242ce24b9d1a271b1c92066c" resname="TITLE_USER_MANUAL">
+        <source>TITLE_USER_MANUAL</source>
+        <target>Instrucciones</target>
+      </trans-unit>
+      <trans-unit id="31e0d20d36299b9760ccd419ba2ce2b468332fd5" resname="TITLE_VERIFY_CODE_PARTNERSHIP">
+        <source><![CDATA[<h2>On vous a transmis un code de partenariat ?<br/> Vérifiez le ici.</h2>]]></source>
+        <target state="new"><![CDATA[<h2>¿Ya te hemos enviado un código de asociación?<br/> Compruébalo aquí.</h2>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="d25907ab8f17de4945e39d1f86ebee5da889a181" resname="TITLE_WORKING_ADMINISTRATION_OF_GROUP">
+        <source>TITLE_WORKING_ADMINISTRATION_OF_GROUP</source>
+        <target>Grupo de trabajo - Administración del grupo</target>
+      </trans-unit>
+      <trans-unit id="2aa6ec232aa9c7473e22a671d9e1e8065286eee4" resname="TITLE_WORKING_GROUP">
+        <source>TITLE_WORKING_GROUP</source>
+        <target state="new">Crear un grupo de trabajo</target>
+      </trans-unit>
+      <trans-unit id="c41a4b0795201a10e5113cbdb3fae8f7e9be6330" resname="TITLE_WORKING_GROUP_EDIT">
+        <source>Groupe de travail - Edition du groupe</source>
+        <target state="new">Grupo de trabajo - Edición del grupo</target>
+      </trans-unit>
+      <trans-unit id="626255557f4364f3ee27ef09da491aad39614437" resname="TITLE_WRITE_ON_BOARD">
+        <source>TITLE_WRITE_ON_BOARD</source>
+        <target>Escribir un mensaje de bienvenida en la pizarra</target>
+      </trans-unit>
+      <trans-unit id="52c6c1812015585dc1092393a1f244f60d68c60a" resname="UPDATE">
+        <source>UPDATE</source>
+        <target>Actualizar</target>
+      </trans-unit>
+      <trans-unit id="62e553296d2c69d961fae8d326e97f6f4efa6882" resname="USER_ALREADY_ASSISTANT">
+        <source>L'utilisateur %user% est déjà auxiliaire dans votre classe.</source>
+        <target state="new">El usuario %user% ya existe como asistente en tu clase.</target>
+        <note><![CDATA[%user% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="4a15e9c98ac46b6ce650776043aa2128130b98a1" resname="USER_ALREADY_TEACHER">
+        <source>L'utilisateur %user% est déjà enseignant dans votre classe.</source>
+        <target state="new">Este usuario %user% es profesor en tu clase.</target>
+        <note><![CDATA[%user% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="28cd994c195ba3ac190977128e01619e706fc62d" resname="USER_DETAIL">
+        <source>USER_DETAIL</source>
+        <target>Detalles de los usuarios</target>
+      </trans-unit>
+      <trans-unit id="a7bd2f98db0b1958e97264def0c8209c8712cf07" resname="USER_INVITE_WAITING">
+        <source><![CDATA[L'utilisateur %user% attend déjà une invitation de votre part.<br />Celui-ci doit répondre à votre première invitation avant que vous ne puissiez l'inviter à nouveau.]]></source>
+        <target state="new"><![CDATA[El usuario %user% ya ha recibido tu invitación.<br /><br />Tiene que responder a la primera invitación antes de que puedas volver a invitarle.]]></target>
+        <note><![CDATA[%user% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="34443661d453c36426cbe934ffd36a764790f107" resname="WANT_BECOME">
+        <source>WANT_BECOME</source>
+        <target>Quiere ser</target>
+      </trans-unit>
+      <trans-unit id="01656c7fc31629c51401e7b2a200cb95b5099159" resname="WARNING_CHANGE_LANGUAGE">
+        <source>WARNING_CHANGE_LANGUAGE</source>
+        <target>Atención, este cambio no se tendrá en cuenta hasta la próxima conexión de tus alumnos.</target>
+      </trans-unit>
+      <trans-unit id="ddac34d343a172d6bc6596f97515a9394f427157" resname="WELCOME_MESSAGE">
+        <source>WELCOME_MESSAGE</source>
+        <target>Bienvenido</target>
+      </trans-unit>
+      <trans-unit id="81daaed8d813c7b23cb48cd8d83b7076a7050f4f" resname="WELCOME_MESSAGE_PARTNERSHIP">
+        <source><![CDATA[<strong>Message d'accueil : </strong><br/>%homeMessage%]]></source>
+        <target state="new"><![CDATA[<strong>Mensaje de bienvenida: </strong><br/>%homeMessage%]]></target>
+        <note><![CDATA[%homeMessage% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="a94fe2bdef57b79fd1cea96cfcacaed93f433600" resname="WILL_WANT_BECOME">
+        <source>WILL_WANT_BECOME</source>
+        <target><![CDATA[quiere ser <i>%job%</i>]]></target>
+        <note><![CDATA[%job% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="08ae7e9b935dba02d280d7bcd0c2eff83ff4d60e" resname="WISHES_ADULT">
+        <source>WISHES_ADULT</source>
+        <target><![CDATA[Descubre los buenos deseos de año nuevo de tus alumnos utilizando %beneylu_brand_name%. <br />Para participar, pide a tus alumnos que publiquen un nuevo estatus de perfil que contengan la palabra clave #2015.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="162bd8d96dcd01bcf363b57963b007c7594aa9ae" resname="WISHES_CHILD">
+        <source>WISHES_CHILD</source>
+        <target><![CDATA[Descubre los deseos de año nuevo de otros alumnos utilizando %beneylu_brand_name%. <br />Para participar, añade un nuevo estatus a tu perfil añadiendo #2015 en la frase.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="c2a8b60c37ce623cad2afad4cbb0664f3dd00863" resname="WORK_GROUP_CREATE">
+        <source>WORK_GROUP_CREATE</source>
+        <target>El grupo de trabajo se ha creado correctamente.</target>
+      </trans-unit>
+      <trans-unit id="bd10bcf43c17feaaf282e878c7f47e10e58e6990" resname="WRITE_PRESENTATION">
+        <source>J'écris ma présentation</source>
+        <target state="new">Me presento</target>
+      </trans-unit>
+      <trans-unit id="f7688d1d9dcf495e099af48df05ad5856432c28a" resname="WRITE_PRESENTATION_NOW">
+        <source>J'écris ma présentation maintenant</source>
+        <target state="new">Me presento</target>
+      </trans-unit>
+      <trans-unit id="ab252850e45397a7d501bb117d7a532ddf7d3703" resname="YOUR_CLASS_HAVENT_JOIN_PARTNERSHIP">
+        <source>YOUR_CLASS_HAVENT_JOIN_PARTNERSHIP</source>
+        <target>Tu clase no tiene asociaciones.</target>
+      </trans-unit>
+      <trans-unit id="ccf884309e24d8d251506eedb363faea0be131ea" resname="YOU_HAVENT_SUBSCRIPTIOn">
+        <source>YOU_HAVENT_SUBSCRIPTIOn</source>
+        <target>No tienes ninguna suscripción</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

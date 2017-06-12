@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\LunchBundle\Model">
+
+    <table name="lunch_week">
+        <column name="id" type="INTEGER" autoIncrement="true" primaryKey="true" required="true" />
+        <column name="group_id" type="INTEGER" required="true" />
+        <column name="label" type="VARCHAR" required="false" size="255" />
+        <column name="description" type="LONGVARCHAR" required="false" />
+        <column name="sections" type="ARRAY" required="true" />
+        <column name="date_start" type="DATE" required="true" />
+        <foreign-key foreignTable="group" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference local="group_id" foreign="id"/>
+        </foreign-key>
+        <index name="group_id">
+            <index-column name="group_id"/>
+        </index>
+    </table>
+
+    <table name="lunch_day">
+        <column name="id" type="INTEGER" autoIncrement="true" primaryKey="true" required="true" />
+        <column name="week_id" type="INTEGER" required="true" />
+        <column name="status" type="VARCHAR" required="true" />
+        <column name="day_of_week" type="INTEGER" required="true" default="NULL" />
+        <column name="full_menu" type="LONGVARCHAR" default="NULL" />
+        <column name="starter" type="VARCHAR" size="255" default="NULL" />
+        <column name="main_course" type="VARCHAR" size="255" default="NULL" />
+        <column name="dessert" type="VARCHAR" size="255" default="NULL" />
+        <column name="dairy" type="VARCHAR" size="255" default="NULL" />
+        <column name="accompaniment" type="VARCHAR" size="255" default="NULL" />
+        <column name="afternoon_snack" type="VARCHAR" size="255" default="NULL" />
+        <foreign-key foreignTable="lunch_week" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference local="week_id" foreign="id"/>
+        </foreign-key>
+        <index name="week_id">
+            <index-column name="week_id"/>
+        </index>
+    </table>
+</database>

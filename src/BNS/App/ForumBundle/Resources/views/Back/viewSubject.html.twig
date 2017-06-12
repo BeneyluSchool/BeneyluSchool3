@@ -1,0 +1,105 @@
+{% extends 'BNSAppForumBundle:Layout:manager.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ asset('/medias/js/datepicker_i18n/jquery.ui.datepicker-fr.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/medias/js/forum/Back/forum.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+
+        });
+    </script>
+{% endblock %}
+
+{% block header %}
+    <div class="header-buttons">
+        <div class="inner-header">
+            <div class="container container-fluid">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <a href="{{ path('BNSAppForumBundle_back_slug', {'slug': forum.slug}) }}" class="btn bns-notice btn-24 medium-return">
+                            <span class="icons-24 back-icon"></span>
+                            <strong>Retour</strong> au
+                            <br /> forum
+                        </a>
+
+                        <a href="{{ path('BNSAppForumBundle_back_delete_subject', {'slug': subject.slug}) }}" class="btn bns-danger btn-24 medium-return pull-right delete-item"
+                            data-target="#deleteModal" data-toggle="modal">
+                            <span class="icons-24 delete-icon"></span>
+                            <strong>Supprimer</strong> le
+                            <br /> sujet
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock header %}
+
+{% block sidebar %}
+    <div class="container-sidebar list">
+        <div class="section active">
+            Les forums
+            <span class="shadow-section"></span>
+        </div>
+        {% include 'BNSAppForumBundle:Block:backForumFilter.html.twig' %}
+
+            <div class="container-section">
+                <div class="section">
+                    <a href="{{ path('BNSAppForumBundle_back_moderation') }}">Modération</a>
+                </div>
+            </div>
+    </div>
+{% endblock sidebar %}
+
+{% block content %}
+    <h1>{{ subject.title }}</h1>
+    <p>par {{ subject.user.fullName|default('anonyme') }}</p>
+
+
+    <div class="item-list-container">
+    {% for message in messages %}
+        <div class="item">
+            <div class="header">
+                <div class="buttons-container">
+                {% if 'VALIDATED' != message.status %}
+                    <a class="btn bns-success btn-16 small right" href="{{ path('BNSAppForumBundle_back_validate_message', {'id':message.id, 'page': messages.currentPage}) }}">
+                        <span class="icons-16 validate-icon"></span>
+                        <strong>Valider</strong>
+                    </a>
+                {% endif %}
+                    <a class="btn bns-danger btn-16 small " href="{{ path('BNSAppForumBundle_back_delete_message', {'id': message.id, 'page': messages.currentPage}) }} ">
+                        <span class="icons-16 cancel-icon"></span>
+                        <strong>Supprimer</strong>
+                    </a>
+                </div>
+            </div>
+            <div class="text">
+            {% if 'VALIDATED' != message.status %}
+                <div class="vertical-separator orange"></div>
+            {% else %}
+                <div class="vertical-separator green"></div>
+            {% endif %}
+                {{ message.content|purify }}
+            </div>
+            <div class="footer">
+                {{ date_from_now(message.createdAt, true) }} par {{ message.user.fullName|default('anonyme') }}
+            </div>
+        </div>
+
+    {% endfor %}
+    </div>
+
+    {% if messages.haveToPaginate %}
+        {{ pagerfanta(messages, 'twitter_bootstrap_translated', {'prev_message': '←', 'next_message': '→'}) }}
+    {% endif %}
+
+    {{ modal('deleteModal', {
+        'title': 'Suppression du sujet',
+        'body_template': {'template': 'BNSAppForumBundle:Back:modal_body_delete_subject.html.twig' },
+        'type': 'error',
+        'footer_template': {'template': 'BNSAppForumBundle:Back:modal_footer_delete_subject.html.twig' },
+    }) }}
+{% endblock content %}

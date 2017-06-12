@@ -2,11 +2,9 @@
 //Filename = nom du fichier
 //Obliger de passer par cette fonction en JS (au lieu de twig) car appelé en js depuis script d'imprt de fichiers'
 //with_image : si image affiche-t-on l'icône ?
-function printImageFromFileName(fileName,with_image,size){
-	
+function printImageFromFileName(fileName,with_image,size,cdn){
 	var ext = fileName.split('.').pop();
-	
-	switch(ext.toLowerCase()){ 
+	switch(ext.toLowerCase()){
 
 		case 'jpg':
 		case 'jpeg':
@@ -18,6 +16,7 @@ function printImageFromFileName(fileName,with_image,size){
 				return null;
 		break;
 		case 'avi':
+        case 'flv':
 		case 'mkv':
 		case 'mp4':
 		case 'mpeg':
@@ -37,6 +36,6 @@ function printImageFromFileName(fileName,with_image,size){
 		break;
 	}
 	
-	return "<img src='/medias/images/resource/filetype/" + size + "/" + type + ".png' />";
+	return "<img src='"+ cdn +"/medias/images/resource/filetype/" + size + "/" + type + ".png' />";
 	
 }

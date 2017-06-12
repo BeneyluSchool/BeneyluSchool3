@@ -1,5 +1,11 @@
 <img id="" class="" src="{{ getResourceImageUrl(resource,"thumbnail") }}" />
 <p><span>{{ resource.label }}</span></p>
-<a class="btn btn-joined resource-open-joined" data-resource-id="{{ resource.id }}">
-	Afficher
-</a>
+{% if false %}
+    <a href="" resource-id="{{ resource.id }}" terminal="true" class="btn btn-joined resource-open-joined">
+        Afficher
+    </a>
+{% else %}
+    <a href="{{ create_visualisation_url_resource(resource,true) }}" class="btn btn-joined">
+        Télécharger
+    </a>
+{% endif %}

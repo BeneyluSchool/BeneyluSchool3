@@ -1,0 +1,40 @@
+{% trans_default_domain "GROUP" %}
+{% extends 'BNSAppGroupBundle:Back:layout.html.twig' %}
+
+{% block header %}
+	
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="align-right">
+						<a id="group-submit-home-message" href="#" class="btn bns-success validate-medium btn-24 medium submit-custom-classroom-form">
+							<span class="icons-24 validate-icon"></span><strong>{{ 'LINK_SAVE_MESSAGE'|trans |desc('Enregistrer le message') }}</strong>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock header %}
+
+{% block sidebar %}
+    {{ render(controller('BNSAppGroupBundle:Back:sidebar', {'section' : 'home_message'} )) }}
+{% endblock sidebar %}
+
+{% block content %}
+
+	<div class="content-group">
+		<div class="news-title">
+			<h1 class="dashboard">{{ 'TITLE_WELCOME_MESSAGE'|trans |desc('Message d\'accueil') }}</h1>
+		</div>
+		<div class="form-home-message content-custom">
+			<form action="{{ path('BNSAppGroupBundle_back_custom') }}" method="POST" id="group-home-message" {{ form_enctype(form) }}>
+				{{ form_widget(form.home_message, {'attr': {'class': 'custom-classroom', 'placeholder': 'TITLE_WELCOME_MESSAGE'|trans }}) }}
+				{{ form_errors(form.home_message) }}
+			</form>
+		</div>
+	</div>
+
+{% endblock %}

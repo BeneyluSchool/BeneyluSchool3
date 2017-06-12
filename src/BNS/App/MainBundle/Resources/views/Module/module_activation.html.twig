@@ -1,14 +1,32 @@
-<table class="table table-bordered">
-	<tbody>
-		{% for module in activableModules %}
-			<tr>
-				<td><img src="{{ asset('/medias/images/icons/modules/btn-' ~ module.getUniqueName()|lower ~ '-medium.png') }}" /> {{ module.getLabel() }}</td>
-				{% for role in roles %}
-					<td{% if loop.index % 2 != 0 %} class="student"{% endif %}>
-						{% include "BNSAppMainBundle:Module:module_activation_block.html.twig" with {'module' : module , 'role' : role , 'groupId' : groupId, 'moduleStates': moduleStates } %}
-					</td>
-				{% endfor %}
-			</tr>
-		{% endfor %}
-	</tbody>
+{% trans_default_domain "MAIN" %}
+<table class="table table-bordered negative-margin">
+  <tbody>
+    {% for module in activableModules %}
+      <tr bns-app-uninstall-fader>
+        <td><img src="{{ asset('/medias/images/icons/modules/' ~ module.getUniqueName()|lower ~ '/medium.png') }}" /> {{ module.getLabel() }}</td>
+        {% if hasApplicationManagement() and groupIsSchoolOrClassroom %}
+          {% set app = module | serialize %}
+          <td>
+            <bns-app-toggle app="{{ app }}" group-id="{{ groupId }}"></bns-app-toggle>
+          </td>
+          <td>
+            <bns-app-uninstall app="{{ app }}" group-id="{{ groupId }}" notify="true"></bns-app-uninstall>
+          </td>
+        {% else %}
+          {% for role in roles %}
+                    {# On bloque le bouton pour la messagerie aux parents dans les partenariats #}
+                    {%  if not (groupType == "PARTNERSHIP" and module.uniqueName in ['MESSAGING', 'WORKSHOP'] and role.type == 'PARENT') %}
+                        <td {% if loop.index % 2 != 0 %} class="student"{% endif %}>
+                            {% include "BNSAppMainBundle:Module:module_activation_block.html.twig" with {'module' : module , 'role' : role , 'groupId' : groupId, 'moduleStates': moduleStates } %}
+                        </td>
+                    {% else %}
+                        <td>
+                            <img title="{{ 'IMAGE_ACTION_IMPOSSIBLE'|trans |desc('Action impossible') }}" src="{{ asset('/medias/images/icons/btn-NOK.png') }}" />
+                        </td>
+                    {% endif %}
+          {% endfor %}
+        {% endif %}
+      </tr>
+    {% endfor %}
+  </tbody>
 </table>

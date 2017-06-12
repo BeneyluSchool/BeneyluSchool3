@@ -1,0 +1,47 @@
+<h2 translate>WORKSHOP.CONTENT.CONTRIBUTORS</h2>
+
+<div class="loader" ng-show="ctrl.busy"></div>
+
+<div ng-show="ctrl.ready && !ctrl.busy" class="workshop-contributors-lists">
+
+  <p ng-show="!(ctrl.content._embedded.contributor_group_ids.length || ctrl.content._embedded.contributor_user_ids.length)" class="text-center" translate>WORKSHOP.CONTENT.NO_CONTRIBUTORS</p>
+
+  <div ng-show="ctrl.content._embedded.contributor_group_ids.length">
+    <div class="workshop-contributors-list-title">
+      <label translate>WORKSHOP.CONTENT.WORKSPACES</label>
+    </div>
+    <div bns-user-directory-editable-list
+      ids="ctrl.content._embedded.contributor_group_ids"
+      store="'userDirectoryGroups'"
+      state="ctrl.groupState"
+      configurator="ctrl.groupConfigurator"
+      view="ctrl.USER_DIRECTORY_VIEW"
+    ></div>
+  </div>
+
+  <div ng-show="ctrl.content._embedded.contributor_user_ids.length">
+    <div class="workshop-contributors-list-title">
+      <label translate>WORKSHOP.CONTENT.USERS</label>
+    </div>
+    <div bns-user-directory-editable-list
+      ids="ctrl.content._embedded.contributor_user_ids"
+      store="'userDirectoryUsers'"
+      state="ctrl.userState"
+      view="ctrl.USER_DIRECTORY_VIEW"
+    ></div>
+  </div>
+
+  <div class="text-center">
+    <a href="" bns-user-directory-invoke="{{ ctrl.USER_DIRECTORY_VIEW }}"
+      selection-group="ctrl.content._embedded.contributor_group_ids"
+      selection="ctrl.content._embedded.contributor_user_ids"
+      locked="ctrl.userState.locked"
+      locked-group="ctrl.groupState.locked"
+      class="btn btn-default btn-sm"
+    >
+      <i class="bns-icon-plus round"></i>
+      <span translate>WORKSHOP.CONTENT.ADD_CONTRIBUTOR</span>
+    </a>
+  </div>
+
+</div>

@@ -1,20 +1,19 @@
-<div class="feed-content">
-	{% if feed.getProfileFeedStatus().getResource() != null %}
-		<div class="resource-container"><img src="{{ getResourceImageUrl(feed.getProfileFeedStatus().getResource(), 'small') }}" alt="" /></div>
-	{% endif %}
-	<p>
-		<span class="created-date">Posté {{ date_from_now(feed.getDate(), false, true) }}</span>
-		<span class="comments-count pull-right">
-			<img src="{{ asset('/medias/images/icons/comment.png') }}" alt="" />
-			{% if feed.getNbComments() == 0 %}
-				Aucun
-			{% else %}
-				{{ feed.getNbComments() }}
+{% trans_default_domain "PROFILE" %}
+{% if not loop.first %}
+	<md-divider></md-divider>
+{% endif %}
+
+{# TODO: status color #}
+<md-list-item class="md-3-line" href="{{ path('profile_manager_feed_visualisation', {'feedId': feed.getId()}) }}">
+		<div class="md-list-item-text">
+			{% if feed.getProfileFeedStatus().getResource() != null %}
+			<div class="text-center">
+				<img src="{{ getResourceImageUrl(feed.getProfileFeedStatus().getResource(), 'medium') }}" alt="" />
+			</div>
 			{% endif %}
-			 commentaire{% if  feed.getNbComments() > 1 %}s{% endif %}</span>
-	</p>
-
-		<p>{{ feed.getProfileFeedStatus().getContent() }}</p>
-
-	<div class="clearfix"></div>
-</div>
+			<div class="md-body-1 status-content">{{ feed.getProfileFeedStatus().getContent()|purify }}</div>
+			<p class="md-body-1 text-muted">
+				{{ 'POST_AT'|trans({'%datePost%': date_from_now(feed.getDate(), false, true, 'medium', 'short', false, true)}) |desc('Posté %datePost%') |raw }}
+			</p>
+		</div>
+</md-list-item>

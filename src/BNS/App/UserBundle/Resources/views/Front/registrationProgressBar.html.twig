@@ -1,0 +1,23 @@
+{% trans_default_domain "USER" %}
+
+{% set steps = [
+  'TITLE_ABOUT_YOURSELF'|trans,
+  'TITLE_YOUR_CLASSROOM'|trans,
+  'TITLE_YOUR_SCHOOL'|trans,
+  'TITLE_YOUR_PUPILS'|trans,
+] %}
+{% set step = step|default(1) %}
+
+<div class="layout-row layout-align-start-center registration-progress-toolbar md-headline">
+  {% for stepName in steps %}
+    {% set done = loop.index < step %}
+    {% set current = loop.index == step %}
+    {% set next = loop.index > step %}
+
+    <span class="layout-row text-{{ done?'accent':'primary' }}{{ next?'-hue-3' }} {{ not current ? 'hide-sm' }}">
+      <md-icon>check_box{{ not done?'_outline_blank' }}</md-icon>
+      {{ stepName }}
+    </span>
+    {% if not loop.last %}<md-icon class="hide-sm">chevron_right</md-icon>{% endif %}
+  {% endfor %}
+</div>

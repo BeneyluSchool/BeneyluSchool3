@@ -1,0 +1,160 @@
+{% trans_default_domain "SCHOOL" %}
+{% extends 'BNSAppSchoolBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+    {{ 'TITLE_SCHOOL_USER_CARD'|trans({'%userFullName%': user.getFullName()}) |desc('École - Fiche de %userFullName%') }}
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script type="text/javascript">
+    $(function ()
+    {
+      $('#generate-fiche-teacher .generate-button').click(function ()
+      {
+        $('#generate-fiche-teacher .loader').fadeIn('fast');
+        setTimeout(function ()
+        {
+          $('#generate-fiche-teacher').modal('hide');
+          $('#generate-fiche-teacher .loader').css('display', 'none');
+        }, 10000);
+      });
+    });
+  </script>
+{% endblock %}
+
+{% block header %}
+  <div class="header-buttons header-classroom-details">
+    <div class="inner-header">
+      <div class="container container-fluid">
+        <div class="row-fluid">
+          <div class="span12">
+            <a href="{{ returnLink }}" class="btn bns-notice btn-24 medium-return spacer">
+              <span class="icons-24 back-icon"></span>
+              {{ 'LINK_BACK_TO_LIST'|trans |raw }}
+
+            </a>
+            <a href="{{ path('BNSAppSchoolBundle_back_user_sheet_edit', {'userSlug': user.getSlug()}) }}" class="btn bns-info btn-24 medium-return spacer">
+              <span class="icons-24 edit-icon"></span>
+                {{ 'LINK_EDIT_PROFIL'|trans |raw }}
+
+            </a>
+                        {% if isTeacher or isDirector %}
+            {% if not isReferent and not is_child(user) and isValidated %}
+              <a href="#" class="btn bns-warning btn-24 medium-return" data-toggle="modal" data-target="#promote-user-modal">
+                <span class="icons-24 add-icon"></span>
+
+                  {{ 'LINK_PROMOTE_REFERAL'|trans |raw }}
+
+              </a>
+            {% elseif not is_child(user) and isValidated  %}
+              <a href="#" class="btn bns-danger btn-24 medium-return" data-toggle="modal" data-target="#revoke-user-modal">
+                <span class="icons-24 delete-icon"></span>
+                  {{ 'LINK_REVOKE_REFERAL'|trans |raw }}
+
+
+              </a>
+            {% endif %}
+                        {% endif %}
+            {% if not isDirector and has_right('SCHOOL_CREATE_TEACHER') %}
+              <a href="#" class="btn bns-danger btn-24 medium-return btn-delete-pupil" data-toggle="modal" data-target="#delete-user-modal">
+                <span class="icons-24 delete-icon"></span>
+                  {{ 'LINK_DELETE_USER'|trans |raw }}
+
+
+              </a>
+            {% endif %}
+
+              <div class="btn-group">
+                <a href="#" class="btn bns-warning btn-24 medium-return dropdown-toggle generate-details" data-toggle="modal" data-target="#generate-fiche-teacher">
+                  <span class="icons-24 generate-icon"></span>
+                    {{ 'BUTTON_GENERATE_NEW_CARD'|trans |desc('<strong>Générer une</strong><br /> nouvelle fiche')|raw }}
+                  </span>
+                </a>
+              </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block sidebar %}
+  {% include "BNSAppSchoolBundle:Sidebar:sidebar.html.twig" with {"page" : "user_sheet" } %}
+{% endblock sidebar %}
+
+{% block content %}
+    {% if has_role_in_group(user, 'PUPIL') %}
+    {# Modal to generate child card #}
+    {{ modal('generate-fiche-teacher', {
+      'title': 'TITLE_GENERATE_NOTE_FOR_CHILD'|trans,
+
+      'body_template': {'template': 'BNSAppSchoolBundle:Modal:generateFicheTeacherBody.html.twig', 'values': {
+        'user': user,
+      }},
+      'type': 'success',
+      'footer_template': {'template': 'BNSAppSchoolBundle:Modal:generateFicheTeacherFooter.html.twig', 'values': {
+        'user' : user
+      }}
+    }) }}
+    {% else %}
+      {# Modal to generate tearcher card #}
+      {{ modal('generate-fiche-teacher', {
+        'title': 'TITLE_GENERATE_NOTE_FOR_TEACHER'|trans,
+
+        'body_template': {'template': 'BNSAppSchoolBundle:Modal:generateFicheTeacherBody.html.twig', 'values': {
+          'user': user,
+        }},
+        'type': 'success',
+        'footer_template': {'template': 'BNSAppSchoolBundle:Modal:generateFicheTeacherFooter.html.twig', 'values': {
+          'user' : user
+        }}
+      }) }}
+    {% endif %}
+
+
+  {# Modal de suppression d'un utilisteur #}
+  {{ modal('delete-user-modal', {
+    'title': "LINK_MODAL_DELETE_USER"|trans,
+
+    'body_template': {'template': 'BNSAppSchoolBundle:Modal:deleteUserBody.html.twig', 'values': {
+      'user': user,
+    } },
+    'type': 'error',
+    'footer_template': {'template': 'BNSAppSchoolBundle:Modal:deleteUserFooter.html.twig', 'values': {
+      'user': user
+    } }
+  }) }}
+
+  {# Modal de promotion référent ENT #}
+  {{ modal('promote-user-modal', {
+    'title': "LINK_MODAL_PROMOTE_REFERAL"|trans,
+
+    'body_template': {'template': 'BNSAppSchoolBundle:Modal:promoteUserBody.html.twig', 'values': {
+      'user': user,
+    } },
+    'type': 'success',
+    'footer_template': {'template': 'BNSAppSchoolBundle:Modal:promoteUserFooter.html.twig', 'values': {
+      'user': user
+    } }
+  }) }}
+
+  {# Modal de promotion référent ENT #}
+  {{ modal('revoke-user-modal', {
+    'title': "LINK_MODAL_REVOKE_REFERAL"|trans,
+
+    'body_template': {'template': 'BNSAppSchoolBundle:Modal:revokeUserBody.html.twig', 'values': {
+      'user': user,
+    } },
+    'type': 'error',
+    'footer_template': {'template': 'BNSAppSchoolBundle:Modal:revokeUserFooter.html.twig', 'values': {
+      'user': user
+    } }
+  }) }}
+
+  <div class="container-classroom">
+    {% include "BNSAppSchoolBundle:Back:userSheetPersonnalInformations.html.twig" with {"user" : user } %}
+  </div>
+{% endblock %}

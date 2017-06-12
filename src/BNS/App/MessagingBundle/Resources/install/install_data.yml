@@ -1,0 +1,220 @@
+module:
+  unique_name: MESSAGING
+  is_contextable: false
+  name:
+    fr: Messagerie
+    en: Messaging
+  description:
+    fr: Communiquer avec ses correspondants
+    en: English messaging
+  default_rank:
+    pupil: USE_CHILD
+    parent: USE_PARENT
+    teacher: MANAGE
+    other: USE_ADULT
+  default_rank_beta:
+    CLASSROOM:
+      teacher: MANAGE_BETA
+      pupil: USE_CHILD_BETA
+      parent: USE_PARENT_BETA
+
+permissions:
+  ACCESS:
+    label:
+      fr: Voir messagerie
+      en: Messaging access
+    description:
+      fr: Donne accès à la messagerie
+      en:
+
+  ACCESS_BACK:
+    label:
+      fr: Gérer messagerie
+      en: Messages management
+    description:
+      fr: Donne accès à la modération de la messagerie
+      en:
+
+  NO_GROUP_MODERATION:
+    label:
+      fr: Pas de modération interne
+      en: No moderation for sending emails in his classroom
+    description:
+      fr: Pas de modération pour l'envoi de messages dans son groupe
+      en:
+
+  NO_EXTERNAL_MODERATION:
+    label:
+      fr: Pas de modération externe
+      en: No moderation for sending externals emails
+    description:
+      fr: Pas de modération pour l'envoi de messages à l'extérieur de son groupe
+      en:
+
+  SEND_PARENTS:
+    label:
+      fr: Envoyer aux parents
+      en: Send messages to parents group
+    description:
+      fr: Peut envoyer des messages aux parents du groupe
+      en:
+
+  SEND_PUPILS:
+    label:
+      fr: Envoyer aux élèves
+      en: Send message to pupils group
+    description:
+      fr:
+      en:
+
+  SEND_TEACHERS:
+    label:
+      fr: Envoyer aux enseignants
+      en: Send message to teachers group
+    description:
+      fr: Peut envoyer des messages aux enseignants du groupe
+      en:
+
+  SEND_ALL:
+    label:
+      fr: Envoyer tous
+      en: Send message to all group members
+    description:
+      fr: Peut envoyer des messages à tous les membres du groupe
+      en:
+
+  SEND_CHILD:
+    label:
+      fr: Envoyer son enfant
+      en: Send messages to his childs
+    description:
+      fr: Peut envoyer des messages à ses enfants de ce groupe
+      en:
+
+  SEND_PARENT:
+    label:
+      fr: Envoyer son parent
+      en: Send messages to his childs
+    description:
+      fr: Peut envoyer des messages à ses parents de ce groupe
+      en:
+
+  ACTIVATION:
+    label:
+      fr: Activer messagerie
+      en: Can activate / deasctivate the messaging
+    description:
+      fr: Peut activer ou désactiver la messagerie
+      en:
+
+  ACTIVATION_PARTNERSHIP:
+    label:
+      fr: Activer messagerie dans le partenariat
+      en: Can activate / deasctivate the messaging in partnership
+    description:
+      fr: Peut activer ou désactiver la messagerie dans le partenariat
+      en:
+
+ranks:
+  USE:
+    label:
+      fr: Utiliser la messagerie
+      en: Use the messaging
+    description:
+      fr:
+      en:
+    permissions: [ACCESS]
+
+  USE_CHILD:
+    label:
+      fr: Utiliser la messagerie pour les enfants
+      en: Use the messaging for children
+    description:
+      fr:
+      en:
+    permissions: [ACCESS, SEND_TEACHERS, SEND_PARENT, SEND_PUPILS]
+
+  USE_ADULT:
+    label:
+      fr: Utiliser la messagerie pour les adultes
+      en: Use the messaging for adults
+    description:
+      fr:
+      en:
+    permissions: [ACCESS, ACCESS_BACK, SEND_ALL]
+
+  USE_PARENT:
+    label:
+      fr: Utiliser la messagerie pour les parents
+      en: Use the messaging for parents
+    description:
+      fr:
+      en:
+    permissions: [ACCESS, SEND_CHILD, SEND_TEACHERS]
+
+  SEND_EXTERNAL:
+    label:
+      fr: Envoyer des messages à l'extérieur sans modération
+      en: Send external messages without moderation
+    description:
+      fr:
+      en:
+    permissions: [NO_EXTERNAL_MODERATION]
+
+  SEND_INTERNAL:
+    label:
+      fr: Envoyer des messages à l'intérieur sans modération
+      en: Send internal messages without moderation
+    description:
+      fr:
+      en:
+    permissions: [NO_GROUP_MODERATION]
+
+  USE_NO_MODERATION:
+    label:
+      fr: Utiliser la messagerie
+      en: Use the messaging
+    description:
+      fr:
+      en:
+    permissions: [ACCESS, NO_GROUP_MODERATION, NO_EXTERNAL_MODERATION]
+
+  MANAGE:
+    label:
+      fr: Modérer la messagerie
+      en: Manage the messaging
+    description:
+      fr:
+      en:
+    permissions: [ACCESS, ACCESS_BACK, SEND_ALL, ACTIVATION]
+
+  MANAGE_PARTNERSHIP:
+    label:
+      fr: Modérer la messagerie dans partenariat
+      en: Manage the messaging in partnership
+    description:
+      fr:
+      en:
+    permissions: [ACTIVATION_PARTNERSHIP]
+
+  ACTIVATION_TEAM:
+    label:
+      fr: Modérer la messagerie dans le groupe de travail
+      en: Manage the messaging in team
+    description:
+      fr:
+      en:
+    permissions: [ACTIVATION]
+
+notification_types:
+  MESSAGING_NEW_MESSAGE_RECEIVED: { }
+  MESSAGING_NEW_ANSWER_RECEIVED: { }
+  MESSAGING_MESSAGE_PENDING_MODERATION: { }
+
+markers:
+  MESSAGING_SEND_MESSAGE:
+    description: Envoi d'un message sur la messagerie
+  MESSAGING_MODERATE_MESSAGE:
+    description: Modération d'un message sur la messagerie
+  MESSAGING_VISIT:
+    description: Visite sur la messagerie

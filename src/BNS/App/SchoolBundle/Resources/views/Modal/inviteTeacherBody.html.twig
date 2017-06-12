@@ -1,0 +1,32 @@
+{% trans_default_domain "SCHOOL" %}
+<div id="add-classroom-modal" class="modal-body">
+    <div class="loader loader-sb hide">
+        <div class="message ">
+          {% trans %}LOADING_PLEASE_WAIT{% endtrans %}
+        </div>
+    </div>
+    <div class="content-modal-body">
+        <h2>{% trans %}TITLE_ENTER_TEACHER_USERNAME{% endtrans %}</h2>
+        <h3>{% trans %}TITLE_TEACHER_WILL_RECEIVE_INVITATION_TO_CONFIRM{% endtrans %}</h3>
+        <div id="invite-teacher-form-error" class="hide">
+            <div class="row-fluid notice-message">
+                <div class="alert bns-alert alert-error">
+                    <span class="alert-text"></span>
+                    <div class="jim"></div>
+                </div>
+            </div>
+        </div>
+        <div id="invite-teacher-form-success" class="hide">
+            <div class="row-fluid notice-message">
+                <div class="alert bns-alert alert-success">
+                    {% trans %}CONFIRM_TEACHER_INVITED{% endtrans %}
+                    <div class="jim"></div>
+                </div>
+            </div>
+        </div>
+        <p>
+            <input id="invite-teacher-username" type="text" name="username" value="" placeholder="{{"PLACEHOLDER_TEACHER_USERNAME"|trans}}" style="border-radius: 3px" />
+        </p>
+    </div>
+</div>
+<div class="beneylu-jim"></div>

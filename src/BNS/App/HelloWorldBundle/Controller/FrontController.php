@@ -67,7 +67,7 @@ class FrontController extends Controller
 		/*
 		 * Pour les Flash : notice, notice_warning, notice_success, notice_error
 		 */
-		$this->get('session')->setFlash('notice',"Front.Index.notice.email_sent");
+		$this->get('session')->getFlashBag()->add('notice',"Front.Index.notice.email_sent");
 
 		return $this->redirect($this->generateUrl('BNSAppHelloWorldBundle_front'));
 		
@@ -83,7 +83,7 @@ class FrontController extends Controller
 		
 		$this->get('bns.right_manager')->setLocale($culture);
 		
-		$this->get('session')->setFlash('notice',"Front.Index.notice.update_done");
+		$this->get('session')->getFlashBag()->add('notice',"Front.Index.notice.update_done");
 		
 		return $this->redirect($this->generateUrl('BNSAppHelloWorldBundle_front'));
 		

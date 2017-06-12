@@ -6,7 +6,7 @@ use BNS\App\ReservationBundle\Model\om\BaseReservationEvent;
 
 use BNS\App\CoreBundle\Access\BNSAccess;
 use Symfony\Component\Process\Exception\RuntimeException;
-use BNS\App\CoreBundle\Utils\String;
+use BNS\App\CoreBundle\Utils\StringUtil;
 
 class ReservationEvent extends BaseReservationEvent
 {
@@ -44,7 +44,7 @@ class ReservationEvent extends BaseReservationEvent
      */
     public function getShortDescription()
     {
-        return String::substrws($this->getDescription());
+        return StringUtil::substrws($this->getDescription());
     }
 
     /**

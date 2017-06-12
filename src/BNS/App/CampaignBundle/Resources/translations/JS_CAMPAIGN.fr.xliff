@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-05-23T16:54:56Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="eb356764ea32a9a93c37dae6b062f3488223a80f" resname="AVAILABLE_CREDIT">
+        <source>AVAILABLE_CREDIT</source>
+        <target>{COUNT, plural, 0{Aucun crédit disponible} 1{1 crédit disponible} other{# crédits disponibles}}</target>
+      </trans-unit>
+      <trans-unit id="e31ee81cafca376c2bc5317eed312cab3a124bf6" resname="BUTTON_BACK">
+        <source>BUTTON_BACK</source>
+        <target>Revenir</target>
+      </trans-unit>
+      <trans-unit id="20dcb001a684d816442623a8cfdc2f4859f65d63" resname="BUTTON_CANCEL">
+        <source>BUTTON_CANCEL</source>
+        <target>Annuler</target>
+      </trans-unit>
+      <trans-unit id="d993dcffcadd2385009f3b21f397b6388bc7a09b" resname="BUTTON_DELETE">
+        <source>BUTTON_DELETE</source>
+        <target>Supprimer | la campagne</target>
+      </trans-unit>
+      <trans-unit id="2f7be811b85306ab1bb1a7e79efc5d22004dca9a" resname="BUTTON_DELETE_CAMPAIGNS">
+        <source>BUTTON_DELETE_CAMPAIGNS</source>
+        <target>Supprimer les campagnes</target>
+      </trans-unit>
+      <trans-unit id="d4723561b632a5f5cdd57f0b7b329d508c8bdbee" resname="BUTTON_SAVE_INFORMATIONS">
+        <source>BUTTON_SAVE_INFORMATIONS</source>
+        <target>Enregistrer les informations</target>
+      </trans-unit>
+      <trans-unit id="d53c449fdc3da903ab2fc11453cd28970801e10a" resname="BUTTON_SCHEDULE">
+        <source>BUTTON_SCHEDULE</source>
+        <target>Programmer la campagne</target>
+      </trans-unit>
+      <trans-unit id="2f6d9b0bfe4882253bb3dceccb824ab9f91bbf0d" resname="BUTTON_SEND">
+        <source>BUTTON_SEND</source>
+        <target>Envoyer la campagne</target>
+      </trans-unit>
+      <trans-unit id="7300180779a80d90e321ef1d92687220c3711c72" resname="BUTTON_TOGGLE_MESSAGING">
+        <source>BUTTON_TOGGLE_MESSAGING</source>
+        <target>Activer la messagerie</target>
+      </trans-unit>
+      <trans-unit id="f68070d49c1574131aabf21de254d4581ddf41b7" resname="CAMPAIGNS_LIST">
+        <source>CAMPAIGNS_LIST</source>
+        <target>Liste des campagnes</target>
+      </trans-unit>
+      <trans-unit id="2c4db49c7fd37680260c961b3cf05e814fec4191" resname="CAMPAIGNS_STATUS">
+        <source>CAMPAIGNS_STATUS</source>
+        <target>Statuts</target>
+      </trans-unit>
+      <trans-unit id="9c7204e4fe4e88b991c075c0107327ea3a056048" resname="CAMPAIGNS_STATUS_DRAFT">
+        <source>CAMPAIGNS_STATUS_DRAFT</source>
+        <target>Brouillons</target>
+      </trans-unit>
+      <trans-unit id="50c6680e9a73d7fcf3bac1547aadf250abd47a70" resname="CAMPAIGNS_STATUS_PENDING">
+        <source>CAMPAIGNS_STATUS_PENDING</source>
+        <target>En cours</target>
+      </trans-unit>
+      <trans-unit id="9697ec4e9c3b1fc78ec09bd3330fecd25dce2ce5" resname="CAMPAIGNS_STATUS_SCHEDULED">
+        <source>CAMPAIGNS_STATUS_SCHEDULED</source>
+        <target>Programmées</target>
+      </trans-unit>
+      <trans-unit id="4a610268d918a88c12ae477a8061069ce7e71241" resname="CAMPAIGNS_STATUS_SENT">
+        <source>CAMPAIGNS_STATUS_SENT</source>
+        <target>Envoyées</target>
+      </trans-unit>
+      <trans-unit id="88fdd5db908c6e1994b863c97a7a82aa4156832a" resname="CAMPAIGNS_STATUS_WAITING">
+        <source>CAMPAIGNS_STATUS_WAITING</source>
+        <target>En attente</target>
+      </trans-unit>
+      <trans-unit id="35613e44fb8cc5c9e5a91fc7094364b7187f9994" resname="CAMPAIGN_STATUS">
+        <source>CAMPAIGN_STATUS</source>
+        <target>Statut de la campagne</target>
+      </trans-unit>
+      <trans-unit id="c5b35fda0cc0d9b7c93c2aed11f00ecf2aae7dfa" resname="CAMPAIGN_STATUS_DRAFT">
+        <source>CAMPAIGN_STATUS_DRAFT</source>
+        <target>Brouillon</target>
+      </trans-unit>
+      <trans-unit id="19f3d4e792659f146e7bfc969178119b321c56f0" resname="CAMPAIGN_STATUS_PENDING">
+        <source>CAMPAIGN_STATUS_PENDING</source>
+        <target>En cours</target>
+      </trans-unit>
+      <trans-unit id="24779c70e2335b93188d09f585a10cd7e0ab12f9" resname="CAMPAIGN_STATUS_SCHEDULED">
+        <source>CAMPAIGN_STATUS_SCHEDULED</source>
+        <target>Programmée</target>
+      </trans-unit>
+      <trans-unit id="b4ff937d373884638d37f1e538f671c6f34d47c4" resname="CAMPAIGN_STATUS_SENT">
+        <source>CAMPAIGN_STATUS_SENT</source>
+        <target>Envoyée</target>
+      </trans-unit>
+      <trans-unit id="21d505167eb6f9900d254894a9a703ab53675dcd" resname="CAMPAIGN_STATUS_WAITING">
+        <source>CAMPAIGN_STATUS_WAITING</source>
+        <target>En attente</target>
+      </trans-unit>
+      <trans-unit id="809736c896537bc10229333c729f30d293ea3dd6" resname="CAMPAIGN_TYPE">
+        <source>CAMPAIGN_TYPE</source>
+        <target>Type de la campagne</target>
+      </trans-unit>
+      <trans-unit id="7fbf5e3d75d897e733280d519bb07eec336ad728" resname="CAMPAIGN_TYPES">
+        <source>CAMPAIGN_TYPES</source>
+        <target>Types de campagnes</target>
+      </trans-unit>
+      <trans-unit id="b003bfc2329f38f28c6dce6505d6b7007510ed30" resname="CAMPAIGN_TYPE_EMAIL">
+        <source>CAMPAIGN_TYPE_EMAIL</source>
+        <target>Email</target>
+      </trans-unit>
+      <trans-unit id="a1e67c1350f29f29114d0d0d1c0a8b6a0a153c40" resname="CAMPAIGN_TYPE_MESSAGING">
+        <source>CAMPAIGN_TYPE_MESSAGING</source>
+        <target>Messagerie</target>
+      </trans-unit>
+      <trans-unit id="9020e79a0ee887cc603d50d13a4b890188a430e2" resname="CAMPAIGN_TYPE_SMS">
+        <source>CAMPAIGN_TYPE_SMS</source>
+        <target>SMS</target>
+      </trans-unit>
+      <trans-unit id="1e5374cadeb243348de35de5789f3f4f640668af" resname="CHARACTER_COUNT">
+        <source>CHARACTER_COUNT</source>
+        <target>{{ nb }}/{{ nbTotal }} caractères - message {{ nbMsg }}/{{ nbMsgTotal }}</target>
+        <note><![CDATA[{{ nb }} is a placeholder
+{{ nbTotal }} is a placeholder
+{{ nbMsg }} is a placeholder
+{{ nbMsgTotal }} is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="aecf0292da85cb2048d8b648567127d024d4074f" resname="COPY">
+        <source>COPY</source>
+        <target>Copier | la campagne</target>
+      </trans-unit>
+      <trans-unit id="d0d35eedb92afa830d2bcebc2d1df3cac176bea9" resname="COPY_ERROR">
+        <source>COPY_ERROR</source>
+        <target state="new">Erreur lors de la copie de la campagne</target>
+      </trans-unit>
+      <trans-unit id="fd65e29cad763388edcbb49f5eb9b862e398ac21" resname="COPY_SUCCESS">
+        <source>COPY_SUCCESS</source>
+        <target state="new">Campagne copiée avec succes</target>
+      </trans-unit>
+      <trans-unit id="32fd19da45facec00ef17a12d320a38edeaf1a25" resname="CREATED_AT">
+        <source>CREATED_AT</source>
+        <target>Créé le {{ date }}</target>
+        <note><![CDATA[{{ date }} is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="6a8dc7ead13646b699d85c3a5a1e0588e7ab6173" resname="CREATE_ERROR">
+        <source>CREATE_ERROR</source>
+        <target>Erreur lors de la création de la campagne</target>
+      </trans-unit>
+      <trans-unit id="338f52baadf832c435e6693a6b1e770c010b5681" resname="CREDITS">
+        <source>CREDITS</source>
+        <target>{COUNT, plural, 0{Aucun crédit} 1{1 crédit} other{# crédits}}</target>
+        <note><![CDATA[{{ credit }} is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="0191dbc577439a99555bf4c553ba40dd1c65ded9" resname="DELETE_RECIPIENT_ERROR">
+        <source>DELETE_RECIPIENT_ERROR</source>
+        <target>Erreur lors de la suppression du destinataire</target>
+      </trans-unit>
+      <trans-unit id="f16dd044135bd389ff745576f17fea8690e3671e" resname="DELETE_RECIPIENT_GROUP_ERROR">
+        <source>DELETE_RECIPIENT_GROUP_ERROR</source>
+        <target>La suppression du groupe de destinataire n'a pas fonctionée</target>
+      </trans-unit>
+      <trans-unit id="6c1f00e2183489f84fec211a200ecce9946fc20e" resname="DESCRIPTION_CLOSED_MESSAGING_GROUP">
+        <source>DESCRIPTION_CLOSED_MESSAGING_GROUP</source>
+        <target><![CDATA[La messagerie est fermée pour les groupes suivants.<br> Il ne pourront pas recevoir ce message.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="1e31240b832e5c532d207089d57f5a9f304c33f5" resname="DESCRIPTION_CLOSED_MESSAGING_ROLES">
+        <source>DESCRIPTION_CLOSED_MESSAGING_ROLES</source>
+        <target><![CDATA[La messagerie est fermée pour les rôles suivants.<br> Il ne pourront pas recevoir ce message.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="f961de282f01a995ed19dcdf5fee0896cc8fc2a5" resname="DESCRIPTION_CONFIRM_DELETE">
+        <source>DESCRIPTION_CONFIRM_DELETE</source>
+        <target>La suppression de campagne est définitive.</target>
+      </trans-unit>
+      <trans-unit id="5a762863f3b2f0d8db3c27c1ddd3fbe19e846c0c" resname="DESCRIPTION_CONFIRM_SCHEDULE">
+        <source>DESCRIPTION_CONFIRM_SCHEDULE</source>
+        <target>L'envoi est programmé pour le {{date}} à {{time}}</target>
+      </trans-unit>
+      <trans-unit id="4e0810f6b0eecae2de8636e7a16d613c55ed6cf5" resname="DESCRIPTION_CONFIRM_SENT">
+        <source>DESCRIPTION_CONFIRM_SENT</source>
+        <target>L'envoi est immédiat et définitif.</target>
+      </trans-unit>
+      <trans-unit id="40a07e39a9a7ec7af185367edcfa3bf2136d2364" resname="DESCRIPTION_NO_CAMPAIGN">
+        <source>DESCRIPTION_NO_CAMPAIGN</source>
+        <target>Vous n'avez aucune campagne</target>
+      </trans-unit>
+      <trans-unit id="e479cb10f59f501de8882deb88db71d85224b585" resname="DESCRIPTION_NO_CAMPAIGN_FILTER">
+        <source>DESCRIPTION_NO_CAMPAIGN_FILTER</source>
+        <target>Il n'y a pas de campagne correspondant à vos filtres</target>
+      </trans-unit>
+      <trans-unit id="1fd8feec71414b211336b7a35b38feacf3e24908" resname="DESCRIPTION_NO_CAMPAIGN_SEARCH">
+        <source>DESCRIPTION_NO_CAMPAIGN_SEARCH</source>
+        <target>Il n'y a pas de campagne correspondant à votre recherche</target>
+      </trans-unit>
+      <trans-unit id="6bfd8bbc4e60336efcf75826a49e8d620887e9bc" resname="DESCRIPTION_NO_MESSAGE">
+        <source>DESCRIPTION_NO_MESSAGE</source>
+        <target>Aucun message</target>
+      </trans-unit>
+      <trans-unit id="17865bdb9110d432d4f2295eb32ab17883d404dc" resname="EDIT">
+        <source>EDIT</source>
+        <target>Editer | la campagne</target>
+      </trans-unit>
+      <trans-unit id="3ed9a3c55c49997a6175ff4a99240c7d3bee0fba" resname="EDIT_USER">
+        <source>EDIT_USER</source>
+        <target>Editer la fiche de {{ name }}</target>
+        <note><![CDATA[{{ name }} is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="657bd13783b702d880ab87ee0f3a84a2b5b310c5" resname="EDIT_USERS_INFORMATION">
+        <source>EDIT_USERS_INFORMATION</source>
+        <target>Editer les informations des destinataires</target>
+      </trans-unit>
+      <trans-unit id="4fd0bdfe564edafe797fb658c2b1148d28db98b6" resname="FORM_ERROR">
+        <source>FORM_ERROR</source>
+        <target>Erreur lors de la validation du formulaire</target>
+      </trans-unit>
+      <trans-unit id="a371016a82e3be5c0751cc5e0404327a977c3a32" resname="GET_CREDIT_ERROR">
+        <source>GET_CREDIT_ERROR</source>
+        <target>Vos crédit n'a pas pu être récupéré.</target>
+      </trans-unit>
+      <trans-unit id="f0ee410ebb78b3a2dbb5797f192569c44fef2dae" resname="GET_LOG_ERROR">
+        <source>GET_LOG_ERROR</source>
+        <target>La campagne n'a pas pu être chargée</target>
+      </trans-unit>
+      <trans-unit id="89bd92696cb7f153c2fcf6edceaea3298f9ba4ae" resname="GET_NEW_RECIPIENT_ERROR">
+        <source>GET_NEW_RECIPIENT_ERROR</source>
+        <target>L'utilisateur n'a pas pu être ajouté</target>
+      </trans-unit>
+      <trans-unit id="bb1d0cef04a70450552f9f6defb18ef9402476a0" resname="GET_NEW_RECIPIENT_GROUP_ERROR">
+        <source>GET_NEW_RECIPIENT_GROUP_ERROR</source>
+        <target>Le groupe de destinataire n'a pas pu être ajouté</target>
+      </trans-unit>
+      <trans-unit id="3976d06cb8a032cbf55b8e63923f12f02fb07f00" resname="LABEL_MESSAGE">
+        <source>LABEL_MESSAGE</source>
+        <target>Message de la campagne</target>
+      </trans-unit>
+      <trans-unit id="ecd74add7e1b6c7b8fb65cbe4c1774fcb6743bc2" resname="LIST_EDIT">
+        <source>LIST_EDIT</source>
+        <target>Editer les destinaires</target>
+      </trans-unit>
+      <trans-unit id="676b77aed6e9c42d3d90e3d2af14c24157010942" resname="MY_CREDITS">
+        <source>MY_CREDITS</source>
+        <target>Mes crédits SMS</target>
+      </trans-unit>
+      <trans-unit id="dcfcc4782f06290f9229a9533a5ce6dc33b70418" resname="NB_CREDITS_COST">
+        <source>NB_CREDITS_COST</source>
+        <target>{COUNT, plural, 1{Il vous coûtera 1 crédit} other{Il vous coûtera # crédits}}</target>
+      </trans-unit>
+      <trans-unit id="2c4967e2172dfad4cd5c51cf5ed71b85a98a0800" resname="NB_MESSAGES">
+        <source>NB_MESSAGES</source>
+        <target>{COUNT, plural, 1{Il vaut l'équivalent de 1 message} other{Il vaut l'équivalent de # messages}}</target>
+      </trans-unit>
+      <trans-unit id="8b4dd23df0fce1dd61f2c67d6dd9942f44cbed7b" resname="NB_RECIPIENT_TITLE">
+        <source>NB_RECIPIENT_TITLE</source>
+        <target>{COUNT, plural, 0{Aucun destinataire} 1{1 destinataire} other{# destinataires}}</target>
+      </trans-unit>
+      <trans-unit id="394f317fbbd9e2ab2f50837ac35b35b6cfb87d2f" resname="NB_VALID_RECIPIENT_TITLE">
+        <source>NB_RECIPIENT_TITLE</source>
+        <target>{COUNT, plural, 0{Aucun destinataire valide} 1{1 destinataire valide} other{# destinataires valides}}</target>
+      </trans-unit>
+      <trans-unit id="bd6827bcb13a18814a5ae47dd51c79ad1bdc533f" resname="NO_CREDIT_RELOAD">
+        <source>NO_CREDIT_RELOAD</source>
+        <target>Recharger mes crédits</target>
+      </trans-unit>
+      <trans-unit id="800748acd2c9b23a4e600e3c514f5e7c08c56507" resname="PLACEHOLDER_ADD_RECIPIENTS">
+        <source>PLACEHOLDER_ADD_RECIPIENTS</source>
+        <target>Ajouter des destinataires</target>
+      </trans-unit>
+      <trans-unit id="6e22a2b699de17b8b68df6b00e25bc0b68a42b9f" resname="PLACEHOLDER_ENTER_SEARCH">
+        <source>PLACEHOLDER_ENTER_SEARCH</source>
+        <target>Rechercher une campagne</target>
+      </trans-unit>
+      <trans-unit id="5744a5dc045090f6e7ed07bd019a64196c3afa18" resname="PLACEHOLDER_MESSAGE">
+        <source>PLACEHOLDER_MESSAGE</source>
+        <target>Rédigez mon message</target>
+      </trans-unit>
+      <trans-unit id="6c309f6090bed5f75f889a0289d723a0159b3450" resname="PLACEHOLDER_NAME">
+        <source>PLACEHOLDER_NAME</source>
+        <target>Le nom de la campagne</target>
+      </trans-unit>
+      <trans-unit id="258023dfd7091d1aad12c56429904ae6f04044bc" resname="PLACEHOLDER_TITLE">
+        <source>PLACEHOLDER_TITLE</source>
+        <target>L'objet de la campagne</target>
+      </trans-unit>
+      <trans-unit id="dce8917eacd23f0bcdc236854f960fd2af3fcb4f" resname="RENEW_MY_CREDITS">
+        <source>RENEW_MY_CREDITS</source>
+        <target>Renouveler mes crédits</target>
+      </trans-unit>
+      <trans-unit id="bf042ca5f46f0971aae8be608d4b82ebdd853815" resname="ROLE_ADMIN">
+        <source>ROLE_ADMIN</source>
+        <target>Administrateurs</target>
+      </trans-unit>
+      <trans-unit id="7929537a4be9ab7d1dbc140bf21b9647a8873e0a" resname="ROLE_ASSISTANT">
+        <source>ROLE_ASSISTANT</source>
+        <target>Assistants</target>
+      </trans-unit>
+      <trans-unit id="35d52c4ccfc6aade9b1d194d729c4c871744313c" resname="ROLE_CITY_REFERENT">
+        <source>ROLE_CITY_REFERENT</source>
+        <target>Référents ville</target>
+      </trans-unit>
+      <trans-unit id="51f0395f7a2455d031ed7990a04c7ba38c8abdf1" resname="ROLE_DIRECTOR">
+        <source>ROLE_DIRECTOR</source>
+        <target>Directeurs</target>
+      </trans-unit>
+      <trans-unit id="2936e2e4d8fcb0c447885324fc23495051c289c9" resname="ROLE_ENT_REFERENT">
+        <source>ROLE_ENT_REFERENT</source>
+        <target>Référents ENT</target>
+      </trans-unit>
+      <trans-unit id="76b200d7334d0c6844f519c84d057dc61a0f6e5e" resname="ROLE_PARENT">
+        <source>ROLE_PARENT</source>
+        <target>Parents</target>
+      </trans-unit>
+      <trans-unit id="3006bb4edc57b52977a543b2d10bdabb26022c43" resname="ROLE_SUPPORT">
+        <source>ROLE_SUPPORT</source>
+        <target>Supports</target>
+      </trans-unit>
+      <trans-unit id="b33c2d7cc9b26ce6e8102a21daf0b209dc18e8d6" resname="ROLE_TEACHER">
+        <source>ROLE_TEACHER</source>
+        <target>Enseignants</target>
+      </trans-unit>
+      <trans-unit id="29fcc3a99f717c7a0ab110317b1da82ab81f19ca" resname="SAVE_AS_DRAFT">
+        <source>SAVE_AS_DRAFT</source>
+        <target>Enregistrer | en brouillon</target>
+      </trans-unit>
+      <trans-unit id="a26a34f8bb0050beff247ff73291a669c155a80e" resname="SAVE_IN_DRAFT_ERROR">
+        <source>SAVE_IN_DRAFT_ERROR</source>
+        <target>Erreur lors de la sauvegarde en tant que brouillon</target>
+      </trans-unit>
+      <trans-unit id="b3471014b48ef4b3069d9842d3b7c603d6f4a157" resname="SAVE_IN_DRAFT_SUCCESS">
+        <source>SAVE_IN_DRAFT_SUCCESS</source>
+        <target>Enregistré dans vos brouillons</target>
+      </trans-unit>
+      <trans-unit id="61e1ca46af09f848e5d4310b161dc6b7f2fbb831" resname="SCHEDULED_AT">
+        <source>SCHEDULED_AT</source>
+        <target state="new">Programmée pour le</target>
+      </trans-unit>
+      <trans-unit id="d059ca2874f023564bbd7c0293d92003cff47f40" resname="SCHEDULED_AT_DATE">
+        <source>SCHEDULED_AT_DATE</source>
+        <target state="new">Date</target>
+      </trans-unit>
+      <trans-unit id="7c2044c9f829d372d1178475f53c04e622b92136" resname="SCHEDULED_AT_TIME">
+        <source>SCHEDULED_AT_TIME</source>
+        <target state="new">Heure</target>
+      </trans-unit>
+      <trans-unit id="33af04e397c43f22584f32dfbda388ecc4efb609" resname="SCHEDULED_FOR">
+        <source>SCHEDULED_FOR</source>
+        <target>Programmée pour le {{ date }}</target>
+        <note><![CDATA[{{ date }} is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="27c1c4ca76c38e37db6872e450e0935d46ecfe0a" resname="SCHEDULE_ERROR">
+        <source>SCHEDULE_ERROR</source>
+        <target>Erreur lors de la programmation de la campagne</target>
+      </trans-unit>
+      <trans-unit id="ba53f1168f19fa7cfded53f02fad5660bd2a7fa3" resname="SCHEDULE_SUCCESS">
+        <source>SCHEDULE_SUCCESS</source>
+        <target>La campagne a été programmée avec succès</target>
+      </trans-unit>
+      <trans-unit id="0b3985930739f7de7252c074f14c7bf20449d456" resname="SEE_CAMPAIGN">
+        <source>SEE_CAMPAIGN</source>
+        <target>Voir la campagne</target>
+      </trans-unit>
+      <trans-unit id="9cb02422c478d2123a72c31768602b630cb98a9a" resname="SENDING_SCHEDULED">
+        <source>SENDING_SCHEDULED</source>
+        <target>Programmer l'envoi</target>
+      </trans-unit>
+      <trans-unit id="79692551beb32d8617c507c21aa3b916b4854c87" resname="SEND_ERROR">
+        <source>SEND_ERROR</source>
+        <target>Erreur lors de l'envoi</target>
+      </trans-unit>
+      <trans-unit id="ae8f055000c876516392800c4a3d1d8d42cc632f" resname="SEND_SUCCESS">
+        <source>SEND_SUCCESS</source>
+        <target>La campagne a été envoyée avec succès</target>
+      </trans-unit>
+      <trans-unit id="dfee30723c02be4303756a04c2cc7c467fcebc5d" resname="SENT_AT">
+        <source>SENT_AT</source>
+        <target>Envoyée le</target>
+      </trans-unit>
+      <trans-unit id="fdbf16bd4772122815dc4aec73b705baf3d8d5b4" resname="SENT_AT_DATE">
+        <source>SENT_AT_DATE</source>
+        <target>Envoyée le {{ date }}</target>
+        <note><![CDATA[{{ date }} is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="ed50ab4b8b5fafb9ae48ae25eee2a63984ce6203" resname="TITLE_CAMPAIGN">
+        <source>TITLE_CAMPAIGN</source>
+        <target>Message Flash</target>
+      </trans-unit>
+      <trans-unit id="041a3e74c51f67c9b76d34bdac235dec6b462468" resname="TITLE_CLOSED_MESSAGING">
+        <source>TITLE_CLOSED_MESSAGING</source>
+        <target>Messagerie fermée</target>
+      </trans-unit>
+      <trans-unit id="70b09385e487345c0062454106ad587e666eb782" resname="TITLE_CONFIRM_DELETE">
+        <source>TITLE_CONFIRM_DELETE</source>
+        <target>Êtes vous certain de vouloir supprimer cette campagne ?</target>
+      </trans-unit>
+      <trans-unit id="5f763eae654590d2515951a32b5ee820ecd68708" resname="TITLE_CONFIRM_SCHEDULE">
+        <source>TITLE_CONFIRM_SCHEDULE</source>
+        <target>Êtes vous certain de vouloir programmer cette campagne ?</target>
+      </trans-unit>
+      <trans-unit id="2adf5563660d20bbabccadcd67eb0ed71a2c19aa" resname="TITLE_CONFIRM_SENT">
+        <source>TITLE_CONFIRM_SENT</source>
+        <target>Êtes vous certain de vouloir envoyer cette campagne ?</target>
+      </trans-unit>
+      <trans-unit id="5ac7a0748102b38ed8d604dbbc0d4e10af5d71ce" resname="TITLE_NEW_EMAIL_CAMPAIGN">
+        <source>TITLE_NEW_EMAIL_CAMPAIGN</source>
+        <target>Nouvelle campagne e-mail</target>
+      </trans-unit>
+      <trans-unit id="17aa6f94a6d690bef19d3c9392fe16581af0baa0" resname="TITLE_NEW_MESSAGING_CAMPAIGN">
+        <source>TITLE_NEW_MESSAGING_CAMPAIGN</source>
+        <target>Nouvelle campagne messagerie</target>
+      </trans-unit>
+      <trans-unit id="a5e33207c5f3d86bd3068b86ecfd5c6c067d2407" resname="TITLE_NEW_SMS_CAMPAIGN">
+        <source>TITLE_NEW_SMS_CAMPAIGN</source>
+        <target>Nouvelle campagne SMS</target>
+      </trans-unit>
+      <trans-unit id="4c2daf75a9128b057d241d717b2f70326f2f61ee" resname="TITLE_NO_TITLE">
+        <source>TITLE_NO_TITLE</source>
+        <target>Aucun titre</target>
+      </trans-unit>
+      <trans-unit id="d4a32d7995d4c1cde2ebe0fb262c2263b96066d2" resname="USER_EMAIL">
+        <source>USER_EMAIL</source>
+        <target>Adresse email</target>
+      </trans-unit>
+      <trans-unit id="9c1fd9f4509816b152167646b13cbba026c88ccb" resname="USER_FIRST_NAME">
+        <source>USER_FIRST_NAME</source>
+        <target>Prénom</target>
+      </trans-unit>
+      <trans-unit id="fb513a5e7d05ce5d5ef6032cd100d6c53a6f7144" resname="USER_LAST_NAME">
+        <source>USER_LAST_NAME</source>
+        <target>Nom</target>
+      </trans-unit>
+      <trans-unit id="cb39d004db72ef3ceee2930a20387e8a633cfc64" resname="USER_PHONE">
+        <source>USER_PHONE</source>
+        <target>Numéro de mobile</target>
+      </trans-unit>
+      <trans-unit id="27ad330619a7bfbee351115b167c5a6593f2530a" resname="WRITE">
+        <source>WRITE</source>
+        <target>Écrire</target>
+      </trans-unit>
+      <trans-unit id="eddcba557bab51054c928fdb3a371932605ff8fd" resname="WRITE_EMAIL">
+        <source>WRITE_EMAIL</source>
+        <target>Écrire un E-mail</target>
+      </trans-unit>
+      <trans-unit id="9c49a8e084e612db50970f01f046d97c8f00d129" resname="WRITE_MESSAGING">
+        <source>WRITE_MESSAGING</source>
+        <target>Écrire un message</target>
+      </trans-unit>
+      <trans-unit id="c880b3932afb7b218da70b9e858118e361319189" resname="WRITE_SMS">
+        <source>WRITE_SMS</source>
+        <target>Écrire un SMS</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

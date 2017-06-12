@@ -1,0 +1,18 @@
+<h3 class="md-headline text-center">Découvre les zones de touche de chaque arme</h3>
+
+<p class="text-center"><strong><i>Clique sur l’arme de ton choix pour découvrir sa zone de touche.</i></strong></p>
+
+<div ng-repeat="weapon in ::ctrl.weapons" class="olympics-fencing-weapon">
+  <div class="layout-row">
+    <div>
+      <div class="olympics-fencing-weapon-image" ng-class="::weapon.code"></div>
+      <md-button md-no-ink ng-click="ctrl.active[weapon.code] = !ctrl.active[weapon.code]" class="md-raised md-accent">
+        {{::weapon.name}}
+      </md-button>
+    </div>
+    <div class="olympics-fencing-dummy" ng-class="[weapon.code, ctrl.active[weapon.code] ? 'zones' : '']"></div>
+  </div>
+  <bns-inset bns-inset-icon="false" class="bns-primary md-padding">
+    <div ng-bind-html="::weapon.description"></div>
+  </bns-inset>
+</div>

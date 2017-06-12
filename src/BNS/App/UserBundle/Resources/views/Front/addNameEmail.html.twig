@@ -1,0 +1,98 @@
+{% trans_default_domain 'USER' %}
+{% extends 'BNSAppUserBundle:Front:layout.html.twig' %}
+
+{% block title %}
+    {{ 'TITLE_BENEYLU_ADD_EMAIL'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')})  |desc('%beneylu_brand_name% - Modifier votre nom et ajouter une adresse email')}}
+{% endblock %}
+
+
+{% block content_title %}
+    <h1>
+        {{ 'TITLE_BENEYLU_CUSTOM_ACCOUNT'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')})  |desc('Personnalisation de votre compte %beneylu_brand_name%')}}
+    </h1>
+{% endblock %}
+
+{% block content %}
+
+    <p>
+        {% trans %}TYPE_YOUR_FIRSTNAME_AND_LASTNAME{% endtrans %}
+    </p>
+
+    <div class="row-fluid">
+        {{ form_widget(form.civility) }}
+    </div>
+
+    <div class="row-fluid">
+        {{ form_widget(form.last_name) }}
+
+        {{ form_widget(form.first_name) }}
+    </div>
+
+    {% if form.last_name.vars.errors|length > 0 %}
+    <div class="alert alert-danger bns-alert">
+        {{ form_errors(form.last_name) }}
+    </div>
+    {% endif %}
+
+    {% if form.first_name.vars.errors|length > 0 %}
+    <div class="alert alert-danger bns-alert">
+        {{ form_errors(form.first_name) }}
+    </div>
+    {% endif %}
+
+    <p>
+   {{ 'GET_NOTIFICATION_CHILD_BY_EMAIL'|trans({'%brandName%': parameter('beneylu_brand_name') }) }}
+    </p>
+
+    <div class="row-fluid">
+    {{ form_widget(form.email, {'attr': {'class': 'span12'}}) }}
+    </div>
+    {% if form.email.vars.errors|length > 0 %}
+    <div class="alert alert-danger bns-alert">
+        {{ form_errors(form.email) }}
+    </div>
+    {% endif %}
+
+    {% trans %}SELECT_YOUR_NOTIFICATIONS{% endtrans %}
+
+    {% for i,module in form.modules %}
+        {% if i is even %}
+        {% if i > 0 %}
+    </div>
+        {% endif %}
+    <div class="row-fluid">
+        {% endif %}
+        <div class="span6 module-list">
+            <div class="checkbox">
+            {{ form_widget(form.modules[i]) }} {{ form_label(form.modules[i], form.modules[i].vars.label, {'class' : 'checkbox'}) }}
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+
+    <div class="row-fluid">
+        <div class="alert alert-info bns-alert">
+            {{ 'LINK_MERGE_ACCOUNTS'|trans({'%start_link%': path("BNSAppProfileBundle_back_merge_accounts"), '%beneylu_brand_name%': parameter('beneylu_brand_name')}) |raw }}
+            <div class="jim"></div>
+        </div>
+    </div>
+
+{{ form_rest(form) }}
+
+{% endblock %}
+
+{% block buttons %}
+    <div class="btn-toolbar pull-right">
+        <div class="btn-group">
+            <a class="btn bns-info medium " href="{{ path('user_front_skip_add_email') }}">
+              {% trans %}LINK_SKIP_THIS_STEP{% endtrans %}
+            </a>
+        </div>
+        <div class="btn-group">
+            <button type="submit" class="btn bns-success validate-medium medium">
+                <strong>{% trans %}BUTTON_SAVE_THE_CHANGES{% endtrans %}</strong>
+            </button>
+        </div>
+    </div>
+{% endblock %}
+

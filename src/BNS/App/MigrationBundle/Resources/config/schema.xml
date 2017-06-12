@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\MigrationBundle\Model">
+
+    <table name="migration_iconito">
+        <column name="id" type="INTEGER" primaryKey="true" required="true" autoIncrement="true" />
+        <column name="origin_key" type="INTEGER" required="false" />
+        <column name="origin_custom_key" type="VARCHAR" size="255" required="false" />
+        <column name="origin_class" type="VARCHAR" size="255" required="false" />
+        <column name="bns_key" type="INTEGER" required="false" />
+        <column name="bns_custom_key" type="VARCHAR" size="255" required="false" />
+        <column name="bns_class" type="VARCHAR" size="255" required="false" />
+        <column name="data" type="OBJECT" required="false" />
+        <column name="environment" type="VARCHAR" size="255" required="true" />
+        <behavior name="timestampable" />
+    </table>
+
+</database>

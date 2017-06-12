@@ -1,0 +1,17 @@
+<div class="content-archive-bookbinding">
+    <div class="shadow-archive-bookbinding"></div>
+    <ul class="notebook-messages-min-height">
+    {# Liste des 6 derniers mois #}
+    {% for dateArchive in datesArchives %}
+        {% if dateArchive == newsDate %}
+        <li class="active">
+            <a href="{{ path('BNSAppNoteBookBundle_front', {'month': dateArchive|date("n"), 'year': dateArchive|date("Y")}) }}" class="{% if loop.first == true %} first-list {% endif %} active arrow_box">{{dateArchive|year_month_bns()}}</a>
+        </li>
+        {% else %}
+        <li>
+            <a href="{{ path('BNSAppNoteBookBundle_front', {'month': dateArchive|date("n"), 'year': dateArchive|date("Y")}) }}" class="{% if loop.first == true %} first-list {% endif %} active arrow_box">{{dateArchive|year_month_bns()}}</a>
+        </li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+</div>

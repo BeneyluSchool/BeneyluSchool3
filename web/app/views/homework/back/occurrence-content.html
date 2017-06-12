@@ -1,0 +1,37 @@
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools layout-align-space-between-center">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+
+    <h3 class="homework-date homework-day-{{::ctrl.occurrence.due_date|amDateFormat:'d'}}">{{::ctrl.occurrence.due_date|amDateFormat:'dddd Do MMMM YYYY'}}</h3>
+  </div>
+</md-toolbar>
+
+<md-content>
+
+  <div class="md-padding">
+    <h3 class="md-title">
+      {{::ctrl.occurrence._embedded.homework.name}}
+      <small ng-if="::ctrl.occurrence._embedded.homework.subject" class="md-body-1 flex flex-none">{{::ctrl.occurrence._embedded.homework.subject}}</small>
+    </h3>
+    <bns-entity-list ng-if="ctrl.occurrence._embedded.homework" list="ctrl.occurrence._embedded.homework.groups"></bns-entity-list>
+    <div class="md-body-1" ng-bind-html="::ctrl.occurrence._embedded.homework.description|trustHtml"></div>
+    <p class="md-caption" ng-bind-html="::ctrl.occurrence._embedded.homework.helptext|nl2br"></p>
+    <div ng-if="ctrl.occurrence.total">{{::ctrl.occurrence.done+' / '+ctrl.occurrence.total}}</div>
+
+    <br>
+    <div ng-if="ctrl.preferences.activate_validation">
+      <h4 class="md-subhead" translate>HOMEWORK.TITLE_DONE_BY</h4>
+      <bns-entity-list ng-if="::ctrl.occurrence._embedded.users_done.length" list="::ctrl.occurrence._embedded.users_done"></bns-entity-list>
+      <p ng-if="::!ctrl.occurrence._embedded.users_done.length" class="text-muted md-body-1" translate>HOMEWORK.DESCRIPTION_NOT_DONE_YET</p>
+    </div>
+
+    <bns-attachments
+      ng-if="::ctrl.occurrence._embedded.homework._embedded.attachments.length"
+      source="ctrl.occurrence._embedded.homework._embedded.attachments"
+      start-open="true"
+      data-object-type="Homework"
+      data-object-id="{{::ctrl.occurrence._embedded.homework.id}}"
+    ></bns-attachments>
+  </div>
+
+</md-content>

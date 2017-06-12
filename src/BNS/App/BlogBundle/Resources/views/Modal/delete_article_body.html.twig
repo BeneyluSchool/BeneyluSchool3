@@ -1,7 +1,17 @@
+{% trans_default_domain "BLOG" %}
 <div class="modal-body" data-object="{{ article.getId() }}">
-	<div class="content-modal-body">
-		<h2>Êtes-vous sûr de vouloir supprimer l'article "{{ article.getTitle() }}" de votre blog ?</h2>
-		<h3>Vous perdrez la totalité du contenu de l'article.<br />A noter que les documents joints/insérés ne seront pas supprimés.</h3>
-	</div>
+  <div class="content-modal-body">
+      {% if is_adult() %}
+        {{ 'TITLE_ADULT_CONFIRMATION_DELETE'|trans({'%articleTitle%': article.getTitle() |escape}) |desc('
+        <h2>Êtes-vous sûr de vouloir supprimer l\'article "%articleTitle%" de votre blog ?</h2>
+         <h3>Vous perdrez la totalité du contenu de l\'article.<br/>A noter que les documents joints/insérés ne seront pas supprimés.</h3>
+         ') |raw }}
+      {% else %}
+{{ 'TITLE_CHILD_CONFIRMATION_DELETE'|trans({'%articleTitle%': article.getTitle() |escape}) |desc('
+        <h2>Tu es sûr de vouloir supprimer l\'article "%articleTitle%" de ton blog ?</h2>
+         <h3>tu perdras la totalité du contenu de l\'article.<br/>A noter que les documents joints/insérés ne seront pas supprimés.</h3>
+         ') |raw }}
+      {% endif %}
+  </div>
 </div>
 <div class="beneylu-jim"></div>

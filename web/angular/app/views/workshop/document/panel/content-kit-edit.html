@@ -1,0 +1,24 @@
+<form name="widgetGroupForm" ng-submit="ctrl.submit()">
+
+  <ul class="btn-group text-center" ng-if="ctrl.widgetGroup._embedded.widgets.length > 1">
+    <li ng-repeat="widget in ctrl.widgetGroup._embedded.widgets" ng-click="ctrl.currentWidget = widget"
+    ng-class="{ 'btn-info': ctrl.currentWidget === widget }"
+    class="btn btn-wide">
+      {{ 'WORKSHOP.DOCUMENT.' + (widget.type | uppercase) | translate }}
+    </li>
+  </ul>
+
+  <div ng-repeat="widget in ctrl.widgetGroup._embedded.widgets" ng-show="ctrl.currentWidget === widget">
+    <div ng-include="ctrl.getFormTemplate(widget)"></div>
+  </div>
+
+  <p class="text-center">
+    <br>
+    <button type="submit" class="btn btn-success btn-lg btn-wide" translate>WORKSHOP.DOCUMENT.SAVE_CONTENT</button>
+  </p>
+  <p class="text-center">
+    <span class="btn btn-default btn-wide" ng-click="ctrl.cancel()" translate>WORKSHOP.DOCUMENT.CANCEL</span>
+  </p>
+
+  <div ng-show="ctrl.draftMessage" class="text-center">{{ ctrl.draftMessage | translate }}</div>
+</form>

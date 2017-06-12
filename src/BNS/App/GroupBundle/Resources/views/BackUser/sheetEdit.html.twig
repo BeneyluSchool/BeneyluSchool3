@@ -1,0 +1,81 @@
+{% trans_default_domain "GROUP" %}
+{% extends 'BNSAppGroupBundle:Back:layout.html.twig' %}
+
+{% block header %}
+	{% include "BNSAppGroupBundle:BackUser:menu.html.twig" with{'page' : 'edit','user' : user} %}
+{% endblock header %}
+
+{% block content %}
+
+	<div class="news-title">
+		<h1 class="dashboard">{{ 'TITLE_EDITION_OF_USER'|trans({'%user%': user.fullName }) |desc('Edition de %user%') }}</h1>
+	</div>
+	
+	{{ form_errors(form) }}
+
+	{% include 'BNSAppMainBundle:BNSAlert:index.html.twig' %} 
+
+	<form id="edit_form" action="" method="post" {{ form_enctype(form) }} class="form-horizontal">
+		{{ form_errors(form.email) }}
+			<div class="control-group">
+				<label class="control-label">{{ 'LABEL_FIRSTNAME' |trans |desc("Prénom :") }} </label>
+				<div class="controls docs-input-sizes">	
+					{{ form_widget(form.first_name,{ 'attr': {'class': 'span3','placeholder': 'PLACEHOLDER_FIRSTNAME' |trans |desc('Prénom')}}) }}
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">{{ 'LABEL_LASTNAME' |trans |desc("Nom :") }} </label>
+				<div class="controls docs-input-sizes">	
+					{{ form_widget(form.last_name,{ 'attr': {'class': 'span3','placeholder': 'PLACEHOLDER_LASTNAME' |trans |desc('Nom')}}) }}
+				</div>
+			</div>
+		
+		
+			<div class="control-group">
+				<label class="control-label">{{ 'LABEL_BIRTHDAY' |trans |desc("Date de Naissance : ") }}</label>
+				<div class="controls docs-input-sizes ">	
+					{{ form_widget(form.birthday,{ 'attr': {'class': '','placeholder': 'PLACEHOLDER_BIRTHDAY' |trans |desc('Date de naissance')}}) }}
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">{{ 'LABEL_EMAIL' |trans |desc("Email : ") }}</label>
+				<div class="controls docs-input-sizes">	
+					{{ form_widget(form.email,{ 'attr': {'class': 'span3','placeholder': 'PLACEHOLDER_EMAIL' |trans |desc('Email')}}) }}
+				</div>
+			</div>
+
+            <div class="control-group">
+                <label class="control-label">{{ 'LABEL_GENDER' |trans |desc("Sexe : ") }}</label>
+                <div class="controls docs-input-sizes gender">
+                    {{ form_widget(form.gender,{ 'attr': {'class': 'span3'}}) }}
+                </div>
+            </div>
+
+            {% if form_errors(form.login) != "" %}
+                <div class="row-fluid notice-message">
+                    <div class="alert bns-alert alert-error">
+                        <strong> </strong>{{ form_errors(form.login) }}
+                        <div class="jim"></div>
+                    </div>
+                </div>
+            {%  endif %}
+
+            <div class="control-group">
+                <label class="control-label">{{ 'LABEL_LOGIN' |trans |desc("Identifiant : ") }}</label>
+                <div class="controls docs-input-sizes">
+                    {{ form_widget(form.login,{ 'attr': {'class': 'span3','placeholder': 'PLACEHOLDER_USERNAME' |trans |desc("Identifiant")}}) }}
+                </div>
+            </div>
+		
+		{{ form_rest(form) }}
+			
+	</form>
+</div>
+
+<script type="text/javascript">
+	$('#edit_form_submit').click(function(){
+		$('#edit_form').submit();
+	});
+</script>
+
+{% endblock %}

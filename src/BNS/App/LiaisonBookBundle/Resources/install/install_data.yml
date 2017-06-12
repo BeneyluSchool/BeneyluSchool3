@@ -1,0 +1,113 @@
+module:
+  unique_name: LIAISONBOOK
+  is_contextable: true
+  name:
+    fr: Carnet de liaison
+    en: Liaison book
+  description:
+    fr: Lire les annonces de la classe
+    en: Liaison book for students's parents
+  default_rank:
+    pupil: READ
+    parent: USE
+    teacher: MANAGE
+    other: READ
+
+permissions:
+  ACCESS:
+    label:
+      fr: Voir carnet de liaison
+      en: Liaisonbook access
+    description:
+      fr: Donne l'accès au carnet de liaison
+      en: Give access to liaison book
+
+  ACCESS_SIGN:
+    label:
+      fr: Voir et signer carnet de liaison
+      en: Liaisonbook access and sign it
+    description:
+      fr: Donne l'accès au carnet de liaison et à la signature
+      en: Give access to liaison book and to signature
+
+  ACCESS_BACK:
+    label:
+      fr: Gérer carnet de liaison
+      en: Liaisonbook management access
+    description:
+      fr: Donne l'accès à la gestion du carnet de liaison
+      en: Give access to liaisonbook management
+
+  ACTIVATION:
+    label:
+      fr: Activer carnet de liaison
+      en: Can activate / desactivate the notebook
+    description:
+      fr: Peut activer ou désactiver le carnet de liaison
+      en:
+
+  ACTIVATION_PARTNERSHIP:
+    label:
+      fr: Activer carnet de liaison dans le partenariat
+      en: Can activate / desactivate the notebook in partnership
+    description:
+      fr: Peut activer ou désactiver le carnet de liaison dans le partenariat
+      en:
+
+ranks:
+  READ:
+    label:
+      fr: Lire le carnet de liaison
+      en: Read the liaisonbook
+    description:
+      fr:
+      en:
+    permissions: [ACCESS]
+
+  USE:
+    label:
+      fr: Utiliser le carnet de liaison et le signer
+      en: Use the liaisonbook and sign it
+    description:
+      fr:
+      en:
+    permissions: [ACCESS, ACCESS_SIGN]
+
+  MANAGE:
+    label:
+      fr: Gérer le carnet de liaison
+      en: Manage the liaisonbook
+    description:
+      fr:
+      en:
+    permissions: [ACCESS, ACCESS_BACK, ACTIVATION]
+
+  MANAGE_PARTNERSHIP:
+    label:
+      fr: Gérer le carnet de liaison dans partenariat
+      en: Manage the liaisonbook in partnership
+    description:
+      fr:
+      en:
+    permissions: [ACTIVATION_PARTNERSHIP]
+
+  ACTIVATION_TEAM:
+    label:
+      fr: Gérer le carnet de liaison dans groupe de travail
+      en: Manage the liaisonbook in team
+    description:
+      fr:
+      en:
+    permissions: [ACTIVATION]
+
+notification_types:
+  LIAISON_BOOK_NEW_MESSAGE: { }
+  LIAISON_BOOK_NEW_MESSAGE: { }
+
+markers:
+  LIAISONBOOK_PUBLISH_MESSAGE:
+    description: Publication d'un message sur le carnet de liaison
+  LIAISONBOOK_CREATE_SIGN:
+    description: Signature sur le carnet de liaison
+  LIAISONBOOK_VISIT:
+    description: Visite sur le carnet de liaison

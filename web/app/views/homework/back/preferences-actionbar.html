@@ -1,0 +1,18 @@
+<md-button ng-click="back()" class="btn-nav" href>
+  <md-icon>chevron_left</md-icon>
+  <span ng-bind-html="'HOMEWORK.BUTTON_BACK'|translate|buttonize"></span>
+</md-button>
+
+<span class="bns-separator"></span>
+
+<span class="flex"></span>
+
+<md-button
+  form="preferences-form"
+  ng-disabled="shared.form.$invalid"
+  class="md-accent md-raised"
+  href
+>
+  <md-icon>check</md-icon>
+  <span ng-bind-html="'HOMEWORK.BUTTON_SAVE_PREFERENCES'|translate|buttonize">.</span>
+</md-button>

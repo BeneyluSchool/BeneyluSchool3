@@ -2,19 +2,17 @@
 
 namespace BNS\App\MiniSiteBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\HttpFoundation\Response;
-
-use BNS\App\CoreBundle\Annotation\Rights;
-use BNS\App\CoreBundle\Model\MiniSitePeer;
-use BNS\App\CoreBundle\Model\MiniSitePagePeer;
-use BNS\App\CoreBundle\Model\MiniSiteWidgetPeer;
-use BNS\App\CoreBundle\Model\MiniSiteQuery;
-use BNS\App\CoreBundle\Model\MiniSiteWidgetTemplateQuery;
-use BNS\App\CoreBundle\Access\BNSAccess;
-use BNS\App\MiniSiteBundle\Form\Type\MiniSiteType;
-use BNS\App\CoreBundle\Model\MiniSiteWidget;
+use \BNS\App\CoreBundle\Access\BNSAccess;
+use \BNS\App\CoreBundle\Annotation\Rights;
+use \BNS\App\MiniSiteBundle\Form\Type\MiniSitePageType;
+use \BNS\App\MiniSiteBundle\Form\Type\MiniSiteType;
+use \BNS\App\MiniSiteBundle\Model\MiniSitePage;
+use \BNS\App\MiniSiteBundle\Model\MiniSiteQuery;
+use \BNS\App\MiniSiteBundle\Model\MiniSiteWidget;
+use \BNS\App\MiniSiteBundle\Model\MiniSiteWidgetTemplateQuery;
+use \Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use \Symfony\Component\DependencyInjection\Container;
+use \Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Sylvain Lorinet <sylvain.lorinet@pixel-cookers.com>
@@ -25,79 +23,106 @@ class BackCustomController extends AbstractMiniSiteController
 {
 	/**
 	 * @Route("/", name="minisite_manager_custom")
+	 * 
 	 * @Rights("MINISITE_ADMINISTRATION")
 	 */
 	public function indexAction()
 	{
 		$miniSite = $this->getMiniSite();
-		
-		// Get all editor users
-		$editors = $this->getEditorSubGroupManager()->getUsers(true);
+		$page = new MiniSitePage();
+		$page->setType('TEXT');
+		$newPageForm = $this->createForm(new MiniSitePageType(), $page);
 		
 		return $this->render('BNSAppMiniSiteBundle:Custom:index.html.twig', array(
-			'minisite'				=> $miniSite,
-			'editors'				=> $editors,
-			'csrf_token'			=> $this->container->get('form.csrf_provider')->generateCsrfToken('unknown'),
-			'switchPublicIsAllowed'	=> $this->get('bns.group_manager')->getAttribute('MINISITE_ALLOW_PUBLIC', false)
+			'minisite'	  => $miniSite,
+			'newPageForm' => $newPageForm->createView()
 		));
 	}
-	
+
+	/**
+	 * @param \BNS\App\MiniSiteBundle\Model\MiniSitePage $page
+	 *
+	 * @return Response
+	 */
+	public function renderPageAction(MiniSitePage $page)
+	{
+		$form = $this->createForm(new MiniSitePageType(), $page, array(
+			'is_edition' => true
+		));
+
+		return $this->render('BNSAppMiniSiteBundle:Page:back_page_row.html.twig', array(
+			'page' => $page,
+			'form' => $form->createView()
+		));
+	}
+
+	/**
+	 * @Route("/editeurs", name="minisite_manager_custom_editors")
+	 *
+	 * @Rights("MINISITE_ADMINISTRATION")
+	 */
+	public function editorsAction()
+	{
+		$miniSite = $this->getMiniSite();
+
+		return $this->render('BNSAppMiniSiteBundle:Custom:editors.html.twig', array(
+			'minisite' => $miniSite,
+		));
+	}
+
 	/**
 	 * @Route("/widgets", name="minisite_manager_custom_widgets")
+	 * 
 	 * @Rights("MINISITE_ADMINISTRATION")
 	 */
 	public function widgetsAction()
 	{
 		$context = $this->get('bns.right_manager')->getContext();
-		$miniSite = $this->getMiniSite(MiniSiteQuery::create()
-			->joinWith('MiniSitePage')
-			->joinWith('MiniSiteWidget', \Criteria::LEFT_JOIN)
-			->joinWith('MiniSiteWidget.MiniSiteWidgetTemplate', \Criteria::LEFT_JOIN)
-			->joinWith('MiniSiteWidget.MiniSiteWidgetExtraProperty', \Criteria::LEFT_JOIN)
-			->add(MiniSitePeer::GROUP_ID, $context['id'])
-			->addAscendingOrderByColumn(MiniSitePagePeer::RANK)
-			->addAscendingOrderByColumn(MiniSiteWidgetPeer::RANK)
+		$miniSite = $this->getMiniSite(MiniSiteQuery::create('ms')
+			->joinWith('ms.MiniSitePage msp')
+			->joinWith('ms.MiniSiteWidget msw', \Criteria::LEFT_JOIN)
+			->joinWith('msw.MiniSiteWidgetTemplate mswt', \Criteria::LEFT_JOIN)
+			->joinWith('msw.MiniSiteWidgetExtraProperty mswep', \Criteria::LEFT_JOIN)
+			->where('ms.GroupId = ?', $context['id'])
+			->orderBy('msp.Rank')
+			->orderBy('msw.Rank')
 		);
 		
 		// Convert widget into class
 		$widgets = array();
+		$usedTemplates = array();
+
 		foreach ($miniSite->getMiniSiteWidgets() as $widget) {
 			$className = '\\BNS\\App\\MiniSiteBundle\\Widget\\MiniSiteWidget' . ucfirst(Container::camelize(strtolower($widget->getMiniSiteWidgetTemplate()->getType())));
 			$widgets[] = $className::create($widget);
+			$usedTemplates[] = $widget->getWidgetTemplateId();
 		}
 		
-		$widgetTemplates = MiniSiteWidgetTemplateQuery::create()
-			->joinWithI18n(BNSAccess::getLocale())
+		$widgetTemplates = MiniSiteWidgetTemplateQuery::create('mswt')
 		->find();
 		
 		return $this->render('BNSAppMiniSiteBundle:Custom:widgets.html.twig', array(
 			'minisite'		=> $miniSite,
 			'widgets'		=> $widgets,
 			'templates'		=> $widgetTemplates,
+			'usedTemplates' => $usedTemplates,
 			'csrf_token'	=> $this->container->get('form.csrf_provider')->generateCsrfToken('unknown')
 		));
 	}
 	
 	/**
 	 * @Route("/informations", name="minisite_manager_custom_informations")
+	 * 
 	 * @Rights("MINISITE_ADMINISTRATION")
 	 */
 	public function informationsAction()
 	{
 		$context = $this->get('bns.right_manager')->getContext();
-		$miniSite = $this->getMiniSite(MiniSiteQuery::create()
-				->joinWith('MiniSitePage')
-				->joinWith('MiniSitePage.MiniSitePageText', \Criteria::LEFT_JOIN)
-				->joinWith('MiniSitePageText.User', \Criteria::LEFT_JOIN) // Author
-				->joinWith('Resource', \Criteria::LEFT_JOIN)
-				->add(MiniSitePeer::GROUP_ID, $context['id'])
-				->addAscendingOrderByColumn(MiniSitePagePeer::RANK)
-		);
+		$miniSite = $this->getMiniSite();
 		
 		$form = $this->createForm(new MiniSiteType(), $miniSite);
-		
 		if ('POST' == $this->getRequest()->getMethod()) {
-			$form->bindRequest($this->getRequest());
+			$form->bind($this->getRequest());
 			if ($form->isValid()) {
 				$miniSite = $form->getData();
 				$miniSite->save();

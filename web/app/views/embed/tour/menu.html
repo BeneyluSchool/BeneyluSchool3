@@ -1,0 +1,15 @@
+<md-bottom-sheet class="layout-row bns-bottom-sheet-menu" ng-cloak>
+  <md-list class="flex layout-column layout-align-center-center tour-menu">
+    <md-list-item>
+      <md-button href="" ng-click="menu.close('activity')">
+        <span ng-bind-html="'TOUR.LINK_ACTIVITY_SHEETS'|translate|buttonize">.</span>
+      </md-button>
+    </md-list-item>
+
+    <md-list-item>
+      <md-button ui-sref="classroom" ng-click="menu.close()">
+        <span ng-bind-html="'TOUR.LINK_LEAVE_ACTIVITY'|translate|buttonize">.</span>
+      </md-button>
+    </md-list-item>
+  </md-list>
+</md-bottom-sheet>

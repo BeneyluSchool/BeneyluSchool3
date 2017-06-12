@@ -1,56 +1,45 @@
-{% extends '::base_manager.html.twig' %}
+{% extends 'BNSAppMainBundle:App:base.html.twig' %}
 
-{% block title %}Minisite - Gestion{% endblock %}
-	
+{% set app_unique_name = 'MINISITE' %}
+{% set app_mode = 'back' %}
+{% trans_default_domain "MINISITE" %}
+{% block body_class %}{{ parent() }}module-minisite module-back back{% endblock %}
+{% block body_attr %}{{ parent() }} data-app="{{ app_unique_name }}" data-mode="{{ app_mode }}" {% endblock %}
 {% block css %}
-    {{ parent() }}
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu:400,700" rel="stylesheet" type="text/css">
-	<link href="{{ asset('/medias/css/manager.css') }}" rel="stylesheet" type="text/css">
-	<link href="{{ asset('/medias/css/minisite/manager.css') }}" rel="stylesheet" type="text/css">
-{% endblock %}
-	
+  {{ parent() }}
+  <link href="{{ asset('/medias/css/minisite/manager.css') }}" rel="stylesheet" type="text/css"/>
+  <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+{% endblock css %}
 {% block javascripts %}
-	{{ parent() }}
-	<script type="text/javascript" src="{{ asset('/medias/js/manager-menu.js') }}"></script>
+  {{ parent() }}
+
+  <script type="text/javascript" src="{{ asset('/medias/js/bootstrap/bootstrap-tooltip.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('/medias/js/bootstrap/bootstrap-popover.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('/medias/js/jquery.ui.nestedSortable.js') }}"></script>
+  <script type="text/javascript">
+    $(function ()
+    {
+      if ($('.alert-flash').length > 0) {
+        setTimeout(function ()
+        {
+          $('.alert-flash div').slideUp('fast', function () { $(this).parent().slideUp('fast', function () { $('.bns-alert div').show() }) });
+        }, 8000);
+      }
+    });
+  </script>
 {% endblock %}
 
-{% block body %}
-    <div class="blur office"></div>
-	<div class="header-btn">
-		<div class="container-fluid container">
-			<div class="row-fluid">
-				<div class="span12">
-					{% block header %}
-						<div id="default"></div>
-					{% endblock header %}
-				</div>
-			</div>
-		</div>
-		<div class="border-grey"></div>
-	</div>
-	<div class="container container-fluid" style="margin-top: 50px;">
-		<div class="row-fluid content-manager">
-			<div class="span3">
-				{% block sidebar %}
-					<div class="sidebar shadow">
-						<div class="section-sidebar color-grey">
-							{% block sidebar_blocks %}
-								{% include 'BNSAppMiniSiteBundle:Sidebar:block_pages.html.twig' %}
-								{% include 'BNSAppMiniSiteBundle:Sidebar:block_moderation.html.twig' %}
-								{% include 'BNSAppMiniSiteBundle:Sidebar:block_custom.html.twig' %}
-							{% endblock sidebar_blocks %}
-						</div>
-					</div>
-				{% endblock sidebar %}
-			</div>
-			<div class="span9 no-margin">
-				{% block content %}Add your custom content here!{% endblock %}
-			</div>
-            <div class="content-manager-bottom"></div>
-		</div>
-	</div>
-{% endblock body %}
 
-{% block dock_bar %}
-	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "MINISITE" , 'is_in_front' : false } %}
+
+
+{% block actionbar_content %}
+  {% block header %}
+  {% endblock %}
 {% endblock %}
+
+
+{% block content %}
+  {{ block('content') }}
+{% endblock %}
+
+

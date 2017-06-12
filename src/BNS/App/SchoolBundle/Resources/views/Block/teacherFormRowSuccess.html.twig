@@ -1,0 +1,14 @@
+<script type="text/javascript">
+    $(function ()
+    {
+        $('.item-list-container.teacher').prepend($('#lastInsertedTeacher').html());
+        $('#lastInsertedTeacher').empty();
+        $('#add-teacher-success').show();
+        $('.bnj-not-found.teacher').parent().fadeOut();
+        $('#add-teacher-modal').modal('hide');
+    });
+</script>
+
+<div id="lastInsertedTeacher">
+    {% include 'BNSAppSchoolBundle:Block:teacherRow.html.twig' with {'teacher' : teacher } %}
+</div>

@@ -1,0 +1,70 @@
+{% trans_default_domain "CLASSROOM" %}
+
+{% extends '::base.html.twig' %}
+
+{% block alert %}{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ asset('/css/base.css') }}" type="text/css"/>
+    <link rel="stylesheet" href="{{ asset('/medias/css/classroom/card-group.css') }}" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Boogaloo" rel="stylesheet">
+{% endblock %}
+
+{% block respond_script %} {% endblock %}
+
+{% block body %}
+    {% block content %}
+        {% for i in 0..nbPages %}
+            <div class="card-container">
+                {% for teacher in teachers %}
+                    <div class="card{% if (loop.index % 8 == 0) or (loop.index % 8 == 7)  %} no-border-bottom{% endif %}{% if loop.index % 2 ==0 %} odd{% endif %}">
+                        <div class="banniere">
+                            {% if parameter('graphic_chart') != false %}
+                                {% set chartValue = parameter('graphic_chart') %}
+                                <img src="{{ asset('/medias/images/main/graphic_chart/' ~ chartValue.name ~ '/logoCard.jpg'  ) }}" class="header-logo" />
+                            {% else %}
+                                <img src="{{ asset('/medias/images/classroom/pupil_parent_card/bns_logo.png') }}" class="header-logo" />
+                            {% endif %}
+                            <p class="texte_fiche">{{ 'LOGIN_CARD'|trans }}</p>
+                            <p class="nom">{{ teacher.getFullName }}</p>
+                        </div>
+                        <table class="card-content">
+                            <tr>
+                                <td class="login">{{ 'LOGIN'|trans }}</td>
+                                <td class="right">{{ teacher.getLogin() }} </td>
+                            </tr>
+                            <tr >
+                                <td class="password">{{ 'PASSWORD'|trans }}</td>
+                                <td class="right"> {{ teacher.getPassword() }} </td>
+                            </tr>
+                        </table>
+                        <div class="footer">
+                            <p class="confidentiel">{{ 'ADULT_PASSWORD_PRIVATE'|trans }} </p>
+                            <p class="link_site"> {{ parameter('application_base_url') }} </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    {% endblock %}
+    <script type="text/javascript">
+        var hauteur_page=645;
+        var $afficher_page=$('.card-container');
+
+        $afficher_page.each(function(i,v){
+            var $content = $(this);
+            var height = $content.height();
+            var pages_count = 1;
+            var newHeight = pages_count * hauteur_page;
+
+            while(height-20>newHeight){
+                pages_count++;
+                newHeight=pages_count*hauteur_page;
+            }
+
+            $content.css({height: newHeight/2+20});
+        });
+    </script>
+{% endblock %}
+{% block dock_bar %}
+{% endblock %}

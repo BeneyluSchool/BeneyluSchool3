@@ -1,0 +1,43 @@
+{% trans_default_domain "CLASSROOM" %}
+{% extends '::base.html.twig' %}
+
+{% block title %}
+    Calendrier de l'avent
+{% endblock %}
+
+{% block body %}
+    <div class="deco">
+
+    </div>
+    <div class="cadeau">
+        <div class="backtocalendar">
+          <a href="/ent/classe/avent">
+            <button>
+                <div class="backarrow"></div>
+                <div class="backtext">Revenir au calendrier</div>
+            </button>
+          </a>
+        </div>
+        <div class="case">
+            <a href="/ent/classe/avent">{{ day.date('j') }}</a>
+        </div>
+
+            {%  if day %}
+                {% if app.request.get('type')=="IMAGE"%}
+                    <div class="contain-image">
+                        <img src="{{ create_visualisation_url_resource(day.mediaRelatedByMediaPreviewId, true, false) }}" />
+                        <div class="contain-button">
+                            <a href="{{ create_visualisation_url_resource(day.mediaRelatedByMediaPreviewId, true, false) }}"><button>Télécharger le coloriage</button></a>
+                        </div>
+                    </div>
+                {% else %}
+                    <h1>{{ day.title }}</h1>
+                   <div class="contain-text">
+                       <div class="parag">{{ day.joke|raw }}</div>
+                   </div>
+                {% endif %}
+            {% endif %}
+        <div class="perso"></div>
+
+    </div>
+{% endblock %}

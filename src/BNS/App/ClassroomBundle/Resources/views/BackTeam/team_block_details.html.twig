@@ -1,0 +1,67 @@
+{% trans_default_domain "CLASSROOM" %}
+
+<div class="container-classroom team-user">
+  <div class="loader loader-sb"></div>
+  <div class="news-title">
+    <h1 class="dashboard">{{ 'TITLE_TEACHERS'|transchoice(teachers|length) |desc('[0,1] Enseignant | ]1,Inf[ Enseignants ') }}</h1>
+  </div>
+  <div class="item-list-container teacher">
+    {% if teachers is empty %}
+      <div class="no-item">
+        <div class="bnj-not-found"></div>
+
+        <p> {% trans %}NO_TEACHER_REGISTERED{% endtrans %} </p>
+        <div class="clearfix"></div>
+      </div>
+    {% else %}
+      {% for user in teachers %}
+        {% include 'BNSAppClassroomBundle:BackTeam:row_team_user_details.html.twig' %}
+      {% else %}
+
+        <p class="no-data-label">{% trans %}NO_TEACHER_REGISTERED{% endtrans %}.</p>
+      {% endfor %}
+    {% endif %}
+  </div>
+
+  <div class="news-title">
+    <h1 class="dashboard">{{ 'TITLE_PUPILS'|transchoice(pupils|length) }}</h1>
+  </div>
+  <div class="item-list-container pupil">
+    {% if pupils is empty %}
+      <div class="no-item">
+        <div class="bnj-not-found"></div>
+
+        <p> {% trans %}NO_PUPILS_REGISTERED{% endtrans %} </p>
+        <div class="clearfix"></div>
+      </div>
+    {% else %}
+      {% for user in pupils %}
+        {% include 'BNSAppClassroomBundle:BackTeam:row_team_user_details.html.twig' %}
+      {% else %}
+
+        <p class="no-data-label">{% trans %}NO_PUPILS_REGISTERED{% endtrans %}.</p>
+      {% endfor %}
+    {% endif %}
+  </div>
+
+  <div class="news-title">
+    <h1 class="dashboard">{{ 'TITLE_PARENT_TEAM'|transchoice(parents|length) }}</h1>
+  </div>
+  <div class="item-list-container parent">
+    {% if parents is empty %}
+      <div class="no-item">
+        <div class="bnj-not-found"></div>
+
+        <p> {% trans %}NO_PARENTS_REGISTERED{% endtrans %} </p>
+        <div class="clearfix"></div>
+      </div>
+    {% else %}
+      {% for user in parents %}
+        {% include 'BNSAppClassroomBundle:BackTeam:row_team_user_details.html.twig' %}
+      {% else %}
+
+        <p class="no-data-label">{% trans %}NO_PARENTS_REGISTERED{% endtrans %}.</p>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>

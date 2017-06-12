@@ -1,0 +1,22 @@
+<div class="md-padding">
+  <h1 class="md-headline" translate>ACCOUNT.TITLE_DATA_RECOVERY</h1>
+  <p class="md-body-2" translate>ACCOUNT.TITLE_CHOOSE_SCHOOL_RECOVER</p>
+
+  <div class="layout-column layout-gt-sm-row layout-wrap layout-align-center-stretch classroom-list">
+    <div ng-repeat="school in ctrl.schools" ng-click="ctrl.selectSchool(school)" md-ink-ripple="#039BE5" class="classroom">
+      <h3 class="text-center md-title">{{::school.label}}</h3>
+      <div class="pupil-list">
+        <div ng-repeat="classroom in ::school._embedded.classrooms_preview" class="layout-row layout-align-start-center layout-margin pupil">
+          <span class="text-ellipsis">{{::classroom.label}}</span>
+        </div>
+        <p ng-if="::!school._embedded.classrooms_preview.length" class="text-muted text-center pupil-empty" translate>ACCOUNT.DESCRIPTION_NO_CLASSROOM</p>
+      </div>
+    </div>
+  </div>
+
+  <div ng-if="!ctrl.busy && !ctrl.schools.length" class="text-center text-muted md-body-1" translate>ACCOUNT.DESCRIPTION_NO_SCHOOL_FOUND</div>
+
+  <p ng-if="!ctrl.busy" class="text-center">
+    <a href ng-click="ctrl.skipRecoverSchool()" translate>ACCOUNT.LINK_DO_NOT_RECOVER_SCHOOL</a>
+  </p>
+</div>

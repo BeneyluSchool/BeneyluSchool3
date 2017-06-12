@@ -1,16 +1,16 @@
 <a tabindex="0" href="#" class="btn btn-large label-choose" id="hierarchybreadcrumb">
-	Choisir une destination
+	{{ title != "" ? title : "Choisir une destination" }}
 </a>
 <div class="hidden">
 	<ul>
-		{% render "BNSAppResourceBundle:Label:list" with {'type' : "user", 'user' : app.user.getUser } %}
+		{{ render(controller('BNSAppResourceBundle:Label:list', {'type' : "user", 'user' : app.user.getUser } )) }}
 		{% for group in manageable_groups %}
-			{% render "BNSAppResourceBundle:Label:list" with {'type' : "group", 'group' : group } %}
+            {{ render(controller('BNSAppResourceBundle:Label:list', {'type' : "group", 'group' : group } )) }}
 		{% endfor %}
 	</ul>
 </div>
 {% if show_destination %}
-	<div 
+	<div
 		id="{% if current_label is not empty %}{{ current_label.getToken }}{% endif %}"
 		class="destination-choice alert alert-success"
 		style="{% if current_label is empty %}display:none;{% endif %}"
@@ -18,9 +18,9 @@
 			Destination : <b id="chosen-choice">{% if current_label is not empty %}{{ current_label.getLabel }}{% endif %}</b>
 	</div>
 {% endif %}
-<script type="text/javascript">    
+<script type="text/javascript">
     $(function(){
-    	// Menu de choix du label 
+    	// Menu de choix du label
 		$('#hierarchybreadcrumb').menu({
 			content: $('#hierarchybreadcrumb').next().html(),
 			backLink: false

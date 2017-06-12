@@ -1,0 +1,30 @@
+{% trans_default_domain "MINISITE" %}
+{% extends 'BNSAppMiniSiteBundle:Layout:manager.html.twig' %}
+
+{% block sidebar %}
+  {% include 'BNSAppMiniSiteBundle:Sidebar:sidebar.html.twig' with {'index': 'not-editor'} %}
+{% endblock sidebar %}
+
+{% block content %}
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools layout-align-start-center">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+    <h1 class="md-title text-primary text-left flex flex-gt-sm-33">{% trans%}LINK_CUSTOMIZE{% endtrans %}</h1>
+  </div>
+</md-toolbar>
+
+
+<md-content  id="content" class="bns-content navbar-compatible-container">
+  <div class="container-editors item-list-container">
+    {% if is_adult() %}
+      {% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+      'text': "ADULT_MESSAGE_NOT_EDITOR"|trans
+      } %}
+    {% else %}
+      {% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+      'text': "CHILD_MESSAGE_NOT_EDITOR"|trans
+      } %}
+    {% endif %}
+  </div>
+  </md-content>
+{% endblock content %}

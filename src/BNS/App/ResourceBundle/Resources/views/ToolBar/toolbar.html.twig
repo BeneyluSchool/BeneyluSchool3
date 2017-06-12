@@ -1,0 +1,34 @@
+
+	{% if tools.add_resources is defined %}
+		<a href="{{ path('BNSAppResourceBundle_add_choose') }}" class="btn bns-info btn-24 large add-icon add-resource-btn" rel="history" title="Ajouter un document">
+			<span class="icons-24 add-icon"></span>
+			Ajouter un document
+		</a>
+	{% endif %}
+		
+	{% if tools.back_link is defined %}
+		{% if tools.current_label_id is not defined %}
+			<a href="{{ path('BNSAppResourceBundle_add_choose') }}" class="btn back-btn">
+				<span class="back-btn-icon"></span>
+				<span class="back-btn-text">
+					Revenir <br />aux choix
+				</span>
+			</a>
+		{% else %}
+			{% if tools.current_label_id is not null %}
+				<a href="{{ path('BNSAppResourceBundle_show_category',{'label_id' : tools.current_label_id , 'type' : tools.current_label_type }) }}" class="btn back-btn">
+			{% elseif tools.current_label_id is null %}
+				<a href="{{ path('BNSAppResourceBundle_home') }}" class="btn back-btn">
+			{% endif %}
+			<span class="back-btn-icon"></span>
+			<span class="back-btn-text">
+				Revenir aux<br />documents
+			</span>
+			</a>
+		{% endif %}
+		
+	{% endif %}
+		
+	{% if tools.title is defined %}
+		<h2 class="toolbar-title">{{ tools.title }}</h2>
+	{% endif %}

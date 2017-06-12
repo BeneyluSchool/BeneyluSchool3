@@ -6,11 +6,11 @@
     <class name="BNS\App\UserBundle\Form\Model\PasswordGenerationFormModel">
         <property name="password">
             <constraint name="NotBlank">
-				<option name="message">Veuillez choisir votre mot de passe !</option>
+				<option name="message">INVALID_USER_CHOICE_PASSWORD</option>
 			</constraint>
 			<constraint name="Regex">
 				<option name="pattern">/[a-z]{6}[0-9]{3}/</option>
-				<option name="message">Le mot de passe sélectionné est invalide, veuillez réessayer</option>
+				<option name="message">INVALID_USER_PASSWORD_INVALID</option>
 			</constraint>
         </property>
     </class>
@@ -18,10 +18,10 @@
 	<class name="BNS\App\UserBundle\Form\Model\PasswordResetFormModel">
         <property name="email">
             <constraint name="NotBlank">
-				<option name="message">Veuillez choisir votre adresse e-mail !</option>
+				<option name="message">INVALID_USER_CHOICE_EMAIL</option>
 			</constraint>
 			<constraint name="Email">
-				<option name="message">L'adresse e-mail renseignée est invalide, veuillez réessayer</option>
+				<option name="message">INVALID_USER_EMAIL_INVALID</option>
 			</constraint>
         </property>
     </class>

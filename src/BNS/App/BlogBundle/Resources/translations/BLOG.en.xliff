@@ -1,0 +1,825 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-08-17T11:55:18Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="d342f4390339a53cbc784a148cff8aab2f657d33" resname="ADD_AND_CONTINUE">
+        <source>Ajouter et continuer</source>
+        <target>Add and continue</target>
+      </trans-unit>
+      <trans-unit id="2521a9eefd87e249c6714bcc5255f3907962aebc" resname="ADD_ICON">
+        <source>ADD_ICON</source>
+        <target>Add an icon</target>
+      </trans-unit>
+      <trans-unit id="7e183d8c575da95dfbd1621ef25e85a9f3c33b36" resname="ADULT_ARTICLE_WAS_MODIFY">
+        <source>ADULT_ARTICLE_WAS_MODIFY</source>
+        <target state="new">The article has been successfully modified.</target>
+      </trans-unit>
+      <trans-unit id="ed854b85c4aa716176634e5a1c15fccbc4e3553a" resname="ADULT_BLOG_EMPTY_CREATE_FIRST">
+        <source><![CDATA[Votre blog est vide.<br /> Pourquoi ne pas créer votre premier article]]></source>
+        <target state="new"><![CDATA[Your blog is empty.<br /> Why not write your first article?]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="43c355a62c966101eb6b2f941f2609c80548ec4f" resname="ADULT_MISSING_FIELD_PLEASE_FILL">
+        <source><![CDATA[<strong>Attention</strong>, Veuillez vérifier que vous avez correctement rempli tous les champs.]]></source>
+        <target state="new"><![CDATA[<strong>Warning</strong>, Please check if all fields have been completed.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="0c629dfc88c4c3deefa0cf489339a21fea9e62cd" resname="ARTICLES_FINISHED">
+        <source>ARTICLES_FINISHED</source>
+        <target>Finished articles</target>
+      </trans-unit>
+      <trans-unit id="46de8a01d202964b76c9014417afb7d1f8e0dc2d" resname="ARTICLES_TO_CORRECT">
+        <source>ARTICLES_TO_CORRECT</source>
+        <target>Articles to be corrected</target>
+      </trans-unit>
+      <trans-unit id="a04d9f2b67b5a5391b8eca57e3b18d64d3d0799f" resname="ARTICLE_CREATE_FROM_PUBLISH_AT">
+        <source><![CDATA[Ecrit par %image%<strong>%userFullName%</strong>, %datePublish%]]></source>
+        <target state="new"><![CDATA[Written by  %image%<strong>%userFullName%</strong>, %datePublish%]]></target>
+        <note><![CDATA[%image% is a placeholder
+%userFullName% is a placeholder
+%datePublish% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="ff24545d1baa3da1d07c6a1cb3dd557472c87404" resname="ARTICLE_DELETED">
+        <source>ARTICLE_DELETED</source>
+        <target state="new">The article has been successfully deleted.</target>
+      </trans-unit>
+      <trans-unit id="acf30baf8778fbc9b7fe3302de32f584c24a200e" resname="ARTICLE_DETACH_SUCCESS">
+        <source>ARTICLE_DETACH_SUCCESS</source>
+        <target>The article has been successfully removed.</target>
+      </trans-unit>
+      <trans-unit id="6a34fd59423696af04905cfe86b9dd2c9518393c" resname="ARTICLE_FINISHED">
+        <source>ARTICLE_FINISHED</source>
+        <target>Finished article</target>
+      </trans-unit>
+      <trans-unit id="7178d077e695e34120e5bafb7e5c9b29c5676f86" resname="ARTICLE_LOADING">
+        <source>ARTICLE_LOADING</source>
+        <target>Loading articles</target>
+      </trans-unit>
+      <trans-unit id="c0ac8551b9f945a88c2e5770c69b3d6156fd1823" resname="ARTICLE_PIN_SUCCESS">
+        <source>ARTICLE_PIN_SUCCESS</source>
+        <target>The article has been successfully pinned.</target>
+      </trans-unit>
+      <trans-unit id="8a06919d2ff5ab2847e03b9970502674aaa7a7ad" resname="ARTICLE_PROGRAM">
+        <source>ARTICLE_PROGRAM</source>
+        <target>Scheduled article</target>
+      </trans-unit>
+      <trans-unit id="c945e4714b7205860f1536c18cb967bb07aa7f1c" resname="ARTICLE_PUBLISH">
+        <source>ARTICLE_PUBLISH</source>
+        <target>Published article</target>
+      </trans-unit>
+      <trans-unit id="dbf17f03bcd78200bf78462ef8bf2fb6892e4cac" resname="ARTICLE_STATUS">
+        <source>ARTICLE_STATUS</source>
+        <target>Article status</target>
+      </trans-unit>
+      <trans-unit id="cda0fd07121e2767df4adb56f87eaca5f12df614" resname="ARTICLE_TITLE">
+        <source>ARTICLE_TITLE</source>
+        <target>Article title</target>
+      </trans-unit>
+      <trans-unit id="c10d04de3c5e9ffeca7bbcee11983474b63c9425" resname="ARTICLE_TO_CORRECT">
+        <source>ARTICLE_TO_CORRECT</source>
+        <target>Article to be corrected</target>
+      </trans-unit>
+      <trans-unit id="6bcdbab3c90bfb5bb096e248efea6d839af89914" resname="ARTICLE_WAS_MODIFY_WITH_SUCCESS">
+        <source>ARTICLE_WAS_MODIFY_WITH_SUCCESS</source>
+        <target state="new">The article has been successfully modified.</target>
+      </trans-unit>
+      <trans-unit id="a949b75cb8a2f52f2c4cb39c9aa6fc3ad696c140" resname="ARTICLE_WRITE_AT_FROM">
+        <source><![CDATA[<p>Écrit %dateCreation% par %image% %userFullName%</p>]]></source>
+        <target state="new"><![CDATA[<p>Written %dateCreation% by %image%%userFullName%</p>]]></target>
+        <note><![CDATA[%dateCreation% is a placeholder
+%image% is a placeholder
+%userFullName% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="00e97c0abf8a977f17aba4cf885f47eb40996598" resname="BLOG">
+        <source>BLOG</source>
+        <target>Blog</target>
+      </trans-unit>
+      <trans-unit id="549430de3d9e6a018d3d3a7c9a3ffb5867556895" resname="BLOG_NO_ARTICLE">
+        <source>BLOG_NO_ARTICLE</source>
+        <target>This blog has no articles.</target>
+      </trans-unit>
+      <trans-unit id="23bcd167a865707e4096df686e928363d2bac283" resname="BLOG_PUBLICATION">
+        <source>BLOG_PUBLICATION</source>
+        <target>Publication blog</target>
+      </trans-unit>
+      <trans-unit id="080dba3e858ea0fdb27d59d7334be2a06d108bd0" resname="BLOG_UPDATE_SUCCESS">
+        <source>BLOG_UPDATE_SUCCESS</source>
+        <target state="new">Your blog has been successfully modified.</target>
+      </trans-unit>
+      <trans-unit id="ddcd87006c55da294fdbc15c17c6ac88020073b8" resname="BUTTON_ADD">
+        <source>BUTTON_ADD</source>
+        <target>Add</target>
+      </trans-unit>
+      <trans-unit id="a14285ce61b28b37e1d81e85166f5ad6500dedf8" resname="BUTTON_CANCEL_EDIT">
+        <source>BUTTON_CANCEL_EDIT</source>
+        <target state="new">Discard |changes</target>
+      </trans-unit>
+      <trans-unit id="1cfd22b8ccdd130c2173e5172c1bfac120bb8e0d" resname="BUTTON_DELETE_ARTICLES">
+        <source>BUTTON_DELETE_ARTICLES</source>
+        <target state="new">Delete | all articles</target>
+      </trans-unit>
+      <trans-unit id="c02871d0cf31ae064d639c674b25a895a0bf5872" resname="BUTTON_INSTALL_APP">
+        <source>BUTTON_INSTALL_APP</source>
+        <target state="new">Install the application</target>
+      </trans-unit>
+      <trans-unit id="ab16b95dc67cdcbc9f1c8b5d632cb09034834b40" resname="BUTTON_SEE_ARTICLE">
+        <source>BUTTON_SEE_ARTICLE</source>
+        <target>See article</target>
+      </trans-unit>
+      <trans-unit id="a5b78c7a0204c4ebb6fcd6b90b501b716969a16e" resname="CAN_CREATE_CATEGORY_AT_MANAGEMENT">
+        <source>Vous pouvez en créer à la page de %linkStart% gestion des catégories %linkEnd% </source>
+        <target state="new">You can create some on the %linkStart% category management page%linkEnd% </target>
+        <note><![CDATA[%linkStart% is a placeholder
+%linkEnd% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="762258cf78329956e6dc7cb3bbd7d7aeab4c1698" resname="CATEGORY">
+        <source>CATEGORY</source>
+        <target>Categories</target>
+      </trans-unit>
+      <trans-unit id="3bcf862ccfb64794c2785f976849a61e588c418f" resname="CATEGORY_MANAGEMENT">
+        <source>CATEGORY_MANAGEMENT</source>
+        <target>Category management</target>
+      </trans-unit>
+      <trans-unit id="69e7a1673d94849fb607d7e925ee9c70d1882343" resname="CHILD_ARTICLE_PUBLISH_CANT_MODIFY">
+        <source>CHILD_ARTICLE_PUBLISH_CANT_MODIFY</source>
+        <target>Congratulations, your article has been published! It can no longer be modified.</target>
+      </trans-unit>
+      <trans-unit id="a6f5ed2c2723411e8dffee848abc23964e8a3d43" resname="CHILD_ARTICLE_TOO_FAULT">
+        <source>CHILD_ARTICLE_TOO_FAULT</source>
+        <target>Your teacher found too many mistakes in your article, it's time to correct them!</target>
+      </trans-unit>
+      <trans-unit id="7792350a5e91ad429cbc8c1134bb23c349b12349" resname="CHILD_ARTICLE_WILL_BE_CORRECT">
+        <source>CHILD_ARTICLE_WILL_BE_CORRECT</source>
+        <target>This article is about to be corrected by your teacher. You cannot modify it for the time being.</target>
+      </trans-unit>
+      <trans-unit id="b73a0b73d64156c3dfe6eee34a7b6e2d83e11afe" resname="CHILD_BLOG_EMPTY_CREATE_FIRST">
+        <source><![CDATA[Tu n'as pas encore écrit d'article.<br /> Pourquoi ne pas en créer un nouveau]]></source>
+        <target state="new"><![CDATA[You have not written any articles for the moment.<br /> Why not start a new one?]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="0e963a624200efb1fc3dd7c482e8d5ee6a349ce2" resname="CHILD_MISSING_FIELD_PLEASE_FILL">
+        <source><![CDATA[<strong>Attention</strong>, des champs ont été oubliés. Vérifie bien si tu as rempli tous les champs.]]></source>
+        <target state="new"><![CDATA[<strong>Warning</strong>, some fields have been forgotten. Check if all fields have been completed.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="a54ca407b6a9a7fd24cdf722be868260833a5135" resname="CHOICE_TITLE">
+        <source>Veuillez saisir un titre</source>
+        <target>Please enter a title</target>
+      </trans-unit>
+      <trans-unit id="05ea2aeebb1bcb2ad1032369d543dbd4fc81dbb5" resname="COMMENTS">
+        <source>COMMENTS</source>
+        <target>Comments</target>
+      </trans-unit>
+      <trans-unit id="2458944270ee8a7ef5aaa03975d62b625192b65d" resname="COMMENT_UPDATE_SUCCESS">
+        <source>COMMENT_UPDATE_SUCCESS</source>
+        <target state="new">The comment has been successfully modified. </target>
+      </trans-unit>
+      <trans-unit id="b3a69ff6b70dd734f7099dd740e657d56c6d1ce5" resname="CONTENT_ARTICLE_SAVE_IN_DRAFT">
+        <source>CONTENT_ARTICLE_SAVE_IN_DRAFT</source>
+        <target>The content of the article has been automatically saved in your drafts.</target>
+      </trans-unit>
+      <trans-unit id="fdf072cd28561451842615ade255a766ca8a26ca" resname="CREATE_AT_FROM">
+        <source>Crée %dateCreation% par %image% %userFullName%</source>
+        <target state="new">Created %dateCreation% by %image% %userFullName%</target>
+        <note><![CDATA[%dateCreation% is a placeholder
+%image% is a placeholder
+%userFullName% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="dfbb944e9be74525885d4c3b9052d43536ae7a19" resname="DATETIME_FUTURE">
+        <source>DATETIME_FUTURE</source>
+        <target>Date format is invalid</target>
+      </trans-unit>
+      <trans-unit id="3926ea64c5d219e4b50239dc3685e419b930931d" resname="DATE_CREATION">
+        <source>DATE_CREATION</source>
+        <target>Creation date</target>
+      </trans-unit>
+      <trans-unit id="9dba263373d3e78ee7bfe92216f1f32d5cc453fb" resname="DATE_OF_PUBLISH">
+        <source>DATE_OF_PUBLISH</source>
+        <target>Publication date</target>
+      </trans-unit>
+      <trans-unit id="1148ca9ff38261ca75bedcdf1ca41d7d3c2c59c7" resname="DATE_OF_PUBLISH_PROGRAM">
+        <source>DATE_OF_PUBLISH_PROGRAM</source>
+        <target state="new">Scheduled publication date</target>
+      </trans-unit>
+      <trans-unit id="a3485fda35bc384601c7a3c36f3829b6a4af29cd" resname="DELETE_ALL_ARTICLE">
+        <source>DELETE_ALL_ARTICLE</source>
+        <target>Delete all articles</target>
+      </trans-unit>
+      <trans-unit id="524f195fe4eab412fd8766e3a68187abb208ea04" resname="DELETE_ARTICLE">
+        <source>DELETE_ARTICLE</source>
+        <target state="new">Delete article</target>
+      </trans-unit>
+      <trans-unit id="fdd1f42d0fdc3cf4f7f735570b69bad8a2d2ce8e" resname="DELETE_AVATAR">
+        <source>DELETE_AVATAR</source>
+        <target>Delete avatar</target>
+      </trans-unit>
+      <trans-unit id="43741f3c2ff083399cc6fcb45a0e4c53a0047b7e" resname="DELETE_CATEGORY">
+        <source>DELETE_CATEGORY</source>
+        <target>Delete a category</target>
+      </trans-unit>
+      <trans-unit id="0ceecbea9d37250860e1b3086c61f32787e7e837" resname="DESCRIPTION">
+        <source>DESCRIPTION</source>
+        <target>Description</target>
+      </trans-unit>
+      <trans-unit id="57e95b8390d0942f41db76b4b766f2f3d5dc396c" resname="DESCRIPTION_CONFIRM_DELETE_ARTICLES">
+        <source>DESCRIPTION_CONFIRM_DELETE_ARTICLES</source>
+        <target state="new"><![CDATA[The whole content of the articles will be lost.<br />Please note that if you had documents attached to your articles, they will not be deleted from the media library.]]></target>
+      </trans-unit>
+      <trans-unit id="b857b2a25952b71006d445a085b3415c261d8ee6" resname="DESCRIPTION_ENABLED_DISABLED_GREEN_LIGHT">
+        <source>DESCRIPTION_ENABLED_DISABLED_GREEN_LIGHT</source>
+        <target>A green light means that the moderation mode is switched on, comments will need to be confirmed before being published. A red light means that the comments are published straight away.</target>
+      </trans-unit>
+      <trans-unit id="6a38e7641eca9e526398fde49963c013b1b72edd" resname="DRAFT">
+        <source>DRAFT</source>
+        <target>Draft</target>
+      </trans-unit>
+      <trans-unit id="04d869218b0a18694f553c0bf70edb614611c5c2" resname="DRAFTS">
+        <source>DRAFTS</source>
+        <target>Drafts</target>
+      </trans-unit>
+      <trans-unit id="ace453219493b75b863f5545ba047c69fb4d2f81" resname="EDIT_COMMENT">
+        <source>EDIT_COMMENT</source>
+        <target>Edit a comment</target>
+      </trans-unit>
+      <trans-unit id="6dbe30ba7187b962a51f7095a43be5780aed9f66" resname="EXPORT_ARTICLES">
+        <source>EXPORT_ARTICLES</source>
+        <target state="new">Export articles</target>
+      </trans-unit>
+      <trans-unit id="cbd6715e721f828ee1f0689e0c173acd484dd992" resname="FILTER_ARTICLE">
+        <source>FILTER_ARTICLE</source>
+        <target>Filter articles</target>
+      </trans-unit>
+      <trans-unit id="6bde9fe09618d949cbc29826e1ddfce77058897d" resname="FLASH_ARTICLE_WAS_MODIFY">
+        <source>FLASH_ARTICLE_WAS_MODIFY</source>
+        <target state="new">Your article has been successfully modified.</target>
+      </trans-unit>
+      <trans-unit id="fb34ac36ad265a3b9ff57a566eb3819d2044e7b7" resname="FLASH_MODERATION_IN_PROGRESS">
+        <source>FLASH_MODERATION_IN_PROGRESS</source>
+        <target state="new">It is awaiting moderation.</target>
+      </trans-unit>
+      <trans-unit id="03fbfca495f5722b5e85f4bca8a6b5dc5b78a5f3" resname="GENERATE_PDF_BLOG">
+        <source><![CDATA[<strong>Générer un PDF</strong><br />du blog]]></source>
+        <target state="new"><![CDATA[Export blog | in PDF]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="4030f4fe36434302b691c2ef59d1ea47ef394b26" resname="INVALID_DATE">
+        <source>INVALID_DATE</source>
+        <target>Date format is invalid</target>
+      </trans-unit>
+      <trans-unit id="14cb99da298b2de74314284d8a3fd4ebfc81c232" resname="INVALID_HOUR">
+        <source>INVALID_HOUR</source>
+        <target>Hour format is invalid</target>
+      </trans-unit>
+      <trans-unit id="59baa5955fe63184d3b48a1af01970df39f99389" resname="KEEP_ALL_ARTICLE">
+        <source>KEEP_ALL_ARTICLE</source>
+        <target>Keep all articles</target>
+      </trans-unit>
+      <trans-unit id="b387327c8fef598b7ae2e5ac3a5b125f92502e68" resname="LABEL_ALLOW_COMMENT">
+        <source>LABEL_ALLOW_COMMENT</source>
+        <target>Allow comments</target>
+      </trans-unit>
+      <trans-unit id="6d3a00b1ce2ed964dc57f1efe55e4ecca0c74fd1" resname="LABEL_DATE">
+        <source>LABEL_DATE</source>
+        <target>Date</target>
+      </trans-unit>
+      <trans-unit id="db64255f8860fac466b9dd670e8352121eaeb27c" resname="LABEL_DATEPICKER_DAY_ARTICLE">
+        <source>LABEL_DATEPICKER_DAY_ARTICLE</source>
+        <target>Date: </target>
+      </trans-unit>
+      <trans-unit id="790aa5380799a7e607bb5d7fbcdf38ccecd365db" resname="LABEL_DATEPICKER_HOUR_ARTICLE">
+        <source>LABEL_DATEPICKER_HOUR_ARTICLE</source>
+        <target>Time: </target>
+      </trans-unit>
+      <trans-unit id="5053adac45a8555255e59897ebd3a9ba96f566f0" resname="LABEL_DATEPICKER_MINUTE">
+        <source>H</source>
+        <target state="new">:</target>
+        <note><![CDATA[This label]]></note>
+      </trans-unit>
+      <trans-unit id="0e04b51c4a75c900486ed838fc527daba83ed0ab" resname="LABEL_INCLUDE_COMMENT">
+        <source>LABEL_INCLUDE_COMMENT</source>
+        <target>Include comments</target>
+      </trans-unit>
+      <trans-unit id="90752e5b7fdc35fbd0f98bd29dd8b9131f7ce2e6" resname="LABEL_MODIFICATION_AVATAR">
+        <source>LABEL_MODIFICATION_AVATAR</source>
+        <target>Choose an avatar</target>
+      </trans-unit>
+      <trans-unit id="75d56cce7a38489f415c7ddaaba13229b7a31c7b" resname="LABEL_ORDER">
+        <source>LABEL_ORDER</source>
+        <target state="new">List articles by chronological order</target>
+      </trans-unit>
+      <trans-unit id="0b29c588cd8a536074ff0c41d8ca8ea5a32dcff3" resname="LABEL_ORDER_ASC">
+        <source>LABEL_ORDER_ASC</source>
+        <target>List articles by chronological order</target>
+      </trans-unit>
+      <trans-unit id="bbca5869f001d2dbe5bf5f97875f5e7e0c65c09e" resname="LABEL_STATUS_NO_CORRECT">
+        <source>LABEL_STATUS_NO_CORRECT</source>
+        <target>Article status in incorrect, please try again</target>
+      </trans-unit>
+      <trans-unit id="c8128eb0ebbcb904a6d64f9051f7d1191ebf1bea" resname="LABEL_TIME">
+        <source>LABEL_TIME</source>
+        <target>Time</target>
+      </trans-unit>
+      <trans-unit id="0147649f0444df25e6ebb3a96de50ced80e6e544" resname="LAST_MODIFICATION_AT">
+        <source>Dernière modification %dateCreation%</source>
+        <target state="new">Last modification %dateCreation%</target>
+        <note><![CDATA[%dateCreation% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="97fda04ca32a9685770ed51506712cbe1f6e53d0" resname="LEAVE_EMPTY_TO_PARAM_TODAY">
+        <source>LEAVE_EMPTY_TO_PARAM_TODAY</source>
+        <target>Leave empty to set today's date and time for your publication</target>
+      </trans-unit>
+      <trans-unit id="6eb7e9ccca64938b6808272c96c47250e5f8bf02" resname="LINK_ADD_CATEGORY">
+        <source>LINK_ADD_CATEGORY</source>
+        <target>Add a category</target>
+      </trans-unit>
+      <trans-unit id="7a11367527a8948b0e23dd077b244a8bb03ffd8c" resname="LINK_ALL_ARTICLES">
+        <source>LINK_ALL_ARTICLES</source>
+        <target>All articles</target>
+      </trans-unit>
+      <trans-unit id="5d22b9e7f8465c87c5645b8447a2d7dc6e789e93" resname="LINK_ALL_AUTHORS">
+        <source>LINK_ALL_AUTHORS</source>
+        <target>All authors</target>
+      </trans-unit>
+      <trans-unit id="4b1aee8a3a846eb31bec58f0f4f01ec616069545" resname="LINK_ALL_CATEGORIES">
+        <source>LINK_ALL_CATEGORIES</source>
+        <target>All categories</target>
+      </trans-unit>
+      <trans-unit id="1582bcbd6be14fe41dc9a80df95c130b214a7d01" resname="LINK_BACK_TO_ARTICLE">
+        <source><![CDATA[<strong>Retourner</strong><br/> à l'article]]></source>
+        <target state="new"><![CDATA[<strong>Go back</strong><br/>to the article]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="f6bfc9bbfe2fe70aee594f7f46e3d31051711412" resname="LINK_BACK_TO_ARTICLES">
+        <source><![CDATA[<strong>Retourner</strong><br/>aux articles]]></source>
+        <target state="new"><![CDATA[Go back | to articles]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="d8be7dd02f85a983a8d9ac68de97a3624ae6e657" resname="LINK_BACK_TO_LIST">
+        <source><![CDATA[<strong>Retourner</strong><br /> à la liste]]></source>
+        <target state="new"><![CDATA[Go back to the list]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="362e4d13cd082730c9e86071260ac4767d666ead" resname="LINK_BACK_TO_MODERATION">
+        <source><![CDATA[<strong>Retourner</strong><br/> à la moderation]]></source>
+        <target state="new"><![CDATA[<strong>Go back</strong><br/> to moderation]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="588919bca6344699fa4d21899e36b0552dfc6bce" resname="LINK_CANCEL_CREATION">
+        <source><![CDATA[<strong>Annuler</strong><br/>la création]]></source>
+        <target state="new"><![CDATA[Cancel | creation]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="dc18bf9845b96bd9268c6bad62247848e21a0c0a" resname="LINK_CANCEL_EDIT">
+        <source><![CDATA[<strong>Annuler</strong><br/> les modifications]]></source>
+        <target state="new"><![CDATA[<strong>Discard</strong><br/>changes]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="f32334b41ec1e592405625c6b43db3c85ba7db83" resname="LINK_CLOSE">
+        <source>LINK_CLOSE</source>
+        <target state="new">Cancel</target>
+      </trans-unit>
+      <trans-unit id="c6bfec0e7fee508cb4426dcbd13842dd5c0cb157" resname="LINK_COMMENTS">
+        <source>LINK_COMMENTS</source>
+        <target>Comments</target>
+      </trans-unit>
+      <trans-unit id="b7d66f370eb9db2bffddba76b802d392e98064d5" resname="LINK_COMMENT_DENY">
+        <source>Commentaires refusés</source>
+        <target state="new">Declined comments</target>
+      </trans-unit>
+      <trans-unit id="a37fc6ff9b6bfb57e3ad2eb2432309b31ac783f8" resname="LINK_COMMENT_PUBLISH">
+        <source>Commentaires publiés</source>
+        <target state="new">Published comments</target>
+      </trans-unit>
+      <trans-unit id="53eba309569c2b4fd057a4aeeab7500fb54fd256" resname="LINK_CONFIRM_PUBLICATION">
+        <source><![CDATA[<strong>Confirmer</strong><br />la publication]]></source>
+        <target state="new"><![CDATA[<strong>Confirm</strong><br />publication]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="a6226e5b696d208080e66cd1a50b68d935378806" resname="LINK_CREATE_ARTICLE">
+        <source>LINK_CREATE_ARTICLE</source>
+        <target>Write an article</target>
+      </trans-unit>
+      <trans-unit id="a14dd84cdd936625497432e4e1b6e2e4508865b3" resname="LINK_CUSTOMIZE">
+        <source>LINK_CUSTOMIZE</source>
+        <target>Customisation</target>
+      </trans-unit>
+      <trans-unit id="d124790ade9ae978117e5f34abbe6c744695b673" resname="LINK_DELETE_ARTICLE">
+        <source><![CDATA[<strong>Supprimer</strong><br /> l'article]]></source>
+        <target state="new"><![CDATA[Delete | article]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="b4c1f8c0bae428042f09128de932eb99f9e5184c" resname="LINK_DETACH_ARTICLE">
+        <source><![CDATA[<strong>Détacher</strong><br /> l'article]]></source>
+        <target state="new"><![CDATA[Remove | article]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="615fb876f2d08603b003c90331c7f4e8c8ae9e53" resname="LINK_EDIT_ARTICLE">
+        <source><![CDATA[<strong>Éditer</strong><br /> l'article]]></source>
+        <target state="new"><![CDATA[Edit | article]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="a757e129664a3a04f5ec236bb2b06e58735e96d8" resname="LINK_FINISH_ARTICLE">
+        <source>LINK_FINISH_ARTICLE</source>
+        <target>Submit my article</target>
+      </trans-unit>
+      <trans-unit id="82bffc0b0065d85fc56f474ddf9ec03242e1940d" resname="LINK_NO_ICON">
+        <source>LINK_NO_ICON</source>
+        <target>No icon</target>
+      </trans-unit>
+      <trans-unit id="5711ce682d2c3390ff72e934752a3f3294bcfb26" resname="LINK_PIN_ARTICLE">
+        <source><![CDATA[<strong>Épingler</strong><br /> l'article]]></source>
+        <target state="new"><![CDATA[Pin | article]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="5bd9d9aa886c245008703f1e2b288c519b1b258c" resname="LINK_SAVE_ARTICLE">
+        <source>LINK_SAVE_ARTICLE</source>
+        <target state="new">Save article</target>
+      </trans-unit>
+      <trans-unit id="81398657ca69eda5dc405bc9ba45de8c32099259" resname="LINK_SAVE_COMMENT">
+        <source>LINK_SAVE_COMMENT</source>
+        <target state="new">Save comment</target>
+      </trans-unit>
+      <trans-unit id="7389853ccba45b91137354dca0187d12c1e53b8f" resname="LINK_SAVE_IN_DRAFT">
+        <source><![CDATA[<strong>Enregistrer</strong><br/>dans les brouillons]]></source>
+        <target state="new"><![CDATA[Save | as draft]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="b490d0c6331304ada7edb0bed31eae8430710441" resname="LINK_SAVE_MODIFICATION">
+        <source>LINK_SAVE_MODIFICATION</source>
+        <target state="new">Save changes</target>
+      </trans-unit>
+      <trans-unit id="50e7b4faac0a299a379825d19ac21d6c093a4a33" resname="LINK_SEE_ALL_COMMENT">
+        <source>Commentaires en modération</source>
+        <target state="new">Comments being moderated</target>
+      </trans-unit>
+      <trans-unit id="ba94f20cdfa4b65029e539e0c530e737fa9794cd" resname="LINK_SEE_ARTICLE">
+        <source><![CDATA[<strong>Voir</strong><br/> l'article]]></source>
+        <target state="new"><![CDATA[See | article]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="c3b32ee2a5545e846f867081106b1290a857e8d0" resname="LINK_VALID">
+        <source>LINK_VALID</source>
+        <target>Validate</target>
+      </trans-unit>
+      <trans-unit id="8e85e03d9ea18ad3a2b2eafde3d01585937774dc" resname="LINK_VALIDATE_ALL_COMMENT">
+        <source>LINK_VALIDATE_ALL_COMMENT</source>
+        <target>Validate all comments</target>
+      </trans-unit>
+      <trans-unit id="799ed4e32d2d217afcbf6b742f62becdb392db2a" resname="LINK_WRITE_ARTICLE">
+        <source>LINK_WRITE_ARTICLE</source>
+        <target>Write an article</target>
+      </trans-unit>
+      <trans-unit id="16bf9b92cbb255acb6a7b7aa8f400cb4d987abf2" resname="LINK_YERBOOK">
+        <source>LINK_YERBOOK</source>
+        <target state="new">Yërbook 2017</target>
+      </trans-unit>
+      <trans-unit id="c1571958139ab49186b6c28ee28a62ffb8b4a108" resname="LINK_YES_SURE">
+        <source>Oui, je suis sûr</source>
+        <target>Delete category</target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="6ce640c127a5a5efe62b83c776843d55802169f6" resname="MANAGE_CATEGORY">
+        <source>MANAGE_CATEGORY</source>
+        <target>Manage categories</target>
+      </trans-unit>
+      <trans-unit id="7c3c523769b8b23585c85ab4ff3e187af41c7a56" resname="MODERATIONS">
+        <source>MODERATIONS</source>
+        <target>Moderation</target>
+      </trans-unit>
+      <trans-unit id="c829d4811127fed21141653b9b2fca32d175c626" resname="MODERATION_COMMENT">
+        <source>MODERATION_COMMENT</source>
+        <target>Comment moderation</target>
+      </trans-unit>
+      <trans-unit id="42c01ddc80db675de556ce98ee6763db8f77ee40" resname="NEW_CATEGORY">
+        <source>NEW_CATEGORY</source>
+        <target>New category</target>
+      </trans-unit>
+      <trans-unit id="aad93be9cdd2f6019b39a69979d6eb62788b02b1" resname="NO_ARTICLE_FOUND">
+        <source>NO_ARTICLE_FOUND</source>
+        <target state="new">No article was found.</target>
+      </trans-unit>
+      <trans-unit id="79e0463cfc912aa68bcb9d28aa154b0950bdbd35" resname="NO_ARTICLE_IN_BLOG_CREATE_ONE">
+        <source>NO_ARTICLE_IN_BLOG_CREATE_ONE</source>
+        <target><![CDATA[No articles on this blog.<br />Why not write one?]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="0ebd5460d223dd0492ebe371e01cc7dd074cf6e2" resname="NO_ARTICLE_IN_BLOG_FIRST_TOO_CREATE">
+        <source>NO_ARTICLE_IN_BLOG_FIRST_TOO_CREATE</source>
+        <target><![CDATA[No articles on this blog. <br />Click on the button below to be<br /> the first to write one.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="efa90a9bc92d259ebbcdcf24c18d40e29d2e2bdb" resname="NO_ARTICLE_IN_CATEGORY_CREATE_ONE">
+        <source>NO_ARTICLE_IN_CATEGORY_CREATE_ONE</source>
+        <target><![CDATA[No articles in this category.<br />Why not write one?]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="b34fd3003b6568abeb860f67aec5c17786e55907" resname="NO_ARTICLE_IN_CATEGORY_FIRST_TOO_CREATE">
+        <source>NO_ARTICLE_IN_CATEGORY_FIRST_TOO_CREATE</source>
+        <target>No articles in this category. Click on the button below to be the first to write one.</target>
+      </trans-unit>
+      <trans-unit id="da1951d740fb63f27579ab063f27e385ed019014" resname="NO_CATEGORY_CAN_CREATE_ONE">
+        <source>NO_CATEGORY_CAN_CREATE_ONE</source>
+        <target>No categories. Why not create one now?</target>
+      </trans-unit>
+      <trans-unit id="529657200b9291d73ab54f5ac6ee0367d8e704ee" resname="NO_CATEGORY_CREATE_WITH_UPPER_FIELD">
+        <source>NO_CATEGORY_CREATE_WITH_UPPER_FIELD</source>
+        <target>No categories yet. You can create one thanks to the following fields above to organise your articles.</target>
+      </trans-unit>
+      <trans-unit id="341422f2736c4c648edea62fc2fed489e9358b5a" resname="NO_CATEGORY_YET">
+        <source>NO_CATEGORY_YET</source>
+        <target>No categories yet.</target>
+      </trans-unit>
+      <trans-unit id="deeb81b123d0d081955aa70a7bd0f728ea5801d6" resname="OF_PUBLICATION">
+        <source>OF_PUBLICATION</source>
+        <target>Publication</target>
+      </trans-unit>
+      <trans-unit id="d7054bbf61252e480e751bc3c1db50b7249f710e" resname="PERSONNALIZATION">
+        <source>PERSONNALIZATION</source>
+        <target>Customisation</target>
+      </trans-unit>
+      <trans-unit id="205c21507ecceb1663bfc96d88b5aa48af5f63f8" resname="PERSONNALIZATION_BLOG">
+        <source>PERSONNALIZATION_BLOG</source>
+        <target>Blog customisation</target>
+      </trans-unit>
+      <trans-unit id="71aba12330f136e85b390a8fa306001f0b246989" resname="PLACEHOLDER_DATE">
+        <source>PLACEHOLDER_DATE</source>
+        <target state="new">day / month / year</target>
+      </trans-unit>
+      <trans-unit id="4be708deb7a279967c2d912150819f7dcb917a9b" resname="PLACEHOLDER_TITLE_NEW_CATEGORY">
+        <source>Titre de la nouvelle catégorie</source>
+        <target>Title of the new category</target>
+      </trans-unit>
+      <trans-unit id="4715fb6727e137a856531a4e248368706ef9515c" resname="PLEASE_CHOICE">
+        <source>PLEASE_CHOICE</source>
+        <target>Please choose</target>
+      </trans-unit>
+      <trans-unit id="3d5dcfce09edadb55f33933971dcbf6e28b96354" resname="PROGRAMMED_ARTICLE">
+        <source>PROGRAMMED_ARTICLE</source>
+        <target>Scheduled articles</target>
+      </trans-unit>
+      <trans-unit id="c13440da2f1b9416821d390167c338f8ebc97c01" resname="PROGRAM_PUBLICATION">
+        <source>PROGRAM_PUBLICATION</source>
+        <target>Schedule publication</target>
+      </trans-unit>
+      <trans-unit id="6f219a1e90c0f50d0a70e48405a334113d0dfbbe" resname="PUBLISH_ARTICLE">
+        <source>PUBLISH_ARTICLE</source>
+        <target>Published articles</target>
+      </trans-unit>
+      <trans-unit id="748a52ac62b33e399804f8bb388233dc96372a82" resname="PUBLISH_AT_FROM">
+        <source>Publié %dateCreation% par %image% %userFullName%</source>
+        <target state="new">Published %dateCreation% by %image% %userFullName%</target>
+        <note><![CDATA[%dateCreation% is a placeholder
+%image% is a placeholder
+%userFullName% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="8f64b1b57e71375055aef9f922b6eb4d563fd22e" resname="STUDENTS">
+        <source>STUDENTS</source>
+        <target>Students</target>
+      </trans-unit>
+      <trans-unit id="e19d4eed3f18c3f56a0938df1922fc3ab8bb7af8" resname="TIME_OF_PUBLISH">
+        <source>TIME_OF_PUBLISH</source>
+        <target state="new">Publication time</target>
+      </trans-unit>
+      <trans-unit id="7e157c34cb5a2574cffe52a200cc39440739df81" resname="TIME_OF_PUBLISH_PROGRAM">
+        <source>TIME_OF_PUBLISH_PROGRAM</source>
+        <target state="new">Scheduled publication time</target>
+      </trans-unit>
+      <trans-unit id="a9e7260e994f579161b279a20b59b22700283242" resname="TITLE_ADULT_CONFIRMATION_DELETE">
+        <source><![CDATA[
+        <h3>Êtes-vous sûr de vouloir supprimer l'article "%articleTitle%" de votre blog ?</h3>
+         <div class="md-body-1">Vous perdrez la totalité du contenu de l'article.<br/>A noter que les documents joints/insérés ne seront pas supprimés.</div>
+         ]]></source>
+        <target state="new"><![CDATA[
+        <h3>Do you really want to delete the article "%articleTitle%" of your blog?</h3>
+         <div class="md-body-1">The whole content of the article will be lost.<br/>Please note that all attached/inserted documents will not be deleted.</div>
+         ]]></target>
+        <note><![CDATA[%articleTitle% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="5481a474af9eb80e3d836020f09467ba2510033d" resname="TITLE_ARCHIVE">
+        <source>TITLE_ARCHIVE</source>
+        <target>Archives</target>
+      </trans-unit>
+      <trans-unit id="c1bf9bb3935bb5db931192134321a3c3b49c98c9" resname="TITLE_ARTICLES">
+        <source>TITLE_ARTICLES</source>
+        <target>Articles</target>
+      </trans-unit>
+      <trans-unit id="d71b554b427339d9d67b617744daea28d80f8118" resname="TITLE_ARTICLE_MANAGEMENT">
+        <source>TITLE_ARTICLE_MANAGEMENT</source>
+        <target>Management</target>
+      </trans-unit>
+      <trans-unit id="f028b399c91808be5d93252577c883ace35102f4" resname="TITLE_AUTHOR">
+        <source>TITLE_AUTHOR</source>
+        <target>Authors</target>
+      </trans-unit>
+      <trans-unit id="33dc15544d93ca648f869d01262b583811303bda" resname="TITLE_BLOG">
+        <source>TITLE_BLOG</source>
+        <target>Blog title</target>
+      </trans-unit>
+      <trans-unit id="a4a7ba375b2dd63308cf90f1dd74fcdbde971bd2" resname="TITLE_BLOG_TITLE_CATEGORY">
+        <source>%blogTitle% - Catégories</source>
+        <target state="new">%blogTitle% - Categories</target>
+        <note><![CDATA[%blogTitle% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="fd8ea9a6d612b08464589e5501b1d7e6aa870f3c" resname="TITLE_CATEGORY">
+        <source>TITLE_CATEGORY</source>
+        <target>Categories</target>
+      </trans-unit>
+      <trans-unit id="5e1c5f8fc6a7bceed2e39c5c1e4a3593886ecbf6" resname="TITLE_CHILD_CONFIRMATION_DELETE">
+        <source><![CDATA[
+        <h3>Tu es sûr de vouloir supprimer l'article "%articleTitle%" de ton blog ?</h3>
+         <div class="md-body-1">tu perdras la totalité du contenu de l'article.<br/>A noter que les documents joints/insérés ne seront pas supprimés.</div>
+         ]]></source>
+        <target state="new"><![CDATA[
+        <h3>Do you really want to delete the article "%articleTitle%" of your blog?</h3>
+         <div class="md-body-1">The whole content of the article will be lost.<br/>Please note that all attached/inserted documents will not be deleted.</div>
+         ]]></target>
+        <note><![CDATA[%articleTitle% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="d5a4d89bd3f82419cba2391621dd4f0d6ffdbff0" resname="TITLE_COMMENT">
+        <source>TITLE_COMMENT</source>
+        <target>Comments</target>
+      </trans-unit>
+      <trans-unit id="3c75ffdf9337bd4f04a28ad08ffb453c0e47437c" resname="TITLE_COMMENT_">
+        <source>%blogTitle% - Commentaires</source>
+        <target state="new">%blogTitle% - Comments</target>
+        <note><![CDATA[%blogTitle% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="f32f3054f744fde5a112621efd70eea7e3d2e319" resname="TITLE_COMMENT_EDIT">
+        <source>%blogTitle% - Éditer un commentaire</source>
+        <target state="new">%blogTitle% - Edit a comment</target>
+        <note><![CDATA[%blogTitle% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="29380798041e818a8f5793b700c13ea93eb9e7db" resname="TITLE_CONFIRMATION_PROGRAM_ARTICLE">
+        <source><![CDATA[
+        <h2>Attention, vous avez configuré la date de publication de quelques minutes/heures dans le futur...</h2>
+         <h3>Si vous confirmez cette publication, le statut de l'article se transformera en publication programmée et celui-ci ne sera publié qu'à l'heure souhaitée.</h3>
+         ]]></source>
+        <target state="new"><![CDATA[
+        <h2>Warning, the publication date has been set to a couple of minutes/hours in the future...</h2>
+         <h3>If you confirm this publication, the article status will be set to publish at the specified time.</h3>
+         ]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="27fee05efad1d5207dc06049317d85882d087e78" resname="TITLE_CONFIRM_DELETE_ARTICLES">
+        <source>TITLE_CONFIRM_DELETE_ARTICLES</source>
+        <target state="new">Do you really want to delete the selected articles?</target>
+      </trans-unit>
+      <trans-unit id="5870272c171419cff93b46414f7d1bd74e31dc75" resname="TITLE_CREATE_ARTICLE">
+        <source>%blogTitle% - Créer un nouvel article</source>
+        <target state="new">%blogTitle% - Write a new article</target>
+        <note><![CDATA[%blogTitle% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="3ac5a29e411924d83128425fe20baac394794483" resname="TITLE_DELETE_ARTICLES">
+        <source>TITLE_DELETE_ARTICLES</source>
+        <target state="new">Delete all articles</target>
+      </trans-unit>
+      <trans-unit id="ffc97f1707af3a397611b2c10a990d4412bd1c71" resname="TITLE_EDIT_ARTICLE">
+        <source>%blogTitle% - Éditer un article</source>
+        <target state="new">%blogTitle% - Edit an article</target>
+        <note><![CDATA[%blogTitle% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="2ecb7b64e34b4094573b583f34717b21f091dc70" resname="TITLE_FILTER_THIS_GENERATE_ON_CATEGORY">
+        <source>TITLE_FILTER_THIS_GENERATE_ON_CATEGORY</source>
+        <target>Do you want to restrict this export to one blog category?</target>
+      </trans-unit>
+      <trans-unit id="f016ba1f0fc926eee64f1fb86a6f18cac5f3a200" resname="TITLE_GENERATE_BLOG_PDF">
+        <source>TITLE_GENERATE_BLOG_PDF</source>
+        <target>Export blog as PDF</target>
+      </trans-unit>
+      <trans-unit id="d35edb531f7088c60d68fd993e59e330dd2201b0" resname="TITLE_GENERATE_PDF">
+        <source><![CDATA[
+        <h2>Vous êtes sur le point de générer un fichier PDF.</h2>
+         <h3>Ce fichier PDF reprendra les articles de votre blog. Votre navigateur Internet va vous proposer de télécharger ce fichier.</h3>
+         ]]></source>
+        <target state="new"><![CDATA[
+        <h2>You are about to create a PDF file.</h2>
+         <h3>This PDF file will include the articles of your blog. You will be asked to download this file by your internet browser.</h3>
+         ]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="8d1cd2badd43b8023f061ff4c605ba278e0b13c0" resname="TITLE_MANAGEMENT">
+        <source>%blogTitle% - Gestion</source>
+        <target state="new">%blogTitle% - Management</target>
+        <note><![CDATA[%blogTitle% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="2b4a5c34439a60e9e72f237f2905229287cf9eb5" resname="TITLE_OTHER">
+        <source>TITLE_OTHER</source>
+        <target>Others</target>
+      </trans-unit>
+      <trans-unit id="629cf090cd03c045acf1f801954562eeeb306ac1" resname="TITLE_OTHER_BLOG">
+        <source>TITLE_OTHER_BLOG</source>
+        <target>Other blog</target>
+      </trans-unit>
+      <trans-unit id="0a4c04d96ff5d3ddadb1412ff8c41491ad277b46" resname="TITLE_PERSONNALIZATION">
+        <source>%blogTitle% - Personnalisation</source>
+        <target state="new">%blogTitle% - Customisation</target>
+        <note><![CDATA[%blogTitle% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="967cd4bc8440c2f95743dc99faf4c396069c46d3" resname="TITLE_PUBLISH">
+        <source>TITLE_PUBLISH</source>
+        <target state="new">Publication</target>
+      </trans-unit>
+      <trans-unit id="ea2dc30ca770178e5822a0821776a2f2a4518fd7" resname="TITLE_PUBLISH_PROGRAM">
+        <source>TITLE_PUBLISH_PROGRAM</source>
+        <target state="new">Scheduled publication</target>
+      </trans-unit>
+      <trans-unit id="b78d853e5a299b41fd28f96a01a0c21616c225d4" resname="TITLE_SURE_DELETE_CATEGORY">
+        <source>TITLE_SURE_DELETE_CATEGORY</source>
+        <target><![CDATA[<h2>Are you sure you want to delete this category "<span class="title"></span>" ?</h2> 		<p class="sub-category-warning"> Please note that the deletion of this category will also delete all its subcategories! 		</p>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="b07618bd7e5d5d1cf7b5a30e3f98977d57138917" resname="TITLE_WORD_BLOG">
+        <source>Blog</source>
+        <target state="new">Blog</target>
+      </trans-unit>
+      <trans-unit id="e32408207eecb066608a1ba3efcbac7caa0130cc" resname="TITLE_WRITE_DESCRIPTION">
+        <source>TITLE_WRITE_DESCRIPTION</source>
+        <target>Write a description</target>
+      </trans-unit>
+      <trans-unit id="a2732158d75ba9a692847b56cbebbc9e38f0778c" resname="TITLE_YERBOOK">
+        <source>TITLE_YERBOOK</source>
+        <target state="new">Yërbook</target>
+      </trans-unit>
+      <trans-unit id="6bec86b4aebc3006b90eefe843f0b3dff02d91f9" resname="TITLE_YERBOOK_IS_BACK">
+        <source>TITLE_YERBOOK_IS_BACK</source>
+        <target state="new">The Yërbook is back</target>
+      </trans-unit>
+      <trans-unit id="b2dd2b5101ba5e6055d7b2e74df47c5d731f03d9" resname="WARNING_ARTICLE_FUTURE">
+        <source>WARNING_ARTICLE_FUTURE</source>
+        <target>Your article is about to be published in the future</target>
+      </trans-unit>
+      <trans-unit id="5e31f1739f7d85b963f3a199fc90f3ed9ea4f8c1" resname="WRITE_ARTICLE">
+        <source>WRITE_ARTICLE</source>
+        <target>Write an article</target>
+      </trans-unit>
+      <trans-unit id="86d673885c5284c426c1c60d28cc7054cc52a274" resname="WRITE_AT_FROM">
+        <source>Publiée %dateCreation% par %image% %userFullName%</source>
+        <target state="new">Published %dateCreation% by %image% %userFullName%</target>
+        <note><![CDATA[%dateCreation% is a placeholder
+%image% is a placeholder
+%userFullName% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="2bbdad9087bf423ad6408df657d5bf5f216b6ac6" resname="YERBOOK_PRESENTATION">
+        <source>YERBOOK_PRESENTATION</source>
+        <target state="new">Install the Yërbook application to select the blog articles that will make up the souvenir book of your classroom. Write a message for your pupils, add the class photo and even a facebook! You're the editor in chief.</target>
+      </trans-unit>
+      <trans-unit id="045b3a7943d7be5090d215677e12a7c4715f3875" resname="COMMENT_MODERATION_CLOSED">
+         <source>COMMENT_MODERATION_CLOSED</source>
+         <target>Comment moderation switched off</target>
+       </trans-unit>
+       <trans-unit id="66fc6a3fa90c540f03263b8f9c623852d8dc2e9c" resname="COMMENT_MODERATION_OPENED">
+         <source>COMMENT_MODERATION_OPENED</source>
+         <target>Comment moderation switched on</target>
+       </trans-unit>
+    </body>
+  </file>
+</xliff>

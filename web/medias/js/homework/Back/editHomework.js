@@ -9,6 +9,7 @@ $(document).ready(function ()
     if($("#homework_form_recurrence_type").val() == 'ONCE') {
         $("#recurence-end").hide();
     }
+    
 
     $("#homework_form_recurrence_type").change(function(){
         if($(this).val() == 'ONCE') {
@@ -18,6 +19,13 @@ $(document).ready(function ()
         }
     });
     
+    if ($('.container-content .alert.alert-success').length > 0) {
+        setTimeout(function ()
+        {
+                $('.bns-alert div').slideUp('fast', function () { var $this = $(this); $this.parent().slideUp('fast', function () { $this.show() }) });
+        }, 8000); // 8 seconds
+    }
+    
     $("#homework_form_date").change(function(){
         $("#homework_form_recurrence_days").find(':checkbox').removeAttr("checked");
          var day = getDateFromFormat($(this).val(), "dd/MM/y");
@@ -26,7 +34,6 @@ $(document).ready(function ()
          $("#homework_form_recurrence_days_"+nb).attr('checked', 'checked');
     });
 
-    $( ".jq-date" ).datepicker({});
     
     $(".submit-save-homework").click(function(){$("#add-homework-form").submit();})
     $(".submit-savecontinue-homework").click(function(){

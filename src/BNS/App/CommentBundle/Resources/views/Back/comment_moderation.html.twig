@@ -1,28 +1,44 @@
+{% trans_default_domain "COMMENT" %}
+
+<a href="{{ path(editRoute, {'id': comment.getId()}) }}" class="btn-16 small btn bns-info">
+	<span class="icons-16 edit-icon"></span>
+	{{ 'LINK_EDIT'|trans }}
+</a>
+
 {% if comment.getStatus() == 'PENDING_VALIDATION' %}
-	<a href="#" class="btn-16 small btn bns-danger" data-filter-status="REFUSED">
+	<a href="#" class="btn-16 small btn bns-danger moderation-button" data-filter-status="REFUSED">
 		<span class="icons-16 delete-icon"></span>
-		<strong>Refuser</strong>
+        {{ 'LINK_DENY'|trans |desc('<strong>Refuser</strong>') |raw }}
+
+
 	</a>
-	<a href="#" class="btn-16 small btn bns-success" data-filter-status="VALIDATED">
+	<a href="#" class="btn-16 small btn bns-success moderation-button" data-filter-status="VALIDATED">
 		<span class="icons-16 validate-icon"></span>
-		<strong>Valider</strong>
+        {{ 'LINK_VALIDATE'|trans |desc('<strong>Valider</strong>') |raw }}
+
+
 	</a>
 {% elseif comment.getStatus() == 'VALIDATED' %}
-	<a href="#" class="btn-16 small btn bns-warning" data-filter-status="PENDING_VALIDATION">
+	<a href="#" class="btn-16 small btn bns-warning moderation-button" data-filter-status="PENDING_VALIDATION">
 		<span class="icons-16 preview-icon"></span>
-		<strong>Passer en modération</strong>
+        {{ 'LINK_GO_TO_MODERATION'|trans |desc('<strong>Passer en modération</strong>') |raw }}
+
+
 	</a>
-	<a href="#" class="btn-16 small btn bns-danger" data-filter-status="REFUSED">
+	<a href="#" class="btn-16 small btn bns-danger moderation-button" data-filter-status="REFUSED">
 		<span class="icons-16 delete-icon"></span>
-		<strong>Refuser</strong>
-	</a>
+        {{ 'LINK_DENY'|trans |desc('<strong>Refuser</strong>') |raw }}
+
+    </a>
 {% else %} {# REFUSED #}
-	<a href="#" class="btn-16 small btn bns-warning" data-filter-status="PENDING_VALIDATION">
+	<a href="#" class="btn-16 small btn bns-warning moderation-button" data-filter-status="PENDING_VALIDATION">
 		<span class="icons-16 preview-icon"></span>
-		<strong>Passer en modération</strong>
-	</a>
-	<a href="#" class="btn-16 small btn bns-success" data-filter-status="VALIDATED">
+        {{ 'LINK_GO_TO_MODERATION'|trans |desc('<strong>Passer en modération</strong>') |raw }}
+
+    </a>
+	<a href="#" class="btn-16 small btn bns-success moderation-button" data-filter-status="VALIDATED">
 		<span class="icons-16 validate-icon"></span>
-		<strong>Valider</strong>
-	</a>
+        {{ 'LINK_VALIDATE'|trans |desc('<strong>Valider</strong>') |raw }}
+
+    </a>
 {% endif %}

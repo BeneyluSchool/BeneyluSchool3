@@ -1,0 +1,121 @@
+{% extends '::base.html.twig' %}
+{% trans_default_domain "MAIN" %}
+
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+
+{% set google_fonts = [
+'Jockey One',
+'Bree Serif',
+'Boogaloo',
+'Source Sans Pro',
+] %}
+
+{% block css %}
+  <link rel="stylesheet" href="{{ asset('assets/styles/styles-light.css') }}"/>
+{% endblock %}
+
+{% block html_attr %}ng-app="beneyluSchoolAuthApp" class="auth-app"{% endblock %}
+
+{% block main_javascripts %}
+  <script type="text/javascript" src="{{ asset('js/scripts-light.js') }}"></script>
+{% endblock %}
+
+{% block javascripts %}
+  <script>
+    window.bns_locale = 'fr';
+  </script>
+{% endblock %}
+
+{% block analytics %}
+  {{ parent() }}
+  {% if needAnalyticsLogout %}
+    <script type="text/javascript">
+      $(function () {
+        setTimeout(function () {
+          analytics.user().traits({});
+          analytics.group().traits({});
+        }, 1500);
+      });
+    </script>
+  {% endif %}
+{% endblock %}
+
+{% block title %}{% trans with {'%beneylu_brand_name%': parameter('beneylu_brand_name')} %}TITLE_CONNECTION{% endtrans %}{% endblock %}
+
+{% block meta_description %}{% trans with {'%beneylu_brand_name%': parameter('beneylu_brand_name')} %}DESCRIPTION_CONNECTION{% endtrans %}{% endblock %}
+
+
+{% block body_class %}{{ parent() }} home{% endblock %}
+
+{% block body_attr %}ng-controller="LoginController as ctrl"{% endblock %}
+
+{% block body %}
+  {# splash page container #}
+  <div class="layout-row home-layout">
+
+    {# fullscreen #}
+    <div class="full-height-ruler"></div>
+    <div class="flex layout-column layout-align-center-center home-splash sem {{ app.request.locale | replace('_','-') | lower }}">
+
+      {# message row #}
+      {% if parameter('home_message') %}
+        <div class="home-message inset">
+          <div class="layout-column layout-gt-sm-row layout-align-center-center layout-padding md-whiteframe-z1 md-body-1 home-message-container">
+            {{ parameter('home_message') | raw }}
+          </div>
+        </div>
+      {% endif %}
+
+      {# login row #}
+      <div container class="flex layout-row layout-align-center-center layout-align-gt-md-end-center">
+
+        {# login blocks #}
+        <div class="flex home-blocks ng-cloak">
+          <div class="layout-column layout-gt-sm-row layout-align-center-center">
+            <div class="home-title">
+              <div class="md-display-1">Connexion</div>
+            </div>
+          </div>
+
+          <div class="home-boxes">
+            <div class="box-transparent">
+              <div class="inner box-transparent">
+
+                <bns-auto-login-box url="'{{ redirectUrl }}'" saml-providers="{{ parameter('saml.providers')|default(null)|json_encode }}"></bns-auto-login-box>
+                <div class="layout-row">
+                  <md-button class="flex md-accent md-raised"  href="{{ path('bns_app_main_logon_activate')}}">{% trans %}ACTIVATE{% endtrans %}</md-button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      {# cookies row #}
+      {% if not app.request.cookies.has('hide-cookies-alert') %}
+        <div class="home-cookies-container md-padding" ng-hide="ctrl.hasAcceptedCookies">
+          <div container class="layout-row">
+            <div class="flex flex-gt-md-80 flex-offset-gt-md-10 layout-row layout-align-space-between-start">
+              <div class="flex flex-gt-md-80 md-body-1 text-center">
+                {% trans with { '%cookies_more_info_url%': path('main_logon_cookies'), '%beneylu_brand_name%': parameter('beneylu_brand_name') } %}DESCRIPTION_COOKIES_POLICY{% endtrans %}
+              </div>
+              {{ components.button(null, { icon: 'clear', click: 'ctrl.acceptCookies()' }) }}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+
+    </div>
+  </div>
+{% endblock body %}
+
+{% block angular_scripts %}
+
+  {# Load the material app #}
+  <script src="{{ asset('assets/scripts/vendors-light.js') }}"></script>
+  <script src="{{ asset('assets/scripts/scripts.js') }}"></script>
+  <script src="{{ asset('assets/scripts/views-light.js') }}"></script>
+
+{% endblock %}

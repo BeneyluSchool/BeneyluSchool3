@@ -1,0 +1,28 @@
+{% trans_default_domain "COMMENT" %}
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+
+{% if comment.getStatus() == 'VALIDATED' or
+(onlyValidated == false and (
+(has_right(admin_right) and comment.getStatus() != 'REFUSED') or (comment.getAuthor().getId() == app.user.id and comment.getStatus() == 'PENDING_VALIDATION')
+))
+%}
+    {% set isPendingValidation = comment.getStatus() == 'PENDING_VALIDATION' and (has_right(admin_right) or app.user.id == comment.getAuthor().getId()) %}
+
+    <md-list-item class="md-3-line _md-no-proxy comment{% if comment.getObjectAuthor().getId() == comment.getAuthor().getId() %} owner{% endif %}{% if isPendingValidation %} moderate{% endif %}">
+        {{ components.avatar(comment.getAuthor(), { size: 40, attr: { class: 'md-avatar' } }) }}
+        <div class="md-list-item-text layout-column">
+            <h3>{{ comment.getAuthor().getFullName() }} - {{ date_from_now(comment.date, true, true, 'medium', 'short', false, true) }}</h3>
+            <div class="md-body-1">
+                {{ comment.getContent()|nl2br }}
+            </div>
+            {% if isPendingValidation %}
+                <div class="text-muted md-body-1">
+                    {{ 'AUTHOR_DATE_WAIT_FOR_MODERATION'|trans({'%userFullName%': '', '%date%': date_from_now(comment.getDate(), false, true, 'medium', 'short', false, true) }) |desc('%userFullName% <span class="date">- %date% - en attente de modération</span>') |raw}}
+                </div>
+            {% endif %}
+        </div>
+    </md-list-item>
+    {% if loop is not defined or (loop is defined and not loop.last) %}
+    <md-divider md-inset></md-divider>
+    {% endif %}
+{% endif %}

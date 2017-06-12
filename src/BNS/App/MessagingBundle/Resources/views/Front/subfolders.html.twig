@@ -2,7 +2,7 @@
     {% for subfolder in folder.childs %}
         <a href="#" id="{{ subfolder.functionalName }}" class="mailFolder no-actif">{{ subfolder.name }}</a>
         {% if subfolder.childs != null %}
-            {% render "BNSAppMessagingBundle:Front:subfolders" with { 'parent' : subfolder}%}
+            {{ render(controller('BNSAppMessagingBundle:Front:subfolders', { 'parent' : subfolder})) }}
         {% endif %}
     {% endfor %}
 </ol>

@@ -1,8 +1,10 @@
 {% if group != null %}
-	<li class="{% if is_default_group %} active default-group{% endif %}{% if context != 'default' %} hide{% endif %}"
-		{% if group.hasSubgroup() %} data-switch-context="{{ group.getSlug() }}"{% endif %} data-context="{{ context }}">
-		<a href="#{{ group.getSlug() }}-tab">
-			<img src="{{ asset(group_type_icon(group)) }}" alt="" /> <span>{{ group.getLabel() }}</span>
+	<li data-group-id="{{ group.id }}" class="group-directory {% if current_group.id == group.id %} active default-group{% endif %}{% if context != 'default' %} hide{% endif %} {{ isLast is defined and isLast ? 'last' : "" }}"
+		{% if group.hasSubgroup() %} data-switch-context="{{ group.getSlug() }}"{% endif %} data-context="{{ context }}"
+		style="background-image: url('{% if group.hasAvatar() %} {{ avatar(group) }}'); background-size: 50px 50px; background-position : 1%; {% else %} {{ asset(group_type_icon(group)) }}'); {% endif %}"
+		>
+		<a href="#">
+			<span>{{ group.getLabel() }}</span>
 		</a>
 	</li>
 

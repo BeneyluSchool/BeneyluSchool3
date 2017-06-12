@@ -1,3 +1,4 @@
+{% trans_default_domain "MAIN" %}
 {% extends '::base.html.twig' %}
 
 {% block css %}
@@ -5,7 +6,7 @@
 	<link href="{{ asset('/medias/css/logon/front.css') }}" rel="stylesheet" type="text/css" />
 	<link href='https://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
 {% endblock %}
-	
+
 {% block javascripts %}
 	{{ parent() }}
 	<script type="text/javascript" src="{{ asset('medias/js/main/logon.js') }}"></script>
@@ -18,11 +19,10 @@
 			<div class="row-fluid">
 				<div class="span12">
 					<div class="header-login">
-						<img src="/medias/images/logon/logo-beneylu-school.png" alt="BeneyluSchool" />
-						<h1><span>Bienvenue sur </span><br /> Beneylu School</h1>
-						<div class="content-connection">
-							<p>Connecte toi pour avoir accès à Beneylu School</p>
-						</div>
+						<img class="logo" src="{{ asset('/medias/images/logon/logo-beneylu-school.png') }}" alt="BeneyluSchool" />
+						<h1>{{ 'TITLE_WELCOME_TO_BENEYLU'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('<span>Bienvenue sur </span><br /> %beneylu_brand_name%') |raw }}</h1>
+						<img class="content-connection" src="{{ asset('/medias/images/logon/vignette.png') }}"/>
+                        <div class="fanion-text">{{ 'LOGON_TO_ACCESS_TO_BENEYLU'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('Connecte-toi pour avoir accès à %beneylu_brand_name%') }}</div>
 						<div class="shadow"></div>
 						<div class="rope left"></div>
 						<div class="rope right"></div>
@@ -32,36 +32,57 @@
 			<div class="row-fluid">
 				<div class="span8">
 					<div class="content-login">
+                        {% if parameter('show_alert') %}
+                            <div class="alert alert-info bns-alert">
+                                {{ 'ACCESS_TO_BENEYLU_STOP'|trans({'%linkStart%': '<a target="_blank" href="http://goo.gl/ldxUFp">', '%linkEnd%': '</a>', '%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('
+                                <p>
+                                    L\'accès à %beneylu_brand_name% sera coupé la journée du <b>lundi 10 mars</b> pour une opération de maintenance.
+                                </p>
+                                <p>
+                                    Le service sera rétabli dès le lendemain. Plus d\'infos en suivant %linkStart%<b>ce lien</b>%linkEnd%
+                                .</p>') |raw }}
+
+                                <div class="jim"></div>
+                            </div>
+                        {% endif %}
+
 						<div class="title-login">
-							<h2>L'espace numérique de travail libre et gratuit du 1er degré</h2>
+							<h2>{{ 'TITLE_DWS_FREE'|trans |desc('L\'espace numérique de travail libre et gratuit du 1er degré') }}</h2>
 						</div>
 						<div class="intro-login">
-							<img src="/medias/images/logon/classroom.png" alt="La classe de la Beneylu School" />
+							<img src="{{ asset('/medias/images/logon/classroom.png') }}" alt="{{ 'IMAGE_CLASS_BENEYLU'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('La classe de %beneylu_brand_name%') }}" />
 							<p>
-								Beneylu School est un Espace Numérique de Travail (ENT) spécialement conçu pour le premier degré.
+                                {{ 'BENEYLU_DWS_PRIMARY_EDUCATION'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('%beneylu_brand_name% est un Espace Numérique de Travail (ENT) spécialement conçu pour le premier degré.') }}
+
 							</p>
 							<p>
-								Pour plus d'informations sur Beneylu School, vous pouvez cliquer sur le lien ci dessous :
+                                {{ 'MORE_INFO_ON_BENEYLU'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('Pour plus d\'informations sur %beneylu_brand_name%, vous pouvez cliquer sur le lien ci dessous :') }}
+
 							</p>
-							
+
 						</div>
 						<div class="discover-beneylu">
 							<div class="line-left"></div>
-							<a href="http://www.beneyluschool.com" target='_blank'>Découvrir la Beneylu School</a>
+							<a href="http://www.beneyluschool.com" target='_blank'>{{ 'LINK_DISCOVER_BEENYLU'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('Découvrir %beneylu_brand_name%') }}</a>
 							<div class="line-right"></div>
 						</div>
 					</div>
 				</div>
 				<div class="span4">
 					<div class="content-logon">
-						<iframe id="logon-iframe" src="{{ redirectUrl }}" width="100%" scrolling="no">
-							Votre navigateur ne semble pas compatible
-						</iframe>
-						
-						<div class="browser-error" style="display:none">
-							<h3>Votre navigateur ne semble pas à jour</h3>
+                        {%  if authoriseIframe %}
+                            <iframe id="logon-iframe" src="{{ redirectUrl }}" width="100%" scrolling="auto" marginheight="0" marginwidth="0" frameborder="0">
+                                {{ 'BROWSER_NOT_COMPATIBLE'|trans |desc('Votre navigateur ne semble pas compatible') }}
+                            </iframe>
+                        {%  else %}
+                            {% include 'BNSAppMainBundle::notice.html.twig' with {'message' : 'CANNOT_OFFER_IDENTIFYING'|trans |desc("Nous ne pouvons pas vous proposer l'identification.")}  %}
+                        {% endif %}
+						<div class="browser-error" style="display: none">
+					{{ 'BROWSER_NOT_UP_TO_DATE'|trans |desc('
+					        <h3>Votre navigateur ne semble pas à jour</h3>
 							<h4>Vous pouvez le mettre à jour en cliquant sur les liens ci-dessous.</h4>
-							<div class="browser-list">
+							')|raw }}
+									<div class="browser-list">
 								<a href="https://www.google.com/intl/fr/chrome/browser/" target="_blank">
 									<img class="browser" src="{{ asset('/medias/images/logon/chrome.png') }}" alt="Google Chrome" >
 								</a>
@@ -76,20 +97,22 @@
 								</a>
 							</div>
 						</div>
-						{#
+                        {% if enable_register %}
 						<div class="not-registered">
 							<div class="shadow"></div>
-							<h3>Vous n'êtes pas encore inscrit ?</h3>
-							<p>
-								L'inscription à Beneylu School est rapide et gratuite, n'hésitez plus !
-							</p>
-							<a href="{{ path('registration_free') }}">Inscrire ma classe</a>
+                            {{ 'TITLE_NOT_REGISTER'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('<h3>Vous n\'êtes pas encore inscrit ?</h3>
+                            <p>
+								L\'inscription à %beneylu_brand_name% est rapide et gratuite, n\'hésitez plus !
+							</p>')|raw }}
+
+
+							<a href="{{ path('registration_free') }}">{{ 'LINK_REGISTER_CLASS'|trans |desc('Inscrire ma classe') }}</a>
 							<div class="clearfix"></div>
 						</div>
+						{% endif %}
 						<div class="password-forget">
-							<a href="{{ path('user_password_reset') }}">Mot de passe oublié ?</a>
+							<a href="{{ path('user_password_reset') }}">{{ 'LINK_PASSWORD_LOST'|trans |desc('Mot de passe oublié ?') }}</a>
 						</div>
-						#}
 					</div>
 				</div>
 			</div>

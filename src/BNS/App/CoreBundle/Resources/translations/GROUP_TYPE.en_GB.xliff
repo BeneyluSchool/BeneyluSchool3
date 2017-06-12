@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-03-08T12:32:01Z" source-language="en" target-language="en-GB" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="4a6fcff44b494255246863856d17493c32d9916e" resname="DEFAULT_HOME_MESSAGE">
+        <source>DEFAULT_HOME_MESSAGE</source>
+        <target>Welcome!</target>
+      </trans-unit>
+      <trans-unit id="b8900b354a6b5517f60e1912ffca16c8524c0f26" resname="LABEL_ADMIN">
+        <source>LABEL_ADMIN</source>
+        <target state="new">Administrator</target>
+        <note><![CDATA[Nom du type de groupe ADMIN]]></note>
+      </trans-unit>
+      <trans-unit id="47097c122c29fcf70578a8708fa6e92baae39959" resname="LABEL_ASSISTANT">
+        <source>LABEL_ASSISTANT</source>
+        <target>Assistant</target>
+      </trans-unit>
+      <trans-unit id="4123946fdeb0e63a58706fddac359f22a0ff015c" resname="LABEL_CDC">
+        <source>LABEL_CDC</source>
+        <target>CDC</target>
+      </trans-unit>
+      <trans-unit id="6559a344e940f72600d5c3844c8770ac58c1f043" resname="LABEL_CDN">
+        <source>LABEL_CDN</source>
+        <target>CDN</target>
+      </trans-unit>
+      <trans-unit id="e79f918138d1847147ab3209a4807f2c3a674b52" resname="LABEL_CIRCONSCRIPTION">
+        <source>LABEL_CIRCONSCRIPTION</source>
+        <target state="new">District</target>
+        <note><![CDATA[Nom du type de groupe CIRCONSCRIPTION]]></note>
+      </trans-unit>
+      <trans-unit id="2348c480b7b17c7f48b98f67dc25e3a3b9f98191" resname="LABEL_CITY">
+        <source>LABEL_CITY</source>
+        <target state="new">City</target>
+        <note><![CDATA[Nom du type de groupe CITY]]></note>
+      </trans-unit>
+      <trans-unit id="8c4570eff9657a4ae90edb5b107fb457431081dc" resname="LABEL_CITY_REFERENT">
+        <source>LABEL_CITY_REFERENT</source>
+        <target>City manager</target>
+      </trans-unit>
+      <trans-unit id="eadd46464ef516103b098ebf22a0e9f9b1512b61" resname="LABEL_CLASSROOM">
+        <source>LABEL_CLASSROOM</source>
+        <target state="new">Classroom</target>
+        <note><![CDATA[Nom du type de groupe CLASSROOM]]></note>
+      </trans-unit>
+      <trans-unit id="96675520254412ccbcee1841018dfa395589c7af" resname="LABEL_CONTRIBUTOR">
+        <source>LABEL_CONTRIBUTOR</source>
+        <target>Contributor</target>
+      </trans-unit>
+      <trans-unit id="28f0b5b5b587ccf29a8b9b7e5bc631c5fa397ca0" resname="LABEL_DATA_CHOICE_DISPLAY_ADDRESS_N">
+        <source>LABEL_DATA_CHOICE_DISPLAY_ADDRESS_N</source>
+        <target state="new">No</target>
+        <note><![CDATA[Libellé du choix : DISPLAY_ADDRESS_N]]></note>
+      </trans-unit>
+      <trans-unit id="b149b590a524f7ac14734dc1ec9a9fe8b1064dbb" resname="LABEL_DATA_CHOICE_DISPLAY_ADDRESS_Y">
+        <source>LABEL_DATA_CHOICE_DISPLAY_ADDRESS_Y</source>
+        <target state="new">Yes</target>
+        <note><![CDATA[Libellé du choix : DISPLAY_ADDRESS_Y]]></note>
+      </trans-unit>
+      <trans-unit id="dd01d4aaf5fac12feec5467759175c2938911844" resname="LABEL_DATA_CHOICE_HOME_ACTIVE_ALERT_0">
+        <source>LABEL_DATA_CHOICE_HOME_ACTIVE_ALERT_0</source>
+        <target state="new">Desactivated</target>
+        <note><![CDATA[Libellé du choix : HOME_ACTIVE_ALERT_0]]></note>
+      </trans-unit>
+      <trans-unit id="4ad2db81e62ad78bfb30a5a4b4d4de071403c540" resname="LABEL_DATA_CHOICE_HOME_ACTIVE_ALERT_1">
+        <source>LABEL_DATA_CHOICE_HOME_ACTIVE_ALERT_1</source>
+        <target state="new">Activated</target>
+        <note><![CDATA[Libellé du choix : HOME_ACTIVE_ALERT_1]]></note>
+      </trans-unit>
+      <trans-unit id="d5931e9bca04eb1d16d5d1dfc6dfb894f00476c9" resname="LABEL_DATA_CHOICE_LANGUAGE_en">
+        <source>LABEL_DATA_CHOICE_LANGUAGE_en</source>
+        <target state="new">English</target>
+        <note><![CDATA[Libellé du choix : LANGUAGE_en]]></note>
+      </trans-unit>
+      <trans-unit id="9ed264b794b0fcedc6bab7dbc1145b7d4cb48651" resname="LABEL_DATA_CHOICE_LANGUAGE_fr">
+        <source>LABEL_DATA_CHOICE_LANGUAGE_fr</source>
+        <target state="new">French</target>
+        <note><![CDATA[Libellé du choix : LANGUAGE_fr]]></note>
+      </trans-unit>
+      <trans-unit id="df4fadb90b4e8c3e2de2f928f5ece9711e35a99d" resname="LABEL_DATA_CHOICE_LEVEL_3EME">
+        <source>LABEL_DATA_CHOICE_LEVEL_3EME</source>
+        <target state="new">Year 10</target>
+        <note><![CDATA[Libellé du choix : LEVEL_3EME]]></note>
+      </trans-unit>
+      <trans-unit id="25a65b169c7991d0ada9756f2ab7dae80895b99f" resname="LABEL_DATA_CHOICE_LEVEL_4EME">
+        <source>LABEL_DATA_CHOICE_LEVEL_4EME</source>
+        <target state="new">Year 9</target>
+        <note><![CDATA[Libellé du choix : LEVEL_4EME]]></note>
+      </trans-unit>
+      <trans-unit id="4a1dab09f0011ec95e39cdf39cbc2ebfb58f5b09" resname="LABEL_DATA_CHOICE_LEVEL_5EME">
+        <source>LABEL_DATA_CHOICE_LEVEL_5EME</source>
+        <target state="new">Year 8</target>
+        <note><![CDATA[Libellé du choix : LEVEL_5EME]]></note>
+      </trans-unit>
+      <trans-unit id="d31d20c20f9140cf27460177f841d007ead30a34" resname="LABEL_DATA_CHOICE_LEVEL_6EME">
+        <source>LABEL_DATA_CHOICE_LEVEL_6EME</source>
+        <target state="new">Year 7</target>
+        <note><![CDATA[Libellé du choix : LEVEL_6EME]]></note>
+      </trans-unit>
+      <trans-unit id="4786e08e36e35784261d4521f1d16f4dbfd48b30" resname="LABEL_DATA_CHOICE_LEVEL_CE1">
+        <source>LABEL_DATA_CHOICE_LEVEL_CE1</source>
+        <target state="new">Year 3</target>
+        <note><![CDATA[Libellé du choix : LEVEL_CE1]]></note>
+      </trans-unit>
+      <trans-unit id="5e9a855c4cd2e9f959dea1413190442630ef0a68" resname="LABEL_DATA_CHOICE_LEVEL_CE2">
+        <source>LABEL_DATA_CHOICE_LEVEL_CE2</source>
+        <target state="new">Year 4</target>
+        <note><![CDATA[Libellé du choix : LEVEL_CE2]]></note>
+      </trans-unit>
+      <trans-unit id="0d1b961eb6238eb5ac3c542ef142b971eeb71174" resname="LABEL_DATA_CHOICE_LEVEL_CLIS">
+        <source>LABEL_DATA_CHOICE_LEVEL_CLIS</source>
+        <target state="new">Primary</target>
+        <note><![CDATA[Libellé du choix : LEVEL_CLIS]]></note>
+      </trans-unit>
+      <trans-unit id="6ac7842a6618bab94fe0e5430473480251f14a6b" resname="LABEL_DATA_CHOICE_LEVEL_CM1">
+        <source>LABEL_DATA_CHOICE_LEVEL_CM1</source>
+        <target state="new">Year 5</target>
+        <note><![CDATA[Libellé du choix : LEVEL_CM1]]></note>
+      </trans-unit>
+      <trans-unit id="97beabb29af7f538b218551b7e3ee34e1a7ac094" resname="LABEL_DATA_CHOICE_LEVEL_CM2">
+        <source>LABEL_DATA_CHOICE_LEVEL_CM2</source>
+        <target state="new">Year 6</target>
+        <note><![CDATA[Libellé du choix : LEVEL_CM2]]></note>
+      </trans-unit>
+      <trans-unit id="5794d7ab2961ad54d0129d1ed16e7baccdf65d1a" resname="LABEL_DATA_CHOICE_LEVEL_CP">
+        <source>LABEL_DATA_CHOICE_LEVEL_CP</source>
+        <target state="new">Year 2</target>
+        <note><![CDATA[Libellé du choix : LEVEL_CP]]></note>
+      </trans-unit>
+      <trans-unit id="d133480f3dd60415fdf673e0bd314fd0d37b99fd" resname="LABEL_DATA_CHOICE_LEVEL_GS">
+        <source>LABEL_DATA_CHOICE_LEVEL_GS</source>
+        <target state="new">Year 1</target>
+        <note><![CDATA[Libellé du choix : LEVEL_GS]]></note>
+      </trans-unit>
+      <trans-unit id="3df58c59f35700ca66f32e9f9f7dd366e02991a9" resname="LABEL_DATA_CHOICE_LEVEL_MS">
+        <source>LABEL_DATA_CHOICE_LEVEL_MS</source>
+        <target state="new">Reception class</target>
+        <note><![CDATA[Libellé du choix : LEVEL_MS]]></note>
+      </trans-unit>
+      <trans-unit id="682cd35d44c17f7ad4fc0acade12c5b05b7d89d4" resname="LABEL_DATA_CHOICE_LEVEL_OTHER">
+        <source>LABEL_DATA_CHOICE_LEVEL_OTHER</source>
+        <target>Other</target>
+      </trans-unit>
+      <trans-unit id="18f5f3643be6adbc3b635ffe9710377ec2c431bd" resname="LABEL_DATA_CHOICE_LEVEL_PREM">
+        <source>LABEL_DATA_CHOICE_LEVEL_PREM</source>
+        <target state="new">Year 12</target>
+        <note><![CDATA[Libellé du choix : LEVEL_PREM]]></note>
+      </trans-unit>
+      <trans-unit id="6dbd5adea76b90acda93cfd44ed7a828c70fc14a" resname="LABEL_DATA_CHOICE_LEVEL_PS">
+        <source>LABEL_DATA_CHOICE_LEVEL_PS</source>
+        <target state="new">Nursery class</target>
+        <note><![CDATA[Libellé du choix : LEVEL_PS]]></note>
+      </trans-unit>
+      <trans-unit id="814454bba089c2d39f50430daac84d957d0b83bc" resname="LABEL_DATA_CHOICE_LEVEL_SEC">
+        <source>LABEL_DATA_CHOICE_LEVEL_SEC</source>
+        <target state="new">Year 11</target>
+        <note><![CDATA[Libellé du choix : LEVEL_SEC]]></note>
+      </trans-unit>
+      <trans-unit id="76b73a8e3ef42889b822a81655c8f6b41d405cea" resname="LABEL_DATA_CHOICE_LEVEL_TERM">
+        <source>LABEL_DATA_CHOICE_LEVEL_TERM</source>
+        <target state="new">Year 13</target>
+        <note><![CDATA[Libellé du choix : LEVEL_TERM]]></note>
+      </trans-unit>
+      <trans-unit id="4624d09d9279f06c3708de9f56d32faf24ea776c" resname="LABEL_DATA_CHOICE_MESSAGING_TYPE_light">
+        <source>LABEL_DATA_CHOICE_MESSAGING_TYPE_light</source>
+        <target state="new">Light</target>
+        <note><![CDATA[Libellé du choix : MESSAGING_TYPE_light]]></note>
+      </trans-unit>
+      <trans-unit id="2ac24caa4395f2ccccbd031ff29f3676330d0e7d" resname="LABEL_DATA_CHOICE_MESSAGING_TYPE_real">
+        <source>LABEL_DATA_CHOICE_MESSAGING_TYPE_real</source>
+        <target state="new">Real</target>
+        <note><![CDATA[Libellé du choix : MESSAGING_TYPE_real]]></note>
+      </trans-unit>
+      <trans-unit id="82a65cbb7379e57cb69c0446c5e276ae94135247" resname="LABEL_DATA_CHOICE_MINISITE_ALLOW_PUBLIC_0">
+        <source>LABEL_DATA_CHOICE_MINISITE_ALLOW_PUBLIC_0</source>
+        <target state="new">Desactivated</target>
+        <note><![CDATA[Libellé du choix : MINISITE_ALLOW_PUBLIC_0]]></note>
+      </trans-unit>
+      <trans-unit id="6777ea07cf894619b7094c863275ad6dffd2bba3" resname="LABEL_DATA_CHOICE_MINISITE_ALLOW_PUBLIC_1">
+        <source>LABEL_DATA_CHOICE_MINISITE_ALLOW_PUBLIC_1</source>
+        <target state="new">Activated</target>
+        <note><![CDATA[Libellé du choix : MINISITE_ALLOW_PUBLIC_1]]></note>
+      </trans-unit>
+      <trans-unit id="96c04b189f05553f69c51f87b073f2d16ad2a35f" resname="LABEL_DATA_CHOICE_POLICY_0">
+        <source>LABEL_DATA_CHOICE_POLICY_0</source>
+        <target state="new">Deactivated</target>
+        <note><![CDATA[Libellé du choix : POLICY_0]]></note>
+      </trans-unit>
+      <trans-unit id="ef5a86adf7e999eb512aa8c34615019c862a17af" resname="LABEL_DATA_CHOICE_POLICY_1">
+        <source>LABEL_DATA_CHOICE_POLICY_1</source>
+        <target state="new">Activated</target>
+        <note><![CDATA[Libellé du choix : POLICY_1]]></note>
+      </trans-unit>
+      <trans-unit id="bf46419151a6b823137a1fb82cf6a47962340253" resname="LABEL_DATA_CHOICE_RESOURCE_QUOTA_CHILD_104857600">
+        <source>LABEL_DATA_CHOICE_RESOURCE_QUOTA_CHILD_104857600</source>
+        <target state="new">100MB</target>
+        <note><![CDATA[Libellé du choix : RESOURCE_QUOTA_CHILD_104857600]]></note>
+      </trans-unit>
+      <trans-unit id="b85d76a1cbd7a0b46eb599847576b6217b20f307" resname="LABEL_DATA_CHOICE_RESOURCE_QUOTA_GROUP_1073741824">
+        <source>LABEL_DATA_CHOICE_RESOURCE_QUOTA_GROUP_1073741824</source>
+        <target state="new">1GB</target>
+        <note><![CDATA[Libellé du choix : RESOURCE_QUOTA_GROUP_1073741824]]></note>
+      </trans-unit>
+      <trans-unit id="4a4b07951082504e8d2cba1b53e11d8a3792dbc3" resname="LABEL_DATA_CHOICE_RESOURCE_QUOTA_GROUP_21474836480">
+        <source>LABEL_DATA_CHOICE_RESOURCE_QUOTA_GROUP_21474836480</source>
+        <target state="new">20GB</target>
+        <note><![CDATA[Libellé du choix : RESOURCE_QUOTA_GROUP_21474836480]]></note>
+      </trans-unit>
+      <trans-unit id="c128b1b451cd9998f3edc854b3c51f742fc96e1a" resname="LABEL_DATA_CHOICE_RESOURCE_QUOTA_GROUP_5242880">
+        <source>LABEL_DATA_CHOICE_RESOURCE_QUOTA_GROUP_5242880</source>
+        <target state="new">50MB</target>
+        <note><![CDATA[Libellé du choix : RESOURCE_QUOTA_GROUP_5242880]]></note>
+      </trans-unit>
+      <trans-unit id="da581ea9ab99d2a883808278c9e844d03ba7f27f" resname="LABEL_DATA_CHOICE_RESOURCE_QUOTA_GROUP_52428800">
+        <source>LABEL_DATA_CHOICE_RESOURCE_QUOTA_GROUP_52428800</source>
+        <target state="new">500MB</target>
+        <note><![CDATA[Libellé du choix : RESOURCE_QUOTA_GROUP_52428800]]></note>
+      </trans-unit>
+      <trans-unit id="5ff6b9faf6c94a92e2a7ae4c8f62311124e3d422" resname="LABEL_DATA_CHOICE_RESOURCE_QUOTA_GROUP_5368709120">
+        <source>LABEL_DATA_CHOICE_RESOURCE_QUOTA_GROUP_5368709120</source>
+        <target state="new">5GB</target>
+        <note><![CDATA[Libellé du choix : RESOURCE_QUOTA_GROUP_5368709120]]></note>
+      </trans-unit>
+      <trans-unit id="bee1faa5717b544c09259441650797781930ff87" resname="LABEL_DATA_CHOICE_RESOURCE_QUOTA_USER_10485760">
+        <source>LABEL_DATA_CHOICE_RESOURCE_QUOTA_USER_10485760</source>
+        <target state="new">10MB</target>
+        <note><![CDATA[Libellé du choix : RESOURCE_QUOTA_USER_10485760]]></note>
+      </trans-unit>
+      <trans-unit id="938c54682bc42e23d85663df07e1a2071a8fe56e" resname="LABEL_DATA_CHOICE_RESOURCE_QUOTA_USER_20971520">
+        <source>LABEL_DATA_CHOICE_RESOURCE_QUOTA_USER_20971520</source>
+        <target state="new">20MB</target>
+        <note><![CDATA[Libellé du choix : RESOURCE_QUOTA_USER_20971520]]></note>
+      </trans-unit>
+      <trans-unit id="69c0cae05a17e83d54a5efc1103327daf95aae50" resname="LABEL_DATA_CHOICE_RESOURCE_QUOTA_USER_524288000">
+        <source>LABEL_DATA_CHOICE_RESOURCE_QUOTA_USER_524288000</source>
+        <target state="new">500MB</target>
+        <note><![CDATA[Libellé du choix : RESOURCE_QUOTA_USER_524288000]]></note>
+      </trans-unit>
+      <trans-unit id="04cd2782f300bdfe8a63bd1b77a3e1b9986f27da" resname="LABEL_DATA_TEMPLATE_ADDRESS">
+        <source>LABEL_DATA_TEMPLATE_ADDRESS</source>
+        <target state="new">Address</target>
+        <note><![CDATA[Libellé de l'attribut ADDRESS]]></note>
+      </trans-unit>
+      <trans-unit id="29c10812933d612ae5fb3dcf55787de663eb689f" resname="LABEL_DATA_TEMPLATE_AVATAR_ID">
+        <source>LABEL_DATA_TEMPLATE_AVATAR_ID</source>
+        <target state="new">Avatar ID</target>
+        <note><![CDATA[Libellé de l'attribut AVATAR_ID]]></note>
+      </trans-unit>
+      <trans-unit id="f5ac7a8597641734445850c3e985d02d474143e4" resname="LABEL_DATA_TEMPLATE_BOARD_FEED">
+        <source>LABEL_DATA_TEMPLATE_BOARD_FEED</source>
+        <target state="new">Dashboard RSS feed</target>
+        <note><![CDATA[Libellé de l'attribut BOARD_FEED]]></note>
+      </trans-unit>
+      <trans-unit id="b775c80c6b3dcc648c6b1c4fde375e65422bb8f5" resname="LABEL_DATA_TEMPLATE_CERISE_LIST">
+        <source>LABEL_DATA_TEMPLATE_CERISE_LIST</source>
+        <target state="new">Tableau d'UAI ayant accès à Cerise Prim</target>
+        <note><![CDATA[Libellé de l'attribut CERISE_LIST]]></note>
+      </trans-unit>
+      <trans-unit id="7c68ffb12153d77f541d7129ced04a97ea85bbe8" resname="LABEL_DATA_TEMPLATE_CHILDREN_COUNT">
+        <source>LABEL_DATA_TEMPLATE_CHILDREN_COUNT</source>
+        <target state="new">Number of pupils</target>
+        <note><![CDATA[Libellé de l'attribut CHILDREN_COUNT]]></note>
+      </trans-unit>
+      <trans-unit id="23d2ac2ba6025a53312cdaadec96301361b47023" resname="LABEL_DATA_TEMPLATE_CITY">
+        <source>LABEL_DATA_TEMPLATE_CITY</source>
+        <target state="new">City</target>
+        <note><![CDATA[Libellé de l'attribut CITY]]></note>
+      </trans-unit>
+      <trans-unit id="53e348fa6e91a2be1b83b3fe637a241cdbd824d0" resname="LABEL_DATA_TEMPLATE_CLASSROOM_TYPE">
+        <source>LABEL_DATA_TEMPLATE_CLASSROOM_TYPE</source>
+        <target state="new">Classroom type</target>
+        <note><![CDATA[Libellé de l'attribut CLASSROOM_TYPE]]></note>
+      </trans-unit>
+      <trans-unit id="8d1fbd84c461c45d8b654defefd14fc2058a2753" resname="LABEL_DATA_TEMPLATE_COUNTRY">
+        <source>LABEL_DATA_TEMPLATE_COUNTRY</source>
+        <target state="new">Country</target>
+        <note><![CDATA[Libellé de l'attribut COUNTRY]]></note>
+      </trans-unit>
+      <trans-unit id="8b1b11076c15fc6f06f0c0738b5b6a6cc60ff2a2" resname="LABEL_DATA_TEMPLATE_CURRENT_YEAR">
+        <source>LABEL_DATA_TEMPLATE_CURRENT_YEAR</source>
+        <target state="new">Current year</target>
+        <note><![CDATA[Libellé de l'attribut CURRENT_YEAR]]></note>
+      </trans-unit>
+      <trans-unit id="1dd7fad6445937b09bea2db3af845e05d5199535" resname="LABEL_DATA_TEMPLATE_DESCRIPTION">
+        <source>LABEL_DATA_TEMPLATE_DESCRIPTION</source>
+        <target state="new">Description</target>
+        <note><![CDATA[Libellé de l'attribut DESCRIPTION]]></note>
+      </trans-unit>
+      <trans-unit id="3aadd1838c636a53eaf805fd84cd38e413ff0f27" resname="LABEL_DATA_TEMPLATE_DISPLAY_ADDRESS">
+        <source>LABEL_DATA_TEMPLATE_DISPLAY_ADDRESS</source>
+        <target state="new">Display headteacher's info</target>
+        <note><![CDATA[Libellé de l'attribut DISPLAY_ADDRESS]]></note>
+      </trans-unit>
+      <trans-unit id="ec38861cc1264569e7ea70aa2d5750c39653423a" resname="LABEL_DATA_TEMPLATE_EMAIL">
+        <source>LABEL_DATA_TEMPLATE_EMAIL</source>
+        <target state="new">Email address</target>
+        <note><![CDATA[Libellé de l'attribut EMAIL]]></note>
+      </trans-unit>
+      <trans-unit id="9f64b698f0b3249ee8863e6e65213153f593775e" resname="LABEL_DATA_TEMPLATE_GEOCOORDS">
+        <source>LABEL_DATA_TEMPLATE_GEOCOORDS</source>
+        <target state="new">Geographical coordinates</target>
+        <note><![CDATA[Libellé de l'attribut GEOCOORDS]]></note>
+      </trans-unit>
+      <trans-unit id="3a52950d6db4397afd43eeb7caa4fcf17d99328e" resname="LABEL_DATA_TEMPLATE_HOME_ACTIVE_ALERT">
+        <source>LABEL_DATA_TEMPLATE_HOME_ACTIVE_ALERT</source>
+        <target state="new">Switch on homepage alert</target>
+        <note><![CDATA[Libellé de l'attribut HOME_ACTIVE_ALERT]]></note>
+      </trans-unit>
+      <trans-unit id="38555af2b810580c5bb023651408330699120476" resname="LABEL_DATA_TEMPLATE_HOME_ALERT">
+        <source>LABEL_DATA_TEMPLATE_HOME_ALERT</source>
+        <target state="new">Message d'alerte (texte plein) en page d'accueil</target>
+        <note><![CDATA[Libellé de l'attribut HOME_ALERT]]></note>
+      </trans-unit>
+      <trans-unit id="b5e7bea3040671a363205bbda7217d1a58f3d0a0" resname="LABEL_DATA_TEMPLATE_HOME_MESSAGE">
+        <source>LABEL_DATA_TEMPLATE_HOME_MESSAGE</source>
+        <target state="new">Welcome message on the group page</target>
+        <note><![CDATA[Libellé de l'attribut HOME_MESSAGE]]></note>
+      </trans-unit>
+      <trans-unit id="b2c3ba75ebb846abdae6825903bd6fd2f0944186" resname="LABEL_DATA_TEMPLATE_INSEE_ID">
+        <source>LABEL_DATA_TEMPLATE_INSEE_ID</source>
+        <target state="new">Code insee de la ville</target>
+        <note><![CDATA[Libellé de l'attribut INSEE_ID]]></note>
+      </trans-unit>
+      <trans-unit id="9f11432d9b35fb285f6920b907b369854bb2c0e3" resname="LABEL_DATA_TEMPLATE_LANGUAGE">
+        <source>LABEL_DATA_TEMPLATE_LANGUAGE</source>
+        <target state="new">Language</target>
+        <note><![CDATA[Libellé de l'attribut LANGUAGE]]></note>
+      </trans-unit>
+      <trans-unit id="fc6b8d55e1defe7afde8198c2835626eefc3b5ee" resname="LABEL_DATA_TEMPLATE_LEVEL">
+        <source>LABEL_DATA_TEMPLATE_LEVEL</source>
+        <target state="new">Level</target>
+        <note><![CDATA[Libellé de l'attribut LEVEL]]></note>
+      </trans-unit>
+      <trans-unit id="2f9122334b72dfdc1c41842b0e38814d27af45e1" resname="LABEL_DATA_TEMPLATE_MESSAGING_TYPE">
+        <source>LABEL_DATA_TEMPLATE_MESSAGING_TYPE</source>
+        <target state="new">Messaging mode</target>
+        <note><![CDATA[Libellé de l'attribut MESSAGING_TYPE]]></note>
+      </trans-unit>
+      <trans-unit id="2fae0754bc72dcfef61d9a7114f0425a88da4fdc" resname="LABEL_DATA_TEMPLATE_MINISITE_ALLOW_PUBLIC">
+        <source>LABEL_DATA_TEMPLATE_MINISITE_ALLOW_PUBLIC</source>
+        <target state="new">Switch on public mode for the school's website</target>
+        <note><![CDATA[Libellé de l'attribut MINISITE_ALLOW_PUBLIC]]></note>
+      </trans-unit>
+      <trans-unit id="60dae04260952cc3fc8960a1b790bfb40e1d9ba5" resname="LABEL_DATA_TEMPLATE_NAME">
+        <source>LABEL_DATA_TEMPLATE_NAME</source>
+        <target state="new">Name</target>
+        <note><![CDATA[Libellé de l'attribut NAME]]></note>
+      </trans-unit>
+      <trans-unit id="15802705c4a4dde61000496b8b89fec5ae7c4117" resname="LABEL_DATA_TEMPLATE_POLICY">
+        <source>LABEL_DATA_TEMPLATE_POLICY</source>
+        <target state="new">Policy</target>
+        <note><![CDATA[Libellé de l'attribut POLICY]]></note>
+      </trans-unit>
+      <trans-unit id="cf3b81e81b958467d2472a05dddd89ff79554717" resname="LABEL_DATA_TEMPLATE_POLICY_URL_CHILD">
+        <source>LABEL_DATA_TEMPLATE_POLICY_URL_CHILD</source>
+        <target state="new">URL for the Policy PDF to pupils</target>
+        <note><![CDATA[Libellé de l'attribut POLICY_URL_CHILD]]></note>
+      </trans-unit>
+      <trans-unit id="927b640919ab0757f00f3d639862a986a236e6b8" resname="LABEL_DATA_TEMPLATE_POLICY_URL_OTHER">
+        <source>LABEL_DATA_TEMPLATE_POLICY_URL_OTHER</source>
+        <target state="new">URL for the Policy PDF</target>
+        <note><![CDATA[Libellé de l'attribut POLICY_URL_OTHER]]></note>
+      </trans-unit>
+      <trans-unit id="b8cd5a26cd5c9f1312e85d35ddbac5538cd1b1a3" resname="LABEL_DATA_TEMPLATE_POLICY_URL_PARENT">
+        <source>LABEL_DATA_TEMPLATE_POLICY_URL_PARENT</source>
+        <target state="new">URL for the Policy PDF to parents</target>
+        <note><![CDATA[Libellé de l'attribut POLICY_URL_PARENT]]></note>
+      </trans-unit>
+      <trans-unit id="a6b9ba5cc86a1d2eb5f33b9025aa621ec5dff267" resname="LABEL_DATA_TEMPLATE_RESOURCE_QUOTA_CHILD">
+        <source>LABEL_DATA_TEMPLATE_RESOURCE_QUOTA_CHILD</source>
+        <target state="new">Quotes for documents per child</target>
+        <note><![CDATA[Libellé de l'attribut RESOURCE_QUOTA_CHILD]]></note>
+      </trans-unit>
+      <trans-unit id="02a4ddb3670c32cfea1e1ab6766a0eca93efb69e" resname="LABEL_DATA_TEMPLATE_RESOURCE_QUOTA_GROUP">
+        <source>LABEL_DATA_TEMPLATE_RESOURCE_QUOTA_GROUP</source>
+        <target state="new">Quotes for documents per group</target>
+        <note><![CDATA[Libellé de l'attribut RESOURCE_QUOTA_GROUP]]></note>
+      </trans-unit>
+      <trans-unit id="38bd27b9adba11824044ad7a2d4d5aa726f73440" resname="LABEL_DATA_TEMPLATE_RESOURCE_QUOTA_USER">
+        <source>LABEL_DATA_TEMPLATE_RESOURCE_QUOTA_USER</source>
+        <target state="new">Quotes for documents per user</target>
+        <note><![CDATA[Libellé de l'attribut RESOURCE_QUOTA_USER]]></note>
+      </trans-unit>
+      <trans-unit id="a80cec70f7610d2e20ec59b4e83fb075c5295c50" resname="LABEL_DATA_TEMPLATE_RESOURCE_USED_SIZE">
+        <source>LABEL_DATA_TEMPLATE_RESOURCE_USED_SIZE</source>
+        <target state="new">Espace utilisé dans les ressources</target>
+        <note><![CDATA[Libellé de l'attribut RESOURCE_USED_SIZE]]></note>
+      </trans-unit>
+      <trans-unit id="e6b6458602bf4e97fcd3ca5f05b898dd68e57eac" resname="LABEL_DATA_TEMPLATE_SCHOOL_LABEL">
+        <source>LABEL_DATA_TEMPLATE_SCHOOL_LABEL</source>
+        <target state="new">School name</target>
+        <note><![CDATA[Libellé de l'attribut SCHOOL_LABEL]]></note>
+      </trans-unit>
+      <trans-unit id="89a0dba3a2617cccd7a65c8a5086b652cf14ab8a" resname="LABEL_DATA_TEMPLATE_SPOT_AUTOCONNECT_URL">
+        <source>LABEL_DATA_TEMPLATE_SPOT_AUTOCONNECT_URL</source>
+        <target state="new">URL for automatic connexion to SPOT</target>
+        <note><![CDATA[Libellé de l'attribut SPOT_AUTOCONNECT_URL]]></note>
+      </trans-unit>
+      <trans-unit id="08384221d3696ea773627dc0af4d3c5429bb9d66" resname="LABEL_DATA_TEMPLATE_STRUCTURE_ID">
+        <source>LABEL_DATA_TEMPLATE_STRUCTURE_ID</source>
+        <target state="new">Structure code for the classroom</target>
+        <note><![CDATA[Libellé de l'attribut STRUCTURE_ID]]></note>
+      </trans-unit>
+      <trans-unit id="4fe03ca39dc8407cc8cb6255f94233061ebfe97c" resname="LABEL_DATA_TEMPLATE_UAI">
+        <source>LABEL_DATA_TEMPLATE_UAI</source>
+        <target state="new">School ID</target>
+        <note><![CDATA[Libellé de l'attribut UAI]]></note>
+      </trans-unit>
+      <trans-unit id="3146c8a1474c74fbfac58a3098c8bae3e42aad42" resname="LABEL_DATA_TEMPLATE_WHITE_LIST">
+        <source>LABEL_DATA_TEMPLATE_WHITE_LIST</source>
+        <target state="new">list of websites on the whitelist</target>
+        <note><![CDATA[Libellé de l'attribut WHITE_LIST]]></note>
+      </trans-unit>
+      <trans-unit id="6d362367bd9c452a28eab9afac8f15473a42e73e" resname="LABEL_DATA_TEMPLATE_WHITE_LIST_UNIQUE_KEY">
+        <source>LABEL_DATA_TEMPLATE_WHITE_LIST_UNIQUE_KEY</source>
+        <target state="new">Unique key for Google Search</target>
+        <note><![CDATA[Libellé de l'attribut WHITE_LIST_UNIQUE_KEY]]></note>
+      </trans-unit>
+      <trans-unit id="9750796cb0e8c241382a33ea578731909ef8d6c4" resname="LABEL_DATA_TEMPLATE_WHITE_LIST_USE_PARENT">
+        <source>LABEL_DATA_TEMPLATE_WHITE_LIST_USE_PARENT</source>
+        <target state="new">Use parent whitelist (env)</target>
+        <note><![CDATA[Libellé de l'attribut WHITE_LIST_USE_PARENT]]></note>
+      </trans-unit>
+      <trans-unit id="4755f88eb2d2c7a8893760459e1ea25c3ce39db0" resname="LABEL_DATA_TEMPLATE_YERBOOK_MESSAGE">
+        <source>LABEL_DATA_TEMPLATE_YERBOOK_MESSAGE</source>
+        <target state="new">Yerbook message</target>
+        <note><![CDATA[Libellé de l'attribut YERBOOK_MESSAGE]]></note>
+      </trans-unit>
+      <trans-unit id="0029c811552458fcb05b10fe1d7c5587baf22676" resname="LABEL_DATA_TEMPLATE_YERBOOK_SIGNATURE">
+        <source>LABEL_DATA_TEMPLATE_YERBOOK_SIGNATURE</source>
+        <target state="new">Yerbook signature</target>
+        <note><![CDATA[Libellé de l'attribut YERBOOK_SIGNATURE]]></note>
+      </trans-unit>
+      <trans-unit id="3ec8eed6d684788b03fdccd23b20c088f6dba7d0" resname="LABEL_DATA_TEMPLATE_ZIPCODE">
+        <source>LABEL_DATA_TEMPLATE_ZIPCODE</source>
+        <target state="new">Zip code</target>
+        <note><![CDATA[Libellé de l'attribut ZIPCODE]]></note>
+      </trans-unit>
+      <trans-unit id="5d73635820d5451115a7f5e4b02ffaa561a63684" resname="LABEL_DEPARTMENT">
+        <source>LABEL_DEPARTMENT</source>
+        <target>Department</target>
+      </trans-unit>
+      <trans-unit id="3ec3e344f23c6d04a3d15cdc8ea7b7026da1aa90" resname="LABEL_DIRECTOR">
+        <source>LABEL_DIRECTOR</source>
+        <target state="new">Headteacher</target>
+        <note><![CDATA[Nom du type de groupe DIRECTOR]]></note>
+      </trans-unit>
+      <trans-unit id="b5f821ec0bcc567320992275a0981febeba41dc4" resname="LABEL_ENT_REFERENT">
+        <source>LABEL_ENT_REFERENT</source>
+        <target>School manager</target>
+      </trans-unit>
+      <trans-unit id="ef060fc720e187f914f3cac949289ef66a97a0c3" resname="LABEL_ENVIRONMENT">
+        <source>LABEL_ENVIRONNEMENT</source>
+        <target state="new">Environment</target>
+        <note><![CDATA[Nom du type de groupe ENVIRONMENT]]></note>
+      </trans-unit>
+      <trans-unit id="b02db63b40f0da2932e90a4859036f53f3ca4013" resname="LABEL_PARENT">
+        <source>LABEL_PARENT</source>
+        <target state="new">Parent</target>
+        <note><![CDATA[Nom du type de groupe PARENT]]></note>
+      </trans-unit>
+      <trans-unit id="86a6ce00cd0245d620b3f4dc74410c83d00ffc12" resname="LABEL_PARTNERSHIP">
+        <source>LABEL_PARTNERSHIP</source>
+        <target state="new">Partnership</target>
+        <note><![CDATA[Nom du type de groupe PARTNERSHIP]]></note>
+      </trans-unit>
+      <trans-unit id="3c237405032bf674ea7d7428ee378f43f456ef47" resname="LABEL_PUPIL">
+        <source>LABEL_PUPIL</source>
+        <target state="new">Pupil</target>
+        <note><![CDATA[Nom du type de groupe PUPIL]]></note>
+      </trans-unit>
+      <trans-unit id="00bdca9ca8cb5a1d6d4c87ae701af3c2c36335a7" resname="LABEL_SCHOOL">
+        <source>LABEL_SCHOOL</source>
+        <target state="new">School</target>
+        <note><![CDATA[Nom du type de groupe SCHOOL]]></note>
+      </trans-unit>
+      <trans-unit id="4c5ffb18236b7f1fe448d0abd7587db20d7ca67a" resname="LABEL_STRUCTURE_ACCUEIL">
+        <source>LABEL_STRUCTURE_ACCUEIL</source>
+        <target>Welcome structure</target>
+      </trans-unit>
+      <trans-unit id="82af5555836188081e806a9924335191df3fb9fb" resname="LABEL_STRUCTURE_ACCUEIL_DIRECTOR">
+        <source>LABEL_STRUCTURE_ACCUEIL_DIRECTOR</source>
+        <target>Welcome structure manager</target>
+      </trans-unit>
+      <trans-unit id="fb144b673de94db1a666a299453b411c6ebb741b" resname="LABEL_SUPORT">
+        <source>LABEL_SUPORT</source>
+        <target>Support</target>
+      </trans-unit>
+      <trans-unit id="4f0bbae394874c17484264bcc6f3fa1ab7f5f2de" resname="LABEL_SUPPORT">
+        <source>LABEL_SUPPORT</source>
+        <target>Support</target>
+      </trans-unit>
+      <trans-unit id="3256870bf6912fb546db948433eb451f6cb78eee" resname="LABEL_TEACHER">
+        <source>LABEL_TEACHER</source>
+        <target state="new">Teacher</target>
+        <note><![CDATA[Nom du type de groupe TEACHER]]></note>
+      </trans-unit>
+      <trans-unit id="5ed82f02dae1079b05444e9fb251e4bcccd9fba4" resname="LABEL_TEAM">
+        <source>LABEL_TEAM</source>
+        <target state="new">Team</target>
+        <note><![CDATA[Nom du type de groupe TEAM]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

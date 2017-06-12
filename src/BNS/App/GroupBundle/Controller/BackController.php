@@ -2,179 +2,246 @@
 
 namespace BNS\App\GroupBundle\Controller;
 
+use BNS\App\AdminBundle\Form\Type\AddToGroupType;
+use BNS\App\ClassroomBundle\Form\Type\NewUserInClassroomType;
+use BNS\App\CoreBundle\Form\Type\GroupSimpleType;
+use BNS\App\CoreBundle\Form\Type\RuleType;
+use BNS\App\CoreBundle\Form\Type\UserType;
+use BNS\App\CoreBundle\Model\Group;
+use BNS\App\CoreBundle\Model\GroupPeer;
+use BNS\App\CoreBundle\Model\GroupQuery;
+use BNS\App\CoreBundle\Model\GroupTypeDataChoiceQuery;
+use BNS\App\CoreBundle\Model\GroupTypeDataTemplateQuery;
 use BNS\App\CoreBundle\Model\GroupTypeQuery;
+use BNS\App\CoreBundle\Model\RankQuery;
+use BNS\App\CoreBundle\Model\User;
+use BNS\App\CoreBundle\Model\UserQuery;
 use BNS\App\GroupBundle\Form\Model\EditGroupFormModel;
 use BNS\App\GroupBundle\Form\Type\EditGroupType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use BNS\App\CoreBundle\Form\Type\GroupSimpleType;
-use BNS\App\CoreBundle\Model\Group;
-use BNS\App\CoreBundle\Model\GroupPeer;
-use BNS\App\CoreBundle\Model\GroupQuery;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use BNS\App\CoreBundle\Annotation\Rights;
 
-class BackController extends Controller
+use BNS\App\GroupBundle\Controller\CommonController;
+
+
+/**
+ * @Route("/gestion")
+ */
+
+class BackController extends CommonController
 {
+
 	/**
-	 * @Route("/sidebar", name="BNSAppGroupBundle_sidebar")
 	 * @Template()
 	 */
-	public function sidebarAction()
+	public function sidebarAction($groupSlug = null, $page = null, $section = null)
 	{
+		$user = $this->get('bns.user_manager')->getUser();
+		$gt = $this->get('bns.right_manager')->getManageableGroupTypes(false);
+		$this->get('bns.user_manager')->setUser($user);
+		$isEnv =  $this->get('bns.right_manager')->getCurrentGroupType() == 'ENVIRONMENT';
+        $isSchool =  $this->get('bns.right_manager')->getCurrentGroupType() == 'SCHOOL';
+
+
 		return array(
-			'managementGroupTypes' => $this->get('bns.right_manager')->getManageableGroupTypes()
+			'managementGroupTypes' => $gt,
+			'isEnv'				   => $isEnv,
+			'section'			   => $section,
+			'page'				   => $page,
+			'groupSlug'			   => $groupSlug,
+            'hasCerise'            => $this->get('bns.right_manager')->hasCerise(),
+            'isSchool'             => $isSchool,
+            'hasMedialandes'       => $this->get('bns.right_manager')->hasMedialandes(),
 		);
 	}
-	
-	
+
+
 	/**
-	 * @Route("/", name="BNSAppGroupBundle_back")
+	 * @Route("/search", name="BNSAppGroupBundle_back_search")
 	 * @Template()
+	 * @Rights("GROUP_ACCESS_BACK")
 	 */
 	public function indexAction()
-    {	
+    {
 		$group = $this->get('bns.right_manager')->getCurrentGroup();
-		$request = $this->getRequest();
-		$form = $this->createForm(new EditGroupType(), new EditGroupFormModel($group));
-		if ($request->isMethod('POST')) {
-			$form->bindRequest($request);
-			//TODO checker validité form
-			$form->getData()->save();
-			return $this->redirect($this->generateUrl('BNSAppGroupBundle_back'));
-		}
-		$homeMessage = $this->get('bns.right_manager')->getCurrentGroup()->getAttribute('HOME_MESSAGE');
-		
+		$rm = $this->get('bns.right_manager');
 		$gm = $this->get('bns.group_manager');
 		$gm->setGroup($group);
-		
-		$rules = $gm->getRules();
+		//Formulaires de recherche
 
-		//Optimisation des requettages sur la centrale
-		$ruleDatas = array();
-		foreach($rules as $rule){
-			if(!isset($ruleDatas['group'][$rule['who_group_id']])){
-				$ruleDatas['group'][$rule['who_group_id']] = $gm->getSafeGroup($rule['who_group_id']);
-			}
-			if(isset($rule['rule_where']['group_type_id'])){
-				if(!isset($ruleDatas['group_type'][$rule['rule_where']['group_type_id']])){
-					$ruleDatas['group_type'][$rule['rule_where']['group_type_id']] = $gm->getSafeGroupType($rule['rule_where']['group_type_id']);
-				}
-			}
-			if(!isset($ruleDatas['group'][$rule['rule_where']['group_id']])){
-				$ruleDatas['group'][$rule['rule_where']['group_id']]= $gm->getSafeGroup($rule['who_group_id']);
-			}
+		$formUser = $this->createFormBuilder()
+			->add('id','text',array('required' => false))
+			->add('username','text',array('required' => false))
+			->add('first_name','text',array('required' => false))
+			->add('last_name','text',array('required' => false))
+			->add('email','text',array('required' => false))
+			->add('with_archived', 'checkbox',array('required' => false))
+			->getForm();
+
+
+		$gt = $this->get('bns.right_manager')->getManageableGroupTypes(false,'VIEW');
+
+		$formAttr = array();
+
+		foreach($gt as $item){
+			$formAttr[$item->getType()] = $item->getLabel();
 		}
-    	
+
+		$formGroup = $this->createFormBuilder()
+			->add('label','text',array('required' => false))
+			->add('groupType','choice',array('required' => false,'empty_value' => $this->container->get('translator')->trans('CHOICE_ALL',array(),'GROUP'),'choices' => $formAttr))
+			->getForm();
+        $uaiTarget = null;
+
+
+        if($rm->hasRight('USER_ASSIGNMENT'))
+        {
+            if($group->getGroupType()->getType() == "SCHOOL")
+            {
+                $uaiTarget = $gm->getAttribute('UAI');
+            }
+            $hasUai = $uaiTarget != null;
+            $formAssignment = $this->createFormBuilder()
+                ->add('uai','text',array('required' => true))
+                ->add('uaiTarget',$hasUai ? 'hidden' : 'text',array('required' => false,'data' => $hasUai ? $uaiTarget : ""))
+                ->getForm();
+            $formAssignment = $formAssignment->createView();
+
+        }else{
+            $formAssignment = null;
+        }
+
 		return array(
-			'form' => $form->createView(),
-			'homeMessage'     => $homeMessage,
-			'managementGroupTypes' => $this->get('bns.right_manager')->getManageableGroupTypes(),
 			'group' => $group,
-			'rules' => $rules,
-			'page' => 'rules',
-			'ruleDatas' => $ruleDatas
+			'group_manager' => $gm,
+			'formUser' => $formUser->createView(),
+			'formGroup' => $formGroup->createView(),
+            'formAssignment' => $formAssignment,
+            'uaiTarget' => $uaiTarget
 		);
     }
-	
-	
+
 	/**
-     * Bascule d'une règle  
-     * 
+	 * @Route("/structure", name="BNSAppGroupBundle_back_structure")
+	 * @Template()
+	 * @Rights("GROUP_ACCESS_BACK")
+	 */
+	public function structureAction()
+    {
+		$group = $this->get('bns.right_manager')->getCurrentGroup();
+		$rm = $this->get('bns.right_manager');
+		$gm = $this->get('bns.group_manager');
+		$gm->setGroup($group);
+
+		return array(
+			'managementGroupTypes' => $this->get('bns.right_manager')->getManageableGroupTypes(),
+			'group' => $group,
+			'group_manager' => $gm,
+		);
+	}
+
+	/**
+	 * @Route("/mise-a-jour-parent", name="BNSAppGroupBundle_back_update_parent", options={"expose"=true} )
+	 * @Rights("GROUP_ACCESS_BACK")
+	 */
+	public function updateParentAction(){
+		$parentId = $this->getRequest()->get('parent_id');
+		$childId = $this->getRequest()->get('child_id');
+		$gm = $this->get('bns.group_manager');
+		$gm->findGroupById($childId);
+		//TODO AME Sécu
+		$gm->updateParents(array($parentId));
+		return new Response();
+	}
+
+
+	/**
+     * Bascule d'une règle
+     *
 	 * @param int $status Statut commandé à la centrale
 	 *
      * @Route("/fiche/regles-bascule/{id}/{status}", name="BNSAppGroupBundle_group_rule_toggle")
      * @Template("BNSAppGroupBundle:Back:ruleToggle.html.twig")
+	 * @Rights("GROUP_ACCESS_BACK")
      */
     public function toggleRuleAction($id,$status)
     {
+		//TODO : secu
 		$rule = $this->get('bns.rule_manager')->editRule(array('id' => $id,'state' => $status == '1' ? true : false));
-		
-		$this->get('bns.right_manager')->getCurrentGroupManager()->clearGroupCache();
-		
-		return $this->redirect($this->generateUrl('BNSAppGroupBundle_back'));
-	}
-	
-	/**
-	 * @Route("/liste/{type}", name="BNSAppGroupBundle_group_list")
-	 * @Template()
-	 */
-	public function groupListAction($type)
-	{
-		$rm = $this->get('bns.right_manager');
-		$rm->forbidIf(!$rm->hasRight(strtoupper($type) . '_CREATE'));
-		$groupType = GroupTypeQuery::create()->joinWithI18n($rm->getLocale())->findOneByType(strtoupper($type));
-		$cgm = $rm->getCurrentGroupManager();
-		return array(
-			'managementGroupTypes' => $this->get('bns.right_manager')->getManageableGroupTypes(),
-			'groupType' => $groupType,
-			'groups'	=> $cgm->getSubgroups(true,false,$groupType->getId())
-		);
-	}
-	
-	/**
-	 * @Route("/creer/{type}", name="BNSAppGroupBundle_group_add")
-	 * @Template()
-	 */
-	public function groupAddAction($type)
-	{
-		$rm = $this->get('bns.right_manager');
-		$rm->forbidIf(!$rm->hasRight(strtoupper($type) . '_CREATE'));
-		$groupType = GroupTypeQuery::create()->joinWithI18n($rm->getLocale())->findOneByType(strtoupper($type));
-		$cgm = $rm->getCurrentGroupManager();
-		
-		$group = new Group();
-				
-		$form = $this->createForm(new GroupSimpleType(),$group);
-				
-		if ($this->getRequest()->getMethod() == 'POST')
-		{
-			$form->bindRequest($this->getRequest());
-			if ($form->isValid())
-			{
-				$gm = $this->get('bns.group_manager');
-				$groupParams = array(
-					'type' => $groupType->getType(),
-					'group_type_id' => $groupType->getId(),
-					'label' => $group->getLabel(),
-					'domain_id' => $this->container->getParameter('domain_id')
-				);
-				$group = $gm->createGroup($groupParams);
-				$groupManager = $this->get('bns.group_manager');
-				$groupManager->setGroup($group);
-				$groupManager->updateParent($rm->getCurrentGroupId());
-				return $this->redirect($this->generateUrl('BNSAppGroupBundle_group_list',array('type' => $groupType->getType())));
-			}
-		}
-		return array(
-			'managementGroupTypes' => $this->get('bns.right_manager')->getManageableGroupTypes(),
-			'groupType' => $groupType,
-			'groups'	=> $cgm->getSubgroups(true),
-			'form' => $form->createView()
-		);
-	}
-	
-	/**
-	 * @Route("/fiche/{type}/{groupSlug}", name="BNSAppGroupBundle_group_sheet")
-	 * @Template()
-	 */
-	public function groupSheetAction($type,$groupSlug)
-	{
 		$gm = $this->get('bns.group_manager');
-		$rm = $this->get('bns.right_manager');
-		$groupType = GroupTypeQuery::create()->joinWithI18n($rm->getLocale())->findOneByType(strtoupper($type));
-		$group = GroupQuery::create()->findOneBySlug($groupSlug);
-		$gm->setGroup($group);
-		$rm->forbidIf($gm->getParent()->getId() != $rm->getCurrentGroupId());
-		$rm->forbidIf(!$rm->hasRight(strtoupper($group->getGroupType()->getType()) . '_CREATE'));
-		
-		return array(
-			'managementGroupTypes' => $this->get('bns.right_manager')->getManageableGroupTypes(),
-			'groups'	=> $gm->getSubgroups(true),
-			'group' => $group,
-			'groupType' => $groupType,
-		);
-		
+		$gm->findGroupById($this->getRequest()->getSession()->get('group_bundle_current_group_id'));
+		$gm->clearGroupCache();
+		return $this->redirect($this->generateUrl('BNSAppGroupBundle_group_sheet',array('groupSlug' => $gm->getGroup()->getSlug())));
 	}
-	
-	
+
+	/**
+     * Suppression d'une règle
+	 *
+	 * @param int $status Statut commandé à la centrale
+	 *
+     * @Route("/fiche/regles-suppression/{id}/{groupSlug}", name="BNSAppGroupBundle_group_rule_delete")
+	 * @Rights("GROUP_ACCESS_BACK")
+     */
+    public function deleteRuleAction($id, $groupSlug)
+    {
+		//TODO : secu
+        $gm = $this->get('bns.group_manager');
+        $group = $gm->findGroupBySlug($groupSlug);
+        $gm->setGroup($group);
+		$this->get('bns.rule_manager')->deleteRule($id);
+		$gm->clearGroupCache();
+		return $this->redirect($this->generateUrl('BNSAppGroupBundle_group_sheet',array('groupSlug' => $gm->getGroup()->getSlug())));
+	}
+
+
+
+	/**
+                $this->get("stat.group")->newGroup(strtoupper($type));
+	 * @Route("/personnalisation", name="BNSAppGroupBundle_back_custom")
+	 * @Template()
+	 * @Rights("GROUP_ACCESS_BACK")
+	 */
+	public function customAction(){
+		$group = $this->get('bns.right_manager')->getCurrentGroup();
+		$request = $this->getRequest();
+		$form = $this->createForm(new EditGroupType(), new EditGroupFormModel($group));
+		if ($request->isMethod('POST')) {
+			$form->bind($request);
+			//TODO checker validité form
+			$form->getData()->save();
+			return $this->redirect($this->generateUrl('BNSAppGroupBundle_back_custom'));
+		}
+		$homeMessage = $this->get('bns.right_manager')->getCurrentGroup()->getAttribute('HOME_MESSAGE');
+
+		return array(
+			'form' => $form->createView(),
+			'homeMessage'     => $homeMessage,
+		);
+
+	}
+
+    /**
+     * Page d'accueil du module école en gestioon : tableau de bord + menu
+     * @Route("/", name="BNSAppGroupBundle_back")
+     * @Rights("GROUP_ACCESS_BACK")
+     */
+    public function moduleAction()
+    {
+        $activationRoles = GroupTypeQuery::create()
+            ->filterBySimulateRole(true)
+            ->orderByType(\Criteria::DESC)
+            ->findByType(array('TEACHER', 'PUPIL', 'PARENT', 'DIRECTOR'))
+        ;
+        $currentGroup = $this->get('bns.right_manager')->getCurrentGroup();
+
+        return $this->render('BNSAppGroupBundle:Back:modules.html.twig', array(
+            'activationRoles'      => $activationRoles,
+            'uid'                  => $currentGroup->hasAttribute('UAI') ? $currentGroup->getAttribute('UAI') : '-'
+        ));
+    }
 }

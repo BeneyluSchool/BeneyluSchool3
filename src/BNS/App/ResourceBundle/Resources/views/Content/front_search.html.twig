@@ -1,0 +1,124 @@
+{% extends 'BNSAppResourceBundle:Content:front_content_layout.html.twig' %}
+
+{% block extra_container_classes %}
+	label-filter-container
+{% endblock %}
+
+{% block list %}
+	{# ToolBar settings #}
+	{% include 'BNSAppResourceBundle:ToolBar:toolbar_settings.html.twig' with {
+		'canManage': canManageSelection,
+		'navigationContext': 'GALLERY'
+	} %}
+
+    {% if results['RESOURCES'] is defined %}
+        {% if sorted_links|length > 0 %}
+            <h1>Documents</h1>
+
+            {% for items in sorted_links %}
+                {% set label = items[0]['link'].getLabel() %}
+                <div>
+                    <div class="label-title">
+                        <ul>
+                            {% for label in items[0]['resource'].getLabelPathFromLabel(label, label.getObjectLinkedId()) %}
+                                <li>{{ label.getLabel() }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="items-group">
+                        {% for item in items %}
+                            {% set resource = item['resource'] %}
+                            {% set current_label = item['link'].getLabel() %}
+                            {% include 'BNSAppResourceBundle:ContentBlock:front_block_gallery.html.twig' %}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            {% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+                'text': "Aucun document n'a été trouvé."
+            } %}
+        {% endif %}
+    {% endif %}
+{% endblock list %}
+	
+{% block pagination %}
+    {% if resources|length > 0 %}
+        {% set nb_page = resources.getLastPage() %}
+        {% if nb_page > 1 %}
+            <div id="search-pagination" class="pagination">
+                <ul>
+                    {% for i in 1..nb_page %}
+                        <li class="{% if i == page %}active{% endif %}">
+                            <a data-page="{{ i }}">
+                                {{ i }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock pagination %}
+
+{% block provider_resources %}
+    {% if results['PROVIDER_RESOURCES'] is defined %}
+        <h1>Resources pédagogiques</h1>
+        
+        <div id="provider-resources-container" class="provider-resources-container">
+            {% if false == results['PROVIDER_RESOURCES'] %}
+                <div class="loader loader-h show">
+                    <div class="message">
+                        Nous réorganisons votre bibliothèque, veuillez patienter...<br /><br />
+                        Cela peut prendre quelques secondes le temps de trier vos livres et cahiers.
+                    </div>
+                </div>
+                <div id="provider-resources-container-inner"></div>
+                <script type="text/javascript">
+                    $(function () {
+                        var i = 0,
+                            data = thesaurusData;
+
+                        data['contexts'] = ['provider_resources'];
+
+                        ++i;
+
+                        var reloadProviderResources = function () {
+                            $.ajax({
+                                url: Routing.generate('resource_search_provider_resource'),
+                                type: 'POST',
+                                dataType: 'html',
+                                data: data,
+                                statusCode: {
+                                    200: function (data) {
+                                        $('#provider-resources-container-inner').html(data);
+                                        $('#provider-resources-container .loader').fadeOut('fast');
+                                        calculHeightForIE();
+                                    },
+                                    206: function (data) {
+                                        if (i < 6) { // 30 sec
+                                            setTimeout(function () { reloadProviderResources(); }, 4000);
+                                        }
+                                    }
+                                }
+                            });
+                        }
+
+                        reloadProviderResources();
+                    });
+                </script>
+            {% else %}
+                {% include 'BNSAppResourceBundle:ContentBlock:front_block_search_provider_resources_list.html.twig' %}
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock provider_resources %}
+	
+{% block search %}
+    {% if results['INTERNET'] is defined %}
+        <h1>Internet</h1>
+
+        {% include 'BNSAppResourceBundle:ContentBlock:front_block_search_internet.html.twig' %}
+    {% endif %}
+{% endblock search %}

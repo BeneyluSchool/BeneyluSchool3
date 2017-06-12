@@ -1,0 +1,22 @@
+<md-dialog class="bns-dialog bns-dialog-warn">
+  <md-toolbar class="md-warn">
+    <div class="md-toolbar-tools">
+      <div class="md-headline"><h2 translate>CAMPAIGN.TITLE_CONFIRM_DELETE</h2></div>
+      <span flex></span>
+      <md-button ng-click="ctrl.close()" class="md-icon-button" href>
+        <md-icon>close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content class="md-dialog-content">
+    <div translate>CAMPAIGN.DESCRIPTION_CONFIRM_DELETE</div>
+  </md-dialog-content>
+  <div class="md-actions">
+    <md-button ng-click="ctrl.close()" href>
+      <span ng-bind-html="'CAMPAIGN.BUTTON_CANCEL'|translate|buttonize">.</span>
+    </md-button>
+    <md-button ng-click="ctrl.deleteCampaign()" class="md-warn md-raised">
+      <span ng-bind-html="'CAMPAIGN.BUTTON_DELETE'|translate|buttonize">.</span>
+    </md-button>
+  </div>
+</md-dialog>

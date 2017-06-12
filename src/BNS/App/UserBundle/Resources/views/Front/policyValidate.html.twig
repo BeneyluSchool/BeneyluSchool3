@@ -1,0 +1,56 @@
+{% trans_default_domain 'USER' %}
+
+{% extends 'BNSAppUserBundle:Front:layout.html.twig' %}
+
+{% block title %}
+    {{ 'TITLE_BENEYLU_POLICY'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')})  |desc('%beneylu_brand_name% - Charte d\'utilisation')}}
+
+{% endblock %}
+
+
+{% block content_title %}
+    <h1>
+        {{ 'POLICY'|trans  |desc('Charte d\'utilisation')}}
+    </h1>
+{% endblock %}
+
+{% block content %}
+    <p>
+        {% if is_child() %}
+            {{ 'CHILD_ACCESS_BENEYLU_READ_POLICY'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('Pour accéder à %beneylu_brand_name%, tu dois lire et accepter la charte d\'utilisation.') }}
+        {% else %}
+            {{ 'ADULT_ACCESS_BENEYLU_READ_POLICY'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('Pour accéder à %beneylu_brand_name%, vous devez lire et accepter la charte d\'utilisation.') }}
+        {% endif %}
+    </p>
+
+    {% if form.policy.vars.errors|length > 0 %}
+    <div class="alert alert-danger bns-alert">
+        {{ form_errors(form.policy) }}
+    </div>
+    {% endif %}
+
+    <div class="content-policy-pdf">
+        <iframe src="https://docs.google.com/viewer?url={{ policyUrl }}&embedded=true"></iframe>
+    </div>
+
+    <div class="row-fluid">
+        <div class="checkbox policy-validate">
+        {{ form_widget(form.policy) }} {{ form_label(form.policy) }}
+        </div>
+    </div>
+
+
+    {{ form_rest(form) }}
+
+{% endblock %}
+
+{% block buttons %}
+    <div class="btn-toolbar pull-right">
+        <div class="btn-group">
+            <button type="submit" class="btn bns-success validate-medium medium">
+                <strong>{{ 'ACCEPT_POLICY'|trans |desc('Accepter la charte d\'utilisation') }}</strong>
+            </button>
+        </div>
+    </div>
+{% endblock %}
+

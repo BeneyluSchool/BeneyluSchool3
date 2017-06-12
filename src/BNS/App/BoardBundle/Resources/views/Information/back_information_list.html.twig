@@ -1,0 +1,44 @@
+{% for information in pager %}
+	{% include 'BNSAppBoardBundle:Information:back_information_row.html.twig' %}
+{% else %}
+	<div class="no-item">
+		{% if isAjaxCall %} {# In case of AJAX calling like filters, etc #}
+			<p>Aucune information n'a été trouvé pour votre recherche.</p>
+		{% else %}
+			<div class="bnj-not-found"></div>
+			<p>
+				Votre tableau d'information est vide.<br />Pourquoi ne pas créer votre première information ?
+			</p>
+
+			<p class="buttons-container">
+				<a href="{{ path('board_manager_new_information') }}" class="btn bns-info btn-24 large add-icon">
+					<span class="icons-24 add-icon"></span>
+					Ecrire une information
+				</a>
+			</p>
+			<div class="clearfix"></div>
+		{% endif %}
+	</div>
+{% endfor %}
+
+{% if pager.haveToPaginate %}
+	<div class="pagination">
+		<ul>
+			{% if (pager.getPage() > pager.getFirstPage()) %}
+				<li><a class="information-pager" href="{{ path('board_manager_informations_page', {'page': pager.getPreviousPage()}) }}">←</a></li>
+			{% else %}
+				<li class="disabled"><a href="#" onclick="return false;">←</a></li>
+			{% endif %}
+
+			{% for i in range(pager.getFirstPage(), pager.getLastPage()) %}
+				<li{% if (pager.getPage() == i) %} class="active"{% endif %}><a class="information-pager" href="{{ path('board_manager_informations_page', {'page': i}) }}">{{ i }}</a></li>
+			{% endfor %}
+
+			{% if (pager.getPage() < pager.getLastPage()) %}
+				<li><a class="information-pager" href="{{ path('board_manager_informations_page', {'page': pager.getNextPage()}) }}">→</a></li>
+			{% else %}
+				<li class="disabled"><a href="#" onclick="return false;">→</a></li>
+			{% endif %}
+		</ul>
+	</div>
+{% endif %}

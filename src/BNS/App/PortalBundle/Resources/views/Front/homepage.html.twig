@@ -1,0 +1,35 @@
+{% trans_default_domain "PORTAL" %}
+{% extends 'BNSAppPortalBundle:Layout:front.html.twig' %}
+
+{% block css %}
+	{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+    <h1 style="font-family: {{ portal.font(true) }};">{{ portal.label }}</h1>
+
+        {% if portal.getMediaRelatedByBackgroundSmallId is not null %}
+
+    <img src="{{ create_visualisation_url_resource(portal.getMediaRelatedByBackgroundSmallId, true) }}" />
+
+    {% endif %}
+
+    {% if not isAuthenticated %}
+        <iframe id="logon-iframe" src="{{ redirectUrl }}" width="100%" scrolling="auto" marginheight="0" marginwidth="0" frameborder="0">
+            {{ 'BROWSER_INCOMPATIBLE'|trans |desc('Votre navigateur ne semble pas compatible') }}
+        </iframe>
+        <div class="password-forget">
+            <a href="{{ path('user_password_reset') }}">{{ path('user_password_reset') }}">{{ 'LINK_PASSWORD_LOST' |trans |desc('Mot de passe oublié ?') }}</a>
+        </div>
+    {% endif %}
+{% endblock body %}
+
+
+{% block dock_bar %}
+    {% if isAuthenticated %}{{ parent() }}{% endif %}
+{% endblock %}

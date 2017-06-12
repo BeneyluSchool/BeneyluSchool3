@@ -1,0 +1,34 @@
+module:
+  unique_name: INFO
+  is_contextable: false
+  name:
+    fr: Information aux enseignants
+    en: Information aux enseignants
+  description:
+    fr: Tout savoir sur votre ENT préféré
+    en: Tout savoir sur votre ENT préféré
+  default_rank:
+    pupil: READ
+    parent: READ
+    teacher: READ
+    other: READ
+
+permissions:
+  ACCESS:
+    label:
+      fr: Voir le module information aux enseignants
+      en: Voir le module information aux enseignants
+    description:
+      fr: Voir le module information aux enseignants
+      en: Voir le module information aux enseignants
+
+
+ranks:
+  READ:
+    label:
+      fr: Voir le module informations aux enseignants
+      en: Voir le module informations aux enseignants
+    description:
+      fr: Voir le module informations aux enseignants
+      en: Voir le module informations aux enseignants
+    permissions: [ACCESS]

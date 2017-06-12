@@ -1,0 +1,29 @@
+{% trans_default_domain "CLASSROOM" %}
+<div class="title-container status-filters">
+	<div class="title active border-blue">{% trans %}TITLE_SUBSCRIPTION_STATUS{% endtrans %} <span class="square icon-arrow"></span></div>
+	<div class="content-title">
+		<ul>
+			<li data-filter="">
+                <div>
+                    <span class="vertical-separator green"></span>
+                    <span>{% trans %}IN_PROGRESS{% endtrans %}</span>
+                    <span class="select"></span>
+                </div>
+            </li>
+            <li data-filter="">
+                <div>
+                    <span class="vertical-separator orange"></span>
+                    <span>{% trans %}DEADLINE_SOON{% endtrans %}</span>
+                    <span class="select"></span>
+                </div>
+            </li>
+            <li data-filter="">
+                <div>
+                    <span class="vertical-separator red"></span>
+                    <span>{% trans %}STATUS_FINISH{% endtrans %}</span>
+                    <span class="select"></span>
+                </div>
+            </li>
+		</ul>
+	</div>
+</div>

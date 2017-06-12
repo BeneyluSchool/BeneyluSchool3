@@ -1,0 +1,7 @@
+<h3>Audio</h3>
+
+<div class="workshop-widget-option">
+  <h4 ng-if="! widget.resource_id">Ajouter un fichier audio</h4>
+  <h4 ng-if="widget.resource_id">Changer de fichier audio</h4>
+  <div bns-workshop-widget-resource-picker type="{{ widget.subtype || 'all' }}" current="widget.resource_id" target="resource_id"></div>
+</div>

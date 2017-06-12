@@ -1,60 +1,114 @@
+{% trans_default_domain "MAIN" %}
+{% set withFilter = groupsContext|length > 10 %}
+
 {% block dock_bar %}
-    <div class="content-footer{% if app.debug %} debug{% endif %}">
+    <div class="content-footer {% if not is_in_front %} admin {% endif %}" ng-hide="hideDockBar">
 		<div class="dockbar-left"></div>
 		<div class="dockbar-middle">
 			<div class="content-dockbar">
 				<div class="avatar">
 					{% if has_right('PROFILE_ACCESS') and is_in_front %}
-						<a class="module-popover user-information" href="{{ path('BNSAppProfileBundle_front') }}" rel="popover" data-title="<div class='dock-popover'><img src='{{ asset('/medias/images/icons/modules/btn-profile-big.png' ) }}' alt='Mon Profil' />Mon Profil</div>" data-content="<div class='dock-popover'>Communiquer sur mon humeur ou mon activité</div>">
-							<img src="{{ avatar(app.user, 'thumbnail') }}" class="avatar-thumbnail-size" alt="avatar" />
-							<span class="name"><span class="first_name">{{ app.user.firstName  }}</span> <span class="last_name"> {{ app.user.lastName  }}</span></span>
-						</a>
-					{% elseif has_right('PROFILE_ACCESS_BACK') and is_in_front == false  %}
-						<a class="module-popover user-information" href="{{ path('BNSAppProfileBundle_back') }}" rel="popover" data-title="<div class='dock-popover'><img src='{{ asset('/medias/images/icons/modules/btn-profile-big.png' ) }}' alt='Mon Profil' />Mon Profil</div>" data-content="<div class='dock-popover'>Communiquer sur mon humeur ou mon activité</div>">
-							<img src="{{ avatar(app.user, 'thumbnail') }}" class="avatar-thumbnail-size" alt="avatar" />
-							<span class="name"><span class="first_name">{{ app.user.firstName  }}</span> <span class="last_name"> {{ app.user.lastName  }}</span></span>
+						<a class="module-popover-left user-information" href="{{ path('BNSAppProfileBundle_front') }}" rel="popover" data-title="<div class='dock-popover'><img src='{{ asset('/medias/images/icons/modules/profile/big.png' ) }}' alt='{{ 'IMAGE_MY_PROFILE'|trans |desc('Mon Profil') }}' />{{ 'LINK_MY_PROFILE'|trans |desc('Mon Profil') }}</div>" data-content="<div class='dock-popover'>{{ 'LINK_WRITE_ON_MOOD_OR_ACTIVITY'|trans |desc('Communiquer sur mon humeur ou mon activité') }}</div>">
+                            {% include "BNSAppMainBundle:DockBar:profile.html.twig" %}
+                        </a>
+					{% elseif (has_right('PROFILE_ACCESS_BACK') and is_in_front == false) or is_adult()  %}
+						<a class="module-popover-left user-information" href="{{ path('BNSAppProfileBundle_back') }}" rel="popover" data-title="<div class='dock-popover'><img src='{{ asset('/medias/images/icons/modules/profile/big.png' ) }}' alt='{{ 'IMAGE_MY_PROFILE'|trans }}' />{{ 'LINK_MY_PROFILE'|trans }}</div>" data-content="<div class='dock-popover'>{{ 'LINK_WRITE_ON_MOOD_OR_ACTIVITY'|trans }}</div>">
+                            {% include "BNSAppMainBundle:DockBar:profile.html.twig" %}
 						</a>
 					{% else %}
-						<img src="{{ avatar(app.user, 'thumbnail') }}" class="avatar-thumbnail-size" alt="avatar" />
-						<span class="name"><span class="first_name">{{ app.user.firstName  }}</span> <span class="last_name"> {{ app.user.lastName  }}</span></span>
+                        {% include "BNSAppMainBundle:DockBar:profile.html.twig" %}
 					{% endif %}
-					{% render 'BNSAppNotificationBundle:Front:count' with {'isInFront': is_in_front} %}
-					<div class="nav-tool">
-						<ul>
-							{% for module in constant_modules %}
-								{% include "BNSAppMainBundle:DockBar:module.html.twig" with {'module' : module, 'is_in_front' : is_in_front, 'size' : 'medium' } %}
-							{% endfor %}
-						</ul>
-					</div>
+
+					{{ render(controller('BNSAppNotificationBundle:Front:count', {'isInFront': is_in_front} )) }}
+
 					<div class="shadow"></div>
 				</div>
 				<div class="nav-tool context-list">
 					<ul>
+						{% for module in constant_modules %}
+                                {% include "BNSAppMainBundle:DockBar:module.html.twig" with {'currentGroup' : currentGroup, 'module' : module, 'is_in_front' : is_in_front, 'size' : 'medium' , 'current_module' : current_module , 'nb_modules' : constant_modules | length + context_modules | length , 'nbNotifInfo' : nbNotifInfo } %}
+                        {% endfor %}
 						{% for module in context_modules %}
 							{% if module.uniqueName != currentGroupType and module.uniqueName != "GROUP" %}
-								{% include "BNSAppMainBundle:DockBar:module.html.twig" with {'module' : module , 'is_in_front' : is_in_front  , 'size' : 'medium' } %}
+								{% include "BNSAppMainBundle:DockBar:module.html.twig" with {'currentGroup' : currentGroup, 'module' : module , 'is_in_front' : is_in_front  , 'size' : 'medium'  , 'current_module' : current_module , 'nb_modules' : constant_modules | length + context_modules | length } %}
 							{% endif %}
 						{% endfor %}
+                        {% if parameter('has_cerise') == true %}
+                            {% if currentGroupType in ['SCHOOL','CLASSROOM'] and rightManager.hasCerise(currentGroup,true) and rightManager.userManager.getMainRole in ['teacher','director',"admin"] %}
+                                <li>
+                                    <a href="{{ path('BNSAppGroupBundle_back_cerise_login') }}" target="_blank"
+                                       title="">
+                                        <img
+                                            rel="popover"
+                                            data-title="<div class='dock-popover'><img src='{{ asset('/medias/images/icons/modules/pupilmonitoring/big.png' ) }}' alt='Cerise Prim' />Cerise Prim</div>"
+                                            data-content="<div class='dock-popover'>Accéder à Cerise Prim</div>"
+                                            class="module-popover module-icon {{ constant_modules | length + context_modules | length > 11 ? "more" : "" }}"
+                                            src="/medias/images/icons/modules/pupilmonitoring/small.png"
+                                            alt="Cerise Prim"
+                                        />
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endif %}
+                        {% if has_right('MAIN_SPOT_ACCESS') %}
+                            <li>
+                                <a href="{{ path('BNSAppMainBundle_spot_waiting') }}"
+                                   >
+                                    <img
+                                            rel="popover"
+                                            data-title="<div class='dock-popover'><img src='{{ asset('/medias/images/icons/modules/spot/big.png' ) }}' alt='Beneylu Spot' />Beneylu Spot</div>"
+                                            data-content="<div class='dock-popover'>Accéder à Beneylu Spot</div>"
+                                            class="module-popover module-icon {{ constant_modules | length + context_modules | length > 11 ? "more" : "" }}"
+                                            src="{{ asset('/medias/images/icons/modules/spot/medium.png') }}"
+                                            alt=""
+                                            />
+                                </a>
+                            </li>
+                        {% endif %}
 					</ul>
-					<div class="btn-jim"></div>
+					<div class="btn-jim {{ not is_in_front ? 'back' : '' }}"></div>
 					{# Switch admin #}
 					<div class="pull-right switch-button">
 						{% if moduleContextBackAccess %}
-							{% include "BNSAppMainBundle:DockBar:module.html.twig" with {'module' : current_module , 'is_in_front' :  is_in_front ? false : true  , 'title': "Basculer administration" , 'is_admin': true, 'size' : 'medium' } %}
+                            {% if is_in_front %}
+                                {% set switchImagePath = 'medias/images/icons/modules/admin/medium.png' %}
+                            {% else %}
+                                {% set switchImagePath = 'medias/images/icons/modules/admin/admin/medium.png' %}
+                            {% endif %}
+							<a
+								href="{% if is_in_front %}{{ path(current_module.getRouteBack) }}{% else %}{{ path(current_module.getRouteFront) }}{% endif %}"
+								class="module-popover"
+								rel="popover"
+
+								data-title="<div class='dock-popover'><img src='{{ asset(switchImagePath) }}' />
+								{% if is_in_front %}
+								{{ 'LINK_CHANGE_TO_MANAGEMENT'|trans |desc('Passer en gestion') }}
+								{% else %}
+								{{ 'LINK_CHANGE_TO_CONSULTATION'|trans |desc('Passer en consultation') }}
+								{% endif %}
+								</div>"
+								data-content=""
+							>
+								<span class="switch-img {% if not is_in_front %} admin{% endif %}"></span>
+							</a>
 						{% endif %}
 					</div>
-					
+
 				</div>
 				<div class="btn-group dropdown-switch-context dropup">
 					<a class="dropdown-toggle" href="#" data-toggle="dropdown">
 						<span class="context-change-label"></span>
 					</a>
-						
-					{% if (is_in_front and has_right(currentGroupType ~ '_ACCESS')) or (not is_in_front and has_right(currentGroupType ~ '_ACCESS_BACK'))  %}
-						<a href="{{ path(currentGroupRoute) }}">
-							<span class="context-icon {{ currentGroupType|lower }}"></span>
+					{% if (is_in_front and has_right(currentGroupType ~ '_ACCESS')) or (not is_in_front and has_right(currentGroupType ~ '_ACCESS_BACK')) %}
+                        <a href="{{ path(currentGroupRoute) }}">
+							<span class="context-icon module-popover-right {{ currentGroupType|lower }}"
+							rel="popover"
+							data-title="<div class='dock-popover'><img src='{{ asset(group_type_icon(currentGroup,null,'large')) }}' alt='{{ currentGroup.getLabel }}' />{{ currentGroup.getLabel }} </div>"
+							data-content=""
+							data-class=""
+							></span>
 						</a>
-					{% elseif is_in_front and has_right('GROUP_ACCESS') %}
+					{% elseif is_in_front %}
 						<a href="{{ path("BNSAppGroupBundle_front") }}">
 							<span class="context-icon {{ currentGroupType|lower }}"></span>
 						</a>
@@ -62,51 +116,126 @@
 						<a href="{{ path("BNSAppGroupBundle_back") }}">
 							<span class="context-icon {{ currentGroupType|lower }}"></span>
 						</a>
+                    {% elseif not is_in_front %}
+                            <span class="context-icon {{ currentGroupType|lower }}"></span>
 					{% endif %}
-					
+
 					<ul class="dropdown-menu pull-right">
-						<li class="title-context"><img src="{{ asset(group_type_icon("",currentGroupType,'large')) }}" />Changer d'espace de travail</li>
-						{% for groupContext in groupsContext %}
-						<li><a href="{{ path('BNSAppMainBundle_switch_context', { 'slug': groupContext.getSlug() }) }}"><img src="{{ asset(group_type_icon(groupContext)) }}" />{{ groupContext.getLabel() }}</a></li>
-						{% endfor %}
-						<li><a href="{{ path('disconnect_user') }}" title="Deconnexion"><img src="{{ asset('/medias/images/icons/group_context/disconnection.png') }}" alt="Déconnexion" /> Se déconnecter</a></li>
+						<li class="title-context {{ currentGroup.label|length > 18 ? 'small' : '' }} {{ withFilter ? 'with-filter' : '' }}"><img src="{{ asset(group_type_icon("", currentGroupType, 'large')) }}" />
+							<span class="current-group-label">
+                                {{ currentGroup.label }}
+                            </span>
+                            {% if withFilter %}
+                                <img class="search" src="{{ asset('/medias/images/icons/search-small.png') }}" />
+                                <input id='filter-context' type="text" onkeyup="filter(this);" />
+                            {% endif %}
+						</li>
+
+                        {% set sizeType = groupsContext|length > 10 ? "small" : ""%}
+                        <div class="group-context-container">
+                                <li id="no-context" class="hide">
+                                    <a  class="{{ sizeType }}" href="#">
+                                        <img src="{{ asset(group_type_icon(currentGroup,null,sizeType != "" ? sizeType : "medium")) }}" />
+                                        {{ 'LINK_NO_RESULT'|trans |desc('Pas de résultat') }}
+                                    </a>
+                                </li>
+                            {% for groupContext in groupsContext %}
+                                <li>
+                                    <a class="{{ sizeType }}" href="{{ path('BNSAppMainBundle_switch_context', { 'slug': groupContext.getSlug() }) }}">
+                                        <img src="{{ asset(group_type_icon(groupContext,null,sizeType != "" ? sizeType : "medium")) }}" />
+                                        {{ groupContext.getLabel() }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+
+                            {% if showInactiveSchoolPage %}
+                                <li>
+                                    <a class="" href="{{ path('BNSAppSchoolBundle_front_inactive') }}">
+                                        <img src="{{ asset('/medias/images/icons/group_context/school/medium.png') }}">
+                                        {{ rightManager.currentGroupManager.parent.label }}
+                                    </a>
+                                </li>
+                            {% endif %}
+
+                        </div>
+						<li>
+							<a href="{{ path('disconnect_user') }}" title="{{ 'IMAGE_DISCONNECTION'|trans }}">
+								<img src="{{ asset('/medias/images/icons/group_context/disconnection.png') }}" alt="{{ 'IMAGE_DISCONNECTION'|trans |desc('Déconnexion') }}" /> {{ 'LINK_LOGOUT'|trans |desc('Se déconnecter') }}
+							</a>
+						</li>
 						<div class="bulle"></div>
 					</ul>
 				</div>
 			</div>
 		</div>
 		<div class="dockbar-right"></div>
-		{% autoescape false %}
-		{{ modal('directory-modal', {
-			'title': '',
-			'body_template': {'template': 'BNSAppDirectoryBundle:Directory:loading_modal_body.html.twig' },
-			'header_template': {'template': 'BNSAppDirectoryBundle:Common:modal_header_footer.html.twig' },
-			'footer_template': {'template': 'BNSAppDirectoryBundle:Common:modal_header_footer.html.twig' },
-			'type': 'info directory-modal',
-		}) }}
-		{% endautoescape %}
+        {% autoescape false %}
+            {{ modal('directory-modal', {
+            'title': '',
+            'body_template': {'template': 'BNSAppDirectoryBundle:Directory:loading_modal_body.html.twig' },
+            'header_template': {'template': 'BNSAppDirectoryBundle:Common:modal_header_footer.html.twig' },
+            'footer_template': {'template': 'BNSAppDirectoryBundle:Common:modal_header_footer.html.twig' },
+            'type': 'info directory-modal',
+            }) }}
+        {% endautoescape %}
     </div>
 {% endblock %}
 
 {% block javascripts %}
 
 <script type="text/javascript">
-	
+
 	$('.module-popover').popover(
-		{ 
+		{
 			delay: { show: 0, hide: 0 },
 			placement: "top",
 			animation: false
 		}
 	);
-		
+
 	$('.module-popover-right').popover(
-		{ 
+		{
+			delay: { show: 0, hide: 0 },
+			placement: "left",
+			animation: false
+		}
+	);
+
+	$('.module-popover-left').popover(
+		{
 			delay: { show: 0, hide: 0 },
 			placement: "right",
 			animation: false
 		}
 	);
+
+
+    {% if withFilter %}
+        $('#filter-context').click(function(e){
+            e.stopPropagation();
+        });
+
+        function filter(element) {
+            var value = $(element).val();
+            var found = 0;
+            $(".group-context-container > li[id!='no-context'] > a").each(function() {
+                if ($(this).text().toUpperCase().search(value.toUpperCase()) > -1) {
+                    $(this).show('slow');
+                    found++;
+                }
+                else {
+                    $(this).hide('slow');
+                }
+            });
+
+            if(found == 0)
+            {
+                $('#no-context').show('slow');
+            }else{
+                $('#no-context').hide('slow');
+            }
+        }
+    {% endif %}
 </script>
 
 {% endblock %}

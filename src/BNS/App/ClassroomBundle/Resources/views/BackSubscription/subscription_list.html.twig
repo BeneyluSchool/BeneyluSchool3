@@ -1,0 +1,19 @@
+{% trans_default_domain "CLASSROOM" %}
+{% for subscription in subscriptions %}
+    {% include 'BNSAppClassroomBundle:BackSubscription:subscription_row.html.twig' %}
+{% else %}
+    <div class="no-item">
+        <div class="bnj-not-found"></div>
+        <p>
+            {% trans %}NO_SUBSCRIPTION_USE_RESOURCE_OF_US_PARTNER{% endtrans %}
+        </p>
+
+        <p class="buttons-container">
+            <a href="{{ path('classroom_manager_subscription_manage') }}" class="btn bns-info btn-24 large">
+                <span class="icons-24 add-icon"></span>
+                <strong>{% trans %}LINK_MANAGE_MINE_SUBSCRIPTION{% endtrans %}</strong>
+            </a>
+        </p>
+        <div class="clearfix"></div>
+    </div>
+{% endfor %}

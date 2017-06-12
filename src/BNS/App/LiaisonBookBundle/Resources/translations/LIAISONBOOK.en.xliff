@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-06-20T20:04:29Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="46735de06ca10d9f3366ebe98f59ee9625592770" resname="BUTTON_DELETE_MESSAGE">
+        <source><![CDATA[<strong>Supprimer</strong><br/>le message]]></source>
+        <target state="new"><![CDATA[<strong>Delete</strong><br/>message]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="75a70c82ff2b213180e5753f1671ca4dcf2aab48" resname="BUTTON_MESSAGE_SIGN">
+        <source>BUTTON_MESSAGE_SIGN</source>
+        <target>Sign message</target>
+      </trans-unit>
+      <trans-unit id="7d61b58aeb8e4ad9433c8f3ca113e967ffc30d72" resname="BUTTON_MESSAGE_SIGNED">
+        <source>BUTTON_MESSAGE_SIGNED</source>
+        <target state="new">Signed!</target>
+      </trans-unit>
+      <trans-unit id="165de63b4e99b691c61b6d36a9b7d4a6f6059d0c" resname="CREATE_AT_BY">
+        <source>%date% par %imageLink% %user%</source>
+        <target state="new">%date% by %user%</target>
+        <note><![CDATA[%date% is a placeholder
+%imageLink% is a placeholder
+%user% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="cf1689e5546b6073d8bbc206ea2110a25d7d9a01" resname="CREATE_AT_BY_USER">
+        <source>Le %date% par %imageLink% %user%</source>
+        <target state="new">%date% by %imageLink% %user%</target>
+        <note><![CDATA[%date% is a placeholder
+%imageLink% is a placeholder
+%user% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="b441ca0c4099445094b141dd7eb1bfacc3faa1d8" resname="DATE_PLACEHOLDER">
+        <source>DATE_PLACEHOLDER</source>
+        <target>day / month / year</target>
+      </trans-unit>
+      <trans-unit id="17865bdb9110d432d4f2295eb32ab17883d404dc" resname="EDIT">
+        <source>Éditer</source>
+        <target state="new">Edit</target>
+      </trans-unit>
+      <trans-unit id="14a2dd5b6c3c2cf8119847088612482e3204ea94" resname="FLASH_ERROR_OCCURED">
+        <source>FLASH_ERROR_OCCURED</source>
+        <target>An error occurred</target>
+      </trans-unit>
+      <trans-unit id="0352b017f936c9daea7f7b6a706244735cfd7366" resname="FLASH_MESSAGE_DELETE_SUCCESS">
+        <source>FLASH_MESSAGE_DELETE_SUCCESS</source>
+        <target>Your message has been successfully deleted</target>
+      </trans-unit>
+      <trans-unit id="ac5627f0f51dd52747710652a153514f012c1283" resname="FLASH_MESSAGE_MODIFIED_SUCCESS">
+        <source>FLASH_MESSAGE_MODIFIED_SUCCESS</source>
+        <target>Your message has been successfully modified</target>
+      </trans-unit>
+      <trans-unit id="f0f4352a221facb433bea339a78aa1e1a868b1e6" resname="FLASH_MESSAGE_SAVE_SUCCESS">
+        <source>FLASH_MESSAGE_SAVE_SUCCESS</source>
+        <target>Your message has been successfully saved</target>
+      </trans-unit>
+      <trans-unit id="073324cc991bf9da781d81d57caae04980ad39a5" resname="LABEL_PREFIX_DATE">
+        <source>LABEL_PREFIX_DATE</source>
+        <target>Date:</target>
+      </trans-unit>
+      <trans-unit id="25264a8434108da7c1708f4a9b43e1c1431a70b4" resname="LIAISON_MANAGER_DETAILS_TITLE">
+        <source>LIAISON_MANAGER_DETAILS_TITLE</source>
+        <target>%beneylu_brand_name% - Parent-teacher contact book - Management - Details</target>
+      </trans-unit>
+      <trans-unit id="d8be7dd02f85a983a8d9ac68de97a3624ae6e657" resname="LINK_BACK_TO_LIST">
+        <source><![CDATA[Retourner à<br/>la liste]]></source>
+        <target state="new"><![CDATA[Go back to the list]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="f32334b41ec1e592405625c6b43db3c85ba7db83" resname="LINK_CLOSE">
+        <source>LINK_CLOSE</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="56bb0670805fa0daac0f27cd55354dea08132676" resname="LINK_DELETE_MESSAGE">
+        <source><![CDATA[Supprimer<br/>le message]]></source>
+        <target state="new"><![CDATA[Delete | message]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="65cc180b7911cf1441172abf7b0c633939d7efac" resname="LINK_EDIT_MESSAGE">
+        <source><![CDATA[Éditer<br/>le message]]></source>
+        <target state="new"><![CDATA[Edit | message]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="0f8237f5a74d08dee68ca95c871aed99de236754" resname="LINK_LIAISONBOOK">
+        <source>Carnet de liaison</source>
+        <target state="new">Parent-teacher contact book</target>
+      </trans-unit>
+      <trans-unit id="84f90b417c311f53185eb51d790a06490a567397" resname="LINK_PUBLISH_NOTE">
+        <source>LINK_PUBLISH_NOTE</source>
+        <target>Leave a note</target>
+      </trans-unit>
+      <trans-unit id="90a3f783187ce12489335458babb6f5bd99808b8" resname="LINK_SEE_MESSAGE">
+        <source>LINK_SEE_MESSAGE</source>
+        <target>View message</target>
+      </trans-unit>
+      <trans-unit id="edc9d21ceb29a9a8dfc1989f42c8e32074902f8c" resname="LINK_WRITE_MESSAGE">
+        <source>LINK_WRITE_MESSAGE</source>
+        <target>Write a new message</target>
+      </trans-unit>
+      <trans-unit id="e083167b836394ebc3e2c8627401d3c85012260a" resname="LiaisonBook.Back.Titre">
+        <source>LiaisonBook.Back.Titre</source>
+        <target>%beneylu_brand_name% - Parent-teacher contact book - Manage</target>
+      </trans-unit>
+      <trans-unit id="85cda815c6fdfb377d42e374ca25e498d1d39a7b" resname="MESSAGES">
+        <source>MESSAGES</source>
+        <target>Messages</target>
+      </trans-unit>
+      <trans-unit id="aa440f5d99ed38a07961e79365e3936de47663e7" resname="MESSAGE_DETAIL">
+        <source>MESSAGE_DETAIL</source>
+        <target>Message details </target>
+      </trans-unit>
+      <trans-unit id="0758235ca232978d2c45b535a4fe450c11923d32" resname="MODAL_DELETE_MESSAGE">
+        <source>MODAL_DELETE_MESSAGE</source>
+        <target>Delete a message</target>
+      </trans-unit>
+      <trans-unit id="36d17dca0d0d29f2fa2167dc952e88daa238a7a7" resname="NO_MESSAGE_FOR_THIS_MONTH">
+        <source>NO_MESSAGE_FOR_THIS_MONTH</source>
+        <target>No messages for this month</target>
+      </trans-unit>
+      <trans-unit id="51d3f88bd0cd62f91a0dea5325a83f63a10478f5" resname="ON_HOLD">
+        <source>ON_HOLD</source>
+        <target>Awaiting</target>
+      </trans-unit>
+      <trans-unit id="226905a6e9e2e998d5ecdf30b1917c3ff8ca4374" resname="PLACEHOLDER_TITLE_MESSAGE">
+        <source>PLACEHOLDER_TITLE_MESSAGE</source>
+        <target>Message title</target>
+      </trans-unit>
+      <trans-unit id="b539b5eabe61f682938c940be262bf7fb9ec05c6" resname="PLURAL_SIGNATURE">
+        <source>PLURAL_SIGNATURE</source>
+        <target>Signatures</target>
+      </trans-unit>
+      <trans-unit id="37439ef7176268af1e7f82a2be7d53df6e203793" resname="SIGNATURE">
+        <source>SIGNATURE</source>
+        <target>Signature</target>
+      </trans-unit>
+      <trans-unit id="4bf1537e92dfc4512900d21ba76300b4b49ed911" resname="TITLE_ARCHIVED">
+        <source>TITLE_ARCHIVED</source>
+        <target>Archives</target>
+      </trans-unit>
+      <trans-unit id="3d996548ad05b6292578f4fb87bb44da904c6aff" resname="TITLE_BENEYLU_LIAISON_MANAGEMENT">
+        <source>%beneylu_brand_name% - Carnet de liaison - Manager</source>
+        <target state="new">%beneylu_brand_name% - Parent-teacher contact book - Management</target>
+      </trans-unit>
+      <trans-unit id="e98e4d2f1535cdd34cc577f3dd509c4c37a8d7eb" resname="TITLE_DATE">
+        <source>Date</source>
+        <target state="new">Date</target>
+      </trans-unit>
+      <trans-unit id="68702f2009b632f25ec9a1fc9cca321924d45764" resname="TITLE_MANAGEMENT_CREATE">
+        <source>%beneylu_brand_name% - Carnet de liaison - Manager - Création</source>
+        <target state="new">%beneylu_brand_name% - Parent-teacher contact book - Manage - Creation</target>
+      </trans-unit>
+      <trans-unit id="cd229f6e8ae03d427b6be63e34d174e46c37a163" resname="TITLE_MANAGEMENT_EDIT">
+        <source>%beneylu_brand_name% - Carnet de liaison - Manager - Édition</source>
+        <target state="new">%beneylu_brand_name% - Parent-teacher contact book - Management - Edit</target>
+      </trans-unit>
+      <trans-unit id="a851a68b9040ab3c6b2b81cba724a9793fa9a0c2" resname="TITLE_MANAGEMENT_TITLE">
+        <source>%beneylu_brand_name% - Carnet de liaison - Manager - %title%</source>
+        <target state="new">%beneylu_brand_name% - Parent-teacher contact book - Management - %title%</target>
+        <note><![CDATA[%title% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="1448d424790100733b98cc11ab64c13eac7c739d" resname="TITLE_SURE_TO_DELETE_MESSAGE">
+        <source><![CDATA[<h2>Êtes-vous sûr de vouloir supprimer le message ?</h2><h3>Vous perdrez la totalité du contenu du message.</h3><h3>A noter que les documents joints/insérés ne seront pas supprimés.</h3>]]></source>
+        <target state="new"><![CDATA[<h2>Do you really want to delete the message?</h2><h3>The whole content of the message will be lost.</h3><h3>Please note that all attached/inserted documents will not be deleted.</h3>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="4287e9c9205b428ee8429d5c00bfad12537f940e" resname="WRITE_MESSAGE">
+        <source>Rédiger un message</source>
+        <target state="new">Write a message</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

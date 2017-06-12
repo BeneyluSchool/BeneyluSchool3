@@ -1,0 +1,25 @@
+<md-list class="lsu-users-list">
+  <md-list-item ng-show="shared.users.length" ng-class="{validated: shared.template.completion === shared.template.total_completion}">
+    <div class="lsu-completion-progress">
+      <div class="lsu-completion-progress-bar" ng-style="{width: (shared.template.completion||0)/shared.template.total_completion*100+'%'}"></div>
+    </div>
+    <span ng-click="ctrl.toggleAll(); $event.stopPropagation()">
+      <md-checkbox class="md-primary" ng-model="addAll"  aria-label="{{::shared.level.label}}" ng-checked="ctrl.isAllSelected"></md-checkbox>
+    </span>
+    <strong class="flex text-ellipsis">{{shared.level.label + ' (' + shared.template.completion + '/' + shared.template.total_completion + ')'}}</strong>
+    <md-divider></md-divider>
+  </md-list-item>
+
+  <md-list-item ng-repeat="user in shared.users" ng-click="ctrl.editUser(user)" ng-class="{current: shared.user.id === user.id, validated: shared.template.user_completions[user.id].validated}" class="layout-align-start-center">
+    <div class="lsu-completion-progress">
+      <div class="lsu-completion-progress-bar" ng-style="{width: (shared.template.user_completions[user.id].positions||0)/shared.template.completion_domains*100+'%'}"></div>
+    </div>
+    <span ng-click="ctrl.toggle(user); $event.stopPropagation()">
+      <md-checkbox class="md-primary" ng-model="user.selected" ng-checked="shared.selectedUsersMap.has(user)"  aria-label="{{::user.full_name}}"></md-checkbox>
+    </span>
+    <span class="flex text-ellipsis">
+      {{user.full_name}}
+    </span>
+    <md-divider></md-divider>
+  </md-list-item>
+</md-list>

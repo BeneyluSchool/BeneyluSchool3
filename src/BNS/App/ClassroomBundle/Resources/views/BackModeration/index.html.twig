@@ -1,16 +1,17 @@
+{% trans_default_domain "CLASSROOM" %}
 {% extends 'BNSAppClassroomBundle:Layout:manager.html.twig' %}
 
 {% block sidebar %}
-    {% render "BNSAppClassroomBundle:Sidebar:sidebar.html.twig" with {"page" : "moderation" } %}
+    {% render(controller("BNSAppClassroomBundle:Sidebar:sidebar.html.twig" , {"page" : "moderation"})) %}
 {% endblock sidebar %}
 
 {% block content %}
 <div class="content span9">
     <div class="row">
         <div class="span6">
-            <h1>Moderation</h1>
+            <h1>{% trans %}MODERATION{% endtrans %}</h1>
         </div>
     </div>
 </div>
-		
+
 {% endblock %}

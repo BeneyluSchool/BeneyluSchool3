@@ -1,3 +1,4 @@
+{% trans_default_domain "MINISITE" %}
 {% extends 'BNSAppMiniSiteBundle:Layout:manager.html.twig' %}
 
 {% block javascripts %}
@@ -8,10 +9,13 @@
 		$(function ()
 		{
 			// Finish button
-			$('.header-btn .finish').click(function ()
+			$('.bns-actionbar .finish').click(function ()
 			{
+				$(this).addClass('disabled');
+				$(this).attr('disabled', 'disabled');
+
 				$('#form_informations').submit();
-				
+
 				return false;
 			});
 		});
@@ -19,51 +23,73 @@
 {% endblock javascripts %}
 
 {% block sidebar %}
-	{{ parent() }}
+	{% include 'BNSAppMiniSiteBundle:Sidebar:sidebar.html.twig' with {'index': 'custom', 'section': 'informations'} %}
 {% endblock sidebar %}
 
 {% block header %}
-	<div class="span12">
-		<div class="button-manager-form float-left">
-			<div class="content-button-manager-form">
-				<button class="btn finish"><span class="finish"></span>{% trans %}MiniSite.Back.HeaderButtons.IFinished{% endtrans %}</button>
-			</div>
-		</div>
-	</div>
+    <span class="flex"></span>
+    {{ components.button( 'LINK_I_FINISH' | trans , { intent: 'accent', href: '#', icon: 'check', raised: true , attr:{'class':'finish'}}) }}
 {% endblock header %}
 
 {% block content %}
-	<div class="content admin-form">
-		<div class="informations-form form">
-			<form id="form_informations" action="{{ path('minisite_manager_custom_informations') }}" method="POST">
-				<div class="title">
-					{{ form_widget(form.title, {'attr': {'class': 'input-xlarge-bns input-title', 'placeholder': 'Titre du minisite'} }) }}
-				</div>
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools layout-align-start-center">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+    <h1 class="md-title text-primary text-left flex flex-gt-sm-33">{% trans%}LINK_CUSTOMIZE{% endtrans %}</h1>
+  </div>
+</md-toolbar>
+
+
+<md-content  >
+	<div class="admin-form">
+		<div class="informations-form form md-padding">
+        {{ form_start(form, {action: path('minisite_manager_custom_informations'), attr:{'id': 'form_informations'}}) }}
+
+				<p class="md-body-2">
+					<strong>{% trans %}PUBLIC_LINK_OF_MINISITE{% endtrans %}</strong><br>
+					{{ url('minisite_by_slug', {'slug': minisite.getSlug()} )}}
+				</p>
+
+				{{ form_row(form.title, {
+					label: 'PLACEHOLDER_SITE_TITLE' |trans
+				}) }}
 				<div class="resource">
 					{{ form_widget(form.banner_resource_id) }}
-					<div id="resource-selection-callback">
-						{% if form.vars.value.getResource() != null %}
-							<img src="{{ getResourceImageUrl(form.vars.value.getResource()) }}" />
-						{% endif %}
-					</div>
-					{% include 'BNSAppResourceBundle:Front:selectImage.html.twig' with {
-						'label' : 'Modifier la bannière du site',
-						'input_id': 'minisite_form_banner_resourceId', 
-						'name': form.banner_resource_id.vars.full_name, 
-						'callback': 'resource-selection-callback' 
+
+					{% include 'BNSAppMediaLibraryBundle:Front:selection.html.twig' with {
+					'label' : 'LABEL_EDIT_SITE_BANNER'|trans,
+					'input_id': 'minisite_form_banner_resourceId',
+					'allowed_type': 'IMAGE',
+					'name': form.banner_resource_id.vars.full_name,
+					'callback': 'resource-selection-callback',
+					'with_cancel': true,
+					'current_src': getResourceImageUrl(form.vars.value.getResource()),
+					'default_src': asset('/medias/images/mini-site/front/banner.jpg'),
+					'current_value': form.vars.value.getBannerResourceId(),
 					} %}
 				</div>
-				<div class="tinymce">
-					<div class="row-title">Description</div>
-					{{ form_widget(form.description, { 'attr': {'class': 'load_tinymce', 'data-theme': 'simple'} }) }}
-				</div>
+			<div id="resource-selection-callback">
+				{% if form.vars.value.getResource() != null %}
+					<img src="{{ getResourceImageUrl(form.vars.value.getResource(),'banner_minisite_back') }}" />
+				{%  else %}
+					<img src="{{ asset('/medias/images/mini-site/front/banner.jpg') }}" />
+				{% endif %}
+			</div>
+
+			<br>
+
+				{{ form_row(form.description, {
+					label: false,
+					attr: { 'bns-tinymce': '', placeholder: 'TITLE_DESCRIPTION'|trans }
+				}) }}
 				<div class="errors">
 					{{ form_errors(form) }}
 				</div>
 				<div class="rest">
 					{{ form_rest(form) }}
 				</div>
-			</form>
+			{{ form_end(form) }}
 		</div>
 	</div>
+  </md-content>
 {% endblock content %}

@@ -1,3 +1,4 @@
+{% trans_default_domain "HOMEWORK" %}
 {% extends 'BNSAppHomeworkBundle:Back:layout.html.twig' %}
 
 {% block header %}
@@ -6,7 +7,7 @@
 			<div class="container container-fluid">
 				<div class="row-fluid">
 					<div class="span12">
-						<a href="{{ path('BNSAppHomeworkBundle_back_new_homework') }}" class="btn bns-info btn-24 large"><span class="icons-24 add-icon"></span>Ajouter un travail</a>
+						<a href="{{ path('BNSAppHomeworkBundle_back_new_homework') }}" class="btn bns-info btn-24 large"><span class="icons-24 add-icon"></span>{% trans %}LINK_ADD_WORK{% endtrans %}</a>
 					</div>
 				</div>
 			</div>
@@ -15,42 +16,46 @@
 {% endblock header %}
 
 {% block sidebar %}
-	<div class="section active">
-		Les Travaux
-		<span class="shadow-section"></span>
-	</div>
-	{% include 'BNSAppHomeworkBundle:Block:load_subject_block.html.twig' with {'subjects' : subjects} %}
-	{% include 'BNSAppHomeworkBundle:Block:back_block_groups.html.twig' with {'groups': groups} %}
-	{% include 'BNSAppHomeworkBundle:Block:back_block_weekdays.html.twig' %}
-	<div class="container-section">
-		<div class="section">
-			<a href="{{ path('BNSAppHomeworkBundle_back_preferences') }}">Personnalisation</a>
+	<div class="container-sidebar list">
+		<div class="section active">
+            {% trans %}TITLE_WORKS{% endtrans %}
+			<span class="shadow-section"></span>
+		</div>
+		{% include 'BNSAppHomeworkBundle:Block:load_subject_block.html.twig' with {'subjects' : subjects, 'isEditionMode': false} %}
+		{% include 'BNSAppHomeworkBundle:Block:back_block_groups.html.twig' with {'groups': groups} %}
+		{% include 'BNSAppHomeworkBundle:Block:back_block_weekdays.html.twig' %}
+		<div class="container-section">
+			<div class="section">
+				<a href="{{ path('homework_manager_categories') }}">{% trans %}LINK_CUSTOMIZATION{% endtrans %}</a>
+			</div>
 		</div>
 	</div>
 {% endblock sidebar %}
 
 {% block content %}
-	<div class="layer">
-		<div class="message">
-			Chargement en cours, veuillez patienter...
-			<div><img src="{{ asset('/medias/images/icons/big-loader.gif') }}" alt=""></div>
+	{% include 'BNSAppMainBundle::notice.html.twig' %}
+	<div class="relative-container">
+		<div class="layer" id="loading-layer" style="display: none;">
+			<div class="message">
+                {% trans %}LOADING_PLEASE_WAIT{% endtrans %}
+				<div><img src="{{ asset('/medias/images/icons/big-loader.gif') }}" alt=""></div>
+			</div>
+		</div>
+		<div class="manage-content">
+			{{ render(controller('BNSAppHomeworkBundle:BackAjax:manageForWeekBlock', { 'day' : day, 'firstLoad' : true } )) }}
 		</div>
 	</div>
-    <div class="manage-content">
-        {% render 'BNSAppHomeworkBundle:BackAjax:manageForWeekBlock' with { 'day' : day, 'firstLoad' : true } %}
-    </div>
 {% endblock content %}
 
 {% block main_javascripts %}
     {{ parent() }}
-
     <script type="text/javascript" src="{{ asset('/medias/js/homework/jquery.infinitescroll.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/medias/js/jquery.ui.nestedSortable.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/medias/js/homework/Back/manageForWeek.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/medias/js/homework/collapse-sidebar.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/medias/js/jquery.form.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('/bundles/stfalcontinymce/vendor/tiny_mce/tiny_mce.js') }}"></script>
 {% endblock %}
 
 {% block javascripts %}
-    <script src="http://jquery-ui.googlecode.com/svn/tags/latest/ui/minified/i18n/jquery-ui-i18n.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="{{ asset('/medias/js/jquery-ui-1.8.19.custom.min.js') }}"></script>
 {% endblock %}

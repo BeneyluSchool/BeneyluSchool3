@@ -1,37 +1,29 @@
+{% trans_default_domain "TEAM" %}
 {% extends '::base.html.twig' %}
 
+{% set app_unique_name = 'TEAM' %}
+{% set app_mode = 'front' %}
+
 {% block title %}
-	Equipe
+	{% trans %}TEAM{% endtrans %}
 {% endblock %}
 
 {% block css %}
     {{ parent() }}
+    <link href="{{ asset('/medias/css/group/front.css') }}" rel="stylesheet" type="text/css" />
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+{% endblock %}
 
-	<link href="{{ asset('/medias/css/classroom/front.css') }}" rel="stylesheet" type="text/css" />
-	<link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-	<link href='https://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
-{% endblock %}
-    
 {% block body %}
-	<div class="office"></div>
-	<div class="board">
-		<span class="message">{{ "now" | date_bns('full', 'none') |capitalize}}</span>
-		<hr class="horizontal-separator" />
-		<span class="message">
-			{#{{ message }}#}
-                        {{ homepageMessage }}
-                        <br /><br />
-                        <strong>Les membres de l'équipe de travail sont :</strong><br />
-                        {% for user in team.getUsers() %}
-                            {{ user.getFullName() }},
-                        {% else %}
-                            <i>Il n'y a aucun utilisateur dans le groupe actuellement.</i>
-                        {% endfor %}
-		</span>
-		
-	</div>
-{% endblock %}
-	
-{% block dock_bar %}
-	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "TEAM" , 'is_in_front' : true } %}
+
+
+    <div class="background-group team">
+        <div class="board team">
+            <div class="message">
+                <p>{{ team.label }}</p>
+                <div class="border"></div>
+                <p>{{ homepageMessage }}</p>
+            </div>
+        </div>
+    </div>
 {% endblock %}

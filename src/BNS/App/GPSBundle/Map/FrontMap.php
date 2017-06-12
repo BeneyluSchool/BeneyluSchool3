@@ -86,7 +86,6 @@ class FrontMap extends VichMap
 		
 		$categories = GpsCategoryQuery::create()
 			->joinWith('GpsPlace')
-			->where('GpsPlace.IsActive = ?',true)
 			->filterByGroupId($group_id)
 			->filterByIsActive(true)
 			->orderByOrder('asc')

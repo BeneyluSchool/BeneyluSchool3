@@ -1,0 +1,5 @@
+<div class="viewer-media-wrapper">
+  <div ng-include="mediaTemplate" class="viewer-media-inner" ng-class="'viewer-media-'+mediaType"></div>
+
+  <div ng-if="showCaption && caption">{{ caption }}</div>
+</div>

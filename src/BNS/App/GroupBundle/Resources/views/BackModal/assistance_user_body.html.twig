@@ -1,0 +1,13 @@
+{% trans_default_domain "GROUP" %}
+<div class="loader loader-sb"></div>
+<div class="modal-body">
+  <div class="content-modal-body">
+      {{ 'TITLE_WANT_ASSIST_USER'|trans({'%user%': user.getFullName()|escape}) |desc('
+      <h2>Voulez-vous assister "%user%" ?</h2>
+
+    <h3>Une notification sera envoyée pour le prévenir de votre assistance.</h3>
+    ')|raw }}
+
+  </div>
+</div>
+<div class="beneylu-jim"></div>

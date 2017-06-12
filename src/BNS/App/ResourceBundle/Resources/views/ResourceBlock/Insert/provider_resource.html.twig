@@ -1,0 +1,8 @@
+{% extends 'BNSAppResourceBundle:ResourceBlock:provider_resource.html.twig' %}
+
+{% block content %}
+	<a href="{{ path('resource_iframe_document_view', {'slug': resource.getSlug()}) }}" class="btn look-image btn-warning bns-insert-resources provider-resource resource-open-joined">
+		<span class="look-image"></span>
+		{{ resource.label }}
+	</a>
+{% endblock %}

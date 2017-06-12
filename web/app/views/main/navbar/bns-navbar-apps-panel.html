@@ -1,0 +1,101 @@
+<md-content class="flex layout-column">
+
+  <header>
+    <div class="md-toolbar-tools">
+      <md-button ng-click="$mdSidenav('apps-left').toggle()" class="hide-gt-md md-icon-button">
+        <md-icon>menu</md-icon>
+      </md-button>
+      <bns-navbar-group-favorite ng-if="panel.group.id !== 'me'" group="panel.group"></bns-navbar-group-favorite>
+      <h2 class="flex md-headline apps-dialog-title">
+        {{ panel.group.label + (panel.group.id !== 'me' ?  ' - ' + ('NAVBAR.OUR_'+panel.type | translate) : '' ) }}
+      </h2>
+      <md-button ng-if="panel.group.manageable" class="md-primary btn-sm" ng-click="panel.toggleMode()" tabindex="-1">
+        <span translate>{{ 'APPS.LINK_'+('mgmt' === panel.mode ? 'SHOW' : 'MANAGE')+'_OUR_'+panel.type | translate }}</span>
+      </md-button>
+    </div>
+  </header>
+
+  <div class="flex layout-column md-padding">
+
+    <div flex layout="column" ng-if="panel.busy" layout-align="space-around center">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+
+    <md-list ng-if="!panel.busy && 'mgmt' === panel.mode" ng-class="{'with-favorites': panel.withFavorites}"  class="apps-table">
+      <md-list-item ng-show="!panel.items.all.length">
+        <div class="md-padding text-center" flex translate>{{ ::'APPS.DESCRIPTION_NO_'+panel.type+'_TO_MANAGE' }}</div>
+      </md-list-item>
+      <md-list-item ng-show="panel.items.partially.length" class="animate-reveal app-partially-open-warning">
+        <div class="md-list-item-text md-body-1">
+          <md-icon>loop</md-icon>
+          <span translate>{{ ::'APPS.DESCRIPTION_SOME_'+panel.type+'_PARTIALLY_OPEN' }}</span>
+        </div>
+      </md-list-item>
+      <md-list-item ng-show="panel.items.all.length" class="hide-sm apps-legend-row">
+        <span class="flex"></span>
+
+        <div class="layout-row flex-70 app-legends">
+          <div ng-if="panel.withFavorites" class="app-favorite-controls flex-gt-sm-30" translate>APPS.LABEL_APPS_TO_FAVORITES</div>
+
+          <span class="flex apps-legend-separator"></span>
+
+          <div ng-if="panel.items.manageable.length" class="app-management-legend" translate>{{ ::'APPS.LABEL_'+panel.type+'_OPENING_TO_USERS' }}</div>
+        </div>
+      </md-list-item>
+      <md-divider ></md-divider>
+      <div ng-sortable="panel.sortableConfig">
+        <md-list-item ng-repeat="app in panel.items.all"
+          bns-app-management
+          app="app"
+          group-id="panel.group.id"
+          notify="'error'"
+          type="panel.type"
+          with-favorites="panel.withFavorites"
+        >
+        </md-list-item>
+      </div>
+    </md-list>
+
+    <md-list ng-if="!panel.busy && 'list' === panel.mode" class="layout-row layout-wrap apps-list">
+      <md-list-item ng-repeat="app in panel.items.all" bns-navbar-apps-panel-app></md-list-item>
+
+      <md-list-item ng-if="panel.items.cerise" ng-init="app = panel.items.cerise" bns-navbar-apps-panel-app></md-list-item>
+      <md-list-item ng-if="panel.items.newApp" ng-init="app = panel.items.newApp" bns-navbar-apps-panel-app></md-list-item>
+
+      <div class="flex md-padding text-center" ng-show="!panel.items.all.length" translate>{{ ::'APPS.DESCRIPTION_NO_'+panel.type }}</div>
+    </md-list>
+
+  </div>
+
+</md-content>
+
+<footer ng-if="!panel.busy && 'list' === panel.mode" class="layout-row layout-align-end-center flex-none">
+  <md-button ng-href="{{ panel.logoutUrl }}" class="show-md hide-gt-md flex-none md-raised" ng-if="panel.$mdMedia('md')">
+    <md-icon>power_settings_new</md-icon>
+    <span translate>NAVBAR.LOG_ME_OUT</span>
+  </md-button>
+  <div class="flex layout-row layout-align-center-start" ng-if="panel.items.manageable.length">
+    <div class="flex layout-column layout-align-center-start md-caption">
+      <span class="layout-row layout-align-start-start">
+        <span class="app-status opened"></span>
+        <span translate>{{ ::'NAVBAR.'+panel.type+'_OPEN' }}</span>
+      </span>
+      <span class="layout-row layout-align-start-start">
+        <span class="app-status"></span>
+        <span translate>{{ ::'NAVBAR.'+panel.type+'_CLOSED' }}</span>
+      </span>
+      <span class="layout-row layout-align-start-start" ng-if="panel.items.partially.length">
+        <span class="app-status maybe"></span>
+        <span translate>{{ ::'NAVBAR.'+panel.type+'_PARTIALLY_OPEN' }}</span>
+      </span>
+      <span class="layout-row layout-align-start-start" ng-if="panel.items.privates.length">
+        <span class="app-status private"></span>
+        <span translate>{{ ::'NAVBAR.'+panel.type+'_PRIVATE' }}</span>
+      </span>
+    </div>
+    <md-button ng-if="panel.items.newApp" ng-href="{{ panel.items.newApp._links.front.href }}" class="md-raised md-primary">
+      <md-icon>add_circle</md-icon>
+      <span translate>{{ ::'NAVBAR.LINK_ADD_AN_'+panel.typeSingle }}</span>
+    </md-button>
+  </div>
+</footer>

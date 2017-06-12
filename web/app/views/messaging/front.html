@@ -1,0 +1,44 @@
+<md-toolbar class="bns-actionbar app-toolbar">
+  <div container class="md-toolbar-tools main-container" ui-view="actionbar"></div>
+</md-toolbar>
+
+<div container class="flex layout-row main-container">
+
+  <md-sidenav class="layout-column md-sidenav-left bns-sidebar" md-component-id="left" md-is-locked-open="app.isSidebarLockedOpen()">
+    <header bns-sidebar-header app="navbar.app" mode="front"></header>
+
+    <div class="layout-column messaging-menu">
+      <md-button ui-sref=".inbox" ui-sref-active="active" class="layout-row" data-ui-sref-opts="{reload: 'app.messaging.front.inbox'}">
+        <bns-icon name="'messaging:message' + (ctrl.isState('app.messaging.front.inbox')?'-active':'')"></bns-icon>
+        <span class="layout-row">
+          <span translate>MESSAGING.LINK_MESSAGES_RECEIVE</span>
+          <small ng-show="ctrl.counters.unread" translate translate-values="{COUNT: ctrl.counters.unread}" translate-interpolation="messageformat">MESSAGING.UNREAD_MESSAGES</small>
+        </span>
+      </md-button>
+      <md-button ui-sref=".sent" ui-sref-active="active" data-ui-sref-opts="{reload: 'app.messaging.front.sent'}">
+        <bns-icon name="'messaging:send' + (ctrl.isState('app.messaging.front.sent')?'-active':'')"></bns-icon>
+        <span class="layout-row">
+          <span translate>MESSAGING.LINK_SEE_MESSAGES_SENT</span>
+          <small></small>
+        </span>
+      </md-button>
+      <md-button ui-sref=".drafts" ui-sref-active="active" data-ui-sref-opts="{reload: 'app.messaging.front.drafts'}">
+        <bns-icon name="'messaging:scroll' + (ctrl.isState('app.messaging.front.drafts')?'-active':'')"></bns-icon>
+        <span class="layout-row">
+          <span translate>MESSAGING.LINK_SEE_DRAFT</span>
+          <small ng-show="ctrl.counters.drafts" translate translate-values="{COUNT: ctrl.counters.drafts}" translate-interpolation="messageformat">MESSAGING.DRAFT_MESSAGES</small>
+        </span>
+      </md-button>
+      <md-button ui-sref=".trash" ui-sref-active="active" data-ui-sref-opts="{reload: 'app.messaging.front.trash'}">
+        <bns-icon name="'messaging:trash' + (ctrl.isState('app.messaging.front.trash')?'-active':'')"></bns-icon>
+        <span class="layout-row">
+          <span translate>MESSAGING.LINK_SEE_MESSAGES_DELETED</span>
+          <small></small>
+        </span>
+      </md-button>
+    </div>
+  </md-sidenav>
+
+  <md-content ui-view="content" class="bns-content layout-column"></md-content>
+
+</div>

@@ -1,0 +1,134 @@
+{% extends 'BNSAppForumBundle:Layout:front.html.twig' %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+    $('a.unsubscribe-process').on('click', function(e) {
+        window.location = "{{ path('BNSAppForumBundle_front_unsubscribe', {'slug': forum.slug}) }}";
+    });
+</script>
+{% endblock %}
+
+{% block actionbar %}
+    {% if hasForumRight %}
+    <div class="row-fluid">
+        <div class="well">
+            {% if not forum.isReadOnly %}
+            <a href="{{ path('BNSAppForumBundle_front_new_subject', {'slug': forum.slug}) }}" class="btn bns-info btn-24 medium create-subject">
+                <span class="icons-24 add-icon"></span>
+                <strong>Ecrire un nouveau sujet</strong>
+            </a>
+            {% endif %}
+            {% if forum.isSubscribe(app.user) %}
+                {% if forum.unsubscribingAllowed %}
+                <a href="#" class="btn bns-danger btn-24 medium pull-right"
+                    data-target="#unsubscribeModal" data-toggle="modal">
+                    <span class="icons-24 cancel-icon"></span>
+                    <strong>Se désinscrire</strong>
+                </a>
+                {% endif %}
+            {% elseif not forum.isPendingValidation(app.user) %}
+                <a href="{{ path('BNSAppForumBundle_front_subscribe', {'slug': forum.slug}) }}" class="btn bns-info btn-24 medium pull-right">
+                    <span class="icons-24 add-icon"></span>
+                    <strong>S'inscrire</strong>
+                </a>
+            {% endif %}
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    {% elseif not forum.isPendingValidation(app.user) %}
+    <div class="row-fluid">
+        <div class="well">
+            <a href="{{ path('BNSAppForumBundle_front_subscribe', {'slug': forum.slug}) }}" class="btn bns-info btn-24 medium">
+                <span class="icons-24 add-icon"></span>
+                <strong>S'inscrire</strong>
+            </a>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+        {# Modale de désinscription #}
+        {{ modal('unsubscribeModal', {
+            'title': 'Désinscription du forum',
+            'body_template': {'template': 'BNSAppForumBundle:Front:modal_body_unsubscribe.html.twig' },
+            'type': 'error',
+            'footer_template': {'template': 'BNSAppForumBundle:Front:modal_footer_unsubscribe.html.twig' },
+        }) }}
+{% if hasForumRight %}
+    <h1>{{ forum.title }} {% if forum.isArchived %}<span class="label label-info">Archivé</span>{% endif %}</h1>
+
+    {% if subjects|length > 0 %}
+        <table class="table table-striped table-bordered">
+            <tr>
+                <th class="subjects">Sujets</th>
+                <th>Auteurs</th>
+                <th>Date</th>
+            </tr>
+        {% for subject in subjects %}
+            <tr>
+                <td><a href="{{ path('BNSAppForumBundle_front_view_subject', {'slug': subject.slug}) }}">{{ subject.title }}</a></td>
+                <td>{{ subject.user.fullName|default('anonyme') }}</td>
+                <td>{{ date_from_now(subject.createdAt) }}</td>
+            </tr>
+
+
+        {% endfor %}
+        </table>
+        {% if subjects.haveToPaginate %}
+            {{ pagerfanta(subjects, 'twitter_bootstrap_translated', {'prev_message': '←', 'next_message': '→'} ) }}
+        {% endif %}
+    {% else %}
+        {% if not forum.isReadOnly %}
+            {% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+                'text' : "Il n'y a aucun sujet dans ce forum. " ~ (is_child()? "Tu peux":"Vous pouvez") ~ " :",
+                'button': {
+                    'text' : "Ecrire un nouveau sujet",
+                    'link' : path('BNSAppForumBundle_front_new_subject', {'slug': forum.slug})
+                }
+            } %}
+        {% else %}
+            {% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+                'text' : "Il n'y a aucun sujet dans ce forum.",
+            } %}
+        {% endif %}
+    {% endif %}
+
+    {% if forum.isSubscribe(app.user) %}
+        <br /><br />
+        <div class="well notification-settings">
+            <div>
+                <a class="activable system btn-module  {% if not forum.forumUser(app.user).notificationNewMessage %}desactivated{% endif %}"
+                    href="{{ path('BNSAppForumBundle_front_notification', {'slug':forum.slug, 'type':'NewMessage'}) }}">&nbsp;</a>
+                Recevoir une notification à chaque nouveau message dans le forum
+            </div>
+            <div>
+                <a class="activable system btn-module  {% if not forum.forumUser(app.user).notificationReply %}desactivated{% endif %}"
+                    href="{{ path('BNSAppForumBundle_front_notification', {'slug':forum.slug, 'type':'Reply'}) }}">&nbsp;</a>
+                Recevoir une notification à chaque nouvelle réponse à l'un de vos messages
+            </div>
+        </div>
+    {% endif %}
+{% else %}
+    <h1>{{ forum.title }}</h1>
+
+    {% if forum.isPendingValidation(app.user) %}
+       <div class="alert bns-alert alert-info">
+           {{ is_child()? 'Ton':'Votre' }} inscription est en attente de validation.
+           <span class="jim"></span>
+       </div>
+    {% else %}
+        {% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+            'text' : (is_child()? "Tu n'es":"Vous n'êtes") ~ " pas encore inscrit à ce forum",
+            'button': {
+                'text' : "S'inscrire",
+                'link' : path('BNSAppForumBundle_front_subscribe', {'slug': forum.slug})
+            }
+        } %}
+    {% endif %}
+
+{% endif %}
+
+{% endblock %}

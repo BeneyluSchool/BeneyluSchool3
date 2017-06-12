@@ -14,7 +14,7 @@
             "fri": "Ven",
             "sat": "Sam",
             "jan": "Janvier",
-            "feb": "Fevrier",
+            "feb": "Février",
             "mar": "Mars",
             "apr": "Avril",
             "may": "Mai",

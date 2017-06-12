@@ -1,0 +1,80 @@
+{% trans_default_domain "GROUP" %}
+{% extends 'BNSAppGroupBundle:Back:layout.html.twig' %}
+
+{% block css %}
+	{{ parent() }}
+{% endblock %}
+
+			
+{% block javascripts %}
+	{{ parent() }}
+{% endblock %}
+
+
+{% block header %}
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span8">
+						<a id="whitelist_add" href="#" class="btn bns-info btn-24 large write-new-status-btn align-left">
+							<span class="icons-24 add-icon"></span>
+							{{ 'LINK_ADD_WEBSITE'|trans |desc('Ajouter un site') }}
+						</a>
+					</div>
+					<div class="align-right span4">
+						<a href="#" id="whitelist_submit" class="btn btn-validate bns-success validate-medium btn-24 medium validate-all-statuses align-right float-right">
+							<span class="icons-24 validate-icon"></span><strong>{{ 'LINK_SAVE'|trans |desc('Enregistrer') }}</strong>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock header %}
+
+{% block sidebar %}
+    {{ render(controller('BNSAppGroupBundle:Back:sidebar', {'section' : 'white_list'} )) }}
+{% endblock sidebar %}
+
+
+{% block content %}
+	
+	<h3 class="whitelist-title">{{ 'TITLE_WHITE_LIST_OF_GROUP'|trans({'%group%': group.label}) |desc('Liste blanche de %group%') }}</h3>
+
+	<form id="whitelist_form" action="{{ path('BNSAppGroupBundle_back_whitelist_index') }}" method="post">
+
+		<div class="item form">
+			<div id="input_list">
+				{% for url in white_list %}
+					
+					<div class="row-site">
+					
+						<input value="{{ url }}" type="text" name="url[]" required="required" maxlength="255" placeholder="{{ 'PLACEHOLDER_WEB_LINK'|trans |desc('Lien Internet') }}">
+
+						<a href="#" class="btn bns-danger btn-24 medium-return delete-item">
+							<span class="icons-24 delete-icon"></span>
+							<strong>{{ 'LINK_DELETE'|trans |desc('Supprimer') }}</strong>
+						</a>
+						
+					</div>
+					
+				{% endfor %}
+			</div>
+		</div>
+	</form>
+	
+	<script type="text/javascript">
+		$('#whitelist_submit').click(function(){
+			$('#whitelist_form').submit();
+		});
+		
+		$('#whitelist_add').click(function(){
+			$('#input_list').append('<div class="row-site"><input value="" type="text" name="url[]" required="required" maxlength="255" placeholder="{{ 'PLACEHOLDER_WEB_LINK'|trans |desc('Lien Internet') }}"><a href="#" class="btn bns-danger btn-24 medium-return delete-item"><span class="icons-24 delete-icon"></span><strong>{{ 'LINK_DELETE'|trans |desc('Supprimer') }}</strong></a></div>');
+		});
+		
+		$('.delete-item').live('click',function(){
+			 $(this).parent('.row-site').slideUp(200,this.remove);
+		});
+	</script>
+{% endblock %}

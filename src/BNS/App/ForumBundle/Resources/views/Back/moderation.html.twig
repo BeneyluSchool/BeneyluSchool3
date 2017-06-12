@@ -1,0 +1,67 @@
+{% extends 'BNSAppForumBundle:Layout:manager.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ asset('/medias/js/forum/Back/forum.js') }}"></script>
+{% endblock %}
+
+
+{% block sidebar %}
+    <div class="container-sidebar list">
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppForumBundle_back') }}">Les forums</a>
+            </div>
+        </div>
+
+        <div class="section active">
+            Modération
+            <span class="shadow-section"></span>
+        </div>
+    </div>
+{% endblock sidebar %}
+
+{% block content %}
+    <h1>Messages en attente de modération</h1>
+
+    <div class="item-list-container">
+    {% for message in messages %}
+        <div class="item">
+            <div class="header">
+                <div class="buttons-container">
+                {% if 'VALIDATED' != message.status %}
+                    <a class="btn bns-success btn-16 small right" href="{{ path('BNSAppForumBundle_back_validate_message', {'id':message.id, 'page': messages.currentPage, 'redirectModeration': 1}) }}">
+                        <span class="icons-16 validate-icon"></span>
+                        <strong>Valider</strong>
+                    </a>
+                {% endif %}
+                    <a class="btn bns-danger btn-16 small " href="{{ path('BNSAppForumBundle_back_delete_message', {'id': message.id, 'page': messages.currentPage, 'redirectModeration': 1}) }} ">
+                        <span class="icons-16 cancel-icon"></span>
+                        <strong>Supprimer</strong>
+                    </a>
+                </div>
+                <h4>{{ message.forumSubject.forum.title }} > {{ message.forumSubject.title }}</h4>
+            </div>
+            <div class="text">
+            {% if 'VALIDATED' != message.status %}
+                <div class="vertical-separator orange"></div>
+            {% else %}
+                <div class="vertical-separator green"></div>
+            {% endif %}
+                {{ message.content|purify }}
+            </div>
+            <div class="footer">
+                {{ date_from_now(message.createdAt, true) }} par {{ message.user.fullName|default('anonyme') }}
+            </div>
+        </div>
+    {% else %}
+        {% include 'BNSAppMainBundle:BNSAlert:row.html.twig' with {'message' : "Il n'y a aucun message à modérer." , 'type' : 'info' } %}
+    {% endfor %}
+    </div>
+
+    {% if messages.haveToPaginate %}
+        {{ pagerfanta(messages, 'twitter_bootstrap_translated', {'prev_message': '←', 'next_message': '→'}) }}
+    {% endif %}
+
+{% endblock content %}

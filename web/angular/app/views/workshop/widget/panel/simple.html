@@ -1,0 +1,97 @@
+<h2 translate>WORKSHOP.QUESTIONNAIRE.SIMPLE_QUESTION</h2>
+<h3 translate>WORKSHOP.QUESTIONNAIRE.WORDING</h3>
+<textarea bns-tinymce="ctrl.config" bns-focus-request rows="10" ng-model="widget.content"></textarea>
+
+<ul class="btn-group text-center questionnaire-btn-group">
+  <li ng-click="changeType('text')" ng-class="{ 'btn-info': widget.advancedSettings.type === 'text' }"
+      class="btn btn-wide">
+      <span translate>WORKSHOP.QUESTIONNAIRE.TEXT</span>
+  </li>
+  <li ng-click="changeType('image')" ng-class="{ 'btn-info': widget.advancedSettings.type === 'image' }"
+      class="btn btn-wide">
+      <span translate>WORKSHOP.QUESTIONNAIRE.PICTURE</span>
+  </li>
+  <li ng-click="changeType('audio')" ng-class="{ 'btn-info': widget.advancedSettings.type === 'audio' }"
+      class="btn btn-wide">
+      <span translate>WORKSHOP.QUESTIONNAIRE.AUDIO</span>
+  </li>
+</ul>
+
+<div class="layout-row layout-align-space-between-center instruction-block">
+  <div class="flex-40">
+    <h3 translate>WORKSHOP.QUESTIONNAIRE.ANSWERS</h3>
+  </div>
+  <div class="flex-60 instruction-text" translate>WORKSHOP.CHECK_GOOD_ANSWER</div>
+</div>
+<md-radio-group ng-model="widget.correct">
+  <div class="workshop-answers-list md-dense">
+    <div ng-repeat="item in widget.choices" class="layout-align-space-between-center layout-row">
+      <div class="flex-15">
+        <md-radio-button class="flex md-primary" ng-value="$index + 1" aria-label="{{::item.label}}">
+        </md-radio-button>
+      </div>
+      <div ng-switch="widget.advancedSettings.type" class="flex-70">
+        <md-input-container class="md-input-has-placeholder" ng-switch-when="text">
+          <label><span translate>WORKSHOP.QUESTIONNAIRE.ANSWER</span> {{$index + 1}}</label>
+          <input ng-model="item.label" placeholder="{{ 'WORKSHOP.QUESTIONNAIRE.WRITE_AN_ANSWER' | translate }}">
+        </md-input-container>
+
+        <div ng-switch-when="image">
+          <div ng-if="item.media_id" class="layout-row">
+            <md-button class="flex" bns-viewer media-id="item.media_id">
+              <md-icon>image</md-icon>
+              <div bns-media-preview view-mode="'text'" media-id="item.media_id"></div>
+            </md-button>
+            <md-button class="flex media-selection md-primary md-raised" data-final-id="picture_{{$index}}" data-allowed-type="IMAGE">
+              <bns-icon>media-library</bns-icon>
+            </md-button>
+          </div>
+          <div ng-if="!item.media_id">
+            <md-button class="media-selection" data-final-id="picture_{{$index}}" data-allowed-type="IMAGE">
+              <md-icon>insert_drive_file</md-icon>
+              <span translate>WORKSHOP.QUESTIONNAIRE.CHOOSE_IMAGE</span>
+            </md-button>
+          </div>
+          <input type="hidden" id="picture_{{$index}}" ng-model="item.media_id" bns-bind-value>
+        </div>
+
+        <div ng-switch-when="audio">
+          <div ng-if="item.media_id" class="layout-row">
+            <md-button class="flex" bns-viewer media-id="item.media_id">
+              <md-icon>headset</md-icon>
+              <div bns-media-preview view-mode="'text'" media-id="item.media_id"></div>
+            </md-button>
+            <md-button class="flex media-selection md-primary md-raised" data-final-id="audio_{{$index}}" data-allowed-type="AUDIO">
+              <bns-icon>media-library</bns-icon>
+            </md-button>
+          </div>
+          <div ng-if="!item.media_id">
+            <md-button class="media-selection" data-final-id="audio_{{$index}}" data-allowed-type="AUDIO">
+              <md-icon>insert_drive_file</md-icon>
+              <span translate>WORKSHOP.QUESTIONNAIRE.CHOOSE_AUDIO</span>
+            </md-button>
+          </div>
+          <input type="hidden" id="audio_{{$index}}" ng-model="item.media_id" bns-bind-value>
+        </div>
+      </div>
+
+      <div class="flex-15 layout-align-center-center layout-row">
+
+        <md-button class="md-icon-button delete-button" ng-click="deleteAnswer($index)" type="button" ng-if="widget.choices.length > 2">
+          <md-icon>close</md-icon>
+        </md-button>
+      </div>
+    </div>
+  </div>
+</md-radio-group>
+<div class="layout-row layout-align-center-center">
+  <md-button ng-click="addAnswer()" class="md-primary md-raised" aria-label="">
+    <md-icon>add_circle</md-icon>
+    <span translate>WORKSHOP.QUESTIONNAIRE.ADD_ANSWER</span>
+  </md-button>
+</div>
+<hr>
+
+<div ng-if="ctrl.document.is_questionnaire" ng-include="ctrl.advancedSettingsTemplate"></div>
+
+

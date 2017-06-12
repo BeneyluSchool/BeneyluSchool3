@@ -1,0 +1,29 @@
+module:
+  unique_name: CAMPAIGN
+  is_contextable: false
+  default_rank:
+    pupil: ~
+    parent: ~
+    teacher: USE_INDIVIDIAL
+    other: ~
+permissions:
+  ACCESS:
+    label:
+      fr: 'Accéder à Campaign'
+    description:
+      fr: 'Donne l''accès au module Campaign pour les enseignants dans le groupe'
+  VIEW_INDIVIDUAL_USER: ~
+  VIEW_CLASSROOM: ~
+ranks:
+  USE:
+    permissions:
+      - ACCESS
+  USE_INDIVIDIAL:
+    permissions:
+      - ACCESS
+      - VIEW_INDIVIDUAL_USER
+      - VIEW_CLASSROOM
+  VIEW_CLASSROOM:
+    permissions:
+      - ACCESS
+      - VIEW_CLASSROOM

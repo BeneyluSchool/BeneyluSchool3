@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\CampaignBundle\Model"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/propelorm/Propel/master/generator/resources/xsd/database.xsd">
+    <table name="campaign">
+        <column name="id" primaryKey="true" autoIncrement="true" required="true" type="INTEGER"/>
+        <column name="name" type="VARCHAR" size="255" required="true" />
+        <column name="title" type="VARCHAR" size="255" required="false"/>
+        <column name="message" type="longvarchar" required="true"/>
+        <column name="status" required="true" type="ENUM"
+            valueSet="DRAFT, SCHEDULED, WAITING, PENDING, SENT"
+            defaultValue="DRAFT"/>
+        <column name="type" type="INTEGER" inheritance="single">
+            <inheritance key="1" class="Campaign"/>
+            <inheritance key="2" class="CampaignEmail" extends="Campaign"/>
+            <inheritance key="3" class="CampaignMessaging" extends="Campaign"/>
+            <inheritance key="4" class="CampaignSms" extends="Campaign"/>
+        </column>
+        <column name="sent_at" type="TIMESTAMP"/>
+        <column name="scheduled_at" type="TIMESTAMP"/>
+        <column name="archived" type="boolean" required="true" defaultValue="0"/>
+        <column name="nb_recipient" type="INTEGER" defaultValue="0"/>
+        <column name="group_id" type="integer" required="true"/>
+
+        <foreign-key foreignTable="group" name="fk_campaign_group" onDelete="CASCADE">
+            <reference foreign="id" local="group_id"/>
+        </foreign-key>
+
+        <behavior name="timestampable"/>
+        <behavior name="bns_media_attachmentable"/>
+    </table>
+
+    <table name="campaign_recipient">
+        <column name="user_id" primaryKey="true" type="integer" required="true"/>
+        <column name="campaign_id" primaryKey="true" type="integer" required="true"/>
+        <column name="is_sent" type="boolean" required="true" defaultValue="0"/>
+        <column name="is_direct" type="boolean" required="true" defaultValue="1"/>
+        <column name="is_duplicate" type="boolean" required="true" defaultValue="0" />
+
+        <foreign-key foreignTable="user" name="fk_campaign_recipient_user" onDelete="CASCADE">
+            <reference foreign="id" local="user_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="campaign" name="fk_campaign_recipient_campaign" onDelete="CASCADE">
+            <reference foreign="id" local="campaign_id"/>
+        </foreign-key>
+    </table>
+
+    <table name="campaign_recipient_group">
+        <column name="group_id" primaryKey="true" type="integer" required="true"/>
+        <column name="campaign_id" primaryKey="true" type="integer" required="true"/>
+        <column name="role_id" primaryKey="true" type="integer" required="true"/>
+
+        <foreign-key foreignTable="group" name="fk_campaign_recipient_group_group" onDelete="CASCADE">
+            <reference foreign="id" local="group_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="campaign" name="fk_campaign_recipient_group_campaign" onDelete="CASCADE">
+            <reference foreign="id" local="campaign_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="group_type" name="fk_campaign_recipient_group_group_type" onDelete="CASCADE">
+            <reference foreign="id" local="role_id"/>
+        </foreign-key>
+    </table>
+
+    <table name="campaign_distribution_list">
+        <column name="distribution_list_id" primaryKey="true" type="integer" required="true"/>
+        <column name="campaign_id" primaryKey="true" type="integer" required="true"/>
+
+        <foreign-key foreignTable="distribution_list" name="fk_campaign_distribution_list_distribution_list" onDelete="CASCADE">
+            <reference foreign="id" local="distribution_list_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="campaign" name="fk_campaign_distribution_list_campaign" onDelete="CASCADE">
+            <reference foreign="id" local="campaign_id"/>
+        </foreign-key>
+    </table>
+
+</database>

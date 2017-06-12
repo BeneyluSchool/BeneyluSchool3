@@ -1,0 +1,30 @@
+<div bns-draggable="{ model: model }"
+  bns-draggable-index="$index"
+  bns-draggable-ui-options="draggableUiOptions"
+  bns-draggable-enabled="node.writable"
+  bns-droppable="{ model: node, onDrop: dropCallback }"
+  bns-droppable-enabled="node.manageable"
+  ng-class="{ 'node-selected': tree.equality(shared.context, node) }"
+  class="node-handle"
+>
+
+  <div ng-show="node.children.length"
+    ng-click="toggleExpanded(); $event.stopPropagation();"
+    ng-class="{ 'expanded': isExpanded() }"
+    class="node-expander"
+  >
+    <i ng-class="{ 'bns-icon-corner-right': !isExpanded(), 'bns-icon-corner-bottom-right': isExpanded() }"></i>
+  </div>
+
+  <div ng-click="navFolder(node)" class="node-label">
+    <div class="node-droppable-marker"></div>
+    <div class="node-icon">
+      <span class="ml-icon" ng-class="nodeTypeClass()"></span>
+    </div>
+    {{ node.label }}
+  </div>
+</div>
+
+<ul ng-init="model = node.children" ng-show="isExpanded()" class="navigation-tree">
+  <li ng-repeat="node in node.children" ng-include=" '/ent/angular/app/views/media-library/navigation/node.html' " ng-controller="MediaLibraryNavigationNodeCtrl" class="navigation-node"></li>
+</ul>

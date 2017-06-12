@@ -1,0 +1,26 @@
+{% trans_default_domain "MAIN" %}
+
+{% set flash_type_intents_map = {
+  notice: 'primary',
+  notice_success_msg_only: 'accent',
+  notice_error_msg_only: 'warn',
+  notice_success: 'accent',
+  success: 'accent',
+  notice_error: 'warn',
+  error: 'warn',
+  notice_warning: 'care',
+} %}
+
+{% for type, intent in flash_type_intents_map %}
+  {% for flash_message in app.session.flashbag.get(type) %}
+    <bns-inset class="bns-small bns-{{ intent }}">
+      {% trans with {'%notice%': flash_message } %}%notice%{% endtrans %}
+    </bns-inset>
+  {% endfor %}
+{% endfor %}
+
+{% if message is defined %}
+    <bns-inset class="bns-small bns-accent alert-success" style="display: none;">
+        {{message}}
+    </bns-inset>
+{% endif %}

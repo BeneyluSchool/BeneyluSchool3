@@ -1,0 +1,95 @@
+{% extends 'BNSAppHelloWorldBundle:Back:layout.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+{% endblock javascripts %}
+
+{% block header %}
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span12">
+						<a href="{{ path('BNSAppHelloWorldBundle_back') }}" class="btn bns-notice btn-24 medium-return">
+							<span class="icons-24 back-icon"></span>
+							<strong>Retourner</strong><br />à l'index
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock header %}
+
+{% block content %}
+	<div class="content-flash-messages" style="padding: 0 2%;">
+		<h1>Les Alerts</h1>
+		
+		<h2>Les alerts Twitter Bootstrap</h2>
+		<div class="alert alert-danger">
+			alert alert-danger
+		</div>
+		<div class="alert alert-info">
+			alert alert-info
+		</div>
+		<div class="alert alert-success">
+			alert alert-success
+		</div>
+		
+		<h2>Les alerts Beneylu School</h2>
+		Un simple <strong>ajout</strong> de la classe "bns-alert" en plus des classes alert boostrap <em>(voir ci-dessus)</em> et l'ajout d'une DIV ayant la classe "jim".<br />
+		A savoir que dans la sidebar, la DIV "jim" ne doit pas être affichée.
+		
+		<div class="alert alert-danger bns-alert">
+			alert alert-danger bns-alert
+			<div class="jim"></div>
+		</div>
+		<div class="alert alert-info bns-alert">
+			alert alert-info bns-alert
+			<div class="jim"></div>
+		</div>
+		<div class="alert alert-success bns-alert">
+			alert alert-success bns-alert
+			<div class="jim"></div>
+		</div>
+		
+		<h2>JavaScript de disparition</h2>
+		Si ce sont des flash messages, vous devrez remplacer le code à l'intérieur de la fonction du "setTimeout" par la ligne ci-dessous.
+		<pre>$('.bns-alert div').slideUp('fast', function () { var $this = $(this); $this.parent().slideUp('fast', function () { $this.show() }) });</pre>
+		
+		<h3>Tester</h3>
+		<script type="text/javascript">
+			$(function ()
+			{
+				$('.show-button').click(function ()
+				{
+					$('.alert-example').removeClass('alert-info').addClass('alert-danger').slideDown('fast');
+					setTimeout(function ()
+					{
+						$('.alert-example').removeClass('alert-danger').addClass('alert-info');
+					}, 5000);
+				});
+				
+				$('.hide-button').click(function ()
+				{
+					$('.alert-example div').slideUp('fast', function () { var $this = $(this); $this.parent().slideUp('fast', function () { $this.show() }) });
+				});
+			});
+		</script>
+		<button class="btn show-button">Apparition</button>
+		<button class="btn hide-button">Disparition</button>
+		
+		<div class="alert alert-danger bns-alert alert-example hide">
+			Ceci est un exemple d'alert Beneylu School. Au bout de 5 secondes sont type est modifié.
+			<div class="jim"></div>
+		</div>
+		
+		<h2 style="margin-top: 20px">Dans le cas d'une erreur formulaire</h2>
+		Pour afficher une alerte en cas d'erreur, utilisez simple ce bout de code :
+		
+		<em>Au début du fichier :</em>
+		<pre>{% filter escape %}{% raw %}{% import 'BNSAppCoreBundle:Macros:forms.html.twig' as forms %}{% endraw %}{% endfilter %}</pre>
+		
+		<em>A l'endroit où afficher l'erreur de l'input</em>
+		<pre>{% filter escape %}{% raw %}{{ forms.errors(form.my_input) }}{% endraw %}{% endfilter %}</pre>
+{% endblock %}

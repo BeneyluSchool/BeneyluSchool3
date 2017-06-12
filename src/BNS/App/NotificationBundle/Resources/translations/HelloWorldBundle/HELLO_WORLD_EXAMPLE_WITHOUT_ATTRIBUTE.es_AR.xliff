@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:44:51Z" source-language="en" target-language="es-AR" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="14228282f9ea572f7d64087b338c5c4b2b58cc62" resname="HELLO_WORLD_EXAMPLE_WITHOUT_ATTRIBUTE.EMAIL.content">
+        <source>HELLO_WORLD_EXAMPLE_WITHOUT_ATTRIBUTE.EMAIL.content</source>
+        <target>Ejemplo sencillo de notificación por correo electrónico sin ningún atributo para traducir</target>
+      </trans-unit>
+      <trans-unit id="f01da55c9094a1b9fe4420e1e8efdd874f7d307b" resname="HELLO_WORLD_EXAMPLE_WITHOUT_ATTRIBUTE.EMAIL.title">
+        <source>HELLO_WORLD_EXAMPLE_WITHOUT_ATTRIBUTE.EMAIL.title</source>
+        <target>Ejemplo de notificación sin atributo</target>
+      </trans-unit>
+      <trans-unit id="1c52ce45b2a71df8fc531a29a7bd920b95c583d4" resname="HELLO_WORLD_EXAMPLE_WITHOUT_ATTRIBUTE.SYSTEM.content">
+        <source>HELLO_WORLD_EXAMPLE_WITHOUT_ATTRIBUTE.SYSTEM.content</source>
+        <target>Un ejemplo sencillo de notificación sin ningún atributo para traducir</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

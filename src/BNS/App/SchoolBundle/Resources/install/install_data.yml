@@ -1,0 +1,87 @@
+module:
+  unique_name: SCHOOL
+  is_contextable: true
+  name:
+    fr: Ecole
+    en: School
+  description:
+    fr: Module école
+    en: School module
+
+permissions:
+  ACCESS:
+    label:
+      fr: Voir l'école
+      en: School access
+    description:
+      fr: Donne accès à la page d'accueil du groupe
+      en:
+
+  ACCESS_BACK:
+    label:
+      fr: Gérer école via le module école
+      en: School management
+    description:
+      fr:
+      en:
+
+  CREATE_PUPIL:
+      label:
+        fr: Ajouter des élèves depuis le module école
+        en: Pupil's management by school module
+      description:
+        fr:
+        en:
+
+  CREATE_TEACHER:
+      label:
+        fr: Ajouter des enseignants depuis le module école
+        en: ADD Teachers by school module
+      description:
+        fr:
+        en:
+
+  CREATE_ASSISTANT:
+      label:
+        fr: Ajouter des auxiliaires depuis le module école
+        en: ADD Assistants by school module
+      description:
+        fr:
+        en:
+
+  CREATE_CLASSROOM:
+      label:
+        fr: Ajouter des classes depuis le module école
+        en: Add classrooms by school module
+      description:
+        fr:
+        en:
+
+ranks:
+
+  USE:
+    label:
+      fr: Utiliser le module école
+      en: Use school module
+    description:
+      fr:
+      en:
+    permissions: [ACCESS]
+
+  MANAGE:
+    label:
+      fr: Gérer l'école
+      en: Manage the school
+    description:
+      fr:
+      en:
+    permissions: [ACCESS, ACCESS_BACK, CREATE_PUPIL, CREATE_TEACHER, CREATE_ASSISTANT, CREATE_CLASSROOM]
+
+  VISIT:
+    label:
+      fr: Accéder au module école sans possibilité de création
+      en: View the school module sithout creation permission
+    description:
+      fr:
+      en:
+    permissions: [ACCESS, ACCESS_BACK]

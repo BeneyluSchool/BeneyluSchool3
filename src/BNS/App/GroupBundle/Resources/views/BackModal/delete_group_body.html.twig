@@ -1,0 +1,16 @@
+{% trans_default_domain "GROUP" %}
+<div class="loader loader-sb"></div>
+<div class="modal-body">
+	<div class="content-modal-body">
+        {{ 'TITLE_SURE_TO_DELETE_GROUPNAME'|trans({'%group%': group.getLabel()|escape, '%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('
+        <h2>Êtes-vous sûr de vouloir supprimer le groupe "%group%" ?</h2>
+		<h3>
+			Ce groupe ne pourra plus être utilisé pour %beneylu_brand_name%.<br />
+			<strong>A noter :</strong> <br />- Les données associées au groupe seront supprimées. (Blog, Calendrier, ...)
+                        <br />- Vous ne pourrez pas récupérer le groupe par la suite.
+                        <br />- Les groupes "enfants" seront supprimés
+		</h3>')|raw }}
+
+	</div>
+</div>
+<div class="beneylu-jim"></div>

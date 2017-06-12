@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\ForumBundle\Model">
+  <table name="forum">
+    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+    <column name="group_id" required="true" type="INTEGER" />
+    <column name="title" required="true" size="255" type="VARCHAR" />
+    <column name="is_public" required="true" type="BOOLEAN" defaultValue="1" />
+    <column name="subscription_required" required="true" type="BOOLEAN" defaultValue="1" />
+    <column name="unsubscribing_allowed" required="true" type="BOOLEAN" defaultValue="1" />
+    <column name="is_moderated" required="true" type="BOOLEAN" defaultValue="1" />
+    <column name="is_archived" required="true" type="BOOLEAN" defaultValue="0" />
+    <column name="closed_at" required="false" type="TIMESTAMP" />
+    <column name="closed_until" required="false" type="TIMESTAMP" />
+    <column name="archive_after_closed" required="true" type="INTEGER" defaultValue="12" />
+    <foreign-key foreignTable="group" name="FK_FORUM_GROUP" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="group_id" />
+    </foreign-key>
+    <behavior name="timestampable" />
+    <behavior name="sluggable">
+        <parameter name="slug_column" value="slug" />
+        <parameter name="slug_pattern" value="{title}" />
+        <parameter name="replace_pattern" value="/[^\w]+/u" />
+        <parameter name="replacement" value="-" />
+        <parameter name="separator" value="-" />
+        <parameter name="permanent" value="false" />
+    </behavior>
+  </table>
+  
+  <table name="forum_subject">
+    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+    <column name="forum_id" required="true" type="INTEGER" />
+    <column name="author_id" required="false" type="INTEGER" />
+    <column name="title" required="true" size="255" type="VARCHAR" />
+    <foreign-key foreignTable="forum" name="FK_FORUM_SUBJECT_FORUM" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="forum_id" />
+    </foreign-key>
+    <foreign-key foreignTable="user" name="FK_FORUM_SUBJECT_USER" onDelete="SETNULL" onUpdate="SETNULL">
+      <reference foreign="id" local="author_id" />
+    </foreign-key>
+    <behavior name="timestampable" />
+    <behavior name="sluggable">
+        <parameter name="slug_column" value="slug" />
+        <parameter name="slug_pattern" value="{title}" />
+        <parameter name="replace_pattern" value="/[^\w]+/u" />
+        <parameter name="replacement" value="-" />
+        <parameter name="separator" value="-" />
+        <parameter name="permanent" value="false" />
+    </behavior>
+  </table>
+
+  <table name="forum_message">
+    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+    <column name="forum_subject_id" required="true" type="INTEGER" />
+    <column name="author_id" required="false" type="INTEGER" />
+    <column name="content" type="CLOB" />
+    <column name="status" required="true" type="ENUM" defaultValue="PENDING_VALIDATION" valueSet="PENDING_VALIDATION, VALIDATED, REFUSED" />
+    <foreign-key foreignTable="forum_subject" name="FK_FORUM_MESSAGE_FORUM_SUBJECT" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="forum_subject_id" />
+    </foreign-key>
+    <foreign-key foreignTable="user" name="FK_FORUM_MESSAGE_USER" onDelete="SETNULL" onUpdate="SETNULL">
+      <reference foreign="id" local="author_id" />
+    </foreign-key>
+    <behavior name="timestampable" />
+    <behavior name="bns_media_attachmentable" />
+  </table>
+  
+  <table name="forum_user">
+    <column name="forum_id" primaryKey="true" required="true" type="INTEGER" />
+    <column name="user_id" primaryKey="true" required="true" type="INTEGER" />
+    <column name="status" required="true" type="ENUM" defaultValue="PENDING_VALIDATION" valueSet="PENDING_VALIDATION, VALIDATED" />
+    <column name="notification_new_message" type="BOOLEAN" required="true" defaultValue="1" />
+    <column name="notification_reply" type="BOOLEAN" required="true" defaultValue="1" />
+    <behavior name="timestampable" />
+    <foreign-key foreignTable="forum" name="FK_FORUM_USER_FORUM" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="forum_id" />
+    </foreign-key>
+    <foreign-key foreignTable="user" name="FK_FORUM_USER_USER" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="user_id" />
+    </foreign-key>
+  </table>
+
+</database>

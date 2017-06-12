@@ -1,0 +1,13 @@
+
+<div class="loader" ng-show="ctrl.busy"></div>
+
+<ul class="user-directory-editable-list">
+  <li ng-show="!(ctrl.collection.list.length || ctrl.busy)" class="text-center">{{ (ctrl.emptyText || 'USER_DIRECTORY.NO_ELEMENT_SELECTED') | translate }}</li>
+
+  <li ng-repeat="item in ctrl.collection.list" ng-click="ctrl.editable && ctrl.wholeSelector && ctrl.remove(item)" class="user-directory-editable-list-item">
+    <span ng-if="ctrl.editable" class="item-selector" ng-click="!ctrl.wholeSelector && ctrl.remove(item)">
+      <input type="checkbox" ng-checked="true" ng-disabled="ctrl.isLocked(item)">
+    </span>
+    <span bns-user-directory-item="item"></span>
+  </li>
+</ul>

@@ -1,0 +1,35 @@
+
+<div ui-view="viewer"
+  uploader="uploader"
+  nv-file-drop
+  nv-file-over
+  over-class="media-library-file-over"
+  ng-class="{'media-library-upload-enabled': shared.canCreate}"
+  class="media-library-wrapper"
+>
+
+  <div ui-view="topbar" id="media-library-topbar" class="media-library-topbar-container"></div>
+
+  <div class="media-library-container">
+
+    <div ui-view="navigation" class="media-library-navigation-container"></div>
+
+    <div class="media-library-sidebar-container">
+      <div ui-view="selection" class="media-library-selection-container"></div>
+      <div ui-view="upload" class="media-library-upload-container"></div>
+    </div>
+
+    <div class="media-library-central-container">
+      <div ui-view="scene" class="media-library-scene-container"></div>
+    </div>
+
+  </div>
+
+  <div class="media-library-upload-zone"
+    nv-file-drop
+    uploader="uploader"
+    ng-include="'/ent/angular/app/views/media-library/upload/incentive.html'"
+  >
+  </div>
+
+</div>

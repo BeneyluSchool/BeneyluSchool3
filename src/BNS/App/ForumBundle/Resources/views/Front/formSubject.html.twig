@@ -1,0 +1,70 @@
+{% extends 'BNSAppForumBundle:Layout:front.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {{ tinymce_init() }}
+{% endblock %}
+
+{% block actionbar %}
+<div class="row-fluid">
+    <div class="well">
+        <a href="{{ path('BNSAppForumBundle_front_slug', {'slug': forum.slug}) }}" class="btn bns-notice btn-24 medium">
+            <span class="icons-24 back-icon"></span>
+            <strong>Retour à la liste</strong>
+        </a>
+        <a href="{{ path('BNSAppForumBundle_front_slug', {'slug': forum.slug}) }}" class="btn bns-danger btn-24 medium">
+            <span class="icons-24 cancel-icon"></span>
+            <strong>Annuler la création</strong>
+        </a>
+
+        <a class="btn bns-success validate-medium btn-24 medium pull-right create-subject" href="#">
+            <span class="icons-24 validate-icon"></span><strong>Créer le sujet</strong>
+        </a>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block content %}
+
+    {% if subject.isNew %}
+    <form id="subject_form" action="{{ path('BNSAppForumBundle_front_new_subject', {'slug': forum.slug}) }}" method="post">
+    {% else %}
+    <form id="subject_form" action="{{ path('BNSAppForumBundle_front_edit_subject', {'slug': subject.slug}) }}" method="post">
+    {% endif %}
+        <div class="content-form">
+            <h1>Création d'un sujet</h1>
+
+            <div class="controls title">
+                {{ form_widget(form.title, { 'attr': {'class': 'span8', 'placeholder': 'Titre du sujet'}}) }}
+                {% if form.title.vars.errors|length > 0 %}
+                    <div class="alert alert-danger bns-alert">
+                        {{ form_errors(form.title) }}
+                        <div class="jim"></div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="tinyarea">
+                {{ form_widget(form.content, { 'attr': {'bns-tinymce': ''} }) }}
+                {% if form.content.vars.errors|length > 0 %}
+                <br />
+                    <div class="alert alert-danger bns-alert">
+                        {{ form_errors(form.content) }}
+                        <div class="jim"></div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="content-attachment">
+                <div class="attachment">
+                    {% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias' : message.resourceAttachments, 'editable': true, 'objectType': 'ForumMessage', 'objectId': message.id } %}
+                </div>
+            </div>
+        </div>
+
+        {{ form_rest(form) }}
+    </form>
+
+{% endblock %}

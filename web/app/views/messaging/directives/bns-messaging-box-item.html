@@ -1,0 +1,50 @@
+<div ng-if="item.id" class="flex layout-column message status-{{box.getStatus(item)}}">
+  <md-checkbox ng-if="box.selection"
+    ng-checked="box.selection.has(item)"
+    ng-click="box.selection.toggle(item)"
+    aria-label="{{ (item._embedded.last_message || item).subject }}"
+    class="flex flex-none md-accent md-hue-2"
+  ></md-checkbox>
+  <md-button ui-sref="^.{{ item._embedded.last_message ? 'conversation({id: item.id})' : (item.is_draft ? 'compose.edit({id: item.id})' : 'message({id: item.id})') }}"
+    class="flex layout-row layout-margin message-inner"
+  >
+    <img ng-if="box.showAvatars && item._embedded.message._embedded.user" ng-src="{{ box.getAvatarUrl(item._embedded.last_message || item) }}" alt="" class="flex flex-none message-avatar md-whiteframe-1dp">
+    <img ng-if="box.showAvatars && item._embedded.user && item._embedded.tos" ng-src="{{ box.getAvatarUrl(item) }}" alt="" class="flex flex-none message-avatar md-whiteframe-1dp">
+    <img ng-if="box.showAvatars && item._embedded.message._embedded.group" ng-src="/ent/angular/app/images/user-directory/{{ item._embedded.message._embedded.group.type | lowercase }}.png" alt="" class="flex flex-none message-avatar md-whiteframe-1dp">
+
+
+    <div ng-if="box.showStatus" class="flex flex-none message-status" ng-class="'status-'+(item._embedded.last_message || item).status"><md-tooltip md-direction="top"><span ng-if="message.status == 1 || (item._embedded.last_message || item).status == 1" translate>MESSAGING.MESSAGE_STATUS_1</span><span ng-if="message.status == 2 || (item._embedded.last_message || item).status == 2 " translate>MESSAGING.MESSAGE_STATUS_2</span></md-tooltip></div>
+
+    <div class="flex">
+      <h3 class="message-title">
+        <span class="heading md-title"><span ng-if="item._embedded.user && item._embedded.tos">{{item._embedded.user.full_name}} - </span> {{ (item._embedded.last_message || item).subject }}</span>
+        <span class="md-body-1"> - {{ (item._embedded.last_message || item).updated_at | amCalendar }}</span>
+      </h3>
+      <div class="message-body md-body-1">
+        <md-chips ng-model="item._embedded.tos" readonly="true" class="md-contact-chips">
+          <md-chip-template>
+            <div class="md-contact-avatar">
+              <img ng-src="{{ ::$chip.avatar_url }}">
+            </div>
+            <div class="md-contact-name">
+              {{ ::$chip.full_name }}
+            </div>
+          </md-chip-template>
+        </md-chips>
+
+        <strong ng-if="item._embedded.message._embedded.user">{{ (item._embedded.last_message || item)._embedded.user.full_name + (box.wide ? '' : ' -')}}</strong>
+        <strong ng-if="item._embedded.message._embedded.group">{{ (item._embedded.last_message || item)._embedded.group.label + (box.wide ? '' : ' -')}}</strong>
+        <span ng-if="!box.wide" ng-bind-html="(item._embedded.last_message || item).extract"></span>
+        <div ng-if="box.wide" ng-bind-html="(item._embedded.last_message || item).content|trustHtml"></div>
+      </div>
+
+    </div>
+  </md-button>
+  <bns-attachments
+    ng-if="box.wide && item._embedded.attachments.length"
+    source="item._embedded.attachments"
+    start-open="false"
+    data-object-type="MessagingMessage"
+    data-object-id="{{::item.id}}"
+  ></bns-attachments>
+</div>

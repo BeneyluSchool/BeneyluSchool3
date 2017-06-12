@@ -1,17 +1,32 @@
-<div id="pupil-{{ pupil.getId }}" class="row-fluid pupil-row list-content" xmlns="http://www.w3.org/1999/html">
-    <a href="{{ path('BNSAppClassroomBundle_back_pupil_detail', {'userSlug': pupil.getSlug()}) }}" class="row-fluid">
-	    <div class="span6">
-	        <img src="{{ avatar(pupil, 'thumbnail') }}" alt="avatar" class="classroom-user-avatar" />
-			<p>{{ pupil.getFirstName() }} {{ pupil.getLastName() }}</p>
-		</div>
-		<div class="span6">
-			<p class="info-pupil">
-				{% if pupil.getLastConnection() != null %}
-					{{ date_from_now(pupil.getLastConnection(), true, false) }}
-				{% else %}
-					Ne s'est jamais connecté
-				{% endif %}
-			</p>
-	    </div>
-   	</a>
+{% trans_default_domain "CLASSROOM" %}
+<div class="item">
+  {% if pupil.isEnabled() %}
+    <div class="vertical-separator {% if pupil.getGender() == 'F' %}female{% endif %}"></div>
+  {% else %}
+    <div class="vertical-separator disabled"></div>
+  {% endif %}
+  <div class="buttons-container">
+    <a href="{{ path('BNSAppClassroomBundle_back_pupil_detail', {'userSlug': pupil.getSlug()}) }}" class="btn bns-notice btn-16 small right btn-visualisation">
+      <span class="icons-16 arrow-right-icon right"></span>
+      <strong>{% trans %}LINK_SEE_CARD{% endtrans %}</strong>
+
+    </a>
+  </div>
+  <div class="header">
+    <img class="avatar" src="{{ avatar(pupil, 'thumbnail') }}" alt="" />
+    <p class="name">{{ pupil.getFullName() }}</p>
+    <p class="informations">
+      {% if pupil.getLastConnection() != null %}
+          {{ 'LAST_CONNECTION_AT' |trans({'%date%': date_from_now(pupil.getLastConnection(), false, true)}) |desc('Dernière connexion %date%') |raw}}
+      {% else %}
+
+          {% if pupil.getGender() == 'F' %}
+              {{ 'NEVER_CONNECT'|transchoice(1) |desc('{0} Ne s\'est jamais connecté | [1,Inf[ Ne s\'est jamais connectée') }}
+          {% else %}
+              {{ 'NEVER_CONNECT'|transchoice(0) |desc('{0} Ne s\'est jamais connecté | [1,Inf[ Ne s\'est jamais connectée') }}
+          {% endif %}
+
+      {% endif %}
+    </p>
+  </div>
 </div>

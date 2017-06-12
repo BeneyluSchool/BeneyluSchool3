@@ -1,0 +1,121 @@
+{% extends '::base.html.twig' %}
+
+{% block css %}
+    {{ parent() }}
+    <link href="{{ asset('/medias/css/logon/front.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/medias/css/logon/front-ac-bordeaux.css') }}" rel="stylesheet" type="text/css" />
+    <link href='https://fonts.googleapis.com/css?family=Bubblegum+Sans|Cookie|Kaushan+Script' rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('medias/js/main/logon.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    {%  set iframeParams = '&fromTemplate=alienor' %}
+    <div class="background-login"></div>
+    <div class="container-fluid container">
+        <div class="container-logon">
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="header-login">
+                        <div class="logo-header span8">
+                            <img class="logo-ac" src="{{ asset('/medias/images/logon/ac-bordeaux/logo.png') }}" alt="AC Bordeaux" />
+                            <h1 class="main-title"><span class="script">Bienvenue sur </span><span class="mistral">L'ENT ALIENOR</span></h1>
+                            <img class="logo logo-bns" src="{{ asset('/medias/images/logon/logo-beneylu-school.png') }}" alt="BeneyluSchool" />
+                            <div class="shadow"></div>
+                        </div>
+                        <img class="content-connection" src="{{ asset('/medias/images/logon/vignette.png') }}"/>
+                        <div class="fanion-text">Connecte-toi pour avoir accès à Alienor</div>
+
+                        <div class="rope left"></div>
+                        <div class="rope right"></div>
+                        <br clear="all" />
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span8">
+                    <div class="content-login">
+                        <div class="intro-login">
+                            <img src="{{ asset('/medias/images/logon/classroom.png') }}" alt="La classe d'ALIENOR" />
+                        </div>
+                        <p>
+                            <span class="grey-bold">A</span>quitaine <span class="grey-bold">L</span>iaisons <span class="grey-bold">I</span>nteractives des <span class="grey-bold">E</span>coles <span class="grey-bold">N</span>umériques <span class="grey-bold">O</span>rganisées en <span class="grey-bold">R</span>éseau
+                        </p>
+                        <p>
+                            <span class="grey-bold">ALIENOR est un environnement numérique de travail à destination des écoles de l'académie de Bordeaux</span>
+                        </p>
+                        <p>
+                            <img class="" src="{{ asset('/medias/images/logon/ac-bordeaux/ue.png') }}" alt="Union Européenne" />
+                        </p>
+
+                        <div class="discover-beneylu span8">
+                            <div class="line-left"></div>
+                            <a href="https://blogacabdx.ac-bordeaux.fr/alienor/" target='_blank' class="script">
+                                Pour tout renseignement, rendez-vous sur le site support d'Alienor en cliquant ici</a>
+                            <div class="line-right"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="span4">
+                    <div class="content-logon">
+                        {%  if authoriseIframe %}
+                            <iframe id="logon-iframe" src="{{ redirectUrl  ~ iframeParams }}" width="100%" scrolling="auto" marginheight="0" marginwidth="0" frameborder="0">
+                                Votre navigateur ne semble pas compatible
+                            </iframe>
+                        {%  else %}
+                            {% include 'BNSAppMainBundle::notice.html.twig' with {'message' : "Nous ne pouvons pas vous proposer l'identification."}  %}
+                        {% endif %}
+                        <div class="browser-error" style="display: none">
+                            <h3>Votre navigateur ne semble pas à jour</h3>
+                            <h4>Vous pouvez le mettre à jour en cliquant sur les liens ci-dessous.</h4>
+                            <div class="browser-list">
+                                <a href="https://www.google.com/intl/fr/chrome/browser/" target="_blank">
+                                    <img class="browser" src="{{ asset('/medias/images/logon/chrome.png') }}" alt="Google Chrome" >
+                                </a>
+                                <a href="http://www.mozilla.org/fr/firefox/new/" target="_blank">
+                                    <img class="browser" src="{{ asset('/medias/images/logon/firefox.png') }}" alt="Mozilla Firefox" >
+                                </a>
+                                <a href="http://www.apple.com/fr/safari/" target="_blank">
+                                    <img class="browser" src="{{ asset('/medias/images/logon/safari.png') }}" alt="Apple Safari" >
+                                </a>
+                                <a href="http://windows.microsoft.com/fr-FR/internet-explorer/products/ie/home" target="_blank">
+                                    <img class="browser" src="{{ asset('/medias/images/logon/internet-explorer.png') }}" alt="Microsoft Internet Explorer" >
+                                </a>
+                            </div>
+                        </div>
+                      {% if parameter('saml.providers')|default(false) %}
+                      <div class="text-center" ng-cloak>
+                        {% for provider in parameter('saml.providers') %}
+                          <md-button href="{{ redirectUrl ~ '&_samlidp=' ~ provider.idp }}" aria-label="{{ provider.label }}" class="flex md-raised md-primary">
+                            <md-icon>{{ provider.icon }}</md-icon>
+                            <span>{{ provider.label }}</span>
+                          </md-button>
+                        {% endfor %}
+                      </div>
+                      {% endif %}
+                        {% if enable_register %}
+                            <div class="not-registered">
+                                <div class="shadow"></div>
+                                <h3>Vous n'êtes pas encore inscrit ?</h3>
+                                <p>
+                                    L'inscription à Beneylu School est rapide et gratuite, n'hésitez plus !
+                                </p>
+                                <a href="{{ path('registration_free') }}">Inscrire ma classe</a>
+                                <div class="clearfix"></div>
+                            </div>
+                        {% endif %}
+                        <div class="password-forget">
+                            <a href="{{ path('user_password_reset') }}">Mot de passe oublié ?</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-logon">
+            {% include "BNSAppMainBundle:Logon:footer_links.html.twig" %}
+        </div>
+    </div>
+{% endblock body %}

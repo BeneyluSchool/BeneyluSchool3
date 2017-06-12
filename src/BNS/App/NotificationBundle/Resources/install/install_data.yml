@@ -1,0 +1,40 @@
+module:
+  unique_name: NOTIFICATION
+  is_contextable: false
+  name:
+    fr: Notifications
+    en: Notifications
+  description:
+    fr: Notifications
+    en: Notifications
+  default_rank:
+    pupil: READ
+    parent: READ
+    other: READ
+
+permissions:
+  ACCESS:
+    label:
+      fr: Voir les notifications
+      en: Access notification
+    description:
+      fr: Donne l'accès aux notifications
+      en: Give access to the group minisite
+
+  ACCESS_BACK:
+    label:
+      fr: Accès à la gestion des notifications
+      en: Access to the notification back
+    description:
+      fr: Donne l'accès à la gestion des notifications
+      en: Give access to the notification managment
+
+ranks:
+  READ:
+    label:
+      fr: Accès en lecture au notifications
+      en: Notification read access
+    description:
+      fr: Accès en lecture au notifications
+      en: Notification read access
+    permissions: [ACCESS, ACCESS_BACK]

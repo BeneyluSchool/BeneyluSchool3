@@ -1,0 +1,54 @@
+{% extends '::base_manager.html.twig' %}
+
+{% set app_unique_name = 'FORUM' %}
+{% set app_mode = 'back' %}
+
+    {% block title %}
+            {{ forum.title|default('Forums') }} - Gestion
+    {% endblock %}
+
+{% block css %}
+    {{ parent() }}
+
+    {# Appel CSS du package layout manager #}
+    {% include "BNSAppMainBundle:Manager:layoutStyle.html.twig" %}
+
+    <link type="text/css" href="{{ asset('medias/css/ui-twitter-theme/jquery-ui-1.8.16.custom.css') }}" rel="stylesheet" />
+    <link href="{{ asset('/medias/css/forum/manager.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ asset('/medias/js/bootstrap/bootstrap-tooltip.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/medias/js/bootstrap/bootstrap-popover.js') }}"></script>
+    <script type="text/javascript">
+        $(function ()
+        {
+            if ($('.alert-flash').length > 0) {
+                setTimeout(function ()
+                {
+                    $('.alert-flash div').slideUp('fast', function () { $(this).parent().slideUp('fast', function () { $('.bns-alert div').show() }) });
+                }, 8000);
+            }
+        });
+    </script>
+{% endblock %}
+
+{% block body %}
+    {% block header %}{% endblock header %}
+    <div class="office forum"></div>
+    <div class="container container-fluid forum-container">
+        {% block form_start %}{% endblock %}
+        <div class="row-fluid container-manager">
+            {% block sidebar %}Add your sidebar here!{% endblock %}
+            <div class="span9 container-content no-margin">
+                {% block content %}Add your content here!{% endblock %}
+            </div>
+            <div class="container-manager-bottom">
+                <div class="content-manager-bottom"></div>
+            </div>
+        </div>
+        {% block form_end %}{% endblock %}
+    </div>
+{% endblock %}

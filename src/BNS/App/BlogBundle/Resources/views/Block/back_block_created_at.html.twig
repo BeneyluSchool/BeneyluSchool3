@@ -1,0 +1,4 @@
+{% trans_default_domain "BLOG" %}
+<bns-expander label="{{ 'DATE_CREATION' | trans }}" class="ng-scope ng-isolate-scope" is-open="true">
+  <div class="md-padding">{{ date_from_now(article.getCreatedAt(), true, true) }}</div>
+</bns-expander>

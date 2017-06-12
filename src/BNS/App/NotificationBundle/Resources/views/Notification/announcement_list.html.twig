@@ -1,0 +1,23 @@
+{% trans_default_domain "NOTIFICATION" %}
+
+{% if unread|length > 0 %}
+	{% for announcement in unread %}
+		<div class="new-notifications">
+			{% include 'BNSAppNotificationBundle:Notification:announcement_row.html.twig' with { readBtn: true } %}
+		</div>
+	{% endfor %}
+{% endif %}
+
+{% if read|length > 0 %}
+	{% for announcement in read %}
+		<div class="old-notifications">
+			{% include 'BNSAppNotificationBundle:Notification:announcement_row.html.twig' %}
+		</div>
+	{% endfor %}
+{% endif %}
+
+{% if not read|length and not unread|length %}
+	<div class="no-notification">
+		{{ 'NO_NOTIFICATION' |trans |desc('Aucune notification.') }}
+	</div>
+{% endif %}

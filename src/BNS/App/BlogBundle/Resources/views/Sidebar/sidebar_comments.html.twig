@@ -1,0 +1,11 @@
+{% trans_default_domain "BLOG" %}
+
+<md-button href="{{ path('blog_manager_comment') }}">
+  <md-icon>comment</md-icon>
+  <span>{% trans %}LINK_COMMENTS{% endtrans %}</span>
+  <div bns-profile-switch data-success="{{ 'COMMENT_MODERATION_OPENED' | trans }}"
+       data-fail="{{ 'COMMENT_MODERATION_CLOSED' | trans }}"
+       data-url="{{ path('blog_manager_moderation_switch') }}" bns-eat-click-if="true">
+    <md-switch ng-change="onChange()" aria-label=" " ng-model="active"  class="bns-switch"></md-switch>
+  </div>
+</md-button>

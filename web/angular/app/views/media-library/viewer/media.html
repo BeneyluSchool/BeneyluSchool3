@@ -1,0 +1,19 @@
+<div ng-if="media" ng-class="{ 'with-selection': hasSelection() }" class="media-library-viewer-media">
+
+  <div ng-class="mediaWrapperClass" bns-viewer-media media="media"></div>
+
+  <div ng-show="hasSelection()" class="media-library-viewer-selection">
+    <ul id="media-viewer-navigation">
+      <li ng-repeat="item in selection.list"
+        ng-class="{ current: item.id === media.id, 'no-url': !item.image_url }"
+        class="media-library-viewer-selection-item"
+        ng-click="viewMedia(item)"
+        title="{{ item.label }}"
+      >
+      <span bns-media-preview media="item"></span>
+        <!-- <img ng-src="{{ item.image_url ? item.image_url : '/angular/app/images/media-library/document-placeholder.png' }}" alt="{{ item.label }}"> -->
+      </li>
+    </ul>
+  </div>
+
+</div>

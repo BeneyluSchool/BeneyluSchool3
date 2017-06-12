@@ -1,0 +1,5 @@
+{% autoescape false %}
+{{ title[0] }};{{ title[1] }}
+{% for i,item in data %}{{ pagesName[i] }};{{ item }}
+{% endfor %}
+{% endautoescape %}

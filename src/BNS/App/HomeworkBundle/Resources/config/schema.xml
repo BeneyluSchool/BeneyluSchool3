@@ -6,21 +6,23 @@
         <column name="id" type="INTEGER" primaryKey="true" required="true" autoIncrement="true"/>
         <column name="name" type="VARCHAR" size="255" required="true"/>
         <column name="date" type="DATE" required="true"/>
-        <column name="subject_id" type="INTEGER" required="true"/>
-        <column name="description" type="LONGVARCHAR"/>
+        <column name="subject_id" type="INTEGER" required="false"/>
+        <column name="description" type="CLOB"/>
         <column name="helptext" type="LONGVARCHAR"/>
         <column name="recurrence_type" type="ENUM" valueSet="ONCE,EVERY_WEEK,EVERY_TWO_WEEKS,EVERY_MONTH" required="true"/>
         <column name="recurrence_days" type="ARRAY"/>
         <column name="recurrence_end_date" type="DATE"/>
+        <column name="has_locker" type="BOOLEAN" default="false"/>
+	<behavior name="timestampable" />
         <behavior name="sluggable">
             <parameter name="slug_column" value="slug" />
-            <parameter name="slug_pattern" value="{name}" />
-            <parameter name="replace_pattern" value="/[^\w\/]+/u" />
+            <parameter name="slug_pattern" value="{shortDate}-{name}" />
+            <parameter name="replace_pattern" value="/[^\w]+/u" />
             <parameter name="replacement" value="-" />
             <parameter name="separator" value="-" />
             <parameter name="permanent" value="true" />
         </behavior>
-        <behavior name="bns_resource_attachmentable" />
+        <behavior name="bns_media_attachmentable" />
         <foreign-key foreignTable="homework_subject" onDelete="CASCADE" onUpdate="CASCADE">
             <reference local="subject_id" foreign="id"/>
         </foreign-key>
@@ -84,10 +86,11 @@
             <parameter name="use_scope" value="true" />
             <parameter name="scope_column" value="group_id" />
         </behavior>
+	<behavior name="timestampable" />
         <behavior name="sluggable">
             <parameter name="slug_column" value="slug" />
-            <parameter name="slug_pattern" value="{name}" />
-            <parameter name="replace_pattern" value="/[^\w\/]+/u" />
+            <parameter name="slug_pattern" value="{groupId}-{name}" />
+            <parameter name="replace_pattern" value="/[^\w]+/u" />
             <parameter name="replacement" value="-" />
             <parameter name="separator" value="-" />
             <parameter name="permanent" value="true" />

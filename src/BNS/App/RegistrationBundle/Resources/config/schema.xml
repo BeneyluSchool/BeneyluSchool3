@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\RegistrationBundle\Model">
-  <table name="school_information">
-    <column name="id" primaryKey="true" autoIncrement="true" required="true" type="INTEGER" />
+  <table name="school_information" allowPkInsert="true">
+    <column name="id" primaryKey="true" required="true" type="INTEGER" autoIncrement="true"/>
     <column name="group_id" required="false" type="INTEGER" />
     <column name="country" required="true" type="VARCHAR" size="5" />
     <column name="uai" size="255" type="VARCHAR" />

@@ -1,0 +1,64 @@
+{% trans_default_domain "GROUP" %}
+{% extends 'BNSAppGroupBundle:Back:layout.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(function ()
+        {
+            $('.header-buttons .btn.finish').click(function (e)
+            {
+                $('#form_alert_update').submit();
+            });
+        });
+    </script>
+    {{ tinymce_init() }}
+{% endblock javascripts %}
+
+{% block header %}
+    <div class="header-buttons">
+        <div class="inner-header">
+            <div class="container container-fluid">
+                <div class="row-fluid">
+                    <div class="span8">
+                        <a data-id="1" class="btn bns-warning btn-24 medium" href="{{ path('BNSAppGroupBundle_back_home_manage_alert_toggle') }}" id="confidentiality-page">
+                            <span class="icons-24 public-icon"></span>
+
+                            {% if alertState == 1 %}
+                                {{ 'LINK_RENDER_INACTIVE'|trans |desc('Rendre <strong class="public ">Inactive</strong>') |raw }}
+                            {% else %}
+                                {{ 'LINK_RENDER_ACTIVE'|trans |desc('Rendre <strong class="public ">Active</strong>') |raw }}
+                            {% endif %}
+                        </a>
+                    </div>
+                    <div class="span4 align-right">
+                        <a href="#" class="btn finish bns-success validate-medium btn-24 medium">
+                            <span class="icons-24 validate-icon"></span>
+                            <strong>{{ 'LINK_SAVE'|trans |desc('Enregistrer') }}</strong>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock header %}
+
+{% block sidebar %}
+    {{ render(controller('BNSAppGroupBundle:Back:sidebar', {'section' : 'logon_alert'} )) }}
+{% endblock sidebar %}
+
+{% block content %}
+    <div class="item form">
+
+        <form id="form_alert_update" action="" method="POST">
+
+            <input type="text" placeholder="{{ 'PLACEHOLDER_ALERT_TITLE'|trans |desc('Titre de votre alerte') }}" required="required" name="alert_title" value="{{ alertTitle }}">
+
+            <textarea placeholder="{{ 'PLACEHOLDER_ALERT_CONTENT'|trans |desc('Contenu de votre alerte') }}" required="required" name="alert" >{{ alert }}</textarea>
+
+        </form>
+    </div>
+{% endblock %}
+
+
+

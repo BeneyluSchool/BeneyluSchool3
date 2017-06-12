@@ -1,0 +1,29 @@
+BNS\App\WorkshopBundle\Model\WorkshopAudio:
+  exclusion_policy: All
+  virtual_properties:
+    # WorkshopContentInterface
+    getLabel:
+      expose: true
+      groups: [Default,list,detail]
+    getMediaId:
+      expose: true
+      groups: [Default,list,detail]
+      serialized_name: media_id
+    # END WorkshopContentInterface
+
+  relations:
+    # WorkshopContentInterface
+    - rel: media
+      embedded:
+        content: expr(object.getMedia())
+    - rel: contributor_group_ids
+      embedded:
+        content: expr(service('bns.workshop.content.manager').getContributorGroupIds(object.getWorkshopContent()))
+      exclusion:
+        groups: [detail, contributors]
+    - rel: contributor_user_ids
+      embedded:
+        content: expr(service('bns.workshop.content.manager').getContributorUserIds(object.getWorkshopContent()))
+      exclusion:
+        groups: [detail, contributors]
+    # END WorkshopContentInterface

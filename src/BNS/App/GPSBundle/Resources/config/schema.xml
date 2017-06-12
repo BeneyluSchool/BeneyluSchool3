@@ -11,7 +11,7 @@
 	<column name="longitude" required="false" size="255" type="VARCHAR" />
 	<column name="address" required="true" size="255" type="VARCHAR" />
 	<column name="is_active" required="true" type="BOOLEAN" default="0"/>
-    <foreign-key foreignTable="resource" name="fk_place_resource1">
+    <foreign-key foreignTable="media" phpName="Resource" name="fk_place_resource1">
       <reference foreign="id" local="image_id" />
     </foreign-key>
 	<foreign-key foreignTable="gps_category" name="fk_place_category1" onDelete="cascade">

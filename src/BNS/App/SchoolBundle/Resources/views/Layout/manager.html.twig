@@ -1,0 +1,40 @@
+{% trans_default_domain "SCHOOL" %}
+{% extends '::base_manager.html.twig' %}
+
+{% set app_unique_name = 'SCHOOL' %}
+{% set app_mode = 'back' %}
+
+{% block title %}
+  {% trans %}TITLE_SCHOOL_MANAGEMENT{% endtrans %}
+{% endblock %}
+
+{% block css %}
+    {{ parent() }}
+    {% include "BNSAppMainBundle:Manager:layoutStyle.html.twig" %}
+    <link href="{{ asset('/medias/css/ui-twitter-theme/jquery-ui-1.8.16.custom.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/medias/css/classroom/manager.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/medias/css/group/manager.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/medias/css/school/manager.css') }}" rel="stylesheet" type="text/css" />
+    <!--[if lt IE 9]><link href="{{ asset('/medias/css/classroom/manager-ie-inf9.css') }}" rel="stylesheet" type="text/css" /><![endif]-->
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('/medias/js/school/manager.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="background-group"></div>
+    {% block header %}{% endblock %}
+    <div class="container-fluid container classroom-container">
+        <div class="row-fluid container-manager">
+            {% block sidebar %}Add your sidebar here!{% endblock %}
+            <div class="span9 container-content content-categories-management no-margin">
+                {% block content %}Add your content here!{% endblock %}
+            </div>
+            <div class="container-manager-bottom">
+                <div class="content-manager-bottom"></div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

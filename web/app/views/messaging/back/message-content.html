@@ -1,0 +1,44 @@
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools layout-align-start-center">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+
+    <h3 class="heading" translate>MESSAGING.TITLE_MESSAGE_EDIT</h3>
+  </div>
+</md-toolbar>
+
+<div class="messaging-loader">
+  <md-progress-linear md-mode="indeterminate" ng-show="ctrl.busy"></md-progress-linear>
+</div>
+
+<md-content class="message-edit">
+
+  <md-list class="message-conversation">
+    <md-list-item bns-messaging-message message="ctrl.message"></md-list-item>
+  </md-list>
+
+  <form id="message-form" name="ctrl.type.form" ng-submit="$event.preventDefault(); ctrl.submit()">
+    <script type="text/ng-template" id="form-error-messages">
+      <div ng-message="required">{{'MESSAGING.ERROR_THIS_FIELD_IS_REQUIRED'|translate}}</div>
+    </script>
+
+    <fieldset ng-disabled="ctrl.busy" class="md-padding">
+
+      <md-input-container>
+        <label translate>MESSAGING.MESSAGE_SUBJECT</label>
+        <input type="text" ng-model="ctrl.type.form.subject.value" name="subject" required>
+        <div ng-messages="ctrl.type.form.subject.$error">
+          <div ng-messages-include="form-error-messages"></div>
+        </div>
+      </md-input-container>
+
+      <md-input-container md-no-float>
+        <textarea bns-tinymce ng-model="ctrl.type.form.content.value" name="content" ng-required="true" placeholder="CONTENT"></textarea>
+        <div ng-messages="ctrl.type.form.content.$error">
+          <div ng-messages-include="form-error-messages"></div>
+        </div>
+      </md-input-container>
+
+    </fieldset>
+  </form>
+
+</md-content>

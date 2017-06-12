@@ -1,0 +1,19 @@
+<md-button ng-if="shared.lunchWeek.id" ui-sref=".edit" class="md-primary md-raised btn-multi">
+  <md-icon>edit</md-icon>
+  <span ng-bind-html="'LUNCH.BUTTON_EDIT_MENU' | translate | buttonize"></span>
+</md-button>
+
+<md-button ng-if="ctrl.monday && shared.lunchWeek && !shared.lunchWeek.id" ui-sref=".edit" class="md-primary md-raised">
+  <md-icon>add_circle</md-icon>
+  <span ng-bind-html="'LUNCH.BUTTON_ADD_MENU' | translate | buttonize"></span>
+</md-button>
+
+<md-button ng-if="shared.lunchWeek.id" ui-sref="app.lunch.front.views({ week: shared.lunchWeek.date_start })" class="md-raised">
+  <md-icon>open_in_new</md-icon>
+  <span ng-bind-html="'LUNCH.BUTTON_OPEN_MENU' | translate | buttonize"></span>
+</md-button>
+
+<md-button ng-if="shared.lunchWeek.id" ng-click="print()" class="md-raised">
+  <md-icon>print</md-icon>
+  <span ng-bind-html="'LUNCH.BUTTON_PRINT_MENU' | translate | buttonize"></span>
+</md-button>

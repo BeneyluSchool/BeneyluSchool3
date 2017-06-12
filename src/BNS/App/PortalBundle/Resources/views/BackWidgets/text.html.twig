@@ -1,0 +1,32 @@
+{% trans_default_domain "PORTAL" %}
+{% extends 'BNSAppPortalBundle:BackWidgets:base.html.twig' %}
+
+{% block title %}{{ 'TITLE_TEXT'|trans |desc('Texte') }}{% endblock %}
+
+{% block enable %}
+    {{ include('@BNSAppPortal/BackWidgets/enable.html.twig' , {'widget' : widget}) }}
+{% endblock %}
+
+{% set widgetText = widget.data('text')|purify %}
+
+{% block headerView %}
+    <div id="resource-selection-callback-{{ widget.id }}" class="preview">
+
+        {% if widget.data('text') != null %}
+            {{ parse_public_resources(widgetText,true,'medium',true) }}
+        {%  else %}
+
+        {% endif %}
+    </div>
+{% endblock %}
+{% block editView %}
+    <textarea class="tiny-editor" name="widget-{{ widget.id }}[text]" id="widget-{{ widget.id }}-text" value="{{ widget.data('bannerId') }}">
+        {{ parse_public_resources(widget.data('text')|purify,true,'medium',true) }}
+    </textarea>
+
+    <script type="text/javascript">
+        $(function() {
+            {{ ajaxTiny("widget-" ~ widget.id ~ "-text",parse_public_resources(widgetText,true,'medium',true)) }}
+        });
+    </script>
+{% endblock %}

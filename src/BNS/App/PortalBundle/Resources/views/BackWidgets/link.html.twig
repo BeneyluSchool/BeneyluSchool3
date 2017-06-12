@@ -1,0 +1,93 @@
+{% trans_default_domain "PORTAL" %}
+{% extends 'BNSAppPortalBundle:BackWidgets:base.html.twig' %}
+
+{% block title %}{{ 'TITLE_LINK'|trans |desc('Liens') }}{% endblock %}
+
+{% block enable %}
+    {{ include('@BNSAppPortal/BackWidgets/enable.html.twig' , {'widget' : widget}) }}
+{% endblock %}
+
+{% block headerView %}
+    <div id="resource-selection-callback-{{ widget.id }}" class="preview">
+        {% if widget.data('link') != null %}
+            <div class="row-fluid">
+                {% set link = widget.data('link') %}
+                {% for i in 0..4 %}
+                    {% if i % 3 == 0 %}
+                        <div class="span6">
+                    {% endif %}
+                    {% if link[i] is defined %}
+                        {% set linkImage = link[i]['image'] is defined and link[i]['image'] is not empty ? link[i]['image'] : null %}
+                        <p class="link-preview">
+                            {% if linkImage is not null %}
+                                <img class="thumb" src="{{ getResourceImageUrlFromId(linkImage,'micro') }}" />
+                            {% else %}
+                                <img class="thumb" data-src="holder.js/30x30/text: " />
+                            {% endif %}
+                            <span>{{ link[i]['url'] }}</span>
+                        </p>
+                    {% endif %}
+                    {% if i % 3 == 2 %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                </div>
+            </div>
+        {%  else %}
+            <!-- Pas de lien -->
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block editView %}
+
+    <input name="widget-{{ widget.id }}[title]" id="" type="text" value="{{ widget.data('title') }}" class="title" placeholder="{{ 'PLACEHOLDER_TITLE_ZONE_LINK'|trans |desc('Titre de la zone de liens') }}" />
+
+    <div class="row-fluid">
+        {% for i in 0..4 %}
+            {% if i % 3 == 0 %}
+                <div class="span6">
+            {% endif %}
+
+
+
+            {% set link = widget.data('link') %}
+            {% set linkUrl = link[i]['url'] is defined ? link[i]['url'] : null %}
+            {% set linkImage = link[i]['image'] is defined and link[i]['image'] is not empty ? link[i]['image'] : null %}
+
+            <div id="resource-selection-callback-{{ widget.id }}-{{ i }}" class="preview-choose thumb">
+                {% if linkImage is not null %}
+                    <img class="thumb" src="{{ getResourceImageUrlFromId(linkImage,'micro') }}" />
+                {% else %}
+                    <img class="thumb" data-src="holder.js/30x30/text: " />
+                {% endif %}
+            </div>
+
+
+
+
+            <input id="" name="widget-{{ widget.id }}[link][{{ i }}][url]" type="text" value="{{ linkUrl }}" class="rss" placeholder="{{ 'PLACEHOLDER_WEB_LINK'|trans |desc('Lien Internet') }}"/>
+            <input name="widget-{{ widget.id }}[link][{{ i }}][image]" id="widget-{{ widget.id }}-link-{{ i }}-image" type="hidden" value="{{ linkImage }}" />
+
+            <span class="image-picker">
+            {% include 'BNSAppMediaLibraryBundle:Front:selection.html.twig' with {
+            'label' : "",
+            'input_id': 'widget-' ~ widget.id ~ '-link-' ~ i ~ '-image',
+            'allowed_type': 'IMAGE',
+            'name': 'widget-' ~ widget.id ~ '[link][' ~ i ~ '][image]',
+            'callback': "resource-selection-callback-" ~ widget.id ~ '-' ~ i,
+            'current_src': null,
+            'default_src': "holder.js/30x30/text: ",
+            'current_value': linkImage,
+            } %}
+        </span>
+            <br />
+            {% if i % 3 == 2 %}
+                </div>
+            {% endif %}
+
+        {% endfor %}
+    </div>
+    </div>
+
+{% endblock %}

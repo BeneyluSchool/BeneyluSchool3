@@ -4,17 +4,62 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <!--
     <parameters>
-        <parameter key="bns_app_user.example.class">BNS\App\UserBundle\Example</parameter>
+        <parameter key="bns_user.switch_user_listener.class">BNS\App\UserBundle\Listener\SecuritySwitchUserListener</parameter>
     </parameters>
 
     <services>
-        <service id="bns_app_user.example" class="%bns_app_user.example.class%">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
+        <service id="bns_user.switch_user_listener" class="%bns_user.switch_user_listener.class%">
+            <tag name="kernel.event_listener" event="security.switch_user" method="onSecuritySwitchUser" />
+        </service>
+
+        <service id="bns.user.credentials_manager" class="BNS\App\UserBundle\Credentials\UserCredentialsManager">
+            <argument type="service" id="bns_core.auth_guzzle_client" />
+            <argument type="service" id="security.token_storage" />
+            <argument type="service" id="hwi_oauth.resource_owner.bns_auth_provider" />
+            <argument type="service" id="translator" />
+        </service>
+
+        <service id="bns.user.account_link_manager" class="BNS\App\UserBundle\AccountLink\AccountLinkManager">
+            <argument type="service" id="monolog.logger.account_link" />
+            <argument type="service" id="bns_core.application_manager" />
+            <argument type="service" id="bns.api" />
+            <argument type="service" id="bns.media_folder.manager" />
+            <argument type="service" id="bns.role_manager" />
+            <argument type="service" id="bns.user_manager" />
+            <argument type="service" id="bns.group_manager" />
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="bns.user.account_link_consumer" class="BNS\App\UserBundle\AccountLink\AccountLinkConsumer">
+            <argument type="service" id="logger" />
+            <argument type="service" id="bns.user.account_link_manager" />
+        </service>
+
+        <!-- Event listeners -->
+        <service id="bns.user.user_serialize_listener" class="BNS\App\UserBundle\EventListener\UserSerializeSubscriber">
+            <argument type="service" id="service_container" />
+            <tag name="jms_serializer.event_subscriber" />
+        </service>
+        <service id="bns.user.aaf_user_listener" class="BNS\App\UserBundle\Listener\AAFUserListener">
+            <argument type="service" id="router.default" />
+            <tag name="kernel.event_listener" event="security.interactive_login" method="onInteractiveLogin" />
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
+        </service>
+        <service id="bns.user.credentials_listener" class="BNS\App\UserBundle\Listener\UserCredentialsListener">
+            <argument type="service" id="bns.user.credentials_manager" />
+            <argument type="service" id="service_container" />
+            <argument type="service" id="router.default" />
+            <tag name="kernel.event_listener" event="security.interactive_login" method="onInteractiveLogin" />
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
+        </service>
+        <service id="bns.user.cgu_listener" class="BNS\App\UserBundle\Listener\CGUListener">
+            <argument type="service" id="router.default" />
+            <argument type="service" id="bns.user_manager" />
+            <argument type="service" id="bns.group_manager" />
+            <tag name="kernel.event_listener" event="security.interactive_login" method="onInteractiveLogin" />
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="10" />
         </service>
     </services>
-    -->
+
 </container>

@@ -1,0 +1,13 @@
+{% trans_default_domain "CLASSROOM" %}
+<div class="modal-footer">
+	<div class="content-btn-footer">
+		<a href="" class="btn bns-danger btn-24 medium-return submit-profile-modal">
+			<span class="icons-24 save-icon"></span>
+            {{ 'LINK_SAVE_MODIFICATION'|trans |desc('<strong>Enregistrer</strong><br />les modifications') |raw}}
+		</a>
+		<a href="#" class="btn bns-notice btn-24 medium" data-dismiss="modal">
+			<span class="icons-24 back-icon"></span>
+			<strong>{% trans %}LINK_CANCEL{% endtrans %}</strong>
+		</a>
+	</div>
+</div>

@@ -1,0 +1,57 @@
+{% trans_default_domain "MINISITE" %}
+
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+
+<md-content class="flex">
+  <md-list class="bns-list">
+    {% for news in page.getMiniSitePageNewss() %}
+      {% include 'BNSAppMiniSiteBundle:PageNews:back_news_row.html.twig' %}
+    {% else %}
+      <bns-inset class="md-padding text-center">
+        {% if isAjaxCall %} {# In case of AJAX calling like filters, etc #}
+        <p>{% trans %}NO_NEWS_FIND_IN_SEARCH{% endtrans %}</p>
+        {% else %}
+          <p>
+            {% if is_adult() %}
+              {% trans %}ADULT_PAGE_EMPTY_CREATE_FIRST{% endtrans %}
+            {% else %}
+              {% trans %}CHILD_PAGE_EMPTY_CREATE_FIRST{% endtrans %}
+            {% endif %}
+          </p>
+          {{ components.button('LINK_WRITE_NEWS'|trans, {
+            href: path('minisite_manager_page_news_new', {'slug': page.getSlug()}),
+            icon: 'add_circle',
+            intent: 'primary',
+            raised: true,
+          }) }}
+        {% endif %}
+      </bns-inset>
+    {% endfor %}
+  </md-list>
+</md-content>
+
+{% if (page.getMiniSitePageNewss()|length > 0 and pager.getLastPage() > 1) %}
+  <md-toolbar class="content-toolbar">
+    <div class="md-toolbar-tools layout-align-center-center">
+      <div class="pagination text-center">
+        <ul>
+          {% if (pager.getPage() > pager.getFirstPage()) %}
+            <li><a class="article-pager" href="{{ path('minisite_manager_page_list_page', {'slug': page.getSlug(), 'numberPage': pager.getPreviousPage()}) }}">←</a></li>
+          {% else %}
+            <li class="disabled"><a href="#" onclick="return false;">←</a></li>
+          {% endif %}
+
+          {% for i in range(pager.getFirstPage(), pager.getLastPage()) %}
+            <li{% if (pager.getPage() == i) %} class="active article-pager"{% endif %}><a class="article-pager" href="{{ path('minisite_manager_page_list_page', {'slug': page.getSlug(), 'numberPage': i}) }}">{{ i }}</a></li>
+          {% endfor %}
+
+          {% if (pager.getPage() < pager.getLastPage()) %}
+            <li><a class="article-pager" href="{{ path('minisite_manager_page_list_page', {'slug': page.getSlug(), 'numberPage': pager.getNextPage()}) }}">→</a></li>
+          {% else %}
+            <li class="disabled"><a href="#" onclick="return false;">→</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </md-toolbar>
+{% endif %}

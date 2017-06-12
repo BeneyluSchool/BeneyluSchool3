@@ -1,0 +1,96 @@
+<div class="title-container forum-is-public-choice">
+    <div class="title active border-blue">Visibilité<span class="square icon-arrow"></span></div>
+    <div class="content-title">
+        <ul>
+            <li>
+                <label for="forum_form_type_is_public_1">
+                    <span class="vertical-separator green"></span> <span>Public</span>
+                    {{ form_widget(form.is_public[1]) }}
+                </label>
+            </li>
+            <li>
+                <label for="forum_form_type_is_public_0">
+                    <span class="vertical-separator orange"></span> <span>Privé</span>
+                    {{ form_widget(form.is_public[0]) }}
+                </label>
+            </li>
+        </ul>
+        {% if form.is_public.vars.errors|length > 0 %}
+            <div class="alert alert-danger bns-alert">
+                {{ form_errors(form.is_public) }}
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="title-container forum-subscription-required-choice">
+    <div class="title active border-blue">Valider les inscriptions<span class="square icon-arrow"></span></div>
+    <div class="content-title">
+        <ul>
+            <li>
+                <label for="forum_form_type_subscription_required_1">
+                    <span class="vertical-separator green"></span> <span>Oui</span>
+                    {{ form_widget(form.subscription_required[1]) }}
+                </label>
+            </li>
+            <li>
+                <label for="forum_form_type_subscription_required_0">
+                    <span class="vertical-separator orange"></span> <span>Non</span>
+                    {{ form_widget(form.subscription_required[0]) }}
+                </label>
+            </li>
+        </ul>
+        {% if form.subscription_required.vars.errors|length > 0 %}
+            <div class="alert alert-danger bns-alert">
+                {{ form_errors(form.subscription_required) }}
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="title-container forum-unsubscribing-allowed-choice">
+    <div class="title active border-blue">Désinscription autorisée<span class="square icon-arrow"></span></div>
+    <div class="content-title">
+        <ul>
+            <li>
+                <label for="forum_form_type_unsubscribing_allowed_1">
+                    <span class="vertical-separator green"></span> <span>Oui</span>
+                    {{ form_widget(form.unsubscribing_allowed[1]) }}
+                </label>
+            </li>
+            <li>
+                <label for="forum_form_type_unsubscribing_allowed_0">
+                    <span class="vertical-separator orange"></span> <span>Non</span>
+                    {{ form_widget(form.unsubscribing_allowed[0]) }}
+                </label>
+            </li>
+        </ul>
+        {% if form.unsubscribing_allowed.vars.errors|length > 0 %}
+            <div class="alert alert-danger bns-alert">
+                {{ form_errors(form.unsubscribing_allowed) }}
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="title-container forum-is-moderated-choice">
+    <div class="title active border-blue">Modération activée<span class="square icon-arrow"></span></div>
+    <div class="content-title">
+        <ul>
+            <li>
+                <label for="forum_form_type_is_moderated_1">
+                    <span class="vertical-separator green"></span> <span>Oui</span>
+                    {{ form_widget(form.is_moderated[1]) }}
+                </label>
+            </li>
+            <li>
+                <label for="forum_form_type_is_moderated_0">
+                    <span class="vertical-separator orange"></span> <span>Non</span>
+                    {{ form_widget(form.is_moderated[0]) }}
+                </label>
+            </li>
+        </ul>
+        {% if form.is_moderated.vars.errors|length > 0 %}
+            <div class="alert alert-danger bns-alert">
+                {{ form_errors(form.is_moderated) }}
+            </div>
+        {% endif %}
+    </div>
+</div>

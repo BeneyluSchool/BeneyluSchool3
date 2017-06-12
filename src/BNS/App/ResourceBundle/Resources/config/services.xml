@@ -4,12 +4,34 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+	<parameters>
+        <parameter key="install_process_bns_app_resource_bundle.class">BNS\App\ResourceBundle\Install\InstallProcess</parameter>
+        <parameter key="bns.provider_resource_manager.class">BNS\App\ResourceBundle\ProviderResource\ProviderResourceManager</parameter>
+        <parameter key="bns.resource.search_manager.class">BNS\App\ResourceBundle\Search\SearchManager</parameter>
+        <parameter key="bns.data_reset.change_year_resource.class">BNS\App\ResourceBundle\DataReset\ChangeYearResourceDataReset</parameter>
+        <parameter key="resource_service_bns_app_statistics_bundle.class">BNS\App\ResourceBundle\Statistic\ResourceStatisticsService</parameter>
+        <parameter key="bns_resource_ovh_pcs_url"></parameter>
+        <parameter key="bns_resource_ovh_pcs_username"></parameter>
+        <parameter key="bns_resource_ovh_pcs_password"></parameter>
+        <parameter key="bns_resource_ovh_pcs_tenant"></parameter>
+        <parameter key="bns_resource_ovh_pcs_container"></parameter>
+        <parameter key="bns.resource.serialization_subscriber.class">BNS\App\ResourceBundle\Subscriber\ResourceSerializationSubscriber</parameter>
+    </parameters>
+
 	<services>
+        <service id="install_process_bns_app_resource_bundle" class="%install_process_bns_app_resource_bundle.class%">
+            <tag name="bns.install_process" />
+        </service>
+
+        <service id="bns.data_reset.change_year_resource" class="%bns.data_reset.change_year_resource.class%">
+            <tag name="bns.data_reset" type="change_year" hasOptions="true" />
+        </service>
+
         <service id="bns.s3" class="AmazonS3">
 			<argument type="collection">
 				<argument key="key">%bns3.aws_key%</argument>
 				<argument key="secret">%bns3.aws_secret_key%</argument>
-				<argument key="certificate_authority">true</argument>	
+				<argument key="certificate_authority">true</argument>
 			</argument>
 		</service>
 
@@ -17,40 +39,82 @@
 			<argument type="service" id="bns.s3"></argument>
 			<argument>%bns3.s3.bucket_name%</argument>
 		</service>
-		
+<!--
+        <service id="bns.ovh_pcs.adapter" class="Gaufrette\Adapter\OpenCloud">
+            <argument type="service" id="opencloud.object_store"></argument>
+            <argument>%bns_resource_ovh_pcs_container%</argument>
+        </service>
+
 		<service id="bns.local.adapter" class="Gaufrette\Adapter\Local">
 			<argument>%resource_files_dir%</argument>
 			<argument>true</argument>
 		</service>
-		
+
 		<service id="bns.file_system_manager" class="BNS\App\ResourceBundle\FileSystem\BNSFileSystemManager">
+            <argument type="service" id="service_container"></argument>
+		</service>
+
+		<service id="bns.old_file_system_manager" class="BNS\App\ResourceBundle\FileSystem\BNSFileSystemManager">
 			<argument>%resource_storage%</argument>
 			<argument type="service" id="bns.local.adapter"></argument>
-			<argument type="service" id="bns.s3.adapter"></argument>
+			<argument type="service" id="bns.old_s3.adapter"></argument>
 			<argument>%resource_temp_dir%</argument>
 		</service>
-		
+		<service id="bns.old_s3.adapter" class="Gaufrette\Adapter\AmazonS3">
+			<argument type="service" id="bns.s3"></argument>
+			<argument>beneyluschool</argument>
+		</service>
+-->
+        <service id="bns.provider_resource_manager" class="%bns.provider_resource_manager.class%">
+            <argument type="service" id="store.client" />
+            <argument type="service" id="bns.group_manager" />
+            <argument type="service" id="bns.user_manager" />
+            <argument type="service" id="security.context" />
+        </service>
+
 		<service id="bns.resource_manager" class="BNS\App\ResourceBundle\BNSResourceManager">
 			<argument>%tools_dir%</argument>
 			<argument type="service" id="bns.user_manager" />
 			<argument type="service" id="bns.group_manager" />
 			<argument type="service" id="bns.file_system_manager" />
 			<argument>%resource_files_dir%</argument>
+			<argument>%resource_deleted_dir%</argument>
+			<argument>%symfony_secret%</argument>
+			<argument>%resource.public_document.time_to_live%</argument>
 		</service>
 
 		<service id="bns.resource_right_manager" class="BNS\App\ResourceBundle\Right\BNSResourceRightManager">
 			<argument type="service" id="bns.resource_manager" />
 		</service>
-		
+
 		<service id="bns.resource_creator" class="BNS\App\ResourceBundle\Creator\BNSResourceCreator">
 			<argument type="service" id="bns.resource_manager" />
 			<argument type="service" id="knp_snappy.image" />
 			<argument>%uploaded_files_dir%</argument>
 		</service>
+
+        <service id="bns.resource.search_manager" class="%bns.resource.search_manager.class%">
+            <argument type="service" id="store.client" />
+            <argument type="service" id="security.context" />
+            <argument type="service" id="bns.user_manager" />
+            <argument type="service" id="bns.group_manager" />
+            <argument>%store.activate_catalog%</argument>
+        </service>
 		<!-- Twig Extensions -->
 		<service id="twig.extension.resource" class="BNS\App\ResourceBundle\DependencyInjection\TwigExtensions\ResourceExtension">
             <argument type="service" id="service_container"></argument>
             <tag name="twig.extension" alias="resource" />
+        </service>
+
+        <service id="stat.resource" class="%resource_service_bns_app_statistics_bundle.class%">
+            <argument type="service" id="service_container"></argument>
+        </service>
+
+        <!-- Subscribers -->
+        <service id="bns.resource.serialization_subscriber" class="%bns.resource.serialization_subscriber.class%">
+            <argument type="service" id="bns.resource_manager" />
+            <argument type="service" id="router" />
+            <tag name="jms_serializer.event_subscriber" />
         </service>
     </services>
 </container>

@@ -1,29 +1,81 @@
 imports:
     - { resource: config_app.yml }
     - { resource: parameters_prod.yml }
-    - { resource: secret_prod.yml }
 
 assetic:
-    use_controller: true
+    use_controller: false
     java: "java"
 
+framework:
+    trusted_proxies:  %trusted_proxies%
+    session:
+      cookie_httponly:  true
+      cookie_secure:    true
+    # Setting assets version here is deprecated. Prefer using config.yml
+#    assets:
+#      version: v190
+      # Fix me
+      #base_urls: [@bns.parameter.cdn_url]
+
+twig:
+  debug:            %kernel.debug%
+  globals:
+    cdn_url: @bns.parameter.cdn_url
+
+#propel:
+#    dbal:
+#        default_connection: app
+#        connections:
+#            app:
+#                driver:     %database_driver%
+#                user:       %app_database_user%
+#                password:   %app_database_password%
+#                dsn:        %database_driver%:host=%database_host%;dbname=%app_database_name%;charset=UTF8
+                #Si besoin de mettre en place slave / master
+                #slaves:
+                #    slave1:
+                #        user:       %app_database_user%
+                #        password:   %app_database_password%
+                #        dsn:        %database_driver%:host=%database_host_slave%;dbname=%app_database_name%;charset=UTF8
+                #    slave2:
+                #        user:       %app_database_user%
+                #        password:   %app_database_password%
+                #        dsn:        %database_driver%:host=%database_host%;dbname=%app_database_name%;charset=UTF8
 monolog:
+    channels: [account_link]
     handlers:
         main:
-            type:         fingers_crossed
-            action_level: error
-            handler:      nested
-        nested:
-            type:  stream
+            type: rotating_file
+            max_files: 10
             path:  %kernel.logs_dir%/%kernel.environment%.log
             level: error
+            channels: ['!account_link']
         mailer:
-            type:  stream
+            type: stream
             level: error
             path:  %kernel.logs_dir%/mailer_%kernel.environment%.log
-            
+        account_link:
+            type: rotating_file
+            max_files: 10
+            level: info
+            path:  %kernel.logs_dir%/account_link_%kernel.environment%.log
+            channels: [account_link]
+
 knp_snappy:
     pdf:
-        binary:     %kernel.root_dir%/../bin/linux/wkhtml/wkhtmltopdf
+        binary:     'LANG=fr_FR.UTF-8 /usr/local/bin/wkhtmltopdf'
     image:
-        binary:     %kernel.root_dir%/../bin/linux/wkhtml/wkhtmltoimage
+        binary:     'LANG=fr_FR.UTF-8 /usr/local/bin/wkhtmltoimage'
+
+dubture_f_fmpeg:
+    ffmpeg_binary:      /usr/bin/ffmpeg
+    ffprobe_binary:     /usr/bin/ffprobe
+    binary_timeout:     300 # Use 0 for infinite
+    threads_count:      4
+
+parameters:
+    paas_order_url:                      
+    paas_check_url:                      
+    public_version_url:                  https://beneylu.com
+    bns_app.session.max_idle_time:       14400
+    bns_breakfast_item_id: 2

@@ -1,0 +1,655 @@
+{% trans_default_domain "SCHOOL" %}
+{% if page == 'index' %}
+	<div class="container-sidebar list">
+		<div class="section active">
+			{% trans %}LINK_DASHBOARD{% endtrans %}
+			<span class="shadow-section"></span>
+		</div>
+    {% if not uid is empty %}
+        <div class="title-container">
+            <div class="title active border-blue">{% trans %}SCHOOL_CODE{% endtrans %} <span class="square icon-arrow"></span></div>
+            <div class="content-title">
+                <ul>
+                    <li class="text-row">
+                        <div>
+                            <span class="uid">{{ uid }}</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+		<div class="container-section">
+			<div class="section">
+				<a href="{{ path('BNSAppSchoolBundle_back_classrooms') }}">{% trans %}TITLE_CLASSROOM{% endtrans %}</a>
+			</div>
+            <div class="section">
+                <a href="{{ path('BNSAppSchoolBundle_back_teachers') }}">{% trans %}LINK_TEACHER_LIST{% endtrans %}</a>
+            </div>
+            <div class="section">
+              <a href="{{ path('BNSAppSchoolBundle_back_assistants') }}">{% trans %}LINK_ASSISTANT_LIST{% endtrans %}</a>
+            </div>
+            {% if has_right('SCHOOL_CREATE_CLASSROOM') %}
+                <div class="section">
+                    <a href="{{ path('BNSAppSchoolBundle_back_assignment') }}">{% trans %}THE_SCHOOL{% endtrans %}</a>
+                </div>
+            {% endif %}
+			<div class="section">
+				<a href="{{ path('BNSAppSchoolBundle_back_custom') }}">{% trans %}LINK_CUSTOMIZE{% endtrans %}</a>
+			</div>
+      {% if hasGroupBoard %}
+          <div class="section">
+              <a href="{{ path('BNSAppSchoolBundle_back_blackboard') }}">{% trans %}LINK_BLACKBOARD{% endtrans %}</a>
+          </div>
+      {% endif %}
+      {%  if hasCerise() %}
+        <div class="section">
+          <a href="{{ path('BNSAppSchoolBundle_back_cerise_school') }}">CERISE Prim</a>
+        </div>
+      {% endif %}
+      {% if has_right_somewhere('SPOT_ACCESS') %}
+        <div class="section">
+          <a href="{{ path('bns_app_school_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTIONS{% endtrans %}</a>
+        </div>
+      {% endif %}
+        </div>
+	</div>
+{% endif %}
+
+{% if page == 'classrooms' %}
+	<div class="container-sidebar list">
+		<div class="container-section">
+			<div class="section">
+				<a href="{{ path('BNSAppSchoolBundle_back') }}">{% trans %}LINK_DASHBOARD{% endtrans %}</a>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+
+		<div class="section active">
+			{% trans %}TITLE_CLASSROOM{% endtrans %}
+			<span class="shadow-section"></span>
+		</div>
+
+        {% if section == 'list' and (parameter('check_group_enabled') == true or parameter('check_group_validated') == true)%}
+            <div class="title-container">
+                <div class="title active border-blue">{% trans %}CLASS_STATUS{% endtrans %}<span class="square icon-arrow"></span></div>
+                <div class="content-title">
+                    <ul>
+                        <li class="text-row">
+                            <div>
+                                <span class="vertical-separator green"></span>
+                                <span>
+                                    {% if parameter('check_group_validated') == true %}
+                                        {{ 'TITLE_CLASS_VALIDATED'|trans |desc('Classes validées') }}
+                                    {% elseif parameter('check_group_enabled') %}
+                                        {{ 'TITLE_CLASS_ENABLED'|trans |desc('Classes activées') }}
+
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </li>
+                        <li class="text-row">
+                            <div>
+                                <span class="vertical-separator red"></span>
+                                <span>
+                                    {% if parameter('check_group_validated') == true %}
+                                        {{ 'TITLE_CLASS_TO_VALIDATED'|trans |desc('Classes à valider') }}
+                                    {% elseif parameter('check_group_enabled') %}
+                                        {{ 'TITLE_CLASS_TO_ENABLED'|trans |desc('Classes à activer') }}
+
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+        {% if section == 'list_classroom' %}
+            <div class="title-container">
+                <div class="title active border-blue">{% trans %}TITLE_USERS_STATUS{% endtrans %}<span class="square icon-arrow"></span></div>
+                <div class="content-title">
+                    <ul>
+                        <li class="text-row"><div><span class="vertical-separator blue"></span> <span>{% trans %}BOY_PUPIL{% endtrans %}</span></div></li>
+                        <li class="text-row"><div><span class="vertical-separator female"></span> <span>{% trans %}GIRL_PUPIL{% endtrans %}</span></div></li>
+                        <li class="text-row"><div><span class="vertical-separator red"></span> <span>{% trans %}PUPIL_DISABLED{% endtrans %}</span></div></li>
+                        <li class="text-row"><div><span class="vertical-separator green"></span> <span>{% trans %}TITLE_TEACHER{% endtrans %}</span></div></li>
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+		<div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppSchoolBundle_back_teachers') }}">{% trans %}LINK_TEACHER_LIST{% endtrans %}</a>
+            </div>
+            <div class="section">
+              <a href="{{ path('BNSAppSchoolBundle_back_assistants') }}">{% trans %}LINK_ASSISTANT_LIST{% endtrans %}</a>
+            </div>
+            {% if has_right('SCHOOL_CREATE_CLASSROOM') %}
+                <div class="section">
+                    <a href="{{ path('BNSAppSchoolBundle_back_assignment') }}">{% trans %}THE_SCHOOL{% endtrans %}</a>
+                </div>
+            {% endif %}
+        <div class="section">
+          <a href="{{ path('BNSAppSchoolBundle_back_custom') }}">{% trans %}LINK_CUSTOMIZE{% endtrans %}</a>
+        </div>
+        {% if hasGroupBoard %}
+          <div class="section">
+              <a href="{{ path('BNSAppSchoolBundle_back_blackboard') }}">{% trans %}LINK_BLACKBOARD{% endtrans %}</a>
+          </div>
+        {% endif %}
+      {%  if hasCerise() %}
+        <div class="section">
+          <a href="{{ path('BNSAppSchoolBundle_back_cerise_school') }}">CERISE Prim</a>
+        </div>
+      {% endif %}
+      {% if has_right_somewhere('SPOT_ACCESS') %}
+        <div class="section">
+          <a href="{{ path('bns_app_school_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTIONS{% endtrans %}</a>
+        </div>
+      {% endif %}
+	    </div>
+	</div>
+{% endif %}
+
+{% if page == 'teachers' %}
+    <div class="container-sidebar list">
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppSchoolBundle_back') }}">{% trans %}LINK_DASHBOARD{% endtrans %}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppSchoolBundle_back_classrooms') }}">{% trans %}TITLE_CLASSROOM{% endtrans %}</a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="section active">
+            {% trans %}LINK_TEACHER_LIST{% endtrans %}
+            <span class="shadow-section"></span>
+        </div>
+
+
+        <div class="container-section">
+          <div class="section">
+            <a href="{{ path('BNSAppSchoolBundle_back_assistants') }}">{% trans %}LINK_ASSISTANT_LIST{% endtrans %}</a>
+          </div>
+            {% if has_right('SCHOOL_CREATE_CLASSROOM') %}
+                <div class="section">
+                    <a href="{{ path('BNSAppSchoolBundle_back_assignment') }}">{% trans %}THE_SCHOOL{% endtrans %}</a>
+                </div>
+            {% endif %}
+            <div class="section">
+                <a href="{{ path('BNSAppSchoolBundle_back_custom') }}">{% trans %}LINK_CUSTOMIZE{% endtrans %}</a>
+            </div>
+            {% if hasGroupBoard %}
+              <div class="section">
+                  <a href="{{ path('BNSAppSchoolBundle_back_blackboard') }}">{% trans %}LINK_BLACKBOARD{% endtrans %}</a>
+              </div>
+            {% endif %}
+          {%  if hasCerise() %}
+            <div class="section">
+              <a href="{{ path('BNSAppSchoolBundle_back_cerise_school') }}">CERISE Prim</a>
+            </div>
+          {% endif %}
+          {% if has_right_somewhere('SPOT_ACCESS') %}
+            <div class="section">
+              <a href="{{ path('bns_app_school_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTIONS{% endtrans %}</a>
+            </div>
+          {% endif %}
+        </div>
+    </div>
+{% endif %}
+
+{% if page == 'assistants' %}
+  <div class="container-sidebar list">
+    <div class="container-section">
+      <div class="section">
+        <a href="{{ path('BNSAppSchoolBundle_back') }}">{% trans %}LINK_DASHBOARD{% endtrans %}</a>
+      </div>
+      <div class="section">
+        <a href="{{ path('BNSAppSchoolBundle_back_classrooms') }}">{% trans %}TITLE_CLASSROOM{% endtrans %}</a>
+      </div>
+      <div class="section">
+        <a href="{{ path('BNSAppSchoolBundle_back_teachers') }}">{% trans %}LINK_TEACHER_LIST{% endtrans %}</a>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="section active">
+      {% trans %}LINK_ASSISTANT_LIST{% endtrans %}
+      <span class="shadow-section"></span>
+    </div>
+
+
+    <div class="container-section">
+
+      {% if has_right('SCHOOL_CREATE_CLASSROOM') %}
+        <div class="section">
+          <a href="{{ path('BNSAppSchoolBundle_back_assignment') }}">{% trans %}THE_SCHOOL{% endtrans %}</a>
+        </div>
+      {% endif %}
+      <div class="section">
+        <a href="{{ path('BNSAppSchoolBundle_back_custom') }}">{% trans %}LINK_CUSTOMIZE{% endtrans %}</a>
+      </div>
+      {% if has_right_somewhere('SPOT_ACCESS') %}
+        <div class="section">
+          <a href="{{ path('bns_app_school_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTIONS{% endtrans %}</a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}
+
+{% if page == 'users' %}
+    <div class="container-sidebar list">
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppSchoolBundle_back') }}">{% trans %}LINK_DASHBOARD{% endtrans %}</a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="section active">
+            {% trans %}TITLE_CLASSROOM{% endtrans %}
+            <span class="shadow-section"></span>
+        </div>
+        <div class="title-container">
+            <div class="content-title">
+                <ul>
+                    <li>
+                        <a class="{% if section == 'list' %}active{% endif %}" href="{{ path('BNSAppSchoolBundle_back_classrooms') }}">{% trans %}CLASSROOMS_LIST{% endtrans %}</a>
+                    </li>
+                    <li>
+                        <a class="{% if section == 'teachers' %}active{% endif %}" href="{{ path('BNSAppSchoolBundle_back_teachers') }}">{% trans %}TEACHERS_LIST{% endtrans %}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="container-section">
+          <div class="section">
+            <a href="{{ path('BNSAppSchoolBundle_back_assistants') }}">{% trans %}LINK_ASSISTANT_LIST{% endtrans %}</a>
+          </div>
+            {% if has_right('SCHOOL_CREATE_CLASSROOM') %}
+                <div class="section">
+                    <a href="{{ path('BNSAppSchoolBundle_back_assignment') }}">{% trans %}THE_SCHOOL{% endtrans %}</a>
+                </div>
+            {% endif %}
+            <div class="section">
+                <a href="{{ path('BNSAppSchoolBundle_back_custom') }}">{% trans %}LINK_CUSTOMIZE{% endtrans %}</a>
+            </div>
+            {% if hasGroupBoard %}
+              <div class="section">
+                  <a href="{{ path('BNSAppSchoolBundle_back_blackboard') }}">{% trans %}LINK_BLACKBOARD{% endtrans %}</a>
+              </div>
+            {% endif %}
+          {%  if hasCerise() %}
+            <div class="section">
+              <a href="{{ path('BNSAppSchoolBundle_back_cerise_school') }}">CERISE Prim</a>
+            </div>
+          {% endif %}
+          {% if has_right_somewhere('SPOT_ACCESS') %}
+            <div class="section">
+              <a href="{{ path('bns_app_school_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTIONS{% endtrans %}</a>
+            </div>
+          {% endif %}
+        </div>
+    </div>
+{% endif %}
+
+{% if page == "user_sheet" %}
+    <div class="container-sidebar list">
+        <div class="section full-name active">
+            <div class="section-title">
+                <h1 class="dashboard"><img src="{{ avatar(user, 'thumbnail') }}" /> {{ user.getFullName() }}</h1>
+            </div>
+            <span class="shadow-section"></span>
+        </div>
+        <div class="title-container">
+            <div class="title border-blue active">{% trans %}GENERAL_INFORMATION{% endtrans %} <span class="square icon-arrow"></span></div>
+            <div class="content-title" style="display: block;">
+                <div class="content-profile">
+                    <p class="type">{{ 'NAME_USER_NAME'|trans({'%userName%': user.getLastName()|escape})|desc('<strong>Nom :</strong> %userName%')|raw }}</p>
+                    <p class="type">{{ 'NAME_USER_FIRSTNAME'|trans({'%userFirstName%': user.getFirstName()|escape})|desc('<strong>Prénom :</strong> %userFirstName%')|raw }}</p>
+                    <p class="type">{{ 'NAME_USER_LOGIN'|trans({'%userLogin%': user.getLogin()|escape})|desc('<strong>Identifiant :</strong> %userLogin%')|raw }}</p>
+                    {% if user.getBirthday() != null %}
+                        <strong>
+                            {% if user.getGender() == 'F' %}
+                                <p class="type">{{ 'USER_BIRTHDAY'|transchoice(0 ,{'%userBirthday%': user.getBirthday()|date_bns('full', 'none')})|desc('{0] née le : %userBirthday% | {1} né le : %userBirthday%')|raw }} </p>
+                            {% else %}
+                                <p class="type">{{ 'USER_BIRTHDAY'|transchoice(1 ,{'%userBirthday%': user.getBirthday()|date_bns('full', 'none')})|desc('{0] née le : %userBirthday% | {1} né le : %userBirthday%')|raw }} </p>
+                            {% endif %}
+                        </strong>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if page == "user_sheet_edit" %}
+
+    <div class="container-sidebar list editor">
+        <div class="section full-name active">
+            <div class="section-title">
+                <h1 class="dashboard"><img src="{{ avatar(user, 'thumbnail') }}" /> {{ user.getFullName() }}</h1>
+
+            </div>
+            <span class="shadow-section"></span>
+        </div>
+        <div class="title-container">
+            <div class="title border-blue active">{% trans %}GENERAL_INFORMATION{% endtrans %} <span class="square icon-arrow"></span></div>
+            <div class="content-title" style="display: block;">
+                <div class="content-profile">
+                    <input type="hidden" id="default-avatar" value="{{ avatar(user, 'small', true) }}"/>
+                    <div id="resource-selection-callback">
+                        <img src="{{ avatar(user, 'small') }}" />
+                    </div>
+
+                    <p class="type">
+                        <strong>{% trans %}USER_NAME{% endtrans %} :</strong>
+                    </p>
+                    {{ form_widget(form.lastName) }}
+                    {% if form.lastName.vars.errors|length > 0 %}
+                        <div class="alert alert-danger bns-alert">
+                            {{ form_errors(form.lastName) }}
+                        </div>
+                    {% endif %}
+                    <p class="type">
+                        <strong>{% trans %}USER_FIRSTNAME{% endtrans %} : </strong>
+                    </p>
+                    {{ form_widget(form.firstName) }}
+                    {% if form.firstName.vars.errors|length > 0 %}
+                        <div class="alert alert-danger bns-alert">
+                            {{ form_errors(form.firstName) }}
+                        </div>
+                    {% endif %}
+
+                    {% if is_adult(user) %}
+                        <p class="type"><strong>{% trans %}USER_EMAIL{% endtrans %} : </strong></p>
+                        {{ form_widget(form.email) }}
+                        {% if form.email.vars.errors|length > 0 %}
+                            <div class="alert alert-danger bns-alert">
+                                {{ form_errors(form.email) }}
+                            </div>
+                        {% endif %}
+                  <p class="type"><strong>{% trans %}LABEL_CHANGE_LANGUAGE{% endtrans %}</strong></p>
+                      {{ form_widget(form.lang) }}
+                    {% endif %}
+
+                    <p class="type">
+                        {% if user.getGender() == 'F' %}
+                    <p class="type">{{ 'USER_BORN'|transchoice(0)|desc('{0]<strong> Née :</strong>| {1}<strong> Né :</strong>')|raw }} </p>
+                {% else %}
+                    <p class="type">{{ 'USER_BORN'|transchoice(1)|desc('{0]<strong> Née :</strong>| {1}<strong> Né :</strong>')|raw }} </p>
+
+                    {% endif %}
+
+                   </p>
+                    <div class="birthday-datepicker">
+                        {{ form_widget(form.birthday) }}
+                    </div>
+                    {% if form.birthday.vars.errors|length > 0 %}
+                        <div class="alert alert-danger bns-alert">
+                            {{ form_errors(form.birthday) }}
+                        </div>
+                    {% endif %}
+                    <p class="type">
+                        <strong>{% trans %}GENDER{% endtrans %}</strong>
+                    </p>
+                    <div  class="gender">
+                        {{ form_widget(form.gender) }}
+                    </div>
+                    {% if form.gender.vars.errors|length > 0 %}
+                        <div class="alert alert-danger bns-alert">
+                            {{ form_errors(form.gender) }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endif %}
+
+{% if page == "custom" %}
+    <div class="container-sidebar list">
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppSchoolBundle_back') }}">{% trans %}LINK_DASHBOARD{% endtrans %}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppSchoolBundle_back_classrooms') }}">{% trans %}TITLE_CLASSROOM{% endtrans %}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppSchoolBundle_back_teachers') }}">{% trans %}LINK_TEACHER_LIST{% endtrans %}</a>
+            </div>
+            <div class="section">
+              <a href="{{ path('BNSAppSchoolBundle_back_assistants') }}">{% trans %}LINK_ASSISTANT_LIST{% endtrans %}</a>
+            </div>
+            {% if has_right('SCHOOL_CREATE_CLASSROOM') %}
+                <div class="section">
+                    <a href="{{ path('BNSAppSchoolBundle_back_assignment') }}">{% trans %}THE_SCHOOL{% endtrans %}</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="section active">
+            <a href="{{ path('BNSAppSchoolBundle_back_custom') }}">{% trans %}LINK_CUSTOMIZE{% endtrans %}</a>
+        </div>
+        <div class="container-section">
+          {% if hasGroupBoard %}
+            <div class="section">
+                <a href="{{ path('BNSAppSchoolBundle_back_blackboard') }}">{% trans %}LINK_BLACKBOARD{% endtrans %}</a>
+            </div>
+          {% endif %}
+
+          {%  if hasCerise() %}
+
+            <div class="section">
+              <a href="{{ path('BNSAppSchoolBundle_back_cerise_school') }}">CERISE Prim</a>
+            </div>
+
+          {% endif %}
+
+          {% if has_right_somewhere('SPOT_ACCESS') %}
+              <div class="section">
+                <a href="{{ path('bns_app_school_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTIONS{% endtrans %}</a>
+              </div>
+
+          {% endif %}
+        </div>
+    </div>
+{% endif %}
+
+{% if page == "blackboard" %}
+    <div class="container-sidebar list">
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppSchoolBundle_back') }}">{% trans %}LINK_DASHBOARD{% endtrans %}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppSchoolBundle_back_classrooms') }}">{% trans %}TITLE_CLASSROOM{% endtrans %}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppSchoolBundle_back_teachers') }}">{% trans %}LINK_TEACHER_LIST{% endtrans %}</a>
+            </div>
+            {% if has_right('SCHOOL_CREATE_CLASSROOM') %}
+                <div class="section">
+                    <a href="{{ path('BNSAppSchoolBundle_back_assignment') }}">{% trans %}THE_SCHOOL{% endtrans %}</a>
+                </div>
+            {% endif %}
+            <div class="section">
+                <a href="{{ path('BNSAppSchoolBundle_back_custom') }}">{% trans %}LINK_CUSTOMIZE{% endtrans %}</a>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="section active">
+            <a href="{{ path('BNSAppSchoolBundle_back_blackboard') }}">{% trans %}LINK_BLACKBOARD{% endtrans %}</a>
+        </div>
+
+        {%  if hasCerise() %}
+
+            <div class="section">
+              <a href="{{ path('BNSAppSchoolBundle_back_cerise_school') }}">CERISE Prim</a>
+            </div>
+
+        {% endif %}
+
+        {% if has_right_somewhere('SPOT_ACCESS') %}
+            <div class="container-section">
+                <div class="section">
+                    <a href="{{ path('bns_app_school_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTIONS{% endtrans %}</a>
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+{% endif %}
+
+{% if page == "assignment" %}
+
+    <div class="container-sidebar list">
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppSchoolBundle_back') }}">{% trans %}LINK_DASHBOARD{% endtrans %}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppSchoolBundle_back_classrooms') }}">{% trans %}TITLE_CLASSROOM{% endtrans %}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppSchoolBundle_back_teachers') }}">{% trans %}LINK_TEACHER_LIST{% endtrans %}</a>
+            </div>
+            <div class="section">
+              <a href="{{ path('BNSAppSchoolBundle_back_assistants') }}">{% trans %}LINK_ASSISTANT_LIST{% endtrans %}</a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="section active">
+            {% trans %}THE_SCHOOL{% endtrans %}
+            <span class="shadow-section"></span>
+        </div>
+
+
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppSchoolBundle_back_custom') }}">{% trans %}LINK_CUSTOMIZE{% endtrans %}</a>
+            </div>
+            {% if hasGroupBoard %}
+              <div class="section">
+                  <a href="{{ path('BNSAppSchoolBundle_back_blackboard') }}">{% trans %}LINK_BLACKBOARD{% endtrans %}</a>
+              </div>
+            {% endif %}
+          {%  if hasCerise() %}
+            <div class="section">
+              <a href="{{ path('BNSAppSchoolBundle_back_cerise_school') }}">CERISE Prim</a>
+            </div>
+          {% endif %}
+          {% if has_right_somewhere('SPOT_ACCESS') %}
+            <div class="section">
+              <a href="{{ path('bns_app_school_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTIONS{% endtrans %}</a>
+            </div>
+          {% endif %}
+        </div>
+    </div>
+
+{% endif %}
+
+{% if page == "subscription" %}
+
+  <div class="container-sidebar list">
+    <div class="container-section">
+      <div class="section">
+        <a href="{{ path('BNSAppSchoolBundle_back') }}">{% trans %}LINK_DASHBOARD{% endtrans %}</a>
+      </div>
+      <div class="section">
+        <a href="{{ path('BNSAppSchoolBundle_back_classrooms') }}">{% trans %}TITLE_CLASSROOM{% endtrans %}</a>
+      </div>
+      <div class="section">
+        <a href="{{ path('BNSAppSchoolBundle_back_teachers') }}">{% trans %}LINK_TEACHER_LIST{% endtrans %}</a>
+      </div>
+      <div class="section">
+        <a href="{{ path('BNSAppSchoolBundle_back_assistants') }}">{% trans %}LINK_ASSISTANT_LIST{% endtrans %}</a>
+      </div>
+      {% if has_right('SCHOOL_CREATE_CLASSROOM') %}
+        <div class="section">
+          <a href="{{ path('BNSAppSchoolBundle_back_assignment') }}">{% trans %}THE_SCHOOL{% endtrans %}</a>
+        </div>
+      {% endif %}
+      <div class="section">
+        <a href="{{ path('BNSAppSchoolBundle_back_custom') }}">{% trans %}LINK_CUSTOMIZE{% endtrans %}</a>
+      </div>
+      {% if hasGroupBoard %}
+        <div class="section">
+            <a href="{{ path('BNSAppSchoolBundle_back_blackboard') }}">{% trans %}LINK_BLACKBOARD{% endtrans %}</a>
+        </div>
+      {% endif %}
+
+    {%  if hasCerise() %}
+      <div class="section">
+        <a href="{{ path('BNSAppSchoolBundle_back_cerise_school') }}">CERISE Prim</a>
+      </div>
+    {% endif %}
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="section active">
+      {% trans %}LINK_SUBSCRIPTIONS{% endtrans %}
+      <span class="shadow-section"></span>
+    </div>
+    {% block subscriptionMenu %}{% endblock %}
+
+  </div>
+
+{% endif %}
+
+{% if page == "cerise" %}
+  <div class="container-sidebar list">
+    <div class="container-section">
+      <div class="section">
+        <a href="{{ path('BNSAppSchoolBundle_back') }}">{% trans %}LINK_DASHBOARD{% endtrans %}</a>
+      </div>
+      <div class="section">
+        <a href="{{ path('BNSAppSchoolBundle_back_classrooms') }}">{% trans %}TITLE_CLASSROOM{% endtrans %}</a>
+      </div>
+      <div class="section">
+        <a href="{{ path('BNSAppSchoolBundle_back_teachers') }}">{% trans %}LINK_TEACHER_LIST{% endtrans %}</a>
+      </div>
+      {% if has_right('SCHOOL_CREATE_CLASSROOM') %}
+        <div class="section">
+          <a href="{{ path('BNSAppSchoolBundle_back_assignment') }}">{% trans %}THE_SCHOOL{% endtrans %}</a>
+        </div>
+      {% endif %}
+
+    <div class="clearfix"></div>
+
+    <div class="section">
+      <a href="{{ path('BNSAppSchoolBundle_back_custom') }}">{% trans %}LINK_CUSTOMIZE{% endtrans %}</a>
+    </div>
+  </div>
+    {% if hasGroupBoard %}
+      <div class="section">
+        <a href="{{ path('BNSAppSchoolBundle_back_blackboard') }}">{% trans %}LINK_BLACKBOARD{% endtrans %}</a>
+      </div>
+    {% endif %}
+    {%  if hasCerise() %}
+      <div class="section active">
+        <a href="{{ path('BNSAppSchoolBundle_back_cerise_school') }}">CERISE Prim</a>
+      </div>
+    {% endif %}
+
+    {% if has_right_somewhere('SPOT_ACCESS') %}
+      <div class="container-section">
+        <div class="section">
+          <a href="{{ path('bns_app_school_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTIONS{% endtrans %}</a>
+        </div>
+      </div>
+    {% endif %}
+
+  </div>
+{% endif %}

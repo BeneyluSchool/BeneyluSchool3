@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-09-09T11:10:57Z" source-language="en" target-language="es-AR" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="1e5ee44c61e741d70251c571ac955b592fe5f3b3" resname="INVALID_CONTENT_EMPTY">
+        <source>INVALID_CONTENT_EMPTY</source>
+        <target state="new">El contenido no puede estar en blanco</target>
+      </trans-unit>
+      <trans-unit id="8681cf80a39a955b17004ad79bf886adeb9be925" resname="INVALID_EMAIL_ALREADY_EXIST">
+        <source>INVALID_EMAIL_ALREADY_EXIST</source>
+        <target>Este correo electrónico ya ha sido utilizado</target>
+      </trans-unit>
+      <trans-unit id="bcc546b08d54cbc850fbcc07e265a2147231b9ef" resname="INVALID_TITLE_EMPTY">
+        <source>INVALID_TITLE_EMPTY</source>
+        <target state="new">El título no puede estar en blanco</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

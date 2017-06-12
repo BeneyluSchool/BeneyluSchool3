@@ -1,0 +1,10 @@
+<h2 translate>WORKSHOP.DOCUMENT.WIDGETS</h2>
+
+<ul ng-sortable="ctrl.sortableConf" class="workshop-widget-nav workshop-widget-option-choice-buttons">
+  <li ng-repeat="widgetConfiguration in ctrl.widgetConfigurations" class="workshop-btn-text workshop-widget-configuration" data-drop-incentive="{{ 'WORKSHOP.DOCUMENT.DROP_WIDGET_HERE' | translate }}">
+      <span class="workshop-btn">
+        <img ng-src="{{ '/ent/angular/app/images/workshop/widget-configuration/' + widgetConfiguration.code + '.png' }}" alt="">
+      </span>
+      {{::('WORKSHOP.DOCUMENT.LABEL_WIDGET_'+widgetConfiguration.code|tokenize)|translate}}
+  </li>
+</ul>

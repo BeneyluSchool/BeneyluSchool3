@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-06-22T10:25:07Z" source-language="en" target-language="en-US" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="1701bfe97e689b6dc2d98f857a37451a4439b563" resname="AUTHOR_DATE">
+        <source><![CDATA[%userFullName% <span class="date">- %date%</span>]]></source>
+        <target><![CDATA[%userFullName% <span class="date">- %date%</span>]]></target>
+        <note><![CDATA[%userFullName% is a placeholder
+%date% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="cb8f58741fe55eef64899eb5d5114c60e39e79ae" resname="AUTHOR_DATE_WAIT_FOR_MODERATION">
+        <source><![CDATA[%userFullName% <span class="date">- %date% - en attente de modération</span>]]></source>
+        <target><![CDATA[%userFullName% <span class="date">- %date% - awaiting moderation</span>]]></target>
+        <note><![CDATA[%userFullName% is a placeholder
+%date% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="05ea2aeebb1bcb2ad1032369d543dbd4fc81dbb5" resname="COMMENTS">
+        <source>COMMENTS</source>
+        <target state="new">Comments</target>
+      </trans-unit>
+      <trans-unit id="ca4b0065cc9e0cf8b53f28c5e2662c8bcbb3996a" resname="COMMENT_INFOS">
+        <source>COMMENT_INFOS</source>
+        <target state="new">Informations</target>
+      </trans-unit>
+      <trans-unit id="301e9f65d72b596d130150f1ca60985a76655734" resname="COMMENT_LOADING">
+        <source>COMMENT_LOADING</source>
+        <target>Loading comments...</target>
+      </trans-unit>
+      <trans-unit id="2c4c37cf6c4f45a0cbf52a325bc04cc1f07b960f" resname="COMMENT_STATUS">
+        <source>Statut du commentaire</source>
+        <target>Comment status</target>
+      </trans-unit>
+      <trans-unit id="4d41ec59b5086ebebf4dbcbc727968eb9c71fad7" resname="CREATE_BY">
+        <source><![CDATA[Créé par <strong>%userFullName%</strong>]]></source>
+        <target><![CDATA[Written by <strong>%userFullName%</strong>]]></target>
+        <note><![CDATA[%userFullName% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="36c49084c85b94ce33e069e90dade2e4b6f8ea7d" resname="DISPLAY_LAST_COMMENT">
+        <source>Afficher les précédents commentaires</source>
+        <target>Display previous comments</target>
+      </trans-unit>
+      <trans-unit id="be15a6a06f2690120b612f55c5a064a0b2b3fef3" resname="FILTER_BY_STATUS">
+        <source>Filtre par statut </source>
+        <target>Filter by status</target>
+      </trans-unit>
+      <trans-unit id="0d8689c77347dfa027f8a3019ac53bc9050c549e" resname="FILTER_COMMENT">
+        <source>Filtre des commentaires</source>
+        <target>Filter by comments</target>
+      </trans-unit>
+      <trans-unit id="bae8f5caf33e86ed43e9af03a29bfb45c30357ff" resname="LABEL_COMMENT">
+        <source><![CDATA[<span class="label-comment">Commentaires :</span>]]></source>
+        <target><![CDATA[<span class="label-comment">Comments:</span>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="b7d66f370eb9db2bffddba76b802d392e98064d5" resname="LINK_COMMENT_DENY">
+        <source>Commentaires refusés</source>
+        <target>Declined comments</target>
+      </trans-unit>
+      <trans-unit id="4fbfb2c32b686680f7c025655d2de40e2d54e1e9" resname="LINK_COMMENT_IN_MODERATION">
+        <source>Commentaires en modération</source>
+        <target>Comments being moderated</target>
+      </trans-unit>
+      <trans-unit id="a37fc6ff9b6bfb57e3ad2eb2432309b31ac783f8" resname="LINK_COMMENT_PUBLISH">
+        <source>Commentaires publiés</source>
+        <target>Published comments</target>
+      </trans-unit>
+      <trans-unit id="07935fdfa5a2208ed7a0ae00b8c81d21cd559ed0" resname="LINK_DENY">
+        <source><![CDATA[<strong>Refuser</strong>]]></source>
+        <target><![CDATA[Decline]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="db64b24dbcf48c424a7d10fbc654fdb6c23ffc8b" resname="LINK_EDIT">
+        <source><![CDATA[<strong>Éditer</strong>]]></source>
+        <target><![CDATA[Edit comment]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="92fd8850e8cd4be64d42c6399e60c3f9febc2da3" resname="LINK_GO_TO_MODERATION">
+        <source><![CDATA[<strong>Passer en modération</strong>]]></source>
+        <target><![CDATA[Switch back to moderation]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="50e7b4faac0a299a379825d19ac21d6c093a4a33" resname="LINK_SEE_ALL_COMMENT">
+        <source>Voir tous les commentaires </source>
+        <target>View all comments </target>
+      </trans-unit>
+      <trans-unit id="54504eee75ea968823540577901226cf2b9b19ea" resname="LINK_VALIDATE">
+        <source><![CDATA[<strong>Valider</strong>]]></source>
+        <target><![CDATA[Validate]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="f4e796e85402444ed0a1c302b845948470c4757d" resname="NO_COMMENT_FOR_THIS_FILTER">
+        <source>Il n'y a aucun commentaire pour le filtre sélectionné.</source>
+        <target>There are no comments for the selected filter.</target>
+      </trans-unit>
+      <trans-unit id="109076ebff353b4ddd602facea858091fb55677e" resname="NO_COMMENT_TO_VALIDATE">
+        <source>Vous n'avez plus de commentaire à valider.</source>
+        <target>You have no more comments to validate.</target>
+      </trans-unit>
+      <trans-unit id="1b075e2576c615153f312a505905a51e1b345b2a" resname="NO_PENDING_VALIDATION_COMMENT_FIND">
+        <source>Aucun commentaire en modération n'a été trouvé.</source>
+        <target>No comment being moderated has been found.</target>
+      </trans-unit>
+      <trans-unit id="011ab09d1d6256a6ad425576bff0fd659c4f797b" resname="NO_REFUSED_COMMENT_FIND">
+        <source>Aucun commentaire refusé n'a été trouvé.</source>
+        <target>No declined comment found.</target>
+      </trans-unit>
+      <trans-unit id="49fdf2f8a9e2dbe1dba0f8ca4f1e80cdb23078b3" resname="NO_VALIDATED_COMMENT_FIND">
+        <source>Aucun commentaire publié n'a été trouvé.</source>
+        <target>No published comment found</target>
+      </trans-unit>
+      <trans-unit id="04326570f3e94c25c072ff28982f492a518e19e0" resname="PLACEHOLDER_LEAVE_COMMENT">
+        <source>Laisser un commentaire...</source>
+        <target>Leave a comment…</target>
+      </trans-unit>
+      <trans-unit id="a080bc07b84450b73a9974f36a9c75810bbf361f" resname="SEND_DATE">
+        <source>Envoyé %date%</source>
+        <target>Sent %date%</target>
+        <note><![CDATA[%date% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="058e73e257b61ba0d39f1573c3e794550ca6a75d" resname="STATUS_DENY">
+        <source><![CDATA[<span>Refusé</span>]]></source>
+        <target><![CDATA[<span>Declined</span>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="b5c6ce05e25e172465055bf99848d62e18dbcb97" resname="STATUS_VALIDATE">
+        <source><![CDATA[<span>Validé</span>]]></source>
+        <target><![CDATA[<span>Validated</span>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="8fda02061a3796b24105bd4f41972762fb08bc66" resname="STATUS_WAIT_FOR_MODERATION">
+        <source><![CDATA[<span>En attente de modération</span>]]></source>
+        <target><![CDATA[<span>Awaiting moderation</span>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="dcd252a848e5014078690b3698972e02c2689a1d" resname="TITLE_COMMENT_CONTENT">
+        <source>Contenu du commentaire</source>
+        <target>Content of the comment</target>
+      </trans-unit>
+      <trans-unit id="67f4c4d47e8477f77e60c305f70bd3a1af320925" resname="TITLE_NUMBER_COMMENT">
+        <source><![CDATA[[0,1] <span class="indicator">%commentsLength%</span> commentaire | ]1,Inf[ <span class="indicator">%commentsLength%</span> commentaires]]></source>
+        <target><![CDATA[[0,1] <span class="indicator">%commentsLength%</span> comment| ]1,Inf[ <span class="indicator">%commentsLength%</span> comments]]></target>
+        <note><![CDATA[%commentsLength% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="df8c5f197c758c01434d0acbac3997db0cb49d57" resname="VALUE_I_COMMENT">
+        <source>Je commente</source>
+        <target>Post my comment</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

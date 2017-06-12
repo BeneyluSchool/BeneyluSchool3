@@ -1,0 +1,236 @@
+{% extends 'BNSAppForumBundle:Layout:manager.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ asset('/medias/js/datepicker_i18n/jquery.ui.datepicker-fr.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/medias/js/forum/Back/forum.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#inscription-user-id-to-manage').change(function() {
+                $('#form-inscription').submit();
+            });
+
+            // Select user process
+            $('#inscription-userpicker-modal').on('click', '.user-block.selectable', function(e) {
+                e.preventDefault();
+                var $this = $(e.currentTarget);
+
+                if ($('#inscription-userpicker-modal .selected-user-container').find('a[data-user-id="' + $this.data('user-id') + '"]').length <= 3) {
+                    $this.clone().removeClass('btn bns-user checkbox big selectable').addClass('bns-user cancel small').prependTo('.selected-user-container');
+                    $this.removeClass('selectable checkbox').addClass("selected is-selected");
+                    $('.no-selection').hide();
+                }
+            });
+
+            $('.pending-validation-users .bns-user').on('click', function(e) {
+                e.preventDefault();
+                if ($(this).hasClass('checkbox')) {
+                    $(this).removeClass('checkbox').addClass('selected');
+                } else {
+                    $(this).addClass('checkbox').removeClass('selected');
+                }
+            });
+
+            $('.validated-users a').on('click', function(e) {
+                if ($(e.target).hasClass('action-icons')) {
+                    return true;
+                }
+                e.preventDefault();
+                return false;
+            });
+
+            $('#btn-validate-user').on('click', function(e) {
+                var userIds = '';
+                $('.pending-validation-users a.selected').each(function(i) {
+                    userIds += $(this).data('user-id') + ',';
+                });
+                userIds = userIds.substring(0, userIds.length -1);
+
+                if (userIds) {
+                    $('#input-validate-users-id').val(userIds);
+                    $('#form-validate-users').submit();
+                }
+            });
+
+            $('#btn-cancel-user').on('click', function(e) {
+                var userIds = '';
+                $('.pending-validation-users a.selected').each(function(i) {
+                    userIds += $(this).data('user-id') + ',';
+                });
+                userIds = userIds.substring(0, userIds.length -1);
+
+                if (userIds) {
+                    $('#input-cancel-users-id').val(userIds);
+                    $('#form-cancel-users').submit();
+                }
+            });
+
+        });
+    </script>
+{% endblock %}
+
+{% block header %}
+    <div class="header-buttons">
+        <div class="inner-header">
+            <div class="container container-fluid">
+                <div class="row-fluid">
+                    <div class="span3">
+                        <a href="{{ path('BNSAppForumBundle_back_new_forum') }}" class="btn bns-info btn-24 large create-forum">
+                            <span class="icons-24 add-icon"></span>
+                            Créer un forum
+                        </a>
+                    </div>
+                    <div class="span9">
+                        {% if not forum is empty %}
+                        <a href="{{ path('BNSAppForumBundle_back_edit_forum', {'slug': forum.slug}) }}" class="btn bns-info btn-24 medium-return">
+                            <span class="icons-24 edit-icon"></span>
+                            <strong>Editer</strong> <br />le forum
+                        </a>
+                        <a id="btn-inscription-user" href="#" class="btn bns-info btn-24 medium-return">
+                            <span class="icons-24 add-icon"></span>
+                            <strong>Inscrire</strong> un<br />utilisateur
+                        </a>
+                        {% if forum.pendingValidationUsers|length > 0 %}
+                        <a id="btn-validate-user" href="#" class="btn bns-success btn-24 medium-return">
+                            <span class="icons-24 validate-icon"></span>
+                            <strong>Valider</strong> les<br />inscriptions
+                        </a>
+                        <a id="btn-cancel-user" href="#" class="btn bns-danger btn-24 medium-return">
+                            <span class="icons-24 cancel-icon"></span>
+                            <strong>Refuser</strong> les<br />inscriptions
+                        </a>
+                        {% endif %}
+
+                        <a href="{{ path('BNSAppForumBundle_back_delete_forum', {'slug': forum.slug}) }}" class="btn bns-danger btn-24 medium-return pull-right delete-item"
+                            data-target="#deleteModal" data-toggle="modal">
+                            <span class="icons-24 delete-icon"></span>
+                            <strong>Supprimer</strong>
+                            <br /> le forum
+                        </a>
+                            {% if not forum.isArchived %}
+                            <a href="{{ path('BNSAppForumBundle_back_archive_forum', {'slug': forum.slug}) }}" class="btn bns-warning btn-24 medium-return pull-right archive-item"
+                                data-target="#archiveModal" data-toggle="modal">
+                                <span class="icons-24 refresh-icon"></span>
+                                <strong>Archiver</strong>
+                                <br /> le forum
+                            </a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock header %}
+
+{% block sidebar %}
+    <div class="container-sidebar list">
+        <div class="section active">
+            Les forums
+            <span class="shadow-section"></span>
+        </div>
+
+        {% if not forum is empty %}
+
+            {% include 'BNSAppForumBundle:Block:backForumFilter.html.twig' %}
+
+            <div class="container-section">
+                <div class="section">
+                    <a href="{{ path('BNSAppForumBundle_back_moderation') }}">Modération</a>
+                </div>
+            </div>
+
+        {% endif %}
+    </div>
+{% endblock sidebar %}
+
+{% block content %}
+    {% for message in app.session.flashbag.get('success') %}
+        <div class="alert alert-success alert-flash bns-alert">
+            {{ message }}
+            <div class="jim"></div>
+        </div>
+    {% endfor %}
+    <div class="relative-container forum-list">
+        <div class="layer hide">
+            <div class="message">
+                Chargement des messages ...
+                <div><img src="{{ asset('/medias/images/icons/big-loader.gif') }}" alt="" /></div>
+            </div>
+        </div>
+        {% if not forum is empty %}
+            <h2>Forum : {{ forum.title }} {% if forum.isArchived %}<span class="label label-info">Archivé</span>{% endif %}</h2>
+            <div class="item-list-container">
+                {{ render(controller('BNSAppForumBundle:Back:getSubjects', {'forum': forum, 'page': page} )) }}
+            </div>
+            {% if forum.pendingValidationUsers|length > 0 %}
+                <h3>Inscrition en attente</h3>
+                <div class="pending-validation-users">
+                    {% for user in forum.pendingValidationUsers %}
+                        <a href="#" class="bns-user small checkbox pending-validation"
+                            data-user-id="{{ user.id }}"><img src="{{ avatar(user, 'thumbnail') }}" />{{ user.fullName }} <span class="action-icons"></span>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <h3>Inscrits</h3>
+            <div class="validated-users">
+                {% for user in forum.validatedUsers %}
+                    <a href="{{ path('BNSAppForumBundle_back_unsubscribe_user', {'slug': forum.slug, 'id': user.id}) }}"
+                        class="bns-user small cancel" data-user-id="{{ user.id }}"><img src="{{ avatar(user, 'thumbnail') }}" />{{ user.fullName }} <span class="action-icons"></span></a>
+                {% else %}
+                    {% include 'BNSAppMainBundle:BNSAlert:row.html.twig' with {'message' : "Il n'y a aucun utilisateur inscrit" , 'type' : 'info' } %}
+                {% endfor %}
+            </div>
+        {% else %}
+            {% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+                'text' : "Il n'y a aucun forum, vous pouvez :",
+                'button': {
+                    'text' : "Créer un forum",
+                    'link' : path('BNSAppForumBundle_back_new_forum')
+                }
+            } %}
+        {% endif %}
+    </div>
+
+    {% if not forum is empty %}
+        {# Modale de suppression #}
+        {{ modal('deleteModal', {
+            'title': 'Suppression du forum',
+            'body_template': {'template': 'BNSAppForumBundle:Back:modal_body_delete_forum.html.twig' },
+            'type': 'error',
+            'footer_template': {'template': 'BNSAppForumBundle:Back:modal_footer_delete_forum.html.twig' },
+        }) }}
+
+        {# Modale de d'archivage #}
+        {{ modal('archiveModal', {
+            'title': 'Suppression du forum',
+            'body_template': {'template': 'BNSAppForumBundle:Back:modal_body_archive_forum.html.twig' },
+            'type': 'error',
+            'footer_template': {'template': 'BNSAppForumBundle:Back:modal_footer_archive_forum.html.twig' },
+        }) }}
+
+        <form id="form-inscription" name="form-inscription" action="{{ path('BNSAppForumBundle_back_subscribe', {'slug':forum.slug}) }}" method="post">
+
+            {# userPicker #}
+            {% include 'BNSAppDirectoryBundle:UserPicker:activable_userpicker.html.twig' with {
+                'name_for_form': 'inscription-user-id-to-manage',
+                'input_id': 'inscription-user-id-to-manage',
+                'modal_id': 'inscription-userpicker-modal',
+                'element_activate_modal_id': '#btn-inscription-user',
+                'auto_close_modal': false,
+                'module': 'FORUM'
+            } %}
+
+        </form>
+
+        <form id="form-validate-users" action="{{ path('BNSAppForumBundle_back_validate_users', {'slug':forum.slug}) }}" method="post">
+            <input type="hidden" id="input-validate-users-id" name="validate-users-id" value="" />
+        </form>
+        <form id="form-cancel-users" action="{{ path('BNSAppForumBundle_back_cancel_users', {'slug':forum.slug}) }}" method="post">
+            <input type="hidden" id="input-cancel-users-id" name="cancel-users-id" value="" />
+        </form>
+    {% endif %}
+{% endblock content %}

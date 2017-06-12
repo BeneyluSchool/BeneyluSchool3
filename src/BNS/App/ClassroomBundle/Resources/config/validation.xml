@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
+  <class name="BNS\App\ClassroomBundle\Form\Model\NewUserInClassroomFormModel">
+    <property name="first_name">
+      <constraint name="NotBlank">
+        <option name="message">INVALID_FIRSTNAME_EMPTY</option>
+      </constraint>
+      <constraint name="Length">
+        <option name="max">45</option>
+        <option name="maxMessage">INVALID_FIRSTNAME_TOO_LONG</option>
+        <option name="min">2</option>
+        <option name="minMessage">INVALID_FIRSTNAME_TOO_SHORT</option>
+      </constraint>
+    </property>
+    <property name="last_name">
+      <constraint name="NotBlank">
+        <option name="message">INVALID_LASTNAME_EMPTY</option>
+      </constraint>
+      <constraint name="Length">
+        <option name="max">45</option>
+        <option name="maxMessage">INVALID_LASTNAME_TOO_LONG</option>
+        <option name="min">2</option>
+          <option name="minMessage">INVALID_LASTNAME_TOO_SHORT</option>
+      </constraint>
+    </property>
+    <property name="gender">
+      <constraint name="NotBlank">
+        <option name="message">INVALID_GENDER_EMPTY</option>
+      </constraint>
+      <constraint name="Choice">
+        <option name="callback">getGenders</option>
+      </constraint>
+    </property>
+    <property name="birthday">
+      <constraint name="Date" />
+    </property>
+    <property name="email">
+      <constraint name="Email">
+        <option name="message">INVALID_EMAIL</option>
+      </constraint>
+      <constraint name="Length">
+        <option name="max">255</option>
+        <option name="maxMessage">INVALID_EMAIL_TOO_LONG</option>
+      </constraint>
+    </property>
+    <constraint name="Callback">
+      <option name="methods">
+        <value>isEmailAlreadyInUse</value>
+      </option>
+    </constraint>
+  </class>
+  <class name="BNS\App\ClassroomBundle\Form\Model\EditClassroomFormModel">
+    <property name="name">
+      <constraint name="NotBlank">
+        <option name="message">INVALID_CLASSNAME_EMPTY</option>
+      </constraint>
+    </property>
+  </class>
+  <class name="BNS\App\ClassroomBundle\Form\Model\ProfileFormModel">
+    <property name="firstName">
+      <constraint name="NotBlank">
+        <option name="message">INVALID_ENTER_FIRSTNAME</option>
+      </constraint>
+    </property>
+    <property name="lastName">
+      <constraint name="NotBlank">
+        <option name="message">INVALID_ENTER_LASTNAME</option>
+      </constraint>
+    </property>
+    <property name="email">
+      <constraint name="Email">
+        <option name="message">INVALID_EMAIL_PLEASE_TRY_AGAIN</option>
+      </constraint>
+    </property>
+    <constraint name="Callback">
+      <option name="methods">
+        <value>isEmailBlankForAdult</value>
+        <value>isEmailAlreadyUsed</value>
+      </option>
+    </constraint>
+  </class>
+  <class name="BNS\App\ClassroomBundle\Form\Model\PartnershipFormModel">
+    <property name="name">
+      <constraint name="NotBlank">
+        <option name="message">INVALID_PARTNER_NAME_EMPTY</option>
+      </constraint>
+      <constraint name="Length">
+        <option name="max">45</option>
+        <option name="maxMessage">INVALID_PARTNER_NAME_TOO_LONG</option>
+        <option name="min">3</option>
+        <option name="minMessage">INVALID_PARTNER_NAME_TOO_SHORT</option>
+      </constraint>
+    </property>
+  </class>
+
+    <class name="BNS\App\ClassroomBundle\DataReset\ChangeYearClassroomPupilDataReset">
+        <property name="choice">
+			<constraint name="NotBlank">
+				<option name="message">INVALID_CHOOSE_OPTION_UNCHECK</option>
+			</constraint>
+            <constraint name="Choice">
+                <option name="choices">
+                    <value>KEEP</value>
+                    <value>DELETE</value>
+                    <value>TRANSFER</value>
+                </option>
+                <option name="message">INVALID_CHOOSE</option>
+            </constraint>
+        </property>
+        <constraint name="Callback">
+			<option name="methods">
+				<value>isValidUid</value>
+			</option>
+		</constraint>
+    </class>
+</constraint-mapping>

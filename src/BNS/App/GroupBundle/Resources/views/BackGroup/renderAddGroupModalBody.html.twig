@@ -1,0 +1,22 @@
+{% trans_default_domain "GROUP" %}
+<div class="create-user-form-container">
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="content-form-user">
+				<form action="{{ path('BNSAppGroupBundle_group_add',{'groupTypeType': groupType , 'groupSlug' : group.slug } )}}" method="post" id ="group-add-form" {{ form_enctype(form) }}>
+					<input type="hidden" name="group_type" id="group_type" value="{{ groupType }}" />
+					<div class="form">
+					{{ form_widget(form.label, { 'attr': {'placeholder': 'PLACEHOLDER_GROUP_NAME'|trans |desc("Nom du groupe")} }) }}
+					{{ form_rest(form) }}
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('div.create-buttons-container').show();
+	});
+</script>

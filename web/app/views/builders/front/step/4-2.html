@@ -1,0 +1,88 @@
+<div class="md-padding">
+  <h2>{{ 'BUILDERS.TITLE_IMAGINE_SOLUTIONS' | translate:{name: (ctrl.book.answers[1].name)} | uppercase }}</h2>
+  <p translate>BUILDERS.PRESENTATION_IMAGINE_SOLUTIONS</p>
+</div>
+
+<div class="layout-row md-padding" ng-if="ctrl.book.answers[ctrl.step]" ng-hide="ctrl.editing">
+  <div class="flex">
+    <h2 translate>BUILDERS.LABEL_SOLUTION_1</h2>
+    <blockquote ng-bind-html="(ctrl.book.answers[ctrl.step].solution_1_advantage||'-')|nl2br"></blockquote>
+    <blockquote ng-bind-html="(ctrl.book.answers[ctrl.step].solution_1_disadvantage||'-')|nl2br"></blockquote>
+    <h2 translate>BUILDERS.LABEL_SOLUTION_2</h2>
+    <blockquote ng-bind-html="(ctrl.book.answers[ctrl.step].solution_2_advantage||'-')|nl2br"></blockquote>
+    <blockquote ng-bind-html="(ctrl.book.answers[ctrl.step].solution_2_disadvantage||'-')|nl2br"></blockquote>
+    <h2 translate>BUILDERS.LABEL_SOLUTION_3</h2>
+    <blockquote ng-bind-html="(ctrl.book.answers[ctrl.step].solution_3_advantage||'-')|nl2br"></blockquote>
+    <blockquote ng-bind-html="(ctrl.book.answers[ctrl.step].solution_3_disadvantage||'-')|nl2br"></blockquote>
+    <h2 translate>BUILDERS.LABEL_SOLUTION_4</h2>
+    <blockquote ng-bind-html="(ctrl.book.answers[ctrl.step].solution_4_advantage||'-')|nl2br"></blockquote>
+    <blockquote ng-bind-html="(ctrl.book.answers[ctrl.step].solution_4_disadvantage||'-')|nl2br"></blockquote>
+    <h2 translate>BUILDERS.LABEL_DAT_CHOOSEN_SOLUTION</h2>
+    <blockquote ng-bind-html="(ctrl.book.answers[ctrl.step].solution||'-')|nl2br"></blockquote>
+  </div>
+  <md-button class="md-icon-button flex flex-none" ng-click="ctrl.setupEdit()">
+    <md-icon>edit</md-icon>
+  </md-button>
+</div>
+
+<form ng-show="!ctrl.book.answers[ctrl.step] || ctrl.editing" ng-submit="ctrl.submitAnswer(ctrl.step)" class="md-padding">
+  <div class="layout-row">
+    <div class="flex">
+      <h2 translate>BUILDERS.LABEL_SOLUTION_1</h2>
+      <md-input-container bns-no-message>
+        <label>{{'BUILDERS.PLACEHOLDER_ADVANTAGE' |translate}}</label>
+        <textarea ng-model="ctrl.answers[ctrl.step].solution_1_advantage" rows="2"></textarea>
+      </md-input-container>
+      <md-input-container bns-no-message>
+        <label>{{'BUILDERS.PLACEHOLDER_DISADVANTAGE' |translate}}</label>
+        <textarea ng-model="ctrl.answers[ctrl.step].solution_1_disadvantage" rows="2"></textarea>
+      </md-input-container>
+      <h2 translate>BUILDERS.LABEL_SOLUTION_2</h2>
+      <md-input-container bns-no-message>
+        <label>{{'BUILDERS.PLACEHOLDER_ADVANTAGE' |translate}}</label>
+        <textarea ng-model="ctrl.answers[ctrl.step].solution_2_advantage" rows="2"></textarea>
+      </md-input-container>
+      <md-input-container bns-no-message>
+        <label>{{'BUILDERS.PLACEHOLDER_DISADVANTAGE' |translate}}</label>
+        <textarea ng-model="ctrl.answers[ctrl.step].solution_2_disadvantage" rows="2"></textarea>
+      </md-input-container>
+      <h2 translate>BUILDERS.LABEL_SOLUTION_3</h2>
+      <md-input-container bns-no-message>
+        <label>{{'BUILDERS.PLACEHOLDER_ADVANTAGE' |translate}}</label>
+        <textarea ng-model="ctrl.answers[ctrl.step].solution_3_advantage" rows="2"></textarea>
+      </md-input-container>
+      <md-input-container bns-no-message>
+        <label>{{'BUILDERS.PLACEHOLDER_DISADVANTAGE' |translate}}</label>
+        <textarea ng-model="ctrl.answers[ctrl.step].solution_3_disadvantage" rows="2"></textarea>
+      </md-input-container>
+      <h2 translate>BUILDERS.LABEL_SOLUTION_4</h2>
+      <md-input-container bns-no-message>
+        <label>{{'BUILDERS.PLACEHOLDER_ADVANTAGE' |translate}}</label>
+        <textarea ng-model="ctrl.answers[ctrl.step].solution_4_advantage" rows="2"></textarea>
+      </md-input-container>
+      <md-input-container bns-no-message>
+        <label>{{'BUILDERS.PLACEHOLDER_DISADVANTAGE' |translate}}</label>
+        <textarea ng-model="ctrl.answers[ctrl.step].solution_4_disadvantage" rows="2"></textarea>
+      </md-input-container>
+      <h2 translate>BUILDERS.LABEL_DAT_SOLUTION</h2>
+      <md-input-container>
+        <input type="text" ng-model="ctrl.answers[ctrl.step].solution">
+      </md-input-container>
+    </div>
+    <md-button type="button" ng-if="ctrl.editing" class="md-icon-button flex flex-none" ng-click="ctrl.cancelEdit()">
+      <md-icon>undo</md-icon>
+    </md-button>
+  </div>
+
+  <div class="text-center">
+    <md-button type="submit" ng-disabled="ctrl.busy" class="md-primary md-raised">
+      <span translate>BUILDERS.BUTTON_SAVE_ANSWER</span>
+    </md-button>
+  </div>
+</form>
+
+<div bns-builders-step-next></div>
+
+<bns-builders-step-bubble class="bubble-brabrabra" label-number="1"></bns-builders-step-bubble>
+<bns-builders-step-bubble class="bubble-jim" label-number="2"></bns-builders-step-bubble>
+<bns-builders-step-bubble class="bubble-carla" label-number="3"></bns-builders-step-bubble>

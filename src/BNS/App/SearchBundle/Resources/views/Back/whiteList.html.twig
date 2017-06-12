@@ -1,0 +1,57 @@
+{% trans_default_domain "SEARCH" %}
+{% extends 'BNSAppSearchBundle:Back:layout.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+{% endblock %}
+
+{% block top_bar %}
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span12 align-right">
+						<a href="{{ path('resource_manager_white_list_export') }}" class="btn bns-warning btn-24 medium-return">
+							<span class="icons-24 save-icon"></span>
+              {% trans %}LINK_EXPORT_LIST{% endtrans %}
+
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block container_class %}{% endblock %}
+
+{% block sidebar %} {% include "BNSAppSearchBundle:Back:sidebar.html.twig" with {"page" : 'white_list' , 'section' : 'own'}%} {% endblock %}
+
+{% block content %}
+<div class="content-resource-white-list">
+	<div class="news-title">
+    <h1 class="dashboard">{% trans %}TITLE_MY_WHITE_WEB_LIST{% endtrans %}</h1>
+	</div>
+	<div class="content-list-white">
+		<ul class="manager-white-list">
+
+            <div class="alert alert-info bns-alert">
+              {% trans %}WHITE_LIST_COMPOSITION{% endtrans %}
+                <div class="jim"></div>
+            </div>
+
+			{% for link in links %}
+				{% include "BNSAppSearchBundle:Back:whiteListBlock.html.twig" with {"link" : link,"status": link.id in whiteList }%}
+			{% else %}
+				{% include "BNSAppMainBundle:NoInformation:index.html.twig" with {
+        'text' : "NO_LINK_IN_WHITE_LIST_CAN_ADD"|trans
+        } %}
+			{% endfor %}
+		</ul>
+	</div>
+ </div>
+{% endblock %}

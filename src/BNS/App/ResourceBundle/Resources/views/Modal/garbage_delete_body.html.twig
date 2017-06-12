@@ -1,0 +1,52 @@
+{% if errorItems|length > 0 %}
+	<div>
+		<h2>Ces documents ne peuvent pas être supprimés</h2>
+		<div class="documents-container">
+			{% for errorItem in errorItem %}
+				{% set resource = errorItem['resource'] %}
+				<div class="document" data-selection-item="#item-{{ resource.getId() }}-{{ errorItem['label_id'] }}" data-selection-box="#box-{{ resource.getId() }}-{{ errorItem['label_id'] }}">
+					<div class="left">
+						<img src="{{ asset('/medias/images/resource/filetype/icons/' ~ resource.getTypeUniqueName()|lower ~ '.png') }}" alt="" class="filetype" />
+						<span class="title">{{ resource.getLabel() }}</span>
+					</div>
+					<div class="right">
+						<span class="error">
+							{% if errorItem['message'] == 'RIGHT' %}
+								Droits non disponibles
+							{% endif %}
+						</span>
+						{% if not disableCross is defined %}
+							<span class="cross" title="Annuler la sélection">&times</span>
+						{% endif %}
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endif %}
+
+<div>
+	<h2>Ces documents seront supprimés</h2>
+	<div class="documents-container">
+		{% for deletableItem in deletableItems %}
+			{% set resource = deletableItem['resource'] %}
+			<div class="document" data-selection-item="#item-{{ resource.getId() }}-{{ deletableItem['label_id'] }}" data-selection-box="#box-{{ resource.getId() }}-{{ deletableItem['label_id'] }}">
+				<div class="left">
+					<img src="{{ asset('/medias/images/resource/filetype/icons/' ~ resource.getTypeUniqueName()|lower ~ '.png') }}" alt="" class="filetype" />
+					<span class="title">{{ resource.getLabel() }}</span>
+				</div>
+				<div class="right">
+					<span class="info">
+						{% if deletableItem['has_foreign_occurrence'] %}
+							Document utilisé par d'autres utilisateurs
+						{% endif %}
+					</span>
+					{% if not disableCross is defined %}
+						<span class="cross" title="Annuler la sélection">&times</span>
+					{% endif %}
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+</div>
+<input type="hidden" value="{{ jsonDeletableItems }}" id="json-deletable-items" />

@@ -1,0 +1,60 @@
+<div class="title-container forum-is-moderated-choice">
+    <div class="title active border-blue">
+        Fermeture
+        <span class="square icon-arrow"></span>
+    </div>
+
+    <div class="content-title">
+        <div class="form-widget">
+            <div class="datepicker">
+                <span class="date">Du</span> {{ form_widget(form.closed_at, {'type': 'text', 'attr': {'placeholder': 'jour / mois / année'} }) }}  <img class="show-calendar" src="{{ asset('/medias/images/icons/sidebar/datepicker.png') }}" alt="">
+            </div>
+        </div>
+
+        {% if form.closed_at.vars.errors|length > 0%}
+            <div class="alert alert-danger bns-alert">
+                {{ form_errors(form.closed_at) }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="content-title">
+        <div class="form-widget">
+            <div class="datepicker">
+                <span class="date">Au</span> {{ form_widget(form.closed_until, {'type': 'text', 'attr': {'placeholder': 'jour / mois / année'} }) }}  <img class="show-calendar" src="{{ asset('/medias/images/icons/sidebar/datepicker.png') }}" alt="">
+            </div>
+        </div>
+
+        {% if form.closed_until.vars.errors|length > 0%}
+            <div class="alert alert-danger bns-alert">
+                {{ form_errors(form.closed_until) }}
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="title-container forum-archived-after-closed-choice">
+    <div class="title active border-blue">
+        Archivage automatique
+        <span class="square icon-arrow"></span>
+    </div>
+
+    <div class="content-title">
+        <div class="alert bns-alert alert-info">
+            Nombre de mois après la fermeture qui entraine l'archivage du forum
+        </div>
+        <ul>
+        {% for i,item in form.archive_after_closed.vars.choices %}
+            <li>
+                <label for="forum_form_type_archive_after_closed_{{ i }}">
+                    <strong>{{ item.label }}</strong>
+                    {{ form_widget(form.archive_after_closed[i]) }}
+                </label>
+            </li>
+        {% endfor %}
+        </ul>
+    {% if form.archive_after_closed.vars.errors|length > 0 %}
+        <div class="alert alert-danger bns-alert">
+            {{ form_errors(form.archive_after_closed) }}
+        </div>
+    {% endif %}
+    </div>
+</div>

@@ -31,10 +31,10 @@ final class Rights
 	 * 
 	 * @throws AccessDeniedHttpException In case of insufficient permission
 	 */
-	public function execute(BNSRightManager $rightManager)
+	public function execute(BNSRightManager $rightManager, $uri)
 	{
 		if (!$rightManager->hasRights($this->rights)) {
-			throw new AccessDeniedHttpException('Insufficient permission, you can NOT access to this page !');
+			throw new AccessDeniedHttpException('Insufficient permission, you can NOT access to this page for URI : "' . $uri . '" !');
 		}
 	}
 }

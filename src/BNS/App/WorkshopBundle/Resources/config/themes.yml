@@ -1,0 +1,192 @@
+# Workshop themes with their available options and values
+
+themes:
+  -
+    # Unique theme code
+    code: default
+
+    # Public name
+    label:
+      fr: Défaut
+      en: Default
+
+    # Map of available options
+    options:
+
+      # Each option is identified by a snake_case css property
+      font_family:
+        allow_empty: false
+
+        # Default value to use
+        default_value: arial
+
+        # Available values for this option
+        values:
+          # Each value is composed of:
+          #   label: a user-friendly name (optional, defaults to the specified value)
+          #   value: the actual value code
+          #   style: the CSS style related to this value
+          - { label: 'Arial', value: 'arial', style: 'arial, sans-serif' }
+          - { label: 'Trebuchet', value: 'trebuchet', style: '"Trebuchet MS", Helvetica, arial, sans-serif' }
+          - { label: 'Times', value: 'times', style: '"Times New Roman", Times, serif' }
+          - { label: 'Comic', value: 'comic', style: '"Comic Sans MS", cursive' }
+          - { label: 'Monospace', value: 'mono', style: '"Courier New", monospace' }
+
+      font_size:
+        default_value: '100'
+        values:
+          - { code: 'very-small', label: 'Très petite', value: '65', styles: { font_size: '65%', line_height: '175%' } }
+          - { code: 'small', label: 'Petite', value: '80', styles: { font_size: '80%', line_height: '175%' } }
+          - { code: 'normal', label: 'Normale',value: '100', styles: { font_size: '100%', line_height: '175%' } }
+          - { code: 'big', label: 'Grande', value: '125', styles: { font_size: '125%', line_height: '170%' } }
+          - { code: 'very-big', label: 'Très grande', value: '150', styles: { font_size: '150%', line_height: '165%' } }
+          - { code: 'enormous', label: 'Enorme', value: '180', styles: { font_size: '180%', line_height: '150%' } }
+
+      # Options can be contextualized to be used by a specific widget type
+      # For example, here we specify a different font_size option for 'title'
+      # widgets
+      font_size@title:
+        default_value: '185'
+        values:
+          # One could use styles (instead of style) to define multiple CSS rules
+          # for a single value
+          - { code: 'very-small', label: 'Très petite', value: '140', styles: { font_size: '140%', line_height: '165%' } }
+          - { code: 'small', label: 'Petite', value: '180', styles: { font_size: '180%', line_height: '150%' } }
+          - { code: 'normal', label: 'Normale', value: '240', styles: { font_size: '240%', line_height: '140%' } }
+          - { code: 'big', label: 'Grande', value: '320', styles: { font_size: '320%', line_height: '140%' } }
+          - { code: 'very-big', label: 'Très grande', value: '420', styles: { font_size: '420%', line_height: '130%' } }
+          - { code: 'enormous', label: 'Enorme', value: '600', styles: { font_size: '500%', line_height: '130%' } }
+
+      color:
+        values:
+          # Values can also be given as plain strings
+          - "#ff2626"
+          - "#f90000"
+          - "#c10000"
+          - "#840000"
+          - "#4a0000"
+          - "#ffc926"
+          - "#ff8306"
+          - "#df5f00"
+          - "#792700"
+          - "#402000"
+          - "#a3d900"
+          - "#59b200"
+          - "#00b200"
+          - "#006200"
+          - "#002f00"
+          - "#00b2b2"
+          - "#0085b2"
+          - "#0059b2"
+          - "#004080"
+          - "#002040"
+          - "#f9f"
+          - "#d900d9"
+          - "#a300d9"
+          - "#6d00d9"
+          - "#140028"
+          - "#eee"
+          - "#999"
+          - "#555"
+          - "#222"
+          - "#000"
+
+      border_color:
+        values:
+          - "#ff2626"
+          - "#c10000"
+          - "#4a0000"
+          - "#ff8306"
+          - "#792700"
+          - "#a3d900"
+          - "#00b200"
+          - "#002f00"
+          - "#0085b2"
+          - "#004080"
+          - "#f9f"
+          - "#a300d9"
+          - "#140028"
+          - "#999"
+          - "#222"
+
+      background_color:
+        values:
+          - "#ff2626"
+          - "#ffc926"
+          - "#a3d900"
+          - "#00b2b2"
+          - "#f9f"
+          - "#eee"
+
+      image_frame:
+        default_value: none
+        # Values can also have an 'image' property, containing the name (without
+        # extension) of an image. The actual image should be a .png,  located in
+        # the images/workshop/widget-option folder of the frontend app.
+        values:
+          - { code: 'polaroid', label: 'Polaroïd', value: 'polaroid', class: 'frame-polaroid', image: 'frame-polaroid' }
+          - { code: 'white', label: 'Blanc', value: 'white', class: 'frame-white', image: 'frame-white' }
+          - { code: 'black-round', label: 'Noir arrondi', value: 'black-round', class: 'frame-black-round', image: 'frame-black-round' }
+          - { code: 'white-round', label: 'Blanc arrondi', value: 'white-round', class: 'frame-white-round', image: 'frame-white-round' }
+          - { code: 'none', label: 'Aucun', value: 'none', class: 'frame-none', image: 'frame-none' }
+
+      text_column:
+        default_value: one
+        values:
+          - { code: 'one-column', label: 'Une colonne', value: 'one', class: 'one-column', image: 'one-column' }
+          - { code: 'two-columns', label: 'Deux colonnes', value: 'two', class: 'two-columns', image: 'two-columns' }
+
+  -
+    code: nb2
+    label:
+      fr: Thème n° 2
+      en: Theme nb. 2
+    options:
+      font_family:
+        allow_empty: false
+        default: times
+        values:
+          - { label: 'Arial', value: 'arial', style: 'arial, sans-serif' }
+          - { label: 'Trebuchet', value: 'trebuchet', style: '"Trebuchet MS", Helvetica, arial, sans-serif' }
+          - { label: 'Times', value: 'times', style: '"Times New Roman", Times, serif' }
+      font_size:
+        default: 12
+        values:
+          - { value: '10', style: '10px' }
+          - { value: '12', style: '12px' }
+          - { value: '14', style: '14px' }
+      text_align:
+        code: text-align
+        values:
+          - left
+          - center
+          - right
+          - justified
+      color:
+        code: color
+        values:
+          - "#f90000"
+          - "#c10000"
+          - "#840000"
+          - "#4a0000"
+          - "#ffc926"
+          - "#ff8306"
+          - "#df5f00"
+          - "#402000"
+          - "#a3d900"
+          - "#59b200"
+          - "#00b200"
+          - "#002f00"
+          - "#00b2b2"
+          - "#0085b2"
+          - "#0059b2"
+          - "#002040"
+          - "#f9f"
+          - "#d900d9"
+          - "#6d00d9"
+          - "#140028"
+          - "#eee"
+          - "#999"
+          - "#555"
+          - "#222"
+          - "#000"

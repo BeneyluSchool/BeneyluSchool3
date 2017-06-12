@@ -1,0 +1,130 @@
+module:
+  unique_name: MEDIA_LIBRARY
+  is_contextable: false
+  name:
+    fr: Mediathèque
+    en: Media library
+  description:
+    fr: Stockage des documents
+    en: Your digital files
+  default_rank:
+    pupil: USE
+    parent: READ
+    teacher: MANAGE
+    other: USE
+
+permissions:
+  ACCESS:
+    label:
+      fr: Accéder à la médiathèque
+      en: Access to media library
+    description:
+      fr:
+      en:
+  ACCESS_BACK:
+    label:
+      fr: Accéder à la médiathèque depuis le back
+      en: Access to media library from backoffice
+    description:
+      fr:
+      en:
+  ACTIVATION:
+    label:
+      fr: Peut activer la médiathèque
+      en: Can enable the media library
+    description:
+      fr:
+      en:
+
+  MY_MEDIAS:
+    label:
+      fr: Avoir mes documents
+      en: Own resources access
+    description:
+      fr: Donne l'accès au stockage de documents personnels
+      en:
+
+  USERS_ADMINISTRATION:
+    label:
+      fr: Administrer utilisateurs
+      en: Resources management for group's users
+    description:
+      fr: Accès à la gestion des documents des utilisateurs faisant partie du groupe
+      en:
+
+  ADMINISTRATION:
+    label:
+      fr: Administrer médiathèque
+      en: Resources management
+    description:
+      fr: Accès à la gestion des documents et l'organisation des libellés du groupe
+      en:
+
+  ACTIVATION_PARTNERSHIP:
+    label:
+      fr: Activater médiathèque dans le partenariat
+      en: Resources activation in partnership
+    description:
+      fr: Peut activer ou désactiver la médiathèque dans le partenariat
+
+ranks:
+  READ:
+    label:
+      fr: Consulter les resources
+      en: See the resources
+    description:
+      fr:
+      en:
+    permissions: [ACCESS, ACCESS_BACK]
+
+  USE:
+    label:
+      fr: Utiliser les ressources
+      en: Use the resources
+    description:
+      fr:
+      en:
+    permissions: [ACCESS, ACCESS_BACK, MY_MEDIAS]
+
+  USE_PARTNERSHIP_HIGH_SCHOOL:
+    permissions: [ACCESS, ACCESS_BACK, MY_MEDIAS, ADMINISTRATION]
+
+  MANAGE:
+    label:
+      fr: Manager les ressources
+      en: Manage the resources
+    description:
+      fr:
+      en:
+    permissions: [ACCESS, ACCESS_BACK, ACTIVATION, MY_MEDIAS, ADMINISTRATION]
+
+  MANAGE_PARTNERSHIP:
+    label:
+      fr: Manager les ressources dans partenariat
+      en: Manage the resources in partnership
+    description:
+      fr:
+      en:
+    permissions: [ACTIVATION_PARTNERSHIP]
+
+  ACTIVATION_TEAM:
+    label:
+      fr: Manager les ressources dans le groupe de travail
+      en: Manage the resources in team
+    description:
+      fr:
+      en:
+    permissions: [ACTIVATION]
+
+  ADMINISTRATION:
+    label:
+      fr: Administrer les ressources
+      en: Admin the resources
+    description:
+      fr:
+      en:
+    permissions: [ACCESS, ACCESS_BACK, ACTIVATION, MY_MEDIAS, ADMINISTRATION, USERS_ADMINISTRATION]
+
+markers:
+  MEDIALIBRARY_VISIT:
+    description: Visit sur la médiathèque

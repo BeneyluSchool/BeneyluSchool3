@@ -1,0 +1,23 @@
+{% trans_default_domain "CLASSROOM" %}
+<div class="item">
+  <div class="vertical-separator"></div>
+
+  <div class="buttons-container">
+    <a href="{{ path('BNSAppClassroomBundle_back_partnership_detail', {'partnershipSlug': partnership.getSlug}) }}" class="btn bns-notice btn-16 small right btn-visualisation">
+      <span class="icons-16 arrow-right-icon right"></span>
+      <strong>{% trans %}LINK_SEE_CARD{% endtrans %}</strong>
+    </a>
+  </div>
+  <div class="header">
+    <p class="name">{{ partnership.getLabel }}</p>
+    <p class="informations">
+      {% if numberOfPartnershipsMembers[partnership.getId] > 1%}
+          {{ 'PARTNERSHIP_OTHER_NUMBER'|transchoice(numberOfPartnershipsMembers[partnership.getId]-1, {'%partnershipNumber%': numberOfPartnershipsMembers[partnership.getId] - 1}) |desc('[0,1]%partnershipNumber% Autre | ]1,Inf[ %partnershipNumber% Autres') }}
+          &nbsp;
+          {{ 'NUMBER_MEMBER'|transchoice(numberOfPartnershipsMembers[partnership.getId], {'%memberNumber%': numberOfPartnershipsMembers[partnership.getId]}) |desc('[0,1]%memberNumber% Membre | ]1,Inf[ %memberNumber% Membres') }}
+      {% else %}
+        {% trans %}NO_OTHER_MEMBER{% endtrans %}
+      {% endif %}
+    </p>
+  </div>
+</div>

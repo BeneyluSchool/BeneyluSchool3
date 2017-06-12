@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-07-07T17:36:35Z" source-language="en" target-language="en-GB" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="acf6f1a430f348a13bef01305a94efca0aaa8158" resname="INVALID_EMAIL_EMPTY">
+        <source>INVALID_EMAIL_EMPTY</source>
+        <target state="new">Please enter an e-mail adress</target>
+      </trans-unit>
+      <trans-unit id="69beca52ef5c7d715868cf1cfe6bfd7fdcaf1b1d" resname="INVALID_EMAIL_INVALID">
+        <source>INVALID_EMAIL_INVALID</source>
+        <target state="new">This email address is incorrect</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

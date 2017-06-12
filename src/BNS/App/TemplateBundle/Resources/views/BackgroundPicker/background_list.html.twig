@@ -1,4 +1,5 @@
-<h4>Choisir mon fond de page</h4>
+{% trans_default_domain "TEMPLATE" %}
+<h4>{{ 'TITLE_BACKGROUND'|trans |desc('Choisir mon fond de page') }}</h4>
 <hr />
 
 <input type="hidden" name="selected_background_css_class" id="selected-background" value="{{ user_current_background_css_class }}" />

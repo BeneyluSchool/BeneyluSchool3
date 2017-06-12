@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="bns_core.assets_redis_version_strategy" class="BNS\CommonBundle\AssetVersionStrategy\RedisAssetVersionStrategy" abstract="true">
+            <argument /> <!-- version -->
+            <argument /> <!-- format -->
+            <argument type="service" id="snc_redis.default" />
+        </service>
+
+        <service class="BNS\CommonBundle\Manager\ProjectInfo" id="bns_common.manager.project_info">
+            <argument type="collection" /> <!-- project info data -->
+        </service>
+
+        <service id="bns.locale_manager" class="BNS\CommonBundle\Locale\LocaleManager">
+            <argument>%available_languages%</argument>
+            <argument type="service" id="translator"/>
+            <argument>%kernel.default_locale%</argument>
+        </service>
+
+    </services>
+
+
+
+
+</container>

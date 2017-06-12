@@ -1,0 +1,65 @@
+{% trans_default_domain "SCHOOL" %}
+<div class="content-form-user ">
+
+    <form method="POST" action="{{ path('BNSAppSchoolBundle_back_add_teacher' , {'classroomId' : classroomId}) }}" id="add-new-teacher-form">
+
+        {% include 'BNSAppMainBundle::notice.html.twig' %}
+
+        <div>
+            {{ form_label(form.first_name) }}
+            {{ form_widget(form.first_name) }}
+        </div>
+
+        <div>
+            {{ form_label(form.last_name) }}
+            {{ form_widget(form.last_name) }}
+        </div>
+        <div class="form gender">
+            {{ form_label(form.gender) }}
+            {{ form_widget(form.gender) }}
+        </div>
+
+        <div>
+            {{ form_label(form.email) }}
+            {{ form_widget(form.email) }}
+        </div>
+
+        {{ form_rest(form) }}
+    </form>
+</div>
+
+<div class="modal-footer ">
+    <div class="content-btn-footer">
+        <a href="#" class="btn bns-success btn-16 small finish teacher">
+            <span class="icons-16 validate-icon"></span>
+            {{ 'LINK_CREATE_TEACHER_ACCOUNT'|trans |raw }}
+
+        </a>
+        <a href="#" class="btn bns-danger btn-16 small" data-dismiss="modal">
+            <span class="icons-16 cancel-icon"></span>
+          <strong>{% trans %}LINK_CANCEL{% endtrans %}</strong>
+        </a>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(function ()
+    {
+        $('.finish.teacher').click(function(){
+            $('#add-new-teacher-form').submit();
+        });
+
+        $('#add-new-teacher-form').ajaxForm({
+            beforeSubmit: function(){
+                $('#new-teacher-form-error').hide();
+                $('#add-teacher-modal .loader:not(.loader-h)').show();
+            },
+            success: function (data) {
+                $('#add-teacher-modal .loader').hide();
+                $('#new-teacher-form').html(data);
+            }
+        });
+    });
+
+</script>

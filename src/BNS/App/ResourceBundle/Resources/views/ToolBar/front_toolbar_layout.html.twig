@@ -1,0 +1,229 @@
+<div class="resource-toolbar" id="resource-toolbar">
+	{% if canBeClosed %}
+		<a class="close-resource-iframe"></a>
+	{% endif %}
+
+	<div class="in-block hide" id="add-resource-container">
+		<a href="{{ path('BNSAppResourceBundle_add_choose') }}" class="btn bns-info btn-24 large add-icon add-resource-btn" rel="history" title="Ajouter un document">
+			<span class="icons-24 add-icon"></span>
+			Ajouter un document
+		</a>
+	</div>
+
+	<div class="in-block hide" id="back-button-container">
+		<a href="#" class="btn bns-notice btn-24 medium spacer back-button">
+			<span class="icons-24 back-icon"></span>
+			<strong>Revenir</strong>
+		</a>
+	</div>
+		
+	<div class="in-block hide" id="back-file-button-container">
+		<a class="btn bns-notice btn-24 medium spacer" rel="history" data-push="false">
+			<span class="icons-24 back-icon"></span>
+			<strong>Revenir</strong>
+		</a>
+	</div>
+
+    <div class="in-block hide" id="back-thesaurus-button-container">
+		<a class="btn bns-notice btn-24 medium spacer">
+			<span class="icons-24 back-icon"></span>
+			<strong>Revenir</strong>
+		</a>
+	</div>
+
+	<div class="selection" id="resource-toolbar-selection">
+		<div class="hide">
+			<div class="btn-group">
+				<a href="#" class="btn bns-notice btn-24 medium dropdown-toggle" data-toggle="dropdown">
+					<span class="icons-24 rangement-icon"></span>
+					<strong>Rangement</strong>
+					<span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a href="{{ path('resource_selection_copy') }}" class="selection-manage-button copy">Copier vers...</a></li>
+					<li class="can-manage"><a href="{{ path('resource_selection_move') }}" class="selection-manage-button move">Déplacer vers...</a></li>
+				</ul>
+				{{ render(controller('BNSAppResourceBundle:Label:chooseToolbar')) }}
+			</div>
+
+			<a href="{{ path('resource_selection_delete_confirm') }}" class="btn bns-danger btn-24 medium delete-resource can-manage" data-toggle="modal" data-target="#selection-delete-modal">
+				<span class="icons-24 delete-icon"></span>
+				<strong>Mettre la sélection à la corbeille</strong>
+			</a>
+
+			{{ modal('selection-delete-modal', {
+				'title': 'Supprimer des documents',
+				'body_template': {'template': 'BNSAppResourceBundle:Modal:garbage_delete_loading_body.html.twig'},
+				'footer_template': {'template': 'BNSAppResourceBundle:Modal:selection_delete_footer.html.twig'},
+				'type': 'error'
+			}) }}
+		</div>
+	</div>
+		
+	{% if navigationType == 'join' %}
+		<div class="in-block hide pull-right" id="navigation-context-join-selection-container">
+			<a href="{{ path('resource_selection_join') }}" class="resource-document-selection-join btn bns-success btn-24 medium add-icon edit-button" data-reference="{{ reference }}">
+				<span class="icons-24 validate-icon"></span>
+				<strong>Joindre la sélection</strong>
+			</a>
+		</div>
+	{% elseif navigationType == 'insert' %}
+		<div class="in-block pull-right" id="navigation-context-insert-selection-container">
+			<a href="{{ path('resource_selection_insert') }}" class="resource-document-selection-insert btn bns-success btn-24 medium add-icon edit-button">
+				<span class="icons-24 validate-icon"></span>
+				<strong>Insérer la sélection</strong>
+			</a>
+		</div>
+	{% endif %}
+
+	{# ---  FILE  --- #}
+	<div class="in-block hide" id="resource-edit-file-container">
+		<a class="btn bns-info btn-24 medium add-icon edit-button" rel="history" data-push="false">
+			<span class="icons-24 edit-icon"></span>
+			Editer
+		</a>
+	</div>
+
+	<div class="in-block hide" id="resource-fav-file-container">
+		<a href="{{ path('resource_document_favorite') }}" class="btn bns-warning btn-24 medium-return spacer favorite-button">
+			<span class="icons-24 fav-icon"></span>
+			<strong>Ajouter</strong><br />
+			aux favoris
+		</a>
+	</div>
+
+	<div class="in-block hide" id="resource-manage-file-container">
+		<div class="btn-group">
+			<a href="#" class="btn bns-notice btn-24 medium dropdown-toggle spacer" data-toggle="dropdown">
+				<span class="icons-24 rangement-icon"></span>
+				<strong>Rangement</strong>
+				<span class="caret"></span>
+			</a>
+			<ul class="dropdown-menu">
+				<li><a href="{{ path('resource_selection_copy') }}" class="selection-manage-button copy">Copier vers...</a></li>
+				{#<li><a href="{{ path('resource_selection_move') }}" class="selection-manage-button move">Déplacer vers...</a></li>#}
+			</ul>
+			{{ render(controller('BNSAppResourceBundle:Label:chooseToolbar', {'isFile': true} )) }}
+		</div>
+	</div>
+
+	<div class="in-block hide" id="resource-delete-file-container">
+		<a href="{{ path('resource_file_delete_confirm') }}" class="btn bns-danger btn-24 medium-return spacer" data-toggle="modal" data-target="#file-label-delete-loading-modal">
+			<span class="icons-24 delete-icon"></span>
+			<strong>Supprimer</strong><br />
+			ce document
+		</a>
+	</div>
+
+	{{ modal('file-label-delete-loading-modal', {
+		'title': 'Mettre à la corbeille ce document',
+		'body_template': {'template': 'BNSAppResourceBundle:Modal:file_label_delete_loading_body.html.twig'},
+		'footer_template': {'template': 'BNSAppResourceBundle:Modal:file_label_delete_footer.html.twig'},
+		'type': 'error'
+	}) }}
+
+	<div class="in-block hide" id="resource-restore-file-container">
+		<a href="#" class="btn bns-warning btn-24 medium spacer" data-toggle="modal" data-target="#resource-file-restore-modal">
+			<span class="icons-24 restore-icon"></span>
+			<strong>Restaurer ce document</strong>
+		</a>
+	</div>
+
+	{{ modal('resource-file-restore-modal', {
+		'title': 'Réstaurer le document',
+		'body_template': {'template': 'BNSAppResourceBundle:Modal:file_restore_body.html.twig'},
+		'footer_template': {'template': 'BNSAppResourceBundle:Modal:file_restore_footer.html.twig'},
+		'type': 'info'
+	}) }}
+	
+	{#  EDITING  #}
+	<div class="in-block hide" id="resource-confidentiality-file-container">
+		<a href="#" class="btn bns-warning btn-24 medium spacer private-button">
+			<span class="icons-24 private-icon"></span>
+			<strong>Mettre en privé</strong>
+		</a>
+	</div>
+
+	<div class="in-block hide pull-right" id="resource-save-file-container">
+		<a href="#" class="btn bns-success btn-24 medium add-icon confirm-button validate-medium">
+			<span class="icons-24 validate-icon"></span>
+			Je sauvegarde les modifications
+		</a>
+	</div>
+
+	{% if navigationType == 'join' %}
+		<div class="in-block hide pull-right" id="resource-join-file-container">
+			<a href="{{ path('resource_selection_join') }}" class="pull-right resource-document-selection-join btn bns-success btn-24 medium add-icon spacer context-button" data-reference="{{ reference }}">
+				<span class="icons-24 validate-icon"></span>
+				<strong>Joindre</strong><br />
+                le document
+			</a>
+		</div>
+	{% elseif navigationType == 'insert' %}
+		<div class="in-block hide pull-right" id="resource-insert-file-container">
+			<a href="{{ path('resource_selection_insert') }}" class="pull-right resource-document-selection-insert btn bns-success btn-24 medium add-icon spacer context-button">
+				<span class="icons-24 validate-icon"></span>
+				<strong>Insérer</strong><br />
+                le document
+			</a>
+		</div>
+	{% elseif navigationType == 'select' %}
+		<div class="in-block hide pull-right" id="resource-select-file-container">
+			<a href="{{ path('resource_selection_select') }}" data-final-id="{{ select_img_id }}" data-callback="{{ select_callback }}" class="pull-right resource-selection-select btn bns-success btn-24 medium add-icon spacer context-button">
+				<span class="icons-24 validate-icon"></span>
+				<strong>Sélectionner</strong><br />
+                le document
+			</a>
+		</div>
+	{% endif %}
+		
+	{# ---  GARBAGE  --- #}
+	<div class="in-block hide" id="resource-restore-button-container">
+		<a href="#" class="btn bns-warning btn-24 medium" data-toggle="modal" data-target="#garbage-restore-modal">
+			<span class="icons-24 restore-icon"></span>
+			<strong>Restaurer la sélection</strong>
+		</a>
+	</div>
+
+	{{ modal('garbage-restore-modal', {
+		'title': 'Réstaurer la sélection',
+		'body_template': {'template': 'BNSAppResourceBundle:Modal:garbage_restore_body.html.twig'},
+		'footer_template': {'template': 'BNSAppResourceBundle:Modal:garbage_restore_footer.html.twig'},
+		'type': 'info'
+	}) }}
+
+	<div class="in-block hide" id="resource-delete-forever-button-container">
+		<a href="{{ path('resource_garbage_delete_confirm') }}" class="btn bns-danger btn-24 medium spacer" data-toggle="modal" data-target="#garbage-delete-document-modal">
+			<span class="icons-24 delete-icon"></span>
+			<strong>Supprimer la sélection</strong>
+		</a>
+	</div>
+
+	{{ modal('garbage-delete-document-modal', {
+		'title': 'Supprimer la sélection de la corbeille',
+		'body_template': {'template': 'BNSAppResourceBundle:Modal:garbage_delete_loading_body.html.twig'},
+		'footer_template': {'template': 'BNSAppResourceBundle:Modal:garbage_delete_footer.html.twig'},
+		'type': 'error'
+	}) }}
+
+	<div class="in-block hide pull-right" id="resource-empty-garbage-button-container">
+		<a href="{{ path('resource_garbage_empty_confirm') }}" class="btn bns-danger btn-24 medium spacer" data-toggle="modal" data-target="#empty-garbage-modal">
+			<span class="icons-24 delete-icon"></span>
+			<strong>Vider la corbeille</strong>
+		</a>
+	</div>
+
+	{{ modal('empty-garbage-modal', {
+		'title': 'Vider la corbeille',
+		'body_template': {'template': 'BNSAppResourceBundle:Modal:garbage_delete_loading_body.html.twig'},
+		'footer_template': {'template': 'BNSAppResourceBundle:Modal:garbage_empty_footer.html.twig'},
+		'type': 'error'
+	}) }}
+
+    <div class="in-block hide" id="resource-provider-copy">
+		<a href="#" class="btn bns-warning btn-24 medium spacer">
+			<span class="icons-24 restore-icon"></span>
+			<strong>Copier ce document dans le dossier de votre groupe</strong>
+		</a>
+	</div>
+</div>

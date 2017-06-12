@@ -1,0 +1,15 @@
+<div container>
+  <md-button class="md-fab md-fab-top-left" ui-sref="^.map">
+    <md-icon>chevron_left</md-icon>
+    <md-tooltip>Retour sur la carte</md-tooltip>
+  </md-button>
+</div>
+
+<md-content class="flex layout-sm-column layout-md-column layout-gt-md-row main-container">
+  <bns-two-degrees-panel bns-direction="{{$mdMedia('gt-md')?'right':'bottom'}}" class="flex-none flex-gt-md-50">
+    <div ng-include="'views/olympics/games/'+ctrl.game+'-aside.html'"></div>
+  </bns-two-degrees-panel>
+  <section class="flex-none flex-gt-md-50 layout-column md-padding olympics-container">
+    <div ng-include="'views/olympics/games/'+ctrl.game+'-content.html'"></div>
+  </section>
+</md-content>

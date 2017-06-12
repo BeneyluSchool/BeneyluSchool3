@@ -1,0 +1,65 @@
+{% trans_default_domain "BLOG" %}
+{% extends 'BNSAppBlogBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+    {{ 'TITLE_COMMENT_EDIT'|trans({'%blogTitle%': blog.getTitle()}) |desc('%blogTitle% - Éditer un commentaire') }}
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+
+  <script type="text/javascript">
+    $(function ()
+    {
+      // Finish button
+      $('.header-buttons .finish').click(function (e)
+      {
+        if ($(e.currentTarget).hasClass('disabled')) {
+          return false;
+        }
+
+        $('.comment-form form').submit();
+
+        return false;
+      });
+    });
+  </script>
+{% endblock %}
+{% block actionbar_content %}
+  <div class="header-buttons">
+    {% if isModeration %}
+      {{ components.button_nav('LINK_BACK_TO_LIST' | trans, { href: path('blog_manager_comment'), back: true } ) }}
+    {% endif %}
+    {{ components.button( 'LINK_CANCEL_CREATION' | trans , { href: path('blog_article_permalink', {'slug': comment.getObject().getSlug()}), icon: 'close', raised: true }) }}
+    {{ components.button( 'BUTTON_SEE_ARTICLE' | trans , { href: path('blog_article_permalink', {'slug': comment.getObject().getSlug()}), icon: 'remove_red_eye', raised: true }) }}
+  </div>
+  <span flex></span>
+  <div class="header-buttons">
+  {{ components.button( 'LINK_SAVE_COMMENT' | trans , {intent: 'accent', href: '#', icon: 'done', raised: true, attr : {'class' : 'finish'} }) }}
+  </div>
+
+{% endblock actionbar_content %}
+{% block sidebar_content %}
+  <div class="container-sidebar">
+    {% include 'BNSAppCommentBundle:Sidebar:back_block_comment_visualisation_informations.html.twig' %}
+  </div>
+{% endblock sidebar_content %}
+
+{% block form_start %}
+		{% if isModeration %}
+<form id="form_edit_comment" action="{{ path('blog_manager_comment_moderation_edit', {'id': comment.getId()}) }}" method="POST" {{ form_enctype(form) }}>
+  {% else %}
+  <form id="form_edit_comment" action="{{ path('blog_manager_comment_edit', {'id': comment.getId()}) }}" method="POST" {{ form_enctype(form) }}>
+    {% endif %}
+    {% endblock form_start %}
+
+    {% block form_end %}
+  </form>
+  {% endblock form_end %}
+
+  {% block content %}
+  {% block comment_form %}
+    Hey, did you forget the comment form ?
+  {% endblock comment_form %}
+{% endblock content %}

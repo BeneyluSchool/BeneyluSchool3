@@ -1,0 +1,213 @@
+{% trans_default_domain "COMMENT" %}
+
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+
+<div class="container-comments" bns-profile-comment id="commentctrl-{{ object_id }}">
+	<div class="comments-information collapsed collapse-{{ object_id }}">
+		<div class="comment-shadow"></div>
+	</div>
+	{%  set nb = nb_comments ? nb_comments : '0' %}
+	{%  set label = 'COMMENTS'|trans ~': '~ nb %}
+	<bns-expander label="{{ label }}" id="comments_{{ object_id }}">
+	<div id="comments_{{ object_id }}" class="collapse-container">
+		<div class="comment-form md-padding">
+			<form layout="row" action="{{ path('comment_add') }}" method="POST">
+          <div class="layout-column flex-15 owner-informations">
+            <div class="text-center">
+              {{ components.avatar(app.user.getUser(), { size: 64 }) }}
+            </div>
+            <p>{{ app.user.getUser().getFirstName() }}<br>
+              {{ app.user.getUser().getLastName() }}</p>
+          </div>
+          <div class="flex-85">
+            <md-input-container >
+              <label>{{ "PLACEHOLDER_LEAVE_COMMENT"|trans |desc('Laisser un commentaire...') }}</label>
+              <textarea name="content" class="field textarea" rows="3" cols="50" value="" tabindex="2" ></textarea>
+            </md-input-container>
+            {{ components.button('VALUE_I_COMMENT'|trans |desc('Je commente'), {
+              intent: 'primary',
+              raised: true,
+              attr: {
+                class: 'add-comment',
+                type: 'submit',
+              }
+            })}}
+          </div>
+			</form>
+		</div>
+
+    <md-list class="comments-list">
+			{% include 'BNSAppCommentBundle:CommentNew:comment_list.html.twig' %}
+		</md-list>
+		<div class="more-comment {{ comments|length != 10 ? 'hidden' : '' }}" style="{{ comments|length != 10 ? 'display:none;' : '' }}">
+			<div class="comment-loading"></div>
+			<div class="content-more-comment">
+				<p style="text-align: center;"><a nb_comments="{{ nb_comments }}" object_id="{{ object_id }}" href="{{ path('comment_load') }}">{{ 'DISPLAY_LAST_COMMENT'|trans |desc('Afficher les précédents commentaires') }}</a></p>
+			</div>
+		</div>
+	</div>
+	</bns-expander>
+</div>
+
+<script type="text/javascript">
+  {% if need_ajax %}
+  $(function () {
+    {#
+        Show all previous comments process :
+            - Show loader
+            - Call AJAX
+            - Create prev comments DOM
+            - Remove loader
+            - Show prev comments
+    #}
+    $('.more-comment a').live('click', function () {
+      var $this = $(this),
+        $row = $this.parent().parent();
+      var object_id = $(this).attr('object_id');
+      var nb_comments = $(this).attr('nb_comments');
+
+      if ($row.hasClass('loading')) {
+        return false;
+      }
+
+      {# Show loader #}
+      $row.addClass('loading');
+      $row.find('.comment-loading').fadeIn('fast');
+      $this.css('opacity', '0');
+
+      {# Call AJAX #}
+      $.ajax({
+        url: $this.attr('href'),
+        type: 'POST',
+        data: {
+          'namespace': '{{ namespace }}',
+          'object_id': object_id,
+          'nb_comments': {{ comments|length }},
+          'total_comments': nb_comments
+        },
+        dataType: 'html',
+        success: function (data) {
+          {# Create prev comments DOM #}
+          var $div = $('<div />').html(data),
+            $comments = $div.find('.comment');
+
+          $comments.css('display', 'none').addClass('new');
+          $('#comments_' + object_id + ' .comments-list').append($div);
+
+          {# Remove loader #}
+          $row.slideUp('fast', function () {
+            {# Show prev comments #}
+            showComments($comments, 0, $comments.length);
+          });
+        }
+      });
+
+      return false;
+    });
+
+    {# Animate the comments display #}
+    function showComments($comments, i, length, $moreContainer) {
+      var speed = 150 - i * 2;
+      if (speed < 50) {
+        speed = 50;
+      }
+
+      $($comments[i]).slideDown(speed, function () {
+        $(this).removeClass('new');
+        //find a better way
+        angular.element('body').scope().$broadcast('track.height', true);
+        if (i + 1 >= length) {
+          return false;
+        }
+        showComments($comments, i + 1, length);
+      });
+    }
+  });
+  {% endif %}
+  $(function () {
+    var $commentNb = {{ nb_comments }};
+    {#
+      Add comment process :
+       - Show loader
+       - Call AJAX
+       - Increase comment count
+       - Remove loader
+    #}
+    $('#comments_{{ object_id }} .comment-form').live('submit', function () {
+      var $this = $(this),
+        $textarea = $this.find('textarea'),
+        $submitButton = $this.find('input[type="submit"]'),
+        $row = $this.parent();
+
+
+      $row.parent().css("height", "100%");
+      if ($row.hasClass('loading')) {
+        return false;
+      }
+
+      {# Show loader #}
+      $row.addClass('loading');
+      $row.find('.comment-loading').fadeIn('fast');
+
+      {# Call AJAX #}
+      $.ajax({
+        url: $this.find('form').attr('action'),
+        type: 'POST',
+        dataType: 'json',
+        data: {'content': $textarea.val(), 'object_id': {{ object_id }}, 'namespace': '{{ namespace }}'},
+        success: function (data) {
+          $alert = $('#comments_{{ object_id }} .comment-form .alert');
+          if (null != data.error) {
+            $alert.html(data.error);
+            $alert.slideDown('slow');
+          }
+          else {
+            $alert.slideUp('fast');
+            var $commentRow = $('#comments_{{ object_id }}');
+            $commentRow.find('.comments-list').prepend(data.html);
+            $textarea.val('');
+
+            {# Increase comment count #}
+            var $nb = $commentRow.parent().find('.nb');
+            var commentText = '{{ 'COMMENTS'|trans ~': ' }}';
+            $commentNb++;
+            $('#comments_{{ object_id }} .bns-expander-label').text(commentText + $commentNb);
+            if ($nb.text() == '') {
+              $nb.text('1');
+            } else {
+              $nb.text(parseInt($nb.text()) + 1);
+            }
+
+          }
+        }
+      }).done(function () {
+        {# Remove Loader #}
+        $textarea.removeAttr('disabled');
+        $submitButton.removeAttr('disabled');
+        $row.find('.comment-loading').fadeOut('fast');
+        $row.removeClass('loading');
+      });
+
+      return false;
+    });
+
+    {# Collapse process, slide the content and rotate the arrow #}
+    $('.collapse-{{ object_id }}').click(function (e) {
+      var $row = $(e.currentTarget),
+        $this = $row.find('.collapse'),
+        $commentsList = $('#comments_{{ object_id }}');
+
+      if ($commentsList.css('display') == 'inline-block') {
+        $commentsList.slideUp('slow', function () {
+          $row.toggleClass('collapsed');
+        });
+      } else {
+        $commentsList.slideDown('slow', function () {
+          $row.toggleClass('collapsed');
+        });
+      }
+
+      return false;
+    });
+  });
+</script>

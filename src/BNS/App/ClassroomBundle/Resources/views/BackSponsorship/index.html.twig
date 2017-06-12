@@ -1,0 +1,118 @@
+{% trans_default_domain "INFO" %}
+{% extends 'BNSAppInfoBundle:Front:layout.html.twig' %}
+
+{% block css %}
+    {{ parent() }}
+    <link href='https://fonts.googleapis.com/css?family=Tahoma' rel='stylesheet' type='text/css'>
+    <link href="{{ asset('/medias/css/classroom/manager.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% form_theme form _self %}
+
+{% block form_errors %}
+    {% spaceless %}
+        {% if errors|length > 0 %}
+
+            <div class="alert alert-danger bns-alert">
+                {% for error in errors %}
+                    <ul><li>{{ error.messageTemplate|trans(error.messageParameters, 'validators') }}</li></ul>
+                {% endfor %}
+            </div>
+
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_errors %}
+
+{% block content %}
+
+    <h1>{{ 'TITLE_REFER_A_TEACHER'|trans |desc('Parrainez un enseignant') }}</h1>
+
+    <div class="contact-form sponsorship">
+
+        {% include 'BNSAppMainBundle::notice.html.twig' %}
+
+        <div class="alert alert-warning bns-alert">
+        {{ 'CAN_WIN_TWO_MONTH_OF_BENEYLU_WITH_REFERAL'|trans({'%beneylu_brand%': parameter('beneylu_brand_name')}) |desc('Vous pouvez gagner jusqu\'à deux mois de version école de %beneylu_brand% en parrainant un enseignant.
+') }}
+            <div class="jim"></div>
+        </div>
+
+        {{ form_errors(form.email) }}
+
+        <form id="sponsorship-form" action="" method="post" {{ form_enctype(form) }} class="form-horizontal">
+
+            {{ form_widget(form.email) }}
+            {{ form_rest(form) }}
+
+            <a id="sponsorship-submit-form" href="#" class="btn bns-success btn-24 medium-return"><span class="icons-24 validate-icon"></span>
+            {{ 'LINK_CONFIRM_REFERAL'|trans |desc('<strong>Confirmer</strong> <br> le parrainage') |raw }}
+            </a>
+
+        </form>
+    </div>
+
+    <div class="container-csv sponsorship">
+        <div class="content-csv">
+        {{ 'DESCRIPTION_HOW_REFER_TEACHER'|trans({'%beneylu_brand%': parameter('beneylu_brand_name')}) |desc('
+        <h3>Comment parrainer un enseignant ?</h3>
+
+            <p>Vous pouvez parrainer un autre enseignant sur %beneylu_brand% en renseignant son adresse email (personnelle ou académique) dans le champ ci-dessus.</p>
+
+            <p>Il recevra alors un email l\'invitant à s\'inscrire sur %beneylu_brand%.</p>
+
+            <h3>Comment valider son parrainage ?</h3>
+
+            <p>Le parrainage est validé dès lors qu\'un compte enseignant est créé avec l\'email que vous avez renseigné. La classe doit également être validée par l\'école pour que le processus de parrainage soit pris en compte.</p>
+
+            <h3>Quel est l\'intérêt ?</h3>
+
+            <p>Pour chaque parrainage validé, votre école se voit offrir un mois de version école de %beneylu_brand%, dans la limite de deux mois par école.</p>
+
+            <h3>Comment puis-je savoir où en sont les demandes de parrainages que j\'ai envoyées ?</h3>
+
+            <p>Vous retrouvez ci-dessous tous les parrainages que vous avez proposés ainsi que leurs états.</p>') |raw }}
+
+
+        </div>
+    </div>
+
+    <h1>{{ 'TITLE_MINE_FRIEND_REFER'|trans |desc('Mes filleuls') }}</h1>
+
+    {% for sponsorship in sponsorships %}
+        {% if loop.first %}
+            <div class="item-list-container"></div>
+        {% endif %}
+        <div class="item">
+            <div class="vertical-separator {{ sponsorship.color }}"></div>
+            <div class="header">
+                <h3>{{ sponsorship.email }}</h3>
+            </div>
+            <div class="footer">
+                {{ sponsorship.statusLabelToken |trans }}
+            </div>
+        </div>
+        {% if loop.last %}
+            </div>
+        {% endif %}
+
+    {% else %}
+        {%  include'BNSAppMainBundle:NoInformation:index.html.twig' with {'text' : 'NO_OFFER_REFERAL'|trans |desc("Vous n'avez pas encore de parrainage proposé.")} %}
+
+    {% endfor %}
+
+    <script type="text/javascript">
+        $(function(){
+            $('#sponsorship-submit-form').click(function(e){
+                e.preventDefault();
+                $('#sponsorship-form').submit();
+            });
+        });
+    </script>
+
+
+{% endblock %}
+
+
+{% block sidebar %}
+    {% include "BNSAppClassroomBundle:Sidebar:sidebar.html.twig" with {'page': 'sponsorship'} %}
+{% endblock %}

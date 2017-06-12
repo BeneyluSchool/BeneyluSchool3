@@ -1,0 +1,21 @@
+<md-toolbar class="layout-row bns-actionbar">
+  <div container class="md-toolbar-tools" ui-view="actionbar"></div>
+</md-toolbar>
+
+<div container class="layout-row flex main-container">
+
+  <md-sidenav class="layout-column md-sidenav-left bns-sidebar" md-component-id="left" md-is-locked-open="app.isSidebarLockedOpen()">
+
+    <header bns-sidebar-header app="navbar.app"></header>
+
+    <md-content class="flex">
+      <div ui-view="sidebar"></div>
+    </md-content>
+
+  </md-sidenav>
+
+  <md-content id="content" class="bns-content navbar-compatible-container">
+    <div class="bns-content-inner" ui-view="content"></div>
+  </md-content>
+
+</div>

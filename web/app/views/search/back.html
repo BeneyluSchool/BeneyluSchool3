@@ -1,0 +1,34 @@
+<md-toolbar class="layout-row bns-actionbar">
+  <div container class="md-toolbar-tools main-container" ui-view="actionbar"></div>
+</md-toolbar>
+
+<div container class="flex layout-row main-container">
+
+  <md-sidenav class="layout-column md-sidenav-left bns-sidebar" md-component-id="left" md-is-locked-open="app.isSidebarLockedOpen()">
+
+    <header bns-sidebar-header app="navbar.app"></header>
+
+    <md-content class="flex" ui-view="sidebar">
+      <section ui-sref-active="current">
+        <md-button href ui-sref=".log">
+          <md-icon>search</md-icon>
+          <span translate>SEARCH.TITLE_LAST_SEARCH</span>
+        </md-button>
+      </section>
+      <section ui-sref-active="{current: 'app.search.back.whitelist'}">
+        <md-button href ui-sref=".whitelist.general">
+          <md-icon>playlist_add_check</md-icon>
+          <span translate>SEARCH.LINK_WHITE_LIST</span>
+        </md-button>
+        <div ui-view="sidebar_whitelist"></div>
+      </section>
+      <section bns-app-menu-toggle></section>
+    </md-content>
+
+  </md-sidenav>
+
+  <md-content id="content" class="bns-content flex layout-column ">
+    <div class="bns-content-inner flex layout-column" ui-view="content"></div>
+  </md-content>
+
+</div>

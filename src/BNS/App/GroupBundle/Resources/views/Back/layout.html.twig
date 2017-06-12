@@ -1,7 +1,13 @@
+{% trans_default_domain "GROUP" %}
 {% extends '::base_manager.html.twig' %}
 
-{% block javascripts %}	
-	<script type="text/javascript" src="{{ asset('/medias/js/group/group.js') }}"></script>
+{% set app_unique_name = 'GROUP' %}
+{% set app_mode = 'back' %}
+
+{% block javascripts %}
+	<script type="text/javascript" src="{{ asset('medias/js/jquery.form.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('medias/js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/medias/js/group/group.js') }}"></script>
 {% endblock %}
 
 {% block css %}
@@ -12,25 +18,25 @@
 {% endblock %}
 
 {% block body %}
+    <div class="background-group"></div>
 	{% block header %}{% endblock header %}
 	<div class="container container-fluid">
 		<div class="row-fluid container-manager">
 			<div class="container-sidebar">
 				{% block sidebar %}
-					{% render "BNSAppGroupBundle:Back:sidebar" %}
+					{{ render(controller('BNSAppGroupBundle:Back:sidebar')) }}
 				{% endblock sidebar %}
 				<div class="sidebar-shadow"></div>
 			</div>
 			<div class="span9 container-content no-margin">
-				{% block content %}{% endblock %}
+
+                {% include 'BNSAppMainBundle::notice.html.twig' %}
+ 
+                                {% block content %}{% endblock %}
 			</div>
 			<div class="container-manager-bottom">
 				<div class="content-manager-bottom"></div>
 			</div>
 		</div>
 	</div>
-{% endblock %}
-
-{% block dock_bar %}
-	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "GROUP" , 'is_in_front' : false } %}
 {% endblock %}

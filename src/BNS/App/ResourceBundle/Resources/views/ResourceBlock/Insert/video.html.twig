@@ -1,0 +1,11 @@
+{% extends 'BNSAppResourceBundle:ResourceBlock:audio.html.twig' %}
+
+{% block content %}
+	{% block player %}
+		<div style="" id="{{ resource.getId() }}-listen">
+			<video controls="controls" width="640" height="390">
+				<source src="{{ create_visualisation_url_resource(resource) }}" type="{{ rm.getHtml5VideoMimeType() }}" class="bns-insert-resources video" data-slug="{{ resource.getSlug() }}" data-uid="{{ resource.getUserId() }}" data-id="{{ resource.getId() }}" />
+			</video>
+		</div>
+	{% endblock %}
+{% endblock %}

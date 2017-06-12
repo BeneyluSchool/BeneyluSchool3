@@ -1,13 +1,21 @@
-{% for feed in feeds %}
-	{% include 'BNSAppProfileBundle:Status:back_status_row.html.twig' with {'feed': feed} %}
-{% else %}
-	<p class="no-feed">
-		Aucun statut n'a été publié,
-		{% if is_adult() %}
-			vous pouvez 
-		{% else %}
-			tu peux 
-		{% endif %}
-		en créer un en cliquant sur le bouton "Ajouter un nouveau statut" en haut à gauche.
-	</p>
-{% endfor %}
+{% trans_default_domain "PROFILE" %}
+<md-content>
+	<md-list>
+	{% for feed in feeds %}
+		{% include 'BNSAppProfileBundle:Status:back_status_row.html.twig' with {'feed': feed} %}
+	{% else %}
+		<bns-inset class="text-center md-padding">
+			<p>
+				{% if is_adult() %}
+					{% trans %}ADULT_NO_STATUS{% endtrans %}
+				{% else %}
+					{% trans %}CHILD_NO_STATUS{% endtrans %}
+				{% endif %}
+			</p>
+			<p class="buttons-container">
+				{{ components.button( 'LINK_CREATE_NEW_STATUS' | trans , { intent: 'primary', href: path('profile_manager_feed_new'), icon: 'add_circle', raised: true }) }}
+			</p>
+		</bns-inset>
+	{% endfor %}
+	</md-list>
+</md-content>

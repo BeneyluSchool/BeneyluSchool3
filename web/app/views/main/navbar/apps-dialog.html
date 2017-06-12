@@ -1,0 +1,87 @@
+<md-dialog class="bns-navbar-apps-dialog" aria-label="Applications">
+
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <md-tabs md-selected="dialog.tabIndex" class="flex">
+        <md-tab id="tab-apps" aria-controls="tab-apps-content">{{ 'NAVBAR.APPLICATIONS' | translate }}</md-tab>
+        <md-tab id="tab-activities" aria-controls="tab-activities-content">{{ 'NAVBAR.ACTIVITIES' | translate }}</md-tab>
+        <md-tab ng-if="::dialog.beta.can_change_mode" id="tab-beta" aria-controls="tab-beta-content">
+          <div class="layout-row">
+            <md-icon class="beta-mode"></md-icon>
+            {{ ::'NAVBAR.BETA' | translate }}
+          </div>
+        </md-tab>
+      </md-tabs>
+
+      <md-button ng-click="dialog.cancel()" class="md-icon-button dialog-close">
+        <md-icon>close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+  <div class="layout-row bns-navbar-apps-dialog-content">
+
+    <md-sidenav class="layout-column md-sidenav-left" md-component-id="apps-left" md-is-locked-open="$mdMedia('gt-md')">
+      <md-content class="flex">
+        <md-list>
+          <md-list-item ng-repeat="group in dialog.groups" ng-class="{'selected' : (group.id && group.id === dialog.currentGroup.id) || (group.page && group.page === dialog.currentGroup.page), 'faded': !group.id }" ng-click="dialog.selectGroup(group)">
+            <bns-navbar-icon item="group" flags="{ 'star': group.is_favorite }" class="md-avatar"></bns-navbar-icon>
+            <span class="flex">{{::group.label}}</span>
+          </md-list-item>
+        </md-list>
+      </md-content>
+      <md-button ng-href="{{ dialog.logoutUrl }}" class="hide-md md-raised">
+        <md-icon>power_settings_new</md-icon>
+        <span translate>NAVBAR.LOG_ME_OUT</span>
+      </md-button>
+    </md-sidenav>
+
+    <md-tabs class="flex md-primary no-tabs" md-selected="dialog.tabIndex" md-swipe-content="true">
+
+      <md-tab label="{{ 'NAVBAR.APPS' | translate }}" id="tab-apps-content" aria-labelledby="tab-apps">
+        <div ng-if="!dialog.currentGroup.page"
+          class="layout-column flex"
+          md-swipe-right="!$mdMedia('gt-md') && dialog.toggleNav('apps-left')"
+          bns-navbar-apps-panel
+          group="dialog.currentGroup"
+          type="APPLICATIONS"
+          mode="dialog.mode"
+          init-when="dialog.tabIndex === 0"
+          with-favorites="true"
+        ></div>
+        <section ng-if="dialog.currentGroup.page" flex layout="column"
+          md-swipe-right="!$mdMedia('gt-md') && dialog.toggleNav('apps-left')"
+          ng-include="'views/main/navbar/page/'+dialog.currentGroup.page.name+'.html'"
+          ng-init="page = dialog.currentGroup.page"
+        ></section>
+      </md-tab>
+
+      <md-tab label="{{ 'NAVBAR.ACTIVITIES' | translate }}" id="tab-activities-content" aria-labelledby="tab-activities">
+        <div ng-if="!dialog.currentGroup.page"
+          class="layout-column flex"
+          bns-navbar-apps-panel
+          group="dialog.currentGroup"
+          type="ACTIVITIES"
+          mode="dialog.mode"
+          init-when="dialog.tabIndex === 1"
+        ></div>
+        <section ng-if="dialog.currentGroup.page" flex layout="column"
+          ng-include="'views/main/navbar/page/'+dialog.currentGroup.page.name+'.html'"
+          ng-init="page = dialog.currentGroup.page"
+        ></section>
+      </md-tab>
+
+      <md-tab ng-if="::dialog.beta.can_change_mode" label="{{ ::'NAVBAR.BETA' | translate }}" id="tab-beta-content" aria-labelledby="tab-beta">
+        <div
+          class="layout-column flex"
+          bns-navbar-beta-panel
+          group="dialog.currentGroup"
+          init-when="dialog.tabIndex === 2"
+        ></div>
+      </md-tab>
+
+    </md-tabs>
+
+  </div>
+
+</md-dialog>

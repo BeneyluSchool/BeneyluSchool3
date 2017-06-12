@@ -1,0 +1,27 @@
+{% block content %}
+	{% block download %}
+
+		<div class="content-file-resource">
+			{% if with_image is not defined or (with_image is defined and with_image == true) %}
+				
+				{% if size is not defined %}
+					{% set size = "small" %}
+				{% endif %}
+				{% if class is not defined %}
+					{% set class = "span5" %}
+				{% endif %}
+				
+				<img id="" class="{{class }}" src="{{ getResourceImageUrl(resource,'small') }}" />
+				<div class="clearfix"></div>
+			{% endif %}
+			{% if with_title is not defined or (with_title is defined and with_title == true) %}
+				<h2>{{ resource.label }}</h2>
+			{% endif %}
+			
+			<div class="download">
+				<a href="{{ path('workshop_visualisation', {'slug': resource.getSlug() }) }}" class="btn look-image btn-warning" target='_blank'><span class="look-image"></span>Voir</a>
+			</div>
+		</div>
+
+	{% endblock %}
+{% endblock %}

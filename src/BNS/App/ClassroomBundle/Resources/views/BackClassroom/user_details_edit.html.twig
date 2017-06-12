@@ -1,0 +1,151 @@
+{% trans_default_domain "CLASSROOM" %}
+{% extends 'BNSAppClassroomBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+    {{ 'TITLE_PROFIL_OF'|trans({'%user%': user.getFullName()}) |desc('Classe - Profil de %user%') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+        <script type="text/javascript">
+                $('.block-users .bns-user').live("click", function(){
+                    if($(this).hasClass('toggle'))
+                    {
+                        $(this).removeClass('cancel toggle');
+                        $(this).addClass('checkbox selected');
+                    }
+                    else
+                    {
+                        $(this).removeClass('checkbox selected');
+                        $(this).addClass('cancel toggle');
+                    }
+                });
+        </script>
+{% endblock %}
+
+{% block header %}
+        <form id="save-profile" action="{{ path('BNSAppClassroomBundle_back_pupil_detail_edit', {'userSlug': user.getSlug()}) }}" method="POST" {{ form_enctype(form) }}>
+	<div class="header-buttons header-classroom-details">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span6">
+                        {% if isAdult and child is defined and child %}
+                            <a href="{{ path('BNSAppClassroomBundle_back_pupil_detail', {'userSlug': child.getSlug()}) }}" class="btn bns-notice btn-24 medium-return button-return">
+                                <span class="icons-24 back-icon"></span>
+                                    {{ 'LINK_BACK_TO_PUPIL'|trans |desc('<strong>Retourner</strong><br /> à l\'élève') |raw }}
+                            </a>
+                        {% else %}
+                            <a href="{{ path('BNSAppClassroomBundle_back_pupil_detail', {'userSlug': user.getSlug()}) }}" class="btn bns-notice btn-24 medium-return button-return">
+                                <span class="icons-24 back-icon"></span>
+                                {% if is_child(user) %}
+                                    {{ 'LINK_BACK_TO_PUPIL'|trans |desc('<strong>Retourner</strong><br /> à l\'élève') |raw }}
+                                {% else %}
+                                    {{ 'LINK_BACK_TO_TEACHER'|trans |desc('<strong>Retourner</strong><br /> à l\'enseignant') |raw }}
+
+                                {% endif %}
+                            </a>
+                        {% endif %}
+
+					</div>
+                    <div class="span6 align-right">
+                        <a href="#" class="btn finish bns-success validate-medium btn-24 medium submit-profile">
+                            <span class="icons-24 validate-icon"></span>
+                            <strong>{% trans %}LINK_SAVE_MODIFICATION{% endtrans %}</strong>
+
+                        </a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'BNSAppClassroomBundle:Sidebar:sidebar.html.twig' with {'page': 'classroom-user-edit', 'section': 'users'} %}
+{% endblock sidebar %}
+
+{% block content %}
+
+	<div class="container-classroom">
+		<div class="news-title">
+			<h1 class="dashboard">{% trans %}TITLE_PROFILE{% endtrans %}</h1>
+
+		</div>
+
+        <div class="row-fluid">
+            <div class="span12">
+				{% for message in app.session.flashbag.get('success') %}
+					<div class="alert alert-success bns-alert">
+						{% autoescape false %}{{ message }}{% endautoescape %}
+						<div class="jim"></div>
+					</div>
+				{% endfor %}
+                {% if isAdult and child is defined and child %}
+                    <div class="no-item">
+                        <div class="bnj-not-found"></div>
+                        <p>{% trans %}PARENT_PROFILE{% endtrans %}</p>
+                        <div class="clearfix"></div>
+                    </div>
+                <div style="display: none">{{ form_widget(form.job) }}</div>
+                <div style="display: none">{{ form_widget(form.description) }}</div>
+                {{ form_rest(form) }}
+                </form>
+            </div>
+                {% else %}
+
+				<div class="row-fluid profil-detail-content">
+					<div class="span7">
+						<div class="content-profile">
+
+							<p>
+                                {% if user.getId() != app.user.getId() %}
+                                        {% trans %}WANT_BECOME{% endtrans %}
+
+                                {% else %}
+                                        {% trans %}LATER_WANT_BECOME{% endtrans %}
+
+                                {% endif %}
+                            </p>
+                            {{ form_widget(form.job) }}
+                            {% if form.job.vars.errors|length > 0 %}
+                                    <div class="alert alert-danger bns-alert">
+                                            {{ form_errors(form.job) }}
+                                            <div class="jim"></div>
+                                    </div>
+                            {% endif %}
+
+							<p class="description">
+                                {% if app.user.getId() == user.getId() and form.description.vars.value == '' %}
+                                     {{ 'WRITE_PRESENTATION_NOW'|trans |desc('J\'écris ma présentation maintenant') }}
+                                {% elseif app.user.getId() == user.getId() %}
+                                     {{ 'WRITE_PRESENTATION'|trans |desc('J\'écris ma présentation') }}
+                                {% else %}
+                                    {% trans %}PRESENTATION{% endtrans %}
+
+                                {% endif %}
+
+                            </p>
+                            {{ form_widget(form.description) }}
+                            {% if form.description.vars.errors|length > 0 %}
+                                <div class="alert alert-danger bns-alert">
+                                        {{ form_errors(form.description) }}
+                                        <div class="jim"></div>
+                                </div>
+                            {% endif %}
+                            {{ form_rest(form) }}
+						</div>
+					</div>
+                 </form>
+					<div class="span5">
+						<div class="feelings">
+							{{ render(controller('BNSAppProfileBundle:Preferences:index', {'user': user, 'editable': 1, 'isMyPreferences': user.getId() == app.user.id, 'fullwidth': 0} )) }}
+						</div>
+					</div>
+				</div>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:45:12Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="ea17b26f79ff3c3fa0b9861674ea4ff808bab801" resname="MESSAGING_MESSAGE_PENDING_MODERATION.EMAIL.content">
+        <source>MESSAGING_MESSAGE_PENDING_MODERATION.EMAIL.content</source>
+        <target><![CDATA[A <a href="%message_route%">message</a> created by <strong>%sender_full_name%</strong> has just been submitted for moderation]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="337de5eeec8f6a3e0c59dd6505a14e3e59eef0ca" resname="MESSAGING_MESSAGE_PENDING_MODERATION.EMAIL.title">
+        <source>MESSAGING_MESSAGE_PENDING_MODERATION.EMAIL.title</source>
+        <target>A message has just been submitted for validation</target>
+      </trans-unit>
+      <trans-unit id="fbaafe11429ef6a340d3e084fb132e1b0cea724c" resname="MESSAGING_MESSAGE_PENDING_MODERATION.SYSTEM.content">
+        <source>MESSAGING_MESSAGE_PENDING_MODERATION.SYSTEM.content</source>
+        <target><![CDATA[A <a href="%message_route%">message</a> created by <strong>%sender_full_name%</strong> has just been submitted for moderation]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

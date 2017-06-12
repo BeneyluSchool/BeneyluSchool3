@@ -1,0 +1,141 @@
+{% extends '::base.html.twig' %}
+{% trans_default_domain "CLASSROOM" %}
+{% set app_unique_name = 'SCHOOL' %}
+{% set app_mode = 'front' %}
+
+{% block title %}{{ group_name }}{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+  <link href="{{ asset('/medias/css/group/front.css') }}" rel="stylesheet" type="text/css"/>
+	<link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block body %}
+	{% block content %}
+		{% if noClassroomForTeacher and mySchool|length %}
+			{% include 'BNSAppMainBundle:Logon:no_classroom_for_teacher.html.twig' with {school: mySchool} %}
+		{% endif %}
+		<div class="background-group">
+			<div class="board">
+        <div class="message">
+          <p>{{ group_name }}</p>
+          <div class="border"></div>
+        {% if blackboard is not null and blackboard.imageId %}
+          <div class="row-fluid">
+            <div class="span8">
+            <p>{{ group_home_message }}</p>
+              </div>
+            <div class="span4">
+            <img src="{{ getResourceImageUrlFromId(blackboard.imageId, 'board') }}" />
+              </div>
+            </div>
+        {% else %}
+            <p>{{ group_home_message }}</p>
+        {% endif %}
+          </div>
+			</div>
+		</div>
+		{% if blackboard != null %}
+			<a href="#" id="blackboard">
+			</a>
+
+			<div id="blackboard-container" class="blackboard-container">
+				<div id="blackboard-modal" class="modal fade bottom full-height">
+					<div class="modal-dialog full-height">
+						<div class="modal-content full-height ">
+							<div class="modal-header">
+								<a id="blackboard-close" data-dismiss="modal" href="#"></a>
+								<h1>{{ blackboard.title }}</h1>
+							</div>
+							<div class="modal-body full-height">
+								{% if blackboard.notice is defined and blackboard.notice != ''  %}
+									<h2 class="notice">{{ blackboard.notice }}</h2>
+								{% endif %}
+								<div class="row-fluid">
+									<div class="span8">
+										{% autoescape false %}
+										{{ parse_public_resources(blackboard.description,true,'medium',true) }}
+										{% endautoescape %}
+										<div class="resources">
+											{# Pièces Jointes #}
+											{% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias': blackboard.getResourceAttachments(), 'editable': false, 'objectType': 'GroupBlackboard', 'objectId': blackboard.id, 'startOpen': false } %}
+										</div>
+									</div>
+									<div class="span4 notifications">
+										<h3>{% trans %}BLACKBOARD_FRONT_NOTIF{% endtrans %}</h3>
+										{% if lastFlux is not empty %}
+											{% for flux in lastFlux %}
+												<div class="flux-block">
+													<div class="row-fluid">
+														<div class="span2">
+															{% if flux.flux_type == 'blog' %}
+																<div class="blog-icon"></div>
+															{% elseif flux.flux_type == 'media' %}
+																<div class="media-icon"></div>
+															{% elseif flux.flux_type == 'homework' %}
+																<div class="homework-icon"></div>
+															{% elseif flux.flux_type == 'liaison_book' %}
+																<div class="liaisonbook-icon"></div>
+															{% else %}
+																<div class="minisite-icon"></div>
+															{% endif %}
+														</div>
+														<div class="span10">
+															{% if flux.flux_type == 'blog' %}
+																<a href="{{ path('blog_article_permalink', {'slug': flux.slug}) }}">{% trans %}BLACKBOARD_NEW_ARTICLE{% endtrans %}</a>
+															{% elseif flux.flux_type == 'media' %}
+																<a href="" bns-viewer data-media-id="{{ flux.id }}" terminal="true" class="media-view" data-dismiss="media-modal">
+																	{% trans %}BLACKBOARD_NEW_MEDIA{% endtrans %}
+																</a>
+															{% elseif flux.flux_type == 'homework' %}
+																<a href="{{ path('BNSAppHomeworkBundle_front_display_for_day', {'dayOfWeek': flux.day}) }}">{% trans %}BLACKBOARD_NEW_HOMEWORK{% endtrans %}</a>
+															{% elseif flux.flux_type == 'liaison_book' %}
+																<a href="{{ path('liaison_book_message', {'slug': flux.slug}) }}">{% trans %}BLACKBOARD_NEW_LIAISONBOOK_MESSAGE{% endtrans %}</a>
+															{% else %}
+																<a href="{{ path('minisite_by_slug', {'slug': flux.slug}) }}">{% trans %}BLACKBOARD_NEW_MINISITE_NEWS{% endtrans %}</a>
+															{% endif %}
+															<div class="bottom">
+																{% if flux.author is not null %}
+																	{{ 'CREATE_AT_BY'|trans({'%date%': date_from_now ( flux.date_display, false, false, 'short', 'short' ),'%imageLink%': '<img src="' ~ avatar(flux.author, 'thumbnail') ~ '" alt="" class="avatar" />' ,'%user%': flux.author_full |escape }) |desc('%date% par %imageLink% %user%') |raw}}
+																{% else %}
+																	{{ 'CREATE_AT_BY'|trans({'%date%': date_from_now ( flux.date_display, false, false, 'short', 'short'), '%imageLink%':'', '%user%': ''}) |raw }}
+																{% endif%}
+															</div>
+														</div>
+													</div>
+												</div>
+											{% endfor %}
+
+										{% else %}
+											{% trans %}BLACKBOARD_NO_FLUX{% endtrans %}
+										{% endif %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="media-modal" class="modal fade bottom">
+				<a id="media-close" data-dismiss="media-modal" href="#"></a>
+				{#<iframe style="background-color: transparent" allowtransparency="true" id="media-iframe" width="100%" height="95%" src="/ent/medias/js/pdfjs/web/viewer.html?file={{ create_visualisation_url_resource(newspaper.mediaRelatedByMediaId, true, false)  |url_encode }}"></iframe>#}
+			</div>
+
+			<script type="text/javascript">
+				$('#blackboard').click(function() {
+					$('#containerNews').trigger('stopRumble');
+					$('#blackboard-modal')
+							.prop('class', 'modal fade') // revert to default
+							.addClass( 'bottom' );
+					$('#blackboard-modal').modal('show');
+					$('.media-view').click(function(){
+						$('#blackboard-modal').modal('hide');
+					});
+				});
+			</script>
+
+		{% endif %}
+	{% endblock %}
+{% endblock %}

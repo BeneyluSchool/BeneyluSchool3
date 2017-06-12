@@ -1,0 +1,7 @@
+<h2 translate>WORKSHOP.DOCUMENT.MEDIA</h2>
+
+<h3 ng-if="widget.subtype">{{ widget.subtype }}</h3>
+
+<div class="text-center">
+  <div bns-workshop-widget-media-picker widget="widget" type="{{ widget.subtype || 'all' }}" current="widget.media_id" target="media_id" auto-open="!widget.media_id"></div>
+</div>

@@ -1,0 +1,24 @@
+<md-dialog md-theme="olympics" ng-class="'olympics-dialog-'+(dialog.game ? 'game' : 'topic')">
+  <md-toolbar class="flex-none">
+    <div class="md-toolbar-tools" ng-switch="dialog.topic || dialog.game">
+      <h3 class="md-headline">
+        <span ng-switch-when="games">Emmeline, c’est quoi les Jeux ?</span>
+        <span ng-switch-when="france">La candidature de toute la France</span>
+        <span ng-switch-when="environment">Le laboratoire d’inventions</span>
+        <span ng-switch-when="dictionary">Le dico des Jeux</span>
+        <span ng-switch-when="tennis">Bienvenue à Roland-Garros !</span>
+        <span ng-switch-when="fencing">Bienvenue au Grand Palais !</span>
+        <span ng-switch-when="rowing">Bienvenue à la base nautique de Vaires-sur-Marne !</span>
+      </h3>
+    </div>
+  </md-toolbar>
+  <div ng-if="::dialog.topic" class="olympics-icon olympics-icon-{{::dialog.topic}}"></div>
+  <md-dialog-content ng-if="::dialog.topic" class="md-dialog-content" ng-include="'views/olympics/dialogs/'+dialog.topic+'.html'"></md-dialog-content>
+  <md-dialog-content ng-if="::dialog.game" ng-include="'views/olympics/dialogs/'+dialog.game+'.html'"></md-dialog-content>
+</md-dialog>
+
+<md-button class="md-fab md-fab-top-right" ng-click="dialog.hide()">
+  <md-icon>close</md-icon>
+</md-button>
+
+<div ng-if="::dialog.game" class="olympics-dialog-background olympics-dialog-background-{{::dialog.game}}"></div>

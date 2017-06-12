@@ -1,0 +1,60 @@
+
+{% set is_index = ('hello_world_manager_blog' == app.request.attributes.get('_route')) %}
+{% set is_components = ('hello_world_manager_blog_components' == app.request.attributes.get('_route')) %}
+
+<section{% if is_index %} class="current"{% endif %}>
+  {{ components.button('Articles', {
+    href: is_index ? false : path('hello_world_manager_blog'),
+    icon: 'insert_drive_file',
+    inactive: is_index,
+  }) }}
+  {% if is_index %}
+    <bns-form-proxy source="{{ filter_form.vars.name }}" du-scroll-container="content"></bns-form-proxy>
+  {% endif %}
+</section>
+<section{% if is_components %} class="current"{% endif %}>
+  {{ components.button('Components', {
+    href: is_components ? false : path('hello_world_manager_blog_components'),
+    icon: 'widgets',
+    inactive: is_components,
+  }) }}
+  {% if is_components %}
+    <div class="layout-column nav-list" du-scroll-container="content">
+      {{ components.button('Buttons', {
+        href: '#buttons',
+        icon: 'add_box',
+        attr: { target: '_self' },
+      })}}
+      {{ components.button('Dialogs', {
+        href: '#dialogs',
+        icon: 'web_asset',
+        attr: { target: '_self' },
+      })}}
+      {{ components.button('Toasts', {
+        href: '#toasts',
+        icon: 'picture_in_picture_alt',
+        attr: { target: '_self' },
+      })}}
+      {{ components.button('Typography', {
+        href: '#typography',
+        icon: 'font_download',
+        attr: { target: '_self' },
+      })}}
+      {{ components.button('Radio buttons', {
+        href: '#radio',
+        icon: 'radio_button_checked',
+        attr: { target: '_self' },
+      })}}
+      {{ components.button('Checkboxes', {
+        href: '#checkbox',
+        icon: 'check_box',
+        attr: { target: '_self' },
+      })}}
+    </div>
+  {% endif %}
+</section>
+<section>
+  {% include 'BNSAppMainBundle:Components:app_menu_toggle.html.twig' with {
+    href: '#a-random-url',
+  } %}
+</section>

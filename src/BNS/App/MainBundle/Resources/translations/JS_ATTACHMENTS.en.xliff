@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-03-30T16:24:46Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="7def2b198a3833378aa04b9efbafd8e2ae33c348" resname="BUTTON_JOIN_DOCUMENTS">
+        <source>BUTTON_JOIN_DOCUMENTS</source>
+        <target>Attach document</target>
+      </trans-unit>
+      <trans-unit id="803a70b599c0ad83840d4d868d030642ee90d296" resname="LINK_DOWNLOAD_DOCUMENT">
+        <source>LINK_DOWNLOAD_DOCUMENT</source>
+        <target>Download the document</target>
+      </trans-unit>
+      <trans-unit id="85085b7f886a8050d5a609e6410d83513014c4b7" resname="LINK_SEE_DOCUMENT">
+        <source>LINK_SEE_DOCUMENT</source>
+        <target>See the document</target>
+      </trans-unit>
+      <trans-unit id="d923604704b0ef5ae0092e36bb783067ddd1af2a" resname="TITLE_ATTACHED_DOCUMENTS">
+        <source>TITLE_ATTACHED_DOCUMENTS</source>
+        <target>{COUNT, plural, 0{No document attached} 1{1 document attached} other{# documents attached}}</target>
+      </trans-unit>
+      <trans-unit id="6d84c4e232d2cd9c29a4878fedfe92e7de604e26" resname="TYPE_ATELIER_AUDIO">
+        <source>TYPE_ATELIER_AUDIO</source>
+        <target>Audio from the Workshop app</target>
+      </trans-unit>
+      <trans-unit id="d12f7b140c6b44db350fd8068e8360b374ca311b" resname="TYPE_ATELIER_DOCUMENT">
+        <source>TYPE_ATELIER_DOCUMENT</source>
+        <target>Document from the Workshop app</target>
+      </trans-unit>
+      <trans-unit id="c464cc4916a17bf1a4e08dd4fc20619c446ef33c" resname="TYPE_AUDIO">
+        <source>TYPE_AUDIO</source>
+        <target>Audio</target>
+      </trans-unit>
+      <trans-unit id="fdc9917f8a9e3d986954b2020b973720f2848b19" resname="TYPE_DOCUMENT">
+        <source>TYPE_DOCUMENT</source>
+        <target>Document</target>
+      </trans-unit>
+      <trans-unit id="06a2074bd6d263ab9d92f3fd6d04ca3f8965a72b" resname="TYPE_EMBEDDED_VIDEO">
+        <source>TYPE_EMBEDDED_VIDEO</source>
+        <target>External video</target>
+      </trans-unit>
+      <trans-unit id="c7de85dfda7381a587e1bcd0bf7d9bc10a367206" resname="TYPE_FILE">
+        <source>TYPE_FILE</source>
+        <target>File</target>
+      </trans-unit>
+      <trans-unit id="964deb48c4c3baffde08d7b1ac4a7e20dd80a24e" resname="TYPE_HTML">
+        <source>TYPE_HTML</source>
+        <target>HTML content</target>
+      </trans-unit>
+      <trans-unit id="0c63ff6a33acfe24e59fa5c601b49470350f4605" resname="TYPE_HTML_BASE">
+        <source>TYPE_HTML_BASE</source>
+        <target>HTML content</target>
+      </trans-unit>
+      <trans-unit id="829351ae9b3decb4d1f0ef368eeaf4b87d39ec86" resname="TYPE_IMAGE">
+        <source>TYPE_IMAGE</source>
+        <target>Image</target>
+      </trans-unit>
+      <trans-unit id="ce515abfd549910dadeae4e096803141daa89973" resname="TYPE_LINK">
+        <source>TYPE_LINK</source>
+        <target>Link</target>
+      </trans-unit>
+      <trans-unit id="2fdaabdc784309b56af2d4c078f1efc71626cd4d" resname="TYPE_PROVIDER_RESOURCE">
+        <source>TYPE_PROVIDER_RESOURCE</source>
+        <target>External resource</target>
+      </trans-unit>
+      <trans-unit id="f57475ab75c666a05692935e4e774f5ec1214617" resname="TYPE_VIDEO">
+        <source>TYPE_VIDEO</source>
+        <target>Video</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

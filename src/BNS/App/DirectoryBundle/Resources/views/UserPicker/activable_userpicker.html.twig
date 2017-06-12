@@ -1,5 +1,5 @@
 <input type="hidden" name="{{ name_for_form }}" id="{{ input_id }}" />
-
+ 
 {% autoescape false %}
 {{ modal(modal_id, {
 	'title': '',
@@ -11,21 +11,49 @@
 {% endautoescape %}
 
 <script type="text/javascript">
+	
+	if (!Array.prototype.indexOf)
+	{
+	  Array.prototype.indexOf = function(elt /*, from*/)
+	  {
+		var len = this.length >>> 0;
+
+		var from = Number(arguments[1]) || 0;
+		from = (from < 0)
+			 ? Math.ceil(from)
+			 : Math.floor(from);
+		if (from < 0)
+		  from += len;
+
+		for (; from < len; from++)
+		{
+		  if (from in this &&
+			  this[from] === elt)
+			return from;
+		}
+		return -1;
+	  };
+	}
+	
 	$(document).ready(function()
 	{
-		$('#{{ element_activate_modal_id }}').live('click',function(e)
+		$('{{ element_activate_modal_id }}').live('click',function(e)
 		{
 			e.preventDefault();
 			LoadModal();
 		});
-		
+
+        //Clic sur "Enregistrer" dans la modal
 		$('#{{ modal_id }}-add-selected-user').live('click', function(e)
 		{
 			e.preventDefault();
+
 			var $userIds = new Array();
 			$(this).parent().parent().find('.selected-user-container').find('.user-block').each(function()
 			{
-				$userIds.push($(this).attr('data-user-id'));
+				if ($userIds.indexOf($(this).attr('data-user-id')) == -1) {
+					$userIds.push($(this).attr('data-user-id'));
+				}
 			});
 			
 			$('#{{ input_id }}').val($userIds).trigger('change');
@@ -50,12 +78,12 @@
 		});
 		{% if only_one_load is defined and only_one_load == false %}
 			$('div#{{ modal_id }} div.loading-container').show();
-			$('div#{{ modal_id }} div.directory-container').html('');
+			$('div#{{ modal_id }} div.user-picker-container').html('');
 		{% endif %}
 
-		if ($.trim($('div#{{ modal_id }} div.directory-container').html()) == '') {
-			$('div.loading-container').show();
-			$('div.directory-container').hide();
+		if ($.trim($('div#{{ modal_id }} div.user-picker-container').html()) == '') {
+			$('div#{{ modal_id }} div.loading-container').show();
+			$('div#{{ modal_id }} div.user-picker-container').hide();
 			$.ajax({
 				url: Routing.generate('display_userpicker'),
 				type: 'POST',
@@ -74,17 +102,21 @@
 					{% if module is defined %}
 						, module: '{{ module }}'
 					{% endif %}
+                    {% if user_ids_hide is defined %}
+                            , user_ids_hide: {% autoescape false %} {{ user_ids_hide|json_encode() }} {% endautoescape %}
+                    {% endif %}
 				},
 				dataType: 'html',
 				success: function(data)
 				{
 					$('div#{{ modal_id }} div.loading-container').hide();
-					$('div#{{ modal_id }} div.directory-container').html(data).show();
+					$('div#{{ modal_id }} div.user-picker-container').html(data).show();
 					{% if auto_load_and_hide is defined and auto_load_and_hide %}
 						$("#{{ modal_id }}").trigger('modalLoaded');
 					{% endif %}
-					var realHeight = $(window).height() - 150 + 'px';
-					$('#{{ modal_id }}').css('height',realHeight).css('min-height',realHeight).css('max-height',realHeight);
+				/*	var realHeight = $(window).height() - 150 + 'px';
+					$('#{{ modal_id }}').css('height',realHeight).css('min-height',realHeight).css('max-height',realHeight);*/
+					$('#{{ modal_id }}').trigger('loaded');
 				}
 			});
 		}

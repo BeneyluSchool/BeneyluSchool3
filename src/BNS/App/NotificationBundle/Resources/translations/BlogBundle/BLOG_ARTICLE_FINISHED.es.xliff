@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:44:29Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="6a9b1dcc8e5813b117d98cb0329ac42680800869" resname="BLOG_ARTICLE_FINISHED.EMAIL.content">
+        <source>BLOG_ARTICLE_FINISHED.EMAIL.content</source>
+        <target><![CDATA[<b>%articleAuthor%</b> ha enviado el artículo "<a href="%articleUrl%" title="See the section and validate it"><b>%articleTitle%</b></a>"  para validación ]]></target>
+        <note><![CDATA[%articleUrl% is a placeholder
+%articleTitle% is a placeholder
+%articleAuthor% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="b49b58cd1da1de99c89b307cb9b90829a8c97908" resname="BLOG_ARTICLE_FINISHED.EMAIL.title">
+        <source>BLOG_ARTICLE_FINISHED.EMAIL.title</source>
+        <target>Se ha enviado un artículo para validación</target>
+      </trans-unit>
+      <trans-unit id="233fef6f6e250d65a0512d274dc799e96e258cd3" resname="BLOG_ARTICLE_FINISHED.SYSTEM.content">
+        <source>BLOG_ARTICLE_FINISHED.SYSTEM.content</source>
+        <target><![CDATA[<b>%articleAuthor%</b> ha enviado el artículo "<a href="%articleUrl%" title="See the section and validate it"><b>%articleTitle%</b></a>" para validación ]]></target>
+        <note><![CDATA[%articleUrl% is a placeholder
+%articleTitle% is a placeholder
+%articleAuthor% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,25 @@
+<div class="navigation-tree-node"
+  ng-click="ctrl.onClick()"
+  ng-class="{ active: ctrl.isActive() }"
+  >
+  <div ng-show="ctrl.children.length || (ctrl.loadChildren && !ctrl.childrenLoaded)"
+    ng-click="ctrl.childrenLoaded ? ctrl.toggleExpanded() : ctrl.loadChildren(); $event.stopPropagation();"
+    ng-class="{ 'expanded': ctrl.isExpanded }"
+    class="node-expander"
+  >
+    <i ng-show="!ctrl.busy" class="bns-icon-corner-right" ng-class="{ 'bns-icon-corner-right': !ctrl.isExpanded, 'bns-icon-corner-bottom-right': ctrl.isExpanded }"></i>
+  </div>
+
+  <div class="node-label">
+    <div class="node-icon">
+      <span ng-class="ctrl.iconClasses"></span>
+    </div>
+
+    {{ ctrl.node.label }}
+  </div>
+</div>
+
+<div class="navigation-tree-node-messages">
+  <md-progress-circular ng-show="ctrl.busy" md-diameter="24" md-mode="indeterminate"></md-progress-circular>
+  <div ng-if="ctrl.emptyChildrenMessage" ng-show="ctrl.isExpanded" class="node-empty-children-message text-muted">{{::ctrl.emptyChildrenMessage}}</div>
+</div>

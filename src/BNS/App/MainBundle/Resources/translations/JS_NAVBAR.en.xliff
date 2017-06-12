@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-09-19T18:00:14Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="9c63da7b2ec10fc9b1410404b53d334d7cb07642" resname="ACTIVITIES">
+        <source>ACTIVITIES</source>
+        <target>Activities</target>
+      </trans-unit>
+      <trans-unit id="e0f611edc79bd4ba22862d53a9edc30f0c1d9b82" resname="ACTIVITIES_CLOSED">
+        <source>ACTIVITIES_CLOSED</source>
+        <target>Closed activities</target>
+      </trans-unit>
+      <trans-unit id="56f85b191f99f213b071f6894fe329fa70c93b10" resname="ACTIVITIES_OPEN">
+        <source>ACTIVITIES_OPEN</source>
+        <target>Open activities</target>
+      </trans-unit>
+      <trans-unit id="eb874f8c79f2cd4cf720c4456a83e5a715b52ef6" resname="ACTIVITIES_PARTIALLY_OPEN">
+        <source>ACTIVITIES_PARTIALLY_OPEN</source>
+        <target>Partially open activities</target>
+      </trans-unit>
+      <trans-unit id="c28cdabd60eed03e7ac611540c141da166b6d174" resname="ACTIVITIES_PRIVATE">
+        <source>ACTIVITIES_PRIVATE</source>
+        <target>Restricted to teachers</target>
+      </trans-unit>
+      <trans-unit id="b9de55eca9827a1f4c9718b8ea3eca6cf60d4921" resname="APPLICATIONS">
+        <source>APPLICATIONS</source>
+        <target>Apps</target>
+      </trans-unit>
+      <trans-unit id="3418f4379557d41f6e623fc0330dff471f3877e4" resname="APPLICATIONS_CLOSED">
+        <source>APPLICATIONS_CLOSED</source>
+        <target>Closed apps</target>
+      </trans-unit>
+      <trans-unit id="7f6990c1299c109a9f1fdcfab2a643d338dd2754" resname="APPLICATIONS_OPEN">
+        <source>APPLICATIONS_OPEN</source>
+        <target>Open apps</target>
+      </trans-unit>
+      <trans-unit id="9059079e13cdfa7b372f0de9586a384a3d14d25d" resname="APPLICATIONS_PARTIALLY_OPEN">
+        <source>APPLICATIONS_PARTIALLY_OPEN</source>
+        <target>Partially open apps</target>
+      </trans-unit>
+      <trans-unit id="12133ec46f4cabfefe19dbfddd22b61bc3df87e3" resname="APPLICATIONS_PRIVATE">
+        <source>APPLICATIONS_PRIVATE</source>
+        <target>Restricted to teachers</target>
+      </trans-unit>
+      <trans-unit id="2b1031cb468cc13fe315f2589f632019dd40af9e" resname="APPS">
+        <source>APPS</source>
+        <target>Apps</target>
+      </trans-unit>
+      <trans-unit id="28d6304dd6d05d172bd2c2ad4fe98d0bebabf4de" resname="BETA">
+        <source>BETA</source>
+        <target>Beta mode</target>
+      </trans-unit>
+      <trans-unit id="0e0fb00c84a5379edf68902d45f5701861d93a76" resname="BUTTON_CONTACT_US">
+        <source>BUTTON_CONTACT_US</source>
+        <target>Send a message to the Beneylu team</target>
+      </trans-unit>
+      <trans-unit id="fd991d3008167549a3bf2a04fb7dc59e975e8565" resname="BUTTON_GOTO_DOC">
+        <source>BUTTON_GOTO_DOC</source>
+        <target>Read the documentation</target>
+      </trans-unit>
+      <trans-unit id="5f0e4148599a004a629f2fe91299bd9aef521b2a" resname="BUTTON_NO_THANKS">
+        <source>BUTTON_NO_THANKS</source>
+        <target>No thanks</target>
+      </trans-unit>
+      <trans-unit id="1f1f42f5405180ffa340ffba3d5389bd3f9cf63c" resname="DESCRIPTION_BETA_CHANGE_RELOAD">
+        <source>DESCRIPTION_BETA_CHANGE_RELOAD</source>
+        <target>Attention, by changing mode the page will reload.</target>
+      </trans-unit>
+      <trans-unit id="1beef70cead118a53d4c615a9a058a45dcc83b18" resname="DESCRIPTION_BETA_GROUP">
+        <source>DESCRIPTION_BETA_GROUP</source>
+        <target>Enable the beta mode for students and parents for them to test the new version of the  applications. The mode change will happen upon their next login.</target>
+      </trans-unit>
+      <trans-unit id="e3eec6cfe4f3a9cc3740fef8b6dc1de823bad063" resname="DESCRIPTION_BETA_GROUP_PARTIAL">
+        <source>DESCRIPTION_BETA_GROUP_PARTIAL</source>
+        <target>Attention. Only some users in the classroom have the beta mode enabled. Switch to green to enable beta mode for the whole classroom.</target>
+      </trans-unit>
+      <trans-unit id="8c7c729a974b955d2b743db6abb406bc69c4aca5" resname="DESCRIPTION_BETA_USER">
+        <source>DESCRIPTION_BETA_USER</source>
+        <target>Enable beta mode for your account to test the new version of the applications before everyone else!</target>
+      </trans-unit>
+      <trans-unit id="df13445aa7716c0ae2b417f23f4732e9f0375604" resname="DESCRIPTION_CONTACT_US">
+        <source>DESCRIPTION_CONTACT_US</source>
+        <target>Heck... you really are stuck!</target>
+      </trans-unit>
+      <trans-unit id="7cae51ed6fab9bac04aa18e1d5561a79c3612870" resname="DESCRIPTION_DOC">
+        <source>DESCRIPTION_DOC</source>
+        <target><![CDATA[Nice! The <strong>documentation</strong> answers (almost) all your questions.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="623628adcc251627147cae2e1007160eba039e63" resname="FLASH_DISABLE_BETA_SUCCESS">
+        <source>FLASH_DISABLE_BETA_SUCCESS</source>
+        <target>Back to normal mode</target>
+      </trans-unit>
+      <trans-unit id="f80af5794e03280ff03a87a62bfacb818a65224e" resname="FLASH_ENABLE_BETA_SUCCESS">
+        <source>FLASH_ENABLE_BETA_SUCCESS</source>
+        <target>Let's go to beta mode!</target>
+      </trans-unit>
+      <trans-unit id="8ab57f22f691367042b2d217d44ab5626fe2c562" resname="FLASH_TOGGLE_BETA_ERROR">
+        <source>FLASH_TOGGLE_BETA_ERROR</source>
+        <target>Beta mode could not be toggled</target>
+      </trans-unit>
+      <trans-unit id="2d285f28704ed9beb6d2191df75d29ce1a98dc54" resname="GET_GROUPS_ERROR">
+        <source>GET_GROUPS_ERROR</source>
+        <target>Workspaces could not be loaded</target>
+      </trans-unit>
+      <trans-unit id="ee7929cef18bd1007cbda8ca0208846f8487ec62" resname="HELP">
+        <source>HELP</source>
+        <target>Help</target>
+      </trans-unit>
+      <trans-unit id="81652da1900db19666330e7c28b14e1d01f238a4" resname="LABEL_BETA_DISABLED_FOR_GROUP">
+        <source>LABEL_BETA_DISABLED_FOR_GROUP</source>
+        <target>Beta mode disabled for "{{group}}"</target>
+      </trans-unit>
+      <trans-unit id="bd029a535fa9f3987dd118140139966de23290d3" resname="LABEL_BETA_DISABLED_FOR_USER">
+        <source>LABEL_BETA_DISABLED_FOR_USER</source>
+        <target>Beta mode disabled for you</target>
+      </trans-unit>
+      <trans-unit id="73f058d96b7757af4aa5e0c2bb87d3e148869526" resname="LABEL_BETA_ENABLED_FOR_GROUP">
+        <source>LABEL_BETA_ENABLED_FOR_GROUP</source>
+        <target>Beta mode enabled for "{{group}}"</target>
+      </trans-unit>
+      <trans-unit id="8b9820d7b471eb0d68cb504ca11aa8fbcadce3aa" resname="LABEL_BETA_ENABLED_FOR_USER">
+        <source>LABEL_BETA_ENABLED_FOR_USER</source>
+        <target>Beta mode enabled for you</target>
+      </trans-unit>
+      <trans-unit id="0bad89b3ae65ff60092602acf5498ac975499e15" resname="LABEL_SET_MAIN_GROUP">
+        <source>LABEL_SET_MAIN_GROUP</source>
+        <target>Set as main group</target>
+      </trans-unit>
+      <trans-unit id="8799016c2aa4f0eb1770b2baa3264bd12ccb0efc" resname="LINK_ADD_AN_ACTIVITY">
+        <source>LINK_ADD_AN_ACTIVITY</source>
+        <target>Add an activity</target>
+      </trans-unit>
+      <trans-unit id="7d31786aca6198ef4fb6f91a035757fab375e87f" resname="LINK_ADD_AN_APPLICATION">
+        <source>LINK_ADD_AN_APPLICATION</source>
+        <target>Add an app</target>
+      </trans-unit>
+      <trans-unit id="6bb3dee446129ea157008dc6af5980c2a400d7a4" resname="LOG_ME_OUT">
+        <source>LOG_ME_OUT</source>
+        <target>Log out</target>
+      </trans-unit>
+      <trans-unit id="38269f71417b34ff8e2a8e6e849a73e9b7aff54e" resname="MY_ACTIVITIES">
+        <source>MY_ACTIVITIES</source>
+        <target>My activities</target>
+      </trans-unit>
+      <trans-unit id="f4dab24a6b6a8edc3471482bdcfa90cdb6697544" resname="MY_APPLICATIONS">
+        <source>MY_APPLICATIONS</source>
+        <target>My apps</target>
+      </trans-unit>
+      <trans-unit id="ebed14dc21982ede3d66b77bb8aebc534d6796f6" resname="OUR_ACTIVITIES">
+        <source>OUR_ACTIVITIES</source>
+        <target>Our activities</target>
+      </trans-unit>
+      <trans-unit id="a69846e0f2debdfb94ac8f4401959d6ed4a5a50d" resname="OUR_APPLICATIONS">
+        <source>OUR_APPLICATIONS</source>
+        <target>Our apps</target>
+      </trans-unit>
+      <trans-unit id="9612826a4bb873ffad50ad4c672e1ffb4b810544" resname="SWITCH_TO_BACK_MODE">
+        <source>SWITCH_TO_BACK_MODE</source>
+        <target>Switch to management mode</target>
+      </trans-unit>
+      <trans-unit id="7dd54aff1a16985493ec281b77137de413bb0d04" resname="SWITCH_TO_FRONT_MODE">
+        <source>SWITCH_TO_FRONT_MODE</source>
+        <target>Switch to consultation mode</target>
+      </trans-unit>
+      <trans-unit id="ba32fffe233a26a726cea808eb415ffe9e7109ad" resname="TITLE_WE_HELP">
+        <source>TITLE_WE_HELP</source>
+        <target>Need a helping hand?</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

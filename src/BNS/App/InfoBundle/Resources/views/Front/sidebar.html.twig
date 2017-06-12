@@ -1,0 +1,193 @@
+{% trans_default_domain "INFO" %}
+<div class="container-sidebar list">
+
+    {% set onPublicVersion = on_public_version() %}
+
+    {% if section == "index" %}
+        <div class="section active">
+            {{ 'TITLE_ESSENTIAL'|trans |desc('L\'essentiel') }}
+            <span class="shadow-section"></span>
+        </div>
+        <div class="container-section">
+            {% if onPublicVersion %}
+                <div class="section">
+                    <a href="{{ path('BNSAppInfoBundle_front_sponsorship') }}">{{ 'LINK_MINE_REFER_FRIEND'|trans |desc('Mes parrainages') }}</a>
+                </div>
+            {% endif %}
+            <div class="section">
+                <a href="{{ path('BNSAppInfoBundle_front_community') }}">
+                    {{ 'LINK_COMMUNITY'|trans |desc('La communauté') }}
+                    {#% include "BNSAppInfoBundle:Block:new_circle.html.twig" with {'nb' : nbCommunity} %}#}
+                </a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppInfoBundle_front_updates') }}">
+                    {{ 'LINK_NEWS'|trans |desc('Les nouveautés') }}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppInfoBundle_front_help') }}">
+                    {{ 'LINK_HELP_CENTER'|trans |desc('Le centre d\'aide') }}
+                </a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppInfoBundle_front_subscription') }}">
+                    {{ 'TITLE_MY_SUBSCRIPTION'|trans |desc('Mon abonnement') }}
+                </a>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if section == "community" %}
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppInfoBundle_front') }}">
+                    {{ 'LINK_ESSENTIAL'|trans |desc('L\'essentiel') }}
+                </a>
+            </div>
+            {% if onPublicVersion %}
+                <div class="section">
+                    <a href="{{ path('BNSAppInfoBundle_front_sponsorship') }}">
+                      {{ 'LINK_MINE_REFER_FRIEND'|trans |desc('Mes parrainages') }}
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="section active">
+            {{ 'LINK_COMMUNITY'|trans |desc('La communauté') }}
+            <span class="shadow-section"></span>
+        </div>
+
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppInfoBundle_front_updates') }}">{{ 'LINK_NEWS'|trans |desc('Les nouveautés') }}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppInfoBundle_front_help') }}">{{ 'LINK_HELP_CENTER'|trans |desc('Le centre d\'aide') }}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppInfoBundle_front_subscription') }}">{{ 'TITLE_MY_SUBSCRIPTION'|trans |desc('Mon abonnement') }}</a>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if section == "updates" %}
+
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppInfoBundle_front') }}">
+                    {{ 'LINK_ESSENTIAL'|trans |desc('L\'essentiel') }}
+                </a>
+            </div>
+            {% if onPublicVersion %}
+                <div class="section">
+                    <a href="{{ path('BNSAppInfoBundle_front_sponsorship') }}">{{ 'LINK_MINE_REFER_FRIEND'|trans |desc('Mes parrainages') }}</a>
+                </div>
+            {% endif %}
+            <div class="section">
+                <a href="{{ path('BNSAppInfoBundle_front_community') }}">{{ 'LINK_COMMUNITY'|trans |desc('La communauté') }}</a>
+            </div>
+        </div>
+
+        <div class="section active">
+            {{ 'LINK_NEWS'|trans |desc('Les nouveautés') }}
+            <span class="shadow-section"></span>
+        </div>
+
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppInfoBundle_front_help') }}">{{ 'LINK_HELP_CENTER'|trans |desc('Le centre d\'aide') }}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppInfoBundle_front_subscription') }}">{{ 'TITLE_MY_SUBSCRIPTION'|trans |desc('Mon abonnement') }}</a>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if section == "help" %}
+
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppInfoBundle_front') }}">{{ 'LINK_ESSENTIAL'|trans |desc('L\'essentiel') }}</a>
+            </div>
+            {% if onPublicVersion %}
+                <div class="section">
+                    <a href="{{ path('BNSAppInfoBundle_front_sponsorship') }}">{{ 'LINK_MINE_REFER_FRIEND'|trans |desc('Mes parrainages') }}</a>
+                </div>
+            {% endif %}
+            <div class="section">
+                <a href="{{ path('BNSAppInfoBundle_front_community') }}">{{ 'LINK_COMMUNITY'|trans |desc('La communauté') }}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppInfoBundle_front_updates') }}">{{ 'LINK_NEWS'|trans |desc('Les nouveautés') }}</a>
+            </div>
+        </div>
+
+        <div class="section active">
+            {{ 'LINK_HELP_CENTER'|trans |desc('Le centre d\'aide') }}
+            <span class="shadow-section"></span>
+        </div>
+
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppInfoBundle_front_subscription') }}">{{ 'TITLE_MY_SUBSCRIPTION'|trans |desc('Mon abonnement') }}</a>
+            </div>
+        </div>
+
+    {% endif %}
+
+    {% if section == "subscription" %}
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppInfoBundle_front') }}">{{ 'LINK_ESSENTIAL'|trans |desc('L\'essentiel') }}</a>
+            </div>
+            {% if onPublicVersion %}
+                <div class="section">
+                    <a href="{{ path('BNSAppInfoBundle_front_sponsorship') }}">{{ 'LINK_MINE_REFER_FRIEND'|trans |desc('Mes parrainages') }}</a>
+                </div>
+            {% endif %}
+            <div class="section">
+                <a href="{{ path('BNSAppInfoBundle_front_community') }}">{{ 'LINK_COMMUNITY'|trans |desc('La communauté') }}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppInfoBundle_front_updates') }}">{{ 'LINK_NEWS'|trans |desc('Les nouveautés') }}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppInfoBundle_front_help') }}">{{ 'LINK_HELP_CENTER'|trans |desc('Le centre d\'aide') }}</a>
+            </div>
+        </div>
+
+        <div class="section active">
+            {{ 'TITLE_MY_SUBSCRIPTION'|trans |desc('Mon abonnement') }}
+            <span class="shadow-section"></span>
+        </div>
+    {% endif %}
+
+    {% if section == "sponsorship" %}
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppInfoBundle_front') }}">{{ 'LINK_ESSENTIAL'|trans |desc('L\'essentiel') }}</a>
+            </div>
+        </div>
+
+        <div class="section active">
+            {{ 'LINK_MINE_REFER_FRIEND'|trans |desc('Mes parrainages') }}
+            <span class="shadow-section"></span>
+        </div>
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppInfoBundle_front_community') }}">{{ 'LINK_COMMUNITY'|trans |desc('La communauté') }}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppInfoBundle_front_updates') }}">{{ 'LINK_NEWS'|trans |desc('Les nouveautés') }}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppInfoBundle_front_help') }}">{{ 'LINK_HELP_CENTER'|trans |desc('Le centre d\'aide') }}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppInfoBundle_front_subscription') }}">{{ 'TITLE_MY_SUBSCRIPTION'|trans |desc('Mon abonnement') }}</a>
+            </div>
+        </div>
+    {% endif %}
+
+</div>

@@ -1,0 +1,23 @@
+<div class="md-padding">
+  <h1 class="md-headline" translate>ACCOUNT.TITLE_DATA_RECOVERY</h1>
+  <p class="md-body-2" translate>ACCOUNT.TITLE_CHOOSE_CLASSROOM_RECOVER</p>
+
+  <div class="layout-column layout-gt-sm-row layout-wrap layout-align-center-stretch classroom-list">
+    <div ng-repeat="classroom in ctrl.classrooms" ng-click="ctrl.selectClassroom(classroom)" md-ink-ripple="#039BE5" class="classroom">
+      <h3 class="text-center md-title">{{::classroom.label}}</h3>
+      <div class="pupil-list">
+        <div ng-repeat="user in ::classroom._embedded.pupils_preview" class="layout-row layout-align-start-center layout-margin pupil">
+          <img ng-src="{{::user.avatar_url}}" alt="{{::user.full_name}}" class="bns-avatar size-36">
+          <span class="text-ellipsis">{{::user.full_name}}</span>
+        </div>
+        <p ng-if="::!classroom._embedded.pupils_preview.length" class="text-muted text-center pupil-empty" translate>ACCOUNT.DESCRIPTION_NO_USER</p>
+      </div>
+    </div>
+  </div>
+
+  <div ng-if="!ctrl.busy && !ctrl.classrooms.length" class="text-center text-muted md-body-1" translate>ACCOUNT.DESCRIPTION_NO_CLASSROOM_FOUND</div>
+
+  <p ng-if="!ctrl.busy" class="text-center">
+    <a href ng-click="ctrl.skipRecoverClassroom()" translate>ACCOUNT.LINK_DO_NOT_RECOVER_CLASSROOM</a>
+  </p>
+</div>

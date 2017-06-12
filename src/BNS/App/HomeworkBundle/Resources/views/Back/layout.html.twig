@@ -1,10 +1,13 @@
+{% trans_default_domain "HOMEWORK" %}
 {% extends '::base_manager.html.twig' %}
 
-{% block title %}Cahier de texte - Gestion{% endblock %}
+{% set app_unique_name = 'HOMEWORK' %}
+{% set app_mode = 'back' %}
+
+{% block title %}{% trans %}TITLE_HOMEWORK_MANAGEMENT{% endtrans %}{% endblock %}
 
 {% block css %}
 	{{ parent() }}
-
 	{# Appel CSS du package layout manager #}
     {% include "BNSAppMainBundle:Manager:layoutStyle.html.twig" %}
 	<link href="{{ asset('/medias/css/homework/manager.css') }}" rel="stylesheet" type="text/css">
@@ -18,9 +21,7 @@
 	<div class="container-fluid container">
 		<div class="row-fluid container-manager">
 			{% block surround_form_start %}{% endblock surround_form_start %}
-			<div class="container-sidebar">
-				{% block sidebar %}Add your sidebar here!{% endblock %}
-			</div>
+			{% block sidebar %}Add your sidebar here!{% endblock %}
 			<div class="span9 container-content">
 				<div id="mainpanel" class="content-homework">
 					{% block content %}Add your content here!{% endblock %}
@@ -32,8 +33,4 @@
 			</div>
 		</div>
 	</div>
-{% endblock %}
-
-{% block dock_bar %}
-	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "HOMEWORK" , 'is_in_front' : false } %}
 {% endblock %}

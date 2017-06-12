@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-06-21T10:00:23Z" source-language="en" target-language="es-AR" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="2cba153e6b1062f670f41d6b1faee22e23299754" resname="ACTIVATE_WEBSITE_FOR_WHITE_LIST">
+        <source>ACTIVATE_WEBSITE_FOR_WHITE_LIST</source>
+        <target>Añadir un sitio web a la lista blanca</target>
+      </trans-unit>
+      <trans-unit id="77d4f985eaa6e489618a66be78d9abb776597391" resname="BENEYLU_SEARCH_ENGINE">
+        <source>Moteur de recherche de %beneylu_brand_name%</source>
+        <target state="new">Motor de búsqueda de %beneylu_brand_name%</target>
+      </trans-unit>
+      <trans-unit id="94ecd6d681cfafaee3a60edc4aa0f107f2c4be80" resname="FOLLOWING_WEBSITE_ARE_IN_WHITE_LIST_BY_DEFAULT">
+        <source>FOLLOWING_WEBSITE_ARE_IN_WHITE_LIST_BY_DEFAULT</source>
+        <target><![CDATA[Se añadieron los siguientes sitios web a la lista blanca de tu motor de búsqueda.<br /><br />Podés desactivar la lista a través del menú a la izquierda.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="a606b959f9821656bcfd091694f6459ed59e2635" resname="GREEN_LIGHT_WHITE_LIST_DESCRIPTION">
+        <source>GREEN_LIGHT_WHITE_LIST_DESCRIPTION</source>
+        <target><![CDATA[Una luz verde significa que el sitio web se añadió a tu lista blanca.<br />Esta aparecerá en los resultados de tu motor de búsqueda.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="7a6536bcef4e569571ee714810d588039c4b55a7" resname="LAST_SEARCH_AT_BY">
+        <source>Faite le %date% par %image% %user%</source>
+        <target state="new">Hecho %date% por %image% %user%</target>
+        <note><![CDATA[%date% is a placeholder
+%image% is a placeholder
+%user% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="0260b10c9b5d5feb3c0a3a7070676370562b2164" resname="LINKS_FOLDER">
+        <source>LINKS_FOLDER</source>
+        <target state="new">Carpeta de enlaces</target>
+      </trans-unit>
+      <trans-unit id="facfe5d4e16ee5db47d4c81e1076e3f16fa4aa9c" resname="LINK_ENABLED_DISABLED_GREEN_LIGHT_DESCRIPTION">
+        <source>LINK_ENABLED_DISABLED_GREEN_LIGHT_DESCRIPTION</source>
+        <target>Una luz verde significa que la lista blanca general está activada. Todos los sitios web incluidos en la lista aparecerán en los resultados de tu motor de búsqueda.</target>
+      </trans-unit>
+      <trans-unit id="3938e0ed492fd9e0d0275e29f6578661a3b755ad" resname="LINK_EXPORT_LIST">
+        <source>LINK_EXPORT_LIST</source>
+        <target><![CDATA[<strong>Exportar</strong><br /> la lista]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="b7b7fab60278f82d806586db4b4f9d40d3066993" resname="LINK_GENERAL_WHITE_LIST">
+        <source>LINK_GENERAL_WHITE_LIST</source>
+        <target>Lista blanca general</target>
+      </trans-unit>
+      <trans-unit id="0260a795716237b1b85fb3c9af3c555af445de49" resname="LINK_MY_WHITE_LIST">
+        <source>LINK_MY_WHITE_LIST</source>
+        <target>Mi lista blanca</target>
+      </trans-unit>
+      <trans-unit id="f7d6948bf426b1306149ed1d9108db1407637074" resname="LINK_SEARCH">
+        <source>LINK_SEARCH</source>
+        <target>Buscar</target>
+      </trans-unit>
+      <trans-unit id="6df8a11484879216ded4a22c98a525f4f17ebb5f" resname="LINK_WHITE_LIST">
+        <source>LINK_WHITE_LIST</source>
+        <target>Lista blanca</target>
+      </trans-unit>
+      <trans-unit id="d5c534806b37cfd523c4263987bdd1b6ce5b5737" resname="NO_LINK_IN_WHITE_LIST_CAN_ADD">
+        <source>NO_LINK_IN_WHITE_LIST_CAN_ADD</source>
+        <target><![CDATA[Todavía no tenés enlaces en tu lista blanca.<br /><br />Para crearlos, añadí uno o varios enlaces de la mediateca y guardalos en uno de los archivos de tu clase.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="9a64eaa7f05cbe4ba7c99277aac07c8f635829f3" resname="NO_SEARCH_DONE">
+        <source>NO_SEARCH_DONE</source>
+        <target>No se realizó ninguna búsqueda. Podés realizar una búsqueda con tu clase para mostrar cómo funciona. </target>
+      </trans-unit>
+      <trans-unit id="39dd320e8c4e9f06b35e0be0b4942ac2022fb9c1" resname="OPTIONS">
+        <source>OPTIONS</source>
+        <target>Opciones</target>
+      </trans-unit>
+      <trans-unit id="11faf1bf2c3806f0cc9a7e46c64045f41c0a9d94" resname="SEARCH_WARNING">
+        <source>SEARCH_WARNING</source>
+        <target>Tenés que rellenar el siguiente campo para iniciar la búsqueda</target>
+      </trans-unit>
+      <trans-unit id="46ec9bcb6ee41739f4aeaaba0ee5886534e2abd4" resname="TITLE_BENEYLU">
+        <source>%beneylu_brand_name%</source>
+        <target state="new">%beneylu_brand_name%</target>
+      </trans-unit>
+      <trans-unit id="af81d0143cfe1bf4c23afd11659eab341d722f22" resname="TITLE_LAST_SEARCH">
+        <source>TITLE_LAST_SEARCH</source>
+        <target>Últimas búsquedas</target>
+      </trans-unit>
+      <trans-unit id="8273cdd8c1fb1a8c8b8b0bc01553e16f838d4f27" resname="TITLE_MY_WHITE_WEB_LIST">
+        <source>TITLE_MY_WHITE_WEB_LIST</source>
+        <target>Mi lista blanca de Internet</target>
+      </trans-unit>
+      <trans-unit id="3beb7a39f78389f433a5e0c9b6097c868bf96a75" resname="TITLE_SEARCH_ENGINE_MANAGEMENT">
+        <source>TITLE_SEARCH_ENGINE_MANAGEMENT</source>
+        <target>Motor de búsqueda - gestión</target>
+      </trans-unit>
+      <trans-unit id="61a9801bc213b6b1cdef4110ee14e4336fa66806" resname="WHITE_LIST_COMPOSITION">
+        <source>WHITE_LIST_COMPOSITION</source>
+        <target>Tu lista blanca incluye sitios web que añadiste a la mediateca de tu clase.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

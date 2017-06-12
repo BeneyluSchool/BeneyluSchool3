@@ -1,0 +1,10 @@
+<div class="item visualisation">
+	<div class="text">
+		{% autoescape false %}
+			{{ document.getWorkshopDocumentInputs()[0].getValue() }}
+		{% endautoescape %}
+	</div>
+	<div class="resources">
+		{% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': document.getWorkshopDocumentInputs()[0].getResourceAttachments(), 'editable': false} %}
+	</div>
+</div>

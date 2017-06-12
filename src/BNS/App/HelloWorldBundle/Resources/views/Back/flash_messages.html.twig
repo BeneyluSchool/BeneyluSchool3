@@ -40,7 +40,7 @@
 		
 		<pre>{% filter escape %}{% raw %}$(function ()
 {
-	if ($('.your-container-class .alert.alert-success') > 0) {
+	if ($('.your-container-class .alert.alert-success').length > 0) {
 		setTimeout(function ()
 		{
 			$('.your-container-class .alert.alert-success').slideUp('fast');

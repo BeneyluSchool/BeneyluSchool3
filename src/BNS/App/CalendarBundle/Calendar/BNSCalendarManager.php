@@ -2,6 +2,9 @@
 
 namespace BNS\App\CalendarBundle\Calendar;
 
+use BNS\App\CoreBundle\Model\Agenda;
+use BNS\App\CoreBundle\Model\User;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use \Exception;
 
@@ -12,14 +15,16 @@ use BNS\App\CoreBundle\Model\AgendaEventQuery;
 use BNS\App\CoreBundle\Model\AgendaEvent;
 
 use \Criteria;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class BNSCalendarManager
-{	
+{
 	/**
 	 * @var String si aucun type d'affichage n'est renseigné par l'utilisateur, $DEFAULT_VIEW_TYPE est utilisé par défaut
 	 */
 	public static $DEFAULT_VIEW_TYPE = 'week';
-	
+
+    /** @var  ContainerInterface */
 	private $container;
 
 	/**
@@ -28,12 +33,10 @@ class BNSCalendarManager
 	 */
 	public function __construct($container)
 	{
-		require __DIR__.'/../Librairies/iCalcreator.php';
-
 		$this->container = $container;
 	}
-	
-	
+
+
 	/**
 	 * @param array $eventInfos contient tous les paramètres nécessaires à la création d'un événement
 	 * La clé d'un paramètre doit être le nom du paramètre; Les paramètres obligatoires sont dtend, dtstart et summary;
@@ -41,10 +44,10 @@ class BNSCalendarManager
 	 * la journée (donc pas d'heure de début et de fin)
 	 * @throws Exception lève une exception si les champs obligatoire (dtstart, dtend et summary) ne sont pas renseigné
 	 */
-	public function createEvent($agendaId, array $eventInfos)
+	public function createEvent($agendaId, array $eventInfos, $skipNotification = false)
 	{
             // icalcreator vevent object process
-            $event = new vevent();
+            $event = new \vevent();
 
             // tableau qui contient les attributs que l'utilisateur doit obligatoirement fournir
             $obligatoryProperties = array('dtstart', 'dtend', 'summary');
@@ -52,7 +55,7 @@ class BNSCalendarManager
             foreach ($obligatoryProperties as $obligatoryProperty)
             {
                 if (!array_key_exists($obligatoryProperty, $eventInfos))
-                {				
+                {
                     throw new Exception($obligatoryProperty.' argument is missing in array passing as parameter of createEvent() method.');
                 }
 
@@ -76,7 +79,7 @@ class BNSCalendarManager
 
                 $event->setProperty($key, $value);
             }
-            
+
             // l'objet vevent étant hydraté, on génère maintenant le code vevent selon la norme iCalendar
             $veventCode = $this->generateICalendarVeventCode($event);
 
@@ -95,16 +98,16 @@ class BNSCalendarManager
             $agendaEvent->setAgendaId($agendaId);
 
             // sauvegarde de l'objet AgendaEvent nouvellement créé
-            $agendaEvent->save();
-			
+            $agendaEvent->save(null, $skipNotification);
+
 			return $agendaEvent;
 	}
-	
-	
-	
+
+
+
 	/**
-	 * 
-	 * @param AgendaEvent $agendaEvent correspond à l'objet dans notre modèle de l'événement que l'on souhaite modifier 
+	 *
+	 * @param AgendaEvent $agendaEvent correspond à l'objet dans notre modèle de l'événement que l'on souhaite modifier
 	 * @param array $eventUpdatedInfos contient tous les paramètres nécessaires à l'édition d'un événement
 	 * La clé d'un paramètre doit être le nom du paramètre; Les paramètres obligatoires sont dtend, dtstart et summary;
 	 * Le paramètre allday (de type boolean) peut également être renseigné pour indiquer que c'est un événement qui dure toute
@@ -114,19 +117,21 @@ class BNSCalendarManager
 	public function editEvent(AgendaEvent $agendaEvent, array $eventUpdatedInfos)
 	{
 		// On test que l'objet agendaEvent fourni en paramètre ne soit pas égale à null, sinon on lève une exception
-		if (null == $agendaEvent)
-		{
+		if (null == $agendaEvent) {
 			throw new Exception('AgendaEvent given equals to null!');
 		}
-		
-		$agendaEvent->setTitle($eventUpdatedInfos['summary']);
-		
+
+		// In case of update
+		if (isset($eventUpdatedInfos['summary'])) {
+			$agendaEvent->setTitle($eventUpdatedInfos['summary']);
+		}
+
 		// création d'un objet vevent
-		$vevent = new vevent();
+		$vevent = new \vevent();
 		// On hydrate l'objet vevent à partir du code vevent (suivant la norme iCalendar) que l'on a stocké dans l'objet
 		// AgendaEvent
 		$vevent->parse($agendaEvent->getIcalendarVevent());
-		
+
 		// On boucle sur tous les informations contenues dans le tableau eventUpdatedInfos fourni en paramètre et on effectue
 		// des modifications demandé par l'utilisateur
 		foreach ($eventUpdatedInfos as $key => $value)
@@ -168,22 +173,22 @@ class BNSCalendarManager
 				}
 			}
 		}
-		
+
 		$agendaEvent->setIsAllDay(isset($eventUpdatedInfos['allday']) && true === $eventUpdatedInfos['allday']? true : false);
-		
+
 		// On regénère le code vevent à partir de l'objet vevent modifié
 		$agendaEvent->setIcalendarVevent($this->generateICalendarVeventCode($vevent));
-		
+
 		// Enfin, on sauvegarde l'objet AgendaEvent
 		$agendaEvent->save();
-		
+
 		return $agendaEvent;
 	}
-	
-	
-	
+
+
+
 	/**
-	 * 
+	 *
 	 * @param String $slug slug de l'événement que l'on souhaite supprimer
 	 * @throws Exception lève une exception si aucun événement est associé au slug fournit en paramètre
 	 */
@@ -193,40 +198,79 @@ class BNSCalendarManager
 		$eventToDelete = AgendaEventQuery::create()
 			->add(AgendaEventPeer::SLUG, $slug)
 		->findOne();
-		
+
 		// test if the required event exist or not
 		if (null == $eventToDelete)
 		{
 			throw new Exception('Event with slug '.$slug.' does not exist!');
 		}
-		
+
 		// delete the event
-		$eventToDelete->delete();		
+		$eventToDelete->delete();
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Méthode qui permet, à partir d'une date de début et de fin, de récupérer tous les événements accessible par l'utilisateur
-	 * 
+	 *
 	 * @param timestamp $dateStart date à partir de laquelle on souhaite récupérer tous les événements
 	 * @param timestamp $dateEnd date jusqu'à laquelle on souhaite récupérer tous les événements
 	 */
-	public function selectEventsByDates($dateStart, $dateEnd, $agendas, $isEditable = false)
+	public function selectEventsByDates($dateStart, $dateEnd, $agendas, $isEditable = false, $fullcalendar = false)
 	{
+        $finalEvents = [];
+
+        $birthdayEvents = [];
+        if (!$isEditable) {
+            $birthdayEvents = $this->getUsersBirthdayEvent($dateStart, $dateEnd, $agendas);
+            if ($fullcalendar) {
+                foreach ($birthdayEvents as $birthdayEvent) {
+                    list( ,,$desc) = explode('_', $birthdayEvent[0]);
+                    $finalEvents[] = [
+                        'id' => $birthdayEvent[0],
+                        'title' => $birthdayEvent[1],
+                        'start' => $birthdayEvent[2],
+                        'end' => $birthdayEvent[3],
+                        'color' => isset(Agenda::$colorsClass[$birthdayEvent[12]]) ? '#'.Agenda::$colorsClass[$birthdayEvent[12]] : $birthdayEvent[12],
+                        'allDay' => true,
+                        'is_all_day' => true,
+                        'agenda_id' => ($agendaId = (int)str_replace('agenda-', '', $birthdayEvent[11])),
+                        'type' => 'birthday',
+                        'description' => '<p>' . $desc . '</p>',
+                        '_embedded' => [
+                            'agenda' => AgendaQuery::create()->findPk($agendaId)
+                        ],
+                        'is_anniversary' => true
+                    ];
+                }
+            }
+        }
 		// Initialisation du tableau qui sera reçu par wdCalendar
 		$wdCalendarEvents = array();
-		$wdCalendarEvents['events'] = (!$isEditable? $wdCalendarEvents['events'] = $this->getUsersBirthdayEvent($dateStart, $dateEnd, $agendas) : array());
+		$wdCalendarEvents['events'] = $birthdayEvents;
 		$wdCalendarEvents["issort"] = false;
 		$wdCalendarEvents["start"] = date('m/d/Y H:i', $dateStart);
 		$wdCalendarEvents["end"] = date('m/d/Y H:i', $dateEnd + 24 * 60 * 60);
 		$wdCalendarEvents['error'] = null;
-		
+
 		$ids = array();
 		foreach ($agendas as $agenda) {
 			$ids[] = $agenda->getId();
 		}
-		
+
+        //Pour nöel on passe dans l'ENT les évènement sur le group id = 1
+        if(date('m') == 12 && !$isEditable && $this->container->get('bns.right_manager')->isAdult())
+        {
+            $agendaXmas = AgendaQuery::create()->findOneByGroupId(1);
+            if($agendaXmas)
+            {
+                $ids[] = $agendaXmas->getId();
+                $agendaXmasId = $agendaXmas->getId();
+            }
+        }
+
+        /** @var AgendaEvent[] $events */
 		$events = AgendaEventQuery::create('a')
 			->joinWith('Agenda')
 			->add(AgendaPeer::ID, $ids, \Criteria::IN)
@@ -239,45 +283,50 @@ class BNSCalendarManager
     	->find();
 
     	if (0 == count($events)) {
-    		return $wdCalendarEvents;
+            return $fullcalendar ? $finalEvents : $wdCalendarEvents;
     	}
-    	
+
     	$config = array('unique_id' => 'bns.calendar');
     	// On créé un vcalendar pour pouvoir déléguer le travail de tri des événements à iCalcreator
-    	$vcalendar = new vcalendar($config);
-    	
+    	$vcalendar = new \vcalendar($config);
+
     	// On boucle sur tous les AgendaEvent que l'on a récupéré depuis la base de données et créer les objets vevent
     	foreach ($events as $event) {
-    		$vevent = new vevent();
+    		$vevent = new \vevent();
     		$vevent->parse($event->getIcalendarVevent());
     		// on ajoute des paramètres custom à chaque vevent pour s'éviter de faire par la suite de nouvelle requête en base
     		$customParameters = array(
+    			'ID' 			=> $event->getId(),
     			'SLUG' 			=> $event->getSlug(),
     			'COLOR' 		=> $event->getAgenda()->getColorClass(),
     			'ALL_DAY' 		=> $event->getIsAllDay(),
     			'SEVERAL_DAYS'	=> $this->isSeveralDaysEvent($vevent->getProperty('dtstart'), $vevent->getProperty('dtend')),
     			'IS_RECURRING'	=> $event->getIsRecurring(),
     			'AGENDA_ID'		=> $event->getAgendaId(),
+                'BEGIN_TIMESTAMP' => $event->getDateStart('U')
     		);
     		$vevent->setProperty('comment', $vevent->getProperty('comment'), $customParameters);
     		// On ajoute le nouvel objet vevent créé à l'objet vcalendar d'iCalcreator
     		$vcalendar->setComponent($vevent);
     	}
 
+
+
     	// Le calendrier vcalendar d'iCalcreator est maintenant hydraté, on peut utiliser son select pour trier les vevent
+        /** @var vevent[] $vevents */
     	$vevents = $vcalendar->selectComponents(
-			date('Y', $dateStart), date('m', $dateStart), date('d', $dateStart), 
-			date('Y', $dateEnd), date('m', $dateEnd), date('d', $dateEnd) 
+			date('Y', $dateStart), date('m', $dateStart), date('d', $dateStart),
+			date('Y', $dateEnd), date('m', $dateEnd), date('d', $dateEnd)
 		);
-    	
+
     	if (false === $vevents)
     	{
-    		return $wdCalendarEvents;
+            return $fullcalendar ? $finalEvents : $wdCalendarEvents;
     	}
-    	
+
     	// Les vevents sont triés, on commence dès à présent à formater les événements en fonction du format de wdCalendar
     	$vevents = $this->vEventCustomSort($vevents);
-    	
+
 		$isFirstLoop = true;
     	// On boucle à présent sur tous les événements qui ont survécu aux différents tris pour les ajouter au tableau que recevra wdCalendar
     	foreach ($vevents as $vevent) {
@@ -291,42 +340,83 @@ class BNSCalendarManager
 
     		$start = $this->convertToStringDate($vevent->getProperty('dtstart'));
     		$end = $this->convertToStringDate($vevent->getProperty('dtend'));
-    		$wdCalendarEvents['events'][] = array(
-		    	$slug, // slug de l'événement; ici j'ai donné le slug de l'objet AgendaEvent correspondant
-		    	$vevent->getProperty('summary'), // titre de l'événement
-		    	$start, // date de début de l'événement
-		    	$end, // date de fin de l'événement
-		    	$isAllDay, // boolean : true = dure toute la journée, sinon false
-		    	$isSevaralDays, // boolean : true = dure sur plusieurs jour, sinon false
-		    	0, // boolean : true = événement récurrent, false sinon; On gère nous même la réccurence, wdCalendar ne s'occupe que de la vue
-		    	0, // Code couleur allant de 0 à 13, il faudrait tweaker ça du côté de wdCalendar FIXME
-		    	($isRecurring? false : $isEditable), // boolean : true = éditable, false sinon
-		    	$vevent->getProperty('location')? $vevent->getProperty('location') : ' ', // éventuel lieu de l'événement
-		    	'', // participant
-		    	'agenda-'.$agendaId . ($isFirstLoop? ' agenda-event' : ''), // la chaîne de caractère "agenda-" concaténé avec l'id de l'agenda
-		    	$color,
-				($isRecurring? 'recurrent' : '')
-    		);
-			$isFirstLoop = false;
+
+            $keep = true;
+
+            if(isset($agendaXmasId))
+            {
+                if($agendaId == $agendaXmasId)
+                {
+                    $color = '#CC1102'; // Xmas
+                    if($customParameters['params']['BEGIN_TIMESTAMP'] > date('U'))
+                    {
+                        $keep = false;
+                    }
+                }
+            }
+
+            if($keep)
+            {
+                $startDate = $this->getDateTimeObject($vevent->getProperty('dtstart'));
+                $endDate = $this->getDateTimeObject($vevent->getProperty('dtend'));
+
+                // force all-day display for events spanning multiple days
+                $isAllDay = $isAllDay || $isSevaralDays;
+
+                // In fullCalendar, end date is exclusive => add one day to full day events for proper render
+                if ($isAllDay) {
+                    $endDate->modify('+1 day');
+                }
+                $finalEvents[] = [
+                    'id' => $customParameters['params']['ID'],
+                    'title' => $vevent->getProperty('summary'),
+                    'start' => $startDate->format('c'),
+                    'end' => $endDate->format('c'),
+                    'color' => isset(Agenda::$colorsClass[$color]) ? '#'.Agenda::$colorsClass[$color] : $color,
+                    'allDay' => $isAllDay,
+                    'agenda_id' => $agendaId,
+                ];
+                $wdCalendarEvents['events'][] = array(
+                    $slug, // slug de l'événement; ici j'ai donné le slug de l'objet AgendaEvent correspondant
+                    $vevent->getProperty('summary'), // titre de l'événement
+                    $start, // date de début de l'événement
+                    $end, // date de fin de l'événement
+                    $isAllDay, // boolean : true = dure toute la journée, sinon false
+                    $isSevaralDays, // boolean : true = dure sur plusieurs jour, sinon false
+                    0, // boolean : true = événement récurrent, false sinon; On gère nous même la réccurence, wdCalendar ne s'occupe que de la vue
+                    0, // Code couleur allant de 0 à 13, il faudrait tweaker ça du côté de wdCalendar FIXME
+                    ($isRecurring? false : $isEditable), // boolean : true = éditable, false sinon
+                    $vevent->getProperty('location')? $vevent->getProperty('location') : ' ', // éventuel lieu de l'événement
+                    '', // participant
+                    'agenda-'.$agendaId . ($isFirstLoop? ' agenda-event' : ''), // la chaîne de caractère "agenda-" concaténé avec l'id de l'agenda
+                    $color,
+                    ($isRecurring? 'recurrent' : '')
+                );
+                $isFirstLoop = false;
+            }
     	}
 
-    	return $wdCalendarEvents;	
+        return $fullcalendar ? $finalEvents : $wdCalendarEvents;
 	}
-	
-	
-	public function getAgendasFromGroupIds($ids)
-	{
-		return AgendaQuery::create()
-			->joinWith('Group', Criteria::LEFT_JOIN)
-			->add(AgendaPeer::GROUP_ID, $ids, Criteria::IN)
-		->find();
-	}
-	
-	
+
+
+    public function getAgendasFromGroupIds($ids)
+    {
+        return AgendaQuery::create('a')
+            ->useGroupQuery()
+                ->filterById($ids)
+            ->endUse()
+            ->with('Group')
+            ->orderBy('a.Id')
+            ->find()
+        ;
+    }
+
+
 	/**
 	 * Permet de récupérer un objet de type AgendaEvent à partir du slug $slug;
 	 * L'agenda associé est également accessible; l'objet est complètement hydraté (cf la classe AgendaEvent)
-	 * 
+	 *
 	 * @param String $slug est le slug à partir duquel on souhaite retrouver un événement
 	 * @throws NotFoundHttpException est levé si aucun événement est retrouvé à partir du slug fourni en paramètre
 	 * @throws Exception lève une exception si les conditions minimales requises concernant les règles de récurrences ne sont pas réunies
@@ -334,15 +424,46 @@ class BNSCalendarManager
 	public function getEventBySlug($slug)
 	{
 		$agendaEvent = AgendaEventQuery::create()
-			->joinWith('Agenda')
+			->joinWith('Agenda a')
 		->findOneBySlug($slug);
-		
-		if (null == $agendaEvent)
-		{
+
+		if (null == $agendaEvent) {
 			throw new NotFoundHttpException('The event with the slug ' . $slug . ' does not exist!');
 		}
-		
-		$vevent = new vevent();
+
+		return $this->hydrateEvent($agendaEvent);
+	}
+
+	/**
+	 * @param int $id
+	 *
+	 * @return AgendaEvent
+	 *
+	 * @throws NotFoundHttpException
+	 */
+	public function getEventById($id)
+	{
+		$agendaEvent = AgendaEventQuery::create('ae')
+			->joinWith('Agenda a')
+		->findPk($id);
+
+		if (null == $agendaEvent) {
+			throw new NotFoundHttpException('The calendar event with id : ' . $id . ' is NOT found !');
+		}
+
+		return $this->hydrateEvent($agendaEvent);
+	}
+
+	/**
+	 * @param \BNS\App\CoreBundle\Model\AgendaEvent $agendaEvent
+	 *
+	 * @return AgendaEvent
+	 *
+	 * @throws Exception
+	 */
+	public function hydrateEvent(AgendaEvent $agendaEvent)
+	{
+		$vevent = new \vevent();
 		$vevent->parse($agendaEvent->getIcalendarVevent());
 		$description = $vevent->getProperty('description');
 		$author = $vevent->getProperty('organizer');
@@ -350,48 +471,45 @@ class BNSCalendarManager
 		$agendaEvent->setDescription($description === false? '' : $description);
 		$agendaEvent->setAuthor($author === false? '' : str_replace('MAILTO:', '', $author));
 		$agendaEvent->setLocation($location === false? '' : $location);
-		$date = $vevent->getProperty('dtstart');
-		$agendaEvent->setTimeStart($date['hour'].':'.$date['min']);
-		$date = $vevent->getProperty('dtend');
-		$agendaEvent->setTimeEnd($date['hour'].':'.$date['min']);
+		$dateStart = $vevent->getProperty('dtstart');
+		$agendaEvent->setTimeStart($dateStart['hour'].':'.$dateStart['min']);
+		$dateEnd = $vevent->getProperty('dtend');
+		$agendaEvent->setTimeEnd($dateEnd['hour'].':'.$dateEnd['min']);
 		$recurringParams = $vevent->getProperty('rrule');
-		if (false !== $recurringParams && is_array($recurringParams) && count($recurringParams) > 0)
-		{
+
+		if (false !== $recurringParams && is_array($recurringParams) && count($recurringParams) > 0) {
 			$agendaEvent->setRecurringType($recurringParams['FREQ']);
-			if (array_key_exists('COUNT', $recurringParams))
-			{
+			if (array_key_exists('COUNT', $recurringParams)) {
 				$agendaEvent->setRecurringCount($recurringParams['COUNT']);
 			}
-			elseif (array_key_exists('UNTIL', $recurringParams))
-			{
+			elseif (array_key_exists('UNTIL', $recurringParams)) {
 				$recurringEndDate = $recurringParams['UNTIL'];
-				$agendaEvent->setRecurringEndDate($recurringEndDate['year'].'-'.$recurringEndDate['month'].'-'.$recurringEndDate['day']);
+				$agendaEvent->setRecurringEndDate(AgendaEvent::createDateTimeFromVeventDate($recurringEndDate));
 			}
-			else
-			{
+			else {
 				throw new Exception('Recurring rules need at least 2 paramaters (FREQ and COUNT or UNTIL); one parameter is missing!');
 			}
 		}
-		
+
 		return $agendaEvent;
 	}
-	
+
 	/**
 	 * Retourne un tableau qui contient tous les paramètres d'initialisations nécessaires au fonctionnement spécifique
 	 * de wdCalendar
-	 * 
+	 *
 	 * @param Session $session correspond à la session contenue dans Request $request
 	 * @param boolean $isAdmin indique si oui ou non on souhaite des paramètres d'initialisation pour l'interface d'admin
 	 */
 	public function getWdCalendarInitParameters($session, $isAdmin = false)
 	{
 		$params = array();
-		
+
 		if (null != $session->get('bns.calendar.currentDate'))
 		{
 			$params['dateShow'] = $session->get('bns.calendar.currentDate');
 		}
-		
+
 		if (null != $session->get('bns.calendar.currentViewType'))
 		{
 			$params['viewType'] = $session->get('bns.calendar.currentViewType');
@@ -400,20 +518,20 @@ class BNSCalendarManager
 		{
 			$params['viewType'] = self::$DEFAULT_VIEW_TYPE;
 		}
-		
+
 		if (true === $isAdmin)
 		{
 			$params['is_admin'] = true;
 		}
-		
+
 		return $params;
 	}
-	
+
 	/**
 	 * Méthode qui permet de trier les événements de type vevent; est utilisé sur les événements qui résultent
 	 * du selectComponents() de vcalendar; Certains événements doivent être concaténé tandis que d'autres doivent avoir leur
 	 * date de début ajusté
-	 * 
+	 *
 	 * @param array $vevents contient des objets de type vevent
 	 * @return array renvoi tous les événements triés/concaténés, selon le contexte de chaque événement, dans un tableau
 	 */
@@ -428,11 +546,11 @@ class BNSCalendarManager
 			// get the current dtstart from the event
 			$currentDtStart = $vevent->getProperty('X-CURRENT-DTSTART');
 			$currentDtStart = $currentDtStart[1];
-			
+
 			// get the dtstart of the current event
 			$dStart = $vevent->getProperty('dtstart');
 			$dateStr = $dStart['year'].'-'.$dStart['month'].'-'.$dStart['day'].' '.$dStart['hour'].':'.$dStart['min'].':'.$dStart['sec'];
-			
+
 			// Recurring
 			if($dateStr != $currentDtStart && $customParameters['params']['IS_RECURRING'])
 			{
@@ -441,12 +559,12 @@ class BNSCalendarManager
 				$currentDtEnd = $currentDtEnd[1];
 				$vevent->setProperty('dtend', array('timestamp' => strtotime($currentDtEnd)));
 			}
-			
+
 			// Event during several days process
 			if ($customParameters['params']['SEVERAL_DAYS'])
 			{
 				$vEventsSorted[$vevent->getProperty('uid')] = $vevent;
-			}			
+			}
 			else
 			{
 				$vEventsSorted[] = $vevent;
@@ -455,9 +573,9 @@ class BNSCalendarManager
 
 		return $vEventsSorted;
 	}
-	
+
 	/**
-	 * Méthode qui "casse" l'arborescence en année->mois->jour rendu par la méthode selectComponents() de vcalendar 
+	 * Méthode qui "casse" l'arborescence en année->mois->jour rendu par la méthode selectComponents() de vcalendar
 	 * pour remettre tous les objets dans la même dimension
 	 * @param array $array tableau d'objet de type vevent rendu par la méthode selectComponents() de vcalendar
 	 * @return array tableau à une dimension qui contient tous les objets contenus dans le tableau fourni en paramètre
@@ -465,7 +583,7 @@ class BNSCalendarManager
 	private function convertTo1DArray(array $array)
 	{
 		$result = array();
-		
+
 		foreach ($array as $months) {
 			foreach ($months as $days) {
 				foreach ($days as $events) {
@@ -476,14 +594,16 @@ class BNSCalendarManager
 				}
 			}
 		}
-		
+
 		return $result;
 	}
-	
+
 	/**
+	 * @deprecated Broken, does not work with timezones. Use getDateTimeObject() instead.
+	 *
 	 * Converti le tableau de date fourni par la méthode getProperty('dtstart') ou getProperty('dtend') de vevent
 	 * en une chaîne de caractère
-	 * 
+	 *
 	 * @param array $date tableau de date renvoyé par les méthodes getProperty('dtstart'), getProperty('dtend')
 	 * @return String une chaîne de caractère contenant la date au format :  MM/dd/YYYY H:i
 	 */
@@ -496,11 +616,16 @@ class BNSCalendarManager
 
 		return $dateStr;
 	}
-	
-	
+
+    private function getDateTimeObject(array $date)
+    {
+        return AgendaEvent::createDateTimeFromVeventDate($date);
+    }
+
+
 	/**
 	 * Test si un événement dure plusieurs jours ou non
-	 * 
+	 *
 	 * @param array $dateStart tableau de date de début fourni par getProperty('dtstart') de vevent
 	 * @param array $dateEnd tableau de date de fin fourni par getProperty('dtend') de vevent
 	 * @return boolean true si l'événement dure plusieurs jours, false sinon
@@ -509,124 +634,136 @@ class BNSCalendarManager
 	{
 		return !($dateStart['year'] == $dateEnd['year'] && $dateStart['month'] == $dateEnd['month'] && $dateStart['day'] == $dateEnd['day']);
 	}
-	
-	
+
+
 	/**
 	 * Retourne le code vevent dans la norme iCalendar associé à l'objet vevent $vevent fourni en paramètre
-	 * 
+	 *
 	 * @param vevent $vevent objet dont on souhaite obtenir le code vevent dans la norme iCalendar
 	 * @return string chaîne de caractère correspondant au code vevent associé généré
 	 */
 	private function generateICalendarVeventCode($vevent)
 	{
 		// icalcreator object process
-		$calendar = new vcalendar();
-		
+		$calendar = new \vcalendar();
+
 		// add the vevent component to container vcalendar
 		$calendar->setComponent($vevent);
 		// generate the icalendar format from vcalendar
 		$str = $calendar->createCalendar();
-		
+
 		// extract from icalendar format the vevent code
 		$str = substr($str, strpos($str, 'BEGIN:VEVENT'));
 		$str = substr($str, 0, strpos($str, 'END:VEVENT') + 10);
-		
+
 		return $str;
 	}
 
-	/**
-	 * 
-	 */
-	private function getUsersBirthdayEvent($dateStart, $dateEnd, $agendas) 
-	{
-		$currentGroupId = $this->container->get('bns.right_manager')->getCurrentGroupId();
-		$currentGroupAgenda = null;
-		// Tableau qui classe les utilisateurs par date de naissance
-		$userBirthdays = array();
-		// On boucle sur tous les agendas pour récupérer les groupes associés
-		foreach ($agendas as $agenda) {
-			if ($currentGroupId == $agenda->getGroupId()) {
-				$currentGroupAgenda = $agenda;
-			}
 
-			// Pour chaque groupe, on boucle sur tous les utilisateurs
-			foreach ($this->container->get('bns.group_manager')->setGroup($agenda->getGroup())->getUsers(true) as $user) {
-				$userBirthdayTimestamp = (null != $user->getBirthday()? $user->getBirthday()->getTimestamp(): null);
+    /**
+     * @param string $dateStart
+     * @param string $dateEnd
+     * @param Agenda[]|[] $agendas
+     * @return array
+     */
+    private function getUsersBirthdayEvent($dateStart, $dateEnd, $agendas)
+    {
+        $wdCalendarEvents = array();
+        $groupManager = $this->container->get('bns.group_manager');
+        // On boucle sur tous les agendas pour récupérer les groupes associés
+        /** @var Agenda $agenda */
+        foreach ($agendas as $agenda) {
+            // Tableau qui classe les utilisateurs par date de naissance
+            $userBirthdays = array();
+            if ($agenda->getGroup()->getGroupType()->getType() == "CLASSROOM") {
+                // Pour chaque groupe, on boucle sur tous les utilisateurs
+                /** @var User $user */
+                foreach ($groupManager->setGroup($agenda->getGroup())->getUsers(true) as $user) {
+                    /** @var \DateTime $birthday */
+                    if (!($birthday = $user->getBirthday())) {
+                        continue;
+                    }
 
-				// Si aucune date de naissance est setté, on passe à l'utilisateur suivant
-				if (null == $userBirthdayTimestamp) {
-					continue;
-				}
+                    $startYear = intval(date('Y', $dateStart));
+                    // force utc timestamp for birthday to prevent issue
+                    $date = new \DateTime($birthday->format($startYear . '-m-d'), new \DateTimeZone('UTC'));
+                    $currentBirthdayTimestamp = $date->format('U');
+                    $date = new \DateTime($birthday->format(($startYear + 1) . '-m-d'), new \DateTimeZone('UTC'));
+                    $nextBirthdayTimestamp = $date->format('U');
 
-				// On calcule le nombre d'année qui sépare la date de naissance de l'utilisateur et la date à afficher
-				$yearDiff = intval(date('Y', $dateStart)) - intval(date('Y', $userBirthdayTimestamp));
-				// On créé maintenant la date d'anniversaire par rapport à l'année courante
-				$userBirthdayTimestamp = mktime(0, 0, 0, date('m', $userBirthdayTimestamp), date('d', $userBirthdayTimestamp), date('Y', $userBirthdayTimestamp) + $yearDiff);
-				if ($userBirthdayTimestamp < $dateStart || $userBirthdayTimestamp > $dateEnd) {
-					continue;
-				}
+                    if ($dateStart <= $currentBirthdayTimestamp && $currentBirthdayTimestamp <= $dateEnd) {
+                        $userBirthdayTimestamp = $currentBirthdayTimestamp;
+                    } else if ($dateStart <= $nextBirthdayTimestamp && $nextBirthdayTimestamp <= $dateEnd) {
+                        $userBirthdayTimestamp = $nextBirthdayTimestamp;
+                    } else {
+                        continue;
+                    }
 
-				if (!isset($userBirthdays[$userBirthdayTimestamp])) {
-					$userBirthdays[$userBirthdayTimestamp] = array(
-						$user->getId() => $user->getFullName()
-					);
-				}
-				elseif (!isset($userBirthdays[$userBirthdayTimestamp][$user->getId()])) {
-					$userBirthdays[$userBirthdayTimestamp][$user->getId()] = $user->getFullName();
-				}
-			}
-		}
+                    if (!isset($userBirthdays[$userBirthdayTimestamp])) {
+                        $userBirthdays[$userBirthdayTimestamp] = array(
+                            $user->getId() => $user->getFullName()
+                        );
+                    } elseif (!isset($userBirthdays[$userBirthdayTimestamp][$user->getId()])) {
+                        $userBirthdays[$userBirthdayTimestamp][$user->getId()] = $user->getFullName();
+                    }
+                }
+            } else {
+                continue;
+            }
 
-		$vevents = array();
-		foreach ($userBirthdays as $birthday => $users) {
-			$vevent = new vevent();
-			$isSeveralUsersBirthday = count($users) > 1;
-			$eventTitle = ($isSeveralUsersBirthday? count($users) . ' anniversaires' : 'Anniversaire : '. reset($users));
-			$vevent->setProperty('summary', $eventTitle);
+            $vevents = array();
+            foreach ($userBirthdays as $birthday => $users) {
+                $vevent = new \vevent();
+                $nbusers = count($users);
+                $eventTitle = $this->container->get('translator')->transChoice(
+                    'TITLE_ANNIVERSARY',
+                    $nbusers,
+                    array('%count%' => $nbusers),
+                    'CALENDAR'
+                );
+                $vevent->setProperty('summary', $eventTitle);
+                $usersStr = implode(', ', $users);
+                $descriptionStr = $this->container->get('translator')->transChoice(
+                    'THIS_DAY_BIRTHDAY_OF',
+                    $nbusers,
+                    array('%count%' => $nbusers, '%usersStr%' => $usersStr),
+                    'CALENDAR'
+                );
 
-			$descriptionStr = 'A cette date, il y a l\'anniversaire de ';
+                $vevent->setProperty('description', $descriptionStr . '.');
+                $vevent->setProperty('dtstart', array('timestamp' => $birthday));
+                $vevent->setProperty('dtend', array('timestamp' => $birthday));
 
-			if ($isSeveralUsersBirthday) {
-				$descriptionStr .= ': ' . implode(', ', $users);
-			}
-			else {
-				$descriptionStr .= reset($users);
-			}
+                $vevents[] = $vevent;
 
-			$vevent->setProperty('description', $descriptionStr . '.');
-			$vevent->setProperty('dtstart', array('timestamp' => $birthday));
-			$vevent->setProperty('dtend', array('timestamp' => $birthday));
+                // On vide la mémoire
+                $vevent = null;
+            }
 
-			$vevents[] = $vevent;
 
-			// On vide la mémoire
-			$vevent = null;
-		}
+            foreach ($vevents as $vevent) {
+                $birthdaySlug = $this->convertToStringDate($vevent->getProperty('dtstart'), false, '-');
+                $birthdayStr = $this->getDateTimeObject($vevent->getProperty('dtstart'))->format('c');
 
-		$wdCalendarEvents = array();
-		foreach ($vevents as $vevent)
-    	{
-    		$birthdaySlug = $this->convertToStringDate($vevent->getProperty('dtstart'), false, '-');
-    		$birthdayStr = $this->convertToStringDate($vevent->getProperty('dtstart'));
+                $wdCalendarEvents[] = array(
+                    'anniversaire/' . $birthdaySlug . '_' . $vevent->getProperty('summary') . '_' . $vevent->getProperty('description'), // start de l'événement; ici j'ai donné le slug de l'objet AgendaEvent correspondant
+                    $vevent->getProperty('summary'), // titre de l'événement
+                    $birthdayStr, // date de début de l'événement
+                    $birthdayStr, // date de fin de l'événement
+                    true, // boolean : true = dure toute la journée, sinon false
+                    false, // boolean : true = dure sur plusieurs jour, sinon false
+                    0, // boolean : true = événement récurrent, false sinon; On gère nous même la réccurence, wdCalendar ne s'occupe que de la vue
+                    0, // Code couleur allant de 0 à 13, il faudrait tweaker ça du côté de wdCalendar FIXME
+                    false, // boolean : true = éditable, false sinon
+                    '', // éventuel lieu de l'événement
+                    '', // participant
+                    'agenda-' . $agenda->getId(), // la chaîne de caractère "agenda-" concaténé avec l'id de l'agenda
+                    $agenda->getColorClass(),
+                    'recurrent'
+                );
+            }
+        }
 
-    		$wdCalendarEvents[] = array(
-		    	'anniversaire/'. $birthdaySlug . '_' . $vevent->getProperty('summary') . '_' . $vevent->getProperty('description'), // start de l'événement; ici j'ai donné le slug de l'objet AgendaEvent correspondant
-		    	$vevent->getProperty('summary'), // titre de l'événement
-		    	$birthdayStr, // date de début de l'événement
-		    	$birthdayStr, // date de fin de l'événement
-		    	true, // boolean : true = dure toute la journée, sinon false
-		    	false, // boolean : true = dure sur plusieurs jour, sinon false
-		    	0, // boolean : true = événement récurrent, false sinon; On gère nous même la réccurence, wdCalendar ne s'occupe que de la vue
-		    	0, // Code couleur allant de 0 à 13, il faudrait tweaker ça du côté de wdCalendar FIXME
-		    	false, // boolean : true = éditable, false sinon
-		    	'', // éventuel lieu de l'événement
-		    	'', // participant
-		    	'agenda-' . $currentGroupAgenda->getId(), // la chaîne de caractère "agenda-" concaténé avec l'id de l'agenda
-		    	$currentGroupAgenda->getColorClass(),
-				'recurrent'
-    		);
-    	}
-
-		return $wdCalendarEvents;
-	}
+        return $wdCalendarEvents;
+    }
 }

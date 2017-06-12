@@ -1,0 +1,133 @@
+{% trans_default_domain "CLASSROOM" %}
+{% import 'BNSAppCoreBundle:Macros:forms.html.twig' as forms %}
+
+<script type="text/javascript">
+  $(function ()
+  {
+    var alreadyShown = false;
+    if ($('.create-user-form-container .alert.alert-success').length > 0) {
+      setTimeout(function ()
+      {
+        $('.create-user-form-container .alert.alert-succes div').slideUp('fast', function () { var $this = $(this); $this.parent().slideUp('fast', function () { $this.show() }) });
+      }, 8000); // 8 seconds
+    }
+
+    $('#switch-add').click(function()
+    {
+      $('#add-user-modal .modal-body').css('max-height', '530px');
+      $('.content-form-user').html('<textarea id="pupils" rows="12" cols="15" placeholder="{{ 'PLACEHOLDER_ENTER_PUPIL_WITH_FORMAT'|trans |desc('Ex : Dupont Jean 10/06/2008 M')  }}"></textarea>');
+      $('.finish.pupil').remove();
+      $('#add-user-modal .modal-footer').append("<p class='format'><img src='{{ asset('medias/images/icons/edit.png') }}'/>{{ 'LABEL_QUICK_TEXT_INPUT'|trans |raw}}</p>");
+    });
+
+    $('#pupils').live('keypress', function(){
+      if(!alreadyShown) {
+        $('#add-user-modal .modal-footer').prepend('<a href="#" id="import" class="btn bns-success btn-16 small import"><span class="icons-16 refresh-icon"></span>{{ 'LINK_CHECK_INPUT'|trans }}</a>');
+        alreadyShown = true;
+      }
+    });
+
+    $(document).on('click','#import',(function()
+    {
+      var liste = $('#pupils').val();
+      $.ajax({
+        method: "POST",
+        url: "{{ path('back_classroom_users_import_pupil_from_textarea') }}",
+        data: {data: liste}
+      })
+        .done(function(usersTab)
+        {
+          $('#pupils_previsualisation').remove();
+          $('.format').remove();
+          $('.content-form-user').append(usersTab);
+            if ($('#import-validation').length == 0 && $('#pupils_previsualisation').children().length != 0) {
+              $('.import').html('<span class="icons-16 refresh-icon"></span>{{ 'UPDATE'|trans }}');
+              $('#add-user-modal .modal-footer').prepend('<a href="#" id="import-validation" class="btn bns-success btn-16 small"><span class="icons-16 validate-icon"></span>{{ 'LINK_CONFIRM_ADDITION'|trans }}</a>');
+            }
+        });
+    }));
+
+    $(document).on('click','#import-validation',(function()
+    {
+      var liste = $('#pupils').val();
+      $.ajax({
+        method: "POST",
+        url: "{{ path('back_classroom_users_import_pupil_from_textarea_validation') }}",
+        data: {data: liste}
+      })
+        .done(function(urlFromController) {
+          window.location.href = urlFromController;
+        });
+    }));
+
+  });
+</script>
+
+<div class="create-user-form-container">
+  {% for message in app.session.flashbag.get('success') %}
+    <div class="alert alert-success bns-alert">
+      {{ message }}
+      <div class="jim"></div>
+    </div>
+  {% endfor %}
+
+  <div class="content-form-user">
+
+    <a href="#" id="switch-add" class="btn bns-success btn-16 small finish beta">
+      <span class="icons-16 edit-icon"></span>
+      {{ 'LINK_DISPLAY_QUICK_INPUT'|trans |desc('Afficher la saisie rapide') }}
+    </a>
+
+    <form method="POST" action="{{ path('classroom_manager_add_pupil') }}" id="add-user-classroom-form">
+      <div>
+        {{ form_label(form.last_name) }}
+        {{ form_widget(form.last_name) }}
+        {{ forms.errors(form.last_name) }}
+      </div>
+
+      <div>
+        {{ form_label(form.first_name) }}
+        {{ form_widget(form.first_name) }}
+        {{ forms.errors(form.first_name) }}
+      </div>
+
+      <div class="form birthday">
+        {{ form_label(form.birthday) }}
+        {{ form_widget(form.birthday) }}
+        {{ forms.errors(form.birthday) }}
+      </div>
+      <div class="clearfix"></div>
+
+      <div class="gender">
+        {{ form_label(form.gender) }}
+        {{ form_widget(form.gender) }}
+        {{ forms.errors(form.gender) }}
+      </div>
+      <div class="clearfix"></div>
+      {{ form_rest(form) }}
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <a href="#" class="btn bns-danger btn-16 small" data-dismiss="modal">
+      <span class="icons-16 cancel-icon"></span>
+      <strong>{% trans %}LINK_CANCEL{% endtrans %}</strong>
+
+    </a>
+    <a href="#" class="btn bns-success btn-16 small finish and-new pupil">
+      <span class="icons-16 validate-icon"></span>
+        {{ 'LINK_CREATE_ADD_PUPIL'|trans |desc('<strong>Créer</strong> et ajouter un autre élève') |raw}}
+    </a>
+    <a href="#" class="btn bns-success btn-16 small finish pupil">
+      <span class="icons-16 validate-icon"></span>
+        {{ 'LINK_CREATE_TEACHER_PUPIL'|trans |desc('<strong>Créer</strong> le compte élève') |raw}}
+    </a>
+
+  </div>
+</div>
+
+{% if lastRegistedUser is defined %}
+  <div class="result lastRegistedUser" style="display: none;">
+    {{ lastRegistedUser | raw}}
+  </div>
+{% endif %}

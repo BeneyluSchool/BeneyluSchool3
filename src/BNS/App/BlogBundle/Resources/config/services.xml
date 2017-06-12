@@ -4,17 +4,29 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <!--
     <parameters>
-        <parameter key="bns_app_blog.example.class">BNS\App\BlogBundle\Example</parameter>
+        <parameter key="install_process_bns_app_blog_bundle.class">BNS\App\BlogBundle\Install\InstallProcess</parameter>
+        <parameter key="blog_service_bns_app_statistics_bundle.class">BNS\App\BlogBundle\Statistic\BlogStatisticsService</parameter>
+        <parameter key="bns.data_reset.change_year_blog_article.class">BNS\App\BlogBundle\DataReset\ChangeYearBlogArticleDataReset</parameter>
     </parameters>
 
     <services>
-        <service id="bns_app_blog.example" class="%bns_app_blog.example.class%">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
+        <service id="install_process_bns_app_blog_bundle" class="%install_process_bns_app_blog_bundle.class%">
+            <tag name="bns.install_process" />
         </service>
+
+        <service id="stat.blog" class="%blog_service_bns_app_statistics_bundle.class%">
+            <argument type="service" id="service_container"></argument>
+        </service>
+
+        <service id="bns.data_reset.change_year_blog_article" class="%bns.data_reset.change_year_blog_article.class%">
+            <tag name="bns.data_reset" type="change_year" hasOptions="true" />
+        </service>
+
+        <service class="BNS\App\BlogBundle\Manager\BlogManager" id="bns_app_blog.blog_manager">
+            <argument id="bns.right_manager" type="service"/>
+            <argument id="bns.user_manager" type="service"/>
+        </service>
+
     </services>
-    -->
 </container>

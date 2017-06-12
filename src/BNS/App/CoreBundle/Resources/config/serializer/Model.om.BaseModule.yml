@@ -1,0 +1,7 @@
+BNS\App\CoreBundle\Model\om\BaseModule:
+  exclusion_policy: All
+  properties:
+    id:
+      expose: true
+    unique_name:
+      expose: true

@@ -1,0 +1,54 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+	Beneylu Spot
+{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+	<link href="https://fonts.googleapis.com/css?family=Ubuntu:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Boogaloo' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	<link href="{{ asset('medias/css/resource/front.css') }}" rel='stylesheet' type='text/css'>
+	{# manager pour les modals #}
+	<link href="{{ asset("medias/css/manager.css") }}" type="text/css" media="screen" rel="stylesheet" />
+    <link href="{{ asset("medias/css/main/spot-waiting.css") }}" type="text/css" media="screen" rel="stylesheet" />
+{% endblock %}
+
+{% block javascript %}
+
+{% endblock %}
+
+{% block body_class %}
+    {{ parent() }}
+    full-height
+{% endblock %}
+
+{% block html_class %}
+    {{ parent() }}
+    full-height
+{% endblock %}
+
+{% block body %}
+
+    <div class="bg-spot">
+        <div class="modal">
+            <div class="modal-inner">
+                <img src="{{ asset('medias/images/main/spot.png') }}" class="logo">
+                <h1>Beneylu Spot</h1>
+                <h2>arrive le 1er septembre dans Beneylu School</h2>
+                <p>Plus de <b>500 applications et contenus</b> pour enrichir vos<br /> pratiques pédagogiques sur Beneylu School !</p>
+                <a id="cta" class="spot-confirm btn bns-warning toggle" href="{{ path('BNSAppMainBundle_spot_offers') }}">
+                    <span class="card"></span>
+                    <span class="btn-container">
+                        <span class="btn-title">Je prépare mon budget</span>
+                        <span class="btn-subtitle">avec la <b>carte Beneylu Spot</b></span>
+                    </span>
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

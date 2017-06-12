@@ -1,54 +1,84 @@
 <div class="header-btn">
-    <a class="btn resource-return" href="#">Retour navigation</a>
-	
+    <a class="btn resource-return" href="#">Revenir à la liste</a>
+
 	{% if getResourceNavigationType() == "select_image" %}
-		<button 
+		<button
 			data-final-id="{{ app.session.get('resource_select_image_final_id') }}"
 			data-callback="{{ app.session.get('resource_select_image_callback') }}"
 			data-resource-id="{{ resource.id }}"
 			class="btn btn-warning resource-image-selection resource-selection-select select-image">Sélectionner cette image
 		</button>
 	{% else %}
-		<div class="btn-group">
-			<a class="btn add resource resource-select" id="{{ resource.getId }}-add_from_resource" href="#"><span class="use"></span>Sélectionner</a>
-		</div>
+		{#<div class="btn-group">
+			<a class="btn add resource resource-select from-sheet" id="{{ resource.getId }}-add_from_resource" data-resource-id="{{ resource.id }}" href="#"><span class="use"></span>Sélectionner</a>
+		</div>#}
 
 		<div class="btn-group">
-			<a class="btn add resource" href="#" data-toggle="dropdown"><span class="star"></span>Associer</a>
+			<a class="btn add resource sheet-toggle-favorite" href="#" data-toggle="dropdown"><span class="star"></span>Obtenir</a>
 			<ul class="dropdown-menu">
-				<li><a class="resource-selection-add-to-favorite single-file" href="#">Ajouter à mes favoris</a></li>
-				<li><a href="#">Ajouter à mes documents</a></li>
+				<li>
+					<a class="resource-favorite single-file from-sheet" href="#"  data-resource-id="{{ resource.id }}">
+						Placer en favori
+					</a>
+				</li>
+				<li>
+					<a href="#" class="resource-add-to-my-documents from-sheet" data-resource-id="{{ resource.id }}">
+						Ajouter à mes documents
+					</a>
+				</li>
 			</ul>
 		</div>
 	{% endif %}
-    <a id="resource-edit-{{ resource.getId }}" class="btn cancel-upload resource-edit" href="#"><span class="edit"></span>Editer</a>
+	{% if can_manage %}
+		<a id="resource-edit-{{ resource.getId }}" class="btn cancel-upload resource-edit" href="#"><span class="edit"></span>Editer</a>
+	{% endif %}
 </div>
 <div class="content-title-resource row-fluid">
     <div class="title-resource span6">
-        <h3>{{ resource.label|wordwrap(35) }}</h3>
-        <p>Dernière modification : le {{ resource.getUpdatedAt| date_bns('full', 'none') }} à {{ resource.getUpdatedAt| date_bns('none', 'short') }}</p>
+        {% if resource.isPrivate %}
+			<img class="statut" src='{{ asset('/medias/images/icons/buttons/24x24/private.png') }}' />
+		{% else %}
+			<img class="statut" src='{{ asset('/medias/images/icons/buttons/24x24/public.png') }}' />
+		{% endif %}
+		<h3>{{ resource.label|wordwrap(35) }}</h3>
+        <p>Dernière modification {{ date_from_now(resource.createdAt, false, true) }}</p>
     </div>
-    <div class="description-resource span4">
+    <div class="description-resource">
         <img src="{{ getFileTypeImageUrl(resource,"tiny") }}" />
         <p class="title">{{ resource.printType }} déposé{{ resource.gender == "f" ? "e" : "" }}  par <span>{{ resource.getUser.getFullName }}</span></p>
     </div>
 </div>
 
 <div class="content-image-description">
-	<div class="image">
-		{% include 'BNSAppResourceBundle:ResourceBlock:'~ rm.getTemplateName ~'.html.twig' with {"resource" : resource , 'size' : "medium"} %}
+	<div class="image {{ resource.typeUniqueName }}">
+		{% if resource.typeUniqueName == "FILE" or resource.typeUniqueName == "DOCUMENT"%}
+			{% include 'BNSAppResourceBundle:ResourceBlock:'~ rm.getTemplateName ~'.html.twig' with {"resource" : resource , 'size' : "small", 'class' : '', 'with_title' : false, 'with_image': true} %}
+		{% else %}
+			{% include 'BNSAppResourceBundle:ResourceBlock:'~ rm.getTemplateName ~'.html.twig' with {"resource" : resource , 'size' : "medium", 'class' : '', 'with_link' : false} %}
+		{% endif %}
+
 	</div>
-	<div class="description">
+	<div class="description {{ resource.typeUniqueName }}">
+
+		{% if resource.typeUniqueName == "LINK" %}
+			{% include 'BNSAppResourceBundle:ResourceBlock:'~ rm.getTemplateName ~'.html.twig' with {"resource" : resource , 'size' : "medium", 'class' : '', 'with_link' : true , 'with_image' : false} %}
+		{% endif %}
+
 		<h3>Description :</h3>
 		{% if resource.getDescription is not empty %}
 			<p>{{ resource.getDescription }}</p>
 		{% else %}
 			<p>Il n'y a pas de description pour ce document.</p>
 		{% endif %}
+
+		{% if resource.typeUniqueName == "IMAGE" %}
+			<div class="download">
+				<a class="btn btn-warning look-image " target="_blank" href="{{ path('BNSAppResourceBundle_download', { 'resourceSlug': resource.getSlug }) }}"><span class="look-image"></span> Télécharger</a>
+			</div>
+		{% endif %}
+
     </div>
-	{% if resource.typeUniqueName == "IMAGE" %}
-		<a class="btn btn-warning look-image" target="_blank" href="{{ path('BNSAppResourceBundle_download', { 'resource_slug': resource.getSlug }) }}"><span class="look-image"></span> Télécharger</a>
-	{% endif %}
+
 </div>
 <div class="content-libel">
 	<div class="libel">

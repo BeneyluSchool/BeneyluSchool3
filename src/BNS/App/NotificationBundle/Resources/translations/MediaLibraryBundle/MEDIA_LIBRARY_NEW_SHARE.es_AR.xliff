@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:45:05Z" source-language="en" target-language="es-AR" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="f0f572e7b53dc9b7dd87704189064f8c446624a7" resname="MEDIA_LIBRARY_NEW_SHARE.EMAIL.content">
+        <source>MEDIA_LIBRARY_NEW_SHARE.EMAIL.content</source>
+        <target><![CDATA[Tenés un nuevo archivo en la mediateca: <a href="%media_folder_route%">%file_name%</a>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="9e260a3ba50a0c4305646fedc32820a69be4d105" resname="MEDIA_LIBRARY_NEW_SHARE.EMAIL.title">
+        <source>MEDIA_LIBRARY_NEW_SHARE.EMAIL.title</source>
+        <target>Hay un nuevo archivo disponible en la mediateca</target>
+      </trans-unit>
+      <trans-unit id="68810452cf1774de07f8cc28ca8e8e16d048ccc0" resname="MEDIA_LIBRARY_NEW_SHARE.SYSTEM.content">
+        <source>MEDIA_LIBRARY_NEW_SHARE.SYSTEM.content</source>
+        <target><![CDATA[Tenés un nuevo archivo en la mediateca: <a href="%media_folder_route%">%file_name%</a>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

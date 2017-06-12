@@ -1,0 +1,246 @@
+{% trans_default_domain "MINISITE" %}
+{% extends 'BNSAppMiniSiteBundle:Layout:manager.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script type="text/javascript">
+		$(function () {
+			// Save page id process
+			$('.container-editors .page .add-editors').click(function (e) {
+				var $this = $(e.currentTarget),
+					$pageContainer = $this.parent().parent(),
+					$users = $pageContainer.find('.editors a.bns-user'),
+					hideUsers = function () {
+						$('#editors-ids').data('page-id', $this.data('page-id'));
+						$('#editors-userpicker .user-block').show();
+
+						$.each($users, function (i, item) {
+							$('#editors-userpicker .user-block[data-user-id="' + $(item).data('id') + '"]').hide();
+						});
+					};
+
+				// Hide already selected user
+				if ($('#directory-content').length == 0) {
+					$('#editors-userpicker').on('loaded', function (e) {
+						hideUsers();
+						$(this).off(e);
+					});
+				}
+				else {
+					hideUsers();
+				}
+			});
+
+			// Add editor process
+			$('#editors-ids').change(function (e) {
+				var $this = $(e.currentTarget),
+					pageId = $this.data('page-id'),
+					editorsIds = $this.val().split(',')
+					$pageContainer = $('#page-' + pageId),
+					$loader = $pageContainer.find('.loader');
+
+				$loader.fadeIn('fast');
+
+				// Empty selection process & delete select box for users container
+				$('.selected-user-container a.user-block').remove();
+				$('.selected-user-container .no-selection').show();
+				$('#editors-userpicker .user-block').removeClass('is-selected selected').addClass('checkbox selectable');
+
+				$.ajax({
+					url: '{{ path('minisite_manager_editors_add') }}',
+					type: 'POST',
+					dataType: 'html',
+					data: {'page_id': pageId, 'editors_ids': editorsIds},
+					success: function (data) {
+						$pageContainer.find('.no-editor').fadeOut('fast');
+						$loader.fadeOut('fast');
+
+						var $users = $(data),
+							countUsers = $users.length,
+							currentUser = 0,
+							showUser = function (user) {
+							$(user).fadeIn('fast');
+							++currentUser;
+
+							if (currentUser <= countUsers) {
+								setTimeout(function () {
+									showUser($users.get(currentUser));
+								}, 75);
+							}
+						};
+
+						$users.hide();
+						$pageContainer.find('.editors').append($users);
+						showUser($users.get(0));
+					}
+				});
+			});
+
+			// Delete editor process
+			$('.container-editors').on('click', '.editors a.bns-user', function (e) {
+				var $this = $(e.currentTarget),
+					$pageContainer = $this.parent().parent();
+
+				$this.fadeOut('fast', function () {
+					$(this).remove();
+
+					if ($pageContainer.find('.editors a.bns-user').length == 0) {
+						$pageContainer.find('.editors .no-editor').slideDown('fast');
+					}
+				});
+
+				$.ajax({
+					url: $this.attr('href'),
+					type: 'POST',
+					data: {'page_id': $pageContainer.data('id'), 'editor_slug': $this.data('slug')}
+				});
+
+				return false;
+			});
+
+			// Select user process
+			$('#editors-userpicker').on('click', '.user-block.selectable', function(e) {
+				e.preventDefault();
+
+				var $this = $(e.currentTarget);
+
+				if ($('.selected-user-container').find('a[data-user-id="' + $this.data('user-id') + '"]').length <= 3) {
+					$this.clone().removeClass('btn bns-user checkbox big selectable').addClass('bns-user cancel small').prependTo('.selected-user-container');
+					$this.removeClass('selectable checkbox').addClass("selected is-selected");
+
+					$('.no-selection').hide();
+				}
+			});
+		});
+	</script>
+{% endblock javascripts %}
+
+{% block angular_scripts %}
+	{{ parent() }}
+
+	<script>
+		angularBootstrap().then(function ($injector) {
+			var $compile = $injector.get('$compile');
+			var $rootScope = $injector.get('$rootScope');
+			var app = angular.module('beneyluSchoolMaterialApp');
+
+			app.controllerProvider.register('MinisiteEditorsController', function ($scope) {
+				var ctrl = this;
+				ctrl.pages = {};
+				{% for page in minisite.getMiniSitePages() %}
+				ctrl.pages[{{ page.id }}] = [];
+				{% for editor in page.getMiniSitePageEditors() %}
+				ctrl.pages[{{ page.id }}].push({{ editor.getUserId() }});
+				{% endfor %}
+				{% endfor %}
+
+				angular.forEach(ctrl.pages, function (ids, pageId) {
+					$scope.$watchCollection('ctrl.pages['+pageId+']', function (ids, oldIds) {
+						if (ids === oldIds) {
+							return;
+						}
+
+						var idsToAdd = _.difference(ids, oldIds);
+						var idsToRemove = _.difference(oldIds, ids);
+						if (idsToAdd.length) {
+							addUsers(pageId, idsToAdd);
+						}
+						if (idsToRemove.length) {
+							removeUsers(pageId, idsToRemove);
+						}
+					});
+				});
+			});
+
+			app.loadLegacyApp().then(function () {
+				var $root = angular.element('#angularize-minisite-editors');
+				$root.attr('ng-controller', 'MinisiteEditorsController as ctrl')
+						.addClass('app-root');
+
+				$root.find('.add-editors').each(function (idx, btn) {
+					var $btn = angular.element(btn);
+					var pageId = $btn.attr('data-page-id');
+					$btn.attr('bns-user-directory-invoke', 'minisite-editors').attr('selection', 'ctrl.pages['+pageId+']');
+				});
+				$compile($root)($rootScope);
+			});
+		});
+
+		function addUsers (pageId, ids) {
+			$.ajax({
+				url: '{{ path('minisite_manager_editors_add') }}',
+				type: 'POST',
+				dataType: 'html',
+				data: {'page_id': pageId, 'editors_ids': ids},
+			});
+		}
+
+		function removeUsers (pageId, ids) {
+			angular.forEach(ids, function (id) {
+				$.ajax({
+					url: '{{ path('minisite_manager_editors_delete') }}',
+					type: 'POST',
+					data: {'page_id': pageId, 'editor_id': id}
+				});
+			});
+		}
+	</script>
+{% endblock %}
+
+{% block sidebar %}
+	{% include 'BNSAppMiniSiteBundle:Sidebar:sidebar.html.twig' with {'index': 'custom', 'section': 'editors'} %}
+{% endblock sidebar %}
+
+{% block header %}
+{% endblock header %}
+
+{% block content %}
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools layout-align-start-center">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+    <h1 class="md-title text-primary text-left flex flex-gt-sm-33">{% trans%}LINK_CUSTOMIZE{% endtrans %} - {% trans %}TITLE_EDITORS{% endtrans %}</h1>
+  </div>
+</md-toolbar>
+
+
+<md-content  id="content" >
+
+
+  <div class="minisite-container">
+    <div id="angularize-minisite-editors" class="container-editors item-list-container">
+		{% for page in minisite.getMiniSitePages() %}
+			<div class="page" id="page-{{ page.getId() }}" data-id="{{ page.getId() }}">
+				<div class="header">
+					<h2 class="pull-left">{{ page.getTitle() }}</h2>
+					<span class=" add-editors" data-page-id="{{ page.getId() }}">
+            {{ components.button( 'ADD_EDITOR' | trans , { icon: 'add_circle', raised: true, hover: true, size:'sm', attr:{'class':'pull-right editor'}}) }}
+					</span>
+					<div class="clearfix"></div>
+				</div>
+				<div class="editors">
+					<div bns-user-directory-editable-list
+						store="'userDirectoryUsers'"
+						ids="ctrl.pages[{{ page.id }}]"
+						empty-text="{{ "NO_EDITOR_FOR_THIS_PAGE"|trans }}"
+						whole-selector="true"
+						class="generic-user-directory-list deletable"
+					></div>
+				</div>
+			</div><hr class="separator">
+		{% else %}
+			<div class="no-item">
+        {% trans %}NO_PAGE_ON_MINISITE_CREATE_ONE{% endtrans %}
+
+				<a href="{{ path('minisite_manager_custom') }}" class="btn bns-info btn-24 large">
+					<span class="icons-24 add-icon"></span>
+          <strong>{% trans %}LINK_MANAGE_PAGE{% endtrans %}</strong>
+				</a>
+			</div>
+
+      <hr class="separator">
+		{% endfor %}
+    </div>
+  </div>
+  </md-content>
+{% endblock content %}

@@ -6,7 +6,7 @@ use BNS\App\StatisticsBundle\Services\StatisticsService;
  * Service de statistiques dédiés au GPS bundle
  * Pour chaque action que l'on souhaite sauvegardé,
  * on crée une méthode dans le service
- * 
+ *
  * @author florian.rotagnon@atos.net
  */
 class GPSStatisticsService extends StatisticsService
@@ -18,7 +18,7 @@ class GPSStatisticsService extends StatisticsService
     {
         $this->increment("GPS_CREATE_PLACE");
     }
-    
+
     /**
      * Recherche dans le GPS
      */
@@ -26,6 +26,11 @@ class GPSStatisticsService extends StatisticsService
     {
         $this->increment("GPS_DO_SEARCH");
     }
-}
 
-?>
+    public function visit()
+    {
+        $this->disableCascadeParentGroup();
+        $this->increment('GPS_VISIT');
+        $this->enableCascadeParentGroup();
+    }
+}

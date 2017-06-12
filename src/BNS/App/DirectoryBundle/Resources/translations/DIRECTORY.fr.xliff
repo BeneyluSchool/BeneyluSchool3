@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-10-23T11:24:35Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="07907fe8f3bd531821cde4fa73e20754c16a09ba" resname="BUTTON_SAVE">
+        <source>Enregistrer</source>
+        <target state="new">Enregistrer</target>
+        <jms:reference-file line="35">views/Directory/index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="cc64f35d044f3c8be7b46ded0b495c36ab2c18c8" resname="BUTTON_SEARCH">
+        <source> Rechercher</source>
+        <target state="new"> Rechercher</target>
+        <jms:reference-file line="10">views/Directory/index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="2bf139a7b065dd50790d0939f8150a13bc9521dd" resname="LABEL_CHOOSE_SEARCH">
+        <source>Veuillez saisir votre recherche</source>
+        <target state="new">Veuillez saisir votre recherche</target>
+        <jms:reference-file line="10">views/Directory/index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="50da1f1901694c58246dc19bd5056c258a4740b3" resname="LABEL_MY_CONTACTS">
+        <source>Mes contacts</source>
+        <target state="new">Mes contacts</target>
+        <jms:reference-file line="5">views/Directory/index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="81393df57ab6e2ba189104a5c04fc3cb101ecb34" resname="LABEL_MY_SELECTION">
+        <source>Ma sélection</source>
+        <target state="new">Ma sélection</target>
+        <jms:reference-file line="31">views/Directory/index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="70d2770e692d7bf48dfd2f42c4ca65c47b6df880" resname="LABEL_NO_RECIPIENT_CHILD">
+        <source>Tu n'as pas encore choisi de destinataire.</source>
+        <target state="new">Tu n'as pas encore choisi de destinataire.</target>
+        <jms:reference-file line="47">views/Directory/index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="78e023f41a6c28d818cfbcac4569f31c0ee2b233" resname="LABEL_NO_RECIPIENT_OTHER">
+        <source>Vous n'avez pas encore choisi de destinataire.</source>
+        <target state="new">Vous n'avez pas encore choisi de destinataire.</target>
+        <jms:reference-file line="47">views/Directory/index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="1cc414fa83ea6e1f1566451ef23290abfa986060" resname="LABEL_WRITE_SEARCH">
+        <source>Entre ta recherche ici</source>
+        <target state="new">Entre ta recherche ici</target>
+        <jms:reference-file line="10">views/Directory/index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="705ad415563085a961b4413bb1e2ddd9a1851479" resname="LABEL_lOADING_IN_PROGRESS">
+        <source>Chargement en cours, veuillez patienter...</source>
+        <target state="new">Chargement en cours, veuillez patienter...</target>
+        <jms:reference-file line="3">views/Directory/loading_modal_body.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="e779117d60e577b0233de2cdcf7b9252639f3ce7" resname="LABEL_MY_CHILD">
+        <source>Mon enfant</source>
+        <target>Mon enfant</target>
+      </trans-unit>
+      <trans-unit id="3516e6d1f5d5b5e78508fa6c7ba9e6ebfa6d8569" resname="LABEL_MY_CHILDREN">
+        <source>Mes enfants</source>
+        <target>Mes enfants</target>
+      </trans-unit>
+      <trans-unit id="a944b11d830a9e1348f3ffcc8af71c4965d9281b" resname="LABEL_MY_PARENTS">
+        <source>Mes parents</source>
+        <target>Mes parents</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

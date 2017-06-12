@@ -1,11 +1,11 @@
 $(function ()
 {
 	// Check if routes are parameted
-	if (typeof categoriesRoutes == undefined) {
+	if (typeof categoriesRoutes == 'undefined') {
 		throw new Error('Vous devez paramétrer les routes avant l\'utilisation du script des catégories !');
 	}
-	
-	if (typeof categoriesRoutes.sort != undefined) {
+
+	if (typeof categoriesRoutes.sort != 'undefined') {
 		// Drag'n'drop categories
 		$('.content-categories-management ol.load-sortable').nestedSortable({
 			forcePlaceholderSize: true,
@@ -143,12 +143,12 @@ $(function ()
 		$modalBody.find('input#delete-category-id').val(categoryId[1]);
 
 		// This category has sub-categories, show the warn message
-		if ($row.find('ol').length > 0) {
+		/*if ($row.find('ol').length > 0) {
 			$modalBody.find('p.sub-category-warning').show();
 		}
 		else {
 			$modalBody.find('p.sub-category-warning').hide();
-		}
+		}*/
 
 		$('#delete-category-modal').modal('show');
 		
@@ -210,7 +210,14 @@ $(function ()
 			success: function (data)
 			{
 				$this.find('div.title').first().text($input.val());
-				$this.find('.category-icon').removeClass().addClass('category-icon sprite').addClass($icon.attr('class'));
+				
+				// If user choose an icon
+				if ($icon.attr('class') != 'default') {
+					$this.find('.category-icon').removeClass().addClass('category-icon sprite').addClass($icon.attr('class'));
+				}
+				else {
+					$this.find('.category-icon').removeClass();
+				}
 			}
 		}).done(function ()
 		{
@@ -223,8 +230,17 @@ $(function ()
 	$('#new-category-modal .submit-create-category').click(function (e)
 	{
 		var $this = $(e.currentTarget),
-			$modalBody = $('#new-category-modal .modal-body'),
+			$modalBody = $('#new-category-modal'),
 			$loader = $modalBody.find('.loader');
+			
+		if ($modalBody.find('.category-editor input[type="text"]').val().length == 0) {
+			$modalBody.find('.bns-alert.empty').slideDown('fast');
+
+			return false;
+		}
+		else {
+			$modalBody.find('.bns-alert.empty').slideUp('fast');
+		}
 
 		$loader.fadeIn('fast');
 
@@ -233,11 +249,15 @@ $(function ()
 			type: 'POST',
 			dataType: 'html',
 			data: {'title': $modalBody.find('input[type="text"]').val(), 'iconName': $modalBody.find('.category-icon-selector span').attr('class')},
-			success: function (data)
-			{
+			success: function (data) {
 				var $category = $(data);
 				$category.css('display', 'none').find('div').first().addClass('new-animation new');
-				$('.content-categories-management ol.load-sortable').prepend($category);
+				
+				var $categoryList = $('.content-categories-management ol.load-sortable');
+				
+				// Hide empty message
+				$categoryList.find('.no-item').slideUp('fast');
+				$categoryList.prepend($category);
 
 				$category.slideDown('fast', function ()
 				{
@@ -252,7 +272,6 @@ $(function ()
 		{
 			// Reset modal
 			$modalBody.find('input[type="text"]').val('');
-			$modalBody.find('.category-icon-selector span').removeClass().addClass('default');
 
 			$loader.fadeOut('fast');
 
@@ -262,6 +281,11 @@ $(function ()
 		});
 
 		return false;
+	});
+
+	// Propage event
+	$('body').on('close-category', function (e) {
+		closeCategory();
 	});
 
 	function closeCategory()

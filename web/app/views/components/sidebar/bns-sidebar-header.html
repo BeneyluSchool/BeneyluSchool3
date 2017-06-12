@@ -1,0 +1,10 @@
+<md-button ng-if="app" href ng-href="{{ app._links[mode].href }}">
+  <div class="flex layout-row layout-align-start-center layout-fill">
+    <bns-navbar-icon item="app"></bns-navbar-icon>
+    <div class="flex sidebar-header-texts">
+      <h3 class="md-headline text-ellipsis">{{ app.label }}</h3>
+      <div class="md-body-1 text-ellipsis" ng-if="!showDescription && mode === 'back'" translate>MAIN.DESCRIPTION_APP_MANAGEMENT</div>
+      <div class="md-body-1 text-ellipsis" ng-if="showDescription">{{ app.description }}</div>
+    </div>
+  </div>
+</md-button>

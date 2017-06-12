@@ -1,0 +1,34 @@
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools layout-align-space-between-center">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+
+    <h3 translate>HOMEWORK.TITLE_PREFERENCES</h3>
+  </div>
+</md-toolbar>
+
+<md-content>
+
+  <form id="preferences-form" name="shared.form" ng-submit="$event.preventDefault(); ctrl.submit()" class="md-padding">
+    <div class="input-container">
+      <label>{{'HOMEWORK.LABEL_CHOOSE_VISIBLE_DAYS'|translate}}</label>
+      <bns-checkbox-group ng-if="ctrl.allDays.length" ng-model="ctrl.form.days" bns-day choices="ctrl.allDays" class="bns-choice-right"></bns-checkbox-group>
+      <md-input-container>
+        <input aria-label="days" type="hidden" ng-model="ctrl.form.days" bns-minlength="1" name="days">
+        <div ng-messages="shared.form.days.$error">
+          <div ng-message="bnsMinlength">{{'HOMEWORK.ERROR_CHOOSE_AT_LEAST_ONE_DAY'|translate}}</div>
+        </div>
+      </md-input-container>
+    </div>
+
+    <div class="input-container">
+      <label translate>HOMEWORK.LABEL_OPTIONS</label>
+      <md-switch ng-model="ctrl.form.activate_validation" class="bns-switch">
+        <span translate>HOMEWORK.LABEL_ACTIVATE_VALIDATION</span>
+      </md-switch>
+      <md-switch ng-model="ctrl.form.show_tasks_done" class="bns-switch">
+        <span translate>HOMEWORK.LABEL_SHOW_TASKS_DONE</span>
+      </md-switch>
+    </div>
+  </form>
+
+</md-content>

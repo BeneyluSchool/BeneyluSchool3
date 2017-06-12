@@ -1,0 +1,9 @@
+{% trans_default_domain "SCHOOL" %}
+<div class="modal-body">
+	<div class="content-modal-body">
+        {{ 'TITLE_REVOKE_REFERAL'|trans({'%userFullName%': user.getFullName() |escape}) |desc('<h2>Êtes-vous sûr de vouloir révoquer %userFullName% de son statut de référent ENT dans l\'école ?</h2><h3>Cet utilisateur ne pourra plus intéragir sur l\'administration de l\'école.<br />Vous pourrez à tout moment le promouvoir référent ENT à nouveau.</h3>') |raw}}
+
+
+	</div>
+</div>
+<div class="beneylu-jim"></div>

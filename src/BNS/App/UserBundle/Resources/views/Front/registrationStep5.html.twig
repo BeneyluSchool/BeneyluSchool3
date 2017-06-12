@@ -1,0 +1,73 @@
+{% trans_default_domain "USER" %}
+{% extends 'BNSAppUserBundle:Front:registrationStep.html.twig' %}
+{% set step = 5 %}
+
+{% set items = [
+  {
+    href: path('BNSAppMediaLibraryBundle_front'),
+    icon: asset('medias/images/icons/modules/media_library/large.png'),
+    class: 'media_library',
+    title: 'TITLE_MEDIALIBRARY_DESCRIPTION'|trans,
+    description: 'DESCRIPTION_MEDIALIBRARY'|trans,
+  }, {
+    href: path('BNSAppSpotBundle_front' , { 'code': 'HOMEWORK', 'origin' : 'registration homework' }),
+    icon: asset('medias/images/icons/modules/homework/large.png'),
+    class: 'homework',
+    title: 'TITLE_HOMEWORK_DESCRIPTION'|trans,
+    description: 'DESCRIPTION_HOMEWORK'|trans,
+  }, {
+    href: path('BNSAppSpotBundle_front' , { 'code': 'BLOG', 'origin' : 'registration blog' }),
+    icon: asset('medias/images/icons/modules/blog/large.png'),
+    class: 'blog',
+    title: 'TITLE_BLOG_DESCRIPTION'|trans,
+    description: 'DESCRIPTION_BLOG'|trans,
+  }
+] %}
+
+{% block dialog %}
+<md-dialog class="bns-dialog bns-dialog-primary welcome-modal">
+  <md-dialog-content class="md-dialog-content">
+    <div class="text-center">
+      <h2 class="title-modal">{{ 'TITLE_WELCOME_IN_CLASSROOM'|trans }} </h2>
+      <h3 class="title-app">{{ 'TITLE_WHAT_YOU_WANT'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) }} </h3>
+    </div>
+
+    <div class="layout-gt-md-row">
+      {% for item in items %}
+      <div class="flex-gt-md-33 flex app-presentation layout-row">
+        <a class="flex layout-column layout-md-row layout-margin layout-align-start-center" href="{{ item.href }}">
+          <span class="flex flex-none">
+            <img src="{{ item.icon }}" class="{{ item.class }}" />
+          </span>
+          <div>
+            <h3 class="md-title title-app text-sm-center text-lg-center text-gt-lg-center">{{ item.title }}</h3>
+            <p class="app-description">{{ item.description }}</p>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+
+    <p class="md-body-1 documentation text-center">{{ 'LABEL_DOCUMENTATION'|trans({
+        '%link_start%' : ('<a href="' ~ doc_link ~ '" target="_blank">'),
+        '%link_end%' : '</a>',
+        '%beneylu_brand_name%': parameter('beneylu_brand_name')
+      })|raw }}</p>
+  </md-dialog-content>
+  <div class="md-actions dialog-footer">
+    {{ components.button(null, {
+      href: '',
+      icon: 'help',
+      attr: { id: 'intercom-widget-activator', class: 'hide-sm' }
+    }) }}
+    <span class="flex"></span>
+    {{ components.button('BUTTON_NO_THANK'|trans, {
+      href: path('BNSAppClassroomBundle_front'),
+      icon: { name: 'chevron_right', pos: 'right' }
+    }) }}
+  </div>
+</md-dialog>
+
+{% endblock %}
+
+{% block jim %}{% endblock %}

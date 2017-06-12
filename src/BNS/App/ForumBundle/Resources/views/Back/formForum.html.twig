@@ -1,0 +1,128 @@
+{% extends 'BNSAppForumBundle:Layout:manager.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ asset('/medias/js/datepicker_i18n/jquery.ui.datepicker-fr.js') }}"></script>
+    <script type="text/javascript">
+    $('a.btn.finish').on('click', function(e) {
+        e.preventDefault();
+        $('#form_forum').submit();
+        return false;
+    });
+
+    {% if nbGroup is defined and  1 == nbGroup  %}
+    if (0 == $('div.forum-destination-choice li input[type=radio]:checked').length) {
+        $('div.forum-destination-choice li input[type=radio]').first().attr('checked', 'checked');
+    }
+    {% endif %}
+
+     // Datepicker init
+    $.extend($.datepicker.regional["{{ app.request.locale }}"], { dateFormat: "dd/mm/yy"});
+    var dpOptions = $.datepicker.regional['{{ app.request.locale }}'];
+    $('.container-sidebar .datepicker input').datepicker(dpOptions);
+    </script>
+{% endblock %}
+
+{% block header %}
+    <div class="header-buttons">
+        <div class="inner-header">
+            <div class="container container-fluid">
+                <div class="row-fluid">
+                    <div class="span8">
+                        <a href="{{ path('BNSAppForumBundle_back') }}" class="btn bns-notice btn-24 medium-return">
+                            <span class="icons-24 back-icon"></span>
+                            <strong>Retourner</strong><br />aux forums
+                        </a>
+                        {% if not forum.isNew %}
+                        <a href="{{ path('BNSAppForumBundle_back_slug', {'slug': forum.slug}) }}" class="btn bns-danger btn-24 medium-return button-return">
+                            <span class="icons-24 cancel-icon"></span>
+                            <strong>Annuler</strong><br />les modifications
+                        </a>
+                        {% else %}
+                        <a href="{{ path('BNSAppForumBundle_back') }}" class="btn bns-danger btn-24 medium-return button-return">
+                            <span class="icons-24 cancel-icon"></span>
+                            <strong>Annuler</strong><br />la création
+                        </a>
+                        {% endif %}
+
+                    </div>
+                    <div class="span4 align-right">
+                        <a href="#" class="btn finish bns-success validate-medium btn-24 medium">
+                            <span class="icons-24 validate-icon"></span>
+                            <strong>Enregistrer</strong>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock header %}
+
+{% block sidebar %}
+    <div class="container-sidebar editor">
+        <div class="section active">
+            {% if forum.isNew %}Créer{% else %}Editer{% endif %} un forum
+            <span class="shadow-section"></span>
+        </div>
+        {% if forum.isNew %}
+            {% include 'BNSAppForumBundle:Block:backDestinationChoices.html.twig' %}
+        {% endif %}
+        {% include 'BNSAppForumBundle:Block:backOptionChoices.html.twig' %}
+        {% if not forum.isNew %}
+            {% include 'BNSAppForumBundle:Block:backCloseDate.html.twig' %}
+        {% endif %}
+    </div>
+{% endblock sidebar %}
+
+{% block form_start %}
+    {% if (forum.isNew) %}
+        <form id="form_forum" action="{{ path('BNSAppForumBundle_back_new_forum') }}" method="POST" {{ form_enctype(form) }}>
+    {% else %}
+        <form id="form_forum" action="{{ path('BNSAppForumBundle_back_edit_forum', {'slug': forum.slug}) }}" method="POST" {{ form_enctype(form) }}>
+    {% endif %}
+{% endblock form_start %}
+
+{% block form_end %}
+    </form>
+{% endblock form_end %}
+
+{% block content %}
+{#     {{ modal('programmed-publication-warning', {#}
+{#         'title': 'Vous allez publier un article dans le futur !',#}
+{#         'body_template': {'template': 'BNSAppBlogBundle:Modal:programmed_publication_warning_body.html.twig'},#}
+{#         'footer_template': {'template': 'BNSAppBlogBundle:Modal:programmed_publication_warning_footer.html.twig'},#}
+{#         'type': 'info'#}
+{#     }) }}#}
+    <div class="item form content-form-manager">
+        {# Title #}
+        <div>
+            {{ form_widget(form.title, { 'attr': {'placeholder': "Titre du forum"} }) }}
+            {% if form.title.vars.errors|length > 0 %}
+                <div class="alert alert-danger bns-alert">
+                    {{ form_errors(form.title) }}
+                    <div class="jim"></div>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="description">
+            <div class="well">
+            {% if forum.isNew %}
+                <h2>Création d'un forum</h2>
+                <p>
+                Vous pouvez créer autant de forum de discussion que vous le souhaitez. Vous pouvez choisir de les rendre publics ou privés.
+                </p>
+                <p>Si votre forum est public vous pouvez décider d'autoriser les inscriptions</p>
+            {% else %}
+                <h2>Edition du forum</h2>
+                <p>Vous pouvez changer le nom du forum, ainsi que ses paramètres d'inscription et de modération.</p>
+                <p>Le forum peut être fermé de manière temporaire ou permanante, en saisissant une date de début et de fin.</p>
+                <p>Quand le forum est fermé, il reste accessible en lecture, mais la création de sujet ou de message est impossible.</p>
+            {% endif %}
+            </div>
+        </div>
+
+        <div>{{ form_rest(form) }}</div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,58 @@
+BNS\App\CoreBundle\Model\Group:
+  exclusion_policy: All
+
+  properties:
+    isFavorite:
+      expose: true
+  virtual_properties:
+    getType:
+      expose: true
+      groups: [Default, list]
+    getApp:
+      expose: true
+      groups: [ app ]
+    getOndeId:
+      expose: true
+      groups: [groupOnde]
+    getUAI:
+      groups: [groupUAI]
+      expose: true
+      serialized_name: uai
+    getAvatarUrl:
+      expose: true
+      groups: [Default, list]
+
+  relations:
+    - rel: switch
+      href: expr(service('router').generate('BNSAppMainBundle_switch_context', { slug: object.getSlug() }, true))
+      exclusion:
+        exclude_if: expr(!object.getSlug())
+
+    - rel: subgroups
+      embedded:
+        content: expr(object.getSubgroups())
+        exclusion:
+          exclude_if: expr(!object.hasSubgroup())
+          groups: [ list ]
+    - rel: users
+      embedded:
+        content: expr(service('bns.user_directory.manager').getUserIdsByRoles(object, view))
+        exclusion:
+          exclude_if: expr(!isset("view"))
+          groups: [ detail ]
+    - rel: users
+      embedded:
+        content: expr(service('bns.user_directory.manager').getUserIdsByRoles(object))
+        exclusion:
+          exclude_if: expr(isset("view"))
+          groups: [ detail ]
+    - rel: pupils_preview
+      embedded:
+        content: expr(service('bns.user_directory.manager').getPupilsPreview(object, 3))
+        exclusion:
+          groups: [ preview, group_preview ]
+    - rel: classrooms_preview
+      embedded:
+        content: expr(service('bns.user_directory.manager').getClassroomsPreview(object, 3))
+        exclusion:
+          groups: [ preview, group_preview ]

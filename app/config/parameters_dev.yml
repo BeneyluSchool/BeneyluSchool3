@@ -1,0 +1,220 @@
+#Fichier des paramÃ¨tres modifiables par instance
+
+# Swift Mailer
+# ------------------
+swiftmailer:
+    transport:  gmail
+    username:   
+    password:   
+
+parameters:
+    # Databases
+    # ------------------
+    database_driver: mysql
+    database_host: 127.0.0.1
+
+    app_database_user: root
+    app_database_password:
+    app_database_name: bns3_app
+
+    auth_database_user: root
+    auth_database_password:
+    auth_database_name: bns3_auth
+
+    stat_database_user: root
+    stat_database_password:
+    stat_database_name: bns3_stat
+
+    # import iconito
+    import_database_driver:   mysql
+    import_database_host:     127.0.0.1
+    import_database_port:     3306
+    import_database_user:     root
+    import_database_password: null
+    import_database_name:     mtp_prod_iconito
+    import_database_charset:  utf8
+
+    #Admin Autorisé
+    #authorised_admin: ['']
+
+
+    # RMQ
+    # ------------------
+    rmq_host: 127.0.0.1
+    rmq_user: guest
+    rmq_password: guest
+    rmq_port: 5672
+    rmq_vhost: /
+    rmq_exchange_mailer: mailer_dev
+    rmq_queue_mailer: mailer_dev
+    rmq_exchange_notification: notification_dev
+    rmq_queue_notification: notification_dev
+
+    rmq.consumers: [ 'mailer', 'notification', 'import_user', 'import_class' , 'import_school', 'realtime', 'account_link' ]
+    # ----- Cron Timeout -----
+    cron.timeout: 50
+
+    # Redis
+    # ------------------
+
+    redis_hosts:
+     - redis://127.0.0.1
+    #redis_replication: false
+
+
+    # Resources
+    # ------------------
+    #Si stockage S3 => s3, si stockage OVH => ovh_pcs sinon local
+    #bns_resource_storage: local
+
+    #SI S3 3 paramètres
+    bns_bns3.s3.bucket_name: bns3-dev
+    bns_bns3.aws_key:
+    bns_bns3.aws_secret_key:
+
+    #Si OVH
+    bns_resource_ovh_pcs_url:
+    bns_resource_ovh_pcs_username:
+    bns_resource_ovh_pcs_password:
+    bns_resource_ovh_pcs_tenant:
+    bns_resource_ovh_pcs_container: beneylu-ent-test
+
+    #Local ou runabove
+    bns_media_storage: local
+
+    #Si runabove
+    bns.runabove.url:           https://auth.runabove.io/v2.0/
+    bns.runabove.username:      ""
+    bns.runabove.password:
+    bns.runabove.tenant_name:   ""
+    bns.runabove.container_name: bns-test-storage
+    bns.runabove.remote_base_url:
+
+    # General
+    # ------------------
+    bns_domain_id: 1
+    bns_domain_name: beneylu.dev/ent
+    application_base_url: http://beneylu.dev/ent
+    beneyluschool_email: 
+    google_analytics_id: 
+    symfony_secret: 
+    cdn_url: %application_base_url%
+
+
+
+    # Oauth
+    # ------------------
+    oauth_host: 
+    security.logout.username.secret_key: 
+    oauth_client_secret: 
+    oauth_security_client_id: 
+
+    # X-Sendfile => X-Accel-Redirect for Nginx
+    # xsendfile_header_nginx: 0
+
+    # In seconds, 7 days
+    resource.public_document.time_to_live: 3600
+
+    # API
+    # ------------------
+    api_key_for_auth: 
+    api_key_for_app: 
+
+    # JWS
+    # ------------------
+    jws_private_key_path: %kernel.root_dir%/var/jws/private.pem
+    jws_private_key_passphrase: pixelcookers
+
+    # General
+    # ------------------
+    encode_key: 
+
+    # bns-9661
+    # ------------------
+    first_logon_validity_days: 30
+
+    # Buzz browser allow retry
+    # -----------------
+    buzz.browser.class: BNS\App\CoreBundle\Buzz\Browser
+    #Pour Marseille : on surcharge Buzz pour byPasser l'IPV6
+    #buzz.client.class: BNS\App\CoreBundle\Buzz\Curl
+
+
+    # Google
+    # Analytics
+    google.analytics.email: seo-clients@pixel-cookers.com
+    google.analytics.password:
+    # see http://www.farstate.com/2011/12/where-to-find-the-report-id-in-the-new-google-analytics/
+    google.analytics.report_id: 
+
+    # Logon Page
+    # Autorisation d'inscription en home + école in app
+
+    bns.enable_legals: true
+
+    # allow custom cdn_url for ie8
+    cdn_url_ie8: %oauth_host%
+
+    # Registration
+    registration.current_year: 2015
+    registration.force_change: false
+
+    store.base_url: 
+    store.user_key: 
+    store.api_key: 
+    store.version: v1
+    store.activate_catalog: false
+    #Paramètre pour intégration de Cerise Prim
+    #has_cerise: false
+    cerise_secret_key: 
+    authorised.cerise.env: [ 1 ]
+    #Paramètre pour intégration de Universalis (directement)
+    has_universalis: false
+    universalis_secret_key: 
+    has_medialandes: false
+    authorised.medialandes.env: [ 1 ]
+    #Vérification des groupes en BO
+    #POUR MTP notammenet : activation des groupes en BO, bloque la récupération de mot de passe
+    #check_group_enabled: true
+    #Pour ENT : activation par les écoles
+    #check_group_validated: true
+    #Pour MTP : blocage de certains champs en édition
+    #extend_not_authorised_attributes: true
+
+    #Paypal informations
+    #paypal_username: labrigade-facilitator_api1.pixel-cookers.com
+    #paypal_password: 1399912650
+    #paypal_signature: ArUHGn5vRFiLP6oF8TinAMhv0XGjAgYxEkN4rEIVSd0W9XtgKTFnGR4R
+    be2bill_identifier: 
+    be2bill_password: 
+
+
+    #Analytics informations
+    analytics_mario_key: 
+    analytics_milan_key: 
+    analytics_enabled: 
+    #Informations PAAS
+    paas_secret_key: 
+    paas_url:
+    intercom_api_key: 
+    yb_order_prefix: 
+    trusted_proxies: 
+
+    #OneSky API
+    onesky_api_key:     
+    onesky_api_secret:  
+
+#    bns_paas.nathan_pf: BENLU
+#    bns_paas.nathan_key: 123456
+
+#    nathan_ressource.clients:
+#      nathan:
+#        url: https://www.e-interforum.com/intra/webservices/connecteur-universel/wsConnecteurUniversel.php?wsdl
+#        pf: %bns_paas.nathan_pf%
+#        key: %bns_paas.nathan_key%
+
+# add Saml connexion button on login page
+#    saml.providers:
+#      - { label: "Connexion enseignants DEV", idp: 'ac-bdx-aaa-dev', icon: account_circle}
+#      - { label: "Connexion eleves DEV", idp: 'ac-bdx-aten-dev', icon: child_care}
+#      - { label: "Connexion enseignants", idp: 'ac-bdx-aaa', icon: account_circle}

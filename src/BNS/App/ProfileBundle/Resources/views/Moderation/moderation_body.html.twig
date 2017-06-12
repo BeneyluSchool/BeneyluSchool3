@@ -1,11 +1,13 @@
+{% trans_default_domain "PROFILE" %}
 <div class="modal-body">
 	<div class="content-modal-body">
-		<h2>Êtes-vous sûr de vouloir supprimer ce statut "<span class="title"></span> ?</h2>
+        {{ 'TITLE_WANT_DELETE_STATUS'|trans |desc(
+        '<h2>Êtes-vous sûr de vouloir supprimer ce statut "<span class="title"></span> ?</h2>
 
 		<p class="sub-category-warning">
 			Attention, la suppression de cette catégorie entraînera également la suppression de toutes ses sous-catégories !
-		</p>
-		
+		</p>'
+        ) |raw }}
 		<input type="hidden" id="delete-category-id" />
 	</div>
 </div>

@@ -1,0 +1,16 @@
+BNS\App\StarterKitBundle\Model\om\BaseStarterKitState:
+  exclusion_policy: All
+
+  properties:
+    id:
+      expose: true
+    user_id:
+      expose: true
+    name:
+      expose: true
+    enabled:
+      expose: true
+    max_level:
+      expose: true
+    last_step:
+      expose: true

@@ -1,0 +1,14 @@
+<div class="title-container informations-statuses-info">
+	<div class="title active border-blue">Statut de l'information <span class="square icon-arrow"></span></div>
+	<div class="content-title">
+		<ul>
+			{% if (information.isProgrammed()) %}
+				<li class="text-row"><div><span class="vertical-separator purple"></span> <span>Information programmée</span></div></li>
+			{% elseif information.isPublished() %}
+				<li class="text-row"><div><span class="vertical-separator green"></span> <span>Information publiée</span></div></li>
+			{% else %}
+				Unkwown information status !
+			{% endif %}
+		</ul>
+	</div>
+</div>

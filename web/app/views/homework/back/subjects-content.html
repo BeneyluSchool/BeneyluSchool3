@@ -1,0 +1,38 @@
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools layout-align-space-between-center">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+
+    <h3 translate>HOMEWORK.TITLE_SUBJECTS</h3>
+  </div>
+</md-toolbar>
+
+<bns-inset ng-show="!ctrl.subjects.length" class="layout-margin">
+  <span translate>HOMEWORK.NO_SUBJECTS</span>
+</bns-inset>
+
+<md-content>
+
+  <md-list>
+    <div ng-sortable="ctrl.sortableConfig">
+      <md-list-item ng-repeat="subject in ctrl.subjects" class="homework-subject">
+        <div class="md-list-item-text flex layout-row layout-align-start-center layout-padding">
+          <span class="drag-handle flex flex-none">
+            <md-icon>drag_handle</md-icon>
+          </span>
+
+          <div class="md-body-1 flex">{{subject.name}}</div>
+
+          <md-button ng-click="ctrl.showEditDialog(subject, $event)" class="md-icon-button">
+            <md-icon>edit</md-icon>
+          </md-button>
+
+          <md-button ng-click="ctrl.showDeleteConfirm(subject, $event)" class="md-icon-button">
+            <md-icon>delete</md-icon>
+          </md-button>
+        </div>
+        <md-divider></md-divider>
+      </md-list-item>
+    </div>
+  </md-list>
+
+</md-content>

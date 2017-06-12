@@ -11,6 +11,11 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class UserRegistrationType extends AbstractType
 {
+    public function __construct($email = null)
+    {
+        $this->email = $email;
+    }
+
 	/**
 	 * @param FormBuilderInterface $builder
 	 * @param array $options 
@@ -19,7 +24,7 @@ class UserRegistrationType extends AbstractType
     {
         $builder->add('first_name', 'text', array('required' => true));
         $builder->add('last_name', 'text', array('required' => true));
-        $builder->add('email', 'text', array('required' => true));
+        $builder->add('email', 'text', array('required' => true, 'data' =>  $this->email));
     }
 
 	/**

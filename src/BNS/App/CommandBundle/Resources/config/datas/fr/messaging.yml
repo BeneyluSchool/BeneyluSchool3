@@ -1,0 +1,129 @@
+message:
+  - 1:
+    from: pupil
+    to: pupil
+    title: Echange de livres
+    content: >
+      <p>Tu peux me prêter ton livre sur les chevaux, moi je te prête mon livre sur les volcans ? J'ai même un roman qui raconte une histoire vraie !</p>
+
+      <p>A demain.</p>
+  - 2:
+    from: pupil
+    to: pupil
+    title: Foot à la pause du midi demain
+    content: >
+      <p>Demain on organise un foot avec les grands de CM1 à la pause du midi. Prends tes baskets et ton courage ! Que le meilleur gagne.</p>
+  - 3:
+    from: pupil
+    to: teacher
+    title: J'ai perdu ma carte de cantine
+    content: >
+      <p>Bonjour, j'ai perdu mon badge de cantine. Comment je dois faire pour en refaire un nouveau ? Merci !</p>
+      <p>Lisa.</p>
+  - 4:
+    from: parent
+    to: teacher
+    title: Lunettes de notre enfant
+    content: >
+      <p>Bonjour,</p>
+      <p>Notre enfant portera bientôt des lunettes, pourrez vous nous dire s'il voit mieux le tableau ?<p>
+      <p>Merci</p>
+  - 5:
+    from: teacher
+    to: parent
+    title: Oubli du cartable
+    content: >
+      <p style="text-align: justify;">Bonjour Madame,</p>
+      <p style="text-align: justify;">Votre fille a oubli&eacute; son cartable en classe. Elle le retrouvera demain (pas d'inqui&eacute;tude pour elle). Je vous remercie de votre attention.</p>
+      <p style="text-align: justify;">Pour les devoirs, elle n'a qu'&agrave; t&eacute;l&eacute;charger les documents sur Beneylu School pour pr&eacute;parer l'autodict&eacute;e.</p>
+      <p style="text-align: justify;">Je vous souhaite une bonne soir&eacute;e.</p>
+      <p style="text-align: justify;">A demain !</p>
+  - 6:
+    from: parent
+    to: teacher
+    title: Oubli du cartable
+    content: >
+      <p>Bonsoir,</p>
+      <p>Je vous remercie de nous informer ! Nous avons cherch&eacute; partout sans trouver de cartable... L'angoisse ! Maintenant nous savons qu'il dormira au chaud ;-)</p>
+      <p>Ok pour les devoirs sur Beneylu School, c'est vraiment pratique !</p>
+      <p>A demain et encore merci.</p>
+  - 7:
+    from: teacher
+    to: pupil
+    title: J'ai perdu ma carte de cantine
+    content: >
+      <p>Bonjour,</p>
+      <p>Si tu as perdu ton badge de cantine, demande &agrave; tes parents un ch&egrave;que de 5 euros. Nous te ferons un nouveau badge. En attendant, nous avons un badge sp&eacute;cial pour les enfants qui ont perdu le leur. Pas de souci ;-)&nbsp;</p>
+      <p>A demain !</p>
+  - 8:
+    from: parent
+    to: teacher
+    title: Merci !
+    content: >
+      <p>Bonjour,</p>
+      <p>Nous tenions &agrave; vous remercier pour la sortie au zoo organis&eacute;e pour nos enfants. Ils ne cessent d'en parler et sont vraiment heureux d'avoir vu leurs animaux pr&eacute;f&eacute;r&eacute;s en vrai ! Ils nous font de beaux dessins avec des lions et des singes ! Bravo !</p>
+      <p>Merci encore et &agrave; bient&ocirc;t.</p>
+  - 9:
+    from: pupil
+    to: pupil
+    title: Séance de ciné samedi
+    content: >
+      <p>Coucou,</p>
+      <p>J'aimerais bien aller au cin&eacute;ma samedi apr&egrave;s-midi. Ma maman m'accompagne. Est-ce que tes parents seraient d'accord pour que tu viennes avec nous ? On vient te chercher chez toi et on te ram&egrave;ne apr&egrave;s la s&eacute;ance.</p>
+      <p>J'esp&egrave;re que tu pourras.</p>
+      <p>A +</p>
+  - 10:
+    from: parent
+    to: teacher
+    title: Difficultés de lecture
+    content: >
+      <p>Bonsoir,</p>
+      <p>Notre enfant suis des cours chez l'orthophoniste depuis un mois et tout va bien ! Merci de nous avoir aid&eacute;s &agrave; trouver une solution pour l'aider, il retrouve le go&ucirc;t de lire ! Avez-vous des histoires &agrave; nous conseiller ?</p>
+      <p>Merci !</p>
+      <p>A bient&ocirc;t.</p>
+  - 11:
+    from: pupil
+    to: pupil
+    title: Bracelet brésilien
+    content: >
+      <p>Salut,</p>
+      <p>J'ai appris &agrave; faire les bracelets br&eacute;siliens. Demain je te montre &agrave; la r&eacute;cr&eacute;, on peut faire des bracelets avec des perles dedans, c'est m&ecirc;me pas dur !&nbsp;</p>
+      <p>Bisous !</p>
+  - 12:
+    from: teacher
+    to: pupil
+    title: Rattraper les devoirs
+    content: >
+      <p>Bonjour,</p>
+      <p>Tu as &eacute;t&eacute; malade hier, j'esp&egrave;re que tu vas mieux. Nous pensons bien &agrave; toi et avons h&acirc;te que tu reviennes en pleine forme &agrave; l'&eacute;cole !&nbsp;</p>
+      <p>Pour rattraper les devoirs, va dans ton dossier &eacute;l&egrave;ve dans la m&eacute;diath&egrave;que de la classe Beneylu School. J'y ai gliss&eacute; quelques documents pour t'aider ;-)</p>
+      <p>Ecris-moi si tu as des questions.</p>
+      <p>Repose-toi bien.</p>
+      <p>A bient&ocirc;t.</p>
+  - 13:
+    from: parent
+    to: teacher
+    title: Goûter d'anniversaire
+    content: >
+      <p>Bonjour,</p>
+      <p>Ma fille f&ecirc;te son anniversaire la semaine prochaine. J'aimerais pr&eacute;parer des p&acirc;tisseries pour l'occasion (&agrave; partager en classe). Y a-t-il des enfants allergiques ? Je peux pr&eacute;parer plusieurs recettes adapt&eacute;es !</p>
+      <p>Merci.</p>
+      <p>Au revoir.</p>
+  - 14:
+    from: pupil
+    to: teacher
+    title: Nul en maths
+    content: >
+      <p>Ma&icirc;tresse,</p>
+      <p>J'ai pas r&eacute;ussi le contr&ocirc;le de maths et j'arrive pas &agrave; faire l'exercice non plus. Je crois que je suis mauvais en maths, comment je peux faire pour faire des progr&egrave;s ?</p>
+      <p>Merci de ton aide.</p>
+      <p>A demain.</p>
+  - 15:
+    from: parent
+    to: pupil
+    title: Livres de bibliothèque
+    content: >
+      <p>Mon ch&eacute;ri,</p>
+      <p>Tes livres de biblioth&egrave;que sont rest&eacute;s chez mamie. Je les ram&egrave;nerai ce soir, j'ai vu que vous alliez &agrave; la biblioth&egrave;que demain donc c'est bon !</p>
+      <p>Ouf ;-)</p>
+      <p>Je t'embrasse.</p>

@@ -1,0 +1,52 @@
+<md-toolbar container>
+  <div class="md-toolbar-tools">
+    <md-button ui-sref="^">
+      <md-icon>chevron_left</md-icon>
+      <span>Revenir en arrière</span>
+    </md-button>
+    <span class="flex"></span>
+    <md-button ui-sref="^.drawing({code: ctrl.nextDrawing.code})">
+      {{::ctrl.nextDrawing.label}}
+      <md-icon>chevron_right</md-icon>
+    </md-button>
+  </div>
+</md-toolbar>
+
+<div class="layout-gt-md-row drawing-columns-container" container>
+
+  <div class="layout-column flex md-padding">
+    <div class="drawing-presentation-content layout-column layout-align-center-center">
+      <h1 class="md-display-1 drawing-title md-padding">{{::ctrl.drawing.label}}</h1>
+      <div class="md-headline drawing-description md-padding">{{::ctrl.drawing.description}}</div>
+    </div>
+    <bns-circus-birthday-level level="{{::ctrl.drawing.difficulty}}"></bns-circus-birthday-level>
+    <div>
+      <div class="drawing-result fixed-ratio md-whiteframe-z2"></div>
+    </div>
+    <div class="md-padding layout-row">
+      <md-button class="flex md-raised md-accent" ng-href="{{::ctrl.drawing.tutorial}}" target="_blank" bns-ga-event="{category: 'Atelier dessin : le cirque', action: 'download', label: ctrl.drawing.code}">
+        <span>Télécharger le pas à pas</span>
+      </md-button>
+    </div>
+    <div class="drawing-characters hide-sm hide-md"></div>
+  </div>
+
+  <div class="flex md-padding">
+    <div class="drawing-steps-container">
+      <div class="drawing-howto-container fixed-ratio md-whiteframe-z4">
+        <iframe ng-src="{{::ctrl.drawing.trusted_video_url}}" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <ol class="drawing-steps md-padding">
+        <li ng-repeat="step in ::ctrl.drawing.steps">
+          <div class="drawing-step-illustration drawing-step-illustration-{{::$index + 1}} fixed-ratio md-whiteframe-z2"></div>
+          <div class="drawing-step-description md-body-2">
+            {{::step}}
+          </div>
+        </li>
+      </ol>
+    </div>
+    <br class="hide-gt-md">
+    <div class="drawing-characters hide-gt-md"></div>
+  </div>
+
+</div>

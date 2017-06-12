@@ -1,0 +1,18 @@
+<h2 translate>WORKSHOP.DOCUMENT.TEXTBOX</h2>
+
+<textarea bns-tinymce="ctrl.getWysiwygConfiguration(widget)" bns-focus-request rows="10" ng-model="widget.content"></textarea>
+
+<div class="workshop-widget-option">
+  <h3 translate>WORKSHOP.DOCUMENT.COLUMNS</h3>
+  <div bns-workshop-widget-option-button widget="widget" current="widget.settings.text_column" target="text_column" option="ctrl.getThemeOption('text_column@textbox')"></div>
+</div>
+
+<div class="workshop-widget-option">
+  <h3 translate>WORKSHOP.DOCUMENT.BORDER_COLOR</h3>
+  <div bns-workshop-widget-option-color widget="widget" current="widget.settings.border_color" target="border_color" option="ctrl.getThemeOption('border_color@textbox')"></div>
+</div>
+
+<div class="workshop-widget-option">
+  <h3 translate>WORKSHOP.DOCUMENT.BACKGROUND_COLOR</h3>
+  <div bns-workshop-widget-option-color widget="widget" current="widget.settings.background_color" target="background_color" option="ctrl.getThemeOption('background_color@textbox')"></div>
+</div>

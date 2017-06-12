@@ -1,0 +1,131 @@
+<div class="bns-content-inner content-overflow">
+  <md-toolbar class="content-toolbar">
+    <div class="purple-border-top"></div>
+    <div class="md-toolbar-tools" layout-align="space-between center">
+      <bns-sidebar-toggle></bns-sidebar-toggle>
+    </div>
+  </md-toolbar>
+  <div ng-show="ctrl.busy" layout="row" layout-align="center center" class="md-padding lunch-menu">
+      <div class="purple-border-bottom"></div>
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+  </div>
+
+  <div ng-show="!ctrl.busy && !shared.lunchWeek.id" class="lunch-menu">
+    <div class="purple-border-bottom"></div>
+    <div class="bns-content-inner bns-half-content">
+      <md-toolbar class="content-toolbar">
+          <div class="purple-border-top"></div>
+          <div class="md-toolbar-tools" layout-align="space-between center" ng-init="date = shared.date.clone().add($index, 'days')">
+            <div flex class="md-title text-primary" ng-class="{ 'md-subhead': $mdMedia('sm') }">
+              <h1 translate>LUNCH.MENU_DAY</h1>
+              <h2>{{ ::date.format('dddd LL') }}</h2>
+            </div>
+          </div>
+        </md-toolbar>
+        <div class="lunch-menu">
+          <div class="purple-border-bottom"></div>
+          <div class="flex-container">
+            <div class="lunch-item" flex="100">
+              <div class="lunch-block">
+                <div layout="row" layout-sm="column" class="lunch-ribbon">
+                  <div class="ribbon-title">
+                    <md-icon md-svg-src="/ent/app/images/apps/lunch/starter-icon.svg" class="s24" aria-label=""></md-icon>
+                    <h3 class="md-title" translate>LUNCH.VALUE_LUNCH</h3>
+                  </div>
+                </div>
+                <img flex="100" class="img-nolunch" src="/ent/assets/images/apps/lunch/no-lunch.png" alt="">
+                <div class="md-title md-padding text-primary text-primary-hue-3 text-center no-lunch-large" translate>LUNCH.STATUS_NO_LUNCH</div>
+              </div>
+            </div>
+          </div>
+          <div class="oneday-buttons">
+            <md-button ng-click="next()"
+            hide-print class="md-primary md-hue-3 btn-hover next-btn">
+              <md-icon>chevron_right</md-icon>
+            </md-button>
+            <md-button ng-click="prev()"
+              hide-print class="md-primary md-hue-3 btn-hover prev-btn">
+              <md-icon>chevron_left</md-icon>
+            </md-button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  <div class="lunch-menu" ng-if="!ctrl.busy && shared.lunchWeek.id">
+    <div class="purple-border-bottom"></div>
+    <div class="bns-content-inner bns-half-content">
+      <span ng-repeat="day in shared.lunchWeek._embedded.days" ng-init="date = shared.date.clone().add($index, 'days')">
+        <div ng-if="day_index == $index" class="full-height">
+          <md-toolbar class="content-toolbar">
+            <div class="purple-border-top"></div>
+            <div class="md-toolbar-tools" layout-align="space-between center">
+              <div flex class="md-title text-primary" ng-class="{ 'md-subhead': $mdMedia('sm') }">
+                <h1 translate>LUNCH.MENU_DAY</h1>
+                <h2>{{ ::date.format('dddd D MMMM') }}</h2>
+              </div>
+            </div>
+          </md-toolbar>
+
+          <div class="lunch-menu">
+
+            <div class="purple-border-bottom"></div>
+
+            <div class="flex-container">
+              <div class="lunch-item" flex="100" >
+                <div class="lunch-block">
+                  <div layout="row" layout-sm="column" class="lunch-ribbon">
+                    <div class="ribbon-title">
+                      <md-icon md-svg-src="/ent/app/images/apps/lunch/starter-icon.svg" class="s24" aria-label=""></md-icon>
+                      <h3 class="md-title" translate>LUNCH.VALUE_LUNCH</h3>
+                    </div>
+                  </div>
+                  <div ng-if="day.status === '2'" class="md-title md-padding text-primary text-center" translate>LUNCH.STATUS_SPECIAL</div>
+                  <div ng-if="day.status === '3'">
+                    <img flex="100" class="img-nolunch" src="/ent/assets/images/apps/lunch/no-lunch.png" alt="">
+                    <div class="md-title md-padding text-primary text-primary-hue-3 text-center no-lunch-large" translate>LUNCH.STATUS_NO_LUNCH</div>
+                  </div>
+                  <div ng-repeat="section in ctrl.editor.sections" ng-if="!ctrl.isSectionEmpty(section.value)">
+                    <div layout="row" layout-sm="column" layout-align="center center" ng-if="day.status === '1'">
+                      <div ng-if="day[section.value] && section.value != 'afternoon_snack'" class="lunch-section">
+                        <div class="section-title">
+                          <md-icon ng-if="section.value != 'full_menu'" class="" md-svg-src="/ent/app/images/apps/lunch/{{section.value}}-icon.svg" class="s24" aria-label="{{section.value}}"></md-icon>
+                          <h5 class="md-title">{{ ::(section.value === 'full_menu' ? '' : section.label) | translate }}</h5>
+                        </div>
+                        <div class="menu-description">{{ ::day[section.value] }}</div>
+                      </div>
+                      <div ng-show="section.value === 'afternoon_snack' && day[section.value] != '' && day[section.value] != null" class="snack svg-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="Untitled-page%201" viewBox="0 0 518 139" style="background-color:#ffffff00" version="1.1" xml:space="preserve" x="0px" y="0px" width="518px" height="139px"><path opacity="0.2" d="M 431 14.2407 L 502 11 L 503 135.9032 L 431 131.7453 L 268.7814 127.6451 L 86 134.3245 L 30 139 L 14 24.4193 L 86 21.1329 L 431 14.2407 Z" fill="#333e09"></path><path d="M 432 14.1837 L 504 11 L 498 126 L 432 123.5912 L 263.02 121 L 75 124.8403 L 10 128 L 3 24 L 75 20.8163 L 432 14.1837 Z" fill="#a5b933"></path><path opacity="0.2" d="M 400.2029 113.3438 C 400.2029 115.3629 401.8512 117 403.884 117 L 449.8986 117 C 451.9315 117 453.5797 115.3629 453.5797 113.3438 L 453.5797 94.4229 C 461.9702 102.3456 473.0712 111.8271 481.0949 114.9875 C 484.3366 116.3229 487.7742 117 491.3116 117 C 494.8453 117 498.2821 116.3229 501.5283 114.9866 C 504.7771 113.6481 507.689 111.7133 510.1838 109.2358 C 512.6777 106.7592 514.6262 103.8675 515.9743 100.6393 C 517.317 97.4203 517.9991 94.0069 518 90.4922 C 518 86.98 517.3179 83.5657 515.9941 80.3964 C 508.1824 60.8329 461.6879 9.8824 441.7094 2.0125 C 438.4677 0.6771 435.0302 0 431.4928 0 C 427.959 0 424.5223 0.6771 421.2761 2.0134 C 418.0264 3.3523 415.1144 5.2871 412.6205 7.7646 C 410.1248 10.2439 408.1772 13.1361 406.8301 16.3612 C 405.4856 19.5823 404.8043 22.9962 404.8043 26.5078 C 404.8043 30.0199 405.4865 33.4343 406.8103 36.6036 C 408.6464 41.2034 412.3608 46.9662 416.0428 52.0971 C 409.226 52.7545 403.2676 54.0314 398.9465 55.819 C 397.3765 56.4684 395.9727 57.4016 394.7737 58.5928 C 393.5685 59.7899 392.6285 61.1859 391.9788 62.7431 C 391.3289 64.2999 391 65.9478 391 67.6406 C 391 69.3339 391.3289 70.9822 391.9788 72.5399 C 392.6294 74.0984 393.5703 75.495 394.7746 76.6897 C 395.978 77.8854 397.3836 78.8192 398.9519 79.4655 C 399.3626 79.6346 399.7805 79.7818 400.2029 79.9073 L 400.2029 113.3438 ZM 413.6324 33.8551 C 412.6601 31.5258 412.1667 29.0536 412.1667 26.5078 C 412.1667 23.962 412.6592 21.4903 413.6307 19.1619 C 414.6058 16.8276 416.0177 14.7325 417.8277 12.9343 C 419.6342 11.1388 421.7434 9.7373 424.0954 8.7684 C 426.4429 7.8021 428.9315 7.3125 431.4928 7.3125 C 434.0568 7.3125 436.5453 7.8021 438.9422 8.7885 C 443.2382 10.481 449.1113 14.6282 455.6522 20.1933 L 447.2959 28.4926 C 445.8579 29.9208 445.8579 32.2354 447.2959 33.6636 C 448.0139 34.3773 448.9567 34.7344 449.8986 34.7344 C 450.8405 34.7344 451.7832 34.3773 452.5012 33.6636 L 461.1586 25.0649 C 465.4949 29.0375 469.9985 33.4659 474.4426 38.0924 L 465.7017 46.7739 C 464.2637 48.2021 464.2637 50.5167 465.7017 51.9449 C 466.4197 52.6586 467.3625 53.0156 468.3043 53.0156 C 469.2462 53.0156 470.189 52.6586 470.907 51.9449 L 479.4719 43.4381 C 483.7776 48.1115 487.9342 52.8773 491.7277 57.486 L 484.1074 65.0551 C 482.6695 66.4833 482.6695 68.7979 484.1074 70.2261 C 484.8256 70.9398 485.7683 71.2969 486.7101 71.2969 C 487.652 71.2969 488.5947 70.9398 489.3129 70.2261 L 496.3408 63.2462 C 502.5492 71.2344 507.2621 78.3612 509.1719 83.1448 C 510.1442 85.4742 510.6377 87.9464 510.6377 90.4913 C 510.6368 93.0398 510.1442 95.512 509.1736 97.8386 C 508.1977 100.1751 506.7858 102.2697 504.9784 104.0648 C 503.1693 105.8607 501.0601 107.2631 498.7089 108.2316 C 496.3615 109.1979 493.873 109.6875 491.3116 109.6875 C 488.7476 109.6875 486.259 109.1979 483.8621 108.2115 C 477.4066 105.6679 466.4125 96.949 453.5797 84.212 L 453.5797 79.9073 C 454.0031 79.7818 454.42 79.6346 454.8316 79.465 C 456.399 78.8192 457.8046 77.8854 459.0071 76.6911 C 460.2122 75.495 461.1533 74.0984 461.804 72.539 C 462.4537 70.9822 462.7826 69.3339 462.7826 67.6406 C 462.7826 65.9478 462.4537 64.2999 461.804 62.7418 C 461.1541 61.1859 460.2141 59.7899 459.0089 58.5928 C 457.81 57.4016 456.4062 56.4684 454.8361 55.819 C 448.3393 53.1312 438.1541 51.5897 426.8914 51.5897 C 426.1912 51.5897 425.4956 51.5955 424.8045 51.6075 C 419.2145 44.2173 415.2753 37.9693 413.6324 33.8551 ZM 399.9791 71.5174 C 399.4614 71.0041 399.0579 70.406 398.7802 69.7405 C 398.5034 69.0756 398.3623 68.369 398.3623 67.6406 C 398.3623 66.9131 398.5034 66.2065 398.7802 65.5429 C 399.0579 64.877 399.4623 64.278 399.981 63.7621 C 400.4959 63.2506 401.0998 62.8494 401.7775 62.5692 C 406.6341 60.5598 414.4297 59.2592 423.1202 58.9655 C 423.1257 58.965 423.132 58.9659 423.1373 58.9659 C 424.3785 58.924 425.6412 58.903 426.8931 58.903 C 437.0684 58.903 446.4556 60.2737 452.0051 62.5692 C 452.6828 62.8494 453.2867 63.2506 453.8017 63.7621 C 454.3203 64.278 454.7247 64.877 455.0024 65.5416 C 455.2792 66.2065 455.4203 66.9131 455.4203 67.6406 C 455.4203 68.369 455.2792 69.0756 455.0024 69.7397 C 454.7247 70.406 454.3211 71.0041 453.8026 71.5187 C 453.2849 72.0333 452.6819 72.4341 452.0106 72.7108 C 451.3428 72.9857 450.6328 73.125 449.8986 73.125 C 447.8656 73.125 446.2174 74.7621 446.2174 76.7813 L 446.2174 85.7224 L 446.2174 109.6875 L 407.5652 109.6875 L 407.5652 76.7813 C 407.5652 74.7621 405.917 73.125 403.884 73.125 C 403.1498 73.125 402.4398 72.9857 401.7729 72.7108 C 401.1008 72.4341 400.4977 72.0333 399.9791 71.5174 Z" fill="#ffffff"></path>
+                        <svg height="100" width="100%" class="description-text">
+                              <text x="25" y="0">
+                                <tspan x="25" y="50" class="md-title">{{ ::section.label | translate }}</tspan>
+                                <tspan x="25" y="80" class="menu-description">{{ ::day[section.value] }}</tspan>
+                              </text>
+                            </svg>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="oneday-buttons">
+              <md-button ng-click="next()"
+                hide-print class="md-primary md-hue-3 btn-hover next-btn">
+                <md-icon>chevron_right</md-icon>
+              </md-button>
+              <md-button ng-click="prev()"
+                hide-print class="md-primary md-hue-3 btn-hover prev-btn">
+                <md-icon>chevron_left</md-icon>
+              </md-button>
+            </div>
+          </div>
+        </div>
+      </span>
+    </div>
+  </div>
+</div>
+
+
+

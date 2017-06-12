@@ -1,0 +1,104 @@
+{% trans_default_domain "CLASSROOM" %}
+{% import 'BNSAppCoreBundle:Macros:forms.html.twig' as forms %}
+
+<script type="text/javascript">
+  $(function ()
+  {
+    if ($('.create-user-form-container .alert.alert-success').length > 0) {
+      setTimeout(function ()
+      {
+        $('.create-user-form-container .alert.alert-succes div').slideUp('fast', function () { var $this = $(this); $this.parent().slideUp('fast', function () { $this.show() }) });
+      }, 8000); // 8 seconds
+    }
+  });
+</script>
+
+{% trans_default_domain "CLASSROOM" %}
+<div class="create-user-form-container">
+  {% for message in app.session.flashbag.get('success') %}
+    <div class="alert alert-success bns-alert">
+      {{ message }}
+      <div class="jim"></div>
+    </div>
+  {% endfor %}
+  <div class="invitation-form-container">
+    <div class="loader loader-h"></div>
+    <h2>{{ 'TITLE_ASSISTANT_HAS_ALREADY_ACCOUNT'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) }}</h2>
+
+
+    <form action="{{ path('classroom_manager_verify_assistant', (userId is defined and userId ? {userId:userId} : {})) }}" method="POST" id="verify-user">
+      <p class="user-id">{% trans %}LOGIN{% endtrans %}</p> <input type="text" name="username-to-check" id="username-to-check"/>
+      <button type="submit" class="btn bns-success btn-check-user btn-16 small">
+        <span class="icons-16 validate-icon"></span>
+        <strong>{% trans %}BUTTON_VERIFY{% endtrans %}</strong>
+
+      </button>
+    </form>
+  </div>
+
+  <div class="content-form-user">
+    <h2>{{ 'TITLE_ASSISTANT_HAVENT_ACCOUNT'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) }}</h2>
+
+
+    <form method="POST" action="{{ path('classroom_manager_add_assistant', (userId is defined and userId ? {userId:userId} : {})) }}" id="add-user-classroom-form">
+      <div>
+        {{ form_label(form.first_name) }}
+        {{ form_widget(form.first_name) }}
+        {{ forms.errors(form.first_name) }}
+      </div>
+
+      <div>
+        {{ form_label(form.last_name) }}
+        {{ form_widget(form.last_name) }}
+        {{ forms.errors(form.last_name) }}
+      </div>
+      <div class="form gender">
+        {{ form_label(form.gender) }}
+        {{ form_widget(form.gender) }}
+        {{ forms.errors(form.gender) }}
+      </div>
+
+      {% if form.birthday is defined %}
+        <div class="form birthday">
+          {{ form_label(form.birthday) }}
+          {{ form_widget(form.birthday) }}
+          {{ forms.errors(form.birthday) }}
+        </div>
+      {% endif %}
+
+      <div>
+        {{ form_label(form.email) }}
+        {{ form_widget(form.email) }}
+        {{ forms.errors(form.email) }}
+      </div>
+
+      {{ form_rest(form) }}
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <div class="content-btn-footer">
+      <a href="#" class="btn bns-danger btn-16 small" data-dismiss="modal">
+        <span class="icons-16 cancel-icon"></span>
+        <strong>{% trans %}LINK_CANCEL{% endtrans %}</strong>
+
+      </a>
+      {% if not userId is defined or not userId %}
+      <a href="#" class="btn bns-success btn-16 small finish and-new teacher">
+        <span class="icons-16 validate-icon"></span>
+        {{ 'LINK_CREATE_ADD_ASSISTANT'|trans |desc('<strong>Créer</strong> et ajouter un autre auxiliaire') |raw }}
+      </a>
+      {% endif %}
+      <a href="#" class="btn bns-success btn-16 small finish teacher">
+        <span class="icons-16 validate-icon"></span>
+        {{ 'LINK_CREATE_ASSISTANT_ACCOUNT'|trans |desc('<strong>Créer</strong> le compte auxiliaire') |raw }}
+      </a>
+    </div>
+  </div>
+</div>
+
+{% if lastRegistedUser is defined %}
+  <div class="result lastRegistedUser" style="display: none;">
+    {{ lastRegistedUser | raw }}
+  </div>
+{% endif %}

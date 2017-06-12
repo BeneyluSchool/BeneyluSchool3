@@ -1,1 +1,5 @@
-{% extends 'BNSAppResourceBundle:ResourceBlock:file.html.twig' %}{% block content %}<img id="" class="image-limit" src="{{ getResourceUrl(resource) }}" />{% endblock %}
+{% extends 'BNSAppResourceBundle:ResourceBlock:file.html.twig' %}
+
+{% block content %}
+	<img class="bns-insert-resources image-limit image" src="{{ create_visualisation_url_resource(resource,false,false,'medium') }}" alt="" data-slug="{{ resource.getSlug() }}" data-uid="{{ resource.getUserId() }}" data-id="{{ resource.getId() }}" />
+{% endblock %}

@@ -1,6 +1,9 @@
 var $form;
 $(document).ready(function ()
 {
+    jQuery(function($){$.datepicker.setDefaults($.datepicker.regional['fr']);});
+    $( ".jq-date" ).datepicker({});
+    
 	$('.btn.return').show();
 	$('.btn.finish').show();
 	//Submit

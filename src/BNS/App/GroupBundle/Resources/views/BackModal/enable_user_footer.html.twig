@@ -1,0 +1,13 @@
+{% trans_default_domain "GROUP" %}
+<div class="modal-footer">
+	<div class="content-btn-footer">
+		<a href="{{ path('BNSAppGroupBundle_back_user_enable', { 'login': user.login() }) }}" class="btn bns-success btn-24 medium-return">
+			<span class="icons-24 validate-icon"></span>
+			{{ 'LINK_REACTIVATE_USER'|trans |desc('<strong>Réactiver</strong><br />l\'utilisateur')|raw }}
+		</a>
+		<a href="#" class="btn bns-notice btn-24 medium" data-dismiss="modal">
+			<span class="icons-24 back-icon"></span>
+			<strong>{{ 'LINK_CANCEL'|trans |desc('Annuler') }}</strong>
+		</a>
+	</div>
+</div>

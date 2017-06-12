@@ -1,0 +1,13 @@
+<h2 translate>WORKSHOP.DOCUMENT.LAYOUT</h2>
+
+<div ng-repeat="(typeCode, type) in ctrl.layoutTypes" class="workshop-layout-nav-container">
+  <h3>{{::('WORKSHOP.DOCUMENT.LAYOUT_TYPE_'+(type.code|tokenize))|translate}}</h3>
+
+  <div class="workshop-layout-nav layout-row layout-wrap">
+    <span ng-repeat="layout in ctrl.layouts | filter: { type: { code: type.code } }" ng-click="ctrl.changeLayout(layout)" ng-class="{ current: ctrl.page.layout_code === layout.code }"class="layout">
+      <span bns-workshop-document-layout-image bns-layout="layout"></span>
+      {{::('WORKSHOP.DOCUMENT.LAYOUT_'+(layout.code|tokenize))|translate}}
+    </span>
+    </li>
+  </div>
+</div>

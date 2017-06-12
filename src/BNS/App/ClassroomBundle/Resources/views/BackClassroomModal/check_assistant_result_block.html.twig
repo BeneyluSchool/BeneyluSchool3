@@ -1,0 +1,30 @@
+{% trans_default_domain "CLASSROOM" %}
+<div class="verify-result">
+	{% if user != null %}
+		{% if is_already_invited %}
+			<div class="alert alert-danger bns-alert">
+                {{ 'USER_INVITE_WAITING' |trans({'%user%': user.getFullName |escape}) |desc('L\'utilisateur %user% attend déjà une invitation de votre part.<br />Celui-ci doit répondre à votre première invitation avant que vous ne puissiez l\'inviter à nouveau.') |raw }}
+				<div class="jim"></div>
+			</div>
+		{% elseif is_already_assistant %}
+			<div class="alert alert-danger bns-alert">
+                {{ 'USER_ALREADY_ASSISTANT'|trans({'%user%': user.getFullName |escape}) |desc('L\'utilisateur %user% est déjà auxiliaire dans votre classe.') |raw }}
+				<div class="jim"></div>
+			</div>
+		{% else %}
+			<div class="user-found">
+				<div class="close">&times</div>
+				<img src="{{ avatar(user, 'thumbnail') }}" alt="" class="avatar" /> <p>{{ user.getFullName() }}</p>
+				<a href="{{ path('classroom_manager_invite_assistant', (userId is defined and userId ? {userId:userId} : {})) }}" data-username="{{ user.getUsername() }}" class="btn btn-info btn-invite-teacher">
+                    {{ 'LINK_INVITE_USER'|trans({'%user%': user.getFullName |escape}) |desc('Inviter <strong>%user%</strong>') |raw}}
+				</a>
+			</div>
+		{% endif %}
+
+	{% else %}
+		<div class="alert alert-danger bns-alert">
+            {{ 'NO_USER_WITH_THIS_LOGIN'|trans({'%user%': username |escape}) |desc('Aucun utilisateur associé à l\'identifiant <strong>%user%</strong>') |raw}}
+			<div class="jim"></div>
+		</div>
+	{% endif %}
+</div>

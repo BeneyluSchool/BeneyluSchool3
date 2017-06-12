@@ -1,0 +1,36 @@
+{% trans_default_domain "BLOG" %}
+<div class="modal-body">
+	<div class="content-modal-body">
+        {{ 'TITLE_GENERATE_PDF'|trans |desc('
+        <h2>Vous êtes sur le point de générer un fichier PDF.</h2>
+         <h3>Ce fichier PDF reprendra les articles de votre blog. Votre navigateur Internet va vous proposer de télécharger ce fichier.</h3>
+         ') |raw }}
+
+        {% if categories|length > 0 %}
+          <h3>{% trans %}TITLE_FILTER_THIS_GENERATE_ON_CATEGORY{% endtrans %}</h3>
+        {% endif %}
+        <form id="pdf-form" action="{{ path('blog_manager_export') }}">
+            {% if categories|length > 0 %}
+              <p>
+                <select name="type">
+                  <option value="all" selected="selected">{% trans %}KEEP_ALL_ARTICLE{% endtrans %}</option>
+                  {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.title }}</option>
+                  {% endfor %}
+                </select>
+              </p>
+            {% else %}
+                <input type="hidden" name="type" value="all" />
+            {% endif %}
+            <p>
+                <label for="form_include_comments" style="display:inline-block"> {% trans %}LABEL_INCLUDE_COMMENT{% endtrans %}</label>
+                <input type="checkbox" name="include_comments" id="form_include_comments" />
+            </p>
+          <p>
+            <label for="form_order" style="display:inline-block"> {% trans %}LABEL_ORDER_ASC{% endtrans %}</label>
+            <input type="checkbox" name="order" id="form_order" />
+          </p>
+        </form>
+	</div>
+</div>
+<div class="beneylu-jim"></div>

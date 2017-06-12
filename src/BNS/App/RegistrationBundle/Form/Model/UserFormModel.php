@@ -51,8 +51,9 @@ class UserFormModel
 			'last_name'		=> $this->last_name,
 			'email'			=> $this->email,
 			'lang'			=> 'fr'
-		//ATTENTION !!! TEMPORAIRE on envoie pas le mail
-		),false);
+		),true);
+		
+		$userManager->flagChangePassword($this->user);
 		
 		return $this->user;
 	}
@@ -60,10 +61,10 @@ class UserFormModel
 	/**
 	 * Constraint validation
 	 */
-	public function isEmailUnique(ExecutionContext $context)
+	public function isEmailUnique($context)
 	{
 		if (null != $this->email && '' != $this->email && null != BNSAccess::getContainer()->get('bns.user_manager')->getUserByEmail($this->email)) {
-			$context->addViolationAtSubPath('email', "L'adresse e-mail renseignée est déjà utilisée. Veuillez en saisir une autre", array(), null);
+			$context->addViolationAt('email', "L'adresse e-mail renseignée est déjà utilisée. Veuillez en saisir une autre", array(), null);
 		}
 	}
 }

@@ -12,7 +12,7 @@
 		{
 			$('.header-buttons .delete-item').click(function (e)
 			{
-				$('#modal-article-delete').modal('show');
+				$('#modal-item-delete').modal('show');
 				
 				return false;
 			});
@@ -38,10 +38,12 @@
 							<span class="icons-24 preview-icon"></span>
 							<strong>Voir</strong><br />l'item
 						</a>
+						{# {% if has_right('BUNDLE_ADMINISTRATION') %} #}
 						<a href="#" class="btn bns-danger btn-24 medium-return delete-item">
 							<span class="icons-24 delete-icon"></span>
 							<strong>Supprimer</strong><br />l'item
 						</a>
+						{# {% endif %} #}
 					</div>
 				</div>
 			</div>
@@ -51,7 +53,7 @@
 
 {% block content %}
 	{# See this render for delete modal example #}
-	{# {% render 'BNSAppBlogBundle:BackAjax:renderDeleteArticleModal' with {'article': item} %} #}
+	{# {% if has_right('BUNDLE_ADMINISTRATION') %}{{ render(controller('BNSAppBlogBundle:BackAjax:renderDeleteArticleModal', {'article': item} )) }}{% endif %} #}
 	<div class="item visualisation">
 		<div class="header">
 			<h3>{{ item.title }}</h3>
@@ -91,7 +93,13 @@
 		</div>
 		{# If you want to link resources #}
 		{# <div class="resources">
-			{% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': article.getResourceAttachments(), 'editable': false} %}
+			{% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias': article.getResourceAttachments(), 'editable': false} %}
 		</div> #}
+			
+		{# If the item has comments #}
+		{# {% render ('BNSAppCommentBundle:BackComment:visualize') with {
+			'objectId':		item.getId(),
+			'namespace':	'\\BNS\\App\\HelloWorldBundle\\Model\\ItemComment'
+		} %} #}
 	</div>
 {% endblock %}

@@ -1,0 +1,84 @@
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+    <h3 class="flex flex-none heading" translate>LSU.TITLE_ALL_TEMPLATES</h3>
+    <span class="flex"></span>
+    <span>
+      <md-progress-circular md-mode="indeterminate" md-diameter="24" ng-show="ctrl.busy"></md-progress-circular>
+    </span>
+  </div>
+</md-toolbar>
+
+<bns-inset ng-if="ctrl.hasNoTemplate" class="md-padding flex layout-row layout-align-center-center">
+  <p class="md-body-2 text-center" translate>LSU.DESCRIPTION_NO_TEMPLATE_YET</p>
+  <div class="text-center">
+    <md-button ui-sref=".edit" class="md-raised md-primary">
+      <md-icon>add_circle</md-icon>
+      <span ng-bind-html="'LSU.BUTTON_CREATE_TEMPLATE'|translate|buttonize"></span>
+    </md-button>
+  </div>
+</bns-inset>
+
+<md-content>
+
+  <md-list class="lsu-templates">
+    <div ng-repeat="level in shared.allLevels" ng-show="!shared.levels.length || shared.levels.indexOf(level.code) > -1">
+      <md-subheader class="bns-subheader-solid"><span class="md-title">{{::level.label}}</span></md-subheader>
+      <div ng-repeat="template in ctrl.templatesByLevel[level.code]">
+        <div class="flex layout-column">
+          <div class="layout-gt-sm-row">
+            <div class="flex md-body-2 md-padding">
+              <span>{{::template.period}}</span>
+              -
+              <span translate translate-values="{ from: moment(template.started_at).format('LL'), to: moment(template.ended_at).format('LL')}">LSU.LABEL_TEMPLATE_PERIOD_FROM_TO</span>
+              -
+              <kbd>{{::template.completion + '/' + template.total_completion}}</kbd>
+            </div>
+            <div class="md-secondary-container">
+              <bns-switch manager="template.openManager">
+                <span translate>LSU.LABEL_OPEN_TO_FAMILIES</span>
+              </bns-switch>
+            </div>
+          </div>
+          <div class="layout-row layout-align-end-center">
+            <md-button ng-if="::ctrl.configsByLevel[level.code].users.length" ui-sref="^.records.edit({templateId: template.id, userId: ctrl.configsByLevel[level.code].users[0].id })">
+              <md-icon>person</md-icon>
+              <span ng-bind-html="'LSU.BUTTON_WRITE'|translate|buttonize"></span>
+            </md-button>
+            <md-button ui-sref=".edit({id: template.id})">
+              <md-icon>edit</md-icon>
+              <span ng-bind-html="'LSU.BUTTON_EDIT'|translate|buttonize"></span>
+            </md-button>
+            <md-button href ng-click="ctrl.copyTemplate(template)">
+              <md-icon>content_copy</md-icon>
+              <span ng-bind-html="'LSU.BUTTON_COPY'|translate|buttonize"></span>
+            </md-button>
+            <md-menu>
+              <md-button href ng-click="$mdMenu.open($event)">
+                <md-icon>file_download</md-icon>
+                <span ng-bind-html="'LSU.BUTTON_EXPORT'|translate|buttonize"></span>
+              </md-button>
+              <md-menu-content>
+                <md-menu-item>
+                  <md-button ng-href="{{ctrl.getExportXmlUrl(template)}}" target="_blank">
+                    <md-icon>insert_drive_file</md-icon>
+                    <span ng-bind-html="'LSU.BUTTON_MENU_EXPORT_LSU'|translate|buttonize"></span>
+                  </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                  <md-button ng-href="{{ctrl.getExportPdfUrl(template)}}" target="_blank">
+                    <md-icon>picture_as_pdf</md-icon>
+                    <span ng-bind-html="'LSU.BUTTON_MENU_EXPORT_PDF'|translate|buttonize"></span>
+                  </md-button>
+                </md-menu-item>
+                <div class="md-caption md-padding" translate>LSU.DESCRITPION_EXPORT_ONLY_VALID</div>
+              </md-menu-content>
+            </md-menu>
+          </div>
+        </div>
+        <md-divider></md-divider>
+      </div>
+    </div>
+  </md-list>
+
+</md-content>

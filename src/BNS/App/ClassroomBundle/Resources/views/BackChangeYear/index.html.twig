@@ -1,0 +1,107 @@
+{% trans_default_domain "CLASSROOM" %}
+{% extends 'BNSAppClassroomBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+    {{ 'TITLE_CLASS_CHANGE_YEAR'|trans |desc('Classe - Changement d\'année') }}
+  {% trans %}TITLE_CLASS{% endtrans %} - {% trans %}CHANGE_YEAR{% endtrans %}
+{% endblock %}
+
+{% block css %}
+    {{ parent() }}
+
+{% endblock css %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ asset('/medias/js/jquery.form.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/medias/js/classroom/change-year.js') }}"></script>
+{% endblock javascripts %}
+
+{% block header %}
+    <div class="header-buttons">
+        <div class="inner-header">
+            <div class="container container-fluid">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <a data-toggle="modal" data-target="#reset-modal" class="btn bns-danger btn-24 large pull-right" id="confirm" data-confirm="{{ 'CONFIRM_RESET'|trans }}">
+                            <span class="icons-24 delete-icon"></span>
+                            {% trans %}RESET_MY_CLASSROOM{% endtrans %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock header %}
+
+{% block sidebar %}
+    <div class="container-sidebar list">
+		<div class="container-section">
+            <div class="section">
+				<a href="{{ path('BNSAppClassroomBundle_back') }}">{% trans %}LINK_DASHBOARD{% endtrans %}</a>
+			</div>
+			<div class="section">
+				<a href="{{ path('BNSAppClassroomBundle_back_classroom') }}">{% trans %}LINK_MY_CLASS{% endtrans %}</a>
+			</div>
+			<div class="section">
+				<a href="{{ path('BNSAppClassroomBundle_back_custom') }}">{% trans %}LINK_CUSTOMIZE{% endtrans %}</a>
+			</div>
+            <div class="section">
+                <a href="{{ path('classroom_manager_stats') }}">{% trans %}LINK_STATS{% endtrans %}</a>
+			<span class="shadow-section"></span>
+		</div>
+		</div>
+
+        <div class="section focus active">
+            {% trans %}CHANGE_YEAR{% endtrans %}
+            <span class="shadow-section"></span>
+        </div>
+	</div>
+{% endblock sidebar %}
+
+{% block content %}
+    <div id="loader" class="loader sb">
+        <div class="message">
+            {% trans %}CHECKING_DATA{% endtrans %}
+        </div>
+    </div>
+    <div id="expose" class="loader expose">
+        <div class="message">
+            {% trans %}RESETTING_CLASSROOM_WAIT{% endtrans %}
+        </div>
+    </div>
+    {{ modal('reset-modal', {
+		'title': 'RESET_MY_CLASSROOM'|trans,
+		'body_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:change_year_classroom_body.html.twig'},
+		'type': 'error',
+		'footer_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:change_year_classroom_footer.html.twig'}
+	}) }}
+
+    <h1>{% trans %}RESET_MY_CLASSROOM{% endtrans %}</h1>
+    <h3>
+        {% trans %}RESETTING_CLASSROOM_DESCRIPTION{% endtrans %}
+        {% trans %}RESETTING_CLASSROOM_WARNING{% endtrans %}
+    </h3>
+
+    <div id="errors-alert" class="alert bns-alert alert-danger hide">
+        {% trans %}RESETTING_CLASSROOM_WARNING_ERRORS{% endtrans %}
+        <div class="jim"></div>
+    </div>
+    <div id="success-alert" class="alert bns-alert alert-success hide">
+        {% trans %}RESETTING_CLASSROOM_SUCCESS{% endtrans %}
+        <div class="jim"></div>
+    </div>
+    <div class="data-reset-container">
+        {% for dataReset in dataResetWithOptions %}
+            {# These parameters are mandatory ! #}
+            {% include dataReset.getRender() with {'dataReset': dataReset, 'group': currentGroup} %}
+        {% endfor %}
+    </div>
+
+    <div>
+        <form action="{{ path('data_reset_changeyear_dofinish') }}" method="POST">
+            {{ form_widget(form) }}
+        </form>
+    </div>
+{% endblock content %}

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-07-07T12:33:20Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="ac32319671a8b206f767f6df7bf69657493234ef" resname="ADD_LINK">
+        <source>ADD_LINK</source>
+        <target>Add a link</target>
+      </trans-unit>
+      <trans-unit id="51adcad10aa9a70ae760ec3e52934cea0f4519f8" resname="BUTTON_ADD_LINK">
+        <source>BUTTON_ADD_LINK</source>
+        <target>Add</target>
+      </trans-unit>
+      <trans-unit id="1c3c85e440a172417537a5ec2a136d5dd3d07ed4" resname="BUTTON_EDIT_LINK">
+        <source>BUTTON_EDIT_LINK</source>
+        <target>Validate</target>
+      </trans-unit>
+      <trans-unit id="cc64f35d044f3c8be7b46ded0b495c36ab2c18c8" resname="BUTTON_SEARCH">
+        <source>BUTTON_SEARCH</source>
+        <target>Search</target>
+      </trans-unit>
+      <trans-unit id="95712a76df79cc6855da71287622784c4453f018" resname="EDIT_LINK">
+        <source>EDIT_LINK</source>
+        <target>Edit</target>
+      </trans-unit>
+      <trans-unit id="f889b37cb8ab01956de0609a1a25169c348d97fd" resname="GENERAL_WHITE_LIST_ACTIVATION">
+        <source>GENERAL_WHITE_LIST_ACTIVATION</source>
+        <target>General whitelist activation</target>
+      </trans-unit>
+      <trans-unit id="e3666814d78c11d1d1637d1f1b17c11629d94ae2" resname="GET_WHITE_LIST_ERROR">
+        <source>GET_WHITE_LIST_ERROR</source>
+        <target>The whitelist could not be loaded</target>
+      </trans-unit>
+      <trans-unit id="61892fd0bd0712200b42d2a7fc250ce1815f9afe" resname="LAST_SEARCH_AT">
+        <source>LAST_SEARCH_AT</source>
+        <target>Made on {{date}} by </target>
+      </trans-unit>
+      <trans-unit id="1f8524949b59bf473e5b31304582c62cb6d54e28" resname="LINK_CANCEL">
+        <source>LINK_CANCEL</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="55f5c3922f9ff9222f761e6243deab102c42ec45" resname="NO_LINK">
+        <source>NO_LINK</source>
+        <target>You do not have any links in your whitelist yet.</target>
+      </trans-unit>
+      <trans-unit id="f81bf28814c1b7c69ceea1a053ac0961e57c416b" resname="PLACEHOLDER_INPUT_LINK">
+        <source>PLACEHOLDER_INPUT_LINK</source>
+        <target>URL link</target>
+      </trans-unit>
+      <trans-unit id="7648774bd2c6d89c2e3aafad75317d8039dc0a62" resname="PLACEHOLDER_INPUT_SEARCH">
+        <source>PLACEHOLDER_INPUT_SEARCH</source>
+        <target>Enter your search</target>
+      </trans-unit>
+      <trans-unit id="7d3a205c4ed427d48c6cc5b33edec6b804a29d99" resname="TITLE_SEARCH_ENGINE">
+        <source>TITLE_SEARCH_ENGINE</source>
+        <target>Search engine</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

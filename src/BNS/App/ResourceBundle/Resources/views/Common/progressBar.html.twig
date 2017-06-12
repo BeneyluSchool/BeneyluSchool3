@@ -8,6 +8,13 @@
 {% elseif 75 < ratio and ratio <= 100 %}
 	{% set class = "error" %}
 {% endif %}
-<div class="progress progress-{{ class }}">
-	<div class="bar" style="width: {{ ratio }}%"></div>
+
+{% set color = "base"%}
+{% if ratio >= 55 %}
+	{% set color = "reverse" %}
+{% endif %}
+
+<div class="progress progress-{{ class }}" style="position: relative;">
+	<div class="bar" style="width: {{ ratio }}%; position: absolute;"></div>
+    <span class="text-progress text-{{ color }}">{{ used }} / {{ total }}</span>
 </div>

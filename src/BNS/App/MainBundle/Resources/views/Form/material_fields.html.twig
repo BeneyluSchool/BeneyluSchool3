@@ -1,0 +1,368 @@
+{% trans_default_domain "MAIN" %}
+{% extends 'form_div_layout.html.twig' %}
+
+{# Widgets #}
+
+{% block form_widget_simple %}
+  {% spaceless %}
+    {% set type = type|default('text') %}
+    {% set form_model = getModelName(form) %}
+    {% if attr.maxlength is defined %}
+      {% set attr = { 'md-maxlength': attr.maxlength }|merge(attr) %}
+    {% endif %}
+    {% if attr.minlength is defined %}
+      {% set attr = { 'ng-minlength': attr.minlength }|merge(attr) %}
+    {% endif %}
+    {% set attr = { 'ng-model': form_model }|merge(attr|default({})) %}
+    {% if value is not empty %}
+      {% set attr = { 'ng-init': form_model ~ ' = ' ~ getBindValue(value) }|merge(attr) %}
+    {% endif %}
+    <input type="{{ type }}"
+        {{ block('widget_attributes') }}
+        {% if value is not empty %}value="{{ value }}" {% endif %}
+    />
+    <div ng-messages="{{ getRootName(form) }}['{{ form.vars.full_name }}'].$error">
+      <div ng-messages-include="form-error-messages"></div>
+      {% if attr['minlength'] is defined %}
+        <div ng-message="minlength">{{ attr['minlength'] }} characters minimum.</div>
+      {% endif %}
+      {% if attr['md-maxlength'] is defined %}
+        <div ng-message="md-maxlength">{{ attr['md-maxlength'] }} characters maximum.</div>
+      {% endif %}
+    </div>
+  {% endspaceless %}
+{% endblock form_widget_simple %}
+
+{%- block textarea_widget -%}
+  {% set form_model = getModelName(form) %}
+  {# add custom id attr for compatibility with ui-tinymce (that overrides id...) and autosave #}
+  {% set attr = { 'ng-model': form_model, 'bns-id': form.vars.id }|merge(attr) %}
+  {% if value %}
+    {% set attr = {
+      'ng-init': form_model ~ ' = ' ~ getBindValue(value)
+    }|merge(attr) %}
+  {% endif %}
+  {{ parent() }}
+{%- endblock textarea_widget -%}
+
+{% block choice_widget_expanded %}
+  {% spaceless %}
+    {% set form_model = getModelName(form) %}
+    {# build a map {value: grouplabel} for grouped choices #}
+    {% set group_by_value = [] %}
+    {% for group_label, choice in choices %}
+      {% if choice is iterable %}
+        {% for c in choice %}
+          {# numeric keys are not supported, force string by prepending '_' #}
+          {% set group_by_value = group_by_value|merge({('_'~c.value): group_label}) %}
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+    {# iterate through subforms and build a 'simple' collection of models #}
+    {% set choices = [] %}
+    {% set initial_value = null %}
+    {% for child in form.children %}
+      {% set choices = choices|merge([{
+        id: child.vars.id,
+        name: child.vars.full_name,
+        label: translation_domain is sameas(false) or choice_translation_domain is sameas(false) ? child.vars.label : child.vars.label|trans({}, choice_translation_domain|default(translation_domain)),
+        value: child.vars.value,
+        attr: child.vars.attr,
+        checked: child.vars.checked,
+        class: child.vars.attr.class is defined ? child.vars.attr.class : null,
+        icon: child.vars.attr.icon is defined ? child.vars.attr.icon : null,
+        group_by: group_by_value['_'~child.vars.value] is defined ? group_by_value['_'~child.vars.value] : null,
+      }]) %}
+      {% if child.vars.checked %}
+        {# if value is a string representing a numer (typically an ID), add a layer of quotes to preserve string type in ng binding #}
+        {% if ((child.vars.value ~ '') is same as (child.vars.value)) and (child.vars.value + 0 == child.vars.value)  %}
+          {% set initial_value = '\'' ~ child.vars.value ~ '\'' %}
+        {% else %}
+          {% set initial_value = getBindValue(child.vars.value) %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+    {% if multiple %}
+      <bns-checkbox-group {{ block('widget_container_attributes') }}
+        name="{{ form.vars.full_name }}"
+        ng-init="{{ form_model }} = {{ form_model }} || []; app._choices['{{ form.vars.full_name }}'] ? '' : app._choices['{{ form.vars.full_name }}'] = {{ choices|serialize }}"
+        ng-model="{{ form_model }}"
+        bns-vanilla-input="true"
+        choices="app._choices['{{ form.vars.full_name }}']"
+        {% if create is defined and create %}bns-choice-create="{{ create }}"{% endif %}
+      >
+      </bns-checkbox-group>
+    {% else %}
+      <md-radio-group {{ block('widget_container_attributes') }}
+        ng-init="{% if initial_value is defined and initial_value %}{{ form_model }} = {{ initial_value }};{% endif %}app._choices['{{ form.vars.full_name }}'] ? '' : app._choices['{{ form.vars.full_name }}'] = {{ choices|serialize }}"
+        name="{{ form.vars.full_name }}"
+        ng-model="{{ form_model }}"
+        bns-radio-group
+        bns-vanilla-input="true"
+        choices="app._choices['{{ form.vars.full_name }}']"
+        {% if create is defined and create %}bns-choice-create="{{ create }}"{% endif %}
+      >
+      </md-radio-group>
+    {% endif %}
+  {% endspaceless %}
+{% endblock choice_widget_expanded %}
+
+{%- block choice_widget_collapsed -%}
+  {% spaceless %}
+    {% set form_model = getModelName(form) %}
+    {% set attr = { 'ng-model': form_model }|merge(attr) %}
+
+    {# actual select #}
+    {{ parent() }}
+
+    {# hidden synced input to support ng model and validation #}
+    <input type="text" ng-model="{{ form_model }}" style="display:none;"
+        {% if required %}required="required"{% endif %}
+        {% if value is defined %}ng-init="{{ form_model }} = '{{ value|join(',') }}'"{% endif %}
+    />
+    <div ng-messages="form['{{ form.vars.full_name }}'].$error">
+      <div ng-messages-include="form-error-messages"></div>
+    </div>
+  {% endspaceless %}
+{%- endblock choice_widget_collapsed -%}
+
+{% block checkbox_widget %}
+  {% spaceless %}
+    {% set form_model = getModelName(form) %}
+    {% set bind_value = getBindValue(value) %}
+    {% set attr = attr|merge({ class: ('md-primary ' ~ attr.class|default(''))|trim }) %}
+
+    {# material checkbox #}
+    <md-checkbox {{ block('widget_attributes') }}
+        ng-init="{{ form_model }} = !!{{ checked?1:0 }}"
+        ng-model="{{ form_model }}"
+    >
+      {{ translation_domain is sameas(false) ? label : label|trans({}, translation_domain) }}
+    </md-checkbox>
+
+    {# actual checkbox (hidden) #}
+    {% set attr = { 'ng-checked': form_model, style: 'display: none' }|merge(attr) %}
+    {{ parent() }}
+  {% endspaceless %}
+{% endblock checkbox_widget %}
+
+{% block radio_widget %}
+  {% spaceless %}
+    {% set form_model = getModelName(form) %}
+    {% set attr = attr|merge({ class: ('md-primary ' ~ attr.class|default(''))|trim }) %}
+
+    {# material radio #}
+    <md-radio-button {{ block('widget_attributes') }}
+        {% if value is defined %} value="{{ value }}"{% endif %}
+        {% if checked %} checked="checked" ng-init="{{ form_model }} = {{ getBindValue(value) }}"{% endif %}
+    >
+      {% set old_translation_domain = translation_domain %}
+      {% set translation_domain = choice_translation_domain|default(translation_domain) %}
+      {{ block('form_label_text') }}
+      {% set translation_domain = old_translation_domain %}
+    </md-radio-button>
+
+    {# actual radio (hidden) #}
+    {% set attr = { 'ng-model': form_model, style: 'display: none' }|merge(attr) %}
+    {{ parent() }}
+  {% endspaceless %}
+{% endblock radio_widget %}
+
+{% block datetime_widget %}
+  {% spaceless %}
+    {% if widget == 'single_text' %}
+      {% set type = 'datetime-local' %}{# update html5 standard #}
+      {% set form_model = getModelName(form) %}
+      {% set attr = { 'ng-model': form_model }|merge(attr|default({})) %}
+      {% if value %}
+        {% set attr = { 'ng-init': form_model ~ ' = Date(' ~ getBindValue(value) ~ ')' }|merge(attr) %}
+      {% endif %}
+      {{ block('form_widget_simple') }}
+    {% else %}
+      {{ parent() }}
+    {% endif %}
+  {% endspaceless %}
+{% endblock datetime_widget %}
+
+{% block date_widget %}
+  {% spaceless %}
+    {% if widget == 'single_text' %}
+      {% set form_model = getModelName(form) %}
+      {% set attr = { 'ng-model': form_model, 'mdp-date-picker': true }|merge(attr|default({})) %}
+      {% if value %}
+        {% set attr = { 'ng-init': form_model ~ ' = Date(' ~ getBindValue(value) ~ ')' }|merge(attr) %}
+      {% endif %}
+      {{ block('form_widget_simple') }}
+    {% else %}
+      {{ parent() }}
+    {% endif %}
+  {% endspaceless %}
+{% endblock date_widget %}
+
+{% block time_widget %}
+  {% spaceless %}
+    {% if widget == 'single_text' %}
+      {% set form_model = getModelName(form) %}
+      {% set attr = { 'ng-model': form_model, 'mdp-time-picker': true, 'mdp-auto-switch': 'true' }|merge(attr|default({})) %}
+      {% if value %}
+        {% set attr = { 'ng-init': form_model ~ ' = Date(1970, 0, 1, ' ~ value|split(':')|join(',') ~ ')' }|merge(attr) %}
+      {% endif %}
+      {{ block('form_widget_simple') }}
+    {% else %}
+      {{ parent() }}
+    {% endif %}
+  {% endspaceless %}
+{% endblock time_widget %}
+
+{% block number_widget %}
+  {% spaceless %}
+    {% set type = type|default('number') %}
+    {% set attr = {'step': 'any'}|merge(attr|default({})) %} {# allow for decimal values #}
+    {{ block('form_widget_simple') }}
+  {% endspaceless %}
+{% endblock number_widget %}
+
+{% block money_widget %}
+  {% spaceless %}
+    {# TODO: use the currency symbol as an input addon #}
+    {% set type = type|default('number') %}
+    {% set attr = {'step': 'any'}|merge(attr|default({})) %}
+    {{ block('form_widget_simple') }}
+    {#{{ money_pattern|replace({ '{{ widget }}': block('form_widget_simple') })|raw }}#}
+  {% endspaceless %}
+{% endblock money_widget %}
+
+{% block percent_widget %}
+  {% spaceless %}
+    {# TODO: use the % symbol as an input addon #}
+    {% set type = type|default('number') %}
+    {% set attr = {'step': 'any'}|merge(attr|default({})) %}
+    {{ block('form_widget_simple') }}{# % #}
+  {% endspaceless %}
+{% endblock percent_widget %}
+
+{%- block button_widget -%}
+  {%- if label is empty -%}
+    {% set label = name|humanize %}
+  {%- endif -%}
+  {% spaceless %}
+    {% if type is defined and 'submit' == type %}
+      {% set attr = attr|merge({'class': (attr.class|default('md-primary md-raised'))|trim, formnovalidate: true}) %}
+    {% endif %}
+  {% endspaceless %}
+  <md-button type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ label|trans({}, translation_domain) }}</md-button>
+{%- endblock button_widget -%}
+
+
+{# Rows #}
+
+{% block form_row %}
+  {% spaceless %}
+    {% set row_attr = row_attr|default({}) %}
+    {% set tag = 'div' %}
+    {% set classes = 'input-container' %}
+    {% set widget = form.vars.block_prefixes.1 %}
+    {% set isInput = widget in [ 'text', 'number', 'integer', 'money', 'percent' ] %}
+    {% set isDate = widget in [ 'date', 'time', 'datetime-local', 'datetime' ] %}
+    {% set isChoice = widget in [ 'choice' ] %}
+    {% set isSelect = isChoice and not expanded %}
+    {% set noFloat = attr.placeholder|default(false) and false == label %}
+
+    {% if compound %}
+      {% set classes = classes ~ ' compound' %}
+    {% endif %}
+    {% if proxy is defined and proxy %}
+      {% set classes = classes ~ ' proxy' %}
+    {% endif %}
+    {% if fullwidth is defined and fullwidth %}
+      {% set classes = classes ~ ' fullwidth' %}
+    {% endif %}
+    {% if isSelect or isInput or isDate %}
+      {% set tag = 'md-input-container' %}
+    {% endif %}
+
+    {% set row_attr = row_attr|merge({
+      id: row_attr.id|default('container_' ~ form.vars.id),
+      class: (row_attr.class|default('') ~ ' ' ~ classes)|trim
+    }) %}
+
+    {% if noFloat %}
+      {% set row_attr = row_attr|merge({ 'md-no-float': '' }) %}
+    {% endif %}
+
+    <{{ tag }}{% for attrname, attrvalue in row_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+      {{ form_label(form) }}
+      {{ form_widget(form) }}
+      {{ form_errors(form) }}
+    </{{ tag }}>
+  {% endspaceless %}
+{% endblock form_row %}
+
+{% block button_row %}{#TODO#}
+  {% spaceless %}
+    <div>
+      {{ form_widget(form) }}
+    </div>
+  {% endspaceless %}
+{% endblock button_row %}
+
+{# Misc #}
+
+{%- block form_start -%}
+  {%- set formName = form.vars.name|default('form') -%}
+  {%- set attr = { name: formName, 'ng-init': getModelName(form) ~ ' = {}', 'bns-form-proxy-source': formName }|merge(attr) -%}
+  {{- parent() -}}
+  <script type="text/ng-template" id="form-error-messages">
+    <div ng-message="required">{% trans %}REQUIRED_FIELD{% endtrans %}</div>
+    <div ng-message="pattern">{% trans %}FORMAT_NOT_VALID{% endtrans %}</div>
+    <div ng-message="format">{% trans %}FORMAT_NOT_VALID{% endtrans %}</div>
+    <div ng-message="number">{% trans %}NUMBER_NOT_VALID{% endtrans %}</div>
+    <div ng-message="min">{% trans %}TOO_SMALL{% endtrans %}</div>
+    <div ng-message="minlength">{% trans %}TOO_SMALL{% endtrans %}</div>
+    <div ng-message="max">{% trans %}TOO_LARGE{% endtrans %}</div>
+    <div ng-message="md-maxlength">{% trans %}TOO_LARGE{% endtrans %}</div>
+    <div ng-message="maxlength">{% trans %}TOO_LARGE{% endtrans %}</div>
+    <div ng-message="email">{% trans %}INVALID_EMAIL{% endtrans %}</div>
+    <div ng-message="url">{% trans %}INVALID_URL{% endtrans %}</div>
+    <div ng-message="date">{% trans %}INVALID_DATE{% endtrans %}</div>
+    <div ng-message="time">{% trans %}INVALID_TIME{% endtrans %}</div>
+    <div ng-message="datetimelocal">{% trans %}INVALID_DATE{% endtrans %}</div>
+  </script>
+{%- endblock form_start -%}
+
+{%- block form_errors -%}
+  {% spaceless %}
+    {%- if errors|length > 0 -%}
+      {% if compound %}
+        <div class="md-padding md-whiteframe-z1">
+        {# TODO: update to Sf 2.7 to display field info #}
+      {% endif %}
+
+      <ul class="md-body-1 text-warn">
+        {%- for error in errors -%}
+          <li>{{ error.message }}</li>
+        {%- endfor -%}
+      </ul>
+
+      {% if compound %}
+        </div>
+      {% endif %}
+    {%- endif -%}
+  {% endspaceless %}
+{%- endblock form_errors -%}
+
+{%- block form_label_text -%}
+    {% if label is not sameas(false) -%}
+        {% if label is empty -%}
+            {%- if label_format is not empty -%}
+                {% set label = label_format|replace({
+                    '%name%': name,
+                    '%id%': id,
+                }) %}
+            {%- else -%}
+                {% set label = name|humanize %}
+            {%- endif -%}
+        {%- endif -%}
+        {{ translation_domain is sameas(false) ? label : label|trans({}, translation_domain) }}
+    {%- endif -%}
+{%- endblock form_label_text -%}

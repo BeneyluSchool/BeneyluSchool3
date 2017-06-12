@@ -1,3 +1,4 @@
+{% trans_default_domain 'USER' %}
 {% extends '::base.html.twig' %}
 
 {% block css %}
@@ -13,9 +14,9 @@
 	<div class="container-fluid container">
 		<div class="row-fluid">
 			<div class="span12">
-				<a href="#"><img src="/medias/images/registration/beneyluschool.png" /></a>
-				<h1>Confirmation</h1>
-				<p>Un mail a été envoyé</strong></p>
+				<a href="{{ path('home') }}"><img src="{{ asset('/medias/images/registration/beneyluschool.png') }}" /></a>
+				<h1>{{ 'TITLE_CONFIRM'|trans |desc('Confirmation') }}</h1>
+				<p>{{ 'EMAIL_SENT'|trans |desc('Un mail a été envoyé') }}</strong></p>
 				<div class="pattern"></div>
 			</div>
 		</div>
@@ -25,8 +26,9 @@
 	<div class="container-registration">
 		<div class="row-fluid">
 			<div class="span12">
-				<h3 class="reset-password">Un e-mail vient de vous être envoyé.</h3>
-				<p class="reset-password">Vous y trouverez un lien de confirmation sur lequel cliquer pour terminer le processus de réinitialisation de votre mot de passe.</p>
+				<h3 class="reset-password">{{ 'TITLE_MAIL_JUST_SEND_TO_YOU'|trans |desc('Un e-mail vient de vous être envoyé.') }}</h3>
+				<p class="reset-password">{{ 'WILL_FIND_CONFIRM_LINK_TO_RESET_PASSWORD' |trans |desc('Vous y trouverez un lien de confirmation sur lequel cliquer pour terminer le processus de réinitialisation de votre mot de passe.') }}
+				</p><br />
 			</div>
 		</div>
 	</div>

@@ -1,0 +1,13 @@
+<md-toast class="bns-toast" ng-class="::'bns-toast-'+toast.intent">
+  <div class="md-toast-content">
+    <span class="flex md-toast-text" role="alert" aria-relevant="all" aria-atomic="true">
+      {{ toast.content }}
+    </span>
+    <md-button ng-if="::toast.action" ng-click="toast.resolve()">
+      {{ toast.action }}
+    </md-button>
+    <md-button class="md-icon-button" ng-if="::toast.close" ng-click="toast.abort()">
+      <md-icon>close</md-icon>
+    </md-button>
+  </div>
+</md-toast>

@@ -1,0 +1,31 @@
+<div container class="flex layout-row main-container">
+
+  <bns-breakfast-tour-navigation></bns-breakfast-tour-navigation>
+
+  <md-content class="flex transparent breakfast-tour-navigation-spacer layout-column layout-align-center-center">
+    <div class="breakfast-tour-navbar-spacer"></div>
+    <div style="margin: auto">
+    <div class="md-whiteframe-z2 breakfast-tour-details border-dashed" >
+      <div class="breakfast-tour-tray-container">
+        <img ng-src="../assets/images/apps/breakfast-tour/{{ ::ctrl.breakfast.code }}/tray.jpg" class="breakfast-tour-details-tray">
+      </div>
+      <div class="md-padding">
+        <h1 class="md-display-3 heading">{{ ::ctrl.breakfast.name }}</h1>
+        <div class="md-body-1 tray-description">{{ ::ctrl.breakfast.tray }}</div>
+      </div>
+
+      <div class="layout-row layout-align-center-center breakfast-tour-navigation-button">
+        <div class="pennant pennant-double">
+          <md-button ui-sref="^.ingredients" class="btn-lg">
+            <span translate>BREAKFAST_TOUR.BUTTON_SEE_INGREDIENTS</span>
+          </md-button>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="breakfast-tour-navbar-spacer"></div>
+  </md-content>
+
+  <div class=" hide-sm hide-md breakfast-tour-characters"></div>
+
+</div>

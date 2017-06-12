@@ -1,0 +1,39 @@
+  <bns-expander label="{{'CAMPAIGN.CAMPAIGN_STATUS'|translate}}" is-open="true" ng-if="ctrl.shared.campaign.campaign">
+    <md-list>
+      <md-list-item class="layout-row layout-align-start-center">
+        <div flex class="campaign-status {{ ctrl.shared.campaign.campaign.status | lowercase }}" >
+          <span>{{'CAMPAIGN.CAMPAIGN_STATUS_'+ctrl.shared.campaign.campaign.status |translate}}</span>
+        </div>
+      </md-list-item>
+    </md-list>
+  </bns-expander>
+
+  <bns-expander label="{{'CAMPAIGN.CAMPAIGN_TYPE'|translate}}" is-open="true" ng-if="ctrl.shared.campaign.campaign">
+    <md-list>
+      <md-list-item>
+        <md-icon ng-show="ctrl.shared.campaign.campaign.type_name == 'SMS'">phone_android</md-icon>
+        <md-icon ng-show="ctrl.shared.campaign.campaign.type_name == 'EMAIL'">email</md-icon>
+        <md-icon ng-show="ctrl.shared.campaign.campaign.type_name == 'MESSAGING'"><img src="../assets/images/apps/messaging/icon-40.png"></md-icon>
+        <span>{{ 'CAMPAIGN.CAMPAIGN_TYPE_'+ctrl.shared.campaign.campaign.type_name |translate }}</span>
+      </md-list-item>
+    </md-list>
+  </bns-expander>
+
+  <bns-expander label="{{'CAMPAIGN.SCHEDULED_AT'|translate}}" is-open="true" ng-if="ctrl.shared.campaign.campaign.status == 'SCHEDULED'">
+    <md-list>
+      <md-list-item class="campaign-type">
+        <div flex>
+          <span>{{ (moment(ctrl.shared.campaign.campaign.scheduled_at).format('LLL')) }}</span>
+        </div>
+      </md-list-item>
+    </md-list>
+  </bns-expander>
+  <bns-expander label="{{'CAMPAIGN.SENT_AT'|translate }}" is-open="true" ng-if="ctrl.shared.campaign.campaign.status == 'SENT'">
+    <md-list>
+      <md-list-item class="campaign-type">
+        <div flex >
+          <span>{{ (moment(ctrl.shared.campaign.campaign.sent_at).format('LLL')) }}</span>
+        </div>
+      </md-list-item>
+    </md-list>
+  </bns-expander>

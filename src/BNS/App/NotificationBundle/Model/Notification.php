@@ -4,9 +4,10 @@ namespace BNS\App\NotificationBundle\Model;
 
 use BNS\App\NotificationBundle\TranslateFactory\NotificationTranslateFactory;
 use BNS\App\NotificationBundle\Model\om\BaseNotification;
-use BNS\App\CoreBundle\Model\User;
 use BNS\App\CoreBundle\Access\BNSAccess;
-use BNS\App\NotificationBundle\Model\NotificationSettingsQuery;
+
+use JMS\TranslationBundle\Annotation\Ignore;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Skeleton subclass for representing a row from the 'notification' table.
@@ -21,56 +22,102 @@ class Notification extends BaseNotification
 {
 	const ENGINE_EMAIL		= 'EMAIL';
 	const ENGINE_SYSTEM		= 'SYSTEM';
-	
+
 	/**
-	 * @param type $targetUserId Utilisateur cible
-	 * @param type $groupId ID du groupe de l'utilisateur cible
+	 * @var ContainerInterface
 	 */
-	public function init(User $targetUser, $groupId, $notificationType, array $objects)
+	protected static $container;
+
+	/**
+	 * @var array<String>
+	 */
+	private $disabledEngines;
+
+    /**
+     * @var String Domaine pour l'envoi des emails
+     */
+    public $baseUrl;
+
+    /**
+     * Inject container when possible
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        if (!self::$container && null != BNSAccess::getContainer()) {
+            self::$container = BNSAccess::getContainer();
+        }
+    }
+
+	/**
+	 * @param ContainerInterface $container
+	 * @param int				 $groupId
+	 * @param string			 $notificationType
+	 * @param array				 $objects
+	 */
+	public function init($container, $groupId, $notificationType, array $objects)
 	{
-		$this->aUser = $targetUser;
+		self::$container = $container;
 		$this->setGroupId($groupId);
-		$this->setTargetUserId($targetUser->getId());
 		$this->setNotificationTypeUniqueName($notificationType);
-		$this->setDate(time());
 		$this->setObjects(serialize($objects));
+		$this->setDate(time());
 	}
-	
+
+    public function setBaseUrl($baseUrl)
+    {
+        $this->baseUrl = $baseUrl;
+    }
+
+    public function getBaseUrl()
+    {
+        return $this->baseUrl;
+    }
+
 	/**
-	 * @param string $notificationEngine Si spécifié, la notification ne sera envoyée que sur cet engine.
+	 * Send the notification
 	 */
-	public function send($notificationEngine = null)
+	public function send()
 	{
+		//  L'utilisateur ne peut être NULL
+		if (null == $this->aUser) {
+			throw new \RuntimeException('The user can NOT be NULL, please specify the user before send a notification !');
+		}
+
+        $translator = self::$container->get('translator');
+        $oldTranslationLocale = $translator->getLocale();
+        $translator->setLocale($this->getUser()->getLang());
+
+		$disabledNotificationEngineUniqueNames = array();
+
 		// On ne traite pas l'envoi par email des utilisateurs qui n'ont pas d'email
 		if (null == $this->aUser->getEmail()) {
-			$notificationEngine == self::ENGINE_SYSTEM;
+			$disabledNotificationEngineUniqueNames['EMAIL'] = true;
 		}
-		
+
 		// Si ce n'est pas une annonce
 		if (null != $this->getGroupId()) {
-			// On récupère tous les engines désactivés pour le groupe & le rôle 
+			// On récupère tous les engines désactivés pour le groupe & le rôle
 			$notificationSettings = NotificationSettingsQuery::create('n')
 				->where('n.UserId = ?', $this->getTargetUserId())
 				->where('n.ContextGroupId = ?', $this->getGroupId())
 				->where('n.ModuleUniqueName = ?', $this->getNotificationType()->getModuleUniqueName())
 			->find();
-		}
-		else {
+		} else {
 			// Si c'est une annonce, on récupère les cas où c'est désactivé
 			$notificationSettings = NotificationSettingsQuery::create('n')
 				->where('n.ContextGroupId IS NULL')
 				->where('n.UserId = ?', $this->getTargetUserId())
+				->where('n.ModuleUniqueName = ?', $this->getNotificationType()->getModuleUniqueName())
 			->find();
 		}
-		
+
 		// On récupère les unique names
 		$allNotificationEngines = array(
+			self::ENGINE_SYSTEM	=> true,
 			self::ENGINE_EMAIL	=> true,
-			self::ENGINE_SYSTEM	=> true
 		);
-		
-		$disabledNotificationEngineUniqueNames = array();
-		
+
 		// On récupère les engines désactivés pour le type de notification en cours
 		if (null != $this->getNotificationType()->getDisabledEngine()) {
 			$disabledNotificationTypeEngine = str_split(',', str_replace(' ', '', $this->getNotificationType()->getDisabledEngine()));
@@ -83,40 +130,32 @@ class Notification extends BaseNotification
 		foreach ($notificationSettings as $engine) {
 			$disabledNotificationEngineUniqueNames[$engine->getNotificationEngine()] = true;
 		}
-		
-		// Si on spécifie un engine
-		if (null != $notificationEngine) {
-			// L'engine est désactivé pour le destinaire, on s'arrête là
-			if (in_array($notificationEngine, $disabledNotificationEngineUniqueNames)) {
-				$this->requestEngine($notificationEngine, false);
-				return;
-			}
-		}
+
 		// Si au moins un engine est désactivé on envoi sur ceux activés
-		else if (count($disabledNotificationEngineUniqueNames) > 0) {
+		if (count($disabledNotificationEngineUniqueNames) > 0) {
 			foreach ($allNotificationEngines as $uniqueName => $engine) {
 				if (isset($disabledNotificationEngineUniqueNames[$uniqueName])) {
 					$this->requestEngine($uniqueName, false);
-				}
-				else {
+				} else {
 					$this->requestEngine($uniqueName);
 				}
 			}
-		}
-		// Sinon on envoi toute la sauce
-		else {
-			foreach ($allNotificationEngines as $uniqueName => $engine) {
+		} else {
+            // Sinon on envoi toute la sauce
+            foreach ($allNotificationEngines as $uniqueName => $engine) {
 				$this->requestEngine($uniqueName);
 			}
 		}
+
+        $translator->setLocale($oldTranslationLocale);
 	}
-	
+
 	/**
 	 * La notification est prête pour être envoyée grâce aux engines.
 	 * Si l'engine est activé on traite la notification, sinon on la traite d'une manière différente voire pas du tout.
-	 * 
+	 *
 	 * @param string $engine Notification Engine
-	 * @param boolean $engineIsActivated 
+	 * @param boolean $engineIsActivated
 	 */
 	public function requestEngine($engine, $engineIsActivated = true)
 	{
@@ -133,9 +172,9 @@ class Notification extends BaseNotification
 			break;
 		}
 	}
-	
+
 	/**
-	 * @param boolean $engineIsActivated 
+	 * @param boolean $engineIsActivated
 	 */
 	private function sendSystemEngine($engineIsActivated)
 	{
@@ -143,40 +182,53 @@ class Notification extends BaseNotification
 		if (!$engineIsActivated) {
 			$this->setIsNew(false);
 		}
-		
+
 		$this->save();
 	}
-	
+
 	/**
 	 * Email
 	 */
 	private function sendEmailEngine()
 	{
-		$translation = NotificationTranslateFactory::translate($this, self::ENGINE_EMAIL);
+		$translation = NotificationTranslateFactory::translate($this, self::ENGINE_EMAIL, self::$container->get('translator'), $this->getUser()->getLang());
+
 		$variables = array(
 			'title'			=> $translation['title'],
 			'notification'	=> $translation['content']
 		);
-		
-		BNSAccess::getContainer()->get('bns.mailer')->sendUser('NOTIFICATION', $variables, $this->aUser);
+
+		self::$container->get('bns.mailer')->sendUser('NOTIFICATION', $variables, $this->aUser, array(), $this->getBaseUrl());
 	}
-	
+
 	/**
 	 * @param string $engine
-	 * 
-	 * @return array 
+	 *
+	 * @return array
 	 */
 	public function trans($engine = null)
 	{
-		return NotificationTranslateFactory::translate($this, $engine);
+		return NotificationTranslateFactory::translate($this, $engine, self::$container->get('translator'), $this->getUser()->getLang());
 	}
-	
+
+	/**
+	 * @param array|string $disabledEngines
+	 */
+	public function setDisabledEngines($disabledEngines)
+	{
+		if (is_array($disabledEngines)) {
+			$this->disabledEngines = $disabledEngines;
+		} else {
+			$this->disabledEngines = array($disabledEngines);
+		}
+	}
+
 	/**
 	 * @param Notification $notification
-	 * @param type $finalObjects
+	 * @param Object|mixed $finalObjects
 	 * @param string|null $translationName
-	 * 
-	 * @return array 
+	 *
+	 * @return array
 	 */
 	protected static function getTranslation(Notification $notification, $finalObjects, $translationName = null)
 	{
@@ -186,16 +238,18 @@ class Notification extends BaseNotification
 				$notification->getNotificationTypeUniqueName() . '.EMAIL.content',
 				$notification->getNotificationTypeUniqueName() . '.SYSTEM.content',
 			);
-			
+
 			$translations = array();
 			foreach ($translationNames as $translationName) {
 				$engine = preg_split('#\.#', $translationName);
-				$translations[$engine[1]][$engine[2]] = BNSAccess::getContainer()->get('translator')->trans($translationName, $finalObjects, $notification->getNotificationTypeUniqueName());
+
+				$translations[$engine[1]][$engine[2]] = /** @Ignore */ self::$container->get('translator')->trans($translationName, $finalObjects, $notification->getNotificationTypeUniqueName());
 			}
-				
+
 			return $translations;
 		}
-		
-		return BNSAccess::getContainer()->get('translator')->trans($translationName, $finalObjects, $notification->getNotificationTypeUniqueName());
+
+        /** @Ignore */
+		return self::$container->get('translator')->trans($translationName, $finalObjects, $notification->getNotificationTypeUniqueName());
 	}
 }

@@ -1,0 +1,8 @@
+<div ng-repeat="ingredient in selector.ingredients"
+  ng-class="{ 'selected': selector.has(ingredient.code) }"
+  ng-click="selector.toggle(ingredient.code)"
+  class="ingredient"
+>
+  <bns-ingredient-visual></bns-ingredient-visual>
+  <span class="ingredient-label md-title">{{ ::ingredient.name }}</span>
+</div>

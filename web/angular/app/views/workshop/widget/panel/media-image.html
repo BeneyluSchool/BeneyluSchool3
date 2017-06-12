@@ -1,0 +1,10 @@
+<h2 translate>WORKSHOP.DOCUMENT.IMAGE</h2>
+
+<div class="text-center">
+  <div bns-workshop-widget-media-picker widget="widget" type="{{ widget.subtype || 'all' }}" current="widget.media_id" target="media_id"></div>
+</div>
+
+<div class="workshop-widget-option" ng-if="widget.media_id">
+  <h3 translate>WORKSHOP.DOCUMENT.IMAGE_FRAME</h3>
+  <div bns-workshop-widget-option-button widget="widget" current="widget.settings.image_frame" target="image_frame" option="ctrl.getThemeOption('image_frame')"></div>
+</div>

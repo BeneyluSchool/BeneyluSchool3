@@ -1,0 +1,24 @@
+<div class="pull-right">
+  <span bns-flash="success" ng-show="flash.visible">
+    {{flash.message}}
+  </span>
+
+  <span bns-flash="error" ng-show="flash.visible" duration="0">
+    {{flash.message}}
+  </span>
+</div>
+
+<a ui-sref="app.workshop.index" class="btn btn-default btn-multiline">
+  <i class="bns-icon-arrow-left-curved round"></i>
+  <span translate>WORKSHOP.DOCUMENT.CLOSE_HTML</span>
+</a>
+
+<a href="" class="btn btn-default btn-multiline" bns-viewer media-id="ctrl.document.media_id">
+  <span class="bns-icon-eye round"></span>
+  <span translate>WORKSHOP.DOCUMENT.PREVIEW_HTML</span>
+</a>
+
+<a ng-if="!ctrl.document.is_questionnaire" ng-href="{{ ctrl.exportUrl }}" target="_blank" class="btn btn-default btn-multiline">
+  <i class="bns-icon-download round"></i>
+  <span translate>WORKSHOP.DOCUMENT.EXPORT_PDF_HTML</span>
+</a>

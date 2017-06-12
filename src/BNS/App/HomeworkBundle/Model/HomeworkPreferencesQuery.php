@@ -18,9 +18,9 @@ use BNS\App\HomeworkBundle\Model\om\BaseHomeworkPreferencesQuery;
 class HomeworkPreferencesQuery extends BaseHomeworkPreferencesQuery
 {
 
-    public function findOrInit($group_id)
+    public function findOrInit($group_id, \PropelPDO $con = null)
     {
-        $prefs = $this->findOneByGroupId($group_id);
+        $prefs = $this->filterByGroupId($group_id)->findOne($con);
 
         if (!$prefs) {
             $prefs = new HomeworkPreferences();
@@ -28,7 +28,7 @@ class HomeworkPreferencesQuery extends BaseHomeworkPreferencesQuery
             $prefs->setShowTasksDone(true);
             $prefs->setActivateValidation(true);
             $prefs->setDays(array('MO','TU','WE','TH','FR'));
-            $prefs->save();
+            $prefs->save($con);
         }
 
         return $prefs;

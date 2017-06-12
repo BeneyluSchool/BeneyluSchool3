@@ -1,0 +1,92 @@
+{% trans_default_domain "SCHOOL" %}
+{% extends 'BNSAppSchoolBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+  {% trans %}TITLE_SCHOOL_ASSISTANT_LIST{% endtrans %}
+{% endblock %}
+
+{% block top_bar %}{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('medias/js/jquery.form.js') }}"></script>
+    <script type="text/javascript">
+      $(function(){
+
+        $('#add-assistant-button').click(function (e) {
+          e.preventDefault();
+
+          var $this = $(e.currentTarget),
+            url = Routing.generate('BNSAppSchoolBundle_back_add_assistant', { classroomId: {{ school.id }} }),
+            $loader = $('#add-assistant-modal .loader:not(.loader-h)');
+          $loader.fadeIn('fast');
+
+          $.ajax({
+            url: url,
+            success: function (form) {
+              $('#add-assistant-modal .form-content').html(form);
+              $loader.fadeOut('fast', function () {
+                $(this).hide();
+              });
+            }
+          });
+        });
+      });
+    </script>
+{% endblock %}
+
+
+
+{% block sidebar %}
+    {% include "BNSAppSchoolBundle:Sidebar:sidebar.html.twig" with {"page" : "assistants"} %}
+{% endblock sidebar %}
+
+{% block header %}
+  <div class="header-buttons">
+    <div class="inner-header">
+      <div class="container container-fluid">
+        <div class="row-fluid">
+          <div class="span12">
+            {% if has_right('SCHOOL_CREATE_ASSISTANT') %}
+              <a id="add-assistant-button" href="#add-assistant-modal" data-toggle="modal" class="btn bns-info btn-24 large">
+                <span class="icons-24 add-icon"></span>
+                {{ 'LINK_ADD_ASSISTANT'|trans|desc('Ajouter un auxiliaire') }}
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock header %}
+
+
+{% block content %}
+
+    <div class="layer"></div>
+    <div class="container-classroom">
+
+        <div class="news-title">
+            <h1 class="dashboard">{{ 'TITLE_ASSISTANTS_LIST'|trans|desc('Liste des auxiliaires') }}</h1>
+        </div>
+
+        <div class="item-list-container">
+          {% for assistant in assistants %}
+              {% include 'BNSAppSchoolBundle:Block:assistantRow.html.twig' %}
+            {% else %}
+              <div class="no-item">
+                <div class="bnj-not-found"></div>
+                <p>{{ 'NO_ASSISTANT_REGISTERED_YET'|trans|desc("Il n'y a pas encore d'auxiliaire inscrit.") }}</p>
+                <div class="clearfix"></div>
+              </div>
+          {% endfor %}
+        </div>
+    </div>
+
+  {# Assistant #}
+  {{ modal('add-assistant-modal', {
+    'body_template': {'template': 'BNSAppSchoolBundle:Modal:addAssistantBody.html.twig' },
+    'title': 'LINK_INVITE_ASSISTANT'|trans|desc('Ajouter un nouvel Auxiliaire'),
+    'footer_template': {'template': 'BNSAppSchoolBundle:Modal:addAssistantFooter.html.twig' }
+  }) }}
+{% endblock %}

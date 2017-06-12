@@ -1,0 +1,5 @@
+{% autoescape false %}
+{{ title[0] }};{{ title[1] }};{{ title[2] }}
+{% for item in data %}{{ item[0] }};{{ item[1] }};{{ item[2] }}
+{% endfor %}
+{% endautoescape %}

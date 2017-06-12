@@ -1,0 +1,50 @@
+{% extends '::base.html.twig' %}
+{% trans_default_domain "MAIN" %}
+
+{% block css %}
+	{{ parent() }}
+
+	<link rel="stylesheet" href="{{ asset('/medias/css/main/registration.css') }}" />
+	<link href='https://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
+{% endblock css %}
+
+{% block body %}
+	<div class="background-registration"></div>
+	<div class="container-header-registration">
+		<div class="container-fluid container">
+			<div class="row-fluid">
+				<div class="span12">
+                    {% block header %}
+                        <a href="{{ path('home') }}"><img src="{{ asset('/medias/images/registration/beneyluschool.png') }}" /></a>
+                        <h1>{% trans %}TITLE_EMAIL_VALIDATION{% endtrans %}</h1>
+                        <p>{% trans %}THIS_STEP_ALLOW_VERIFY_EMAIL{% endtrans %}</p>
+                    {% endblock %}
+					<div class="pattern"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% block big_content %}
+		<div class="container container-fluid container-fluid-registration {% block confirmation_type %} confirmation {% endblock %}">
+			<div class="row-fluid">
+				<div class="span7">
+					<div class="content-text-confirmation">
+						<div class="content-text-confirmation">
+							{% block content %}Add your confirmation content!{% endblock content %}
+						</div>
+					</div>
+				</div>
+				<div class="span5">
+					<div class="content-beneylu-jim">
+						<div class="beneylu-jim {% block beneylu_jim %}{% endblock %}"></div>
+					</div>
+				</div>
+			</div>
+			<div class="row-fluid submit return">
+				<a href="{{ path('home') }}" class="btn btn-success">{{ 'LINK_BACK_TO_HOME'|trans |desc('Retour à l\'accueil') }}</a>
+			</div>
+		</div>
+	{% endblock big_content %}
+{% endblock body %}
+

@@ -155,6 +155,7 @@ class NotificationSettingsCollection
 	 */
 	public function isModuleEnabled($groupId, Module $module, $engine = 'SYSTEM')
 	{
+		// The group does NOT exist, all notifications are activated
 		if (!isset($this->collection[$groupId])) {
 			return true;
 		}

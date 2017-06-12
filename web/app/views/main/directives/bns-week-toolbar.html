@@ -1,0 +1,15 @@
+<md-button ui-sref="{week: prev.format('YYYY-MM-DD') }"
+  ng-click="onPrev($event)"
+  hide-print class="md-primary md-hue-3 btn-hover" ng-class="{ 'md-icon-button': $mdMedia('sm') }">
+  <md-icon>chevron_left</md-icon>
+  <span class="hide show-gt-sm" ng-bind-html="'MAIN.BUTTON_PREVIOUS_WEEK'|translate|buttonize:'small':'small'"></span>
+</md-button>
+<div class="flex md-title text-primary-hue-3" ng-class="{ 'md-subhead': $mdMedia('sm') }">
+  <h2 translate translate-values="{ start: start.format('dddd Do MMMM'), end: end.format('dddd Do MMMM') }">MAIN.TITLE_WEEK_FROM_TO</h2>
+</div>
+<md-button ui-sref="{week: next.format('YYYY-MM-DD') }"
+  ng-click="onNext($event)"
+  hide-print class="md-primary md-hue-3 btn-hover" ng-class="{ 'md-icon-button': $mdMedia('sm') }">
+  <span class="hide show-gt-sm" ng-bind-html="'MAIN.BUTTON_NEXT_WEEK'|translate|buttonize:'small':'small'"></span>
+  <md-icon>chevron_right</md-icon>
+</md-button>

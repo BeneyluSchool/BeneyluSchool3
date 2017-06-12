@@ -1,24 +1,21 @@
 {% extends 'BNSAppMessagingBundle:Front:layout.html.twig' %}
 {% block content %}
-            <div class="span7">
+{% trans_default_domain "MESSAGING" %}
+           <div class="span7">
                 <div class="content-title-messaging">
                     <div class="title-left"></div>
                     <div class="title-messaging">
-                        <h1>Messages</h1>
+                        <h1>{% trans %}TITLE_MESSAGES{% endtrans %}</h1>
                     </div>
                     <div class="title-right"></div>
                 </div>
                 <div class="container-message">
                     <div class="content-message">
-                        
+
                     </div>
                 </div>
             </div>
             <div class="span1">
                 <div class="right-post"></div>
             </div>
-        </div>
-    </div>
-</div>
 {% endblock %}
-

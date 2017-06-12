@@ -1,0 +1,15 @@
+BNS\App\CoreBundle\Model\om\BaseGroup:
+  exclusion_policy: All
+  properties:
+    id:
+      expose: true
+      groups: [Default, list]
+    label:
+      expose: true
+      groups: [Default, list]
+    aaf_id:
+      expose: true
+      groups: [groupAAF]
+    aaf_academy:
+      expose: true
+      groups: [groupAAF]

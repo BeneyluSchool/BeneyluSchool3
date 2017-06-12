@@ -1,0 +1,70 @@
+{% trans_default_domain "MEDIA_LIBRARY" %}
+
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+
+{% if has_right_somewhere('MEDIA_LIBRARY_ACCESS') %}
+    <input type="hidden" class="{{ input_id }} select-image" name="{{ name }}" {% if current_value is defined %} value="{{ current_value }}" {% endif %} />
+
+    {{ components.button( label | trans , {
+        href: '#',
+        intent: 'primary',
+        icon: 'edit',
+        raised: true,
+        size:'sm',
+        attr: {
+            'data-callback': callback,
+            'data-final-id': input_id,
+            'data-allowed-type': allowed_type is defined ? allowed_type,
+            class: 'media-selection'
+        },
+    }) }}
+
+    {% if with_cancel is defined %}
+        {{ components.button('LINK_CANCEL'|trans, {
+            href: '#',
+            intent: 'warn',
+            raised: true,
+            size: 'sm',
+            icon: 'undo',
+            attr: {
+                id: 'cancel-'~input_id,
+                class: 'resource-selection-cancel hide'
+            }
+        }) }}
+
+        {% if current_value is not null %}
+            {{ components.button(label_delete is defined ? label_delete : ('LINK_DELETE'|trans |desc('Supprimer')), {
+                href: '#',
+                intent: 'warn',
+                raised: true,
+                size: 'sm',
+                icon: 'delete',
+                attr: {
+                    id: 'delete-'~input_id,
+                    class: 'resource-selection-delete' ~ (default_src == current_src or current_src == null ? ' hide')
+               }
+            }) }}
+        {% endif %}
+        <script type="text/javascript">
+
+            $('body').on('click', '#cancel-{{ input_id }}', function(){
+                $('.{{ input_id }}').val('{{ current_value }}');
+                $('#{{ input_id }}').val('{{ current_value }}');
+                $('#{{ callback }} > img').attr('src','{{ current_src|raw }}');
+                $('#{{ callback }} > img').attr('data-src','{{ current_src|raw }}');
+                $(this).addClass('hide');
+                {% if default_src != current_src %}
+                $('#delete-{{ input_id }}').removeClass('hide');
+                {% endif %}
+            });
+            $('body').on('click', '#delete-{{ input_id }}', function(){
+                $('.{{ input_id }}').val('');
+                $('#{{ input_id }}').val('');
+                $('#{{ callback }} > img').attr('src','{{ default_src }}');
+                $('#{{ callback }} > img').attr('data-src','{{ default_src }}');
+                $(this).addClass('hide');
+                $('#cancel-{{ input_id }}').removeClass('hide');
+            });
+        </script>
+    {% endif %}
+{% endif %}

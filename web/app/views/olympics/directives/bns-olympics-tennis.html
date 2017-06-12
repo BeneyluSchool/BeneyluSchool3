@@ -1,0 +1,35 @@
+<p><strong><i>Brabrabra et CARLA jouent au tennis. Qui va gagner ? Clique sur la ligne de Brabrabra ou de CARLA pour faire avancer le match. Que le meilleur gagne !</i></strong></p>
+
+<div class="bns-olympics-tennis-background">
+  <div class="bns-olympics-tennis-board md-whiteframe-z5">
+    <table class="bns-olympics-tennis-score">
+      <tbody>
+        <tr>
+          <th class="tennis-name"></th>
+          <th class="tennis-set">Set 1</th>
+          <th class="tennis-set">Set 2</th>
+          <th class="tennis-set">Set 3</th>
+          <th class="tennis-score">Score</th>
+        </tr>
+        <tr ng-repeat="(index,player) in ::ctrl.tennis.players" ng-click="ctrl.tennis.addPoints(index)">
+          <td class="tennis-name">{{::player.name}}</td>
+          <td class="tennis-set">{{player.games[0]}}</td>
+          <td class="tennis-set">{{player.games[1]}}</td>
+          <td class="tennis-set">{{player.games[2]}}</td>
+          <td class="tennis-score">{{ctrl.tennis.finished ? '' : (player.advantage ? ' A' : player.points)}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <md-button ng-style="{visibility: ctrl.tennis.finished?'visible':'hidden'}" ng-click="ctrl.tennis.reset()" class="md-raised md-accent bns-olympics-tennis-reset md-whiteframe-z2">
+    <md-icon>replay</md-icon>
+    Recommence le match
+  </md-button>
+</div>
+
+<div class="olympics-tennis-comment-zone">
+  <bns-inset ng-show="ctrl.comment">
+    <div ng-bind-html="ctrl.comment|trustHtml"></div>
+  </bns-inset>
+</div>

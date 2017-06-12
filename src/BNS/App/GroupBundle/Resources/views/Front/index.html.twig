@@ -1,6 +1,10 @@
+{% trans_default_domain "GROUP" %}
 {% extends '::base.html.twig' %}
 
-{% block title %}Groupe{% endblock %}
+{% set app_unique_name = 'GROUP' %}
+{% set app_mode = 'front' %}
+
+{% block title %}{{ 'TITLE_GROUP'|trans |desc('Groupe') }}{% endblock %}
 
 {% block css %}
 	{{ parent() }}
@@ -10,19 +14,19 @@
 
 {% block body %}
 	{% block content %}
-		<div class="background-group">
-			<div class="board">
-				<div class="message">
-					<p>{{ group_name }}</p>
-					<div class="border"></div>
-					<p>{{ group_home_message }}</p>
-				</div>
-			</div>
-		</div>
+		{% if noClassroomForTeacher %}
+			{% include 'BNSAppMainBundle:Logon:no_classroom_for_teacher.html.twig' with {school: mySchool} %}
+		{% endif %}
+
+        <div class="background-group {{ group.groupType.type | lower }} {{ graphicChart ? graphicChart.name : null }}">
+            <div class="board {{ group.groupType.type | lower }}">
+                <div class="message">
+                    <p>{{ group_name }}</p>
+                    <div class="border"></div>
+                    <p>{{ group_home_message }}</p>
+                </div>
+            </div>
+        </div>
+
 	{% endblock %}
 {% endblock %}
-
-{% block dock_bar %}
-	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "GROUP" , 'is_in_front' : true } %}
-{% endblock %}
-

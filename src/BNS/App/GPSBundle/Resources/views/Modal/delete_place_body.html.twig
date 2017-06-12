@@ -1,7 +1,8 @@
+{% trans_default_domain "GPS" %}
 <div class="loader loader-sb"></div>
 <div class="modal-body">
-	<div class="content-modal-body">
-		<h2>Êtes-vous sûr de vouloir supprimer le lieu <strong>"{{ place.label }}"</strong>  ?</h2>
-	</div>
+  <div class="content-modal-body">
+    <h2>{{ 'TITLE_SURE_TO_DELETE_PLACE'|trans({'%place%': place.label |escape}) |desc('Êtes-vous sûr de vouloir supprimer le lieu <strong>"%place%"</strong>  ?') |raw}}</h2>
+  </div>
 </div>
 <div class="beneylu-jim"></div>

@@ -1,0 +1,29 @@
+<md-dialog class="bns-dialog bns-dialog-primary">
+  <form name="ctrl.form" ng-submit="ctrl.save()">
+    <md-toolbar ng-class="'md-'+dialog.intent">
+      <div class="md-toolbar-tools">
+        <div class="md-headline">
+          <h2>{{('HOMEWORK.TITLE_' + (ctrl.subject.id ? 'EDIT' : 'CREATE') + '_SUBJECT')|translate}}</h2>
+        </div>
+        <span flex></span>
+        <md-button ng-click="ctrl.abort()" class="md-icon-button" href>
+          <md-icon>close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content class="md-dialog-content">
+      <md-input-container>
+        <label translate>HOMEWORK.LABEL_SUBJECT_NAME</label>
+        <input type="text" ng-model="ctrl.model.name" name="name" required bns-autofocus>
+      </md-input-container>
+    </md-dialog-content>
+    <div class="md-actions">
+      <md-button ng-click="ctrl.abort()" href>
+        <span ng-bind-html="'HOMEWORK.BUTTON_CANCEL'|translate|buttonize">.</span>
+      </md-button>
+      <md-button type="submit" ng-disabled="ctrl.form.$invalid" class="md-primary md-raised">
+        <span ng-bind-html="'HOMEWORK.BUTTON_SAVE'|translate|buttonize">.</span>
+      </md-button>
+    </div>
+  </form>
+</md-dialog>

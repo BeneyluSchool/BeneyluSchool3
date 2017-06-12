@@ -1,0 +1,31 @@
+<div class="workshop-document-container">
+
+  <div ng-if="!ctrl.hideNav" class="workshop-document-pages-nav-section">
+    <scrollable>
+      <div class="workshop-document-pages-nav">
+
+        <div ng-repeat="page in ctrl.document._embedded.pages" bns-workshop-page-nav="page" offset="-40" duration="300"></div>
+
+      </div>
+    </scrollable>
+  </div>
+
+  <div class="workshop-document-content-section">
+    <div ng-if="!ctrl.print" style="height: 100%;">
+      <scrollable>
+        <div id="workshop-document" class="workshop-document-view">
+
+          <div ng-repeat="page in ctrl.document._embedded.pages" bns-workshop-document-page="page" document="ctrl.document" font-size-reference-width="880"></div>
+
+        </div>
+      </scrollable>
+    </div>
+
+    <div ng-if="ctrl.print" id="workshop-document" class="workshop-document-view">
+
+      <div ng-repeat="page in ctrl.document._embedded.pages" bns-workshop-document-page="page" document="ctrl.document" font-size-reference-width="880"></div>
+
+    </div>
+  </div>
+
+</div>

@@ -58,12 +58,12 @@ class BlogArticleCommentQuery extends BaseBlogArticleCommentQuery
 	public static function getBackComments($context)
 	{
 		return self::create('c')
+            ->useBlogQuery()
+                ->filterByGroupId($context['id'])
+            ->endUse()
 			->joinWith('User')
 			->joinWith('User.Profile')
 			->joinWith('Profile.Resource', \Criteria::LEFT_JOIN)
-			->join('BlogArticle')
-			->join('BlogArticle.Blog')
-			->where('Blog.GroupId = ?', $context['id'])
 		;
 	}
 	

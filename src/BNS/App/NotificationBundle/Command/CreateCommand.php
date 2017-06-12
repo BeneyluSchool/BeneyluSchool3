@@ -155,29 +155,34 @@ class CreateCommand extends AbstractCommand
 	{
 		$this->writeSection($output, 'Dump fixtures & SQL production file...');
 		
-		$notificationFixturesFile = __DIR__ . '/../../FixtureBundle/Resources/data/Notification/notification_type.yml';
+		$installDataFile = __DIR__ . '/../../' . $this->bundleName . 'Bundle/Resources/install/install_data.yml';
+        if (!is_file($installDataFile)) {
+			throw new \RuntimeException('The install_data.yml file file is NOT found for bundle ' . $this->bundleName . 'Bundle !');
+		}
+        
 		$notificationUniqueName = strtoupper(Container::underscore($this->notificationName));
-		$notificationsData = Yaml::parse($notificationFixturesFile);
+		$notificationsData = Yaml::parse($installDataFile);
 		$bundleName = strtoupper($this->bundleName);
-		
-		if (!is_file($notificationFixturesFile)) {
-			throw new \RuntimeException('The notification fixture file is NOT found !');
-		}
-		
-		if (!isset($notificationsData[$bundleName])) {
-			$notificationsData[$bundleName] = array();
-		}
-		
-		$notificationsData[$bundleName][$notificationUniqueName] = array(
-			'disabled_engine'	=> $input->getOption('disabled_engine') == 'null' ? null : $input->getOption('disabled_engine')
-		);
+
+        if (!isset($notificationsData['notification_types'])) {
+            $notificationsData['notification_types'] = array();
+        }
+
+        if (null == $input->getOption('disabled_engine')) {
+            $notificationsData['notification_types'][$notificationUniqueName] = array();
+        }
+        else {
+            $notificationsData['notification_types'][$notificationUniqueName] = array(
+                'disabled_engine' => $input->getOption('disabled_engine') == 'null' ? null : $input->getOption('disabled_engine')
+            );
+        }
 		
 		$isCorrection = $input->getOption('is_correction') === false ? false : true;
 		if ($isCorrection) {
-			$notificationsData[$bundleName][$notificationUniqueName]['is_correction'] = true;
+			$notificationsData['notification_types'][$notificationUniqueName]['is_correction'] = true;
 		}
 		
-		file_put_contents($notificationFixturesFile, Yaml::dump($notificationsData, 3));
+		file_put_contents($installDataFile, Yaml::dump($notificationsData, 4, 2));
 		
 		// Migration file
 		$migrationGenerator = new MigrationGenerator($this->getContainer()->get('filesystem'), __DIR__.'/../Resources/skeleton/migration');

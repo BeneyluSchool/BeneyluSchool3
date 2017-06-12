@@ -1,0 +1,20 @@
+<div ng-if="ctrl.canManage" container class="tour-menu-button-container hide-sm">
+  <md-button class="md-fab md-fab-top-right bns-bottom-sheet-menu-toggle" ng-click="ctrl.toggleMenu()">
+    <md-icon>{{ctrl.menuShown?'close':'menu'}}</md-icon>
+  </md-button>
+</div>
+
+<iframe ng-src="{{::ctrl.item.href}}" class="flex" frameborder="0" style="width: 100%; max-width: 100%;"></iframe>
+
+<md-toolbar ng-if="ctrl.canManage" ng-show="!ctrl.hideToolbar" class="tour-toolbar">
+  <div class="md-toolbar-tools" container>
+    <md-button href="" ng-click="ctrl.showActivityMenu()" class="tour-sheets-button">
+      <span class="md-headline text-ellipsis" translate>TOUR.LINK_ACCESS_ACTIVITY_SHEETS</span>
+      <span class="flag flag-shield"></span>
+    </md-button>
+    <span class="flex"></span>
+    <md-button class="md-icon-button" ng-click="ctrl.hideToolbar = true">
+      <md-icon>close</md-icon>
+    </md-button>
+  </div>
+</md-toolbar>

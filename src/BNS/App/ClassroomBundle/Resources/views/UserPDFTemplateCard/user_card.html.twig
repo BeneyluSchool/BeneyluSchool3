@@ -1,15 +1,25 @@
 {% extends '::base.html.twig' %}
+{% trans_default_domain "CLASSROOM" %}
+
+{% block alert %}{% endblock %}
+
+{% block respond_script %}{% endblock %}
 
 {% block css %}
-	<link rel="stylesheet" href="{{ app.request.uriForPath('/css/base.css') }}" type="text/css"/>
-	<link rel="stylesheet" href="{{ app.request.uriForPath('/medias/css/classroom/card.css') }}" type="text/css"/>
+	<link rel="stylesheet" href="{{ asset('/css/base.css') }}" type="text/css"/>
+	<link rel="stylesheet" href="{{ asset('/medias/css/classroom/card.css') }}" type="text/css"/>
 {% endblock %}
-	
+
 {% block body %}
 	{% block content %}
 		<div class="card-container">
 			<div class="card-header">
-				<img src="{{ app.request.uriForPath('/medias/images/classroom/pupil_parent_card/bns_logo.png') }}" class="header-logo" />
+                {% if parameter('graphic_chart') != false %}
+                    {% set chartValue = parameter('graphic_chart') %}
+    				<img src="{{ asset('/medias/images/main/graphic_chart/' ~ chartValue.name ~ '/logoCard.jpg'  ) }}" class="header-logo" />
+                {% else %}
+                    <img src="{{ asset('/medias/images/classroom/pupil_parent_card/bns_logo.png') }}" class="header-logo" />
+                {% endif %}
 				<h1>FICHE {% block user_role %} {{ role.getLabel()|upper }} {% endblock %}</h1>
 				<span class="username">{{ user.getFullName()|upper }}</span>
 			</div>
@@ -17,29 +27,38 @@
 
 			<div class="card-body">
 				<div class="user-login-pwd">
-					<p><span class="item-label">IDENTIFIANT</span> {{ user.getUserName() }}</p>
-					<p class="pwd-item"><span class="item-label">MOT DE PASSE</span> {{ user.getPassword() }}</p>
-					<p><span class="warn-note">Ce mot de passe est confidentiel, vous ne devez pas le communiquer.</span></p>
+					<p>{{ 'LOGIN_USERNAME' |trans({'%userName%': user.getUserName |escape}) |desc('<span class="item-label">IDENTIFIANT</span> %userName%') |raw}}</p>
+					<p class="pwd-item"><span class="item-label">{{ 'TITLE_PASSWORD' |trans }}</span> {% block password %}{{ user.getPassword() }}{% endblock %}</p>
+					<p><span class="warn-note">{% if is_adult() %}{% trans %}CONFIDENTIAL_PASSWORD_ADULT{% endtrans %}{% else %}{% trans %}CONFIDENTIAL_PASSWORD_CHILD{% endtrans %}{% endif %}</span></p>
 				</div>
 
 				<div class="bns-link">
-					<img src="{{ app.request.uriForPath('/medias/images/classroom/pupil_parent_card/beneylu-jim.png') }}" class="beneylu-jim-img" />
+					<img src="{{ asset('/medias/images/classroom/pupil_parent_card/beneylu-jim.png') }}" class="beneylu-jim-img" />
 					{% if role.getType == 'PUPIL' %}
-						<p>Beneylu Jim se fera une joie de t'accueillir à l'adresse :</p>
+                        {% if parameter('graphic_chart') != false %}
+						    <p>{% trans %}CLASS_WAITING_FOR_YOU{% endtrans %} :</p>
+                        {% else %}
+                            <p>{% trans %}CLASS_WAITING_FOR_CHILD{% endtrans %} :</p>
+                        {% endif %}
 					{% elseif role.getType == 'PARENT' %}
-						<p>La classe de {{ user.getChild.firstName }} vous attend à l'adresse :</p>
+						<p>{% trans %}CLASS_WAITING_FOR_YOU{% endtrans %} :</p>
 					{% endif %}
-					<p><span class="bns-url">www.beneyluschool.net</span></p>
+					<p><span class="bns-url">{{ base_url}}</span></p>
 					<div class="clearfix"></div>
 				</div>
-			</div>	
+			</div>
 
 			<div class="card-footer">
-				<p>L'équipe BeneyluSchool</p>
+                {% if parameter('graphic_chart') != false %}
+                    <p>{{ chartValue.label }}</p>
+                {% else %}
+                    <p>{{ 'BENEYLU_TEAM'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) }}</p>
+                {% endif %}
 			</div>
 		</div>
 	{% endblock %}
 {% endblock %}
-
+{% block dock_bar %}
+{% endblock %}
 
 

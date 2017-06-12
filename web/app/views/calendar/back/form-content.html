@@ -1,0 +1,146 @@
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+
+    <h3 class="md-title text-primary" translate>CALENDAR.EVENT_DETAILS</h3>
+  </div>
+</md-toolbar>
+
+<div ng-show="ctrl.busy">
+  <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+</div>
+
+<md-content id="calendar-event-content">
+
+  <form ng-submit="$event.preventDefault(); ctrl.submit()"
+    id="calendar-event-form"
+    name="shared.type.form"
+    bns-form-proxy-source="form"
+    scope="true"
+  >
+
+    <script type="text/ng-template" id="form-error-messages">
+      <div ng-message="required">{{'CALENDAR.ERROR_THIS_FIELD_IS_REQUIRED'|translate}}</div>
+    </script>
+
+    <div class="hide-gt-md md-padding">
+      <bns-transclude-src name="calendar-event-form">
+        <bns-expander label="{{'CALENDAR.LABEL_AGENDA'|translate}}" is-open="true">
+          <md-radio-group ng-model="shared.type.form.agenda_id" class="md-primary" required>
+            <md-radio-button ng-repeat="agenda in ctrl.agendas|filter:{'manageable': true}"
+              value="{{::agenda.id}}"
+              style="border-left: 5px solid {{::agenda.color}}; padding-left: 10px"
+            >{{::agenda.title}}</md-radio-button>
+          </md-radio-group>
+        </bns-expander>
+
+        <bns-expander label="{{'CALENDAR.DATE_DURATION'|translate}}" is-open="true">
+          <md-input-container bns-date-time-input-container>
+            <label translate>CALENDAR.LABEL_DATE_START</label>
+            <input type="date" data-type="date" name="date_start" ng-model="shared.type.form.date_start.value" required>
+            <div ng-messages="shared.type.form.date_start.$error">
+              <div ng-messages-include="form-error-messages"></div>
+            </div>
+          </md-input-container>
+
+          <md-input-container bns-date-time-input-container ng-show="!shared.type.form.isRecurring">
+            <label translate>CALENDAR.LABEL_DATE_END</label>
+            <input type="date" data-type="date" name="date_end" ng-model="shared.type.form.date_end.value" ng-required="!shared.type.form.isRecurring">
+            <div ng-messages="shared.type.form.date_end.$error">
+              <div ng-messages-include="form-error-messages"></div>
+            </div>
+          </md-input-container>
+
+          <div class="layout-row" ng-show="!shared.type.form.isAllDay">
+            <div class="flex">
+              <md-input-container bns-date-time-input-container>
+                <label translate>CALENDAR.LABEL_TIME_START</label>
+                <input type="time" data-type="time" name="time_start" ng-model="shared.type.form.time_start.value" ng-required="!shared.type.form.isAllDay">
+                <div ng-messages="shared.type.form.time_start.$error">
+                  <div ng-messages-include="form-error-messages"></div>
+                </div>
+              </md-input-container>
+            </div>
+            <div class="flex">
+              <md-input-container bns-date-time-input-container>
+                <label translate>CALENDAR.LABEL_TIME_END</label>
+                <input type="time" data-type="time" name="time_end" ng-model="shared.type.form.time_end.value" ng-required="!shared.type.form.isAllDay">
+                <div ng-messages="shared.type.form.time_end.$error">
+                  <div ng-messages-include="form-error-messages"></div>
+                </div>
+              </md-input-container>
+            </div>
+          </div>
+          <div class="date-errors layout-row">
+              <p>{{ctrl.error}}</p>
+          </div>
+          <md-checkbox ng-model="shared.type.form.isAllDay" class="md-primary checkbox-right checkbox-alone">
+            <span translate>CALENDAR.LABEL_ALL_DAY</span>
+          </md-checkbox>
+        </bns-expander>
+
+        <bns-expander label="{{'CALENDAR.TITLE_RECURRENCE'|translate}}" model="shared.type.form.isRecurring">
+          <md-input-container>
+            <label translate>CALENDAR.LABEL_EMPTY_OCCURRENCE</label>
+            <select name="recurring_type" ng-model="shared.type.form.recurring_type.value" ng-required="shared.type.form.isRecurring">
+              <option ng-repeat="(value, label) in shared.type.recurrences" value="{{value}}">{{label|translate}}</option>
+            </select>
+            <input type="text" ng-model="shared.type.form.recurring_type.value" ng-required="shared.type.form.isRecurring" style="display:none;">
+            <div ng-messages="shared.type.form.recurring_type.$error">
+              <div ng-messages-include="form-error-messages"></div>
+            </div>
+          </md-input-container>
+
+          <md-input-container ng-hide="shared.type.form.recurring_end_date.value">
+            <label translate>CALENDAR.LABEL_RECURRING_COUNT</label>
+            <input type="number" min="0" name="recurring_count" ng-model="shared.type.form.recurring_count.value" ng-required="shared.type.form.isRecurring && !shared.type.form.recurring_end_date.value">
+            <div ng-messages="shared.type.form.recurring_count.$error">
+              <div ng-messages-include="form-error-messages"></div>
+            </div>
+          </md-input-container>
+          <div class="md-title recurring-label" ng-hide="shared.type.form.recurring_end_date.value || shared.type.form.recurring_count.value" translate>CALENDAR.LABEL_OR</div>
+          <md-input-container bns-date-time-input-container ng-hide="shared.type.form.recurring_count.value">
+            <label translate>CALENDAR.LABEL_RECURRING_END_DATE</label>
+            <input type="date" data-type="date" name="recurring_end_date" ng-model="shared.type.form.recurring_end_date.value" ng-required="shared.type.form.isRecurring && !shared.type.form.recurring_count.value">
+            <div ng-messages="shared.type.form.recurring_end_date.$error">
+              <div ng-messages-include="form-error-messages"></div>
+            </div>
+          </md-input-container>
+        </bns-expander>
+      </bns-transclude-src>
+    </div>
+
+    <fieldset class="md-padding">
+      <md-input-container>
+        <label translate>CALENDAR.PLACEHOLDER_ENTER_EVENT_TITLE</label>
+        <input type="text" ng-model="shared.type.form.title.value" name="title" required md-maxlength="50" ng-minlength="3">
+        <div ng-messages="shared.type.form.title.$error">
+          <div ng-messages-include="form-error-messages"></div>
+        </div>
+      </md-input-container>
+
+      <md-input-container md-no-float>
+        <textarea bns-tinymce ng-model="shared.type.form.description.value" name="description" placeholder="{{'CALENDAR.PLACEHOLDER_EVENT_DESCRIPTION'|translate}}"></textarea>
+        <div ng-messages="shared.type.form.description.$error">
+          <div ng-messages-include="form-error-messages"></div>
+        </div>
+      </md-input-container>
+
+      <div class="hide-gt-md">
+        <md-input-container class="proxy">
+          <label>{{'CALENDAR.LABEL_EVENT_LOCATION'|translate}}</label>
+          <input type="text" ng-model="shared.type.form.location.value" name="location">
+          <div ng-messages="shared.type.form.location.$error">
+            <div ng-messages-include="form-error-messages"></div>
+          </div>
+        </md-input-container>
+      </div>
+    </fieldset>
+
+    <md-divider></md-divider>
+
+    <bns-attachments source="shared.type.attachments" editable="true"></bns-attachments>
+
+  </form>
+
+</md-content>

@@ -1,0 +1,17 @@
+{% extends 'BNSAppMainBundle:App:base.html.twig' %}
+
+{% set app_unique_name = 'HELLOWORLD' %}
+{% set app_mode = 'back' %}
+
+{% block body_attr %}{{ parent() }} data-app="{{ app_unique_name }}" data-mode="{{ app_mode }}" {% endblock %}
+{% block body_class %}{{ parent() }} module-helloworld module-back back{% endblock %}
+
+{% block sidebar_content %}
+  {% include 'BNSAppHelloWorldBundle:BackBlog:sidebar.html.twig' %}
+{% endblock sidebar_content %}
+
+{% block content %}
+  <md-content class="bns-content-inner">
+    {{ block('content') }}
+  </md-content>
+{% endblock %}

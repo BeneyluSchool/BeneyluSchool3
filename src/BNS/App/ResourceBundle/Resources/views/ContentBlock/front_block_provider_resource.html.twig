@@ -1,0 +1,60 @@
+{# ToolBar settings #}
+{# Manual configuration for extra data file #}
+<script type="text/javascript">
+	toolBar.navigationContext = 'PROVIDER_RESOURCE';
+    toolBar.resource		  = {
+		id: '{{ resource.getId() }}',
+		providerId: '{{ resource.getProviderId() }}',
+		uai: '{{ resource.getUai() }}'
+	};
+    
+	toolBar.update();
+</script>
+
+<div class="document-container">
+	<div class="header">
+		<h1>{{ resource.getLabel() }}</h1>
+	</div>
+
+	<div class="document">
+		<div class="file pull-left">
+            {% block content %}
+                <img src="{{ resource.getImageUrl() }}" />
+
+                <div class="loader loader-hb" id="download-loader">
+                    <div class="message">
+                        Chargement de la ressource pédagogique en cours, veuillez patienter...
+                    </div>
+                </div>
+
+
+                <div class="download">
+                    <a href="{{ path('resource_provider_goto', {'uai': resource.getUai(), 'providerId': resource.getProviderId(), 'id': resource.getId() }) }}" class="btn bns-notice btn-24 large resource-provider-goto">
+                        <span class="icons-24 preview-icon"></span>
+                        Accéder à la ressource
+                    </a>
+                </div>
+            {% endblock %}
+		</div>
+
+		<div class="informations">
+			<div>
+				<p>Type :</p>
+				<img src="{{ asset('/medias/images/resource/filetype/tiny/provider_resource.png') }}" alt="" />
+				Ressource pédagogique
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+
+	<div class="description">
+		<h2>Description</h2>
+		<p>
+			{% if resource.getDescription() != null %}
+				{{ resource.getDescription() }}
+			{% else %}
+				Aucune description
+			{% endif %}
+		</p>
+	</div>
+</div>

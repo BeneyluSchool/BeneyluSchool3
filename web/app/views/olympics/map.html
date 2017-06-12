@@ -1,0 +1,58 @@
+<div container>
+  <md-button class="md-fab md-fab-top-left over-menu" ng-click="ctrl.toggleMenu()">
+    <md-icon>{{ctrl.menuShown?'close':'menu'}}</md-icon>
+  </md-button>
+</div>
+
+<div id="olympics-map-container" class="main-container">
+
+  <div container class="layout-column layout-gt-md-row layout-align-center-center olympics-map-header">
+    <div class="flex md-padding">
+      <h1 class="md-display-2 olympics-map-title">Beneylu <strong>à fond</strong> derrière les Jeux</h1>
+      <div class="md-body-2 olympics-map-description">Une ovation délirante s'élève des plus beaux sites de compétition. Paris est ville candidate aux  Jeux de 2024 ! Clique sur la carte pour lancer les Jeux et relever les défis de 4 grands athlètes.</div>
+    </div>
+    <bns-inset ng-if="ctrl.canManage" class="bns-small md-padding" bns-inset-icon="shield">
+      <md-tooltip>
+        <span class="flag flag-shield"></span>
+        Réservé aux enseignants
+      </md-tooltip>
+      <div class="layout-row">
+        <bns-app-toggle md-theme="default" app="navbar.app" group="navbar.group" type="'activities'" class="layout-align-center-center">
+          <span translate>APPS.LABEL_OPEN_ACTIVITY_TO_PUPILS</span>
+        </bns-app-toggle>
+      </div>
+    </bns-inset>
+  </div>
+
+  <div container class="layout-sm-column layout-gt-sm-row layout-align-sm-center-center olympics-map-row">
+    <div class="flex olympics-map-container">
+      <div class="olympics-map">
+        <md-button ui-sref="^.game({game: 'tennis'})" ng-mouseover="ctrl.position = 'tennis'" ng-class="{ played: ctrl.state.tennis }" class="md-fab olympics-btn tennis">
+          <md-tooltip>Roland Garros</md-tooltip>
+        </md-button>
+        <md-button ui-sref="^.game({game: 'rowing'})" ng-mouseover="ctrl.position = 'rowing'" ng-class="{ played: ctrl.state.rowing }" class="md-fab olympics-btn rowing">
+          <md-tooltip>Vaires-sur-Marne</md-tooltip>
+        </md-button>
+        <md-button ui-sref="^.game({game: 'fencing'})" ng-mouseover="ctrl.position = 'fencing'" ng-class="{ played: ctrl.state.fencing }" class="md-fab olympics-btn fencing">
+          <md-tooltip>Grand Palais</md-tooltip>
+        </md-button>
+        <div class="olympics-map-characters" ng-class="ctrl.position ? ctrl.position : 'default'"></div>
+      </div>
+    </div>
+    <div class="layout-gt-sm-column">
+      <md-button class="md-fab olympics-icon-games" ng-click="ctrl.showDialog('games', $event)">
+        <md-tooltip>Emmeline, c'est quoi les Jeux ?</md-tooltip>
+      </md-button>
+      <md-button class="md-fab olympics-icon-france" ng-click="ctrl.showDialog('france', $event)">
+        <md-tooltip>La candidature de toute la France</md-tooltip>
+      </md-button>
+      <md-button class="md-fab olympics-icon-environment" ng-click="ctrl.showDialog('environment', $event)">
+        <md-tooltip>Le laboratoire d’inventions</md-tooltip>
+      </md-button>
+      <md-button class="md-fab olympics-icon-dictionary" ng-click="ctrl.showDialog('dictionary', $event)">
+        <md-tooltip>Le dico des Jeux</md-tooltip>
+      </md-button>
+    </div>
+  </div>
+
+</div>

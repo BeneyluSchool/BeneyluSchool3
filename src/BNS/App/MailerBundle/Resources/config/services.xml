@@ -7,13 +7,16 @@
         <service id="bns.mailer" class="BNS\App\MailerBundle\Mailer\BNSMailer">
             <argument type="service" id="old_sound_rabbit_mq.mailer_producer" />
         </service>
-    	<service id="mailer_consumer" class="BNS\App\MailerBundle\Consumer\BNSMailerConsumer">
-             <argument type="service" id="mailer" />
-			 <argument type="service" id="logger" />
-			 <argument type="service" id="templating" />
-			 <argument>%email_default_from_email%</argument>
-			 <argument>%email_default_from_name%</argument>
-			 <argument>%application_base_url%</argument>
+        <service id="mailer_consumer" class="BNS\App\MailerBundle\Consumer\BNSMailerConsumer">
+            <argument type="service" id="mailer" />
+            <argument type="service" id="logger" />
+            <argument type="service" id="templating" />
+            <argument>%email_default_from_email%</argument>
+            <argument>%email_default_from_name%</argument>
+            <argument>%cdn_url%</argument>
+            <argument type="service" id="translator" />
+            <argument>%beneylu_brand_name%</argument>
+            <argument>%email_default_reply_to_email%</argument>
         </service>
     </services>
 

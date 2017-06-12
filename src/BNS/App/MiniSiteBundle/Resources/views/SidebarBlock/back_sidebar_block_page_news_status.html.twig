@@ -1,0 +1,20 @@
+{% trans_default_domain "MINISITE" %}
+<bns-expander label="{{ 'NEWS_STATUS' | trans }}" class="ng-scope ng-isolate-scope" is-open="true">
+	<div class="content-title">
+		<ul>
+
+			{% if news.isDraft() %}
+        <li class="text-row"><div><span class="vertical-separator separator-one draft"></span><p class="text-status"> <span>{% trans %}NEWS_DRAFT{% endtrans %} </span></p></div></li>
+			{% elseif news.isFinished() %}
+        <li class="text-row"><div><span class="vertical-separator separator-one finished"></span> <p class="text-status"><span>{% trans %}NEWS_FINISH{% endtrans %}</span></p></div></li>
+			{% elseif news.isWaitingForCorrection() %}
+        <li class="text-row"><div><span class="vertical-separator separator-one waiting_for_correction"></span> <p class="text-status"><span>{% trans %}NEWS_TO_CORRECT{% endtrans %}</span></p></div></li>
+			{% elseif news.isPublished() %}
+        <li class="text-row"><div><span class="vertical-separator separator-one published"></span> <p class="text-status"><span>{% trans %}NEWS_PUBLISH{% endtrans %}</span></p></div></li>
+			{% else %}
+      <p class="text-status">Unkwown news status !</p>
+			{% endif %}
+
+    </ul>
+	</div>
+</bns-expander>

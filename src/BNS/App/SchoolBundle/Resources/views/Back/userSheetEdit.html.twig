@@ -1,0 +1,128 @@
+{% trans_default_domain "SCHOOL" %}
+{% extends 'BNSAppSchoolBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+{{ 'TITLE_SCHOOL_USER_PROFIL'|trans({'%userFullName%': user.getFullName()}) |desc('École - Profil de %userFullName%') }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function(){
+           $('.submit-profile').click(function(e){
+               e.preventDefault();
+                $('#save-profile').submit();
+           });
+        });
+    </script>
+{% endblock %}
+
+{% block header %}
+    <form id="save-profile" action="{{ path('BNSAppSchoolBundle_back_user_sheet_edit', {'userSlug': user.getSlug()}) }}" method="POST" {{ form_enctype(form) }}>
+	<div class="header-buttons header-classroom-details">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span6">
+                        <a href="{{ path('BNSAppSchoolBundle_back_user_sheet', {'userSlug': user.getSlug()}) }}" class="btn bns-notice btn-24 medium-return button-return">
+                            <span class="icons-24 back-icon"></span>
+                            {% if is_child(user) %}
+                                {{ 'LINK_BACK_TO_CARD_CHILD'|trans |desc('<strong>Retourner à</strong><br />la fiche élève') |raw }}
+                            {% else %}
+                                {{ 'LINK_BACK_TO_CARD_USER'|trans |desc('<strong>Retourner à</strong><br />la fiche utilisateur') |raw }}
+
+                             {% endif %}
+
+                        </a>
+					</div>
+                    <div class="span6 align-right">
+                        <a href="#" class="btn finish bns-success validate-medium btn-24 medium submit-profile">
+                            <span class="icons-24 validate-icon"></span>
+                            <strong>{% trans %}LINK_SAVE_MODIFICATION{% endtrans %} </strong>
+
+                        </a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'BNSAppSchoolBundle:Sidebar:sidebar.html.twig' with {'page': 'user_sheet_edit' , "form": form } %}
+{% endblock sidebar %}
+
+{% block content %}
+
+    <div class="container-classroom">
+
+        {% if isTeacher %}
+            {% include "BNSAppSchoolBundle:Back:userSheetPersonnalInformations.html.twig" with {"user" : user } %}
+            {{ form_widget(form._token) }}
+            </form>
+        {% else %}
+
+            <div class="news-title">
+                <h1 class="dashboard">{% trans %}TITLE_PROFIL{% endtrans %}</h1>
+
+            </div>
+
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="row-fluid profil-detail-content">
+                        <div class="span7">
+                            <div class="content-profile">
+
+                                <p>
+                                    {% if user.getId() != app.user.getId() %}
+                                        {% trans %}WANT_TO_BECOME{% endtrans %}
+
+                                    {% else %}
+                                        {% trans %}LATER_WANT_TO_BECOME{% endtrans %}
+
+                                    {% endif %}
+                                </p>
+
+                                {{ form_widget(form.job) }}
+
+                                {% if form.job.vars.errors|length > 0 %}
+                                    <div class="alert alert-danger bns-alert">
+                                        {{ form_errors(form.job) }}
+                                        <div class="jim"></div>
+                                    </div>
+                                {% endif %}
+
+                                <p class="description">
+                                    {% if app.user.getId() == user.getId() and form.description.vars.value == ''%}
+                                        {% trans %}I_WRITE_MY_PRESENTATION{% endtrans %}
+                                    {% elseif app.user.getId() == user.getId()%}
+                                        {% trans %}I_WRITE_MY_PRESENTATION_NOW{% endtrans %}
+
+                                    {% else %}
+                                         {% trans %}PRESENTATION{% endtrans %}
+
+                                    {% endif %}
+                                </p>
+                                {{ form_widget(form.description) }}
+                                {% if form.description.vars.errors|length > 0 %}
+                                    <div class="alert alert-danger bns-alert">
+                                        {{ form_errors(form.description) }}
+                                        <div class="jim"></div>
+                                    </div>
+                                {% endif %}
+                                {{ form_rest(form) }}
+                            </div>
+                        </div>
+                        </form>
+                        <div class="span5">
+                            <div class="feelings">
+                                {{ render(controller('BNSAppProfileBundle:Preferences:index', {'user': user, 'editable': 1, 'isMyPreferences': user.getId() == app.user.id} )) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

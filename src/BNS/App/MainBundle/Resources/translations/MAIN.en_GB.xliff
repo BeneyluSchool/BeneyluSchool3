@@ -1,0 +1,674 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-06-22T13:34:34Z" source-language="en" target-language="en-GB" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="0a6376d738cc6fa6089a2447ce938e9b6de2d5ed" resname="%notice%">
+        <source>%notice%</source>
+        <target state="new">%notice%</target>
+        <note><![CDATA[%notice% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="ada132259c97388eea56f36b0d3cbc33e8c1955e" resname="ACCESS_TO_BENEYLU_STOP">
+        <source><![CDATA[
+                                <p>
+                                    L'accès à %beneylu_brand_name% sera coupé la journée du <b>lundi 10 mars</b> pour une opération de maintenance.
+                                </p>
+                                <p>
+                                    Le service sera rétabli dès le lendemain. Plus d'infos en suivant %linkStart%<b>ce lien</b>%linkEnd%
+                                .</p>]]></source>
+        <target state="new"><![CDATA[ <p> %beneylu_brand_name% will be closed on <b>the 10th of March</b> for maintenance. </p> <p> It will reopen tomorrow. More info : %linkStart%<b>here</b>%linkEnd% .</p>]]></target>
+        <note><![CDATA[%linkStart% is a placeholder
+%linkEnd% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="742d70c1a26d19d63c61e2d7a6fd66220ba217aa" resname="ACCOUNT_NOT_TIE">
+        <source><![CDATA[
+            <h2>Votre compte n'est lié à aucune classe</h2>
+            <p>Voici les classes de votre école. Veuillez en choisir une pour profiter pleinement de %beneylu_brand_name%.</p>
+            ]]></source>
+        <target state="new"><![CDATA[
+            <h2>Your account is not linked to any classrooms</h2>
+            <p>Here are the classrooms in your school. Please choose one to fully enjoy the benefits of %beneylu_brand_name%.</p>
+            ]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="cfc2ff74fcb9e05e3f5965261b3ba3952edbefa7" resname="ALERT_OK">
+        <source>ALERT_OK</source>
+        <target state="new">OK!</target>
+      </trans-unit>
+      <trans-unit id="e02320050610e42c0abc90315739ef210420c9d1" resname="BENEYLU_DWS_PRIMARY_EDUCATION">
+        <source>%beneylu_brand_name% est un Espace Numérique de Travail (ENT) spécialement conçu pour le premier degré.</source>
+        <target state="new">%beneylu_brand_name% is a Virtual Learning Environment (VLE) for primary schools.</target>
+      </trans-unit>
+      <trans-unit id="429981275ab1a55fadc6bbcb4655915cb0c183f5" resname="BROWSER_NOT_COMPATIBLE">
+        <source>Votre navigateur ne semble pas compatible</source>
+        <target state="new">Your browser does not seem to be compatible</target>
+      </trans-unit>
+      <trans-unit id="ac4a81131bdb47787acde9f93fc9cf611d433dda" resname="BROWSER_NOT_UP_TO_DATE">
+        <source><![CDATA[
+					        <h3>Votre navigateur ne semble pas à jour</h3>
+							<h4>Vous pouvez le mettre à jour en cliquant sur les liens ci-dessous.</h4>
+							]]></source>
+        <target state="new"><![CDATA[ <h3>Your browser is not up-to-date</h3> <h4>You can update it by clicking the links below.</h4> ]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="68eb9f13aebef553533343d21366c2918af2316d" resname="BUTTON_ACCEPT_INVITE">
+        <source>BUTTON_ACCEPT_INVITE</source>
+        <target state="new">Accept|invitation</target>
+      </trans-unit>
+      <trans-unit id="262f7dd2adb436d27ebd8992ed2c527c48de6633" resname="BUTTON_DENY_INVITE">
+        <source>BUTTON_DENY_INVITE</source>
+        <target state="new">Decline|invitation</target>
+      </trans-unit>
+      <trans-unit id="769c7d58d0682c6d55673f882f13555589dbf2b8" resname="BUTTON_NEVER_ACCEPT_INVITE">
+        <source>BUTTON_NEVER_ACCEPT_INVITE</source>
+        <target state="new">Never accept|invitation</target>
+      </trans-unit>
+      <trans-unit id="a4d1a3afb05635aac462468e4ab0a9e7fd975fbe" resname="BUTTON_REGISTER_CLASSROOM">
+        <source>BUTTON_REGISTER_CLASSROOM</source>
+        <target>Sign up my class</target>
+      </trans-unit>
+      <trans-unit id="d6800948f406726555b3d9159fc010665bfaff8b" resname="BUTTON_TEACHER_REGISTER">
+        <source>BUTTON_TEACHER_REGISTER</source>
+        <target>I'm a teacher | I sign up my class for free</target>
+      </trans-unit>
+      <trans-unit id="ef2bc6d6bf80519b59f27cc8330912d39ea7add5" resname="CANNOT_OFFER_IDENTIFYING">
+        <source>Nous ne pouvons pas vous proposer l'identification.</source>
+        <target state="new">We cannot provide you with identification</target>
+      </trans-unit>
+      <trans-unit id="5fbbffe3b7996fed5ca07c74e9bdd3c1edb4ef69" resname="CHANGE_MODE">
+        <source>Changer de mode</source>
+        <target state="new">Change mode</target>
+      </trans-unit>
+      <trans-unit id="fab9ac3eeb2759de88e753466143d0385482d4af" resname="CONNECTION_DENY_HAVENT_ACCESS_TO_ENT">
+        <source>Connexion refusée - vous ne semblez pas autorisé à accéder à l'ENT.</source>
+        <target state="new">Refused connection - it seems you are not authorized</target>
+      </trans-unit>
+      <trans-unit id="7ad01ada47e0cf4f716a700c54e994841731e8f7" resname="CONNECTION_IN_PROGRESS_PLEASE_WAIT">
+        <source>CONNECTION_IN_PROGRESS_PLEASE_WAIT</source>
+        <target state="new"><![CDATA[Logging into %beneylu_brand_name%. Loading <br />please wait...]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="5f53266e52f28d57decff287b5fc10004df311ac" resname="COOKIE_DESCRIPTION">
+        <source><![CDATA[
+                        <h2>Qu'est ce qu'un cookie ?</h2>
+                        <p>
+                            Un cookie est un fichier texte susceptible d’être enregistré dans un espace dédié du disque dur de votre terminal à l’occasion de la consultation d’un service en ligne grâce à votre logiciel de navigation. Un fichier cookie permet à son émetteur d’identifier le terminal dans lequel il est enregistré, pendant la durée de validité ou d’enregistrement dudit cookie.
+                        </p>
+                        ]]></source>
+        <target state="new"><![CDATA[
+                        <h2>What's a cookie?</h2>
+                        <p>
+                            A cookie is a small text file which can be saved to your terminal's hard drive when you are browsing a website thanks to your browser's software. A cookie file enables the emitter to identify the terminal in which it has been saved, during the time of validity or storage of the cookie.
+                        </p>
+                        ]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="70a8f20204b60d826f79c2895c3eff663331fe93" resname="DESCRIPTION_APPS_BOARD_GUIDE">
+        <source>DESCRIPTION_APPS_BOARD_GUIDE</source>
+        <target>Move gracefully through your %beneylu_brand_name% space and choose the apps that will liven up your class year-round.</target>
+      </trans-unit>
+      <trans-unit id="821a9e10acafc9a3165a74213cba144c4ffed51d" resname="DESCRIPTION_CHILD_ACCOUNT_GUIDE">
+        <source>DESCRIPTION_CHILD_ACCOUNT_GUIDE</source>
+        <target>You have discovered your classroom workspace %beneylu_brand_name% and it is all yours. Now it's your pupils turn!</target>
+      </trans-unit>
+      <trans-unit id="3d96fcada5c21c5fc03f6b8f9634d4bc8d8e6557" resname="DESCRIPTION_CONNECTION">
+        <source>DESCRIPTION_CONNECTION</source>
+        <target>If you have a %beneylu_brand_name% account, this is the right place to connect. Else, go visit : https://beneylu.com/school</target>
+        <note><![CDATA[Used as the description meta tag]]></note>
+      </trans-unit>
+      <trans-unit id="63d7df2e4336b8563b84a50b2d192b589ec6ccf8" resname="DESCRIPTION_COOKIES_POLICY">
+        <source>DESCRIPTION_COOKIES_POLICY</source>
+        <target><![CDATA[By continuing to browse on %beneylu_brand_name%, you accept the use of cookies. Cookies are essential in order to browse according to your profile (teacher, pupil...).
+<a href="%cookies_more_info_url%">Find out more.</a>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="bc3db09a24967c05c1f3f061b6d078bc66d0b796" resname="DESCRIPTION_GUIDE">
+        <source>DESCRIPTION_GUIDE</source>
+        <target>6 guides and 11 documentations to start the journey!</target>
+      </trans-unit>
+      <trans-unit id="72603612ee2c5281a4844db72fe7c437df042720" resname="DESCRIPTION_REGISTRATION_EMAIL">
+        <source>DESCRIPTION_REGISTRATION_EMAIL</source>
+        <target>Enter your e-mail adress, sign up and start your adventure with Beneylu School. You will receive your login and password in the blink of an eye!</target>
+      </trans-unit>
+      <trans-unit id="26c83b92e57020cf2c47eb213f05b01c82a8cd7b" resname="DESCRIPTION_START_GUIDE">
+        <source>DESCRIPTION_START_GUIDE</source>
+        <target>The classroom is the main workspace of  %beneylu_brand_name%, your online learning platform dedicated to serving educational purposes.</target>
+      </trans-unit>
+      <trans-unit id="1e5cff82fbf266e021adac425e81fd0036300fb1" resname="DISPLAY_SOCIAL_BLOCK_ON_HOMEPAGE">
+        <source>pour l'affichage du bloc social, uniquement sur la page d'accueil en état "non connecté"</source>
+        <target state="new">to display social blocks, only on the homepage as "non-logged in" status.</target>
+      </trans-unit>
+      <trans-unit id="2f4e5dfd1fee8e1335289ab493683f80c354ae64" resname="EMAIL_CONFIRM_CONTINUE_TO_USE_BENEYLU">
+        <source>EMAIL_CONFIRM_CONTINUE_TO_USE_BENEYLU</source>
+        <target state="new">Thanks, your email address is now confirmed. You can continue to use %beneylu_brand_name%</target>
+      </trans-unit>
+      <trans-unit id="c1da0ee5216d5361be9c261498a0942266e98091" resname="EMAIL_NOT_CONFIRM_DO_ANOTHER_REQUEST">
+        <source>EMAIL_NOT_CONFIRM_DO_ANOTHER_REQUEST</source>
+        <target state="new">Your email adress was not confirmed, you can make another query from the "My profile" app.</target>
+      </trans-unit>
+      <trans-unit id="632ba4ef581a165ed94d1c216c3f953632b297ae" resname="ENABLE_DISABLE_DESCRIPTION">
+        <source><![CDATA[Un feu vert signifie que le module est activé pour le type d'utilisateur selectionné.<br /> Un feu rouge signifie que les utilisateurs n'ont pas accès au module.]]></source>
+        <target state="new"><![CDATA[A green light means that the app is switched on for the selected user type.<br /> A red light means that users do not have access to the app.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="41eeadcb5836a74aefa4e68110365c373bdf29c7" resname="ERROR_APPEND_WHEN_LOGIN_TO_SPOT">
+        <source>ERROR_APPEND_WHEN_LOGIN_TO_SPOT</source>
+        <target>An error occured while connecting to Beneylu Spot</target>
+      </trans-unit>
+      <trans-unit id="355d1c61edf75f8ecd4884bbd1b6494b035fe0a7" resname="FLASH_NEW_VALIDATE_MESSAGE_SENT">
+        <source>FLASH_NEW_VALIDATE_MESSAGE_SENT</source>
+        <target state="new">A new validation email has been sent to you.</target>
+      </trans-unit>
+      <trans-unit id="7117014d1fc01ef3f0e58ecdffcb66095e70883b" resname="FOOTER_LEGALS">
+        <source>FOOTER_LEGALS</source>
+        <target><![CDATA[© Beneylu School %copyright_year% All rights reserved.
+            - Beneylu is a registered trademark.
+            - CNIL registration 1321978
+            - <a href="%eula_url%" class="contact">Conditions of use</a>
+        ]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="40149e150b5b89f0ca577742c567371892b93ca6" resname="FORGOTTEN_PASSWORD">
+        <source>FORGOTTEN_PASSWORD</source>
+        <target state="new">Forgotten password</target>
+      </trans-unit>
+      <trans-unit id="b4305e5c09ef489204efe5f7b56753e60b65e798" resname="FORMAT_NOT_VALID">
+        <source>FORMAT_NOT_VALID</source>
+        <target state="new">This format is not valid</target>
+      </trans-unit>
+      <trans-unit id="619c15fc6abf12cdb4220b39908566dd7313e086" resname="GROUP_NAME_AND_TYPE">
+        <source>Nom du groupe et type du groupe :</source>
+        <target state="new">Name and type of group:</target>
+      </trans-unit>
+      <trans-unit id="2f3d5ab1f1a221de8a1f88d465591ba744c8c311" resname="HAVENT_CLASS_NEED_BELONG_TO_A_GROUP_FOR_USE_BENEYLU">
+        <source><![CDATA[<h1>Oops... Vous n'avez aucune classe</h1>
+		<p>Il apparaît que vous n'appartenez à aucune classe actuellement.<br />Vous devez obligatoirement faire parti d'un groupe pour accéder<br />à %beneylu_brand_name% .</p>
+]]></source>
+        <target state="new"><![CDATA[<h1>Oops... You have no classroom</h1> <p>It appears you don't belong in any classroom right now.<br />You must be part of a group to access<br />%beneylu_brand_name% .</p> ]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="985ce96bd5716e6733ca1288b8bb9c0b706541b6" resname="IMAGE_ACTION_IMPOSSIBLE">
+        <source>Action impossible</source>
+        <target state="new">Impossible action</target>
+      </trans-unit>
+      <trans-unit id="2e99e0015857b37da6d2742842c53bc20d2850a6" resname="IMAGE_CLASS_BENEYLU">
+        <source>La classe de %beneylu_brand_name%</source>
+        <target state="new">%beneylu_brand_name%'s classroom</target>
+      </trans-unit>
+      <trans-unit id="762ecfcb2e6d606877db0f18c3e5295cd16996da" resname="IMAGE_DISCONNECTION">
+        <source>Déconnexion</source>
+        <target state="new">Log out</target>
+      </trans-unit>
+      <trans-unit id="0709aa7c3ea0f9963ac3047a76206341478c8831" resname="IMAGE_MY_PROFILE">
+        <source>IMAGE_MY_PROFILE</source>
+        <target state="new">My Profile</target>
+      </trans-unit>
+      <trans-unit id="33bad287c03c5e22ddbda2a5638f096242cae341" resname="IMPORT_GROUPS">
+        <source>IMPORT_GROUPS</source>
+        <target state="new">Groups to be imported:</target>
+      </trans-unit>
+      <trans-unit id="922a508018b693b48e3fc6b697b304415fb1109b" resname="INCOMPATIBLE_BROWSER">
+        <source>INCOMPATIBLE_BROWSER</source>
+        <target>Incompatible browser</target>
+        <note><![CDATA[Displayed in connection block if browser does not support iframes]]></note>
+      </trans-unit>
+      <trans-unit id="4030f4fe36434302b691c2ef59d1ea47ef394b26" resname="INVALID_DATE">
+        <source>INVALID_DATE</source>
+        <target state="new">This is not a valid date</target>
+      </trans-unit>
+      <trans-unit id="d0a27efc751a47562cc013fb2d6453e50b6f28a6" resname="INVALID_EMAIL">
+        <source>INVALID_EMAIL</source>
+        <target state="new">This is not a valid email</target>
+      </trans-unit>
+      <trans-unit id="0df870dd52835a06a9aa8c76598d999e307add71" resname="INVALID_TIME">
+        <source>INVALID_TIME</source>
+        <target state="new">This is not a valid time</target>
+      </trans-unit>
+      <trans-unit id="595a6580c5fc14579260c160f4a2b0a25c7195c8" resname="INVALID_URL">
+        <source>INVALID_URL</source>
+        <target state="new">This is not a valid URL</target>
+      </trans-unit>
+      <trans-unit id="2c126ef7414b7f5b2a85114fc8d1e2a15abd8d6e" resname="LABEL_CONTACT">
+        <source>LABEL_CONTACT</source>
+        <target>Contact us </target>
+      </trans-unit>
+      <trans-unit id="c34a9f905643cc109f22310879d2265402a2d95c" resname="LETTER_BETWEEN_TEARCHER_AND_SUPPORT">
+        <source>pour la correspondance entre les enseignants et le support technique</source>
+        <target state="new">for communication between teachers and helpdesk</target>
+      </trans-unit>
+      <trans-unit id="21b057ff77db1d250dd40b5553419c757bd966cd" resname="LINK_ALL">
+        <source>Tous</source>
+        <target state="new">All</target>
+      </trans-unit>
+      <trans-unit id="7ee38ce830f186c216fbe8251df61c84982cfe63" resname="LINK_BACK_TO_HOME">
+        <source>Retour à l'accueil</source>
+        <target state="new">Go back to homepage</target>
+      </trans-unit>
+      <trans-unit id="b6d73682ba84e02cf3b99efb202a98764f0c3f3a" resname="LINK_BACK_TO_HOMEPAGE">
+        <source>Retour sur la page d'accueil</source>
+        <target state="new">Go back to homepage</target>
+      </trans-unit>
+      <trans-unit id="78600b2844d1e2c126391ee1202cebfaf067d2dd" resname="LINK_CHANGE_TO_CONSULTATION">
+        <source>Passer en consultation</source>
+        <target state="new">Switch to consultation</target>
+      </trans-unit>
+      <trans-unit id="e5c0c4ab218d849370fd32560604528dc64125a0" resname="LINK_CHANGE_TO_MANAGEMENT">
+        <source>Passer en gestion</source>
+        <target state="new">Switch to management</target>
+      </trans-unit>
+      <trans-unit id="1403567953bf30b092086563562379cbd829ac22" resname="LINK_CLICK_TO_GO_ON_BENEYLU">
+        <source>%linkStart%Clique ici%linkEnd% pour te rendre sur %beneylu_brand_name%</source>
+        <target state="new">%linkStart%Click here%linkEnd% to go to %beneylu_brand_name%</target>
+        <note><![CDATA[%linkStart% is a placeholder
+%linkEnd% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="f32334b41ec1e592405625c6b43db3c85ba7db83" resname="LINK_CLOSE">
+        <source>Fermer</source>
+        <target state="new">Close</target>
+      </trans-unit>
+      <trans-unit id="ace611dad4c47207dc9ddf372f79a4f3d26fc80c" resname="LINK_CONFIRM">
+        <source>Confirmer</source>
+        <target state="new">Confirm</target>
+      </trans-unit>
+      <trans-unit id="d4437143c8a1832651e75f628d04450321de7569" resname="LINK_DISCLAIMER">
+        <source>Mentions légales</source>
+        <target state="new">Legal notices</target>
+      </trans-unit>
+      <trans-unit id="2dc71c232a4dd49cb212184a94e416f57a0c4c0a" resname="LINK_DISCOVER_BEENYLU">
+        <source>Découvrir %beneylu_brand_name%</source>
+        <target state="new">Discover %beneylu_brand_name%</target>
+      </trans-unit>
+      <trans-unit id="2f29d242d18c038fdff55f50b1a8fdbcadef0c45" resname="LINK_FOR_CHROME">
+        <source>Pour Google Chrome</source>
+        <target state="new">For Google Chrome</target>
+      </trans-unit>
+      <trans-unit id="15fae9e982de28d641e7c479a5051f8783ccc8eb" resname="LINK_FOR_FIREFOX">
+        <source>Pour Firefox</source>
+        <target state="new">For Firefox</target>
+      </trans-unit>
+      <trans-unit id="9c29dce30105c6fa6a3197acc21f56916a683ad0" resname="LINK_FOR_INTERNET_EXPLORER">
+        <source>Pour Internet Explorer</source>
+        <target state="new">For Internet Explorer</target>
+      </trans-unit>
+      <trans-unit id="b976eff4becc1b9569c43970514a83d29b19f0a3" resname="LINK_FOR_OPERA">
+        <source>Pour Opera</source>
+        <target state="new">For Opera</target>
+      </trans-unit>
+      <trans-unit id="ed542d9ba76bafabd322097fdeb7526596b0e216" resname="LINK_FOR_SAFARI">
+        <source>Pour Safari</source>
+        <target state="new">For Safari</target>
+      </trans-unit>
+      <trans-unit id="7bb1e909b401e005955e4161fcc6a288d52bf0c4" resname="LINK_GUIDE">
+        <source>LINK_GUIDE</source>
+        <target>Go to the documentation</target>
+      </trans-unit>
+      <trans-unit id="1d05cec51861b87e1789bfa556bc5099bb454a88" resname="LINK_HOMEPAGE">
+        <source>Accueil</source>
+        <target state="new">Home</target>
+      </trans-unit>
+      <trans-unit id="2a1a991833a1ef0fee60610d2b3ec820d97b0229" resname="LINK_JOIN_FILE">
+        <source>Joindre des documents</source>
+        <target state="new">Attach document</target>
+      </trans-unit>
+      <trans-unit id="0a0e8a3d3b9c7c20d90f2aa918712dc8c355e763" resname="LINK_KNOW_MORE">
+        <source>En savoir plus</source>
+        <target state="new">Find out more</target>
+      </trans-unit>
+      <trans-unit id="a853dac50877f416de95627a313073f7f81b7857" resname="LINK_LOGOUT">
+        <source>Se déconnecter</source>
+        <target state="new">Log out</target>
+      </trans-unit>
+      <trans-unit id="c3777127599099b8b8a88b78a6f72bb32bf8ef5d" resname="LINK_MY_PROFILE">
+        <source>Mon Profil</source>
+        <target state="new">My Profile</target>
+      </trans-unit>
+      <trans-unit id="035d2dfa842ca4fb238603e0c9cd0e6040600873" resname="LINK_NO_RESULT">
+        <source>Pas de résultat</source>
+        <target state="new">No results</target>
+      </trans-unit>
+      <trans-unit id="97accb6dcf81fffe23c71771b623ef1e7903e0fe" resname="LINK_OPEN_GUIDE">
+        <source>LINK_OPEN_GUIDE</source>
+        <target>Open the guide</target>
+      </trans-unit>
+      <trans-unit id="8b4662aa4f448b59fe4b88ea52bd56c275ca6e36" resname="LINK_PASSWORD_LOST">
+        <source>Mot de passe oublié ?</source>
+        <target state="new">I forgot my password</target>
+      </trans-unit>
+      <trans-unit id="cdaae929c52be8c8fe95d6ad81b0a3f6051e7dd3" resname="LINK_REGISTER_CLASS">
+        <source>Inscrire ma classe</source>
+        <target state="new">Sign up my class</target>
+      </trans-unit>
+      <trans-unit id="1e62e82b5a6a4eda54443015b56f8a7e73d84606" resname="LINK_SCHOOL">
+        <source>LINK_SCHOOL</source>
+        <target>Know everything about %beneylu_brand_name%</target>
+      </trans-unit>
+      <trans-unit id="fc30b770244527c927f4c73560c3b459edcb432d" resname="LINK_WRITE_ON_MOOD_OR_ACTIVITY">
+        <source>Communiquer sur mon humeur ou mon activité</source>
+        <target state="new">Share my mood or activity</target>
+      </trans-unit>
+      <trans-unit id="f3f39715e3c3fa193afd2bb49394ae003e5b6272" resname="LOGON_TO_ACCESS_TO_BENEYLU">
+        <source>Connecte-toi pour avoir accès à %beneylu_brand_name%</source>
+        <target state="new">Sign in to access %beneylu_brand_name%</target>
+      </trans-unit>
+      <trans-unit id="5e2d7385d7cdd73a145b424d5249012bb1e9a54d" resname="MANAGE_MODULES">
+        <source>Gérer les modules</source>
+        <target state="new">Manage my apps</target>
+      </trans-unit>
+      <trans-unit id="6bc7fb5d95498006d257f8eb13c882f129ffba03" resname="MEDIALANDES_DESCRIPTION">
+        <source><![CDATA[
+                        <p style="font-size: 11px; font-family: Ubuntu;">L'ALPI et les médiathèques des Landes souhaitent mettre à votre disposition des contenus numériques au travers de Landécoles.</p><p style="font-size: 11px; font-family: Ubuntu;">Pour vous identifier, vous devrez être inscrit individuellement à la médiathèque la plus proche de chez vous. Si vous n'avez pas ces identifiants ou s'ils ne fonctionnent pas, veuillez vous rapprocher de votre médiathèque.</p>
+]]></source>
+        <target state="new"><![CDATA[<p style="font-size: 11px; font-family: Ubuntu;">Pas à traduire</p> <p style="font-size: 11px; font-family: Ubuntu;">Pas à traduire</p>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="1fbe09f7b1d3fcafb88d6ff49a353ee418e54e77" resname="MORE_INFO_ON_BENEYLU">
+        <source>Pour plus d'informations sur %beneylu_brand_name%, vous pouvez cliquer sur le lien ci dessous :</source>
+        <target state="new">For more info about %beneylu_brand_name%, you can click on the link below :</target>
+      </trans-unit>
+      <trans-unit id="cded365da5db54e303683bcd3fa0044249847ba4" resname="NO_USER_IN_THIS_GROUP">
+        <source>NO_USER_IN_THIS_GROUP</source>
+        <target state="new">No user in this group right now</target>
+      </trans-unit>
+      <trans-unit id="859218ba04e6869392a53a81df76e296a452a362" resname="NUMBER_NOT_VALID">
+        <source>NUMBER_NOT_VALID</source>
+        <target state="new">This is not a valid number</target>
+      </trans-unit>
+      <trans-unit id="77a20ea5b11cb1bd049763a056511076a163d27b" resname="OPTIMIZE_MEDIA_DOWNLOAD">
+        <source>pour optimiser le téléchargement des médias</source>
+        <target state="new">to optimize media downloading</target>
+      </trans-unit>
+      <trans-unit id="06719bab5702f1660507144f2dcee8461169f209" resname="POSSIBILITY_ABOUT_COOKIE">
+        <source><![CDATA[
+                        <h2>Vos possibilités concernant les cookies</h2>
+
+                        <p>L’enregistrement d’un cookie dans un terminal est essentiellement subordonné à la volonté de l’utilisateur du terminal, que celui-ci peut exprimer et modifier à tout moment et gratuitement.</p>
+
+                        <p>Si vous avez accepté dans votre logiciel de navigation l’enregistrement de cookies dans votre terminal, les cookies intégrés dans les pages et contenus que vous avez consultés pourront être stockés temporairement dans un espace dédié de votre terminal.</p>
+
+                        <p>Voilà le moyen mis à votre disposition pour accepter/refuser ou supprimer les cookies présents sur notre site.</p>
+
+                        <p>La plupart des navigateurs acceptent les cookies par défaut. Cependant, vous pouvez décider de bloquer ces cookies ou demander à votre navigateur de vous avertir lorsqu’un site tente d’implémenter un cookie sur votre terminal.</p>
+                        <p>Pour changer la gestion des cookies de votre navigateur, vous pouvez modifier les réglages dans l’onglet confidentialité.</p>
+                        <p>Pour la gestion des cookies et de vos choix la configuration de chaque navigateur est différente. Elle est décrite dans le menu d’aide de votre navigateur, qui vous permettra de savoir de quelle manière modifier vos souhaits en matière de cookies :</p>
+]]></source>
+        <target state="new"><![CDATA[
+                        <h2>Cookies options </h2>
+
+                        <p>Saving a cookie in a terminal is critically dependent on the decision of the user of the terminal, which can be expressed and modified anytime for free by the user.</p>
+
+                        <p>If you have accepted in your browser to save cookies in your terminal, all cookies integrated to the pages and contents you browsed through can be temporarily stored in a dedicated area of your terminal.</p>
+
+                        <p>This way you can either choose to accept/decline or delete cookies on our website.</p>
+
+                        <p>Most browsers accept cookies by default. However, you can choose to block them or ask your browser to warn you when a website tries to implement a cookie to your terminal.</p>
+                        <p>If you would like to change your cookies management, please modify the settings in the privacy tab.</p>
+                        <p>The configuration of each browser is different for managing cookies and your choices. You will find more information in the help menu. This way you can modify your cookies according to your choices.</p>
+]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="2d8d790e7b0f2be3a471f170358c6bc0ef5f474a" resname="PRESENTATION">
+        <source>PRESENTATION</source>
+        <target>%beneylu_brand_name% gathers two applications for the elementary school in an online and secure universe.</target>
+      </trans-unit>
+      <trans-unit id="35a9d4b548657d9f01861918955c9d04e8b2957f" resname="RELOAD_PAGE_PRESS_KEY">
+        <source><![CDATA[<p>Rechargez la page en appuyant sur <strong>F5</strong> ou <strong>⌘ + R</strong></p>]]></source>
+        <target state="new"><![CDATA[<p>Refresh page by pressing on <strong>F5</strong> or <strong>⌘ + R</strong></p>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="12ac654b76123313e68f9d6c5ef2d81e40553441" resname="REQUIRED_FIELD">
+        <source>REQUIRED_FIELD</source>
+        <target state="new">This field is required</target>
+      </trans-unit>
+      <trans-unit id="e13f51eaa92f6dd988357560030cd557ad6af80a" resname="ROLE_ASSIGN_TO_YOU">
+        <source>Rôle qui vous sera attribué :</source>
+        <target state="new">Role assigned:</target>
+      </trans-unit>
+      <trans-unit id="1ad78b9b93e826eab3409ca00b89c06424b6367c" resname="SAVED_CNIL_ARTICLE">
+        <source>- Enregistrement CNIL N°1321978</source>
+        <target state="new">- CNIL registration #1321978</target>
+      </trans-unit>
+      <trans-unit id="a9cb5141b5f34a7169baf53a0faf643b9b27c265" resname="SEE_MODULES">
+        <source>Voir les modules</source>
+        <target state="new">View apps</target>
+      </trans-unit>
+      <trans-unit id="9acef1ffe4e1087b76acd0b5dde6e8ddc000ff0b" resname="THIS_STEP_ALLOW_VERIFY_EMAIL">
+        <source>THIS_STEP_ALLOW_VERIFY_EMAIL</source>
+        <target state="new">This step allows us to check the email address provided during your registration process.</target>
+      </trans-unit>
+      <trans-unit id="012b5ddc88f110bc5ce3a6cbf02e10edfebccd07" resname="TITLE_APPS_BOARD_GUIDE">
+        <source>TITLE_APPS_BOARD_GUIDE</source>
+        <target>App panel</target>
+      </trans-unit>
+      <trans-unit id="38a1ab4853b229ab459969db49f3af8b2caba8af" resname="TITLE_ATTACHMENT">
+        <source>Attachment(s)</source>
+        <target state="new">Attachment(s)</target>
+      </trans-unit>
+      <trans-unit id="245c0eab83d1e3b4fa04a3b838b35caf23c6c11d" resname="TITLE_BENEYLU_CONNECTION_DENY">
+        <source>%beneylu_brand_name% - connexion refusée</source>
+        <target state="new">%beneylu_brand_name% - refused connection</target>
+      </trans-unit>
+      <trans-unit id="bd48416c4e3b197d357ac512a5af3db12069b719" resname="TITLE_BENEYLU_REDIRECT_IN_PROGRESS">
+        <source>%beneylu_brand_name% - Redirection en cours...</source>
+        <target state="new">%beneylu_brand_name% - Redirection in progress...</target>
+      </trans-unit>
+      <trans-unit id="d97a964f098ad44039347c22a6b4d6e06c8f157b" resname="TITLE_BUILDERS_MESSAGE_COUNT">
+        <source>TITLE_BUILDERS_MESSAGE_COUNT</source>
+        <target>Builders books</target>
+      </trans-unit>
+      <trans-unit id="cb7d8f48024bd93019b27bbed694fe10e6aff567" resname="TITLE_CHILD_ACCOUNT_GUIDE">
+        <source>TITLE_CHILD_ACCOUNT_GUIDE</source>
+        <target>Create the pupil's account</target>
+      </trans-unit>
+      <trans-unit id="1901265a817a249f7700d91c1689cc131e51bc31" resname="TITLE_CHOICE_CLASS">
+        <source>Choisir une classe</source>
+        <target state="new">Choose a classroom</target>
+      </trans-unit>
+      <trans-unit id="431833a13c0de876f3cfb96cad6091aaffb736b1" resname="TITLE_CONNECTION">
+        <source>TITLE_CONNECTION</source>
+        <target>Connect to %beneylu_brand_name%</target>
+        <note><![CDATA[Used as the title meta tag]]></note>
+      </trans-unit>
+      <trans-unit id="aa4e479ed7c68f3f132b1d6a96b0b84ebc8fc34c" resname="TITLE_CONTACT">
+        <source>TITLE_CONTACT</source>
+        <target>Do you have questions? We have answers, send us a message and we will be delighted to answer you :)</target>
+      </trans-unit>
+      <trans-unit id="86f28b2d4356bf8653f9044a589e4bd466ac5e4e" resname="TITLE_CREATE_TEACHER_ACCOUNT">
+        <source>TITLE_CREATE_TEACHER_ACCOUNT</source>
+        <target>Create my teacher's account</target>
+      </trans-unit>
+      <trans-unit id="4b2a9552bd0790269eb4091f899e9dcb1dd4edd8" resname="TITLE_DWS_FREE">
+        <source>L'espace numérique de travail libre et gratuit du 1er degré</source>
+        <target state="new">Pas à traduire</target>
+      </trans-unit>
+      <trans-unit id="8eddb7379016275a1637eb16a1daceb332e51289" resname="TITLE_EMAIL_ALREADY_CONFIRM">
+        <source>TITLE_EMAIL_ALREADY_CONFIRM</source>
+        <target state="new">Your email address is already validated</target>
+      </trans-unit>
+      <trans-unit id="f1ce811da90cec33c1a697e8f7098be07681af9a" resname="TITLE_EMAIL_NOT_VALIDATE">
+        <source>TITLE_EMAIL_NOT_VALIDATE</source>
+        <target state="new">Your email address was not validated</target>
+      </trans-unit>
+      <trans-unit id="ddbec235069ce4cf6c1b015eb1174fe66d93a7be" resname="TITLE_EMAIL_VALIDATE_SUCCESS">
+        <source>TITLE_EMAIL_VALIDATE_SUCCESS</source>
+        <target state="new">Your email address was validated</target>
+      </trans-unit>
+      <trans-unit id="3644eeb801dd9fc14e12dc5065e378943ceabcef" resname="TITLE_EMAIL_VALIDATION">
+        <source>TITLE_EMAIL_VALIDATION</source>
+        <target state="new">Email address validation</target>
+      </trans-unit>
+      <trans-unit id="06973c5d218dff2fc76e0625bbdd2c2baf4f25b2" resname="TITLE_ENTER_IN">
+        <source>TITLE_ENTER_IN</source>
+        <target>Enter into</target>
+        <note><![CDATA[Baseline of the connection block, before the brand name]]></note>
+      </trans-unit>
+      <trans-unit id="b0c7001e76fc0c384d52dcb58c28213d9efe4c2c" resname="TITLE_GUIDE">
+        <source>TITLE_GUIDE</source>
+        <target>Guides to help you start the adventure! </target>
+      </trans-unit>
+      <trans-unit id="6f951dc915f29bab753874e085477e2f9a63b795" resname="TITLE_MEDIALANDES">
+        <source>Médialandes</source>
+        <target state="new">Medialandes</target>
+      </trans-unit>
+      <trans-unit id="e2a077293f01252e40cd0c9fe50e8f4d97f45913" resname="TITLE_MODULES_ACTIVATION">
+        <source>Activation des modules</source>
+        <target state="new">Apps activation</target>
+      </trans-unit>
+      <trans-unit id="5b823d3deddff1040c93fa21f796945976434c47" resname="TITLE_NOT_REGISTER">
+        <source><![CDATA[<h3>Vous n'êtes pas encore inscrit ?</h3>
+                            <p>
+								L'inscription à %beneylu_brand_name% est rapide et gratuite, n'hésitez plus !
+							</p>]]></source>
+        <target state="new"><![CDATA[<h3>Not registered yet ?</h3> <p> Joining %beneylu_brand_name% is only a matter of seconds (plus it's free !), try it ! </p>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="acfa1b224ea1af3ef02bbb94fe898395f31912cf" resname="TITLE_PRESENTATION">
+        <source>TITLE_PRESENTATION</source>
+        <target>What if working with your pupils was even more fun?</target>
+      </trans-unit>
+      <trans-unit id="55aaf40f82f4a80349a58b9e9788d530f0a730cf" resname="TITLE_REGISTRATION_DAY">
+        <source>TITLE_REGISTRATION_DAY</source>
+        <target><![CDATA[Yay! Welcome to Beneylu School!]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="181f6fd3fb25ad6708907f8c2cbbee199422edd2" resname="TITLE_SELECT_USER">
+        <source><![CDATA[<h3>Sélection d'utilisateur</h3>]]></source>
+        <target state="new"><![CDATA[<h3>User selection</h3>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="7e0223ebaf117dd8e459751a2f68c25f39febd1c" resname="TITLE_SELECT_USER_TO">
+        <source><![CDATA[<h3>Sélection d'utilisateur pour %group%</h3>]]></source>
+        <target state="new"><![CDATA[<h3>User selection for %group%</h3>]]></target>
+        <note><![CDATA[%group% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="7c28232809a7c648a8899c2c1843c31bc6ef149b" resname="TITLE_START_GUIDE">
+        <source>TITLE_START_GUIDE</source>
+        <target>Everything you need to start </target>
+      </trans-unit>
+      <trans-unit id="e6e1953d976646ed586ea218cfb303d39e850eda" resname="TITLE_WEEK_OF_POSSIBLES">
+        <source>TITLE_WEEK_OF_POSSIBLES</source>
+        <target>It's The week of possibles!</target>
+      </trans-unit>
+      <trans-unit id="7e57a7e03223e89437975c15d3d32487a9e2f771" resname="TITLE_WELCOME_TO_BENEYLU">
+        <source><![CDATA[<span>Bienvenue sur </span><br /> %beneylu_brand_name%]]></source>
+        <target state="new"><![CDATA[<span>Welcome on </span><br /> %beneylu_brand_name%]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="1fdee68eff9525f4baa3b30ff36dc3fabac105d7" resname="TITLE_WORKSPACE_OF_MY_CITY">
+        <source>TITLE_WORKSPACE_OF_MY_CITY</source>
+        <target>Discover other project's workspaces</target>
+      </trans-unit>
+      <trans-unit id="cb7ed7a62372de2ea81ba540f7c6d6cacd573065" resname="TOO_LARGE">
+        <source>TOO_LARGE</source>
+        <target state="new">This is too large</target>
+      </trans-unit>
+      <trans-unit id="ad6ec30c2273e8ebf2a0a9cd51c1ca4e8f1614be" resname="TOO_SMALL">
+        <source>TOO_SMALL</source>
+        <target state="new">This is too small</target>
+      </trans-unit>
+      <trans-unit id="41abcfd540fe85cabac60a37ed73b10d14704ba8" resname="USER_REGISTRATION_PLACEHOLDER">
+        <source>USER_REGISTRATION_PLACEHOLDER</source>
+        <target state="new">My e-mail address</target>
+      </trans-unit>
+      <trans-unit id="fd3edc641024a335a508fdacefb5f51ded5905cc" resname="WARNING">
+        <source>Attention !</source>
+        <target state="new">Warning!</target>
+      </trans-unit>
+      <trans-unit id="938fddfd0bf5c848ab585e41fd1da643a4cf8cf4" resname="WAS_INVITE_BY">
+        <source>Vous avez été invité par :</source>
+        <target state="new">You have been invited by:</target>
+      </trans-unit>
+      <trans-unit id="ba9e9540fb1566c8ddbeb1d6d0abaecb9f2bd9f1" resname="WELL_PLAYED">
+        <source>Bien joué !</source>
+        <target state="new">Well done!</target>
+      </trans-unit>
+      <trans-unit id="5ca2d270a572f2ef94d5fddf4df435b523700727" resname="WHAT_COOKIES_ON_OUR_SITE">
+        <source><![CDATA[
+                        <h2>Quels sont les cookies présents sur notre site</h2>
+
+                        <h3>Les cookies fonctionnels</h3>
+
+                        <p>Il s’agit des cookies indispensables à la navigation sur notre site (comme les identifiants de session) qui vous permettent d’utiliser les principales fonctionnalités du site et de sécuriser votre connexion.
+                            Ils vous permettent par exemple d’accéder directement à des espaces réservés et personnels de notre site, grâce à des identifiants ou des données que vous nous avez éventuellement antérieurement confiés. Sans ces cookies vous ne pourrez pas utiliser le site.
+                        </p>
+
+                        <h3>Les cookies analytiques</h3>
+
+                        <p>
+                            Il s’agit de cookies qui permettent de connaître le taux d’utilisation et les performances de l'ENT, d’établir des statistiques et d’améliorer l’intérêt et l’ergonomie des services.
+                        </p>
+
+                        <h3>Les cookies de tiers</h3>
+
+                        <p>L'émission et l'utilisation de cookies par des tiers, sont soumises aux politiques « cookies » de ces tiers. Nous vous informons de l'objet des cookies dont nous avons connaissance et des moyens dont vous disposez pour effectuer des choix à l'égard de ces cookies.</p>
+
+                        <p>Voici les tiers enregistrant des cookies sur %beneylu_brand_name%</p>
+                        ]]></source>
+        <target state="new"><![CDATA[
+                        <h2>What type of cookies can be found on our website</h2>
+
+                        <h3>Functional cookies</h3>
+
+                        <p>These cookies are essential to browse our website (like user names) which enable you to use the website's main features and secure your connection.
+                            You can directly access our website's private and restricted spaces thanks to user names or data that you previously provided. You cannot use the website without these cookies.
+                        </p>
+
+                        <h3>Analytical cookies</h3>
+
+                        <p>
+                            These cookies allow us to know the use rate and our web platform performances, to set statistics and optimise our services.
+                        </p>
+
+                        <h3>Third-party cookies</h3>
+
+                        <p>Cookies operated by third-parties are subject to the "cookies" policy of these third-parties. We will inform you about the content of these cookies and your options.</p>
+
+                        <p>Here are the third-party cookies on %beneylu_brand_name%</p>
+                        ]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="83182692181e31a9c73443dc26b7b87a2d8aac6f" resname="main.oauth.error.go_to_your_class">
+        <source>main.oauth.error.go_to_your_class</source>
+        <target>Find my classroom</target>
+      </trans-unit>
+      <trans-unit id="f04d174d8a812848c2d60a53ab4e14950984aa2f" resname="main.oauth.error.oauth_configuration_error">
+        <source>main.oauth.error.oauth_configuration_error</source>
+        <target>A configuration problem occurred. The engineering team have been informed.</target>
+      </trans-unit>
+      <trans-unit id="2a00cadd2c9c060655bd3505bff5a39302c33c34" resname="main.oauth.error.oauth_invalid_access_redirect_uri">
+        <source>main.oauth.error.oauth_invalid_access_redirect_uri</source>
+        <target>Warning: you are not in the right workspace.</target>
+      </trans-unit>
+      <trans-unit id="17ec50a539e24770acbf65643af3956a12abb9c0" resname="main.oauth.error.oauth_temporary_error">
+        <source>main.oauth.error.oauth_temporary_error</source>
+        <target>The connection service is currently unavailable. Please try again in a couple of minutes.</target>
+      </trans-unit>
+      <trans-unit id="40f88f204d12515ea54866d0b48da8db62e39bd7" resname="main.oauth.error.try_again">
+        <source>main.oauth.error.try_again</source>
+        <target>Retry</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

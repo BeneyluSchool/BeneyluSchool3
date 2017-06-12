@@ -1,0 +1,222 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="install_process_media_library_bundle.class">BNS\App\MediaLibraryBundle\Install\InstallProcess</parameter>
+        <parameter key="media_library_bundle_media_library_manager.class">BNS\App\MediaLibraryBundle\Manager\MediaLibraryManager</parameter>
+        <parameter key="media_library_bundle_media_library_right_manager.class">BNS\App\MediaLibraryBundle\Manager\MediaLibraryRightManager</parameter>
+        <parameter key="media_library_bundle_media_manager.class">BNS\App\MediaLibraryBundle\Manager\MediaManager</parameter>
+        <parameter key="media_library_bundle_media_folder_manager.class">BNS\App\MediaLibraryBundle\Manager\MediaFolderManager</parameter>
+        <parameter key="media_library_bundle_statistics.class">BNS\App\MediaLibraryBundle\Statistic\MediaStatisticsService</parameter>
+        <parameter key="media_library_bundle_data_reset.change_year_media.class">BNS\App\MediaLibraryBundle\DataReset\ChangeYearResourceDataReset</parameter>
+        <parameter key="bns.runabove.url">https://auth.runabove.io/v2.0/</parameter>
+        <parameter key="bns.runabove.username">user</parameter>
+        <parameter key="bns.runabove.password">password</parameter>
+        <parameter key="bns.runabove.tenant_name">tenant</parameter>
+        <parameter key="bns.runabove.container_name">container-name</parameter>
+
+        <parameter key="bns.ovh_public_cloud.url">https://auth.cloud.ovh.net/v2.0/</parameter>
+        <parameter key="bns.ovh_public_cloud.username">user</parameter>
+        <parameter key="bns.ovh_public_cloud.password">password</parameter>
+        <parameter key="bns.ovh_public_cloud.tenant_name">tenant</parameter>
+        <parameter key="bns.ovh_public_cloud.container_name">container-name</parameter>
+        <parameter key="bns.ovh_public_cloud.region">GRA1</parameter>
+
+        <parameter key="media_library_bundle_media_folder_locker_manager.class">BNS\App\MediaLibraryBundle\Manager\MediaFolderLockerManager</parameter>
+        <parameter key="media_library_bundle_media_archive_manager.class">BNS\App\MediaLibraryBundle\Manager\MediaArchiveManager</parameter>
+    </parameters>
+
+    <services>
+        <service id="install_process_bns_app_media_library_bundle" class="%install_process_media_library_bundle.class%">
+            <tag name="bns.install_process" />
+        </service>
+
+        <!-- starter kit -->
+        <service id="bns_media_library_starter_kit_provider" class="BNS\App\MediaLibraryBundle\StarterKit\MediaLibraryStarterKitProvider">
+            <tag name="bns.starter_kit_provider" />
+        </service>
+
+        <!-- achievement -->
+        <service id="bns_media_library_achievement_provider" class="BNS\App\MediaLibraryBundle\Achievement\MediaLibraryAchievementProvider">
+            <tag name="bns.achievement_provider" />
+        </service>
+
+        <service id="bns.media_library.manager" class="%media_library_bundle_media_library_manager.class%">
+            <argument>%resource_files_dir%</argument>
+        </service>
+
+        <service id="bns.media_library.public_media_parser" class="BNS\App\MediaLibraryBundle\Parser\PublicMediaParser">
+            <argument type="service" id="service_container" />
+        </service>
+
+
+        <service id="bns.file_system_manager" class="BNS\App\MediaLibraryBundle\FileSystem\BNSFileSystemManager">
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="bns.media.manager" class="%media_library_bundle_media_manager.class%">
+            <argument>%resource_files_dir%</argument>
+            <argument type="service" id="bns.file_system_manager" />
+            <argument type="service" id="bns.user_manager" />
+            <argument type="service" id="bns.group_manager" />
+            <argument type="service" id="service_container" />
+            <argument>%resource_deleted_dir%</argument>
+            <argument>%symfony_secret%</argument>
+            <argument>%resource.public_document.time_to_live%</argument>
+            <argument>%tools_dir%</argument>
+        </service>
+
+        <service id="bns.media.download_manager" class="BNS\App\MediaLibraryBundle\Download\MediaDownloadManager">
+            <argument type="service" id="bns.file_system_manager" />
+            <argument type="service" id="bns.media.manager" />
+            <argument type="service" id="service_container" />
+            <argument>%symfony_secret%</argument><!--  Secret -->
+            <argument type="collection"> <!-- Options -->
+                <argument key="base_url">%application_base_url%</argument>
+                <argument key="remote_base_url">%bns.runabove.remote_base_url%</argument>
+            </argument>
+        </service>
+
+        <service id="bns.media.download_validator" class="BNS\App\MediaLibraryBundle\Download\MediaDownloadValidator">
+            <argument>%symfony_secret%</argument>
+        </service>
+
+        <service id="bns.media_archive.manager" class="%media_library_bundle_media_archive_manager.class%">
+            <argument type="service" id="bns.media.manager" />
+            <argument type="service" id="bns.cleaner.file" />
+        </service>
+
+        <service id="bns.media_folder.manager" class="%media_library_bundle_media_folder_manager.class%">
+            <argument type="service" id="bns.user_manager" />
+            <argument type="service" id="bns.group_manager" />
+            <argument type="service" id="bns.media.manager" />
+        </service>
+
+        <service id="bns.media.share_manager" class="BNS\App\MediaLibraryBundle\Manager\ShareManager">
+            <argument type="service" id="bns.media.manager" />
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="bns.media_folder.locker_manager" class="%media_library_bundle_media_folder_locker_manager.class%">
+            <argument type="service" id="bns.media_folder.manager" />
+            <argument type="service" id="bns.right_manager" />
+        </service>
+
+        <service id="bns.media.creator" class="BNS\App\MediaLibraryBundle\Manager\MediaCreator">
+            <argument type="service" id="bns.media.manager" />
+            <argument type="service" id="logger" />
+            <argument type="service" id="knp_snappy.image" />
+            <argument type="service" id="buzz" />
+            <argument>%kernel.cache_dir%</argument>
+            <argument type="service" id="dubture_ffmpeg.ffmpeg" />
+        </service>
+
+        <service id="bns.media.thumb_creator" class="BNS\App\MediaLibraryBundle\Manager\MediaThumbCreator">
+            <argument type="service" id="bns.file_system_manager" />
+            <argument type="service" id="bns.local.adapter" />
+            <argument type="service" id="logger" />
+        </service>
+
+        <service id="bns.local.adapter" class="Gaufrette\Adapter\Local">
+            <argument>%resource_files_dir%</argument>
+            <argument>true</argument>
+        </service>
+
+        <service id="bns.runabove.connection" class="OpenCloud\OpenStack">
+            <argument>%bns.runabove.url%</argument>
+            <argument type="collection">
+                <argument key="username">%bns.runabove.username%</argument>
+                <argument key="password">%bns.runabove.password%</argument>
+                <argument key="tenantName">%bns.runabove.tenant_name%</argument>
+            </argument>
+        </service>
+
+        <service id="bns.runabove.object_store_factory" class="BNS\App\MediaLibraryBundle\Adapter\ObjectStoreFactory">
+            <argument type="service" id="bns.runabove.connection" />
+            <argument>swift</argument> <!-- Object storage type -->
+            <argument>SBG-1</argument> <!-- Object storage region -->
+            <argument>publicURL</argument> <!-- url type -->
+            <argument type="service" id="logger" />
+            <argument type="service" id="snc_redis.default" />
+        </service>
+
+        <service id="bns.runabove.adapter" class="BNS\App\MediaLibraryBundle\Adapter\LazyOpenCloud">
+            <argument type="service" id="bns.runabove.object_store_factory" />
+            <argument>%bns.runabove.container_name%</argument>
+            <call method="setLogger">
+                <argument type="service" id="logger" />
+            </call>
+        </service>
+
+        <service id="bns.ovh_public_cloud.connection" class="OpenCloud\OpenStack">
+            <argument>%bns.ovh_public_cloud.url%</argument>
+            <argument type="collection">
+                <argument key="username">%bns.ovh_public_cloud.username%</argument>
+                <argument key="password">%bns.ovh_public_cloud.password%</argument>
+                <argument key="tenantName">%bns.ovh_public_cloud.tenant_name%</argument>
+            </argument>
+        </service>
+
+        <service id="bns.ovh_public_cloud.object_store_factory" class="BNS\App\MediaLibraryBundle\Adapter\ObjectStoreFactory">
+            <argument type="service" id="bns.ovh_public_cloud.connection" />
+            <argument>swift</argument> <!-- Object storage type -->
+            <argument>%bns.ovh_public_cloud.region%</argument> <!-- Object storage region -->
+            <argument>publicURL</argument> <!-- url type -->
+            <argument type="service" id="logger" />
+            <argument type="service" id="snc_redis.default" />
+        </service>
+
+        <service id="bns.ovh_public_cloud.adapter" class="BNS\App\MediaLibraryBundle\Adapter\LazyOpenCloud">
+            <argument type="service" id="bns.ovh_public_cloud.object_store_factory" />
+            <argument>%bns.ovh_public_cloud.container_name%</argument>
+            <call method="setLogger">
+                <argument type="service" id="logger" />
+            </call>
+        </service>
+
+        <service id="bns.media_library_right.manager" class="BNS\App\MediaLibraryBundle\Manager\MediaLibraryRightManager">
+            <argument type="service" id="bns.right_manager" />
+        </service>
+
+        <service id="twig.extension.resource" class="BNS\App\MediaLibraryBundle\Twig\MediaExtension">
+            <argument type="service" id="service_container" />
+            <tag name="twig.extension" alias="resource" />
+        </service>
+        <service id="twig.extension.locker" class="BNS\App\MediaLibraryBundle\Twig\LockerExtension">
+            <argument type="service" id="service_container" />
+            <tag name="twig.extension" alias="locker" />
+        </service>
+
+        <service id="stat.media_library" class="%media_library_bundle_statistics.class%">
+            <argument type="service" id="service_container" />
+        </service>
+
+
+        <!-- Forms -->
+
+        <service id="bns.media.form.type.media" class="BNS\App\MediaLibraryBundle\Form\Api\ApiMediaType">
+            <tag name="form.type" alias="api_media" />
+        </service>
+
+        <!-- Data reset -->
+
+        <service id="bns.data_reset.change_year_media" class="%media_library_bundle_data_reset.change_year_media.class%">
+            <argument type="service" id="bns.media.manager" />
+            <tag name="bns.data_reset" type="change_year" hasOptions="true" />
+        </service>
+
+
+        <!-- Event listeners -->
+
+        <service id="bns.media_library.media_serialize_listener" class="BNS\App\MediaLibraryBundle\EventListener\MediaSerializeSubscriber">
+            <argument type="service" id="service_container" />
+            <tag name="jms_serializer.event_subscriber" />
+        </service>
+
+    </services>
+
+
+</container>

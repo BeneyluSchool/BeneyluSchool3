@@ -1,53 +1,70 @@
 {% extends 'BNSAppLiaisonBookBundle:Front:layout.front.html.twig' %}
-        
-{% block javascripts %}	
-	{{ parent() }}
-	
-    <script type="text/javascript" src="{{ asset('/medias/js/liaisonbook/Front/index.js') }}"></script>
-{% endblock %}	
-	
+{% trans_default_domain "LIAISONBOOK" %}
+
+{% block sidebar_content %}
+  {% block archives %}
+    {{ render(controller('BNSAppLiaisonBookBundle:Common:archives', { 'newsDate' : newsDate, 'admin' : false, 'isParent' : isParent } )) }}
+  {% endblock %}
+  {% block OtherLiaisonBooks %}
+  {% include 'BNSAppLiaisonBookBundle:Front:block_other_liaison_books.html.twig' with {'otherLiaisonBooks': otherLiaisonBooks } %}
+  {% endblock %}
+{% endblock sidebar_content %}
+
 {% block content %}
-	<div id="liaisonbook-messages" class="content-message-bookbinding liaisonbook-messages-min-height">
-		{#   <h1>{{newsDate|date("F")}} {{newsDate|date("Y")}}</h1>  #}
+  <md-toolbar class="content-toolbar">
+    <div class="md-toolbar-tools layout-align-start-center">
+      <bns-sidebar-toggle></bns-sidebar-toggle>
+      <h1 class="md-title text-primary text-left flex flex-gt-sm-33">{{newsDate|year_month_bns()}}</h1>
+    </div>
+  </md-toolbar>
+  <md-content class="layout-padding">
+      {% if news == false %}
+        <div class="layout-row layout-padding layout-align-center-center">
+          <div>
+            <div class="bnj-not-found"></div>
+        {% if has_right('LIAISONBOOK_ACCESS_BACK') %}
+            <p>{% trans  %}NO_MESSAGE_FOR_THIS_MONTH{% endtrans %}</p>
+            <p class="buttons-container">
+              {{ components.button( 'LINK_WRITE_MESSAGE' | trans , { intent: 'primary', href: path('BNSAppLiaisonBookBundle_back_create'), icon: 'add_circle', raised: true }) }}
+            </p>
+        {% endif %}
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      {% endif %}
+      <md-list class="list">
+        {% for new in news %}
+          <md-list-item>
+            <div class="md-list-item-text flex">
+              <img class="md-avatar" src="{{ avatar(new.getUser(), 'thumbnail') }}">
+                <h2 class="md-headline">{{ new.title }}</h2>
+              {% if canSign == true %}
+                <div class="signature" bns-liaisonbook-sign data-success-message="Message signé">
+                    {# Si l'utilisateur à déjà signer mettre à disable le bouton #}
+                    {% if new.hasSigned(app.user.id) %}
+                        {{ components.button( 'BUTTON_MESSAGE_SIGNED' | trans , { intent: 'primary',disabled: true, raised: true, href : '#'}) }}
+                      {# Sinon enable #}
+                    {% else %}
+                      {{ components.button( 'BUTTON_MESSAGE_SIGNED' | trans , { intent: 'primary' , href : '#', disabled: true ,raised: true, attr : {class : '', 'ng-show' : 'isSigned'}}) }}
+                      {{ components.button( 'BUTTON_MESSAGE_SIGN' | trans , { intent: 'primary', href : '#',raised: true ,icon: 'done', click : 'sign('~ new.id ~')' ,attr : { class : 'btn-sign btn btn-signature', 'ng-hide' : 'isSigned', 'ng-disabled' : 'isSigning'}}) }}
+                    {% endif %}
+                </div>
+              {% endif %}
+              <p class="md-body-1 text-muted">
+                {{ 'CREATE_AT_BY'|trans({'%date%': date_from_now ( new.date, true, true, 'full', 'none'),'%user%': new.getUser().getFullName() |escape }) |desc('%date% par %user%') |raw}}
+              </p>
+              <span class="content">
+                {{ parse_public_resources(new.content, true, 'medium', true) }}
+              </span>
+              {% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias': new.getResourceAttachments, "editable": false, 'objectType': 'LiaisonBook', 'objectId': new.id, hideEmpty: true} %}
+            </div>
+          </md-list-item>
+          <md-divider></md-divider>
+        {% endfor %}
+      </md-list>
 
-		{# afficher la liste des news #}
-		{% if news == false %}
-			 <p class="no-information">Il n'y a aucune information pour {{newsDate|year_month_bns()}} </p>
-		{% endif %}
 
-		{% for new in news %}
-			<div class="content-news front">
-				<div class="news-title">
-					<h1>{{ new.title }}</h1>
-					<p>le {{ new.date | date_bns('full', 'short') }}</p>
-					<div class="underline"></div>
-				</div>
-				<div class="news">
-					{# Contenu d'une annonce du carnet de liaison #}
-					{% if canSign == true %}
-					<div class="signature">
-						{% for elementSignatures in listSignatures %}
-						{% if elementSignatures.liaisonBookId == new.id %}
-						{# Si l'utilisateur à déjà signer mettre à disable le bouton #}
-							  {% if app.user.id in elementSignatures.signatures %}
-						<button class="msg btn btn-signature validate disabled"><span class="icons-btn-bookbinding validate"></span>Message signé</button>
-						{# Sinon enable #}
-							  {% else %}
-						<button class="msg btn btn-signature validate hide disabled"><span class="icons-btn-bookbinding validate"></span>Message signé</button>
-						<button id="{{ new.id }}" class="btn-sign btn btn-signature"><span class="icons-btn-bookbinding"></span>Signer le message</button>
-						{% endif %}
-						{% endif %}
-						{% endfor %}
-					</div>
-					{% endif %}
+  </md-content>
 
-					<p>{{ new.content|raw }}</p>
+{% endblock %}
 
-					{% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': new.getResourceAttachments,"editable": false} %}
-
-				</div>
-				<div class="border-tab"></div>
-			</div>
-		{% endfor %}
-	</div>
-{% endblock %}     

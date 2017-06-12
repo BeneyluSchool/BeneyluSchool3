@@ -1,15 +1,21 @@
+{% trans_default_domain "CLASSROOM" %}
 {% extends '::base_manager.html.twig' %}
 
+{% set app_unique_name = 'CLASSROOM' %}
+{% set app_mode = 'back' %}
+
 {% block title %}
-	Classe - Gestion
+  {% trans %}TITLE_CLASS_MANAGEMENT{% endtrans %}
 {% endblock %}
 
 {% block css %}
     {{ parent() }}
 
-	{# Appel CSS du package layout manager #}
+    {# Appel CSS du package layout manager #}
     {% include "BNSAppMainBundle:Manager:layoutStyle.html.twig" %}
-	<link href="{{ asset('/medias/css/classroom/manager.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/medias/css/ui-twitter-theme/jquery-ui-1.8.16.custom.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/medias/css/classroom/manager.css') }}" rel="stylesheet" type="text/css" />
+    <!--[if lt IE 9]><link href="{{ asset('/medias/css/classroom/manager-ie-inf9.css') }}" rel="stylesheet" type="text/css" /><![endif]-->
 {% endblock %}
 
 {% block javascripts %}
@@ -19,23 +25,16 @@
 
 {% block body %}
     <div class="office blur"></div>
-	{% block header %}{% endblock %}
-    <div class="container-fluid container">
+    {% block header %}{% endblock %}
+    <div class="container-fluid container classroom-container">
         <div class="row-fluid container-manager">
-            <div class="container-sidebar">
-				{% block sidebar %}Add your sidebar here!{% endblock %}
-				<div class="sidebar-shadow"></div>
-            </div>
-            <div class="span9 container-content no-margin">
+            {% block sidebar %}Add your sidebar here!{% endblock %}
+            <div class="span9 container-content content-categories-management no-margin">
                 {% block content %}Add your content here!{% endblock %}
             </div>
-			<div class="container-manager-bottom">
-				<div class="content-manager-bottom"></div>
-			</div>
+            <div class="container-manager-bottom">
+                <div class="content-manager-bottom"></div>
+            </div>
         </div>
     </div>
 {% endblock body %}
-	
-{% block dock_bar %}
-	{% render 'BNSAppMainBundle:DockBar:index' with {'module_unique_name' : 'CLASSROOM' , 'is_in_front' : false } %}
-{% endblock %}

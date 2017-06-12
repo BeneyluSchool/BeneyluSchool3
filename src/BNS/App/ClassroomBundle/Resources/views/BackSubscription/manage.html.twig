@@ -1,0 +1,134 @@
+{% trans_default_domain "CLASSROOM" %}
+{% extends 'BNSAppClassroomBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+  {% trans %}TITLE_CLASS_ADD_SUBSCRIPTION{% endtrans %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(function () {
+            var providers = [];
+
+            // Click on provider
+            $('.editor-list-container').on('click', '.editor-item', function (e) {
+                var $this = $(e.currentTarget);
+                if ($this.hasClass('disabled')) {
+                    return false;
+                }
+
+                $this.toggleClass('selected');
+
+                // Update informations
+                var $this = $(e.currentTarget);
+                if ($this.hasClass('selected')) {
+                    providers.push($this.data('id'));
+                }
+                else {
+                    providers.splice(providers.indexOf($this.data('id')), 1);
+                }
+
+                $('#selection-count').text($('.editor-list-container .editor-item.selected').length);
+            });
+
+            // Loading providers
+            $.ajax({
+                url: '{{ path('classroom_manager_subscription_manage_render') }}',
+                dataType: 'html',
+                success: function (data) {
+                    var $data = $(data);
+                    $data.css('display', 'none');
+
+                    $('#provider-container').append($data);
+                    $data.slideDown('fast');
+
+                    // Calculate the provider count
+                    $('#selection-count').text($('.editor-list-container .editor-item.selected').length);
+
+                    // Populate the selected providers
+                    $.each($('.editor-item.selected'), function (i, item) {
+                       providers.push($(item).data('id'));
+                    });
+
+                    $('.editor-list-container .editor-item').tooltip();
+                    $('#provider-loader').fadeOut('fast');
+                }
+            });
+
+            // Save providers
+            $('#save-providers').click(function (e) {
+                $('#providers-input').val(providers);
+                $('.subscription-container form').submit();
+
+                return false;
+            });
+        });
+    </script>
+{% endblock javascripts %}
+
+{% block header %}
+    <div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+                    <div class="span6">
+                        <a href="{{ path('classroom_manager_subscription') }}" class="btn bns-notice btn-24 medium-return button-return">
+                            <span class="icons-24 back-icon"></span>
+                            {{ 'LINK_BACK_TO_CLASS'|trans |raw }}
+                        </a>
+                    </div>
+					<div class="span6">
+                        <a href="#" class="btn bns-success validate-medium btn-24 medium pull-right" id="save-providers">
+                            <span class="icons-24 validate-icon"></span>
+                          {% trans %}LINK_LOADING_EDITOR_IN_PROGRESS{% endtrans %}
+                            (<span id="selection-count">0</span>)
+                        </a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block sidebar %}
+    <div class="container-sidebar editor">
+		<div class="section active">
+      {% trans %}TITLE_SUBSCRIPTION{% endtrans %}
+			<span class="shadow-section"></span>
+		</div>
+
+        <div class="title-container">
+            <div class="title active border-blue">{{ 'TITLE_NOTE'|trans |desc('Note') }} <span class="square icon-arrow"></span></div>
+            <div class="content-title">
+                <div class="loader loader-h"></div>
+                <ul>
+                    <li class="text-row">
+                        <div>{% trans %}SUBSCRIPTION_DISPLAY_CAN_TAKE_A_DAY{% endtrans %}</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+	</div>
+{% endblock %}
+
+{% block content %}
+    <div class="container-classroom subscription-container">
+        <h1>{% trans %}TITLE_ADD_SUBSCRIPTION_TO_THIS_ACCOUNT{% endtrans %}</h1>
+
+        <div class="editor-container">
+            <div class="loader loader-sb" id="provider-loader">
+                <div class="message">
+                    {% trans %}LINK_LOADING_EDITOR_IN_PROGRESS{% endtrans %}
+                </div>
+            </div>
+
+            <div class="editor-list-container" id="provider-container"></div>
+            <form action="{{ path('classroom_manager_subscription_save') }}" method="POST">
+                <input type="hidden" name="_csrf" value="{{ csrf }}" />
+                <input type="hidden" name="providers" id="providers-input" />
+            </form>
+        </div>
+    </div>
+{% endblock content %}

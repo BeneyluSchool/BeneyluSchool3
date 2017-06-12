@@ -28,7 +28,7 @@ class MiniSiteType extends AbstractType
 	public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'BNS\App\CoreBundle\Model\MiniSite',
+            'data_class' => 'BNS\App\MiniSiteBundle\Model\MiniSite',
         ));
     }
 

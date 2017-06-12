@@ -19,11 +19,16 @@ use BNS\App\CoreBundle\Model\Blog;
 
 /**
  * @Route("/gestion")
- * 
+ *
  * @author Sylvain Lorinet <sylvain.lorinet@pixel-cookers.com>
  */
 class BackArticleController extends Controller
 {
+    public function getAuthorisedBlogIds()
+    {
+        return $this->get('bns.right_manager')->getGroupIdsWherePermission('BLOG_ACCESS_BACK');
+    }
+
 	/**
      * @Route("/articles", name="blog_manager_articles", options={"expose"=true})
 	 * @Rights("BLOG_ACCESS_BACK")
@@ -32,7 +37,7 @@ class BackArticleController extends Controller
 	{
 		return $this->getArticles(1, $blog);
 	}
-	
+
 	/**
      * @Route("/articles/page/{page}", name="blog_manager_articles_page")
 	 * @Rights("BLOG_ACCESS_BACK")
@@ -41,50 +46,50 @@ class BackArticleController extends Controller
 	{
 		return $this->getArticles($page, $blog);
 	}
-	
+
 	/**
 	 * @param int $page
 	 * @param \BNS\App\CoreBundle\Model\Blog $blog
-	 * 
-	 * @return \Symfony\Component\HttpFoundation\Response 
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-    private function getArticles($page, Blog $blog = null)
+    private function getArticles($page)
     {
 		if ('POST' == $this->getRequest()->getMethod()) {
 			$request = $this->getRequest();
 			$sessionName = 'blog_articles_filters';
-			
+
 			if ($request->get('category', false) !== false) {
 				$filterName	= 'categories';
 				$parameter	= 'category';
-				
+
 				// Validate category id
 				$context = $this->get('bns.right_manager')->getContext();
 				$category = BlogCategoryQuery::create()
 					->join('Blog')
 					->add(BlogPeer::GROUP_ID, $context['id'])
 				->findPk($request->get($parameter));
-				
+
 				if (null == $category) {
-					return $this->getBackArticlesPage(1);
+					return $this->getArticles(1);
 				}
 			}
 			else if ($this->getRequest()->get('filter', false) !== false) {
 				$filterName	= 'filters';
 				$parameter	= 'filter';
-				
+
 				// Validate filter
 				if ($request->get($parameter) != 'programmed') {
 					$valuesSet = BlogArticlePeer::getValueSet(BlogArticlePeer::STATUS);
 					if (!isset($valuesSet[$request->get($parameter)])) {
-						return $this->getBackArticlesPage(1);
+						return $this->getArticles(1);
 					}
 				}
 			}
 			else {
-				return $this->getBackArticlesPage(1);
+				return $this->getArticles(1);
 			}
-			
+
 			$filters = $request->getSession()->get($sessionName);
 			if (null != $filters && isset($filters[$filterName])) {
 				if ($request->get('is_enabled') == 'true') {
@@ -98,7 +103,7 @@ class BackArticleController extends Controller
 						}
 					}
 				}
-				
+
 				$request->getSession()->set($sessionName, $filters);
 			}
 			else {
@@ -113,23 +118,21 @@ class BackArticleController extends Controller
 				}
 			}
 		}
-		
-		return $this->renderArticles($page, $blog);
+
+		return $this->renderArticles($page);
     }
-	
+
 	/**
-	 * 
+	 *
 	 * @param int $page
 	 * @param \BNS\App\CoreBundle\Model\Blog $blog
-	 * 
-	 * @return \Symfony\Component\HttpFoundation\Response 
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	private function renderArticles($page, Blog $blog = null)
+	private function renderArticles($page)
 	{
-		if (null == $blog) {
-			$blog = $this->getBlog();
-		}
-		
+		$blog = $this->get('bns.right_manager')->getCurrentGroup()->getBlog();
+
 		$blog->replaceBlogArticles(
 			BlogArticleCategoryQuery::injectCategoriesFromArticles(
 				BlogArticleCommentQuery::injectCommentFromArticles(
@@ -137,32 +140,11 @@ class BackArticleController extends Controller
 				)
 			)
 		);
-		
+
 		return $this->render('BNSAppBlogBundle:Article:back_article_list.html.twig', array(
 			'blog'			=> $blog,
 			'pager'			=> $pager,
 			'isAjaxCall'	=> $this->getRequest()->isXmlHttpRequest()
 		));
-	}
-	
-	/**
-	 * @return Blog 
-	 * 
-	 * @throws NotFoundHttpException
-	 */
-	private function getBlog()
-	{
-		$context = $this->get('bns.right_manager')->getContext();
-		$blogs = BlogQuery::create()
-			->joinWith('BlogCategory', \Criteria::LEFT_JOIN)
-			->add(BlogPeer::GROUP_ID, $context['id'])
-			->addAscendingOrderByColumn(BlogCategoryPeer::LEFT)
-		->find(); // Automatic ORM join, do NOT use findOneBy
-		
-		if (!isset($blogs[0])) {
-			throw new NotFoundHttpException('Blog not found for group id : ' . $context['id'] . ' !');
-		}
-		
-		return $blogs[0];
 	}
 }

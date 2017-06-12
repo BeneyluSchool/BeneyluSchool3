@@ -1,0 +1,27 @@
+{% macro show(day, time, datepickerClass, alertMessage, alertType) %}
+    <div class="content-title">
+        {% if not alertMessage is empty %}
+			<div class="bns-alert alert-{{ alertType|default('info') }} alert">
+				{{ alertMessage }}
+			</div>
+        {% endif %}
+        <div class="form-widget">
+            <div class="{{ datepickerClass }}">
+                <span class="date">Le</span> {{ form_widget(day, {'type': 'text', 'attr': {'placeholder': 'jour / mois / année'} }) }}  <img class="show-calendar" src="{{ asset('/medias/images/icons/sidebar/datepicker.png') }}" alt="">
+            </div>
+            <div class="hours">
+                <span class="date">A</span>
+                {{ form_widget(time['hour']) }}
+                <span class="date label-right"> &nbsp;H</span>
+                {{ form_widget(time['minute']) }}
+            </div>
+        </div>
+
+        {% if day.vars.errors|length > 0 or time.vars.errors|length > 0 %}
+            <div class="alert alert-danger bns-alert">
+                {{ form_errors(day) }}
+                {{ form_errors(time) }}
+            </div>
+        {% endif %}
+    </div>
+{% endmacro %}

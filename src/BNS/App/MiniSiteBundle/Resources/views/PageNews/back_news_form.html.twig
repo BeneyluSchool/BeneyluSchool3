@@ -1,0 +1,217 @@
+{% trans_default_domain "MINISITE" %}
+{% extends 'BNSAppMiniSiteBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+  {% if isEditionMode is defined %}
+    {% trans %}TITLE_MANAGEMENT_MINISITE_EDIT_NEWS{% endtrans %}
+
+  {% else %}
+    {% trans %}TITLE_MANAGEMENT_MINISITE_CREATE_NEWS{% endtrans %}
+
+  {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  {{ tinymce_init() }}
+
+  <script type="text/javascript">
+    $(function ()
+    {
+      // Draft save button
+      $('.bns-actionbar .save').click(function (e)
+      {
+        var $this = $(e.currentTarget);
+        if ($this.hasClass('disabled')) {
+          return false;
+        }
+
+        if (!doAutosave()) {
+          $('.save-error').slideDown('fast');
+          $('.save-success').slideUp('fast');
+
+          return false;
+        }
+
+        $('.save-error').slideUp('fast');
+        $this.addClass('disabled').attr('disabled', 'disabled').css('opacity', '.5');
+
+        return false;
+      });
+
+      // Finish button
+      $('.bns-actionbar .finish').click(function ()
+      {
+        $('#mini_site_page_news_form').submit();
+
+        return false;
+      });
+    });
+
+    function checkSave() {
+      if (primaryKey != null) {
+        if (countLetter == 0) {
+          waitingForKeypress();
+        }
+
+        onAutosaveKeypress();
+      }
+      else {
+        doAutosave();
+      }
+    }
+
+    function onStartSave()
+    {
+      $('.bns-actionbar .finish').attr('disabled', 'disabled');
+    }
+
+    function onSuccessSave(object)
+    {
+      var $headerSaveButton = $('.bns-actionbar .save');
+      if ($headerSaveButton.hasClass('disabled')) {
+        $headerSaveButton.removeClass('disabled').removeAttr('disabled').css('opacity', '1');
+      }
+
+        var date = moment();
+        date.locale('{{ app.request.locale }}');
+
+      $('.save-error').slideUp('fast');
+      $('.save-success .autosave-date').text(date.format('LT'));
+
+      if ($('.save-success').css('display') == 'none') {
+        $('.save-success').slideDown('fast');
+      }
+      else {
+        $('.save-success').removeClass('bns-primary');
+        $('.save-success').addClass('bns-accent');
+      }
+
+      // Switch statuts to draft
+      $('md-radio-button[value="DRAFT"]').click();
+
+      // Enable finish button
+      $('.bns-actionbar .finish').removeAttr('disabled');
+
+      setTimeout(function ()
+      {
+        $('.save-success').removeClass('bns-accent');
+        $('.save-success').addClass('bns-primary');
+      }, 5000);
+
+      $('#mini_site_page_news_form').attr('action', Routing.generate('minisite_manager_page_news_edit', {'slug': object.slug}));
+      if (null != window.history && typeof window.history.pushState == 'function') {
+        window.history.pushState(document.title, document.title, Routing.generate('minisite_manager_page_news_edit', {'slug': object.slug}));
+      }
+    }
+  </script>
+{% endblock javascripts %}
+
+{% block header %}
+
+            {{ components.button_nav('LINK_BACK_TO_NEWS' | trans, { href: path('minisite_manager_page', {'slug': page.getSlug()}), back: true } ) }}
+
+            <span class="bns-separator"></span>
+
+            {% if isEditionMode %}
+
+            {{ components.button( 'LINK_CANCEL_MODIFICATION' | trans , { href: path('minisite_manager_page_news_visualisation', {'slug': news.getSlug()}), icon: 'close', raised: true }) }}
+
+
+            {% else %}
+            {{ components.button( 'LINK_CANCEL_CREATION' | trans , { href: path('minisite_manager_page', {'slug': page.getSlug()}), icon: 'close', raised: true }) }}
+
+            {% endif %}
+
+
+            {{ components.button( 'LINK_SAVE_AS_DRAFT' | trans , { href: path('BNSAppMiniSiteBundle_back'),  icon: 'save', raised: true, attr : {'class' : 'save'} })  }}
+
+            <span class="flex"></span>
+
+              {% if is_adult() %}
+              {{ components.button( 'ADULT_FINISH_NEWS' | trans , { intent: 'accent', href: '#', icon: 'done', raised: true, attr:{'class' : 'finish bns-sucess pull-right'} }) }}
+              {% else %}
+              {{ components.button( 'CHILD_FINISH_NEWS' | trans , { intent: 'accent', href: '#', icon: 'done', raised: true, attr:{'class' : 'finish bns-sucess pull-right'} }) }}
+              {% endif %}
+
+  </div>
+{% endblock header %}
+
+{% block sidebar %}
+  {% include 'BNSAppMiniSiteBundle:Sidebar:sidebar.html.twig' with {'index': 'edito', 'section': 'edition'} %}
+{% endblock sidebar %}
+
+{% block content %}
+
+	{% autoescape false %}
+		{{ autosave_init(news, {
+			'title': 'mini_site_page_news_form_title',
+			'content': 'mini_site_page_news_form_content'}, {
+				'data': {'page_id': news.getMiniSitePage().getId()},
+				'onSuccess': 'onSuccessSave',
+				'onStart': 'onStartSave',
+				'debug': false
+		}) }}
+	{% endautoescape %}
+        <md-toolbar class="content-toolbar">
+          <div class="md-toolbar-tools layout-align-start-center">
+            <bns-sidebar-toggle></bns-sidebar-toggle>
+            <h1 class="md-title text-primary text-left flex flex-gt-sm-33">{% trans%}PAGE{% endtrans %}</h1>
+          </div>
+        </md-toolbar>
+  <md-content  id="content">
+  {% if isEditionMode %}
+    {{ form_start(form, {action:  path('minisite_manager_page_news_edit', {'slug': news.getSlug()} ), attr:{'id': 'mini_site_page_news_form'}}) }}
+
+  {% else %}
+    {{ form_start(form, {action: path('minisite_manager_page_news_new', {'slug': news.getMiniSitePage().getSlug()}), attr:{'id': 'mini_site_page_news_form'}}) }}
+
+  {% endif %}
+
+  <bns-inset class="md-padding bns-small bns-accent hide save-success">
+    <span class="autosave-date"></span>&nbsp;: {% trans %}FLASH_MESSAGE_AUTO_SAVE{% endtrans %}
+  </bns-inset>
+
+  <bns-inset class="md-padding bns-small bns-warn hide save-error">
+    {% if is_child() %}
+      {{ 'CHILD_WARNING_FIELD_MISSING_VERIFY_ALL'|trans |desc('<strong>Attention</strong>, des champs ont été oubliés. Vérifie bien si tu as rempli tous les champs') |raw }}
+    {% else %}
+      {{ 'ADULT_WARNING_FIELD_MISSING_VERIFY_ALL'|trans |desc('<strong>Attention</strong>, des champs ont été oubliés. Veuillez vérifier que vous avez correctement rempli tous les champs') |raw }}
+    {% endif %}
+  </bns-inset>
+
+  <div class="item form md-padding">
+
+    {{ form_row(form.title, {
+      label: false,
+      attr: {
+        placeholder: 'PLACEHOLDER_TITLE'|trans
+      }
+    }) }}
+
+    {{ form_row(form.content, {
+      label: false,
+      attr: {
+        placeholder: 'content',
+        'bns-tinymce': ''
+      }
+    }) }}
+
+	</div>
+
+  <div class="rest proxy">
+    {% if form.status is defined %}
+    {{ form_row(form.status, {
+    label_attr: {
+    class: 'md-title md-padding',
+    }
+    }) }}
+    {% endif %}
+    {{ form_rest(form) }}
+  </div>
+
+  {% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias': news.getResourceAttachments(), 'editable': true, 'objectType': 'MiniSitePageNews', 'objectId': news.id} %}
+
+    {{ form_end(form) }}
+        </md-content>
+{% endblock content %}

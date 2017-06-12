@@ -1,0 +1,21 @@
+BNS\App\HomeworkBundle\Model\HomeworkDue:
+  exclusion_policy: All
+
+  properties:
+    # used to override the actual data, for starter kit
+    done:
+      expose: true
+
+  relations:
+    - rel: users_done
+      embedded:
+        content: expr(object.getUsersDone())
+        exclusion:
+          groups: [ detail, homework_due_detail ]
+          exclude_if: expr(!service('bns.right_manager').hasRight('HOMEWORK_ACCESS_BACK'))
+    - rel: children_done
+      embedded:
+        content: expr(service('bns.homework_due_manager').getChildrenDone(object, service('bns.right_manager').getUserSession()))
+        exclusion:
+          groups: [ detail, homework_due_detail ]
+          exclude_if: expr(!service('bns.user_manager').hasChild(service('bns.right_manager').getUserSession()))

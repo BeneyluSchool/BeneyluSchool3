@@ -1,0 +1,49 @@
+{% extends '::base.html.twig' %}
+
+{% set app_unique_name = 'NOTEBOOK' %}
+{% set app_mode = 'front' %}
+
+{% block title %}
+	Cahier journal
+{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+    
+	<link href="{{ asset('/medias/css/notebook/front.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+        
+{% block javascripts %}
+    {{ parent() }}
+	
+{% endblock %} 
+        
+{% block body %}
+        {% include 'BNSAppMainBundle::notice.html.twig' %}
+        <div class="book-binding"></div>
+        <div class="container-fluid container">
+            <div class="row-fluid ">
+                <div class="span1">&nbsp;</div>
+                <div class="border-container-bookbinding">
+                    <div class="container-bookbinding">
+                        <div class="span8 no-margin">
+                            {% block content %}
+
+                            {% endblock %}
+                        </div>
+                        <div class="span2 no-margin">
+                            {% block archives %}
+                            {{ render(controller('BNSAppNoteBookBundle:Common:archives', { 'newsDate' : newsDate, 'admin' : false } )) }}
+                            {% endblock %}
+                        </div>
+                        <div class="span1 no-margin">
+                            <div class="container-btn-tab notebook-messages-min-height">
+                                <div class="effect-tab"></div>
+                                <div class="btn-tab"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="buzz.message_factory.class">BNS\App\StoreBundle\Client\Message\Factory\Factory</parameter>
+        <parameter key="store.client.class">BNS\App\StoreBundle\Client\StoreClient</parameter>
+        <parameter key="subscription_manager.class">BNS\App\StoreBundle\Subscription\SubscriptionManager</parameter>
+    </parameters>
+
+    <services>
+        <service id="store.client" class="%store.client.class%">
+            <argument type="service" id="service_container" />
+            <argument>%store.user_key%</argument>
+            <argument>%store.api_key%</argument>
+            <argument>%store.version%</argument>
+            <argument>%store.base_url%</argument>
+        </service>
+
+        <service id="subscription_manager" class="%subscription_manager.class%">
+            <argument type="service" id="store.client" />
+        </service>
+    </services>
+</container>

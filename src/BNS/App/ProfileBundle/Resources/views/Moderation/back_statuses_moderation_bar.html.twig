@@ -1,46 +1,74 @@
+{% trans_default_domain "PROFILE" %}
 {% if feed.getStatus() == 'PENDING_VALIDATION' %}
-	<a href="#" class="btn-16 small btn bns-success" data-filter-status="VALIDATED">
-		<span class="icons-16 validate-icon"></span>
-		<strong>Valider</strong>
-	</a>
-	<div class="btn-group">
-		<a href="#" class="btn-16 small btn bns-danger dropdown-toggle" data-toggle="dropdown">
-			<span class="icons-16 delete-icon"></span>
-			<strong>Refuser</strong>
-			<span class="caret"></span>
-		</a>
-		<ul class="dropdown-menu">
-			<li><a href="#" data-filter-status="REFUSED">Refuser</a></li>
-			<li><a href="#" data-filter-status="DELETED">Refuser et supprimer définitivement</a></li>
-		</ul>
-	</div>
+  <bns-button-group layout="row" layout-sm="column" layout-align="end center">
+    {{ components.button('LINK_VALIDATE'|trans |raw, {
+      intent: 'accent',
+      raised: true,
+      size: 'sm',
+      hover : true,
+      attr : {'class' : 'feed-moderation', 'data-filter-status' : 'VALIDATED', 'id' : feed.getId()}
+    }) }}
+    {{ components.button('LINK_DENY'|trans, {
+      intent: 'warn',
+      raised: true,
+      size: 'sm',
+      hover : true,
+      attr : {'class' : 'feed-moderation', 'data-filter-status' : 'REFUSED', 'id' : feed.getId()}
+    }) }}
+    {{ components.button('LINK_DENY_DELETE'|trans |desc('<strong>Valider</strong>') |raw, {
+      intent: 'warn',
+      raised: true,
+      size: 'sm',
+      hover: true,
+      attr : {'class' : 'feed-moderation', 'data-filter-status' : 'DELETED', 'id' : feed.getId()}
+    }) }}
+  </bns-button-group>
 {% elseif feed.getStatus() == 'VALIDATED' %}
-	<a href="#" class="btn-16 small btn bns-warning" data-filter-status="PENDING_VALIDATION">
-		<span class="icons-16 preview-icon"></span>
-		<strong>Passer en modération</strong>
-	</a>
-	<div class="btn-group">
-		<a href="#" class="btn-16 small btn bns-danger dropdown-toggle" data-toggle="dropdown">
-			<span class="icons-16 delete-icon"></span>
-			<strong>Refuser</strong>
-			<span class="caret"></span>
-		</a>
-		<ul class="dropdown-menu">
-			<li><a href="#" data-filter-status="REFUSED">Refuser</a></li>
-			<li><a href="#" data-filter-status="DELETED">Refuser et supprimer définitivement</a></li>
-		</ul>
-	</div>
-{% else %} {# REFUSED #}
-	<a href="#" class="btn-16 small btn bns-success" data-filter-status="VALIDATED">
-		<span class="icons-16 validate-icon"></span>
-		<strong>Valider</strong>
-	</a>
-	<a href="#" class="btn-16 small btn bns-warning" data-filter-status="PENDING_VALIDATION">
-		<span class="icons-16 preview-icon"></span>
-		<strong>Passer en modération</strong>
-	</a>
-	<a href="#" class="btn-16 small btn bns-danger" data-filter-status="DELETED">
-		<span class="icons-16 delete-icon"></span>
-		<strong>Supprimer définitivement</strong>
-	</a>
+  <bns-button-group layout="row" layout-sm="column" layout-align="end center">
+    {{ components.button('LINK_GO_TO_MODERATION'|trans |raw, {
+      intent: 'accent',
+      raised: true,
+      size: 'sm',
+      hover : true,
+      attr : {'class' : 'md-care feed-moderation', 'data-filter-status' : 'PENDING_VALIDATION', 'id' : feed.getId()}
+    }) }}
+    {{ components.button('LINK_DENY'|trans, {
+      intent: 'warn',
+      raised: true,
+      size: 'sm',
+      hover : true,
+      attr : {'class' : 'feed-moderation', 'data-filter-status' : 'REFUSED', 'id' : feed.getId()}
+    }) }}
+    {{ components.button('LINK_DENY_DELETE'|trans |desc('<strong>Valider</strong>') |raw, {
+      intent: 'warn',
+      raised: true,
+      size: 'sm',
+      hover: true,
+      attr : {'class' : 'feed-moderation', 'data-filter-status' : 'DELETED', 'id' : feed.getId()}
+    }) }}
+  </bns-button-group>
+{% else %}
+  <bns-button-group layout="row" layout-sm="column" layout-align="end center">
+    {{ components.button('LINK_VALIDATE'|trans |raw, {
+      intent: 'accent',
+      raised: true,
+      size: 'sm',
+      hover : true,
+      attr : {'class' : 'feed-moderation', 'data-filter-status' : 'VALIDATED', 'id' : feed.getId()}
+    }) }}
+    {{ components.button('LINK_GO_TO_MODERATION'|trans, {
+      intent: 'accent',
+      raised: true,
+      size: 'sm',
+      hover : true,
+      attr : {'class' : 'md-care feed-moderation', 'data-filter-status' : 'PENDING_VALIDATION', 'id' : feed.getId()}
+    }) }}
+    {{ components.button('LINK_DELETE_DEFINITIVELY'|trans |raw, {
+      intent: 'warn',
+      raised: true,
+      size: 'sm',
+      hover: true,
+      attr : {'class' : 'feed-moderation', 'data-filter-status' : 'DELETED', 'id' : feed.getId()}
+    }) }}
+  </bns-button-group>
 {% endif %}

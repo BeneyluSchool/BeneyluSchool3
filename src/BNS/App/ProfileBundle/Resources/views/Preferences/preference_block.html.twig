@@ -1,88 +1,104 @@
+{% trans_default_domain "PROFILE" %}
 <script type="text/javascript" src="{{ asset('/medias/js/profile/preferences.js') }}"></script>
-<div class="content-right">
-    <div class="like">
-        <div class="content-box content-color">
-            <div class="title">
-                <span class="ico-like"></span>
-                <h2>
-                    {% if is_my_preferences is defined and is_my_preferences == false %}
-                        Aime
-                    {% else %}
-                        J'aime
-                    {% endif %}
-                </h2>
-            </div>
-            <ul class="test">
-                <li class="no-item hide"><i>
-                    {% if is_my_preferences is defined and is_my_preferences == false %}
-                        N'a pas encore choisi
-                    {% else %}
-                        Je n'ai pas encore écris ce que j'aime
-                    {% endif %}
-                </i></li>
-                {% for preference in user.getProfile().getProfilePreferences() %}
-                    {% if preference.isLike() %}
-                        {% include 'BNSAppProfileBundle:Preferences:row_preference_item.html.twig' with {'preference': preference, 'editable': editable} %}
-                    {% endif %}
-                {% endfor %}
-                <script type="text/javascript">
-                    showNoItemLabel('like');
-                </script>
-            </ul>
-            
-                
-            {% if editable %}
-                <form class="add-preference-form" action="{{ path('BNSAppProfileBundle_back_preferences_add', {'userSlug': user.getSlug()}) }}" method="POST">
-                    <input type="hidden" name="preference_islike" value="1" />
-                    <input type="text" name="preference_item" class="add-feelings" placeholder="Ajouter un nouveau J'aime" /> <input type="submit" class="btn btn-info" value="Ajouter" />
-                </form>
+{% if fullwidth %}
+<div class="layout-gt-sm-row">
+  <div class="like flex-gt-sm-50">
+{% else %}
+  <div class="layout-column">
+    <div class="like flex-100">
+{% endif %}
+    <div class="content-box content-color">
+      <div class="title">
+        <img src="{{ asset('/medias/images/profile/like.png') }}" alt="" />
+        <label>
+          {% if is_my_preferences is defined and is_my_preferences == false %}
+            {% trans %}TITLE_LIKE{% endtrans %}
+
+          {% else %}
+            {% trans %}TITLE_I_LIKE{% endtrans %}
+
+          {% endif %}
+        </label>
+      </div>
+      <ul class="test">
+        <li class="no-item hide"><i>
+            {% if is_my_preferences is defined and is_my_preferences == false %}
+              {% trans %}NO_CHOOSE_YET{% endtrans %}
+
+            {% else %}
+              {% trans %}NO_WRITE_WHAT_I_LIKE_YET{% endtrans %}
+
             {% endif %}
-        </div>
+          </i></li>
+        {% for preference in user.getProfile().getProfilePreferences() %}
+          {% if preference.isLike() %}
+            {% include 'BNSAppProfileBundle:Preferences:row_preference_item.html.twig' with {'preference': preference, 'editable': editable} %}
+          {% endif %}
+        {% endfor %}
+        <script type="text/javascript">
+          showNoItemLabel('like');
+        </script>
+      </ul>
+
+
+      {% if editable %}
+        <form class="add-preference-form" action="{{ path('BNSAppProfileBundle_back_preferences_add', {'userSlug': user.getSlug()}) }}" method="POST" style="padding-top: 15px;">
+          <input type="hidden" name="preference_islike" value="1" />
+          <input type="text" name="preference_item" class="add-feelings ng-pristine ng-valid md-input ng-valid-email ng-valid-required ng-touched" placeholder="{{"PLACEHOLDER_ADD_LIKE"|trans}}" /> <input type="submit" class="btn btn-info" value="{{"PLACEHOLDER_BUTTON_ADD"|trans}}" />
+        </form>
+      {% endif %}
     </div>
-        
-    <div class="dislike">
-            
-        <div class="content-box content-color">
-            <div class="title">
-                <span class="ico-dislike"></span>
-                <h2>
-                    {% if is_my_preferences is defined and is_my_preferences == false %}
-                        N'aime pas
-                    {% else %}
-                        Je n'aime pas
-                    {% endif %}
-                </h2>
-            </div>
-            <ul>
-                <li class="no-item hide"><i>
-                    {% if is_my_preferences is defined and is_my_preferences == false %}
-                        N'a pas encore choisi
-                    {% else %}
-                        Je n'ai pas encore écris ce que je n'aime pas
-                    {% endif %}
-                </i></li>
-                {% for preference in user.getProfile().getProfilePreferences() %}
-                    {% if (preference.isLike() == false) %}
-                        {% include 'BNSAppProfileBundle:Preferences:row_preference_item.html.twig' with {'preference': preference, 'editable': editable} %}
-                    {% endif %}
-                {% endfor %}
-                <script type="text/javascript">
-                    showNoItemLabel('dislike');
-                </script>
-            </ul>
-            
-            {% if editable %}
-                <form class="add-preference-form" action="{{ path('BNSAppProfileBundle_back_preferences_add', {'userSlug': user.getSlug()}) }}" method="POST">
-                    <input type="hidden" name="preference_islike" value="0" />
-                    <input type="text" name="preference_item" class="add-feelings" placeholder="Ajouter un nouveau Je n'aime pas" /> <input type="submit" class="btn btn-info" value="Ajouter" />
-                </form>
+  </div>
+  {% if fullwidth %}
+      <div class="dislike flex-gt-sm-50">
+  {% else %}
+    <div class="dislike flex-100">
+      {% endif %}
+
+    <div class="content-box content-color">
+      <div class="title">
+        <img src="{{ asset('/medias/images/profile/dislike.png') }}" alt="" />
+        <label>
+          {% if is_my_preferences is defined and is_my_preferences == false %}
+            {% trans %}TITLE_NOT_LIKE{% endtrans %}
+
+          {% else %}
+            {% trans %}TITLE_I_DONT_LIKE{% endtrans %}
+
+          {% endif %}
+        </label>
+      </div>
+      <ul>
+        <li class="no-item hide"><i>
+            {% if is_my_preferences is defined and is_my_preferences == false %}
+              {% trans %}NO_CHOOSE_YET{% endtrans %}
+
+            {% else %}
+              {% trans %}NO_WRITE_WHAT_I_DOESNT_LIKE_YET{% endtrans %}
+
             {% endif %}
-        </div>
+          </i></li>
+        {% for preference in user.getProfile().getProfilePreferences() %}
+          {% if (preference.isLike() == false) %}
+            {% include 'BNSAppProfileBundle:Preferences:row_preference_item.html.twig' with {'preference': preference, 'editable': editable} %}
+          {% endif %}
+        {% endfor %}
+        <script type="text/javascript">
+          showNoItemLabel('dislike');
+        </script>
+      </ul>
+
+      {% if editable %}
+        <form class="add-preference-form" action="{{ path('BNSAppProfileBundle_back_preferences_add', {'userSlug': user.getSlug()}) }}" method="POST" style="padding-top: 15px;">
+          <input type="hidden" name="preference_islike" value="0" />
+          <input type="text" name="preference_item" class="add-feelings" placeholder="{{"PLACEHOLDER_ADD_I_DONT_LIKE"|trans}}" /> <input type="submit" class="btn btn-info" value="{{"PLACEHOLDER_BUTTON_ADD"|trans}}" />
+        </form>
+      {% endif %}
     </div>
+  </div>
 
 </div>
 
 {% if editable %}
-    <script type="text/javascript" src="{{ asset('/medias/js/profile/back-preferences.js') }}"></script>
-{% endif %}  
-    
+  <script type="text/javascript" src="{{ asset('/medias/js/profile/back-preferences.js') }}"></script>
+{% endif %}

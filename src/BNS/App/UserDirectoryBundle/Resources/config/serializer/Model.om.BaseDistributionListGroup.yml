@@ -1,0 +1,9 @@
+BNS\App\UserDirectoryBundle\Model\om\BaseDistributionListGroup:
+  exclusion_policy: All
+  properties:
+      group_id:
+        expose: true
+      distribution_list_id:
+        expose: true
+      role_id:
+        expose: true

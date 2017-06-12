@@ -1,0 +1,66 @@
+{% trans_default_domain "MAIN" %}
+{% extends '::base.html.twig' %}
+
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+
+{# form theme #}
+{% if form is defined %}{% form_theme form 'BNSAppMainBundle:Form:material_fields.html.twig' %}{% endif %}
+{% if filter_form is defined %}{% form_theme filter_form 'BNSAppMainBundle:Form:material_fields.html.twig' %}{% endif %}
+
+{# head #}
+{% block title 'App' %}
+
+{# body #}
+{% block body_attr %} layout="column" ng-cloak {{ parent() }} {% endblock %}
+{% block body_class %}{% endblock %}
+
+{% block alert %}{% endblock %}
+
+{% block body %}
+
+{% block flash_container %}
+  {{ components.toasts(app.session.flashbag.all) }}
+{% endblock flash_container %}
+
+{% block actionbar_container %}
+  <md-toolbar layout="row" class="bns-actionbar">
+    <div container class="md-toolbar-tools">
+      {% block actionbar_content %}{% endblock %}
+    </div>
+  </md-toolbar>
+{% endblock actionbar_container %}
+
+{% block main_container %}
+
+  <div layout="row" flex container class="main-container">
+
+    {% block sidebar_container %}
+      <md-sidenav layout="column" class="md-sidenav-left bns-sidebar" md-component-id="left" md-is-locked-open="app.isSidebarLockedOpen()">
+        {% block sidebar %}
+
+          {% block sidebar_header %}
+            <header bns-sidebar-header app="navbar.app"></header>
+          {% endblock %}
+
+          <md-content flex>
+            {% block sidebar_content %}{% endblock %}
+          </md-content>
+
+        {% endblock sidebar%}
+      </md-sidenav>
+    {% endblock sidebar_container %}
+
+    <md-content id="content" class="bns-content flex layout-column">
+      <div class="bns-content-inner layout-column flex">
+        {% block content %}{% endblock %}
+      </div>
+    </md-content>
+
+  </div>
+
+  {% block dialog %}{% endblock %}
+{% endblock main_container %}
+
+{% endblock body %}
+
+{% block respond_script %}{% endblock %}

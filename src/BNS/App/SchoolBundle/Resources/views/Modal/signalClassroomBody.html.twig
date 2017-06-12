@@ -1,0 +1,26 @@
+{% trans_default_domain "SCHOOL" %}
+<div id="add-classroom-modal" class="modal-body">
+    <div class="loader loader-sb hide">
+        <div class="message ">
+          {% trans %}LOADING_PLEASE_WAIT{% endtrans %}
+        </div>
+    </div>
+    <div class="content-modal-body">
+        {{ 'TITLE_NOTIFY_CLASS'|trans |desc('<h2>Vous êtes sur le point de signaler une classe</h2><h3>Si cette classe ne fait pas partie de votre école vous avez la possibilité de nous le signaler. Dès que nous recevons un signalement la classe est retirée de votre école.</h3><h3>Veuillez en une phrase nous donner la raison de ce signalement :</h3>') |raw}}
+
+        <p>
+            <form id="signal-classroom-form" action="{{ path('BNSAppSchoolBundle_back_signal_classroom' , {'classroomId' : classroom.id }) }}" method="post">
+
+                <select name="reason" style="width: 400px;">
+                  <option value="pupil">{% trans %}OPTION_ONE_INSCRIPTION_BY_PUPIL{% endtrans %}</option>
+                  <option value="teacher_no_more">{% trans %}OPTION_TEACHER_LEAVED_SCHOOL{% endtrans %}</option>
+                  <option value="test">{% trans %}OPTION_TEST_SCHOOL{% endtrans %}</option>
+                  <option value="test">{% trans %}OPTION_SCHOOL_NOT_USE{% endtrans %}</option>
+                </select>
+
+            </form>
+
+        </p>
+    </div>
+</div>
+<div class="beneylu-jim"></div>

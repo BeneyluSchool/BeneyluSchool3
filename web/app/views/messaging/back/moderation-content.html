@@ -1,0 +1,26 @@
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools layout-align-space-between-center">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+
+    <h3 class="flex flex-none heading" ng-switch="ctrl.shared.status">
+      <span ng-switch-when="IN_MODERATION" translate>MESSAGING.MESSAGE_IN_MODERATION</span>
+      <span ng-switch-when="ACCEPTED" class="text-accent" translate>MESSAGING.MESSAGE_PUBLISH</span>
+      <span ng-switch-when="REJECTED" class="text-warn" translate>MESSAGING.MESSAGE_DENY</span>
+    </h3>
+
+    <md-autocomplete md-search-text="ctrl.search"
+      md-items="[]"
+      placeholder="{{ 'MESSAGING.PLACEHOLDER_ENTER_SEARCH' | translate }}"
+    class="flex bns-search"></md-autocomplete>
+  </div>
+</md-toolbar>
+
+<div class="messaging-loader">
+  <md-progress-linear md-mode="indeterminate" ng-show="ctrl.shared.handler.busy"></md-progress-linear>
+</div>
+
+<bns-messaging-box box="ctrl.box" selection="ctrl.shared.selection" show-avatars="true" class="flex layout-column" mode="infinite">
+  <bns-inset class="flex layout-margin text-center">
+    {{ 'MESSAGING.DESCRIPTION_NO_MESSAGE_'+ctrl.shared.status | translate }}
+  </bns-inset>
+</bns-messaging-box>

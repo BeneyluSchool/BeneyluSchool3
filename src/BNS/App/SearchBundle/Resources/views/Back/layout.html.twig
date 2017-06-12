@@ -1,0 +1,40 @@
+{% trans_default_domain "SEARCH" %}
+{% extends '::base_manager.html.twig' %}
+
+{% set app_unique_name = 'SEARCH' %}
+{% set app_mode = 'back' %}
+
+{% block title %}
+  {% trans %}TITLE_SEARCH_ENGINE_MANAGEMENT{% endtrans %}
+{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+	{# Appel CSS du package layout manager #}
+    {% include "BNSAppMainBundle:Manager:layoutStyle.html.twig" %}
+    <link href="{{ asset('medias/css/search/manager.css') }}" rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('medias/js/search/manager.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="office blur"></div>
+    {% block header %}{% endblock %}
+
+    <div class="container container-fluid">
+        <div class="row-fluid container-manager">
+            <div class="container-sidebar list">
+                {% block sidebar %}{% endblock sidebar %}
+            </div>
+            <div class="span9 container-content no-margin">
+                {% block content %}Add your custom content here!{% endblock %}
+            </div>
+            <div class="container-manager-bottom">
+                <div class="content-manager-bottom"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

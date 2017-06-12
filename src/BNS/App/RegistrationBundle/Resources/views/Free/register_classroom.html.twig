@@ -45,7 +45,7 @@
 				}
 				
 				// Wrong format
-				if ($this.val().length < 5 || $this.val().length > 10) {
+				if ($this.val().length < 4 || $this.val().length > 10) {
 					return true;
 				}
 				
@@ -127,16 +127,19 @@
 	</script>
 {% endblock javascripts %}
 
+{% block analytics %}
+
+{% endblock %}
+
 {% block body %}
 	<div class="background-registration"></div>
 	<div class="container-header-registration">
 		<div class="container-fluid container">
 			<div class="row-fluid">
 				<div class="span12">
-					<a href="#"><img src="/medias/images/registration/beneyluschool.png" /></a>
-					<h1>Pré-inscrire ma classe</h1>
-					<p>Vous êtes en train de pré-inscrire votre classe à Beneylu School.
-						<br /><span style="color: red;">Si vous avez déjà un compte Beneylu School cette étape n'est pas nécessaire car votre identifiant et votre mot de passe seront intégrés automatiquement.</span></p>
+					<a href="{{ path('home') }}"><img src="{{ asset('/medias/images/registration/beneyluschool.png') }}" /></a>
+					<h1>Inscrire ma classe</h1>
+					<p>Vous êtes en train d'inscrire votre classe à Beneylu School. </p>
 					<div class="pattern"></div>
 				</div>
 			</div>
@@ -205,7 +208,7 @@
 								<h3>2. Ma classe</h3>
 								<div class="content-class">
 									<div>
-										<img src="/medias/images/registration/class.png" />
+										<img src="{{ asset('/medias/images/registration/class.png') }}" />
 										{{ form_widget(classRoomForm.label, {'attr': {'placeholder': 'Le nom de ma classe'} }) }}
 										{% if form_errors(classRoomForm.label)|length > 0 %}
 											<div class="alert alert-danger">
@@ -251,7 +254,7 @@
 								<h3>3. Mon école</h3>
 								<p class="school-tip">Une liste d'écoles va vous apparaître au fur et à mesure de votre saisie.</p>
 								<div class="registration-school">
-									<img src="/medias/images/registration/school.png" />
+									<img src="{{ asset('/medias/images/registration/school.png') }}" />
 									<input type="text" id="school-info" placeholder="Code postal ou code UAI de votre école" />
 									<img src="{{ asset('/medias/images/icons/big-loader.gif') }}" alt="" class="school-loader"/>
 									<p id="school-not-found" class="school-tip" style="display:none;">
@@ -279,9 +282,6 @@
 				<div class="row-fluid">
 					<div class="span12">
 						<div class="submit">
-							<p>
-								Si vous avez déjà un compte Beneylu School cette étape n'est pas nécessaire car votre identifiant et votre mot de passe seront intégrés automatiquement.
-							</p>
 							<input id="confirm_registration" class="btn btn-success" type="submit" value="Valider mon inscription" />
 							<br clear="all" />
 						</div>

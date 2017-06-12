@@ -1,0 +1,28 @@
+{% trans_default_domain "SCHOOL" %}
+<div class="loader loader-sb">
+  <div class="message">
+    {% trans %}DOWNLOAD_START_IN_FEW_SECOND{% endtrans %}
+  </div>
+</div>
+<div class="modal-body">
+  <div class="content-modal-body">
+  {% if has_role_in_group(user, 'PUPIL') %}
+    {{ 'TITLE_SURE_TO_GENERATE_CARD_CHILD'|trans|desc('
+        			<h2>Êtes-vous sûr de vouloir générer une fiche pour cet élève ?</h2>
+		<h3>
+			<strong>Attention</strong>, cette action va régénérer le mot de passe de cet élève ! Son ancien mot de passe sera perdu et vous devrez lui communiquer le nouveau.<br />
+			Cette action est recommandée lors de la première génération de mot de passe, à la rentrée par exemple.
+		</h3>
+        ') |raw }}
+  {% else %}
+    {{ 'TITLE_SURE_TO_GENERATE_CARD_TEACHER'|trans|desc('
+        			<h2>Êtes-vous sûr de vouloir générer une fiche pour cet enseignant ?</h2>
+		<h3>
+			<strong>Attention</strong>, cette action va régénérer le mot de passe de cet enseignant ! Son ancien mot de passe sera perdu et vous devrez lui communiquer le nouveau.<br />
+			Cette action est recommandée lors de la première génération de mot de passe, à la rentrée par exemple.
+		</h3>
+        ') |raw }}
+  {% endif %}
+  </div>
+</div>
+<div class="beneylu-jim"></div>

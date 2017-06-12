@@ -1,0 +1,104 @@
+{% trans_default_domain "PORTAL" %}
+{% extends 'BNSAppPortalBundle:BackWidgets:base.html.twig' %}
+
+{% block title %}{{ 'TITLE_RSS'|trans |desc('RSS') }}{% endblock %}
+
+{% block enable %}
+    {{ include('@BNSAppPortal/BackWidgets/enable.html.twig' , {'widget' : widget}) }}
+{% endblock %}
+
+{% block headerView %}
+    <div id="resource-selection-callback-{{ widget.id }}" class="preview">
+        {% if widget.data('rss') != null %}
+            <div class="row-fluid">
+                {% set rss = widget.data('rss') %}
+                {% for i in 0..4 %}
+                    {% if i % 3 == 0 %}
+                        <div class="span6">
+                    {% endif %}
+                    {% if rss[i] is defined %}
+                        {% set rssImage = rss[i]['image'] is defined and rss[i]['image'] is not empty ? rss[i]['image'] : null %}
+                        <p class="link-preview">
+                            {% if rssImage is not null %}
+                                <img class="thumb" src="{{ getResourceImageUrlFromId(rssImage,'micro') }}" />
+                            {% else %}
+                                <img class="thumb" data-src="holder.js/30x30/text: " />
+                            {% endif %}
+                            <span>{{ rss[i]['title'] }}</span>
+
+                            {% set feed = simplePie.set_feed_url(rss[i]['feed']) %}
+                            {% set feed = simplePie.init %}
+                            <ul>
+                                {% for item in simplePie.get_items(0,2) %}
+                                    <li>
+                                        <a class="external-link " href="{{ item.get_link }}" target="_blank">
+                                            {{ item.get_title|raw }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+
+                        </p>
+                    {% endif %}
+                    {% if i % 3 == 2 %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                </div>
+            </div>
+        {%  else %}
+            <!-- Pas de flux RSS -->
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block editView %}
+
+    <input name="widget-{{ widget.id }}[title]" id="" type="text" value="{{ widget.data('title') }}" class="title" placeholder="{{ 'PLACEHOLDER_TITLE_FLUX_ZONE'|trans |desc('Titre de la zone de flux') }}" />
+
+    <div class="row-fluid">
+    {% for i in 0..4 %}
+        {% if i % 3 == 0 %}
+            <div class="span6">
+        {% endif %}
+
+
+
+        {% set rss = widget.data('rss') %}
+        {% set rssFeed = rss[i]['feed'] is defined ? rss[i]['feed'] : null %}
+        {% set rssImage = rss[i]['image'] is defined and rss[i]['image'] is not empty ? rss[i]['image'] : null %}
+
+        <div id="resource-selection-callback-{{ widget.id }}-{{ i }}" class="preview-choose thumb">
+            {% if rssImage is not null %}
+                <img class="thumb" src="{{ getResourceImageUrlFromId(rssImage,'micro') }}" />
+            {% else %}
+                <img class="thumb" data-src="holder.js/30x30/text: " />
+            {% endif %}
+        </div>
+
+
+        <input id="" name="widget-{{ widget.id }}[rss][{{ i }}][feed]" type="text" value="{{ rssFeed }}" class="rss" placeholder="{{ 'PLACEHOLDER_FLUX_RSS'|trans |desc('Flux RSS') }}"/>
+        <input name="widget-{{ widget.id }}[rss][{{ i }}][image]" id="widget-{{ widget.id }}-rss-{{ i }}-image" type="hidden" value="{{ rssImage }}" />
+
+        <span class="image-picker">
+            {% include 'BNSAppMediaLibraryBundle:Front:selection.html.twig' with {
+            'label' : "",
+            'input_id': 'widget-' ~ widget.id ~ '-rss-' ~ i ~ '-image',
+            'allowed_type': 'IMAGE',
+            'name': 'widget-' ~ widget.id ~ '[rss][' ~ i ~ '][image]',
+            'callback': "resource-selection-callback-" ~ widget.id ~ '-' ~ i,
+            'current_src': null,
+            'default_src': "holder.js/300x140/text:"~ "LOGO" |trans,
+            'current_value': rssImage,
+            } %}
+        </span>
+        <br />
+        {% if i % 3 == 2 %}
+            </div>
+        {% endif %}
+
+    {% endfor %}
+    </div>
+    </div>
+
+{% endblock %}

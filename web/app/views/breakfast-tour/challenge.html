@@ -1,0 +1,17 @@
+<div container class="flex main-container layout-row">
+
+  <bns-breakfast-tour-navigation></bns-breakfast-tour-navigation>
+
+  <md-content class="flex transparent layout">
+
+    <md-progress-circular md-mode="indeterminate" ng-show="ctrl.busy"></md-progress-circular>
+
+    <div ng-if="!ctrl.busy && !ctrl.challenge && !ctrl.hasIntro" class="flex layout breakfast-tour-challenge-intro-container md-padding" ng-include="'views/breakfast-tour/challenge/intro.html'"></div>
+
+    <div ng-if="!ctrl.busy && !ctrl.challenge && ctrl.hasIntro" ng-include="'views/breakfast-tour/challenge/choice.html'" class="layout-gt-md-row flex breakfast-tour-challenge-choice-container"></div>
+
+    <div ng-if="!ctrl.busy && ctrl.challenge" ng-include="'views/breakfast-tour/challenge/done.html'" class="flex layout breakfast-tour-challenge-done-container md-padding"></div>
+
+  </md-content>
+
+</div>

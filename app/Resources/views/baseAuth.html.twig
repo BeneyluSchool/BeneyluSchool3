@@ -1,0 +1,33 @@
+{% trans_default_domain "AUTH_CORE" %}
+
+<!DOCTYPE html>
+<html {% block html_attr %}{% endblock %}>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{% block title %}{{ 'WELCOME_BENEYLU'|trans({'%beneylu_brand_name%': beneylu_brand_name}) |desc('Bienvenue sur %beneylu_brand_name%') }}{% endblock %}</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="robots" content="noindex">
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+		{% block css %}
+			<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet" type="text/css" />
+			<link href="{{ asset('/medias/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
+			<link href="{{ asset('/medias/css/commons.css') }}" rel="stylesheet" type="text/css" />
+		{% endblock %}
+		{% block main_javascripts %}
+			<script type="text/javascript" src="{{ asset('medias/js/jquery-1.7.2.min.js') }}"></script>
+			<script type="text/javascript" src="{{ asset('medias/js/jquery.placeholder.min.js') }}"></script>
+			<!--[if lt IE 9]>
+				<script src="{{ asset('medias/js/respond.min.js') }}"></script>
+			<![endif]-->
+			<script type="text/javascript">
+				$(function () { $('input[placeholder], textarea[placeholder]').placeholder(); });
+			</script>
+		{% endblock %}
+    </head>
+    {%  block bodyMarkup %}
+        <body style="background-color: transparent; margin-bottom: 0;">
+    {% endblock %}
+		{% block body %}{% endblock %}
+		{% block javascripts %}{% endblock %}
+    </body>
+</html>

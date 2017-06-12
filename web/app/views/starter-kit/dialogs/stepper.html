@@ -1,0 +1,19 @@
+<md-dialog class="starter-kit-stepper-dialog" ng-class="{positioned: skdialog.position}" ng-style="{position: skdialog.position?'absolute':false, left: skdialog.position.left, top: skdialog.position.top, width: skdialog.position.width}">
+  <form ng-submit="skdialog.valid && skdialog.next()">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <md-button type="button" ng-click="skdialog.prev()" class="md-icon-button">
+          <md-icon>chevron_left</md-icon>
+        </md-button>
+        <span class="flex md-title">{{skdialog.step.data.title}}</span>
+        <md-button type="button" ng-disabled="!skdialog.valid" ng-click="skdialog.next()" class="md-icon-button">
+          <md-icon>chevron_right</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content class="md-dialog-content">
+      <bns-transclude-dest name="starter-kit-step-{{transcludeName}}"></bns-transclude-dest>
+      <div class="md-body-2" ng-bind-html="skdialog.step.data.content"></div>
+    </md-dialog-content>
+  </form>
+</md-dialog>

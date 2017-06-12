@@ -1,39 +1,63 @@
+{% trans_default_domain "BLOG" %}
+{% set isAdmin = has_right('BLOG_ADMINISTRATION') %}
+<bns-expander label="{{ 'CATEGORY' | trans }}" is-open="true">
 <div class="title-container article-categories-filter">
-	<div class="title active border{% if has_right('BLOG_ADMINISTRATION') %}-light{% endif %}-blue">{% trans %}Blog.Back.Sidebar.Categories{% endtrans %}  <span class="square icon-arrow"></span></div>
-	<div class="content-title">
-		{% if has_right('BLOG_ADMINISTRATION') %}
-			<div class="form-title">
-				<div class="loader loader-h"></div>
-				<form action="{{ path('blog_manager_category_add') }}" method="POST">
-					<div class="add-on category-icon" rel="tooltip" title="{% trans %}Blog.Back.Sidebar.Tooltip.AddIcon{% endtrans %}">
-						<span class="default"></span>
-					</div>
-					<div class="category-icons-list">
-						{% render 'BNSAppBlogBundle:Back:getCategoryIcons' %}
-						<a href="#" class="default">Aucune icône</a>
-					</div>
-					<input type="text" size="16" class="add-category" placeholder="Nouvelle Catégorie">
-					<img src="{{ asset('/medias/images/icons/enter-key.png') }}" alt="" class="add-category-help" />
-					<input type="submit" class="btn btn-info" value="Ajouter">
-				</form>
-			</div>
-		{% endif %}
-			
-		<div class="content-category">
-			{% set isAdmin = has_right('BLOG_ADMINISTRATION') %}
-			<ol class="{% if isAdmin %}load-sortable{% endif %}">
-				{% for category in blog.getSortedBlogCategories() %}
-					{% include 'BNSAppBlogBundle:Category:back_block_categories_row.html.twig' with {'blogId': blog.getId(), 'category': category['parent'], 'isAdmin': isAdmin} %}
+  <div class="content-title">
+    {% if isAdmin and isEditionMode %}
+      <div class="form-title">
+        <div>
+          <div class="loader  loader-h"></div>
+          <div class="add-on category-icon" rel="tooltip" title="{{"ADD_ICON"|trans}}">
+            <span class="default"></span>
+          </div>
+          <div class="category-icons-list">
+            {{ render(controller('BNSAppBlogBundle:Back:getCategoryIcons')) }}
+            <a href="#" class="default">{% trans %}LINK_NO_ICON{% endtrans %} </a>
 
-					{% if (category['children']|length > 0) %}
-						<ol>
-							{% for subCategory in category['children'] %}
-								{% include 'BNSAppBlogBundle:Category:back_block_categories_row.html.twig' with {'blogId': blog.getId(), 'category': subCategory, 'isAdmin': isAdmin} %}
-							{% endfor %}
-						</ol>
-					{% endif %}
-				{% endfor %}
-			</ol>
-		</div>
-	</div>
+          </div>
+          <input type="text" size="16" class="add-category" placeholder="{{ "NEW_CATEGORY"|trans }}" />
+          <img src="{{ asset('/medias/images/icons/enter-key.png') }}" alt="" class="add-ctaegory-help" />
+          <input type="button" class="btn btn-info" data-action="{{ path('blog_manager_category_add') }}" value={{ "BUTTON_ADD"|trans }} />
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="content-category">
+      {% set category_choices = [] %}
+      {% set category_selection = [] %}
+      {% for category in blog.getRootCategory().getDescendants() %}
+        {% set category_choices = category_choices|merge([{
+          label: category.getTitle(),
+          value: category.getId(),
+          id: 'list_'~category.getId(),
+          level: category.getLevel()
+        }]) %}
+        {% if isEditionMode and not article.isNew() and article.hasCategory(category, form.categories_list_id.vars.value) %}
+          {% set category_selection = category_selection|merge([category.getId()]) %}
+        {% endif %}
+      {% endfor %}
+      <bns-checkbox-group bns-vanilla-input="true" ng-model="category_selection" ng-init="category_selection = {{ category_selection|serialize }}" class="{% if isAdmin and isEditionMode %}load-sortable{% endif %}" choices="{{ category_choices|serialize }}">
+        <bns-choice-label ng-class="{'checkbox-level-2' : {{ '{{::choice.level}}' }} > 1 }">
+          {{ '{{::choice.label}}' }}
+        </bns-choice-label>
+      </bns-checkbox-group>
+
+        {% if not category_choices|length %}
+          <div class="no-category">
+
+            {% if isAdmin and isEditionMode %}
+              {% trans %}NO_CATEGORY_CREATE_WITH_UPPER_FIELD{% endtrans %}
+            {% elseif isAdmin and not isEditionMode %}
+              {{ 'CAN_CREATE_CATEGORY_AT_MANAGEMENT'|trans({
+                  '%linkStart%': '<a href="' ~ path('blog_manager_categories') ~'">',
+                  '%linkEnd%': '</a>'
+              }) |desc('Vous pouvez en créer à la page de %linkStart% gestion des catégories %linkEnd% ') |raw }}
+            {% else %}
+                {% trans %}NO_CATEGORY_YET{% endtrans %}
+            {% endif %}
+          </div>
+        {% endif %}
+    </div>
+  </div>
 </div>
+</bns-expander>

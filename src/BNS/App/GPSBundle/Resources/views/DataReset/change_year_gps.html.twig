@@ -1,0 +1,17 @@
+{% trans_default_domain "GPS" %}
+
+{% extends 'BNSAppClassroomBundle:DataReset:layout.html.twig' %}
+
+{% block thumbnail %}
+    <img src="{{ asset('/medias/images/icons/modules/gps/small.png') }}" alt="" />
+{% endblock %}
+
+{% block title %}
+   {{ 'TITLE_GPS'|trans |desc('GPS') }}
+{% endblock %}
+
+{% block inputs %}
+    {% set form = dataReset.getForm().createView() %}
+    {{ form_widget(form.choice) }}
+    {{ form_rest(form) }}
+{% endblock inputs %}

@@ -2,10 +2,12 @@
 
 namespace BNS\App\UserBundle\Controller;
 
+use FOS\UserBundle\Propel\GroupQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Form\FormError;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 use BNS\App\CoreBundle\Annotation\Anon;
 use BNS\App\UserBundle\Form\Type\PasswordGenerationType;
@@ -13,7 +15,7 @@ use BNS\App\UserBundle\Form\Type\PasswordResetType;
 
 /**
  * @Route("/mot-de-passe")
- * 
+ *
  * @author Sylvain Lorinet <sylvain.lorinet@pixel-cookers.com>
  */
 class FrontPasswordController extends Controller
@@ -25,27 +27,23 @@ class FrontPasswordController extends Controller
     {
 		$userManager = $this->get('bns.user_manager');
 		$userManager->setUser($this->getUser());
-		
-		if (!$userManager->isRequestPassword()) {
-			throw new NotFoundHttpException('You can NOT generate a new password without a request !');
-		}
-		
+		$this->getRequest()->getSession()->remove('regeneration_process');
 		$form = $this->createForm(new PasswordGenerationType());
 		if ($this->getRequest()->isMethod('POST')) {
-			$form->bindRequest($this->getRequest());
-			
+			$form->bind($this->getRequest());
+
 			if ($form->isValid()) {
 				$form->getData()->save($this->get('bns.user_manager'));
-				
+
 				return $this->redirect($this->generateUrl('user_password_confirmation'));
 			}
 		}
-		
+
         return $this->render('BNSAppUserBundle:Password:index.html.twig', array(
 			'form'	=> $form->createView()
 		));
     }
-	
+
 	/**
 	 * @Route("/confirmation", name="user_password_confirmation")
 	 */
@@ -54,15 +52,17 @@ class FrontPasswordController extends Controller
 		$redirect = $this->get('bns.user_manager')->onLogon();
 		if (false === $redirect) {
             // TODO translate
-            $this->get('session')->getFlashBag()->add('success', 'Félicitations, le mot de passe a été modifié avec succès !');
+            $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('FLASH_SUCCESS_PASSWORD_MODIFIED', array(), 'USER'));
 
 			$redirect = $this->generateUrl('home');
 		}
-		
+
+        $this->get('stat.main')->regeneratePassword();
+
 		// Force redirection
 		return $this->redirect($redirect);
 	}
-	
+
 	/**
 	 * @Route("/reinitialisation", name="user_password_reset")
 	 * @Anon
@@ -71,35 +71,41 @@ class FrontPasswordController extends Controller
 	{
 		$userManager = $this->get('bns.user_manager');
 		$form = $this->createForm(new PasswordResetType());
-		
+
 		if ($this->getRequest()->isMethod('POST')) {
-			$form->bindRequest($this->getRequest());
-			
+			$form->bind($this->getRequest());
+
 			if ($form->isValid()) {
 				// From central
 				$user = $userManager->getUserByEmail(urlencode($form->getData()->email));
-				
+
 				if (null == $user) {
-					$form->get('email')->addError(new FormError("L'adresse e-mail renseignée est introuvable"));
+					$form->get('email')->addError(new FormError($this->get('translator')->trans('EMAIL_NOT_FOUND', array(), 'USER')));
 				}
 				else {
 					if (null != $user->getPasswordRequestedAt() && ($user->getPasswordRequestedAt()->getTimestamp() + 1800) > time()) { // 30 min
 						return $this->redirect($this->generateUrl('user_password_reset_warn'));
 					}
-					
+
 					$userManager->setUser($user);
-					$form->getData()->save($userManager, $this->get('bns.mailer'), $this->get('router'));
-					
-					return $this->redirect($this->generateUrl('user_password_reset_confirmation'));
+
+                    //L'utilisateur doit il faire parti d'un groupe autorisé (MTP)
+                    if($this->container->hasParameter('check_group_enabled') && $this->container->getParameter('check_group_enabled') && !$userManager->isAuthorised())
+                    {
+                        $form->get('email')->addError(new FormError($this->get('translator')->trans('EMAIL_NOT_FOUND', array(), 'USER')));
+                    }else{
+                        $form->getData()->save($userManager, $this->get('bns.mailer'), $this->get('router'));
+                        return $this->redirect($this->generateUrl('user_password_reset_confirmation'));
+                    }
 				}
 			}
 		}
-		
+
 		return $this->render('BNSAppUserBundle:Password:reset.html.twig', array(
 			'form'	=> $form->createView()
 		));
 	}
-	
+
 	/**
 	 * @Route("/reinitialisation/confirmation", name="user_password_reset_confirmation")
 	 * @Anon
@@ -108,7 +114,7 @@ class FrontPasswordController extends Controller
 	{
 		return $this->render('BNSAppUserBundle:Password:reset_confirmation.html.twig', array());
 	}
-	
+
 	/**
 	 * @Route("/reinitialisation/en-cours", name="user_password_reset_warn")
 	 * @Anon
@@ -117,7 +123,7 @@ class FrontPasswordController extends Controller
 	{
 		return $this->render('BNSAppUserBundle:Password:reset_warn.html.twig', array());
 	}
-	
+
 	/**
 	 * @Route("/reinitialisation/cle/{confirmationToken}", name="user_password_reset_process")
 	 * @Anon
@@ -126,16 +132,47 @@ class FrontPasswordController extends Controller
 	{
 		$userManager = $this->get('bns.user_manager');
 		$user = $userManager->getUserFromConfirmationToken($confirmationToken);
-		
+
 		if (null == $user) {
 			throw new NotFoundHttpException('The confirmation token : ' . $confirmationToken . ' is NOT found !');
 		}
-		
+
 		$userManager->resetUserPassword($user);
 		$this->get('bns.api')->getRedisConnection()->del($this->get('bns.api')->getRoute(array(
 			'confirmation_token' => $confirmationToken
 		), 'user_confirmation_token'));
-		
+
 		return $this->render('BNSAppUserBundle:Password:reset_confirmation_success.html.twig');
+	}
+
+	/**
+	 * @Route("/imprimer", name="user_password_print")
+	 */
+	public function printPasswordAction()
+	{
+		if ($this->getRequest()->isMethod('POST') && $this->getRequest()->isXmlHttpRequest()) {
+			if (false === $this->getRequest()->get('user_password', false)) {
+				return $this->redirect($this->generateUrl('home'));
+			}
+
+			$this->getRequest()->getSession()->set('user_password', $this->getRequest()->get('user_password'));
+
+			return new Response();
+		}
+
+		// Password exists ?
+		if (false === $this->getRequest()->getSession()->get('user_password', false)) {
+			return $this->redirect($this->generateUrl('home'));
+		}
+
+		$password = $this->getRequest()->getSession()->get('user_password');
+		$this->getRequest()->getSession()->remove('user_password');
+
+		return $this->render('BNSAppUserBundle:Password:print_password.html.twig', array(
+			'user'		=> $this->getUser(),
+			'password'	=> $password,
+			'base_url' => $this->container->getParameter('application_base_url'),
+			'role'		=> $this->get('bns.role_manager')->getGroupTypeRoleFromId($this->getUser()->getHighRoleId())
+		));
 	}
 }

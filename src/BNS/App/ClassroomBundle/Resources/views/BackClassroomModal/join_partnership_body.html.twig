@@ -1,0 +1,22 @@
+{% trans_default_domain "CLASSROOM" %}
+<div class="modal-body">
+	<div class="content-modal-body large">
+		<div class="join-partnership-form-content">
+            <div class="loader loader-h"></div>
+            {{ 'TITLE_VERIFY_CODE_PARTNERSHIP'|trans |desc('<h2>On vous a transmis un code de partenariat ?<br/> Vérifiez le ici.</h2>') |raw}}
+            <br/>
+            <form action="{{ path('classroom_manager_verify_partnership_id') }}" method="POST" id="verify_partnership">
+                <p class="partnership-id">{% trans %}CODE{% endtrans %}</p>
+                <input type="text" name="partnership-id-to-check" id="partnership-id-to-check" placeholder="{{"PLACEHOLDER_ENTER_CODE"|trans}}" />
+                <button type="submit" class="btn bns-success btn-check-partnership btn-16 small">
+                    <span class="icons-16 validate-icon"></span>
+                    <strong>{% trans %}BUTTON_VERIFY{% endtrans %}</strong>
+                </button>
+            </form>
+            <div class="alert alert-danger bns-alert alert-error hide">
+                {{ 'FLASH_ERROR_OCCURED'|trans({}, 'LIAISONBOOK')  }}
+                <div class="jim"></div>
+            </div>
+        </div>
+    </div>
+</div>

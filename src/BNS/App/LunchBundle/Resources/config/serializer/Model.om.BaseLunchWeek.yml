@@ -1,0 +1,21 @@
+BNS\App\LunchBundle\Model\om\BaseLunchWeek:
+  exclusion_policy: All
+
+  properties:
+    id:
+      expose: true
+    label:
+      expose: true
+    description:
+      expose: true
+    date_start:
+      expose: true
+  virtual_properties:
+    getSections:
+      expose: true
+  relations:
+    - rel: days
+      embedded:
+        content: expr(object.getLunchDays())
+      #exclusion:
+      #  groups: [detail]

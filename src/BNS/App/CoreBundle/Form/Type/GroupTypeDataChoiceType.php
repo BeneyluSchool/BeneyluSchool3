@@ -11,24 +11,16 @@ use BNS\App\CoreBundle\Model\GroupTypeDataChoice;
 class GroupTypeDataChoiceType extends AbstractType
 {
 	private $groupTypeDataChoice;
-	
+
 	public function __construct(GroupTypeDataChoice $groupTypeDataChoice = null)
 	{
 		$this->groupTypeDataChoice = $groupTypeDataChoice;
 	}
-	
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-    	
+
 		$builder->add('value','text', array('required' => true));
-		
-		$builder->add('group_type_data_choice_i18ns', 'collection', array(
-            'type'          => new \BNS\App\CoreBundle\Form\Type\GroupTypeDataChoiceI18nType(),
-            'allow_add'     => true,
-            'allow_delete'  => false,
-            'by_reference'  => true
-        ));
-		
     }
 
 	/**

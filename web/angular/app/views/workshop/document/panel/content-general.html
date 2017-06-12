@@ -1,0 +1,50 @@
+<h2 translate>WORKSHOP.DOCUMENT.PROPERTIES</h2>
+
+<form name="documentForm" ng-submit="ctrl.submit()">
+  <div ng-show="documentForm.label.$error.required" class="pull-right text-danger" translate>WORKSHOP.DOCUMENT.REQUIRED</div>
+  <label for="media_label" translate>WORKSHOP.DOCUMENT.DOCUMENT_NAME</label>
+  <input name="label" id="media_label" type="text" ng-model="ctrl.document._embedded.media.label" ng-disabled="ctrl.busy" required>
+
+  <div ng-if="ctrl.adminSettings">
+    <label class="checkbox">
+      <input type="checkbox" ng-model="ctrl.document.is_locked" ng-disabled="ctrl.busy"> {{ 'WORKSHOP.DOCUMENT.LOCK_DOCUMENT' | translate }}
+    </label>
+    <span class="help-inline" translate>WORKSHOP.DOCUMENT.CANNOT_BE_EDITED_BY_PUPILS</span>
+  </div>
+  <div ng-if="ctrl.schoolCompetitionManage && ctrl.document.is_questionnaire">
+    <label class="checkbox">
+      <input type="checkbox" aria-label="" ng-model="ctrl.limited_attempts" ng-disabled="ctrl.busy"> {{ 'WORKSHOP.QUESTIONNAIRE.LIMITED_ATTEMPTS' | translate }}
+    </label>
+    <span ng-class="{'help-inline': !ctrl.limited_attempts}" translate>WORKSHOP.QUESTIONNAIRE.COMPETITION_ONLY</span>
+
+    <div class="layout-row layout-align-center-center" ng-show="ctrl.limited_attempts">
+      <div class="flex-80">
+        <span translate>WORKSHOP.QUESTIONNAIRE.ATTEMPTS_NUMBER</span>
+      </div>
+      <md-input-container class="flex-20">
+        <md-select ng-model="ctrl.document.attempts_number" class="attempts-select" aria-label="">
+          <md-option ng-repeat="n in [1,2,3,4,5,6,7,8,9,10] track by $index" value="{{$index + 1}}">
+            {{$index + 1}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+  </div>
+
+  <label for="media_description" translate>WORKSHOP.DOCUMENT.DESCRIPTION</label>
+  <textarea id="media_description" rows="10" ng-model="ctrl.document._embedded.media.description" ng-disabled="ctrl.busy"></textarea>
+
+  <div bns-workshop-content-contributors="ctrl.contributors" content="ctrl.document" ng-class="{busy: ctrl.busy}"></div>
+
+  <p>
+    <button type="submit" class="btn btn-primary btn-block btn-lg">
+      <span ng-show="!ctrl.busy" translate>WORKSHOP.DOCUMENT.SAVE</span>
+      <span class="loader loader-sm" ng-show="ctrl.busy"></span>
+    </button>
+  </p>
+
+  <p class="text-center">
+    <span class="btn btn-default btn-wide" ng-class="{disabled: ctrl.busy}" ng-click="!ctrl.busy && ctrl.cancel()" translate>WORKSHOP.DOCUMENT.CANCEL</span>
+  </p>
+
+</form>

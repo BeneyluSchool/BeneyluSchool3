@@ -1,0 +1,14 @@
+<input type="hidden" id="media_id" ng-model="resourceId" bns-bind-value>
+
+<a href="#" class="btn btn-primary btn-lg media-selection" data-final-id="media_id" data-allowed-type="{{ ctrl.type | uppercase }}">
+  <i class="bns-icon-search round"></i>
+  <strong translate>WORKSHOP.DOCUMENT.OPEN_MEDIA_LIBRARY</strong>
+</a>
+
+<div ng-if="ctrl.media" class="workshop-widget-media">
+  <div bns-viewer-media media="ctrl.media" lightweight="true"></div>
+  <p>
+    {{ ctrl.media.label }}
+    <span class="btn btn-text btn-sm" ng-click="ctrl.remove()"><i class="icon-remove"></i></span>
+  </p>
+</div>

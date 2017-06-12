@@ -1,0 +1,62 @@
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+    <h3 class="flex flex-none heading" translate>LSU.TITLE_CONFIGS</h3>
+    <span class="flex"></span>
+    <span>
+      <md-progress-circular md-mode="indeterminate" md-diameter="24" ng-show="ctrl.pendingCount"></md-progress-circular>
+      <md-icon ng-show="ctrl.successCount && !ctrl.pendingCount" class="text-accent">check</md-icon>
+    </span>
+  </div>
+</md-toolbar>
+
+<md-content>
+
+  <bns-inset bns-inset-size="small" bns-inset-elevation="0" class="md-padding flex layout-row layout-align-center-center">
+    <div class="md-body-2" translate>LSU.DESCRIPTION_CHOOSE_CLASSROOM_LEVELS</div>
+  </bns-inset>
+
+  <bns-transclude-src name="lsu-config-sidebar" class="hide-gt-md">
+    <bns-expander label="{{'LSU.LABEL_CLASSROOM_LEVELS'|translate}}" start-open="true">
+      <bns-checkbox-group ng-model="ctrl.levels" choices="ctrl.allLevels" bns-disabled="ctrl.disableLevelsCount"></bns-checkbox-group>
+      <div ng-show="ctrl.hasLockedLevels" class="md-body-1 md-padding" translate>LSU.DESCRIPTION_LOCKED_LEVELS</div>
+    </bns-expander>
+  </bns-transclude-src>
+
+  <div ng-show="ctrl.hasInit" class="lsu-config-levels">
+    <div ng-repeat="config in ctrl.configs" class="lsu-config-level">
+      <md-subheader class="md-no-sticky bns-subheader-solid">
+        <div class="layout-row">
+          <span class="md-title flex">{{::config.lsu_level.label}}</span>
+          <span class="md-body-2" translate translate-values="{count: config.users.length || 0}" translate-interpolation="messageformat">LSU.TITLE_PUPILS_COUNT</span>
+        </div>
+      </md-subheader>
+      <div class="layout-padding">
+        <div ng-sortable="ctrl.sortableConfig" ng-class="{empty: !config.users.length}" data-empty-content="{{'LSU.DESCRIPTION_MOVE_PUPILS_HERE'|translate}}" class="md-chips">
+          <md-chip ng-repeat="user in config.users" class="text-ellipsis">
+            <img ng-src="{{::user.avatar_url}}" alt="{{::user.full_name}}" class="bns-avatar size-32">
+            {{::user.full_name}}
+          </md-chip>
+        </div>
+      </div>
+    </div>
+
+    <div class="lsu-config-level">
+      <md-subheader class="md-no-sticky bns-subheader-solid">
+        <div class="layout-row">
+          <span class="md-title flex" translate>LSU.TITLE_PUPILS_NOT_CONFIGURED</span>
+          <span class="md-body-2" translate translate-values="{count: ctrl.remainingPupils.length || 0}" translate-interpolation="messageformat">LSU.TITLE_PUPILS_COUNT</span>
+        </div>
+      </md-subheader>
+      <div class="layout-padding">
+        <div ng-sortable="ctrl.sortableConfig" ng-class="{empty: !ctrl.remainingPupils.length}" data-empty-content="{{'LSU.DESCRIPTION_NO_PUPIL'|translate}}" class="md-chips">
+          <md-chip ng-repeat="user in ctrl.remainingPupils" class="text-ellipsis">
+            <img ng-src="{{::user.avatar_url}}" alt="{{::user.full_name}}" class="bns-avatar size-32">
+            {{::user.full_name}}
+          </md-chip>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</md-content>

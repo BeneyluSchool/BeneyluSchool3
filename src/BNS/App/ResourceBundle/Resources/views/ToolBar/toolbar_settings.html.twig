@@ -1,0 +1,53 @@
+{% if not showTag is defined or showTag == false %}
+	<script type="text/javascript">
+{% endif %}
+	{# remember: "toolBar" variable #}
+    $(function(){
+        {# CAN_ADD_RESOURCE #}
+        {% if canAddResource is defined and canAddResource == true %}
+        toolBar.canAddResource = true;
+        {% elseif canAddResource is defined %}
+        toolBar.canAddResource = false;
+        {% endif %}
+
+        {# HAS_HISTORY #}
+        {% if hasHistory is defined and hasHistory == true %}
+        toolBar.hasHistory = true;
+        {% elseif hasHistory is defined %}
+        toolBar.hasHistory = false;
+        {% endif %}
+
+        {# CAN_MANAGE #}
+        {% if canManage is defined and canManage == true %}
+        toolBar.canManage = true;
+        {% elseif canManage is defined %}
+        toolBar.canManage = false;
+        {% endif %}
+
+        {# NAVIGATION_CONTEXT #}
+        {% if navigationContext is defined and navigationContext in ['GALLERY', 'FILE', 'GARBAGE'] %}
+        toolBar.navigationContext = '{{ navigationContext }}';
+        {% elseif navigationContext is defined %}
+        toolBar.navigationContext = 'GALLERY';
+        {% endif %}
+
+        {# OBJECTIVE_CONTEXT #}
+        {% if objectiveContext is defined and objectiveContext in ['JOIN', 'INSERT', 'SELECT'] %}
+        toolBar.objectiveContext = '{{ objectiveContext }}';
+        {% elseif objectiveContext is defined %}
+        toolBar.objectiveContext = null;
+        {% endif %}
+
+        {# ALLOWED_TYPE #}
+        {% if allowedType is defined %}
+        toolBar.allowedType = '{{ allowedType }}';
+        {% endif %}
+
+        {% if update is defined and update == true %}
+        // Finally
+        toolBar.update();
+        {% endif %}
+    });
+{% if not showTag is defined or showTag == false %}
+	</script>
+{% endif %}

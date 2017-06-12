@@ -8,7 +8,7 @@ use BNS\App\CoreBundle\Model\om\BaseGroupTypePeer;
 /**
  * Skeleton subclass for performing query and update operations on the 'group_type' table.
  *
- * 
+ *
  *
  * You should add additional methods to this class to meet the
  * application requirements.  This class will only be generated as
@@ -16,32 +16,39 @@ use BNS\App\CoreBundle\Model\om\BaseGroupTypePeer;
  *
  * @package    propel.generator.Work/Beneyluschool3/src/BNS/App/CoreBundle/Model
  */
-class GroupTypePeer extends BaseGroupTypePeer {	
-	public static function createGroupType($params, $lang = 'fr')
-	{
-		
-		$groupType = new GroupType();
-		$groupType->setId($params['group_type_id']);
-		$groupType->setType($params['type']);
-		$groupType->setCentralize($params['centralize']);
-		$groupType->setSimulateRole($params['simulate_role']);
-		if (isset($params['is_recursive'])) {
-			$groupType->setIsRecursive($params['is_recursive']);
-		}
-		
-		$groupType->save();
-		
-		$groupTypeI18n = new GroupTypeI18n();
-		$groupTypeI18n->setId($groupType->getId());
-		$groupTypeI18n->setLang($lang);
-		$groupTypeI18n->setLabel($params['label']);
-		$groupTypeI18n->setDescription($params['description']);
-		$groupTypeI18n->save();
-		
-		return $groupType;
-			
-	}
-	
-	
-	
+class GroupTypePeer extends BaseGroupTypePeer
+{
+
+    /**
+     * @deprecated
+     *
+     * @param $params
+     * @param string $lang
+     * @return GroupType
+     * @throws \Exception
+     * @throws \PropelException
+     */
+    public static function createGroupType($params, $lang = null)
+    {
+
+        if (null !== $lang) {
+            @trigger_error('GroupTypePeer::createGroupType $lang parameter is not used anymore', E_USER_DEPRECATED);
+        }
+
+        $groupType = new GroupType();
+        $groupType->setId($params['group_type_id']);
+        $groupType->setType($params['type']);
+        $groupType->setCentralize($params['centralize']);
+        $groupType->setSimulateRole($params['simulate_role']);
+        if (isset($params['is_recursive'])) {
+            $groupType->setIsRecursive($params['is_recursive']);
+        }
+
+        $groupType->save();
+
+        return $groupType;
+
+    }
+
+
 } // GroupTypePeer

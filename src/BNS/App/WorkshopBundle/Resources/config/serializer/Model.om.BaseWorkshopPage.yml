@@ -1,0 +1,20 @@
+BNS\App\WorkshopBundle\Model\om\BaseWorkshopPage:
+  exclusion_policy: All
+  properties:
+    id:
+      expose: true
+    document_id:
+      expose: true
+    layout_code:
+      expose: true
+      groups: [detail]
+    position:
+      expose: true
+
+  virtual_properties:
+
+    # explicitly use the getter, to have a human-readable ENUM value (and not
+    # its stored number)
+    getOrientation:
+      expose: true
+      groups: [detail]

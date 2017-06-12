@@ -1,0 +1,15 @@
+BNS\App\WorkshopBundle\Model\WorkshopWidgetGroup:
+  exclusion_policy: All
+  relations:
+    - rel: self
+      href:
+        route: workshop_widget_group_api_get
+        parameters:
+            id: expr(object.getId())
+            version: "1.0"
+        absolute: true
+    - rel: widgets
+      embedded:
+        content: expr(object.getWorkshopWidgets())
+      exclusion:
+        groups: [detail]

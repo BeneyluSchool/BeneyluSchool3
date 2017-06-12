@@ -1,0 +1,11 @@
+<ul class="workshop-widget-option-choice-buttons">
+  <li ng-repeat="v in option.values">
+    <div class="workshop-btn-text" ng-click="setChoice(v.value || v)" ng-class="{ 'current': v.value == choice || v == choice }">
+      <span class="workshop-btn">
+        <img ng-if="v.image" ng-src="/ent/angular/app/images/workshop/widget-option/{{ v.image }}.png" alt="">
+      </span>
+      <p ng-if="v.code">{{ ("WORKSHOP.LABEL_CHOICES_"+(v.code|tokenize))|translate }}</p>
+      <p ng-if="!v.code">{{v.label || v.value || v }}</p>
+    </div>
+  </li>
+</ul>

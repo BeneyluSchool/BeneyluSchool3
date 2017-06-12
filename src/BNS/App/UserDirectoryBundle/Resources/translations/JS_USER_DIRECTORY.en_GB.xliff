@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-06-22T16:37:33Z" source-language="en" target-language="en-GB" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="f9460492306d4b99cd31848c3a99a26a7e978d96" resname="ADD">
+        <source>ADD</source>
+        <target>Add</target>
+      </trans-unit>
+      <trans-unit id="d92974370436a6cd61f3f82d7fb124bbd7add517" resname="ADD_CONTEXT_TO_SELECTION_HTML">
+        <source>ADD_CONTEXT_TO_SELECTION_HTML</source>
+        <target><![CDATA[<strong>Add {{ name }}</strong><br>to the selection]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="e3393a36239889410139c51ba96c18a25e396313" resname="ADD_THESE_USERS">
+        <source>ADD_THESE_USERS</source>
+        <target>Add these users</target>
+      </trans-unit>
+      <trans-unit id="e115fe428705ca3f76703482a15d7b308898bb6d" resname="ADD_THIS_WORKGROUP">
+        <source>ADD_THIS_WORKGROUP</source>
+        <target>Add this workgroup</target>
+      </trans-unit>
+      <trans-unit id="6c55e22821a60ab8e01c1689f59d37feb6f1715b" resname="ADD_USERS_ERROR">
+        <source>ADD_USERS_ERROR</source>
+        <target>An error occured while adding users</target>
+      </trans-unit>
+      <trans-unit id="6549475cf4f486f450ee8d3ed00a9b615a442540" resname="ADD_USERS_ERROR_NO_CONTEXT">
+        <source>ADD_USERS_ERROR_NO_CONTEXT</source>
+        <target>Cannot add users without context</target>
+      </trans-unit>
+      <trans-unit id="fff34e07ed1078080838aab5bc7e572f45926709" resname="ADD_USERS_MODAL_TITLE">
+        <source>ADD_USERS_MODAL_TITLE</source>
+        <target>Add users</target>
+      </trans-unit>
+      <trans-unit id="e9678902797116e09a69801f6133bd31fd78186f" resname="ADD_USERS_SUCCESS">
+        <source>ADD_USERS_SUCCESS</source>
+        <target>Users added</target>
+      </trans-unit>
+      <trans-unit id="9b22e843c7d06d8f7daf23f9b2fe80f77b070fc4" resname="ADD_USERS_TO_WORKGROUP_HTML">
+        <source>ADD_USERS_TO_WORKGROUP_HTML</source>
+        <target><![CDATA[<strong>Add the selection</strong><br>to this workgroup]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="04e0963371021c38b1dbcc962a8dc66982853887" resname="ADD_WORKGROUP">
+        <source>ADD_WORKGROUP</source>
+        <target>Add a workgroup</target>
+      </trans-unit>
+      <trans-unit id="14d5120a51250fff74c45c04d64f688dca7e3deb" resname="ADD_WORKGROUP_ERROR">
+        <source>ADD_WORKGROUP_ERROR</source>
+        <target>An error occured while adding the workgroup</target>
+      </trans-unit>
+      <trans-unit id="ed579ff678e6938bad4f82fe0d9df3c04e0859d2" resname="ADD_WORKGROUP_ERROR_NO_CONTEXT">
+        <source>ADD_WORKGROUP_ERROR_NO_CONTEXT</source>
+        <target>Cannot add a workgroup without context</target>
+      </trans-unit>
+      <trans-unit id="b83bd3216a966d56217ee0ca53ee52ba432db842" resname="ADD_WORKGROUP_IN">
+        <source>ADD_WORKGROUP_IN</source>
+        <target>Add a workgroup in "{{name}}"</target>
+      </trans-unit>
+      <trans-unit id="b7d86071e58e9513a1dbcc710c56caf65612b3ea" resname="ADD_WORKGROUP_MODAL_TITLE">
+        <source>ADD_WORKGROUP_MODAL_TITLE</source>
+        <target>Add a workgroup</target>
+      </trans-unit>
+      <trans-unit id="d5253832eba9126a590a8a33792ba36f8fed4a13" resname="ADD_WORKGROUP_SUCCESS">
+        <source>ADD_WORKGROUP_SUCCESS</source>
+        <target>Workgroup created</target>
+      </trans-unit>
+      <trans-unit id="68ea58d47d701c4592e9e642b51f325581a1f684" resname="ADMINS">
+        <source>ADMINS</source>
+        <target>Administrators</target>
+      </trans-unit>
+      <trans-unit id="bf6b5e8620d4ca74b20c02463273104c9b35226e" resname="ASSISTANTS">
+        <source>ASSISTANTS</source>
+        <target>Assistants</target>
+      </trans-unit>
+      <trans-unit id="303535ae869cdd9a554c2dcb298978fab54f44c2" resname="BUTTON_CREATE_DISTRIBUTION_LIST">
+        <source>BUTTON_CREATE_DISTRIBUTION_LIST</source>
+        <target state="new">Create a mailing list</target>
+      </trans-unit>
+      <trans-unit id="a1189019feb55708e149e6823d768cae097e1b69" resname="BUTTON_DELETE_DISTRIBUTION_LISTS">
+        <source>BUTTON_DELETE_DISTRIBUTION_LISTS</source>
+        <target>Delete mailing lists</target>
+      </trans-unit>
+      <trans-unit id="eb3e434583a36d58f5b26d70af901acd56c86035" resname="BUTTON_EDIT_DISTRIBUTION_LIST">
+        <source>BUTTON_EDIT_DISTRIBUTION_LIST</source>
+        <target>Edit list</target>
+      </trans-unit>
+      <trans-unit id="1507c40f043249fe6b5e25ba0cc97010cefa6d12" resname="CANCEL">
+        <source>CANCEL</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="f32654a9255dc798b7846cd270ce95267447a3ad" resname="CONFIRM_DELETE_THIS_WORKGROUP">
+        <source>CONFIRM_DELETE_THIS_WORKGROUP</source>
+        <target>Confirm deletion of this workgroup</target>
+      </trans-unit>
+      <trans-unit id="dc47fa85912016538fa3af45e566a6b1ade7cfe2" resname="CREATE_WORKGROUP_WITH_USERS_HTML">
+        <source>CREATE_WORKGROUP_WITH_USERS_HTML</source>
+        <target><![CDATA[<strong>Create a workgroup</strong><br>with selected users]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="d6f5636098cd458ce9d22939f8e3e8deab0e9bd0" resname="DELETE">
+        <source>DELETE</source>
+        <target>Delete</target>
+      </trans-unit>
+      <trans-unit id="5dff7c901b8b851473998b6144d09903fdbd477a" resname="DELETE_THIS_WORKGROUP">
+        <source>DELETE_THIS_WORKGROUP</source>
+        <target>Delete this workgroup</target>
+      </trans-unit>
+      <trans-unit id="f503d4ef7b5ca93dbe225cf45b052a0a89b94870" resname="DELETE_WORKGROUP">
+        <source>DELETE_WORKGROUP</source>
+        <target>Delete the workgroup</target>
+      </trans-unit>
+      <trans-unit id="0390ffbe121eab9ecd3b6f0b22588d1764cd52dc" resname="DELETE_WORKGROUP_ERROR">
+        <source>DELETE_WORKGROUP_ERROR</source>
+        <target>An error occured while deleting the workgroup</target>
+      </trans-unit>
+      <trans-unit id="39d98c05c8611d1331ee38fcfe19be4745607d83" resname="DELETE_WORKGROUP_ERROR_NO_RIGHT">
+        <source>DELETE_WORKGROUP_ERROR_NO_RIGHT</source>
+        <target>You can't delete this workgroup</target>
+      </trans-unit>
+      <trans-unit id="c86addaf8ac7f4cb5658dda3d36f0571699467a3" resname="DELETE_WORKGROUP_MODAL_TITLE">
+        <source>DELETE_WORKGROUP_MODAL_TITLE</source>
+        <target>Delete a workgroup</target>
+      </trans-unit>
+      <trans-unit id="79c017055a7dcce09e1bcf4b0f0467d954e45136" resname="DELETE_WORKGROUP_NAME">
+        <source>DELETE_WORKGROUP_NAME</source>
+        <target>Delete the workgroup "{{ name }}"</target>
+      </trans-unit>
+      <trans-unit id="c768309966f247e286e6119ca409b2a197ee00d5" resname="DELETE_WORKGROUP_SUCCESS">
+        <source>DELETE_WORKGROUP_SUCCESS</source>
+        <target>Workgroup deleted</target>
+      </trans-unit>
+      <trans-unit id="26476fef6e13d29497de0ccba10b62dac1cbca00" resname="DIRECTORS">
+        <source>DIRECTORS</source>
+        <target>Principals</target>
+      </trans-unit>
+      <trans-unit id="c9d8e14fa6fef1181c9ae180acde16bd66683777" resname="EDIT_WORKSPACE_ERROR">
+        <source>EDIT_WORKSPACE_ERROR</source>
+        <target>An error occured while editing the workspace</target>
+      </trans-unit>
+      <trans-unit id="fa95c0b16b798bb1c3946b8c85b6da188f65ad4e" resname="EDIT_WORKSPACE_ERROR_NO_CONTEXT">
+        <source>EDIT_WORKSPACE_ERROR_NO_CONTEXT</source>
+        <target>Cannot edit a workspace without context</target>
+      </trans-unit>
+      <trans-unit id="113a6beb1484588ab7a8367566d7e7daf8fafb1e" resname="EDIT_WORKSPACE_HTML">
+        <source>EDIT_WORKSPACE_HTML</source>
+        <target><![CDATA[<strong>Edit</strong><br>this workspace]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="50cfa4fabd35b1240b2b8989acacdf1932285669" resname="EDIT_WORKSPACE_MODAL_TITLE">
+        <source>EDIT_WORKSPACE_MODAL_TITLE</source>
+        <target>Editing the workspace "{{ name }}"</target>
+      </trans-unit>
+      <trans-unit id="a8080adf6ecc68d2e9e380377e46708fc976bc6d" resname="EDIT_WORKSPACE_SUCCESS">
+        <source>EDIT_WORKSPACE_SUCCESS</source>
+        <target>Workspace edited</target>
+      </trans-unit>
+      <trans-unit id="82fc8b98a383fcc64504eeb49a6149ecda9a61b2" resname="ENT_REFERENTS">
+        <source>ENT_REFERENTS</source>
+        <target>School managers</target>
+      </trans-unit>
+      <trans-unit id="8e34488d378267fac59f4631f7060d491990c28e" resname="FLASH_CREATE_DISTRIBUTION_LIST_ERROR">
+        <source>FLASH_CREATE_DISTRIBUTION_LIST_ERROR</source>
+        <target>The mailing list could not be created</target>
+      </trans-unit>
+      <trans-unit id="685f6e38ccd0fdac231d33e376daa1d5ae33157c" resname="FLASH_CREATE_DISTRIBUTION_LIST_SUCCESS">
+        <source>FLASH_CREATE_DISTRIBUTION_LIST_SUCCESS</source>
+        <target>The mailing list has been successfully created</target>
+      </trans-unit>
+      <trans-unit id="dacc5c3177ea223b20eb37f1cbaabbfcbd33944b" resname="FLASH_EDIT_DISTRIBUTION_LIST_ERROR">
+        <source>FLASH_EDIT_DISTRIBUTION_LIST_ERROR</source>
+        <target>The mailing list could not be edited</target>
+      </trans-unit>
+      <trans-unit id="4f677c7690c364b2c4331b83bf880063ccd9f061" resname="FLASH_EDIT_DISTRIBUTION_LIST_SUCCESS">
+        <source>FLASH_EDIT_DISTRIBUTION_LIST_SUCCESS</source>
+        <target>The mailing list has been successfully edited</target>
+      </trans-unit>
+      <trans-unit id="2d285f28704ed9beb6d2191df75d29ce1a98dc54" resname="GET_GROUPS_ERROR">
+        <source>GET_GROUPS_ERROR</source>
+        <target>An error occured while retrieving the group list</target>
+      </trans-unit>
+      <trans-unit id="66c8a640800f54de9978cc409ee9bc548514447c" resname="GROUP.ACTIVATE_MODULE_SUCCESS">
+        <source>GROUP.ACTIVATE_MODULE_SUCCESS</source>
+        <target>App activated</target>
+      </trans-unit>
+      <trans-unit id="f465c563117ec017f57349486138a376c2299f58" resname="GROUP.BLOG">
+        <source>GROUP.BLOG</source>
+        <target>Blog</target>
+      </trans-unit>
+      <trans-unit id="2f624924e6cf9d31cf39bbfcdb8154fd1329bee3" resname="GROUP.BOARD">
+        <source>GROUP.BOARD</source>
+        <target>Dashboard</target>
+      </trans-unit>
+      <trans-unit id="378b9a0dc9829ca56fa897d34af0702f7ccf2762" resname="GROUP.CALENDAR">
+        <source>GROUP.CALENDAR</source>
+        <target>Calendar</target>
+      </trans-unit>
+      <trans-unit id="fa3b379eb11e70134afc9d8e61470598f29a8275" resname="GROUP.CLASSROOM">
+        <source>GROUP.CLASSROOM</source>
+        <target>Classroom</target>
+      </trans-unit>
+      <trans-unit id="57a6e19f21d440fefbacf3a1150d2e3cdf98e8b7" resname="GROUP.DEACTIVATE_MODULE_SUCCESS">
+        <source>GROUP.DEACTIVATE_MODULE_SUCCESS</source>
+        <target>App deactivated</target>
+      </trans-unit>
+      <trans-unit id="4f6257aa0156edf22b1b61d336f19bde037358cf" resname="GROUP.DIRECTORY">
+        <source>GROUP.DIRECTORY</source>
+        <target>Directory</target>
+      </trans-unit>
+      <trans-unit id="086e5ad771048e9eee4110dfe32aa0aff98a93f0" resname="GROUP.FORUM">
+        <source>GROUP.FORUM</source>
+        <target>Forum</target>
+      </trans-unit>
+      <trans-unit id="40997f425180e7b33248223b013e0596b4f94c2e" resname="GROUP.GPS">
+        <source>GROUP.GPS</source>
+        <target>GPS</target>
+      </trans-unit>
+      <trans-unit id="b4466c657ae3b81d8f9a3b750b20ffe198373993" resname="GROUP.GROUP">
+        <source>GROUP.GROUP</source>
+        <target>Group</target>
+      </trans-unit>
+      <trans-unit id="f52cb69e03f98646772e91447b39ea2aba87a3cb" resname="GROUP.HELLOWORLD">
+        <source>GROUP.HELLOWORLD</source>
+        <target>Hello World</target>
+      </trans-unit>
+      <trans-unit id="5d6bb45bd96fe90543264b31fe9e781828b657f7" resname="GROUP.HOMEWORK">
+        <source>GROUP.HOMEWORK</source>
+        <target>Task notebook</target>
+      </trans-unit>
+      <trans-unit id="c71b8daaf516e98ec7110d4e7f25b8421d3b6182" resname="GROUP.INFO">
+        <source>GROUP.INFO</source>
+        <target>Teacher information</target>
+      </trans-unit>
+      <trans-unit id="f85aea6ef7dd4a640874b4c2b5efdcefbbcf754a" resname="GROUP.LIAISONBOOK">
+        <source>GROUP.LIAISONBOOK</source>
+        <target>Parent-teacher contact book</target>
+      </trans-unit>
+      <trans-unit id="84ce5526d31d96bcbc4f16c8b909f8ba46c34e61" resname="GROUP.MANAGE_MODULE_ERROR">
+        <source>GROUP.MANAGE_MODULE_ERROR</source>
+        <target>An error occured while managing this app</target>
+      </trans-unit>
+      <trans-unit id="252c30f9caa11be028e53337f044f329c6857641" resname="GROUP.MEDIA_LIBRARY">
+        <source>GROUP.MEDIA_LIBRARY</source>
+        <target>Media library</target>
+      </trans-unit>
+      <trans-unit id="a056de9fd050353349b8ab4be59fbe5c4d08084b" resname="GROUP.MESSAGING">
+        <source>GROUP.MESSAGING</source>
+        <target>Mail</target>
+      </trans-unit>
+      <trans-unit id="22b2b5964caff34eb8b4ef1456e5cf4eac713805" resname="GROUP.MINISITE">
+        <source>GROUP.MINISITE</source>
+        <target>School website</target>
+      </trans-unit>
+      <trans-unit id="76e414952588fc732b51cf020c4489d29f17bf9f" resname="GROUP.MODULES">
+        <source>GROUP.MODULES</source>
+        <target>Apps</target>
+      </trans-unit>
+      <trans-unit id="90df5f07479b39149db892aeb3c4b120719c183c" resname="GROUP.NOTEBOOK">
+        <source>GROUP.NOTEBOOK</source>
+        <target>Notebook</target>
+      </trans-unit>
+      <trans-unit id="ee7a3bc4ee8b5e40781c481b38043244746160d1" resname="GROUP.NOTIFICATION">
+        <source>GROUP.NOTIFICATION</source>
+        <target>Notification</target>
+      </trans-unit>
+      <trans-unit id="df49a4b16bc7d5d17413181bbb8aaf58e3af1965" resname="GROUP.NO_MODULE_TO_DISPLAY">
+        <source>GROUP.NO_MODULE_TO_DISPLAY</source>
+        <target>No app to display</target>
+      </trans-unit>
+      <trans-unit id="37e4dd10fb043f287ebcfaf3e4f6758c73cd00b5" resname="GROUP.PARENTS">
+        <source>GROUP.PARENTS</source>
+        <target>Parents</target>
+      </trans-unit>
+      <trans-unit id="c3bf10984097495a9fa2695139da085316fe6a96" resname="GROUP.PORTAL">
+        <source>GROUP.PORTAL</source>
+        <target>Portal</target>
+      </trans-unit>
+      <trans-unit id="8a852dd384bfdb4b46c037ece2556373acc86ee6" resname="GROUP.PROFILE">
+        <source>GROUP.PROFILE</source>
+        <target>Profile</target>
+      </trans-unit>
+      <trans-unit id="dfad632768705073089f8e252305335f6d8092af" resname="GROUP.PUPILMONITORING">
+        <source>GROUP.PUPILMONITORING</source>
+        <target>Pupil monitoring</target>
+      </trans-unit>
+      <trans-unit id="f03761f112c90870f0a512496dea042106673e70" resname="GROUP.PUPILS">
+        <source>GROUP.PUPILS</source>
+        <target>Pupils</target>
+      </trans-unit>
+      <trans-unit id="96a56109f872f3363542b93a26122440e29cc043" resname="GROUP.RESERVATION">
+        <source>GROUP.RESERVATION</source>
+        <target>Reservation handler</target>
+      </trans-unit>
+      <trans-unit id="9ee539653b23aa671c8705fd4a286abaf39affb2" resname="GROUP.SCHOOL">
+        <source>GROUP.SCHOOL</source>
+        <target>School</target>
+      </trans-unit>
+      <trans-unit id="b32ed7ce732e5ca6760e9f34c36e69db050aca46" resname="GROUP.SEARCH">
+        <source>GROUP.SEARCH</source>
+        <target>Search engine</target>
+      </trans-unit>
+      <trans-unit id="9793f0b769279113e2df034c53a20d3bd19c65a9" resname="GROUP.SEE_DETAILS">
+        <source>GROUP.SEE_DETAILS</source>
+        <target>See details</target>
+      </trans-unit>
+      <trans-unit id="e6120b382d0606b9ec69801bf9f0cff9f6d0f73b" resname="GROUP.SEE_USERS">
+        <source>GROUP.SEE_USERS</source>
+        <target>See users</target>
+      </trans-unit>
+      <trans-unit id="c23d917d2c3af84f7e37598f1dae36949bcf604f" resname="GROUP.SPOT">
+        <source>GROUP.SPOT</source>
+        <target>Spot</target>
+      </trans-unit>
+      <trans-unit id="60828ce93c0d7d06d9e117793dfd8e233f51e84d" resname="GROUP.TEACHERS">
+        <source>GROUP.TEACHERS</source>
+        <target>Teachers</target>
+      </trans-unit>
+      <trans-unit id="459276d58dd6844d758f1887c62f8d1c3078cae0" resname="GROUP.TEAM">
+        <source>GROUP.TEAM</source>
+        <target>Team</target>
+      </trans-unit>
+      <trans-unit id="4fbc7d82a357269e53f43ebcb40ce1c342a91483" resname="GROUP.USER_DIRECTORY">
+        <source>GROUP.USER_DIRECTORY</source>
+        <target>Directory</target>
+      </trans-unit>
+      <trans-unit id="e0709a0937713bc479889548974755871644ed56" resname="GROUP.WORKSHOP">
+        <source>GROUP.WORKSHOP</source>
+        <target>Workshop</target>
+      </trans-unit>
+      <trans-unit id="62211a5a0f2f9df60c0b228ad3698812b92ad068" resname="GROUP.YERBOOK">
+        <source>GROUP.YERBOOK</source>
+        <target>Yërbook</target>
+      </trans-unit>
+      <trans-unit id="b69c3ccfe55954f7fbf622662dfd908f130577cb" resname="LABEL_DISTRIBUTION_LIST_NAME">
+        <source>LABEL_DISTRIBUTION_LIST_NAME</source>
+        <target>Mailing list name</target>
+      </trans-unit>
+      <trans-unit id="29f5226318a36c2ed03dd77b92fefa25d9e290b1" resname="LABEL_MY_DISTRIBUTION_LISTS">
+        <source>LABEL_MY_DISTRIBUTION_LISTS</source>
+        <target>My mailing lists</target>
+      </trans-unit>
+      <trans-unit id="07c11326a674d7fc52d49d3043125ccee1899908" resname="LABEL_NO_SUBGROUPS">
+        <source>LABEL_NO_SUBGROUPS</source>
+        <target>No subgroup</target>
+      </trans-unit>
+      <trans-unit id="4be9ff930e0b2b3d9f16145020f941ed9d5c0b2b" resname="LABEL_TARGET_SECTORS">
+        <source>LABEL_TARGET_SECTORS</source>
+        <target>Which field?</target>
+      </trans-unit>
+      <trans-unit id="b5e91c586778311159774bc08567d0e4f06225c6" resname="LABEL_TARGET_USER_TYPES">
+        <source>LABEL_TARGET_USER_TYPES</source>
+        <target>To whom?</target>
+      </trans-unit>
+      <trans-unit id="3b7996953072498787d9545254d46f1077bf8919" resname="LOAD_MORE_USERS">
+        <source>LOAD_MORE_USERS</source>
+        <target>Load more users</target>
+      </trans-unit>
+      <trans-unit id="3bf08a84f15b98ce4d14b707f4a093b3cc8b853e" resname="MOVE">
+        <source>MOVE</source>
+        <target>Move</target>
+      </trans-unit>
+      <trans-unit id="a78de74fe97ac1505a06af6d0424b174835d0ec1" resname="MY_SELECTION">
+        <source>MY_SELECTION</source>
+        <target>My selection</target>
+      </trans-unit>
+      <trans-unit id="f8bfc33c671e43b54074d70e8511a02919d2d33e" resname="MY_WORKSPACES">
+        <source>MY_WORKSPACES</source>
+        <target>My workspaces</target>
+      </trans-unit>
+      <trans-unit id="05f97087b7f525b70fe95b9ae906d4eae7990500" resname="NO_ELEMENT_SELECTED">
+        <source>NO_ELEMENT_SELECTED</source>
+        <target>No element selected</target>
+      </trans-unit>
+      <trans-unit id="b658c549fe384d38070ce93a7de76123026b2872" resname="NO_EXISTING_USER_TO_REMOVE">
+        <source>NO_EXISTING_USER_TO_REMOVE</source>
+        <target>No existing user to remove</target>
+      </trans-unit>
+      <trans-unit id="a6d6c8be702772fab7dfdb7679018f430e2108ef" resname="NO_NEW_USER_TO_ADD">
+        <source>NO_NEW_USER_TO_ADD</source>
+        <target>No user to add</target>
+      </trans-unit>
+      <trans-unit id="7976db00a44abc162d77c815b965385636eba5b3" resname="NO_USERS">
+        <source>NO_USERS</source>
+        <target>No users</target>
+      </trans-unit>
+      <trans-unit id="c544304502cc20cae09dd2ee9c14ec26a85a3fd4" resname="NO_USER_TO_REMOVE">
+        <source>NO_USER_TO_REMOVE</source>
+        <target>No user to remove</target>
+      </trans-unit>
+      <trans-unit id="1c0bccd420fd1025f9595f571eb0a857f8f599a5" resname="PARENTS">
+        <source>PARENTS</source>
+        <target>Parents</target>
+      </trans-unit>
+      <trans-unit id="884958c8b9e2520dacac4859aff8045c1cf66d4d" resname="PUPILS">
+        <source>PUPILS</source>
+        <target>Pupils</target>
+      </trans-unit>
+      <trans-unit id="e0fab2a09a76484eff268e2c3dc1496a3ca1e18e" resname="REMOVE_CONTEXT_FROM_SELECTION_HTML">
+        <source>REMOVE_CONTEXT_FROM_SELECTION_HTML</source>
+        <target><![CDATA[<strong>Remove {{ name }}</strong><br>from the selection]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="0fe7b4bc9084a8ce322a942c004b92450e6bbfbc" resname="REMOVE_THESE_USERS">
+        <source>REMOVE_THESE_USERS</source>
+        <target>Remove these users</target>
+      </trans-unit>
+      <trans-unit id="041a03c9785d8b1a83c4a48aaee12fdd04d07ca1" resname="REMOVE_USERS_ERROR">
+        <source>REMOVE_USERS_ERROR</source>
+        <target>An error occured while removing users</target>
+      </trans-unit>
+      <trans-unit id="5e950c827147595f4af7a9d341d34361dc31cd01" resname="REMOVE_USERS_ERROR_NO_CONTEXT">
+        <source>REMOVE_USERS_ERROR_NO_CONTEXT</source>
+        <target>Cannot remove users without context</target>
+      </trans-unit>
+      <trans-unit id="3ced5d5b7c0c56d7358424386136ee4a38644eeb" resname="REMOVE_USERS_FROM_WORKGROUP_HTML">
+        <source>REMOVE_USERS_FROM_WORKGROUP_HTML</source>
+        <target><![CDATA[<strong>Remove the selection</strong><br>from this workgroup]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="352f1379a89f72018f364d8e89a2b4a04b61a25d" resname="REMOVE_USERS_MODAL_TITLE">
+        <source>REMOVE_USERS_MODAL_TITLE</source>
+        <target>Remove users</target>
+      </trans-unit>
+      <trans-unit id="3ccf54090f81957ecdfc5020c00366091cd705c3" resname="REMOVE_USERS_SUCCESS">
+        <source>REMOVE_USERS_SUCCESS</source>
+        <target>Users removed</target>
+      </trans-unit>
+      <trans-unit id="65f67f61358ad654da563636fdb1991390fa842a" resname="REQUIRED">
+        <source>REQUIRED</source>
+        <target>Required</target>
+      </trans-unit>
+      <trans-unit id="508156a39b09ccfe61cc81d984e9317e5e0d8eec" resname="SAVE">
+        <source>SAVE</source>
+        <target>Save</target>
+      </trans-unit>
+      <trans-unit id="a4942c26d0735947d8a22a2fbe2735a12e381808" resname="SELECT">
+        <source>SELECT</source>
+        <target>Select</target>
+      </trans-unit>
+      <trans-unit id="4747a1d8990c033ea7aa3c32877828bb3772d319" resname="TEACHERS">
+        <source>TEACHERS</source>
+        <target>Teachers</target>
+      </trans-unit>
+      <trans-unit id="c96c85c1598e2bcde7f06c4e681b42070d875a73" resname="THESE_USERS_WILL_BE_ADDED_TO_WORKGROUP">
+        <source>THESE_USERS_WILL_BE_ADDED_TO_WORKGROUP</source>
+        <target>These users will be added to the workgroup "{{ name }}"</target>
+      </trans-unit>
+      <trans-unit id="2f5f356dffab3829fcf5c8825ae8d97590c30e4f" resname="THESE_USERS_WILL_BE_REMOVED_FROM_WORKGROUP">
+        <source>THESE_USERS_WILL_BE_REMOVED_FROM_WORKGROUP</source>
+        <target>These users will be removed from the workgroup "{{ name }}"</target>
+      </trans-unit>
+      <trans-unit id="25878ea8b18511028ef76b46b9f318706b0e1977" resname="TITLE_CREATE_DISTRIBUTION_LIST">
+        <source>TITLE_CREATE_DISTRIBUTION_LIST</source>
+        <target>Create a mailing list</target>
+      </trans-unit>
+      <trans-unit id="c3432ecea4b6fdc5549fa62825e77dff4f5f1222" resname="TITLE_EDIT_DISTRIBUTION_LIST">
+        <source>TITLE_EDIT_DISTRIBUTION_LIST</source>
+        <target>Edit a mailing list</target>
+      </trans-unit>
+      <trans-unit id="8b7118f5f30b7390bcaf368cf484e7848350a713" resname="USERS_TO_ADD_TO_WORKGROUP">
+        <source>USERS_TO_ADD_TO_WORKGROUP</source>
+        <target>Users to be added to the workgroup</target>
+      </trans-unit>
+      <trans-unit id="b5595e7a33d0998d47e3226fcf46158edda20c5e" resname="USER_DIRECTORY">
+        <source>USER_DIRECTORY</source>
+        <target>Directory</target>
+      </trans-unit>
+      <trans-unit id="96d32b08fa33858232dac9a741311d28ca9e888a" resname="WORKGROUP_DATA_WILL_BE_DELETED">
+        <source>WORKGROUP_DATA_WILL_BE_DELETED</source>
+        <target>This workgroup and all data related to it will be deleted permanently.</target>
+      </trans-unit>
+      <trans-unit id="9035ed25f9e7c1f17b679604a9e3b1830c9669ff" resname="WORKGROUP_NAME">
+        <source>WORKGROUP_NAME</source>
+        <target>Workgroup name</target>
+      </trans-unit>
+      <trans-unit id="e34688f00583cf24a5f7e58ad056bf31376eb004" resname="WORKSPACES">
+        <source>WORKSPACES</source>
+        <target>Workspaces</target>
+      </trans-unit>
+      <trans-unit id="03c10caaf4a632af85d370ab4f7f399d6155d019" resname="WORKSPACE_NAME">
+        <source>WORKSPACE_NAME</source>
+        <target>Workspace name</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

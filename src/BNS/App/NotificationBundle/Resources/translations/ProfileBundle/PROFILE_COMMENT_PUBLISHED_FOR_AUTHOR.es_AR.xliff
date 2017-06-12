@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:45:27Z" source-language="en" target-language="es-AR" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="101f1e1681638d78e93140807b62aa87a582084a" resname="PROFILE_COMMENT_PUBLISHED_FOR_AUTHOR.EMAIL.content">
+        <source>PROFILE_COMMENT_PUBLISHED_FOR_AUTHOR.EMAIL.content</source>
+        <target><![CDATA[<strong>%sender_full_name%</strong> acaba de comentar <a href="%comment_route%">uno de los %link_word% estados</a>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="397905e8dc07476fc3cd7301c9d0346c9ea10cd1" resname="PROFILE_COMMENT_PUBLISHED_FOR_AUTHOR.EMAIL.title">
+        <source>PROFILE_COMMENT_PUBLISHED_FOR_AUTHOR.EMAIL.title</source>
+        <target>%sender_full_name% acaba de comentar uno de los %link_word% estados</target>
+      </trans-unit>
+      <trans-unit id="f4823b77722616b912fdb5febbd8894735e72db8" resname="PROFILE_COMMENT_PUBLISHED_FOR_AUTHOR.SYSTEM.content">
+        <source>PROFILE_COMMENT_PUBLISHED_FOR_AUTHOR.SYSTEM.content</source>
+        <target><![CDATA[<strong>%sender_full_name%</strong> acaba de comentar <a href="%comment_route%">uno de los %link_word% estados</a>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,42 @@
+BNS\App\CoreBundle\Model\GroupActivity:
+  exclusion_policy: All
+  virtual_properties:
+    getUniqueName:
+      expose: true
+      groups: [ groupActivity ]
+    getLabel:
+      expose: true
+      groups: [ groupActivity ]
+    getOpened:
+      expose: true
+      groups: [ groupActivity ]
+      serialized_name: is_open
+    getImageUrl:
+      expose: true
+      groups: [ groupActivity ]
+
+  properties:
+    hasAccessFront:
+      expose: true
+      groups: [ groupActivity ]
+    hasAccessBack:
+      expose: true
+      groups: [ groupActivity ]
+    canOpen:
+      expose: true
+      groups: [ groupActivity ]
+    isUninstallable:
+      expose: true
+      groups: [ groupActivity ]
+
+  relations:
+    - rel: back
+      href: expr(service('router').generate(object.getRouteBack(), {}, true))
+      exclusion:
+        exclude_if: expr(!object.hasRouteBack(service('router')))
+        groups: [ groupActivity ]
+    - rel: front
+      href: expr(service('router').generate(object.getRouteFront(), object.getRouteParameters(), true))
+      exclusion:
+        exclude_if: expr(!object.hasRouteFront(service('router')))
+        groups: [ groupActivity ]

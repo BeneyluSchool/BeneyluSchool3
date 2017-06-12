@@ -45,7 +45,7 @@ class PermissionExtension extends Twig_Extension
 	 * @return boolean 
 	 */
     public function hasRight($permissionName, $groupId = null)
-    {
+	{
 		return $this->container->get('bns.right_manager')->hasRight($permissionName, $groupId);
     }
 	

@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="bns.realtime.token_manager.class">BNS\App\RealtimeBundle\Token\TokenManager</parameter>
+        <parameter key="bns.realtime.consumer.class">BNS\App\RealtimeBundle\Consumer\RealtimeConsumer</parameter>
+        <parameter key="bns.realtime.publisher.class">BNS\App\RealtimeBundle\Publisher\RealtimePublisher</parameter>
+    </parameters>
+
+    <services>
+        <service id="bns.realtime.token_manager" class="%bns.realtime.token_manager.class%">
+            <argument>%jws_private_key_path%</argument>
+            <argument>%jws_private_key_passphrase%</argument>
+        </service>
+
+        <service id="bns.realtime.consumer" class="%bns.realtime.consumer.class%">
+            <argument type="service" id="logger" />
+            <argument type="service" id="bns.workshop.widget_group.manager" />
+            <argument type="service" id="bns.workshop.lock.manager" />
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="bns.realtime.publisher" class="%bns.realtime.publisher.class%">
+            <argument type="service" id="serializer" />
+            <argument type="service" id="snc_redis.default" />
+        </service>
+    </services>
+</container>

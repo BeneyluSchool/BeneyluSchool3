@@ -1,0 +1,12 @@
+
+<section class="current">
+  <md-button href ui-sref="^.week">
+    <md-icon>restaurant_menu</md-icon>
+    <span translate>LUNCH.TITLE_MENU_OF_THE_WEEK</span>
+  </md-button>
+
+  <bns-calendar selection="{{ shared.date.format('YYYY-MM-DD') }}" mode="week"></bns-calendar>
+  <md-divider></md-divider>
+</section>
+
+<section bns-app-menu-toggle></section>

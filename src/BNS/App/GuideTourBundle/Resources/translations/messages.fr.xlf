@@ -3,8 +3,20 @@
     <file source-language="en" datatype="plaintext" original="file.ext">
         <body>
             <trans-unit id="1">
-                <source>Symfony2 is great</source>
-                <target>J'aime Symfony2</target>
+                <source>Front.Index.title</source>
+                <target>Statistics</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>statistic.indicator.main_connect</source>
+                <target>Connections</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>statistic.indicator.blog_visit</source>
+                <target>Blog Frequentation</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>statistic.indicator.calendar_visit</source>
+                <target>Calendar Frequentation</target>
             </trans-unit>
         </body>
     </file>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:44:58Z" source-language="en" target-language="en-GB" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="308ed5b871c913d926aac367fee49c2bbb06f16e" resname="LIAISON_BOOK_NEW_MESSAGE_TO_SIGN.EMAIL.content">
+        <source>LIAISON_BOOK_NEW_MESSAGE_TO_SIGN.EMAIL.content</source>
+        <target><![CDATA[A message has been added in the parent-teacher contact book: <a href="%message_url%">%message_title%</a>. Don't forget to sign it!]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="6fd67cb09265b146c1c80d228350df15294e20ca" resname="LIAISON_BOOK_NEW_MESSAGE_TO_SIGN.EMAIL.title">
+        <source>LIAISON_BOOK_NEW_MESSAGE_TO_SIGN.EMAIL.title</source>
+        <target>A message has been added to the parent-teacher contact book</target>
+      </trans-unit>
+      <trans-unit id="79cee2b72cfe6fe6aaeaac4d962599f7f45f0f96" resname="LIAISON_BOOK_NEW_MESSAGE_TO_SIGN.SYSTEM.content">
+        <source>LIAISON_BOOK_NEW_MESSAGE_TO_SIGN.SYSTEM.content</source>
+        <target><![CDATA[A message has been added to the parent-teacher contact book: <a href="%message_url%">%message_title%</a>. Don't forget to sign it!]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

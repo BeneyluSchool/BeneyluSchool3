@@ -1,71 +1,100 @@
+{% trans_default_domain "GPS" %}
 {% extends 'BNSAppGPSBundle:Back:layout.html.twig' %}
 
 
 {% form_theme form 'BNSAppGPSBundle:Form:error.html.twig' %}
 
 {% block action_bar %}
-	<div class="header-buttons">
-		<div class="inner-header">
-			<div class="container container-fluid">
-				<div class="row-fluid">
-					<div class="span8">
-						<a href="{{ path('BNSAppGPSBundle_back') }}" class="btn bns-notice btn-24 medium-return button-return">
-							<span class="icons-24 back-icon"></span>
-							<strong>Retourner</strong><br>à la liste
-						</a>
-						<a href="{{ is_edit ? path('BNSAppGPSBundle_back_place_sheet',{'slug' : place.slug} ) : path('BNSAppGPSBundle_back') }}" class="btn bns-danger btn-24 medium-return">
-							<span class="icons-24 cancel-icon"></span>
-							<strong>Annuler</strong><br>{{ is_edit ? "l'édition" : "l'ajout" }} du lieu
-						</a>
-					</div>
-					<div class="span4 align-right">
-						<a href="#" class="btn bns-success validate-medium btn-24 medium" id="submit-gps-place">
-							<span class="icons-24 validate-icon"></span><strong>Enregister</strong>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+  {{ components.button_nav('LINK_RETURN_TO_LIST' | trans, { href: path('BNSAppGPSBundle_back'), back: true } ) }}
+  {% if is_edit %}
+    {{ components.button( 'LINK_CANCEL_EDIT_PLACE' | trans , { href: path('BNSAppGPSBundle_back',{'slug' : place.slug}), icon: 'close', raised: true }) }}
+  {% else %}
+    {{ components.button( 'LINK_CANCEL_ADD_PLACE' | trans , { href: path('BNSAppGPSBundle_back'), icon: 'close', raised: true }) }}
+  {% endif %}
+  <span flex></span>
+  {{ components.button( 'LINK_SAVE' | trans , {intent: 'accent', href: '#', icon: 'done', raised: true, attr : {'id' : 'submit-gps-place', 'class' : 'finish'} }) }}
 {% endblock %}
 
-{% block sidebar %}
-	<div class="container-sidebar editor" id="gps-sidebar">
-		<div class="section active">
-			{{ is_edit ? "Editer" : "Créer" }} un Lieu
-			<span class="shadow-section"></span>
-		</div>
+{% block sidebar_content %}
+<section class="current">
+  {% if is_edit %}
+        {{ components.button( 'TITLE_EDIT_PLACE' | trans , { inactive: true, icon: 'place' }) }}
 
-		<div class="title-container gps-choose-category-parent">
-			<div class="title active border-blue">
-				Choisissez une catégorie<span class="square icon-arrow"></span>
-			</div>
-			{% include "BNSAppGPSBundle:Back:blockCategorySidebar.html.twig" with {'categories' : categories, 'form' : form, 'isEditionMode': true} %}
-		</div>
+  {% else %}
+        {{ components.button( 'TITLE_CREATE_PLACE' | trans , { inactive: true, icon: 'place' }) }}
 
-	</div>
+  {% endif %}
+
+      <bns-form-proxy source="{{ form.vars.name }}" du-scroll-container="content"></bns-form-proxy>
+
+</section>
+
+
 {% endblock %}
 
-{% block content %}
-	<form id="gps-place-form" class="place-form" action="{{ path('BNSAppGPSBundle_back_edit_place_submit') }}" method="post" {{ form_enctype(form) }}>
+{% block body_content %}
+  <md-toolbar class="content-toolbar">
+    <div class="md-toolbar-tools layout-align-start-center">
+      <bns-sidebar-toggle></bns-sidebar-toggle>
+      <h1 class="md-title text-primary text-left flex flex-gt-sm-33">{% if is_edit %}{% trans%}TITLE_EDIT_PLACE{% endtrans %}{% else %}{% trans%}TITLE_CREATE_PLACE{% endtrans %}{% endif %}</h1>
+    </div>
+  </md-toolbar>
 
-		{{ form_row(form.id) }}
+  <md-content class="item-list-container layout-column md-padding flex">
+    {{ form_start(form, {
+      'action': path('BNSAppGPSBundle_back_edit_place_submit'),
+      'attr' : {
+        'id' : 'gps-place-form',
+      }
+    }) }}
 
-		{{ form_errors(form.label) }}
-		{{ form_widget(form.label, { 'attr': {'class': 'input-xlarge-bns', 'placeholder': 'Nom du lieu'} }) }}
+    {{ form_row(form.label) }}
 
-		{{ form_errors(form.address) }}
-		{{ form_widget(form.address, { 'attr': {'class': 'input-xlarge-bns address', 'placeholder': 'Adresse du lieu'} }) }}
+    <div class="layout-row">
+        <div class="flex">
+          {{ form_row(form.address) }}
+        </div>
 
-		<a class="btn bns-info btn-16 small view-map {{ show_place_button == false ? "disabled" : "" }} " id="gps-place-map-preview" href="#">
-			<span class="icons-16 preview-icon"></span>
-			<strong>Voir sur la carte</strong>
-		</a>
+        <div class="flex flex-none">
+          {{ components.button( 'LINK_SEE_ON_MAP' | trans , {
+            intent: 'primary',
+            href: '#',
+            icon: 'remove_red_eye',
+            raised: true,
+            size: 'sm',
+            attr : {
+              'id' : 'gps-place-map-preview',
+              'ng-disabled': '!' ~ form.vars.full_name ~ '.address',
+              'class' : 'view-map'
+            }
+          }) }}
+        </div>
+    </div>
 
-		<div id="gps-place-map-preview-render" class="gps-place-map-preview-render"></div>
+    {{ form_row(form.description,{'attr': {'rows': 4}}) }}
 
-		{{ form_widget(form.description,{'attr': {'class': 'input-xlarge-bns','placeholder' :'Description du lieu'}}) }}
+    <div id="gps-place-map-preview-render" class="gps-place-map-preview-render"></div>
 
-		{{ form_rest(form) }}
-	</form>
+
+
+    {{ form_row(form.gps_category) }}
+
+{% if form.gps_category is empty %}
+        <div class="content-category screen-md">
+          <div class="no-category">
+            <p>
+              {{ 'NO_CATEGORY_CAN_CREATE'|trans({'%linkStart%': '<a href="'~ path('BNSAppGPSBundle_back_categories') ~'">', '%linkEnd%': '</a>'}) |desc('Il n\'y pas encore de catégorie. Vous pouvez en créer sur la page de %linkStart% gestion des categories %linkEnd%.') |raw }}
+            </p>
+          </div>
+        </div>
+
+    {% endif %}
+
+
+      {{ form_rest(form) }}
+
+    {{ form_end(form) }}
+
+  </md-content>
+  </div>
 {% endblock %}

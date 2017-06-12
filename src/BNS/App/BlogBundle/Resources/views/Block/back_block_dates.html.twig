@@ -1,6 +1,23 @@
-<div class="sidebar-menu-container">
-	<div class="title-section-sidebar">{% trans %}Blog.Back.Sidebar.Dates{% endtrans %} <span class="icon-arrow-down"></span></div>
-	<div id="section-article-links" class="collapse">
-		CATEGORIE CONTENT
-	</div>
-</div>
+{% trans_default_domain "BLOG" %}
+{% macro show(day, time, datepickerClass) %}
+  <div class="content-title">
+    <div class="form-widget">
+      <div class="{{ datepickerClass }}">
+        <span class="date">{% trans %}LABEL_DATEPICKER_DAY_ARTICLE{% endtrans %} </span> {{ form_widget(day, {'type': 'text', 'attr': {'placeholder': 'PLACEHOLDER_DATE'|trans} }) }}  <img src="{{ asset('/medias/images/icons/sidebar/datepicker.png') }}" alt="">
+      </div>
+      <div class="hours">
+        <span class="date">{% trans %}LABEL_DATEPICKER_HOUR_ARTICLE{% endtrans %} </span>
+        {{ form_widget(time['hour']) }}
+        <span class="date label-right"> &nbsp;{{ 'LABEL_DATEPICKER_MINUTE'|trans |desc('H') }}</span>
+        {{ form_widget(time['minute']) }}
+      </div>
+    </div>
+
+    {% if day.vars.errors|length > 0 or time.vars.errors|length > 0 %}
+      <div class="alert alert-danger bns-alert">
+        {{ form_errors(day) }}
+        {{ form_errors(time) }}
+      </div>
+    {% endif %}
+  </div>
+{% endmacro %}

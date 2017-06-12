@@ -1,0 +1,705 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2017-03-10T10:43:50Z" source-language="en" target-language="en-US" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="1ab8ed4b67a52bd69ba9f8d9a0636162c48cf8dc" resname="AUDIO">
+        <source>AUDIO</source>
+        <target>Audio</target>
+      </trans-unit>
+      <trans-unit id="1b1128b188443144e7883c05ab53b0c7e919b149" resname="AUDIO.BACK_TO_WORKSHOP">
+        <source>AUDIO.BACK_TO_WORKSHOP</source>
+        <target>Back to workshop</target>
+      </trans-unit>
+      <trans-unit id="f2451205d6c6e7c9d7668981eaf924245e6b1e3f" resname="AUDIO.CANCEL">
+        <source>AUDIO.CANCEL</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="1586db1ab6991950a6054ad63e2ff50cd3dfef1e" resname="AUDIO.CLOSE_HTML">
+        <source>AUDIO.CLOSE_HTML</source>
+        <target><![CDATA[<strong>Close</strong><br>audio recorder]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="b07038d896396faf5b9d7f62181426ccd81ac449" resname="AUDIO.DESCRIPTION">
+        <source>AUDIO.DESCRIPTION</source>
+        <target>Description</target>
+      </trans-unit>
+      <trans-unit id="79c7a2570530df7d10d0d0ccac8119dac558e90a" resname="AUDIO.DOCUMENT_NAME">
+        <source>AUDIO.DOCUMENT_NAME</source>
+        <target>Document name</target>
+      </trans-unit>
+      <trans-unit id="407227b5854aeb15c70c66241df948a4d84c265c" resname="AUDIO.GRANT_MICROPHONE_ACCESS_IN_BROWSER_THEN_RELOAD">
+        <source>AUDIO.GRANT_MICROPHONE_ACCESS_IN_BROWSER_THEN_RELOAD</source>
+        <target>Allow the workshop to use the microphone in your browser settings. Once it's done, you can reload this page.</target>
+      </trans-unit>
+      <trans-unit id="52fc43f94afdfe32871a75af6f082306b25694e5" resname="AUDIO.LOADING_RECORD_IN_MEDIA_LIBRARY">
+        <source>AUDIO.LOADING_RECORD_IN_MEDIA_LIBRARY</source>
+        <target>Saving audio recording in the media library</target>
+      </trans-unit>
+      <trans-unit id="19a203cfaceb82dc1568eddd0b19ec9491d2df62" resname="AUDIO.MICROPHONE_ACCESS_NEEDED">
+        <source>AUDIO.MICROPHONE_ACCESS_NEEDED</source>
+        <target>Access to the microphone is needed</target>
+      </trans-unit>
+      <trans-unit id="9d2bb501251198427c4dcb8e2265ae58e8dc5500" resname="AUDIO.NEW_DOCUMENT">
+        <source>AUDIO.NEW_DOCUMENT</source>
+        <target>New audio document</target>
+      </trans-unit>
+      <trans-unit id="788d045c161ae12723be05331ed1539f902ed1dc" resname="AUDIO.NOT_ENOUGH_SPACE_USER">
+        <source>AUDIO.NOT_ENOUGH_SPACE_USER</source>
+        <target>There is not enough space in your media library</target>
+      </trans-unit>
+      <trans-unit id="95554a0f80f412e75d99d0bc8c044a60d099ab17" resname="AUDIO.NO_RECORDING_CAPACITY">
+        <source>AUDIO.NO_RECORDING_CAPACITY</source>
+        <target>Your browser does not support audio recording</target>
+      </trans-unit>
+      <trans-unit id="74173bc929126669b6c521e03a1b59902a1ca002" resname="AUDIO.OPEN_LIBRARY">
+        <source>AUDIO.OPEN_LIBRARY</source>
+        <target>Open the media library</target>
+      </trans-unit>
+      <trans-unit id="053b39477f1339491b547986e1fbfb50bd0d008c" resname="AUDIO.PLAY_RECORD">
+        <source>AUDIO.PLAY_RECORD</source>
+        <target>Play audio recording</target>
+      </trans-unit>
+      <trans-unit id="282aab34950e1bbda9fad6a9578639394dc7c32f" resname="AUDIO.PROPERTIES">
+        <source>AUDIO.PROPERTIES</source>
+        <target>Properties</target>
+      </trans-unit>
+      <trans-unit id="638d37aa790414f3c8408a75b8cbb1580b4146be" resname="AUDIO.RECORDING_CONVERSION">
+        <source>AUDIO.RECORDING_CONVERSION</source>
+        <target>Converting your audio recording</target>
+      </trans-unit>
+      <trans-unit id="1cf187e46650235f0a64ae1c023c48b18bf55e2a" resname="AUDIO.RECORDING_IN_PROGRESS">
+        <source>AUDIO.RECORDING_IN_PROGRESS</source>
+        <target>Recording in progress</target>
+      </trans-unit>
+      <trans-unit id="c92c54364191ece3d257379c5441009d05be6ca6" resname="AUDIO.RECORDING_PAUSED">
+        <source>AUDIO.RECORDING_PAUSED</source>
+        <target>Recording paused</target>
+      </trans-unit>
+      <trans-unit id="1ab8c3cf179b2e3a92a55d2695ae4cd5ae91eb65" resname="AUDIO.RECORD_NAME">
+        <source>AUDIO.RECORD_NAME</source>
+        <target>Recording name</target>
+      </trans-unit>
+      <trans-unit id="76f87eb05d9b2a051e9ee095ea9ef96adbb64ff2" resname="AUDIO.RECORD_UPLOAD_SUCCESS">
+        <source>AUDIO.RECORD_UPLOAD_SUCCESS</source>
+        <target>Audio recording uploaded in the media library. The resulting audio file is no longer editable.</target>
+      </trans-unit>
+      <trans-unit id="d8cc49b9b39d2030f61ff11348b527481200ba49" resname="AUDIO.RELOAD_PAGE">
+        <source>AUDIO.RELOAD_PAGE</source>
+        <target>Reload page</target>
+      </trans-unit>
+      <trans-unit id="6ad8bb43f443e53ec369afb78515c57b3587131d" resname="AUDIO.REQUIRED">
+        <source>AUDIO.REQUIRED</source>
+        <target>Required</target>
+      </trans-unit>
+      <trans-unit id="0f908eea628e290318143dd4739f51f63380dccf" resname="AUDIO.RESTART_RECORD">
+        <source>AUDIO.RESTART_RECORD</source>
+        <target>Restart recording</target>
+      </trans-unit>
+      <trans-unit id="8406b0797c87833acac28f9c7582859952c396e2" resname="AUDIO.RESUME_RECORDING">
+        <source>AUDIO.RESUME_RECORDING</source>
+        <target>Resume recording</target>
+      </trans-unit>
+      <trans-unit id="39f120d145d619f635ef1cd6e2b84067ee99c385" resname="AUDIO.SAVE_ERROR">
+        <source>AUDIO.SAVE_ERROR</source>
+        <target>Error while saving audio recording</target>
+      </trans-unit>
+      <trans-unit id="d6148324805ba12d1d864aedf8cd39b3901d2bd5" resname="AUDIO.SAVE_RECORD">
+        <source>AUDIO.SAVE_RECORD</source>
+        <target>Save audio recording</target>
+      </trans-unit>
+      <trans-unit id="ea6a83366623ee1d9f392da6f73d790adccb4ae7" resname="AUDIO.SAVE_SUCCESS">
+        <source>AUDIO.SAVE_SUCCESS</source>
+        <target>Audio recording saved</target>
+      </trans-unit>
+      <trans-unit id="805748724f39f3bd70b941789de635a5bae322e4" resname="AUDIO.START_RECORDING">
+        <source>AUDIO.START_RECORDING</source>
+        <target>Start recording</target>
+      </trans-unit>
+      <trans-unit id="ca1a1dbe68b8ced1238ef401d2aad9ddf236be0a" resname="AUDIO.START_RECORDING_HTML">
+        <source>AUDIO.START_RECORDING_HTML</source>
+        <target><![CDATA[<strong>Start</strong><br>recording]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="b8af264893f326eec12f841f9b07f999d8626463" resname="AUDIO.STOP_PLAY">
+        <source>AUDIO.STOP_PLAY</source>
+        <target>Stop playback</target>
+      </trans-unit>
+      <trans-unit id="93bc8fc228e266d542fcde1dfb83782db3f01d68" resname="AUDIO.STOP_RECORDING">
+        <source>AUDIO.STOP_RECORDING</source>
+        <target>Stop recording</target>
+      </trans-unit>
+      <trans-unit id="feacf948e78c485146b2bc76dc33decc92db4dc1" resname="AUDIO.TRY_AGAIN">
+        <source>AUDIO.TRY_AGAIN</source>
+        <target>Try again</target>
+      </trans-unit>
+      <trans-unit id="e897227d51e6de4a44b79d460bcad2999e6f69a0" resname="AUDIO.VOLUME">
+        <source>AUDIO.VOLUME</source>
+        <target>Volume</target>
+      </trans-unit>
+      <trans-unit id="dffc55825ce9f4cfa57322ed4da1c7d6f02632ee" resname="CONTENT.ADD_CONTRIBUTOR">
+        <source>CONTENT.ADD_CONTRIBUTOR</source>
+        <target>Add a contributor</target>
+      </trans-unit>
+      <trans-unit id="c0707092af1c7c8c93dc3fb58ddf0335e199022a" resname="CONTENT.CONTRIBUTORS">
+        <source>CONTENT.CONTRIBUTORS</source>
+        <target>Contributors</target>
+      </trans-unit>
+      <trans-unit id="d1bc561b32854c48f6de127d21e572d80a9c50ce" resname="CONTENT.NO_CONTRIBUTORS">
+        <source>CONTENT.NO_CONTRIBUTORS</source>
+        <target>No contributors</target>
+      </trans-unit>
+      <trans-unit id="022dd98bc66876096a9912c27ed202d77ca90ca2" resname="CONTENT.USERS">
+        <source>CONTENT.USERS</source>
+        <target>Users</target>
+      </trans-unit>
+      <trans-unit id="8fe839b4ce40676fd1ff448c9e9dde2564446c75" resname="CONTENT.WORKSPACES">
+        <source>CONTENT.WORKSPACES</source>
+        <target>Workspaces</target>
+      </trans-unit>
+      <trans-unit id="5238480d3a5bb78ea46057f463fc25594c0a8c33" resname="CREATE_A">
+        <source>CREATE_A</source>
+        <target>Create a new...</target>
+      </trans-unit>
+      <trans-unit id="a6dd67ea827e1add058700714f939b77c0358bc6" resname="CREATE_DOCUMENT_ERROR">
+        <source>CREATE_DOCUMENT_ERROR</source>
+        <target>Error while creating the document</target>
+      </trans-unit>
+      <trans-unit id="baafac08b28658e7ed49f86356873a259aaed3af" resname="CREATE_DOCUMENT_SUCCESS">
+        <source>CREATE_DOCUMENT_SUCCESS</source>
+        <target>Document created</target>
+      </trans-unit>
+      <trans-unit id="8a812d80dec5127459b8bbbfdf1e22f80bb56765" resname="DOCUMENT">
+        <source>DOCUMENT</source>
+        <target>Document</target>
+      </trans-unit>
+      <trans-unit id="7faeaea360c801db965305bfb5c59bcd6cb70a5d" resname="DOCUMENT.ADD">
+        <source>DOCUMENT.ADD</source>
+        <target>Add</target>
+      </trans-unit>
+      <trans-unit id="6d3a49eb289107568768cfd19bd470b829099cc9" resname="DOCUMENT.ADD_CONTRIBUTOR">
+        <source>DOCUMENT.ADD_CONTRIBUTOR</source>
+        <target>Add a contributor</target>
+      </trans-unit>
+      <trans-unit id="c652597a4268c96025c43dd404d4ad348e382aca" resname="DOCUMENT.ADD_PAGE_ERROR">
+        <source>DOCUMENT.ADD_PAGE_ERROR</source>
+        <target>Error while adding a new page</target>
+      </trans-unit>
+      <trans-unit id="4a4df5ccdbca5fe2eb220a8e1a2cb15f60cbdb16" resname="DOCUMENT.ADD_PAGE_SUCCESS">
+        <source>DOCUMENT.ADD_PAGE_SUCCESS</source>
+        <target>Page created</target>
+      </trans-unit>
+      <trans-unit id="2bab2dc29cf0e882aaeba2056ad0df6c33acbe84" resname="DOCUMENT.BACKGROUND_COLOR">
+        <source>DOCUMENT.BACKGROUND_COLOR</source>
+        <target>Background color</target>
+      </trans-unit>
+      <trans-unit id="7139480d8bcb3e943e9a83f5f6f93c9498bd5f75" resname="DOCUMENT.BORDER_COLOR">
+        <source>DOCUMENT.BORDER_COLOR</source>
+        <target>Border color</target>
+      </trans-unit>
+      <trans-unit id="8909f7d80744b62a444d93a29e5174c76e9ecb79" resname="DOCUMENT.CANCEL">
+        <source>DOCUMENT.CANCEL</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="e086fcb415f86552757363928357a723466fb4eb" resname="DOCUMENT.CANNOT_BE_EDITED_BY_PUPILS">
+        <source>DOCUMENT.CANNOT_BE_EDITED_BY_PUPILS</source>
+        <target>Students won't be able to edit it anymore</target>
+      </trans-unit>
+      <trans-unit id="ed91cbacee0ae792b6b6f8015967f052c5ad8daf" resname="DOCUMENT.CANNOT_REMOVE_LOCKED_PAGE">
+        <source>DOCUMENT.CANNOT_REMOVE_LOCKED_PAGE</source>
+        <target>This page cannot be removed, someone is currently editing it</target>
+      </trans-unit>
+      <trans-unit id="ea50b1fc12b4d5d6f8d907c671edcac8fe6a07bf" resname="DOCUMENT.CHANGE_THEME_ERROR">
+        <source>DOCUMENT.CHANGE_THEME_ERROR</source>
+        <target>Error while changing the theme</target>
+      </trans-unit>
+      <trans-unit id="0ef70dc42f9e20609e3d4262e90a9910c1820823" resname="DOCUMENT.CHANGE_THEME_SUCCESS">
+        <source>DOCUMENT.CHANGE_THEME_SUCCESS</source>
+        <target>Theme changed</target>
+      </trans-unit>
+      <trans-unit id="bc9e29485569ae0d813381873eb0092ba8588eed" resname="DOCUMENT.CHOOSE_LAYOUT">
+        <source>DOCUMENT.CHOOSE_LAYOUT</source>
+        <target>Choose a layout</target>
+      </trans-unit>
+      <trans-unit id="909718d08a6ff187580fe1c931a67c531b09900d" resname="DOCUMENT.CLOSE_HTML">
+        <source>DOCUMENT.CLOSE_HTML</source>
+        <target><![CDATA[<strong>Close</strong><br>the document]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="3ecff635fb74b3bcf09c2fca4c93e9aef1a0d0f8" resname="DOCUMENT.COLUMNS">
+        <source>DOCUMENT.COLUMNS</source>
+        <target>Columns</target>
+      </trans-unit>
+      <trans-unit id="43bd131798999dc31ec4f7a00c16dea982ae81e0" resname="DOCUMENT.CONFIRM_DELETE_THIS_PAGE">
+        <source>DOCUMENT.CONFIRM_DELETE_THIS_PAGE</source>
+        <target>Confirm the deletion of this page</target>
+      </trans-unit>
+      <trans-unit id="bb7519bd96d911e24e113fadb8ad22ccb78351f0" resname="DOCUMENT.CONFIRM_DELETE_THIS_WIDGET">
+        <source>DOCUMENT.CONFIRM_DELETE_THIS_WIDGET</source>
+        <target>Confirm the deletion of this widget</target>
+      </trans-unit>
+      <trans-unit id="a13c086fc49b7b922747a77b7412b8d5a577d99f" resname="DOCUMENT.CONTRIBUTORS">
+        <source>DOCUMENT.CONTRIBUTORS</source>
+        <target>Contributors</target>
+      </trans-unit>
+      <trans-unit id="d3908f325a9f939260ce1e94dd59dd10197a9260" resname="DOCUMENT.CREATE_PAGE">
+        <source>DOCUMENT.CREATE_PAGE</source>
+        <target>Create a page</target>
+      </trans-unit>
+      <trans-unit id="a24d37d25621d359dfb3fc9f74ae66833e436063" resname="DOCUMENT.CREATE_WIDGET_ERROR">
+        <source>DOCUMENT.CREATE_WIDGET_ERROR</source>
+        <target>Error while creating the widget</target>
+      </trans-unit>
+      <trans-unit id="ba59abb1dacba977b46ecc86fe77a6a3f3887fb8" resname="DOCUMENT.CREATE_WIDGET_SUCCESS">
+        <source>DOCUMENT.CREATE_WIDGET_SUCCESS</source>
+        <target>Widget created</target>
+      </trans-unit>
+      <trans-unit id="3977e3c5207f81d44b2df91c789fd57a90e33e33" resname="DOCUMENT.DELETE_PAGE">
+        <source>DOCUMENT.DELETE_PAGE</source>
+        <target>Delete this page</target>
+      </trans-unit>
+      <trans-unit id="032cd536d31f684f221f80ead3f13a40bbe9a203" resname="DOCUMENT.DELETE_PAGE_ERROR">
+        <source>DOCUMENT.DELETE_PAGE_ERROR</source>
+        <target>Error while deleting the page</target>
+      </trans-unit>
+      <trans-unit id="dadf1860d9a17750819c541babeb276a5114ef53" resname="DOCUMENT.DELETE_PAGE_MODAL_TITLE">
+        <source>DOCUMENT.DELETE_PAGE_MODAL_TITLE</source>
+        <target>Delete this page</target>
+      </trans-unit>
+      <trans-unit id="3d9dbf665c4bc39a5b097d44b7d103cee2fbc1f3" resname="DOCUMENT.DELETE_PAGE_SUCCESS">
+        <source>DOCUMENT.DELETE_PAGE_SUCCESS</source>
+        <target>Page deleted</target>
+      </trans-unit>
+      <trans-unit id="31403901208fca0b2bdd7d1e10cd68cd10d5eed2" resname="DOCUMENT.DELETE_THIS_PAGE">
+        <source>DOCUMENT.DELETE_THIS_PAGE</source>
+        <target>Delete this page</target>
+      </trans-unit>
+      <trans-unit id="d2acf31cbb9b9e28912f09089fba4cad98b2c007" resname="DOCUMENT.DELETE_THIS_WIDGET">
+        <source>DOCUMENT.DELETE_THIS_WIDGET</source>
+        <target>Delete this widget</target>
+      </trans-unit>
+      <trans-unit id="7f7a9be65479539c58bc9f439c4acf3a0e073088" resname="DOCUMENT.DELETE_WIDGET">
+        <source>DOCUMENT.DELETE_WIDGET</source>
+        <target>Delete this widget</target>
+      </trans-unit>
+      <trans-unit id="a6e2db1bac6a7c5455fb13a45279854891f8304c" resname="DOCUMENT.DELETE_WIDGET_ERROR">
+        <source>DOCUMENT.DELETE_WIDGET_ERROR</source>
+        <target>Error while deleting the widget</target>
+      </trans-unit>
+      <trans-unit id="22cdb6abe8134966ac6a457aee58c48027a914f6" resname="DOCUMENT.DELETE_WIDGET_MODAL_TITLE">
+        <source>DOCUMENT.DELETE_WIDGET_MODAL_TITLE</source>
+        <target>Delete this widget</target>
+      </trans-unit>
+      <trans-unit id="434ce437026d8477409a1c117635c6519c86b34c" resname="DOCUMENT.DELETE_WIDGET_SUCCESS">
+        <source>DOCUMENT.DELETE_WIDGET_SUCCESS</source>
+        <target>Widget deleted</target>
+      </trans-unit>
+      <trans-unit id="00b135e55452f02c33aca33323635e9938adaaae" resname="DOCUMENT.DESCRIPTION">
+        <source>DOCUMENT.DESCRIPTION</source>
+        <target>Description</target>
+      </trans-unit>
+      <trans-unit id="a5c75828494fedafbe5fe7948182edfc0a7d6267" resname="DOCUMENT.DOCUMENT_NAME">
+        <source>DOCUMENT.DOCUMENT_NAME</source>
+        <target>Document name</target>
+      </trans-unit>
+      <trans-unit id="944df1c84a1db021ee20d407de8f148259fec666" resname="DOCUMENT.DRAFT_SAVED">
+        <source>DOCUMENT.DRAFT_SAVED</source>
+        <target>Draft saved</target>
+      </trans-unit>
+      <trans-unit id="39880c5ac089b5fe1c4d25fe9a2c91666bb5d535" resname="DOCUMENT.DRAFT_SAVING">
+        <source>DOCUMENT.DRAFT_SAVING</source>
+        <target>Saving draft...</target>
+      </trans-unit>
+      <trans-unit id="9f314855458881673fc70d9bde194789f157cf28" resname="DOCUMENT.DRAFT_WIDGET_ERROR">
+        <source>DOCUMENT.DRAFT_WIDGET_ERROR</source>
+        <target>Error while saving the draft in this widget</target>
+      </trans-unit>
+      <trans-unit id="f1315f2cbbba85946577a40a2de6fa6c6b2a4ce6" resname="DOCUMENT.DROP_WIDGET_HERE">
+        <source>DOCUMENT.DROP_WIDGET_HERE</source>
+        <target>Drop a widget here</target>
+      </trans-unit>
+      <trans-unit id="093a1888a55c90439930f48bb7313f8269d27c62" resname="DOCUMENT.EDITED_BY">
+        <source>DOCUMENT.EDITED_BY</source>
+        <target><![CDATA[Edited&nbsp;by:]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="47f4a910386f8981801eb3256132b7ac7933b194" resname="DOCUMENT.EDIT_WIDGET_ERROR">
+        <source>DOCUMENT.EDIT_WIDGET_ERROR</source>
+        <target>Error while updating the widget</target>
+      </trans-unit>
+      <trans-unit id="11b79bfc8f0b730f3e873e53f406655787c9872c" resname="DOCUMENT.EDIT_WIDGET_SUCCESS">
+        <source>DOCUMENT.EDIT_WIDGET_SUCCESS</source>
+        <target>Widget updated</target>
+      </trans-unit>
+      <trans-unit id="35c4fb52170a0d6f82b32eed7938bb7030b2273f" resname="DOCUMENT.EXPORT_PDF_HTML">
+        <source>DOCUMENT.EXPORT_PDF_HTML</source>
+        <target><![CDATA[<strong>Export as PDF</strong><br>the document]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="b7992eee167dc782e6700bdb11a788b059fc3c90" resname="DOCUMENT.FLASH_CONNECTION_ERROR">
+        <source>DOCUMENT.FLASH_CONNECTION_ERROR</source>
+        <target>Connection error. Attempting to reconnect...</target>
+      </trans-unit>
+      <trans-unit id="49949d713a2244348b5dcb50b5c1dcee3cfc7c6b" resname="DOCUMENT.FROM_MEDIA_LIBRARY">
+        <source>DOCUMENT.FROM_MEDIA_LIBRARY</source>
+        <target>From the media library</target>
+      </trans-unit>
+      <trans-unit id="d6e8036b8ae2968bbeae2e3022ecf08753076edb" resname="DOCUMENT.GENERAL">
+        <source>DOCUMENT.GENERAL</source>
+        <target>General</target>
+      </trans-unit>
+      <trans-unit id="3fa5b09edc380622b9d41e45cfeaf817826c68d4" resname="DOCUMENT.GET_DOCUMENT_ERROR">
+        <source>DOCUMENT.GET_DOCUMENT_ERROR</source>
+        <target>Error while loading the document</target>
+      </trans-unit>
+      <trans-unit id="060b8263027316dd62561a2a7a59f6b9d6ea1d98" resname="DOCUMENT.GET_LAYOUTS_ERROR">
+        <source>DOCUMENT.GET_LAYOUTS_ERROR</source>
+        <target>Error while loading page layouts</target>
+      </trans-unit>
+      <trans-unit id="a2093c5e4f5e0b97f63327538a8922560fc08ca0" resname="DOCUMENT.GET_PAGE_ERROR">
+        <source>DOCUMENT.GET_PAGE_ERROR</source>
+        <target>Error while loading the page</target>
+      </trans-unit>
+      <trans-unit id="0bb2f240c0a4adc9ebc3e0e981980c93e951ccab" resname="DOCUMENT.GET_PAGE_FROM_POSITION_ERROR">
+        <source>DOCUMENT.GET_PAGE_FROM_POSITION_ERROR</source>
+        <target>Error while loading the page from position</target>
+      </trans-unit>
+      <trans-unit id="218726a8e60cdab1e48aa92f311fe923816ea817" resname="DOCUMENT.GET_WIDGET_CONFIGURATIONS_ERROR">
+        <source>DOCUMENT.GET_WIDGET_CONFIGURATIONS_ERROR</source>
+        <target>Error while loading widgets</target>
+      </trans-unit>
+      <trans-unit id="2ad2776720605f929ac8438601c22c488e71d0a9" resname="DOCUMENT.GOTO_NEXT_PAGE">
+        <source>DOCUMENT.GOTO_NEXT_PAGE</source>
+        <target>Go to next page</target>
+      </trans-unit>
+      <trans-unit id="2f0d803e2c84ba0aa65aae5ccce2c842a72a418d" resname="DOCUMENT.GOTO_PREVIOUS_PAGE">
+        <source>DOCUMENT.GOTO_PREVIOUS_PAGE</source>
+        <target>Go to previous page</target>
+      </trans-unit>
+      <trans-unit id="18029df87b6f1e8b4319f2f1f408ede430dd0dc8" resname="DOCUMENT.IMAGE">
+        <source>DOCUMENT.IMAGE</source>
+        <target>Image</target>
+      </trans-unit>
+      <trans-unit id="f962d0a2561bc63d9a4f118f8fb26f6cde98ddc5" resname="DOCUMENT.IMAGE_FRAME">
+        <source>DOCUMENT.IMAGE_FRAME</source>
+        <target>Image frame</target>
+      </trans-unit>
+      <trans-unit id="9aacd9543f9e5fdf03a094aa40cbba4afc67be7a" resname="DOCUMENT.KIT">
+        <source>DOCUMENT.KIT</source>
+        <target>Toolkit</target>
+      </trans-unit>
+      <trans-unit id="eaf29fa2339432d105bf4549cac2ce5cd263c7bf" resname="DOCUMENT.LABEL_WIDGET_MEDIA">
+        <source>DOCUMENT.LABEL_WIDGET_MEDIA</source>
+        <target>Media</target>
+      </trans-unit>
+      <trans-unit id="2d4e1b2ef9c973543beaff255bcbfb79d991a97f" resname="DOCUMENT.LABEL_WIDGET_PARAGRAPH">
+        <source>DOCUMENT.LABEL_WIDGET_PARAGRAPH</source>
+        <target>Text</target>
+      </trans-unit>
+      <trans-unit id="a01deeaa135e15687dabc9433d3f5cc15b6813e7" resname="DOCUMENT.LABEL_WIDGET_PARAGRAPH_BOX">
+        <source>DOCUMENT.LABEL_WIDGET_PARAGRAPH_BOX</source>
+        <target>Boxed text</target>
+      </trans-unit>
+      <trans-unit id="a2f3ac106c7c72ae5e78e53dc317891b8fd6ef24" resname="DOCUMENT.LABEL_WIDGET_TEXT_IMAGE_LEFT">
+        <source>DOCUMENT.LABEL_WIDGET_TEXT_IMAGE_LEFT</source>
+        <target>Left image</target>
+      </trans-unit>
+      <trans-unit id="fd4948001ff40e59721e1ccfb58f1a66766789a8" resname="DOCUMENT.LABEL_WIDGET_TEXT_IMAGE_RIGHT">
+        <source>DOCUMENT.LABEL_WIDGET_TEXT_IMAGE_RIGHT</source>
+        <target>Right image</target>
+      </trans-unit>
+      <trans-unit id="1dfea036e6aea4ddb9a060b4236ab44b57fa9bfd" resname="DOCUMENT.LABEL_WIDGET_TITLE">
+        <source>DOCUMENT.LABEL_WIDGET_TITLE</source>
+        <target>Title</target>
+      </trans-unit>
+      <trans-unit id="7e6787601cfc8b7a460b8d99a2fd1d26a278c68b" resname="DOCUMENT.LAYOUT">
+        <source>DOCUMENT.LAYOUT</source>
+        <target>Layout</target>
+      </trans-unit>
+      <trans-unit id="2e119cb40c15b213f7799aea8ff8119d4b04efe6" resname="DOCUMENT.LAYOUT_CHANGE_ERROR">
+        <source>DOCUMENT.LAYOUT_CHANGE_ERROR</source>
+        <target>Error while changing page layout</target>
+      </trans-unit>
+      <trans-unit id="3d2b2f7d54faa8b8bf846be3d9a49873a3f4778c" resname="DOCUMENT.LAYOUT_CHANGE_SUCCESS">
+        <source>DOCUMENT.LAYOUT_CHANGE_SUCCESS</source>
+        <target>Page layout has changed</target>
+      </trans-unit>
+      <trans-unit id="03ec2b5dbee5d38778708b9e3de54aa779e46779" resname="DOCUMENT.LAYOUT_FULL">
+        <source>DOCUMENT.LAYOUT_FULL</source>
+        <target>Full page</target>
+      </trans-unit>
+      <trans-unit id="55b16f3a7fa73ee4b8fdcf1e5f1debd7d21f89c9" resname="DOCUMENT.LAYOUT_FULL_FOOTER">
+        <source>DOCUMENT.LAYOUT_FULL_FOOTER</source>
+        <target>Footer</target>
+      </trans-unit>
+      <trans-unit id="26342fa2bc99799da6cb66b82ecdae94f53cd31b" resname="DOCUMENT.LAYOUT_FULL_HEADER">
+        <source>DOCUMENT.LAYOUT_FULL_HEADER</source>
+        <target>Header</target>
+      </trans-unit>
+      <trans-unit id="79d82f4eaa0acc50c0e2e49cfa3ce5c3d11980a0" resname="DOCUMENT.LAYOUT_FULL_HEADER_FOOTER">
+        <source>DOCUMENT.LAYOUT_FULL_HEADER_FOOTER</source>
+        <target>Header and footer</target>
+      </trans-unit>
+      <trans-unit id="c1bb6a7e7a2771e9d144b3aa254aa3a0981a9738" resname="DOCUMENT.LAYOUT_HALF">
+        <source>DOCUMENT.LAYOUT_HALF</source>
+        <target>Full page</target>
+      </trans-unit>
+      <trans-unit id="61c680a405ed3f2973bdd1c90c8f487d1a7a85d7" resname="DOCUMENT.LAYOUT_HALF_FOOTER">
+        <source>DOCUMENT.LAYOUT_HALF_FOOTER</source>
+        <target>Footer</target>
+      </trans-unit>
+      <trans-unit id="b5c1a7d6e38f1c1a6769e35453073f9d27f3736f" resname="DOCUMENT.LAYOUT_HALF_HEADER">
+        <source>DOCUMENT.LAYOUT_HALF_HEADER</source>
+        <target>Header</target>
+      </trans-unit>
+      <trans-unit id="19822ce04827743ff553719e9f8f7d2e2578aed7" resname="DOCUMENT.LAYOUT_HALF_HEADER_FOOTER">
+        <source>DOCUMENT.LAYOUT_HALF_HEADER_FOOTER</source>
+        <target>Header and footer</target>
+      </trans-unit>
+      <trans-unit id="36eb32c59bd05950781592b37e74da20ba4e03e7" resname="DOCUMENT.LAYOUT_THIRDL">
+        <source>DOCUMENT.LAYOUT_THIRDL</source>
+        <target>Full page</target>
+      </trans-unit>
+      <trans-unit id="d93594c9720a5f478a16df72c2841c3942189308" resname="DOCUMENT.LAYOUT_THIRDL_FOOTER">
+        <source>DOCUMENT.LAYOUT_THIRDL_FOOTER</source>
+        <target>Footer</target>
+      </trans-unit>
+      <trans-unit id="b7bdfa14bcacfed2f3aee873f27138b3d56063cf" resname="DOCUMENT.LAYOUT_THIRDL_HEADER">
+        <source>DOCUMENT.LAYOUT_THIRDL_HEADER</source>
+        <target>Header</target>
+      </trans-unit>
+      <trans-unit id="05a65b17c046588cdf4c59e92ce89d65f1a95fdd" resname="DOCUMENT.LAYOUT_THIRDL_HEADER_FOOTER">
+        <source>DOCUMENT.LAYOUT_THIRDL_HEADER_FOOTER</source>
+        <target>Header and footer</target>
+      </trans-unit>
+      <trans-unit id="38166e6ddaee176a7b1582662ba5503b037e5e52" resname="DOCUMENT.LAYOUT_THIRDR">
+        <source>DOCUMENT.LAYOUT_THIRDR</source>
+        <target>Full page</target>
+      </trans-unit>
+      <trans-unit id="66086c9bbaf7d30d6fd9eed95f29e82300071c12" resname="DOCUMENT.LAYOUT_THIRDR_FOOTER">
+        <source>DOCUMENT.LAYOUT_THIRDR_FOOTER</source>
+        <target>Footer</target>
+      </trans-unit>
+      <trans-unit id="4483e4486a641fbe01ceabe3d4af4937e29b32c5" resname="DOCUMENT.LAYOUT_THIRDR_HEADER">
+        <source>DOCUMENT.LAYOUT_THIRDR_HEADER</source>
+        <target>Header</target>
+      </trans-unit>
+      <trans-unit id="50313ccad0a477a754bfeb846e4d8a8a10e4272c" resname="DOCUMENT.LAYOUT_THIRDR_HEADER_FOOTER">
+        <source>DOCUMENT.LAYOUT_THIRDR_HEADER_FOOTER</source>
+        <target>Header and footer</target>
+      </trans-unit>
+      <trans-unit id="4120b8ddcf8a654735cb5652cc51e4ed260e5c07" resname="DOCUMENT.LAYOUT_TYPE_FULL">
+        <source>DOCUMENT.LAYOUT_TYPE_FULL</source>
+        <target>One column</target>
+      </trans-unit>
+      <trans-unit id="78549594f9a4bb7bdabf8c0d8432f094c54a36b6" resname="DOCUMENT.LAYOUT_TYPE_HALF">
+        <source>DOCUMENT.LAYOUT_TYPE_HALF</source>
+        <target>Two columns</target>
+      </trans-unit>
+      <trans-unit id="cb3494f4899599439269f6aa93f0b1344f0f23c4" resname="DOCUMENT.LAYOUT_TYPE_THIRDL">
+        <source>DOCUMENT.LAYOUT_TYPE_THIRDL</source>
+        <target>Two columns left</target>
+      </trans-unit>
+      <trans-unit id="f09fe07719376f66013978f56f2e3e6f6a8ca0a6" resname="DOCUMENT.LAYOUT_TYPE_THIRDR">
+        <source>DOCUMENT.LAYOUT_TYPE_THIRDR</source>
+        <target>Two columns right</target>
+      </trans-unit>
+      <trans-unit id="c586157240b915ff07b7c27f62fdaa59118f6030" resname="DOCUMENT.LOCKED_CANNOT_EDIT">
+        <source>DOCUMENT.LOCKED_CANNOT_EDIT</source>
+        <target>This document is locked and cannot be edited anymore</target>
+      </trans-unit>
+      <trans-unit id="65c28b077a9bc64f2c4846b8dec8e4feb32f61a6" resname="DOCUMENT.LOCK_DOCUMENT">
+        <source>DOCUMENT.LOCK_DOCUMENT</source>
+        <target>Lock this document</target>
+      </trans-unit>
+      <trans-unit id="ca35107a30505ecc782eb16777c6c7a99fe73797" resname="DOCUMENT.MEDIA">
+        <source>DOCUMENT.MEDIA</source>
+        <target>Media</target>
+      </trans-unit>
+      <trans-unit id="56ba9e720a0caa8d8787b46d5be91560a0fc9d6f" resname="DOCUMENT.MOVE_PAGE_ERROR">
+        <source>DOCUMENT.MOVE_PAGE_ERROR</source>
+        <target>Error while moving the page</target>
+      </trans-unit>
+      <trans-unit id="338ead379de4508397586000fe4fd5291661e8c4" resname="DOCUMENT.MOVE_PAGE_SUCCESS">
+        <source>DOCUMENT.MOVE_PAGE_SUCCESS</source>
+        <target>Page moved</target>
+      </trans-unit>
+      <trans-unit id="567ae5104d0d8a5b531cb88e7c417fd168837d73" resname="DOCUMENT.NEW_PAGE">
+        <source>DOCUMENT.NEW_PAGE</source>
+        <target>New page</target>
+      </trans-unit>
+      <trans-unit id="4b4f65da0ff5b8a21c8809bcb2a990ed393ada49" resname="DOCUMENT.NOT_SET">
+        <source>DOCUMENT.NOT_SET</source>
+        <target>The document has not been set up</target>
+      </trans-unit>
+      <trans-unit id="c7152862a892493dbdcdb5f3860504b3bdf8a5c7" resname="DOCUMENT.NO_CONTRIBUTORS">
+        <source>DOCUMENT.NO_CONTRIBUTORS</source>
+        <target>No contributors</target>
+      </trans-unit>
+      <trans-unit id="a4d081602814a15430e3ee84e2e97281a561aaea" resname="DOCUMENT.NO_CURRENT_PAGE">
+        <source>DOCUMENT.NO_CURRENT_PAGE</source>
+        <target>There is no current page</target>
+      </trans-unit>
+      <trans-unit id="632016ff8c3e9ad551678c37573bca9423186998" resname="DOCUMENT.ONLY_ME_CAN_SEE_IT">
+        <source>DOCUMENT.ONLY_ME_CAN_SEE_IT</source>
+        <target>Only I can see it</target>
+      </trans-unit>
+      <trans-unit id="1d94072f5f31f075963dc5c4b2a5e503ed063e4f" resname="DOCUMENT.OPEN_MEDIA_LIBRARY">
+        <source>DOCUMENT.OPEN_MEDIA_LIBRARY</source>
+        <target>Open the media library</target>
+      </trans-unit>
+      <trans-unit id="5c14f23272945cc6b6f18927cf1647557b3e3449" resname="DOCUMENT.PAGES">
+        <source>DOCUMENT.PAGES</source>
+        <target>Pages</target>
+      </trans-unit>
+      <trans-unit id="df130c979477826f8352c2526e354c52bdacd2bc" resname="DOCUMENT.PAGE_CONTENT_WILL_BE_DELETED">
+        <source>DOCUMENT.PAGE_CONTENT_WILL_BE_DELETED</source>
+        <target>All content from this page will be deleted as well, and cannot be restored later.</target>
+      </trans-unit>
+      <trans-unit id="f3fb1db44baf624e0bc0db30d9d9a858cb0fc4d6" resname="DOCUMENT.PREVIEW_HTML">
+        <source>DOCUMENT.PREVIEW_HTML</source>
+        <target><![CDATA[<strong>Preview</strong><br>the document]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="3c1cc59531e8460d0d23450c72f8c5b849f7c8be" resname="DOCUMENT.PRIVATE_DOCUMENT">
+        <source>DOCUMENT.PRIVATE_DOCUMENT</source>
+        <target>Private document</target>
+      </trans-unit>
+      <trans-unit id="8a3c7623c6b484cdd33ffb73664bc4921a736de3" resname="DOCUMENT.PROPERTIES">
+        <source>DOCUMENT.PROPERTIES</source>
+        <target>Properties</target>
+      </trans-unit>
+      <trans-unit id="037a0c77b03fb20a0483a2c7c0315f10b28ec82d" resname="DOCUMENT.REQUIRED">
+        <source>DOCUMENT.REQUIRED</source>
+        <target>Required</target>
+      </trans-unit>
+      <trans-unit id="c937e7bb47031e2ef6295fdea5357e368bba97a1" resname="DOCUMENT.SAVE">
+        <source>DOCUMENT.SAVE</source>
+        <target>Save</target>
+      </trans-unit>
+      <trans-unit id="3100eaa7a65cdc015ad7372a652525f7d5bbc34a" resname="DOCUMENT.SAVE_CONTENT">
+        <source>DOCUMENT.SAVE_CONTENT</source>
+        <target>Save the content</target>
+      </trans-unit>
+      <trans-unit id="592cb2eb3d7b4fcdf641e011d9bc5fd055f3d76d" resname="DOCUMENT.TEXT">
+        <source>DOCUMENT.TEXT</source>
+        <target>Text</target>
+      </trans-unit>
+      <trans-unit id="7c5c43d2db8aadd27f2d3b839b62ade201a64fa0" resname="DOCUMENT.TEXTBOX">
+        <source>DOCUMENT.TEXTBOX</source>
+        <target>Boxed text</target>
+      </trans-unit>
+      <trans-unit id="6e4cf08f51b9a2746e61de7ab65c8a2a25c111c6" resname="DOCUMENT.THEME">
+        <source>DOCUMENT.THEME</source>
+        <target>Theme</target>
+      </trans-unit>
+      <trans-unit id="1ff44c2381f4e631bcd83308205cfdbe5eb1d89b" resname="DOCUMENT.TITLE">
+        <source>DOCUMENT.TITLE</source>
+        <target>Title</target>
+      </trans-unit>
+      <trans-unit id="4bf30666626cb9a5138f2ec8b13caefe370bb8cf" resname="DOCUMENT.UPDATE_ERROR">
+        <source>DOCUMENT.UPDATE_ERROR</source>
+        <target>Error while updating the document</target>
+      </trans-unit>
+      <trans-unit id="cc1e0c13a4c098c1e1bde33abda9555c393954d5" resname="DOCUMENT.UPDATE_SUCCESS">
+        <source>DOCUMENT.UPDATE_SUCCESS</source>
+        <target>Document updated</target>
+      </trans-unit>
+      <trans-unit id="998c16a55b9e0dc2c7ab573b7e75292117e26b73" resname="DOCUMENT.USERS">
+        <source>DOCUMENT.USERS</source>
+        <target>Users</target>
+      </trans-unit>
+      <trans-unit id="bbfe4ff2c5771d950b073efc5f86b76a8193d8b9" resname="DOCUMENT.WIDGETS">
+        <source>DOCUMENT.WIDGETS</source>
+        <target>Widgets</target>
+      </trans-unit>
+      <trans-unit id="35faa683cd256672470c991e5f765719f55fdbb2" resname="DOCUMENT.WIDGET_CONTENT_WILL_BE_DELETED">
+        <source>DOCUMENT.WIDGET_CONTENT_WILL_BE_DELETED</source>
+        <target>All content within this widget will be deleted, and cannot be restored later.</target>
+      </trans-unit>
+      <trans-unit id="18dc5b3eb0b92416926f89e671f17033b61e0d88" resname="DOCUMENT.WIDGET_LOAD_ERROR">
+        <source>DOCUMENT.WIDGET_LOAD_ERROR</source>
+        <target>Error while loading the widget</target>
+      </trans-unit>
+      <trans-unit id="4b3ce4852a62cefb4948ea39d19d117072260123" resname="DOCUMENT.WORKSPACES">
+        <source>DOCUMENT.WORKSPACES</source>
+        <target>Workspaces</target>
+      </trans-unit>
+      <trans-unit id="17865bdb9110d432d4f2295eb32ab17883d404dc" resname="EDIT">
+        <source>EDIT</source>
+        <target>Edit</target>
+      </trans-unit>
+      <trans-unit id="84be5b130c2468f4e5b07dd28e64bc643b8254b8" resname="GET_DOCUMENTS_ERROR">
+        <source>GET_DOCUMENTS_ERROR</source>
+        <target>Error while loading the documents</target>
+      </trans-unit>
+      <trans-unit id="6f37f66bbe9bfb8773fea4d53c7ef5ea0ae02c3f" resname="GOTO_MEDIA_LIBRARY_HTML">
+        <source>GOTO_MEDIA_LIBRARY_HTML</source>
+        <target><![CDATA[<strong>Go to the media library</strong><br>to see other files]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="c69bdda49b8338cbece5039138529091e39e0f31" resname="LABEL_CHOICES_ONE_COLUMN">
+        <source>LABEL_CHOICES_ONE_COLUMN</source>
+        <target>One column</target>
+      </trans-unit>
+      <trans-unit id="5ed9b9154743b82f19ad72c9b4bc72c9d30c2684" resname="LABEL_CHOICES_TWO_COLUMNS">
+        <source>LABEL_CHOICES_TWO_COLUMNS</source>
+        <target>Two columns</target>
+      </trans-unit>
+      <trans-unit id="4628db8a30997219d10587bfb844b095d28e144a" resname="LABEL_FRONT_SIZE_VERY_SMALL">
+        <source>LABEL_FRONT_SIZE_VERY_SMALL</source>
+        <target>Very small</target>
+      </trans-unit>
+      <trans-unit id="92db19b0fea904da8b9967ddb76ad80afc755dd1" resname="LABEL_FRONT_SIZE_SMALL">
+        <source>LABEL_FRONT_SIZE_SMALL</source>
+        <target>Small</target>
+      </trans-unit>
+      <trans-unit id="77ed73b2fbf0f6467aed1c7b2212e52e1a910949" resname="LABEL_FRONT_SIZE_NORMAL">
+        <source>LABEL_FRONT_SIZE_NORMAL</source>
+        <target>Normal</target>
+      </trans-unit>
+      <trans-unit id="4f34a3f719be0ec54e6436175b1aa2948b7a3e9c" resname="LABEL_FRONT_SIZE_BIG">
+        <source>LABEL_FRONT_SIZE_BIG</source>
+        <target>Big</target>
+      </trans-unit>
+      <trans-unit id="f2ecbcf50ecbfef93f5ea021cf6d490c353b8362" resname="LABEL_FRONT_SIZE_VERY_BIG">
+        <source>LABEL_FRONT_SIZE_VERY_BIG</source>
+        <target>Very big</target>
+      </trans-unit>
+      <trans-unit id="d3c013f5a51f3ca58be71f5bb51a646d8a895720" resname="LABEL_FRONT_SIZE_ENORMOUS">
+        <source>LABEL_FRONT_SIZE_ENORMOUS</source>
+        <target>Huge</target>
+      </trans-unit>
+      <trans-unit id="7e8f937e9d684c9302d8453a8919cc66735a600f" resname="MY_LAST_CREATIONS">
+        <source>MY_LAST_CREATIONS</source>
+        <target>My last creations</target>
+      </trans-unit>
+      <trans-unit id="38952fa9cddd8bebe969337cea26107e96026747" resname="NO_DOCUMENTS">
+        <source>NO_DOCUMENTS</source>
+        <target>No documents</target>
+      </trans-unit>
+      <trans-unit id="540a681e8a3366c386408500bcdaf7884ac5588a" resname="SOON">
+        <source>SOON</source>
+        <target>Soon</target>
+      </trans-unit>
+      <trans-unit id="0fa2ff5785952199b4086a34e015d691fb6f638e" resname="VIEW">
+        <source>VIEW</source>
+        <target>See</target>
+      </trans-unit>
+      <trans-unit id="35f42f512ca906a023e07f0965f0265336500741" resname="WORKSHOP">
+        <source>WORKSHOP</source>
+        <target>Workshop</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

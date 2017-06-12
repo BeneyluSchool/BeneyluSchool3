@@ -1,0 +1,62 @@
+<md-content flex class="inset apps-dialog-page-school-container" >
+  <section class="flex md-whiteframe-z2 apps-dialog-page-school">
+
+    <header layout-gt-sm="row" layout-align="start center">
+      <div class="md-padding" flex layout="row" layout-align="start center">
+        <md-button ng-click="dialog.toggleNav('apps-left')" hide-gt-md class="md-icon-button">
+          <md-icon>menu</md-icon>
+        </md-button>
+
+        <h2 class="md-headline apps-dialog-title" translate translate-values="{beneylu_brand_name: page.vars.brand}">APPS.SCHOOL.TITLE_START_WITH_OFFER_HTML</h2>
+      </div>
+
+      <div class="price-tag" layout="column">
+        <strong>{{ ::page.vars.price }}</strong>
+        <span translate>APPS.SCHOOL.LABEL_BY_MONTH</span>
+        <small translate>APPS.SCHOOL.LABEL_WITHOUT_COMMITMENT</small>
+      </div>
+    </header>
+
+    <div class="md-padding">
+      <md-list class="selling-points" layout="row" layout-wrap>
+        <md-list-item>
+          <bns-icon size="64">logo</bns-icon>
+          <div class="md-list-item-text">
+            <h3 translate>APPS.SCHOOL.TITLE_MANAGE_SCHOOL</h3>
+            <p translate translate-values="{beneylu_brand_name: page.vars.brand}">APPS.SCHOOL.DESCRIPTION_MANAGE_SCHOOL</p>
+          </div>
+        </md-list-item>
+        <md-list-item>
+          <bns-icon size="64">lock</bns-icon>
+          <div class="md-list-item-text">
+            <h3 translate>APPS.SCHOOL.TITLE_SECURED_SOFTWARE</h3>
+            <p translate>APPS.SCHOOL.DESCRIPTION_SECURED_SOFTWARE</p>
+          </div>
+        </md-list-item>
+        <md-list-item>
+          <bns-icon size="64">school</bns-icon>
+          <div class="md-list-item-text">
+            <h3 translate>APPS.SCHOOL.TITLE_SCHOOL_LIFE</h3>
+            <p translate>APPS.SCHOOL.DESCRIPTION_SCHOOL_LIFE</p>
+          </div>
+        </md-list-item>
+        <md-list-item>
+          <bns-icon size="64">thumb</bns-icon>
+          <div class="md-list-item-text">
+            <h3 translate>APPS.SCHOOL.TITLE_JOIN_OTHER_USERS</h3>
+            <p translate translate-values="{beneylu_brand_name: page.vars.brand}">APPS.SCHOOL.DESCRIPTION_JOIN_OTHER_USERS</p>
+          </div>
+        </md-list-item>
+      </md-list>
+
+      <div layout="row" layout-align="space-around center">
+        <div class="sell-button-container md-whiteframe-z2">
+          <md-button ng-href="{{ page.vars.link }}" class="md-raised md-primary btn-lg">
+            <span ng-bind-html="'APPS.SCHOOL.BUTTON_REGISTER' | translate:{beneylu_brand_name: page.vars.brand, price: page.vars.price} | buttonize">.</span>
+          </md-button>
+        </div>
+      </div>
+    </div>
+
+  </section>
+</md-content>

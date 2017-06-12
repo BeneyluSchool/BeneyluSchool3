@@ -1,0 +1,27 @@
+<md-dialog class="starter-kit-conclusion-dialog">
+  <div class="starter-kit-conclusion-level text-center">
+    <bns-icon ng-repeat="l in ::ctrl.range(ctrl.starterKit.level)" size="64">star</bns-icon>
+  </div>
+  <md-dialog-content class="md-dialog-content">
+    <h3 class="md-headline text-center" ng-bind-html="ctrl.step.data.title|trustHtml"></h3>
+    <div class="md-body-2" ng-bind-html="ctrl.step.data.content|trustHtml"></div>
+  </md-dialog-content>
+  <div class="md-actions">
+    <md-button ng-if="ctrl.nextLevel" ng-click="ctrl.accept()" class="md-raised md-primary flex layout-row layout-margin layout-padding" href="">
+      <div class="flex flex-none">
+        <bns-icon ng-repeat="l in ::ctrl.range(ctrl.nextLevel)">star</bns-icon>
+      </div>
+      <div class="flex text-left">
+        <div translate translate-values="{level: ctrl.nextLevel}">STARTER_KIT.BUTTON_NEXT_LEVEL</div>
+        <div class="md-body-2" ng-bind-html="ctrl.step.data.action"></div>
+      </div>
+      <div class="flex flex-none">
+        <md-icon>chevron_right</md-icon>
+      </div>
+    </md-button>
+    <md-button ng-click="ctrl.decline(true)" class="md-raised">
+      <span ng-bind-html="('STARTER_KIT.BUTTON_'+(ctrl.nextLevel?'NO_GO':'EXIT'))|translate|buttonize">.</span>
+    </md-button>
+    <div class="md-body-1 text-center text-muted md-padding" translate>STARTER_KIT.DESCRIPTION_RESTART_TUTORIAL</div>
+  </div>
+</md-dialog>

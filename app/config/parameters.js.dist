@@ -1,0 +1,28 @@
+/* global window */
+
+/**
+ * Angular application parameters.
+ *
+ *    /!\ Should NOT contain sensible information.
+ *
+ * @type {Object}
+ */
+window.bns_parameters = {
+  brand_name: 'Beneylu School',
+  // build version
+  version: '<%= Date.now() %>',
+  // web path
+  app_base_path: '/ent',
+  // websocket server address
+  realtime_socket_addr: 'ws://beneylu.dev:3000',
+  // new application management
+  has_application_management: true,
+  // starter kits
+  has_starter_kit_homework: false,
+  has_starter_kit_media_library: false,
+  has_starter_kit_main: false,
+  // trusted domains for resources and html templates
+  resource_url_whitelist: [
+    'self',
+  ],
+};

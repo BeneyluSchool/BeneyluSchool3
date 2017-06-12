@@ -18,6 +18,7 @@ class FrontConfirmationController extends Controller
      */
     public function classRoomConfirmAction($token)
     {
+
 		$classRoom = GroupQuery::create('g')
 			->where('g.ConfirmationToken = ?', $token)
 		->findOne();
@@ -28,9 +29,11 @@ class FrontConfirmationController extends Controller
 		
 		// Confirmation
 		$this->get('bns.classroom_manager')->setClassroom($classRoom)->confirmClassRoom();
+
 		
         return $this->render('BNSAppRegistrationBundle:Free:classroom_confirmation.html.twig', array(
-			'classRoom' => $classRoom
+			'classRoom' => $classRoom,
+            'teacher' => $this->get('bns.classroom_manager')->getTeachers(true)->getFirst()
 		));
     }
 }

@@ -1,14 +1,18 @@
 imports:
     - { resource: config_app.yml }
     - { resource: parameters_test.yml }
-    - { resource: secret_test.yml }
+
+framework:
+    test: ~
+    session:
+        storage_id: session.storage.mock_file
 
 web_profiler:
     toolbar: false
-    intercept_redirects: true
+    intercept_redirects: false
 
 swiftmailer:
-    disable_delivery: false
+    disable_delivery: true
 
 monolog:
     handlers:
@@ -26,3 +30,21 @@ monolog:
             path:  %kernel.logs_dir%/mailer_%kernel.environment%.log
 assetic:
     use_controller: false
+    
+knp_snappy:
+    pdf:
+        binary:     %kernel.root_dir%/../bin/linux/wkhtml/wkhtmltopdf
+    image:
+        binary:     %kernel.root_dir%/../bin/linux/wkhtml/wkhtmltoimage    
+    
+parameters:
+  #Paramètres pour le serveur d'email et son appel API
+  mail_api_host:                       
+  mail_api_baseurl:                    /webmail/xml
+  mail_api_downloadurl:                /webmail
+  mail_api_provi:                      
+  mail_domain:                         
+  mail_domain_id:                      125
+  mail_quota:                          10485760
+  mail_password:                       test
+    

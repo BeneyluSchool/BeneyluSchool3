@@ -1,0 +1,23 @@
+{% if is_userpicker == false %}
+	{% spaceless %}
+        <a
+            {% if withLink is defined and withLink %}
+                href="{{ path('BNSAppProfileBundle_view_profile', {'userSlug': user.getSlug()}) }}"
+            {% else %}
+                href=""
+            {% endif %}
+            class="user-block bns-user big {{ withLink is defined and withLink ? "" : "not-link" }}"
+            data-user-full-name="{{ user.getFullName() }}"
+            data-user-id="{{ user.getId() }}"
+            data-user-full-name="{{ user.getFullName() }}"
+        >
+    {% endspaceless %}
+{% elseif is_userpicker %}
+    <a href="#" class="bns-user big checkbox user-block {% if is_userpicker %}selectable{% endif %}" data-user-full-name="{{ user.getFullName() }}" data-user-id="{{ user.getId() }}">
+{% endif %}
+    <img src="{{ avatar(user, 'thumbnail') }}" alt="" />
+    <span class="name">{{ user.getFullName() }}</span>
+    {% if withLink is defined and withLink %}
+        <span class="action-icons"></span>
+    {% endif %}
+</a>

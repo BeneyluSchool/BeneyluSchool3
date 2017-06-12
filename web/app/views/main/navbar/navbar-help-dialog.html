@@ -1,0 +1,22 @@
+<md-dialog class="bns-dialog bns-dialog-primary bns-dialog-sm">
+  <md-dialog-content class="md-dialog-content">
+    <div class="layout-row layout-align-start-center">
+      <h3 class="md-title" translate>NAVBAR.TITLE_WE_HELP</h3>
+      <span class="flex"></span>
+      <md-button class="md-icon-button" ng-click="dialog.hide()">
+        <md-icon>close</md-icon>
+      </md-button>
+    </div>
+    <p class="md-body-2" translate>NAVBAR.DESCRIPTION_DOC</p>
+    <md-button href="" bns-doc-link class="navbar-help-button app-button">
+      <span class="help-icon help-documentation"></span>
+      <span translate>NAVBAR.BUTTON_GOTO_DOC</span>
+    </md-button>
+    <p class="md-body-2" translate>NAVBAR.DESCRIPTION_CONTACT_US</p>
+    <md-button href="" ng-click="dialog.hide()" id="intercom-widget-activator" class="navbar-help-button app-button">
+      <bns-navbar-help-counter></bns-navbar-help-counter>
+      <span class="help-icon help-chat"></span>
+      <span translate>NAVBAR.BUTTON_CONTACT_US</span>
+    </md-button>
+  </md-dialog-content>
+</md-dialog>

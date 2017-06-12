@@ -1,0 +1,53 @@
+{% if (pager|length > 0) %}
+	{% for i,information in pager %}
+		{% include 'BNSAppBoardBundle:Information:front_information_row.html.twig' %}
+	{% endfor %}
+{% else %}
+	<div>
+		{% if has_right('BOARD_ACCESS_BACK') %}
+			{% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+				'text': "Il n'existe aucune information sur ce tableau d'information.<br />Pourquoi ne pas en créer une ?",
+				'button': {
+					'text': 'Créer une information',
+					'link': path('board_manager_new_information')
+				}
+			} %}
+		{% else %}
+			Aucune information n'a été trouvé.
+		{% endif %}
+	</div>
+{% endif %}
+
+{% if (pager.getLastPage() > 1) %}
+	<div class="pagination" style="text-align: center;">
+		<ul>
+			{% if (pager.getPage() > pager.getFirstPage()) %}
+				{% if pager_link is defined %}
+					<li><a class="information-pager" href="{{ path(pager_link, pager_parameters|merge({'page': pager.getPreviousPage()})) }}">←</a></li>
+				{% else %}
+					<li><a class="information-pager" href="{{ path('board_informations_page', {'page': pager.getPreviousPage()}) }}">←</a></li>
+				{% endif %}
+			{% else %}
+				<li class="disabled"><a href="#" onclick="return false;">←</a></li>
+			{% endif %}
+
+			{% for i in range(pager.getFirstPage(), pager.getLastPage()) %}
+				{% if pager_link is defined %}
+					<li><a class="information-pager" href="{{ path(pager_link, pager_parameters|merge({'page': i})) }}">{{ i }}</a></li>
+				{% else %}
+					<li{% if (pager.getPage() == i) %} class="active"{% endif %}><a class="information-pager" href="{{ path('board_informations_page', {'page': i}) }}">{{ i }}</a></li>
+				{% endif %}
+			{% endfor %}
+
+			{% if (pager.getPage() < pager.getLastPage()) %}
+				{% if pager_link is defined %}
+					<li><a class="information-pager" href="{{ path(pager_link, pager_parameters|merge({'page': pager.getNextPage()})) }}">→</a></li>
+				{% else %}
+					<li><a class="information-pager" href="{{ path('board_informations_page', {'page': pager.getNextPage()}) }}">→</a></li>
+				{% endif %}
+			{% else %}
+				<li class="disabled"><a href="#" onclick="return false;">→</a></li>
+			{% endif %}
+		</ul>
+	</div>
+{% endif %}

@@ -1,0 +1,11 @@
+{% trans_default_domain "GROUP" %}
+<div class="alert alert-success alert-add-user create-group-success hide">
+	{{ 'TITLE_GROUP_CREATE_SUCCESS' |trans |desc('Le groupe a bien été créé') }}
+</div>
+
+<div class="add-group-modal-content"></div>
+
+<div class="loader create-user-loader hide">
+	<p><img src="{{ asset('/medias/images/icons/medium-loader.gif') }}" />
+	{{ 'NEW_GROUP_CREATION_IN_PROGRESS'|trans |desc('Le processus de création du nouveau groupe est en cours, veuillez patienter...') }}</p>
+</div>

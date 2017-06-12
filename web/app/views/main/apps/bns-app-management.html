@@ -1,0 +1,63 @@
+<div class="md-list-item-text flex layout-row layout-align-start-center">
+
+  <span ng-if="management.withFavorites" class="layout-row layout-padding layout-align-center-center app-drag-handle">
+    <md-icon>drag_handle</md-icon>
+  </span>
+
+  <bns-navbar-icon item="management.app" flags="{ 'shield': management.app.is_private }"></bns-navbar-icon>
+
+  <div class="layout-column flex">
+    <div class="layout-sm-column layout-gt-sm-row layout-align-gt-sm-start-center">
+      <span class="layout-row layout-align-start-center flex">
+        <span class="md-body-1">{{ ::management.app.label }}</span>
+      </span>
+
+      <div class="layout-row flex-gt-sm-70 app-controls">
+        <div ng-if="management.withFavorites" class="app-favorite-controls flex-gt-sm-30 flex layout-row layout-align-center-center">
+          <md-button ng-disabled="management.busy" class="md-icon-button" ng-click="management.toggleFavorite()" aria-label="star">
+            <bns-icon name="'star'+(management.app.is_favorite?'':'-empty')"></bns-icon>
+          </md-button>
+        </div>
+
+        <span class="flex"></span>
+
+        <div class="layout-row layout-align-space-between-center app-management-controls">
+          <div class="layout-row layout-align-center-center">
+            <bns-app-toggle ng-if="management.app.can_open" app="management.app" group-id="management.groupId" notify="management.notify" type="management.type"></bns-app-toggle>
+          </div>
+
+          <md-button ng-if="management.app.is_uninstallable"
+            ng-show="!management.hasUninstall"
+            ng-click="management.requestUninstall()"
+            class="md-warn md-raised btn-hover btn-sm btn-quiet"
+          >
+            <span ng-bind-html="'APPS.BUTTON_UNINSTALL' | translate | buttonize">.</span>
+          </md-button>
+        </div>
+      </div>
+    </div>
+
+    <div ng-show="management.hasUninstall" class="layout-column animate-reveal app-uninstall-warning">
+      <div class="layout-column layout-gt-sm-row layout-align-gt-sm-end-center">
+        <span class="md-body-1" translate>APPS.DESCRIPTION_UNINSTALL_CONFIRM</span>
+
+        <div class="layout-row layout-align-end-center app-uninstall-controls">
+          <md-button ng-click="management.cancelUninstall()" class="md-raised btn-sm">
+            <span ng-bind-html="'APPS.BUTTON_UNINSTALL_CANCEL' | translate | buttonize">.</span>
+          </md-button>
+
+          <md-button ng-click="management.uninstall()" class="md-raised md-warn btn-sm">
+            <span ng-bind-html="'APPS.BUTTON_UNINSTALL' | translate | buttonize">.</span>
+          </md-button>
+        </div>
+      </div>
+
+      <div class="app-management-progress">
+        <md-progress-linear ng-show="management.busy" md-mode="indeterminate" class="md-warn"></md-progress-linear>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<md-divider></md-divider>

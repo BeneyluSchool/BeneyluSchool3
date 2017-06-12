@@ -1,0 +1,14 @@
+BNS\App\MiniSiteBundle\Model\MiniSitePageNews:
+  exclusion_policy: All
+
+  virtual_properties:
+    getAuthor:
+      expose: true
+    getRichContent:
+      expose: true
+      serialized_name: content
+
+  relations:
+    - rel: attachments
+      embedded:
+        content: expr(object.getResourceAttachments())

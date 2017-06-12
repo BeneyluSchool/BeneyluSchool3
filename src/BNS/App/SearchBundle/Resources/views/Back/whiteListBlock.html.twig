@@ -1,0 +1,16 @@
+{% trans_default_domain "SEARCH" %}
+<li id="{{ link.id }}">
+	<p class="white-list-link">{{ link.label }} : <i>{{ link.value }}</i></p>
+    {%  set active = status == true ? 'active' : '' %}
+    {% include 'BNSAppMainBundle::popover.html.twig'
+        with {
+            'element' : 'span',
+            'class'   : 'white-list-toggle ' ~ active,
+            'title'   : "ACTIVATE_WEBSITE_FOR_WHITE_LIST"|trans,
+            'placement' : 'left',
+            'content' : "GREEN_LIGHT_WHITE_LIST_DESCRIPTION"|trans,
+            'module'  : 'resource',
+            'size'    : 'medium',
+        }
+    %}
+</li>

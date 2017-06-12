@@ -1,17 +1,48 @@
-{% set imagePattern = is_admin is defined ? 'btn-admin' : 'btn-' ~ module.getUniqueName | lower %}
-{% set imageName = imagePattern ~ '-' ~ size ~ '.png' %}
-{% set imageTallName = imagePattern ~ '-' ~ 'big' ~ '.png' %}
+{% trans_default_domain "MAIN" %}
+{% set module_name = module.getUniqueName %}
+{% set module_name = is_admin is not defined ? module_name : '' %}
 
-{% set moduleTitle = is_admin is not defined ? module.label : "Changer de mode" %}
-{% set description = is_admin is not defined ? module.description : is_in_front ? "Voir les modules" : "Gérer les modules" %}
+{% if is_in_front %}
+	{% set imagePattern = module_name | lower ~ '/' %}
+{% elseif current_module is not null and current_module.uniqueName == module.uniqueName %}
+	{% set imagePattern = module_name | lower ~'/admin/active/' %}
+{% else %}
+	{% set imagePattern = module_name | lower ~'/admin/' %}
+{% endif %}
+
+{% set imageName = imagePattern ~ size ~ '.png' %}
+
+{% set moduleLabel = module.isContextable ? module.labelForDockBar ~ " " ~ currentGroup.labelForDockBar : module.labelForDockBar %}
+{% set moduleTitle = is_admin is not defined ? moduleLabel :  'CHANGE_MODE'|trans |desc('Changer de mode') %}
+{% set description = is_admin is not defined ? module.description : is_in_front ?  'SEE_MODULES'|trans |desc('Voir les modules')  :  'MANAGE_MODULES'|trans |desc('Gérer les modules')  %}
 
 {% if is_admin is not defined %}
 	<li>
 {% endif %}
-	<a href="{% if is_in_front %}{{path(module.getRouteFront) }}{% else %}{{path(module.getRouteBack) }}{% endif %}" 
-	   title="">
-		<img rel="popover" data-title="<div class='dock-popover'><img src='{{ asset('/medias/images/icons/modules/' ~ imageTallName ) }}' alt='{{ module.getLabel }}' />{{ moduleTitle }}</div>" data-content="<div class='dock-popover'>{{ description }}</div>" class="module-popover" class="module-icon" src="{{ asset('/medias/images/icons/modules/' ~ imageName ) }}" alt="{{ module.getLabel }}" />
+	<a href="{% if is_in_front %}{{path(module.getRouteFront) }}{% else %}{{path(module.getRouteBack) }}{% endif %}"  data-module="{{ module.uniqueName }}"
+	   title=""
+	   class="dockbar-module{{ module.isAngularModal() ? ' angular-modal' }}"
+		>
+	    {% if is_admin is not defined %}
+			<img src='{{ asset('/medias/images/icons/modules/' ~ module_name | lower ~ '/big.png' ) }}' alt='{{ module.getLabel }}' class="hide" />
+		{% endif %}
+		<img 
+			rel="popover" 
+			data-title="<div class='dock-popover'>{% if is_admin is not defined %}<img src='{{ asset('/medias/images/icons/modules/' ~ module_name | lower ~ '/big.png' ) }}' alt='{{ module.getLabel }}' />{% endif %}{{ moduleTitle }}</div>" 
+			data-content="<div class='dock-popover'>{{ description }}</div>" 
+			class="module-popover module-icon {{ nb_modules > 11 ? "more" : "" }}"
+			src="{{ asset('/medias/images/icons/modules/' ~ imageName ) }}" 
+			alt="{{ module.getLabel }}" 
+		/>
+        {% if module.uniqueName == 'INFO' and nbNotifInfo is defined %}
+            <span class="notif not-module {% if nbNotifInfo == 0 %}empty{% endif %}">
+                {% if nbNotifInfo > 0 %}
+                    {{ nbNotifInfo }}
+                {% endif %}
+            </span>
+        {% endif %}
 	</a>
+
 {% if is_admin is not defined %}			
 	</li>
 {% endif %}

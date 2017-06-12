@@ -1,24 +1,32 @@
-<div id="resource-doodle">
-	<img src="{{ asset('/medias/images/resource/doodle/detectiv.png') }}" class="" />
-</div>
-
-<div id="resource-search-alert" class="row content-home alert-message" style="display:none;">
-	<div class="alert alert-error">
-		<p>Il faut saisir le champ ci dessous pour lancer une recherche</p>
+<div class="search-container">
+	<div id="resource-doodle">
+		<img src="{{ asset('/medias/images/resource/doodle/detectiv.png') }}" class="" />
 	</div>
-</div>
-<div id="search-content-form">
-	<div class="content-home input row">
-		<input type='text' id="search-input" class="span6"/>
+
+	<div id="resource-search-alert" class="row content-home alert-message hide">
+		<div class="alert alert-error">
+			<p>Il faut saisir le champ ci-dessous pour commencer la recherche</p>
+		</div>
+	</div>
+	<div id="search-content-form">
+		<div class="content-home input row">
+			<input type='text' id="search-input" class=""/>
+			<a id="search-google-submit" class="btn bns-info btn-16 small web-submit">
+				<span class="icons-earth icons-16"></span>
+				Rechercher sur Internet
+			</a>
+		</div>
 	</div>
 	<div class="content-home link row">
-		<a id="search-resource-submit" class="btn back-btn home"><span class="icons-search"></span> Rechercher dans les documents</a>
-		<a id="search-google-submit" class="btn btn-primary"><span class="icons-earth"></span> Recherche Internet</a>
+		{#<a id="search-resource-submit" class="btn back-btn home bns-notice btn-16"><span class="icons-search icons-16"></span> Rechercher dans la médiathèque</a>#}
+		<a id="search-google-submit" class="btn back-btn home btn-primary btn-16"><span class="icons-earth icons-16"></span> Rechercher sur Internet</a>
 	</div>
 </div>
 
+	<div id="search-results" class="search-results">Chargement ...</div>
 
-<script type="text/javascript">
-	{# Déclaration en Twig de l'Url appelée chez Google pour le moteur de recherche #}
-	var crefUrl = "{{ white_list_url }}";
-</script>
+	<script type="text/javascript">
+		{# Déclaration en Twig de l'Url appelée chez Google pour le moteur de recherche #}
+		var crefUrl = "{{ white_list_url }}";
+	</script>
+</div>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-06-21T10:07:12Z" source-language="en" target-language="es-AR" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="489587f5465bd00d86f4a2afbf5a3fdf8b21d238" resname="DESCRIPTION_WIN_SPACE_OPS">
+        <source>DESCRIPTION_WIN_SPACE_OPS</source>
+        <target><![CDATA[Llegué a la <strong>estación %station%</strong> de la misión <strong>Operaciones Espaciales </strong> (%operation%) con un total de %score% puntos.]]></target>
+        <note><![CDATA[%station% is a placeholder
+%score% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

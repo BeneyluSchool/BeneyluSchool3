@@ -1,0 +1,73 @@
+{% trans_default_domain 'USER' %}
+{% extends '::base.html.twig' %}
+
+{% block css %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('/medias/css/registration/front.css') }}" />
+  <link href='https://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
+{% endblock css %}
+
+{% block body %}
+  <div class="background-registration"></div>
+  <div class="container-header-registration">
+    <div class="container-fluid container">
+      <div class="row-fluid">
+        <div class="span12">
+          <a href="{{ path('home') }}"><img src="{{ asset('/medias/images/registration/beneyluschool.png') }}" /></a>
+          {{ 'ACCOUNT_ASK_ACTIVATION'|trans |desc('<h1>Demande d’activation de compte</h1>
+        <p>Un compte vous a été créé mais vous n’avez pas encore de quoi vous connecter&nbsp;? C’est ici que ça se passe.</p>') |raw }}
+          <div class="pattern"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container container-fluid container-fluid-registration">
+    <div class="container-registration">
+      <div class="row-fluid">
+        <div class="span12">
+          <h3 class="reset-password">{{ 'TITLE_ACTIVATE_ACCOUNT'|trans |desc('Activation de votre compte') }}</h3>
+          <p class="reset-password">
+            {{ 'DESCRIPTION_ACTIVATE_ACCOUNT' |trans |desc('Vous pouvez ici demander l’activation de votre compte Beneylu School.
+            <br>
+            Il suffit de remplir votre adresse email <strong>Académique</strong> ci dessous pour recevoir par email les instructions.') |raw }}
+          </p>
+          <form action="{{ path('bns_app_main_logon_activate') }}" method="POST" {{ form_enctype(form) }}>
+            <div class="input-reset-password">
+              <div>
+                {{ form_widget(form.email, {
+                  'attr': {
+                    'placeholder': 'PLACEHOLDER_TYPE_YOUR_ACADEMIC_EMAIL'|trans|desc('Entrez votre adresse email Académique'),
+                    'style': 'width: 340px'
+                  }
+                }) }}
+                {{ form_errors(form.email) }}
+              </div>
+
+              <div class="rest">
+                {{ form_rest(form) }}
+                {{ form_errors(form) }}
+              </div>
+
+              {% if not_found is defined and not_found %}
+                <p class="reset-password">{{ 'DESCRIPTION_EMAIL_NOT_FOUND'|trans({'%support_email%': 'support@beneylu.com'})|desc('Nous n’avons pas pu activer votre compte, veuillez nous contacter à l’adresse %support_email%') }}</p>
+              {% endif %}
+              {% if already_requested is defined and already_requested %}
+                <p class="reset-password">{{ 'DESCRIPTION_ALREADY_ACTIVATED'|trans({
+                  '%reset_password_url%': reset_password_url,
+                })|desc('Votre compte a déjà été activé, vous pouvez demander un nouveau mot de passe depuis <a href="%reset_password_url%">la page de récupération de mot de passe</a>.')|raw }}</p>
+              {% endif %}
+
+              <p>&nbsp;</p>
+            </div>
+
+            <div class="submit">
+              <input type="submit" class="btn btn-success" value="{{ 'BUTTON_RECOVER_PASSWORD'|trans|desc('Récupérer mon mot de passe') }}" />
+              <div class="clearfix"></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock body %}

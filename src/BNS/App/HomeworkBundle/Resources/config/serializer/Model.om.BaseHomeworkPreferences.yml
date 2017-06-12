@@ -1,0 +1,18 @@
+BNS\App\HomeworkBundle\Model\om\BaseHomeworkPreferences:
+  exclusion_policy: All
+
+  properties:
+    id:
+      expose: true
+    group_id:
+      expose: true
+    name:
+      expose: true
+    show_tasks_done:
+      expose: true
+    activate_validation:
+      expose: true
+
+  virtual_properties:
+    getDays:
+      expose: true

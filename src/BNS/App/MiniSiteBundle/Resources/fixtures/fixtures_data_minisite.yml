@@ -1,0 +1,255 @@
+---
+BNS\App\MiniSiteBundle\Model\MiniSite:
+  MiniSite_1:
+    group_id: 7
+    banner_resource_id: RESOURCE(classe-jpg,Classe.jpg)
+    description: '<p>Bienvenue sur le site Internet de notre classe, nous esp&eacute;rons que vous passerez un agr&eacute;able moment !</p>'
+    title: Le Site Internet de notre Classe
+    slug: le-site-internet-de-notre-classe
+BNS\App\MiniSiteBundle\Model\MiniSitePage:
+  MiniSitePage_1:
+    mini_site_id: MiniSite_1
+    is_public: 1
+    is_activated: 1
+    is_home: 1
+    title: Accueil
+    type: 0
+    views: 689
+    rank: 1
+    slug: accueil
+  MiniSitePage_2:
+    mini_site_id: MiniSite_1
+    is_public: 0
+    is_activated: 1
+    is_home: 0
+    title: Nos Sorties
+    type: 1
+    views: 1202
+    rank: 2
+    slug: nos-sorties
+  MiniSitePage_3:
+    mini_site_id: MiniSite_1
+    is_public: 1
+    is_activated: 1
+    is_home: 0
+    title: Notre École
+    type: 0
+    views: 399
+    rank: 4
+    slug: notre-ecole
+  MiniSitePage_4:
+    mini_site_id: MiniSite_1
+    is_public: 1
+    is_activated: 1
+    is_home: 0
+    title: Notre Ville
+    type: 0
+    views: 58
+    rank: 5
+    slug: notre-ville
+  MiniSitePage_5:
+    mini_site_id: MiniSite_1
+    is_public: 0
+    is_activated: 0
+    is_home: 0
+    title: La Cantine
+    type: 0
+    views: 0
+    rank: 3
+    slug: la-cantine
+BNS\App\MiniSiteBundle\Model\MiniSitePageEditor:
+  MiniSitePageEditor_1_30:
+    page_id: MiniSitePage_1
+    user_id: USER(PUPIL)
+  MiniSitePageEditor_1_40:
+    page_id: MiniSitePage_1
+    user_id: USER(PUPIL)
+  MiniSitePageEditor_1_44:
+    page_id: MiniSitePage_1
+    user_id: USER(PUPIL)
+  MiniSitePageEditor_2_3:
+    page_id: MiniSitePage_2
+    user_id: USER(PUPIL)
+  MiniSitePageEditor_2_6:
+    page_id: MiniSitePage_2
+    user_id: USER(PUPIL)
+  MiniSitePageEditor_2_8:
+    page_id: MiniSitePage_2
+    user_id: USER(PUPIL)
+  MiniSitePageEditor_2_14:
+    page_id: MiniSitePage_2
+    user_id: USER(PUPIL)
+  MiniSitePageEditor_2_18:
+    page_id: MiniSitePage_2
+    user_id: USER(PUPIL)
+  MiniSitePageEditor_2_26:
+    page_id: MiniSitePage_2
+    user_id: USER(PUPIL)
+  MiniSitePageEditor_2_28:
+    page_id: MiniSitePage_2
+    user_id: USER(PUPIL)
+  MiniSitePageEditor_2_30:
+    page_id: MiniSitePage_2
+    user_id: USER(PUPIL)
+  MiniSitePageEditor_2_38:
+    page_id: MiniSitePage_2
+    user_id: USER(PUPIL)
+  MiniSitePageEditor_2_40:
+    page_id: MiniSitePage_2
+    user_id: USER(PUPIL)
+  MiniSitePageEditor_2_42:
+    page_id: MiniSitePage_2
+    user_id: USER(PUPIL)
+  MiniSitePageEditor_2_44:
+    page_id: MiniSitePage_2
+    user_id: USER(PUPIL)
+  MiniSitePageEditor_3_3:
+    page_id: MiniSitePage_3
+    user_id: USER(PUPIL)
+  MiniSitePageEditor_3_6:
+    page_id: MiniSitePage_3
+    user_id: USER(PUPIL)
+  MiniSitePageEditor_3_8:
+    page_id: MiniSitePage_3
+    user_id: USER(PUPIL)
+  MiniSitePageEditor_3_14:
+    page_id: MiniSitePage_3
+    user_id: USER(PUPIL)
+  MiniSitePageEditor_3_18:
+    page_id: MiniSitePage_3
+    user_id: USER(PUPIL)
+  MiniSitePageEditor_3_26:
+    page_id: MiniSitePage_3
+    user_id: USER(PUPIL)
+  MiniSitePageEditor_3_36:
+    page_id: MiniSitePage_3
+    user_id: USER(PUPIL)
+  MiniSitePageEditor_3_38:
+    page_id: MiniSitePage_3
+    user_id: USER(PUPIL)
+BNS\App\MiniSiteBundle\Model\MiniSitePageNews:
+  MiniSitePageNews_1:
+    page_id: MiniSitePage_2
+    author_id: USER(PUPIL)
+    title: 'Et la ferme : meuhhh !'
+    content: |
+      <p>Nous avons vu tous les animaux de la ferme : vaches, poules, ch&egrave;ves ... Ils &eacute;taient trop mignons !</p>
+      <p><img style="display: block; margin-left: auto; margin-right: auto; border: 1px solid black;" src="http://www.beneyluschool3.dev/mediatheque/visualiser/la-ferme-jpg/1LsOBbCD%252FeXq72mnEQ3FDFlX8d1zmmyvay4hb9AOPTo%253D" alt="" width="546" height="363" data-slug="la-ferme-jpg" data-uid="2" data-id="8" data-filename="laferme.jpg" /> </p>
+    status: 1
+    published_at: 2013-06-27 12:19:19
+    created_at: 2013-06-27 12:18:58
+    updated_at: 2013-06-27 12:19:19
+    slug: et-la-ferme-meuhhh
+  MiniSitePageNews_2:
+    page_id: MiniSitePage_2
+    author_id: USER(PUPIL)
+    title: Les calanques
+    content: |
+      <p>Nous sommes all&eacute;s voir les calanques, c'&eacute;tait tr&egrave;s beau !<br />Nous y avons vu des oiseaux et plein de bateaux. La mer &eacute;tait transparente, on pourrait presque voir le fond.</p>
+      <p><img class="bns-insert-resources image-limit image" style="display: block; margin-left: auto; margin-right: auto;" src="http://www.beneyluschool3.dev/mediatheque/visualiser/regioncalanque1-jpg/jkWyXogtAy3ZRx74ybuSo26m%252BAMdL0TpkWdnyTPI63U%253D" alt="" data-slug="regioncalanque1-jpg" data-uid="2" data-id="9" data-filename="regioncalanque1.jpg" /> </p>
+    status: 1
+    published_at: 2013-06-27 12:25:13
+    created_at: 2013-06-27 12:22:38
+    updated_at: 2013-06-27 12:25:13
+    slug: les-calanques
+BNS\App\MiniSiteBundle\Model\MiniSitePageText:
+  MiniSitePageText_1:
+    page_id: MiniSitePage_1
+    author_id: USER(TEACHER)
+    last_modification_author_id: USER(TEACHER)
+    status: 1
+    published_at: 2013-06-27 12:15:30
+    draft_content: |
+      <p>Voici notre classe</p>
+      <p><img style="float: left;" src="http://www.beneyluschool3.dev/mediatheque/visualiser/nos-ordinateurs-jpg/JA6Qu5xgQzJp75CUhds1wRluCHt66u3bLe8XeHU%252Fvf0%253D" alt="" width="352" height="264" data-slug="nos-ordinateurs-jpg" data-uid="2" data-id="7" data-filename="Nosordinateurs.jpg" /> </p>
+      <p style="text-align: center;">Nous avons la chance d'avoir des ordinateurs.</p>
+      <p style="text-align: center;">Vous trouverez sur ce site toutes nos informations.</p>
+      <p style="text-align: center;"><strong>Tr&egrave;s bonne visite de la part de toute la classe des CM2 vert</strong></p>
+    draft_title: La classe des CM2 vert
+    published_content: |
+      <p>Voici notre classe</p>
+      <p><img style="float: left;" src="http://www.beneyluschool3.dev/mediatheque/visualiser/nos-ordinateurs-jpg/JA6Qu5xgQzJp75CUhds1wRluCHt66u3bLe8XeHU%252Fvf0%253D" alt="" width="352" height="264" data-slug="nos-ordinateurs-jpg" data-uid="2" data-id="7" data-filename="Nosordinateurs.jpg" /> </p>
+      <p style="text-align: center;">Nous avons la chance d'avoir des ordinateurs.</p>
+      <p style="text-align: center;">Vous trouverez sur ce site toutes nos informations.</p>
+      <p style="text-align: center;"><strong>Tr&egrave;s bonne visite de la part de toute la classe des CM2 vert</strong></p>
+    published_title: La classe des CM2 vert
+    created_at: 2013-06-27 12:02:21
+    updated_at: 2013-06-27 12:15:30
+  MiniSitePageText_3:
+    page_id: MiniSitePage_3
+    author_id: USER(TEACHER)
+    last_modification_author_id: USER(TEACHER)
+    status: 1
+    published_at: 2013-06-27 12:31:34
+    draft_content: |
+      <p>Voici notre &eacute;cole :</p>
+      <p><img style="display: block; margin-left: auto; margin-right: auto; border: 1px solid black;" src="http://www.beneyluschool3.dev/mediatheque/visualiser/ecole_du_parc-jpg/pyOjn90e5RmcaJ9w9QrLgEy4rIm1iSeKNlhtbGzPISg%253D" alt="" width="675" height="506" data-slug="ecole_du_parc-jpg" data-uid="2" data-id="10" data-filename="Ecoleduparc.jpg" /> </p>
+      <p style="text-align: center;"><strong>Les &eacute;l&egrave;ves mettront bient&ocirc;t des informations concernant les &eacute;v&egrave;nements &agrave; venir !</strong></p>
+    draft_title: Notre École
+    published_content: |
+      <p>Voici notre &eacute;cole :</p>
+      <p><img style="display: block; margin-left: auto; margin-right: auto; border: 1px solid black;" src="http://www.beneyluschool3.dev/mediatheque/visualiser/ecole_du_parc-jpg/pyOjn90e5RmcaJ9w9QrLgEy4rIm1iSeKNlhtbGzPISg%253D" alt="" width="675" height="506" data-slug="ecole_du_parc-jpg" data-uid="2" data-id="10" data-filename="Ecoleduparc.jpg" /> </p>
+      <p style="text-align: center;"><strong>Les &eacute;l&egrave;ves mettront bient&ocirc;t des informations concernant les &eacute;v&egrave;nements &agrave; venir !</strong></p>
+    published_title: Notre École
+    created_at: 2013-06-27 12:27:58
+    updated_at: 2013-06-27 12:31:34
+  MiniSitePageText_4:
+    page_id: MiniSitePage_4
+    author_id: USER(TEACHER)
+    last_modification_author_id: USER(TEACHER)
+    status: 0
+    draft_content: '<p><em>La page de notre ville en cours de r&eacute;daction avec les &eacute;l&egrave;ves...</em></p>'
+    draft_title: Notre Ville
+    created_at: 2013-06-27 12:31:51
+    updated_at: 2013-06-27 12:32:31
+  MiniSitePageText_5:
+    page_id: MiniSitePage_5
+    author_id: USER(TEACHER)
+    last_modification_author_id: USER(TEACHER)
+    status: 0
+    draft_content: |
+      <p>Nous attendons les informations de l'administration.</p>
+      <p>&nbsp;</p>
+      <p style="text-align: center;"><span style="font-family: 'arial black', 'avant garde'; font-size: large; color: #800000;"><strong>Cette page est en construction !</strong></span></p>
+    draft_title: La Cantine
+    created_at: 2013-06-27 12:26:01
+    updated_at: 2013-06-27 12:27:41
+BNS\App\MiniSiteBundle\Model\MiniSiteWidgetTemplate:
+  MiniSiteWidgetTemplate_1:
+    type: RSS
+  MiniSiteWidgetTemplate_2:
+    type: TIME
+  MiniSiteWidgetTemplate_3:
+    type: RICH_TEXT
+BNS\App\MiniSiteBundle\Model\MiniSiteWidget:
+  MiniSiteWidget_1:
+    mini_site_id: MiniSite_1
+    widget_template_id: MiniSiteWidgetTemplate_3
+    title: Bienvenue
+    rank: 1
+  MiniSiteWidget_2:
+    mini_site_id: MiniSite_1
+    widget_template_id: MiniSiteWidgetTemplate_2
+    title:
+    rank: 2
+  MiniSiteWidget_3:
+    mini_site_id: MiniSite_1
+    widget_template_id: MiniSiteWidgetTemplate_1
+    title: Flux RSS
+    rank: 3
+BNS\App\MiniSiteBundle\Model\MiniSiteWidgetExtraProperty:
+  MiniSiteWidgetExtraProperty_1:
+    property_name: CONTENT
+    property_value: |
+      Nous vous souhaitons la bienvenue sur notre site Internet.
+      Très bonne visite de la part de toute la classe !
+    mini_site_widget_id: MiniSiteWidget_1
+  MiniSiteWidgetExtraProperty_2:
+    property_name: RSS_URL
+    property_value: >
+      http://www2.ac-nice.fr/rid2873/en-direct-des-ecoles-colleges-lycees.rss
+    mini_site_widget_id: MiniSiteWidget_3
+  MiniSiteWidgetExtraProperty_3:
+    property_name: LIMIT
+    property_value: 5
+    mini_site_widget_id: MiniSiteWidget_3

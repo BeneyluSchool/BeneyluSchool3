@@ -1,0 +1,7 @@
+<h3>Vidéo externe</h3>
+
+<div class="workshop-widget-option">
+  <h4 ng-if="! widget.resource_id">Ajouter une vidéo</h4>
+  <h4 ng-if="widget.resource_id">Changer de vidéo</h4>
+  <div bns-workshop-widget-resource-picker type="{{ widget.subtype || 'all' }}" current="widget.resource_id" target="resource_id"></div>
+</div>

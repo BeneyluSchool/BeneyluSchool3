@@ -1,0 +1,12 @@
+<div dx-start-with="ctrl.tree.virtualRoot as node">
+  <div ng-if="node" class="navigation-tree">
+    <div ng-repeat="node in ctrl.tree.getChildren(node)" class="navigation-node" ng-init="key = $id+'-'+$index">
+
+      <div bns-navigation-tree-node node="node" key="key"></div>
+
+      <div ng-show="ctrl.tree.isExpanded(node, key)">
+        <div dx-connect="node"></div>
+      </div>
+    </div>
+  </div>
+</div>

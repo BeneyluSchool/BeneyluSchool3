@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-05T13:23:36Z" source-language="en" target-language="en-US" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="22b0ee090a2e264961066d7c4572a952bb1ad56a" resname="INVALID_ADULT_ACCEPT_CHARTER">
+        <source>INVALID_ADULT_ACCEPT_CHARTER</source>
+        <target state="new">Please accept our policy to use the app.</target>
+      </trans-unit>
+      <trans-unit id="7e9bfaead4e82d79ad2404754a22601e1bb54276" resname="INVALID_CHILD_ACCEPT_CHARTER">
+        <source>INVALID_CHILD_ACCEPT_CHARTER</source>
+        <target state="new">You have to accept our policy to use the app.</target>
+      </trans-unit>
+      <trans-unit id="3c55f202c675f2b2af9c6ae8a939112b853083f3" resname="INVALID_CITY">
+        <source>INVALID_CITY</source>
+        <target>This city name is invalid</target>
+      </trans-unit>
+      <trans-unit id="93df0e935c706291d5ec3ce76892fbf1c823efce" resname="INVALID_CLASS_NAME">
+        <source>INVALID_CLASS_NAME</source>
+        <target>This classroom name is invalid</target>
+      </trans-unit>
+      <trans-unit id="d519c310f4a933edc0ea916c6d137366fa9bece0" resname="INVALID_EMPTY_EMAIL">
+        <source>INVALID_EMPTY_EMAIL</source>
+        <target state="new">Please enter an email address</target>
+      </trans-unit>
+      <trans-unit id="e78654bd1dd05103bf116679ac6542babcbd44c4" resname="INVALID_EMPTY_FIRST_NAME">
+        <source>INVALID_EMPTY_FIRST_NAME</source>
+        <target state="new">Please enter a first name</target>
+      </trans-unit>
+      <trans-unit id="302329614b0b085a8a8390dedb9dcf0008e2bc64" resname="INVALID_EMPTY_LAST_NAME">
+        <source>INVALID_EMPTY_LAST_NAME</source>
+        <target state="new">Please enter a surname</target>
+      </trans-unit>
+      <trans-unit id="d14678bf53ac69289b4c41803fcba34555d1fb05" resname="INVALID_SCHOOL_NAME">
+        <source>INVALID_SCHOOL_NAME</source>
+        <target>This school name is invalid</target>
+      </trans-unit>
+      <trans-unit id="6b6d1bcc1b417c831e4f6c94533263a86af0881e" resname="INVALID_USER_CHOICE_EMAIL">
+        <source>INVALID_USER_CHOICE_EMAIL</source>
+        <target state="new">Please choose your email address!</target>
+      </trans-unit>
+      <trans-unit id="d2fb31450d20100701bcc81b9000a06d6e7187d3" resname="INVALID_USER_CHOICE_PASSWORD">
+        <source>INVALID_USER_CHOICE_PASSWORD</source>
+        <target state="new">Please choose your password!</target>
+      </trans-unit>
+      <trans-unit id="17752257e1efc12700e89e97a24d0af07a75b298" resname="INVALID_USER_EMAIL_INVALID">
+        <source>INVALID_USER_EMAIL_INVALID</source>
+        <target state="new">The email address that you entered is invalid. Please try again.</target>
+      </trans-unit>
+      <trans-unit id="dc1533167002b50ca84b82cec66cf177c5b8d662" resname="INVALID_USER_PASSWORD_INVALID">
+        <source>INVALID_USER_PASSWORD_INVALID</source>
+        <target state="new">The password that you entered is invalid. Please try again.</target>
+      </trans-unit>
+      <trans-unit id="38ec977ecd143aff9ea675db785787040f9e28a1" resname="INVALID_WRONG_EMAIL">
+        <source>INVALID_WRONG_EMAIL</source>
+        <target state="new"> Please enter a valid email address</target>
+      </trans-unit>
+      <trans-unit id="fdad793c15036a2063516d69a5a6fe471ea7d745" resname="INVALID_ZIP_CODE">
+        <source>INVALID_ZIP_CODE</source>
+        <target>This zip code is invalid</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

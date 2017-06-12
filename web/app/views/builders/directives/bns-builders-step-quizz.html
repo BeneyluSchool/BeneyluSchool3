@@ -1,0 +1,24 @@
+<h2 translate>BUILDERS.LABEL_QUIZZ</h2>
+<p><strong ng-bind-html="quizz.question | translate"></strong></p>
+
+<div class="layout-row layout-align-center-center layout-wrap">
+  <md-button ng-repeat="choice in quizz.choices"
+    ng-click="ctrl.answers[ctrl.step] = choice.value"
+    ng-class="{'md-accent': (ctrl.book.answers[ctrl.step] === choice.value || !!ctrl.book.answers[ctrl.step]) && choice.value === quizz.answer, 'md-warn': ctrl.book.answers[ctrl.step] === choice.value && choice.value !== quizz.answer, 'md-primary': !ctrl.book.answers[ctrl.step] && ctrl.answers[ctrl.step] === choice.value, 'disabled': ctrl.book.answers[ctrl.step]}"
+    ng-attr-md-no-ink="ctrl.book.answers[ctrl.step]"
+    class="builders-quizz-btn"
+  >
+      {{::choice.value+'. '+(choice.label | translate)}}
+  </md-button>
+</div>
+
+<form ng-if="!ctrl.book.answers[ctrl.step]" ng-submit="ctrl.submitAnswer(ctrl.step)" class="text-center">
+  <input type="hidden" ng-model="ctrl.answers[ctrl.step]">
+
+  <md-button type="submit" ng-disabled="ctrl.busy" class="md-primary md-raised">
+    <span translate>BUILDERS.BUTTON_SAVE_ANSWER</span>
+  </md-button>
+</form>
+
+
+<p ng-if="!!ctrl.book.answers[ctrl.step]" ng-bind-html="quizz.answerText | translate"></p>

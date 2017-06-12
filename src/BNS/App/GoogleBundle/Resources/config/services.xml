@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="google.analytics.email">pixelcookers@beneyluschool.net</parameter>
+        <parameter key="google.analytics.password">thePassword</parameter>
+        <parameter key="google.analytics.report_id">123456789</parameter>
+        <parameter key="google.analytics.manager.class">BNS\App\GoogleBundle\Analytics\GoogleAnalyticsManager</parameter>
+    </parameters>
+
+    <services>
+        <service id="google.analytics.manager" class="%google.analytics.manager.class%">
+            <argument>%google.analytics.email%</argument>
+            <argument>%google.analytics.password%</argument>
+            <argument>%google.analytics.report_id%</argument>
+        </service>
+    </services>
+</container>

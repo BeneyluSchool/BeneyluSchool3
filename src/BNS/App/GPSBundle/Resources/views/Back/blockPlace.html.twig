@@ -1,20 +1,16 @@
-<div class="item">
-	<div class="vertical-separator {{ place.isActive ? "green" : "orange"}}"></div>
-	<div class="header">
-		<div class="buttons-container">
-			<a href="{{ path('BNSAppGPSBundle_back_place_sheet',{'slug' : place.slug })}}" class="btn bns-notice btn-16 small right btn-visualisation">
-				<span class="icons-16 arrow-right-icon right"></span>
-				<strong>Voir la fiche</strong>
-			</a>
-		</div>
-		<h3>{{ place.label }}</h3>
-		<div class="categories">
-			<ul>
-				<li>
-					{{ place.getGpsCategory.label }}
-				</li>
-			</ul>
-		</div>
-	</div>
+{% trans_default_domain "GPS" %}
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
 
-</div>
+<md-list-item id="category_{{ place.getGpsCategory.id }}">
+  <div class="md-list-item-text layout-row layout-padding layout-align-start-center" flex>
+    <div class="md-headline flex flex-none">{{ place.label }}</div>-
+		<div class="categories flex">
+		  {{ place.getGpsCategory.label }}
+		</div>
+    {{ components.button_nav('LINK_SEE_CARD'|trans, {
+      href: path('BNSAppGPSBundle_back_place_sheet',{'slug' : place.slug }),
+      size: 'sm',
+    }) }}
+	</div>
+  <md-divider></md-divider>
+</md-list-item>

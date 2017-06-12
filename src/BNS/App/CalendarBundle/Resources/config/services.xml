@@ -4,9 +4,31 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+	<parameters>
+        <parameter key="install_process_bns_app_calendar_bundle.class">BNS\App\CalendarBundle\Install\InstallProcess</parameter>
+        <parameter key="calendar_service_bns_app_statistics_bundle.class">BNS\App\CalendarBundle\Statistic\CalendarStatisticsService</parameter>
+        <parameter key="bns.data_reset.change_year_calendar.class">BNS\App\CalendarBundle\DataReset\ChangeYearCalendarDataReset</parameter>
+    </parameters>
+
     <services>
+        <service id="install_process_bns_app_calendar_bundle" class="%install_process_bns_app_calendar_bundle.class%">
+            <tag name="bns.install_process" />
+        </service>
+
+        <service id="bns.data_reset.change_year_calendar" class="%bns.data_reset.change_year_calendar.class%">
+            <tag name="bns.data_reset" type="change_year" hasOptions="false" />
+        </service>
+
         <service id="bns.calendar_manager" class="BNS\App\CalendarBundle\Calendar\BNSCalendarManager">
 			<argument type="service" id="service_container" />
 		</service>
+        <service id="stat.calendar" class="%calendar_service_bns_app_statistics_bundle.class%">
+            <argument type="service" id="service_container"></argument>
+        </service>
+
+        <service id="bns.calendar.agenda_serialize_listener" class="BNS\App\CalendarBundle\EventListener\AgendaSerializeSubscriber">
+            <argument type="service" id="bns.right_manager" />
+            <tag name="jms_serializer.event_subscriber" />
+        </service>
     </services>
 </container>

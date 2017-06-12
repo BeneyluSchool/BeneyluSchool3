@@ -1,0 +1,26 @@
+<md-radio-group ng-model="ctrl.myResponse">
+  <div ng-repeat="item in ctrl.widget._embedded.extended_settings.choices">
+    <div class="layout-row layout-align-start-center" ng-class="
+    {'good-answer': (ctrl.myResponse == $index + 1 && !ctrl.canAnswer && ctrl.isCorrect) || (!ctrl.canAnswer && $index + 1 == ctrl.correctAnswers && !ctrl.widget._embedded.extended_settings.advanced_settings.hide_solution && !ctrl.canRetry),
+    'wrong-answer': ctrl.myResponse == $index + 1 && !ctrl.canAnswer && !ctrl.isCorrect}">
+        <md-radio-button class="md-primary md-secondary flex layout-row layout-align-start-center" ng-value="$index + 1" aria-label="{{::item.label}}" ng-disabled="!ctrl.canAnswer || ctrl.timeStopped">
+          <div ng-switch="ctrl.widget._embedded.extended_settings.advanced_settings.type">
+            <div ng-switch-when="text">
+              {{item.label}}
+            </div>
+            <div ng-switch-when="image" class="flex">
+              <div bns-media-preview media-id="item.media_id"></div>
+            </div>
+          </div>
+        </md-radio-button>
+        <div class="bns-viewer-audio flex-80" ng-if="ctrl.widget._embedded.extended_settings.advanced_settings.type == 'audio'">
+          <div bns-viewer-audio-player media-id="item.media_id" no-visualization="true" class="no-visualization questionnaire-audio" ></div>
+        </div>
+        <div ng-if="ctrl.widget._embedded.extended_settings.advanced_settings.type !== 'audio'">
+          <div class="flex-none answer-text" ng-if="ctrl.myResponse == $index + 1 && !ctrl.canAnswer">
+            {{ ctrl.resultMessage | translate }}
+          </div>
+        </div>
+    </div>
+  </div>
+</md-radio-group>

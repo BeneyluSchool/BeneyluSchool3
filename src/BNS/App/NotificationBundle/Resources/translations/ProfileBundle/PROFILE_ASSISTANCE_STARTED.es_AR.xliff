@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:45:27Z" source-language="en" target-language="es-AR" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="e9ac4ce4650efac9e3ce6eceb3d69a4fb2da22a0" resname="PROFILE_ASSISTANCE_STARTED.EMAIL.content">
+        <source>PROFILE_ASSISTANCE_STARTED.EMAIL.content</source>
+        <target><![CDATA[<strong>%assistant_fullname%</strong> acaba de conectarse para ayudarte. Ve a tu <a href="%profile_route%">perfil</a> para desactivar la ayuda.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="f8b31038afe32fc25663e6f8d47276efe35c4a88" resname="PROFILE_ASSISTANCE_STARTED.EMAIL.title">
+        <source>PROFILE_ASSISTANCE_STARTED.EMAIL.title</source>
+        <target>%assistant_fullname% acaba de conectarse para ayudarte</target>
+      </trans-unit>
+      <trans-unit id="48ff3e4d0b7ac999d2b69bc33ef308df08750f93" resname="PROFILE_ASSISTANCE_STARTED.SYSTEM.content">
+        <source>PROFILE_ASSISTANCE_STARTED.SYSTEM.content</source>
+        <target><![CDATA[<strong>%assistant_fullname%</strong> acaba de conectarse para ayudarte. Ve a tu <a href="%profile_route%">perfil</a> para desactivar la ayuda.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

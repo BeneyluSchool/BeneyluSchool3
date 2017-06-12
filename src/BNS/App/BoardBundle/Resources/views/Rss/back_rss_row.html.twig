@@ -1,0 +1,18 @@
+<div class="item" id="rss-{{ rss.id }}">
+	<div class="vertical-separator {{ rss.enable ? 'green':'orange' }}"></div>
+	<div class="header">
+		<div class="buttons-container">
+			<a href="{{ path('board_manager_rss_view', {'id': rss.id}) }}" class="btn bns-notice btn-16 small right btn-visualisation">
+				<span class="icons-16 arrow-right-icon right"></span>
+				<strong>Voir la fiche</strong>
+			</a>
+		</div>
+		<h3>{{ rss.title }}</h3>
+	</div>
+	<div class="text">
+	    {{ rss.url }}
+	</div>
+	<div class="footer">
+		Ajouté {{ date_from_now(rss.createdAt, false, true) }} par <img src="{{ avatar(rss.user, 'thumbnail') }}" alt="" class="avatar" /> {{ rss.user.fullName }}
+	</div>
+</div>

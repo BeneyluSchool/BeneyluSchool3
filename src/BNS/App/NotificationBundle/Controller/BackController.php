@@ -30,7 +30,7 @@ class BackController extends Controller
 			->where('n.UserId = ?', $user->getId())
 		->find();
 		
-		$context = $this->get('bns.right_manager')->getContext();
+		/*$context = $this->get('bns.right_manager')->getContext();
 		$pupilRole = GroupTypeQuery::create('g')
 			->where('g.Type = ?', 'PUPIL')
 		->findOne();
@@ -41,18 +41,18 @@ class BackController extends Controller
 				$isPupil = true;
 				break;
 			}
-		}
+		}*/
 		
 		$personnalModules = array();
 		foreach ($userGroups as $group) {
 			foreach ($group->getGroupType()->getModules() as $module) {
-				if (!$module->isContextable()) {
+				if (!$module->isContextable() && $module->getUniqueName() != 'NOTIFICATION') {
 					$personnalModules[$module->getUniqueName()] = $module;
 				}
 			}
 		}
 		
-		return $this->render('BNSAppNotificationBundle:Back:index' . ($isPupil ? '_pupil' : '') . '.html.twig', array(
+		return $this->render('BNSAppNotificationBundle:Back:index.html.twig', array(
 			'userGroups'		=> $userGroups,
 			'settings'			=> new NotificationSettingsCollection($notificationSettings),
 			'personnalModules'	=> $personnalModules

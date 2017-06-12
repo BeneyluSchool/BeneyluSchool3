@@ -1,0 +1,192 @@
+{% trans_default_domain "MAILER" %}
+
+{% if parameter('graphic_chart') != false %}
+  {% set chartValue = parameter('graphic_chart') %}
+  {% set chartLabel = chartValue.label %}
+{% else %}
+  {% set chartValue = false %}
+  {% set chartLabel = parameter('beneylu_brand_name') %}
+{% endif %}
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+
+  <style>
+    /* -------------------------------------
+              GLOBAL
+          ------------------------------------- */
+    * {
+      margin:0;
+      padding:0;
+    }
+    * { font-family: "Tahoma", sans-serif; }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+    body {
+      -webkit-font-smoothing:antialiased;
+      -webkit-text-size-adjust:none;
+      width: 100%!important;
+      height: 100%;
+
+    }
+
+
+
+
+    /* -------------------------------------
+                  BODY
+          ------------------------------------- */
+    table.body-wrap { width: 100%;}
+    .container {
+      width: 600px;
+    }
+
+
+    /* -------------------------------------
+                  ELEMENTS
+          ------------------------------------- */
+    a { color: #2BA6CB;
+      font-size: 16px;}
+
+    h3 { font-weight:500; font-size: 20px; padding-left: 17px; }
+    h1,h2,h3,h4,h5,h6 {
+      line-height: 1.1;color:#00313F;
+    }
+    p {
+      font-family: "Tahoma", sans-serif;
+      padding: 0 18px;
+      color: #666666;
+      font-size: 16px;
+      line-height: 25px;
+    }
+    p.header {
+      font-size: 18px;
+      font-weight: bold;
+      padding: 0 18px;
+      color: #444444;
+      text-align: center;
+    }
+
+
+    /* ---------------------------------------------------
+                  RESPONSIVENESS
+                  Nuke it from orbit. It's the only way to be sure.
+          ------------------------------------------------------ */
+
+    /* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */
+    .container {
+      width: 600px;
+      max-width:600px!important;
+      margin:0 auto!important; /* makes it centered */
+      clear:both!important;
+      display:block!important;
+    }
+
+    /* This should also be a block element, so that it will fill 100% of the .container */
+    .content {
+      padding:15px;
+      max-width:600px;
+      margin:0 auto;
+      display:block;
+    }
+
+    /* Let's make sure tables in the content area are 100% wide */
+    .content table { width: 100%; }
+
+
+    div, p, a, li, td { -webkit-text-size-adjust:none; }
+    /* -------------------------------------------
+                  PHONE
+                  For clients that support media queries.
+                  Nothing fancy.
+          -------------------------------------------- */
+    @media only screen and (max-width: 600px) {
+      body {
+        font-size: 26px;
+      }
+      a {font-size: 32px !important;}
+      p {
+        font-size: 32px !important;
+        line-height: 40px;
+      }
+      span {
+        font-size: 30px;
+      }
+      h3 {
+        font-size: 34px !important;
+      }
+
+      table.large-button td {width: auto!important;}
+
+    }
+
+  </style>
+
+</head>
+<body>
+<!-- HEADER -->
+<table class="body-wrap" width="100%" height="100%" cellspacing="0" cellpadding="0" border="0">
+  <tr align="center">
+    <td>
+    </td>
+    <td class="container"  valign="top" align="center" style="margin:0 auto;width:600px;">
+      <div class="content" style="margin:0 auto;">
+        <table>
+          <tr>
+            <td>
+              {% if chartValue != false %}
+                <img src="{{ cdnUrl }}/medias/images/main/{{ chartValue.name }}/header.jpg" alt="{{ chartValue.name }}">
+              {% else %}
+                <img src="{{ cdnUrl }}/medias/images/mail/header.jpg" alt="{{ chartLabel }}">
+              {% endif %}
+              <br>
+              <div style="font-size: 32px !important;-webkit-text-size-adjust : 100%;">
+                <p style="color:#666666;font-family: 'Tahoma', sans-serif;">{{ 'PREFIX_DATE'|trans({'%date%': date}) |desc('Le %date%,') }}</p>
+              </div>
+              {#<p class="header">
+              </p>#}
+
+              <br>
+              <div style="font-size: 34px !important;-webkit-text-size-adjust : 100%;">
+                <h3 style="font-family: 'Tahoma', sans-serif; color:#00313F;font-weight:500;">
+                  {{ title }}
+                </h3>
+              </div>
+              <br>
+              <div style="font-family: 'Tahoma', sans-serif;color: #666666;font-size: 32px !important;-webkit-text-size-adjust : 100%;" class="body">
+                <p>
+                  {{ body | raw }}
+                </p>
+              </div>
+              <br><br>
+
+              {% if chartValue != false %}
+                <img src="{{ cdnUrl }}/medias/images/main/{{ chartValue.name }}/logo.jpg" alt="{{ chartLabel }}">
+              {% else %}
+                <img src="{{ cdnUrl }}/medias/images/mail/logo.jpg" alt="{{ chartLabel }}">
+              {% endif %}
+              <p class="footer" style="width:600px;text-align: center;line-height:23.5px; font-family: Arial, Helvetica, 'Trebuchet MS', sans-serif; font-size: 12px;color: #868686; padding: 0;">
+                {{ 'DO_NOT_ANSWER'|trans({'%chart%': chartLabel}) |desc('Veuillez ne pas répondre à ce message; il a été envoyé d\'une adresse e-mail qui n\'est pas relevée.Ce message est un service e-mail en rapport avec votre utilisation de %chart%.') }}
+                <p style="font-size: 13px;text-align: center;font-family: Arial, Helvetica, 'Trebuchet MS', sans-serif;color: #868686;">
+                  {{ 'TO_CONNECT'|trans |desc('Pour vous connecter') }} <a href="{{ baseUrl }}">{{ baseUrl }}</a>
+                </p>
+              </p>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+
+    </td>
+    <td>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

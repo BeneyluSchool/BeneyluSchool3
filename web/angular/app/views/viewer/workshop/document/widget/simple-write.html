@@ -1,0 +1,26 @@
+<div class="workshop-layer">
+    <div class="workshop-widget-text" ng-bind-html="ctrl.widget.content | trustHtml"></div>
+
+    <md-radio-group ng-model="ctrl.widget._embedded.extended_settings.correct_answers">
+        <div class="layout-row" ng-repeat="item in ctrl.widget._embedded.extended_settings.choices" ng-class="{'answer-checked': $index + 1 == ctrl.widget._embedded.extended_settings.correct_answers}">
+            <md-radio-button class="md-primary md-secondary layout-row layout-align-start-center" ng-value="$index + 1" aria-label="{{::item.label}}">
+                <div ng-switch="ctrl.widget._embedded.extended_settings.advanced_settings.type">
+                    <div ng-switch-when="text">
+                        {{item.label}}
+                    </div>
+                    <div ng-switch-when="image" class="flex">
+                        <div bns-media-preview media-id="item.media_id"></div>
+                    </div>
+                    <div ng-switch-when="audio" class="flex">
+                        <div class="bns-viewer-audio">
+                            <div bns-viewer-audio-player media-id="item.media_id" no-visualization="true" class="no-visualization questionnaire-audio" ></div>
+                        </div>
+                    </div>
+                </div>
+            </md-radio-button>
+        </div>
+    </md-radio-group>
+    <br>
+    <div ng-include="ctrl.templateAdvancedSettings"></div>
+</div>
+

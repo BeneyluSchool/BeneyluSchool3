@@ -236,7 +236,7 @@
 		</div>
 
 		<div class="description tinyarea">
-			{{ form_widget(form.description, { 'attr': {'class': 'load_tinymce', 'data-theme': 'simple', 'placeholder': "Description de l'évènement"} }) }}
+			{{ form_widget(form.description, { 'attr': {'bns-tinymce': '', 'placeholder': "Description de l'évènement"} }) }}
 			 <div class="errors-container span8 alert alert-error">
 				{{ form_errors(form.description) }}
 			</div>

@@ -1,31 +1,76 @@
-<div class="row-fluid notice-message">
-{% if app.session.hasFlash('notice') %}
-	<div class="alert alert-info span6">
-		<strong>Ok !</strong> {% trans with {'%notice%': app.session.flash('notice')} from "app" %}%notice%{% endtrans %}
-	</div>
-{% endif %}
-
-{% if app.session.hasFlash('notice_success_msg_only') %}
-    <div class="alert alert-success span6">
-            {% trans with {'%notice%': app.session.flash('notice_success_msg_only')} %}%notice%{% endtrans %}
+{% trans_default_domain "MAIN" %}
+{% for flashMessage in app.session.flashbag.get('notice') %}
+    <div class="row-fluid notice-message">
+        <div class="alert bns-alert alert-notice">
+            <strong> </strong>{% trans with {'%notice%': flashMessage} %}%notice%{% endtrans %}
+            <div class="jim"></div>
+        </div>
     </div>
-{% endif %}   
+{% endfor %}
+
+{% for flashMessage in app.session.flashbag.get('notice_success_msg_only') %}
+    <div class="alert alert-success bns-alert">
+            {% trans with {'%notice%': flashMessage} %}%notice%{% endtrans %}
+            <div class="jim"></div>
+    </div>
+{% endfor %}
+
+{% for flashMessage in app.session.flashbag.get('notice_error_msg_only') %}
+    <div class="alert alert-error bns-alert">
+            {% trans with {'%notice%': flashMessage} %}%notice%{% endtrans %}
+            <div class="jim"></div>
+    </div>
+{% endfor %}
         
-{% if app.session.hasFlash('notice_success') %}
-	<div class="alert alert-success span6">
-		<strong>Bien joué !</strong> {% trans with {'%notice%': app.session.flash('notice_success')} %}%notice%{% endtrans %}
-	</div>
-{% endif %}
+{% for flashMessage in app.session.flashbag.get('notice_success') %}
+     <div class="row-fluid notice-message">
+        <div class="alert alert-success span6">
+            <strong>{{ 'WELL_PLAYED'|trans |desc('Bien joué !') }}</strong> {% trans with {'%notice%': flashMessage} %}%notice%{% endtrans %}
+        </div>
+    </div>
+{% endfor %}
 
-{% if app.session.hasFlash('notice_error') %}
-	<div class="alert alert-error span6">
-		<strong>Mince !</strong> {% trans with {'%notice%': app.session.flash('notice_error')} %}%notice%{% endtrans %}
-	</div>
-{% endif %}
+{% for flashMessage in app.session.flashbag.get('success') %}
+    <div class="row-fluid notice-message">
+        <div class="alert bns-alert alert-success">
+            <strong> </strong>{% trans with {'%notice%': flashMessage } %}%notice%{% endtrans %}
+                    <div class="jim"></div>
+        </div>
+    </div>
+{% endfor %}
 
-{% if app.session.hasFlash('notice_warning') %}
-	<div class="alert alert span6">
-		<strong>Attention !</strong> {% trans with {'%notice%': app.session.flash('notice_warning')} %}%notice%{% endtrans %}
-	</div>
+{% for flashMessage in app.session.flashbag.get('notice_error') %}
+    <div class="row-fluid notice-message">
+        <div class="alert bns-alert alert-error">
+            <strong> </strong>{% trans with {'%notice%': flashMessage} %}%notice%{% endtrans %}
+            <div class="jim"></div>
+        </div>
+    </div>
+{% endfor %}
+
+{% for flashMessage in app.session.flashbag.get('error') %}
+    <div class="row-fluid notice-message">
+        <div class="alert bns-alert alert-error">
+            <strong> </strong>{% trans with {'%notice%': flashMessage} %}%notice%{% endtrans %}
+                    <div class="jim"></div>
+        </div>
+    </div>
+{% endfor %}
+
+
+{% for flashMessage in app.session.flashbag.get('notice_warning') %}
+    <div class="row-fluid notice-message">
+        <div class="alert alert span6">
+            <strong>{{ 'WARNING'|trans |desc('Attention !') }}</strong> {% trans with {'%notice%': flashMessage} %}%notice%{% endtrans %}
+        </div>
+    </div>
+{% endfor %}
+
+{% if message is defined %}
+    <div class="row-fluid notice-message">
+        <div class="alert bns-alert alert-success" style="display: none;">
+            <strong> </strong> {{message}}
+                    <div class="jim"></div>
+        </div>
+    </div>
 {% endif %}
-</div>

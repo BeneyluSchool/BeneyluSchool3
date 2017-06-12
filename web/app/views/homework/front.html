@@ -1,0 +1,16 @@
+<div container class="flex layout-row main-container">
+
+  <bns-starter-kit-pointer step="1-1.2" pointer="calendar" ng-show="app.sidebarOpen"></bns-starter-kit-pointer>
+  <md-sidenav class="layout-column md-sidenav-left bns-sidebar" md-component-id="left" md-is-locked-open="app.isSidebarLockedOpen()">
+
+    <header bns-sidebar-header app="navbar.app" mode="front"></header>
+
+    <md-content class="flex" ui-view="sidebar"></md-content>
+
+  </md-sidenav>
+
+  <md-content id="content" class="bns-content flex layout-row md-whiteframe-z3">
+    <div class="bns-content-inner flex layout-row" ui-view="content"></div>
+  </md-content>
+
+</div>

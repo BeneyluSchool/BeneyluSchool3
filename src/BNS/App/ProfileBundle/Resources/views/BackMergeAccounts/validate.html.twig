@@ -1,0 +1,11 @@
+{% trans_default_domain "PROFILE" %}
+{% include 'BNSAppMainBundle:Components:notice.html.twig' %}
+<br>
+{% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+    design: 'new',
+    'text': "UNIQUE_ACCOUNT_USE"|trans,
+    'button': {
+    'text': 'BACK_TO_CLASSROOM'|trans,
+    'link': path('BNSAppClassroomBundle_front')
+}
+} %}

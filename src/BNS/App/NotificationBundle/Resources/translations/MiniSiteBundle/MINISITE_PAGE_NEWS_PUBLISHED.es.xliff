@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:45:20Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="11a3bd98ee7f290869fdfa8f21aee11b9a3edd6b" resname="MINISITE_PAGE_NEWS_PUBLISHED.EMAIL.content">
+        <source>MINISITE_PAGE_NEWS_PUBLISHED.EMAIL.content</source>
+        <target><![CDATA[Se ha publicado la noticia <a href="%page_url%">%page_title%</a>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="6a5463618b88582f780eb0d47958264d8c39a167" resname="MINISITE_PAGE_NEWS_PUBLISHED.EMAIL.title">
+        <source>MINISITE_PAGE_NEWS_PUBLISHED.EMAIL.title</source>
+        <target>Se ha publicado una noticia en el sitio web</target>
+      </trans-unit>
+      <trans-unit id="024a21539d151e9fed413269cea2a56e5548ba54" resname="MINISITE_PAGE_NEWS_PUBLISHED.SYSTEM.content">
+        <source>MINISITE_PAGE_NEWS_PUBLISHED.SYSTEM.content</source>
+        <target><![CDATA[Se ha publicado la noticia <a href="%page_url%">%page_title%</a>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

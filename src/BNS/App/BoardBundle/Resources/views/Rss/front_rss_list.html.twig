@@ -1,0 +1,12 @@
+<h2 class="block-title">Flux externes</h2>
+
+{% for rss in rssData %}
+	<h3 class="block-title">{{ rss['rss_title'] }}</h3>
+	{% for item in rss['rss_items'] %}
+		<h4><a href="{{ item.link }}" onclick="window.open(this.href); return false;">{{ item.title }}</a></h4>
+		<p>{{ item.description|truncate(150) }}</p>
+	{% endfor %}
+	<hr />
+{% else %}
+	<p>Aucun flux externe</p>
+{% endfor %}

@@ -1,0 +1,132 @@
+module:
+  unique_name: RESOURCE
+  is_contextable: false
+  name:
+    fr: Médiathèque
+    en: Media
+  description:
+    fr: Mettre en ligne des vidéos, du son, des documents ou des images
+    en: Media library
+  default_rank:
+    pupil: USE
+    parent: READ
+    teacher: ADMINISTRATION
+    other: READ
+
+permissions:
+  ACCESS:
+    label:
+      fr: Voir médiathèque
+      en: Resources access
+    description:
+      fr: Donne l'accès au module médiathèque
+      en: 
+
+  MY_RESOURCES:
+    label:
+      fr: Avoir mes documents
+      en: Own resources access
+    description:
+      fr: Donne l'accès au stockage de documents personnels
+      en: 
+
+  ACCESS_BACK:
+    label:
+      fr: Accès à la gestion des documents et l'organisation de ses libellés
+      en: Resources management
+    description:
+      fr: 
+      en: 
+
+  USERS_ADMINISTRATION:
+    label:
+      fr: Administrer utilisateurs
+      en: Resources management for group's users
+    description:
+      fr: Accès à la gestion des documents des utilisateurs faisant partie du groupe
+      en: 
+
+  ADMINISTRATION:
+    label:
+      fr: Administrer médiathèque
+      en: Resources management
+    description:
+      fr: Accès à la gestion des documents et l'organisation des libellés du groupe
+      en: 
+
+  ACTIVATION:
+    label:
+      fr: Activater médiathèque
+      en: Resources activation
+    description:
+      fr: Peut activer ou désactiver la médiathèque
+      en: 
+
+  ACTIVATION_PARTNERSHIP:
+    label:
+      fr: Activater médiathèque dans le partenariat
+      en: Resources activation in partnership
+    description:
+      fr: Peut activer ou désactiver la médiathèque dans le partenariat
+      en: 
+
+ranks:
+  READ:
+    label:
+      fr: Consulter les resources
+      en: See the resources
+    description:
+      fr: 
+      en: 
+    permissions: [ACCESS]
+
+  USE:
+    label:
+      fr: Utiliser les ressources
+      en: Use the resources
+    description:
+      fr: 
+      en: 
+    permissions: [ACCESS, ACCESS_BACK, MY_RESOURCES]
+
+  MANAGE:
+    label:
+      fr: Manager les ressources
+      en: Manage the resources
+    description:
+      fr: 
+      en: 
+    permissions: [ACCESS, ACCESS_BACK, ACTIVATION, MY_RESOURCES, ADMINISTRATION]
+
+  MANAGE_PARTNERSHIP:
+    label:
+      fr: Manager les ressources dans partenariat
+      en: Manage the resources in partnership
+    description:
+      fr: 
+      en: 
+    permissions: [ACTIVATION_PARTNERSHIP]
+    
+  ACTIVATION_TEAM:
+    label:
+      fr: Manager les ressources dans le groupe de travail
+      en: Manage the resources in team
+    description:
+      fr: 
+      en: 
+    permissions: [ACTIVATION]
+
+  ADMINISTRATION:
+    label:
+      fr: Administrer les ressources
+      en: Admin the resources
+    description:
+      fr: 
+      en: 
+    permissions: [ACCESS, ACCESS_BACK, ACTIVATION, MY_RESOURCES, ADMINISTRATION, USERS_ADMINISTRATION]
+    
+markers:
+  RESOURCE_DO_SEARCH:
+    description: Recherche sur la médiathèque
+  RESOURCE_ADD_FILE:
+    description: Ajout d'un fichier sur la médiathèque

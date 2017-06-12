@@ -8,7 +8,23 @@
 	{{ parent() }}
 {% endblock %}
 
-{% block top_bar %}{% endblock %}
+{% block top_bar %}
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span12 align-right">
+						<a href="{{ path('resource_manager_white_list_export') }}" class="btn bns-warning btn-24 medium-return">
+							<span class="icons-24 save-icon"></span>
+							<strong>Exporter</strong><br />
+							la liste
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
 
 {% block container_class %}{% endblock %}
 
@@ -17,14 +33,16 @@
 {% block content %}
 <div class="content-resource-white-list">
 	<div class="news-title">
-		<h1 class="dashboard">Liste blanche Internet</h1>
+		<h1 class="dashboard">Ma liste blanche Internet</h1>
 	</div>
 	<div class="content-list-white">
 		<ul class="manager-white-list">
 			{% for link in links %}
 				{% include "BNSAppResourceBundle:Back:whiteListBlock.html.twig" with {"link" : link,"status": link.id in whiteList }%}
 			{% else %}
-				<p>Vous n'avez pas de site dans votre liste blanche.</p>
+				{% include "BNSAppMainBundle:NoInformation:index.html.twig" with {
+					'text' : "Vous n'avez pas encore de lien dans votre liste blanche.<br /><br />Pour en créer, il vous suffit d'ajouter un ou plusieurs liens depuis la médiathèque et de les enregistrer dans un des dossiers de votre classe."
+				} %}
 			{% endfor %}
 		</ul>
 	</div>

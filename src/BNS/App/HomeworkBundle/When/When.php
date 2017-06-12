@@ -123,7 +123,7 @@ class When
 			
 			$this->try_date = clone $this->start_date;
 		}
-		catch(Exception $e)
+		catch(\Exception $e)
 		{
 			throw new InvalidArgumentException('Invalid start date DateTime: ' . $e);
 		}
@@ -272,7 +272,7 @@ class When
 				$this->end_date = new DateTime($end_date);
 			}
 		}
-		catch(Exception $e)
+		catch(\Exception $e)
 		{
 			throw new InvalidArgumentException('Invalid end date DateTime: ' . $e);
 		}

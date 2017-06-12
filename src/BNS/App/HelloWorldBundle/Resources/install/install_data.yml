@@ -1,0 +1,107 @@
+module:
+  unique_name: HELLOWORLD
+  is_contextable: true
+  name:
+    fr: Hello World
+    en: Hello World
+  description:
+    fr: Hello World
+    en: Hello World
+  default_rank:
+    pupil: USE
+    parent: READ
+    teacher: MANAGE
+    other: USE
+
+permissions:
+  ACCESS:
+    label:
+      fr: Voir Hello world
+      en: Hello World's access
+    description:
+      fr: Permet de voir les principales conventions à respecter en termes de développement, en mode visualisation
+      en: 
+
+  ACCESS_BACK:
+    label:
+      fr: Gérer Hello World
+      en: Hello World's back access
+    description:
+      fr: Permet de voir les principales conventions à respecter en termes de développement, en mode gestion
+      en: 
+
+  ACTIVATION:
+    label:
+      fr: Activer Hello World
+      en: Can activate / desactivate the hello world
+    description:
+      fr: Permet d'activer ou désactiver le module Hello World dans le groupe
+      en: 
+
+  ACTIVATION_PARTNERSHIP:
+    label:
+      fr: Activer Hello World dans le partenariat
+      en: Can activate / desactivate the hello world in partnership
+    description:
+      fr: Permet d'activer ou désactiver le module Hello World dans un partenariat
+      en: 
+
+  ADMINISTRATION:
+    label:
+      fr: Administrater Hello World
+      en: Can administrate the Hello World !
+    description:
+      fr: Permet d'administrer le module Hello World
+      en: 
+
+ranks:
+  READ:
+    label:
+      fr: Lire le module Hello world
+      en: Read the Hello World module
+    description:
+      fr: 
+      en: 
+    permissions: [ACCESS]
+
+  USE:
+    label:
+      fr: Utiliser le module Hello World
+      en: Use the Hello World module
+    description:
+      fr: 
+      en: 
+    permissions: [ACCESS, ACCESS_BACK]
+
+  MANAGE:
+    label:
+      fr: Gérer le module Hello World
+      en: Manage the Hello World module
+    description:
+      fr: 
+      en: 
+    permissions: [ACCESS, ACCESS_BACK, ACTIVATION, ADMINISTRATION]
+
+  MANAGE_PARTNERSHIP:
+    label:
+      fr: Gérer le module Hello World dans partenariat
+      en: Manage the Hello World module in partnership
+    description:
+      fr: 
+      en: 
+    permissions: [ACTIVATION_PARTNERSHIP]
+    
+  ACTIVATION_TEAM:
+    label:
+      fr: Gérer le module Hello World dans groupe de travail
+      en: Manage the Hello World module in team
+    description:
+      fr: 
+      en: 
+    permissions: [ACTIVATION]
+
+notification_types:
+  HELLO_WORLD_EXAMPLE_WITHOUT_ATTRIBUTE: { }
+  HELLO_WORLD_EXAMPLE_WITH_ATTRIBUTE: { }
+  HELLO_WORLD_EXAMPLE_WITH_ATTRIBUTE_AND_DISABLED_ENGINE:
+    disabled_engine: EMAIL

@@ -1,0 +1,19 @@
+BNS\App\ClassroomBundle\Model\om\BaseClassroomNewspaper:
+  exclusion_policy: All
+  properties:
+    date:
+      expose: true
+    title:
+      expose: true
+    media_title:
+      expose: true
+    joke:
+      expose: true
+    riddle:
+      expose: true
+    riddle_answer:
+      expose: true
+    text:
+      expose: true
+    day_read:
+      expose: true

@@ -1,0 +1,13 @@
+{% trans_default_domain "PROFILE" %}
+<div class="modal-footer">
+  <div class="content-btn-footer">
+    <a href="{{ route }}" class="btn bns-danger btn-24 medium-return delete-process">
+      <span class="icons-24 delete-icon"></span>
+      {% trans %}LINK_DELETE_STATUS{% endtrans %}
+    </a>
+    <a href="#" class="btn bns-notice btn-24 medium" data-dismiss="modal">
+      <span class="icons-24 back-icon"></span>
+      <strong>{% trans %}LINK_CANCEL{% endtrans %}</strong>
+    </a>
+  </div>
+</div>

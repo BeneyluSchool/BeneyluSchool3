@@ -7,13 +7,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class BNSIntlExtension  extends \Twig_Extension
 {
 	private $container;
-	
+
     public function __construct(ContainerInterface $container)
     {
         if (!class_exists('IntlDateFormatter')) {
             throw new RuntimeException('The intl extension is needed to use intl-based filters.');
         }
-		
+
 		$this->container = $container;
     }
 
@@ -39,12 +39,12 @@ class BNSIntlExtension  extends \Twig_Extension
     {
         return 'bns-intl';
     }
-	
+
 	function twig_localized_year_month_bns_filter($date, $locale = null)
 	{
-		$dateFormat = 'full'; 
+		$dateFormat = 'full';
 		$timeFormat = 'none';
-		
+
 		$formatValues = array(
 			'none'   => \IntlDateFormatter::NONE,
 			'full'   => \IntlDateFormatter::FULL,
@@ -57,7 +57,7 @@ class BNSIntlExtension  extends \Twig_Extension
 			$formatValues[$dateFormat],
 			$formatValues[$timeFormat]
 		);
-		
+
 		if (!$date instanceof \DateTime) {
 			if (ctype_digit((string) $date)) {
 				$date = new \DateTime('@'.$date);
@@ -66,19 +66,19 @@ class BNSIntlExtension  extends \Twig_Extension
 				$date = new \DateTime($date);
 			}
 		}
-		
+
 		$date_formatted = $formatter->format($date->getTimestamp());;
-		
+
 		//Faire un explode pour récupérer que le mois et l'année
 		$explodedDate = explode( " " , $date_formatted);
-		
-		
+
+
 		return ucfirst($explodedDate[2])." ".$explodedDate[3];
 	}
-	
-	function twig_localized_bns_date_filter($date, $dateFormat = 'medium', $timeFormat = 'medium', $locale = null)
+
+	function twig_localized_bns_date_filter($date, $dateFormat = 'medium', $timeFormat = 'medium', $pattern = null, $locale = null)
 	{
-		return $this->container->get('date_i18n')->process($date, $dateFormat, $timeFormat, $locale);
+		return $this->container->get('date_i18n')->process($date, $dateFormat, $timeFormat, $pattern, $locale);
 	}
-	
+
 }

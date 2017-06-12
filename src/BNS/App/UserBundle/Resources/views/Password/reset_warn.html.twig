@@ -1,24 +1,27 @@
+{% trans_default_domain 'USER' %}
 {% extends 'BNSAppRegistrationBundle:Layout:confirmation.html.twig' %}
 
 {% block title %}
-Merci, votre école sera bientôt validée !
+    {{ 'TITLE_ALREADY_MAKE_RESET_REQUEST'|trans |desc('Vous avez déjà fait une demande de réinitialisation de mot de passe') }}
 {% endblock %}
 
 {% block header %}
-	<a href="#"><img src="/medias/images/registration/beneyluschool.png" /></a>
-	<h1>Confirmation </h1>
-	<p>Un mail a été envoyé.</p>
+	<a href="{{ path('home') }}"><img src="{{ asset('/medias/images/registration/beneyluschool.png') }}" /></a>
+	{{ 'CONFIRM_TOO_SPEED'|trans |desc('<h1>Confirmation </h1>
+	<p>Oops, vous allez un peu vite !</p>
+') |raw }}
 {% endblock header %}
 
 {% block confirmation_type %} confirmation warning {% endblock %}
 
 {% block content %}
-	<h3>Votre mot de passe a été envoyé par e-mail.</h3>
+    {{ 'DESCRIPTION_RESET_PASSWORD_REQUEST'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('	<h3>Vous avez déjà fait une demande de réinitialisation de mot de passe</h3>
 	<p>	Attention, vous devez attendre trente minutes entre chaque demande de réinitialisation de mot de passe. </p>
-	<p>Vous n'avez toujours pas reçu l'e-mail ? Nous vous conseillons de regarder votre boite de messages indésirables, peut-être que le message s'est glissé à cet endroit.</p>
-	<p>
-		<strong>L'équipe Beneyluschool</strong>
-	</p>
+	<p>Vous n\'avez toujours pas reçu l\'e-mail ? Nous vous conseillons de regarder votre boite de messages indésirables, peut-être que le message s\'est glissé à cet endroit.</p>
+<p>
+    <strong>L\'équipe %beneylu_brand_name%</strong>
+</p>
+') |raw }}
 {% endblock content %}
 
 {% block beneylu_jim %}{% endblock %}

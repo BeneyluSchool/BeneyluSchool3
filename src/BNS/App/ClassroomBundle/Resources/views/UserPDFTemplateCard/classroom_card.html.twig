@@ -1,0 +1,112 @@
+{% trans_default_domain "CLASSROOM" %}
+{% extends '::base.html.twig' %}
+
+{% block alert %}{% endblock %}
+
+{% block css %}
+	<link rel="stylesheet" href="{{ asset('/css/base.css') }}" type="text/css"/>
+	<link rel="stylesheet" href="{{ asset('/medias/css/classroom/card.css') }}" type="text/css"/>
+	<style>
+		/* Avoid truncated rows. Also fix thead and tfoot repeat on each page */
+		tr { page-break-inside: avoid }
+	</style>
+{% endblock %}
+
+{% block respond_script %}{% endblock %}
+
+{% block body %}
+	{% block content %}
+		<div class="card-container">
+			<div class="card-header">
+                {% if parameter('graphic_chart') != false %}
+                    {% set chartValue = parameter('graphic_chart') %}
+                    <img src="{{ asset('/medias/images/main/graphic_chart/' ~ chartValue.name ~ '/logoCard.jpg'  ) }}" class="header-logo" />
+                {% else %}
+                    <img src="{{ asset('/medias/images/classroom/pupil_parent_card/bns_logo.png') }}" class="header-logo" />
+                {% endif %}
+				<h1>{% trans %}TITLE_CLASS_CARD{% endtrans %}</h1>
+				<span class="username">{{ classroom.getLabel()|upper }}</span>
+			</div>
+			<div class="clearfix"></div>
+
+			<table class="families">
+				<thead>
+					<tr class="title">
+						<th colspan="3">{% trans %}TITLE_CHILDREN{% endtrans %}</th>
+						<th class="separator"></th>
+						<th colspan="3">{{ 'TITLE_PARENT' |trans }}</th>
+					</tr>
+					<tr class="sub-title">
+						<th>{% trans %}LASTNAME_FIRSTNAME{% endtrans %}</th>
+						<th>{% trans %}TITLE_LOGIN{% endtrans %}</th>
+						<th>{% trans %}TITLE_PASSWORD{% endtrans %}</th>
+						<th class="separator"></th>
+                                                <th>{% trans %}LASTNAME_FIRSTNAME{% endtrans %}</th>
+						<th>{% trans %}TITLE_LOGIN{% endtrans %}</th>
+						<th>{% trans %}TITLE_PASSWORD{% endtrans %}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for family in families %}
+						<tr rowspan="{{ family['parents']|length }}">
+							<td>{{ family['pupil'].getFullName()|upper }}</td>
+							<td>{{ family['pupil'].getLogin() }}</td>
+							<td>{{ family['pupil'].getPassword() }}</td>
+							<td class="separator"></td>
+							{% if family['parents'][0] is defined %}
+								{% for i,parent in family['parents'] %}
+									{% if i > 0 %}
+										</tr>
+										<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td class="separator"></td>
+									{% endif %}
+                                                                                <td><strong>{{ parent.getFullName() }}</strong></td>
+										<td>{{ parent.getLogin() }}</td>
+										<td>{{ parent.getPassword() }}</td>
+								{% endfor %}
+							{% endif %}
+						</tr>
+					{% endfor %}
+				</tbody>
+				<tfoot>
+					<tr class="sub-title">
+						<th>{% trans %}LASTNAME_FIRSTNAME{% endtrans %}</th>
+						<th>{% trans %}TITLE_LOGIN{% endtrans %}</th>
+						<th>{% trans %}TITLE_PASSWORD{% endtrans %}</th>
+						<th class="separator"></th>
+                                                <th>{% trans %}LASTNAME_FIRSTNAME{% endtrans %}</th>
+						<th>{% trans %}TITLE_LOGIN{% endtrans %}</th>
+						<th>{% trans %}TITLE_PASSWORD{% endtrans %}</th>
+					</tr>
+					<tr class="title">
+						<th colspan="3">{% trans %}TITLE_CHILDREN{% endtrans %}</th>
+						<th class="separator"></th>
+						<th colspan="3">{{ 'TITLE_PARENT' |trans }}</th>
+					</tr>
+				</tfoot>
+			</table>
+
+			<div class="footer">
+				<img src="{{ asset('/medias/images/classroom/pupil_parent_card/beneylu-jim.png') }}" class="beneylu-jim-img" />
+
+				<div class="warning">
+					<p>
+						{% trans %}PDF_DESCRIPTION{% endtrans %}
+					</p>
+				</div>
+
+				<div class="bns-info">
+                    {% if parameter('graphic_chart') != false %}
+                        <strong>{{ chartValue.label }}</strong>
+                    {% else %}
+                        <strong>{{ 'BENEYLU_TEAM'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('L\'équipe %beneylu_brand_name%') }}</strong><br />
+                    {% endif %}
+				</div>
+			</div>
+
+		</div>
+	{% endblock %}
+{% endblock %}

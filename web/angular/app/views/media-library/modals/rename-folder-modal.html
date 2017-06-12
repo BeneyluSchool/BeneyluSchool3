@@ -1,0 +1,26 @@
+<bns-modal modal-close="closeModal" modal-title="{{ 'MEDIA_LIBRARY.RENAME_FOLDER_MODAL_TITLE' | translate }}" modal-icon="pencil">
+  <form ng-submit="confirm()">
+    <div class="modal-body">
+
+      <label for="folder-label" translate>MEDIA_LIBRARY.NEW_FOLDER_NAME</label>
+      <input type="text" id="folder-label" ng-model="folder.label" bns-focus-request>
+
+      <div class="help-block text-danger">
+        {{ folder.error | translate }}
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <div class="content-btn-footer">
+        <button type="submit" ng-disabled="!folder.label" class="btn btn-success">
+          <i class="bns-icon-checked round"></i>
+          <strong translate>MEDIA_LIBRARY.RENAME_THIS_FOLDER</strong>
+        </button>
+        <button class="btn" ng-click="closeModal()">
+          <i class="bns-icon-arrow-left-curved round"></i>
+          <strong translate>MEDIA_LIBRARY.CANCEL</strong>
+        </button>
+      </div>
+    </div>
+  </form>
+</bns-modal>

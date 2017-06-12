@@ -24,5 +24,12 @@ class BNSAppMainExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+
+        if ($container->hasDefinition('bns_main.visit_statistic') && isset($config['statistics']['visit_indicators']) && count($config['statistics']['visit_indicators']) > 0) {
+            $service = $container->getDefinition('bns_main.visit_statistic');
+            $service->replaceArgument(1, [
+                'indicators' => $config['statistics']['visit_indicators']
+            ]);
+        }
     }
 }

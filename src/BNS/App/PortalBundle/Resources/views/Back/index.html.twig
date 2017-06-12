@@ -1,0 +1,211 @@
+{% trans_default_domain "PORTAL" %}
+
+{% extends 'BNSAppPortalBundle:Layout:manager.html.twig' %}
+
+{% block css %}
+	{{ parent() }}
+    <link href='https://fonts.googleapis.com/css?family=Rambla|Chivo|Ubuntu|Josefin+Sans|Bree+Serif' rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+{% endblock %}
+
+{% block header %}
+    {% include('BNSAppPortalBundle:Block:saveButton.html.twig') %}
+{% endblock header %}
+
+{% block sidebar %}
+    {% include "BNSAppPortalBundle:Back:sidebar.html.twig" with {"page" : "index", "section" : "general" } %}
+{% endblock sidebar %}
+
+{% block content %}
+
+    <div id="portal-manager" >
+
+        <form action="" method="post" {{ form_enctype(form) }} id="main-form" >
+
+            {% include '@BNSAppMain/notice.html.twig' %}
+
+            <h1>
+                {{ 'TITLE_PORTAL_ADDRESS'|trans |desc('Adresse de votre portail') }}
+            </h1>
+
+            {{ (parameter('application_base_url') ~ '/')|replace({'/ent/': '/'}) ~ portal.slug }}
+
+            <h1>
+                {{ 'TITLE_PORTAL_NAME'|trans |desc('Nom du portail') }}
+            </h1>
+
+            {{ form_widget(form.label) }}
+
+            <h1>
+                {{ 'TITLE_PORTAL_LOGO'|trans |desc('Logo du portail') }}
+            </h1>
+
+            <div class="logo">
+                {{ form_widget(form.logoId) }}
+                <div id="resource-selection-callback-logo" class="preview">
+                    {% if form.vars.value.getMediaRelatedByLogoId != null %}
+                        <img src="{{ getResourceImageUrl(form.vars.value.getMediaRelatedByLogoId,'small') }}" />
+                    {%  else %}
+                        <img src="{{ asset('medias/images/portal/logo_FR.png') }}" />
+                    {% endif %}
+                </div>
+                <div class="preview-actions">
+                    {% include 'BNSAppMediaLibraryBundle:Front:selection.html.twig' with {
+                    'label' : 'LABEL_EDIT'|trans |desc('Modifier'),
+                    'input_id': 'group_logoId',
+                    'allowed_type': 'IMAGE',
+                    'name': 'group[logoId]',
+                    'callback': 'resource-selection-callback-logo',
+                    'current_src': form.vars.value.getMediaRelatedByLogoId != null ? getResourceImageUrl(form.vars.value.getMediaRelatedByLogoId,'small') : asset('medias/images/portal/logo_FR.png'),
+                    'default_src': asset('medias/images/portal/logo_FR.png'),
+                    'with_cancel': true,
+                    'current_value': form.vars.value.getMediaRelatedByLogoId is not null ? form.vars.value.getMediaRelatedByLogoId.id : null,
+                    } %}
+                </div>
+                <br clear="all" />
+            </div>
+
+            {# Non utilisé pour l'instant
+
+            <h1>Images de fond</h1>
+
+            <h3>Petite</h3>
+
+            <div class="background-small">
+                {{ form_widget(form.backgroundSmallId) }}
+                <div id="resource-selection-callback-small" class="preview">
+                    {% if form.vars.value.getMediaRelatedByBackgroundSmallId()  != null %}
+                        <img src="{{ getResourceImageUrl(form.vars.value.getMediaRelatedByBackgroundSmallId,'favorite') }}" />
+                    {%  else %}
+                        <img data-src="holder.js/300x140/text:Fond d'écran 1" />
+                    {% endif %}
+                </div>
+                <div class="preview-actions">
+                    {% include 'BNSAppMediaLibraryBundle:Front:selection.html.twig' with {
+                        'label' : "Modifier",
+                        'input_id': 'portal_backgroundSmallId',
+                        'allowed_type': 'IMAGE',
+                        'name': 'portal[backgroundMediumId]',
+                        'callback': 'resource-selection-callback-small',
+                        'with_cancel': true,
+                        'current_src': getResourceImageUrl(form.vars.value.getMediaRelatedByBackgroundSmallId,'favorite'),
+                        'default_src': asset('/medias/images/mini-site/front/banner.jpg'),
+                        'current_value': form.vars.value.getMediaRelatedByBackgroundSmallId is not null ? form.vars.value.getMediaRelatedByBackgroundSmallId.id : null,
+                    } %}
+                </div>
+                <br clear="all" />
+            </div>
+
+            <h3>Moyenne</h3>
+
+            <div class="background-medium">
+                {{ form_widget(form.backgroundMediumId) }}
+                <div id="resource-selection-callback-small" class="preview">
+                    {% if form.vars.value.getMediaRelatedByBackgroundMediumId()  != null %}
+                        <img src="{{ getResourceImageUrl(form.vars.value.getMediaRelatedByBackgroundMediumId,'favorite') }}" />
+                    {%  else %}
+                        <img data-src="holder.js/300x140/text:Fond d'écran 2" />
+                    {% endif %}
+                </div>
+                <div class="preview-actions">
+                    {% include 'BNSAppMediaLibraryBundle:Front:selection.html.twig' with {
+                    'label' : "Modifier",
+                    'input_id': 'portal_backgroundMediumId',
+                    'allowed_type': 'IMAGE',
+                    'name': 'portal[backgroundMediumId]',
+                    'callback': 'resource-selection-callback-medium',
+                    'with_cancel': true,
+                    'current_src': getResourceImageUrl(form.vars.value.getMediaRelatedByBackgroundMediumId,'favorite'),
+                    'default_src': asset('/medias/images/mini-site/front/banner.jpg'),
+                    'current_value': form.vars.value.getMediaRelatedByBackgroundMediumId is not null ? form.vars.value.getMediaRelatedByBackgroundMediumId.id : null,
+                    } %}
+                </div>
+                <br clear="all" />
+            </div>
+
+            <h3>Large</h3>
+
+            <div class="background-large">
+                {{ form_widget(form.backgroundMediumId) }}
+                <div id="resource-selection-callback-small" class="preview">
+                    {% if form.vars.value.getMediaRelatedByBackgroundLargeId()  != null %}
+                        <img src="{{ getResourceImageUrl(form.vars.value.getMediaRelatedByBackgroundLargeId,'favorite') }}" />
+                    {%  else %}
+                        <img data-src="holder.js/300x140/text:Fond d'écran 3" />
+                    {% endif %}
+                </div>
+                <div class="preview-actions">
+                    {% include 'BNSAppMediaLibraryBundle:Front:selection.html.twig' with {
+                    'label' : "Modifier",
+                    'input_id': 'portal_backgroundLargeId',
+                    'allowed_type': 'IMAGE',
+                    'name': 'portal[backgroundLargeId]',
+                    'callback': 'resource-selection-callback-Large',
+                    'with_cancel': true,
+                    'current_src': getResourceImageUrl(form.vars.value.getMediaRelatedByBackgroundLargeId,'large'),
+                    'default_src': asset('/medias/images/mini-site/front/banner.jpg'),
+                    'current_value': form.vars.value.getMediaRelatedByBackgroundLargeId is not null ? form.vars.value.getMediaRelatedByBackgroundLargeId.id : null,
+                    } %}
+                </div>
+                <br clear="all" />
+            </div>
+
+            #}
+
+            <h1>
+            {{ 'TITLE_FONT'|trans |desc('Police d\'écriture') }}
+            </h1>
+
+            {{ form_widget(form.font) }}
+            <br />
+            <p style="margin-top: 10px;">
+            {% for key, font in fonts %}
+                <span class="{{ key }}" style="font-size: 24px;">{{ font }}</span>
+            {% endfor %}
+            </p>
+
+            <p class="{{ portal.font }}" style="font-size: 14px;">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+            </p>
+
+            <h1>
+                {{ 'TITLE_COLOR'|trans |desc('Couleur') }}
+            </h1>
+
+            {% for color in colors %}
+                <span class="background-{{ color}}" style="width: 25px; height: 25px;display: inline-block;"></span>
+            {% endfor %}
+
+            {{ form_widget(form.color) }}
+
+            {{ form_rest(form) }}
+        </form>
+
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            $('.content-footer a , .container-sidebar.list a').click(function (e) {
+                e.preventDefault();
+                $('#warning-modal').modal('show');
+                $('#no-save-confirm').attr('href', $(this).attr('href'));
+            });
+        });
+    </script>
+
+    {{ modal('warning-modal', {
+        'title': 'MODAL_GOINGQUIT_PAGE' |trans |desc("Vous êtes sur le point de quitter cette page"),
+        'body_template': {
+        'template': 'BNSAppPortalBundle:Modal:no_save_warning_body.html.twig',
+        'values': {}
+        },
+        'footer_template': {'template': 'BNSAppPortalBundle:Modal:no_save_warning_footer.html.twig',
+        'values': {}
+        },
+        'type': 'notice'
+    }) }}
+
+{% endblock %}

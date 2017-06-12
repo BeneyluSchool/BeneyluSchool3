@@ -1,0 +1,41 @@
+{% extends 'BNSAppResourceBundle:Content:front_content_layout.html.twig' %}
+
+{% block list %}
+	{# TODO dégueulasse #}
+	<script type="text/javascript">
+		$(function () {
+			$('.can-manage').css('display', 'none');
+		});
+	</script>
+    
+    {# ToolBar settings #}
+	{% include 'BNSAppResourceBundle:ToolBar:toolbar_settings.html.twig' with {
+		'navigationContext': 'FAVORITES',
+	} %}
+    
+	{% set i = 0 %}
+	{% for resource in resources %}	
+		{% include 'BNSAppResourceBundle:ContentBlock:front_block_gallery.html.twig' %}
+	{% else %}
+		{% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+			'text': is_adult() ? "Vous n'avez pas de document dans vos favoris" : "Tu n'as pas de document dans tes favoris"
+		} %}
+	{% endfor %}
+{% endblock list %}
+
+{% block pagination %}
+	{% set nb_page = resources.getLastPage() %}
+	{% if nb_page > 1 %}
+		<div class="pagination">
+			<ul>
+				{% for i in 1..nb_page %}
+					<li class="{% if i == page %}active{% endif %}">
+						<a href="{{ path('resource_favorites_page', {'page': i}) }}" rel="history" class="resource-pagination" id="page-{{ type }}-{{i}}">
+							{{ i }}
+						</a>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	{% endif %}
+{% endblock pagination %}

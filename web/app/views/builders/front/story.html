@@ -1,0 +1,57 @@
+
+<div container class="layout-gt-md-row story" id="story-{{::ctrl.story}}">
+  <div class="flex-gt-md-40 story-left-container">
+    <md-button ui-sref="^.home" class="back-to-stories md-whiteframe-z2">
+      <span translate>BUILDERS.BUTTON_BACK_TO_STORIES</span>
+    </md-button>
+      <h1 class="md-padding md-whiteframe-z2 title-board" ng-bind-html="'BUILDERS.TITLE_STORY_'+ctrl.story | translate"></h1>
+  </div>
+  <md-content class="flex-gt-md-60 story-right-container md-padding">
+      <div class="layout-row layout-wrap layout-align-center-center">
+        <div>
+          <div class="book-closed main-book story-{{::ctrl.story}} md-whiteframe-7dp">
+            <h3 class="md-title book-title md-padding  md-whiteframe-2dp" ng-bind-html="'BUILDERS.TITLE_STORY_'+ctrl.story | translate"> </h3>
+          </div>
+        </div>
+
+        <div class="actions-container">
+          <div class="new-btn-container md-whiteframe-1dp">
+            <md-button ng-click="ctrl.createBook()" class="md-raised btn-lg">
+              <span translate>BUILDERS.BUTTON_OPEN_NEW_BOOK </span>
+            </md-button>
+          </div>
+          <div class="new-btn-container">
+            <md-button ng-href="{{::resources.get(ctrl.file)}}"
+              target="_blank"
+              class="md-raised btn-lg"
+              bns-ga-event="{category: 'Semaine des possibles', action: 'download', label: ctrl.file}"
+            >
+              <md-icon>print</md-icon>
+              <span ng-bind-html="'BUILDERS.BUTTON_PRINT'|translate|buttonize"></span>
+            </md-button>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="my-books-title" translate>BUILDERS.MY_STORY_BOOKS</h2>
+      <div class="layout-row layout-wrap layout-margin layout-padding layout-align-center-center">
+
+        <md-progress-circular ng-show="ctrl.busy" md-mode="indeterminate"></md-progress-circular>
+
+        <div ng-show="!ctrl.busy && !ctrl.books.length" translate class="no-books-title">BUILDERS.DESCRIPTION_NO_BOOKS</div>
+
+        <div ng-repeat="book in ctrl.books" class="my-book-container">
+          <md-button ng-click="ctrl.deleteBook($event, book)" class="md-icon-button delete-book-btn" aria-label="close">
+            <div class="book-close-icon"></div>
+          </md-button>
+          <md-button ui-sref="^.book({id: book.id})" class="book-closed can-hover story-{{::ctrl.story}} md-whiteframe-4dp" aria-label="{{ ::'BUILDERS.DESCRIPTION_BOOK_OF'|translate:{date: (book.created_at|amDateFormat:'LL')} }}">
+            <p class="book-title" ng-bind-html="'BUILDERS.TITLE_STORY_'+ctrl.story | translate"></p>
+          </md-button>
+          <div class="text-center book-infos layout-row layout-align-center-center">
+            <md-icon ng-if="::book.is_complete">done</md-icon>
+            <span translate translate-values="{date: (book.created_at|amDateFormat:'LL')}">BUILDERS.DESCRIPTION_BOOK_OF</span>
+          </div>
+        </div>
+      </div>
+  </md-content>
+</div>

@@ -1,0 +1,71 @@
+<div class="flex" ui-view>
+  <md-toolbar container>
+    <div class="md-toolbar-tools">
+      <md-button ui-sref="classroom" class="position-fixed-gt-md">
+        <md-icon>chevron_left</md-icon>
+        <span>Revenir à la classe</span>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+  <div class="layout-gt-md-row flex" container>
+
+    <div class="flex-gt-md-45 md-padding">
+      <div class="home-characters"></div>
+      <div ng-if="ctrl.hasAccessBack" class="circus-drawing-contest">
+        <md-tooltip md-direction="top"><span class="flag flag-shield"></span> Réservé à l'enseignant</md-tooltip>
+        <bns-inset>
+          <div class="layout-row layout-align-center-center">
+            <div class="md-padding text-center">
+              <div class="flag flag-shield"></div>
+              <div class="md-body-2 hide-sm">Enseignant</div>
+            </div>
+            <md-button href="http://www.enseignants.canson.com/concours-ecole-canson-beneylu" target="_blank" class="md-raised md-accent" bns-ga-event="{category: 'Atelier dessin : le cirque', action: 'click', label: 'Info concours'}">Comment participer au concours Canson ?</md-button>
+          </div>
+          <div class="text-center md-body-2">Votre classe a aimé dessiner le cirque ? Et si vous poursuiviez l'aventure en l'inscrivant à la 5ème édition du concours de dessin Canson : "Imagine ton anniversaire au cirque" ? Bonne chance à vos artistes !</div>
+
+          <hr>
+
+          <bns-app-toggle md-theme="default" app="navbar.app" group="navbar.group" type="'activities'" class="layout-align-center-center">
+            <span translate>APPS.LABEL_OPEN_ACTIVITY_TO_PUPILS</span>
+          </bns-app-toggle>
+        </bns-inset>
+      </div>
+    </div>
+
+    <div class="flex-gt-md-55 md-padding">
+      <h1 class="text-center md-display-1 drawings-headline">Apprends à dessiner&nbsp;:</h1>
+
+      <div class="layout-row layout-wrap layout-align-center-center layout-margin drawings-container">
+        <div ng-repeat="drawing in ctrl.drawings" class="flex flex-none drawing">
+          <md-button ui-sref=".drawing({code: drawing.code})" class="drawing-frame drawing-frame-{{::drawing.code}}" aria-label="{{::drawing.label}}"></md-button>
+          <md-button ui-sref=".drawing({code: drawing.code})" class="drawing-label">{{::drawing.label}}</md-button>
+        </div>
+      </div>
+
+      <div class="drawings-copy">
+        <h3 class="md-display-1 text-accent drawings-title">Imagine ton anniversaire au cirque&hellip;</h3>
+
+        <div class="md-body-2 drawings-description">
+          Sous le chapiteau, apprends à dessiner les artistes du cirque en suivant 6 vidéos. Attrape un crayon et une feuille et entraîne-toi. Tu es prêt&nbsp;? Dessine ton anniversaire au cirque&nbsp;!
+        </div>
+
+      </div>
+      </ul>
+    </div>
+  </div>
+
+  <md-toolbar ng-if="ctrl.hasAccessBack" class="md-primary">
+    <div class="md-toolbar-tools layout-align-center-center">
+      <div class="text-center">
+        <div class="flag flag-shield"></div>
+        <div class="md-body-2 hide-sm">Enseignant</div>
+        <md-tooltip md-direction="top">Réservé à l'enseignant</md-tooltip>
+      </div>
+      <md-button href="https://storage.gra1.cloud.ovh.net/v1/AUTH_03caab6673f7495a9b7f2af36e8d748e/beneylu-public/circus%2Ffiche-de-preparation.pdf" target="_blank" class="circus-birthday-sheet-button" bns-ga-event="{category: 'Atelier dessin : le cirque', action: 'download', label: 'Fiche de preparation'}">
+        <div class="md-title">Télécharger la fiche de préparation</div>
+        <div class="sheet-container hide-sm"></div>
+      </md-button>
+    </div>
+  </md-toolbar>
+</div>

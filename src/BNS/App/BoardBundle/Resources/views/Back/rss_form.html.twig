@@ -1,0 +1,123 @@
+{% extends 'BNSAppBoardBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+    {% if (isEditionMode) %}
+        Tableau d'information - Éditer un flux externe
+    {% else %}
+        Tableau d'information - Créer un flux externe
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(function ()
+        {
+
+            // Finish button
+            $('.header-buttons .finish').click(function (e)
+            {
+                if ($(e.currentTarget).hasClass('disabled')) {
+                    return false;
+                }
+
+                $('#form_new_rss').submit();
+
+                return false;
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block header %}
+    <div class="header-buttons">
+        <div class="inner-header">
+            <div class="container container-fluid">
+                <div class="row-fluid">
+                    <div class="span8">
+                        <a href="{{ path('board_manager_rss') }}" class="btn bns-notice btn-24 medium-return">
+                            <span class="icons-24 back-icon"></span>
+                            <strong>Retourner</strong><br />aux flux externes
+                        </a>
+                        {% if isEditionMode %}
+                            <a href="{{ path('board_manager_rss_view', {'id': rss.id}) }}" class="btn bns-danger btn-24 medium-return button-return">
+                                <span class="icons-24 cancel-icon"></span>
+                                <strong>Annuler</strong><br />les modifications
+                            </a>
+                        {% else %}
+                            <a href="{{ path('board_manager_rss') }}" class="btn bns-danger btn-24 medium-return button-return">
+                                <span class="icons-24 cancel-icon"></span>
+                                <strong>Annuler</strong><br />la création
+                            </a>
+                        {% endif %}
+                    </div>
+                    <div class="span4 align-right">
+                        <a href="#" class="btn finish bns-success validate-medium btn-24 medium">
+                            <span class="icons-24 validate-icon"></span>
+                            <strong>Enregistrer</strong>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock header %}
+
+{% block sidebar %}
+    <div class="container-sidebar editor">
+        <div class="section active">
+            {% if isEditionMode %}Editer{% else %}Ajouter{% endif %} un flux externe
+            <span class="shadow-section"></span>
+        </div>
+        {% include 'BNSAppBoardBundle:Block:back_block_rss_enable.html.twig' %}
+    </div>
+{% endblock sidebar %}
+
+{% block form_start %}
+    {% if isEditionMode %}
+        <form id="form_new_rss" action="{{ path('board_manager_rss_edit', {'id': rss.id()}) }}" method="POST" {{ form_enctype(form) }}>
+    {% else %}
+        <form id="form_new_rss" action="{{ path('board_manager_rss_new') }}" method="POST" {{ form_enctype(form) }}>
+    {% endif %}
+{% endblock form_start %}
+
+{% block form_end %}
+    </form>
+{% endblock form_end %}
+
+{% block content %}
+    <div class="item form">
+
+        <div class="alert alert-error save-error bns-alert hide">
+            <strong>Attention</strong>, des champs ont été oubliés. Veuillez vérifier que vous avez correctement rempli tous les champs
+            <div class="jim"></div>
+        </div>
+
+        {# Title #}
+        <div>
+            {{ form_widget(form.title, { 'attr': {'placeholder': "Titre du flux externe"} }) }}
+            {% if form.title.vars.errors|length > 0 %}
+                <div class="alert alert-danger bns-alert">
+                    {{ form_errors(form.title) }}
+                    <div class="jim"></div>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="alert alert-info bns-alert">
+            Saisissez une url d'un flux externe de type (RSS / Atom)
+        </div>
+        {# Url #}
+        <div>
+            {{ form_widget(form.url, { 'attr': {'placeholder': 'Url du flux externe'} }) }}
+            {% if form.url.vars.errors|length > 0 %}
+                <div class="alert alert-danger bns-alert">
+                    {{ form_errors(form.url) }}
+                    <div class="jim"></div>
+                </div>
+            {% endif %}
+        </div>
+        <div>{{ form_rest(form) }}</div>
+    </div>
+{% endblock content %}

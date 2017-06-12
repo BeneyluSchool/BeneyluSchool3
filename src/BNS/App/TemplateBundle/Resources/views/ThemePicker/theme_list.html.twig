@@ -1,4 +1,5 @@
-<h2>Thèmes</h2>
+{% trans_default_domain "TEMPLATE" %}
+{% trans %}TITLE_THEMES{% endtrans %}
 <hr />
 
 <input type="hidden" name="selected_template_css_class" id="selected-template" value="{{ user_current_template.getCssClass() }}" />

@@ -1,0 +1,38 @@
+<md-toolbar md-scroll-shrink md-shrink-speed-factor="0.5" class="content-toolbar flex-none">
+  <div class="md-toolbar-tools">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+    <h3 class="text-ellipsis" translate>BUILDERS.TITLE_BOOKS</h3>
+  </div>
+</md-toolbar>
+
+<md-content>
+  <md-list class="bns-list-status">
+    <md-list-item class="md-2-line md-no-proxy" ng-repeat="book in ctrl.books" ng-class="{'in-progress': !book.is_complete, 'complete md-accent': book.is_complete}">
+      <div class="md-list-item-text">
+        <h3>
+          <span class="md-title">{{::('BUILDERS.STORY_'+book.story|translate)+' #'+book.number}}</span>
+          <small class="md-subhead"> - {{::ctrl.countAnswers(book)||0}}/4 {{ 'BUILDERS.STEPS'|translate }}</small>
+        </h3>
+        <p translate translate-values="{date: (book.created_at|amDateFormat:'LL'), user: book._embedded.user.full_name}">BUILDERS.DESCRIPTION_BOOK_DATE_AUTHOR</p>
+      </div>
+
+      <md-button ui-sref="^.^.front.book({id: book.id})" class="hide-gt-sm md-primary md-secondary md-hue-3 md-icon-button">
+        <md-icon>chevron_right</md-icon>
+      </md-button>
+      <md-button ui-sref="^.^.front.book({id: book.id})" class="hide-sm md-primary md-hue-3">
+        <span translate>BUILDERS.BUTTON_SEE_BOOK</span>
+        <md-icon>chevron_right</md-icon>
+      </md-button>
+
+      <md-divider></md-divider>
+    </md-list-item>
+
+    <bns-inset ng-show="!ctrl.busy && !ctrl.books.length" class="md-padding text-center">
+      <div translate>BUILDERS.DESCRIPTION_NO_BOOKS</div>
+    </bns-inset>
+
+    <div ng-show="ctrl.busy && !ctrl.books.length" class="layout-row layout-align-center-center">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+  </md-list>
+</md-content>

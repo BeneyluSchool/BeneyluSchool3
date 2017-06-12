@@ -1,0 +1,7 @@
+<div class="items-group">
+    {% for uai,resources in results['PROVIDER_RESOURCES'] %}
+        {% for resource in resources %}
+            {% include 'BNSAppResourceBundle:ContentBlock:front_block_search_provider_resources_row.html.twig' %}
+        {% endfor %}
+    {% endfor %}
+</div>

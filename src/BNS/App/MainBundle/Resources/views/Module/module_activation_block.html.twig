@@ -1,7 +1,20 @@
-<span 
+{% trans_default_domain "MAIN" %}
+<span
 	id="{{ role.id }}-{{ groupId }}-{{ module.getUniqueName() }}" 
 	data-module-unique-name="{{ module.getUniqueName() }}" 
 	data-role-id="{{ role.id }}"
 	data-group-id="{{ groupId }}"
-	class="btn-change-module-state{% if module in moduleStates[role.id] %} active {% endif %}">
+    {% set active = module in moduleStates[role.id] ? "active" : "" %}
+    {% include 'BNSAppMainBundle::popover.html.twig'
+        with {
+            'noElement' : 1,
+            'class'   : 'btn-change-module-state ' ~ active,
+            'title'   : 'TITLE_MODULES_ACTIVATION'|trans |desc("Activation des modules"),
+            'content' : 'ENABLE_DISABLE_DESCRIPTION'|trans |desc("Un feu vert signifie que le module est activé pour le type d'utilisateur selectionné.<br /> Un feu rouge signifie que les utilisateurs n'ont pas accès au module."),
+            'module'  : 'classroom',
+            'size'    : 'large',
+            'placement' : 'left'
+        }
+    %}
+>
 </span>

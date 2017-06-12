@@ -1,74 +1,10 @@
-
-
-
-
-
-
-			{#
-
-
-<div class="title-container">
-		<div class="content-title">
-			<div class="form-title">
-				<form id="gps-add-category" method="post" action="{{ path('BNSAppGPSBundle_back_category_create') }}">
-					<input id="gps-add-category-label" class="add-category" type="text" name="label" size="12" placeholder="Ajouter une catégorie" />
-					<input type="submit" value="Ajouter" class="btn btn-info"/>
-				</form>
-			</div>
-	    </div>
-	</div>
-	<div class="title-container remove-this-class-filters">
-		<div class="content-title">
-			<div class="loader loader-h"></div>
-			<ul id='gps-category-list' class="sortable">
-				{% for category in categories %}
-					{% include "BNSAppGPSBundle:Back:blockCategorySidebar.html.twig" with {"category" : category , 'canEdit' : canEdit } %}
-				{% else %}
-				<div class="no-category">
-					<div class="alert alert-block">
-						<h4 class="alert-heading">Aucune catégorie</h4>
-					</div>
-				</div>
-				{% endfor %}
-			</ul>
-		</div>
-	</div>
-	<div class="sidebar-shadow"></div>
-</div>
-
-
-
-<div class="search-category-gps">
-				   <div class="input-prepend input-append input-cat">
-					   <form id="gps-add-category" method="post" action="{{ path('BNSAppGPSBundle_back_category_create') }}">
-						   <input id="gps-add-category-label" class="add-category" type="text" name="label" size="12" placeholder="Ajouter une catégorie" />
-						   <input type="submit" value="Ok" class="btn btn-info"/>
-					   </form>
-				   </div>
-			   </div>
-			   <div class="gps-category-list">
-				   <ul id='gps-category-list' class="sortable">
-
-					   {% for category in categories %}
-						   {% include "BNSAppGPSBundle:Back:blockCategorySidebar.html.twig" with {"category" : category , 'canEdit' : canEdit } %}
-					   {% else %}
-						   <div class="no-category">
-							   <div class="alert alert-block">
-								   <h4 class="alert-heading">Aucune catégorie</h4>
-							   </div>
-						   </div>
-					   {% endfor %}
-				   </ul>
-			   </div>
-		   </div>
-	   </div>
-   </div>#}
+{% trans_default_domain "GPS" %}
 
 {# Placement des modal pour éviter les problèmes de z-index #}
 {% autoescape false %}
 	{{ modal('gps-delete-category', {
-		'title': 'Supprimer la catégorie',
-		'body': "Êtes vous sûr de vouloir supprimer cette catégorie et ses lieux associés ?",
+    'title': "MODAL_DELETE_CATEGORY"|trans,
+		'body': "MODAL_SURE_DELETE_CATEGORY"|trans,
 		'footer_template': {'template': 'BNSAppGPSBundle:Back:modalDeleteCategoryFooter.html.twig'},
 		'type': 'error'
 	}) }}

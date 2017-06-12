@@ -1,0 +1,27 @@
+{% block content %}
+	{% block player %}
+		<video controls="controls" width="550" height="340">
+			<source src="{{ url('BNSAppResourceBundle_download', { 'resourceSlug': resource.getSlug }) }}" type="{{ rm.getHtml5VideoMimeType() }}" />
+		</video>
+
+		<script>
+			// using jQuery
+			$('video').mediaelementplayer({
+				enableAutosize: false,
+				plugins: ['flash','silverlight'],
+				pluginPath: '/ent/medias/js/resource/',
+				audioHeight: 30,
+				flashName: 'flashmediaelement.swf',
+				silverlightName: 'silverlightmediaelement.xap'
+			});
+		</script>
+
+        <div class="download">
+            <a href="{{ path('BNSAppResourceBundle_download', { 'resourceSlug': resource.getSlug() }) }}" class="btn bns-notice btn-24 large" target='_blank'>
+                <span class="icons-24 preview-icon"></span>
+                Télécharger
+            </a>
+        </div>
+
+	{% endblock %}
+{% endblock %}

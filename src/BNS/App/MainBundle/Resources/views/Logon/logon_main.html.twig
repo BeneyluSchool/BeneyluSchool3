@@ -1,0 +1,443 @@
+{% extends '::base.html.twig' %}
+{% trans_default_domain "MAIN" %}
+
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+
+{% set google_fonts = [
+  'Jockey One',
+  'Bree Serif',
+  'Boogaloo',
+  'Source Sans Pro',
+  'Cabin Sketch:700',
+] %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ asset('assets/styles/styles-light.css') }}"/>
+{% endblock %}
+
+{% block html_attr %}ng-app="beneyluSchoolAuthApp" class="auth-app"{% endblock %}
+
+{% block main_javascripts %}{% endblock %}
+
+{% block javascripts %}{% endblock %}
+
+{% block analytics %}
+    {{ parent() }}
+    {% if needAnalyticsLogout %}
+        <script type="text/javascript">
+            $(function(){
+                setTimeout(function(){
+                    analytics.user().traits({});
+                    analytics.group().traits({});
+                }, 1500);
+            });
+        </script>
+    {% endif %}
+{% endblock %}
+
+{% block title %}{% trans with {'%beneylu_brand_name%': parameter('beneylu_brand_name')} %}TITLE_CONNECTION{% endtrans %}{% endblock %}
+
+{% block meta_description %}{% trans with {'%beneylu_brand_name%': parameter('beneylu_brand_name')} %}DESCRIPTION_CONNECTION{% endtrans %}{% endblock %}
+
+{% block locales_link %}
+  <link rel="alternate" href="{{ url('home') }}" hreflang="x-default" />
+  {% for code,language in availableLanguages %}
+    <link rel="alternate" href="{{ url('home_locale', { _locale: code }) }}" hreflang="{{ code | replace('_','-') }}" />
+  {% endfor %}
+{% endblock %}
+
+{%  set iframeParams = '&fromTemplate=main' %}
+
+{% block body_class %}{{ parent() }} home{% endblock %}
+
+{% block body_attr %}ng-controller="LoginController as ctrl"{% endblock %}
+
+{% block body %}
+    {# splash page container #}
+    <div class="layout-row home-layout">
+
+        {# fullscreen #}
+        <div class="full-height-ruler"></div>
+        <div class="flex layout-column home-splash {{ app.request.locale | replace('_','-') | lower }}">
+
+            {# message row #}
+            {% if parameter('home_message') %}
+                <div class="inset">
+                    <div class="layout-column layout-gt-sm-row layout-align-center-center layout-padding md-whiteframe-z1 md-body-1 home-message-container">
+                        {{ parameter('home_message') | raw }}
+                    </div>
+                </div>
+            {% endif %}
+
+            {# login row #}
+            <div container class="layout-sm-column layout-md-column layout-gt-md-row layout-align-center-center layout-align-gt-md-end-center home-login-row">
+
+                {# login blocks #}
+                <div class="home-blocks">
+
+                    <div class="layout-column layout-gt-sm-row layout-align-center-center">
+                        <div class="home-logo-container">{# avoid img as direct child of flex container #}
+                            <img src="{{ asset('assets/images/main/logo.png') }}" alt="Beneylu School" class="home-logo"/>
+                        </div>
+                        <div class="home-title">
+                            <div class="md-display-1">{% trans %}TITLE_ENTER_IN{% endtrans %}</div>
+                            <h1 class="md-display-1 home-brand">Beneylu <span class="school">School</span></h1>
+                            {#<h2>L'espace numérique de travail des écoles primaires</h2>#}
+                        </div>
+                    </div>
+                    {#<div class="inset">#}
+                    {#</div>#}
+
+                    <div class="home-boxes">
+                    <div class="box-transparent">
+                        <div class="inner box-transparent">
+                            <iframe id="logon-iframe" src="{{ redirectUrl ~ iframeParams }}" width="100%" height="350px" scrolling="auto" marginheight="0" marginwidth="0" frameborder="0">
+                                {% trans %}INCOMPATIBLE_BROWSER{% endtrans %}
+                            </iframe>
+                        </div>
+                    </div>
+
+                    <div class="inset">
+                      {% if enable_register %}
+                        <md-content class="md-whiteframe-z2 inset">
+                            <div class="inscription">
+                                {#
+                                    <a href="{{ path('registration_free') }}" class="button">
+                                        <span class="triangle"></span>
+                                        <span class="white">Je suis enseignant</span>
+                                        <span class="black">J'inscris ma classe gratuitement</span>
+                                    </a>
+                                #}
+
+                                <div class="layout-row">
+                                    {{ components.button('BUTTON_TEACHER_REGISTER' | trans, {
+                                        icon: 'bns:classroom',
+                                        intent: 'primary',
+                                        raised: true,
+                                        click: 'ctrl.showRegisterDialog($event)',
+                                        attr: { class: 'flex' },
+                                    }) }}
+                                </div>
+
+                                <script type="text/ng-template" id="teacher-register-dialog.html">
+                                    <md-dialog class="bns-dialog bns-dialog-primary bns-dialog-sm">
+                                        <md-dialog-content class="md-dialog-content">
+                                            <div class="layout-row layout-align-start-center layout-margin">
+                                                <bns-icon class="flex flex-none">classroom</bns-icon>
+                                                <h3 class="md-headline flex">
+                                                    {% trans %}TITLE_REGISTRATION_DAY{% endtrans %}
+                                                </h3>
+                                                {{ components.button(null, {
+                                                    icon: 'close',
+                                                    click: 'ctrl.abort()'
+                                                }) }}
+                                            </div>
+                                            <form id="user_registration_form"
+                                                  method="post"
+                                                  action="{{ path('user_api_subscription', {version: '1.0'}) }}.json"
+                                                  ng-submit="ctrl.handleSubscription($event);"
+                                                  data-origin="ent {{ app.request.locale | replace('_','-') | lower }} home"
+                                            >
+                                                <p class="md-body-1">
+                                                    {% trans %}DESCRIPTION_REGISTRATION_EMAIL{% endtrans %}
+                                                </p>
+                                                <md-input-container md-no-float>
+                                                    <input id="user_registration_email"
+                                                           type="email"
+                                                           name="email"
+                                                           ng-model="ctrl.email"
+                                                           autocapitalize="off"
+                                                           autocomplete="off"
+                                                           autocorrect="off"
+                                                           spellcheck="false"
+                                                           class="input-lg"
+                                                           placeholder="{% trans %}USER_REGISTRATION_PLACEHOLDER{% endtrans %}">
+                                                </md-input-container>
+                                                <div class="layout-row layout-align-center-center">
+                                                    {{ components.button('BUTTON_REGISTER_CLASSROOM' | trans, {
+                                                        intent: 'primary',
+                                                        raised: true,
+                                                        attr: {type: 'submit'}
+                                                    }) }}
+                                                </div>
+                                            </form>
+                                        </md-dialog-content>
+                                        <div class="progress-overlay" ng-show="ctrl.busy">
+                                            <md-progress-circular class="register-progess" md-mode="indeterminate"></md-progress-circular>
+                                        </div>
+                                    </md-dialog>
+                                    <div class="bns-dialog-jim hide-sm hide-md"></div>
+                                </script>
+
+                            </div>
+
+                            <div class="text-center md-caption">
+                                <a href="{{ path('user_password_reset') }}">
+                                    <span class="password-lost">{% trans %}FORGOTTEN_PASSWORD{% endtrans %}</span>
+                                </a>
+                            </div>
+                        </md-content>
+                      {% else %}
+                        <div class="layout-row layout-align-center-center no-register">
+                        <div class="button-container">
+                          <a href="{{ path('user_password_reset') }}" target="_blank">
+                            <button class="md-primary md-raised md-button md-default-theme password-lost">
+                              <md-icon>lock</md-icon>{% trans %}FORGOTTEN_PASSWORD{% endtrans %}
+                            </button>
+                          </a>
+                        </div></div>
+                      {% endif %}
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            {# cookies row #}
+            {% if not app.request.cookies.has('hide-cookies-alert') %}
+                <div class="home-cookies-container md-padding" ng-hide="ctrl.hasAcceptedCookies">
+                    <div container class="layout-row">
+                        <div class="flex flex-gt-md-80 flex-offset-gt-md-10 layout-row layout-align-space-between-start">
+                            <div class="flex flex-gt-md-80 md-body-1 text-center">
+                                {% trans with { '%cookies_more_info_url%': path('main_logon_cookies'), '%beneylu_brand_name%': parameter('beneylu_brand_name') } %}DESCRIPTION_COOKIES_POLICY{% endtrans %}
+                            </div>
+                            {{ components.button(null, {
+                                icon: 'clear',
+                                click: 'ctrl.acceptCookies()'
+                            }) }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if availableLanguages|length > 1 %}
+              <div class="language-switch" ng-cloak>
+                 <md-menu>
+                    <md-button aria-label="Open language menu" ng-click="$mdOpenMenu($event)" class="select-button">
+                      <img src="{{ asset('medias/images/icons/lang/' ~ app.request.locale ~ '.png') }}" />
+                      <md-icon>arrow_drop_down</md-icon>
+                    </md-button>
+                    <md-menu-content width="4">
+                    {% for code,language in availableLanguages %}
+                      <md-menu-item>
+                        <md-button aria-label="{{ language }}" href="{{ path('BNSAppMainBundle_change_culture', {'culture' : code}) }}">
+                          <span class="language-flag-icon"><img class="lang-flag" src="{{ asset('medias/images/icons/lang/' ~ code ~ '.png') }}" /></span>
+                          {{ language }}
+                        </md-button>
+                      </md-menu-item>
+                    {% endfor %}
+                    </md-menu-content>
+                  </md-menu>
+              </div>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <div class="presentation">
+      <div class="layout-row layout-wrap">
+        <div class="flex-100 bns-presentation">
+          <h3 class="md-display-1">{% trans %}TITLE_PRESENTATION{% endtrans %}</h3>
+          <p>{% trans with {'%beneylu_brand_name%': parameter('beneylu_brand_name')} %}PRESENTATION{% endtrans %}</p>
+          <a href="{{ home_link['school_link'] }}" target="_blank">{% trans with {'%beneylu_brand_name%': parameter('beneylu_brand_name')} %}LINK_SCHOOL{% endtrans %}</a><md-icon>launch</md-icon>
+        </div>
+      </div>
+      <div class="separator-logo">
+        <img src="{{ asset('assets/images/main/logo.png') }}" alt="Beneylu School" class="logo"/>
+      </div>
+
+      <md-content container class="md-padding">
+        <div class="layout-row layout-wrap layout-padding bns-guides">
+          <div class="flex-100 flex-gt-md-50 guides">
+            <a href="{{ home_link['child_account_guide'] }}" target="_blank">
+              <img src="{{ asset('assets/images/main/guides/fr/guide.png') }}" width="155" height="218">
+            </a>
+            <h4 class="md-display">{% trans %}TITLE_GUIDE{% endtrans %}</h4>
+            <p>{% trans with {'%beneylu_brand_name%': parameter('beneylu_brand_name')} %}DESCRIPTION_GUIDE{% endtrans %}</p>
+            <md-icon>launch</md-icon><a href="{{ home_link['child_account_guide'] }}" target="_blank" class="open-link">{% trans %}LINK_GUIDE{% endtrans %}</a>
+          </div>
+          <div class="flex-100 flex-gt-md-50 guides">
+            <div class="layout-column">
+              <div class="flex">
+                <a href="{{ home_link['child_account_guide'] }}" target="_blank">
+                  <img src="{{ asset('assets/images/main/guides/fr/add-child-guide.png') }}" width="68" height="89">
+                </a>
+                <h4 class="md-display">{% trans %}TITLE_CHILD_ACCOUNT_GUIDE{% endtrans %}</h4>
+                <p>{% trans with {'%beneylu_brand_name%': parameter('beneylu_brand_name')} %}DESCRIPTION_CHILD_ACCOUNT_GUIDE{% endtrans %}</p>
+                <md-icon>launch</md-icon><a href="{{ home_link['child_account_guide'] }}" target="_blank" class="open-link">{% trans %}LINK_OPEN_GUIDE{% endtrans %}</a>
+              </div>
+              <div class="flex">
+                <a href="{{ home_link['app_panel_guide'] }}" target="_blank">
+                  <img src="{{ asset('assets/images/main/guides/fr/start-guide.png') }}" width="67" height="88">
+                </a>
+                <h4 class="md-display">{% trans %}TITLE_APPS_BOARD_GUIDE{% endtrans %}</h4>
+                <p>{% trans with {'%beneylu_brand_name%': parameter('beneylu_brand_name')} %}DESCRIPTION_APPS_BOARD_GUIDE{% endtrans %}</p>
+                <md-icon>launch</md-icon><a href="{{ home_link['app_panel_guide'] }}" target="_blank" class="open-link">{% trans %}LINK_OPEN_GUIDE{% endtrans %}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </md-content>
+
+      <div class="layout-row layout-wrap layout-padding contact">
+        <div class="flex-100 flex-gt-md-60">
+          <img src="{{ asset('assets/images/main/logo.png') }}" alt="Beneylu School" class="home-logo"/>
+          <p>{% trans %}TITLE_CONTACT{% endtrans %}</p>
+        </div>
+        <div class="flex-100 flex-gt-md-40 button-container">
+          <a href="{{ home_link['contact_link'] }}" target="_blank">
+            <button class="md-primary md-raised md-button md-default-theme">{% trans %}LABEL_CONTACT{% endtrans %}</button>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    {% if app.request.locale == 'fr' %}
+      <div class="workspaces-of-city hide-sm">
+      <md-content container class="md-padding">
+          <h3 class="md-display-1 text-center">{% trans %}TITLE_WORKSPACE_OF_MY_CITY{% endtrans %}</h3>
+          {#<div class="search span5">#}
+              {#<input id="search-screenshot" type="text" placeholder="Tape le nom de ton espace de travail ou de ta ville" />#}
+          {#</div>#}
+
+          {% set screenshots = {
+              'ac-bordeaux'       : {'image' : 'ac-bordeaux.png', 'name' : 'Aliénor - Académie de Bordeaux', 'link' : 'https://alienor24.ac-bordeaux.fr/' , 'keywords' : "bordeaux aliénor dordogne pyrénées gironde"},
+              'marseille'         : {'image' : 'marseille.png', 'name' : 'ENT CIME - Marseille', 'link' : 'https://ent.cime.org' , 'keywords' : "marseille cime aix-marseille"},
+              'ac-montpellier'    : {'image' : 'ac-montpellier.png', 'name' : 'ENTécole - Académie de Montpellier', 'link' : 'https://entecole.ac-montpellier.fr/' , 'keywords' : "montpellier"},
+              'landes'            : {'image' : 'landes.png', 'name' : 'L@ndécoles - Landes', 'link' : 'http://landecoles.landespublic.fr' , 'keywords' : "landes alpi landecoles l@ndécoles"},
+              'roanne'            : {'image' : 'roanne.png', 'name' : 'Roannais Agglomération - Roanne', 'link' : 'https://ent.roannais-agglomeration.fr' , 'keywords' : "roannais roanne"},
+              'bordeaux'          : {'image' : 'bordeaux.png', 'name' : 'Tic Educ - Bordeaux', 'link' : 'https://bordeaux.ticeduc.fr' , 'keywords' : "bordeaux tic educ"},
+              'aveyron'           : {'image' : 'aveyron.png', 'name' : 'ENT Aveyronnais', 'link' : 'https://smica.beneylu.com' , 'keywords' : "aveyron smica rodez millau"},
+              'corse'             : {'image' : 'corse.png', 'name' : 'Primaleia - Académie de Corse', 'link' : 'https://primaleia.ac-corse.fr' , 'keywords' : "corse bastia ajaccio"}
+          } %}
+          <div class="layout-row layout-wrap layout-padding">
+              {% for screenshot in screenshots %}
+                  <div class="flex-100 flex-gt-sm-50 flex-gt-md-33 screenshot text-center md-body-1">
+                      <a href="{{ screenshot['link'] }}">
+                          <img src="{{ asset('/medias/images/logon/home/homes/' ~ screenshot['image']) }}" width="300" />
+                          <div>{{ screenshot['name'] }}</div>
+                          <span class="keywords hide" style="display: none;">
+                              {{ screenshot['keywords'] }}
+                          </span>
+                      </a>
+                  </div>
+              {% endfor %}
+          </div>
+      </md-content>
+      </div>
+    {% endif %}
+
+    <div class="md-padding md-caption text-center footer-legals">
+      {% trans with {
+      '%copyright_year%': 'now'|date('Y'),
+      '%eula_url%': path('main_logon_legals')
+      } %}FOOTER_LEGALS{% endtrans %}
+    </div>
+
+    {#
+    <div class="layout">
+        <div class="content">
+            <div class="container">
+                <div class="homes" style="margin-top: 20px;">
+                    <div class="screenshots">
+                        <div class="title row">
+                            <div class="span12 univers">
+                                <h3>L'univers jeunesse Beneylu</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span3 block">
+                                <a href="http://beneylu.com/quest?utm_source=HomeBeneylu&utm_medium=referral&utm_term=Beneylu.com/ent&utm_campaign=Interne%20Beneylu" target="_blank">
+                                    <img src="{{ asset('/medias/images/logon/home/logo/quest.png') }}" />
+                                </a>
+                                <a class="btn btn-bns-red" target="_blank" href="http://beneylu.com/quest?utm_source=HomeBeneylu&utm_medium=referral&utm_term=Beneylu.com/ent&utm_campaign=Interne%20Beneylu">Beneylu Quest</a>
+                                <span>
+                                    La mallette de lecture pour <br />les jeunes aventuriers
+                                </span>
+                            </div>
+
+                            <div class="span3 block">
+                                <a href="http://beneylu.com/spot?utm_source=HomeBeneylu&utm_medium=referral&utm_term=Beneylu.com/ent&utm_campaign=Interne%20Beneylu" target="_blank">
+                                    <img src="{{ asset('/medias/images/logon/home/logo/spot.png') }}" />
+                                </a>
+                                <a class="btn btn-bns-red" target="_blank" href="http://beneylu.com/spot?utm_source=HomeBeneylu&utm_medium=referral&utm_term=Beneylu.com/ent&utm_campaign=Interne%20Beneylu">Beneylu Spot</a>
+                                <span>
+                                     Le grand magasin <br />de la culture jeunesse
+                                </span>
+                            </div>
+
+                            <div class="span3 block">
+                                <a href="http://beneylu.com/time?utm_source=HomeBeneylu&utm_medium=referral&utm_term=Beneylu.com/ent&utm_campaign=Interne%20Beneylu" target="_blank">
+                                    <img src="{{ asset('/medias/images/logon/home/logo/time.png') }}" />
+                                </a>
+                                <a class="btn btn-bns-red" target="_blank" href="http://beneylu.com/time?utm_source=HomeBeneylu&utm_medium=referral&utm_term=Beneylu.com/ent&utm_campaign=Interne%20Beneylu">Beneylu Time</a>
+                                <span>
+                                     Le magazine <br />des parents qui friment
+                                </span>
+                            </div>
+
+                            <div class="span3 block">
+                                <a href="http://beneylu.com/lunch?utm_source=HomeBeneylu&utm_medium=referral&utm_term=Beneylu.com/ent&utm_campaign=Interne%20Beneylu" target="_blank">
+                                    <img src="{{ asset('/medias/images/logon/home/logo/lunch.png') }}" />
+                                </a>
+                                <a class="btn btn-bns-red" target="_blank" href="http://beneylu.com/lunch?utm_source=HomeBeneylu&utm_medium=referral&utm_term=Beneylu.com/ent&utm_campaign=Interne%20Beneylu">BeneyLunch</a>
+                                <span>
+                                    1 article pour le primaire,<br /> tous les midis
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer ">
+            <div class="container">
+                <div class="footer-content row">
+                    <div class="span1">
+                        <img src="{{ asset('/medias/images/logon/home/logo-footer.png') }}" />
+                    </div>
+                    <div class="span4">
+                        Vous ne trouvez pas l'information que vous cherchez sur le site ?
+                        <a href="http://beneylu.com/blog/contactez-nous/" target="'_blank" class="contact">
+                            Contactez nous ici
+                        </a>
+                        <span class="copyright">
+                            © Beneylu School {{ "now"|date("Y") }} Tous droits réservés - Beneylu est une marque déposée.
+                        </span>
+                    </div>
+                    <div class="span3">
+                        <ul class="links">
+                            <li>Déclaration CNIL 1321978</li>
+                            <li>
+                                <a href="http://beneylu.com/school" target="'_blank" class="contact">
+                                    Découvrir Beneylu School
+                                </a>
+                                <a href="{{ path('main_logon_legals') }}" class="contact">
+                                    Mentions légales
+                                </a>
+                            </li>
+                        </ul>
+                        {% for language in availableLanguages %}
+                            <a href="{{ path('BNSAppMainBundle_change_culture', {'culture' : language}) }}">
+                                <img src="{{ asset('medias/images/icons/lang/' ~ language ~ '.png') }}" />
+                            </a>
+                        {% endfor %}
+                    </div>
+                    <div class="span4">
+                        <iframe src="//www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2Fbeneylu&amp;width&amp;height=200&amp;colorscheme=light&amp;show_faces=true&amp;header=false&amp;stream=false&amp;show_border=false&amp;appId=1375128316054198" scrolling="no" frameborder="0" style="background: white; border:none; overflow:hidden; height:200px; width:100%" allowTransparency="true"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    #}
+{% endblock body %}
+
+{% block angular_scripts %}
+
+  {# Load the material app #}
+  <script src="{{ asset('assets/scripts/vendors-light.js') }}"></script>
+  <script src="{{ asset('assets/scripts/scripts.js') }}"></script>
+  <script src="{{ asset('assets/scripts/views-light.js') }}"></script>
+
+{% endblock %}

@@ -1,71 +1,97 @@
+{% trans_default_domain "CLASSROOM" %}
 {% extends 'BNSAppClassroomBundle:Layout:manager.html.twig' %}
 
 {% block title %}
-Classe - Tableau de bord
+    {{ 'TITLE_CLASS_DASHBOARD'|trans |desc('Classe - Tableau de bord') }}
 {% endblock %}
 
 {% block top_bar %}{% endblock %}
 
 {% block sidebar %}
-    {% include "BNSAppClassroomBundle:Sidebar:sidebar.html.twig" with {"page" : "index", "section" : "general" } %}
+  {% include "BNSAppClassroomBundle:Sidebar:sidebar.html.twig" with {"page" : "index", "section" : "general" } %}
 {% endblock sidebar %}
 
+{% block javascripts %}
+  {{ parent() }}
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+{% endblock %}
+
 {% block content %}
-	{% if app.session.hasFlash('update_home_message_success') %}
-		<div class="alert alert-success">{{ app.session.getFlash('update_home_message_success') }}</div>
-	{% endif %}
-	{#<div class="write-home-message-container hide">
-		<div class="news-title">
-			<h1 class="dashboard">Ecrire un message d'accueil</h1>
-		</div>
-		<div class="content-new-message-home">
-			<form action="{{ path('BNSAppClassroomBundle_back') }}" method="POST" {{ form_enctype(form) }}>
-				<div class="textarea-new-message">
-					{{ form_widget(form.homeMessage) }}
-					{{ form_rest(form) }}
-				</div>
-				<button class="btn cancel-write-home-message">Annuler</button> <input type="submit" class="btn btn-success" value="Mettre à jour" />
-			</form>
-		</div>
-	</div>#}
-	<div class="container-classroom">
-		<div class="news-title dashboard-connect">
-			<h1 class="dashboard modules">Mes modules</h1>
-			<h1 class="dashboard connect">Dernières connexions</h1>
-			<div class="content-user-dashboard">
-				<div class="user-dashboard"><img src="{{ asset('/medias/images/profile/avatar/thumbnail/pupil_M.png') }}" alt="avatar" /> <p>Elèves</p></div>
-				<div class="user-dashboard"><img src="{{ asset('/medias/images/profile/avatar/thumbnail/parent.png') }}" alt="avatar" /> <p>Parents</p></div>
-			</div>
-		</div>
-		<div class="content-dashboard-connexion-management">
-			<div class="row-fluid">
-				<div class="span8">
-					{% render "BNSAppMainBundle:Module:moduleActivation" with { 'roles': activationRoles } %}
-				</div>
-				<div class="span4 last-connexion">
-					{% for user in last_users_connected %}
-						<div class="content-last-connexion">
-							<p><img src="{{ avatar(user, 'thumbnail') }}" alt="avatar" /> {{ user.getFullName() }}</p>
-							<p class="date">{{ date_from_now(user.getLastConnection(), true, false) }}</p>
-						</div>
-					{% endfor %}
-				</div>
-			</div>
-		</div>
+  {% trans_default_domain "CLASSROOM" %}
+  {% for flashMessage in app.session.flashbag.get('update_home_message_success') %}
+    <div class="alert alert-success">{{ flashMessage }}</div>
+  {% endfor %}
+  <div class="container-classroom">
+    {% if not hasApplicationManagement() %}
+      <div class="news-title dashboard-connect">
+        <div class="left-line-border">
+          <table class="table">
+            <thead>
+              <tr>
+                <td>
+                  <h1 class="dashboard modules">{% trans %}TITLE_MY_CLASS_MODULE{% endtrans%}</h1>
+                </td>
+                <td class="userType">
+                  <img src="{{ asset('/medias/images/profile/avatar/thumbnail/pupil_M.png') }}" alt="ALTERNATIVE_AVATAR" />
+                  <p>{% trans %}IMAGE_PUPIL{% endtrans%}</p>
+                </td>
+                <td class="userType">
+                  <img src="{{ asset('/medias/images/profile/avatar/thumbnail/parent.png') }}" alt="ALTERNATIVE_AVATAR" />
+                  <p>{% trans %}IMAGE_PARENT{% endtrans%}</p>
+                </td>
+              </tr>
+            </thead>
+          </table>
+          {{ render(controller('BNSAppMainBundle:Module:moduleActivation', { 'roles': activationRoles } )) }}
+        </div>
+      </div>
+      <hr/>
+    {% endif %}
 
+    <!-- ex :content-dashboard-connexion-management -->
+    <div class="container-connexion">
+      <div class="left-line-border">
+        <h1 class="dashboard connect">{% trans %}TITLE_LAST_CONNECTION{% endtrans%}</h1>
 
+        <div class="row-fluid">
+          <div class="last-connexion">
+            {% for user in last_users_connected %}
+              <div class="content-last-connexion">
+                <p><img src="{{ avatar(user, 'thumbnail') }}" alt="ALTERNATIVE_AVATAR" /> {{ user.getFullName() }}</p>
+                <p class="date">{{ date_from_now(user.getLastConnection(),false,true) }}</p>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr/>
+    <div class="container-actu">
 
-		<div class="container-actu">
-			<div class="news-title">
-				<h1 class="dashboard">Actualités</h1>
-			</div>
-			{% for item in feed_items %}
-				<div class="item">
-					<h4><a href="{{ item.link }}" title="{{ item.title }}" target="_blank">{{ item.title }}</a></h4>
-					<img src="{{ item.image }}" width="50px" height="50px" />
-					<p>{{ item.description }}</p>
-				</div>
-			{% endfor %}
-		</div>
-	</div>
+      {% if feed_items|length > 0 %}
+
+      <div class="container-actu">
+        <div id="news">
+          <div id="news-items">
+            <h1>{{ 'BENEYLU_NEWS'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) }}</h1>
+            {% for item in feed_items %}
+              <div class="new-item">
+                <h2><a href="{{ item.link }}" title="{{ item.title }}" target="_blank">{{ item.title }}</a></h2>
+                {#<span class="date">{{ item.date }}</span>#}
+                <div class="new-item-content">
+                  <img width="150px" src="{{ item.image }}"/>
+                  <p>{{ item.description|truncate(200) }}</p>
+                  <p class="more-link">
+                    <a href="{{ item.link }}" title="{{ item.title }}" target="_blank">LINK_READ_NEXT</a>
+                  </p>
+                </div>
+              </div>
+              <br clear="left" />
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
 {% endblock %}

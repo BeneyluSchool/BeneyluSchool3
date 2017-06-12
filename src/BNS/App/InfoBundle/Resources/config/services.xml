@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+
+    <parameters>
+        <parameter key="bns.info_manager.class">BNS\App\InfoBundle\Info\InfoManager</parameter>
+    </parameters>
+
+    <services>
+        <service id="bns.announcement_manager" class="BNS\App\InfoBundle\Manager\AnnouncementManager">
+            <argument type="service" id="bns.right_manager" />
+        </service>
+        <service id="bns.info_manager" class="%bns.info_manager.class%">
+            <argument type="service" id="fkr_simple_pie.rss" />
+            <argument type="service" id="bns.mailer" />
+        </service>
+        <service id="bns.info_manager_cache" class="BNS\App\InfoBundle\Info\MySimplePieCache">
+            <call method="setBlogUrl">
+                <argument>%database_port%</argument>
+            </call>
+            <call method="setUpdatesUrl">
+                <argument>%bns_app_info_feeds_updates%</argument>
+            </call>
+        </service>
+        <service id="install_process_bns_app_info_bundle" class="BNS\App\InfoBundle\Install\InstallProcess">
+            <tag name="bns.install_process" />
+        </service>
+    </services>
+</container>

@@ -1,0 +1,38 @@
+<div class="user-directory-inner-topbar user-directory-scene">
+  <a ui-sref="userDirectory.base.group({id: ctrl.group.id})" class="btn btn-sm pull-right">
+    <span translate>USER_DIRECTORY.GROUP.SEE_USERS</span>
+  </a>
+</div>
+
+<div class="user-directory-inner-content user-directory-scene">
+  <scrollable>
+
+    <section>
+      <h4 translate>USER_DIRECTORY.GROUP.MODULES</h4>
+
+      <div class="loader" ng-show="ctrl.busy"></div>
+
+      <table ng-show="ctrl.modules.length && !ctrl.busy" class="user-directory-group-modules">
+        <thead>
+          <tr>
+            <th></th>
+            <th translate>USER_DIRECTORY.GROUP.TEACHERS</th>
+            <th translate>USER_DIRECTORY.GROUP.PUPILS</th>
+            <th translate>USER_DIRECTORY.GROUP.PARENTS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="module in ctrl.modules | orderBy: ctrl.getModuleOrderKey">
+            <th><span bns-user-directory-group-module-icon="module"></span>{{ 'USER_DIRECTORY.GROUP.' + module.unique_name | translate }}</th>
+            <td bns-user-directory-group-module-state group="ctrl.group" module="{{ module.unique_name }}" role="TEACHER" state="module.roles.TEACHER"></td>
+            <td bns-user-directory-group-module-state group="ctrl.group" module="{{ module.unique_name }}" role="PUPIL" state="module.roles.PUPIL"></td>
+            <td bns-user-directory-group-module-state group="ctrl.group" module="{{ module.unique_name }}" role="PARENT" state="module.roles.PARENT"></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p ng-show="!ctrl.modules.length && !ctrl.busy" translate>USER_DIRECTORY.GROUP.NO_MODULE_TO_DISPLAY</p>
+    </section>
+
+  </scrollable>
+</div>

@@ -1,22 +1,20 @@
-<h2 class="block-title">Catégories</h2>
+{% trans_default_domain "BLOG" %}
+<h2 class="block-title">{% trans %}TITLE_CATEGORY{% endtrans %}</h2>
 <div class="block-categories">
-	<ul>
-		<li><a href="{{ path('BNSAppBlogBundle_front') }}">{% trans %}Blog.Back.Sidebar.AllCategories{% endtrans %}</a></li>
-		{% for category in blog.getSortedBlogCategories() %}
-			<li {% if category_slug is defined and category_slug == category['parent'].getSlug() %}class="selected"{% endif %}>
-				<span class="{% if category['parent'].getIconClassname()|length > 0 %}sprite {{ category['parent'].getIconClassName() }}{% endif %}"></span>
-				<a href="{{ path('blog_articles_from_category', {'categorySlug': category['parent'].getSlug()}) }}">
-					{{ category['parent'].getTitle() }}
-				</a>
-			</li>
-			{% if (category['children']|length > 0) %}
-				<ul>
-					{% for subCategory in category['children'] %}
-						<li {% if category_slug is defined and category_slug == subCategory.getSlug() %}class="selected"{% endif %}><a href="{{ path('blog_articles_from_category', {'categorySlug': subCategory.getSlug()}) }}">{{ subCategory.getTitle() }}</a></li>
-					{% endfor %}
-				</ul>
-			{% endif %}
-		{% endfor %}
-	</ul>
+  <ul class="content-category">
+    <li><a class="list-btn" href="{{ path('BNSAppBlogBundle_front') }}">{% trans %}LINK_ALL_CATEGORIES{% endtrans %}</a></li>
+    {% for category in blog.getUsedBlogCategories() %}
+      <li {% if category_slug is defined and category_slug == category['parent'].getSlug() %}class="selected"{% endif %}>
+        <a class="list-btn" href="{{ path('blog_articles_from_category', {'categorySlug': category['parent'].getSlug()}) }}"><span class="category {% if category['parent'].getIconClassname()|length > 0 %}sprite {{ category['parent'].getIconClassName() }}{% endif %}"></span> {{ category['parent'].getTitle() }} {% if category['count'] > 0 %}({{ category['count'] }}){% endif %}</a>
+      </li>
+      {% if (category['children']|length > 0) %}
+        <ul>
+          {% for subCategory in category['children'] %}
+            <li {% if category_slug is defined and category_slug == subCategory['child'].getSlug() %}class="selected"{% endif %}><a class="list-btn" href="{{ path('blog_articles_from_category', {'categorySlug': subCategory['child'].getSlug()}) }}"><span class="category {% if subCategory['child'].getIconClassname()|length > 0 %}sprite {{ subCategory['child'].getIconClassName() }}{% endif %}"></span> {{ subCategory['child'].getTitle() }} ({{ subCategory['count'] }})</a></li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endfor %}
+  </ul>
 </div>
 <div class="clearfix"></div>

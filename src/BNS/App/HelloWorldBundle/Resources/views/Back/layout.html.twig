@@ -1,5 +1,8 @@
 {% extends '::base_manager.html.twig' %}
 
+{% set app_unique_name = 'HELLOWORLD' %}
+{% set app_mode = 'back' %}
+
 {% block css %}
 	{{ parent() }}
 
@@ -34,8 +37,4 @@
 			</div>
 		</div>
 	</div>
-{% endblock %}
-	
-{% block dock_bar %}
-	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "HELLOWORLD" , 'is_in_front' : false } %}
 {% endblock %}

@@ -1,39 +1,48 @@
+{% trans_default_domain "BLOG" %}
+{#
 <div class="item {% if (article.isStar()) %}favorite{% endif %}" id="article-{{ article.getId() }}">
-	<div class="vertical-separator {{ article.getStatus()|lower }} {% if article.isProgrammed() %}programmed{% endif %}"></div>
-	<div class="header">
-		<div class="buttons-container">
-			<a href="{{ path('blog_manager_article_visualisation', {'articleSlug': article.getSlug()}) }}" class="btn bns-notice btn-16 small right btn-visualisation">
-				<span class="icons-16 arrow-right-icon right"></span>
-				<strong>Voir la fiche</strong>
-			</a>
-		</div>
-		<h3>{{ article.getTitle() }}</h3>
-		<div class="categories">
-			{% for category in article.getSortedBlogCategories() %}
-				<ul>
-					<li>
-						{% if category.getIconClassname()|length > 0 %}
-							<span class="sprite {{ category.getIconClassname() }}"></span>
-						{% endif %}
-						{{ category.getTitle() }}
-						{% if (category.getChildren()|length > 0) %}
-							{% for child in category.getChildren() %}
-								<li>
-									{{ child.getTitle() }}
-								</li>
-							{% endfor %}
-						{% endif %}
-					</li>
-				</ul>
-			{% endfor %}
-		</div>
-	</div>
-	<div class="text">
-		{% autoescape false %}
-			{{ article.getShortContent() }}
-		{% endautoescape %}
-	</div>
-	<div class="footer">
-		Écrit {{ date_from_now(article.getCreatedAt(), false, true) }} par <img src="{{ avatar(article.getAuthor(), 'thumbnail') }}" alt="" class="avatar" /> {{ article.getAuthor().getFullName() }}
-	</div>
+  <div class="vertical-separator {% if article.isProgrammed() %}programmed {% else %}{{ article.getStatus()|lower }} {% endif %} "></div>
+  <div class="header">
+    <div class="buttons-container">
+      <a href="{{ path('blog_manager_article_visualisation', {'articleSlug': article.getSlug()}) }}" class="btn bns-notice btn-16 small right btn-visualisation">
+        <span class="icons-16 arrow-right-icon right"></span>
+        <strong>{% trans %}BUTTON_SEE_ARTICLE{% endtrans %}</strong>
+      </a>
+    </div>
+    <h3>{{ article.getTitle() }}</h3>
+
+  </div>
+
+  <div class="footer">
+      {{ 'ARTICLE_WRITE_AT_FROM'|trans({'%dateCreation%': date_from_now(article.getCreatedAt(), false, true), '%userFullName%': article.getAuthor().getFullName() |escape, '%image%': '<img class="#" src=" ' ~ avatar(article.getAuthor(), 'thumbnail') ~ '" width="16" class="avatar"/>' }) |desc('<p>Ã‰crit %dateCreation% par %image% %userFullName%</p>') |raw }}
+  </div>
 </div>
+#}
+
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+{# add a dummy ng-click handler, for proper primary/secondary controls detection #}
+<md-list-item ng-click="" href="{{ path('blog_manager_article_visualisation', {'articleSlug': article.getSlug()}) }}" class="article item {% if (article.isStar()) %}favorite{% endif %}" id="article-{{ article.getId() }}">
+  {% if has_right('BLOG_ADMINISTRATION') and not is_child() %}
+    {% if article.isProgrammed() %}
+      <bns-list-item-selector status="sched">
+        {# do not use ng-click on checkbox to avoid being wrapped inside a button #}
+        <md-checkbox ng-change="check({{ article.getId() }}, selected)" ng-model="dummy[{{ article.getId() }}]" class="md-primary md-secondary" value="{{ article.getId() }}" role="checkbox" tabindex="0"></md-checkbox>
+      </bns-list-item-selector>
+    {% else %}
+      <bns-list-item-selector status="{{ article.status | lower}}">
+        {# do not use ng-click on checkbox to avoid being wrapped inside a button #}
+        <md-checkbox ng-change="check({{ article.getId() }}, selected)" ng-model="dummy[{{ article.getId() }}]" class="md-primary md-secondary" value="{{ article.getId() }}" role="checkbox" tabindex="0"></md-checkbox>
+      </bns-list-item-selector>
+    {% endif %}
+
+  {% endif %}
+  <div class="flex">
+    <h2 class="md-headline">{{ article.getTitle() }}</h2>
+    <div class="md-body-1">{% include '@BNSAppBlog/Article/article_categories.html.twig' %}</div>
+    <span class="md-body-1 text-muted">
+      {{ 'ARTICLE_WRITE_AT_FROM'|trans({'%dateCreation%': date_from_now(article.getCreatedAt(), false, true, 'medium', 'short', false, true), '%userFullName%': article.getAuthor().getFullName() |escape, '%image%': '<img class="#" src=" ' ~ avatar(article.getAuthor(), 'thumbnail') ~ '" width="16" class="avatar"/>' }) |desc('<p>Ã‰crit %dateCreation% par %image% %userFullName%</p>') |raw }}
+    </span>
+    <p class="md-body-1">{{ parse_public_resources(article.getShortContent()|purify) }}</p>
+  </div>
+  <md-divider></md-divider>
+</md-list-item>

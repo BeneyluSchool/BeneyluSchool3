@@ -1,85 +1,105 @@
+{% trans_default_domain "BLOG" %}
 {% extends 'BNSAppBlogBundle:Layout:manager.html.twig' %}
 
 {% block title %}
-	{{ blog.getTitle() }} - Commentaires
+    {{ 'TITLE_COMMENT_'|trans({'%blogTitle%': blog.getTitle()}) |desc('%blogTitle% - Commentaires') }}
+
+
 {% endblock %}
 
 {% block javascripts %}
-	{{ parent() }}
-	
-	<script type="text/javascript">
-		// Moderation comments
-		$('.moderation-comment').click(function (e)
-		{
-			var $this = $(e.currentTarget);
-			if ($this.hasClass('loading')) {
-				return false;
-			}
+  {{ parent() }}
 
-			$this.addClass('loading');
-			
-			$.ajax({
-				url: $this.attr('href'),
-				success: function (data)
-				{
-					$this.removeClass('loading');
-					$this.toggleClass('off');
-				}
-			});
+  <script type="text/javascript">
+    // Moderation comments
+    $(function(){
+      $('.moderation-comment').click(function (e)
+      {
+        var $this = $(e.currentTarget);
+        if ($this.hasClass('loading')) {
+          return false;
+        }
 
-			return false;
-		});
-	</script>
+        $this.addClass('loading');
+
+        $.ajax({
+          url: $this.attr('href'),
+          success: function (data)
+          {
+            $this.removeClass('loading');
+            $this.toggleClass('off');
+          }
+        });
+
+        return false;
+      });
+    });
+
+  </script>
 {% endblock javascripts %}
 
-{% block sidebar %}
-	<div class="container-section">
-		<div class="section">
-			<a href="{{ path('BNSAppBlogBundle_back') }}">{% trans %}Blog.Back.Sidebar.Articles{% endtrans %}</a>
-		</div>
-	</div>
-	<div class="section active">
-		Commentaires
-		<span class="shadow-section"></span>
-	</div>
-	<div class="title-container remove-this-class-options">
-		<div class="title active border-blue">Modérations <span class="square icon-arrow"></span></div>
-		<div class="content-title">
-			<ul>
-				<li>
-					<a class="switchable {% if not blog.isCommentModerate() %}off{% endif %} moderation-comment" href="{{ path('blog_manager_moderation_switch') }}">
-						Modération des commentaires
-						<span class="btn-switch"></span>
-					</a>
-				</li>
-			</ul>
-		</div>
-	</div>
-	{% include 'BNSAppCommentBundle:Sidebar:back_block_moderation_filters.html.twig' %}
-	<div class="container-section">
-		<div class="section">
-			<a href="{{ path('blog_manager_custom') }}">{% trans %}Blog.Back.Sidebar.Customing{% endtrans %}</a>
-		</div>
-	</div>
-{% endblock sidebar %}
+{% block sidebar_content %}
+    <section>
+      {{ components.button( 'TITLE_ARTICLES' | trans , { href: path('BNSAppBlogBundle_back'), icon: 'insert_drive_file' }) }}
+    </section>
 
-{% block header %}
-	<div class="header-buttons">
-		<div class="inner-header">
-			<div class="container container-fluid">
-				<div class="row-fluid">
-					<div class="span12 align-right">
-						<a href="#" class="btn validate-all-comments bns-success validate-medium btn-24 medium">
-							<span class="icons-24 validate-icon"></span>
-							<strong>Valider tout les commentaires</strong>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-{% endblock header %}
+      <section class="current">
+        {{ include('BNSAppBlogBundle:Sidebar:sidebar_comments.html.twig') }}
+        <bns-expander label="{% trans from 'COMMENT' %}FILTER_BY_STATUS{% endtrans %}" is-open="true">
+        <div class="layout-column nav-list">
+          {{ components.button( 'LINK_SEE_ALL_COMMENT' | trans|desc('Commentaires en modération') , {
+            href: path('comment_manager_load'),
+            icon :'warning',
+            attr : {
+              'data-filter-status':'PENDING_VALIDATION',
+              'class' : 'comment-sidebar-filter md-primary'
+            }
+          }) }}
+          {{ components.button( 'LINK_COMMENT_PUBLISH' | trans|desc('Commentaires publiés') , {
+            href: path('comment_manager_load'),
+            icon : 'done',
+            attr : {
+              'data-filter-status':'VALIDATED',
+              'class' : 'comment-sidebar-filter'
+            }
+          }) }}
+          {{ components.button( 'LINK_COMMENT_DENY' | trans|desc('Commentaires refusés') , {
+            href: path('comment_manager_load'),
+            icon : 'clear',
+            attr : {
+              'data-filter-status':'REFUSED',
+              'class' : 'comment-sidebar-filter'
+            }
+          }) }}
+        </div>
+        </bns-expander>
+      </section>
+
+    <section>
+      {{ include('BNSAppBlogBundle:Sidebar:sidebar_customize.html.twig') }}
+    </section>
+
+    {% if hasYerbook %}
+      <section>
+        {{ components.button( 'LINK_YERBOOK' | trans, { href: path('blog_manager_yerbook'), icon: 'book' }) }}
+      </section>
+    {% endif %}
+{% endblock sidebar_content %}
+
+{% block actionbar_content %}
+  <span class="flex"></span>
+
+  {{ components.button('LINK_VALIDATE_ALL_COMMENT'|trans, {
+    href: '#',
+    intent: 'accent',
+    raised: true,
+    icon: 'check',
+    attr: {
+      class: 'validate-all-comments'
+    }
+  }) }}
+{% endblock actionbar_content %}
 
 {% block content %}
-	{% include 'BNSAppCommentBundle:Back:comment_index.html.twig' %}
+  {% include 'BNSAppCommentBundle:BackNew:comment_index.html.twig' %}
 {% endblock content %}

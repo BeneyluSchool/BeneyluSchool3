@@ -1,0 +1,2428 @@
+"SCOLOM-1":
+  type: "NULL"
+  i18n:
+    fr:
+      label: "Général"
+      description: "Caractéristiques générales pour décrire une ressource. (source : LOMFR NF Z76-040)"
+
+"SCOLOM-1.1":
+  type: "MULTIPLE_NULL"
+  parent_scolom: "SCOLOM-1"
+  i18n:
+    fr:
+      label: "Identifiant"
+      description: "Une référence non ambiguë, dans un contexte donné, à la ressource. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-1.1.1":
+  type: "STRING"
+  parent_scolom: "SCOLOM-1.1"
+  i18n:
+    fr:
+      label: "Catalogue"
+      description: "Nom du système d'enregistrement où la ressource est référencée (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-1.1.2":
+  type: "STRING"
+  parent_scolom: "SCOLOM-1.1"
+  i18n:
+    fr:
+      label: "Entrée"
+      description: "Valeur de l'identifiant (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-1.2":
+  type: "STRING"
+  parent_scolom: "SCOLOM-1"
+  i18n:
+    fr:
+      label: "Titre"
+      description: "Le nom donné à la ressource pédagogique décrite. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-1.3":
+  type: "MULTIPLE_CHOICE"
+  parent_scolom: "SCOLOM-1"
+  i18n:
+    fr:
+      label: "Langue"
+      description: "Une langue du contenu intellectuel de la ressource. (source : LOMFR NF Z76-040 :2006)"
+  choices:
+    scolomfr-lang-1:
+      i18n:
+        fr:
+          label: "allemand"
+    scolomfr-lang-2:
+      i18n:
+        fr:
+          label: "anglais"
+    scolomfr-lang-3:
+      i18n:
+        fr:
+          label: "arabe"
+    scolomfr-lang-4:
+      i18n:
+        fr:
+          label: "chinois"
+    scolomfr-lang-5:
+      i18n:
+        fr:
+          label: "espagnol"
+    scolomfr-lang-6:
+      i18n:
+        fr:
+          label: "français"
+    scolomfr-lang-7:
+      i18n:
+        fr:
+          label: "hindi"
+          description: ""
+    scolomfr-lang-8:
+      i18n:
+        fr:
+          label: "italien"
+    scolomfr-lang-9:
+      i18n:
+        fr:
+          label: "japonais"
+    scolomfr-lang-10:
+      i18n:
+        fr:
+          label: "néerlandais"
+    scolomfr-lang-11:
+      i18n:
+        fr:
+          label: "polonais"
+    scolomfr-lang-12:
+      i18n:
+        fr:
+          label: "portugais"
+    scolomfr-lang-13:
+      i18n:
+        fr:
+          label: "roumain"
+    scolomfr-lang-14:
+      i18n:
+        fr:
+          label: "russe"
+    scolomfr-lang-15:
+      i18n:
+        fr:
+          label: "vietnamien"
+
+"SCOLOM-1.4":
+  type: "MULTIPLE_STRING"
+  parent_scolom: "SCOLOM-1"
+  i18n:
+    fr:
+      label: "Description"
+      description: "Une description du contenu de la ressource pédagogique décrite. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-1.5":
+  type: "MULTIPLE_STRING"
+  parent_scolom: "SCOLOM-1"
+  i18n:
+    fr:
+      label: "Mot clé libre"
+      description: "Mots-clés libres relatifs au contenu de la ressource. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-1.6":
+  type: "MULTIPLE_STRING"
+  parent_scolom: "SCOLOM-1"
+  i18n:
+    fr:
+      label: "Couverture"
+      description: "L'étendue ou la portée du contenu de la ressource. L'époque, la culture ou la géographie à laquelle cet objet pédagogique est relatif. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-1.7":
+  type: "CHOICE"
+  parent_scolom: "SCOLOM-1"
+  i18n:
+    fr:
+      label: "Structure"
+      description: "Organisation de la ressource pédagogique. (source : LOMFR NF Z76-040 :2006)"
+  choices:
+    scolomfr-voc-007-num-001:
+      i18n:
+        fr:
+          label: "atomique"
+          description: Une ressource indivisible dans ce contexte d'utilisation.
+    scolomfr-voc-007-num-002:
+      i18n:
+        fr:
+          label: "collection"
+          description: "Un ensemble de ressources, sans relations définies entre elles."
+    scolomfr-voc-007-num-003:
+      i18n:
+        fr:
+          label: "en réseau"
+          description: "Un ensemble de ressources en relation les unes avec les autres. La nature de la (des) relation(s) n'est pas définie."
+    scolomfr-voc-007-num-004:
+      i18n:
+        fr:
+          label: "hiérarchique"
+          description: "Un ensemble de ressources dont les relations peuvent être représentées par une structure arborescente."
+    scolomfr-voc-007-num-005:
+      i18n:
+        fr:
+          label: "linéaire"
+          description: "Un ensemble de ressources parfaitement ordonnées. Exemple : un ensemble de ressources associées par des relations \"précédent\" et \"suivant\"."
+
+"SCOLOM-1.8":
+  type: "CHOICE"
+  parent_scolom: "SCOLOM-1"
+  i18n:
+    fr:
+      label: "Niveau d'agrégation"
+      description: "Granularité de la ressource. (source : LOMFR NF Z76-040 :2006)"
+  choices:
+    scolomfr-voc-008-num-01:
+      i18n:
+        fr:
+          label: "1"
+          description: "Ressource indivisible. Fait référence à une ressource que l'on estime ne pouvant pas être fragmentée et qui pourra être exploitée dans des ressources pédagogiques de granularité plus élevée (2, 3 ou 4). Par exemple, une photo ou une fiche technique, un exercice unique, le support d'une leçon..."
+    scolomfr-voc-008-num-02:
+      i18n:
+        fr:
+          label: "2"
+          description: "Ensemble d'objets d'apprentissage de niveau 1. Fait référence à une ressource pédagogique regroupant un ensemble d'objets pédagogiques ou fragments. Par exemple : une ressource présentant une leçon incluant une vidéo numérique et un exercice ; une ressource présentant un travail d'évaluation et composée des consignes et support d'exercices, ainsi que des corrections."
+    scolomfr-voc-008-num-03:
+      i18n:
+        fr:
+          label: "3"
+          description: "Ensemble d'objets d'apprentissage de niveau 2. Fait référence à une ressource rassemblant un ensemble d'objets de niveau d'agrégation supérieur. Par exemple : une ressource décrivant un cours composé de plusieurs leçons."
+    scolomfr-voc-008-num-04:
+      i18n:
+        fr:
+          label: "4"
+          description: "Ensemble d'objets d'apprentissage de niveau 3 (granularité la plus élevée dans ce modèle). Fait référence à une ressource rassemblant un ensemble d'objets de niveau d'agrégation la plus élevée. Par exemple : une ressource décrivant le programme d'enseignement menant à un diplôme ou certificat."
+
+"SCOLOM-1.9":
+  type: "MULTIPLE_CHOICE"
+  parent_scolom: "SCOLOM-1"
+  i18n:
+    fr:
+      label: "Type documentaire DC"
+      description: "La nature ou le genre du contenu de la ressource. (source : LOMFR NF Z76-040 :2006)"
+  choices:
+    scolom-type-1:
+      i18n:
+        fr:
+          label: "collection"
+          description: "Agrégation de ressources formant un tout cohérent : une base d'exercices, une base d'objets de musées, un catalogue de bibliothèque..."
+    scolom-type-2:
+      i18n:
+        fr:
+          label: "ensemble de données"
+          description: "Donnée encodée suivant une structure précise appropriée au traitement par ordinateur : par exemple une base de données statistiques."
+    scolom-type-3:
+      i18n:
+        fr:
+          label: "événement"
+          description: "Fait basé sur une période de temps, non permanent. Par exemple : une conférence, une exposition, une bataille ou tout autre fait historique, etc."
+    scolom-type-4:
+      i18n:
+        fr:
+          label: "image"
+          description: "Représentation visuelle autre que sous la forme de texte."
+    scolom-type-5:
+      i18n:
+        fr:
+          label: "image en mouvement"
+          description: "Série de représentations visuelles conférant une impression de mouvement lorsqu'elles sont montrées à la suite les unes des autres. Par exemple : des films, vidéos, émissions de télévision, infographie, effets spéciaux, films d'animation..."
+    scolom-type-6:
+      i18n:
+        fr:
+          label: "image fixe"
+          description: "Représentation visuelle statique. Par exemple, des photographies, tableaux, dessins, graphiques, plans, photographies d'objets physiques..."
+    scolom-type-7:
+      i18n:
+        fr:
+          label: "logiciel"
+          description: "Programme ou application informatiques, en code source ou sous une forme compilée. Par un exemple, un fichier source en C, un exécutable MS-Windows, un fichier rdf ou un script PHP..."
+    scolom-type-8:
+      i18n:
+        fr:
+          label: "objet physique"
+          description: "Objet ou substance à trois dimensions, inanimé. Par exemple un TBI, un ordinateur, un bâtiment, une fleur (et non une photographie d'une fleur), etc. Les représentations ou substituts numériques de ces objets physiques utiliseront \"texte\", \"image\" ou un autre type."
+    scolom-type-9:
+      i18n:
+        fr:
+          label: "ressource interactive"
+          description: "Objet nécessitant une interaction de l'utilisateur pour être comprise, exécutée ou expérimentée. Par exemple une page Web ou un formulaire Web, des objets d'apprentissage multimédia, une applet, une maquette numérique, un service de chat, un environnement de réalité virtuelle, sortie visuelle d'une simulation, etc."
+    scolom-type-10:
+      i18n:
+        fr:
+          label: "service"
+          description: "Un système qui fournit une ou plusieurs fonctions, qui offre des services à l'utilisateur comme un serveur Web, un service de conversion de formats de fichier, un service de photocopie, un service en ligne de carte heuristique..."
+    scolom-type-11:
+      i18n:
+        fr:
+          label: "son"
+          description: "Ressource principalement destinée à être entendue. Par exemple un fichier de musique, de son ou de paroles enregistrées, un compact-disque audio..."
+    scolom-type-12:
+      i18n:
+        fr:
+          label: "texte"
+          description: "Ressource constituée principalement de mots destinés à être lus. \"Texte\" est pris ici au sens large : livre, magazine, journal, poème, message d'une liste de diffusion, etc."
+
+"SCOLOM-1.10":
+  type: "MULTIPLE_CHOICE"
+  parent_scolom: "SCOLOM-1"
+  i18n:
+    fr:
+      label: "Typologie générale de documents"
+      description: "Noms attribués à des ressources selon le genre ou la forme de ceux-ci, et non selon leur rôle dans un processus pédagogique comme cela est le cas de la liste \"type pédagogique de la ressource\"."
+  choices:
+    scolomfr-voc-005-num-001:
+      i18n:
+        fr:
+          label: annuaire
+          description: |
+            "Ensemble d'adresses (d'une personne, d'un organisme, d'une source d'information, d'un site Web,...) pouvant être complétées par d'autres informations associées (chiffre d'affaire d'un organisme, rôle et fonction d'une personne, nom du dirigeant d'un organisme,...). Sous une forme papier, il peut paraître annuellement." (Source : Vocabulaire de la documentation, ADBS, 2004) Exemple : annuaire des établissements scolaires, annuaires de sites web disciplinaires...
+    scolomfr-voc-005-num-002:
+      i18n:
+        fr:
+          label: archives
+          description: "Ensemble de documents d'archives, documents historiques, montages d'archives, quels que soient leur date, leur forme et leur support matériel (imprimé, audiovisuel, sonore ou électronique)."
+    scolomfr-voc-005-num-003:
+      i18n:
+        fr:
+          label: article
+          description: |
+            "Texte indépendant constituant une partie d'une publication périodique, d'un blog, d'un dictionnaire, d'une encyclopédie" (Source : Vocabulaire de la documentation, ADBS, 2004).
+    scolomfr-voc-005-num-004:
+      i18n:
+        fr:
+          label: atlas
+          description: '"Recueil ordonné de cartes conçu pour représenter un espace donné et/ou exposer un ou plusieurs thèmes." (Source : Vocabulaire de la documentation, ADBS, 2004).'
+    scolomfr-voc-005-num-005:
+      i18n:
+        fr:
+          label: bande dessinée
+          description: "Succession de dessins organisés en séquences, qui suggère le déroulement d'une histoire, les caricatures, les dessins de presse et également les recueils de dessins humoristiques."
+    scolomfr-voc-005-num-007:
+      i18n:
+        fr:
+          label: "banque d'images"
+    scolomfr-voc-005-num-006:
+      i18n:
+        fr:
+          label: banque de vidéos
+    scolomfr-voc-005-num-008:
+      i18n:
+        fr:
+          label: base de données
+          description: >
+            Ne pas confondre avec le logiciel
+            servant à construire des bases de
+            données.
+    scolomfr-voc-005-num-009:
+      i18n:
+        fr:
+          label: bibliographie / sitographie
+          description: >
+            Liste de description de documents
+            bibliographiques ou de sites, organisés
+            selon certains critères pour en
+            permettre le repérage.
+    scolomfr-voc-005-num-010:
+      i18n:
+        fr:
+          label: biographie
+    scolomfr-voc-005-num-011:
+      i18n:
+        fr:
+          label: carte
+    scolomfr-voc-005-num-012:
+      i18n:
+        fr:
+          label: carte heuristique et conceptuelle
+          description: "Représentation graphique d'idées, de concepts ou d'informations..."
+    scolomfr-voc-005-num-013:
+      i18n:
+        fr:
+          label: chronologie
+    scolomfr-voc-005-num-014:
+      i18n:
+        fr:
+          label: collection de documents
+          description: >
+            Une banque de documents, un dossier
+            regroupant des documents, un entrepôt
+            de documents sont des collections de
+            documents regroupés à des fins et
+            selon des caractéristiques
+            différentes.
+    scolomfr-voc-005-num-015:
+      i18n:
+        fr:
+          label: compte rendu
+          description: Compte rendu de réunion, de visite...
+    scolomfr-voc-005-num-016:
+      i18n:
+        fr:
+          label: conférence
+          description: "Y compris les enregistrements sonore et/ou audiovisuel d'une conférence."
+    scolomfr-voc-005-num-017:
+      i18n:
+        fr:
+          label: diaporama
+          description: |
+            "Un diaporama est un spectacle de projection de diapositives ; par extension on entend par ce terme toute suite d'images ou de documents reliés par des effets et sur lesquels il est possible de mettre du son" (Source : Wikipédia).
+    scolomfr-voc-005-num-018:
+      i18n:
+        fr:
+          label: dossier documentaire
+          description: >
+            Toute forme de document thématique sur
+            tout type de support.
+    scolomfr-voc-005-num-019:
+      i18n:
+        fr:
+          label: dossier technique
+    scolomfr-voc-005-num-020:
+      i18n:
+        fr:
+          label: exposition
+    scolomfr-voc-005-num-021:
+      i18n:
+        fr:
+          label: feuille de calcul
+          description: >
+            Document principal utilisé dans un
+            tableur pour gérer et stocker des
+            données. Une feuille de calcul est
+            composée de cellules organisées en
+            lignes et en colonnes. Certaines
+            données sont issues de calcul.
+    scolomfr-voc-005-num-022:
+      i18n:
+        fr:
+          label: film
+    scolomfr-voc-005-num-023:
+      i18n:
+        fr:
+          label: image numérique
+          description: >
+            Toute image (dessin, icône,
+            photographie...) acquise, créée,
+            traitée ou stockée sous forme binaire.
+    scolomfr-voc-005-num-024:
+      i18n:
+        fr:
+          label: livre numérique
+    scolomfr-voc-005-num-025:
+      i18n:
+        fr:
+          label: maquette / prototype
+          description: "Reproduction en grandeur naturelle (prototype) ou à l'échelle réduite (maquette) d'une machine, d'un processus, d'un bâtiment..."
+    scolomfr-voc-005-num-026:
+      i18n:
+        fr:
+          label: norme
+          description: >
+            Utilisé non seulement pour des
+            documents de normes élaborés par des
+            organismes officiels, mais également
+            pour des standards.
+    scolomfr-voc-005-num-028:
+      i18n:
+        fr:
+          label: objet 3D
+    scolomfr-voc-005-num-027:
+      i18n:
+        fr:
+          label: objet physique
+    scolomfr-voc-005-num-029:
+      i18n:
+        fr:
+          label: ouvrage
+    scolomfr-voc-005-num-030:
+      i18n:
+        fr:
+          label: partition musicale
+          description: >
+            Support de transcription des
+            caractéristiques du son musical.
+    scolomfr-voc-005-num-031:
+      i18n:
+        fr:
+          label: périodique
+    scolomfr-voc-005-num-032:
+      i18n:
+        fr:
+          label: photographie
+    scolomfr-voc-005-num-033:
+      i18n:
+        fr:
+          label: podcast
+          description: >
+            Ressource audio ou vidéo diffusée en
+            série via Internet.
+    scolomfr-voc-005-num-034:
+      i18n:
+        fr:
+          label: présentation multimédia
+    scolomfr-voc-005-num-035:
+      i18n:
+        fr:
+          label: programme scolaire
+          description: '"Ensemble des thèmes abordés par un enseignement dans un laps de temps donné" (Source : Wikipédia).'
+    scolomfr-voc-005-num-036:
+      i18n:
+        fr:
+          label: rapport
+          description: |
+            "Document (écrit) qui décrit les résultats de recherches, d'enquêtes, d'observation ou d'autres études" (Source : Vocabulaire de la documentation, ADBS, 2004). Un scénario ou une séquence pédagogiques s'expose - en fonction de son ampleur - dans une note ou dans un rapport.
+    scolomfr-voc-005-num-037:
+      i18n:
+        fr:
+          label: référentiel de compétences
+          description: >
+            Répertoire établi sous une forme
+            organisée, de compétences et/ou
+            aptitudes requises pour remplir une
+            tâche, exercer une fonction, un
+            métier, etc.
+    scolomfr-voc-005-num-038:
+      i18n:
+        fr:
+          label: schéma / graphique
+    scolomfr-voc-005-num-039:
+      i18n:
+        fr:
+          label: site Web
+    scolomfr-voc-005-num-040:
+      i18n:
+        fr:
+          label: tableau (art)
+    scolomfr-voc-005-num-041:
+      i18n:
+        fr:
+          label: web média
+
+"SCOLOM-2":
+  type: "NULL"
+  i18n:
+    fr:
+      label: "Cycle de vie"
+      description: "Cette catégorie présente les caractéristiques du cycle de vie du document.(source : LOMFR NF Z76-040:2006)"
+
+"SCOLOM-2.1":
+  type: "STRING"
+  parent_scolom: "SCOLOM-2"
+  i18n:
+    fr:
+      label: "Version"
+      description: "L'édition de cette ressource. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-2.2":
+  type: "CHOICE"
+  parent_scolom: "SCOLOM-2"
+  i18n:
+    fr:
+      label: "État"
+      description: "L'état de cette ressource pédagogique, du point de vue de son achèvement ou de sa disponibilité pour le public. (source : LOMFR NF Z76-040 :2006)"
+  choices:
+    scolomfr-voc-002-num-001:
+      i18n:
+        fr:
+          label: brouillon
+          description: "Esquisse, ébauche d'une ressource destinée à être complétée, modifiée, enrichie... pour atteindre l'état final."
+    scolomfr-voc-002-num-002:
+      i18n:
+        fr:
+          label: final
+          description: "Etat d'une ressource considérée alors dans sa version courante et qui peut dès lors être utilisée et diffusée."
+    scolomfr-voc-002-num-004:
+      i18n:
+        fr:
+          label: indisponible
+          description: "Etat d'une ressource non disponible."
+    scolomfr-voc-002-num-003:
+      i18n:
+        fr:
+          label: révisé
+          description: "Etat final d'une ressource mais dans une version corrigée, modifiée ou amendée par rapport à la version préliminaire."
+
+"SCOLOM-2.3":
+  type: "MULTIPLE_NULL"
+  parent_scolom: "SCOLOM-2"
+  i18n:
+    fr:
+      label: "Contribution"
+      description: "Les entités (c'est-à-dire les personnes ou organismes) qui ont contribué à la production de cet objet pédagogique au cours de son cycle de vie (par exemple, création, rédaction, publication) (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-2.3.1":
+  type: "CHOICE"
+  parent_scolom: "SCOLOM-2.3"
+  i18n:
+    fr:
+      label: "Rôle"
+      description: "Type de contribution. (source : LOMFR NF Z76-040 :2006)"
+  choices:
+    scolomfr-voc-003-num-001:
+      i18n:
+        fr:
+          label: auteur
+          description: >
+            Entité responsable de la création du
+            contenu de la ressource.
+    scolomfr-voc-003-num-003:
+      i18n:
+        fr:
+          label: concepteur graphique
+          description: "Entité responsable de la création des éléments graphiques et visuels d'une ressource."
+    scolomfr-voc-003-num-004:
+      i18n:
+        fr:
+          label: concepteur pédagogique
+          description: |
+            "Entité responsable d'appliquer les principes pédagogiques soutenant la conception de la ressource" (Source : Normetic v1.1).
+    scolomfr-voc-003-num-005:
+      i18n:
+        fr:
+          label: contributeur
+          description: >
+            Entité ayant contribuée au contenu de
+            la ressource, sans que la nature de sa
+            contribution soit spécifiée.
+    scolomfr-voc-003-num-017:
+      i18n:
+        fr:
+          label: diffuseur / distributeur
+    scolomfr-voc-003-num-016:
+      i18n:
+        fr:
+          label: directeur de la publication
+          description: >
+            Entité qui coordonne les différentes
+            contributions éditoriales à la
+            ressource.
+    scolomfr-voc-003-num-002:
+      i18n:
+        fr:
+          label: éditeur
+          description: "Entité responsable de la mise à disposition de la ressource : un établissement, une académie, une maison d'édition."
+    scolomfr-voc-003-num-006:
+      i18n:
+        fr:
+          label: expert du domaine
+          description: |
+            Entité qualifiée pour juger de la pertinence du contenu de la ressource. Dans le cas où un expert du domaine fournit l'information, il est alors également "fournisseur de contenu".
+    scolomfr-voc-003-num-007:
+      i18n:
+        fr:
+          label: fournisseur de contenu
+          description: |
+            Entité qui est secondairement responsable du contenu de la ressource. Elle peut avoir assuré des activités liées à la création, la structuration ou l'agrégation du contenu de la ressource. Dans le cas où la fourniture relève d'une expertise du domaine, utiliser alors "expert du domaine".
+    scolomfr-voc-003-num-010:
+      i18n:
+        fr:
+          label: implémenteur technique
+          description: "Entité qui effectue l'ensemble des opérations techniques nécessaires pour élaborer la ressource. Par exemple : une cellule TICE, un développeur informatique..."
+    scolomfr-voc-003-num-008:
+      i18n:
+        fr:
+          label: inconnu
+          description: '"Utiliser ce terme pour toute entité dont la contribution ou le rôle est incertain" (Source : Normetic v1.1). Lui préférer "contributeur".'
+    scolomfr-voc-003-num-009:
+      i18n:
+        fr:
+          label: initiateur
+          description: |
+            "Entité à l'origine du processus de développement de la ressource" (Source : Normetic v1.1). Cette valeur peut être utilisée pour des responsables d'appel à projet qui ne peuvent être cités comme éditeur.
+    scolomfr-voc-003-num-011:
+      i18n:
+        fr:
+          label: rédacteur de scenario
+          description: |
+            Entité responsable de la création du déroulement d'une action ou de la trame pédagogique d'une ressource. On utilisera "auteur" si le rédacteur de scénario est le principal responsable du contenu d'une ressource.
+    scolomfr-voc-003-num-012:
+      i18n:
+        fr:
+          label: terminateur
+          description: >
+            Entité qui peut refuser la diffusion de
+            la ressource.
+    scolomfr-voc-003-num-013:
+      i18n:
+        fr:
+          label: valideur
+          description: |
+            "Entité responsable de confirmer l'intégrité de la ressource" (Source : Normetic v1.1). S'emploie aussi pour d'autres types de valideur comme un valideur juridique.
+    scolomfr-voc-003-num-015:
+      i18n:
+        fr:
+          label: valideur pédagogique
+          description: |
+            "Entité responsable de confirmer l'intégrité pédagogique de la ressource" (Source : Normetic v1.1).
+    scolomfr-voc-003-num-014:
+      i18n:
+        fr:
+          label: valideur technique
+          description: |
+            "Entité responsable de confirmer l'intégrité pédagogique de la ressource" (Source : Normetic v1.1).
+
+"SCOLOM-2.3.2":
+  type: "MULTIPLE_STRING"
+  parent_scolom: "SCOLOM-2.3"
+  i18n:
+    fr:
+      label: "Entité"
+      description: "L'identification et l'information relatives aux entités (à savoir, personnes ou organismes) qui ont contribué à cet objet pédagogique. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-2.3.3":
+  type: "STRING"
+  parent_scolom: "SCOLOM-2.3"
+  i18n:
+    fr:
+      label: "Date"
+      description: "Date de la contribution. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-3":
+  type: "NULL"
+  i18n:
+    fr:
+      label: "Méta-métadonnées"
+      description: "Information spécifique concernant l'enregistrement des métadonnées elles-mêmes. Cette catégorie décrit par exemple qui a créé cet enregistrement de métadonnées, comment, quand et avec quelles références. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-3.1":
+  type: "MULTIPLE_STRING"
+  parent_scolom: "SCOLOM-3"
+  i18n:
+    fr:
+      label: "Identifiant"
+      description: "Identifiant unique de la fiche de métadonnées. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-3.1.1":
+  type: "STRING"
+  parent_scolom: "SCOLOM-3.1"
+  i18n:
+    fr:
+      label: "Catalogue"
+      description: "Nom du système d'enregistrement où les métadonnées sont référencées (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-3.1.2":
+  type: "STRING"
+  parent_scolom: "SCOLOM-3.1"
+  i18n:
+    fr:
+      label: "Entrée"
+      description: "Valeur de l'identifiant"
+
+"SCOLOM-3.2":
+  type: "MULTIPLE_STRING"
+  parent_scolom: "SCOLOM-3"
+  i18n:
+    fr:
+      label: "Contribution"
+      description: "Personnes ayant participé à l'élaboration des métadonnées. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-3.2.1":
+  type: "CHOICE"
+  parent_scolom: "SCOLOM-3.2"
+  i18n:
+    fr:
+      label: "Rôle"
+      description: "Rôle des personnes ayant participé à l'élaboration des métadonnées. (source : LOMFR NF Z76-040 :2006)"
+  choices:
+    scolomfr-voc-013-num-001:
+      i18n:
+        fr:
+          label: créateur
+    scolomfr-voc-013-num-002:
+      i18n:
+        fr:
+          label: validateur
+
+"SCOLOM-3.2.2":
+  type: "MULTIPLE_STRING"
+  parent_scolom: "SCOLOM-3.2"
+  i18n:
+    fr:
+      label: "Entité"
+      description: "Identification et information sur les entités qui ont participé à l'élaboration des métadonnées. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-3.2.3":
+  type: "STRING"
+  parent_scolom: "SCOLOM-3.2"
+  i18n:
+    fr:
+      label: "Date"
+      description: "Date de la contribution des métadonnées (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-3.3":
+  type: "MULTIPLE_STRING"
+  parent_scolom: "SCOLOM-3"
+  i18n:
+    fr:
+      label: "Schéma de métadonnées"
+      description: "Le nom et la version de la spécification autorisée utilisée pour créer cette instance de métadonnées. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-3.4":
+  type: "STRING"
+  parent_scolom: "SCOLOM-3"
+  i18n:
+    fr:
+      label: "Langue"
+      description: "Langue de l'instance de métadonnées. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-4":
+  type: "NULL"
+  i18n:
+    fr:
+      label: "Technique"
+      description: "Cette catégorie présente les conditions techniques requises pour exécuter la ressource et les caractéristiques techniques de la ressource. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-4.1":
+  type: "MULTIPLE_STRING"
+  parent_scolom: "SCOLOM-4"
+  i18n:
+    fr:
+      label: "Format"
+      description: "La représentation physique ou numérique de la ressource. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-4.2":
+  type: "STRING"
+  parent_scolom: "SCOLOM-4"
+  i18n:
+    fr:
+      label: "Taille du fichier"
+      description: "La taille en octets de l'objet pédagogique numérique. La taille est représentée par une valeur décimale (base 10). Seuls les chiffres de \"0\" à \"9\" doivent être utilisés. L'unité est l'octet et non le méga octet ou giga octet, etc. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-4.3":
+  type: "MULTIPLE_STRING"
+  parent_scolom: "SCOLOM-4"
+  i18n:
+    fr:
+      label: "Localisation"
+      description: "Une chaîne de caractères qui est utilisée pour accéder à la ressource. Cela peut être une URI ou une indication sur comment se procurer la ressource. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-4.4":
+  type: "MULTIPLE_NULL"
+  parent_scolom: "SCOLOM-4"
+  i18n:
+    fr:
+      label: "Exigences techniques"
+      description: "Les conditions techniques (matérielles et logicielles) nécessaires pour utiliser cet objet pédagogique. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-4.4.1":
+  type: "MULTIPLE_NULL"
+  parent_scolom: "SCOLOM-4.4"
+  i18n:
+    fr:
+      label: "Exigences multiples"
+      description: "Groupement des différents types d'exigences. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-4.4.1.1":
+  type: "CHOICE"
+  parent_scolom: "SCOLOM-4.4.1"
+  i18n:
+    fr:
+      label: "Type"
+      description: "La technologie requise pour utiliser cet objet pédagogique. (source : LOMFR NF Z76-040 :2006)"
+  choices:
+    scolomfr-voc-023-num-001:
+      i18n:
+        fr:
+          label: navigateur
+    scolomfr-voc-023-num-002:
+      i18n:
+        fr:
+          label: "système d'exploitation"
+
+"SCOLOM-4.4.1.2":
+  type: "STRING"
+  parent_scolom: "SCOLOM-4.4.1"
+  i18n:
+    fr:
+      label: "Nom"
+      description: "Nom de la technologie requise pour utiliser cet objet pédagogique. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-4.4.1.3":
+  type: "STRING"
+  parent_scolom: "SCOLOM-4.4.1"
+  i18n:
+    fr:
+      label: "Version minimale"
+      description: "Version la plus ancienne de la technologie requise pour utiliser cet objet pédagogique. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-4.4.1.4":
+  type: "STRING"
+  parent_scolom: "SCOLOM-4.4.1"
+  i18n:
+    fr:
+      label: "Version maximale"
+      description: "Version la plus récente de la technologie requise pour utiliser cet objet pédagogique. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-4.5":
+  type: "STRING"
+  parent_scolom: "SCOLOM-4"
+  i18n:
+    fr:
+      label: "Remarques d'installation"
+      description: "Description du mode d'installation de cet objet pédagogique. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-4.6":
+  type: "STRING"
+  parent_scolom: "SCOLOM-4"
+  i18n:
+    fr:
+      label: "Autres exigences"
+      description: "Informations relatives aux autres exigences logicielles et matérielles. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-4.7":
+  type: "STRING"
+  parent_scolom: "SCOLOM-4"
+  i18n:
+    fr:
+      label: "Durée d'éxécution de la ressource"
+      description: "Temps moyen nécessaire à une utilisation de la ressource pédagogique à vitesse normale. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-5":
+  type: "MULTIPLE_NULL"
+  i18n:
+    fr:
+      label: "Pédagogie"
+      description: "Cette catégorie décrit les caractéristiques pédagogiques de la ressource (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-5.2":
+  type: "MULTIPLE_CHOICE"
+  parent_scolom: "SCOLOM-5"
+  i18n:
+    fr:
+      label: "Type pédagogique de la ressource"
+      description: "Nature pédagogique de la ressource (source : LOMFR NF Z76-040 :2006)"
+  choices:
+    scolomfr-voc-010-num-001:
+      i18n:
+        fr:
+          label: animation
+          description: "Support d'une activité d'un groupe conduite par un animateur."
+    scolomfr-voc-010-num-023:
+      i18n:
+        fr:
+          label: annales
+    scolomfr-voc-010-num-002:
+      i18n:
+        fr:
+          label: autoévaluation
+          description: "Support d'une activité d'évaluation personnelle."
+    scolomfr-voc-010-num-003:
+      i18n:
+        fr:
+          label: cours / présentation
+          description: "Information de nature expositive. Exemple : le support d'un cours, d'une présentation..."
+    scolomfr-voc-010-num-024:
+      i18n:
+        fr:
+          label: cyberquête
+          description: |
+            Une cyberquête est une activité "coopérative d'investigation, de communication et de production, permettant de réaliser et de synthétiser des activités de recherche dont les informations sont en partie ou intégralement disponibles sur Internet". (http://www.didaquest.org/wiki/Webquest)
+    scolomfr-voc-010-num-004:
+      i18n:
+        fr:
+          label: démonstration
+          description: "Information de nature explicative sur une donnée, un outil, un logiciel, une méthode, un fait, etc. Exemple : démonstration illustrant comment procéder pour la mise en oeuvre d'une chromatographie, démonstration de l'utilisation d'une application en ligne..."
+    scolomfr-voc-010-num-005:
+      i18n:
+        fr:
+          label: énoncé de problème
+          description: |
+            Enoncé à/ d'une problématique. Ne pas utiliser pour les corrigés des exercices, préférer "exercice".
+    scolomfr-voc-010-num-006:
+      i18n:
+        fr:
+          label: étude de cas
+          description: "Exposé analytique et systématique d'une situation dans le but de trouver des solutions, de résoudre un problème."
+    scolomfr-voc-010-num-007:
+      i18n:
+        fr:
+          label: évaluation
+          description: "Support permettant la mesure d'un apprentissage et la vérification d'une étape d'acquisition de connaissances au cours d'une action de formation ou à la fin d'une séquence."
+    scolomfr-voc-010-num-008:
+      i18n:
+        fr:
+          label: examen
+          description: "Support d'une épreuve synthétique et à caractère normatif qui porte sur un ensemble de connaissances, permettant de valider une étape d'obtention d'une unité d'enseignement, d'un diplôme ou d'une certification."
+    scolomfr-voc-010-num-009:
+      i18n:
+        fr:
+          label: exercice
+          description: "Support d'une activité réalisée par l'apprenant et visant le développement d'une compétence ou l'atteinte d'un objectif."
+    scolomfr-voc-010-num-010:
+      i18n:
+        fr:
+          label: expérience
+          description: "Support d'une activité réalisée par l'apprenant en général dans des espaces spécialisés du type laboratoires ou ateliers."
+    scolomfr-voc-010-num-011:
+      i18n:
+        fr:
+          label: glossaire
+          description: >
+            Ensemble de mots définis, appartenant
+            à un domaine spécifique.
+    scolomfr-voc-010-num-012:
+      i18n:
+        fr:
+          label: guide
+          description: "Support à caractère didactique présentant les notions essentielles d'un art, d'une science ou d'une technique, ou présentant des règles d'utilisation d'une ressource pédagogique ou d'un instrument."
+    scolomfr-voc-010-num-013:
+      i18n:
+        fr:
+          label: jeu éducatif
+          description: >
+            Jeu sur support physique ou numérique
+            destiné à faire comprendre une notion,
+            acquérir des connaissances, des
+            compétences de façon ludique.
+    scolomfr-voc-010-num-014:
+      i18n:
+        fr:
+          label: "manuel d'enseignement"
+          description: "Document didactique qui renferme les notions essentielles d'un domaine ou d'une discipline d'enseignement."
+    scolomfr-voc-010-num-015:
+      i18n:
+        fr:
+          label: matériel de référence
+          description: >
+            Tout document de type usuels. Pour des
+            documents officiels précis utiliser
+            "norme" ou des termes plus précis tels
+            "programme scolaire" ou "référentiel
+            de compétences" du vocabulaire
+            "Typologie générale" (ScoLOMFR 005).
+    scolomfr-voc-010-num-025:
+      i18n:
+        fr:
+          label: méthode de langues
+    scolomfr-voc-010-num-016:
+      i18n:
+        fr:
+          label: méthodologie
+          description: "Ensemble de règles et de démarches adoptées pour atteindre un but de nature pédagogique : pour le calcul d'une intégrale, pour la réalisation d'une recherche, pour la gestion d'un projet..."
+    scolomfr-voc-010-num-017:
+      i18n:
+        fr:
+          label: outil
+          description: "Ressource servant à instrumenter l'utilisateur pour la réalisation d'une tâche précise se situant à l'intérieur d'un processus pédagogique plus vaste. Utilisé pour désigner un outil de production pédagogique tel qu'un générateur d'exercices, une chaîne éditoriale, etc. ; un outil de diffusion ou un équipement pédagogique. Exemple : tableau interactif, calculatrice, CMS, correcteur orthographique..."
+    scolomfr-voc-010-num-018:
+      i18n:
+        fr:
+          label: "production d'élève"
+          description: >
+            Document réalisé par un ou plusieurs
+            élèves, une classe, dans le cadre
+            scolaire ou périscolaire.
+    scolomfr-voc-010-num-019:
+      i18n:
+        fr:
+          label: questionnaire
+          description: "Série de questions. Type particulier d'exercice incluant les QCM (questions à choix multiples) ou les QROC (questions à réponse ouverte et courte), les enquêtes..."
+    scolomfr-voc-010-num-020:
+      i18n:
+        fr:
+          label: scénario pédagogique
+          description: "Document descriptif, structuré et transférable, présentant de façon plus ou moins exhaustive une action de formation et d'apprentissage, les acteurs (élèves, enseignants), les objectifs, l'enchaînement d'unités ou de séquences pédagogiques, les ressources utilisées, le dispositif d'évaluation choisi. Suivant le niveau de description et/ou le périmètre de l'action pédagogique, les dénominations peuvent varier (séquence, séance, cycle d'activités pédagogiques)."
+    scolomfr-voc-010-num-021:
+      i18n:
+        fr:
+          label: simulation
+          description: "Représentation artificielle de la réalité, paramétrable et basée sur un modèle, exploitée à des fins de compréhension et d'étude, de démonstration ou d'explication. Exemple : simulation de décroissance radioactive ou d'une onde mécanique (phénomène physique), conduite d'engins (gestes professionnels), etc."
+    scolomfr-voc-010-num-026:
+      i18n:
+        fr:
+          label: témoignage pédagogique
+    scolomfr-voc-010-num-022:
+      i18n:
+        fr:
+          label: tutoriel
+          description: |
+            Guide de présentation et d'initiation, utilisable de façon autonome à l'utilisation d'un ensemble de notions, d'un logiciel, d'un matériel, etc." (Source : http://fr.wiktionary.org/wiki/tutoriel).
+
+"SCOLOM-5.5":
+  type: "MULTIPLE_CHOICE"
+  parent_scolom: "SCOLOM-5"
+  i18n:
+    fr:
+      label: "Public cible"
+      description: "Public prioritairement destinataire de la ressource. (source : LOMFR NF Z76-040 :2006)"
+  choices:
+    scolomfr-voc-011-num-003:
+      i18n:
+        fr:
+          label: apprenant
+          description: "Personne qui exploite, travaille avec la ressource afin d'apprendre quelque chose."
+    scolomfr-voc-011-num-002:
+      i18n:
+        fr:
+          label: auteur
+          description: >
+            Personne qui utilise ou réutilise une
+            ressource à des fins de production.
+    scolomfr-voc-011-num-001:
+      i18n:
+        fr:
+          label: enseignant
+          description: >
+            Personne responsable par les activités
+            de transmission des connaissances et
+            compétences dans le cadre de la
+            "formation tout au long de la vie".
+            Inclut les tuteurs.
+    scolomfr-voc-011-num-004:
+      i18n:
+        fr:
+          label: gestionnaire
+          description: >
+            Personne qui gère ou déploie des
+            ressources.
+
+"SCOLOM-5.6":
+  type: "MULTIPLE_CHOICE"
+  parent_scolom: "SCOLOM-5"
+  i18n:
+    fr:
+      label: "Niveau"
+      description: "Niveau du public cible. (source : LOMFR NF Z76-040 :2006)"
+  choices:
+    scolomfr-voc-012-num-001:
+      i18n:
+        fr:
+          label: enseignement scolaire
+    scolomfr-voc-012-num-004:
+      i18n:
+        fr:
+          label: enseignement supérieur
+    scolomfr-voc-012-num-008:
+      i18n:
+        fr:
+          label: formation professionnelle
+    scolomfr-voc-012-num-010:
+      i18n:
+        fr:
+          label: formation en entreprise
+    scolomfr-voc-012-num-009:
+      i18n:
+        fr:
+          label: formation continue
+    scolomfr-voc-012-num-011:
+      i18n:
+        fr:
+          label: autres
+
+"SCOLOM-5.7":
+  type: "MULTIPLE_STRING"
+  parent_scolom: "SCOLOM-5"
+  i18n:
+    fr:
+      label: "Âge"
+      description: "Âge des élèves destinataires de la ressource. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-5.8":
+  type: "CHOICE"
+  parent_scolom: "SCOLOM-5"
+  i18n:
+    fr:
+      label: "Difficulté"
+      description: "Difficulté de la ressource pour le ou les niveaux indiqués. (source : LOMFR NF Z76-040 :2006)"
+  choices:
+    scolomfr-voc-025-num-001:
+      i18n:
+        fr:
+          label: très facile
+    scolomfr-voc-025-num-002:
+      i18n:
+        fr:
+          label: facile
+    scolomfr-voc-025-num-003:
+      i18n:
+        fr:
+          label: moyen
+    scolomfr-voc-025-num-004:
+      i18n:
+        fr:
+          label: difficile
+    scolomfr-voc-025-num-005:
+      i18n:
+        fr:
+          label: très difficile
+
+"SCOLOM-5.9":
+  type: "STRING"
+  parent_scolom: "SCOLOM-5"
+  i18n:
+    fr:
+      label: "Durée d'apprentissage"
+      description: "Estimation du temps d'apprentissage moyen pour le ou les niveaux indiqués. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-5.10":
+  type: "MULTIPLE_STRING"
+  parent_scolom: "SCOLOM-5"
+  i18n:
+    fr:
+      label: "Proposition d'utilisation"
+      description: "Description relative à l'utilisation pédagogique de la ressource. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-5.11":
+  type: "MULTIPLE_STRING"
+  parent_scolom: "SCOLOM-5"
+  i18n:
+    fr:
+      label: "Langue de l'utilisateur"
+      description: "La langue utilisée par l'utilisateur type ciblé pour employer cet objet pédagogique. (source : LOMFR NFZ76-040 :2006)"
+
+"SCOLOM-5.12":
+  type: "MULTIPLE_CHOICE"
+  parent_scolom: "SCOLOM-5"
+  i18n:
+    fr:
+      label: "Activités induites"
+      description: "Activité proposée au public cible (élément non LOM) (source : LOMFR NF Z76-040 :2006)"
+  choices:
+    scolomfr-voc-019-num-001:
+      i18n:
+        fr:
+          label: animer
+          description: 'Définition : organiser un groupe de personnes, conduire une réunion, gérer un groupe projet...'
+    scolomfr-voc-019-num-002:
+      i18n:
+        fr:
+          label: apprendre
+          description: 'Définition : acquérir des connaissances'
+    scolomfr-voc-019-num-003:
+      i18n:
+        fr:
+          label: collaborer
+          description: 'Définition : créer ensemble une oeuvre commune'
+    scolomfr-voc-019-num-004:
+      i18n:
+        fr:
+          label: communiquer
+    scolomfr-voc-019-num-005:
+      i18n:
+        fr:
+          label: coopérer
+          description: "Définition : participer à une partie d'une oeuvre commune"
+    scolomfr-voc-019-num-006:
+      i18n:
+        fr:
+          label: créer
+          description: "Définition : réaliser quelque chose qui n'existe pas encore"
+    scolomfr-voc-019-num-007:
+      i18n:
+        fr:
+          label: échanger
+          description: 'Définition : communiquer à plusieurs, partager'
+    scolomfr-voc-019-num-019:
+      i18n:
+        fr:
+          label: expérimenter
+    scolomfr-voc-019-num-008:
+      i18n:
+        fr:
+          label: lire
+    scolomfr-voc-019-num-009:
+      i18n:
+        fr:
+          label: observer
+          description: 'Définition : "examiner (un objet de connaissance scientifique) pour (en) tirer des conclusions scientifiques" (Dictionnaire en ligne CNRTL - http://www.cnrtl.fr/definition/).'
+    scolomfr-voc-019-num-010:
+      i18n:
+        fr:
+          label: organiser
+          description: |
+            Définition : "aménager, disposer d'une certaine manière, arranger harmonieusement" (Dictionnaire en ligne CNRTL - http://www.cnrtl.fr/definition/).
+    scolomfr-voc-019-num-011:
+      i18n:
+        fr:
+          label: produire
+          description: 'Défintion : assurer la réalisation matérielle'
+    scolomfr-voc-019-num-012:
+      i18n:
+        fr:
+          label: publier
+    scolomfr-voc-019-num-013:
+      i18n:
+        fr:
+          label: rechercher
+    scolomfr-voc-019-num-014:
+      i18n:
+        fr:
+          label: "s'auto-former"
+    scolomfr-voc-019-num-015:
+      i18n:
+        fr:
+          label: "s'évaluer"
+    scolomfr-voc-019-num-016:
+      i18n:
+        fr:
+          label: "s'exercer"
+    scolomfr-voc-019-num-017:
+      i18n:
+        fr:
+          label: se former
+          description: 'Définition : acquérir des compétences'
+    scolomfr-voc-019-num-018:
+      i18n:
+        fr:
+          label: simuler
+          description: "Définition : créer ou participer à une activité de simulation, d'expérimentation, de modélisation..."
+
+"SCOLOM-5.13":
+  type: "MULTIPLE_STRING"
+  parent_scolom: "SCOLOM-5"
+  i18n:
+    fr:
+      label: "Validation des acquis"
+      description: "Quantité d'unités d'enseignement ou de crédits obtenus après avoir atteint les objectifs pédagogiques. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-5.14":
+  type: "MULTIPLE_CHOICE"
+  parent_scolom: "SCOLOM-5"
+  i18n:
+    fr:
+      label: "Lieu"
+      description: "Lieu où s'utilise prioritairement la ressource."
+  choices:
+    scolomfr-voc-017-num-001:
+      i18n:
+        fr:
+          label: en amphithéâtre
+    scolomfr-voc-017-num-002:
+      i18n:
+        fr:
+          label: en atelier
+    scolomfr-voc-017-num-003:
+      i18n:
+        fr:
+          label: en atelier de pédagogie personnalisée
+          description: "Désigne un lieu de formation dont l'activité pédagogique est organisée autour d'un centre de ressources pédagogiques, conçu et animé par des professionnels de la formation individualisée."
+    scolomfr-voc-017-num-009:
+      i18n:
+        fr:
+          label: en bibliothèque, médiathèque
+    scolomfr-voc-017-num-004:
+      i18n:
+        fr:
+          label: "en CDI (Centre de documentation et d'information)"
+          description: "Désigne les CDI d'établissements scolaires."
+    scolomfr-voc-017-num-0018:
+      i18n:
+        fr:
+          label: en entreprise
+    scolomfr-voc-017-num-006:
+      i18n:
+        fr:
+          label: en établissement
+    scolomfr-voc-017-num-008:
+      i18n:
+        fr:
+          label: en établissement socioculturel
+    scolomfr-voc-017-num-0012:
+      i18n:
+        fr:
+          label: en installation de loisirs
+    scolomfr-voc-017-num-0013:
+      i18n:
+        fr:
+          label: en installation sportive
+    scolomfr-voc-017-num-0014:
+      i18n:
+        fr:
+          label: en laboratoire
+    scolomfr-voc-017-num-0015:
+      i18n:
+        fr:
+          label: en laboratoire de langues
+    scolomfr-voc-017-num-0016:
+      i18n:
+        fr:
+          label: en milieu familial
+    scolomfr-voc-017-num-0017:
+      i18n:
+        fr:
+          label: en milieu professionnel
+    scolomfr-voc-017-num-0010:
+      i18n:
+        fr:
+          label: en musée
+    scolomfr-voc-017-num-005:
+      i18n:
+        fr:
+          label: en salle de classe
+    scolomfr-voc-017-num-0020:
+      i18n:
+        fr:
+          label: en salle informatique
+    scolomfr-voc-017-num-0021:
+      i18n:
+        fr:
+          label: en salle multimédia
+    scolomfr-voc-017-num-007:
+      i18n:
+        fr:
+          label: >
+            espace dédié à une pratique
+            spécifique
+    scolomfr-voc-017-num-0011:
+      i18n:
+        fr:
+          label: hors établissement
+    scolomfr-voc-017-num-0019:
+      i18n:
+        fr:
+          label: non précisé
+
+"SCOLOM-5.15":
+  type: "MULTIPLE_CHOICE"
+  parent_scolom: "SCOLOM-5"
+  i18n:
+    fr:
+      label: "Modalité pédagogique"
+      description: "Caractérise la modalité pédagogique qui encadre l'usage des ressources."
+
+"SCOLOM-5.16":
+  type: "MULTIPLE_CHOICE"
+  parent_scolom: "SCOLOM-5"
+  i18n:
+    fr:
+      label: "Outil"
+      description: "Outil ou matériel nécessaire pour utiliser et exploiter la ressource dans le contexte pédagogique énoncé."
+  choices:
+    scolomfr-voc-018-num-001:
+      i18n:
+        fr:
+          label: à distance
+    scolomfr-voc-018-num-002:
+      i18n:
+        fr:
+          label: en alternance
+    scolomfr-voc-018-num-003:
+      i18n:
+        fr:
+          label: en autonomie
+    scolomfr-voc-018-num-004:
+      i18n:
+        fr:
+          label: en classe entière
+    scolomfr-voc-018-num-005:
+      i18n:
+        fr:
+          label: en collaboration
+    scolomfr-voc-018-num-007:
+      i18n:
+        fr:
+          label: en entreprise
+    scolomfr-voc-018-num-012:
+      i18n:
+        fr:
+          label: en groupe
+    scolomfr-voc-018-num-013:
+      i18n:
+        fr:
+          label: en groupe de compétences
+    scolomfr-voc-018-num-014:
+      i18n:
+        fr:
+          label: en ligne
+    scolomfr-voc-018-num-015:
+      i18n:
+        fr:
+          label: en tutorat
+    scolomfr-voc-018-num-016:
+      i18n:
+        fr:
+          label: modalité mixte
+          description: "Dispositif d'apprentissage ou de formation qui combine des modalités pédagogiques diversifiées"
+    scolomfr-voc-018-num-010:
+      i18n:
+        fr:
+          label: >
+            PFE (période de formation en
+            entreprise)
+    scolomfr-voc-018-num-009:
+      i18n:
+        fr:
+          label: >
+            PFMP (période de formation en
+            entreprise)
+    scolomfr-voc-018-num-017:
+      i18n:
+        fr:
+          label: séjour pédagogique
+    scolomfr-voc-018-num-019:
+      i18n:
+        fr:
+          label: sortie pédagogique
+          description: "Renvoie à une finalité essentiellement pédagogique de l'évènement"
+    scolomfr-voc-018-num-021:
+      i18n:
+        fr:
+          label: travail de recherche
+    scolomfr-voc-018-num-022:
+      i18n:
+        fr:
+          label: travail en interdisciplinarité
+    scolomfr-voc-018-num-023:
+      i18n:
+        fr:
+          label: travaux dirigés
+    scolomfr-voc-018-num-024:
+      i18n:
+        fr:
+          label: travaux pratiques
+
+"SCOLOM-6":
+  type: "NULL"
+  i18n:
+    fr:
+      label: "Droits"
+      description: "Cette catégorie décrit les caractéristiques exprimant les conditions légales d'utilisation de la ressource (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-6.1":
+  type: "CHOICE"
+  parent_scolom: "SCOLOM-6"
+  i18n:
+    fr:
+      label: "Coût"
+      description: "Permet d'indiquer si ressource pédagogique est payante. (source : LOMFR NF Z76-040 :2006)"
+  choices:
+    scolomfr-voc-026-num-001:
+      i18n:
+        fr:
+          label: oui
+    scolomfr-voc-026-num-002:
+      i18n:
+        fr:
+          label: non
+
+"SCOLOM-6.2":
+  type: "CHOICE"
+  parent_scolom: "SCOLOM-6"
+  i18n:
+    fr:
+      label: "Droit d'auteur"
+      description: "Permet d'indiquer si la ressource est entièrement libre de droits. (source : LOMFR NF Z76-040 :2006)"
+  choices:
+    scolomfr-voc-027-num-002:
+      i18n:
+        fr:
+          label: non
+    scolomfr-voc-027-num-001:
+      i18n:
+        fr:
+          label: oui
+
+"SCOLOM-6.3":
+  type: "STRING"
+  parent_scolom: "SCOLOM-6"
+  i18n:
+    fr:
+      label: "Description"
+      description: "Conditions légales d'utilisation de la ressource. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-7":
+  type: "MULTIPLE_NULL"
+  i18n:
+    fr:
+      label: "Relation"
+      description: "Cette catégorie décrit les caractéristiques exprimant les liens avec d'autres ressources. (source : LOMFR NF Z76-040)"
+
+"SCOLOM-7.1":
+  type: "CHOICE"
+  parent_scolom: "SCOLOM-7"
+  i18n:
+    fr:
+      label: "Type"
+      description: "Nature de la relation. (source : LOMFR NF Z76-040 :2006)"
+  choices:
+    scolomfr-voc-009-num-023:
+      i18n:
+        fr:
+          label: a pour aperçu
+          description: >
+            Renvoie vers une démonstration, un
+            extrait, une présentation de la
+            ressource.
+    scolomfr-voc-009-num-022:
+      i18n:
+        fr:
+          label: a pour logo
+          description: "Un logo est une image représentant une marque, un organisme (le logo d'une maison d'édition par exemple)."
+    scolomfr-voc-009-num-021:
+      i18n:
+        fr:
+          label: a pour vignette
+          description: >
+            Une vignette est un visuel, une imagette
+            représentant la ressource (sa
+            couverture, sa 4ème de couverture...).
+    scolomfr-voc-009-num-020:
+      i18n:
+        fr:
+          label: conforme à
+          description: >
+            Une référence à une norme établie à
+            laquelle la ressource est conforme.
+    scolomfr-voc-009-num-011:
+      i18n:
+        fr:
+          label: contient
+          description: >
+            La ressource décrite est une partie
+            physique ou logique de la ressource
+            référencée (parent/enfant,
+            hiérarchique par nature).
+    scolomfr-voc-009-num-013:
+      i18n:
+        fr:
+          label: contient une référence à
+          description: "La ressource décrite est référencée, citée ou sinon désignée par la ressource référencée. Cette relation peut servir à lier une critique de la ressource à la ressource, une satire d'un discours à l'original, etc. Une vignette ou une référence bibliographique rentrent dans cette catégorie."
+    scolomfr-voc-009-num-001:
+      i18n:
+        fr:
+          label: est associé à
+    scolomfr-voc-009-num-019:
+      i18n:
+        fr:
+          label: est basé sur
+          description: |
+            La ressource cible tire son origine, en tout ou en partie, de la ressource décrite. A utiliser pour toute révision, correction, modification, etc. qui n'est pas couverte par "a comme version" ou "a comme autre format".
+    scolomfr-voc-009-num-024:
+      i18n:
+        fr:
+          label: "est l'aperçu de"
+          description: >
+            Désigne une démonstration, un extrait,
+            une présentation de la ressource.
+    scolomfr-voc-009-num-018:
+      i18n:
+        fr:
+          label: est la base de
+          description: |
+            La ressource cible tire son origine, en tout ou en partie, de la ressource décrite. A utiliser pour toute révision, correction, modification, etc. qui n'est pas couverte par "a comme version" ou "a comme autre format".
+    scolomfr-voc-009-num-002:
+      i18n:
+        fr:
+          label: est la localisation de
+    scolomfr-voc-009-num-016:
+      i18n:
+        fr:
+          label: est la traduction de
+          description: >
+            La ressource décrite a le même contenu
+            intellectuel que la ressource
+            référencée mais elle est présentée
+            dans une autre langue.
+    scolomfr-voc-009-num-012:
+      i18n:
+        fr:
+          label: est référencé par
+          description: "La ressource décrite est référencée, citée ou sinon désignée par la ressource référencée. Cette relation peut servir à lier une critique de la ressource à la ressource, une satire d'un discours à l'original, etc. Une vignette ou une référence bibliographique rentrent dans cette catégorie."
+    scolomfr-voc-009-num-006:
+      i18n:
+        fr:
+          label: est remplacé par
+          description: "La ressource décrite est supplantée, déplacée ou remplacée par la ressource référencée. S'utilise lorsque l'on souhaite préserver des versions successives (au sens de mise à jour) d'une même ressource."
+    scolomfr-voc-009-num-008:
+      i18n:
+        fr:
+          label: est requis par
+          description: "La ressource décrite nécessite la ressource référencée physiquement ou logiquement pour assurer sa fonction, sa transmission ou distribution ou la cohérence de son contenu. Par exemple une annexe par rapport à un contenu, les consignes d'un exercice et le formulaire..."
+    scolomfr-voc-009-num-010:
+      i18n:
+        fr:
+          label: est une partie de
+          description: >
+            La ressource décrite est une partie
+            physique ou logique de la ressource
+            référencée (parent/enfant,
+            hiérarchique par nature).
+    scolomfr-voc-009-num-004:
+      i18n:
+        fr:
+          label: est une version de
+          description: >
+            La ressource décrite est une version,
+            une édition ou une adaptation de la
+            ressource référencée. Les changements
+            de version impliquent des changements
+            importants dans le contenu plutôt que
+            des différences dans le format.
+    scolomfr-voc-009-num-014:
+      i18n:
+        fr:
+          label: est un format de
+          description: >
+            La ressource décrite a le même contenu
+            intellectuel que la ressource
+            référencée mais elle est présentée
+            dans un autre format (autre
+            présentation ou autre format
+            informatique).
+    scolomfr-voc-009-num-015:
+      i18n:
+        fr:
+          label: existe dans un format
+          description: >
+            La ressource décrite a le même contenu
+            intellectuel que la ressource
+            référencée mais elle est présentée
+            dans un autre format (autre
+            présentation ou autre format
+            informatique).
+    scolomfr-voc-009-num-005:
+      i18n:
+        fr:
+          label: existe en une autre version
+          description: >
+            La ressource décrite est une version,
+            une édition ou une adaptation de la
+            ressource référencée. Les changements
+            de version impliquent des changements
+            importants dans le contenu plutôt que
+            des différences dans le format.
+    scolomfr-voc-009-num-003:
+      i18n:
+        fr:
+          label: "fait l'objet d'une localisation"
+    scolomfr-voc-009-num-017:
+      i18n:
+        fr:
+          label: "fait l'objet d'une traduction"
+          description: >
+            La ressource décrite a le même contenu
+            intellectuel que la ressource
+            référencée mais elle est présentée
+            dans une autre langue.
+    scolomfr-voc-009-num-007:
+      i18n:
+        fr:
+          label: remplace
+          description: "La ressource décrite est supplantée, déplacée ou remplacée par la ressource référencée. S'utilise lorsque l'on souhaite préserver des versions successives (au sens de mise à jour) d'une même ressource."
+    scolomfr-voc-009-num-009:
+      i18n:
+        fr:
+          label: requiert
+          description: "La ressource décrite nécessite la ressource référencée physiquement ou logiquement pour assurer sa fonction, sa transmission ou distribution ou la cohérence de son contenu. Par exemple une annexe par rapport à un contenu, les consignes d'un exercice et le formulaire..."
+
+"SCOLOM-7.2":
+  type: "NULL"
+  parent_scolom: "SCOLOM-7"
+  i18n:
+    fr:
+      label: "Ressource"
+      description: "La destination à laquelle la ressource décrite fait référence. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-7.2.1":
+  type: "MULTIPLE_NULL"
+  parent_scolom: "SCOLOM-7.2"
+  i18n:
+    fr:
+      label: "Identifiant"
+      description: "Identifiant de la ressource destination. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-7.2.1.1":
+  type: "STRING"
+  parent_scolom: "SCOLOM-7.2.1"
+  i18n:
+    fr:
+      label: "Catalogue"
+      description: "Nom du catalogue où la ressource est stockée. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-7.2.1.2":
+  type: "STRING"
+  parent_scolom: "SCOLOM-7.2.1"
+  i18n:
+    fr:
+      label: "Entrée"
+      description: "Valeur de l?identifiant de la ressource liée (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-7.2.2":
+  type: "MULTIPLE_STRING"
+  parent_scolom: "SCOLOM-7.2"
+  i18n:
+    fr:
+      label: "Description"
+      description: "Description de la ressource « destination » (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-8":
+  type: "MULTIPLE_NULL"
+  i18n:
+    fr:
+      label: "Annotation"
+      description: "Cette catégorie permet de faire des commentaires libres sur l'utilisation de la ressource ainsi que les informations sur l'auteur de ces commentaires et leur date de création. (source : LOMFR NF Z76-040)"
+
+"SCOLOM-8.1":
+  type: "STRING"
+  parent_scolom: "SCOLOM-8"
+  i18n:
+    fr:
+      label: "Entité"
+      description: "Entité (à savoir, personnes ou organismes) qui a créé le commentaire. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-8.2":
+  type: "STRING"
+  parent_scolom: "SCOLOM-8"
+  i18n:
+    fr:
+      label: "Date"
+      description: "Date à laquelle ce commentaire a été créé. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-8.3":
+  type: "STRING"
+  parent_scolom: "SCOLOM-8"
+  i18n:
+    fr:
+      label: "Description"
+      description: "Le contenu du commentaire. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-9":
+  type: "MULTIPLE_NULL"
+  i18n:
+    fr:
+      label: "Classification"
+      description: "Cette catégorie décrit où cette ressource se trouve dans un système de classification particulier. (source : LOMFR NF Z76-040)"
+
+"SCOLOM-9.1":
+  type: "NULL"
+  parent_scolom: "SCOLOM-9"
+  i18n:
+    fr:
+      label: "Classification des Objectifs"
+      description: "L'objectif de classification pour cette ressource. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-9.1.1":
+  type: "MULTIPLE_CHOICE"
+  parent_scolom: "SCOLOM-9.1"
+  i18n:
+    fr:
+      label: "Enseignement"
+      description: "Vocabulaire ScoLOMFR-voc-030, pour les référentiels définissant les programmes et thèmes des enseignements officiels. Il y a un vocabulaire par domaine d'enseignement (construit sur la base 030, 031, 032, etc.)."
+  choices:
+    scolomfr-voc-015-num-001:
+      i18n:
+        fr:
+          label: "français"
+    scolomfr-voc-015-num-002:
+      i18n:
+        fr:
+          label: "mathématiques"
+    scolomfr-voc-015-num-003:
+      i18n:
+        fr:
+          label: "langue vivante"
+    scolomfr-voc-015-num-004:
+      i18n:
+        fr:
+          label: "sciences et vie de la terre"
+    scolomfr-voc-015-num-013:
+      i18n:
+        fr:
+          label: "art plastique"
+    scolomfr-voc-015-num-005:
+      i18n:
+        fr:
+          label: "vie de classe"
+    scolomfr-voc-015-num-006:
+      i18n:
+        fr:
+          label: "histoire"
+    scolomfr-voc-015-num-007:
+      i18n:
+        fr:
+          label: "géographie"
+    scolomfr-voc-015-num-008:
+      i18n:
+        fr:
+          label: "education physique et sportive"
+
+"SCOLOM-9.1.2":
+  type: "MULTIPLE_CHOICE"
+  parent_scolom: "SCOLOM-9.1"
+  i18n:
+    fr:
+      label: "Compétences du socle commun"
+      description: ""
+  choices:
+    scolomfr-voc-016-num-001:
+      i18n:
+        fr:
+          label: 'compétence 1 - la maîtrise de la langue française'
+    scolomfr-voc-016-num-002:
+      i18n:
+        fr:
+          label: "compétence 2 - la pratique d'une langue vivante étrangère (niveau a2)"
+    scolomfr-voc-016-num-003:
+      i18n:
+        fr:
+          label: 'compétence 3 - les principaux éléments de mathématiques et la culture scientifique et technologique'
+    scolomfr-voc-016-num-004:
+      i18n:
+        fr:
+          label: "compétence 4 - la maîtrise des techniques usuelles de l'information et de la communication (b2i)"
+    scolomfr-voc-016-num-005:
+      i18n:
+        fr:
+          label: 'compétence 5 - la culture humaniste'
+    scolomfr-voc-016-num-006:
+      i18n:
+        fr:
+          label: 'compétence 6 - les compétences sociales et civiques'
+    scolomfr-voc-016-num-007:
+      i18n:
+        fr:
+          label: "compétence 7 - l'autonomie et l'initiative"
+
+"SCOLOM-9.1.3":
+  type: "MULTIPLE_CHOICE"
+  parent_scolom: "SCOLOM-9.1"
+  i18n:
+    fr:
+      label: "Public cible détaillé"
+      description: "Vocabulaire ScoLOMFR-voc-021, pour les référentiels définissant les publics cibles visés par la ressource."
+  choices:
+    scolomfr-voc-021-num-0001:
+      i18n:
+        fr:
+          label: animateur socioculturel
+    scolomfr-voc-021-num-0002:
+      i18n:
+        fr:
+          label: assistant
+          description: >
+            Personnel qui aide, seconde un
+            enseignant dans son travail avec les
+            élèves.
+    scolomfr-voc-021-num-0004:
+      i18n:
+        fr:
+          label: chef de travaux
+          description: >
+            Un chef de travaux est issu du corps
+            enseignant, il peut être déchargé ou
+            chargé de cours (4heures). Certains
+            enseignants peuvent faire fonction de
+            chef de travaux pour quelques heures.
+    scolomfr-voc-021-num-0006:
+      i18n:
+        fr:
+          label: collectivités territoriales
+    scolomfr-voc-021-num-0007:
+      i18n:
+        fr:
+          label: élève
+          description: >
+            Elève scolarisé de la maternelle au
+            lycée.
+    scolomfr-voc-021-num-0008:
+      i18n:
+        fr:
+          label: >
+            élève à besoins éducatifs
+            spécifiques
+          description: >
+            Elève suivant un enseignement adapté
+            et spécialisé ou élève en
+            difficulté.
+    scolomfr-voc-021-num-0009:
+      i18n:
+        fr:
+          label: enseignant des disciplines
+          description: >
+            Enseignant du secondaire,
+            collège-lycée.
+    scolomfr-voc-021-num-0010:
+      i18n:
+        fr:
+          label: enseignant documentaliste
+    scolomfr-voc-021-num-0011:
+      i18n:
+        fr:
+          label: enseignant du supérieur
+    scolomfr-voc-021-num-0012:
+      i18n:
+        fr:
+          label: étudiant
+          description: Apprenant du niveau post-baccalauréat.
+    scolomfr-voc-021-num-0013:
+      i18n:
+        fr:
+          label: parent
+    scolomfr-voc-021-num-0014:
+      i18n:
+        fr:
+          label: personnel administratif
+    scolomfr-voc-021-num-0015:
+      i18n:
+        fr:
+          label: "personnel d'éducation"
+    scolomfr-voc-021-num-0017:
+      i18n:
+        fr:
+          label: "personnel d'inspection"
+          description: "Personnel acteur de la communauté éducative mais n'ayant pas un rôle d'enseignant (donc non-enseignant)."
+    scolomfr-voc-021-num-0016:
+      i18n:
+        fr:
+          label: "personnel d'orientation"
+    scolomfr-voc-021-num-0018:
+      i18n:
+        fr:
+          label: >
+            personnel de bibliothèque et de
+            documentation
+          description: >
+            A utiliser pour les personnels de
+            bibliothèque et de documentation hors
+            communauté éducative.
+    scolomfr-voc-021-num-0019:
+      i18n:
+        fr:
+          label: personnel de direction
+    scolomfr-voc-021-num-0020:
+      i18n:
+        fr:
+          label: personnel de laboratoire
+    scolomfr-voc-021-num-0021:
+      i18n:
+        fr:
+          label: personnel de recherche et de formation
+    scolomfr-voc-021-num-0022:
+      i18n:
+        fr:
+          label: personnel médico-social
+    scolomfr-voc-021-num-0023:
+      i18n:
+        fr:
+          label: professeur des écoles
+    scolomfr-voc-021-num-0003:
+      i18n:
+        fr:
+          label: autre public
+          description: Public hors communauté éducative.
+
+"SCOLOM-9.1.4":
+  type: "MULTIPLE_CHOICE"
+  parent_scolom: "SCOLOM-9.1"
+  i18n:
+    fr:
+      label: "Niveau éducatif détaillé"
+      description: "Vocabulaire ScoLOMFR-voc-022, pour les référentiels typiquement utilisés pour définir le niveau des élèves/étudiants visés par une ressource."
+  choices:
+    scolomfr-voc-022-num-004:
+      i18n:
+        fr:
+          label: "école maternelle - toute petite section"
+    scolomfr-voc-022-num-005:
+      i18n:
+        fr:
+          label: "école maternelle - petite section"
+    scolomfr-voc-022-num-006:
+      i18n:
+        fr:
+          label: "école maternelle - moyenne section"
+    scolomfr-voc-022-num-007:
+      i18n:
+        fr:
+          label: "école maternelle - grande section"
+    scolomfr-voc-022-num-010:
+      i18n:
+        fr:
+          label: "école élémentaire - CP"
+    scolomfr-voc-022-num-011:
+      i18n:
+        fr:
+          label: "école élémentaire - CE1"
+    scolomfr-voc-022-num-013:
+      i18n:
+        fr:
+          label: "école élémentaire - CE2"
+    scolomfr-voc-022-num-014:
+      i18n:
+        fr:
+          label: "école élémentaire - CM1"
+    scolomfr-voc-022-num-015:
+      i18n:
+        fr:
+          label: "école élémentaire - CM2"
+    scolomfr-voc-022-num-018:
+      i18n:
+        fr:
+          label: "collège - 6ème"
+    scolomfr-voc-022-num-020:
+      i18n:
+        fr:
+          label: "collège - 5ème"
+    scolomfr-voc-022-num-021:
+      i18n:
+        fr:
+          label: "collège - 4ème"
+    scolomfr-voc-022-num-023:
+      i18n:
+        fr:
+          label: "collège - 3ème"
+    scolomfr-voc-022-num-025:
+      i18n:
+        fr:
+          label: "lycée - 2nd"
+    scolomfr-voc-022-num-028:
+      i18n:
+        fr:
+          label: "lycée - 1ère"
+    scolomfr-voc-022-num-039:
+      i18n:
+        fr:
+          label: "lycée - terminale"
+
+"SCOLOM-9.1.5":
+  type: "MULTIPLE_CHOICE"
+  parent_scolom: "SCOLOM-9.1"
+  i18n:
+    fr:
+      label: "Cadre pédagogique"
+      description: ""
+  choices:
+    scolomfr-voc-040-num-001:
+      i18n:
+        fr:
+          label: 3e insertion
+          description: >
+            Classe à effectif réduit réservée
+            aux élèves en grande difficulté
+            scolaire (au moins un an de retard)
+            et/ou en voie de décrochage scolaire.
+    scolomfr-voc-040-num-002:
+      i18n:
+        fr:
+          label: 4e aide et soutien
+    scolomfr-voc-040-num-003:
+      i18n:
+        fr:
+          label: "accompagnement à l'orientation"
+          description: "Concept à part entière, presque une discipline, regroupant à la fois du soutien, de l'approfondissement et de l'aide à l'orientation."
+    scolomfr-voc-040-num-004:
+      i18n:
+        fr:
+          label: accompagnement éducatif
+    scolomfr-voc-040-num-006:
+      i18n:
+        fr:
+          label: accompagnement personnalisé
+          description: "Organisé de l'école au lycée."
+    scolomfr-voc-040-num-008:
+      i18n:
+        fr:
+          label: accueil des primo-arrivants
+    scolomfr-voc-040-num-009:
+      i18n:
+        fr:
+          label: actions internationales
+          description: 'Voir : http://www.education.gouv.fr/cid49724/menc0913416c.html'
+    scolomfr-voc-040-num-010:
+      i18n:
+        fr:
+          label: >
+            adaptation scolaire et scolarisation des
+            élèves à besoins spécifiques
+    scolomfr-voc-040-num-011:
+      i18n:
+        fr:
+          label: aide individualisée
+    scolomfr-voc-040-num-012:
+      i18n:
+        fr:
+          label: "CLIN classe d'initiation"
+    scolomfr-voc-040-num-013:
+      i18n:
+        fr:
+          label: "CLIS classe d'intégration scolaire"
+    scolomfr-voc-040-num-014:
+      i18n:
+        fr:
+          label: culture scientifique et technologique
+    scolomfr-voc-040-num-016:
+      i18n:
+        fr:
+          label: >
+            dispositif de scolarisation des élèves
+            handicapés
+    scolomfr-voc-040-num-017:
+      i18n:
+        fr:
+          label: dispositif ECLAIR
+    scolomfr-voc-040-num-018:
+      i18n:
+        fr:
+          label: dispositif école ouverte
+    scolomfr-voc-040-num-019:
+      i18n:
+        fr:
+          label: >
+            dispositifs de soutien et de
+            remédiation scolaire
+    scolomfr-voc-040-num-020:
+      i18n:
+        fr:
+          label: dispositifs relais
+    scolomfr-voc-040-num-021:
+      i18n:
+        fr:
+          label: échange pédagogique de classes
+    scolomfr-voc-040-num-022:
+      i18n:
+        fr:
+          label: "éducation à l'image, au cinéma et à l'audiovisuel"
+    scolomfr-voc-040-num-027:
+      i18n:
+        fr:
+          label: "éducation à l'orientation et au choix"
+    scolomfr-voc-040-num-023:
+      i18n:
+        fr:
+          label: 'éducation à la citoyenneté - valeurs républicaines'
+    scolomfr-voc-040-num-024:
+      i18n:
+        fr:
+          label: éducation à la santé
+    scolomfr-voc-040-num-025:
+      i18n:
+        fr:
+          label: éducation à la sécurité
+    scolomfr-voc-040-num-026:
+      i18n:
+        fr:
+          label: éducation à la sécurité routière
+    scolomfr-voc-040-num-028:
+      i18n:
+        fr:
+          label: éducation artistique et culturelle
+    scolomfr-voc-040-num-029:
+      i18n:
+        fr:
+          label: >
+            éducation au développement et à la
+            solidarité
+    scolomfr-voc-040-num-030:
+      i18n:
+        fr:
+          label: éducation aux médias
+    scolomfr-voc-040-num-031:
+      i18n:
+        fr:
+          label: >
+            enseignement de la défense et de la
+            sécurité nationale
+    scolomfr-voc-040-num-032:
+      i18n:
+        fr:
+          label: enseignement renforcé des langues
+    scolomfr-voc-040-num-033:
+      i18n:
+        fr:
+          label: "EREA école régionale d'enseignement adapté"
+    scolomfr-voc-040-num-034:
+      i18n:
+        fr:
+          label: "formation à l'information et à la communication"
+    scolomfr-voc-040-num-035:
+      i18n:
+        fr:
+          label: >
+            gestion financière et matérielle des
+            établissements
+    scolomfr-voc-040-num-036:
+      i18n:
+        fr:
+          label: IDD (itinéraire de découverte)
+    scolomfr-voc-040-num-037:
+      i18n:
+        fr:
+          label: "internat d'excellence"
+    scolomfr-voc-040-num-038:
+      i18n:
+        fr:
+          label: 'liaison collège - lycée'
+    scolomfr-voc-040-num-039:
+      i18n:
+        fr:
+          label: liaison inter-cycles et inter-degrés
+    scolomfr-voc-040-num-040:
+      i18n:
+        fr:
+          label: 'liaison lycée - enseignement supérieur'
+    scolomfr-voc-040-num-041:
+      i18n:
+        fr:
+          label: 'liaison primaire - collège'
+    scolomfr-voc-040-num-042:
+      i18n:
+        fr:
+          label: LSF (langue des signes française)
+    scolomfr-voc-040-num-043:
+      i18n:
+        fr:
+          label: mémoire et histoire
+    scolomfr-voc-040-num-044:
+      i18n:
+        fr:
+          label: "organisation pédagogique des établissements d'enseignement"
+    scolomfr-voc-040-num-045:
+      i18n:
+        fr:
+          label: PAC (projet artistique et culturel)
+    scolomfr-voc-040-num-046:
+      i18n:
+        fr:
+          label: partenariat électronique inter-écoles
+    scolomfr-voc-040-num-047:
+      i18n:
+        fr:
+          label: >
+            PDMF (parcours découverte des métiers
+            et des formations)
+    scolomfr-voc-040-num-048:
+      i18n:
+        fr:
+          label: >
+            pilotage et gestion du système
+            éducatif
+    scolomfr-voc-040-num-049:
+      i18n:
+        fr:
+          label: >
+            PPCP (projet pluridisciplinaire à
+            caractère professionnel)
+    scolomfr-voc-040-num-050:
+      i18n:
+        fr:
+          label: pratique sportive
+    scolomfr-voc-040-num-051:
+      i18n:
+        fr:
+          label: prévention du décrochage scolaire
+    scolomfr-voc-040-num-052:
+      i18n:
+        fr:
+          label: prévention et lutte contre la violence
+    scolomfr-voc-040-num-053:
+      i18n:
+        fr:
+          label: projet inter-établissement
+    scolomfr-voc-040-num-054:
+      i18n:
+        fr:
+          label: RAR réseau ambition réussite
+    scolomfr-voc-040-num-055:
+      i18n:
+        fr:
+          label: relation école-entreprise
+    scolomfr-voc-040-num-056:
+      i18n:
+        fr:
+          label: relations extérieures et partenariats
+    scolomfr-voc-040-num-073:
+      i18n:
+        fr:
+          label: section binationale
+    scolomfr-voc-040-num-070:
+      i18n:
+        fr:
+          label: section européenne
+    scolomfr-voc-040-num-057:
+      i18n:
+        fr:
+          label: section européenne ou internationale
+    scolomfr-voc-040-num-071:
+      i18n:
+        fr:
+          label: section internationale
+    scolomfr-voc-040-num-072:
+      i18n:
+        fr:
+          label: section orientale
+    scolomfr-voc-040-num-058:
+      i18n:
+        fr:
+          label: "SEGPA section d'enseignement général et professionnel adapté"
+    scolomfr-voc-040-num-059:
+      i18n:
+        fr:
+          label: séjour et classe de découvertes
+    scolomfr-voc-040-num-060:
+      i18n:
+        fr:
+          label: "système d'évaluation"
+    scolomfr-voc-040-num-061:
+      i18n:
+        fr:
+          label: "TIPE (travaux d'initiative personnelle encadrés)"
+    scolomfr-voc-040-num-062:
+      i18n:
+        fr:
+          label: TPE (travaux personnels encadrés)
+    scolomfr-voc-040-num-063:
+      i18n:
+        fr:
+          label: "ULIS unité localisée pour l'inclusion scolaire"
+          description: 'Changement de dénomination en 2012. '
+    scolomfr-voc-040-num-065:
+      i18n:
+        fr:
+          label: vie scolaire
+
+"SCOLOM-9.2":
+  type: "MULTIPLE_NULL"
+  parent_scolom: "SCOLOM-9"
+  i18n:
+    fr:
+      label: "Chemin taxon"
+      description: "Cette sous-catégorie décrit un chemin taxonomique dans un système de classification spécifique. Chaque niveau successif est une précision apportée au niveau supérieur (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-9.2.1":
+  type: "STRING"
+  parent_scolom: "SCOLOM-9.2"
+  i18n:
+    fr:
+      label: "Source"
+      description: "Le nom du système de classification. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-9.2.2":
+  type: "MULTIPLE_NULL"
+  parent_scolom: "SCOLOM-9.2"
+  i18n:
+    fr:
+      label: "Taxon"
+      description: "Cette sous-catégorie décrit un terme particulier dans un système de classification hiérarchique ou dans une taxonomie. Un taxon est un noeud qui possède une étiquette ou un terme défini. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-9.2.2.1":
+  type: "STRING"
+  parent_scolom: "SCOLOM-9.2.2"
+  i18n:
+    fr:
+      label: "Id"
+      description: "L'identifiant du taxon comme nombre ou une combinaison de lettres fournie par la source de la taxinomie. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-9.2.2.2":
+  type: "STRING"
+  parent_scolom: "SCOLOM-9.2.2"
+  i18n:
+    fr:
+      label: "Entrée"
+      description: "L'étiquette texte du taxon. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-9.3":
+  type: "STRING"
+  parent_scolom: "SCOLOM-9"
+  i18n:
+    fr:
+      label: "Description"
+      description: "Description textuelle de la ressource relative à la classification. (source : LOMFR NF Z76-040 :2006)"
+
+"SCOLOM-9.4":
+  type: "MULTIPLE_STRING"
+  parent_scolom: "SCOLOM-9"
+  i18n:
+    fr:
+      label: "Descripteur"
+      description: "Mots clés relatifs à l'objectif de classification. (source : LOMFR NF Z76-040 :2006)"

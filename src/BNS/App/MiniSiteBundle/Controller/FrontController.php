@@ -2,89 +2,122 @@
 
 namespace BNS\App\MiniSiteBundle\Controller;
 
+use BNS\App\CoreBundle\Access\BNSAccess;
+use BNS\App\MiniSiteBundle\Model\MiniSite;
+use BNS\App\MiniSiteBundle\Model\MiniSitePage;
+use BNS\App\MiniSiteBundle\Model\MiniSiteQuery;
+use BNS\App\MiniSiteBundle\Model\MiniSiteWidget;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
-use BNS\App\CoreBundle\Annotation\Rights;
-use BNS\App\CoreBundle\Model\MiniSiteQuery;
-use BNS\App\CoreBundle\Model\MiniSitePeer;
-use BNS\App\CoreBundle\Model\MiniSitePagePeer;
-use BNS\App\CoreBundle\Model\MiniSiteWidgetPeer;
 
 /**
  * @author Sylvain Lorinet <sylvain.lorinet@pixel-cookers.com>
  */
 class FrontController extends AbstractMiniSiteController
 {
-	/**
-	 * @Route("/", name="BNSAppMiniSiteBundle_front")
-	 */
-	public function indexAction()
-	{
+    /**
+     * @Route("/", name="BNSAppMiniSiteBundle_front_old")
+     */
+    public function indexAction()
+    {
+        return $this->redirect($this->generateUrl('BNSAppMiniSiteBundle_front'));
+        /*
 		$context = $this->get('bns.right_manager')->getContext();
-		$miniSite = $this->getMiniSite(MiniSiteQuery::create()
-				->joinWith('MiniSitePage')
-				->joinWith('MiniSitePage.MiniSitePageText', \Criteria::LEFT_JOIN)
-				->joinWith('MiniSitePageText.User', \Criteria::LEFT_JOIN) // Author
-				->joinWith('User.Profile', \Criteria::LEFT_JOIN)
-				->joinWith('Profile.Resource', \Criteria::LEFT_JOIN)
-				->joinWith('MiniSiteWidget', \Criteria::LEFT_JOIN)
-				->joinWith('MiniSiteWidget.MiniSiteWidgetTemplate', \Criteria::LEFT_JOIN)
-				->joinWith('MiniSiteWidget.MiniSiteWidgetExtraProperty', \Criteria::LEFT_JOIN)
-				->add(MiniSitePagePeer::IS_ACTIVATED, true)
-				->add(MiniSitePeer::GROUP_ID, $context['id'])
-				->addAscendingOrderByColumn(MiniSitePagePeer::RANK)
-				->addAscendingOrderByColumn(MiniSiteWidgetPeer::RANK));
-		
-		if (!$this->isPublic()) {
-			throw new NotFoundHttpException('This minisite is NOT public and you NOT have the right to see it !');
+		$miniSite = $this->getMiniSite(MiniSiteQuery::create('ms')
+			->joinWith('ms.MiniSitePage msp')
+			->joinWith('msp.MiniSitePageText mspt', \Criteria::LEFT_JOIN)
+			->joinWith('ms.MiniSiteWidget msw', \Criteria::LEFT_JOIN)
+			->joinWith('msw.MiniSiteWidgetTemplate mswt', \Criteria::LEFT_JOIN)
+			->joinWith('msw.MiniSiteWidgetExtraProperty mswep', \Criteria::LEFT_JOIN)
+			->where('msp.IsActivated = ?', true)
+			->where('ms.GroupId = ?', $context['id'])
+			->orderBy('msp.Rank')
+			->orderBy('msw.Rank')
+		);
+
+		$homePage = $this->getHomePage($miniSite);
+		if (null == $homePage) {
+			return $this->redirect($this->generateUrl('home'));
 		}
-		
+
+		// Add view
+		$this->addViewToPage($homePage);
+
 		return $this->render('BNSAppMiniSiteBundle:Front:index.html.twig', array(
-            'minisite'  => $miniSite,
-			'page'		=> $this->getMiniSite()->getHomePage()
+            'miniSite'  => $miniSite,
+			'page'		=> $homePage,
+			'isPreview' => false
         ));
-	}
-	
+        */
+    }
+
 	/**
 	 * @Route("/{slug}", name="minisite_by_slug")
 	 */
 	public function bySlugAction($slug)
 	{
 		$miniSite = $this->getMiniSiteBySlug($slug);
-		if (!$this->isPublic()) {
-			throw new NotFoundHttpException('This minisite is NOT public and you NOT have the right to see it !');
+		if (null == $miniSite) {
+			return $this->redirect($this->generateUrl('home'));
 		}
-		
-		return $this->render('BNSAppMiniSiteBundle:Front:index.html.twig', array(
-            'minisite'  => $miniSite,
-			'page'		=> $this->getMiniSite()->getHomePage()
-        ));
+
+		$homePage = $this->getHomePage($miniSite);
+		if (null == $homePage) {
+			return $this->redirect($this->generateUrl('home'));
+		}
+
+		// Add view
+		$this->addViewToPage($homePage);
+
+        return $this->redirect($this->generateUrl('BNSAppMiniSiteBundle_front', ['slug' => $slug]));
+
+//		return $this->render('BNSAppMiniSiteBundle:Front:index.html.twig', array(
+//            'miniSite'  => $miniSite,
+//			'page'		=> $homePage,
+//			'isPreview' => false
+//        ));
 	}
-	
+
 	/**
-	 * @Route("/{miniSiteSlug}/{pageSlug}", name="minisite_page")
+	 * @Route("/{miniSiteSlug}/page/{pageSlug}", name="minisite_page")
+	 * @Route("/{miniSiteSlug}/page/{pageSlug}/previsualisation", name="minisite_page_preview", defaults={"isPreview": true})
 	 */
-	public function pageAction($miniSiteSlug, $pageSlug)
+	public function pageAction($miniSiteSlug, $pageSlug, $isPreview = false)
 	{
+		return $this->redirect($this->generateUrl('BNSAppMiniSiteBundle_front', ['slug' => $miniSiteSlug]).'/'.$pageSlug);
+
 		$miniSite = $this->getMiniSiteBySlug($miniSiteSlug);
-		if (!$this->isPublic()) {
-			throw new NotFoundHttpException('This minisite is NOT public and you NOT have the right to see it !');
-		}
-		
 		$page = $miniSite->findPageBySlug($pageSlug);
-		
-		if ($page === false) {
-			throw new NotFoundHttpException('The page with slug : ' . $pageSlug . ' on minisite with id : ' . $miniSite->getId() . ' is NOT found !');
+
+		if (!$this->canRead($page, $isPreview)) {
+			return $this->redirect($this->generateUrl('minisite_by_slug', array(
+				'slug'	=> $miniSiteSlug
+			)));
 		}
-		
+
+		// Add view
+		if (!$isPreview) {
+			$this->addViewToPage($page);
+		}
+
+		// Create page text if not exists
+		if ($page->getType() == 'TEXT' && null == $page->getMiniSitePageText()) {
+			$this->createPageText($page);
+		}
+
+		// Show published content is text page is published
+		if ($page->getType() == 'TEXT' && $page->getMiniSitePageText()->isPublished()) {
+			$isPreview = false;
+		}
+
 		return $this->render('BNSAppMiniSiteBundle:Front:index.html.twig', array(
-            'minisite'  => $miniSite,
-			'page'		=> $page
+            'miniSite'  => $miniSite,
+			'page'		=> $page,
+			'isPreview' => $isPreview
         ));
 	}
-	
+
 	/**
 	 * @param MiniSiteWidget $widget
 	 */
@@ -92,30 +125,60 @@ class FrontController extends AbstractMiniSiteController
 	{
 		$className	= '\\BNS\\App\\MiniSiteBundle\\Widget\\MiniSiteWidget' . ucfirst(Container::camelize(strtolower($abstractWidget->getMiniSiteWidgetTemplate()->getType())));
 		$widget		= $className::create($abstractWidget);
-		
+
 		return $this->render($widget->getViewPath(), array(
 			'widget'	=> $widget
 		));
 	}
-	
+
 	/**
-	 * @param \BNS\App\CoreBundle\Model\MiniSiteQuery $customQuery
+	 * @param MiniSiteQuery $customQuery
 	 */
 	protected function getMiniSiteBySlug($slug)
 	{
-		return parent::getMiniSite(MiniSiteQuery::create()
-			->joinWith('MiniSitePage')
-			->joinWith('MiniSitePage.MiniSitePageText', \Criteria::LEFT_JOIN)
-			->joinWith('MiniSitePageText.User', \Criteria::LEFT_JOIN) // Author
-			->joinWith('User.Profile', \Criteria::LEFT_JOIN)
-			->joinWith('Profile.Resource', \Criteria::LEFT_JOIN)
-			->joinWith('MiniSiteWidget', \Criteria::LEFT_JOIN)
-			->joinWith('MiniSiteWidget.MiniSiteWidgetTemplate', \Criteria::LEFT_JOIN)
-			->joinWith('MiniSiteWidget.MiniSiteWidgetExtraProperty', \Criteria::LEFT_JOIN)
-			->add(MiniSitePagePeer::IS_ACTIVATED, true)
-			->add(MiniSitePeer::SLUG, $slug)
-			->addAscendingOrderByColumn(MiniSitePagePeer::RANK)
-			->addAscendingOrderByColumn(MiniSiteWidgetPeer::RANK)
+		return parent::getMiniSite(MiniSiteQuery::create('ms')
+			->joinWith('ms.MiniSitePage msp')
+			->joinWith('msp.MiniSitePageText mspt', \Criteria::LEFT_JOIN)
+			->joinWith('ms.MiniSiteWidget msw', \Criteria::LEFT_JOIN)
+			->joinWith('msw.MiniSiteWidgetTemplate mswt', \Criteria::LEFT_JOIN)
+			->joinWith('msw.MiniSiteWidgetExtraProperty mswep', \Criteria::LEFT_JOIN)
+			->where('ms.Slug = ?', $slug)
+			->orderBy('msp.Rank')
+			->orderBy('msw.Rank')
 		);
+	}
+
+
+	/**
+	 * @param MiniSite $miniSite
+	 *
+	 * @return MiniSitePage
+	 */
+	private function getHomePage($miniSite)
+	{
+		$homePage = $miniSite->getHomePage();
+		if (!$this->canRead($homePage)) {
+			$homePage = null;
+
+			foreach ($miniSite->getMiniSitePages() as $page) {
+				if ($this->canRead($page)) {
+					$homePage = $page;
+					break;
+				}
+			}
+		}
+
+		return $homePage;
+	}
+
+	/**
+	 * @param MiniSitePage $page
+	 *
+	 * @return boolean
+	 */
+	private function canRead($page, $isPreview = false)
+	{
+		return !$isPreview && $page->isActivated() && ($page->isPublic() || BNSAccess::isConnectedUser() && $this->get('bns.right_manager')->hasRight('MINISITE_ACCESS')) ||
+				$isPreview && ($this->get('bns.right_manager')->hasRight('MINISITE_ADMINISTRATION') || $page->isEditor($this->getUser()));
 	}
 }

@@ -1,0 +1,22 @@
+{% trans_default_domain "MINISITE" %}
+
+<bns-expander label="{{ (section == 'edition' ? 'NAME_PAGE' : 'NAME_PAGES') | trans }}" is-open="true">
+
+  <div class="nav-list layout-column">
+    {% for pageRow in minisite.getMiniSitePages() %}
+      {% if (has_right('MINISITE_ADMINISTRATION') or pageRow.isEditor(app.user)) and (section == 'visualisation' or section == 'edition' and pageRow.getId() == page.getId()) %}
+        {{ components.button(pageRow.getTitle(), {
+          href: section == 'visualisation' ? path('minisite_manager_page', {'slug': pageRow.getSlug()}) : false,
+          icon: pageRow.getType() == 'TEXT' ? 'book' : 'list',
+          intent: pageRow.getId() == page.getId() ? 'primary'
+        }) }}
+      {% endif %}
+    {% else %}
+      <div class="md-body-1 md-padding">
+        {% trans %}NO_PAGE_ON_MINISITE_CREATE_ONE{% endtrans %}
+      </div>
+    {% endfor %}
+  </div>
+
+</bns-expander>
+

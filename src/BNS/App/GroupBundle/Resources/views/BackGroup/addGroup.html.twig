@@ -1,0 +1,41 @@
+{% trans_default_domain "GROUP" %}
+{% extends 'BNSAppGroupBundle:Back:layout.html.twig' %}
+
+{% block header %}
+	
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="align-left">
+						<a href="{{ path('BNSAppGroupBundle_group_list' , {'type' : groupType.type }) }}" class="btn bns-notice btn-24 medium"><span class="icons-24 back-icon"></span>{{ 'LINK_BACK_TO_LIST'|trans |desc('<strong>Retour</strong> à la liste') |raw }}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock header %}
+
+{% block content %}
+	
+	<div class="news-title">
+		<h1 class="dashboard">{{ 'TITLE_ADD_ONE_GROUPNAME'|trans({'%group%': groupType.label}) }}</h1>
+	</div>
+
+	<div class="span16">
+		<br />
+		<form action="" method="post" {{ form_enctype(form) }}>
+
+			{{ form_widget(form.label, { 'attr': {'placeholder': 'PLACEHOLDER_GROUP_NAME'|trans |desc("Nom du groupe")} }) }}
+			{{ form_rest(form) }}
+			
+			<a id="group-add-submit" href="#" class="btn bns-success validate-small btn-16">
+				<span class="icons-16 validate-icon"></span>
+				<strong>{{ 'LINK_VALIDATE'|trans |desc('Valider') }}</strong>
+			</a>
+
+		</form>
+	</div>
+
+{% endblock %}

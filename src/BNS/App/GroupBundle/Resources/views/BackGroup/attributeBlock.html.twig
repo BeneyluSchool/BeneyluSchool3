@@ -1,0 +1,10 @@
+{% trans_default_domain "GROUP" %}
+<tr>
+	<td>{{ attribute.getGroupTypeDataTemplate.getLabel() }}</td>
+	<td id="{{ group.slug }}-{{ attribute.getGroupTypeDataTemplateUniqueName }}" class="group-attribute" data-group-slug='{{ group.slug }}' data-template-name='{{ attribute.getGroupTypeDataTemplateUniqueName }}'>
+		{{ group.printAttribute(attribute.getGroupTypeDataTemplateUniqueName) is empty ? 'NO_VALUE'|trans |desc("Sans valeur") : group.printAttribute(attribute.getGroupTypeDataTemplateUniqueName, null, true) }}
+		<a href="#">
+			<img src="{{ asset('/medias/images/icons/edit.png')}}" class="edit-btn" />
+		</a>
+	</td>
+</tr>

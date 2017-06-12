@@ -3,6 +3,7 @@
 namespace BNS\App\HomeworkBundle\Controller;
 
 use BNS\App\CoreBundle\Annotation\Rights;
+use BNS\App\CoreBundle\Annotation\RightsSomeWhere;
 use BNS\App\CoreBundle\Model\GroupQuery;
 use BNS\App\HomeworkBundle\Form\Type\HomeworkType;
 use BNS\App\HomeworkBundle\Model\Homework;
@@ -17,87 +18,59 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use BNS\App\HomeworkBundle\Model\HomeworkPreferencesQuery;
 
 class BackAjaxController extends Controller
 {
 
     /**
-     * Suppresssion d'une occurence de devoir
-     * @Route("/devoirs/occurences/{dueId}/supprimer", name="BNSAppHomeworkBundle_backajax_homeworkdue_delete", options={"expose"=true})
-     */
-    public function deleteHomeworkDueAction($dueId)
-    {
-        $right_manager = $this->get('bns.right_manager');
-        $hd = HomeworkDueQuery::create()
-                ->findPk($dueId);
-
-        if (null == $hd) {
-            throw new NotFoundHttpException('The homework due with id : ' . $dueId . ' is not found !');
-        }
-
-        // si l'utilisateur n'est pas membre d'un groupe concerne par le devoir
-        // on renvoie une erreur forbidden
-        $is_allowed = $right_manager->hasRightInSomeGroups('HOMEWORK_ACCESS_BACK', $hd->getHomework()->getGroups()->getPrimaryKeys());
-        $right_manager->forbidIf(!$is_allowed);
-
-        // suppression d'une occurence de devoir
-        $hd->delete();
-
-        if ($this->getRequest()->isXmlHttpRequest()) {
-            return new Response();
-        } else {
-            return $this->redirect($this->generateUrl('BNSAppHomeworkBundle_back'));
-        }
-    }
-
-    /**
      * Gestion des occurences de devoirs d'une semaine donnee.
      * (recupere la liste des occurences et prepare leur gestion)
      * @Route("/gestion-semaine/{day}/{firstLoad}", name="BNSAppHomeworkBundle_backajax_manage_week", defaults={"firstLoad" = false}, options={"expose"=true})
-     * @Rights("HOMEWORK_ACCESS_BACK")
+     * @RightsSomeWhere("HOMEWORK_ACCESS_BACK")
      */
     public function manageForWeekBlockAction($day, $firstLoad)
     {
         if ($this->getRequest()->isXmlHttpRequest() || $firstLoad) {
+			$subjects_ids = $this->getRequest()->getSession()->get("subjects-session");
+			$groups_ids = $this->getRequest()->getSession()->get("groups-session");
+			$days_ids = $this->getRequest()->getSession()->get("weekdays-session");
 
-        $subjects_ids = $this->getRequest()->getSession()->get("subjects-session");
-        $groups_ids = $this->getRequest()->getSession()->get("groups-session");
-        $days_ids = $this->getRequest()->getSession()->get("weekdays-session");
+			// vérification des droits d'accès
+			$right_manager = $this->get('bns.right_manager');
 
-        // vérification des droits d'accès
-        $right_manager = $this->get('bns.right_manager');
+			// calcul des dates de: début et fin de semaine, semaines suivante et précédente
+			$start_day = strtotime($day);
+			$end_day = strtotime("+7 days", $start_day);
+			$previous_week = date("d-m-Y", strtotime("monday last week", $start_day));
+			$next_week = date("d-m-Y", strtotime("monday next week", $start_day));
 
-        // calcul des dates de: début et fin de semaine, semaines suivante et précédente
-        $start_day = strtotime($day);
-        $end_day = strtotime("+5 days", $start_day);
-        $previous_week = date("d-m-Y", strtotime("monday last week", $start_day));
-        $next_week = date("d-m-Y", strtotime("monday next week", $start_day));
+			// récupération des données travaux, sujets, matières
+			$groups = $right_manager->getGroupsWherePermission('HOMEWORK_ACCESS_BACK');
+			$homeworkdues = HomeworkDueQuery::create()->findForRangeForGroups($start_day, $end_day, $groups, $subjects_ids, $groups_ids, $days_ids);
+			$due_sorted = $this->groupHomeworkDuesByDate($homeworkdues);
 
+			// Récupérer les préférences pour afficher les jours et les travaux passés
+			$preferences = HomeworkPreferencesQuery::create()->findOrInit($right_manager->getCurrentGroupId());
 
-        // récupération des données travaux, sujets, matières 
-        $groups = $right_manager->getGroupsWherePermission('HOMEWORK_ACCESS_BACK');
-        $homeworkdues = HomeworkDueQuery::create()->findForRangeForGroups($start_day, $end_day, $groups, $subjects_ids, $groups_ids, $days_ids);
-        $due_sorted = $this->groupHomeworkDuesByDate($homeworkdues);
-		
-        return $this->render('BNSAppHomeworkBundle:Block:back_block_manageForWeek.html.twig', array(
-                    'day' => $day,
-                    'due_sorted' => $due_sorted,
-                    'start_day' => $start_day,
-                    'end_day' => $end_day,
-                    'previous_week' => $previous_week,
-                    'next_week' => $next_week,
-                ));
-        
-        } 
-        else {
-            return $this->redirect($this->generateUrl('BNSAppHomeworkBundle_back'));
-        }   
+			return $this->render('BNSAppHomeworkBundle:Block:back_block_manageForWeek.html.twig', array(
+				'day' => $day,
+				'due_sorted' => $due_sorted,
+				'start_day' => $start_day,
+				'end_day' => $end_day,
+				'previous_week' => $previous_week,
+				'next_week' => $next_week,
+				'preferences' => $preferences
+			));
+        }
+
+		return $this->redirect($this->generateUrl('BNSAppHomeworkBundle_back'));
     }
 
     /**
      * Creation d'un formulaire d'ajout rapide de devoir pour un jour donne.
      * @Route("/devoirs/formulaire-rapide/{day}", name="BNSAppHomeworkBundle_backajax_quick_form", options={"expose"=true})
-     * @Rights("HOMEWORK_ACCESS_BACK")
+     * @RightsSomeWhere("HOMEWORK_ACCESS_BACK")
      */
     public function createQuickForm($day)
     {
@@ -106,46 +79,44 @@ class BackAjaxController extends Controller
         $groups = $right_manager->getGroupsWherePermission('HOMEWORK_ACCESS_BACK');
 
         $subjects = HomeworkSubjectQuery::create()
-                ->orderByTreeLeft()
-                ->findByGroupId($current_group_id);
+			->orderByTreeLeft()
+		->findByGroupId($current_group_id);
 
         // set default values (given day, no recurrence)
         $homework = new Homework();
         $homework->setRecurrenceType(HomeworkPeer::RECURRENCE_TYPE_ONCE);
         $homework->setDate($day);
         $homework->setRecurrenceEndDate($day);
-        
+
         $homeworkform = $this->createForm(new HomeworkType($subjects, $groups, $right_manager->getLocale()), $homework)->createView();
 
         return $this->render('BNSAppHomeworkBundle:Block:back_block_quick_create.html.twig', array(
-                    'day' => $day,
-                    'homework_form' => $homeworkform
-                ));
+			'day' => $day,
+			'homework_form' => $homeworkform
+		));
     }
-    
-    
+
+
     /**
      * Ajout rapide d'un nouveau travail pour un/des groupes
      * @param Request $request
      * @Route("/devoirs/ajout-rapide", name="BNSAppHomeworkBundle_backajax_quick_add", options={"expose"=true})
-     * @Rights("HOMEWORK_ACCESS_BACK")
+     * @RightsSomeWhere("HOMEWORK_ACCESS_BACK")
      */
     public function quickAddHomeworkAction(Request $request)
     {
-
         if ($request->getMethod() == 'POST') {
-
             $right_manager = $this->get('bns.right_manager');
             $current_group_id = $right_manager->getCurrentGroupId();
             $groups = $right_manager->getGroupsWherePermission('HOMEWORK_ACCESS_BACK');
 
             $subjects = HomeworkSubjectQuery::create()
                 ->orderByTreeLeft()
-                ->findByGroupId($current_group_id);
+			->findByGroupId($current_group_id);
 
             $homework = new Homework();
             $form = $this->createForm(new HomeworkType($subjects, $groups, $right_manager->getLocale()), $homework);
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid() && $homework->getGroups()->count() > 0) {
 
@@ -153,9 +124,10 @@ class BackAjaxController extends Controller
 
                 // process this homework to create related dues and tasks
                 $this->get('bns.homework_manager')->processHomework($homework);
-                
+
                 return new Response();
-            } else {
+            }
+			else {
                 throw new HttpException(400, "Homework is not valid");
             }
         }
@@ -176,7 +148,7 @@ class BackAjaxController extends Controller
             if ($this->getRequest()->get('subject_title', false) === false) {
                 throw new \InvalidArgumentException('There is one missing mandatory field !');
             }
-			
+
             $right_manager = $this->get('bns.right_manager');
             $current_group_id = $right_manager->getCurrentGroupId();
 
@@ -193,11 +165,15 @@ class BackAjaxController extends Controller
             }
 
             $subject->save();
-			
-			$view = 'BNSAppHomeworkBundle:Block:back_block_subject_row.html.twig';
-			if ($isManage) {
-				$view = 'BNSAppHomeworkBundle:Subject:back_subject_management_row.html.twig';
-			}
+
+	    $view = 'BNSAppHomeworkBundle:Block:back_block_subject_row.html.twig';
+	    if ($isManage) {
+		    $view = 'BNSAppHomeworkBundle:Subject:back_subject_management_row.html.twig';
+	    }
+	    if ($this->getRequest()->get('quick_add') == true) {
+		    $view = 'BNSAppHomeworkBundle:Subject:back_subject_management_row_form.html.twig';
+            }
+
             return $this->render($view, array(
 				'subject' => $subject
 			));
@@ -205,9 +181,10 @@ class BackAjaxController extends Controller
 
         return $this->redirect($this->generateUrl('BNSAppHomeworkBundle_back'));
     }
-	
+
 	/**
 	 * @Route("/matiere/ajouter/management", name="homework_manager_subject_add_management")
+     * @Rights("HOMEWORK_ACCESS_BACK")
 	 */
 	public function addSubjectManageAction()
 	{
@@ -217,24 +194,28 @@ class BackAjaxController extends Controller
     /**
      * Edition d'une matiere existante
      * @Route("/matiere/edited", name="BNSAppHomeworkBundle_backajax_subject_edit", options={"expose"=true})
-	 * @Rights("HOMEWORK_ACCESS_BACK")
+     * @RightsSomeWhere("HOMEWORK_ACCESS_BACK")
      */
-    public function editSubjectAction()
+    public function editSubjectAction(Request $request)
     {
-        if ('POST' == $this->getRequest()->getMethod() && $this->getRequest()->isXmlHttpRequest()) {
+        if ('POST' == $request->getMethod() && $request->isXmlHttpRequest()) {
 
-            if ($this->getRequest()->get('subject_title', false) === false || $this->getRequest()->get('id', false) === false) {
+            if ($request->get('subject_title', false) === false || $request->get('id', false) === false) {
                 throw new \InvalidArgumentException('There is one missing mandatory field !');
             }
-			
-			$subjectId = $this->getRequest()->get('id');
+
+			$subjectId = $request->get('id');
             $subject = HomeworkSubjectQuery::create()->findPk($subjectId);
-			
+
             if (null == $subject) {
                 throw new NotFoundHttpException('The subject with id : ' . $subjectId . ' is not found !');
             }
 
-            $subject->setName($this->getRequest()->get('subject_title'));
+            if (!$this->get('bns.right_manager')->hasRight('HOMEWORK_ACCESS_BACK', $subject->getGroupId())) {
+                throw $this->createAccessDeniedException();
+            }
+
+            $subject->setName($request->get('subject_title'));
             $subject->save();
 
             return new Response();
@@ -246,7 +227,7 @@ class BackAjaxController extends Controller
     /**
      * Suppression d'une matiere
      * @Route("/matiere/supprimer", name="BNSAppHomeworkBundle_backajax_subject_delete", options={"expose"=true})
-     * @Rights("HOMEWORK_ACCESS_BACK")
+     * @RightsSomeWhere("HOMEWORK_ACCESS_BACK")
      */
     public function deleteSubjectAction()
     {
@@ -254,10 +235,10 @@ class BackAjaxController extends Controller
 			if ($this->getRequest()->get('id', false) === false) {
                 throw new \InvalidArgumentException('There is one missing mandatory field !');
             }
-			
+
 			$subjectId = $this->getRequest()->get('id');
             $subject = HomeworkSubjectQuery::create()->findPk($subjectId);
-			
+
             if (null == $subject) {
                 throw new NotFoundHttpException('The subject with id : ' . $subjectId . ' is not found !');
             }
@@ -277,7 +258,7 @@ class BackAjaxController extends Controller
     /**
      * Ajoute une matiere en session pour l'utiliser comme filtre d'affichage sur les devoirs
      * @Route("/matiere/session/{subjectId}/{add}", name="BNSAppHomeworkBundle_backajax_subject_session", options={"expose"=true})
-     * @Rights("HOMEWORK_ACCESS_BACK")
+     * @RightsSomeWhere("HOMEWORK_ACCESS_BACK")
      */
     public function sessionSubjectAction($subjectId, $add)
     {
@@ -322,7 +303,7 @@ class BackAjaxController extends Controller
     /**
      * Ajoute un groupe en session pour l'utiliser comme filtre d'affichage sur les devoirs
      * @Route("/matiere/group/{groupId}/{add}", name="BNSAppHomeworkBundle_backajax_group_session", options={"expose"=true})
-     * @Rights("HOMEWORK_ACCESS_BACK")
+     * @RightsSomeWhere("HOMEWORK_ACCESS_BACK")
      */
     public function sessionGroupAction($groupId, $add)
     {
@@ -363,12 +344,12 @@ class BackAjaxController extends Controller
 
         return $this->redirect($this->generateUrl('BNSAppHomeworkBundle_back'));
     }
-    
-    
+
+
     /**
      * Ajoute un groupe en session pour l'utiliser comme filtre d'affichage sur les devoirs
      * @Route("/matiere/day/{dayId}/{add}", name="BNSAppHomeworkBundle_backajax_day_session", options={"expose"=true})
-     * @Rights("HOMEWORK_ACCESS_BACK")
+     * @RightsSomeWhere("HOMEWORK_ACCESS_BACK")
      */
     public function sessionDayAction($dayId, $add)
     {
@@ -376,7 +357,7 @@ class BackAjaxController extends Controller
 
             $right_manager = $this->get('bns.right_manager');
             $current_group_id = $right_manager->getCurrentGroupId();
-            
+
             $is_allowed = $right_manager->hasRight('HOMEWORK_ACCESS_BACK', $current_group_id);
             $right_manager->forbidIf(!$is_allowed);
 
@@ -406,10 +387,11 @@ class BackAjaxController extends Controller
 
         return $this->redirect($this->generateUrl('BNSAppHomeworkBundle_back'));
     }
-    
+
     /**
-     * 
+     *
      * @Route("/matiere/sauvegarder", name="homework_manager_subject_save", options={"expose"=true})
+     * @RightsSomeWhere("HOMEWORK_ACCESS_BACK")
      */
     public function saveSubjectAction()
     {

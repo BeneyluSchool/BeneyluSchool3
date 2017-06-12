@@ -1,0 +1,8 @@
+{% macro errors(input) %}
+	{% if input.vars.errors|length > 0 %}
+		<div class="alert alert-danger bns-alert">
+			{{ form_errors(input) }}
+			<div class="jim"></div>
+		</div>
+	{% endif %}
+{% endmacro %}

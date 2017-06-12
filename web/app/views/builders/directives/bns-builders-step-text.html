@@ -1,0 +1,25 @@
+<div class="layout-row" ng-if="ctrl.book.answers[ctrl.step]" ng-hide="ctrl.editing">
+  <blockquote ng-bind-html="ctrl.book.answers[ctrl.step]|nl2br" class="flex"></blockquote>
+  <md-button class="md-icon-button" ng-click="ctrl.setupEdit()">
+    <md-icon>edit</md-icon>
+  </md-button>
+</div>
+
+<form ng-show="!ctrl.book.answers[ctrl.step] || ctrl.editing" ng-submit="ctrl.submitAnswer(ctrl.step)">
+  <div class="layout-row">
+    <div class="flex">
+      <md-input-container md-no-float>
+        <textarea ng-model="ctrl.answers[ctrl.step]" rows="4" placeholder="{{ 'BUILDERS.LABEL_WRITE_YOUR_ANSWER_'+ctrl.book.story+'_'+ctrl.step | translate }}"></textarea>
+      </md-input-container>
+    </div>
+    <md-button type="button" ng-if="ctrl.editing" class="md-icon-button" ng-click="ctrl.cancelEdit()">
+      <md-icon>undo</md-icon>
+    </md-button>
+  </div>
+
+  <div class="layout-row layout-align-center-center">
+    <md-button type="submit" ng-disabled="ctrl.busy" class="md-primary md-raised">
+      <span translate>BUILDERS.BUTTON_SAVE_ANSWER</span>
+    </md-button>
+  </div>
+</form>

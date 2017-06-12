@@ -1,0 +1,7 @@
+BNS\App\HomeworkBundle\Model\HomeworkPreferences:
+  exclusion_policy: All
+
+  virtual_properties:
+    getDaysSorted:
+      expose: true
+      serialized_name: days

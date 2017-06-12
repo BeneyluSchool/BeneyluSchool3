@@ -1,62 +1,25 @@
-{% extends 'BNSAppResourceBundle:Front:layout.html.twig' %}
+{# ToolBar settings #}
+{% include 'BNSAppResourceBundle:ToolBar:toolbar_settings.html.twig' with {
+	'navigationContext': 'GALLERY'
+} %}
 
-{% block javascripts %}
-	{{ parent() }}
-{% endblock %}
-
-{% block content %}
-<div class="span12">
-    <div class="resource-content add main-content">
-        <div class="resource-content-left">
-            <div class="resource-content-left-top"></div>
-        </div>
-			
-		<div class="full-height">
-			
-			
-			
-
-			<div class="resource-add-choose-content full-height">
-				
-				<div class="resource-add-choose-title">
-					<h1 class="add-file-button">Ajout de document</h1>
-				</div>
-
-				<div class="resource-add-buttons">
-
-					<a href="{{ path('BNSAppResourceBundle_add_files') }}">
-						<span class="files resource-add-buttons-content">
-							<span>
-								Envoyer des fichiers
-							</span>
-						</span>
-					</a>
-
-					<a href="{{ path('BNSAppResourceBundle_add_url') }}">
-						<span class="link resource-add-buttons-content">
-							<span>
-								Enregistrer des liens
-							</span>
-						</span>
-					</a>
-
-					<a href="#">
-						<span class="workshop resource-add-buttons-content">
-							<span>
-								Bientôt l'atelier
-							</span>
-						</span>
-					</a>
-				</div>
-			</div>
+<div class="full-height">
+	<div class="resource-add-choose-content full-height">	
+		<div class="resource-add-buttons">
+			<a href="{{ path('BNSAppResourceBundle_add_files') }}" rel="history">
+				<span class="files resource-add-buttons-content">
+					<span>
+						Envoyer des documents
+					</span>
+				</span>
+			</a>
+			<a href="{{ path('BNSAppResourceBundle_add_url') }}" rel="history">
+				<span class="link resource-add-buttons-content">
+					<span>
+						Enregistrer des liens
+					</span>
+				</span>
+			</a>
 		</div>
-        <div class="resource-content-right add-choose-right">
-            <div class="resource-content-right-top"></div>
-        </div>
-    </div>
+	</div>
 </div>
-{% endblock %}
-	
-{% block tool_bar %}
-	{% render "BNSAppResourceBundle:Front:toolbar" with {'page' : "add-choose"} %}
-{% endblock %}

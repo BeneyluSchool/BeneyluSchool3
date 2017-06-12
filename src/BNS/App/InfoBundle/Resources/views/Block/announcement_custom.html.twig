@@ -1,0 +1,45 @@
+{% trans_default_domain "INFO" %}
+
+<div class="info-item item row-fluid announcement {{ announcement.isReadBy(user) ? 'is-read' : ""}}">
+    {% if announcement.resource %}
+        <div class="span2 image-container">
+            <img class="announcement-image" src="{{ create_visualisation_url_resource(announcement.resource,true,false,"small") }}" />
+        </div>
+    {% endif %}
+    <div class="{{  announcement.resource ? 'span10' : 'span11'}}">
+        <div class="header">
+            <h3>{{ announcement.label }}</h3>
+        </div>
+        <div class="text">
+            {% autoescape false %}
+                {{ announcement.description }}
+            {% endautoescape %}
+        </div>
+        <div class="footer">
+            {{ 'WRITE_DATE'|trans({'%date%':date_from_now(announcement.createdAt, false, true)}) |desc('Écrit %date%') |raw }}
+        </div>
+        <div class="buttons-container ">
+            {% if announcement.participable %}
+                {% if not announcement.isParticipateBy(user) %}
+                    <a href="{{ path('BNSAppInfoBundle_announcement_participate' , {'slug' : announcement.slug }) }}" class="btn read bns-info btn-16 small">
+                        <span class="icons-16 add-icon"></span>
+                        <strong>{{ announcement.participationLabel != "" ? announcement.participationLabel : 'LINK_PARTICIPATE' |trans |desc('Participer') }}</strong>
+                    </a>
+                {% else %}
+                    <a href="{{ path('BNSAppInfoBundle_announcement_unparticipate' , {'slug' : announcement.slug }) }}" class="btn read bns-success btn-16 small">
+                        <span class="icons-16 validate-icon"></span>
+                        {{ 'LINK_PARTICITATION_SAVE_CLICK_TO_CANCEL'|trans |desc('<strong>Participation enregistrée</strong> (cliquer pour annuler)') |raw }}
+
+
+                    </a>
+                {% endif %}
+            {% endif %}
+            {% if not announcement.isReadBy(user) %}
+                <a href="{{ path('BNSAppInfoBundle_announcement_read' , {'slug' : announcement.slug }) }}" class="btn read bns-notice btn-16 small">
+                    <span class="icons-16 preview-icon"></span>
+                    {{ 'LINK_INDICATED_AS_READ'|trans |desc('<strong>Marquer</strong> comme lu') |raw }}
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>

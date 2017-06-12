@@ -1,0 +1,77 @@
+{% trans_default_domain "STATISTICS" %}
+
+<div class="classroom-stats-container">
+    <h1 class="dashboard">{{ 'TITLE_STATISTIC_GROUP'|trans({'%groupName%': group_name}) |desc('Statistiques : %groupName%') }}</h1>
+    <div id="titleGraph" class="hide" value="{{ stats.title }}">
+    </div>
+    <div id="periodGraph" class="hide" value="{{ stats.period }}"></div>
+    <input id="range" class="hide" data-day="{{ stats.day }}" data-month="{{ stats.month }}" data-year="{{ stats.year }}"/>
+
+    <input id="data" data-name="{{ stats.name }}" data-code="{{ stats.data }}" class="hide" />
+
+    <div id="size" class="hide" value="{{ stats.size }}">
+    </div>
+    <div class="stats-list">
+
+        <form id="form_stats" method="POST">
+
+            <p><strong>{{ 'CHOOSE_INDICATOR'|trans |desc('Choisir un indicateur :') }}</strong></p>
+            {{ form_widget(form.marker, {'attr': {'class': 'indicators'}}) }}
+
+            <h2>
+                {{ 'TITLE_GRAPH'|trans |desc('Graphique') }}
+
+                {#<a href="{{ path(controller_path) }}" class="pull-right btn small bns-warning" id="export-button">
+                    Exporter les données
+                </a>#}
+                <div class="pull-right">
+                    <a href="#" id="show-filters" class="pull-right btn bns-notice btn-16 small btn-stats" data-show="{{ 'LINK_DISPLAY_FILTER'|trans |desc('Afficher les filtres') }}" data-hide="{{ 'LINK_HIDE_FILTER'|trans |desc('Cacher les filtres') }}">
+                        <span class="icons-16 preview-icon"></span>
+                        <strong>{{ 'LINK_DISPLAY_FILTER'|trans |desc('Afficher les filtres') }}</strong>
+                    </a>
+                    <a href="#" class="pull-right btn bns-success btn-16 small finish btn-stats">
+                        <span class="icons-16 validate-icon"></span>
+                        <strong>{{ 'LINK_GENERATE_GRAPH'|trans |desc('Générer le graphique') }}</strong>
+                    </a>
+                </div>
+            </h2>
+            <div id="filters" class="filters-content {% if not expandFilters %}hide{% endif %}">
+                <div class="filters-row">
+                    <span class="filter-item">
+                        <p><strong>{{ 'FILTER_BY_ROLE'|trans |desc('Filtrer par rôle :') }}</strong></p>
+                        {{ form_widget(form.group_type) }}
+                    </span>
+                </div>
+                
+                <div class="filters-row last">
+                    <span class="filter-item">
+                        <p><strong>{{ 'FILTER_BEGIN_DATE'|trans |desc('Filtrer la date de début :') }}</strong></p>
+                        {#{{ form_widget(form.date_start) }}#}
+                        {{ form_widget(form.date_start) }}
+                    </span>
+
+                    <span class="filter-item">
+                        <p><strong>{{ 'FILTER_END_DATE'|trans |desc('Filtrer la date de fin :') }}</strong></p>
+                        {#{{ form_widget(form.date_end) }}#}
+                        {{ form_widget(form.date_end) }}
+                    </span>
+                </div>
+
+                <div class="hide">
+                    {{ form_widget(form.title) }}
+                    {{ form_widget(form.graph_pro) }}
+                    <p><strong>{{ 'TIME_SCALE'|trans |desc('Echelle de temps :') }}</strong></p>
+                    {{ form_widget(form.period) }}
+                    <p><strong>{{ 'JOIN_GROUP'|trans |desc('Agréger les groupes :') }}</strong></p>
+                    {{ form_widget(form.aggregation) }}
+                </div>
+                
+                {{ form_rest(form) }}
+
+                <div class="clearfix"></div>
+            </div>
+        </form>
+
+        <div id="connexion-container" class="chart"></div>
+    </div>
+</div>

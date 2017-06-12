@@ -1,93 +1,418 @@
+{% trans_default_domain "CLASSROOM" %}
 {% extends 'BNSAppClassroomBundle:Layout:manager.html.twig' %}
 
 {% block title %}
-	Classe - Ma classe
+    {{ 'TITLE_MY_CLASS'|trans |desc('Classe - Ma Classe') }}
+{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+	<link href="{{ asset('/medias/css/classroom/form_modal.css') }}" rel="stylesheet" type="text/css" />
+	<link href='https://fonts.googleapis.com/css?family=Jockey+One' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 {% endblock %}
 
 {% block javascripts %}
-	{{ parent() }}
+  {{ parent() }}
 
-	<script type="text/javascript">
-				{# Variable qui permet de garder en mémoire quel formulaire il faut rappeler lorsque l''utilisateur clique sur le bouton "Créer et continuer" #}
-			 var $createMore = false;
-	</script>
-	<script type="text/javascript" src="{{ asset('medias/js/jquery.form.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('/medias/js/classroom/back-users.js') }}"></script>
+    <script type="text/javascript">
+        $(function ()
+        {
+            $('.item-list-container .item').live("click", function (e)
+            {
+                window.location = $(e.currentTarget).find('.btn-visualisation').attr('href');
+            });
+
+            // Dropdown buttons
+            $('.add-user-button').click(function (e)
+            {
+                e.preventDefault();
+
+                var $this = $(e.currentTarget),
+                        url = Routing.generate('classroom_manager_add_teacher'),
+                        $loader = $('#add-user-modal .loader');
+
+                if ($this.data('role') == 'pupil') {
+                    url = Routing.generate('classroom_manager_add_pupil');
+                }
+
+                if ($this.data('role') == 'pupil') {
+                    url = Routing.generate('classroom_manager_add_pupil');
+                    $('#add-user-modal .user-role-label').text("{{ 'ADD_NEW_PUPIL'|trans |desc('Ajouter un nouvel élève') }}");
+                } else if ($this.data('role') == 'teacher') {
+                    $('#add-user-modal .user-role-label').text("{{ 'ADD_NEW_TEACHER'|trans |desc('Ajouter un nouvel enseignant') }}");
+                } else if ($this.data('role') === 'assistant') {
+                    url = Routing.generate('classroom_manager_add_assistant');
+                    $('#add-user-modal .user-role-label').text("{{ 'ADD_NEW_ASSISTANT'|trans |desc('Ajouter un nouvel auxiliaire') }}");
+                }
+                $('#add-user-modal .form-content').html('');
+                $loader.fadeIn('fast');
+
+                $.ajax({
+                    url: url,
+                    success: function (form) {
+                        $('#add-user-modal .form-content').html(form);
+                        $loader.fadeOut('fast', function () {
+                            $(this).hide();
+                        });
+                    }
+                });
+            });
+
+            // Verify username
+            $('body').on('submit', '#add-user-modal form#verify-user', function (e)
+            {
+                var $this = $(e.currentTarget),
+                        username = $this.find('#username-to-check').val(),
+                        $row = $this.parent(),
+                        $loader = $row.find('.loader');
+
+                //Si l'username n'est pas renseigné
+                if($.trim(username) == "")
+                {
+                    return false;
+                }
+
+                $loader.fadeIn('fast');
+
+                $.ajax({
+                    url: $this.attr('action'),
+                    type: 'POST',
+                    dataType: 'html',
+                    data: {'username': username},
+                    success: function (data)
+                    {
+                        $data = $row.find('.verify-result');
+                        if ($data.length == 0) {
+                            $row.append(data);
+                        }
+                        else {
+                            $data.replaceWith(data);
+                        }
+
+                        $loader.fadeOut('fast');
+                    }
+                });
+
+                return false;
+            });
+
+            // Close alert for verify result username
+            $('body').on('click', '#add-user-modal .verify-result .close', function (e)
+            {
+                var $this = $(e.currentTarget);
+                $row = $this.parent().parent(),
+                        $username = $('#username-to-check');
+
+                $row.slideUp('fast', function () { $(this).remove() });
+                $username.val('');
+                $username.focus();
+            });
+
+            // Invite teacher to join classroom
+            $('body').on('click', '#add-user-modal .verify-result .btn-invite-teacher', function (e)
+            {
+                var $this = $(e.currentTarget),
+                        $row = $this.parent().parent().parent()
+                $loader = $row.find('.loader'),
+                        $verifyDiv = $row.find('.verify-result'),
+                        $usernameInput = $row.find('#username-to-check');
+
+                $loader.fadeIn('fast');
+
+                $.ajax({
+                    url: $this.attr('href'),
+                    type: 'POST',
+                    data: {'username': $this.data('username')},
+                    success: function ()
+                    {
+                        $verifyDiv.slideUp('fast', function () { $(this).remove() });
+                        $usernameInput.val('');
+                        $usernameInput.focus();
+                        $loader.fadeOut('fast');
+                    }
+                });
+
+                return false;
+            });
+
+            // Submit & continue or not
+            $('body').on('click', '#add-user-modal .modal-footer .finish', function (e)
+            {
+                var $this = $(e.currentTarget),
+                        $loader = $('#add-user-modal .loader').first();
+
+                $loader.fadeIn('fast');
+                $('.form-content').ajaxSuccess(function (e, xhr)
+                {
+                    if($('.result.lastRegistedUser') != null)
+                    {
+                        if($this.hasClass('pupil'))
+                        {
+                            $('.no-item').hide();
+                            $('.item-list-container.pupil').prepend($('.result.lastRegistedUser').html());
+                        }
+                        else if($this.hasClass('teacher'))
+                        {
+                            $('.item-list-container.teacher').prepend($('.result.lastRegistedUser').html());
+                        }
+                    }
+                    if (!$this.hasClass('and-new') && $(xhr.responseText).find('.alert-danger').length == 0) {
+                        $('#add-user-modal').modal('hide');
+
+                        if($this.hasClass('pupil'))
+                        {
+                            $('.alert.alert-success.bns-alert.pupil').slideDown('fast');
+                        }
+                        else if($this.hasClass('teacher'))
+                        {
+                            $('.alert.alert-success.bns-alert.teacher').slideDown('fast');
+                        }
+                        setTimeout(function ()
+                        {
+                            $('.alert.alert-success.bns-alert').slideUp('fast');
+                        }, 8000);
+
+                    }
+                    else {
+                        $loader.fadeOut('fast');
+                    }
+
+                    $(this).unbind(e);
+                });
+
+                $('#add-user-modal form#add-user-classroom-form').ajaxSubmit({
+                    target: '.form-content'
+                });
+
+                return false;
+            });
+
+            // Show loader when generate classroom card
+            $('#generate-fiche-classroom .generate-button').click(function ()
+            {
+                $('#generate-fiche-classroom .loader').fadeIn('fast');
+                setTimeout(function ()
+                {
+                    $('#generate-fiche-classroom').modal('hide');
+                    $('#generate-fiche-classroom .loader').css('display', 'none');
+                }, 10000);
+            });
+            $('#bouton_submit').click(function(){
+                if($('.row_check input:checked').length != 0) {
+                    $('.form_fiche_users').submit();
+                }
+            });
+
+
+            $('.form_fiche_users').hide();
+            $('#detail').hide();
+            $('.row_check').last().hide();
+
+            $('#detail').click(function(){
+                if(($('.form_fiche_users').css('display'))=="none") {
+                    $('.icon_dropdown').attr('src', "{{ asset('medias/images/classroom/modal/icon_dropdown.png') }}");
+                }
+                else{
+                    $('.icon_dropdown').attr('src', "{{ asset('medias/images/classroom/modal/icon_dropdown_closed.png') }}");
+                }
+                $('.form_fiche_users').slideToggle();
+
+            });
+
+            $('#check_choix').click(function(){
+                $('#detail').toggle();
+                $('.form_fiche_users').hide();
+                $('#check_parents').prop('checked', false);
+                $('#check_eleves').prop('checked', false);
+                if($("#check_choix").prop('checked') == true) {
+                    $(".form_fiche_users input:checkbox").prop('checked', false);
+                    $('.form_fiche_users').show('slow');
+                    $('#generate-fiche-classroom').css('height', '650px');
+                    $('.modal-body').css('height', '543px');
+                    $('.form_fiche_user').slideDown();
+                }
+                else {
+                    $('#generate-fiche-classroom').css('height', '543px');
+                    $('.modal-body').css('height', '436px');
+                }
+            });
+
+            $('#check_parents').click(function (){
+                for(var i={{ pupils|length }}; i<($('.row_check').length-1); i++)
+                    $('.row_check input').eq(i).prop('checked', $(this).prop("checked"));
+            });
+
+            $('#check_eleves').click(function (){
+                for(var i=0; i<{{ pupils|length }}; i++)
+                    $('.row_check input').eq(i).prop('checked', $(this).prop("checked"));
+            });
+
+            $('.row_check').each(function(){
+                $(this).click(function(){
+                    var check = $('input', this);
+                    check.prop("checked", !check.prop("checked"));
+                })
+            });
+            $('.row_check input').each(function(){
+                $(this).click(function(){
+                    $(this).prop("checked", !$(this).prop("checked"));
+                })
+            });
+            $('.row_check label').each(function(){
+                var check = $(this).next();
+                $(this).click(function(){
+                    check.prop("checked", !check.prop("checked"));
+                })
+            });
+        });
+    </script>
+  <script type="text/javascript" src="{{ asset('medias/js/jquery.form.js') }}"></script>
 {% endblock %}
 
 {% block sidebar %}
-	{% include 'BNSAppClassroomBundle:Sidebar:sidebar.html.twig' with {'page': 'classroom', 'section': 'users' } %}
+  {% include 'BNSAppClassroomBundle:Sidebar:sidebar.html.twig' with {'page': 'classroom', 'section': 'users' } %}
 {% endblock sidebar %}
 
-
-
 {% block header %}
-	<div class="header-buttons">
-		<div class="inner-header">
-			<div class="container container-fluid">
-				<div class="row-fluid">
-					<div class="span5">
-						<div class="content-add-btn agenda btn-group">
-							<a href="#" class="btn save btn-new-article bns-info btn-24 large dropdown-toggle" data-toggle="dropdown"><span class="icons-24 add-icon"></span>Ajouter un nouvel utilisateur <span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li><a href="#add-user-modal" data-role="teacher" data-role-label="enseignant" data-toggle="modal" class="add-user-button">Ajouter un enseignant</a></li>
-								<li><a href="#add-user-modal" data-role="pupil" data-role-label="élève" data-toggle="modal" class="add-user-button">Ajouter un élève</a></li>
-								<li><a href="{{ path('back_classroom_users_import_csv_pupil') }}">Importer mes élèves depuis un fichier CSV</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="span7 align-right">
-						{% if teachers|length > 1 %}
-							<a href="#" class="btn bns-danger btn-24 medium-return leave-classroom-teacher"  data-toggle="modal" data-target="#leave-classroom-modal">
-								<span class="icons-24 cancel-icon"></span>
-								<strong>Quitter</strong><br>la classe
-							</a>
-						{% endif %}
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="header-buttons">
+    <div class="inner-header">
+      <div class="container container-fluid">
+        <div class="row-fluid">
+          <div class="span12 header-classroom-details">
+            {% if has_right('CLASSROOM_CREATE_USER') or has_right('CLASSROOM_CREATE_ASSISTANT') %}
+              <div class="content-add-btn agenda btn-group no-margin">
+                <a href="#" class="btn save btn-new-article bns-info btn-24 large dropdown-toggle" data-toggle="dropdown">
+                  <span class="icons-24 add-icon"></span>
+                  {% trans %}LINK_ADD_NEW_USER{% endtrans %}
+
+                  <span class="caret white"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  {% if has_right('CLASSROOM_CREATE_USER') %}
+                  <li><a href="#add-user-modal" data-role="teacher" data-role-label="enseignant" data-toggle="modal" class="add-user-button">{% trans %}LINK_ADD_TEACHER{% endtrans %}</a></li>
+                  <li><a href="#add-user-modal" data-role="pupil" data-role-label="élève" data-toggle="modal" class="add-user-button">{% trans %}LINK_ADD_PUPIL{% endtrans %}</a></li>
+                  {% endif %}
+                  {% if has_right('CLASSROOM_CREATE_ASSISTANT') %}
+                  <li><a href="#add-user-modal" data-role="assistant" data-role-label="auxiliaire" data-toggle="modal" class="add-user-button">{% trans %}LINK_ADD_ASSISTANT{% endtrans %}</a></li>
+                  {% endif %}
+                  {% if has_right('CLASSROOM_CREATE_USER') %}
+                  <li><a href="{{ path('back_classroom_users_import_csv_pupil') }}">{% trans %}LINK_IMPORT_MY_PUPIL_CSV{% endtrans %}</a></li>
+                  {% endif %}
+                </ul>
+              </div>
+            {% endif %}
+            {% if pupils | length != 0 %}
+              <a href="#" class="btn bns-warning btn-24 medium-return" data-toggle="modal" data-target="#generate-fiche-classroom">
+                <span class="icons-24 generate-icon"></span>
+                      {{ 'LINK_GENERATE_NEW_NOTE'|trans |desc('<strong>Générer une</strong><br />  nouvelle fiche') |raw }}
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
 
 {% block content %}
-<div class="container-classroom">
-	{% if app.session.hasFlash('success') %}
-	<div class="alert alert-success">{{ app.session.getFlash('success') }}</div>
-	{% elseif app.session.hasFlash('error') %}
-	<div class="alert alert-error">{{ app.session.getFlash('error') }}</div>
-	{% endif %}
-	<div class="news-title">
-		<h1 class="dashboard">Elèves</h1>
-	</div>
-	<div class="pupil-container content-list-info">
-		{% for pupil in pupils %}
-		{% include 'BNSAppClassroomBundle:BackClassroom:row_pupil.html.twig' with {'pupil' : pupil } %}
-		{% else %}
-		<p class="no-data-label">Vous n'avez encore inscrit aucun élève, vous pouvez le faire en cliquant sur "Ajouter un utilisateur" en haut à gauche.</p>
-		{% endfor %}
-	</div>
+  {% trans_default_domain "CLASSROOM" %}
+  {# Modal de génération de fiche pour la classe #}
+  {{ modal('generate-fiche-classroom', {
+    'title': 'TITLE_GENERATE_NOTE_FOR_CLASS'|trans,
 
-	<div class="news-title">
-		<h1 class="dashboard">Enseignants</h1>
-	</div>
+    'body_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:generate_fiche_classroom_body.html.twig', 'values': {
+      'classroom': classroom,
+      'form' : form,
+      'pupils' : pupils
+    } },
+    'type': 'success',
+    'footer_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:generate_fiche_classroom_footer.html.twig'}
+  }) }}
 
-	<div class="teacher-container content-list-info">
-		{% for teacher in teachers %}
-		{% include 'BNSAppClassroomBundle:BackClassroom:row_teacher.html.twig' with {'teacher' : teacher, 'teacher_count': teachers|length } %}
-		{% endfor %}
-	</div>
-</div>
+  <div class="container-classroom">
+    {% if app.session.flashBag.has('success') %}
+      {% for message in app.session.flashbag.get('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+      {% endfor %}
+    {% elseif app.session.flashBag.has('error') %}
+      {% for message in app.session.flashbag.get('error') %}
+        <div class="alert alert-error">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
 
-{# Modal d'ajout d'utilisateurs #}
-   {% autoescape false %}
-{{ modal('add-user-modal', {
-			'body_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:add_user_modal_body.html.twig' },
-			'title': 'Ajouter un nouvel <span class="user-role-label"></span>',
-			'footer_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:add_user_modal_footer.html.twig' }
-		}) }}
-{% endautoescape %}
+    <div class="alert alert-success bns-alert pupil" style="display: none;">
+      {% trans %}PUPIL_CREATED_SUCCESS{% endtrans %}
+
+      <div class="jim"></div>
+    </div>
+
+    <div class="alert alert-success bns-alert teacher" style="display: none;">
+      {% trans %}TEACHER_CREATED_SUCCESS{% endtrans %}
+
+      <div class="jim"></div>
+    </div>
+
+    <div class="news-title">
+      <h1 class="dashboard">
+          {{ 'TITLE_PUPILS' |transchoice(pupils|length) |desc('[0,1] Élève | ]1,Inf[ Élèves') }}
+      </h1>
+    </div>
+      <div class="item-list-container pupil">
+          {% if pupils is empty %}
+              <div class="no-item">
+                  <div class="bnj-not-found"></div>
+                  {% if has_right('CLASSROOM_CREATE_USER') %}
+                      <p>{% trans %}NO_PUPIL_REGISTERED_CLICK_TO_REGISTER{% endtrans %} </p>
+
+                      <a href="#add-user-modal" data-role="pupil" data-role-label="élève" data-toggle="modal" class="add-user-button btn bns-info btn-24 large add-icon">
+                          <span class="icons-24 add-icon"></span>
+                          {% trans %}LINK_ADD_NEW_PUPIL{% endtrans %}
+                      </a>
+                  {% else %}
+                      <p>{% trans %}NO_PUPIL_REGISTERED{% endtrans %}</p>
+
+                  {% endif %}
+                  <div class="clearfix"></div>
+              </div>
+          {% else %}
+              {% for pupil in pupils %}
+                  {% include 'BNSAppClassroomBundle:BackClassroom:row_pupil.html.twig' %}
+              {% endfor %}
+          {% endif %}
+      </div>
+
+      <div class="news-title">
+          <h1 class="dashboard">
+              {{ 'TITLE_TEACHERS' |transchoice(teachers|length) }}
+          </h1>
+      </div>
+
+    <div class="item-list-container teacher">
+      {% for teacher in teachers %}
+        {% include 'BNSAppClassroomBundle:BackClassroom:row_teacher.html.twig' %}
+      {% endfor %}
+    </div>
+
+    {% if assistants|length > 0 %}
+
+    <div class="news-title">
+      <h1 class="dashboard">
+        {{ 'TITLE_ASSISTANTS' |transchoice(assistants|length) }}
+      </h1>
+    </div>
+    <div class="item-list-container teacher">
+      {% for assistant in assistants %}
+        {% include 'BNSAppClassroomBundle:BackClassroom:row_teacher.html.twig' with {'teacher': assistant}  %}
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+
+  {# Modal d'ajout d'utilisateurs #}
+  {{ modal('add-user-modal', {
+    'body_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:add_user_body.html.twig' },
+    'title': '<span class="user-role-label"></span>',
+    'footer_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:add_user_footer.html.twig' }
+  }) }}
 {% endblock %}
-
-
-

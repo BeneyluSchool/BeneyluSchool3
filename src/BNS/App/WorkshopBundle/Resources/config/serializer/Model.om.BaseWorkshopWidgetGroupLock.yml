@@ -1,0 +1,11 @@
+BNS\App\WorkshopBundle\Model\om\BaseWorkshopWidgetGroupLock:
+  exclusion_policy: All
+  properties:
+    user_id:
+      expose: true
+    widget_group_id:
+      expose: true
+    workshop_document_id:
+      expose: true
+    created_at:
+      expose: true

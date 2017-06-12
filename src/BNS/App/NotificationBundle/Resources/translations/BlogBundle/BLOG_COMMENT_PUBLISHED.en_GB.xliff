@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:44:29Z" source-language="en" target-language="en-GB" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="b9dfbe04283e1a1f07b0071a6a2099c394b99513" resname="BLOG_COMMENT_PUBLISHED.EMAIL.content">
+        <source>BLOG_COMMENT_PUBLISHED.EMAIL.content</source>
+        <target><![CDATA[<strong>%sender_full_name%</strong> has commented the article "<a href="%comment_route%">%article_title%</a>"]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="71f21b571c60e391ab65e336f2d925534c8ccb93" resname="BLOG_COMMENT_PUBLISHED.EMAIL.title">
+        <source>BLOG_COMMENT_PUBLISHED.EMAIL.title</source>
+        <target>A comment has been published on the article "%article_title%"</target>
+      </trans-unit>
+      <trans-unit id="bab8d568c30780bb7742152de33890d4e7ef2091" resname="BLOG_COMMENT_PUBLISHED.SYSTEM.content">
+        <source>BLOG_COMMENT_PUBLISHED.SYSTEM.content</source>
+        <target><![CDATA[<strong>%sender_full_name%</strong> has commented on the article "<a href="%comment_route%">%article_title%</a>"]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

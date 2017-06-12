@@ -1,0 +1,10 @@
+{% extends 'BNSAppMiniSiteBundle:Layout:front_widget.html.twig' %}
+
+{% block widget_content %}
+	<div class="widget-content">
+		<h2>{{ widget.getTitle() }}</h2>
+		{% autoescape 'html' %}
+			{{ widget.getContent()|nl2br }}
+		{% endautoescape %}
+	</div>
+{% endblock %}

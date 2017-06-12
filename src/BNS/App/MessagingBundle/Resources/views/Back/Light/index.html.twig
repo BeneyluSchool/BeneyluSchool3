@@ -6,6 +6,6 @@
 {% endblock %}
 
 {% block content %}
-	{% render 'BNSAppMessagingBundle:BackLight:messages' with {'type' : 'IN_MODERATION' } %}
+	{{ render(controller('BNSAppMessagingBundle:BackLight:messages', {'type' : 'IN_MODERATION' } )) }}
 {% endblock %}
 

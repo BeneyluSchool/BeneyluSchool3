@@ -1,0 +1,7 @@
+{% trans_default_domain "PROFILE" %}
+{{ modal('modal-status-delete', {
+	'title': 'TITLE_DELETE_STATUS'|trans,
+	'body_template': {'template': 'BNSAppProfileBundle:Modal:delete_status_body.html.twig', 'values': bodyValues},
+	'footer_template': {'template': 'BNSAppProfileBundle:Modal:delete_footer.html.twig', 'values': footerValues},
+	'type': 'error'
+}) }}

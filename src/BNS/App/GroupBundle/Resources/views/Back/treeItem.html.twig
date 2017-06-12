@@ -1,0 +1,18 @@
+<li data-group-id="{{ group_manager.getGroup.id }}">
+	{% if has_right(group_manager.group.groupType.type|upper ~ '_VIEW') %}
+		<a href="{{ path('BNSAppGroupBundle_group_sheet',{'groupSlug':group_manager.group.slug}) }}">
+			{{ group_manager.group.label }}
+		</a>
+	{% else %}
+		{{ group_manager.group.label }}
+	{%endif %}
+	{% set sub_groups = group_manager.getSubgroups(true,false) %}
+	{% if sub_groups|length > 0 %}
+		<ul>
+			{% for sub_group in sub_groups %}
+				{% set tmp = group_manager.setGroup(sub_group) %}
+				{% include 'BNSAppGroupBundle:Back:treeItem.html.twig' with {'group_manager' : group_manager} %}
+			{% endfor %}
+		</ul>
+	{% endif %}
+</li>

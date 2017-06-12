@@ -1,0 +1,133 @@
+{% trans_default_domain "CLASSROOM" %}
+{% extends 'BNSAppClassroomBundle:Layout:manager.html.twig' %}
+
+{% if type == 'user' %}
+{% set subscriptionUrl = 'bns_app_profile_backpaassubscription_subscription' %}
+{% set subscriptionSidebar = 'BNSAppProfileBundle:Sidebar:sidebar.html.twig' %}
+{% elseif type == 'classroom' %}
+{% set subscriptionUrl = 'bns_app_classroom_backpaassubscription_subscription' %}
+{% set subscriptionSidebar = 'BNSAppClassroomBundle:Sidebar:sidebar.html.twig' %}
+{% else %}
+{% set subscriptionUrl = 'bns_app_school_backpaassubscription_subscription' %}
+{% set subscriptionSidebar = 'BNSAppSchoolBundle:Sidebar:sidebar.html.twig' %}
+{% endif %}
+
+
+{% block javascripts %}
+  {{ parent() }}
+
+  <script type="text/javascript">
+    $(function () {
+      // Filter status
+      $('.subscriptions-status-filters li').on('click', function (e) {
+        $(this).find('.select').toggleClass('checked');
+
+        var filters = [];
+        $('.subscriptions-status-filters li:has(span.select.checked)').each(function(index, item){
+          filters.push($(item).data('filter'));
+        });
+        window.location = "{{ path(subscriptionUrl) }}?filters=" + filters.join(',');
+      });
+    });
+  </script>
+{% endblock %}
+
+{% block sidebar %}
+  {% trans_default_domain "CLASSROOM" %}
+  {% embed subscriptionSidebar with {"page" : "subscription", "section" : "subscription" } %}
+    {% block subscriptionMenu %}
+      {% trans_default_domain "CLASSROOM" %}
+      <div class="title-container">
+        <div class="title active border-blue">{% trans %}SUBSCRIPTION_STATUS{% endtrans %} <span class="square icon-arrow"></span></div>
+        <div class="content-title">
+          <ul class="subscriptions-status-filters">
+            <li data-filter="current">
+              <div>
+                <span class="vertical-separator green"></span> <span>{% trans %}IN_PROGRESS{% endtrans %}</span> <span class="select {{ 'current' in filters ? 'checked' : '' }}"></span>
+              </div>
+            </li>
+            <li data-filter="ending">
+              <div>
+                <span class="vertical-separator orange"></span> <span>{% trans %}CLOSE_DEADLINE{% endtrans %}</span> <span class="select {{ 'ending' in filters ? 'checked' : '' }}"></span>
+              </div>
+            </li>
+            <li data-filter="ended">
+              <div>
+                <span class="vertical-separator red"></span> <span>{% trans %}ENDED{% endtrans %}</span> <span class="select {{ 'ended' in filters ? 'checked' : '' }}"></span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    {% endblock %}
+  {% endembed %}
+{% endblock sidebar %}
+
+
+{% block content %}
+  {% trans_default_domain "CLASSROOM" %}
+  <div class="container-classroom subscriptions">
+    {% include 'BNSAppMainBundle::notice.html.twig' %}
+
+    <div class="news-title">
+      <h1 class="dashboard">{{ 'TITLE_SUBSCRIPTION'|trans }}</h1>
+    </div>
+
+    <div class="item-list-container">
+      {% for subscription in subscriptions %}
+        <div class="item subscription-{{ subscription['status'] }}">
+          <div class="vertical-separator {{ subscription['color'] }}"></div>
+
+          {% if subscription['renew'] %}
+            <div class="buttons-container">
+              <a class="btn bns-success medium" href="{{ path('BNSAppSpotBundle_front', {'code': subscription['code'], 'origin': 'renew'}) }}"><strong>{{ 'LINK_RENEW'|trans }}</strong></a>
+            </div>
+          {% endif %}
+
+          <div class="header">
+            <p class="name">{{ subscription['name'] }}</p>
+            <p class="information">
+              {% if subscription['client'] is defined and subscription['client'] is not empty  and subscription['client'].paasType != 'USER' %}
+                <img src="{{ asset(group_type_icon(subscription['client'], null, "small")) }}" />
+                {{ subscription['client'].label }} -
+              {% endif %}
+              {% if subscription['life_time'] %}
+                {{ 'SUBSCRIPTION_LIFE'|trans }}
+              {% else %}
+                {% if subscription['status'] == 'ended' %}
+                  {{ 'SUBSCRIPTION_ENDED'|trans }}
+                {% else %}
+                  {{ 'DEADLINE_DATE'|trans({'%date%': subscription['end']|date('d/m/Y')}) |desc('Date d\'échéance : <span class="expiration-date">%date%</span>') |raw }}
+                {% endif %}
+              {% endif %}
+            </p>
+
+            {% if not subscription['life_time'] %}
+            <div class="progress {% if subscription['life_time'] %}progress-striped active{% endif %} progress-{{ subscription['color'] }}">
+                <div class="bar " style="width: {{ subscription['percent'] }}%;"></div>
+            </div>
+            {% endif %}
+          </div>
+
+        </div>
+      {% else %}
+        <div class="no-item">
+          <div class="bnj-not-found"></div>
+          {% if filters|length > 0 %}
+            <p>{{ 'NO_SUBSCRIPTION_TO_YOUR_FILTER'|trans }}</p>
+          {% else %}
+            <p>{{ 'YOU_HAVENT_SUBSCRIPTIOn'|trans }}</p>
+          {% endif %}
+          <div class="clearfix"></div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div>
+    {% if subscriptions.haveToPaginate %}
+      {{ pagerfanta(subscriptions, 'twitter_bootstrap_translated', {'prev_message': '←', 'next_message': '→'} ) }}
+    {% endif %}
+  </div>
+
+{% endblock %}

@@ -11,7 +11,7 @@ use BNS\App\HomeworkBundle\Model\HomeworkDueQuery;
  * Manager des devoirs pour le bundle Homework
  * Prend en charge le calcul des occurences de devoirs et des taches a affecter
  * aux membres des groupes concernes par un devoir donne.
- * 
+ *
  * Utilise la BNSApi pour recuperer les groupes/membres de la Centrale
  * Utilise la librairie When pour les calculs d'occurences a partir d'infos de recurrence.
  */
@@ -19,9 +19,9 @@ class BNSHomeworkManager
 {
 
     protected $api;
-    
+
     protected $logger;
-    
+
     protected $group_manager;
 
     /**
@@ -67,6 +67,14 @@ class BNSHomeworkManager
 
                 $hd->setNumberOfTasksTotal($task_count);
                 $hd->save();
+            } else {
+                $task_count = 0;
+                foreach ($homework->getGroups() as $group) {
+                    $task_count += $this->generateHomeworkTasksForGroup($hd, $group);
+                }
+
+                $hd->setNumberOfTasksTotal($task_count);
+                $hd->save();
             }
         }
     }
@@ -96,7 +104,7 @@ class BNSHomeworkManager
     {
         $this->group_manager->setGroup($group);
         $result = $this->group_manager->getUsersByRoleUniqueName('PUPIL');
-        
+
         return $result;
     }
 

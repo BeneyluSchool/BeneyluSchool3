@@ -1,0 +1,34 @@
+<div class="loader loader-hb show">
+    <div class="message">
+        Nous réorganisons votre bibliothèque de ressources pédagogiques, veuillez patienter...<br /><br />
+        Cela peut prendre quelques secondes le temps de trier vos livres et cahiers.
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        var i = 0;
+
+        ++i;
+        var reloadProviderResource = function () {
+            $.ajax({
+                url: '{{ url }}',
+                dataType: 'html',
+                statusCode: {
+                    200: function (data) {
+                        $('#resource-navigation').html(data);
+                        toolBar.update();
+                        calculHeightForIE();
+                    },
+                    206: function (data) {
+                        if (i < 6) { // 30 sec
+                            setTimeout(function () { reloadProviderResource(); }, 5000);
+                        }
+                    }
+                }
+            });
+        }
+
+        reloadProviderResource();
+    });
+</script>

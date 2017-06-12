@@ -1,0 +1,37 @@
+
+<div class="statistic-inner-content statistic-navigation">
+
+  <bns-expander label="{{'STATISTIC.VIEW'|translate}}" is-open="true">
+    <md-input-container>
+      <select ng-model="ctrl.filters.statistic" ng-options="stat as stat.title for stat in ctrl.statistics"></select>
+    </md-input-container>
+  </bns-expander>
+
+  <bns-expander label="{{'STATISTIC.PERIOD'|translate}}" is-open="true">
+
+    <md-input-container class="select-period">
+      <select ng-model="ctrl.preSelect" ng-change="ctrl.preSelectDate()" ng-options="key as key | translate for (key , value) in ctrl.periodPreSelect | orderBy:value.order">
+        <option value="" translate>STATISTIC.PRESELECTED_PERIOD</option>
+      </select>
+    </md-input-container>
+
+    <div class="input-date-container flex-none flex-gt-md-50">
+      <md-input-container bns-date-time-input-container class="input-container statistic-date">
+        <label class="label-date">{{'STATISTIC.FROM'|translate}}</label>
+        <input type="date" ng-model="ctrl.filters.start" name="date" required>
+      </md-input-container>
+      </div>
+
+      <div class="input-date-container flex-none flex-gt-md-50">
+      <md-input-container bns-date-time-input-container class="input-container statistic-date">
+        <label class="label-date">{{'STATISTIC.TO'|translate}}</label>
+        <input type="date" ng-model="ctrl.filters.end" name="date" required>
+      </md-input-container>
+
+    </div>
+  </bns-expander>
+
+  <bns-expander label="{{'STATISTIC.PERIMETER'|translate}}" is-open="true">
+    <bns-checkbox-group-filter ng-if="ctrl.groups.length" value="'id'" icon="ctrl.iconFunc" selection="ctrl.filters.groups" collection="ctrl.groups" limit="15"></bns-checkbox-group-filter>
+  </bns-expander>
+</div>

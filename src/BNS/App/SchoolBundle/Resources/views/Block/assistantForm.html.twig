@@ -1,0 +1,127 @@
+{% trans_default_domain "SCHOOL" %}
+{% import 'BNSAppCoreBundle:Macros:forms.html.twig' as forms %}
+
+<script type="text/javascript">
+	$(function ()
+	{
+		if ($('.create-user-form-container .alert.alert-success').length > 0) {
+			setTimeout(function ()
+			{
+				$('.create-user-form-container .alert.alert-succes div').slideUp('fast', function () { var $this = $(this); $this.parent().slideUp('fast', function () { $this.show() }) });
+			}, 8000); // 8 seconds
+		}
+        $('#show-new-assistant-form').click(function(e){
+            e.preventDefault();
+            $(this).hide();
+            $('.invitation-form-container').hide();
+            $('#new-assistant-form').fadeIn();
+
+        });
+
+        $('#add-existing-assistant').ajaxForm({
+            beforeSubmit: function(){
+                $('#add-assistant-modal .loader:not(.loader-h)').show();
+            },
+            success: function (data) {
+                $('#add-assistant-modal .loader').hide();
+                $('.item-list-container.assistant').prepend(data);
+                $('#add-assistant-success').show();
+                $('#add-assistant-modal').modal('hide');
+                $('#affect-assistant-modal').modal('hide');
+            }
+        });
+
+        $('#verify-user').ajaxForm({
+            beforeSubmit: function(){
+                $('#add-existing-assistant-error').hide();
+                $('#add-assistant-modal .loader:not(.loader-h)').show();
+            },
+            success: function (data) {
+                $('#add-assistant-modal .loader').hide();
+                $('.item-list-container.assistant').prepend(data);
+                $('#add-assistant-success').show();
+                $('#add-assistant-modal').modal('hide');
+            },
+            error: function (data) {
+                $('#add-assistant-modal .loader').hide();
+                $('#add-existing-assistant-error > span.message').html(data.responseText);
+                $('#add-existing-assistant-error').show();
+
+            }
+        });
+
+	});
+</script>
+
+<div class="create-user-form-container">
+    {% if has_right('SCHOOL_CREATE_ASSISTANT') %}
+        <div class="invitation-form-container">
+            <div class="loader loader-h"></div>
+          <h2>{{ 'ASSISTANT_HAVE_ALREADY_ACCOUNT'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) }}</h2>
+
+            <div id="add-existing-assistant-error" class="alert alert-error bns-alert hide">
+                <span class="message"></span>
+                <div class="jim"></div>
+            </div>
+
+            <form action="{{ path('BNSAppSchoolBundle_back_verify_username' , {'classroomId' : classroomId, 'type': 'ASSISTANT' }) }}" method="POST" id="verify-user">
+              <p class="user-id">{% trans %}LOGIN{% endtrans %}</p>
+                <input type="text" name="username" id="username-to-check" />
+                <button type="submit" class="btn bns-success btn-check-user btn-16 small">
+                    <span class="icons-16 validate-icon"></span>
+                  <strong>{% trans %}BUTTON_VERIFY{% endtrans %}</strong>
+                </button>
+            </form>
+        </div>
+    {% endif %}
+
+    {% if assistants|length > 0 %}
+        <div class="invitation-form-container">
+            <div class="loader loader-h"></div>
+            {% if has_right('SCHOOL_CREATE_ASSISTANT') %}
+              <h2>{% trans %}TITLE_OR_ASSISTANT_ALREADY_IN_SCHOOL{% endtrans %}</h2>
+            {% else %}
+              <h2>{% trans %}TITLE_CHOOSE_ASSISTANT_IN_MY_SCHOOL{% endtrans %}</h2>
+            {% endif %}
+
+            <form action="{{ path('BNSAppSchoolBundle_back_add_existing_assistant' , {'classroomId' : classroomId }) }}" method="POST" id="add-existing-assistant">
+                <p class="user-id">{% trans %}SCHOOL_NAME{% endtrans %} :</p>
+                <select name="assistantId">
+                    {% for assistant in assistants %}
+                        <option value="{{ assistant.id }}">{{ assistant.fullName }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn bns-success btn-check-user btn-16 small">
+                    <span class="icons-16 validate-icon"></span>
+                  <strong>{% trans %}BUTTON_CONFIRM{% endtrans %}</strong>
+                </button>
+            </form>
+        </div>
+    {% endif %}
+
+    {% if has_right('SCHOOL_CREATE_ASSISTANT') %}
+      <h2>{{ 'TITLE_OR_ASSISTANT_HAVENT_ACCOUNT'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) }}</h2>
+
+        <p>
+            <a href="#" id="show-new-assistant-form" class="btn bns-info btn-24 medium">
+                <span class="icons-24 add-icon"></span>
+                {{ 'LINK_CREATE_NEW_ASSISTANT_ACCOUNT'|trans |raw }}
+
+
+            </a>
+        </p>
+
+
+        <div id="new-assistant-form" class="hide">
+
+            {% include "BNSAppSchoolBundle:Block:assistantFormRow.html.twig" with {"form" : form , 'classroomId' : classroomId } %}
+
+        </div>
+    {% endif %}
+</div>
+
+{% if lastRegistedUser is defined %}
+    <div class="result lastRegistedUser" style="display: none;">
+	{{ lastRegistedUser | raw }}
+    </div>
+{% endif %}

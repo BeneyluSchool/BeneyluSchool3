@@ -1,0 +1,35 @@
+<div ng-repeat="choice in group.choices|orderBy:'group_by' as orderedChoices" ng-init="prev = orderedChoices[$index - 1]" ng-class="choice.class">
+<div ng-if="::'undefined' !== choice.group_by && choice.group_by !== prev.group_by" class="md-subhead bns-choice-group-label">
+  <bns-navbar-icon ng-if="::group.groupByIcon" item="group.groupByIcon"></bns-navbar-icon>
+  {{::choice.group_by|translate}}
+</div>
+<div class="bns-choice-wrap layout-row">
+  <md-checkbox
+    ng-value="::choice.value"
+    name="{{::choice.name}}"
+    ng-disabled="choice.disabled||group.disabled"
+    ng-checked="group.has(choice.value)"
+    ng-click="group.toggle(choice.value)"
+    ng-class="{ 'checkbox-right': (group.right || choice.icon) }"
+    class="md-primary flex {{::group.getExtraClass(choice)}}"
+    ng-attr-ng-style="{{::group.style || ''}}"
+    aria-label="{{::(choice.label|translate)||choice.name}}"
+  >
+    <div bns-transclude-eval="group.choiceLabelTemplate">
+      <bns-navbar-icon ng-if="::choice.icon" item="choice.icon"></bns-navbar-icon>
+      <span ng-if="::choice.htmlLabel" ng-bind-html="::choice.htmlLabel"></span>
+      <span ng-if="::choice.label">{{::choice.label|translate}}</span>
+    </div>
+  </md-checkbox>
+
+  <div ng-if="::group.choiceSecondaryTemplate" bns-transclude-eval="group.choiceSecondaryTemplate"></div>
+
+  <input ng-if="::group.hasVanillaInput"
+    type="checkbox"
+    value="{{::choice.value}}"
+    style="display: none;"
+    name="{{::choice.name}}"
+    id="{{::choice.id}}"
+    ng-checked="group.has(choice.value)">
+</div>
+</div>

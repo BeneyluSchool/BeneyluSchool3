@@ -1,0 +1,37 @@
+{% trans_default_domain "MAIN" %}
+<div class="content-joined">
+  <h3>{{ 'TITLE_ATTACHMENT'|trans |desc('Attachment(s)') }}</h3>
+
+  {% if editable == true and has_right_somewhere('MEDIA_LIBRARY_ACCESS') %}
+    <div class="content-btn-resource-join">
+      <a class="btn btn-large media-join">{{ 'LINK_JOIN_FILE'|trans |desc('Joindre des documents') }}</a>
+    </div>
+  {% endif %}
+
+  <md-grid-list id="resource-join-{{ random(1000000) }}"
+                class="resource-list md-grid"
+                data-object-type="{{ objectType|default('') }}"
+                data-object-id="{{ objectId|default('') }}"
+                md-cols="2"
+                md-cols-md="4"
+                md-cols-lg="5"
+                md-cols-gt-lg="6"
+                md-row-height="1:1.5"
+                md-gutter="20px"
+  >
+    {% for media in medias %}
+      {#{% set tpl = media.getTypeUniqueName() | lower %}#}
+      {#{% include 'BNSAppMediaLibraryBundle:MediaBlock/Join:' ~ tpl ~ '.html.twig' %}#}
+
+      {# TODO: open media library #}
+      <md-grid-tile>
+        <div layout-padding class="md-whiteframe-z1">
+          <img id="" class="" src="{{ getResourceImageUrl(media,"thumbnail") }}" />
+        </div>
+        <md-grid-tile-footer>
+          <h3>{{ media.label }}</h3>
+        </md-grid-tile-footer>
+      </md-grid-tile>
+    {% endfor %}
+  </md-grid-list>
+</div>

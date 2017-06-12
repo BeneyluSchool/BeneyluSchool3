@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:45:27Z" source-language="en" target-language="es-AR" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="ab037e488b51be091d3685f0b13c9ef39694dd84" resname="PROFILE_COMMENT_PENDING_VALIDATION.EMAIL.content">
+        <source>PROFILE_COMMENT_PENDING_VALIDATION.EMAIL.content</source>
+        <target><![CDATA[<strong>%sender_full_name%</strong> ha enviado un comentario a validación sobre <a href="%comment_route%">el estado de %profile_full_name%</a>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="6be00b9ba1d8430a924b53bc5aa410f280bf69d0" resname="PROFILE_COMMENT_PENDING_VALIDATION.EMAIL.title">
+        <source>PROFILE_COMMENT_PENDING_VALIDATION.EMAIL.title</source>
+        <target>Se acaba de enviar a validación un comentario sobre un perfil</target>
+      </trans-unit>
+      <trans-unit id="8290ada01722be1009ffbca21583d2b85f110656" resname="PROFILE_COMMENT_PENDING_VALIDATION.SYSTEM.content">
+        <source>PROFILE_COMMENT_PENDING_VALIDATION.SYSTEM.content</source>
+        <target><![CDATA[<strong>%sender_full_name%</strong> envió un comentario a validación sobre <a href="%comment_route%">el estado de %profile_full_name%</a>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

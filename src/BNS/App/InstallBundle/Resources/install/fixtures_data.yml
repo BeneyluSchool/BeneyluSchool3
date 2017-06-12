@@ -1,0 +1,1088 @@
+environments:
+  - www.beneyluschool.net
+
+
+group_type_data_templates:
+  CHILDREN_COUNT:
+    unique_name: CHILDREN_COUNT
+    type: SINGLE
+    i18n:
+      fr:
+        label: Nombre d'élève
+        description: Fr CHILDREN_COUNT
+      en:
+        label: Children count
+        description: En CHILDREN_COUNT
+  CURRENT_YEAR:
+    unique_name: CURRENT_YEAR
+    type: SINGLE
+    i18n:
+      fr:
+        label: Année courante
+        description: Pour le changement d'année
+      en:
+        label: Current year
+        description: for year changement
+  LEVEL:
+    unique_name: LEVEL
+    type: MULTIPLE_CHOICE
+    default_value: CM2
+    i18n:
+      fr:
+        label: Niveau
+        description: Fr LEVEL
+      en:
+        label: Level
+        description: En LEVEL
+    choices:
+      PS:
+        value: PS
+        i18n:
+          fr:
+            value: PS
+          en:
+            value: PS
+      MS:
+        value: MS
+        i18n:
+          fr:
+            value: MS
+          en:
+            value: MS
+      GS:
+        value: GS
+        i18n:
+          fr:
+            value: GS
+          en:
+            value: GS
+      CP:
+        value: CP
+        i18n:
+          fr:
+            value: CP
+          en:
+            value: CP
+      CE1:
+        value: CE1
+        i18n:
+          fr:
+            value: CE1
+          en:
+            value: CE1
+      CE2:
+        value: CE2
+        i18n:
+          fr:
+            value: CE2
+          en:
+            value: CE2
+      CM1:
+        value: CM1
+        i18n:
+          fr:
+           value: CM1
+          en:
+            value: CM1
+      CM2:
+        value: CM2
+        i18n:
+          fr:
+            value: CM2
+          en:
+            value: CM2
+      6EME:
+        value: 6EME
+        i18n:
+          fr:
+            value: 6ème
+          en:
+            value: 6eme
+      5EME:
+        value: 5EME
+        i18n:
+          fr:
+            value: 5ème
+          en:
+            value: 5eme
+      4EME:
+        value: 4EME
+        i18n:
+          fr:
+            value: 4ème
+          en:
+            value: 4eme
+      3EME:
+        value: 3EME
+        i18n:
+          fr:
+            value: 3ème
+          en:
+            value: 3eme
+      SEC:
+        value: SEC
+        i18n:
+          fr:
+            value: Seconde
+          en:
+            value: Seconde
+      PREM:
+        value: PREM
+        i18n:
+          fr:
+            value: Première
+          en:
+            value: Premiere
+      TERM:
+        value: TERM
+        i18n:
+          fr:
+            value: Terminale
+          en:
+            value: Terminale
+      CLIS:
+        value: CLIS
+        i18n:
+          fr:
+            value: Elémentaire
+          en:
+            value: Elémentaire
+
+  NAME:
+    unique_name: NAME
+    type: SINGLE
+    i18n:
+      fr:
+        label: Nom
+        description: Fr NAME
+      en:
+        label: Name
+        description: En NAME
+
+  DESCRIPTION:
+    unique_name: DESCRIPTION
+    type: TEXT
+    i18n:
+      fr:
+        label: Description
+        description: Fr DESCRIPTION
+      en:
+        label: Description
+        description: En DESCRIPTION
+
+  LANGUAGE:
+    unique_name: LANGUAGE
+    type: ONE_CHOICE
+    default_value: fr
+    i18n:
+      fr:
+        label: Langue
+        description: Fr LANGUAGE
+      en:
+        label: Language
+        description: En LANGUAGE
+    choices:
+      French:
+        value: fr
+        i18n:
+          fr:
+            value: Français
+          en:
+            value: French
+      English:
+        value: en
+        i18n:
+          fr:
+            value: Anglais
+          en:
+            value: English
+
+  UAI:
+    unique_name: UAI
+    type: SINGLE
+    i18n:
+      fr:
+        label: Code UAI
+        description: Code UAI de l'école
+      en:
+        label: UAI Code
+        description: UAI school's Code
+
+  ADDRESS:
+    unique_name: ADDRESS
+    type: SINGLE
+    i18n:
+      fr:
+        label: Adresse
+        description: Adresse
+      en:
+        label: Address
+        description: Address
+
+  SCHOOL_LABEL:
+    unique_name: SCHOOL_LABEL
+    type: SINGLE
+    i18n:
+      fr:
+        label: Nom de l'école
+        description:
+      en:
+        label: School's label
+        description:
+
+  ZIPCODE:
+    unique_name: ZIPCODE
+    type: SINGLE
+    i18n:
+      fr:
+        label: Code postal
+        description: Code postal
+      en:
+        label: Zipcode
+        description: ZipCode
+
+  CITY:
+    unique_name: CITY
+    type: SINGLE
+    i18n:
+      fr:
+        label: Ville
+        description: Ville
+      en:
+        label: City
+        description: City
+
+  INSEE_ID:
+    unique_name: INSEE_ID
+    type: SINGLE
+    i18n:
+      fr:
+        label: Code insee de la ville
+        description: Code insee de la ville
+      en:
+        label: Insee code of the city
+        description: Insee code of the city
+
+  STRUCTURE_ID:
+    unique_name: STRUCTURE_ID
+    type: SINGLE
+    i18n:
+      fr:
+        label: Code structure de la classe
+        description: Code structure de la classe
+      en:
+        label: Structre code of the classroom
+        description: Structre code of the classroom
+
+  EMAIL:
+    unique_name: EMAIL
+    type: SINGLE
+    i18n:
+      fr:
+        label: E-mail
+        description: Adresse électronique
+      en:
+        label: E-mail
+        description: E-mail
+
+
+  DISPLAY_ADDRESS:
+    unique_name: DISPLAY_ADDRESS
+    type: ONE_CHOICE
+    default_value: Y
+    i18n:
+      fr:
+        label: Afficher les informations du directeur
+        description: Afficher les informations du directeur
+      en:
+        label: display director's informations
+        description: display director's informations
+    choices:
+      Yes:
+        value: Y
+        i18n:
+          fr:
+            value: Oui
+          en:
+            value: Yes
+      No:
+        value: N
+        i18n:
+          fr:
+            value: Non
+          en:
+            value: No
+
+
+  ## RESSOURCES : 2 x 3 données
+  # RESOURCE_QUOTA_GROUP => Valeur à utiliser, on switche sur celle là selon les deux autres valeurs, c'est la référence, les deux autres sont là à titre indicatif
+
+  RESOURCE_QUOTA_GROUP:
+    unique_name: RESOURCE_QUOTA_GROUP
+    type: ONE_CHOICE
+    default_value: 52428800
+    i18n:
+      fr:
+        label: Quotas pour les documents par groupe
+        description:
+      en:
+        label: Quotas pour les documents par groupe
+        description:
+    choices:
+      50:
+        value: 5242880
+        i18n:
+          fr:
+            value: 50Mo
+          en:
+            value: 50MB
+      500:
+        value: 52428800
+        i18n:
+          fr:
+            value: 500Mo
+          en:
+            value: 500MB
+
+  RESOURCE_QUOTA_USER:
+    unique_name: RESOURCE_QUOTA_USER
+    type: ONE_CHOICE
+    default_value: 10485760
+    i18n:
+      fr:
+        label: Quotas pour les documents par utilisateur
+        description:
+      en:
+        label: Quotas pour les documents par utilisateur
+        description:
+    choices:
+      10:
+        value: 10485760
+        i18n:
+          fr:
+            value: 10Mo
+          en:
+            value: 10MB
+      20:
+        value: 20971520
+        i18n:
+          fr:
+            value: 20Mo
+          en:
+            value: 20MB
+
+  # Utilisation de la médiathèque sur le groupe
+  RESOURCE_USED_SIZE:
+    unique_name: RESOURCE_USED_SIZE
+    type: SINGLE
+    default_value: 0
+    i18n:
+      fr:
+        label: Espace utilisé dans les ressources
+        description:
+      en:
+        label: Space used in the resources
+        description:
+
+  # Message d'accueil sur la page du groupe
+  HOME_MESSAGE:
+    unique_name: HOME_MESSAGE
+    type: SINGLE
+    default_value: WELCOME_MESSAGE
+    i18n:
+      fr:
+        label: Message d'accueil de la page du groupe
+        description:
+      en:
+        label: Group's page home message
+        description:
+
+  WHITE_LIST_UNIQUE_KEY:
+     unique_name: WHITE_LIST_UNIQUE_KEY
+     type: SINGLE
+     default_value:
+     i18n:
+       fr:
+         label: Clé unique pour le moteur de recherche Google
+         description:
+       en:
+         label: Unique Key for Google's search engine
+         description:
+
+  WHITE_LIST_USE_PARENT:
+     unique_name: WHITE_LIST_USE_PARENT
+     type: SINGLE
+     default_value:
+     i18n:
+       fr:
+         label: Utiliser la liste blanche parente (env)
+         description:
+       en:
+         label: Use parent's white liste (env)
+         description:
+
+  WHITE_LIST:
+     unique_name: WHITE_LIST
+     type: TEXT
+     default_value:
+     i18n:
+       fr:
+         label: tableau de site en white list
+         description:
+       en:
+         label: White list array
+         description:
+
+  # Allow minisite admins to push their minisite to public
+  MINISITE_ALLOW_PUBLIC:
+     unique_name: MINISITE_ALLOW_PUBLIC
+     type: ONE_CHOICE
+     default_value: 1
+     i18n:
+       fr:
+         label: Activer le mode public pour le minisite
+         description: Permet de rendre le minisite accessible aux utilisateurs non enregistrés sur la Beneylu School
+       en:
+         label: Enable the public mode for the minisite
+         description: Allow to make minisite accessible to unregistered Beneylu School users
+     choices:
+      yes:
+        value: 1
+        i18n:
+          fr:
+            value: Activé
+          en:
+            value: Enabled
+      no:
+        value: 0
+        i18n:
+          fr:
+            value: Désactivé
+          en:
+            value: Disabled
+   #Coordonnées GPS d'un établissement
+  GEOCOORDS:
+     unique_name: GEOCOORDS
+     type: SINGLE
+     default_value:
+     i18n:
+       fr:
+         label: Coordonnées géographiques
+         description:
+       en:
+         label: Geographic coordinates
+         description:
+
+  # CLASSROOM
+  AVATAR_ID:
+    unique_name: AVATAR_ID
+    type: SINGLE
+    default_value: 0
+    i18n:
+      fr:
+        label: id de l'avatar
+        description:
+      en:
+        label: avatar id
+        description:
+  # MESSAGERIE
+  MESSAGING_TYPE:
+     unique_name: MESSAGING_TYPE
+     type: ONE_CHOICE
+     default_value: light
+     i18n:
+       fr:
+         label: Mode de messagerie
+         description: light = interne, real = vraie
+       en:
+         label: Messages types
+         description:
+     choices:
+      yes:
+        value: light
+        i18n:
+          fr:
+            value: Light
+          en:
+            value: Light
+      no:
+        value: real
+        i18n:
+          fr:
+            value: Réelle
+          en:
+            value: Real
+
+  # CHARTE
+  POLICY:
+    unique_name: POLICY
+    type: ONE_CHOICE
+    default_value: 0
+    i18n:
+      fr:
+        label: Charte d'utilisation
+        description: Affiche la charte d'utilisation à la première connexion
+      en:
+        label: End User Policy
+        description: display the end user policy
+    choices:
+      Yes:
+        value: 1
+        i18n:
+          fr:
+            value: Activé
+          en:
+            value: Enabled
+      No:
+        value: 0
+        i18n:
+          fr:
+            value: Désactivé
+          en:
+            value: Disabled
+
+  POLICY_URL_CHILD:
+     unique_name: POLICY_URL_CHILD
+     type: TEXT
+     default_value:
+     i18n:
+       fr:
+         label: URL du PDF de la charte utilisateur destiné aux élèves
+         description:
+       en:
+         label: End User Policy URL for children
+         description:
+
+  POLICY_URL_PARENT:
+     unique_name: POLICY_URL_PARENT
+     type: TEXT
+     default_value:
+     i18n:
+       fr:
+         label: URL du PDF de la charte utilisateur destiné aux parents
+         description:
+       en:
+         label: End User Policy URL for parents
+         description:
+
+  POLICY_URL_OTHER:
+     unique_name: POLICY_URL_OTHER
+     type: TEXT
+     default_value:
+     i18n:
+       fr:
+         label: URL du PDF de la charte utilisateur
+         description:
+       en:
+         label: End User Policy URL
+         description:
+  BOARD_FEED:
+    unique_name: BOARD_FEED
+    type: SINGLE
+    default_value: http://blog.beneyluschool.com/feed/
+    i18n:
+      fr:
+        label: Flux RSS du tableau de bord
+        description:
+      en:
+        label: Board's RSS feed
+        description:
+
+  HOME_ACTIVE_ALERT:
+     unique_name: HOME_ACTIVE_ALERT
+     type: ONE_CHOICE
+     default_value: 0
+     i18n:
+       fr:
+         label: Activer l'alerte en page d'accueil
+         description:
+       en:
+         label: Activate the home page's alert
+         description:
+     choices:
+      yes:
+        value: 1
+        i18n:
+          fr:
+            value: Activé
+          en:
+            value: Enabled
+      no:
+        value: 0
+        i18n:
+          fr:
+            value: Désactivé
+          en:
+            value: Disabled
+
+  HOME_ALERT:
+       unique_name: HOME_ALERT
+       type: TEXT
+       default_value:
+       i18n:
+         fr:
+           label: Message d'alerte (texte plein) en page d'accueil
+           description:
+         en:
+           label: Message on homepage
+           description:
+
+  INSEE_ID:
+     unique_name: INSEE_ID
+     type: TEXT
+     default_value:
+     i18n:
+       fr:
+         label: Code INSEE
+         description:
+       en:
+         label: INSEE code
+         description:
+
+  STRUCTURE_ID:
+     unique_name: STRUCTURE_ID
+     type: TEXT
+     default_value:
+     i18n:
+       fr:
+         label: Code de la classe
+         description:
+       en:
+         label: Classroom code
+         description:
+  CERISE_LIST:
+     unique_name: CERISE_LIST
+     type: TEXT
+     default_value:
+     i18n:
+       fr:
+         label: Tableau d'UAI ayant accès à Cerise Prim
+         description:
+       en:
+         label: UAI Array of schools
+         description:
+
+  SPOT_AUTOCONNECT_URL:
+     unique_name: SPOT_AUTOCONNECT_URL
+     type: TEXT
+     default_value:
+     i18n:
+       fr:
+         label: Url de connexion automatique du SPOT
+         description:
+       en:
+         label: SPOT Auto-connect url
+         description:
+
+  CGU_ENABLED:
+    unique_name: CGU_ENABLED
+    type: BOOLEAN
+
+  CGU_URL:
+    unique_name: CGU_URL
+    type: TEXT
+
+  CGU_VERSION:
+    unique_name: CGU_VERSION
+    type: SINGLE
+
+  CGU_DATE:
+    unique_name: CGU_DATE
+    type: SINGLE
+
+
+
+group_types:
+  Environment:
+    centralize: false
+    data: [NAME, DESCRIPTION, LANGUAGE, MINISITE_ALLOW_PUBLIC, WHITE_LIST, POLICY, POLICY_URL_CHILD, POLICY_URL_PARENT, POLICY_URL_OTHER, INSEE_ID, SPOT_AUTOCONNECT_URL, CGU_ENABLED, CGU_ENABLED, CGU_URL, CGU_VERSION, CGU_DATE]
+    type: ENVIRONMENT
+    simulate_role: false
+    i18n:
+      fr:
+        label: Environnement
+        description: Ceci est un environnement
+      en:
+        label: Environment
+        description: This is an environment
+  Classroom:
+    centralize: false
+    data: [NAME, LEVEL, DESCRIPTION, LANGUAGE, RESOURCE_QUOTA_GROUP, RESOURCE_QUOTA_USER, RESOURCE_USED_SIZE, HOME_MESSAGE, AVATAR_ID, MESSAGING_TYPE, WHITE_LIST_UNIQUE_KEY, WHITE_LIST_USE_PARENT, CURRENT_YEAR, STRUCTURE_ID]
+    type: CLASSROOM
+    simulate_role: false
+    i18n:
+      fr:
+        label: Classe
+        description: Ceci est une classe
+      en:
+        label: Classroom
+        description: This is a classroom
+  School:
+    centralize: false
+    data: [NAME, UAI, ADDRESS, ZIPCODE, CITY, EMAIL, GEOCOORDS, HOME_MESSAGE]
+    type: SCHOOL
+    simulate_role: false
+    i18n:
+      fr:
+        label: École
+        description: Ceci est une école
+      en:
+        label: School
+        description: This is a school
+  Team:
+    centralize: false
+    data: [NAME, HOME_MESSAGE, DESCRIPTION, RESOURCE_QUOTA_GROUP, RESOURCE_QUOTA_USER, RESOURCE_USED_SIZE]
+    type: TEAM
+    simulate_role: false
+    i18n:
+      fr:
+        label: Equipe
+        description: Ceci est un groupe de travail au sein d'une classe
+      en:
+        label: Team
+        description: This is a workgroup in a classroom
+  Partnership:
+    centralize: true
+    data: [NAME, DESCRIPTION, HOME_MESSAGE, RESOURCE_QUOTA_GROUP, RESOURCE_QUOTA_USER, RESOURCE_USED_SIZE]
+    type: PARTNERSHIP
+    simulate_role: false
+    i18n:
+      fr:
+        label: Partenariat
+        description: Ceci est un partenariat
+      en:
+        label: Partnership
+        description: This is a paternship between two classrooms or more
+  Admin:
+    centralize: false
+    data: []
+    type: ADMIN
+    simulate_role: true
+    i18n:
+      fr:
+        label: Administrateur
+        description: Administrateur de la plateforme
+      en:
+        label: Admin
+        description: Administrator
+  Teacher:
+    centralize: false
+    data: []
+    type: TEACHER
+    simulate_role: true
+    i18n:
+      fr:
+        label: Enseignant
+        description: un groupe rôle qui contient des utilisateurs de type enseignant
+      en:
+        label: Teacher
+        description: teacher's role group
+  Pupil:
+    centralize: false
+    data: []
+    type: PUPIL
+    simulate_role: true
+    i18n:
+      fr:
+        label: Élève
+        description: un groupe rôle qui contient des utilisateurs de type élève
+      en:
+        label: Pupil
+        description: pupil's role group
+  Parent:
+    centralize: false
+    data: []
+    type: PARENT
+    simulate_role: true
+    i18n:
+      fr:
+        label: Parent
+        description: un groupe rôle qui contient des utilisateurs de type parent
+      en:
+        label: Parent
+        description: parent's role group
+  Director:
+    centralize: false
+    data: []
+    type: DIRECTOR
+    simulate_role: true
+    i18n:
+      fr:
+        label: Directeur
+        description: un groupe rôle qui contient des utilisateurs de type directeur
+      en:
+        label: Director
+        description: director's role group
+  City:
+    centralize: false
+    data: [INSEE_ID, NAME]
+    type: CITY
+    simulate_role: false
+    i18n:
+      fr:
+        label: Ville
+        description: Ceci est une ville
+      en:
+        label: City
+        description: This is a city
+
+email_templates:
+  WELCOME:
+    vars: first_name,last_name,password,login
+    i18n:
+      fr:
+        subject: Bienvenue sur la Beneylu School !
+        label: E-mail d'inscription
+      en:
+        subject: Welcome %last_name% !
+        label: Registration e-mail
+
+  NOTIFICATION:
+    vars: title,notification
+    i18n:
+      fr:
+        subject: "Nouvelle notification : %title%"
+        label: Email de notification
+      en:
+        subject: "New notification : %title%"
+        label: Notification's email
+
+  CLASSROOM_CONFIRMATION_FOR_SCHOOL:
+    vars: classroom_name,confirmation_url
+    i18n:
+      fr:
+        subject: Une vos classes vient de s'inscrire sur la Beneylu School
+        label: E-mail de confirmation d'une classe pour l'école
+      en:
+        subject: One of your classrooms just registered on Beneylu School
+        label: Classroom confirmation e-mail for school
+
+  CLASSROOM_CONFIRMED_BY_SCHOOL:
+    vars: classroom_name
+    i18n:
+      fr:
+        subject: Votre classe a été validée !
+        label: E-mail de confirmation lorsqu'une classe a été validée par une école (reçu par la classe validée)
+      en:
+        subject: Your classroom has been validated !
+        label: Confirmation e-mail when a classroom has been validated by a school (received by the validated classroom)
+
+  MISSING_EMAIL_FOR_SCHOOL:
+    vars: school_name,edition_url
+    i18n:
+      fr:
+        subject: La Beneylu School a besoin de l'adresse e-mail de votre école !
+        label: E-mail d'avertissement dans le cas où l'école n'a pas renseigné son adresse e-mail
+      en:
+        subject: The Beneylu School needs your school's e-mail address !
+        label: Warning e-mail in case of the school hasn't filled in his e-mail address
+
+  REQUEST_FOR_SCHOOL_CREATION:
+    vars: school_name,confirmation_url
+    i18n:
+      fr:
+        subject: Une demande de création d'école a été effectuée
+        label: E-mail d'avertissement aux administrateurs lors d'une demande de création d'une école
+      en:
+        subject: A request to school creation has been created
+        label: Warning e-mail to the administrators when a creation school is requested
+
+  SCHOOL_CREATED:
+    vars: school_name,registration_url
+    i18n:
+      fr:
+        subject: Votre école "%school_name%" a été créée !
+        label: E-mail d'avertissement pour le directeur d'une école lors celle-ci a été validée par un administrateur
+      en:
+        subject: Your school "%school_name%" has been created !
+        label: Warning e-mail to the school director when it has been validated by an administrator
+
+  REQUEST_RESET_PASSWORD:
+    vars: first_name,confirmation_url
+    i18n:
+      fr:
+        subject: Vous avez demandé à réinitialiser votre mot de passe
+        label: E-mail de confirmation pour réinitialiser le mot de passe d'un utilisateur
+      en:
+        subject: You requested to reset your password
+        label: Confirmation e-mail to reset a user password
+
+  RESET_PASSWORD_SUCCESS:
+    vars: first_name,plain_password,login
+    i18n:
+      fr:
+        subject: Votre mot de passe a été réinitialisé
+        label: E-mail de confirmation après une réinitialisation d'un mot de passe utilisateur
+      en:
+        subject: Your password has been reset
+        label: Confirmation e-mail after resetting a user password
+  IMPORT_REPORT:
+      vars: id,dates,type,group,status,nbRows,nbRowsProcessed,adds,modifys,deletes
+      i18n:
+        fr:
+          subject: Un import Beneylu School est terminé
+          label: Email envoyé en fin d'import
+        en:
+          subject: Your password has been reset
+          label: Confirmation e-mail after resetting a user password
+
+rules:
+  # SCHOOL
+  TEACHER_IN_SCHOOL:
+    who:
+      group_type: TEACHER
+    rank_unique_name:
+      value: [DIRECTORY_READ]
+    where:
+      group_type: SCHOOL
+      belong: true
+    state: true
+  DIRECTOR_IN_SCHOOL:
+    who:
+      group_type: DIRECTOR
+    rank_unique_name:
+      value: [DIRECTORY_READ, GROUP_MANAGE, GROUP_USE, ENVIRONMENT_TYPE_MANAGE, GROUP_IMPORT_GROUPS_MANAGE, GROUP_IMPORT_USER_MANAGE]
+    where:
+      group_type: SCHOOL
+      belong: true
+    state: true
+  # CLASSROOM
+  TEACHER_IN_CLASSROOM:
+    who:
+      group_type: TEACHER
+    rank_unique_name:
+      value: [CLASSROOM_MANAGE, PROFILE_MANAGE, HELLOWORLD_MANAGE, CALENDAR_MANAGE, RESOURCE_ADMINISTRATION, BLOG_MANAGE, MESSAGING_MANAGE, LIAISONBOOK_MANAGE, HOMEWORK_MANAGE, GPS_MANAGE, MINISITE_MANAGE, DIRECTORY_MANAGE, BOARD_MANAGE, FORUM_MANAGE, NOTEBOOK_USE, CALENDAR_MANAGE_PARTNERSHIP, RESOURCE_MANAGE_PARTNERSHIP, BLOG_MANAGE_PARTNERSHIP, MAIN_MANAGE]
+    where:
+      group_type: CLASSROOM
+      belong: true
+    state: true
+  DIRECTOR_IN_CLASSROOM:
+    who:
+      group_type: DIRECTOR
+    rank_unique_name:
+      value: [CLASSROOM_MANAGE, PROFILE_MANAGE, HELLOWORLD_MANAGE, CALENDAR_MANAGE, RESOURCE_ADMINISTRATION, BLOG_MANAGE, MESSAGING_MANAGE, LIAISONBOOK_MANAGE, HOMEWORK_MANAGE, GPS_MANAGE, MINISITE_MANAGE, DIRECTORY_MANAGE, BOARD_MANAGE, FORUM_MANAGE, NOTEBOOK_USE, CALENDAR_MANAGE_PARTNERSHIP, RESOURCE_MANAGE_PARTNERSHIP, BLOG_MANAGE_PARTNERSHIP]
+    where:
+      group_type: CLASSROOM
+      belong: true
+    state: true
+  PUPIL_IN_CLASSROOM:
+    who:
+      group_type: PUPIL
+    rank_unique_name:
+      value: [CLASSROOM_USE]
+    where:
+      group_type: CLASSROOM
+      belong: true
+    state: true
+
+  PARENT_IN_CLASSROOM:
+    who:
+      group_type: PARENT
+    rank_unique_name:
+      value: [CLASSROOM_USE]
+    where:
+      group_type: CLASSROOM
+      belong: true
+    state: true
+
+  # TEAM
+  TEACHER_IN_TEAM:
+    who:
+      group_type: TEACHER
+    rank_unique_name:
+      value: [TEAM_READ, CALENDAR_ACTIVATION_TEAM, RESOURCE_ACTIVATION_TEAM, BLOG_ACTIVATION_TEAM, HOMEWORK_ACTIVATION_TEAM]
+    where:
+      group_type: TEAM
+      belong: true
+    state: true
+
+  PUPIL_IN_TEAM:
+    who:
+      group_type: PUPIL
+    rank_unique_name:
+      value: [TEAM_READ]
+    where:
+      group_type: TEAM
+      belong: true
+    state: true
+
+  PARENT_IN_TEAM:
+    who:
+      group_type: PARENT
+    rank_unique_name:
+      value: [TEAM_READ]
+    where:
+      group_type: TEAM
+      belong: true
+    state: true
+
+  # ADMIN
+  ADMIN_IN_ENV:
+    who:
+      group_type: ADMIN
+    rank_unique_name:
+      value: [ADMIN_ADMINISTRATION]
+    where:
+      group_type: ENVIRONMENT
+      belong: true
+    state: true
+
+users:
+  ADMINISTRATOR:
+    username: administrateur
+    first_name: Admin
+    last_name: Admin
+    lang: fr
+
+  DIRECTOR:
+    username: directeur
+    first_name: directeur
+    last_name: Directeur
+    lang: fr
+
+  TEACHER:
+    username: enseignant
+    last_name: Enseignant
+    lang: fr
+
+  PUPIL:
+    username: eleve
+    last_name: Eleve
+    lang: fr
+
+groups:
+  CITY_1:
+    name: Ville de %first_name%
+    insee_id : 12345
+
+  CITY_2:
+    name: Ville de Bordeaux
+    insee_id : 56789
+
+  SCHOOL_1:
+    name: Ecole de %first_name%
+    uai: 1010101A
+    address: 1, Mail Gay Lussac
+    city: Cergy Pontoise
+
+  SCHOOL_2:
+    name: Ecole de Bordeaux
+    uai: 1010101B
+    address: 1, avenue de la république
+    city: Ville de Bordeaux
+
+  CLASSROOM_1:
+    name: Classe de %first_name%
+    structure_id : ABCD10
+    levels:
+      - CE1
+      - CE2
+    lang: fr
+
+  CLASSROOM_2:
+    name: Classe de Bordeaux
+    structure_id : ABCD15
+    levels:
+      - CE1
+      - CE2
+    lang: fr

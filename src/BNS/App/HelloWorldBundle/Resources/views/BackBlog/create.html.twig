@@ -1,0 +1,35 @@
+{% extends 'BNSAppHelloWorldBundle:BackBlog:base.html.twig' %}
+
+{% block actionbar_content %}
+
+  {{ components.button_nav('Back', { href: path('hello_world_manager_blog'), back: true }) }}
+
+  <span flex></span>
+
+  {{ components.button('Save', { intent: 'accent', icon: 'done', raised: true }) }}
+
+{% endblock %}
+
+{% block sidebar_content %}
+
+  {# Displays fields of the main form here, if they are proxied #}
+  <bns-form-proxy source="{{ form.vars.name }}" du-scroll-container="content"></bns-form-proxy>
+
+{% endblock %}
+
+{% block content %}
+
+  {{ form_start(form) }}
+  {{ form_errors(form) }}
+
+  <header class="md-padding">
+    {{ form_row(form.title) }}
+  </header>
+
+  <section class="md-padding">
+    {{ form_rest(form) }}
+  </section>
+
+  {{ form_end(form) }}
+
+{% endblock %}

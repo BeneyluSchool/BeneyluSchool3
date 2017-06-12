@@ -1,0 +1,26 @@
+<div class="closed-messaging-modal">
+<md-dialog class="bns-dialog bns-dialog-warn">
+  <md-toolbar class="md-warn">
+    <div class="md-toolbar-tools">
+      <div class="md-headline"></div>
+      <span flex></span>
+      <md-button ng-click="ctrl.close()" class="md-icon-button close-icon" href>
+        <md-icon>close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content class="md-dialog-content">
+    <h2 class="md-headline" translate>CAMPAIGN.TITLE_CLOSED_MESSAGING</h2>
+    <!--ToDo ng-if close for some groupType-->
+    <div class="md-body-1" translate>CAMPAIGN.DESCRIPTION_CLOSED_MESSAGING_ROLES</div>
+    <!--ToDo ng-if close for some group-->
+    <div class="md-body-1" translate>CAMPAIGN.DESCRIPTION_CLOSED_MESSAGING_GROUP</div>
+  </md-dialog-content>
+  <div class="md-actions">
+    <!--ToDo toggle Messaging-->
+    <md-button ng-click="" class="md-accent md-raised">
+      <md-icon><img src="../assets/images/apps/messaging/icon-40.png"></md-icon><span ng-bind-html="'CAMPAIGN.BUTTON_TOGGLE_MESSAGING'|translate|buttonize">.</span>
+    </md-button>
+  </div>
+</md-dialog>
+</div>

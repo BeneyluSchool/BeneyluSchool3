@@ -1,0 +1,13 @@
+{% trans_default_domain "SCHOOL" %}
+<div class="modal-footer">
+    <div class="content-btn-footer">
+        <a href="{{ path('BNSAppSchoolBundle_back_delete_classroom' , {'classroomId' : classroom.id}) }}" id="signal-classroom-submit" class="btn bns-danger validate-medium btn-24 medium">
+            <span class="icons-24 preview-icon"></span>
+            <strong>{% trans %}DELETE{% endtrans %}</strong>
+        </a>
+        <a href="#"  class="btn bns-notice btn-24 medium" data-dismiss="modal">
+            <span class="icons-24 back-icon"></span>
+            <strong>{% trans %}LINK_CANCEL{% endtrans %}</strong>
+        </a>
+    </div>
+</div>

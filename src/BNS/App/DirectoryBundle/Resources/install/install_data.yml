@@ -1,0 +1,76 @@
+module:
+  unique_name: DIRECTORY
+  is_contextable: false
+  name:
+    fr: Annuaire
+    en: Directory
+  description:
+    fr: Annuaire
+    en: Directory
+  default_rank:
+    pupil: READ
+    parent: READ
+    teacher: READ
+    other: READ
+
+permissions:
+  ACCESS:
+    label:
+      fr: Voir annuaire
+      en: Homework access
+    description:
+      fr: Donne accès à l'annuaire dans le groupe
+      en: 
+
+  ACTIVATION:
+    label:
+      fr: Activer annuaire
+      en: Can enable / disabled the directory access
+    description:
+      fr: Peut activer ou désactiver l'accès à l'annuaire
+      en: 
+
+  ACTIVATION_PARTNERSHIP:
+    label:
+      fr: Activer annuaire dans le partenariat
+      en: Can enable / disabled the directory access in partnership
+    description:
+      fr: Peut activer ou désactiver l'accès à l'annuaire
+      en: 
+
+ranks:
+  READ:
+    label:
+      fr: Accès en lecture à l'annuaire
+      en: Read access for the directory
+    description:
+      fr: 
+      en: 
+    permissions: [ACCESS]
+
+  MANAGE:
+    label:
+      fr: Manager l'annuaire
+      en: Manage the minisite
+    description:
+      fr: 
+      en: 
+    permissions: [ACCESS, ACTIVATION]
+
+  MANAGE_PARTNERSHIP:
+    label:
+      fr: Manager l'annuaire dans partenariat
+      en: Manage the minisite in partnership
+    description:
+      fr: 
+      en: 
+    permissions: [ACTIVATION_PARTNERSHIP]
+
+  ACTIVATION_TEAM:
+    label:
+      fr: Manager l'annuaire dans partenariat
+      en: Manage the minisite in partnership
+    description:
+      fr: 
+      en: 
+    permissions: [ACTIVATION]

@@ -1,0 +1,21 @@
+{% trans_default_domain "INFO" %}
+<div class="blog-item announcement">
+    <h2>{{ announcement.itemFeed.get_title|purify }}</h2>
+    <div class="new-item-content">
+        <div class="vertical-separator blue"></div>
+        <p>{{ announcement.itemFeed.get_content|purify }}</p>
+        <p class="more-link">
+            <a href="{{ announcement.itemFeed.get_link ~ queryString }}&utm_content=bouton&utm_term={{ announcement.itemFeed.get_title|utm_campaign_string }}" class="btn bns-notice btn-16 small" target="_blank">
+                <span class="icons-16 preview-icon"></span>
+                {{ 'LINK_REACT_ON_FORUM'|trans |desc('<strong>Réagir</strong> sur le forum') |raw }}
+            </a>
+            {% if not announcement.isReadBy(user) %}
+                <a href="{{ path('BNSAppInfoBundle_announcement_read' , {'slug' : announcement.slug }) }}" class="btn read bns-notice btn-16 small">
+                    <span class="icons-16 preview-icon"></span>
+                    {{ 'LINK_INDICATED_AS_READ'|trans |desc('<strong>Marquer</strong> comme lu') |raw }}
+                </a>
+            {% endif %}
+        </p>
+    </div>
+    <br clear="right" />
+</div>

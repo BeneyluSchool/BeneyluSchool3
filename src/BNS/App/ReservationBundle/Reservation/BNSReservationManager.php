@@ -28,7 +28,6 @@ class BNSReservationManager
 	 */
 	public function __construct($container)
 	{
-        require __DIR__.'/../Librairies/iCalcreator.php';
 		$this->container = $container;
 	}
 
@@ -43,7 +42,7 @@ class BNSReservationManager
 	public function createEvent($reservationId, array $eventInfos)
 	{
             // icalcreator vevent object process
-            $event = new vevent();
+            $event = new \vevent();
 
             // tableau qui contient les attributs que l'utilisateur doit obligatoirement fournir
             $obligatoryProperties = array('dtstart', 'dtend', 'summary');
@@ -124,7 +123,7 @@ class BNSReservationManager
 		}
 
 		// création d'un objet vevent
-		$vevent = new vevent();
+		$vevent = new \vevent();
 		// On hydrate l'objet vevent à partir du code vevent (suivant la norme iCalendar) que l'on a stocké dans l'objet
 		// ReservationEvent
 		$vevent->parse($reservationEvent->getIcalendarVevent());
@@ -246,11 +245,11 @@ class BNSReservationManager
 
     	$config = array('unique_id' => 'bns.reservation');
     	// On créé un vcalendar pour pouvoir déléguer le travail de tri des événements à iCalcreator
-    	$vcalendar = new vcalendar($config);
+    	$vcalendar = new \vcalendar($config);
 
     	// On boucle sur tous les ReservationEvent que l'on a récupéré depuis la base de données et créer les objets vevent
     	foreach ($events as $event) {
-    		$vevent = new vevent();
+    		$vevent = new \vevent();
     		$vevent->parse($event->getIcalendarVevent());
     		// on ajoute des paramètres custom à chaque vevent pour s'éviter de faire par la suite de nouvelle requête en base
     		$customParameters = array(
@@ -376,7 +375,7 @@ class BNSReservationManager
 	 */
 	public function hydrateEvent(ReservationEvent $reservationEvent)
 	{
-		$vevent = new vevent();
+		$vevent = new \vevent();
 		$vevent->parse($reservationEvent->getIcalendarVevent());
 		$description = $vevent->getProperty('description');
 		$author = $vevent->getProperty('organizer');
@@ -551,7 +550,7 @@ class BNSReservationManager
 	private function generateICalendarVeventCode($vevent)
 	{
 		// icalcreator object process
-		$reservation = new vcalendar();
+		$reservation = new \vcalendar();
 
 		// add the vevent component to container vcalendar
 		$reservation->setComponent($vevent);
@@ -563,104 +562,5 @@ class BNSReservationManager
 		$str = substr($str, 0, strpos($str, 'END:VEVENT') + 10);
 
 		return $str;
-	}
-
-	/**
-	 *
-	 */
-	private function getUsersBirthdayEvent($dateStart, $dateEnd, $reservations)
-	{
-		$currentGroupId = $this->container->get('bns.right_manager')->getCurrentGroupId();
-		$currentGroupReservation = null;
-		// Tableau qui classe les utilisateurs par date de naissance
-		$userBirthdays = array();
-		// On boucle sur tous les agendas pour récupérer les groupes associés
-		foreach ($reservations as $reservation) {
-			if ($currentGroupId == $reservation->getGroupId()) {
-				$currentGroupReservation = $reservation;
-			}
-			//Reservation personnel
-			if($reservation->getGroup() != null)
-			{
-			    // Pour chaque groupe, on boucle sur tous les utilisateurs
-			    foreach ($this->container->get('bns.group_manager')->setGroup($reservation->getGroup())->getUsers(true) as $user) {
-				    $userBirthdayTimestamp = (null != $user->getBirthday()? $user->getBirthday()->getTimestamp(): null);
-
-				    // Si aucune date de naissance est setté, on passe à l'utilisateur suivant
-				    if (null == $userBirthdayTimestamp) {
-					    continue;
-				    }
-
-				    // On calcule le nombre d'année qui sépare la date de naissance de l'utilisateur et la date à afficher
-				    $yearDiff = intval(date('Y', $dateStart)) - intval(date('Y', $userBirthdayTimestamp));
-				    // On créé maintenant la date d'anniversaire par rapport à l'année courante
-				    $userBirthdayTimestamp = mktime(0, 0, 0, date('m', $userBirthdayTimestamp), date('d', $userBirthdayTimestamp), date('Y', $userBirthdayTimestamp) + $yearDiff);
-				    if ($userBirthdayTimestamp < $dateStart || $userBirthdayTimestamp > $dateEnd) {
-					    continue;
-				    }
-
-				    if (!isset($userBirthdays[$userBirthdayTimestamp])) {
-					    $userBirthdays[$userBirthdayTimestamp] = array(
-						    $user->getId() => $user->getFullName()
-					    );
-				    }
-				    elseif (!isset($userBirthdays[$userBirthdayTimestamp][$user->getId()])) {
-					    $userBirthdays[$userBirthdayTimestamp][$user->getId()] = $user->getFullName();
-				    }
-			    }
-			}
-		}
-
-		$vevents = array();
-		foreach ($userBirthdays as $birthday => $users) {
-			$vevent = new vevent();
-			$isSeveralUsersBirthday = count($users) > 1;
-			$eventTitle = ($isSeveralUsersBirthday? count($users) . ' anniversaires' : 'Anniversaire : '. reset($users));
-			$vevent->setProperty('summary', $eventTitle);
-
-			$descriptionStr = 'A cette date, il y a l\'anniversaire de ';
-
-			if ($isSeveralUsersBirthday) {
-				$descriptionStr .= ': ' . implode(', ', $users);
-			}
-			else {
-				$descriptionStr .= reset($users);
-			}
-
-			$vevent->setProperty('description', $descriptionStr . '.');
-			$vevent->setProperty('dtstart', array('timestamp' => $birthday));
-			$vevent->setProperty('dtend', array('timestamp' => $birthday));
-
-			$vevents[] = $vevent;
-
-			// On vide la mémoire
-			$vevent = null;
-		}
-
-		$wdCalendarEvents = array();
-		foreach ($vevents as $vevent)
-    	{
-    		$birthdaySlug = $this->convertToStringDate($vevent->getProperty('dtstart'), false, '-');
-    		$birthdayStr = $this->convertToStringDate($vevent->getProperty('dtstart'));
-
-    		$wdCalendarEvents[] = array(
-		    	'anniversaire/'. $birthdaySlug . '_' . $vevent->getProperty('summary') . '_' . $vevent->getProperty('description'), // start de l'événement; ici j'ai donné le slug de l'objet ReservationEvent correspondant
-		    	$vevent->getProperty('summary'), // titre de l'événement
-		    	$birthdayStr, // date de début de l'événement
-		    	$birthdayStr, // date de fin de l'événement
-		    	true, // boolean : true = dure toute la journée, sinon false
-		    	false, // boolean : true = dure sur plusieurs jour, sinon false
-		    	0, // boolean : true = événement récurrent, false sinon; On gère nous même la réccurence, wdCalendar ne s'occupe que de la vue
-		    	0, // Code couleur allant de 0 à 13, il faudrait tweaker ça du côté de wdCalendar FIXME
-		    	false, // boolean : true = éditable, false sinon
-		    	'', // éventuel lieu de l'événement
-		    	'', // participant
-		    	'agenda-' . $currentGroupReservation->getId(), // la chaîne de caractère "agenda-" concaténé avec l'id de l'agenda
-		    	$currentGroupReservation->getColorClass(),
-				'recurrent'
-    		);
-    	}
-
-		return $wdCalendarEvents;
 	}
 }

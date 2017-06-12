@@ -1,0 +1,141 @@
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+    <h3 class="flex flex-none heading">
+      {{shared.template && (shared.template.id ? shared.template.period : ('LSU.TITLE_CREATE_TEMPLATE'|translate))}}
+    </h3>
+    <span class="flex"></span>
+    <span>
+      <md-progress-circular md-mode="indeterminate" md-diameter="24" ng-show="ctrl.pendingCount"></md-progress-circular>
+      <md-icon ng-show="ctrl.successCount && !ctrl.pendingCount" class="text-accent">check</md-icon>
+    </span>
+  </div>
+</md-toolbar>
+
+<bns-inset ng-if="ctrl.hasNoConfig" class="md-padding flex layout-row layout-align-center-center">
+  <p class="md-body-2 text-center" translate>LSU.DESCRIPTION_LEVELS_NOT_CONFIGURED</p>
+  <div class="text-center">
+    <md-button ui-sref="app.lsu.back.config" class="md-raised md-primary">
+      <md-icon>settings</md-icon>
+      <span ng-bind-html="'LSU.BUTTON_CONFIGURE_LEVELS'|translate|buttonize"></span>
+    </md-button>
+  </div>
+</bns-inset>
+
+<md-content class="lsu-template">
+
+  <form name="ctrl.form">
+
+    <bns-inset ng-if="!ctrl.isValid && !ctrl.hasNoConfig" bns-inset-size="small" bns-inset-elevation="0" class="md-padding flex layout-row layout-align-center-center">
+      <div class="md-body-2" translate>LSU.DESCRIPTION_CONFIGURE_TEMPLATE</div>
+      <div class="md-body-2" translate translate-values="{href: ctrl.configHref}">LSU.DESCRIPTION_LEVEL_IN_CONFIG</div>
+    </bns-inset>
+
+    <bns-transclude-src name="lsu-template-edit-sidebar" class="hide-gt-md md-padding">
+      <form name="ctrl.form">
+        <bns-expander label="{{'LSU.LABEL_TEMPLATE_LEVEL'|translate}}" start-open="true">
+          <div ng-show="!ctrl.configs.length" class="md-padding md-body-1" translate>LSU.DESCRIPTION_NO_LEVEL</div>
+          <md-radio-group ng-show="ctrl.configs.length" ng-model="ctrl.values.config" bns-radio-group choices="ctrl.configs" bns-vanilla-input="true"></md-radio-group>
+        </bns-expander>
+        <bns-expander label="{{'LSU.LABEL_TEMPLATE_PERIOD'|translate}}" start-open="true">
+          <md-input-container>
+            <label translate>LSU.LABEL_TEMPLATE_PERIOD_NAME</label>
+            <input type="text" name="period" ng-model="ctrl.values.period" required>
+          </md-input-container>
+
+          <div class="layout-gt-sm-row">
+            <div class="flex">
+              <md-input-container bns-date-time-input-container>
+                <label translate>LSU.LABEL_TEMPLATE_PERIOD_START</label>
+                <input type="date" name="started_at" ng-model="ctrl.values.started_at" required>
+              </md-input-container>
+            </div>
+            <div class="flex">
+              <md-input-container bns-date-time-input-container>
+                <label translate>LSU.LABEL_TEMPLATE_PERIOD_END</label>
+                <input type="date" name="ended_at" ng-model="ctrl.values.ended_at" required>
+              </md-input-container>
+            </div>
+          </div>
+
+          <md-switch ng-if="ctrl.canBeCycleEnd()" ng-model="ctrl.values.is_cycle_end" class="bns-switch" ng-class="{'bns-switch-right': $mdMedia('gt-md')}">
+            <span translate>LSU.LABEL_END_CYCLE</span>
+          </md-switch>
+        </bns-expander>
+      </form>
+    </bns-transclude-src>
+
+    <div ng-if="ctrl.isValid && shared.template.id">
+
+      <bns-inset ng-show="ctrl.values.is_cycle_end" bns-inset-size="small" bns-inset-elevation="0">
+        <div class="md-body-2" translate>LSU.DESCRIPTION_TEMPLATE_CYCLE_END_COMPLETE</div>
+      </bns-inset>
+      <bns-inset ng-show="!ctrl.values.is_cycle_end" bns-inset-size="small" bns-inset-elevation="0">
+        <div class="md-body-2" translate>LSU.DESCRIPTION_TEMPLATE_ADD_DETAILS</div>
+      </bns-inset>
+
+      <md-list ng-show="!ctrl.values.is_cycle_end" class="lsu-template-domains">
+        <div ng-repeat="domain in ::ctrl.domains">
+          <md-subheader class="bns-subheader-solid md-no-sticky">
+            <span class="md-title">{{::domain.label}}</span>
+          </md-subheader>
+
+          <md-list-item ng-if="::!domain.subdomains.length">
+            <div class="md-body-2 lsu-domain-label"></div>
+            <div class="flex">
+              <bns-lsu-template-details bns-template="shared.template" bns-domain="domain" bns-success-count="ctrl.successCount" bns-pending-count="ctrl.pendingCount"></bns-lsu-template-details>
+            </div>
+          </md-list-item>
+
+          <md-list-item ng-repeat="subdomain in ::domain.subdomains" class="md-padding">
+            <div class="md-body-2 lsu-domain-label">{{::subdomain.label}}</div>
+            <div class="flex">
+              <bns-lsu-template-details bns-template="shared.template" bns-domain="subdomain" bns-success-count="ctrl.successCount" bns-pending-count="ctrl.pendingCount" bns-lsu-form="ctrl.form"></bns-lsu-template-details>
+            </div>
+            <md-divider ng-if="::!$last"></md-divider>
+          </md-list-item>
+        </div>
+
+        <md-divider></md-divider>
+
+        <div>
+          <bns-inset ng-show="!ctrl.values.is_cycle_end" bns-inset-size="small" bns-inset-elevation="0">
+            <div class="md-body-2" translate>LSU.DESCRIPTION_TEMPLATE_ADD_COURSES</div>
+          </bns-inset>
+
+          <md-subheader class="bns-subheader-solid md-no-sticky">
+            <span class="md-title">{{'LSU.TITLE_COMMON_COURSES'|translate}}</span>
+          </md-subheader>
+          <md-list-item>
+            <div class="flex">
+              <md-input-container>
+                <label translate>LSU.LABEL_PAR_CIT</label>
+                <textarea rows="3" md-maxlength="600" ng-model="ctrl.values.data.PAR_CIT"></textarea>
+              </md-input-container>
+            </div>
+          </md-list-item>
+          <md-divider></md-divider>
+          <md-list-item>
+            <div class="flex">
+              <md-input-container>
+                <label translate>LSU.LABEL_PAR_ART</label>
+                <textarea rows="3" md-maxlength="600" ng-model="ctrl.values.data.PAR_ART"></textarea>
+              </md-input-container>
+            </div>
+          </md-list-item>
+          <md-divider></md-divider>
+          <md-list-item>
+            <div class="flex">
+              <md-input-container>
+                <label translate>LSU.LABEL_PAR_SAN</label>
+                <textarea rows="3" md-maxlength="600" ng-model="ctrl.values.data.PAR_SAN"></textarea>
+              </md-input-container>
+            </div>
+          </md-list-item>
+        </div>
+      </md-list>
+    </div>
+
+  </form>
+
+</md-content>

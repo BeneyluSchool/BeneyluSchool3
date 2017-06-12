@@ -1,14 +1,23 @@
-<div class="feed" id="status-{{ feed.getId() }}">
-	<div class="feed-header">
-		<img src="{{ avatar(feed.getAuthor(), 'thumbnail') }}" />
-		<p class="subject">{{ feed.getAuthor().getFullName() }}</p>
-		<p class="date">Envoyé {{ date_from_now(feed.getDate(), false, true) }}</p>
-		<div class="feed-moderation">
-			{% include 'BNSAppProfileBundle:Moderation:back_statuses_moderation_bar.html.twig' %}
-		</div>
-		<div class="clearfix"></div>
-	</div>
-	<div class="status-content">
-		{{ feed.getProfileFeedStatus().getContent()|nl2br }}
-	</div>
-</div>
+{% trans_default_domain "PROFILE" %}
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+<md-list-item class="_md-no-proxy md-3-line">
+  {{ components.avatar(feed.getAuthor(), { attr: { class: 'md-avatar' } }) }}
+<div class="feed md-list-item-text" id="status-{{ feed.getId() }}">
+    <h3><span class="md-title">{{ feed.getAuthor().getFullName() }}</span></h3>
+    <p class="md-body-1 text-muted">
+      {{ 'SEND_AT'|trans({'%date%': date_from_now(feed.getDate(), false, true, 'medium', 'short', false, true)}) |desc('Envoyé %date%') |raw }}
+    </p>
+    <div class="md-body-1">
+      {% if feed.getProfileFeedStatus().getResource() != null %}
+      <div class="text-center">
+        <img src="{{ getResourceImageUrl(feed.getProfileFeedStatus().getResource(), 'small') }}" alt="" />
+      </div>
+      {% endif %}
+      {{ feed.getProfileFeedStatus().getContent()|nl2br }}
+    </div>
+    <div layout="row" layout-align="space-between center">
+      {% include 'BNSAppProfileBundle:Moderation:back_statuses_moderation_bar.html.twig' %}
+    </div>
+  <md-divider></md-divider>
+  </div>
+</md-list-item>

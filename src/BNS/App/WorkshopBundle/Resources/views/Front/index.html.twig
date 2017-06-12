@@ -1,0 +1,15 @@
+{% extends 'BNSAppWorkshopBundle:Layout:front_layout.html.twig' %}
+
+{# Charge l'app angular atelier #}
+{% set ngApp = 'beneyluSchoolApp' %}
+
+{% block css %}
+    {{ parent() }}
+    <link rel="stylesheet" href="/angular/assets/styles/workshop.css"/>
+{% endblock %}
+
+{% block body %}{% verbatim %}
+
+  <div ui-view></div>
+
+{% endverbatim %}{% endblock %}

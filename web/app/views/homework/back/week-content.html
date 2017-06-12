@@ -1,0 +1,61 @@
+<bns-starter-kit-pointer step="1-2.2" pointer="toolbar"></bns-starter-kit-pointer>
+<md-toolbar md-scroll-shrink class="content-toolbar">
+  <div class="md-toolbar-tools layout-align-space-between-center">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+
+    <bns-week-toolbar start="shared.date" class="flex"></bns-week-toolbar>
+  </div>
+</md-toolbar>
+<bns-starter-kit-pointer step="1-2.2" pointer="next"></bns-starter-kit-pointer>
+
+<div ng-show="ctrl.busy" class="layout-row layout-align-center-center">
+  <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+</div>
+
+<bns-inset ng-show="!ctrl.busy && !shared.homeworks.length" class="layout-margin text-center">
+    <div class="md-padding" translate>HOMEWORK.NO_HOMEWORKS_THIS_WEEK</div>
+    <md-button ng-if="shared.dateForCreate"
+      ui-sref="app.homework.back.create({day: shared.dateForCreate.format('YYYY-MM-DD')})"
+      class="md-primary md-raised"
+    >
+      <md-icon>add_circle</md-icon>
+      <span ng-bind-html="'HOMEWORK.BUTTON_ADD_HOMEWORK'|translate|buttonize"></span>
+    </md-button>
+</bns-inset>
+
+<md-content ng-if="!ctrl.busy && shared.homeworks.length">
+  <section ng-repeat="(day,homeworks) in shared.homeworks.grouped">
+    <md-subheader>
+      <span class="md-title homework-date homework-day-{{::day|amDateFormat:'d'}}">{{::day|amDateFormat:'dddd LL'}}</span>
+    </md-subheader>
+    <md-list style="padding-top: 0;">
+      <md-list-item ng-repeat="homework in homeworks">
+        <div class="flex md-list-item-text">
+          <div class="md-padding">
+            <div class="layout-row layout-align-space-between-center">
+              <h3 class="md-headline">{{::homework._embedded.homework.name}} <small ng-if="::homework._embedded.homework.subject">{{::homework._embedded.homework.subject}}</small></h3>
+              <md-button ui-sref="app.homework.back.occurrence({id: homework.id})"
+                class="md-primary md-hue-3 btn-hover btn-nav"
+              >
+                <span ng-bind-html="'HOMEWORK.BUTTON_SEE_FORM'|translate|buttonize">.</span>
+                <md-icon>chevron_right</md-icon>
+              </md-button>
+              <bns-starter-kit-pointer ng-if="::$index === 0" step="1-2.2" pointer="form"></bns-starter-kit-pointer>
+            </div>
+            <bns-entity-list list="homework._embedded.homework.groups"></bns-entity-list>
+            <p class="md-body-1" ng-bind-html="homework._embedded.homework.short_description"></p>
+            <p ng-if="homework.total && ctrl.preferences.activate_validation">{{::homework.done+' / '+homework.total}}</p>
+          </div>
+          <bns-attachments
+            ng-if="homework._embedded.homework._embedded.attachments.length"
+            source="homework._embedded.homework._embedded.attachments"
+            start-open="false"
+            data-object-type="Homework"
+            data-object-id="{{::homework._embedded.homework.id}}"
+          ></bns-attachments>
+        </div>
+        <md-divider></md-divider>
+      </md-list-item>
+    </md-list>
+  </section>
+</md-content>

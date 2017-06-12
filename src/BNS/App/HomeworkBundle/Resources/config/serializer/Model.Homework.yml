@@ -1,0 +1,35 @@
+BNS\App\HomeworkBundle\Model\Homework:
+  exclusion_policy: All
+
+  virtual_properties:
+    getSubjectName:
+      expose: true
+      serialized_name: subject
+    getRichDescription:
+      expose: true
+      serialized_name: description
+      groups: [ detail, homework_detail ]
+    getShortDescription:
+      expose: true
+      groups: [ list, homework_list ]
+    getRecurrenceType:
+      expose: true
+    getGroupsIds:
+      expose: true
+      groups: [ detail, homework_detail ]
+    getGroups:
+      expose: true
+      groups: [ homework_due_detail, homework_detail ]
+
+  relations:
+    - rel: attachments
+      embedded:
+        content: expr(object.getResourceAttachments())
+        exclusion:
+          groups: [ detail, homework_detail ]
+    - rel: subject
+      embedded:
+        content: expr(object.getHomeworkSubject())
+        exclusion:
+          groups: [ detail, homework_detail ]
+

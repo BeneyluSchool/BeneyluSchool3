@@ -10,7 +10,7 @@ use \Criteria;
 /**
  * Skeleton subclass for representing a row from the 'group_data' table.
  *
- * 
+ *
  *
  * You should add additional methods to this class to meet the
  * application requirements.  This class will only be generated as
@@ -18,78 +18,81 @@ use \Criteria;
  *
  * @package    propel.generator.Work/Beneyluschool3/src/BNS/App/CoreBundle/Model
  */
-class GroupData extends BaseGroupData 
-{	
-	
-	
+class GroupData extends BaseGroupData
+{
+
+
 	private $choices;
 	private $available_choices;
-	
-	
+
+
+    /**
+     * Permet de récupérer le label du GroupData $this
+     *
+     * @return string chaîne de caractère qui correspond au label du GroupData $this
+     */
+    public function getLabel()
+    {
+        return $this->getGroupTypeData()->getGroupTypeDataTemplate()->getLabel();
+    }
+
+    /**
+     * Permet de récupérer le type du GroupData (Si c'est SINGLE, ONE_CHOICE, MULTIPLE_CHOICE)
+     *
+     *
+     * @return string chaîne de caractère qui correspond au type du GroupData $this
+     */
+    public function getType()
+    {
+        return $this->getGroupTypeData()->getGroupTypeDataTemplate()->getType();
+    }
+
+    public function getDirectValue()
+    {
+        return parent::getValue();
+    }
+
 	/**
-	 * Permet de récupérer le label du GroupData $this
-	 *
-	 * @return    chaîne de caractère qui correspond au label du GroupData $this
-	 */
-	public function getLabel() 
-	{		
-		$DataTemplateI18ns = $this->getGroupTypeData()->getGroupTypeDataTemplate()->getGroupTypeDataTemplateI18ns();
-		
-		return $DataTemplateI18ns[0]->getLabel();
-	}
-	
-	/**
-	 * Permet de récupérer le type du GroupData (Si c'est SINGLE, ONE_CHOICE, MULTIPLE_CHOICE)
-	 * 
-	 * 
-	 * @return    chaîne de caractère qui correspond au type du GroupData $this
-	 */
-	public function getType() {
-		
-		return $this->getGroupTypeData()->getGroupTypeDataTemplate()->getType();
-	}
-	
-	
-	/**
+     * @deprecated use getDirectValue for non choice type
 	 * Permet de récupérer la (ou les) valeur(s) du GroupData $this;
 	 *
 	 * @return    la méthode renvoie une chaîne de caractère si le GroupData est du type SINGLE ou ONE_CHOICE;
 	 * 			  sinon renvoi un tableau de chaîne de caractère si le GroupData est du type MULTIPLE_CHOICE
 	 */
-	public function getValue() 
+	public function getValue()
 	{
-		if ($this->value != null) 
+		if ($this->value != null)
 		{
 			return $this->value;
 		}
-		if ($this->getType() == GroupTypeDataTemplatePeer::TYPE_ONE_CHOICE) 
+		if ($this->getType() == GroupTypeDataTemplatePeer::TYPE_ONE_CHOICE)
 		{
 			return $this->getUniqueChoice();
 		}
 		return $this->getMultipleChoices();
 	}
-	
+
 	/**
 	 * Méthode private qui permet de récupérer la valeur d'un GroupData de type ONE_CHOICE
 	 *
 	 * @return    string chaîne de caractère qui contient la valeur du GroupData $this
 	 */
-	private function getUniqueChoice() 
+	private function getUniqueChoice()
 	{
 		if ($this->collGroupDataChoices == null)
 		{
 			return null;
 		}
-		
+
 		if (count($this->collGroupDataChoices) <= 0)
 		{
 			return null;
 		}
-		
+
 		$groupDataChoice = $this->collGroupDataChoices[0];
-		$DataChoiceI18ns = $groupDataChoice->getGroupTypeDataChoice()->getGroupTypeDataChoiceI18ns();
-		
-		return $DataChoiceI18ns[0]->getValue();
+		$DataChoice = $groupDataChoice->getGroupTypeDataChoice();
+
+		return $DataChoice->getValue();
 	}
 
 	/**
@@ -97,7 +100,7 @@ class GroupData extends BaseGroupData
 	 *
 	 * @return    $values tableau de chaîne de caractère qui contient les valeur du GroupData $this
 	 */
-	private function getMultipleChoices() 
+	private function getMultipleChoices()
 	{
 		$values = array();
 		if ($this->collGroupDataChoices == null)
@@ -105,13 +108,13 @@ class GroupData extends BaseGroupData
 			return null;
 		}
 		foreach($this->collGroupDataChoices as $groupDataChoice) {
-			$DataChoiceI18ns = $groupDataChoice->getGroupTypeDataChoice()->getGroupTypeDataChoiceI18ns();
-			$values[$DataChoiceI18ns[0]->getId()] = $DataChoiceI18ns[0]->getValue();
+			$DataChoice = $groupDataChoice->getGroupTypeDataChoice();
+			$values[$DataChoice->getId()] = $DataChoice->getValue();
 		}
-		
+
 		return $values;
 	}
-	
+
 	public function addChoice($value)
 	{
 		$choice = $this->findChoice($value);
@@ -122,7 +125,7 @@ class GroupData extends BaseGroupData
 			$groupDataChoice->save();
 		}
 	}
-	
+
 	/**
 	 * @param array $values
 	 */
@@ -132,12 +135,12 @@ class GroupData extends BaseGroupData
 			$this->addChoice($value);
 		}
 	}
-	
+
 	public function getAvailableChoices()
 	{
 		return $this->getGroupTypeData()->getGroupTypeDataTemplate()->getGroupTypeDataChoices();
 	}
-	
+
 	public function findChoice($value)
 	{
 		$c = new Criteria();
@@ -147,14 +150,14 @@ class GroupData extends BaseGroupData
 			return $values[0];
 		return null;
 	}
-	
+
 	public function clearChoices()
 	{
 		$this->getChoices()->delete();
 	}
-	
+
 	public function getChoices(){
 		return $this->getGroupDataChoices();
 	}
-		
+
 } // GroupData

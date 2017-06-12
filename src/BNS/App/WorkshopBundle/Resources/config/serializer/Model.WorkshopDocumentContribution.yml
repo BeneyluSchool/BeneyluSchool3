@@ -1,0 +1,6 @@
+BNS\App\WorkshopBundle\Model\WorkshopDocumentContribution:
+  exclusion_policy: All
+  relations:
+    - rel: user
+      embedded:
+        content: expr(object.getUser())

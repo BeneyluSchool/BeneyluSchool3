@@ -12,7 +12,7 @@ $(document).ready(function() {
 	guiders.createGuider({
 		attachTo:".content-sidebar-messaging",
 		buttons: [{name: "Suivant", classString: "btn btn-info btn-small pull-right", onclick: guiders.next}],
-		description: "<p>Retrouvez un message selon si vous êtes l'expéditeur et/ou le destinataire, si c'est un brouillon ou si c'est un message supprimé.</p>",
+		description: "<p>Retrouvez facilement votre message en cliquant sur l'une des catégories suivantes.</p>",
 		id: "second",
 		next: "third",
 		position: 3,
@@ -106,11 +106,13 @@ $(document).ready(function() {
 });
 
 function waitingForAjaxLoad() {
-	if ($('#messaging-write-new-msg-choose').length == 0) {
-		setTimeout("waitingForAjaxLoad()", 500);
-	}
-	else {
-		guiders.hideAll();
-		guiders.show('fifth');
+	if($.active == 0)
+	{
+	    guiders.hideAll();
+	    guiders.show('fifth');
+	}	
+	else
+	{
+	    setTimeout("waitingForAjaxLoad()", 500);
 	}
 }

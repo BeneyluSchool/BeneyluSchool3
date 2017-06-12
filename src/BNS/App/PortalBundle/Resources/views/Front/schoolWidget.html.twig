@@ -1,0 +1,127 @@
+{% trans_default_domain "PORTAL" %}
+{% if schools|length > 0 %}
+
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+
+    <style>
+        .gm-style img { max-width: none; }
+        .gm-style label { width: auto; display: inline; }
+    </style>
+
+    <script type="text/javascript">
+        {% set mapId = random() %}
+        function initialize{{ mapId }}() {
+
+            var center = new google.maps.LatLng(0,0);
+            var markers = [];
+            var infowindow = [];
+            var iterator = 0;
+            var map;
+            var currentInfo = false;
+
+            var mapOptions = {
+                zoom: 12
+            };
+
+            var map = new google.maps.Map(document.getElementById('{{ mapId }}'), mapOptions);
+
+
+            {% for school in schools %}
+                var contentString =
+                    "<div id='content'>" +
+                        "<p><b>{{ school.name }}</b></p><p>{{ school.address }}</p><p>{{ school.zipcode }} {{ school.city }}</p>" +
+                    {% if school.miniSiteUrl is not null %}
+                            "<a href='{{ path('BNSAppPortalBundle_front_redirect_minisite' , {'schoolId' : school.id}) }}'>{{ 'LINK_SEE_SCHOOL_MINISITE'|trans |desc('Voir le minisite de l\'école') }}</a>"  +
+                    {% endif %}"</div>";
+                infowindow = new google.maps.InfoWindow({
+                    content: contentString
+                });
+
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng({{ school.geocoords|replace(';',',') }}),
+                    map: map,
+                    draggable: false,
+                    animation: google.maps.Animation.DROP
+                });
+                markers.push(marker);
+                bindInfoWindow(marker, map, infowindow, contentString);
+
+
+            {% endfor %}
+
+            var bounds = new google.maps.LatLngBounds();
+            $.each(markers, function (index, marker) {
+                bounds.extend(marker.position);
+
+            });
+            map.fitBounds(bounds);
+
+            function bindInfoWindow(marker, map, infowindow, strDescription) {
+                google.maps.event.addListener(marker, 'click', function() {
+                    if(currentInfo != false)
+                    {
+                        currentInfo.close();
+                    }
+
+                    infowindow.setContent(strDescription);
+                    infowindow.open(map, marker);
+                    currentInfo = infowindow;
+                });
+            }
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize{{ mapId }});
+
+        $(function ()
+        {
+            $('.letter{{ mapId }}').click(function(e){
+                var letter = $(this).attr('data-letter');
+                e.preventDefault();
+
+                $('.info-school{{ mapId }}').hide('slow');
+                $('.letter{{ mapId }}').hide('slow');
+                $('.letters{{ mapId }}').children(".info-school[data-letter='" + letter + "']").show('slow');
+                $('.return{{ mapId }}').show('slow');
+
+            });
+            $('.return{{ mapId }}').click(function(e){
+                e.preventDefault();
+                $(this).hide('slow');
+                $('.info-school{{ mapId }}').hide('slow');
+                $('.letter{{ mapId }}').show('slow');
+            })
+        });
+
+    </script>
+
+    <div id="{{ mapId }}" class="map-canvas"></div>
+
+    <div class="letters letters{{ mapId }}">
+        {% set curLetter = null %}
+        {% for school in schools %}
+            {% if curLetter != school.name|slice(0,1) %}
+                {% set curLetter = school.name|slice(0,1) %}
+                <a href='#' class="letter letter{{ mapId }} {{ portal.font }}" data-letter="{{ curLetter }}">
+                    {{ curLetter }}
+                </a>
+            {% endif %}
+            <div class="info-school info-school{{ mapId }} " data-letter="{{ curLetter }}">
+                <p class='school-name {{ portal.font }} {{ portal.color }}'>{{ school.name }}</p>
+                <p>{{ school.address }}</p>
+                <p>{{ school.zipcode }} {{ school.city }}</p>
+                {% if school.miniSiteUrl is not null  %}
+                    <a class="external-link" href="{{ path('BNSAppPortalBundle_front_redirect_minisite' , {'schoolId' : school.id}) }}">{{ 'LINK_SEE_SCHOOL_MINISITE'|trans |desc('Voir le minisite de l\'école') }}</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <a href="#" class="return return{{ mapId }}">
+            <img src="{{ asset('medias/images/portal/return.png') }}" />
+            <span class="{{ portal.font }}">{{ 'LINK_BACK_TO_LIST'|trans |desc('Retourner à la liste') }}</span>
+        </a>
+    </div>
+
+    <br clear="all" />
+
+{% else %}
+    <p>{{ 'NO_SCHOOL_FIND'|trans |desc('Aucune école retrouvée.') }}</p>
+{% endif %}

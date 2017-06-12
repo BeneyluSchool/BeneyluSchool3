@@ -31,16 +31,17 @@ $(document).ready(function ()
             return false;
         });
 
-        //Ajustement de la hauteur
-        adjustHeight();
-
-        $(window).resize(function() {
-            adjustHeight();
+        $('.other-liaison-book').click(function (e)
+        {
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr('href'),
+                success: function (data)
+                {
+                    window.location = window.location;
+                }
+            });
+            return false;
         });
 
 });
-//Ajustement de la hauteur
-function adjustHeight()
-{
-    $('.liaisonbook-messages-min-height').height($(window).height() - $('.liaisonbook-messages-min-height').offset().top - parseInt($('.liaisonbook-messages-min-height').css('paddingBottom')) - parseInt($('.liaisonbook-messages-min-height').css('marginBottom')) - parseInt($('.liaisonbook-messages-min-height').css('paddingTop')) - 150 + 'px');
-}

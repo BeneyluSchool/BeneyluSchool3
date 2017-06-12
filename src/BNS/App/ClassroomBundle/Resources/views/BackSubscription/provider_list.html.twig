@@ -1,0 +1,12 @@
+{% trans_default_domain "CLASSROOM" %}
+{% for provider in providers %}
+    {% include 'BNSAppClassroomBundle:BackSubscription:provider_row.html.twig' %}
+{% else %}
+    <div class="no-item">
+        <div class="bnj-not-found"></div>
+        <p>
+            {% trans %}NOT_PARTNER_YET_BACK_LATER{% endtrans %}
+        </p>
+        <div class="clearfix"></div>
+    </div>
+{% endfor %}

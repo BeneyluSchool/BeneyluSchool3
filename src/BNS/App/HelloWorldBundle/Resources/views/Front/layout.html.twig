@@ -1,6 +1,9 @@
 {# On étend forcément base.html.twig #}
 {% extends '::base.html.twig' %}
 
+{% set app_unique_name = 'HELLOWORLD' %}
+{% set app_mode = 'front' %}
+
 {# Si CSS spécifique au module et en front incorporer ici #}
 {% block css %}
 	{{ parent() }}
@@ -28,12 +31,8 @@
 				<div class="row well">
 					{% block content %}{% endblock %}
 				</div>
+				</div>
 			</div>
 		</div>
 	</div>
-{% endblock %}
-
-{# Insertion du dock en précisant le module appelant (nécessaire car dockbar dans "mainBundle" #}
-{% block dock_bar %}
-	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "HELLOWORLD" , 'is_in_front' : true } %}
 {% endblock %}

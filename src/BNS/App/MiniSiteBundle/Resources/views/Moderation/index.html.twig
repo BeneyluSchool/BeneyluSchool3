@@ -1,106 +1,195 @@
-{% extends 'BNSAppMiniSiteBundle:Layout:back_page_news.html.twig' %}
+{% trans_default_domain "MINISITE" %}
+{% extends 'BNSAppMiniSiteBundle:Layout:manager.html.twig' %}
 
 {% block javascripts %}
 	{{ parent() }}
-	
+
 	<script type="text/javascript">
 		$(function ()
 		{
-			// Filtres statut
-			$('.news-status-filters li').click(function (e)
-			{
-				var $this = $(e.currentTarget).find('.select');
-				if ($this.hasClass('unchecked')) {
-					$this.removeClass('unchecked');
-					$this.addClass('checked');
-					$this.attr('src', $('.news-status-filters .template .checked').attr('src'));
-				}
-				else {
-					$this.removeClass('checked');
-					$this.addClass('unchecked');
-					$this.attr('src', $('.news-status-filters .template .unchecked').attr('src'));
+			// Clique sur news row
+			// $('.item-list-container').on('click', '.item', function (e)
+			// {
+			// 	if ($(e.target).get(0).tagName == 'A') {
+			// 		return true;
+			// 	}
+			//
+			// 	window.location = $(e.currentTarget).find('.btn-visualisation').attr('href');
+			// });
+
+			var angularizer = new Angularizer();
+
+			// Gestion de la liste d'action des articles
+			$('body').on('click', 'md-menu-item [data-id]', function (e) {
+			// $('#content .item-list-container').on('click', '.action-bar .dropdown-menu li a', function (e)
+			// {
+				var $this = $(this);
+				var $item = $('#item-' + $this.data('type') + '-' + $this.data('id'));
+
+				// Déploiement de la barre de publication programmée
+				var $menu = $item.find('md-menu');
+				var $button = $menu.find('.md-button');
+				if ($button.attr('disabled')) {
+					return false;
 				}
 
-				var id = $(e.currentTarget).attr('id').split('-');
-					id = id[2];
+				$button.attr('disabled', 'disabled');
 
-				$('.moderation-container .layer').addClass('show');
-				$.ajax(
-				{
-					url: '{{ path('minisite_manager_moderation_page_list') }}',
+				$.ajax({
+					url: $this.attr('href'),
+					type: 'POST',
+					dataType: 'json',
+					success: function (data) {
+						if (data.must_hide) {
+							var $itemParent = $item.closest('.items-container');
+							$item.slideUp('fast', function () {
+								$(this).next('md-divider').remove();
+								$(this).remove();
+
+								// No item anymore ?
+								if ($itemParent.find('md-list-item').length == 0) {
+									$itemParent.find('bns-inset').slideDown('fast');
+								}
+							});
+						}
+						else {
+
+							$menu.replaceWith(angularizer.process(data.menu));
+						}
+					}
+				}).done(function () {
+					$button.removeAttr('disabled');
+				});
+
+				e.preventDefault();
+			});
+
+			// Gestion de la pagination
+			$('#content .item-list-container').on('click', '.pagination li', function (e) {
+				var $this = $(e.currentTarget),
+					$a = $this.find('a');
+
+				if ($a.hasClass('disabled')) {
+					return false;
+				}
+
+				var type = $this.parent().parent().data('type'),
+					$container = $('#type-' + type),
+					$loader = $container.find('.loader').first();
+
+				$loader.fadeIn('fast');
+
+				$.ajax({
+					url: $a.attr('href'),
 					type: 'POST',
 					dataType: 'html',
-					data: {'is_enabled': $this.hasClass('checked'), 'filter': id},
-					success: function (data)
-					{
-						$('.moderation-container .layer').removeClass('show');
-						$('.moderation-container .moderation-list').html(data);
+					success: function (data) {
+						$container.find('.items-container').html(angularizer.process(data));
 					}
+				}).done(function () {
+					$loader.fadeOut('fast', function () {
+						$(this).hide();
+					});
 				});
 
 				return false;
 			});
-			
-			/* NEWS DELETE MODAL */
-			$('.actions-bar .delete').live('click', function(e)
+
+			// Filtres types & statuts
+			$('.moderation-type-filter li, .moderation-status-filter li').click(function (e)
 			{
-				var $this = $(e.currentTarget);
+				var $row = $(e.currentTarget),
+					$parent = $row.parent().parent(),
+					$checkbox = $row.find('.select');
 
-				$this.addClass('disabled').attr('disabled', 'disabled');
-				$.ajax({
-					url: $this.attr('href'),
-					success: function (data)
-					{
-						var $modal = $(data);
-						$('body').prepend($modal);
+				// Can NOT uncheck the last checkbox
+				if ($checkbox.hasClass('checked') && $row.parent().find('li .checked').length == 1) {
+					clearTimeout($parent.data('timer'));
+					$parent.toggleClass('show');
+					$parent.data('timer', setTimeout(function () {
+						$parent.toggleClass('hide');
+					}, 5000));
 
-						$modal.modal('show').on('hidden', function ()
-						{
-							$(this).remove();
-						});
-						$this.removeClass('disabled').removeAttr('disabled');
-					}
-				});
+					return false;
+				}
+				else {
+					// Hide tooltip
+					clearTimeout($parent.data('timer'));
 
-				return false;
+				}
+
+				// Show loader
+				$checkbox.toggleClass('checked');
+
+				// Articles loader
+				var $loader = $('.container-content .loader').first();
+
+				$loader.fadeIn('fast');
+
+
+
 			});
 
-			/* NEWS DELETE CONFIRM */
-			$('#minisite_delete_modal .modal-footer .delete-process').live('click', function (e)
-			{
-				var $this = $(this);
-				$this.addClass('disabled').attr('disabled', 'disabled');
+        $(".content-type").on("click", function() {
+          var $loader = $('.content-type .loader');
+          $loader.addClass('show');
 
-				$.ajax({
-					url: $this.attr('href'),
-					success: function (data)
-					{
-						var newsId = $('#minisite_delete_modal .modal-body').data('object');
-						$('#news-' + newsId).slideUp('slow', function ()
-						{
-							$(this).remove();
-						});
+        });
+        $(".content-status").on("click", function() {
+          var $loader = $('.content-status .loader');
+          $loader.addClass('show');
+        });
 
-						$('#minisite_delete_modal').modal('hide');
-					}
-				});
+      $( "form" ).on( "click", function( ) {
+        var $loader = $('.loader');
+        var filtres = $( "form").serialize();
+        $.ajax({
+          url: Routing.generate('minisite_manager_moderation_list'),
+          type: 'POST',
+          dataType: 'html',
+          data: filtres,
+          success: function (data) {
+            $('.item-list-container').html(angularizer.process(data));
+          }
+        }).done(function () {
 
-				return false;
-			});
+            $loader.removeClass('show');
+
+        });
+
+        return false;
+
+      });
+
+
+
+
+
 		});
 	</script>
 {% endblock %}
 
+
+
+{% block sidebar %}
+	{% include 'BNSAppMiniSiteBundle:Sidebar:sidebar.html.twig' with {'index': 'moderation'} %}
+{% endblock sidebar %}
+
 {% block content %}
-	<div class="moderation-container">
-		<div class="layer">
-			<div class="message">
-				{% trans %}MiniSite.Back.General.LoadingProcess{% endtrans %}
-				<div><img src="{{ asset('/medias/images/icons/big-loader.gif') }}" alt="" /></div>
-			</div>
-		</div>
-		<div class="moderation-list">
-			{% render 'BNSAppMiniSiteBundle:BackModeration:getPages' with {'miniSite': minisite} %}
+  <md-toolbar class="content-toolbar">
+    <div class="md-toolbar-tools layout-align-start-center">
+      <bns-sidebar-toggle></bns-sidebar-toggle>
+      <h1 class="md-title text-primary text-left flex flex-gt-sm-33">{% trans%}LINK_MODERATION{% endtrans %}</h1>
+    </div>
+  </md-toolbar>
+
+	<div class="loader loader-sb">
+		<div class="message">
+			{% trans %}LOADING_PLEAE_WAIT{% endtrans %}
 		</div>
 	</div>
+  <md-content class="item-list-container">
+		{{ render(controller('BNSAppMiniSiteBundle:BackModeration:getPages', {'miniSite': minisite} )) }}
+  </md-content>
+
 {% endblock content %}

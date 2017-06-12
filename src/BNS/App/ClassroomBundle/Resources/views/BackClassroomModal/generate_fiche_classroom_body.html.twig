@@ -1,0 +1,57 @@
+{% trans_default_domain "CLASSROOM" %}
+<div class="loader loader-sb">
+	<div class="message">
+    {% trans %}DOWNLOAD_START_IN_FEW_SECOND{% endtrans %}
+	</div>
+</div>
+<div class="modal-body">
+	<div class="content-modal-body">
+        {{ 'TITLE_SURE_TO_GENERATE_CARD_CLASS'|trans({'%class%': classroom.getLabel() |escape}) |desc('
+        			<h2>Êtes-vous sûr de vouloir générer une fiche pour votre classe "%class%" ?</h2>
+		<h3>
+			<strong>Attention</strong>, cette action va régénérer tous les mots de passe de vos élèves et de leurs parents ! Leur ancien mot de passe sera perdu et vous devrez leur communiquer les nouveaux.<br />
+			Cette action est recommandée lors de la première génération de mot de passe, à la rentrée par exemple.
+		</h3>
+        ') |raw }}
+    <div class="choix_user">
+      <div class="conteneur_choix_eleves">
+        <label for="check_eleves">
+          <img src="{{ asset('medias/images/classroom/modal/icon_eleves_checked.png') }}" /> {{ 'IMAGE_PUPIL'|trans }}
+        </label>
+        <input id="check_eleves" type="checkbox" checked />
+      </div>
+      <div class="conteneur_choix_parents">
+        <label for="check_parents">
+          <img src="{{ asset('medias/images/classroom/modal/icon_parents.png') }}" /> {{ 'IMAGE_PARENT_PUPIL'|trans }}
+        </label>
+        <input id="check_parents" type="checkbox" checked />
+      </div>
+      <div class="conteneur_choix">
+        <label for="check_choix">
+          <img src="{{ asset('medias/images/classroom/modal/icon_choix.png') }}" /> {{ 'TITLE_CUSTOMIZE'|trans }}
+        </label>
+        <input id="check_choix" type="checkbox" />
+      </div>
+    </div>
+
+    <div id="detail">
+      <p>{{ 'USER_DETAIL'|trans }}
+        <img class="icon_dropdown" src="{{ asset('medias/images/classroom/modal/icon_dropdown.png') }}" />
+      </p>
+    </div>
+
+    {{ form_start(form, {'attr' : {'class' : 'form_fiche_users'} }) }}
+    {% for row_user in form %}
+      <div class="row_check">
+        <img class="icon_user" src={% if pupils[loop.index0] is defined %}"{{ avatar(pupils[loop.index0], 'thumbnail') }}" {% else %} "{{ asset('medias/images/classroom/modal/icon_parents.png') }}" {% endif %}/>
+        {{ form_label(row_user) }} {{ form_widget(row_user) }}
+        <p class="statut_user"> {% if pupils[loop.index0] is defined %} {{ 'LABEL_PUPIL'|trans }} {% else %} {{ 'LABEL_PARENTS'|trans }} {% endif %}</p>
+
+      </div>
+    {% endfor %}
+
+    {{ form_end(form) }}
+
+  </div>
+</div>
+<div class="beneylu-jim"></div>

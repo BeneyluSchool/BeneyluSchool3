@@ -1,0 +1,35 @@
+<div class="accordion" id="accordion-forum">
+    {% for i,forumItem in forums %}
+    {% if not group is defined or forumItem.group != group %}
+        {% if group is defined %}
+                 </ul>
+            </div>
+        </div>
+    </div>
+        {% endif %}
+        {% set group = forumItem.group %}
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-forum" href="#accordion-group-{{ forumItem.groupId }}">
+            {{ forumItem.group }}
+            </a>
+        </div>
+        <div id="accordion-group-{{ forumItem.groupId }}" class="accordion-body collapse {% if forumItem.group == forum.group %}in{% endif %}">
+            <div class="accordion-inner">
+                <ul class="nav nav-list  affix">
+    {% endif %}
+
+                  <li {% if forumItem == forum %}class="active"{% endif %}>
+                      <a href="{{ path('BNSAppForumBundle_front_slug', {"slug" : forumItem.slug}) }}">{{ forumItem.title }}
+                          <i class="pull-right icon-chevron-right"></i>
+                      </a>
+                  </li>
+
+    {% endfor %}
+    {% if not group is defined %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>

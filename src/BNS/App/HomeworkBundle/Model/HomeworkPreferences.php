@@ -15,4 +15,12 @@ use BNS\App\HomeworkBundle\Model\om\BaseHomeworkPreferences;
  */
 class HomeworkPreferences extends BaseHomeworkPreferences {
 
+    public function getDaysSorted()
+    {
+        $order = ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'];
+        $days = $this->getDays();
+
+        return array_values(array_intersect($order, $days));
+    }
+
 } // HomeworkPreferences

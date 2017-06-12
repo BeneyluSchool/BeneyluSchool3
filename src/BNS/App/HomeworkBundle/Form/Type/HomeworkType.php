@@ -2,6 +2,7 @@
 
 namespace BNS\App\HomeworkBundle\Form\Type;
 
+use BNS\App\CoreBundle\Model\GroupQuery;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -26,7 +27,7 @@ class HomeworkType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $date_format = ($this->userLocale == 'fr' || $this->userLocale == 'fr' ? 'dd/MM/yyyy' : 'MM-dd-yyyy');
+        $date_format = "dd/MM/yyyy";
 
         $builder->add('id', 'hidden');
         $builder->add('name', 'text');
@@ -34,7 +35,7 @@ class HomeworkType extends AbstractType
             'input' => 'datetime',
             'widget' => 'single_text',
             'format' => $date_format,
-            'attr' => array('class' => 'jq-date'),
+            'attr' => array('class' => 'jq-date', 'placeholder' => 'PLACEHOLDER_DAY_MONTH_YEAR'),
         ));
         $builder->add('description', 'textarea');
         $builder->add('helptext', 'textarea', array(
@@ -44,32 +45,36 @@ class HomeworkType extends AbstractType
             'input' => 'datetime',
             'widget' => 'single_text',
             'format' => $date_format,
-            'attr' => array('class' => 'jq-date'),
+            'attr' => array('class' => 'jq-date', 'placeholder' => 'PLACEHOLDER_DAY_MONTH_YEAR'),
             'required' => false,
         ));
 
         $builder->add('recurrence_type', 'choice', array(
             'choices' => array(
-                'ONCE' => 'Une fois',
-                'EVERY_WEEK' => 'Toutes les semaines',
-                'EVERY_TWO_WEEKS' => 'Toutes les deux semaines',
-                'EVERY_MONTH' => 'Tous les mois',
+                'ONCE' => 'CHOICE_ONCE',
+                'EVERY_WEEK' => 'CHOICE_EVERY_WEEK',
+                'EVERY_TWO_WEEKS' => 'CHOICE_EVERY_TWO_WEEK',
+                'EVERY_MONTH' => 'CHOICE_EVERY_MONTH',
             ),
         ));
 
         $builder->add('recurrence_days', 'choice', array(
             'choices' => array(
-                'SU' => 'Dimanche',
-                'MO' => 'Lundi',
-                'TU' => 'Mardi',
-                'WE' => 'Mercredi',
-                'TH' => 'Jeudi',
-                'FR' => 'Vendredi',
-                'SA' => 'Samedi',
+                'SU' => 'CHOICE_SUNDAY',
+                'MO' => 'CHOICE_MONDAY',
+                'TU' => 'CHOICE_TUESDAY',
+                'WE' => 'CHOICE_WEDNESDAY',
+                'TH' => 'CHOICE_THURSDAY',
+                'FR' => 'CHOICE_FRIDAY',
+                'SA' => 'CHOICE_SATURDAY',
             ),
             'required' => false,
             'multiple' => true,
             'expanded' => true,
+        ));
+
+        $builder->add('has_locker', null, array(
+            'label' => 'LABEL_ASSOCIATE_LOCKER_TO_WORK',
         ));
 
         $subject_list = array();
@@ -79,7 +84,7 @@ class HomeworkType extends AbstractType
                 {
                     $subject_list[$subject->getId()] = $subject->getName();
                 }
-                else   
+                else
                 {
                     $subject_list[$subject->getId()] = "<ol><li>".$subject->getName()."</li></ol>";
                 }
@@ -97,12 +102,12 @@ class HomeworkType extends AbstractType
             'multiple' => true,
             'expanded' => true,
             'required' => true,
-            'choices' => $this->groups,
+            'query' => GroupQuery::create()->filterById($this->groups->getPrimaryKeys()),
         ));
-        
+
         // Ajout d'un champ caché pour savoir si l'utilisateur
         // souhaite creer un autre devoir apres celui-ci
-        $builder->add('createAnother', 'hidden', array('property_path' => false, 'data' => 'false',));
+        $builder->add('createAnother', 'hidden', array('mapped' => false, 'data' => 'false',));
     }
 
     /**
@@ -112,6 +117,7 @@ class HomeworkType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'BNS\App\HomeworkBundle\Model\Homework',
+            'translation_domain' => 'HOMEWORK'
         ));
     }
 

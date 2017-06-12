@@ -18,7 +18,9 @@ class ProfileFeedType extends AbstractType
 	{
 		// Texte du statut
 		$builder->add('text', 'textarea', array(
-			'required'	=> true
+			'required'	=> true,
+			'label'=>'TITLE_STATUS_CONTENT',
+			'attr' => array('rows' => '5'),
 		));
 		
 		// Id de l'image associé au statut
@@ -32,6 +34,7 @@ class ProfileFeedType extends AbstractType
     {
         $resolver->setDefaults(array(
 			'data_class' => 'BNS\App\ProfileBundle\Form\Model\ProfileFeedFormModel',
+			'translation_domain' => 'PROFILE'
         ));
     }
 

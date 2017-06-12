@@ -1,7 +1,8 @@
 {# On étend forcément base.html.twig #}
+{% trans_default_domain "MESSAGING" %}
 {% extends '::base_manager.html.twig' %}
 
-{% block title %}Messagerie - Gestion{% endblock %}
+{% block title %}{{ 'TITLE_MESSAGING_MANAGEMENT'|trans }}{% endblock %}
 
 {% block css %}
     {{ parent() }}
@@ -13,8 +14,6 @@
         
 {% block javascripts %}	
     {{ parent() }}
-    <script type="text/javascript" src="{{ asset('/bundles/fosjsrouting/js/router.js') }}"></script> }}"></script>
-    <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
     <script type="text/javascript" src="{{ asset('/medias/js/messaging/Back/layout.js') }}"></script>	
 {% endblock %}	
 
@@ -28,5 +27,5 @@
 {% endblock %}
         
 {% block dock_bar %}
-	{% render 'BNSAppMainBundle:DockBar:index' with {'module_unique_name' : 'MESSAGING' , 'is_in_front' : false } %}
+	{{ render(controller('BNSAppMainBundle:DockBar:index', {'module_unique_name' : 'MESSAGING' , 'is_in_front' : false } )) }}
 {% endblock %}

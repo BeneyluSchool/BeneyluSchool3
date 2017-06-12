@@ -3,7 +3,7 @@
 <script id="template-download" type="text/x-tmpl">
 	{% for (var i=0, file; file=o.files[i]; i++) { %}
 		<tr id="temp-{%=file.name%}" class="template-download fade temp-file {% if (file.error) { %} error {% } %}">
-			{% if (file.error) { %}
+			{% if (file.error && file.error != 'emptyResult') { %}
 				<td colspan="7" class="alert alert-error">
 					<b>{%=file.name%}</b> n'a pû être envoyé
 					{% if (file.error == 'notAllowed'){ %}
@@ -11,7 +11,7 @@
 					{% } %}  
 					
 					{% if(file.error == 'maxFileSize'){ %}
-						car le fichier dépasse la taille maximale autorisée (20 Mo).
+						car le document dépasse la taille maximale autorisée (50 Mo).
 					{% } %}
 				</td>
 			{% } else { %}

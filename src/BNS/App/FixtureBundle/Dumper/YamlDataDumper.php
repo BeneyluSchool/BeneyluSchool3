@@ -2,7 +2,7 @@
 
 namespace BNS\App\FixtureBundle\Dumper;
 
-use BNS\App\CoreBundle\Utils\String;
+use BNS\App\CoreBundle\Utils\StringUtil;
 use BNS\App\FixtureBundle\Marker\ForeignTableName\ResourceMarker;
 use BNS\App\FixtureBundle\Marker\MarkerManager;
 use BNS\App\ResourceBundle\Model\ResourceJoinObjectQuery;
@@ -226,7 +226,7 @@ class YamlDataDumper extends BaseDumper
 
                                 // Foreign markers
                                 if (null !== $marker) {
-                                    $this->output->writeln('  - Dumping a marker ' . $marker . ' for ' . $tableMap->getName() . '#' . String::arrayToString($primaryKeys, true));
+                                    $this->output->writeln('  - Dumping a marker ' . $marker . ' for ' . $tableMap->getName() . '#' . StringUtil::arrayToString($primaryKeys, true));
                                     $value = $marker->dump($this->input, $this->output, $this->dialog, $column, $value);
                                     $this->output->writeln('');
 
@@ -253,7 +253,7 @@ class YamlDataDumper extends BaseDumper
                                 $value = $row[$col];
                                 $marker = $this->markerManager->getMarker($column);
                                 if (null !== $marker) {
-                                    $this->output->writeln('  - Dumping a marker ' . $marker . ' for ' . $tableMap->getName() . '#' . String::arrayToString($primaryKeys, true) . '::' . $col);
+                                    $this->output->writeln('  - Dumping a marker ' . $marker . ' for ' . $tableMap->getName() . '#' . StringUtil::arrayToString($primaryKeys, true) . '::' . $col);
                                     $value = $marker->dump($this->input, $this->output, $this->dialog, $column, $value);
                                     $this->output->writeln('');
                                 }
@@ -279,7 +279,7 @@ class YamlDataDumper extends BaseDumper
                                 throw new \RuntimeException('Resource join attachment do NOT support more than one primary for the foreign table !');
                             }
 
-                            $this->output->writeln('  - Dumping attachments resource for ' . $tableMap->getName() . '#' . String::arrayToString($primaryKeys, true));
+                            $this->output->writeln('  - Dumping attachments resource for ' . $tableMap->getName() . '#' . StringUtil::arrayToString($primaryKeys, true));
                             foreach ($primaryKeys as $primaryKey);
 
                             $attchments = ResourceJoinObjectQuery::create('rjo')

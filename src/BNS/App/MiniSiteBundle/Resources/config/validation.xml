@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
+
+    <class name="BNS\App\MiniSiteBundle\Model\MiniSitePageText">
+        <property name="draft_title">
+            <constraint name="NotBlank">
+				<option name="message">INVALID_TITLE_EMPTY</option>
+			</constraint>
+			<constraint name="Length">
+				<option name="max">255</option>
+				<option name="maxMessage">INVALID_TITLE_TOO_LONG</option>
+                <option name="min">3</option>
+                <option name="minMessage">INVALID_TITLE_TOO_SHORT</option>
+			</constraint>
+        </property>
+        <property name="draft_content">
+            <constraint name="NotBlank">
+                <option name="message">INVALID_CONTENT_EMPTY</option>
+            </constraint>
+        </property>
+    </class>
+
+	<class name="BNS\App\MiniSiteBundle\Model\MiniSitePage">
+        <property name="title">
+            <constraint name="NotBlank">
+				<option name="message">INVALID_TITLE_EMPTY</option>
+			</constraint>
+			<constraint name="Length">
+				<option name="max">255</option>
+				<option name="maxMessage">INVALID_TITLE_TOO_LONG</option>
+			</constraint>
+        </property>
+		<constraint name="Callback">
+			<option name="methods">
+				<value>isTypeExists</value>
+			</option>
+		</constraint>
+    </class>
+
+	<!-- WIDGETS -->
+	<class name="BNS\App\MiniSiteBundle\Widget\MiniSiteWidgetRichText">
+        <property name="title">
+            <constraint name="NotBlank">
+				<option name="message">INVALID_TITLE_EMPTY</option>
+			</constraint>
+			<constraint name="Length">
+				<option name="max">100</option>
+				<option name="maxMessage">INVALID_TITLE_TOO_LONG</option>
+                <option name="min">3</option>
+                <option name="minMessage">INVALID_TITLE_TOO_SHORT</option>
+			</constraint>
+        </property>
+		<getter property="content">
+            <constraint name="NotBlank">
+				<option name="message">INVALID_CONTENT_EMPTY</option>
+			</constraint>
+        </getter>
+    </class>
+
+	<class name="BNS\App\MiniSiteBundle\Widget\MiniSiteWidgetRss">
+        <property name="title">
+            <constraint name="NotBlank">
+				<option name="message">INVALID_TITLE_EMPTY</option>
+			</constraint>
+			<constraint name="Length">
+				<option name="max">100</option>
+				<option name="maxMessage">INVALID_TITLE_TOO_LONG</option>
+                <option name="min">3</option>
+                <option name="minMessage">INVALID_TITLE_TOO_SHORT</option>
+			</constraint>
+        </property>
+		<getter property="rssUrl">
+            <constraint name="NotBlank">
+				<option name="message">INVALID_FLUX_RSS_EMPTY</option>
+			</constraint>
+			<constraint name="Url">
+                <option name="checkDNS">true</option>
+                <option name="message">INVALID_FLUX_RSS_INVALID</option>
+			</constraint>
+        </getter>
+		<getter property="limit">
+			<constraint name="Choice">
+				<option name="choices">
+					<value>1</value>
+					<value>2</value>
+					<value>3</value>
+					<value>4</value>
+					<value>5</value>
+					<value>10</value>
+				</option>
+				<option name="message">INVALID_FLUX_DISPLAY_LIMIT_INVALID</option>
+			</constraint>
+        </getter>
+    </class>
+
+	<class name="BNS\App\MiniSiteBundle\Widget\MiniSiteTime">
+        <property name="title">
+            <constraint name="NotBlank">
+				<option name="message">INVALID_TITLE_EMPTY</option>
+			</constraint>
+			<constraint name="Length">
+				<option name="max">100</option>
+				<option name="maxMessage">INVALID_TITLE_TOO_LONG</option>
+                <option name="min">3</option>
+                <option name="minMessage">INVALID_TITLE_TOO_SHORT</option>
+			</constraint>
+        </property>
+    </class>
+
+    <class name="BNS\App\MiniSiteBundle\Model\MiniSitePageNews">
+        <property name="title">
+            <constraint name="NotBlank">
+                <option name="message">INVALID_TITLE_EMPTY</option>
+            </constraint>
+            <constraint name="Length">
+                <option name="max">255</option>
+                <option name="maxMessage">INVALID_TITLE_TOO_LONG</option>
+                <option name="min">3</option>
+                <option name="minMessage">INVALID_TITLE_TOO_SHORT</option>
+            </constraint>
+        </property>
+        <property name="content">
+            <constraint name="NotBlank">
+                <option name="message">INVALID_CONTENT_EMPTY</option>
+            </constraint>
+        </property>
+    </class>
+</constraint-mapping>

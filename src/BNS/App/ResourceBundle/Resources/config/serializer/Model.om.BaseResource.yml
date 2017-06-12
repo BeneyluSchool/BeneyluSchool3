@@ -1,0 +1,35 @@
+BNS\App\ResourceBundle\Model\om\BaseResource:
+  exclusion_policy: All
+  virtual_properties:
+    getTypeUniqueName:
+      expose: true
+
+  properties:
+    id:
+      expose: true
+    label:
+      expose: true
+    description:
+      expose: true
+    filename:
+      expose: true
+    file_mime_type:
+      expose: true
+    status_deletion:
+      expose: true
+    status_creation:
+      expose: true
+    user_id:
+      expose: true
+    is_private:
+      expose: true
+    size:
+      expose: true
+    download_count:
+      expose: true
+    slug:
+      expose: true
+    created_at:
+      expose: true
+    updated_at:
+      expose: true

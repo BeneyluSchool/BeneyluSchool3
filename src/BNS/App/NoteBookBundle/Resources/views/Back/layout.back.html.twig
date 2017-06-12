@@ -1,0 +1,55 @@
+{% extends '::base_manager.html.twig' %}
+
+{% set app_unique_name = 'NOTEBOOK' %}
+{% set app_mode = 'back' %}
+
+{% block title %}
+	Cahier journal - Gestion
+{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+	{# Appel CSS du package layout manager #}
+    {% include "BNSAppMainBundle:Manager:layoutStyle.html.twig" %}
+    <link href="{{ asset('/medias/css/notebook/manager.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('/medias/css/ui-twitter-theme/jquery-ui-1.8.16.custom.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+        
+{% block javascripts %}
+    {{ parent() }}
+	
+    <script type="text/javascript" src="{{ asset('/medias/js/notebook/Back/layout.js') }}"></script>
+{% endblock %} 
+        
+{% block body %}
+	{% block form_start %}
+	{% endblock form_start %}
+	<div class="book-binding-admin"></div>
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					{% block header %}{% endblock header %}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid container">
+		<div class="row-fluid container-manager">
+			{% block sidebar %}
+				
+			{% endblock sidebar %}
+			<div class="span9 container-content no-margin">
+				{% include 'BNSAppMainBundle::notice.html.twig' %}
+				{% block content %}
+
+				{% endblock %}
+			</div>
+			<div class="container-manager-bottom">
+				<div class="content-manager-bottom"></div>
+			</div>
+		</div>
+	</div>
+	{% block form_end %}
+	{% endblock form_end %}
+{% endblock %} 

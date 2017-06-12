@@ -1,0 +1,36 @@
+{% trans_default_domain "GROUP" %}
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function () {
+    $('#groups-{{ group.id }}-{{ role.type }}').dataTable(
+      {
+        "bJQueryUI": true,
+        "sPaginationType": "two_button",
+        "sAjaxSource": "{{ path('BNSAppGroupBundle_user_list_ajax' , {'roleType' : role.type , 'groupSlug' : group.slug}) }}",
+        "bServerSide": true,
+        "bPaginate": true,
+        "bFilter": true,
+        "bSort": false,
+        "bInfo": false,
+        "bAutoWidth": false,
+        "iDisplayLength": 10{#,
+                A CORRIGER
+                "oLanguage": {
+                    "sUrl": "/medias/js/datatable/french.txt"
+                }#}
+      });
+  });
+</script>
+
+<div class="datatable">
+  <table cellpadding="0" cellspacing="0" border="0" class="display" id="groups-{{ group.id }}-{{ role.type }}">
+    <thead>
+    <tr>
+      <th>{{ 'TABLE_NAME'|trans |desc('Nom') }}</th>
+      <th>{{ 'LAST_CONNECTION'|trans }}</th>
+      <th>{{ 'TABLE_ACTIONS'|trans |desc('Actions') }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>

@@ -14,18 +14,18 @@ class ChangeYearGPSDataResetType extends AbstractType
 {
 	/**
 	 * @param FormBuilderInterface $builder
-	 * @param array $options 
+	 * @param array $options
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options)
-	{	
+	{
 		$builder->add('choice', 'choice', array(
 			'required'	     => true,
 			'choices'	     => ChangeYearGPSDataReset::getChoices(),
-			'empty_value'    => 'Veuillez choisir',
+			'empty_value'    => 'PLEASE_CHOOSE',
             'error_bubbling' => true
 		));
 	}
-	
+
 	/**
 	 * @param OptionsResolverInterface $resolver
 	 */
@@ -33,11 +33,12 @@ class ChangeYearGPSDataResetType extends AbstractType
     {
         $resolver->setDefaults(array(
 			'data_class' => 'BNS\App\GPSBundle\DataReset\ChangeYearGPSDataReset',
+            'translation_domain' => 'GPS'
         ));
     }
-	
+
 	/**
-	 * @return string 
+	 * @return string
 	 */
 	public function getName()
 	{

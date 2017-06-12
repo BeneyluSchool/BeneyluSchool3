@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="main_service_bns_app_statistics_bundle.class">BNS\App\StatisticsBundle\Services\MainService</parameter>
+        <parameter key="template_service_bns_app_statistics_bundle.class">BNS\App\StatisticsBundle\Services\StatisticsService</parameter>
+    </parameters>
+
+    <services>
+        <service id="main_service_bns_app_statistics_bundle" class="%main_service_bns_app_statistics_bundle.class%">
+            <argument type="service" id="service_container" />
+            <tag name="kernel.event_listener" event="kernel.terminate" method="onKernelTerminate" />
+        </service>
+        <service id="template_service_bns_app_statistics_bundle" class="%template_service_bns_app_statistics_bundle.class%">
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="bns.statistic_manager" class="BNS\App\StatisticsBundle\Manager\StatisticManager">
+            <argument type="service" id="bns.group_manager" />
+            <argument type="service" id="bns.user_manager" />
+            <argument type="service" id="translator" />
+        </service>
+
+        <service id="install_process_bns_app_statistics_bundle" class="BNS\App\StatisticsBundle\Install\InstallProcess">
+            <tag name="bns.install_process" />
+        </service>
+
+    </services>
+</container>

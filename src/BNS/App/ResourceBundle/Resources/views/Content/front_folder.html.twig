@@ -1,0 +1,50 @@
+{% extends 'BNSAppResourceBundle:Content:front_content_layout.html.twig' %}
+
+{% block list %}
+	{# ToolBar settings #}
+	{% include 'BNSAppResourceBundle:ToolBar:toolbar_settings.html.twig' with {
+		'canManage': canManageSelection,
+		'navigationContext': 'GALLERY'
+	} %}
+
+    <div class="filters-container">
+        <div class="row-fluid">
+            <div class="span4 {{ app.session.has('resource_filters') and app.session.get('resource_filters').favorites ? 'selected' : '' }}">
+                <img src="{{ asset('/medias/images/resource/gallery/favorite-active.png') }}" alt="" />
+                <a data-filter="favorites">Afficher les documents favoris</a>
+            </div>
+            <div class="span4 {{ app.session.has('resource_filters') and app.session.get('resource_filters').alpha ? 'selected' : '' }}">
+                <img src="{{ asset('/medias/images/resource/gallery/alpha.png') }}" alt="" />
+                <a data-filter="alpha">Classer par ordre alphabétique</a>
+            </div>
+            <div class="span4 {{ app.session.has('resource_filters') and app.session.get('resource_filters').chrono ? 'selected' : '' }}">
+                <img src="{{ asset('/medias/images/resource/gallery/time.png') }}" alt="" />
+                <a data-filter="chrono">Classer par ordre chronologique</a>
+            </div>
+        </div>
+    </div>
+
+	{% set no_item_class = resources|length > 0 ? 'hide' : '' %}
+	{% for resource in resources %}
+		{% include 'BNSAppResourceBundle:ContentBlock:front_block_gallery.html.twig' %}
+	{% endfor %}
+
+	{% if has_right_somewhere('RESOURCE_MY_RESOURCES') %}
+		{% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+			'text': "Il n'y a pas encore de document dans ce dossier.",
+			'class': no_item_class,
+			'button' : {
+				'link' : path('BNSAppResourceBundle_add_choose'),
+				'class' : "btn bns-info btn-32 large add-resource-btn",
+				'span_class' : 'icons-24 add-icon',
+				'text' : "Ajouter des documents",
+				'data': 'rel="history" title="Ajouter un document"'
+			}
+		} %}
+	{% else %}
+		{% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+				'text': "Il n'y a pas encore de document dans ce dossier.",
+				'class': no_item_class,
+		} %}
+	{% endif %}
+{% endblock list %}

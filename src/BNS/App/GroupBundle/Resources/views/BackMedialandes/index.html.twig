@@ -1,0 +1,75 @@
+{% trans_default_domain "GROUP" %}
+{% extends 'BNSAppGroupBundle:Back:layout.html.twig' %}
+
+{% block header %}
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span8">
+						<a id="medialandes_add" href="#" class="btn bns-info btn-24 large write-new-status-btn align-left">
+							<span class="icons-24 add-icon"></span>
+							{{ 'LINK_ADD_SCHOOL'|trans |desc('Ajouter une école') }}
+						</a>
+					</div>
+					<div class="align-right span4">
+						<a href="#" id="medialandes_submit" class="btn btn-validate bns-success validate-medium btn-24 medium validate-all-statuses align-right float-right">
+							<span class="icons-24 validate-icon"></span><strong>{{ 'LINK_SAVE'|trans |desc('Enregistrer') }}</strong>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock header %}
+
+{% block sidebar %}
+    {{ render(controller('BNSAppGroupBundle:Back:sidebar', {'section' : 'medialandes'} )) }}
+{% endblock sidebar %}
+
+
+{% block content %}
+	
+	<h3 class="whitelist-title">{{ 'TITLE_LIST_SCHOOL_MEDIALANDES'|trans |desc('Liste des écoles souscrivant à Médialandes') }}</h3>
+
+    {% include 'BNSAppMainBundle::notice.html.twig' %}
+
+	<form id="medialandes_form" action="" method="post">
+
+		<div class="item form">
+			<div id="input_list">
+				{% for uai in medialandes_list %}
+
+					<div class="row-site">
+
+						<input value="{{ uai }}" type="text" name="uai[]" required="required" maxlength="255" placeholder="UAI">
+
+						<a href="#" class="btn bns-danger btn-24 medium-return delete-item">
+							<span class="icons-24 delete-icon"></span>
+							<strong>{{ 'LINK_DELETE'|trans |desc('Supprimer') }}</strong>
+						</a>
+
+					</div>
+                {% else %}
+                    {% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+                        'text':  'NO_SCHOOL_YET_ADD_ONE_AND_SAVE_UAI'|trans |desc('Il n\'y a pas encore d\'école.<br />Cliquez sur Ajouter une école puis enregistrez son UAI')
+                    } %}
+				{% endfor %}
+			</div>
+		</div>
+	</form>
+	
+	<script type="text/javascript">
+		$('#medialandes_submit').click(function(){
+			$('#medialandes_form').submit();
+		});
+		
+		$('#medialandes_add').click(function(){
+			$('#input_list').append('<div class="row-site"><input value="" type="text" name="uai[]" required="required" maxlength="255" placeholder="UAI"><a href="#" class="btn bns-danger btn-24 medium-return delete-item"><span class="icons-24 delete-icon"></span><strong>{{ 'LINK_DELETE'|trans |desc('Supprimer') }}</strong></a></div>');
+		});
+
+		$('.delete-item').live('click',function(){
+			 $(this).parent('.row-site').slideUp(200,this.remove);
+		});
+	</script>
+{% endblock %}

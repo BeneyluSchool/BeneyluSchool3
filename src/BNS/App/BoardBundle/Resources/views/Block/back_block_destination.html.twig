@@ -1,0 +1,28 @@
+<div class="title-container information-destination-choice">
+	<div class="title active border-blue">Lieu de publication<span class="square icon-arrow"></span></div>
+	<div class="content-title">
+		<ul>
+		 {% for i,field in form.destination %}
+			<li>
+				<label for="{{ field.vars.id }}">
+					<span>{{ field.vars.label }}</span>
+					{{ form_widget(field) }}
+				</label>
+
+				{% if i == 0 %}
+					<li class="text-row">
+						<div>
+							<strong>Carnet(s) de liaison</strong>
+						</div>
+					</li>
+				{% endif %}
+			</li>
+		{% endfor %}
+		</ul>
+		{% if form.destination.vars.errors|length > 0 %}
+			<div class="alert alert-danger bns-alert">
+				{{ form_errors(form.destination) }}
+			</div>
+		{% endif %}
+	</div>
+</div>

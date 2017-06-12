@@ -1,0 +1,480 @@
+{% extends 'BNSAppHelloWorldBundle:BackBlog:base.html.twig' %}
+
+{% block body_attr %}{{ parent() }} ng-controller="HelloBlogComponents as ctrl"{% endblock %}
+
+{% block actionbar_content %}
+
+  {{ components.button_nav('Back', { href: path('hello_world_manager_blog'), back: true }) }}
+
+  {{ components.button('A very very long button', { intent: 'primary', raised: true }) }}
+
+  <bns-overflow namespace="actionbar">
+    {{ components.button('Action Alpha', { intent: 'primary' }) }}
+    {{ components.button('Action Beta|with subtext', { raised: true }) }}
+    {{ components.button('Action Gamma|also with subtext', { icon: 'cake' }) }}
+    {{ components.button('Action Delta') }}
+    {{ components.button('', { icon: 'apps' }) }}
+    {{ components.button('Action Epsilon') }}
+    {{ components.button('Action Zeta', { icon: { name: 'android', pos: 'right' } }) }}
+    {{ components.button('Action Eta', { intent: 'warn' }) }}
+  </bns-overflow>
+
+  {# use a dummy flex element to occupy as much space as possible => next nodes are pushed to the right #}
+  <span flex></span>
+
+  {{ components.button('Create', { intent: 'accent', href: path('hello_world_manager_blog_create'), icon: 'add', raised: true }) }}
+
+{% endblock %}
+
+{% block content %}
+
+  <md-toolbar class="content-toolbar">
+    <div class="md-toolbar-tools">
+      <bns-sidebar-toggle></bns-sidebar-toggle>
+      <h2 flex class="text-primary md-headline">Components</h2>
+    </div>
+  </md-toolbar>
+
+<md-content>
+  <div class="md-padding">
+    <h3 id="buttons" class="md-display-1">Buttons</h3>
+
+    <h4>Basics</h4>
+
+    <div layout="row" layout-wrap>
+      {{ components.button('Button') }}
+      {{ components.button('Link', { href: path('hello_world_manager_blog_components') }) }}
+      {{ components.button('Disabled', { disabled: true }) }}
+      {{ components.button('Raised', { raised: true }) }}
+      {{ components.button('Raised disabled', { raised: true, disabled: true }) }}
+      {{ components.button('Main action | A little context', { raised: true }) }}
+      {{ components.button('The cake | is a lie', { icon: 'cake', raised: true }) }}
+      {{ components.button('A button | with a lot | of pipes | inside', { raised: true }) }}
+    </div>
+
+    <h4>Presets</h4>
+
+    <div layout="row" layout-wrap>
+      {{ components.button_nav('Navigation', { href: path('hello_world_manager_blog_components') } ) }}
+      {{ components.button_nav('Navigation back', { href: path('hello_world_manager_blog_components'), back: true } ) }}
+      {{ components.button_nav('Navigation disabled', { href: path('hello_world_manager_blog_components'), disabled: true } ) }}
+    </div>
+
+    <h4>Intents</h4>
+
+    {% set btnConfs = {
+      'button': {},
+      'link': { href: path('hello_world_manager_blog_components') },
+      'hue 1': { hue: 1 },
+      'hue 2': { hue: 2 },
+      'hue 3': { hue: 3 },
+      'disabled': { disabled: true },
+      'raised': { raised: true },
+      'raised hue 1': { raised: true, hue: 1 },
+      'raised hue 2': { raised: true, hue: 2 },
+      'raised hue 3': { raised: true, hue: 3 },
+      'raised disabled': { raised: true, disabled: true },
+      'icon': { raised: true, icon: 'star' },
+      'hover': { hover: true },
+      'raised hover': { hover: true, raised: true }
+    } %}
+
+    <div layout="row" style="text-align: center;">
+      {% for intent in [ 'primary', 'accent', 'warn' ] %}
+        <div layout="column" layout-align="center center">
+          <p class="text-{{ intent }}">{{ intent }}</p>
+          {% for text, btnConf in btnConfs %}
+            {{ components.button(text, { intent: intent}|merge(btnConf)) }}
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+
+
+    <h4>Button groups</h4>
+
+    <p>Button group block</p>
+    <bns-button-group layout="row" layout-align="center">
+      {{ components.button('Option A', { intent: 'primary' }) }}
+      {{ components.button('Option B', { click: '' }) }}
+      {{ components.button('Option C', { click: '' }) }}
+    </bns-button-group>
+
+    <p>Button group inline</p>
+    <bns-button-group>
+      {{ components.button('Option A', { intent: 'primary', raised: true }) }}
+      {{ components.button('Option B', { intent: 'primary', raised: true }) }}
+      {{ components.button('Option C', { intent: 'primary', raised: true }) }}
+    </bns-button-group>
+
+    <bns-button-group>
+      {{ components.button('Primary', { intent: 'primary', raised: true, hover: true }) }}
+      {{ components.button('Accent', { intent: 'accent', raised: true, hover: true }) }}
+      {{ components.button('Warn', { intent: 'warn', raised: true, hover: true }) }}
+    </bns-button-group>
+
+    <span>Some floating text</span>
+
+    <p>Size</p>
+
+    <bns-button-group layout="row" layout-align="start">
+      {{ components.button('Alpha', { raised: true, size: 'sm' }) }}
+      {{ components.button('Bravo', { raised: true, size: 'sm' }) }}
+      {{ components.button('Charlie', { raised: true, size: 'sm', intent: 'primary' }) }}
+      {{ components.button('Delta', { raised: true, size: 'sm' }) }}
+      {{ components.button('Echo', { raised: true, size: 'sm' }) }}
+    </bns-button-group>
+
+    <bns-button-group layout="row" layout-align="start">
+      {{ components.button('Fox-trot', { size: 'sm' }) }}
+      {{ components.button('Golf', { size: 'sm' }) }}
+      {{ components.button('Hotel', { size: 'sm' }) }}
+      {{ components.button('India', { size: 'sm' }) }}
+      {{ components.button('Lima', { size: 'sm' }) }}
+    </bns-button-group>
+
+    <h4>Button dropdown</h4>
+
+    <div layout="row">
+      {{ components.button_dropdown('Menu button', [
+        components.button('Action 1', { click: '' }),
+        components.button('Action 2', { click: '' })
+      ], {
+        raised: true,
+        intent: 'primary'
+      }) }}
+
+      {{ components.button_dropdown('Menu button', [
+        components.button('Default', { click: '' }),
+        components.button('Primary', { intent: 'primary', icon: 'create', click: 'app.go(\''~path('hello_world_manager_blog_create')~'\')' }),
+        components.button('Accent', { intent: 'accent'}),
+        components.button('Warn', { intent: 'warn'})
+      ], {
+        width: 4
+      }) }}
+    </div>
+
+    <h4>Split button</h4>
+
+    <div layout="row">
+      <bns-button-group>
+        {{ components.button('Main action') }}
+        {{ components.button_dropdown('', [
+          components.button('Default', { click: '' }),
+          components.button('Primary', { intent: 'primary', icon: 'create', click: 'app.go(\''~path('hello_world_manager_blog_create')~'\')' }),
+          components.button('Accent', { intent: 'accent'}),
+          components.button('Warn', { intent: 'warn'})
+        ], {
+        }) }}
+      </bns-button-group>
+
+      <bns-button-group>
+        {{ components.button('Main action', { intent: 'primary', raised: true }) }}
+        {{ components.button_dropdown('', [
+          components.button('Default', { click: '' }),
+          components.button('Default', { click: '' }),
+        ], {
+          intent: 'primary',
+          raised: true,
+        }) }}
+      </bns-button-group>
+
+      <bns-button-group>
+        {{ components.button('Main action', { intent: 'warn', raised: true, icon: 'warning' }) }}
+        {{ components.button_dropdown('', [
+        components.button('Default', { click: '' }),
+        components.button('Default', { click: '' }),
+        ], {
+          intent: 'warn',
+          raised: true,
+        }) }}
+      </bns-button-group>
+    </div>
+
+  </div>
+  <md-divider></md-divider>
+  <div class="md-padding">
+    <h3 id="dialogs" class="md-display-1">Dialogs</h3>
+
+    <div layout="row" layout-wrap>
+      {{ components.button('Alert', { raised: true, attr: { flex: '', 'flex-sm': 100 },
+        click: "dialog.alert({ title: 'Alert dialog title', targetEvent: $event, content: 'Viral DIY kitsch tattooed, polaroid freegan PBR. Wolf kale chips squid, sustainable shabby chic tote bag banh mi beard health goth. Tilde four loko quinoa ennui, try-hard Truffaut VHS. 3 wolf moon Thundercats chillwave small batch farm-to-table. Marfa selfies craft beer trust fund kale chips fingerstache. Flexitarian fap four dollar toast PBR literally +1, artisan semiotics. Organic cardigan synth keffiyeh photo booth beard, cray hashtag taxidermy iPhone.' })",
+      }) }}
+      {{ components.button('Confirm', { raised: true, attr: { flex: '', 'flex-sm': 100 },
+        click: "dialog.confirm({ title: 'Confirm dialog title', targetEvent: $event, intent: 'accent', content: 'Are you sure?', ok: 'Yes, I am', cancel: 'Nope',  })"
+      }) }}
+      {{ components.button('Intent warn', { raised: true, attr: { flex: '', 'flex-sm': 100 },
+        click: "dialog.confirm({ toolbar: true,title: 'Confirm dialog title', targetEvent: $event, intent: 'warn', content: 'Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure? Are you sure?' })"
+      }) }}
+      {{ components.button('Custom', { raised: true, attr: { flex: '', 'flex-sm': 100 },
+        click: "dialog.custom({ templateUrl: 'dialog-custom.html', targetEvent: $event, clickOutsideToClose: true })"
+      }) }}
+    </div>
+
+    <script type="text/ng-template" id="dialog-custom.html">
+      <md-dialog>
+        <md-toolbar class="md-primary md-hue-3">
+          <div class="md-toolbar-tools">
+            <h3>A custom dialog template</h3>
+          </div>
+        </md-toolbar>
+        <md-dialog-content class="md-dialog-content">Owdy</md-dialog-content>
+      </md-dialog>
+    </script>
+
+  </div>
+  <md-divider></md-divider>
+  <div class="md-padding">
+    <h3 id="toasts" class="md-display-1">Toasts</h3>
+
+    <div layout="row" layout-wrap>
+      {{ components.button('Simple', { raised: true, attr: { flex: '', 'flex-sm': 100 },
+        click: "toast.simple({ content: 'I am a simple toast' })",
+      }) }}
+      {{ components.button('Success', { raised: true, attr: { flex: '', 'flex-sm': 100 },
+        click: "toast.success({ content: 'I am a success toast', action: 'Revert'  })"
+      }) }}
+      {{ components.button('Error', { raised: true, attr: { flex: '', 'flex-sm': 100 },
+        click: "toast.error({ content: 'I am an error toast', action: 'Do something!', close: true, hideDelay: false })"
+      }) }}
+    </div>
+
+  </div>
+  <md-divider></md-divider>
+  <div class="md-padding">
+    <h3 id="typography" class="md-display-1">Typography</h3>
+
+    <div layout="row" layout-align="space-between center">
+      <div class="md-display-4">Stormageddon</div>
+      <code>.md-display-4</code>
+    </div>
+    <div layout="row" layout-align="space-between center">
+      <div class="md-display-3">Hello, Captain Jack Harkness</div>
+      <code>.md-display-3</code>
+    </div>
+    <div layout="row" layout-align="space-between center">
+      <div class="md-display-2">You will be exterminated</div>
+      <code>.md-display-2</code>
+    </div>
+    <div layout="row" layout-align="space-between center">
+      <div class="md-display-1">Emperor of the Daleks</div>
+      <code>.md-display-1</code>
+    </div>
+    <div layout="row" layout-align="space-between center">
+      <div class="md-headline">Wibbly wobbly timey wimey</div>
+      <code>.md-headline</code>
+    </div>
+    <div layout="row" layout-align="space-between center">
+      <div class="md-title">Delete. Delete. Delete.</div>
+      <code>.md-title</code>
+    </div>
+    <div layout="row" layout-align="space-between center">
+      <div class="md-subhead">Reverse the polarity of the positron flow</div>
+      <code>.md-subhead</code>
+    </div>
+
+    <p class="md-body-1">
+      <code>.md-body-1</code>
+      Geronimo The Doctor wibbly-wobbly timey-wimey. Stormageddon, Dark Lord of All. Would you like a jelly baby?
+      The Supreme Dalek Rude and not ginger Captain Jack Harkness Bow ties are cool<br>
+      YOU WILL OBEY! The Supreme Dalek DON’T BLINK! The Silence is Coming The Doctor wibbly-wobbly timey-wimey. Stormageddon, Dark Lord of All. Would you like a jelly baby?
+      The Supreme Dalek Rude and not ginger Captain Jack Harkness Bow ties are cool
+    </p>
+
+    <p class="md-body-2">
+      <code>.md-body-2</code>
+      Roof party asymmetrical leggings, skateboard listicle disrupt Neutra gluten-free Portland cray meditation pickled.
+      Stumptown jean shorts +1, paleo shabby chic keytar heirloom freegan Pitchfork gentrify American Apparel cray deep
+      v aesthetic. Stumptown artisan freegan seitan whatever, master cleanse Godard hoodie Brooklyn wayfarers small
+      batch Pitchfork fanny pack mumblecore listicle. Locavore bitters narwhal actually. Put a bird on it viral
+      meditation selvage photo booth. Wolf selvage four dollar toast kitsch banh mi dreamcatcher. Kitsch YOLO before
+      they sold out Neutra Austin salvia disrupt, synth you probably haven't heard of them polaroid Vice sartorial.
+    </p>
+
+    <p class="md-caption">
+      <code>.md-caption</code>
+      Roof party asymmetrical leggings, skateboard listicle disrupt Neutra gluten-free Portland cray meditation pickled.
+      Stumptown jean shorts +1, paleo shabby chic keytar heirloom freegan Pitchfork gentrify American Apparel cray deep
+      v aesthetic. Stumptown artisan freegan seitan whatever, master cleanse Godard hoodie Brooklyn wayfarers small
+      batch Pitchfork fanny pack mumblecore listicle. Locavore bitters narwhal actually. Put a bird on it viral
+      meditation selvage photo booth. Wolf selvage four dollar toast kitsch banh mi dreamcatcher. Kitsch YOLO before
+      they sold out Neutra Austin salvia disrupt, synth you probably haven't heard of them polaroid Vice sartorial.
+    </p>
+
+  </div>
+  <md-divider></md-divider>
+  {% verbatim %}
+    <div class="md-padding">
+      <h3 id="radio" class="md-display-1">Radio buttons</h3>
+      <md-toolbar>
+        <div class="md-toolbar-tools">
+          <md-button ng-click="ctrl.addChoice()">Add choice</md-button>
+          <md-button ng-click="ctrl.reset()">Reset</md-button>
+        </div>
+      </md-toolbar>
+      <div class="layout-gt-sm-row layout-wrap md-padding">
+        <div class="flex" style="min-width: 240px;">
+
+          <h3 class="md-title">Vanilla md-radio-group</h3>
+          <md-radio-group ng-model="ctrl.unique">
+            <md-radio-button ng-repeat="choice in ctrl.choices" value="{{::choice.value}}" class="md-primary">{{::choice.label}}</md-radio-button>
+          </md-radio-group>
+
+        </div>
+        <div class="flex" style="min-width: 240px;">
+
+          <h3 class="md-title">Default</h3>
+          <md-radio-group bns-radio-group choices="ctrl.choices" ng-model="ctrl.unique"></md-radio-group>
+
+        </div>
+        <div class="flex" style="min-width: 240px;">
+
+          <h3 class="md-title">Custom label</h3>
+          <md-radio-group bns-radio-group choices="ctrl.choices" ng-model="ctrl.unique" bns-vanilla-input="true">
+            <bns-choice-label>
+              <md-icon>{{::choice.custom}}</md-icon>
+              <i>{{::choice.label}}</i>
+            </bns-choice-label>
+          </md-radio-group>
+
+        </div>
+        <div class="flex" style="min-width: 240px;">
+
+          <h3 class="md-title">Status indicator + align right</h3>
+          <md-radio-group bns-radio-group choices="ctrl.choices" ng-model="ctrl.unique" bns-status="status" class="bns-radio-right"></md-radio-group>
+
+        </div>
+        <div class="flex" style="min-width: 240px;">
+
+          <h3 class="md-title">Secondary control</h3>
+          <md-radio-group bns-radio-group choices="ctrl.choices" ng-model="ctrl.unique">
+            <bns-choice-secondary>
+              <md-menu md-position-mode="target-right target">
+                <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                  <md-icon>settings</md-icon>
+                </md-button>
+                <md-menu-content>
+                  <md-menu-item ng-repeat="item in ctrl.secondaryChoiceConf">
+                    <md-button ng-click="ctrl.alert(choice.label+': '+item.label)">{{::item.label}}</md-button>
+                  </md-menu-item>
+                </md-menu-content>
+              </md-menu>
+            </bns-choice-secondary>
+          </md-radio-group>
+
+        </div>
+      </div>
+    </div>
+    <md-divider></md-divider>
+    <div class="md-padding">
+      <h3 id="checkbox" class="md-display-1">Checkboxes</h3>
+      <div class="layout-gt-sm-row layout-wrap md-padding">
+        <div class="flex" style="min-width: 240px;">
+
+          <h3 class="md-title">Vanilla md-checkbox</h3>
+          <div>
+            <md-checkbox ng-repeat="choice in ctrl.choices" value="{{::choice.value}}" ng-click="ctrl.multi.indexOf(choice.value) > -1 ? ctrl.multi.splice(ctrl.multi.indexOf(choice.value), 1) : ctrl.multi.push(choice.value)" ng-checked="ctrl.multi.indexOf(choice.value) > -1">{{::choice.label}}</md-checkbox>
+          </div>
+
+        </div>
+        <div class="flex" style="min-width: 240px;">
+
+          <h3 class="md-title">Default</h3>
+          <bns-checkbox-group choices="ctrl.choices" ng-model="ctrl.multi"></bns-checkbox-group>
+
+        </div>
+        <div class="flex" style="min-width: 240px;">
+
+          <h3 class="md-title">Custom label</h3>
+          <bns-checkbox-group choices="ctrl.choices" ng-model="ctrl.multi">
+            <bns-choice-label>
+              <md-icon>{{::choice.custom}}</md-icon>
+              <i>{{::choice.label}}</i>
+            </bns-choice-label>
+          </bns-checkbox-group>
+
+        </div>
+        <div class="flex" style="min-width: 240px;">
+
+          <h3 class="md-title">Status indicator + align right</h3>
+          <bns-checkbox-group choices="ctrl.choices" ng-model="ctrl.multi" bns-status="status" class="bns-choice-right"></bns-checkbox-group>
+
+        </div>
+        <div class="flex" style="min-width: 240px;">
+
+          <h3 class="md-title">Secondary control</h3>
+          <bns-checkbox-group choices="ctrl.choices" ng-model="ctrl.multi">
+            <bns-choice-secondary>
+              <md-button class="md-icon-button" ng-click="ctrl.log(choice.favorite = !choice.favorite)">
+                <md-icon>{{choice.favorite ? 'favorite' : 'favorite_outline'}}</md-icon>
+              </md-button>
+            </bns-choice-secondary>
+          </bns-checkbox-group>
+
+        </div>
+      </div>
+    </div>
+  {% endverbatim %}
+</md-content>
+
+
+{% endblock %}
+
+{% block angular_bootstrap %}
+{# add angular modules, components, etc... before bootstrap #}
+<script type="text/javascript">
+(function(angular) {
+'use strict';
+
+angular.module('beneyluSchoolMaterialApp')
+  .controller('HelloBlogComponents', HelloBlogComponentsController)
+;
+
+function HelloBlogComponentsController ($window) {
+  console.log('Hello blog components');
+
+  var ctrl = this;
+  ctrl.addChoice = addChoice;
+  ctrl.reset = init;
+  ctrl.log = log;
+  ctrl.alert = alert;
+
+  init();
+
+  function init () {
+    ctrl.choices = [
+      { value: '1', label: 'Uno', custom: 'face', status: 'published' },
+      { value: '2', label: 'Twix', custom: 'motorcycle', status: 'finished' },
+      { value: '3', label: 'Tetra', custom: 'music_note', status: 'correction' },
+    ];
+
+    ctrl.secondaryChoiceConf = [
+      { label: 'Configuration 1' },
+      { label: 'Configuration 2' },
+      { label: 'Configuration 3' },
+    ];
+    ctrl.unique = '1';
+    ctrl.multi = ['2'];
+  }
+
+  function addChoice () {
+    var nb = Math.round(Math.random() * 100000);
+    ctrl.choices.push({ value: nb, label: nb, custom: 'cake', status: 'draft' });
+  }
+
+  function log () {
+    console.log.apply(console, arguments);
+  }
+
+  function alert () {
+    return $window.alert.apply($window, arguments);
+  }
+
+}
+
+})(angular);
+
+</script>
+
+{{ parent() }}
+{% endblock %}

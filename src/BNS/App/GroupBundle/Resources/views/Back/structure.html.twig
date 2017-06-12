@@ -1,0 +1,45 @@
+{% trans_default_domain "GROUP" %}
+{% extends 'BNSAppGroupBundle:Back:layout.html.twig' %}
+
+{% block css %}
+	{{ parent() }}
+	<link href="{{ asset('/medias/css/jquery.jOrgChart.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('/medias/css/prettify.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+			
+{% block javascripts %}
+	{{ parent() }}
+    <script type="text/javascript" src="{{ asset('/medias/js/jquery.jOrgChart.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/prettify.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('medias/js/jquery.form.js') }}"></script>
+{% endblock %}
+
+{% block sidebar %}
+    {{ render(controller('BNSAppGroupBundle:Back:sidebar', {'section' : 'structure'} )) }}
+{% endblock sidebar %}
+
+{% block content %}
+
+	<div class="content-group">
+		<div class="news-title">
+			<h1 class="dashboard">{{ 'TITLE_STRUCTURE'|trans |desc('Structure') }}</h1>
+		</div>
+				
+		<ul id="org" style="display:none">
+			{% include 'BNSAppGroupBundle:Back:treeItem.html.twig' with {'group_manager' : group_manager} %}
+		</ul>
+		<div id="chart" class="orgChart"></div>
+		
+	</div>
+	
+	<script>
+		jQuery(document).ready(function() {
+			$("#org").jOrgChart({
+				chartElement : '#chart',
+				dragAndDrop  : false
+			});
+		});
+    </script>
+
+{% endblock %}

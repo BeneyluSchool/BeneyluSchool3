@@ -1,0 +1,35 @@
+<div container>
+  <md-button class="md-fab md-fab-top-left" ui-sref="app.twoDegrees.map">
+    <md-icon>close</md-icon>
+  </md-button>
+</div>
+
+<div class="flex layout-sm-column layout-md-column layout-gt-md-row main-container two-degrees-activity-wrapper">
+  <bns-two-degrees-panel
+    bns-direction="{{$mdMedia('gt-md') ? 'right' : 'bottom'}}"
+    class="flex-none flex-gt-md-40"
+  >
+    <div class="activity-header">
+      <span class="logo activity-{{::ctrl.activity.code|assetize}}"></span>
+      <h3 class="md-headline heading activity-from">{{::ctrl.activity.from}}</h3>
+      <h1 class="md-display-1 heading activity-title">{{::ctrl.activity.title}}</h1>
+      <div class="text-content" ng-bind-html="ctrl.activity.description"></div>
+    </div>
+
+    <h3 class="md-headline heading text-center" translate>TWO_DEGREES.TITLE_YOU_NEED</h3>
+
+    <div class="tools-list layout-row layout-align-space-between-start layout-wrap">
+      <div ng-repeat="tool in ctrl.activity.tools" class="layout-column layout-align-start-center">
+        <div class="pellet tool tool-{{::tool.code|assetize}}"></div>
+        <div class="tool-label">{{::tool.title}}</div>
+      </div>
+    </div>
+  </bns-two-degrees-panel>
+
+  <section class="flex-none flex-gt-md-60 md-padding two-degrees-container two-degrees-activity-container">
+    <div>
+      <div class="text-content"><h3 translate>TWO_DEGREES.TITLE_YOUR_TURN</h3></div>
+      <div class="text-content" ng-bind-html="ctrl.activity.content"></div>
+    </div>
+  </section>
+</div>

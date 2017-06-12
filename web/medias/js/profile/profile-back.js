@@ -1,11 +1,11 @@
 $(function ()
 {    
-    $('.header-buttons .submit-profile').click(function ()
+    $('.md-toolbar-tools .submit-profile').click(function ()
     {
         $('form#save-profile').submit();
     });
 
-    $('.header-buttons .write-new-status-btn').click(function ()
+    $('.md-toolbar-tools .write-new-status-btn').click(function ()
     {
         var $newStatusForm = $('.add-new-status');
         
@@ -13,7 +13,7 @@ $(function ()
 		$newStatusForm.removeClass('hide');
     });
 	
-	$('.header-buttons .cancel-statut').click(function (e)
+	$('.md-toolbar-tools .cancel-statut').click(function (e)
 	{
 		$('.add-new-status').slideUp('fast', function ()
 		{

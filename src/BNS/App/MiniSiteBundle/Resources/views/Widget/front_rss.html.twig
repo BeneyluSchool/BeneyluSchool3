@@ -2,9 +2,7 @@
 
 {% block widget_content %}
 	<div class="widget-content">
-		<b>Flux RSS:</b> {{ widget.getRssUrl() }}
-		<b>Nombre à afficher:</b> {{ widget.getLimit() }}
+		<h2>{{ widget.getTitle() }}</h2>
+		{{ render(controller('BNSAppMiniSiteBundle:FrontWidget:renderRss', {'widget': widget} )) }}
 	</div>
-
-
 {% endblock %}

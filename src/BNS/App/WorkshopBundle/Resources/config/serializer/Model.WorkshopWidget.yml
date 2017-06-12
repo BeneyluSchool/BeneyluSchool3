@@ -1,0 +1,30 @@
+BNS\App\WorkshopBundle\Model\WorkshopWidget:
+  exclusion_policy: All
+  virtual_properties:
+    getAttemptsNumber:
+      expose: true
+  relations:
+    - rel: self
+      href:
+        route: workshop_widget_api_get
+        parameters:
+            id: expr(object.getId())
+            version: "1.0"
+        absolute: true
+    - rel: media
+      embedded:
+        content: expr(object.getMedia())
+      exclusion:
+        groups: [detail]
+        exclude_if: expr(!object.getMediaId())
+    - rel: extended_settings
+      embedded:
+        content: expr(object.getExtendedSetting())
+      exclusion:
+        groups: [detail]
+        exclude_if: expr(!object.getExtendedSetting())
+    - rel: page
+      embedded:
+        content: expr(object.getPage())
+      exclusion:
+        exclude_if: expr(!object.getPage())

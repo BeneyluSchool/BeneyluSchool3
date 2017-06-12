@@ -1,0 +1,39 @@
+<div md-swipe-down="calendar.next()" md-swipe-up="calendar.prev()">
+
+  <div
+    layout="row"
+    class="calendar-toolbar md-padding"
+  >
+    <h3 class="md-title heading" ng-if="calendar.cal.start.format('M') === calendar.cal.start.clone().add(6, 'days').format('M')">{{ calendar.cal.start.format('MMMM') }}</h3>
+    <h3 class="md-title heading" ng-if="calendar.cal.start.format('M') !== calendar.cal.start.clone().add(6, 'days').format('M')">{{ calendar.cal.start.format('MMMM') }} - {{ calendar.cal.start.clone().add(7, 'days').format('MMMM') }}</h3>
+  </div>
+
+  <div layout="row">
+    <md-button class="flex nav-button" ng-click="calendar.prev()" ui-sref="{day: calendar.selection.clone().subtract(7, 'days').format('YYYY-MM-DD') }">
+      <md-icon>keyboard_arrow_up</md-icon>
+      <span translate>HOMEWORK.PREVIOUS_WEEK</span>
+    </md-button>
+  </div>
+
+  <div ng-repeat="week in calendar.cal.weeks | limitTo: 1" data-week="{{ ::week.number }}"  class="layout-column week">
+    <md-button ng-repeat="day in week.days"
+      ng-if="calendar.preferences && -1 !== calendar.preferences.indexOf(day.clone().locale('en').format('dd').toUpperCase())"
+      data-date="{{ ::day.format('YYYY-MM-DD') }}"
+      ng-class="{ 'today': day.isSame(calendar.today, 'day'), selected: 'day' === calendar.mode && calendar.selection.isSame(day, 'day')}"
+      class="day day-{{ ::day.format('d') }}"
+      ng-click="calendar.handleClick($event)"
+    >
+      <span>{{ ::day.format('dddd D') }}</span>
+      <span class="homework-count">{{ calendar.dayText[day.format('YYYY-M-D')]}}</span>
+    </md-button>
+  </div>
+
+  <div layout="row">
+    <md-button class="flex nav-button" ng-click="calendar.next()" ui-sref="{day: calendar.selection.clone().add(7, 'days').format('YYYY-MM-DD') }">
+      <md-icon>keyboard_arrow_down</md-icon>
+      <span translate>HOMEWORK.NEXT_WEEK</span>
+    </md-button>
+  </div>
+
+</div>
+

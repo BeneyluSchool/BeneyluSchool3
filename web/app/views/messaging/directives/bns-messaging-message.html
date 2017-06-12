@@ -1,0 +1,34 @@
+<img ng-if="::message._embedded.user" ng-src="{{ ::message._embedded.user.avatar_url }}" class="md-avatar flex-none">
+<img ng-if="::message._embedded.group" ng-src="" class="md-avatar flex-none sprite-{{ ::message._embedded.group.type | lowercase }}-40">
+<div class="md-list-item-text flex">
+  <div class="layout-row layout-align-start-center md-body-1 message-heading">
+    <span ng-if="::message._embedded.user" class="message-status status-{{::message.status}}"><md-tooltip md-direction="top"><span ng-if="message.status == 1" translate>MESSAGING.MESSAGE_STATUS_1</span><span ng-if="message.status == 2" translate>MESSAGING.MESSAGE_STATUS_2</span></md-tooltip></span>
+    <strong ng-if="::message._embedded.user">{{ ::message._embedded.user.full_name }}</strong>
+    <strong ng-if="::message._embedded.group">{{ ::message._embedded.group.label }}</strong>
+    <small>{{ message.updated_at | amCalendar }}</small>
+  </div>
+
+  <md-chips ng-model="message._embedded.tos" readonly="true" class="md-contact-chips">
+    <md-chip-template>
+      <div class="md-contact-avatar">
+        <img ng-src="{{ ::$chip.avatar_url }}">
+      </div>
+      <div class="md-contact-name">
+        {{ ::$chip.full_name }}
+      </div>
+    </md-chip-template>
+  </md-chips>
+
+  <div ng-bind-html="message.content|trustHtml" class="message-content"></div>
+
+  <bns-attachments
+    ng-if="message._embedded.attachments.length"
+    source="message._embedded.attachments"
+    start-open="false"
+    data-object-type="MessagingMessage"
+    data-object-id="{{::message.id}}"
+  ></bns-attachments>
+
+</div>
+
+<div ng-if="message._embedded.attachments.length" class="attachments-toggle"></div>

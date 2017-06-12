@@ -1,0 +1,40 @@
+{% extends 'BNSAppWorkshopBundle:Layout:front_layout.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+{% endblock javascripts %}
+
+{% block header %}
+	<div class="header-buttons workshop-header">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span12">
+						{% if canManage %}
+							<a href="{{ path('workshop_edit', {'slug': resource.getSlug()}) }}" class="btn bns-info btn-24 medium spacer">
+								<span class="icons-24 edit-icon"></span>
+								<strong>Éditer</strong>
+							</a>
+							{% if resource.getWorkshopDocuments()[0].getTemplateUniqueName() == 'MULTIMEDIA_NOTEBOOK' %}
+								<a href="{{ path('workshop_multimedia_notebook_add_page', {'slug': resource.getSlug()}) }}" class="btn bns-info btn-24 large spacer">
+									<span class="icons-24 add-icon"></span>
+									<strong>Ajouter une page</strong>
+								</a>
+							{% endif %}
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock header %}
+
+{% block content %}
+	<h1>{{ resource.getLabel() }}</h1>
+	
+	{% include 'BNSAppWorkshopBundle:Front:flash_messages.html.twig' %}
+	
+	{% for document in resource.getWorkshopDocuments() %}
+		{{ render(controller('BNSAppWorkshopBundle:Front:renderTemplate', {'document': document} )) }}
+	{% endfor %}
+{% endblock %}

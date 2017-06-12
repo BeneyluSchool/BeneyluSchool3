@@ -22,7 +22,7 @@ $(function(){
 
 	//Bouton de suppression d'une ressource jointe
 	$('.resource-joined-delete').live('click',function(){
-		$(this).parent('.resource-joined').hide('blind',1500);	
+		$(this).parent('.resource-joined').hide('blind',1500);
 		$(this).parent().find('input').remove();
 	});
 	
@@ -42,26 +42,14 @@ $(function(){
 		e.preventDefault();
 		var final_id = $(this).attr('data-final-id');
 		var callback = $(this).attr('data-callback');
+		var allowed_type = $(this).attr('data-allowed-type');
 		$.ajax({
-			url: Routing.generate('BNSAppResourceBundle_front_select_image_caller' , {'final_id': final_id,'callback': callback } ),
+			url: Routing.generate('BNSAppResourceBundle_front_select_file_caller', { 'final_id': final_id, 'callback': callback, allowed_type: allowed_type }),
 			success: function(data){ 
 				$('body').prepend(data);
 			}
 		});
 	});
-	
-	$('.resource-open-joined').live('click',function(e){
-		e.preventDefault();
-		var resourceId = $(this).attr('data-resource-id');
-		$.ajax({
-			url: Routing.generate('BNSAppResourceBundle_front_view' , {'resourceId': resourceId } ),
-			success: function(data){ 
-				$('body').prepend(data);
-			}
-		});
-	});
-	
-	
 	
 	//Suppression des ressources jointes
 	$('.resource-joined-delete').live('click',function(){

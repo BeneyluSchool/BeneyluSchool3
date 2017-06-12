@@ -2,9 +2,15 @@
 	id="resource-iframe"
 	style="" 
 	class="iframe-full-height resource-iframe {% if type == "none" %}resource-iframe-background{% endif %}"
-	src="{{ url('BNSAppResourceBundle_home', {"resourceId": resourceId })  }}" 
+	{% if type == 'join' %}
+		src="{{ path('resource_iframe_join')  }}"
+	{% elseif type == 'insert' %}
+		src="{{ path('resource_iframe_insert')  }}"
+	{% elseif type == 'select' %}
+		src="{{ path('resource_iframe_select')  }}"
+	{% elseif type == 'resource_view' %}
+		src="{{ path('resource_navigate_file_from_iframe', {'resourceSlug': resourceSlug})  }}"
+	{% endif %}
 	allowtransparency="true"
-	
-	>
+>
 </iframe>
-		

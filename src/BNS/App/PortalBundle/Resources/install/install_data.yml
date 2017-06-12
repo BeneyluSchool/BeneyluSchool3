@@ -1,0 +1,48 @@
+module:
+  unique_name: PORTAL
+  is_contextable: true
+  name:
+    fr: Portail
+    en: Portal
+  description:
+    fr: Page d'accueil personnalisée
+    en: Custom homepage
+  default_rank:
+    pupil: USE
+    parent: USE
+    teacher: USE
+    other: USE
+
+permissions:
+  ACCESS:
+    label:
+      fr: Prévisualiser le portail
+      en: Preview the portal
+    description:
+      fr:
+      en:
+
+  ACCESS_BACK:
+    label:
+      fr: Gestion du portail
+      en: Can manage the portal
+    description:
+      fr:
+      en:
+ranks:
+  USE:
+    label:
+      fr: Prévisualiser le portail
+      en: Preview the portal
+    description:
+      fr:
+      en:
+    permissions: [ACCESS]
+  MANAGE:
+    label:
+      fr: Gérer le portail
+      en: Manage the portal
+    description:
+      fr:
+      en:
+    permissions: [ACCESS, ACCESS_BACK]

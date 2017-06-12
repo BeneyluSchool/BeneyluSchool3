@@ -1,0 +1,67 @@
+module:
+  unique_name: TEAM
+  is_contextable: true
+  name:
+    fr: Equipe
+    en: Team
+  description:
+    fr: Equipe
+    en: Team
+  default_rank:
+    pupil: READ
+    parent: READ
+    teacher: READ
+    other: READ
+
+permissions:
+  ACCESS:
+    label:
+      fr: Voir équipes
+      en: Team access
+    description:
+      fr: Donne l'accès aux équipes
+      en: 
+
+  ACTIVATION:
+    label:
+      fr: Activer équipes
+      en: Can activate / desactivate workgroup's access
+    description:
+      fr: Peut activer ou désactiver l'accès aux équipes
+      en: 
+
+  ACTIVATION_PARTNERSHIP:
+    label:
+      fr: Activer équipes dans le partenariat
+      en: Can activate / desactivate workgroup's access in partnership
+    description:
+      fr: Peut activer ou désactiver l'accès aux équipes dans le partenariat
+      en: 
+
+ranks:
+  READ:
+    label:
+      fr: Accès en lecture au le groupe de travail
+      en: Can only read the workgroup
+    description:
+      fr: 
+      en: 
+    permissions: [ACCESS]
+
+  USE:
+    label:
+      fr: Utiliser le groupe de travail
+      en: Use the workgroup
+    description:
+      fr: 
+      en: 
+    permissions: [ACCESS]
+
+  MANAGE:
+    label:
+      fr: Manager l'équipe de travail
+      en: Manage the workgroup
+    description:
+      fr: 
+      en: 
+    permissions: [ACCESS, ACTIVATION, ACTIVATION_PARTNERSHIP]

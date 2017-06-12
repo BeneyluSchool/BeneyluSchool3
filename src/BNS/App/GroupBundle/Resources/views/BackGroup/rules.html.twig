@@ -1,0 +1,80 @@
+{% trans_default_domain "GROUP" %}
+{% set show_delete = type in ['mine','delegated'] %}
+{% set show_from = type in ['rooted'] %}
+{% set show_in = type in ['delegated'] %}
+{% set can_toggle = type in ['mine','delegated'] ? true : false %}
+
+{% for rule in rules %}
+	{% if loop.first %}
+		<table class="table table-striped">
+			<tr>
+				<th>{{ 'TABLE_FOR'|trans |desc('Pour') }}</th>
+				{% if show_in %}
+					<th>{{ 'TABLE_IN'|trans |desc('Dans') }}</th>
+				{% endif %}
+				{% if show_from %}
+					<th>{{ 'TABLE_SINCE'|trans |desc('Depuis') }}</th>
+				{% endif %}
+				<th>{{ 'TABLE_RANK'|trans |desc('Rang') }}</th>
+				{#<th>Etat</th>#}
+				{% if show_delete %}
+					<th>{{ 'LINK_DELETE'|trans |desc('Supprimer') }}</th>
+				{% endif %}
+				
+				
+			</tr>
+	{% endif %}
+	{% if ranks[rule.rank_unique_name] is defined %}
+		<tr>
+			<td>
+				{{gm.getSafeGroup(rule.who_group_id).label }}
+			</td>
+			{% if show_in%}
+				<td>
+					{{gm.getSafeGroupType(rule.rule_where.group_type_id).label }}
+				</td>
+			{% endif %}
+			{% if show_from%}
+				<td>
+					{{gm.getSafeGroup(rule.rule_where.group_id).label }}
+				</td>
+			{% endif %}
+			<td>
+				{{ ranks[rule.rank_unique_name] is defined ? ranks[rule.rank_unique_name] : ""}}
+			</td>
+                        {% set can_toggle_rule = false %}
+                        {% if can_toggle == false %}
+                                {% if has_right(gm.getSafeGroupType(gm.getSafeGroup(rule.rule_where.group_id).group_type_id).type ~ '_CREATE') %}
+                                        {% set can_toggle_rule = true %}
+                                {% endif %}
+                        {% else %}
+                                {% set can_toggle_rule = true %}
+                        {% endif %}
+			{#<td>
+				{% set image = rule.state ? 'btn-green' : 'btn-red' %}
+				{% if can_toggle_rule %}
+					<a id="rule-{{ rule.id }}-toggle" class="rule-toggle" href="{{ path('BNSAppGroupBundle_group_rule_toggle',{'status' : rule.state ? 0 : 1, 'id' : rule.id}) }}">
+						<img src="{{ asset('/medias/images/icons/' ~ image ~ '.png') }}" />
+					</a>
+				{% else %}
+					<i>{{ rule.state ? 'Activé' : 'Désactivé' }}</i>
+				{% endif %}
+			</td>#}
+			{% if can_toggle_rule %}
+				<td>
+					<a href="{{ path('BNSAppGroupBundle_group_rule_delete',{'id' : rule.id, 'groupSlug' : groupSlug }) }}" onclick="return confirm('{{ 'SURE_TO_DELETE_THIS_RIGHT'|trans |desc('Êtes vous sûr de vouloir supprimer ce droit ?') }}')">
+						<img src="{{ asset('/medias/images/icons/btn-NOK.png') }}" />
+					</a>
+				</td>
+			{% endif %}
+		</tr>
+	{% endif %}
+
+	{% if loop.last %}
+		</table>
+	{% endif %}
+{% else %}	
+	<div class="alert">
+		{{ 'ALERT_NO_KIND_OF_RIGHT_FOR_THIS_GROUP'|trans |desc('Il n\'y a pas encore de droits de ce type en place pour ce groupe.') }}
+	</div>
+{% endfor %}

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\BoardBundle\Model">
+    <table name="board">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+        <column name="group_id" required="true" type="INTEGER" />
+        <foreign-key foreignTable="group" name="FK_BOARD_GROUP" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="group_id" />
+        </foreign-key>
+    </table>
+
+    <table name="board_information">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+        <column name="board_id" required="true" type="INTEGER" />
+        <column name="author_id" required="true" type="INTEGER" />
+        <column name="published_at" type="TIMESTAMP" />
+        <column name="expires_at" type="TIMESTAMP" />
+        <column name="title" required="true" size="255" type="VARCHAR" />
+        <column name="content" type="LONGVARCHAR" />
+        <column defaultValue="DRAFT" name="status" type="ENUM" valueSet="DRAFT, PUBLISHED" />
+        <column defaultValue="0" name="is_alert" required="true" type="BOOLEAN" />
+        <column defaultValue="0" name="is_copied" required="true" type="BOOLEAN" />
+        <foreign-key foreignTable="board" name="FK_BOARDINFORMATION_BOARD" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="board_id" />
+        </foreign-key>
+        <foreign-key foreignTable="user" name="FK_BOARDINFORMATION_USER" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="author_id" />
+        </foreign-key>
+        <behavior name="sluggable">
+            <parameter name="slug_column" value="slug" />
+            <parameter name="slug_pattern" value="{title}" />
+            <parameter name="replace_pattern" value="/[^\w]+/u" />
+            <parameter name="replacement" value="-" />
+            <parameter name="separator" value="-" />
+            <parameter name="permanent" value="false" />
+        </behavior>
+        <behavior name="timestampable" />
+    </table>
+
+    <table name="board_rss">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+        <column name="board_id" required="true" type="INTEGER" />
+        <column name="title" required="true" size="255" type="VARCHAR" />
+        <column name="url" required="true" size="255" type="VARCHAR" />
+        <column name="enable" required="true" type="BOOLEAN" defaultValue="0" />
+        <column name="user_id" required="true" type="INTEGER" />
+        <foreign-key foreignTable="board" name="FK_BOARDRSS_BOARD" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="board_id" />
+        </foreign-key>
+        <foreign-key foreignTable="user" name="FK_BOARDRSS_USER" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="user_id" />
+        </foreign-key>
+        <behavior name="timestampable" />
+    </table>
+</database>

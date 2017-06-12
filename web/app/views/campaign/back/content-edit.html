@@ -1,0 +1,164 @@
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+
+      <div ng-if="!ctrl.shared.campaign.campaign.name">
+        <h3 ng-if="ctrl.shared.campaign.campaign.type_name == 'SMS'" translate>CAMPAIGN.TITLE_NEW_SMS_CAMPAIGN</h3>
+        <h3 ng-if="ctrl.shared.campaign.campaign.type_name == 'EMAIL'" translate>CAMPAIGN.TITLE_NEW_EMAIL_CAMPAIGN</h3>
+        <h3 ng-if="ctrl.shared.campaign.campaign.type_name == 'MESSAGING'" translate>CAMPAIGN.TITLE_NEW_MESSAGING_CAMPAIGN</h3>
+      </div>
+      <h3 ng-if="ctrl.shared.campaign.campaign.name">{{ ctrl.shared.campaign.campaign.name }}</h3>
+      <span class="flex"></span>
+      <h3 ng-if="ctrl.shared.campaign.campaign && ctrl.shared.campaign.campaign.type_name === 'SMS'"
+          translate-values="{COUNT: ctrl.shared.remainingCredit}"
+          translate-interpolation="messageformat" class="available-credit"
+          translate>CAMPAIGN.AVAILABLE_CREDIT</h3>
+      <md-button ng-if="ctrl.shared.campaign.campaign && ctrl.shared.campaign.campaign.type_name === 'SMS' && ctrl.shared.remainingCredit <= 0" ng-href="{{ ctrl.reloadCreditUrl }}">
+        <md-icon>refresh</md-icon>
+        <span translate>CAMPAIGN.NO_CREDIT_RELOAD</span>
+      </md-button>
+  </div>
+</md-toolbar>
+
+<md-content class="campaign-edit">
+  <form ng-model="ctrl.shared.campaign.type.form">
+
+    <fieldset class="md-padding">
+      <md-input-container>
+        <label translate>CAMPAIGN.PLACEHOLDER_NAME</label>
+        <input type="text" ng-model="ctrl.shared.campaign.campaign.name" name="name" required>
+      </md-input-container>
+      <span class="error">{{ ctrl.shared.error.name.errors[0] }}</span>
+
+      <md-input-container ng-hide="ctrl.shared.campaign.campaign.type_name == 'SMS'">
+        <label translate>CAMPAIGN.PLACEHOLDER_TITLE</label>
+        <input type="text" ng-model="ctrl.shared.campaign.campaign.title" name="title" required>
+        <span class="error">{{ ctrl.shared.error.title.errors[0] }}</span>
+      </md-input-container>
+
+    </fieldset>
+
+    <fieldset class="md-padding">
+      <md-input-container md-no-float ng-if="ctrl.shared.campaign.campaign.type_name == 'EMAIL' || ctrl.shared.campaign.campaign.type_name == 'MESSAGING' ">
+        <textarea bns-tinymce
+          ng-model="ctrl.shared.campaign.campaign.message" name="message"
+          aria-label="{{'CAMPAIGN.PLACEHOLDER_MESSAGE' |translate}}">
+        </textarea>
+      </md-input-container>
+
+      <md-input-container md-no-float ng-if="ctrl.shared.campaign.campaign.type_name == 'SMS'">
+        <label translate>CAMPAIGN.LABEL_MESSAGE</label>
+        <textarea
+          ng-model="ctrl.shared.campaign.campaign.message" name="message"
+          aria-label="{{'CAMPAIGN.PLACEHOLDER_MESSAGE' |translate}}" placeholder="{{'CAMPAIGN.PLACEHOLDER_MESSAGE' |translate}}"
+          rows="10" ng-trim="false" required>
+        </textarea>
+      </md-input-container>
+      <span class="error">{{ ctrl.shared.error.message.errors[0] }}</span>
+
+      <span ng-if="ctrl.shared.campaign.campaign.type_name == 'SMS' && ctrl.shared.messageLength.length"
+            translate-values="{nb: (ctrl.shared.messageLength.per_message - ctrl.shared.messageLength.remaining), nbTotal: ctrl.shared.messageLength.per_message, nbMsg: ctrl.shared.messageLength.messages, nbMsgTotal: ctrl.shared.nbMessageTotal }"
+            style="float: right;margin-right: 5px;color: #269FCA;"
+            translate>CAMPAIGN.CHARACTER_COUNT</span>
+    </fieldset>
+
+
+    <fieldset ng-if="ctrl.shared.campaign.campaign && ctrl.shared.campaign.campaign.type_name !== 'SMS'">
+      <md-divider></md-divider>
+      <bns-attachments source="ctrl.shared.campaign.campaign._embedded.attachments" editable="true"></bns-attachments>
+    </fieldset>
+
+    <md-divider></md-divider>
+
+      <div class="layout-row layout-padding layout-align-start-center">
+        <h3 class="md-subhead flex flex-none" translate>CAMPAIGN.PLACEHOLDER_ADD_RECIPIENTS</h3>
+        <span class="flex flex-none"> - </span>
+        <md-button ng-if="!ctrl.busyRecipient && ctrl.shared.campaign.campaign"
+          ng-click="ctrl.showDialog(ctrl.shared.allUsers)"
+          type="button"
+          class="md-primary"
+          ng-disabled2="!ctrl.shared.campaign.campaign.nb_recipient"
+          href
+        >
+          <md-icon>edit</md-icon>
+          <span translate translate-values="{COUNT: ctrl.shared.campaign.campaign.nb_recipient }" translate-interpolation="messageformat">CAMPAIGN.NB_VALID_RECIPIENT_TITLE</span>
+        </md-button>
+        <span class="flex"></span>
+          <md-button href
+                     bns-user-directory-invoke="campaign-recipients"
+                     selection="ctrl.shared.recipientSelectionIds"
+                     selection-role="ctrl.shared.roles"
+                     selection-distribution="ctrl.shared.listSelectionIds"
+                     on-selection="ctrl.recipientsSelection"
+                     class="md-raised md-primary"
+          > <bns-icon class="bns-icon-user-directory">user-directory</bns-icon>
+            <span ng-bind-html="'USER_PICKER.BUTTON_USER_DIRECTORY'|translate|buttonize">.</span>
+          </md-button>
+      </div>
+
+    <div class="md-padding" ng-if="!ctrl.busyRecipient">
+
+      <div ng-repeat="(key, value) in ctrl.shared.recipients | groupBy: 'main_role'">
+        <div class="layout-row">
+          <div class="flex">
+            {{ 'CAMPAIGN.ROLE_'+key | uppercase | translate }}
+          </div>
+        </div>
+        <md-list>
+          <div ng-repeat="recipient in value" class="list-item-for-chips">
+            <md-chips class="message-recipients">
+            <md-chip >
+              <img ng-src="{{ recipient.avatar_url }}" class="md-avatar">
+              {{ recipient.full_name | truncate: 20: '...' }}
+              <md-icon ng-click="ctrl.showDialog(recipient)" style="font-size: 21px;margin-left: 7px;margin-right: -2px;">edit</md-icon>
+              <md-icon ng-click="ctrl.deleteRecipients([recipient.id], true)" style="font-size: 21px;">close</md-icon>
+            </md-chip>
+              </md-chips>
+          </div>
+        </md-list>
+      </div>
+
+      <div ng-repeat="group in ctrl.shared.groupsAndLists">
+
+        <div class="groups-and-lists">
+          <md-content class="layout-padding expander-label">
+            <bns-navbar-icon class="sprite flex-none sprite-{{ group.group.type | lowercase }}-40 groups-name">
+              </bns-navbar-icon>
+              <h3>{{ group.group.label }}</h3>
+            <md-divider style="margin-top: -4px;background: rgba(62, 180, 219, 0.24);"></md-divider>
+          </md-content>
+
+          <bns-expander is-open="true">
+
+            <div ng-repeat="roleData in group.roles" class="md-padding2 " ng-class="{'empty-role': roleData.nb_users === 0}">
+              <div class="layout-row layout-padding layout-align-start-center">
+                  {{ 'CAMPAIGN.ROLE_'+roleData.role | translate }}
+                  <span class="flex flex-none">-</span>
+                  <md-button href ng-click="roleData.users.length > 0 && roleData.nb_users > 0 && ctrl.showDialog(roleData.users)" class="md-primary">
+                    <span translate translate-values="{COUNT: roleData.nb_users }" translate-interpolation="messageformat">CAMPAIGN.NB_RECIPIENT_TITLE</span>
+                  </md-button>
+              </div>
+              <md-list>
+                <div ng-repeat="user in roleData.users" class="list-item-for-chips">
+                  <md-chips class="message-recipients">
+                    <md-chip >
+                      <img ng-src="{{ user.avatar_url }}" class="md-avatar">
+                      {{ user.full_name | truncate: 20: '...' }}
+                      <md-icon ng-click="ctrl.showDialog(user)" style="font-size: 21px;margin-left: 7px;margin-right: -2px;"
+                      ng-if="roleData.role === 'PARENT' || roleData.role === 'TEACHER' || roleData.role === 'ASSISTANT'" >edit</md-icon>
+                    </md-chip>
+                  </md-chips>
+                </div>
+              </md-list>
+            </div>
+          </bns-expander>
+        </div>
+      </div>
+    </div>
+
+    <div ng-if="ctrl.busyRecipient" class="layout-row layout-align-space-around">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+  </form>
+
+</md-content>

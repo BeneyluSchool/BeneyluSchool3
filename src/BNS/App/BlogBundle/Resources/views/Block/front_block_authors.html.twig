@@ -1,16 +1,20 @@
+{% trans_default_domain "BLOG" %}
 {% if blog.getAuthors()|length > 0 %}
-	<h2 class="block-title">Les auteurs</h2>
-	<div class="block-student">
-		<ul>
-			{% for author in blog.getAuthors() %}
-				<li>
-					<a href="{{ path('blog_articles_from_author', {'slug': author.getSlug()}) }}" class="bns-user small {% if author_slug is defined and author_slug == author.getSlug() %}bns-selected{% endif %}"><img src="{{ avatar(author, 'thumbnail') }}" width="24" />
-						{{ author.getFullName() }}
-						<span class="action-icons"></span>
-					</a>
-				</li>
-			{% endfor %}
-		</ul>
-	</div>
-	<div class="clearfix"></div>
+  <h2 class="block-title">{% trans %}TITLE_AUTHOR{% endtrans %}</h2>
+  <div class="block-student">
+    {% if author_slug is defined %}
+      <ul><li><a href="{{ path('BNSAppBlogBundle_front') }}">{% trans %}LINK_ALL_AUTHORS{% endtrans %}</a></li></ul>
+    {% endif %}
+    <div layout="row" layout-wrap>
+      {% for author in blog.getAuthors() %}
+      <div class="student" flex="33">
+        <md-button href="{{ path('blog_articles_from_author', {'slug': author.getSlug()}) }}" class="layout-column">
+          <img class="{% if author_slug is defined and author_slug == author.getSlug() %}selected{% endif %}"  src="{{ avatar(author, 'thumbnail') }}" alt="" />
+          <span class="name">{{ author.getFullName() }}</span>
+        </md-button>
+      </div>
+      {% endfor %}
+      </div>
+  </div>
+  <div class="clearfix"></div>
 {% endif %}

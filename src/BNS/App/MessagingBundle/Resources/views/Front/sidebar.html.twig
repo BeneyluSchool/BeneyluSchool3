@@ -1,3 +1,4 @@
+    {% trans_default_domain "MESSAGING" %}
         <div class="row-fluid">
             <div class="span1">
                 <div class="left-post"></div>
@@ -8,26 +9,26 @@
                     <ul>
                         <!-- For each des dossiers retournés par le controller -->
                         <li>
-                            <a id="{{ received.functionalName }}" href="#"  class="mailFolder btn actif"><span class="icons-not-read"></span> Messages reçus <!--<span class="number-message"> {{ received.unreadMessage }} </span>--></a>
+                            <a id="{{ received.functionalName }}" href="#"  class="mailFolder btn actif"><span class="icons-not-read"></span> {% trans %}LINK_MESSAGES_RECEIVE{% endtrans %} <!--<span class="number-message"> {{ received.unreadMessage }} </span>--></a>
                         </li>
                         <li>
-                            <a id="{{ sent.functionalName }}" href="#" class="mailFolder btn no-actif"><span class="icons-message-send"></span>Voir les <br> messages envoyés</a>
+                            <a id="{{ sent.functionalName }}" href="#" class="mailFolder btn no-actif"><span class="icons-message-send"></span>{{ 'LINK_SEE_MESSAGES_SENT'|trans|raw }}</a>
                         </li>
                         <li>
-                            <a id="{{ drafted.functionalName }}" href="#" class="mailFolder btn no-actif"><span class="icons-draft"></span>Voir mes <br> brouillons <!--<span class="number-message"> {{ drafted.totalNbMessage }} </span>--></a>
+                            <a id="{{ drafted.functionalName }}" href="#" class="mailFolder btn no-actif"><span class="icons-draft"></span>{{ 'LINK_SEE_DRAFT'|trans|desc('Brouillons')|raw }} <!--<span class="number-message"> {{ drafted.totalNbMessage }} </span>--></a>
                         </li>
                         <li>
-                            <a id="{{ deleted.functionalName }}" href="#" class="mailFolder btn no-actif"><span class="icons-message-delete"></span>Voir les <br> messages supprimés</a>
-                        </li> 
+                            <a id="{{ deleted.functionalName }}" href="#" class="mailFolder btn no-actif"><span class="icons-message-delete"></span>{{ 'LINK_SEE_MESSAGES_DELETED'|trans|desc('Messages supprimés')|raw }}</a>
+                        </li>
                     </ul>
-                    
-                    
+
+
                     {% if userFolders != false %}
                     <ul>
                         {% for folder in userFolders %}
                             <li><a href="#" id="{{ folder.functionalName }}" class="mailFolder btn no-actif">{{ folder.name }}</a></li>
                             {% if folder.childs != null %}
-                                {% render "BNSAppMessagingBundle:Front:subfolders" with { 'parent' : folder}%}
+                                {{ render(controller('BNSAppMessagingBundle:Front:subfolders', { 'parent' : folder})) }}
                             {% endif %}
                         {% endfor %}
                     </ul>

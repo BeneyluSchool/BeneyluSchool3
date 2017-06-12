@@ -1,0 +1,27 @@
+  <md-button ng-click="app.go('app.campaign.back.list')" class="btn-nav" href>
+    <md-icon>chevron_left</md-icon>
+    <span ng-bind-html="'CAMPAIGN.BUTTON_BACK'|translate|buttonize"></span>
+  </md-button>
+  <span class="bns-separator"></span>
+
+  <md-button class="md-raised" ng-click="ctrl.copyCampaign()" ng-disabled="ctrl.busy" href>
+    <md-icon>content_copy</md-icon>
+    <span ng-bind-html="'CAMPAIGN.COPY'| translate | buttonize"></span>
+  </md-button>
+
+  <md-button class="md-raised md-accent btn-hover" ng-click="app.go('app.campaign.back.edit', { id: ctrl.shared.campaign.campaign.id})" ng-disabled="ctrl.busy" ng-if="ctrl.shared.campaign.campaign.status=='DRAFT' || ctrl.shared.campaign.campaign.status=='SCHEDULED'" href>
+    <md-icon>edit</md-icon>
+    <span ng-bind-html="'CAMPAIGN.EDIT' | translate | buttonize"></span>
+  </md-button>
+
+  <md-button class="md-raised md-warn btn-hover" ng-click="ctrl.showDialog()" ng-disabled="ctrl.busy" ng-if="ctrl.shared.campaign.campaign.status!='PENDING' && ctrl.shared.campaign.campaign.status!='WAITING' " href>
+    <md-icon>delete</md-icon>
+    <span ng-bind-html="'CAMPAIGN.BUTTON_DELETE' | translate | buttonize"></span>
+  </md-button>
+
+  <div class="flex"></div>
+
+  <md-button class="md-raised md-accent send" ng-click="ctrl.showSubmitDialog()" ng-disabled="ctrl.busy || (ctrl.shared.campaign.campaign.type_name === 'SMS' && !ctrl.shared.remainingCredit) || (ctrl.shared.campaign.campaign && !ctrl.shared.campaign.campaign.nb_recipient)" ng-if="ctrl.shared.campaign.campaign.status=='DRAFT'" href>
+    <md-icon>mail</md-icon>
+    <span ng-bind-html="'CAMPAIGN.BUTTON_SEND' | translate | buttonize"></span>
+  </md-button>

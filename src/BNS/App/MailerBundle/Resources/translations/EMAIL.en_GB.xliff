@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-06-22T16:15:30Z" source-language="en" target-language="en-GB" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="72d3812ad4cbec52eca94711179a32dbedac69e4" resname="CHECK_EMAIL_HTML">
+        <source>CHECK_EMAIL_HTML</source>
+        <target><![CDATA[Hello %first_name%<p>You requested receiving your email address confirmation link again, please find it bellow: </p><p><strong><a href="%confirm_link%">%confirm_link%</a></strong></p><p>See you soon!</p>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="269e8b421fd2bd40b78d0acce617380e7f093ba5" resname="CHECK_EMAIL_LABEL">
+        <source>CHECK_EMAIL_LABEL</source>
+        <target>Email sent to validate email address</target>
+      </trans-unit>
+      <trans-unit id="28b00408431ad01b5846fa6c69626a91e5e4d120" resname="CHECK_EMAIL_SUBJECT">
+        <source>CHECK_EMAIL_SUBJECT</source>
+        <target>%beneylu_brand_name%: Your confirmation link</target>
+      </trans-unit>
+      <trans-unit id="d80357b0b393a4c4de8823b768951c0f6590cdcc" resname="EMPTY_HTML">
+        <source>EMPTY_HTML</source>
+        <target>%content%</target>
+        <note><![CDATA[%content% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="c34f41ff9b326129956b0ccd192463b26e7b0790" resname="EMPTY_LABEL">
+        <source>EMPTY_LABEL</source>
+        <target>Notification message to an event participation</target>
+      </trans-unit>
+      <trans-unit id="00254b0ef37eeb486a0738f11f15bb0c2b417fa5" resname="EMPTY_PLAIN">
+        <source>EMPTY_PLAIN</source>
+        <target>%content%</target>
+        <note><![CDATA[%content% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="34b9c3c17aaad1638b3bc8657ce6ea681c2705d6" resname="EMPTY_SUBJECT">
+        <source>EMPTY_SUBJECT</source>
+        <target>%title%</target>
+        <note><![CDATA[%title% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="c943a2991db2d0ccb3dcd8b86fee350f2a5ea28f" resname="IMPORT_REPORT_HTML">
+        <source>IMPORT_REPORT_HTML</source>
+        <target>An import has ended. Here are the info : #%id% , Date : %dates% , Type : %type% , Status : %status% , Number of lines : %nbRows% , Number of lines processed : %nbRowsProcessed% , Number of additions : %adds% , Number of modifications : %modifys% , Number of deletions : %deletes% . Error message : %error%.</target>
+        <note><![CDATA[%id% is a placeholder
+%dates% is a placeholder
+%type% is a placeholder
+%status% is a placeholder
+%nbRows% is a placeholder
+%nbRowsProcessed% is a placeholder
+%adds% is a placeholder
+%modifys% is a placeholder
+%deletes% is a placeholder
+%error% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="8c8f5ef0f94d27fbf5fd17862de79470c7b8d857" resname="IMPORT_REPORT_LABEL">
+        <source>IMPORT_REPORT_LABEL</source>
+        <target>A %beneylu_brand_name% is over</target>
+      </trans-unit>
+      <trans-unit id="70b1415fb47082a37536b6f47748e335dd97a2bf" resname="IMPORT_REPORT_SUBJECT">
+        <source>IMPORT_REPORT_SUBJECT</source>
+        <target>File import over</target>
+      </trans-unit>
+      <trans-unit id="427cb6949f1b351f2968b1cb41386c0c8e511430" resname="NOTIFICATION_HTML">
+        <source>NOTIFICATION_HTML</source>
+        <target><![CDATA[Hello,<br /><br />You have received a new notification from %beneylu_brand_name%.<br /><br />%notification%]]></target>
+        <note><![CDATA[%notification% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="b4ae4a8a726a67673eedff6e3bbd1cfcc8dc6aa9" resname="NOTIFICATION_LABEL">
+        <source>NOTIFICATION_LABEL</source>
+        <target>Notification email</target>
+      </trans-unit>
+      <trans-unit id="2196ed238d34e795f35a33d5221d84d64e2112fb" resname="NOTIFICATION_PLAIN">
+        <source>NOTIFICATION_PLAIN</source>
+        <target>Hello,\n\nYou have received a new notification from %beneylu_brand_name%.\n\n%notification%</target>
+        <note><![CDATA[%notification% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="5b6ce7dcca57770b1e267e0c8979a86981e26bf3" resname="NOTIFICATION_SUBJECT">
+        <source>NOTIFICATION_SUBJECT</source>
+        <target>New notification : %title%</target>
+        <note><![CDATA[%title% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="11ed45e089605c12824db8d877a57a85dfce032a" resname="REQUEST_RESET_PASSWORD_HTML">
+        <source>REQUEST_RESET_PASSWORD_HTML</source>
+        <target><![CDATA[Hello %first_name%,<br /><br />You have recently requested a %beneylu_brand_name% password reset, probably because you forgot it.<br />To complete our resetting process and for safety reason, could you please confirm this request by clicking on the following link:<a href="%confirmation_url%">I confirm my password reset request</a>.<p><strong>If you have not made this request, please ignore this email.</strong></p>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="be64c0baae04af195102291457dfb1cd9854e4f4" resname="REQUEST_RESET_PASSWORD_LABEL">
+        <source>REQUEST_RESET_PASSWORD_LABEL</source>
+        <target>Confirmation email to reset user's password</target>
+      </trans-unit>
+      <trans-unit id="803f97e1a54d808029f7e65e17b41a582f0251a8" resname="REQUEST_RESET_PASSWORD_SUBJECT">
+        <source>REQUEST_RESET_PASSWORD_SUBJECT</source>
+        <target>You requested a password reset</target>
+      </trans-unit>
+      <trans-unit id="2a6b639fbd5378480fbdef0a7540aa78c1832725" resname="RESET_PASSWORD_SUCCESS_HTML">
+        <source>RESET_PASSWORD_SUCCESS_HTML</source>
+        <target><![CDATA[Hello %first_name%,<br /><br />You have recently requested a %beneylu_brand_name% password reset, here is your temporary password: <strong>%plain_password%</strong><br />If you cannot remember your user name, don't worry, we've got this covered: <strong>%login%</strong><p>Please note that you will need to choose a new password next time you login.</p>]]></target>
+        <note><![CDATA[%login% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="1b4674bf4f47f5d754bdcd679bda338f8fd1d0a6" resname="RESET_PASSWORD_SUCCESS_LABEL">
+        <source>RESET_PASSWORD_SUCCESS_LABEL</source>
+        <target>Confirmation email after a user's password reset</target>
+      </trans-unit>
+      <trans-unit id="d5c9fa9d7b427abb7a960b00f8a0a5df014a4521" resname="RESET_PASSWORD_SUCCESS_SUBJECT">
+        <source>RESET_PASSWORD_SUCCESS_SUBJECT</source>
+        <target>Your password has been reset</target>
+      </trans-unit>
+      <trans-unit id="1" resname="ACTIVATE_ACCOUNT_SUCCESS_HTML">
+        <source>ACTIVATE_ACCOUNT_SUCCESS_HTML</source>
+        <target><![CDATA[Hello %first_name%,<br /><br />You just activated your %beneylu_brand_name% account, here is your temporary password: <strong>%plain_password%</strong><br />You can log in with your email address or login: <strong>%login%</strong><p>Please note that we'll ask you to change your password for your first connection!</p>]]></target>
+      </trans-unit>
+      <trans-unit id="2" resname="ACTIVATE_ACCOUNT_SUCCESS_LABEL">
+        <source>ACTIVATE_ACCOUNT_SUCCESS_LABEL</source>
+        <target>Confirmation email after user account activation</target>
+      </trans-unit>
+      <trans-unit id="3" resname="ACTIVATE_ACCOUNT_SUCCESS_SUBJECT">
+        <source>ACTIVATE_ACCOUNT_SUCCESS_SUBJECT</source>
+        <target>Your %beneylu_brand_name% account is activated</target>
+      </trans-unit>
+      <trans-unit id="268a483b911c4288cce8ca7cc2272d1c1e255f86" resname="SPONSORSHIP_NEW_HTML">
+        <source>SPONSORSHIP_NEW_HTML</source>
+        <target><![CDATA[<table border="0" cellpadding="0" cellspacing="0" width="600" id="templateBody" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;background-color: #FFFFFF;border-top: 0;border-bottom: 0;">                <tr>                    <td valign="top" class="bodyContainer" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnTextBlock" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">                            <tbody class="mcnTextBlockOuter">                            <tr>                                <td valign="top" class="mcnTextBlockInner" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">                                    <table align="left" border="0" cellpadding="0" cellspacing="0" width="600" class="mcnTextContentContainer" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">                                        <tbody><tr>                                            <td valign="top" class="mcnTextContent" style="padding: 9px 18px;font-family: Verdana, Geneva, sans-serif;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #606060;font-size: 15px;line-height: 150%;text-align: left;">                                               <p>You have been referred by %sponsor_full_name% to join %beneylu_brand_name%.</p><p>By accepting this referral, he/she gets one month of %beneylu_brand_name%'s school version free.</p>                                            </td>                                        </tr>                                        </tbody></table>                                </td>                            </tr>                            </tbody>                        </table><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnButtonBlock" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">                            <tbody class="mcnButtonBlockOuter">                            <tr>                                <td style="padding-top: 0;padding-right: 18px;padding-bottom: 18px;padding-left: 18px;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;" valign="top" align="center" class="mcnButtonBlockInner">                                    <table border="0" cellpadding="0" cellspacing="0" class="mcnButtonContentContainer" style="border-collapse: separate !important;border: 2px solid #707070;border-radius: 5px;background-color: #6DB200;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">                                        <tbody>                                        <tr>                                            <td align="center" valign="middle" class="mcnButtonContent" style="font-family: Arial;font-size: 16px;padding: 15px;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">                                                <a class="mcnButton " title="" href="%link%" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;word-wrap: break-word;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">Accept this referral and register</a>                                            </td>                                        </tr>                                        </tbody>                                    </table>                                </td>                            </tr>                            </tbody>                        </table><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnBoxedTextBlock" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">                            <tbody class="mcnBoxedTextBlockOuter">                            <tr>                                <td valign="top" class="mcnBoxedTextBlockInner" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">                                    <table align="left" border="0" cellpadding="0" cellspacing="0" width="600" class="mcnBoxedTextContentContainer" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">                                        <tbody><tr>                                            <td style="padding-top: 9px;padding-left: 18px;padding-bottom: 9px;padding-right: 18px;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">                                                <table border="0" cellpadding="18" cellspacing="0" class="mcnTextContentContainer" width="100%" style="border: 1px solid #999999;background-color: #EBEBEB;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">                                                    <tbody><tr>                                                        <td valign="top" class="mcnTextContent" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #606060;font-family: Helvetica;font-size: 15px;line-height: 150%;text-align: left;">                                                                                                                   </td>                                                    </tr>                                                    </tbody></table>                                            </td>                                        </tr>                                        </tbody></table>                                </td>                            </tr>                            </tbody>                        </table></td>                </tr>            </table>]]></target>
+        <note><![CDATA[%link% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="f5596f215fc251d6cd87d271c2d804b7b9896179" resname="SPONSORSHIP_NEW_LABEL">
+        <source>SPONSORSHIP_NEW_LABEL</source>
+        <target>New referral</target>
+      </trans-unit>
+      <trans-unit id="e38bb1f08cf529ab797e341bdcfaf9bf8a3d5ea0" resname="SPONSORSHIP_NEW_SUBJECT">
+        <source>SPONSORSHIP_NEW_SUBJECT</source>
+        <target>You have been referred on %beneylu_brand_name%</target>
+      </trans-unit>
+      <trans-unit id="a96358a7c87b778c89cd6fe1dd250f2cd2e80ac7" resname="SPONSORSHIP_VALIDATED_HTML">
+        <source>SPONSORSHIP_VALIDATED_HTML</source>
+        <target><![CDATA[<table border="0" cellpadding="0" cellspacing="0" width="600" id="templateBody" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;background-color: #FFFFFF;border-top: 0;border-bottom: 0;">\n                <tr>\n                    <td valign="top" class="bodyContainer" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnTextBlock" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">\n                            <tbody class="mcnTextBlockOuter">\n                            <tr>\n                                <td valign="top" class="mcnTextBlockInner" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">\n\n                                    <table align="left" border="0" cellpadding="0" cellspacing="0" width="600" class="mcnTextContentContainer" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">\n                                        <tbody><tr>\n\n                                            <td valign="top" class="mcnTextContent" style="padding: 9px 18px;font-family: Verdana, Geneva, sans-serif;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #606060;font-size: 15px;line-height: 150%;text-align: left;">\n\n                                               <p>%sponsored_full_name%'s referral has been validated.</p>\n\n<p>Your establishment has received %beneylu_brand_name%'s school version free for a month.</p>\n\n                                            </td>\n                                        </tr>\n                                        </tbody></table>\n\n                                </td>\n                            </tr>\n                            </tbody>\n                        </table><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnBoxedTextBlock" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">\n                            <tbody class="mcnBoxedTextBlockOuter">\n                            <tr>\n                                <td valign="top" class="mcnBoxedTextBlockInner" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">\n\n                                    <table align="left" border="0" cellpadding="0" cellspacing="0" width="600" class="mcnBoxedTextContentContainer" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">\n                                        <tbody><tr>\n\n                                            <td style="padding-top: 9px;padding-left: 18px;padding-bottom: 9px;padding-right: 18px;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">\n\n                                                <table border="0" cellpadding="18" cellspacing="0" class="mcnTextContentContainer" width="100%" style="border: 1px solid #999999;background-color: #EBEBEB;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">\n                                                    <tbody><tr>\n                                                        <td valign="top" class="mcnTextContent" style="mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #606060;font-family: Helvetica;font-size: 15px;line-height: 150%;text-align: left;">\n                                                           \n                                                        </td>\n                                                    </tr>\n                                                    </tbody></table>\n                                            </td>\n                                        </tr>\n                                        </tbody></table>\n\n                                </td>\n                            </tr>\n                            </tbody>\n                        </table></td>\n                </tr>\n            </table>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="06f2c4fa94d766136a89174640e668ce378a4ddb" resname="SPONSORSHIP_VALIDATED_LABEL">
+        <source>SPONSORSHIP_VALIDATED_LABEL</source>
+        <target>Validated referral</target>
+      </trans-unit>
+      <trans-unit id="10dc757a6018420b44f446441f49fa5e515761df" resname="SPONSORSHIP_VALIDATED_SUBJECT">
+        <source>SPONSORSHIP_VALIDATED_SUBJECT</source>
+        <target>Your %beneylu_brand_name%'s referral has been validated</target>
+      </trans-unit>
+      <trans-unit id="1860652d3d4f94801ed5605f42f6c8b0fc39ac9e" resname="WELCOME_AND_CHECK_EMAIL_HTML">
+        <source>WELCOME_AND_CHECK_EMAIL_HTML</source>
+        <target><![CDATA[Dear teacher,<br /><br />Thank you for joining %beneylu_brand_name%! You are about to start a memorable adventure with your pupils.
+<p>Log on to your %beneylu_brand_name% new classroom here:</p><p style="text-align:center"><a href="%baseUrl%"> %baseUrl% </a></p><p>And enter your password away from prying eyes:</p><p style="text-align:center">
+<strong>%password%</strong></p><p><i>We advise you to keep it secret, either in your mind or in a hidden chest below the ocean.</i></p><br/><p>Your last mission? Click on the link to validate your mail:
+</p><table cellspacing="0" cellpadding="0"><tbody><tr><td colspan="3" height="10"></td></tr><tr><td width="150"></td><td align="center" width="300" bgcolor="#00A3D9" style="border-radius:5px;color:#ffffff;display:block;"><a href="%confirm_link%" style="font-weight:bold;font-family:sans-serif;text-decoration:none;line-height:40px;width:100%;display:inline-block;" target="_blank"><table width="100%"><tbody><tr><td align="center"><span style="color:#ffffff;">
+Validate my mail address</span></td></tr></tbody></table></a></td><td width="150"></td></tr><tr><td colspan="3" height="10"></td></tr></tbody></table><br/>
+<p>You are now all set to spend awesome times in class with %beneylu_brand_name%… and one thing is sure, your pupils are going to love it!</p><br/>
+<table><tr><td><img src="%cdnUrl%/medias/images/mail/help.png"/ style="float:left"></td><td><p>Need a little help? Click on the %beneylu_brand_name% Help bubble. I’m here to guide you!</p></td></tr></table><br/><p>See you soon in your %beneylu_brand_name% classroom.</p><br/><br/><p><i>Lucile</i></p>]]></target>
+        <note><![CDATA[%password% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="3daf6d526bf080f5e14bf47a0798b3d5ffb9d186" resname="WELCOME_AND_CHECK_EMAIL_LABEL">
+        <source>WELCOME_AND_CHECK_EMAIL_LABEL</source>
+        <target>Email sent during registration: password + confirmation email</target>
+      </trans-unit>
+      <trans-unit id="4fbb5aa9cb3a2487e8f98c560c7b9a5e6aee031c" resname="WELCOME_AND_CHECK_EMAIL_PLAIN">
+        <source>WELCOME_AND_CHECK_EMAIL_PLAIN</source>
+        <target><![CDATA[Dear teacher,
+
+Thank you for joining %beneylu_brand_name%! You are about to start a memorable adventure with your students.
+
+Log on to your %beneylu_brand_name% new classroom here:
+%baseUrl%
+
+And enter your password away from prying eyes:
+%password%
+
+We advise you to keep it secret, either in your mind or in a hidden chest below the ocean.
+
+
+Your last mission? Click on the link to validate your email:
+%confirm_link%
+
+You are now all set to spend awesome times in class with %beneylu_brand_name%… and one thing is sure, your students are going to love it!
+
+Need a little help? Click on the %beneylu_brand_name% Help bubble. I’m here to guide you!
+
+See you soon in your %beneylu_brand_name% classroom.
+Lucile]]></target>
+        <note><![CDATA[%baseUrl% is a placeholder
+%password% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="4da119e9d414a698dbce86eee6f84594448eea85" resname="WELCOME_AND_CHECK_EMAIL_SUBJECT">
+        <source>WELCOME_AND_CHECK_EMAIL_SUBJECT</source>
+        <target>It just landed! Here is your new %beneylu_brand_name% password</target>
+      </trans-unit>
+      <trans-unit id="d2ef62d00ede7d61d1439435c752eebbdfd9e13e" resname="WELCOME_HTML">
+        <source>WELCOME_HTML</source>
+        <target><![CDATA[Hello %first_name%, <br /><br />Welcome to %beneylu_brand_name%, nice to meet you!<p>Here is a recap of your login information:</p><p><strong>User name:</strong>%login%<br />Password:</strong>%password%<br /><br /><i>Please keep this to yourself.</i></p><p>See you soon in your classroom!</p>]]></target>
+        <note><![CDATA[%login% is a placeholder
+%password% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="e453d05e2e0db452a527185ad7a3ce433c82d675" resname="WELCOME_LABEL">
+        <source>WELCOME_LABEL</source>
+        <target>Registration email</target>
+      </trans-unit>
+      <trans-unit id="ef627d371dcb11d64eeaa4941c31b9b35ad822bd" resname="WELCOME_LOGIN_HTML">
+        <source>WELCOME_LOGIN_HTML</source>
+        <target><![CDATA[Hello %first_name%,<br /><br />
+<p>Congrats! You have completed your %beneylu_brand_name%  subscription successfully. Don’t wait any longer and open the door to your %beneylu_brand_name% classroom with the username of your account:</p>
+<p style="text-align:center"><strong>%login%</strong></p><p>This username will help you log in to your %beneylu_brand_name% classroom, here:</p><p style="text-align:center"><a href="%baseUrl%"> %baseUrl% </a></p> <p>Time to have fun with your pupils!</p><p><i>Expert’s tip: You can enter your classroom using either your username or your mail address (what’s more, it’s the same for your pupils)!</i>
+</p><br/><p>See you soon in your %beneylu_brand_name% classroom.</p><br/><p><i>Lucile</i></p>]]></target>
+        <note><![CDATA[%login% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="6d12c0de233b5c4f45fc5eb80d954cfa1f90aa52" resname="WELCOME_LOGIN_LABEL">
+        <source>WELCOME_LOGIN_LABEL</source>
+        <target>Email sent a the end of registration, with user name</target>
+      </trans-unit>
+      <trans-unit id="0d7315abe297634e9a4ebd58f321702977fc794f" resname="WELCOME_LOGIN_PLAIN">
+        <source>WELCOME_LOGIN_PLAIN</source>
+        <target>Hello %first_name%,
+
+Congrats! You have completed your %beneylu_brand_name% subscription successfully. Don’t wait any longer and open the door to your %beneylu_brand_name% classroom with the username of your account:
+%login%
+
+This username will help you log in to your %beneylu_brand_name% classroom, here:
+%baseUrl%
+
+Time to have fun with your students!
+
+Expert’s tip: You can enter your classroom using either your username or your mail address (what’s more, it’s the same for your students)!
+
+See you soon in your %beneylu_brand_name% classroom.
+Lucile</target>
+        <note><![CDATA[%login% is a placeholder
+%baseUrl% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="955e8c3f8dfa5ba4d79225385a50335d09553ff3" resname="WELCOME_LOGIN_SUBJECT">
+        <source>WELCOME_LOGIN_SUBJECT</source>
+        <target>Great news: you just received your %beneylu_brand_name% username!</target>
+      </trans-unit>
+      <trans-unit id="d3e3600ea67a21cd0ba5bb090e0901e610e349a0" resname="WELCOME_SUBJECT">
+        <source>WELCOME_SUBJECT</source>
+        <target>Welcome to %beneylu_brand_name%!</target>
+      </trans-unit>
+      <trans-unit id="42ef5f2866e1539283ac45593c49bf00ca37f173" resname="YERBOOK_PAYMENT_CHECK_PENDING_VALIDATION_HTML">
+        <source>YERBOOK_PAYMENT_CHECK_PENDING_VALIDATION_HTML</source>
+        <target><![CDATA[<h2>Hello,</h2><p>Many thanks for your order #%order_unique_id% of %order_amount% € on %beneylu_brand_name% !</p><p>You chose a payment by check, here are our info  :</p>Pixel Cookers<br />Yërbook%beneylu_brand_name%<br />Immeuble Ordinal - Rue des Chauffours<br />95000 Cergy<br /><p><strong>Please write down the number of the order (#%order_unique_id%) at the back of the check.</strong></p><p>Please write the check to <strong>Pixel Cookers</strong>.</p><p>You'll receive a confirmation via e-mail once the check is received.</p><p>You can check the status of your order here : <a href="%order_url%">%order_url%</a></p><p>See you soon on %beneylu_brand_name%</p><p> <strong>%beneylu_brand_name%. team</strong> <a href="http://www.beneyluschool.net">http://www.beneyluschool.net</a></p>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="aa90ea2bc6ca909a3e1ef417ae158df2499b618f" resname="YERBOOK_PAYMENT_CHECK_PENDING_VALIDATION_LABEL">
+        <source>YERBOOK_PAYMENT_CHECK_PENDING_VALIDATION_LABEL</source>
+        <target>E-mail sent for a payment by check </target>
+      </trans-unit>
+      <trans-unit id="755b0037ee1007ca59d2d858f12e13121534a696" resname="YERBOOK_PAYMENT_CHECK_PENDING_VALIDATION_SUBJECT">
+        <source>YERBOOK_PAYMENT_CHECK_PENDING_VALIDATION_SUBJECT</source>
+        <target>Your order#%order_unique_id% Yërbook %beneylu_brand_name%</target>
+      </trans-unit>
+      <trans-unit id="7af916938b0f28d6b507fe6eb03096dc127812f9" resname="YERBOOK_PAYMENT_CONFIRMED_HTML">
+        <source>YERBOOK_PAYMENT_CONFIRMED_HTML</source>
+        <target><![CDATA[<h2>Hello,</h2><p>Many thanks for your order #%order_unique_id% of %order_amount% € on %beneylu_brand_name% !</p><p>You chose a payment by check, here are our info  :</p>Pixel Cookers<br />Yërbook %beneylu_brand_name%<br />Immeuble Ordinal - Rue des Chauffours<br />95000 Cergy<br /><p><strong>Please write down the number of the order (#%order_unique_id%) at the back of the check.</strong></p><p>Please write the check to <strong>Pixel Cookers</strong>.</p><p>You'll receive a confirmation via e-mail once the check is received.</p><p>You can check the status of your order here : <a href="%order_url%">%order_url%</a></p><p>See you soon on %beneylu_brand_name%</p><p> <strong>%beneylu_brand_name%. team</strong> <a href="http://www.beneyluschool.net">http://www.beneyluschool.net</a></p>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="6b389cd24e867ad763fbba7811b2e60965e2d031" resname="YERBOOK_PAYMENT_CONFIRMED_LABEL">
+        <source>YERBOOK_PAYMENT_CONFIRMED_LABEL</source>
+        <target>E-mail sent for the confirmation of an order</target>
+      </trans-unit>
+      <trans-unit id="ebeea04df67d9ec6cd720a6e2c220bd1df191634" resname="YERBOOK_PAYMENT_CONFIRMED_SUBJECT">
+        <source>YERBOOK_PAYMENT_CONFIRMED_SUBJECT</source>
+        <target>Confirmation of your order #%order_unique_id% Yërbook %beneylu_brand_name%</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

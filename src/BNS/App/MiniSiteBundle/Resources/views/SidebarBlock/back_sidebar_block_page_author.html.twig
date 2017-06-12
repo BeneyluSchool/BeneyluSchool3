@@ -1,0 +1,13 @@
+{% trans_default_domain "MINISITE" %}
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+
+<bns-expander label="{{ 'AUTHORS' | trans }}" class="ng-scope ng-isolate-scope" is-open="true">
+	<div class="layout-row layout-align-start-center layout-padding">
+		<span class="flex flex-none">
+			{{ components.avatar(author, { size: 32, whiteframe: 'z1' }) }}
+		</span>
+		<span class="flex text-ellipsis">
+			{{ author.getFullName() }}
+		</span>
+	</div>
+</bns-expander>

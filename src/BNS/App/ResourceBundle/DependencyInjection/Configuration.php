@@ -24,6 +24,13 @@ class Configuration implements ConfigurationInterface
         // configure your bundle. See the documentation linked above for
         // more information on that topic.
 
+        $rootNode
+            ->isRequired()
+            ->children()
+            ->scalarNode('default_adapter')->defaultValue('local')->end()
+            ->end()
+        ;
+
         return $treeBuilder;
     }
 }

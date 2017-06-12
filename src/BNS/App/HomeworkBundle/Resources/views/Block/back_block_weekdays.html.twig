@@ -1,3 +1,4 @@
+{% trans_default_domain "HOMEWORK" %}
 {# <div class="title-section-sidebar homework active">Jours<div class="color-active"></div><span class="icon-arrow-down"></span></div>
 <div class="sidebar-links-container">
 	<ul id="weekdays">
@@ -11,16 +12,17 @@
 	</ul>
 </div> #}
 <div class="title-container">
-	<div class="title active border-blue">Jours<span class="square icon-arrow"></span></div>
-	<div class="content-title">
-		<ul id="weekdays" class="weekdays">
-			{% if 'MO' in preferences.getDays() %}<li><div class="monday">Lundi <span id="listcheck_MO" class="day-filter select {% if 'MO' in app.session.get('weekdays-session') %}checked{% endif %}"></span></div></li>{% endif %}
-			{% if 'TU' in preferences.getDays() %}<li><div class="tuesday">Mardi <span id="listcheck_TU" class="day-filter select {% if 'TU' in app.session.get('weekdays-session') %}checked{% endif %}"></span></div></li>{% endif %}
-			{% if 'WE' in preferences.getDays() %}<li><div class="wednesday">Mercredi <span id="listcheck_WE" class="day-filter select {% if 'WE' in app.session.get('weekdays-session') %}checked{% endif %}"></span></div></li>{% endif %}
-			{% if 'TH' in preferences.getDays() %}<li><div class="thursday">Jeudi <span id="listcheck_TH" class="day-filter select {% if 'TH' in app.session.get('weekdays-session') %}checked{% endif %}"></span></div></li>{% endif %}
-			{% if 'FR' in preferences.getDays() %}<li><div class="friday">Vendredi <span id="listcheck_FR" class="day-filter select {% if 'FR' in app.session.get('weekdays-session') %}checked{% endif %}"></span></div></li>{% endif %}
-			{% if 'SA' in preferences.getDays() %}<li><div class="saturday">Samedi <span id="listcheck_SA" class="day-filter select {% if 'SA' in app.session.get('weekdays-session') %}checked{% endif %}"></span></div></li>{% endif %}
-			{% if 'SU' in preferences.getDays() %}<li><div class="sunday">Dimanche <span id="listcheck_SU" class="day-filter select {% if 'SU' in app.session.get('weekdays-session') %}checked{% endif %}"></span></div></li>{% endif %}
-		</ul>
-	</div>
+    <div class="title active border-blue">{% trans %}TITLE_DAYS{% endtrans %}<span class="square icon-arrow"></span></div>
+    <div class="content-title">
+        <ul id="weekdays" class="weekdays">
+            <div class="loader loader-h"></div>
+            {% if 'MO' in preferences.getDays() %}<li class="day-filter-list"><div class="monday">{% trans %}CHOICE_MONDAY{% endtrans %} <span id="listcheck_MO" class="day-filter select {% if 'MO' in app.session.get('weekdays-session') %}checked{% endif %}"></span></div></li>{% endif %}
+            {% if 'TU' in preferences.getDays() %}<li class="day-filter-list"><div class="tuesday">{% trans %}CHOICE_TUESDAY{% endtrans %} <span id="listcheck_TU" class="day-filter select {% if 'TU' in app.session.get('weekdays-session') %}checked{% endif %}"></span></div></li>{% endif %}
+            {% if 'WE' in preferences.getDays() %}<li class="day-filter-list"><div class="wednesday">{% trans %}CHOICE_WEDNESDAY{% endtrans %} <span id="listcheck_WE" class="day-filter select {% if 'WE' in app.session.get('weekdays-session') %}checked{% endif %}"></span></div></li>{% endif %}
+            {% if 'TH' in preferences.getDays() %}<li class="day-filter-list"><div class="thursday">{% trans %}CHOICE_THURSDAY{% endtrans %} <span id="listcheck_TH" class="day-filter select {% if 'TH' in app.session.get('weekdays-session') %}checked{% endif %}"></span></div></li>{% endif %}
+            {% if 'FR' in preferences.getDays() %}<li class="day-filter-list"><div class="friday">{% trans %}CHOICE_FRIDAY{% endtrans %} <span id="listcheck_FR" class="day-filter select {% if 'FR' in app.session.get('weekdays-session') %}checked{% endif %}"></span></div></li>{% endif %}
+            {% if 'SA' in preferences.getDays() %}<li class="day-filter-list"><div class="saturday">{% trans %}CHOICE_SATURDAY{% endtrans %} <span id="listcheck_SA" class="day-filter select {% if 'SA' in app.session.get('weekdays-session') %}checked{% endif %}"></span></div></li>{% endif %}
+            {% if 'SU' in preferences.getDays() %}<li class="day-filter-list"><div class="sunday">{% trans %}CHOICE_SUNDAY{% endtrans %} <span id="listcheck_SU" class="day-filter select {% if 'SU' in app.session.get('weekdays-session') %}checked{% endif %}"></span></div></li>{% endif %}
+        </ul>
+    </div>
 </div>

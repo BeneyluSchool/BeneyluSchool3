@@ -1,0 +1,60 @@
+BNS\App\CoreBundle\Model\Module:
+  exclusion_policy: All
+
+  properties:
+    isOpen:
+      expose: true
+      groups: [details]
+    isPrivate:
+      expose: true
+      groups: [details]
+    isPartiallyOpen:
+      expose: true
+      groups: [details]
+    hasAccessFront:
+      expose: true
+      groups: [details]
+    hasAccessBack:
+      expose: true
+      groups: [details]
+    canOpen:
+      expose: true
+      groups: [details]
+    isUninstallable:
+      expose: true
+      groups: [details]
+    counter:
+      expose: true
+      groups: [details]
+    groupType:
+      expose: true
+      groups: [details]
+    isFavorite:
+      expose: true
+      groups: [details]
+    rank:
+      expose: true
+      groups: [details]
+    metaTitle:
+      expose: true
+
+  relations:
+    - rel: back
+      href: expr(service('router').generate(object.getRouteBack(), {}, true))
+      exclusion:
+        exclude_if: expr(!object.hasRouteBack(service('router')))
+    - rel: front
+      href: expr(service('router').generate(object.getRouteFront(), {}, true))
+      exclusion:
+        exclude_if: expr(!object.hasRouteFront(service('router')))
+
+  virtual_properties:
+    getLabel:
+      expose: true
+      groups: [ basic ]
+    getDescription:
+      expose: true
+      groups: [ basic ]
+    getCustomLabel:
+      expose: true
+      groups: [ basic ]

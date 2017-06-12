@@ -1,0 +1,16 @@
+<md-button ui-sref="app.lunch.back.week" class="md-primary md-hue-3 btn-hover btn-nav">
+  <md-icon>chevron_left</md-icon>
+  <span ng-bind-html="'LUNCH.BUTTON_GET_BACK' | translate | buttonize"></span>
+</md-button>
+
+<md-button ng-if="shared.editor._model.id" ng-click="ctrl.remove($event)" class="md-raised md-warn btn-hover" ng-disabled="shared.editor.busy || !shared.editor.ready">
+  <md-icon>delete</md-icon>
+  <span ng-bind-html="'LUNCH.BUTTON_DELETE_MENU' | translate | buttonize"></span>
+</md-button>
+
+<span class="flex"></span>
+
+<md-button class="md-raised md-accent" ng-click="shared.editor.save()" ng-disabled="shared.editor.busy || !shared.editor.ready">
+  <md-icon>save</md-icon>
+  <span ng-bind-html="'LUNCH.BUTTON_SAVE_MENU' | translate | buttonize"></span>
+</md-button>

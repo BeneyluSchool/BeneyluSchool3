@@ -4,17 +4,17 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <!--
     <parameters>
-        <parameter key="bns_app_mini_site.example.class">BNS\App\MiniSiteBundle\Example</parameter>
+        <parameter key="install_process_bns_app_mini_site_bundle.class">BNS\App\MiniSiteBundle\Install\InstallProcess</parameter>
+        <parameter key="site_service_bns_app_statistics_bundle.class">BNS\App\MiniSiteBundle\Statistic\MinisiteStatisticsService</parameter>
     </parameters>
 
     <services>
-        <service id="bns_app_mini_site.example" class="%bns_app_mini_site.example.class%">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
+        <service id="install_process_bns_app_mini_site_bundle" class="%install_process_bns_app_mini_site_bundle.class%">
+            <tag name="bns.install_process" />
         </service>
+        <service id="stat.site" class="%site_service_bns_app_statistics_bundle.class%">
+            <argument type="service" id="service_container"></argument>
+       </service>
     </services>
-    -->
 </container>

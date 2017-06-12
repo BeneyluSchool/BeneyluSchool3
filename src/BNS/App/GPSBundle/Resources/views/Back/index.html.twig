@@ -1,3 +1,4 @@
+{% trans_default_domain "GPS" %}
 {% extends 'BNSAppGPSBundle:Back:layout.html.twig' %}
 
 {% block javascripts %}
@@ -15,50 +16,46 @@
 {% endblock javascripts %}
 
 {% block action_bar %}
-	<div class="header-buttons">
-		<div class="inner-header">
-			<div class="container container-fluid">
-				<div class="row-fluid">
-					<div class="span6">
-						<a href="{{ path('BNSAppGPSBundle_back_new_place') }}" class="btn bns-info btn-24 large">
-							<span class="icons-24 add-icon"></span>
-							Ajouter un lieu
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+ {{ components.button( 'LINK_ADD_PLACE' | trans , { intent: 'primary', href: path('BNSAppGPSBundle_back_new_place'), icon: 'add_circle', raised: true }) }}
 {% endblock %}
 
-{% block sidebar %}
-	<div class="container-sidebar list" id="gps-sidebar">
-		<div class="section active">
-			Lieux
-			<span class="shadow-section"></span>
-		</div>
-		<div class="title-container gps-category-filter">
-			<div class="title active border-blue">
-				Trier par catégorie<span class="square icon-arrow"></span>
-			</div>
-			{% include "BNSAppGPSBundle:Back:blockCategorySidebar.html.twig" with {'categories' : categories, 'isEditionMode': false} %}
-		</div>
-		<div class="container-section">
-			<div class="section">
-				<a href="{{ path('BNSAppGPSBundle_back_categories') }}">Catégories</a>
-			</div>
-		</div>
-	</div>
+{% block sidebar_content %}
+
+  <section class="current">
+      {{ components.button( 'LINK_PLACE' | trans , { href: "#", icon: 'place' }) }}
+
+      <bns-expander label="{{ 'SORT_BY_CATEGORY' | trans }}" is-open="true">
+        {% include "BNSAppGPSBundle:Back:blockCategorySidebar.html.twig" with {'categories' : categories, 'isEditionMode': false} %}
+      </bns-expander>
+  </section>
+
+
+  <section>
+      {{ components.button( 'LINK_CATEGORIES' | trans , { href: path('BNSAppGPSBundle_back_categories'), icon: 'list' }) }}
+  </section>
+
+
+  <section>
+      {% include 'BNSAppMainBundle:Components:app_menu_toggle.html.twig' %}
+  </section>
 {% endblock %}
 
-{% block content %}
-	<div class="layer-places-loading">
-	    <div class="message">
-		   Chargement des lieux en cours, veuillez patienter...
-		   <div><img src="{{ asset('/medias/images/icons/big-loader.gif') }}" alt="" /></div>
-	    </div>
-	</div>
-	<div id="gps-places-list" class="gps-places-list">
-		{% render "BNSAppGPSBundle:Back:placesList" %}
-	</div>
+{% block body_content %}
+  <md-toolbar class="content-toolbar">
+    <div class="md-toolbar-tools layout-align-start-center">
+      <bns-sidebar-toggle></bns-sidebar-toggle>
+      <h1 class="md-title text-primary text-left flex flex-gt-sm-33">{% trans%}LIST_LINKS_PLACE{% endtrans %}</h1>
+    </div>
+  </md-toolbar>
+
+  <md-content class="item-list-container layout-column flex">
+    <div class="layer-places-loading">
+      <div layout="row" layout-sm="column" layout-align="space-around">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+      </div>
+    </div>
+    <div id="gps-places-list" class="gps-places-list">
+      {{ render(controller('BNSAppGPSBundle:Back:placesList')) }}
+</div>
+  </md-content>
 {% endblock %}

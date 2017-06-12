@@ -1,0 +1,5 @@
+<ul>
+	{% for item in items %}
+		<li><a href="{{ item.link }}" onclick="window.open(this.href); return false">{{ item.title }}</a></li>
+	{% endfor %}
+</ul>

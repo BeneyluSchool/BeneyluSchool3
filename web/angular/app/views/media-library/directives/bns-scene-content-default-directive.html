@@ -1,0 +1,60 @@
+<div ng-repeat="element in shared.context.children"
+  bns-droppable="{ onDrop: dropCallback, model: element }"
+  bns-droppable-enabled="element.manageable"
+  bns-draggable="{ model: shared.context.children }"
+  bns-draggable-index="$index"
+  bns-draggable-ui-options="draggableUiOptions"
+  bns-draggable-enabled="shared.context.manageable && element.writable"
+  ng-controller="MediaLibrarySceneElementCtrl"
+  ng-class="{ empty: !(element.children.length || element.medias.length), selected: shared.selection.has(element), locker: element.is_locker, disabled: !isSelectionEnabled(element), manageable: element.manageable, first: $first, last: $last }"
+  class="media-library-scene-element folder"
+>
+  <div ng-click="navFolder(element)" class="media-library-scene-element-nav" title="{{ element.label }}">
+    <div class="media-library-scene-element-visual">
+      <i></i>
+      <div class="flags">
+        <div ng-if="'external' === element.role" class="flag-external"></div>
+        <div ng-show="element.is_private" class="flag-lock"></div>
+      </div>
+    </div>
+    <div ng-click="isSelectable(element) && (toggleSelection(element) || $event.stopPropagation())" class="media-library-scene-element-label">
+      <input type="checkbox"
+        ng-if="isSelectable(element)"
+        ng-checked="shared.selection.has(element)"
+        ng-model="dummy"
+        ng-disabled="!isSelectionEnabled(element)"
+      >
+      <span bns-favorite-flag="element"></span>
+      {{ element.label }}
+    </div>
+  </div>
+</div>
+
+<div ng-repeat="element in shared.context.medias"
+  bns-draggable="{ model: shared.context.medias }"
+  bns-draggable-ui-options="draggableUiOptions"
+  bns-draggable-index="$index"
+  bns-draggable-enabled="shared.context.manageable && element.manageable"
+  ng-controller="MediaLibrarySceneElementCtrl"
+  ng-class="{ selected: shared.selection.has(element), disabled: !isSelectionEnabled(element) }"
+  class="media-library-scene-element file"
+>
+  <div ng-click="viewMedia(element)" class="media-library-scene-element-nav" title="{{ element.label }}">
+    <div ng-class="{ 'no-url': !element.image_url }" class="media-library-scene-element-visual">
+      <div class="centerer"></div><span bns-media-preview media="element"></span>
+      <div class="flags">
+        <div ng-show="element.is_private" class="flag-lock"></div>
+      </div>
+    </div>
+    <div ng-click="isSelectable(element) && toggleSelection(element); $event.stopPropagation()" class="media-library-scene-element-label">
+      <input type="checkbox"
+        ng-if="isSelectable(element)"
+        ng-checked="shared.selection.has(element)"
+        ng-model="dummy"
+        ng-disabled="!isSelectionEnabled(element)"
+      >
+      <span bns-favorite-flag="element"></span>
+      {{ element.label }}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+<div class="new">
+    {% if new.imageId is not null %}
+        <img src="{{ getResourceDataUrl(new.getResource, 'small') }}" class="new-logo" />
+    {% endif %}
+    <div class="new-content">
+        <div class="new-header">
+            <span class='title'>{{ new.title }}</span>
+            <span class='date'>{{ date_from_now( new.createdAt, false, true) }}</span>
+        </div>
+        {{ new.description|purify }}
+    </div>
+</div>

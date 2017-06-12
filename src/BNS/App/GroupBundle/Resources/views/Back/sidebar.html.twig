@@ -1,15 +1,325 @@
-<div class="container-section">
-	<div class="section">
-		<a href="{{ path('BNSAppGroupBundle_back') }}">Accueil</a>
-	</div>
-</div>
+{# Reprise sections par sections des différents onglets accessibles #}
+{% trans_default_domain "GROUP" %}
 
-{% if managementGroupTypes|length > 0 %}
-	<div class="container-section">
-		{% for groupType in managementGroupTypes %}
-			<div class="section">
-				<a href="{{ path('BNSAppGroupBundle_group_list' , {'type' : groupType.type }) }}">Gestion des {{ groupType.label }}s</a>
-			</div>	
-		{% endfor %}
-	</div>
+{% if section is not defined or section is null %}
+    {% set section = "group" %}
+{% endif %}
+
+{% set hasStats = has_right('GROUP_STAT_ACCESS') %}
+{% set hasHomeManage = has_right('HOME_MANAGE') %}
+{% set hasImport = has_right('GROUP_IMPORT_CLASSROOMS') or has_right('GROUP_IMPORT_SCHOOLS') or has_right('GROUP_IMPORT_SCHOOL_ADULTS') or has_right('GROUP_IMPORT_SCHOOL_PUPILS') %}
+{% set activeClass = "class=active" %}
+{# Gestion des groupes #}
+
+{% if section in ["search", 'structure', 'group', 'modules'] %}
+    <div class="section active">
+       {{ 'TITLE_GROUP_MANAGEMENT'|trans |desc('Gestion des groupes') }}
+        <span class="shadow-section"></span>
+    </div>
+    <div class="title-container">
+        <div class="content-title">
+            <ul>
+                <li><a href="{{ path('BNSAppGroupBundle_back') }}" {{ section == 'modules' ? activeClass : "" }}>{{ 'LINK_DASHBOARD'|trans |desc('Tableau de bord') }}</a></li>
+                <li><a href="{{ path('BNSAppGroupBundle_back_search') }}" {{ section == 'search' ? activeClass : "" }} >{{ 'LINK_SEARCH'|trans |desc('Rechercher') }}</a></li>
+                <li><a href="{{ path('BNSAppGroupBundle_back_structure') }}" {{ section == 'structure' ? activeClass : "" }}>{{ 'LINK_STRUCTURE'|trans |desc('Structure') }}</a></li>
+                {% for groupType in managementGroupTypes %}
+                    <li><a href="{{ path('BNSAppGroupBundle_group_list' , {'groupTypeType' : groupType.type }) }}">{{ 'LINK_MANAGEMENT_GROUP'|trans({'%group%': groupType.label}) |desc('Gestion de : %group%') }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="container-section">
+        <div class="section">
+            <a href="{{ path('BNSAppGroupBundle_back_custom') }}">{{ 'LINK_CUSTOMIZE'|trans |desc('Personnalisation') }}</a>
+        </div>
+        {% if hasStats %}
+            <div class="section">
+                <a href="{{ path('BNSAppGroupBundle_back_stats') }}">{{ 'LINK_STATISTIC'|trans |desc('Statistiques') }}</a>
+            </div>
+        {%  endif %}
+        {% if isEnv %}
+            <div class="section">
+                <a href="{{ path('BNSAppGroupBundle_back_whitelist_index') }}">{{ 'LINK_WHITE_LIST'|trans |desc('Liste Blanche Internet') }}</a>
+            </div>
+            {%  if hasCerise %}
+                <div class="section">
+                    <a href="{{ path('BNSAppGroupBundle_back_cerise_index') }}">{{ 'LINK_LIST_SCHOOL_CERISE'|trans |desc('Liste écoles CERISE') }}</a>
+                </div>
+            {% endif %}
+            {%  if hasMedialandes %}
+                <div class="section">
+                    <a href="{{ path('BNSAppGroupBundle_back_medialandes_index') }}">{{ 'LINK_LIST_SCHOOL_MEDIALANDES'|trans |desc('Liste écoles MEDIALANDES') }}</a>
+                </div>
+            {% endif %}
+        {%  endif %}
+        {% if hasImport %}
+            <div class="section">
+                <a href="{{ path('BNSAppGroupBundle_backImportIndex') }}">{{ 'LINK_IMPORTATION'|trans |desc('Importation') }}</a>
+            </div>
+        {% endif %}
+    </div>
+{% endif %}
+
+{% if section in ["home_message","logon_alert","logon_message"] %}
+
+    <div class="container-section">
+        <div class="section">
+            <a href="{{ path('BNSAppGroupBundle_back') }}">{{ 'TITLE_GROUP_MANAGEMENT'|trans |desc('Gestion des groupes') }}</a>
+        </div>
+    </div>
+
+    <div class="section active">
+        {{ 'LINK_CUSTOMIZE'|trans |desc('Personnalisation') }}
+        <span class="shadow-section"></span>
+    </div>
+    <div class="title-container">
+        <div class="content-title">
+            <ul>
+                <li><a href="{{ path('BNSAppGroupBundle_back_custom') }}" {{ section == 'home_message' ? activeClass : "" }}>{{ 'LINK_WELCOME_MESSAGE'|trans |desc('Message d\'accueil') }}</a></li>
+                {% if hasHomeManage %}
+                    <li><a href="{{ path('BNSAppGroupBundle_back_home_manage') }}" {{ section == 'logon_message' ? activeClass : "" }}>{{ 'LINK_CONNECT_MESSAGE'|trans |desc('Messages à la connexion') }}</a></li>
+                    <li><a href="{{ path('BNSAppGroupBundle_back_home_manage_alert') }}" {{ section == 'logon_alert' ? activeClass : "" }}>{{ 'LINK_CONNECT_ALERT'|trans |desc('Alerte à la connexion') }}</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    {% if hasStats or isEnv or hasImport %}
+        <div class="container-section">
+            {% if hasStats %}
+                <div class="section">
+                    <a href="{{ path('BNSAppGroupBundle_back_stats') }}">{{ 'LINK_STATISTIC'|trans |desc('Statistiques') }}</a>
+                </div>
+            {%  endif %}
+            {% if isEnv %}
+                <div class="section">
+                    <a href="{{ path('BNSAppGroupBundle_back_whitelist_index') }}">{{ 'LINK_WHITE_LIST'|trans |desc('Liste Blanche Internet') }}</a>
+                </div>
+                {%  if hasCerise %}
+                    <div class="section">
+                        <a href="{{ path('BNSAppGroupBundle_back_cerise_index') }}">{{ 'LINK_LIST_SCHOOL_CERISE'|trans |desc('Liste écoles CERISE') }}</a>
+                    </div>
+                {% endif %}
+                {%  if hasMedialandes %}
+                    <div class="section">
+                        <a href="{{ path('BNSAppGroupBundle_back_medialandes_index') }}">{{ 'LINK_LIST_SCHOOL_MEDIALANDES'|trans |desc('Liste écoles MEDIALANDES') }}</a>
+                    </div>
+                {% endif %}
+            {%  endif %}
+            {% if hasImport %}
+                <div class="section">
+                    <a href="{{ path('BNSAppGroupBundle_backImportIndex') }}">{{ 'LINK_IMPORTATION'|trans |desc('Importation') }}</a>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endif %}
+
+{% if section in ["stats"] %}
+
+    <div class="container-section">
+        <div class="section">
+            <a href="{{ path('BNSAppGroupBundle_back') }}">{{ 'TITLE_GROUP_MANAGEMENT'|trans |desc('Gestion des groupes') }}</a>
+        </div>
+        <div class="section">
+            <a href="{{ path('BNSAppGroupBundle_back_custom') }}">{{ 'LINK_CUSTOMIZE'|trans |desc('Personnalisation') }}</a>
+        </div>
+    </div>
+
+    <div class="section active">
+        {{ 'LINK_STATISTIC'|trans |desc('Statistiques') }}
+        <span class="shadow-section"></span>
+    </div>
+
+    {% if isEnv or hasImport %}
+        <div class="container-section">
+            {% if isEnv %}
+                <div class="section">
+                    <a href="{{ path('BNSAppGroupBundle_back_whitelist_index') }}">{{ 'LINK_WHITE_LIST'|trans |desc('Liste Blanche Internet') }}</a>
+                </div>
+                {%  if hasCerise %}
+                    <div class="section">
+                        <a href="{{ path('BNSAppGroupBundle_back_cerise_index') }}">{{ 'LINK_LIST_SCHOOL_CERISE'|trans |desc('Liste écoles CERISE') }}</a>
+                    </div>
+                {% endif %}
+                {%  if hasMedialandes %}
+                    <div class="section">
+                        <a href="{{ path('BNSAppGroupBundle_back_medialandes_index') }}">{{ 'LINK_LIST_SCHOOL_MEDIALANDES'|trans |desc('Liste écoles MEDIALANDES') }}</a>
+                    </div>
+                {% endif %}
+            {% endif %}
+            {% if hasImport %}
+                <div class="section">
+                    <a href="{{ path('BNSAppGroupBundle_backImportIndex') }}">{{ 'LINK_IMPORTATION'|trans |desc('Importation') }}</a>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endif %}
+
+{% if section in ["white_list"] %}
+
+    <div class="container-section">
+        <div class="section">
+            <a href="{{ path('BNSAppGroupBundle_back') }}">{{ 'TITLE_GROUP_MANAGEMENT'|trans |desc('Gestion des groupes') }}</a>
+        </div>
+        <div class="section">
+            <a href="{{ path('BNSAppGroupBundle_back_custom') }}">{{ 'LINK_CUSTOMIZE'|trans |desc('Personnalisation') }}</a>
+        </div>
+        {% if hasStats %}
+            <div class="section">
+                <a href="{{ path('BNSAppGroupBundle_back_stats') }}">{{ 'LINK_STATISTIC'|trans |desc('Statistiques') }}</a>
+            </div>
+        {%  endif %}
+    </div>
+
+    <div class="section active">
+        {{ 'LINK_WHITE_LIST'|trans |desc('Liste Blanche Internet') }}
+        <span class="shadow-section"></span>
+    </div>
+
+
+    {% if hasImport or hasCerise or hasMedialandes %}
+        <div class="container-section">
+            {% if hasImport %}
+                <div class="section">
+                    <a href="{{ path('BNSAppGroupBundle_backImportIndex') }}">{{ 'LINK_IMPORTATION'|trans |desc('Importation') }}</a>
+                </div>
+            {% endif %}
+            {%  if hasCerise %}
+                <div class="section">
+                    <a href="{{ path('BNSAppGroupBundle_back_cerise_index') }}">{{ 'LINK_LIST_SCHOOL_CERISE'|trans |desc('Liste écoles CERISE') }}</a>
+                </div>
+            {% endif %}
+            {%  if hasMedialandes %}
+                <div class="section">
+                    <a href="{{ path('BNSAppGroupBundle_back_medialandes_index') }}">{{ 'LINK_LIST_SCHOOL_MEDIALANDES'|trans |desc('Liste écoles MEDIALANDES') }}</a>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endif %}
+
+{% if section in ["cerise"] %}
+
+    <div class="container-section">
+        <div class="section">
+            <a href="{{ path('BNSAppGroupBundle_back') }}">{{ 'TITLE_GROUP_MANAGEMENT'|trans |desc('Gestion des groupes') }}</a>
+        </div>
+        <div class="section">
+            <a href="{{ path('BNSAppGroupBundle_back_custom') }}">{{ 'LINK_CUSTOMIZE'|trans |desc('Personnalisation') }}</a>
+        </div>
+        {% if hasStats %}
+            <div class="section">
+                <a href="{{ path('BNSAppGroupBundle_back_stats') }}">{{ 'LINK_STATISTIC'|trans |desc('Statistiques') }}</a>
+            </div>
+        {%  endif %}
+        {% if isEnv %}
+            <div class="section">
+                <a href="{{ path('BNSAppGroupBundle_back_whitelist_index') }}">{{ 'LINK_WHITE_LIST'|trans |desc('Liste Blanche Internet') }}</a>
+            </div>
+        {%  endif %}
+    </div>
+
+    <div class="section active">
+        {{ 'LINK_LIST_SCHOOL_CERISE'|trans |desc('Liste écoles CERISE') }}
+        <span class="shadow-section"></span>
+    </div>
+
+    {% if hasImport %}
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppGroupBundle_backImportIndex') }}">{{ 'LINK_IMPORTATION'|trans |desc('Importation') }}</a>
+            </div>
+        </div>
+    {% endif %}
+
+{% endif %}
+
+{% if section in ["medialandes"] %}
+
+    <div class="container-section">
+        <div class="section">
+            <a href="{{ path('BNSAppGroupBundle_back') }}">{{ 'TITLE_GROUP_MANAGEMENT'|trans |desc('Gestion des groupes') }}</a>
+        </div>
+        <div class="section">
+            <a href="{{ path('BNSAppGroupBundle_back_custom') }}">{{ 'LINK_CUSTOMIZE'|trans |desc('Personnalisation') }}</a>
+        </div>
+        {% if hasStats %}
+            <div class="section">
+                <a href="{{ path('BNSAppGroupBundle_back_stats') }}">{{ 'LINK_STATISTIC'|trans |desc('Statistiques') }}</a>
+            </div>
+        {%  endif %}
+        {% if isEnv %}
+            <div class="section">
+                <a href="{{ path('BNSAppGroupBundle_back_whitelist_index') }}">{{ 'LINK_WHITE_LIST'|trans |desc('Liste Blanche Internet') }}</a>
+            </div>
+        {%  endif %}
+        {%  if hasCerise %}
+            <div class="section">
+                <a href="{{ path('BNSAppGroupBundle_back_cerise_index') }}">{{ 'LINK_LIST_SCHOOL_CERISE'|trans |desc('Liste écoles CERISE') }}</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="section active">
+        MEDIALANDES
+        <span class="shadow-section"></span>
+    </div>
+
+
+    {% if hasImport %}
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppGroupBundle_backImportIndex') }}">{{ 'LINK_IMPORTATION'|trans |desc('Importation') }}</a>
+            </div>
+        </div>
+    {% endif %}
+
+{% endif %}
+
+{% if section in ["import"] %}
+
+    <div class="container-section">
+        <div class="section">
+            <a href="{{ path('BNSAppGroupBundle_back') }}">{{ 'TITLE_GROUP_MANAGEMENT'|trans |desc('Gestion des groupes') }}</a>
+        </div>
+        <div class="section">
+            <a href="{{ path('BNSAppGroupBundle_back_custom') }}">{{ 'LINK_CUSTOMIZE'|trans |desc('Personnalisation') }}</a>
+        </div>
+        {% if hasStats %}
+            <div class="section">
+                <a href="{{ path('BNSAppGroupBundle_back_stats') }}">{{ 'LINK_STATISTIC'|trans |desc('Statistiques') }}</a>
+            </div>
+        {%  endif %}
+        {% if isEnv %}
+            <div class="section">
+                <a href="{{ path('BNSAppGroupBundle_back_whitelist_index') }}">{{ 'LINK_WHITE_LIST'|trans |desc('Liste Blanche Internet') }}</a>
+            </div>
+            {%  if hasCerise %}
+                <div class="section">
+                    <a href="{{ path('BNSAppGroupBundle_back_cerise_index') }}">{{ 'LINK_LIST_SCHOOL_CERISE'|trans |desc('Liste écoles CERISE') }}</a>
+                </div>
+            {% endif %}
+            {%  if hasMedialandes %}
+                <div class="section">
+                    <a href="{{ path('BNSAppGroupBundle_back_medialandes_index') }}">{{ 'LINK_LIST_SCHOOL_MEDIALANDES'|trans |desc('Liste écoles MEDIALANDES') }}</a>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <div class="section active">
+        {{ 'LINK_IMPORTATION'|trans |desc('Importation') }}
+        <span class="shadow-section"></span>
+    </div>
+
+{% endif %}
+
+{% if hasCerise and isSchool %}
+    <div class="container-section">
+        <div class="section">
+            <a href="{{ path('BNSAppGroupBundle_back_cerise_school') }}">CERISE Prim</a>
+        </div>
+    </div>
 {% endif %}

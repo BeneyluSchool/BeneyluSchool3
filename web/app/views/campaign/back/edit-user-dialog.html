@@ -1,0 +1,55 @@
+<md-dialog class="edit-user-modal bns-dialog-primary" aria-label="">
+  <md-toolbar>
+    <div class="md-toolbar-tools"><div class="md-headline">
+      <h2 translate-values="{name: ctrl.shared.user.full_name}" translate>CAMPAIGN.EDIT_USER</h2> </div>
+      <span class="flex"></span>
+      <button class="md-icon-button md-button md-ink-ripple" ng-click="ctrl.close()">
+        <md-icon class="ng-scope ng-isolate-scope material-icons">close</md-icon>
+      </button>
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content class="md-dialog-content" ng-show="!ctrl.busy">
+      <form ng-submit="ctrl.editUser()" >
+        <div class="layout-gt-md-row">
+          <md-input-container class="flex">
+            <label translate>CAMPAIGN.USER_FIRST_NAME</label>
+            <input type="text" ng-model="ctrl.shared.user.first_name" placeholder="{{'CAMPAIGN.USER_FIRST_NAME'|translate}}">
+            <span ng-class="{'error': ctrl.errors.first_name.errors.length > 0}">{{ ctrl.errors.first_name.errors[0]}}</span>
+          </md-input-container>
+          <md-input-container class="flex">
+            <label translate>CAMPAIGN.USER_LAST_NAME</label>
+            <input type="text" ng-model="ctrl.shared.user.last_name" placeholder="{{'CAMPAIGN.USER_LAST_NAME'|translate}}">
+            <span ng-class="{'error': ctrl.errors.last_name.errors.length > 0}">{{ ctrl.errors.last_name.errors[0] }}</span>
+          </md-input-container>
+          </div>
+        <fieldset class="layout-row">
+          <md-input-container class="flex">
+            <label translate>CAMPAIGN.USER_EMAIL</label>
+            <input type="text" ng-model="ctrl.shared.user.email" placeholder="{{'CAMPAIGN.USER_EMAIL'|translate}}" ng-required="ctrl.shared.campaign.campaign.type_name == 'EMAIL'">
+            <span ng-class="{'error': ctrl.errors.email.errors.length > 0}">{{ ctrl.errors.email.errors[0] }}</span>
+          </md-input-container>
+          </fieldset><div class="layout-row">
+          <md-input-container class="flex">
+            <label translate>CAMPAIGN.USER_PHONE</label>
+            <input type="text" ng-model="ctrl.shared.user.phone" placeholder="{{'CAMPAIGN.USER_PHONE'|translate}}" ng-required="ctrl.shared.campaign.campaign.type_name == 'SMS'">
+            <span ng-class="{'error': ctrl.errors.phone.errors.length > 0}">{{ ctrl.errors.phone.errors[0] }}</span>
+          </md-input-container>
+        </div>
+
+      </form>
+  </md-dialog-content>
+
+  <div class="layout-row layout-align-center-center">
+    <md-progress-circular ng-show="ctrl.busy" md-mode="indeterminate"></md-progress-circular>
+  </div>
+
+  <div class="md-actions">
+    <md-button class="md-raised md-accent" ng-click="ctrl.editUser()" ng-disabled="ctrl.busy">
+      <div>
+        <md-icon class="layout-margin">add_circle</md-icon>
+        <span class="hide-sm" ng-bind-html="'CAMPAIGN.BUTTON_SAVE_INFORMATIONS'|translate|buttonize">.</span>
+      </div>
+    </md-button>
+  </div>
+</md-dialog>

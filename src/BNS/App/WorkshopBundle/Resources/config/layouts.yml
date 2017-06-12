@@ -1,0 +1,170 @@
+# Workshop page layouts, grouped by type
+
+types:
+  # full width
+  full:
+    label:
+      fr: Une colonne
+      en: One column
+    layouts:
+      -
+        code: full
+        label:
+          fr: Pleine page
+          en: Full page
+        zones:
+          - { code: content, numbers: [1, 2, 3, 4] }
+      -
+        code: full-header
+        label:
+          fr: En-tête
+          en: Header
+        zones:
+          - { code: header, numbers: [1] }
+          - { code: content, numbers: [2, 3, 4] }
+      -
+        code: full-footer
+        label:
+          fr: Pied-de-page
+          en: Footer
+        zones:
+          - { code: content, numbers: [1, 2, 3] }
+          - { code: footer, numbers: [4] }
+      -
+        code: full-header-footer
+        label:
+          fr: En-tête et pied-de-page
+          en: Header and footer
+        zones:
+          - { code: header, numbers: [1] }
+          - { code: content, numbers: [2, 3] }
+          - { code: footer, numbers: [4] }
+
+  # half width
+  half:
+    label:
+      fr: Deux colonnes
+      en: Two columns
+    layouts:
+      -
+        code: half
+        label:
+          fr: Pleine page
+          en: Full page
+        zones:
+          - { code: content-left, numbers: [1,2] }
+          - { code: content-right, numbers: [3,4] }
+      -
+        code: half-header
+        label:
+          fr: En-tête
+          en: Header
+        zones:
+          - { code: header, numbers: [1] }
+          - { code: content-left, numbers: [2] }
+          - { code: content-right, numbers: [3, 4] }
+      -
+        code: half-footer
+        label:
+          fr: Pied-de-page
+          en: Footer
+        zones:
+          - { code: content-left, numbers: [1, 2] }
+          - { code: content-right, numbers: [3] }
+          - { code: footer, numbers: [4] }
+      -
+        code: half-header-footer
+        label:
+          fr: En-tête et pied-de-page
+          en: Header and footer
+        zones:
+          - { code: header, numbers: [1] }
+          - { code: content-left, numbers: [2] }
+          - { code: content-right, numbers: [3] }
+          - { code: footer, numbers: [4] }
+
+  # 1/3 width right
+  thirdr:
+    label:
+      fr: Deux colonnes droite
+      en: Two columns right
+    layouts:
+      -
+        code: thirdr
+        label:
+          fr: Pleine page
+          en: Full page
+        zones:
+          - { code: content-left, numbers: [1, 2] }
+          - { code: content-right, numbers: [3, 4] }
+      -
+        code: thirdr-header
+        label:
+          fr: En-tête
+          en: Header
+        zones:
+          - { code: header, numbers: [1] }
+          - { code: content-left, numbers: [2] }
+          - { code: content-right, numbers: [3, 4] }
+      -
+        code: thirdr-footer
+        label:
+          fr: Pied-de-page
+          en: Footer
+        zones:
+          - { code: content-left, numbers: [1, 2] }
+          - { code: content-right, numbers: [3] }
+          - { code: footer, numbers: [4] }
+      -
+        code: thirdr-header-footer
+        label:
+          fr: En-tête et pied-de-page
+          en: Header and footer
+        zones:
+          - { code: header, numbers: [1] }
+          - { code: content-left, numbers: [2] }
+          - { code: content-right, numbers: [3] }
+          - { code: footer, numbers: [4] }
+
+  # 1/3 width left
+  thirdl:
+    label:
+      fr: Deux colonnes gauche
+      en: Two columns left
+    layouts:
+      -
+        code: thirdl
+        label:
+          fr: Pleine page
+          en: Full page
+        zones:
+          - { code: content-left, numbers: [1, 2] }
+          - { code: content-right, numbers: [3, 4] }
+      -
+        code: thirdl-header
+        label:
+          fr: En-tête
+          en: Header
+        zones:
+          - { code: header, numbers: [1] }
+          - { code: content-left, numbers: [2] }
+          - { code: content-right, numbers: [3, 4] }
+      -
+        code: thirdl-footer
+        label:
+          fr: Pied-de-page
+          en: Footer
+        zones:
+          - { code: content-left, numbers: [1, 2] }
+          - { code: content-right, numbers: [3] }
+          - { code: footer, numbers: [4] }
+      -
+        code: thirdl-header-footer
+        label:
+          fr: En-tête et pied-de-page
+          en: Header and footer
+        zones:
+          - { code: header, numbers: [1] }
+          - { code: content-left, numbers: [2] }
+          - { code: content-right, numbers: [3] }
+          - { code: footer, numbers: [4] }

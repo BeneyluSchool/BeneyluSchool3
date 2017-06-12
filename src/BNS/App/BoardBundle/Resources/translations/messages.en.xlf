@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+			<!-- GENERAL -->
+            <trans-unit id="1">
+                <source>Board.General.Loading</source>
+                <target>Loading...</target>
+            </trans-unit>
+			<trans-unit id="2">
+                <source>Board.General.Add</source>
+                <target>Add</target>
+            </trans-unit>
+			<trans-unit id="3">
+                <source>Board.General.Del</source>
+                <target>Del.</target>
+            </trans-unit>
+			<trans-unit id="4">
+                <source>Board.General.Edit</source>
+                <target>Edit</target>
+            </trans-unit>
+			<trans-unit id="5">
+                <source>Board.General.Cancel</source>
+                <target>Cancel</target>
+            </trans-unit>
+			<trans-unit id="6">
+                <source>Board.General.Warning</source>
+                <target>Warning</target>
+            </trans-unit>
+			
+			
+			<!-- SIDEBAR -->
+			<!-- index_manager.html -->
+			<trans-unit id="100">
+                <source>Board.Back.Sidebar.Informations</source>
+                <target>Informations</target>
+            </trans-unit>
+			<trans-unit id="101">
+                <source>Board.Back.Sidebar.Comments</source>
+                <target>Comments</target>
+            </trans-unit>
+			<trans-unit id="102">
+                <source>Board.Back.Sidebar.Customing</source>
+                <target>Customisation</target>
+            </trans-unit>
+			
+			<!-- back_block_categories.html -->
+			<trans-unit id="103">
+                <source>Board.Back.Sidebar.Tooltip.AddIcon</source>
+                <target>Add an icon</target>
+            </trans-unit>
+			<trans-unit id="104">
+                <source>Board.Back.Sidebar.NewCategory</source>
+                <target>New Category</target>
+            </trans-unit>
+			<trans-unit id="105">
+                <source>Board.Back.Sidebar.Categories</source>
+                <target>Categories</target>
+            </trans-unit>
+			
+			<!-- back_block_dates.html -->
+			<trans-unit id="106">
+                <source>Board.Back.Sidebar.Dates</source>
+                <target>Dates</target>
+            </trans-unit>
+			
+			<!-- back_block_filters.html -->
+			<trans-unit id="107">
+                <source>Board.Back.Sidebar.InformationsStatus</source>
+                <target>Informations statuses</target>
+            </trans-unit>
+			<trans-unit id="108">
+                <source>Board.Back.Sidebar.PublishedInformations</source>
+                <target>Published articles</target>
+            </trans-unit>
+			<trans-unit id="109">
+                <source>Board.Back.Sidebar.ProgrammedInformations</source>
+                <target>Programmed articles</target>
+            </trans-unit>
+			<trans-unit id="110">
+                <source>Board.Back.Sidebar.CorrectionInformations</source>
+                <target>Informations to be corrected</target>
+            </trans-unit>
+			<trans-unit id="111">
+                <source>Board.Back.Sidebar.FinishedInformations</source>
+                <target>Finished articles</target>
+            </trans-unit>
+			<trans-unit id="112">
+                <source>Board.Back.Sidebar.DraftInformations</source>
+                <target>Drafts</target>
+            </trans-unit>
+			
+			<!-- back_block_status.html -->
+			<trans-unit id="113">
+                <source>Board.Back.Sidebar.InformationStatus</source>
+                <target>Information status</target>
+            </trans-unit>
+			<trans-unit id="114">
+                <source>Board.Back.Sidebar.DraftInformation</source>
+                <target>Draft</target>
+            </trans-unit>
+			<trans-unit id="115">
+                <source>Board.Back.Sidebar.FinishedInformation</source>
+                <target>Finished</target>
+            </trans-unit>
+			<trans-unit id="116">
+                <source>Board.Back.Sidebar.PublishedInformation</source>
+                <target>Published</target>
+            </trans-unit>
+			<trans-unit id="117">
+                <source>Board.Back.Sidebar.CorrectionInformation</source>
+                <target>Information to be corrected</target>
+            </trans-unit>
+			<trans-unit id="118">
+                <source>Board.Back.Sidebar.ProgrammedInformation</source>
+                <target>Programmed publication</target>
+            </trans-unit>
+			
+			<!-- back_block_students.html -->
+			<trans-unit id="119">
+                <source>Board.Back.Sidebar.Students</source>
+                <target>Pupils</target>
+            </trans-unit>
+			
+			<!-- front_block_archives.html -->
+			<trans-unit id="120">
+                <source>Board.Front.Sidebar.Archives</source>
+                <target>Archives</target>
+            </trans-unit>
+			
+			<!-- front_block_categories.html -->
+			<trans-unit id="121">
+                <source>Board.Back.Sidebar.AllCategories</source>
+                <target>All categories</target>
+            </trans-unit>
+			
+			<!-- front_block_partners.html -->
+			<!-- front_block_students.html -->
+			
+			<!-- back_block_categories_row.html -->
+			<trans-unit id="122">
+                <source>Board.Back.Sidebar.DeleteCategoryWarningMessage</source>
+                <target>Deleting this category will also remove its subcategories!</target>
+            </trans-unit>
+			
+			
+			<!-- CONTENT -->
+			<!-- index_manager.html -->
+			<trans-unit id="200">
+                <source>Board.Back.InformationLoading</source>
+                <target>Loading articles, please wait...</target>
+            </trans-unit>
+			
+			<!-- back_article_list.html -->
+			<trans-unit id="201">
+                <source>Board.Back.NoInformationWasFound</source>
+                <target>No article was found.</target>
+            </trans-unit>
+			<trans-unit id="202">
+                <source>Board.Back.Comment</source>
+                <target>Comment</target>
+            </trans-unit>
+			<trans-unit id="203">
+                <source>Board.Back.WroteAtBy</source>
+                <target>Written on %date% by</target>
+            </trans-unit>
+			
+			<!-- back_article_form.html -->
+			<trans-unit id="204">
+                <source>Board.Back.AutosaveFeedback</source>
+                <target>the content of the article has been automatically saved in the drafts.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

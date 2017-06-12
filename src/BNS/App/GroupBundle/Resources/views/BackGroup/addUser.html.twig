@@ -1,0 +1,74 @@
+{% trans_default_domain "GROUP" %}
+{% extends 'BNSAppGroupBundle:Back:layout.html.twig' %}
+
+{% block header %}
+	
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span9">
+						<a href="{{ path('BNSAppGroupBundle_group_list' , {'groupTypeType' : groupType.type }) }}" class="btn bns-notice btn-24 medium"><span class="icons-24 back-icon"></span>{{ 'LINK_BACK_TO_LIST'|trans |desc('<strong>Retour</strong> à la liste') |raw }}</a>
+					</div>
+					<div class="align-right">
+						<a id="group-add-user-submit" href="#" class="btn bns-success validate-medium btn-24 medium">
+							<span class="icons-24 validate-icon"></span><strong>{{ 'LINK_CREATE_ACCOUNT'|trans |desc('Créer le compte') }}</strong>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock header %}
+
+{% block content %}
+	
+	<div class="news-title">
+		<h1 class="dashboard">{{ 'TITLE_ADD_ONE_GROUPNAME'|trans({'%group%': groupType.label}) }}</h1>
+	</div>
+	
+	<div class="span16">
+		<br />
+		{{ form_errors(form) }}
+
+		<form id="group-add-user-form" action="{{ path('BNSAppGroupBundle_group_add_user',{'type' : groupType.type }) }}" method="post" {{ form_enctype(form) }} class="form-horizontal">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">{{ 'LABEL_FIRSTNAME' |trans |desc("Prénom :") }}</label>
+					<div class="controls docs-input-sizes group-user">	
+						{{ form_widget(form.first_name,{ 'attr': {'class': 'span3','placeholder': 'PLACEHOLDER_FIRSTNAME' |trans |desc('Prénom'), 'size': '50'}}) }}
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">{{ 'LABEL_LASTNAME' |trans |desc("Nom :") }}</label>
+					<div class="controls docs-input-sizes group-user">	
+						{{ form_widget(form.last_name,{ 'attr': {'class': 'span3','placeholder': 'PLACEHOLDER_LASTNAME' |trans |desc('Nom')}}) }}
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">{{ 'LABEL_BIRTHDAY' |trans |desc("Date de Naissance : ") }}</label>
+					<div class="controls docs-input-sizes ">	
+						{{ form_widget(form.birthday,{ 'attr': {'class': '','placeholder': 'PLACEHOLDER_BIRTHDAY' |trans |desc('Date de naissance')}}) }}
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label">{{ 'LABEL_EMAIL' |trans |desc("Email : ") }}</label>
+					<div class="controls docs-input-sizes group-user">	
+						{{ form_widget(form.email,{ 'attr': {'class': 'span3','placeholder': 'PLACEHOLDER_EMAIL' |trans |desc('Email')}}) }}
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label">Langue : </label>
+					<div class="controls docs-input-sizes">	
+						{{ form_widget(form.lang,{ 'attr': {'class': 'span3','placeholder': 'PLACEHOLDER_LANGUAGE' |trans |desc("Langue")}}) }}
+					</div>
+				</div>
+			</fieldset>
+			{{ form_rest(form) }}
+		</form>
+	</div>
+
+{% endblock %}

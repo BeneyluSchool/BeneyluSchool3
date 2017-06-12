@@ -1,0 +1,120 @@
+{% trans_default_domain "GROUP" %}
+{% extends 'BNSAppGroupBundle:Back:layout.html.twig' %}
+
+{% block css %}
+    {{ parent() }}
+    <link href="{{ asset('/medias/css/group/import.css') }}" rel="stylesheet" type="text/css" />
+{% endblock css %}
+
+{% block header %}
+    <div class="header-buttons">
+        <div class="inner-header">
+            <div class="container container-fluid">
+                <div class="row-fluid">
+                    <div class="span8 header-classroom-details">
+                        {% if ( has_right('GROUP_IMPORT_SCHOOL_ADULTS') or has_right('GROUP_IMPORT_SCHOOL_PUPILS') ) %} 
+                        <div id="import_users" class="content-add-btn btn-group left">
+                            <a href="#" class="btn save btn-new-article bns-info btn-24 large dropdown-toggle" data-toggle="dropdown">
+                                <span class="icons-24 add-icon"></span>
+                                {{ 'LINK_IMPORT_USERS'|trans |desc('Importer des utilisateurs') }}
+                                <span class="caret white"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('BNSAppGroupBundle_backImportCsv', {'type' : 'adulte'}) }}">{{ 'LINK_IMPORT_TEACHERS'|trans |desc('Importer des enseignants') }}</a></li>
+                                <li><a href="{{ path('BNSAppGroupBundle_backImportCsv', {'type' : 'eleve'}) }}">{{ 'LINK_IMPORT_PUPIL'|trans |desc('Importer des élèves') }}</a></li>
+                            </ul>
+                        </div>
+                        {% endif %}
+                        {% if ( has_right('GROUP_IMPORT_CLASSROOMS') or has_right('GROUP_IMPORT_SCHOOLS') ) %}
+                        <div id="import_groups" class="content-add-btn btn-group right">
+                            <a href="#" class="btn save btn-new-article bns-info btn-24 large dropdown-toggle" data-toggle="dropdown">
+                                <span class="icons-24 add-icon"></span>
+                                {{ 'LINK_IMPORT_GROUPS'|trans |desc('Importer des groupes') }}
+                                <span class="caret white"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('BNSAppGroupBundle_backImportCsv', {'type' : 'classe'}) }}">{{ 'LINK_IMPORT_CLASS'|trans |desc('Importer des classes') }}</a></li>
+                                <li><a href="{{ path('BNSAppGroupBundle_backImportCsv', {'type' : 'ecole'}) }}">{{ 'LINK_IMPORT_SCHOOLS'|trans |desc('Importer des écoles') }}</a></li>
+                            </ul>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="span4 align-right">
+                        <a class="btn bns-notice btn-24 medium-return button-refresh" href="#" onClick="window.location.reload()">
+                            <span class="icons-24 refresh-icon"></span>
+                            {{ 'LINK_UPDATE_LIST'|trans |desc('<strong>Actualiser</strong><br> la liste') |raw }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    {{ render(controller('BNSAppGroupBundle:Back:sidebar', {'section' : 'import'} )) }}
+{% endblock sidebar %}
+
+    
+{% block content %}
+    
+	<div class="content-group">
+		<div class="news-title">
+			<h1 class="dashboard">{{ 'TITLE_LAST_IMPORTS'|trans |desc('Derniers imports') }}</h1>
+		</div>
+
+        <div class="row-fluid">
+            <div class="last-connexion">
+                {% if list_imports is empty %}
+                    <div class="content-last-connexion">
+                        <span class="vertical-separator green"></span>
+                        <p>{{ 'NO_NEW_IMPORT'|trans |desc('Aucune importation récente.') }}</p>
+                    </div>
+                {% endif %}
+                {% for import in list_imports %}
+                    <div class="content-last-connexion">
+                        {% if import.status == "FINISH" %}
+                            <span class="vertical-separator green"></span>
+                        {% elseif import.status == "UNVALIDATE"%}
+                            <span class="vertical-separator red"></span>
+                        {% else %}
+                            <span class="vertical-separator orange"></span>
+                        {% endif %}
+                        {% if import.type == "SCHOOL" %}
+                            <p class="title">{{ 'IMPORT_SCHOOL'|trans |desc('Import d\'écoles') }}</p>
+                        {% elseif import.type == "CLASSROOM"%}
+                            <p class="title">{{ 'IMPORT_CLASS'|trans |desc('Import de classes') }}</p>
+                        {% else %}
+                            <p class="title">{{ 'IMPORT_USERS'|trans |desc('Import d\'utilisateurs') }}</p>
+                        {% endif %}                       
+                        <p class="date-import">{{ import.dateCreate|date("d/m/Y") }}</p>
+                        <p class="date-import"> {{ import.dateEnd|date("d/m/Y") }} </p>
+                        <p class="import">{% if import.status == "FINISH" %}{{ 'IMPORT_FINISH_NUMBER'|trans({'%importNbr%': import.fileLineProcessedNbr}) |desc('Succès : %importNbr% ') }}{% endif %}</p>
+                        <p class="import">{% if import.status == "UNVALIDATE" %}{{ 'IMPORT_UNVALIDATE_NUMBER'|trans({'%importNbr%': import.dataErrorNbr }) |desc('Echecs : %importNbr% ')}} {% endif %}</p>
+                        <p class="status"> {% if import.status == "FINISH" %}
+                                {{ 'IMPORT_FINISH'|trans |desc('Import terminé') }}
+                            {% elseif import.status == "UNVALIDATE" %}
+                             {{ 'IMPORT_FAILED'|trans |desc('Echec') }}
+                            {% else %}
+                                {{ 'IMPORT_IN_PROGRESS'|trans({'%importNbr%': import.fileLineProcessedNbr, '%nbrLine%': import.fileLineTotalNbr  }) |desc('Importation en cours %importNbr% / %nbrLine%') }}
+                            {% endif %}
+                        </p>
+                    </div>
+                {% endfor %}
+            {% if app.session.get('errors_import') is not empty %}
+                <div class="news-title">
+                        <h1 class="dashboard">{{ 'TITLE_ERROR_ON_LAST_IMPORT'|trans |desc('Erreurs sur la dernière importation') }}</h1>
+                </div>
+                {% for error in app.session.get('errors_import') %}
+                    <div class="content-last-connexion">
+                        <span class="vertical-separator red"></span>
+                        <p> {{ error }}</p>
+
+                    </div>
+                {% endfor %}
+            {% endif %}
+            </div>
+        </div>
+	</div>
+
+{% endblock %}

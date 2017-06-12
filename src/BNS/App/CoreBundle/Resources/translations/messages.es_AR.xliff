@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-06-22T17:04:52Z" source-language="en" target-language="es-AR" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="a0393902db1f516ef5f95f6830938558a88fb23c" resname="April">
+        <source>April</source>
+        <target>Abril</target>
+      </trans-unit>
+      <trans-unit id="69d97c5797dc7d211aaa4e9229db5c8466d4edef" resname="August">
+        <source>August</source>
+        <target>Agosto</target>
+      </trans-unit>
+      <trans-unit id="65640c6577c9c72497525e656127b5bd1deb6f85" resname="December">
+        <source>December</source>
+        <target>Diciembre</target>
+      </trans-unit>
+      <trans-unit id="5c3a35ef85f22d508f90171bdcb2e6d820731d20" resname="February">
+        <source>February</source>
+        <target>Febrero</target>
+      </trans-unit>
+      <trans-unit id="d166e844a3f3f87149cc4f866eb998e9a751c72a" resname="Friday">
+        <source>Friday</source>
+        <target>Viernes</target>
+      </trans-unit>
+      <trans-unit id="7a22d73d336abd6281d4dd71080220a230cb79de" resname="January">
+        <source>January</source>
+        <target>Enero</target>
+      </trans-unit>
+      <trans-unit id="df97a42549e5c0e1753b985126565531cc9f3c56" resname="July">
+        <source>July</source>
+        <target>Julio</target>
+      </trans-unit>
+      <trans-unit id="a9db906761699b31567727716eaa6fd19ae5f5d5" resname="June">
+        <source>June</source>
+        <target>Junio</target>
+      </trans-unit>
+      <trans-unit id="433632ea5cd64cd163c3a390d5e531d33da3c5e5" resname="March">
+        <source>March</source>
+        <target>Marzo</target>
+      </trans-unit>
+      <trans-unit id="c94f479833c5d401cffdfa7afe6c9c2d56448019" resname="May">
+        <source>May</source>
+        <target>Mayo</target>
+      </trans-unit>
+      <trans-unit id="932eeb1076c85e522f02e15441fa371e3fd000ac" resname="Monday">
+        <source>Monday</source>
+        <target>Lunes</target>
+      </trans-unit>
+      <trans-unit id="3c5bf776f5efcaa22d6e0fd4839db7d2b83e52be" resname="November">
+        <source>November</source>
+        <target>Noviembre</target>
+      </trans-unit>
+      <trans-unit id="87206ae2363483496c099f8c3aac5b4a8ae2a66a" resname="October">
+        <source>October</source>
+        <target>Octubre</target>
+      </trans-unit>
+      <trans-unit id="17063c506b81a46c2eb7716af50cf19d4ed5a6c6" resname="Saturday">
+        <source>Saturday</source>
+        <target>Sábado</target>
+      </trans-unit>
+      <trans-unit id="1c542e79c9b4257e640ccf72974d61fd590a5c26" resname="September">
+        <source>September</source>
+        <target>Septiembre</target>
+      </trans-unit>
+      <trans-unit id="bc5dd045b8623ddfc4bd0bce98ca5fda42accf88" resname="Sunday">
+        <source>Sunday</source>
+        <target>Domingo</target>
+      </trans-unit>
+      <trans-unit id="76031ddf92450ba52c1e3945097079807a9065c2" resname="Thursday">
+        <source>Thursday</source>
+        <target>Jueves</target>
+      </trans-unit>
+      <trans-unit id="42e43b612a5dfae57ddf5929f0fb945ae83cbf61" resname="Tuesday">
+        <source>Tuesday</source>
+        <target>Martes</target>
+      </trans-unit>
+      <trans-unit id="5656b9b79b0316fc611a9c30d2ffac25228b8371" resname="Wednesday">
+        <source>Wednesday</source>
+        <target>Miércoles</target>
+      </trans-unit>
+      <trans-unit id="359573ecc38d14736605edbde040aef64952c2b1" resname="twig-extension.date-from-now.at">
+        <source>twig-extension.date-from-now.at</source>
+        <target> en</target>
+      </trans-unit>
+      <trans-unit id="4171babd9376fdd6b0eade4a07e13443a74b302f" resname="twig-extension.date-from-now.day">
+        <source>twig-extension.date-from-now.day</source>
+        <target>{1} hace %count% día|]1,30] hace %count% días</target>
+        <note><![CDATA[%count% is a placeholder
+This text has plural translations based on %count% variable
+http://symfony.com/doc/current/components/translation/usage.html#pluralization]]></note>
+      </trans-unit>
+      <trans-unit id="fedbb6e4ca4ad7e6c56276d92e1fdec80de20bc2" resname="twig-extension.date-from-now.hour">
+        <source>twig-extension.date-from-now.hour</source>
+        <target>{1} hace %count% hora|]1, 24[ hace %count% horas</target>
+        <note><![CDATA[%count% is a placeholder
+This text has plural translations based on %count% variable
+http://symfony.com/doc/current/components/translation/usage.html#pluralization]]></note>
+      </trans-unit>
+      <trans-unit id="0663a6d3a00c65985f33fc6551ae14c2207a9b36" resname="twig-extension.date-from-now.minute">
+        <source>twig-extension.date-from-now.minute</source>
+        <target>[0,10[ hace unos minutos|[10,60[ hace %count% minutos</target>
+        <note><![CDATA[%count% is a placeholder
+This text has plural translations based on %count% variable
+http://symfony.com/doc/current/components/translation/usage.html#pluralization]]></note>
+      </trans-unit>
+      <trans-unit id="7e8e6d7921f2cfe0d14b0ca4b680f00c6057b322" resname="twig-extension.date-from-now.month">
+        <source>twig-extension.date-from-now.month</source>
+        <target>{1} hace %mes|[1,12] hace %count% meses</target>
+        <note><![CDATA[%count% is a placeholder
+This text has plural translations based on %count% variable
+http://symfony.com/doc/current/components/translation/usage.html#pluralization]]></note>
+      </trans-unit>
+      <trans-unit id="738361d0d1f3ef15618d9c47a5fc98d5030fbe1e" resname="twig-extension.date-from-now.on">
+        <source>twig-extension.date-from-now.on</source>
+        <target>el</target>
+      </trans-unit>
+      <trans-unit id="e812db88a870370d4288dba1dbb52bce9ae9b9ad" resname="twig-extension.date-from-now.seconde">
+        <source>twig-extension.date-from-now.seconde</source>
+        <target>hace poco</target>
+      </trans-unit>
+      <trans-unit id="c08324630fcdc93172deea06c2a0b68ccffa6b5d" resname="twig-extension.date-from-now.since">
+        <source>twig-extension.date-from-now.since</source>
+        <target>Desde</target>
+      </trans-unit>
+      <trans-unit id="d8924bfc8d8f49ba047798006ce113696a5c8f61" resname="twig-extension.date-from-now.today">
+        <source>twig-extension.date-from-now.today</source>
+        <target>Hoy, a</target>
+      </trans-unit>
+      <trans-unit id="ff49ceacc338e5a45dbd01e153b664fe81dbae48" resname="twig-extension.date-from-now.week">
+        <source>twig-extension.date-from-now.week</source>
+        <target>{1} hace %count% semana|]1,5[ hace %count% semanas</target>
+        <note><![CDATA[%count% is a placeholder
+This text has plural translations based on %count% variable
+http://symfony.com/doc/current/components/translation/usage.html#pluralization]]></note>
+      </trans-unit>
+      <trans-unit id="ee47f5370ae0a2a583797069c17271da17fc0214" resname="twig-extension.date-from-now.year">
+        <source>twig-extension.date-from-now.year</source>
+        <target>{1} hace %count% año|]1,100] hace %count% años</target>
+        <note><![CDATA[%count% is a placeholder
+This text has plural translations based on %count% variable
+http://symfony.com/doc/current/components/translation/usage.html#pluralization]]></note>
+      </trans-unit>
+      <trans-unit id="4cbbb4344fdb8b861e928292c92fed8758894370" resname="twig-extension.date-from-now.yesterday">
+        <source>twig-extension.date-from-now.yesterday</source>
+        <target>Ayer, a</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

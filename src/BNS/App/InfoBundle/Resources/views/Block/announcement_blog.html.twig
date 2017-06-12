@@ -1,0 +1,26 @@
+{% trans_default_domain "INFO" %}
+
+<div class="blog-item announcement {{ announcement.isReadBy(user) ? 'is-read' : ""}}">
+    <a href="{{ announcement.itemFeed.get_link ~ queryString }}&utm_content=lien&utm_term={{ announcement.itemFeed.get_title|utm_campaign_string }}" class="" target="_blank">
+        <h2>{{ announcement.itemFeed.get_title }}</h2>
+    </a>
+    <div class="new-item-content">
+        <img width="150px" src="{{ announcement.imageUrl }}" style="max-height: 150px;"/>
+        <p>{{ announcement.itemFeed.get_content|truncate(800)|striptags|purify }} ...</p>
+        <br clear="all" />
+        <p class="more-link">
+
+            <a href="{{ announcement.itemFeed.get_link ~ queryString}}&utm_content=lien&utm_term={{ announcement.itemFeed.get_title|utm_campaign_string }}" class="btn small" target="_blank">
+                {{ 'LINK_READ_NEXT'|trans |desc('<strong>Lire</strong> la suite') |raw }}
+            </a>
+            {% if not announcement.isReadBy(user) %}
+                <a href="{{ path('BNSAppInfoBundle_announcement_read' , {'slug' : announcement.slug }) }}" class="btn read bns-notice btn-16 small">
+                    <span class="icons-16 preview-icon"></span>
+                    {{ 'LINK_INDICATED_AS_READ'|trans |desc('<strong>Marquer</strong> comme lu') |raw }}
+                </a>
+            {% endif %}
+        </p>
+        <br clear="all" />
+    </div>
+
+</div>

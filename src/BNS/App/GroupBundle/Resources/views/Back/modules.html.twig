@@ -1,0 +1,46 @@
+{% extends 'BNSAppGroupBundle:Back:layout.html.twig' %}
+
+{% block title %}
+    Gestion - Tableau de bord
+{% endblock %}
+
+{% block top_bar %}{% endblock %}
+
+{% block sidebar %}
+  {{ render(controller('BNSAppGroupBundle:Back:sidebar', {'section' : 'modules'} )) }}
+{% endblock sidebar %}
+
+{% block content %}
+    <div class="container-classroom">
+        <div class="dashboard-connect">
+          <h1 class="modules">Modules de l'espace de travail</h1>
+            <div class="left-line-border">
+
+                <table class="table">
+                    <thead>
+                    <td>
+
+                    </td>
+                    <td class="userType">
+                        <img src="{{ asset('/medias/images/profile/avatar/thumbnail/teacher.png') }}" alt="avatar" />
+                        <p>Enseignants</p>
+                    </td>
+                    <td class="userType">
+                        <img src="{{ asset('/medias/images/profile/avatar/thumbnail/pupil_M.png') }}" alt="avatar" />
+                        <p>Elèves</p>
+                    </td>
+                    <td class="userType">
+                        <img src="{{ asset('/medias/images/profile/avatar/thumbnail/parent.png') }}" alt="avatar" />
+                        <p>Parents</p>
+                    </td>
+                    <td class="userType">
+                      <img src="{{ asset('/medias/images/profile/avatar/thumbnail/teacher.png') }}" alt="avatar" />
+                      <p>Directeurs</p>
+                    </td>
+                    </thead>
+                </table>
+                {{ render(controller('BNSAppMainBundle:Module:moduleActivation', { 'roles': activationRoles } )) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

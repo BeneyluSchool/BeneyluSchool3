@@ -1,11 +1,6 @@
-<li id="list_{{ category.getId() }}">
-<div>
-	{% if isAdmin %}
-		<span class="list-grip"></span>
-	{% endif %}
-	{% if category.getIconClassname()|length > 0 and category.getIconClassname() != 'default' %}
-		<span class="icon-category sprite {{ category.getIconClassname() }}"></span>
-	{% endif %}
-	<div>{{ category.getTitle() }}</div>
-	<span class="select {% if isEditionMode and article.hasCategory(category) %}checked{% endif %}"></span>
-</div>
+<md-checkbox id="list_{{ category.getId() }}" class="md-primary select {% if isEditionMode and not article.isNew() and article.hasCategory(category, form.categories_list_id.vars.value) %}md-checked{% endif %}">
+		{% if category.getIconClassname()|length > 0 and category.getIconClassname() != 'default' %}
+			<span class="icon-category sprite {{ category.getIconClassname() }}"></span>
+		{% endif %}
+		<div>{{ category.getTitle() }}</div>
+</md-checkbox>

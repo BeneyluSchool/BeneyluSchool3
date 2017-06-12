@@ -1,0 +1,11 @@
+<div container class="flex layout-row main-container">
+
+  <md-sidenav class="layout-column md-sidenav-left bns-sidebar" md-component-id="left" md-is-locked-open="app.isSidebarLockedOpen()">
+    <header bns-sidebar-header app="navbar.app" mode="front"></header>
+
+    <div ui-view="sidebar" class="layout-column"></div>
+  </md-sidenav>
+
+  <md-content ui-view="content" class="bns-content layout-column flex"></md-content>
+
+</div>

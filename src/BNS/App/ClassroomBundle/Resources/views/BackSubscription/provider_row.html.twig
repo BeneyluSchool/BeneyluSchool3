@@ -1,0 +1,11 @@
+
+    <div class="editor-item {{ provider['selected'] ? 'selected' : '' }}" data-original-title="{{ provider['description'] }}" data-id="{{ provider['id'] }}">
+
+    {% if null != provider['logo_url'] %}
+        <img src="{{ provider['logo_url'] }}" alt="" />
+    {% else %}
+        <img src="http://cdn1.iconfinder.com/data/icons/book_mac/256/Font_Book_Alt.png" alt="" />
+    {% endif %}
+
+    <span class="name">{{ provider['name'] }}</span>
+</div>

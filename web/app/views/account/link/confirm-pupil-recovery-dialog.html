@@ -1,0 +1,52 @@
+<md-dialog class="bns-dialog bns-dialog-primary bns-dialog-sm">
+  <style>
+    .table .bns-avatar {
+      margin-right: 8px;
+    }
+  </style>
+  <md-dialog-content ng-if="::ctrl.hasMatches" class="md-dialog-content">
+    <p class="md-body-2" translate>ACCOUNT.TITLE_PENDING_PUPIL_RECOVERY</p>
+    <table class="table">
+      <thead>
+        <tr>
+          <td class="md-subhead" translate>ACCOUNT.TITLE_NEW_PUPIL</td>
+          <td class="md-subhead" translate>ACCOUNT.TITLE_OLD_PUPIL_LINKED</td>
+        </tr>
+      </thead>
+      <tbody class="md-body-1">
+        <tr ng-repeat="user in ctrl.pupilsMap.new" ng-init="oldUser = ctrl.pupilMatches[user.id][0]">
+          <td>
+            <div class="layout-row layout-align-start-center">
+              <img ng-src="{{::user.avatar_url}}" alt="{{::user.full_name}}" class="bns-avatar size-24">
+              <span class="flex">{{::user.full_name}}</span>
+            </div>
+          </td>
+          <td ng-if="::oldUser">
+            <div class="layout-row layout-align-start-center">
+              <img ng-src="{{::oldUser.avatar_url}}" alt="{{::oldUser.full_name}}" class="bns-avatar size-24">
+              <span class="flex">{{::oldUser.full_name}}</span>
+              <span class="text-muted">{{:: oldUser.last_connection ? moment(oldUser.last_connection).fromNow() : ''}}</span>
+            </div>
+          </td>
+          <td ng-if="::!oldUser" class="text-muted">-</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="md-body-2">
+      <div ng-if="::ctrl.remainingPupils" translate translate-values="{COUNT: ctrl.remainingPupils}">ACCOUNT.DESCRIPTION_REMAINING_PUPILS</div>
+      <div translate translate-values="{label: ctrl.configuration.classroom.label}">ACCOUNT.SUMMARY_PUPIL_RECOVERY</div>
+    </div>
+  </md-dialog-content>
+  <md-dialog-content ng-if="::!ctrl.hasMatches" class="md-dialog-content">
+    <div class="md-body-2" translate>ACCOUNT.DESCRIPTION_NO_PUPIL_LINKED</div>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <md-button ng-click="ctrl.cancel()">
+      <span ng-bind-html="'ACCOUNT.BUTTON_CANCEL'|translate|buttonize"></span>
+    </md-button>
+    <md-button class="md-primary md-raised" ng-click="ctrl.confirm()">
+      <span ng-bind-html="'ACCOUNT.BUTTON_SUBMIT'|translate|buttonize">.</span>
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

@@ -1,0 +1,219 @@
+{% trans_default_domain "MINISITE" %}
+{% extends 'BNSAppMiniSiteBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+    {{ 'TITLE_MINISITE_PAGE'|trans({'%title%': page.getTitle()}) }}
+
+{% endblock title %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script type="text/javascript">
+		$(function () {
+			{% if has_right('MINISITE_ADMINISTRATION') %}
+      // Switch activation process
+      $('.bns-actionbar #disable-page').click(function (e)
+      {
+        var $this = $(e.currentTarget);
+
+
+        $.ajax({
+          url: $this.attr('data-href'),
+          type: 'POST',
+          dataType: 'json',
+          data: {'page_id': $this.data('id')},
+          success: function () {
+
+              $('.page-desactivate').toggleClass('hide');
+              $('.page-activate').toggleClass('hide');
+
+              {% if page.getMiniSitePageText().isPublished() %}
+                $('bns-inset.disabled-page').slideToggle('fast');
+              {% endif %}
+
+          }
+        });
+
+					return false;
+				});
+
+				// Switch confidentiality process
+				$('.bns-actionbar #confidentiality-page').click(function (e)
+				{
+          var $this = $(e.currentTarget);
+
+
+
+          $.ajax({
+            url: $this.attr('data-href'),
+            type: 'POST',
+            dataType: 'json',
+            data: {'id': $this.data('id')},
+            success: function () {
+
+                $('.page-status-public').toggleClass('hide');
+                $('.page-status-private').toggleClass('hide');
+              }
+
+          });
+
+					return false;
+				});
+			{% endif %}
+
+			// Delete success alert
+			setTimeout(function ()
+			{
+				$('.bns-alert.alert-success div').slideUp('fast', function () { $(this).parent().slideUp('fast', function () { $('.bns-alert div').show() }) });
+			}, 8000);
+		});
+	</script>
+{% endblock javascripts %}
+
+{% block header %}
+						{% if has_right('MINISITE_ADMINISTRATION') or page.getMiniSitePageText().isDraft() or page.getMiniSitePageText().isWaitingForCorrection() %}
+
+              {{ components.button( 'LINK_EDIT_PAGE' | trans , { intent: 'primary', href: path('minisite_manager_page_edit', {'slug': page.getSlug()}), icon: 'edit', raised: true }) }}
+
+            {% endif %}
+
+
+            {{ components.button( 'LINK_SEE_PAGE' | trans , { href: path('minisite_page_preview', {'miniSiteSlug': minisite.getSlug(), 'pageSlug': page.getSlug()}) , icon: 'remove_red_eye', raised: true, hover: true}) }}
+
+            {% if has_right('MINISITE_ADMINISTRATION') %}
+							{% if not page.isHome() %}
+								<span id="disable-page" data-href="{{ path('minisite_manager_switch_activation_page') }}" data-id="{{ page.getId() }}">
+                  {{ components.button( 'BUTTON_DESACTIVATE_PAGE' | trans , {
+                    href:'#',
+                    icon: 'close',
+                    raised: true,
+                    hover: true,
+                    attr: {
+                      class: 'page-disable page-desactivate' ~ (page.isActivated() ? '' : ' hide')
+                    }
+                  }) }}
+                  {{ components.button( 'BUTTON_ACTIVATE_PAGE' | trans , {
+                    href:'#',
+                    icon: 'check',
+                    raised: true,
+                    hover: true,
+                    attr: {
+                      class: 'page-disable page-activate' ~ (page.isActivated() ? ' hide' : '')
+                    }
+                  }) }}
+								</span>
+							{% endif %}
+              <span id="confidentiality-page" data-href="{{ path('minisite_manager_page_confidentiality') }}"  data-id="{{ page.getId() }}">
+                {{ components.button( 'BUTTON_MAKE_PRIVATE_PAGE' | trans , {
+                  href:'#',
+                  icon: 'lock',
+                  raised: true,
+                  hover: true,
+                  attr: {
+                    class: 'page-status page-status-private' ~ (page.isPublic() ? '' : ' hide')
+                  }
+                }) }}
+                {{ components.button( 'BUTTON_MAKE_PUBLIC_PAGE' | trans , {
+                  href:'#',
+                  icon: 'lock_open',
+                  raised: true,
+                  hover: true,
+                  attr: {
+                    class: 'page-status page-status-public' ~ (page.isPublic() ? ' hide' : '')
+                  }
+                }) }}
+              </span>
+						{% endif %}
+{% endblock header %}
+
+{% block sidebar %}
+	{% include 'BNSAppMiniSiteBundle:Sidebar:sidebar.html.twig' with {'index': 'edito', 'section': 'visualisation'} %}
+{% endblock sidebar %}
+
+{% block content %}
+  <md-toolbar class="content-toolbar">
+    <div class="md-toolbar-tools layout-align-start-center">
+      <bns-sidebar-toggle></bns-sidebar-toggle>
+      <h1 class="md-title text-primary">{{ page.getTitle() }}</h1>
+      <div class="flex md-body-1 text-right">
+        <div class="text-ellipsis">
+            {{ 'CREATE_AT_BY_USER'|trans({
+              '%date%': date_from_now(page.getMiniSitePageText().getCreatedAt(), false, true, 'medium', 'short', false, true),
+              '%image%': components.avatar(page.getMiniSitePageText().getAuthor(), { size: 20 }),
+              '%user%': page.getMiniSitePageText().getAuthor().getFullName() |escape
+            }) |desc('Créée %date% par %user%') |raw }}
+        </div>
+        <div class="text-ellipsis">
+            {{ 'LAST_MODIFICATION_AT_BY_USER'|trans({
+              '%date%': date_from_now(page.getMiniSitePageText().getUpdatedAt(), false, true, 'medium', 'short', false, true),
+              '%image%': components.avatar(page.getMiniSitePageText().getLastModificationAuthor(), { size: 20 }),
+              '%user%': page.getMiniSitePageText().getLastModificationAuthor().getFullName() |escape
+            }) |desc('Dernière modification %date% par %user%') |raw }}
+        </div>
+      </div>
+    </div>
+  </md-toolbar>
+
+
+<md-content  id="content">
+    <div class="md-padding">
+        {% if has_right('MINISITE_ADMINISTRATION') %}
+            <bns-inset class="bns-small bns-primary disabled-page {{ page.getMiniSitePageText().isPublished() and not page.isActivated() ? '' : 'hide' }}">
+                {% trans %}WARNING_PAGE_PUBLISH_AND_DESACTIVATE{% endtrans %}
+            </bns-inset>
+        {% endif %}
+
+        {% for message in app.session.flashbag.get('success') %}
+            <bns-inset class="bns-small bns-accent">
+                {{ message }}
+            </bns-inset>
+        {% endfor %}
+
+        <div class="header">
+            <h2 class="md-headline">
+                {% if page.getMiniSitePageText().isPublished() %}
+                    {{ page.getMiniSitePageText().getPublishedTitle() }}
+                {% else %}
+                    {% if page.getMiniSitePageText().getDraftTitle() == null %}
+                        {% if is_adult() %}{% trans %}ADULT_TITLE_PAGE{% endtrans %}{% else %}{% trans %}CHILD_TITLE_PAGE{% endtrans %}{% endif %}
+                    {% else %}
+                        {{ page.getMiniSitePageText().getDraftTitle() }}
+                    {% endif %}
+                {% endif %}
+            </h2>
+        </div>
+        <div class="text md-body-2">
+            {% if not has_right('MINISITE_ADMINISTRATION') and is_child() %}
+                {% if page.getMiniSitePageText().isFinished() %}
+                    <bns-inset class="bns-small bns-primary">
+                        {% trans %}CHILD_WARNING_PAGE_PUBLISH_AND_DESACTIVATE{% endtrans %}
+                    </bns-inset>
+                {% elseif page.getMiniSitePageText().isWaitingForCorrection() %}
+                    <bns-inset class="bns-small bns-warn">
+                        {% trans %}TOO_FAULT_ON_THIS_PAGE_EDIT_IT{% endtrans %}
+                    </bns-inset>
+                {% elseif page.getMiniSitePageText().isPublished() %}
+                    <bns-inset class="bns-small bns-primary">
+                        {% trans %}PAGE_PUBLISH_CANT_MODIFY{% endtrans %}
+                    </bns-inset>
+                {% endif %}
+            {% endif %}
+            {% autoescape false %}
+                {% if page.getMiniSitePageText().isPublished() %}
+                    {{ parse_public_resources(page.getMiniSitePageText().getPublishedContent()|purify) }}
+                {% else %}
+                    {% if page.getMiniSitePageText().getDraftTitle() == null %}
+                        {% if is_adult() %}{% trans %}ADULT_CONTENT_PAGE{% endtrans %}{% else %}{% trans %}CHILD_CONTENT_PAGE{% endtrans %}{% endif %}
+                    {% else %}
+                        {{ parse_public_resources(page.getMiniSitePageText().getDraftContent()|purify) }}
+                    {% endif %}
+                {% endif %}
+            {% endautoescape %}
+        </div>
+    </div>
+        <div class="resources">
+            {% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias': page.getMiniSitePageText().getResourceAttachments(), 'editable': false, 'objectType': 'MiniSitePageText', 'objectId': page.miniSitePageText.pageId} %}
+        </div>
+  </md-content>
+{% endblock %}

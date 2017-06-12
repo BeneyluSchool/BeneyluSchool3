@@ -17,5 +17,37 @@ use BNS\App\CoreBundle\Model\om\BaseProfileFeedQuery;
  */
 class ProfileFeedQuery extends BaseProfileFeedQuery
 {
+
+    public function filterByNewYearStatus()
+    {
+        return $this
+            ->filterByPublishable(true)
+            ->addAscendingOrderByColumn('RAND()')
+            ->useProfileQuery()
+                ->useUserQuery()
+                ->endUse()
+            ->endUse()
+            ->useProfileFeedStatusQuery()
+                ->filterByContent('%#' . date('Y') . '%')
+                ->where('LENGTH(content) < 160')
+            ->endUse()
+            ;
+    }
+
+    public function filterByNewYearStatusAdmin()
+    {
+        return $this
+            ->filterByStatus('VALIDATED')
+            ->filterByPublishable(null)
+            ->useProfileQuery()
+            ->useUserQuery()
+            ->endUse()
+            ->endUse()
+            ->useProfileFeedStatusQuery()
+                ->filterByContent('%#' . date('Y') . '%')
+                ->where('LENGTH(content) < 160')
+            ->endUse()
+            ;
+    }
 	
 }

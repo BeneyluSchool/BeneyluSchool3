@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\GroupBundle\Model">
+  <table name="cerise_link">
+    <column name="user_id" primaryKey="true" required="true" type="INTEGER" />
+    <column name="bu_type" required="true" size="255" type="VARCHAR" />
+    <column name="bu_id" required="true" size="45" type="INTEGER" />
+  </table>
+</database>

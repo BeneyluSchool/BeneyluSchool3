@@ -1,0 +1,14 @@
+{% trans_default_domain "SCHOOL" %}
+<div class="modal-footer">
+	<div class="content-btn-footer">
+		<a href="{{ path('BNSAppSchoolBundle_back_user_revoke', { 'userSlug': user.slug }) }}" class="btn bns-danger btn-24 medium-return">
+			<span class="icons-24 delete-icon"></span>
+			{% trans %}LINK_REVOKE_REFERAL{% endtrans %}
+
+    </a>
+		<a href="#" class="btn bns-notice btn-24 medium" data-dismiss="modal">
+			<span class="icons-24 back-icon"></span>
+      {% trans %}LINK_CANCEL{% endtrans %}
+		</a>
+	</div>
+</div>

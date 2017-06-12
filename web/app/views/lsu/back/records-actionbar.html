@@ -1,0 +1,43 @@
+<md-button ui-sref="^.templates">
+  <md-icon>chevron_left</md-icon>
+  <span ng-bind-html="'LSU.BUTTON_BACK_TO_LIST'|translate|buttonize"></span>
+</md-button>
+
+<span class="bns-separator"></span>
+
+<md-button ng-if="!shared.selectedUsersMap.list.length && shared.record.validated"
+  ng-href="{{ctrl.getRecordExportUrl('pdf', shared.record)}}"
+  target="_blank"
+  class="md-raised"
+>
+  <md-icon>picture_as_pdf</md-icon>
+  <span ng-bind-html="'LSU.BUTTON_EXPORT_PDF'|translate|buttonize"></span>
+</md-button>
+
+<md-button ng-if="!shared.selectedUsersMap.list.length && shared.record.validated"
+  ng-href="{{ctrl.getRecordExportUrl('xml', shared.record)}}"
+  target="_blank"
+  class="md-raised"
+>
+  <md-icon>insert_drive_file</md-icon>
+  <span ng-bind-html="'LSU.BUTTON_EXPORT_LSU'|translate|buttonize"></span>
+</md-button>
+
+<span class="flex"></span>
+
+<md-button ng-if="!shared.selectedUsersMap.list.length && shared.record && !shared.record.validated"
+  ng-disabled="!ctrl.canValidate || ctrl.loader.pendingCount"
+  ng-click="ctrl.validateRecord(true)"
+  class="md-raised md-accent"
+>
+  <md-icon>done</md-icon>
+  <span ng-bind-html="'LSU.BUTTON_VALIDATE_RECORD'|translate|buttonize"></span>
+</md-button>
+<md-button ng-if="!shared.selectedUsersMap.list.length && shared.record.validated"
+  ng-disabled="ctrl.loader.pendingCount"
+  ng-click="ctrl.validateRecord(false)"
+  class="md-raised md-warn btn-hover"
+>
+  <md-icon>undo</md-icon>
+  <span ng-bind-html="'LSU.BUTTON_INVALIDATE_RECORD'|translate|buttonize"></span>
+</md-button>

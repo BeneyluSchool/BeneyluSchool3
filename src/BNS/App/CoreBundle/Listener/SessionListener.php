@@ -23,6 +23,13 @@ class SessionListener implements EventSubscriberInterface
 
     public function onKernelRequest(GetResponseEvent $event)
     {
+        $route = $event->getRequest()->attributes->get('_route');
+
+        if($route == "_monitoring")
+        {
+            return;
+        }
+
         if (HttpKernelInterface::MASTER_REQUEST !== $event->getRequestType()) {
             return;
         }
@@ -40,11 +47,18 @@ class SessionListener implements EventSubscriberInterface
 
         if ($this->autoStart || $request->hasPreviousSession()) {
             $session->start();
-		}
-		
-		// Registering request & container in a static class
-		BNSAccess::setRequest($request);
-		BNSAccess::setContainer($this->container);
+        }
+
+        // Fix for IE on not same domain iframes
+        // @see http://www.softwareprojects.com/resources/programming/t-how-to-get-internet-explorer-to-use-cookies-inside-1612.html
+        // @see http://www.w3.org/TR/2000/CR-P3P-20001215/#compact_policy_vocabulary
+        //if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
+        header('P3P:CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"');
+        //}
+
+        // Registering request & container in a static class
+        BNSAccess::setRequest($request);
+        BNSAccess::setContainer($this->container);
     }
 
     static public function getSubscribedEvents()

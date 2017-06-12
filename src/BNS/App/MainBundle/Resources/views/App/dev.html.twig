@@ -1,0 +1,104 @@
+{% extends 'BNSAppMainBundle:App:base.html.twig' %}
+
+{% block actionbar_content %}action bar{% endblock %}
+
+{% block sidebar_header %}
+  <h2 class="md-display-1">Hello Blog</h2>
+{% endblock %}
+
+{% block sidebar_content %}
+  <bns-form-proxy du-scroll-container="content"></bns-form-proxy>
+{% endblock %}
+
+{% block content %}
+  <pre>{% verbatim %}hasTouch: {{ $mdMedia.hasTouch }}{% endverbatim %}</pre>
+
+  {{ form(form) }}
+  <pre>{% verbatim %}{{ model | json }}{% endverbatim %}</pre>
+
+  <h3 id="anchor-1">Anchor 1</h3>
+  <p>
+    Vestibulum rutrum, mi nec elementum vehicula, eros quam gravida nisl, id fringilla neque ante vel mi.
+    Praesent egestas neque eu enim. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero,
+    sit amet adipiscing sem neque sed ipsum. <br> Pellentesque libero tortor, tincidunt et, tincidunt eget, semper
+    nec, quam. Phasellus consectetuer vestibulum elit.
+  </p>
+  <p>
+    Cras sagittis. Nam pretium turpis et arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
+    posuere cubilia Curae; In ac dui quis mi consectetuer lacinia. Fusce egestas elit eget lorem. Duis leo.
+  </p>
+  <p>
+    Praesent congue erat at massa. Praesent ut ligula non mi varius sagittis. Curabitur suscipit suscipit
+    tellus. Fusce neque. Cras dapibus.
+  </p>
+  <p>
+    Vestibulum volutpat pretium libero. Aliquam lobortis. Curabitur ullamcorper ultricies nisi. Praesent metus
+    tellus, elementum eu, semper a, adipiscing nec, purus. Nullam vel sem.
+  </p>
+  <p>
+    Etiam feugiat lorem non metus. Maecenas malesuada. Nam at tortor in tellus interdum sagittis. Curabitur
+    nisi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+    Pellentesque libero tortor, tincidunt et, tincidunt eget, semper nec, quam. Phasellus consectetuer
+    vestibulum elit.
+  </p>
+  <p>
+    Vestibulum rutrum, mi nec elementum vehicula, eros quam gravida nisl, id fringilla neque ante vel mi.
+    Praesent egestas neque eu enim. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero,
+    sit amet adipiscing sem neque sed ipsum. Pellentesque libero tortor, tincidunt et, tincidunt eget, semper
+    nec, quam. Phasellus consectetuer vestibulum elit.
+  </p>
+  <h3 id="anchor-2">Anchor 2</h3>
+  <p>
+    Cras sagittis. Nam pretium turpis et arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
+    posuere cubilia Curae; In ac dui quis mi consectetuer lacinia. Fusce egestas elit eget lorem. Duis leo.
+  </p>
+  <p>
+    Praesent congue erat at massa. Praesent ut ligula non mi varius sagittis. Curabitur suscipit suscipit
+    tellus. Fusce neque. Cras dapibus.
+  </p>
+  <p>
+    Vestibulum volutpat pretium libero. Aliquam lobortis. Curabitur ullamcorper ultricies nisi. Praesent metus
+    tellus, elementum eu, semper a, adipiscing nec, purus. Nullam vel sem.
+  </p>
+  <p>
+    Etiam feugiat lorem non metus. Maecenas malesuada. Nam at tortor in tellus interdum sagittis. Curabitur
+    nisi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+    Pellentesque libero tortor, tincidunt et, tincidunt eget, semper nec, quam. Phasellus consectetuer
+    vestibulum elit.
+  </p>
+  <p>
+    Vestibulum rutrum, mi nec elementum vehicula, eros quam gravida nisl, id fringilla neque ante vel mi.
+    Praesent egestas neque eu enim. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero,
+    sit amet adipiscing sem neque sed ipsum. Pellentesque libero tortor, tincidunt et, tincidunt eget, semper
+    nec, quam. Phasellus consectetuer vestibulum elit.
+  </p>
+  <p>
+    Cras sagittis. Nam pretium turpis et arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
+    posuere cubilia Curae; In ac dui quis mi consectetuer lacinia. Fusce egestas elit eget lorem. Duis leo.
+  </p>
+  <p>
+    Praesent congue erat at massa. Praesent ut ligula non mi varius sagittis. Curabitur suscipit suscipit
+    tellus. Fusce neque. Cras dapibus.
+  </p>
+  <p>
+    Vestibulum volutpat pretium libero. Aliquam lobortis. Curabitur ullamcorper ultricies nisi. Praesent metus
+    tellus, elementum eu, semper a, adipiscing nec, purus. Nullam vel sem.
+  </p>
+  <h3 id="anchor-3">Anchor 3</h3>
+  <p>
+    Etiam feugiat lorem non metus. Maecenas malesuada. Nam at tortor in tellus interdum sagittis. Curabitur
+    nisi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+    Pellentesque libero tortor, tincidunt et, tincidunt eget, semper nec, quam. Phasellus consectetuer
+    vestibulum elit.
+  </p>
+  <p>
+    Vestibulum rutrum, mi nec elementum vehicula, eros quam gravida nisl, id fringilla neque ante vel mi.
+    Praesent egestas neque eu enim. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero,
+    sit amet adipiscing sem neque sed ipsum. Pellentesque libero tortor, tincidunt et, tincidunt eget, semper
+    nec, quam. Phasellus consectetuer vestibulum elit.
+  </p>
+  <p>
+    Cras sagittis. Nam pretium turpis et arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
+    posuere cubilia Curae; In ac dui quis mi consectetuer lacinia. Fusce egestas elit eget lorem. Duis leo.
+  </p>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% trans_default_domain "INFO" %}
+{% extends '::base_manager.html.twig' %}
+
+{% set app_unique_name = 'INFO' %}
+{% set app_mode = 'front' %}
+
+{% block title %}
+    {{ 'TITLE_INFO_TO_TEACHER'|trans |desc('Informations aux enseignants') }}
+{% endblock %}
+
+{% block css %}
+    {{ parent() }}
+    <link href="{{ asset('/medias/css/info/manager.css') }}" rel="stylesheet" type="text/css" />
+    {# Appel CSS du package layout manager #}
+    {% include "BNSAppMainBundle:Manager:layoutStyle.html.twig" %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(function(){
+            $('.btn.read').live('click',function(e){
+                e.preventDefault();
+                var parent = $(this).parents('.announcement');
+                $.ajax({
+                    url: $(this).attr('href'),
+                    type: 'POST',
+                    success: function (data) {
+                        parent.replaceWith(data);
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block body %}
+    <div class="background office"></div>
+    {% block action_bar %}{% endblock %}
+    <div class="container-fluid container info-container">
+        <div class="row-fluid container-manager">
+            {% block sidebar %}{% endblock %}
+            <div class="span9 container-content no-margin">
+                {% block content %}{% endblock %}
+            </div>
+            <div class="container-manager-bottom">
+                <div class="content-manager-bottom"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,15 @@
+<md-button ng-if="expander.showToggle && !expander.hasModel" type="button" ng-click="expander.toggle()" class="bns-expander-toggle">
+  <div class="layout-row flex">
+    <span class="bns-expander-label flex">{{ expander.label }}</span>
+    <span aria-hidden="true" class="bns-expander-icon">
+      <md-icon>arrow_drop_down_circle</md-icon>
+    </span>
+  </div>
+</md-button>
+<md-checkbox ng-if="expander.showToggle && expander.hasModel && !expander.showSwitch" ng-model="expander.isOpen" class="md-primary checkbox-right bns-expander-toggle">
+  <span class="bns-expander-label">{{ expander.label }}</span>
+</md-checkbox>
+<md-switch ng-if="expander.showToggle && expander.hasModel && expander.showSwitch" class="bns-switch bns-switch-right bns-expander-toggle" ng-model="expander.isOpen" aria-label="{{ expander.label }}">
+  <span class="bns-expander-label">{{ expander.label }}</span>
+</md-switch>
+<div ng-transclude class="bns-expander-content" bns-track-height=">"></div>

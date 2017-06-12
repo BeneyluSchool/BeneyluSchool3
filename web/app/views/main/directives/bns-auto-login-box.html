@@ -1,0 +1,108 @@
+<div ng-show="ctrl.busy !== false && ctrl.showLoginForm !== true" layout="row" layout-sm="column" layout-align="space-around">
+  <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+</div>
+
+<div ng-show="ctrl.noCookie !== false && ctrl.noCookieUrl" >
+  <md-content class="inset md-whiteframe-z2">
+    <div class="layout-row">
+      <a class="md-button md-warning flex md-raised md-warn bns-no-cookie" ng-href="{{ ctrl.noCookieUrl }}" href>
+        <md-icon>warning</md-icon>
+        <span translate>MAIN.NO_COOKIE</span>
+      </a>
+    </div>
+  </md-content>
+
+</div>
+
+<div ng-show="ctrl.showLoginForm === true" id="admin-login-container" class="layout-column admin-login-container inset">
+
+  <form id="login-form" method="POST" ng-submit="ctrl.submitLogin()">
+
+  <div bns-tabs="ctrl.form.login" class="layout-row">
+    <md-button bns-tab="fullname" ng-click="ctrl.autoFocus()" class="flex" href="">
+      <bns-icon>users-circle</bns-icon>
+      <span ng-bind-html="'MAIN.BUTTON_WITH_FULLNAME'|translate|buttonize"></span>
+    </md-button>
+    <md-button bns-tab="username" ng-click="ctrl.autoFocus()" class="flex" href="">
+      <bns-icon>email-circle</bns-icon>
+      <span ng-bind-html="'MAIN.BUTTON_WITH_USERNAME_OR_EMAIL'|translate|buttonize"></span>
+    </md-button>
+  </div>
+  <md-content bns-tabs-content class="inset md-whiteframe-z2">
+    <div class="progress-container layout-row layout-align-center-center" ng-show="ctrl.busy">
+      <md-progress-circular md-mode="indeterminate" id="loader"></md-progress-circular>
+    </div>
+
+    <div class="layout-column" bns-input-group>
+      <md-input-container md-no-float>
+        <input type="text" name="_username" id="_username" class="input-lg"
+               ng-model="ctrl.form._username"
+               placeholder="{{ ctrl.form.login === 'username' ? ('MAIN.PLACEHOLDER_WRITE_YOUR_USERNAME'|translate) : ('MAIN.PLACEHOLDER_WRITE_YOUR_FIRSTNAME'|translate ) }}"
+               bns-autofocus />
+      </md-input-container>
+
+      <md-input-container md-no-float ng-show="'fullname' === ctrl.form.login" id="_lastname_container">
+        <input type="text" name="_lastname" id="_lastname" class="input-lg"
+               ng-model="ctrl.form._lastname"
+               placeholder="{{ 'MAIN.PLACEHOLDER_WRITE_YOUR_LASTNAME' | translate }}" />
+      </md-input-container>
+    </div>
+
+    <md-input-container md-no-float class="password">
+      <input type="password" name="_password" id="_password"
+             autocapitalize="off"
+             autocomplete="off"
+             autocorrect="off"
+             spellcheck="false"
+             placeholder="{{ 'MAIN.PLACEHOLDER_WRITE_YOUR_PASSWORD' | translate }}"
+             ng-model="ctrl.form._password"
+             class="input-lg"
+             bns-password-toggle
+      />
+    </md-input-container>
+
+    <input type="hidden" name="_csrf_token" value="" />
+
+    <div class="layout-row">
+      <md-button type="submit" name="_submit" id="submit" aria-label="{{ ::'MAIN.BUTTON_CONNECT_ME' | translate }}" class="flex md-accent md-raised">
+        <span ng-bind-html="'MAIN.BUTTON_CONNECT_ME' | translate | buttonize"></span>
+      </md-button>
+    </div>
+
+    <div ng-if="ctrl.forgotPasswordUrl" class="text-center md-caption">
+      <a ng-href="{{ ctrl.forgotPasswordUrl }}" href>
+        <span class="password-lost" translate>MAIN.FORGOTTEN_PASSWORD</span>
+      </a>
+    </div>
+
+  </md-content>
+  </form>
+</div>
+
+<div ng-show="ctrl.showLoginForm === true" ng-if="ctrl.samlProviders" class="layout-column login-saml inset">
+  <md-content class="inset md-whiteframe-z2">
+    <div class="layout-row login-saml-row" ng-repeat="saml in ctrl.samlProviders">
+        <md-button href aria-label="{{ ::saml.label }}" ng-click="ctrl.samlAuth(saml.idp)" class="flex md-raised">
+          <md-icon ng-if="::saml.icon">{{::saml.icon}}</md-icon>
+          <span>{{::saml.label}}</span>
+        </md-button>
+    </div>
+  </md-content>
+</div>
+
+<div class="login-no-cookie" ng-show="ctrl.showNoCookieLogin === true">
+  <md-content class="inset md-whiteframe-z2">
+    <div class="layout-row">
+      <md-button class="flex md-accent md-raised" aria-label="{{ ::'MAIN.BUTTON_CONNECT_ME' | translate }}" ng-click="ctrl.openLoginWindow()">
+        <span ng-bind-html="'MAIN.BUTTON_CONNECT_ME' | translate | buttonize"></span>
+      </md-button>
+    </div>
+    <div>
+      <div ng-if="ctrl.forgotPasswordUrl" class="text-center md-caption">
+        <a ng-href="{{ ctrl.forgotPasswordUrl }}" href>
+          <span class="password-lost" translate>MAIN.FORGOTTEN_PASSWORD</span>
+        </a>
+      </div>
+    </div>
+  </md-content>
+</div>

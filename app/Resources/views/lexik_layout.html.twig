@@ -9,6 +9,7 @@
   {% endblock %}
 </head>
 <body>
+{# {% if has_right_somewhere('ADMIN_ACCESS') %} #}
 {% block flash_message %}
 <div class="container">
   <div class="row">
@@ -33,5 +34,6 @@
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js"></script>
 <script src="{{ asset('bundles/lexiktranslation/ng-table/ng-table.min.js') }}"></script>
 {% endblock %}
+{# {% endif %} #}
 </body>
 </html>

@@ -1,0 +1,16 @@
+<md-button ui-sref="^">
+  <md-icon>chevron_left</md-icon>
+  <span ng-bind-html="'LSU.BUTTON_BACK_TO_LIST'|translate|buttonize"></span>
+</md-button>
+
+<span class="bns-separator"></span>
+
+<md-button href ng-click="print()">
+  <md-icon>print</md-icon>
+  <span ng-bind-html="'LSU.BUTTON_PRINT'|translate|buttonize"></span>
+</md-button>
+
+<md-button ng-href="{{ctrl.getExportPdfUrl()}}" target="_blank">
+  <md-icon>picture_as_pdf</md-icon>
+  <span ng-bind-html="'LSU.BUTTON_EXPORT_PDF'|translate|buttonize"></span>
+</md-button>

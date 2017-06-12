@@ -1,0 +1,34 @@
+<bns-modal modal-close="ctrl.closeModal" modal-title="{{ 'USER_DIRECTORY.DELETE_WORKGROUP_MODAL_TITLE' | translate }}" class="modal-danger" modal-icon="trash" modal-busy="ctrl.busy">
+  <div class="modal-body type">
+
+    <h4 ng-if="ctrl.context" translate translate-values="{ name: ctrl.context.label }">USER_DIRECTORY.DELETE_WORKGROUP_NAME</h4>
+
+    <p translate>USER_DIRECTORY.WORKGROUP_DATA_WILL_BE_DELETED</p>
+
+    <ul class="list-block list-block-danger">
+      <li>
+        <label>
+          <input type="checkbox" ng-model="ctrl.deletion.confirmed">
+          {{ 'USER_DIRECTORY.CONFIRM_DELETE_THIS_WORKGROUP' | translate }}
+        </label>
+      </li>
+    </ul>
+
+    <div class="help-block text-danger">
+      {{ ctrl.deletion.error | translate }}
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <div class="content-btn-footer">
+      <button ng-disabled="!ctrl.deletion.confirmed" ng-click="ctrl.confirm()" class="btn btn-danger">
+        <i class="bns-icon-trash round"></i>
+        <strong translate>USER_DIRECTORY.DELETE_THIS_WORKGROUP</strong>
+      </button>
+      <button type="button" class="btn" ng-click="ctrl.closeModal()">
+        <i class="bns-icon-arrow-left-curved round"></i>
+        <span translate>USER_DIRECTORY.CANCEL</span>
+      </button>
+    </div>
+  </div>
+</bns-modal>

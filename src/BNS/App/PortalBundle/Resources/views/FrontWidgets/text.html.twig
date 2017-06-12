@@ -1,0 +1,5 @@
+{% if widget.data('text') != null %}
+    <div class="text">
+        {{ parse_public_resources(widget.data('text')|purify,false,'original') }}
+    </div>
+{% endif %}

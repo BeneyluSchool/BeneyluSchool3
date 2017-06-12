@@ -19,7 +19,7 @@ class LoggingListener
 		$container = $this->container;
 		$route = $event->getRequest()->attributes->get('_route');
 		//On écarte tous les appels internes
-		if($route && $route != "_internal" && $container->get('bns.right_manager')->isAuthenticated()){
+		if($route && $route != "_internal" && $route != "_monitoring" && $container->get('bns.right_manager')->isAuthenticated()){
 			$logging = new Logging();
 			$logging->setUsername($container->get('bns.right_manager')->getUserSession()->getUsername());
 			$logging->setUserId($container->get('bns.right_manager')->getUserSession()->getId());
@@ -27,7 +27,12 @@ class LoggingListener
 			$controller = explode('\\',$event->getRequest()->attributes->get('_controller')); 
 			$logging->setModule(isset($controller[2]) ? $controller[2] : "");
 			$logging->setAction(isset($controller[4]) ? $controller[4] : "");
+            $logging->setIp($container->get('request')->getClientIp());
 			$logging->setRoute($route);
+            if(!in_array($route,array('user_password','BNSAppProfileBundle_back_authenticate_target_user')))
+            {
+                $logging->setParameters(serialize($event->getRequest()->request->all()));
+            }
 			$logging->save();
 		}
 	}

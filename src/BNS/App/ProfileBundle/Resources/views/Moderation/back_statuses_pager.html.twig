@@ -1,5 +1,7 @@
 {% if (pager.getLastPage() > 1) %}
-	<div class="pagination" data-status="{{ status }}" data-current-page="{{ pager.getPage() }}">
+<md-toolbar class="content-toolbar">
+	<div class="md-toolbar-tools layout-align-center-center">
+	<div class="pagination" data-status="{{ status }}" data-current-page="{{ pager.getPage() }}" style="text-align: center;">
 		<ul>
 			{% if (pager.getPage() > pager.getFirstPage()) %}
 				<li><a class="article-pager" href="{{ path('profile_manager_moderation_statuses_load') }}" data-page="{{ pager.getPreviousPage() }}">←</a></li>
@@ -18,4 +20,6 @@
 			{% endif %}
 		</ul>
 	</div>
+	</div>
+</md-toolbar>
 {% endif %}

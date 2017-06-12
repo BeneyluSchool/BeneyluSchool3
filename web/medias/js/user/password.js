@@ -9,6 +9,18 @@ var types = {
 
 $(function()
 {
+	// Confirm button
+	$('#confirm_password').click(function (e)
+	{
+		if ($(e.currentTarget).hasClass('disabled')) {
+			return false;
+		}
+		
+		$('form').submit();
+		
+		return false;
+	});
+	
 	// Showing the wheels
 	$('.wheel-container').css('opacity', 1);
 
@@ -43,20 +55,25 @@ $(function()
 
 				// Generate password
 				setPassword(types['consonant'].data('letter') + types['vowel'].data('letter'));
-
+				
 				// Saving used letters and cleaning for next step
 				usedLetters.push(types['consonant'].data('letter'));
 				usedLetters.push(types['vowel'].data('letter'));
 				types['consonant'] = null;
 				types['vowel'] = null;
 				step++;
-
+				
 				if (step == 4) {
+					// Consignes
+					var $rules = $('.content-message-password li');
+					$rules.slideUp('fast');
+					$($rules[1]).slideDown('fast');
+					
 					$('.wheel.numbers').toggleClass('rotating');
 					setTimeout(function ()
 					{
 						showNumbers();
-					}, 4400);
+					}, 2400);
 				}
 
 				setTimeout(function ()
@@ -83,7 +100,7 @@ $(function()
 					if (step < 4) {
 						switchConfirm();
 					}
-				}, 4400);
+				}, 2400);
 				setTimeout(function ()
 				{
 					$('#wheel-letters').toggleClass('rotating');
@@ -219,19 +236,27 @@ $(function()
 				// return displayError('Veuillez choisir trois chiffres !');
 			}
 
-			numbers = '';
+			var selectedNumbers = '';
 			for (i in types['number']) {
-				numbers += types['number'][i].data('number');
+				selectedNumbers += types['number'][i].data('number');
 			}
 
 			// Generate password
-			setPassword(numbers);
+			setPassword(selectedNumbers);
 
 			// Disable the OK button
 			$('.wheel.confirm').addClass('disabled');
 			$('#confirm-button').removeAttr('href', '#'); // cursor: default
 			switchDoors(false);
 			step++;
+			
+			// Show password print link
+			$('.link-print').slideDown('fast');
+			
+			// Consignes
+			var $rules = $('.content-message-password li');
+			$rules.slideUp('fast');
+			$($rules[2]).slideDown('fast');
 
 			$('#confirm_password').removeClass('disabled').removeAttr('disabled');
 		}
@@ -252,11 +277,15 @@ function resetWheels()
 	step = 1;
 
 	unlightMap();
+	$('#confirm_password').addClass('disabled');
 	$('.door-container').toggleClass('rotating');
 	$('.wheel.numbers, #wheel-letters').removeClass('rotating');
 	$('.letter, .number').remove();
 	$('#wheel-letters').css('display', 'block');
 	setPassword('');
+	
+	// Show password print link
+	$('.link-print').slideUp('fast');
 	
 	$.each($('.map-area'), function (i, item)
 	{

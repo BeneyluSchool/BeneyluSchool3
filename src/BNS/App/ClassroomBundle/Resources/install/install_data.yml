@@ -1,0 +1,87 @@
+module:
+  unique_name: CLASSROOM
+  is_contextable: true
+  name:
+    fr: Module classe
+    en: Classroom module
+  description:
+    fr: Page d'accueil
+    en: Desk et pupils management
+  default_rank:
+    pupil: USE
+    parent: USE
+    teacher: MANAGE
+    other: USE
+
+permissions:
+  ACCESS:
+    label:
+      fr: Voir classe
+      en: Class access
+    description:
+      fr: Donne accès au module de la classe
+      en:
+
+  ACCESS_BACK:
+    label:
+      fr: Gérer classe
+      en: Class management
+    description:
+      fr: Donne accès à la gestion de la classe, création d'élèves, invitations d'enseignants...
+      en:
+
+  CREATE_USER:
+    label:
+      fr: Ajouter des utilisateurs
+      en: User creation
+    description:
+      fr: Donne la possibilité de créer des utilisateurs depuis la classe
+      en:
+  CREATE_ASSISTANT:
+    label:
+      fr: Ajouter un auxiliaire
+      en: Add an assistant
+    description:
+      fr: Donne la possibilité de créer des auxiliaires depuis la classe
+      en: Allow to add assistants in classroom
+  CREATE_HIGH_SCHOOL_PARTNERSHIP: ~
+
+ranks:
+  USE:
+    label:
+      fr: Utiliser la classe
+      en: Use the classroom
+    description:
+      fr:
+      en:
+    permissions: [ACCESS]
+
+  MANAGE:
+    label:
+      fr: Gérer la classe
+      en: Manage the classroom
+    description:
+      fr:
+      en:
+    permissions: [ACCESS, ACCESS_BACK, CREATE_USER]
+    extra_permissions: [CREATE_TEAM]
+
+  CREATE_ASSISTANT:
+    label:
+      fr: Ajouter un auxiliaire
+      en: Add an assistant
+    description:
+      fr: Donne la possibilité de créer des auxiliaires depuis la classe
+      en: Allow to add assistants in classroom
+    permissions: [CREATE_ASSISTANT]
+
+  CREATE_HIGH_SCHOOL_PARTNERSHIP:
+    permissions: [CREATE_HIGH_SCHOOL_PARTNERSHIP]
+
+markers:
+  CLASSROOM_CREATE_STUDENT-ACCOUNT:
+    description: Création d'un compte élève
+  CLASSROOM_CREATE_GROUP:
+    description: Création d'un groupe d'élèves
+  CLASSROOM_CHANGE_GRADE:
+    description: Changement d'année

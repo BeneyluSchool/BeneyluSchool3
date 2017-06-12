@@ -1,0 +1,25 @@
+<md-toolbar class="bns-actionbar md-whiteframe-z2" ng-class="{'hidden': !(ctrl.confirm || ctrl.back)}">
+  <div class="md-toolbar-tools">
+    <md-button ng-if="ctrl.back" ng-click="ctrl.back.action()">
+      <md-icon>chevron_left</md-icon>
+      <span ng-bind-html="'ACCOUNT.BUTTON_BACK_TO_PREVIOUS_STEP'|translate|buttonize">.</span>
+    </md-button>
+    <span class="flex"></span>
+    <md-button ng-if="ctrl.confirm" ng-click="ctrl.confirm.action()" class="md-accent md-raised">
+      <md-icon>check</md-icon>
+      <span ng-bind-html="ctrl.confirm.label|translate|buttonize">.</span>
+    </md-button>
+  </div>
+</md-toolbar>
+
+<div container class="flex layout-row">
+
+  <md-content class="md-whiteframe-z2 bns-account-link-content">
+    <div ng-if="ctrl.step" ng-include="'views/account/link/step-'+ctrl.step+'.html'"></div>
+
+    <div ng-if="ctrl.busy" ng-class="{'progress-overlay': ctrl.overlay}" class="layout-row layout-align-center-center md-padding">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+  </md-content>
+
+</div>

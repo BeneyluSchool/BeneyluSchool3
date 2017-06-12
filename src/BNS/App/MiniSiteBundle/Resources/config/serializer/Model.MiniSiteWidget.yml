@@ -1,0 +1,7 @@
+BNS\App\MiniSiteBundle\Model\MiniSiteWidget:
+  exclusion_policy: All
+  virtual_properties:
+    getType:
+      expose: true
+    getPropertyValue:
+      expose: true

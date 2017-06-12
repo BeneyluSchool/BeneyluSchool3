@@ -1,0 +1,39 @@
+<div id="resource-selection" class="selection-container {% if selectionLength > 0 %}in{% endif %}">
+	<div>
+		<div class="header">
+			<div class="gradient-bg"></div>
+			<div class="header-content">
+				<h2>Ma sélection</h2>
+				<span class="selection">
+					<p class="out">(aucun document sélectionné)</p>
+					<p class="in">(<span id="selection-count">{{ selectionLength }}</span> document<span class="plural {% if selectionLength < 2 %}hide{% endif %}">s</span> sélectionné<span class="plural {% if selectionLength < 2 %}hide{% endif %}">s</span>)</p>
+				</span>
+				<a href="{{ path('resource_selection_clear') }}" class="cancel" id="cancel-selection">Annuler la sélection</a>
+				<span class="arrow"></span>
+			</div>
+		</div>
+
+		<div class="area">
+			<div class="loader loader-h"></div>
+			{% if is_child() %}
+				<h2>Tu n'as aucun document dans ta sélection</h2>
+			{% else %}
+				<h2>Vous n'avez aucun document dans votre sélection</h2>
+			{% endif %}
+
+			{% for resource in resources %}
+				<div class="box" data-id="{{ resource.getId() }}" id="box-{{ resource.getId() }}">
+					<img src="{{ getResourceImageUrl(resource,"thumbnail") }}" alt="" />
+					<span class="title">{{ resource.getLabel|truncate(30) }}</span>
+					<span class="close">&times;</span>
+				</div>
+			{% endfor %}
+		</div>
+		<div class="box hide template">
+			<img src="" alt="" />
+			<span class="title"></span>
+			<span class="close">&times;</span>
+		</div>
+		<span class="transitionfix"></span>
+	</div>
+</div>

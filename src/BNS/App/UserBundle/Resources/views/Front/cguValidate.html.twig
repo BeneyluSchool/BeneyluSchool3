@@ -1,0 +1,76 @@
+{% trans_default_domain 'USER' %}
+
+{% extends 'BNSAppUserBundle:Front:layout.html.twig' %}
+
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+{% form_theme form 'BNSAppMainBundle:Form:material_fields.html.twig' %}
+
+{% block title %}
+  {{ 'TITLE_BENEYLU_CGU'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')})  |desc('%beneylu_brand_name% - Conditions générales d\'utilisation')}}
+
+{% endblock %}
+
+{% block body %}
+  {{ components.toasts(app.session.flashBag.all) }}
+
+  <div class="office"></div>
+  <div class="container container-cgu">
+
+    <div class="content-prehome cgu-content" ng-cloak>
+
+      {% block form_start %}
+        {{ form_start(form) }}
+      {% endblock %}
+
+      <h1 class="title text-center">
+        {{ 'CGU'|trans  |desc('Conditions générales d\'utilisation')}}
+      </h1>
+      <h3 class="text-center">{{ cguDate |date_bns('long', 'none') }} - {{ 'CGU_VERSION'|trans({'%cgu_version%': cguVersion}) |desc('Version %cgu_version%') }}</h3>
+      <p>
+        {{ 'ACCESS_BENEYLU_READ_CGU'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('Pour accéder à %beneylu_brand_name%, vous devez lire et accepter') }}
+        <a href="{{ cguUrl }}" target="_blank">{{ 'ACCESS_BENEYLU_CGU'|trans |desc('les conditions générales d\'utilisation.') }}</a>
+        {% if default %}
+          ({{ 'CGU_IN_FRENCH'|trans  |desc('Français')}})
+        {% endif %}
+      </p>
+
+      <div class="inner-content">
+        {% block content %}
+          {% if form.cgu_validation.vars.errors|length > 0 %}
+            <div class="alert alert-danger bns-alert">
+              {{ form_errors(form.cgu_validation) }}
+            </div>
+          {% endif %}
+
+          <div class="content-policy-pdf hidden-sm hidden-xs">
+            <iframe src="/ent/medias/js/pdfjs/web/viewer.html?file={{ cguUrl|url_encode }}"></iframe>
+          </div>
+        {% endblock %}
+      </div>
+
+      <div class="layout-column layout-align-end-end">
+        {{ form_widget(form.cgu_validation, {
+          attr: { class: 'md-accent2' }
+        }) }}
+        {{ form_rest(form) }}
+        {{ components.button('ACCEPT_CGU'|trans |desc('Valider'), {
+          type: 'submit',
+          intent: 'accent',
+          raised: true,
+          attr: {
+            'ng-disabled': '!'~form.vars.name~'.$valid',
+            'style': 'min-width:160px',
+            'class': 'validate-cgu'
+          }
+        }) }}
+      </div>
+
+      {% block form_end %}
+        {{ form_end(form) }}
+      {% endblock %}
+
+    </div>
+  </div>
+{% endblock %}
+
+{% block dock_bar %}{% endblock %}

@@ -1,0 +1,12 @@
+<h2 translate>WORKSHOP.QUESTIONNAIRE.CLOSED_QUESTION</h2>
+
+<h3 translate>WORKSHOP.QUESTIONNAIRE.WORDING</h3>
+<textarea bns-tinymce="ctrl.config" bns-focus-request rows="10" ng-model="widget.content"></textarea>
+
+<h3 translate>WORKSHOP.QUESTIONNAIRE.ANSWER</h3>
+<md-input-container class="flex-85">
+  <label><span translate>WORKSHOP.QUESTIONNAIRE.ANSWER</span></label>
+  <input ng-model="widget.correct" placeholder="{{ 'WORKSHOP.QUESTIONNAIRE.WRITE_AN_ANSWER' | translate }}">
+</md-input-container>
+<hr>
+<div ng-if="::ctrl.document.is_questionnaire" ng-include="ctrl.advancedSettingsTemplate"></div>

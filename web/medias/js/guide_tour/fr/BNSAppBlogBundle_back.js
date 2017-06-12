@@ -19,7 +19,7 @@ $(document).ready(function() {
 		buttons: [{name: "Suivant", classString: "btn btn-info btn-small pull-right", onclick: guiders.next}],
 		description: "<p>Vous pouvez filtrer les articles selon leur statut et/ou leurs catégories en cochant la configuration souhaitée.</p>",
 		id: "second",
-		next: "third",
+		next: "finally",
 		position: 3,
 		autoFocus: true,
 		title: "Filtrer les articles",
@@ -32,10 +32,9 @@ $(document).ready(function() {
 	
 	guiders.createGuider({
 		attachTo:".add-category",
-		buttons: [{name: "Suivant", classString: "btn btn-info btn-small pull-right", onclick: guiders.next}],
+		buttons: [{name: "Ne plus afficher pour cette page", classString: "btn btn-info btn-small pull-right btn-never-display-guide-tour", onclick: guiders.hideAll }],
 		description: "<p>Remplissez ce champ de texte avec le libellé souhaité pour ajouter une nouvelle catégorie. Vous pouvez également associer une icône.</p>",
-		id: "third",
-		next: "fifth",
+		id: "finally",
 		autoFocus: true,
 		position: 7,
 		title: "Ajouter une catégorie",
@@ -43,26 +42,6 @@ $(document).ready(function() {
 		offset: {
 			top: 40,
 			left: -30
-		}
-	});
-	
-	$fourthStepButton = [{name: "Suivant", classString: "btn btn-info btn-small pull-right", onclick: guiders.next}];
-	if ($('.article').length == 0) {
-		$fourthStepButton = [];
-	}
-	
-	guiders.createGuider({
-		attachTo:".actions-bar",
-		buttons: [{name: "Suivant", classString: "btn btn-info btn-small pull-right", onclick: guiders.next}],
-		description: "<p>Vous pouvez gérer le statut d'un article.</p>",
-		id: "fifth",
-		position: 7,
-		autoFocus: true,
-		title: "Modifier le statut d'un article",
-		xButton: true,
-		offset: {
-			top: 35,
-			left: 0
 		}
 	});
 });

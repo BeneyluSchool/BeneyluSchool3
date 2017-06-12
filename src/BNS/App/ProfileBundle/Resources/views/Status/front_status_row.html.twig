@@ -1,19 +1,37 @@
+{% trans_default_domain "PROFILE" %}
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+
 <div class="status-row">
-	{% if feed.getProfileFeedStatus().getResource() != null %}
-		<img src="{{ getResourceImageUrl(feed.getProfileFeedStatus().getResource(), 'small') }}" alt="" />
-	{% endif %}
-	<p class="author"><strong>{{ feed.getAuthor().getFullName() }}</strong> - {{ date_from_now(feed.getDate().getTimestamp(), true, true) }}</p>
-	<p class="text-status">{{ feed.getProfileFeedStatus().getContent() }}</p>
-	<div class="clearfix"></div>
-</div>
-<div class="feed-{{ feed.getId() }}-comment-container">
-	{% render ('BNSAppCommentBundle:FrontComment:show') with {
+		{% if feed.getProfileFeedStatus().getResource() != null %}
+			<div class="text-center md-padding">
+				<img class="image-status md-whiteframe-z2" src="{{ getResourceImageUrl(feed.getProfileFeedStatus().getResource(), 'medium') }}" alt="" />
+			</div>
+		{% endif %}
+	<div class="layout-sm-column layout-gt-sm-row layout-align-start-center layout-margin">
+		{% if feed.getProfileFeedStatus().getModuleUniqueName() %}
+			<img class="image-status-text flex flex-none" src="{{ asset('assets/images/apps/'~(feed.getProfileFeedStatus().getModuleUniqueName()|replace('_', '-')|lower)~'/icon.png') }}" alt="">
+		{% else %}
+			<img class="image-status-text flex flex-none hide-sm" src="{{ asset('/medias/images/profile/profile-status.png') }}" alt="" />
+		{% endif %}
+		<div class="text-status flex layout-fill md-body-2">{{ feed.getProfileFeedStatus().getContent()|purify }}</div>
+	</div>
+	<div class="md-padding text-right">
+			{{ components.avatar(feed.getAuthor(), { size: 32 }) }}
+			{% if feed.getStatus() == 'PENDING_VALIDATION' %}
+				{{ 'STATUS_INFORMATION_STATUS_IN_MODERATION'|trans({'%dateCreation%': date_from_now(feed.getDate().getTimestamp(), true, true), '%userFullName%': feed.getAuthor().getFullName() |escape}) |desc('<strong> %userFullName% </strong> - %dateCreation% - <span>en attente de modération </span>') |raw }}
+			{% else %}
+				{{ 'STATUS_INFORMATION'|trans({'%dateCreation%': date_from_now(feed.getDate().getTimestamp(), true, true), '%userFullName%': feed.getAuthor().getFullName() |escape}) |desc('<strong> %userFullName% </strong> - %dateCreation%') |raw }}
+			{% endif %}
+	</div>
+	<div class="feed-{{ feed.getId() }}-comment-container">
+		{% render controller('BNSAppCommentBundle:FrontComment:show', {
 		'namespace': '\\BNS\\App\\CoreBundle\\Model\\ProfileComment',
 		'objectId': feed.getId(),
-		'comments': feed.getProfileCommentsInverse(),
+		'comments': feed.getProfileCommentsInverse(10),
 		'author': feed.getAuthor(),
-		'nbComments': feed.getNbComments(),
-		'ajaxLoading': true
-	} %}
-	<div class="clearfix"></div>
+		'ajaxLoading': true,
+		'material' : true,
+		}) %}
+	</div>
+	<md-divider></md-divider>
 </div>

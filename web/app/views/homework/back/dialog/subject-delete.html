@@ -1,0 +1,23 @@
+<md-dialog class="bns-dialog bns-dialog-warn">
+  <md-toolbar class="md-warn">
+    <div class="md-toolbar-tools">
+      <div class="md-headline"><h2 translate>HOMEWORK.TITLE_CONFIRM_DELETE_SUBJECT</h2></div>
+      <span flex></span>
+      <md-button ng-click="ctrl.abort()" class="md-icon-button" href>
+        <md-icon>close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content class="md-dialog-content">
+    <h3 class="md-title">{{::ctrl.subject.name}}</h3>
+    <div translate>HOMEWORK.DESCRIPTION_CONFIRM_DELETE_SUBJECT</div>
+  </md-dialog-content>
+  <div class="md-actions">
+    <md-button ng-click="ctrl.abort()" href>
+      <span ng-bind-html="'HOMEWORK.BUTTON_CANCEL'|translate|buttonize">.</span>
+    </md-button>
+    <md-button ng-click="ctrl.remove()" class="md-warn md-raised">
+      <span ng-bind-html="'HOMEWORK.BUTTON_DELETE_SUBJECT'|translate|buttonize">.</span>
+    </md-button>
+  </div>
+</md-dialog>

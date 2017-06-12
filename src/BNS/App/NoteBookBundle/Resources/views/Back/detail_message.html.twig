@@ -1,0 +1,69 @@
+{% extends 'BNSAppNoteBookBundle:Back:layout.back.html.twig' %}
+
+{% block title %}
+	Beneylu School - Cahier journal - Manager - Détail
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+	<script type="text/javascript" src="{{ asset('/medias/js/notebook/Back/detailMessage.js') }}"></script>
+{% endblock %}
+
+{% block header %}
+	<a href="{{ path('BNSAppNoteBookBundle_back') }}" class="btn bns-notice btn-24 medium-return">
+		<span class="icons-24 back-icon"></span>
+		<strong>Retourner</strong><br>à la liste
+	</a>
+	<a href="{{ path('BNSAppNoteBookBundle_back_edit', { 'slug' : new.getSlug() }) }}" class="btn bns-info btn-24 medium-return button-return">
+		<span class="icons-24 edit-icon"></span>
+		<strong>Éditer</strong><br>le message
+	</a>
+
+	<a href="{{ path('BNSAppNoteBookBundle_back_delete', { 'slug' : new.getSlug() }) }}" data-target="#deleteModal" data-toggle="modal" class="btn bns-danger btn-24 medium-return delete-item">
+		<span class="icons-24 delete-icon"></span>
+		<strong>Supprimer</strong><br>le message
+	</a>
+{% endblock header %}
+
+{% block sidebar %}
+	<div class="container-sidebar">
+		<div class="section active">
+			Détails du message
+			<span class="shadow-section"></span>
+		</div>
+		<div class="sidebar-shadow"></div>
+	</div>
+{% endblock sidebar %}
+
+{% block content %}
+	<div class="item visualisation">
+		<div class="header">
+			<h3>{{ new.title }}</h3>
+			<h5>{{ new.date | date_bns('full', 'none') | capitalize}}</h5>
+		</div>
+		<div class="footer">
+
+		</div>
+		<div class="text">
+			{{ new.content | purify }}
+		</div>
+		<div class="footer">
+			Le {{ new.getCreatedAt() | date_bns('full', 'short') }} par <img src="{{ avatar(new.getUser(), 'thumbnail') }}" alt="" class="avatar" /> {{ new.getUser().getFullName() }}
+		</div>
+		<div class="resources">
+			{% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias': new.getResourceAttachments,"editable": false, 'objectType': 'NoteBook', 'objectId': new.id} %}
+		</div>
+	</div>
+
+	{# Modale de suppression STPLé #}
+	{{ modal('deleteModal', {
+		'title': 'Suppression du message',
+		'body_template': {'template': 'BNSAppNoteBookBundle:Back:modal_body_delete_message.html.twig' },
+		'type': 'error',
+		'footer_template': {'template': 'BNSAppNoteBookBundle:Back:modal_footer_delete_message.html.twig' },
+	}) }}
+{% endblock %}
+
+
+

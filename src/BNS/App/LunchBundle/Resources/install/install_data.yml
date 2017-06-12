@@ -1,0 +1,59 @@
+module:
+  unique_name: LUNCH
+  is_contextable: false
+  name:
+    fr: Cantine
+    en: Lunch
+  description:
+    fr: Visualiser les menus de la semaine
+    en: See foods for weeks
+  default_rank:
+    pupil: USE
+    parent: USE
+    teacher: USE
+    other: USE
+
+permissions:
+  ACCESS:
+    label:
+      fr: Voir cantine
+      en: Canteen access
+    description:
+      fr: Donne accès à la cantine
+      en: Give access to the canteen app
+
+  ACCESS_BACK:
+    label:
+      fr: Gérer la cantine
+      en: Canteen management
+    description:
+      fr: Donne accès à la gestion de la cantine
+      en: Give access to canteen's management
+
+  ACTIVATION:
+    label:
+      fr: Activer la cantine
+      en: Enable the canteen
+    description:
+      fr: Permet d'activer la cantine
+      en: Allows to enable the canteen
+
+
+ranks:
+  USE:
+    label:
+      fr: Utiliser la cantine
+      en: Use the canteen
+    description:
+      fr:
+      en:
+    permissions: [ACCESS]
+
+  MANAGE:
+    label:
+      fr: Gérer la cantine
+      en: Manage the canteen
+    description:
+      fr:
+      en:
+    permissions: [ACCESS, ACCESS_BACK, ACTIVATION]

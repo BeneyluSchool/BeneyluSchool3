@@ -1,0 +1,35 @@
+<div ng-repeat="detail in ctrl.details" class="layout-row layout-align-start-center" ng-init="detailIndex = $index">
+  <div ng-form name="ctrl.form_{{detailIndex+'_'+detail.id}}" class="flex" >
+    <md-autocomplete md-items="suggestion in ctrl.getSuggestions(detail.label)"
+      md-search-text="detail.label"
+      md-search-text-change="ctrl.updateDetail(detail, ctrl['form_'+detailIndex+'_'+detail.id].detail)"
+      md-selected-item-change="ctrl.updateDetail(detail, ctrl['form_'+detailIndex+'_'+detail.id].detail)"
+      ng-disabled="detail.busy"
+      md-floating-label="."
+      md-min-length="0"
+      bns-no-label
+      bns-no-message
+      md-autoselect="true"
+      md-input-name="detail"
+      md-input-maxlength="300"
+      required
+    >
+      <md-item-template>{{suggestion}}</md-item-template>
+      <md-not-found><i class="md-body-1" translate>LSU.DESCRIPTION_CUSTOM_DETAIL</i></md-not-found>
+      <div ng-messages="ctrl['form_'+detailIndex+'_'+detail.id].detail.$error">
+        <div ng-message="required"><span translate>LSU.ERROR_DETAIL_REQUIRED</span></div>
+        <div ng-message="maxlength"><span translate>LSU.ERROR_DETAIL_TOO_LONG</span></div>
+      </div>
+    </md-autocomplete>
+  </div>
+
+  <md-button href class="md-icon-button" ng-click="ctrl.removeDetail(detail)" tabindex="-1">
+    <md-icon>clear</md-icon>
+  </md-button>
+</div>
+
+<div class="layout-row">
+  <md-button href ng-click="ctrl.addDetail()" class="md-raised flex btn-sm add-detail-btn">
+    <md-icon>add_circle</md-icon>
+  </md-button>
+</div>

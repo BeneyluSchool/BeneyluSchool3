@@ -2,7 +2,7 @@ BNS\App\CoreBundle\Model\GroupType:
   properties:
     type:
       - NotBlank: ~
-BNS\App\CoreBundle\Model\GroupTypeI18n:
-  properties:
-    label:
-       - NotBlank: ~
+BNS\App\CoreBundle\Model\User:
+    constraints:
+        - Callback:
+            methods:   [isLoginUsed]

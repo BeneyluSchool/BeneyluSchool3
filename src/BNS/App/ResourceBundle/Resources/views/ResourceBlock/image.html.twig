@@ -5,5 +5,14 @@
 	{% if class is not defined %}
 		{% set class = "span5" %}
 	{% endif %}
-	<img id="" class="{{class }}" src="{{ getResourceImageUrl(resource,size) }}" />
+	<img id="" class="{{ class }}" src="{{ getResourceImageUrl(resource, size) }}" />
+
+	{% if from_file_page is defined %}
+		<div class="download">
+			<a href="{{ path('BNSAppResourceBundle_download', { 'resourceSlug': resource.getSlug() }) }}" class="btn bns-notice btn-24 large" target='_blank'>
+				<span class="icons-24 preview-icon"></span>
+				Télécharger
+			</a>
+		</div>
+	{% endif %}
 {% endblock %}

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-09-09T12:53:20Z" source-language="en" target-language="es-AR" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="dc0504e3840d072a42c67bcf3ae41ec003d5d111" resname="BUTTON_BACK_TO_PREVIOUS_STEP">
+        <source>BUTTON_BACK_TO_PREVIOUS_STEP</source>
+        <target>Regresar | Etapa precedente</target>
+      </trans-unit>
+      <trans-unit id="20dcb001a684d816442623a8cfdc2f4859f65d63" resname="BUTTON_CANCEL">
+        <source>BUTTON_CANCEL</source>
+        <target>Cancelar</target>
+      </trans-unit>
+      <trans-unit id="a8412ca47306bd57318844a526eedb97f92c35d7" resname="BUTTON_CONFIRM">
+        <source>BUTTON_CONFIRM</source>
+        <target>Confirmar</target>
+      </trans-unit>
+      <trans-unit id="003e97e73ddc6efeebafa7db3b122572b0b1c33b" resname="BUTTON_CONTINUE">
+        <source>BUTTON_CONTINUE</source>
+        <target>Continuar</target>
+      </trans-unit>
+      <trans-unit id="ca33564c391f2ed37e5e8bfebc253353351ba05b" resname="BUTTON_DO_NOT_RECOVER">
+        <source>BUTTON_DO_NOT_RECOVER</source>
+        <target><![CDATA[No deseo recuperar<br>la información de mi antigua clase]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="5dde4819c44cbc65e00c4de505934252f512ca87" resname="BUTTON_DO_NOT_RECOVER_SCHOOL_DATA">
+        <source>BUTTON_DO_NOT_RECOVER_SCHOOL_DATA</source>
+        <target><![CDATA[No deseo recuperar<br>la información de mi antigua escuela]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="388e33a655034cb5ca507939676daec2df96f15f" resname="BUTTON_GOTO_CLASSROOM">
+        <source>BUTTON_GOTO_CLASSROOM</source>
+        <target>Accesar a la clase</target>
+      </trans-unit>
+      <trans-unit id="27dca37b6909c98745edad6a44007da305c11221" resname="BUTTON_NO">
+        <source>BUTTON_NO</source>
+        <target>No</target>
+      </trans-unit>
+      <trans-unit id="a090052c63a3ae612ccf1807c4d106f5e4c59e36" resname="BUTTON_RECOVER_PASSWORD">
+        <source>BUTTON_RECOVER_PASSWORD</source>
+        <target>Recuperar mi contraseña</target>
+      </trans-unit>
+      <trans-unit id="62aa3462cc49819495b6ec48f3dd8fcd4a36bccc" resname="BUTTON_SUBMIT">
+        <source>BUTTON_SUBMIT</source>
+        <target>Guardar</target>
+      </trans-unit>
+      <trans-unit id="4ca5204648c82664f193c17b2d6be5c51f133b50" resname="BUTTON_YES">
+        <source>BUTTON_YES</source>
+        <target>Si</target>
+      </trans-unit>
+      <trans-unit id="c06c7821874dba87890f6ab079d7b369e0d0d0f4" resname="DESCRIPTION_ACCOUNT_LINKED">
+        <source>DESCRIPTION_ACCOUNT_LINKED</source>
+        <target>Sus cuentas padre de familia han sido fusionadas</target>
+      </trans-unit>
+      <trans-unit id="1b3fffa8f5fa97827634dc7dc9b5cef7591ef32b" resname="DESCRIPTION_FROM_CLASSROOM">
+        <source>DESCRIPTION_FROM_CLASSROOM</source>
+        <target><![CDATA[A partir de la clase “<strong>{{label}}</strong>”]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="e9b937866c0a7132f20a4025f6d7eccece010699" resname="DESCRIPTION_HAD_PREVIOUS_ACCOUNT">
+        <source>DESCRIPTION_HAD_PREVIOUS_ACCOUNT</source>
+        <target><![CDATA[¿Ya tiene una cuenta <strong>{{beneylu_brand_name}}</strong>&nbsp;?<br>
+Si ya posee una, podremos proponerle de recuperar sus <strong>antiguos datos</strong>.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="0bf63186ecc3e66d9b1c2985fea056a193c7d221" resname="DESCRIPTION_INPUT_OLD_EMAIL">
+        <source>DESCRIPTION_INPUT_OLD_EMAIL</source>
+        <target>¿Puede por favor indicarnos su antiguo nombre de usuario para que podemos enviarle su información de conexión?</target>
+      </trans-unit>
+      <trans-unit id="29bfe0bfc98ac17f456d5bdb32d17881352acf41" resname="DESCRIPTION_NO_CHILDREN">
+        <source>DESCRIPTION_NO_CHILDREN</source>
+        <target>Ninguna cuenta alumno ligada</target>
+      </trans-unit>
+      <trans-unit id="fac16bb26b295f427012754aeed240fb131f2d95" resname="DESCRIPTION_NO_CLASSROOM">
+        <source>DESCRIPTION_NO_CLASSROOM</source>
+        <target>Ninguna clase</target>
+      </trans-unit>
+      <trans-unit id="e6c536475b388e5fbbefca987207dc595ae040f2" resname="DESCRIPTION_NO_CLASSROOM_FOUND">
+        <source>DESCRIPTION_NO_CLASSROOM_FOUND</source>
+        <target>Ninguna clase ha sido encontrada</target>
+      </trans-unit>
+      <trans-unit id="288e17b780d52703385919efcbf0f27e4f868ce4" resname="DESCRIPTION_NO_PROCESSING">
+        <source>DESCRIPTION_NO_PROCESSING</source>
+        <target>No hay ningún dato a recuperar</target>
+      </trans-unit>
+      <trans-unit id="ac27ae451544c70bdead682adea0098a2dd6b877" resname="DESCRIPTION_NO_PUPIL_LINKED">
+        <source>DESCRIPTION_NO_PUPIL_LINKED</source>
+        <target>Ningún alumno ha sido asociado, le aconsejamos generar una nueva ficha de conexión a partir del modo gestión de su clase y proporcionarle el nuevo nombre de usuario y contraseña.</target>
+      </trans-unit>
+      <trans-unit id="ddbdfc22802a9803dbdb05c789ec2f6aa59bf2d8" resname="DESCRIPTION_NO_PUPIL_TO_RECOVER">
+        <source>DESCRIPTION_NO_PUPIL_TO_RECOVER</source>
+        <target>No hay ningún alumno en esta nueva clase.</target>
+      </trans-unit>
+      <trans-unit id="48ea626621efb50e6ce2782ae61b87b03b2b7721" resname="DESCRIPTION_NO_RECOVER">
+        <source>DESCRIPTION_NO_RECOVER</source>
+        <target>La información y los alumnos de su antigua clase no podrán ser recuperados más tarde.</target>
+      </trans-unit>
+      <trans-unit id="a375d9c0eb8c9af72a00d7ca7d7137ec477e7556" resname="DESCRIPTION_NO_RECOVER_DATA">
+        <source>DESCRIPTION_NO_RECOVER_DATA</source>
+        <target>La información de su antigua clase no podrá ser recuperada más tarde.</target>
+      </trans-unit>
+      <trans-unit id="869eddae8007e3afc41f64922f6ed5743fd4f0ba" resname="DESCRIPTION_NO_RECOVER_SCHOOL_DATA">
+        <source>DESCRIPTION_NO_RECOVER_SCHOOL_DATA</source>
+        <target>La información de su antigua escuela no podrá ser recuperada más tarde.</target>
+      </trans-unit>
+      <trans-unit id="1a8fe2840beb418855fbedf8a05224a457855026" resname="DESCRIPTION_NO_SCHOOL_FOUND">
+        <source>DESCRIPTION_NO_SCHOOL_FOUND</source>
+        <target>Ninguna escuela ha sido encontrada</target>
+      </trans-unit>
+      <trans-unit id="c1248186c12bd477b3766b783ec36e9d53e3e87a" resname="DESCRIPTION_NO_USER">
+        <source>DESCRIPTION_NO_USER</source>
+        <target>Ningún usuario</target>
+      </trans-unit>
+      <trans-unit id="36943f8276a70c393f8ef493ff21a3f948254177" resname="DESCRIPTION_PREVIOUS_CREDENTIALS">
+        <source>DESCRIPTION_PREVIOUS_CREDENTIALS</source>
+        <target>¿Puede por favor indicarnos su antiguo nombre de usuario y antigua contraseña?</target>
+      </trans-unit>
+      <trans-unit id="a18cf8aecf4016117b72dbd1c04fc5d9144a8abf" resname="DESCRIPTION_PROCESSING">
+        <source>DESCRIPTION_PROCESSING</source>
+        <target><![CDATA[Le confirmamos que el tratamiento esta en curso. La información llegará progresivamente a su nueva clase<br>
+Las cuentas padres de familia de los alumnos que ha asociado puede conectarse: la pantalla aquí abajo les será mostrada para que ellos confirmen la cuenta con la que desean conectarse]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="61d38ce8b0a37809a4fb488f48153a1dfefee63b" resname="DESCRIPTION_RESET_PASSWORD_SENT">
+        <source>DESCRIPTION_RESET_PASSWORD_SENT</source>
+        <target>Le hemos enviado un correo electrónico que contiene un enlace para recibir su nueva contraseña. Una vez terminado el proceso, regrese a esta página y escriba su nombre de usuario y contraseña.</target>
+      </trans-unit>
+      <trans-unit id="eb793a9ea77bae9892060c6f9276c5769362287d" resname="DESCRIPTION_UPDATE_PASSWORD">
+        <source>DESCRIPTION_UPDATE_PASSWORD</source>
+        <target><![CDATA[Elija una nueva contraseña.<br>Su contraseña debe contener al menos 8 caracteres, de los cuales, al menos uno debe ser un número y un caracter especial (@, €, # ...)]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="7cfc68887db6b55415d0f5e123b3eb5626516c24" resname="FLASH_CHANGE_PASSWORD_ERROR">
+        <source>FLASH_CHANGE_PASSWORD_ERROR</source>
+        <target>La contraseña no ha podido actualizarse</target>
+      </trans-unit>
+      <trans-unit id="606f976d05d9558e84499e8414b319f4558ebdef" resname="FLASH_CHANGE_PASSWORD_SUCCESS">
+        <source>FLASH_CHANGE_PASSWORD_SUCCESS</source>
+        <target>Contraseña actualizada</target>
+      </trans-unit>
+      <trans-unit id="bc040e8202af125315b8e9541b18ebc83b3d8377" resname="FLASH_ERROR_ACCOUNT_NOT_FOUND">
+        <source>FLASH_ERROR_ACCOUNT_NOT_FOUND</source>
+        <target>Esta cuenta no ha podido ser encontrada</target>
+      </trans-unit>
+      <trans-unit id="2d567bc2167e8a5b7a7f7d38240c19b930f59f2a" resname="FLASH_ERROR_INVALID_OR_NOT_FOUND">
+        <source>FLASH_ERROR_INVALID_OR_NOT_FOUND</source>
+        <target>La cuenta no ha podido ser encontrada: no existe, o la información proporcionada no es valida. </target>
+      </trans-unit>
+      <trans-unit id="b548f3c3bd182c8d7fe44113c7409af361cd3c4f" resname="FLASH_LINK_PARENT_ACCOUNT_ERROR">
+        <source>FLASH_LINK_PARENT_ACCOUNT_ERROR</source>
+        <target>La cuenta padre de familia no ha podido ser fusionada</target>
+      </trans-unit>
+      <trans-unit id="cf72b03e98438ab13df9f72fdb72688495e9421d" resname="FLASH_LOAD_PARENT_ACCOUNTS_ERROR">
+        <source>FLASH_LOAD_PARENT_ACCOUNTS_ERROR</source>
+        <target>Error al momento de cargar las cuentas padre de familia</target>
+      </trans-unit>
+      <trans-unit id="9b4629039373e93e7c006cf59591ad303dea69f5" resname="FLASH_RESET_PASSWORD_ERROR">
+        <source>FLASH_RESET_PASSWORD_ERROR</source>
+        <target>Error al momento de la recuperación de la contraseña</target>
+      </trans-unit>
+      <trans-unit id="c6460420fb319b410103c7dc5f92ac508f3f1c33" resname="INVALID_CURRENT_PASSWORD">
+        <source>INVALID_CURRENT_PASSWORD</source>
+        <target>Su contraseña no corresponde a su contraseña actual</target>
+      </trans-unit>
+      <trans-unit id="3c9ddde62d1b1df249805e6ce3b788450a95e99f" resname="INVALID_PASSWORD_MIN_LENGTH">
+        <source>INVALID_PASSWORD_MIN_LENGTH</source>
+        <target>Su nueva contraseña debe contener al menos {{length}} caracteres</target>
+      </trans-unit>
+      <trans-unit id="eeffb8adb0ceb633b60dcd7cb193afa3b818edeb" resname="INVALID_PASSWORD_MISSING_NUMBER">
+        <source>INVALID_PASSWORD_MISSING_NUMBER</source>
+        <target>Su nueva contraseña debe contener al menos un número</target>
+      </trans-unit>
+      <trans-unit id="376fa6096e08feae474ebc4686ec61e0e3ec0460" resname="INVALID_PASSWORD_MISSING_SPECIAL">
+        <source>INVALID_PASSWORD_MISSING_SPECIAL</source>
+        <target>Su nueva contraseña debe contener al menos un caracter especial</target>
+      </trans-unit>
+      <trans-unit id="fdefd90ae8a7862f5f6b33f97ea3dad83078ed42" resname="INVALID_PASSWORD_REPEATED">
+        <source>INVALID_PASSWORD_REPEATED</source>
+        <target>La contraseña no es correcta</target>
+      </trans-unit>
+      <trans-unit id="b25afdc802c6e22e4bb8058665a10dd7c915421e" resname="LABEL_CURRENT_PASSWORD">
+        <source>LABEL_CURRENT_PASSWORD</source>
+        <target>Su contraseña actual</target>
+      </trans-unit>
+      <trans-unit id="2737e0a40d9ba5f6fd87d24ed91a34b3ba0dbe98" resname="LABEL_NEW_PASSWORD">
+        <source>LABEL_NEW_PASSWORD</source>
+        <target>Su nueva contraseña</target>
+      </trans-unit>
+      <trans-unit id="12082f84e90b0ffa35d2b70752fcbdbbdab7243a" resname="LABEL_OLD_IDENTIFIER">
+        <source>LABEL_OLD_IDENTIFIER</source>
+        <target>Antiguo nombre de usuario o correo electrónico</target>
+      </trans-unit>
+      <trans-unit id="77cceaff20aa371ad99d4a8ea20791240dbe45d2" resname="LABEL_OLD_PASSWORD">
+        <source>LABEL_OLD_PASSWORD</source>
+        <target>Contraseña de su antigua cuenta</target>
+      </trans-unit>
+      <trans-unit id="5c1f063b7e16795f928bd52f374cae90a2a8178d" resname="LABEL_OLD_USERNAME">
+        <source>LABEL_OLD_USERNAME</source>
+        <target>Nombre de usuario de su antigua cuenta</target>
+      </trans-unit>
+      <trans-unit id="24bcdda2c789cc0ba5cedcde6be33bf761e4c9ef" resname="LABEL_REPEAT_NEW_PASSWORD">
+        <source>LABEL_REPEAT_NEW_PASSWORD</source>
+        <target>Confirmación de su nueva contraseña</target>
+      </trans-unit>
+      <trans-unit id="007703a4ea5db40c36fe849a89431184c151e9b3" resname="LINK_DO_NOT_RECOVER_CLASSROOM">
+        <source>LINK_DO_NOT_RECOVER_CLASSROOM</source>
+        <target>No deseo recuperar mi antigua clase</target>
+      </trans-unit>
+      <trans-unit id="f91a5230cc0823753a650fb4e3b65d7096fbecaa" resname="LINK_DO_NOT_RECOVER_CLASSROOM_DATA">
+        <source>LINK_DO_NOT_RECOVER_CLASSROOM_DATA</source>
+        <target>No deseo recuperar la información de mi antigua clase</target>
+      </trans-unit>
+      <trans-unit id="ef4df8b61baa2a258f2f08a0e39e06ca1325f8b7" resname="LINK_DO_NOT_RECOVER_SCHOOL">
+        <source>LINK_DO_NOT_RECOVER_SCHOOL</source>
+        <target>No deseo recuperar mi antigua escuela</target>
+      </trans-unit>
+      <trans-unit id="d681992cd78ac766b11e094bf70114ff2594b845" resname="LINK_FORGOT_CREDENTIALS">
+        <source>LINK_FORGOT_CREDENTIALS</source>
+        <target>No recuerdo mi antigua información de conexión</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

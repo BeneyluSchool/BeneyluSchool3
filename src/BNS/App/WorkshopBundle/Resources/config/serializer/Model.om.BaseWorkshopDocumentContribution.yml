@@ -1,0 +1,11 @@
+BNS\App\WorkshopBundle\Model\om\BaseWorkshopDocumentContribution:
+  exclusion_policy: All
+  properties:
+    user_id:
+      expose: true
+    workshop_document_id:
+      expose: true
+    created_at:
+      expose: true
+    updated_at:
+      expose: true

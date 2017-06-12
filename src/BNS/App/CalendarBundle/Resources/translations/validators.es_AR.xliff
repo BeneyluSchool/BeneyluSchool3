@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-10-29T17:51:10Z" source-language="en" target-language="es-AR" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="acf4142ba3c0a5951f49b535458bc355aab68738" resname="INVALID_AGENDA_EMPTY">
+        <source>INVALID_AGENDA_EMPTY</source>
+        <target state="new">Debés especificar en qué calendario quieres que se muestre el evento.</target>
+      </trans-unit>
+      <trans-unit id="483585b7818120e69cea531ca5c59e93bf610611" resname="INVALID_END_DATE_EMPTY">
+        <source>INVALID_END_DATE_EMPTY</source>
+        <target state="new">Debés rellenar la fecha de finalización del evento.</target>
+      </trans-unit>
+      <trans-unit id="deb9bd1c266818dff77cf154d7308041a9ec9060" resname="INVALID_END_DATE_INVALID">
+        <source>INVALID_END_DATE_INVALID</source>
+        <target state="new">La fecha de finalización introducida no es válida.</target>
+      </trans-unit>
+      <trans-unit id="274aecc7eb6c054ace9f83f900b68b171723ab15" resname="INVALID_RECCURRENCE_DATE_INVALID">
+        <source>INVALID_RECCURRENCE_DATE_INVALID</source>
+        <target state="new">La fecha de finalización de la repetición no es válida.</target>
+      </trans-unit>
+      <trans-unit id="dd7fac2c66fefcdf4a9b63a2d580a7949ea5a920" resname="INVALID_START_DATE_EMPTY">
+        <source>INVALID_START_DATE_EMPTY</source>
+        <target state="new">Debés rellenar la fecha de inicio del evento.</target>
+      </trans-unit>
+      <trans-unit id="ce94299a1af21c20d8e5df069507b9a3c1784ed5" resname="INVALID_START_DATE_INVALID">
+        <source>INVALID_START_DATE_INVALID</source>
+        <target state="new">La fecha de inicio introducida no es válida.</target>
+      </trans-unit>
+      <trans-unit id="bcc546b08d54cbc850fbcc07e265a2147231b9ef" resname="INVALID_TITLE_EMPTY">
+        <source>INVALID_TITLE_EMPTY</source>
+        <target state="new">Introducí un título</target>
+      </trans-unit>
+      <trans-unit id="51cd407898b2f3a03aef1ee35ad735255af90727" resname="INVALID_TITLE_TOO_LONG">
+        <source>INVALID_TITLE_TOO_LONG</source>
+        <target state="new">El título es demasiado largo</target>
+      </trans-unit>
+      <trans-unit id="d3d0f3056f5e1e20e7071bd7caac9133122035bd" resname="INVALID_TITLE_TOO_SHORT">
+        <source>INVALID_TITLE_TOO_SHORT</source>
+        <target state="new">El título es demasiado corto (mínimo {{ limit }} caracteres)|El apellido es demasiado corto (mínimo {{ limit }} caracteres)</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

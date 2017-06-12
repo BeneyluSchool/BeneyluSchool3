@@ -1,0 +1,17 @@
+<ul class="user-directory-group-list">
+  <li ng-repeat="list in ctrl.list"
+    ng-click="ctrl.handleClick(list) !== false ? ctrl.toggle(list) : ''"
+    ng-class="{ selected: ctrl.selection.has(list) }"
+    class="user-directory-group"
+  >
+    <span class="group-selector" ng-click="ctrl.toggle(list); $event.stopPropagation();">
+      <input type="checkbox" ng-checked="ctrl.selection.has(list)" ng-disabled="ctrl.isLocked(list)">
+    </span>
+    <span class="group-image">
+      <img ng-src="{{::ctrl.imageUrl}}">
+    </span>
+    <span class="group-label" ng-click="ctrl.toggle(list); $event.stopPropagation();">
+      {{ ::list.name }}
+    </span>
+  </li>
+</ul>

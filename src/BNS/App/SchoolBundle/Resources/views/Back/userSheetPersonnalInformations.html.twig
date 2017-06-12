@@ -1,0 +1,45 @@
+{% trans_default_domain "SCHOOL" %}
+<div class="news-title">
+  <h1 class="dashboard">{% trans %}TITLE_PROFIL{% endtrans %}</h1>
+</div>
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="row-fluid profil-detail-content">
+            <div class="span7">
+                <div class="content-profile">
+                    {% if user.getProfile().getJob() != null %}
+                    <p class="type">
+                        {% if user.getId() == app.user.id %}
+                            {{ 'I_WANT_TO_BE'|trans({'%job%': user.getProfile().getJob()}) |desc('Je voudrais être <i>%job%</i>') |raw }}
+                        {% else %}
+                            {{ 'WANT_TO_BE'|trans({'%job%': user.getProfile().getJob()}) |desc('voudrait être <i>%job%</i>') |raw }}
+                        {% endif %}
+
+
+                    </p>
+                    {% endif %}
+                  <p class="description">
+                      <strong>
+                          {% trans %}PRESENTATION{% endtrans %}
+                      </strong>
+                  </p>
+                    <p class="type">
+                        {%if user.getProfile().getDescription() is null %}
+                          <i>
+                              {% trans %}NO_PRESENTATION_GIVE{% endtrans %}
+                          </i>
+                        {% else %}
+                            {{ user.getProfile().getDescription() }}
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            <div class="span5">
+                <div class="feelings">
+                    {{ render(controller('BNSAppProfileBundle:Preferences:index', {'user': user, 'editable': 0, 'isMyPreferences': user.getId() == app.user.id} )) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

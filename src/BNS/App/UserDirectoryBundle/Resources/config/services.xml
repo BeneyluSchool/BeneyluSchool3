@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="install_process_bns_app_user_directory_bundle.class">BNS\App\UserDirectoryBundle\Install\InstallProcess</parameter>
+    </parameters>
+
+    <services>
+        <service id="install_process_bns_app_user_directory_bundle" class="%install_process_bns_app_user_directory_bundle.class%">
+            <tag name="bns.install_process" />
+        </service>
+
+        <!-- Event listeners -->
+        <service id="bns.user_directory.group_serialize_listener" class="BNS\App\UserDirectoryBundle\EventListener\GroupSerializeSubscriber">
+            <argument type="service" id="bns.user_directory.group_manager" />
+            <argument type="service" id="bns.user_directory.right_manager" />
+            <argument type="service" id="router" />
+            <argument type="service" id="service_container" />
+            <tag name="jms_serializer.event_subscriber" />
+        </service>
+
+        <!-- Managers -->
+        <service id="bns.user_directory.manager" class="BNS\App\UserDirectoryBundle\Manager\UserDirectoryManager">
+            <argument type="service" id="bns.user_manager" />
+            <argument type="service" id="bns.group_manager" />
+            <argument type="service" id="service_container" />
+        </service>
+        <service id="bns.user_directory.group_manager" class="BNS\App\UserDirectoryBundle\Manager\GroupManager">
+            <argument type="service" id="bns.team_manager" />
+        </service>
+        <service id="bns.user_directory.right_manager" class="BNS\App\UserDirectoryBundle\Manager\UserDirectoryRightManager">
+            <argument type="service" id="service_container" />
+        </service>
+        <service id="bns.user_directory.distribution_list_manager" class="BNS\App\UserDirectoryBundle\Manager\DistributionListManager"/>
+
+        <!-- Stats -->
+        <service id="stat.user_directory" class="BNS\App\UserDirectoryBundle\Statistic\UserDirectoryStatisticsService">
+            <argument type="service" id="service_container" />
+        </service>
+    </services>
+</container>

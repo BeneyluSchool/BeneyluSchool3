@@ -2,16 +2,159 @@
 
 {% block javascripts %}
 	{{ parent() }}
+	<script type="text/javascript" src="{{ asset('/medias/js/manager-menu.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/medias/js/jquery.ui.nestedSortable.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('/medias/js/fg.menu.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/category/category.js') }}"></script>
 	<script type="text/javascript">
-		function itemClicked(item){
-			$('#choice').show();
-			$('#add-label-submit').show();
-			$('#choice-label').text($(item).text());
-			$('#label_input_parent_id').val($(item).attr('id'));
-		}	
-    </script>
+		var categoriesRoutes = {
+			sort: '{{ path('BNSAppResourceBundle_label_save_sort') }}',
+			edit: '{{ path('BNSAppResourceBundle_label_edit_complexe_id') }}',
+			remove: '{{ path('BNSAppResourceBundle_label_delete_by_complexe_id') }}',
+			insert: '{{ path('BNSAppResourceBundle_label_save_add') }}',
+		};
+	</script>
+		<script type="text/javascript">
+	    $(function ()
+	    {
+
+		// Drag'n'drop categories
+		$('.content-categories-management ol.load-sortable').nestedSortable({
+			forcePlaceholderSize: true,
+			errorClass: 'nested-error',
+			handle: 'div .list-grip',
+			helper:	'original',
+			items: 'li',
+			maxLevels: 100, // si sous-catégorie, mettre 2, sinon 1
+			opacity: .6,
+			placeholder: 'nested-placeholder',
+			revert: 200,
+			tabSize: 25,
+			distance: 10,
+			tolerance: 'pointer',
+			toleranceElement: '> div',
+			//cancel: '.active',
+			apply: function (e, h)
+			{
+			    var object = h.item[0].id.split('_')[1];
+			    var dump = $(this).nestedSortable('toHierarchy', {
+				    startDepthCount: 0,
+				    placeholder: 'nested-placeholder'
+			    });
+
+			    // Save dump
+			    $.ajax({
+				    url: categoriesRoutes.sort,
+				    type: 'POST',
+				    dataType: 'json',
+				    data: {'categories': dump, 'object': object}
+			    });
+			}
+		});
+		
+		// Add category process
+		// Submit new category
+		$('#new-category-modal .submit-create-category-surcharge').click(function (e)
+		{
+		    var $this = $(e.currentTarget),
+		    $modalBody = $('#new-category-modal .modal-body'),
+		    $loader = $modalBody.find('.loader');
+			
+		    if ($modalBody.find('.category-editor input[type="text"]').val().length == 0) {
+			    $modalBody.find('.bns-alert.empty').slideDown('fast');
+			    return false;
+		    }
+
+		    $loader.fadeIn('fast');
+
+			var parentId = 0;
+
+			if ($modalBody.find('#selector').val() == 'select') {
+				parentId = $modalBody.find('#radio_0').val();
+			}
+			else {
+				parentId = $modalBody.find('input[name="parent"]:checked').val();
+			}
+
+		    $.ajax({
+			    url: categoriesRoutes.insert,
+			    type: 'POST',
+			    dataType: 'html',
+			    data: {
+					'title': $modalBody.find('input[type="text"]').val(),
+					'parentId': parentId,
+					'iconName': $modalBody.find('.category-icon-selector span').attr('class')
+				},
+			    success: function (data)
+			    {
+				    var $category = $(data);
+				    $category.css('display', 'none').find('div').first().addClass('new-animation new');
+				    $('.manageable_list_' + parentId).prepend($category);
+				    
+				    $('.manageable_list_' + parentId).find('.no-item').slideUp('fast');
+				    
+				    $category.slideDown('fast', function ()
+				    {
+					    $category.find('div').first().removeClass('new');
+					    setTimeout(function ()
+					    {
+						    $category.find('div').first().removeClass('new-animation');
+					    }, 5000);
+				    });
+			    }
+		    }).done(function ()
+		    {
+			    // Reset modal
+			    $modalBody.find('input[type="text"]').val('');
+			    $loader.fadeOut('fast');
+			    $('.bns-alert').slideUp('fast');
+			    
+			    if ($this.data('dismiss') == 'close-modal') {
+				$('#new-category-modal').modal('hide');
+				$('.bns-alert.alert-success').slideDown('fast');
+				$modalBody.find('.bns-alert.alert-success').hide();
+			    }
+			    else
+			    {
+				$modalBody.find('.bns-alert.alert-success').slideDown('fast');
+			    }
+			    setTimeout(function ()
+			    {
+				    $('.bns-alert').slideUp('fast');
+			    }, 8000); // 8 seconds
+			    
+		    });
+		});
+		
+		
+		// Deleting category modal process
+		$('#delete-category-modal .delete-category-button-complexe-delete').click(function (e)
+		{
+			var $this = $(e.currentTarget),
+				$modal = $('#delete-category-modal'),
+				categoryId = $modal.find('input#delete-category-id').val();
+
+			$this.addClass('disabled').attr('disabled', 'disabled');
+			$('.content-categories-management ol.load-sortable li#list_' + categoryId).slideUp('fast', function ()
+			{
+				$modal.modal('hide');
+				$this.removeClass('disabled').removeAttr('disabled');
+				var parent = $(this).parent();
+				$(this).remove();
+				if(parent.find('li').length == 0)
+				{
+				    parent.find('.no-item').slideDown('fast');
+				}
+			});
+
+			$.ajax({
+				url: categoriesRoutes.remove,
+				type: 'POST',
+				data: {'id': categoryId}
+			});
+		});
+		
+	    });
+	</script>
 {% endblock %}	
 
 {% block css %}
@@ -29,11 +172,18 @@
 	<div class="inner-header">
 		<div class="container container-fluid">
 			<div class="row-fluid">
-				<div class="span9">
-					<a href="#" id="add-label-button" class="btn bns-info btn-24 large"><span class="icons-24 add-icon"></span>Ajouter un libellé</a>
+				<div class="span6">
+					<a href="#" class="btn bns-info btn-24 large button-return add-category-button" data-target="#new-category-modal" data-toggle="modal">
+						<span class="icons-24 add-icon"></span>
+						Ajouter un libellé
+					</a>
 				</div>
-				<div class="span3 align-right">
-
+				<div class="span6 align-right switchable-menu" id="default-header"></div>
+				<div class="span6 align-right switchable-menu hide" id="category-edit-mode" data-effect="drop">
+					<a href="#" data-toggle="menu" data-target="#default-header" class="btn bns-danger btn-24 medium-return cancel-button">
+						<span class="icons-24 cancel-icon"></span>
+						<strong>Annuler</strong><br />les modifications
+					</a>
 				</div>
 			</div>
 		</div>
@@ -44,37 +194,36 @@
 	
 {% block content %}
 	<div class="content-resource-back">
+		<div class="alert alert-success bns-alert" style="display: none;">
+		    Le libellé a bien été ajouté 
+		    <div class="jim"></div>
+		</div>
 		<div class="news-title">
 			<h1 class="dashboard">Personnalisation</h1>
 		</div>
-
-		<form id="add-label-form" style="display:none" action="{{ path('BNSAppResourceBundle_label_add') }}" method="POST" style="margin: 0" id="add_label" onsubmit="return false;">
-			<input id="label_input_parent_id" type="hidden" />
-			
-			<div class="controls">
-				<div class="input-append personnalisation-libel">
-					<input id="label-input-label" class="span4" type="text" required="true" placeholder="Titre du nouveau libellé">
-					<button id="add-label-cancel" class="btn btn-danger" type="button" style="display:none;">Annuler</button>
-					<button id="add-label-submit" class="btn btn-success btn-access" type="button" style="display:none;">Valider</button>
-				</div>
-			</div>
-			<div class="input-append alert-resource">
-				<div id="choice" style="display:none;" class="alert alert-success span3">
-					<b>Destination :</b> <span id="choice-label"></span>
-				</div>
-			</div>
-			<div class="button-destination">
-				{% render "BNSAppResourceBundle:Label:choose" with{ 'show_destination': false} %}
-			</div>
-		</form>
-
 		<div id="user_{{app.user.getUser.getId}}_list">
-			{% render "BNSAppResourceBundle:Label:listEdit" with {'type' : "user", 'user' : app.user.getUser } %}
+			{{ render(controller('BNSAppResourceBundle:Label:listEdit', {'type' : "user", 'user' : app.user.getUser, 'manageable_list_id': "manageable_list_0" } )) }}
 		</div>
 		{% for group in manageable_groups %}
 			<div id="group_{{ group.getId }}_list">
-				{% render "BNSAppResourceBundle:Label:listEdit" with {'type' : "group", 'group' : group } %}
+				{{ render(controller('BNSAppResourceBundle:Label:listEdit', {'type' : "group", 'group' : group, 'manageable_list_id': "manageable_list_"~group.getId} )) }}
 			</div>
 		{% endfor %}
 	</div>
+	
+	{# Attention à ne pas oublier de copier les templates des modals et à ne pas modifier l'ID de la modal, sinon le JS ne fonctionnera plus #}
+	{{ modal('new-category-modal', {
+		'title': 'Ajouter un libellé',
+		'body_template': {'template': 'BNSAppResourceBundle:Modal:category_management_add_body.html.twig', 'values': { 'parents': manageable_groups } },
+		'footer_template': {'template': 'BNSAppResourceBundle:Modal:category_management_add_footer.html.twig'},
+		'type': 'info'
+	}) }}
+
+	{{ modal('delete-category-modal', {
+		'title': "Suppression d'un libellé",
+		'body_template': {'template': 'BNSAppResourceBundle:Modal:category_management_delete_body.html.twig'},
+		'footer_template': {'template': 'BNSAppResourceBundle:Modal:category_management_delete_footer.html.twig'},
+		'type': 'error'
+	}) }}
+	
 {% endblock %}

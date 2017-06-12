@@ -4,12 +4,41 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
 
     <class name="BNS\App\ProfileBundle\Form\Model\ProfileFormModel">
-        <property name="email">
+        <property name="firstName">
             <constraint name="NotBlank">
-				<option name="message">Veuillez choisir votre adresse e-mail !</option>
-			</constraint>
+		<option name="message">INVALID_FIRST_NAME_EMPTY</option>
+	    </constraint>
+        </property>
+	    <property name="lastName">
+            <constraint name="NotBlank">
+		<option name="message">INVALID_SURNAME_EMPTY</option>
+	    </constraint>
+        </property>
+        <property name="email">
 			<constraint name="Email">
-				<option name="message">L'adresse e-mail renseignée est invalide, veuillez réessayer</option>
+				<option name="message">INVALID_EMAIL</option>
+			</constraint>
+        </property>
+        <property name="email_private">
+            <constraint name="Email">
+                <option name="message">INVALID_SECONDARY_EMAIL</option>
+            </constraint>
+        </property>
+		<constraint name="Callback">
+			<option name="methods">
+				<value>isEmailBlankForAdult</value>
+			</option>
+		</constraint>
+    </class>
+
+	<class name="BNS\App\ProfileBundle\Form\Model\ProfileFeedFormModel">
+        <property name="text">
+			<constraint name="Length">
+				<option name="min">3</option>
+				<option name="minMessage">INVALID_STATUS_TOO_SHORT</option>
+			</constraint>
+			<constraint name="NotBlank">
+				<option name="message">INVALID_STATUS_EMPTY</option>
 			</constraint>
         </property>
     </class>

@@ -1,0 +1,44 @@
+<div ng-show="uploader.queue.length" class="media-library-sidebar-section">
+
+  <div class="media-library-sidebar-header">
+    <div class="media-library-upload-parts">{{ uploader.queue.length - uploader.getNotUploadedItems().length }}/{{ uploader.queue.length }}</div>
+    <i ng-class="{ 'bns-icon-upload': uploader.isUploading, 'bns-icon-checkmark': !uploader.isUploading }" class="media-library-upload-icon round"></i>
+    <h4 class="media-library-upload-heading" translate>MEDIA_LIBRARY.IMPORT</h4>
+    <div class="media-library-upload-state">
+      <span ng-show="uploader.isUploading" translate>MEDIA_LIBRARY.IN_PROGRESS</span>
+      <span ng-show="!uploader.isUploading && uploader.progress" translate>MEDIA_LIBRARY.FINISHED_F</span>
+    </div>
+  </div>
+
+  <div class="media-library-sidebar-content">
+    <bns-starter-kit-pointer step="1-2.1" pointer="loader"></bns-starter-kit-pointer>
+    <scrollable>
+
+      <input type="file" nv-file-select uploader="uploader" multiple id="uploader" class="upload-hidden">
+
+      <span ng-if="!uploader.isUploading" ng-click="uploader.clearQueue()"
+        class="media-library-empty-upload-queue action-link"
+        translate
+      >MEDIA_LIBRARY.EMPTY_UPLOAD_QUEUE</span>
+
+      <ul class="media-library-upload-list">
+        <li ng-repeat="item in uploader.queue" ng-class="{ 'upload-error': item.isError, 'upload-success': item.isSuccess }" class="media-library-upload-item">
+          <div class="upload-actions">
+            <span ng-if="!item.isSuccess && !uploader.isUploading" ng-click="item.upload()" class="refresh"><i class="icon-refresh"></i></span>
+            <span ng-click="item.remove()" class="remove"><i class="icon-remove"></i></span>
+          </div>
+          <div>
+            {{ item.file.name }}
+          </div>
+          <div class="clearfix"></div>
+          <div class="progress-label">{{ item.progress }}%</div>
+          <div class="progress">
+            <div class="bar" ng-style="{ width: item.progress + '%' }"></div>
+          </div>
+        </li>
+      </ul>
+
+    </scrollable>
+  </div>
+
+</div>

@@ -1,0 +1,17 @@
+/*Customizable style for underlining mis-spelled words*/
+span.cordial-typo {
+	cursor: auto;
+	/*background: url(wiggle.png) repeat-x bottom left;*/
+	border-bottom: 1px double red;
+	}
+	
+span.cordial-gramm {
+	cursor: auto;
+	/*background: url(wiggle.png) repeat-x bottom left;*/
+	border-bottom: 1px double blue;
+	}
+
+.mce-i-cordialModifier:before {
+    content: url("/library/tinymce/js/tinymce/plugins/cordial/theme/picto_menu_contextuel_editer.png");
+
+}

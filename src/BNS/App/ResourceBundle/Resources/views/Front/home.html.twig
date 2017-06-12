@@ -1,0 +1,79 @@
+{% extends 'BNSAppResourceBundle:Front:layout.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script type="text/javascript">
+		$(function ()
+		{
+			// Click sur une ligne de la home
+			$('.last-resources-container .item-container .document').click(function (e)
+			{
+				$(e.currentTarget).find('.see-button').get(0).click();
+			});
+		});
+	</script>
+
+	{# ToolBar settings #}
+	{% include 'BNSAppResourceBundle:ToolBar:toolbar_settings.html.twig' with {
+		'objectiveContext': objectiveContext,
+		'allowedType': allowedType
+	} %}
+{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+{% endblock %}
+
+{% block tool_bar %}
+	{{ render(controller('BNSAppResourceBundle:FrontToolBar:show', {'canBeClosed': not insertDockBar} )) }}
+{% endblock %}
+
+{% block content %}
+    <div class="last-resources-container">
+        <h1>{{ nbAuthorisedGroups|length < 2 ? "Derniers documents ajoutés" : "Derniers documents ajoutés dans vos médiathèques" }}</h1>
+
+        <div class="item-container list">
+            {% for resource in lastResources %}
+                <div class="document">
+                    <div class="document-description">
+                        <img src="{{ getResourceImageUrl(resource, 'thumbnail') }}" class="document-icon" />
+                        <p class="title">
+                            <span class="document-filetype {{ resource.getTypeUniqueName()|lower }}"></span>
+                            {{ resource.getLabel() }}
+                        </p>
+                        <div class="document-label">
+                            <ul>
+                                {% for label in resource.getStrongLabelPath(currentGroupId) %}
+                                    <li>{{ label.getLabel() }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <p class="description">
+                            {{ resource.getDescription() }}
+                        </p>
+                    </div>
+                    <a href="{{ path('resource_navigate_file', {'labelSlug': resource.getStrongLinkedLabel().getSlug(), 'resourceSlug': resource.getSlug()}) }}" class="see-button" rel="history">Voir le document</a>
+                    <div class="clearfix"></div>
+                </div>
+            {% else %}
+                {% if has_right_somewhere('RESOURCE_MY_RESOURCES') %}
+                    {% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+                    'text': "Il n'y a pas encore de document dans la médiathèque." ,
+                    'button' : {
+                    'link' : path('BNSAppResourceBundle_add_choose'),
+                    'class' : "btn bns-info btn-32 large add-resource-btn" ,
+                    'span_class' : 'icons-24 add-icon',
+                    'text' : "Ajouter des documents",
+                    'data': 'rel="history" title="Ajouter un document"'
+                    }
+                    } %}
+                {% else %}
+                    {% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+                    'text': "Il n'y a pas encore de document dans la médiathèque."
+                    } %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,9 @@
+<div class="footer-logon">
+    <p>
+        <a class="footer-link" href="{{ path('home') }}">Accueil</a>
+        {% if enable_legals %}- <a class="footer-link" href="{{ path('main_logon_legals') }}">Mentions légales</a>{% endif %}
+        - <a class="footer-link" href="http://www.hamburware.com" target='_blank'>Copyright Hamburware {{ "now"|date("Y") }}</a>
+        - Enregistrement CNIL N°1321978 - <a id="charte" href="{{ asset('medias/file/landecoles/charte.pdf') }}" target='_blank'>Charte ENT</a>
+    </p>
+    <a class="footer-link pull-right assistance" target='_blank' href="http://web40.ac-bordeaux.fr/ressources/ecole-numerique/ent-lndecoles/assistnce.html">Assist@nce<br />L@ndecoles</a>
+</div>

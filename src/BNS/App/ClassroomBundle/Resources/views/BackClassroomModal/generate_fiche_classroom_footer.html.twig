@@ -1,0 +1,13 @@
+{% trans_default_domain "CLASSROOM" %}
+<div class="modal-footer">
+	<div class="content-btn-footer">
+    <a id="bouton_submit" href="#" class="btn bns-success btn-24 medium-return generate-button">
+			<span class="icons-24 generate-icon"></span>
+            {{ 'LINK_GENERATE_CLASS_CARD'|trans |desc('<strong>Générer la fiche</strong><br />pour la sélection') |raw}}
+		</a>
+		<a href="#" class="btn bns-notice btn-24 medium" data-dismiss="modal">
+			<span class="icons-24 back-icon"></span>
+      <strong>{% trans %}LINK_CANCEL{% endtrans %}</strong>
+		</a>
+	</div>
+</div>

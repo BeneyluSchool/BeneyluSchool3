@@ -1,0 +1,34 @@
+{% trans_default_domain "SEARCH" %}
+{% extends 'BNSAppSearchBundle:Back:layout.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+{% endblock %}
+
+{% block top_bar %}{% endblock %}
+
+{% block container_class %}{% endblock %}
+
+{% block sidebar %} {% include "BNSAppSearchBundle:Back:sidebar.html.twig" with {"page" : 'white_list' , 'section' : 'general', 'white_list_use' : white_list_use}%} {% endblock %}
+
+{% block content %}
+<div class="content-resource-white-list">
+	<div class="news-title">
+    <h1 class="dashboard">{% trans %}LINK_GENERAL_WHITE_LIST{% endtrans %}</h1>
+	</div>
+
+	{% include "BNSAppMainBundle:NoInformation:index.html.twig" with {'text' : "FOLLOWING_WEBSITE_ARE_IN_WHITE_LIST_BY_DEFAULT"|trans  } %}
+
+	<div class="content-list-white">
+		<ul class="manager-white-list">
+			{% for url in white_list_general %}
+				<li class="general"><a href="{{ url }}" target="_blank">{{ url }}</a></li>
+			{% endfor %}
+		</ul>
+	</div>
+ </div>
+{% endblock %}

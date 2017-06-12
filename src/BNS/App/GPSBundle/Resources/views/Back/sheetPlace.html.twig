@@ -1,97 +1,79 @@
+{% trans_default_domain "GPS" %}
 {% extends 'BNSAppGPSBundle:Back:layout.html.twig' %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript">
-        $(function ()
-        {
-            $('#delete-place-modal .modal-footer .bns-danger').click(function (e)
-            {
-                $('#delete-place-modal .loader').fadeIn('fast');
-            });
-        });
-    </script>
 {% endblock %}
 
 {% block action_bar %}
-	<div class="header-buttons">
-		<div class="inner-header">
-			<div class="container container-fluid">
-				<div class="row-fluid">
-					<div class="span12">
-						<a href="{{ path('BNSAppGPSBundle_back') }}" class="btn bns-notice btn-24 medium-return">
-							<span class="icons-24 back-icon"></span>
-							<strong>Retourner</strong><br>à la liste
-						</a>
-						<a href="{{ path('BNSAppGPSBundle_back_edit_place', { 'slug' : place.getSlug() }) }}" class="btn bns-info btn-24 medium-return button-return">
-							<span class="icons-24 edit-icon"></span>
-							<strong>Éditer</strong><br>le lieu
-						</a>
-						<a href="#" data-target="#delete-place-modal" data-toggle="modal" class="btn bns-danger btn-24 medium-return delete-item">
-							<span class="icons-24 delete-icon"></span>
-							<strong>Supprimer</strong><br>le lieu
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-{% endblock %}
+  {{ components.button_nav('LINK_RETURN_TO_LIST' | trans, { href: path('BNSAppGPSBundle_back'), back: true } ) }}
 
-{% block sidebar %}
-	<div class="container-sidebar" id="gps-sidebar">
-		<div class="section active">
-			Lieu
-			<span class="shadow-section"></span>
-		</div>
-		<div class="title-container">
-			<div class="content-title">
-				<ul>
-					<li>
-						<a class="gps-place-switch switchable {{ place.isActive ? "" : "off" }}" data-place-id={{ place.id }}>
-							Lieu visible
-							<span class="btn-switch"></span>
-						</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
-{% endblock %}
+  {{ components.button( 'LINK_PLACE_EDIT' | trans , { href: path('BNSAppGPSBundle_back_edit_place', { 'slug' : place.getSlug() }), icon: 'mode_edit', raised: true }) }}
 
-{% block content %}
-
-	<div class="item visualisation">
-		<div class="header">
-			<h3>{{ place.label }} <small>{{ place.address }}</small></h3>
-		</div>
-		<div class="footer">
-			Créé {{ date_from_now(place.createdAt, false, true) }} dans la catégorie {{ place.getGpsCategory.label }}
-		</div>
-
-		{% if place.description != "" %}
-
-			<div class="text">
-				<p>{{ place.description }}</p>
-			</div>
-
-			<div class="footer"></div>
-
-		{% endif %}
-
-		<div class="text">
-			{{ vichgeo_map_for('front_map', place) }}
-		</div>
-	</div>
-
-    {{ modal('delete-place-modal', {
-        'title': 'Supprimer un lieu',
-        'body_template': {'template': 'BNSAppGPSBundle:Modal:delete_place_body.html.twig', 'values': {
-                'place': place,
-        } },
-        'footer_template': {'template': 'BNSAppGPSBundle:Modal:delete_place_footer.html.twig', 'values': {
-                'place': place} },
-        'type': 'error'
-    }) }}
+  {{ components.button('LINK_PLACE_DELETE'|trans, {
+    intent: 'warn',
+    icon: 'delete',
+    raised: true,
+    click: "dialog.show({templateUrl: 'delete-dialog.html', targetEvent: $event})"
+  }) }}
 
 {% endblock %}
+
+{% block sidebar_content %}
+  <section class="current">
+      {{ components.button( 'TITLE_PLACE' | trans , { inactive: true, icon: 'place' }) }}
+  </section>
+
+{% endblock %}
+
+{% block body_content %}
+  <md-toolbar class="content-toolbar">
+    <div class="md-toolbar-tools layout-align-start-center">
+      <bns-sidebar-toggle></bns-sidebar-toggle>
+      <h1 class="md-title text-primary">{% trans%}TITLE_PLACE{% endtrans %}</h1>
+    </div>
+  </md-toolbar>
+
+  <md-content class="item-list-container layout-column flex">
+
+    <div class="item visualisation">
+      <div class="md-padding">
+        <div class="header">
+          <h3><span class="md-title">{{ place.label }}</span><small>- {{ place.address }}</small></h3>
+        </div>
+        <div class="footer">
+          <p class="md-body-1">  {{ 'CREATE_AT_IN_CATEGORY'|trans({'%date%': date_from_now(place.createdAt, false, true), '%category%': place.getGpsCategory.label |escape}) |desc('Crée %date% dans la catégorie %category%') |raw }}
+          </p>
+        </div>
+      </div>
+
+      <div class="md-padding">
+        {% if place.description != "" %}
+          <div class="text">
+            {{ place.description }}
+          </div>
+        {% endif %}
+
+        <div class="text">
+          {{ vichgeo_map_for('front_map', place) }}
+        </div>
+      </div>
+    </div>
+
+  <script type="text/ng-template" id="delete-dialog.html">
+    <md-dialog class="bns-dialog bns-dialog-warn bns-jim-tool">
+      <md-dialog-content class="md-dialog-content" role="document" tabindex="-1">
+            <h2 class="md-headline text-warn">{% trans %}MODAL_DELETE_PLACE{% endtrans %}</h2>
+            <p>
+              {{ 'TITLE_SURE_TO_DELETE_PLACE'|trans({'%place%': place.label |escape}) |desc('Êtes-vous sûr de vouloir supprimer le lieu <strong>"%place%"</strong>  ?') |raw}}
+            </p>
+      </md-dialog-content>
+      <div class="md-actions">
+        {{ components.button( 'LINK_CANCEL' | trans , { href : '#', click: 'dialog.abort()' }) }}
+        {{ components.button( 'LINK_PLACE_DELETE' | trans , { href : path('BNSAppGPSBundle_back_delete_place', { 'slug' : place.getSlug() }), raised : true, intent: 'warn'}) }}
+      </div>
+    </md-dialog>
+  </script>
+
+  </md-content>
+  {% endblock %}

@@ -124,9 +124,6 @@ class FrontNotificationController extends Controller
 				throw new NotFoundHttpException('The target user with ID ' . $attributes['targetUser'] . ' is not found !');
 			}
 			
-			// La notification attend un utilisateur en premier paramètre
-			$attributes['targetUser'] = $targetUser;
-			
 			/**
 			 * Attention, ceci est un exemple AUTOMATIQUE : c'est-à-dire que nous ne connaissons pas à l'avance les paramètres
 			 * de la notification. Dans un contexte de développeur, vous êtes censés connaître les paramètres et donc instancier
@@ -138,7 +135,11 @@ class FrontNotificationController extends Controller
 			 */
 			
 			$object = new \ReflectionClass(NotificationTranslateFactory::getNamespace($notificationTypeUniqueName, $notificationType->getModuleUniqueName()));
-			$notification = $object->newInstanceArgs($attributes);
+			$notification = $object->newInstanceArgs(array_merge(array(
+				'container'	=> $container
+			), $attributes));
+			$notification->setTargetUserId($attributes['targetUser']);
+			$notification->setUser($targetUser);
 			$notification->send();
 		}
 		

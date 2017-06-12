@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\MainBundle\Model">
+  <table name="home_new">
+    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+    <column name="group_id" required="true" type="INTEGER" />
+    <column name="image_id" type="INTEGER" />
+    <column name="description" required="true" type="LONGVARCHAR" />
+    <column name="title" required="true" size="255" type="VARCHAR" />
+	<foreign-key foreignTable="media" phpName="Resource" name="FK_HOME_NEWS_RESOURCE" onDelete="SETNULL" onUpdate="CASCADE">
+      <reference foreign="id" local="image_id" />
+    </foreign-key>
+    <foreign-key foreignTable="group" name="FK_HOME_NEWS_GROUP" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="group_id" />
+    </foreign-key>
+    <behavior name="timestampable">
+      <parameter name="create_column" value="created_at" />
+      <parameter name="update_column" value="updated_at" />
+    </behavior>
+    <behavior name="sluggable">
+      <parameter name="slug_column" value="slug" />
+      <parameter name="slug_pattern" value="{title}" />
+      <parameter name="replace_pattern" value="/[^\w]+/u" />
+      <parameter name="replacement" value="-" />
+      <parameter name="separator" value="-" />
+      <parameter name="permanent" value="false" />
+    </behavior>
+  </table>
+</database>

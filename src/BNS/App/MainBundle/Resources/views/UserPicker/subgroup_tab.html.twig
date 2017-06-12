@@ -1,7 +1,8 @@
+{% trans_default_domain "MAIN" %}
 {# On vérifie si le groupe a des sous-groupes ou non #}
 {% if groupContext.getSubgroups()|length > 0 %}
     <ul class="nav nav-tabs">
-        <li{% if loop.first %} class="active"{% endif %}><a href="#{{ groupContext.getSlug() }}-all-tab" data-toggle="tab">Tous</a></li>
+        <li{% if loop.first %} class="active"{% endif %}><a href="#{{ groupContext.getSlug() }}-all-tab" data-toggle="tab">{{ 'LINK_ALL'|trans |desc('Tous') }}</a></li>
         {% for subgroup in groupContext.getSubgroups() %}
             <li><a href="#{{ subgroup.getSlug() }}-tab" data-toggle="tab">{{ subgroup.getLabel() }}</a></li>
         {% endfor %}
@@ -13,7 +14,7 @@
                 {% for user in groupContext.getUsers() %}
                     <button class="btn btn-success user-{{ user.getId() }} btn-large modal-btn-add-user">{{ user.getFullName() }}</button>
                 {% else %}
-                    <p>Aucun utilisateur dans le groupe pour le moment.</p>
+                    <p>{{ 'NO_USER_IN_THIS_GROUP'|trans }}</p>
                 {% endfor %}
             </p>
         </div>
@@ -28,7 +29,7 @@
         {% for user in groupContext.getUsers() %}
             <button class="btn btn-success user-{{ user.getId() }} btn-large modal-btn-add-user">{{ user.getFullName() }}</button>
         {% else %}
-            <p>Aucun utilisateur dans le groupe pour le moment.</p>
+            <p>{{ 'NO_USER_IN_THIS_GROUP'|trans }}</p>
         {% endfor %}
     </p>
 {% endif %}

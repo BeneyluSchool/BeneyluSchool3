@@ -1,0 +1,16 @@
+{% trans_default_domain "MAIN" %}
+{% extends '::base.html.twig' %}
+
+{% block analytics_identify %}{% endblock %}
+
+{% block body %}
+	<div class="background-error"></div>
+	<div class="container container-fluid content-error">
+        {{ 'HAVENT_CLASS_NEED_BELONG_TO_A_GROUP_FOR_USE_BENEYLU'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('<h1>Oops... Vous n\'avez aucune classe</h1>
+		<p>Il apparaît que vous n\'appartenez à aucune classe actuellement.<br />Vous devez obligatoirement faire parti d\'un groupe pour accéder<br />à %beneylu_brand_name% .</p>
+') |raw }}
+				<p><a href="{{ path('disconnect_user') }}">{{ 'LINK_LOGOUT'|trans |desc('Se déconnecter') }}</a></p>
+	</div>
+{% endblock body %}
+
+{% block dock_bar %}{% endblock %}

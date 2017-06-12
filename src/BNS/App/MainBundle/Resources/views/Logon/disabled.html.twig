@@ -1,0 +1,16 @@
+{% trans_default_domain "MAIN" %}
+<html>
+	<head>
+		<title>{{ 'TITLE_BENEYLU_CONNECTION_DENY'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('%beneylu_brand_name% - connexion refusée') }}</title>
+		<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet" type="text/css" />
+		<link href="{{ asset('/medias/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ asset('/medias/css/logon/front.css') }}" rel="stylesheet" type="text/css" />
+	</head>
+	<body class="refresh-container">
+		<div class="layer">
+			<div class="message">
+{{ 'CONNECTION_DENY_HAVENT_ACCESS_TO_ENT'|trans |desc('Connexion refusée - vous ne semblez pas autorisé à accéder à l\'ENT.') }}
+			</div>
+		</div>
+	</body>
+</html>

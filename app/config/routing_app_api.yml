@@ -1,0 +1,506 @@
+# TEMPS REEL
+
+BNSAppRealtimeBundleApi_tokens:
+    type:     rest
+    resource: "@BNSAppRealtimeBundle/ApiController/TokensApiController.php"
+    name_prefix:  tokens_
+    prefix:   /api/{version}/tokens
+    defaults:
+      _format: json
+      version: 1.0
+
+
+# MEDIATHEQUE
+
+BNSAppMediaLibraryBundleApi_base:
+    type:     rest
+    resource: "@BNSAppMediaLibraryBundle/ApiController/BaseMediaLibraryApiController.php"
+    name_prefix:  media_library_api_base_
+    prefix:   /api/{version}/media-library/base
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppMediaLibraryBundleApi_media:
+    type:     rest
+    resource: "@BNSAppMediaLibraryBundle/ApiController/MediaApiController.php"
+    name_prefix:  media_api_
+    prefix:   /api/{version}/media-library/media
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppMediaLibraryBundleApi_media_folder:
+    type:     rest
+    resource: "@BNSAppMediaLibraryBundle/ApiController/MediaFolderApiController.php"
+    name_prefix:  media_folder_api_
+    prefix:   /api/{version}/media-library/media-folder
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppMediaLibraryBundleApi_selection:
+    type:     rest
+    resource: "@BNSAppMediaLibraryBundle/ApiController/SelectionApiController.php"
+    name_prefix:  selection_api_
+    prefix:   /api/{version}/media-library/selection
+    defaults:
+      _format: json
+      version: 1.0
+
+# MESSAGING
+BNSAppMessagingBundleApi_message_folder:
+    type:     rest
+    resource: "@BNSAppMessagingBundle/ApiController/MessageFolderApiController.php"
+    name_prefix:  message_folder_api_
+    prefix:   /api/{version}/messaging/folders
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppMessagingBundleApi_message:
+    type:     rest
+    resource: "@BNSAppMessagingBundle/ApiController/MessageApiController.php"
+    name_prefix:  message_api_
+    prefix:   /api/{version}/messaging/messages
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppMessagingBundleApi_conversation:
+    type:     rest
+    resource: "@BNSAppMessagingBundle/ApiController/ConversationApiController.php"
+    name_prefix:  conversation_api_
+    prefix:   /api/{version}/messaging/conversations
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppMessagingBundleApi_rules:
+    type:     rest
+    resource: "@BNSAppMessagingBundle/ApiController/RulesApiController.php"
+    name_prefix:  messaging_rule_api_
+    prefix:   /api/{version}/messaging/rules
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppMessagingBundleApi_counters:
+    type:     rest
+    resource: "@BNSAppMessagingBundle/ApiController/CountersApiController.php"
+    name_prefix:  messaging_counters_api_
+    prefix:   /api/{version}/messaging/counters
+    defaults:
+      _format: json
+      version: 1.0
+
+# USER
+BNSAppUserBundleApi_user:
+    type:     rest
+    resource: "@BNSAppUserBundle/ApiController/UserApiController.php"
+    name_prefix:  user_api_
+    prefix:   /api/{version}/users
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppUserBundleApi_user_link:
+    type:     rest
+    resource: "@BNSAppUserBundle/ApiController/UserLinkApiController.php"
+    name_prefix:  user_api_
+    prefix:   /api/{version}/users-link
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppUserBundleApi_user_pupils:
+    type:     rest
+    resource: "@BNSAppUserBundle/ApiController/PupilsApiController.php"
+    name_prefix:  user_pupils_api_
+    prefix:   /api/{version}/users/pupils
+    defaults:
+      _format: json
+      version: 1.0
+
+# PROFILE
+BNSAppProfileBundleApi_status:
+    type:     rest
+    resource: "@BNSAppProfileBundle/ApiController/ProfileFeedStatusApiController.php"
+    name_prefix:  profile_status_api_
+    prefix:   /api/{version}/profile/status
+    defaults:
+      _format: json
+      version: 1.0
+
+# ATELIER
+BNSAppWorkshopBundleApi_content:
+    type:     rest
+    resource: "@BNSAppWorkshopBundle/ApiController/WorkshopContentApiController.php"
+    name_prefix:  workshop_content_api_
+    prefix:   /api/{version}/workshop/contents
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppWorkshopBundleApi_document:
+    type:     rest
+    resource: "@BNSAppWorkshopBundle/ApiController/WorkshopDocumentApiController.php"
+    name_prefix:  workshop_document_api_
+    prefix:   /api/{version}/workshop/documents
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppWorkshopBundleApi_page:
+    type:     rest
+    resource: "@BNSAppWorkshopBundle/ApiController/WorkshopPageApiController.php"
+    name_prefix:  workshop_page_api_
+    prefix:   /api/{version}/workshop/pages
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppWorkshopBundleApi_widget_group:
+    type:     rest
+    resource: "@BNSAppWorkshopBundle/ApiController/WorkshopWidgetGroupApiController.php"
+    name_prefix:  workshop_widget_group_api_
+    prefix:   /api/{version}/workshop/widget-groups
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppWorkshopBundleApi_widget:
+    type:     rest
+    resource: "@BNSAppWorkshopBundle/ApiController/WorkshopWidgetApiController.php"
+    name_prefix:  workshop_widget_api_
+    prefix:   /api/{version}/workshop/widgets
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppWorkshopBundleApi_layout:
+    type:     rest
+    resource: "@BNSAppWorkshopBundle/ApiController/WorkshopLayoutApiController.php"
+    name_prefix:  workshop_layout_api_
+    prefix:   /api/{version}/workshop/layouts
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppWorkshopBundleApi_theme:
+    type:     rest
+    resource: "@BNSAppWorkshopBundle/ApiController/WorkshopThemeApiController.php"
+    name_prefix:  workshop_theme_api_
+    prefix:   /api/{version}/workshop/themes
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppWorkshopBundleApi_widgetConfiguration:
+    type:     rest
+    resource: "@BNSAppWorkshopBundle/ApiController/WorkshopWidgetConfigurationApiController.php"
+    name_prefix:  workshop_widget_configuration_api_
+    prefix:   /api/{version}/workshop/widget-configurations
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppWorkshopBundleApi_audio:
+    type:     rest
+    resource: "@BNSAppWorkshopBundle/ApiController/WorkshopAudioApiController.php"
+    name_prefix:  workshop_audio_api_
+    prefix:   /api/{version}/workshop/audios
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppWorkshopBundleApi_questionnaire:
+    type:     rest
+    resource: "@BNSAppWorkshopBundle/ApiController/WorkshopQuestionnaireApiController.php"
+    name_prefix:  workshop_questionnaire_api_
+    prefix:   /api/{version}/workshop/questionnaire
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppUserDirectoryBundleApi_groups:
+    type:     rest
+    resource: "@BNSAppUserDirectoryBundle/ApiController/GroupsApiController.php"
+    name_prefix:  user_directory_api_groups_
+    prefix:   /api/{version}/user-directory/groups
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppUserDirectoryBundleApi_users:
+    type:     rest
+    resource: "@BNSAppUserDirectoryBundle/ApiController/UsersApiController.php"
+    name_prefix:  user_directory_api_users_
+    prefix:   /api/{version}/user-directory/users
+    defaults:
+      _format: json
+      version: 1.0
+
+# Starter kit
+BNSAppStarterKitBundleApi_state:
+    type:     rest
+    resource: "@BNSAppStarterKitBundle/ApiController/StateApiController.php"
+    name_prefix:  starter_kit_api_state_
+    prefix:   /api/{version}/starter-kits/states
+    defaults:
+      _format: json
+      version: 1.0
+
+
+# Statistics
+BNSAppStatisticsBundleApi_test:
+    type:     rest
+    resource: "@BNSAppStatisticsBundle/ApiController/ApiController.php"
+    name_prefix:  statistics_api_
+    prefix:   /api/{version}/statistics
+    defaults:
+      _format: json
+      version: 1.0
+
+
+# Group
+BNSAppGroupBundleApi_group:
+    type:     rest
+    resource: "@BNSAppGroupBundle/ApiController/GroupApiController.php"
+    name_prefix:  group_api_
+    prefix:   /api/{version}/groups
+    defaults:
+      _format: json
+      version: 1.0
+
+# Group
+BNSAppGroupBundleApi_group_activity:
+    type:     rest
+    resource: "@BNSAppGroupBundle/ApiController/GroupActivityApiController.php"
+    name_prefix:  group_activity_api_
+    prefix:   /api/{version}/groups
+    defaults:
+      _format: json
+      version: 1.0
+
+# Homework
+BNSAppHomeworkBundleApi_homework_due:
+    type:     rest
+    resource: "@BNSAppHomeworkBundle/ApiController/HomeworkDueApiController.php"
+    name_prefix:  homework_due_api_
+    prefix:   /api/{version}/homeworks/occurrences
+    defaults:
+      _format: json
+      version: 1.0
+BNSAppHomeworkBundleApi_preferences:
+    type:     rest
+    resource: "@BNSAppHomeworkBundle/ApiController/HomeworkPreferencesApiController.php"
+    name_prefix:  homework_preferences_api_
+    prefix:   /api/{version}/homeworks/preferences
+    defaults:
+      _format: json
+      version: 1.0
+BNSAppHomeworkBundleApi_homework:
+    type:     rest
+    resource: "@BNSAppHomeworkBundle/ApiController/HomeworkApiController.php"
+    name_prefix:  homework_api_
+    prefix:   /api/{version}/homeworks
+    defaults:
+      _format: json
+      version: 1.0
+
+# Calendar
+BNSAppHomeworkBundleApi_calendar_agenda:
+    type:     rest
+    resource: "@BNSAppCalendarBundle/ApiController/AgendaApiController.php"
+    name_prefix:  calendar_agenda_api_
+    prefix:   /api/{version}/calendar/agendas
+    defaults:
+      _format: json
+      version: 1.0
+BNSAppHomeworkBundleApi_calendar_event:
+    type:     rest
+    resource: "@BNSAppCalendarBundle/ApiController/EventApiController.php"
+    name_prefix:  calendar_event_api_
+    prefix:   /api/{version}/calendar/events
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppLunchBundleApi_lunch_week:
+    type:      rest
+    resource: "@BNSAppLunchBundle/ApiController/LunchWeekApiController.php"
+    name_prefix:  lunch_api_lunch_week_
+    prefix:   /api/{version}/lunch/weeks
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppEventBundleApi_breakfast_tour:
+    type:      rest
+    resource: "@BNSAppEventBundle/ApiController/BreakfastApiController.php"
+    name_prefix:  breakfast_tour_api_
+    prefix:   /api/{version}/breakfast-tour
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppEventBundleApi_builders:
+    type:      rest
+    resource: "@BNSAppEventBundle/ApiController/BuildersApiController.php"
+    name_prefix:  builders_api_
+    prefix:   /api/{version}/builders
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppEventBundleApi_two_degrees:
+    type:      rest
+    resource: "@BNSAppEventBundle/ApiController/TwoDegreesApiController.php"
+    name_prefix:  two_degrees_api_
+    prefix:   /api/{version}/two-degrees
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppEventBundleApi_embed:
+    type:      rest
+    resource: "@BNSAppEventBundle/ApiController/EmbedApiController.php"
+    name_prefix:  embed_api_
+    prefix:   /api/{version}/embeds
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppCoreBundleApi_cache:
+    type:      rest
+    resource: "@BNSAppCoreBundle/ApiController/CacheApiController.php"
+    name_prefix:  cache_api_
+    prefix:   /api/{version}/cache
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppBlogBundleApi_blog_category:
+    type:      rest
+    resource: "@BNSAppBlogBundle/ApiController/BlogCategoryApiController.php"
+    name_prefix:  blog_category_api_
+    prefix:   /api/{version}/blogs
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppMainBundleApi_wysiwyg:
+    type:      rest
+    resource: "@BNSAppMainBundle/ApiController/WysiwygApiController.php"
+    name_prefix:  wysiwyg_api_
+    prefix:   /api/{version}/wysiwyg
+    defaults:
+      _format: json
+      version: 1.0
+
+# MiniSite
+BNSAppMinisiteBundleApi_minisite:
+    type:      rest
+    resource: "@BNSAppMiniSiteBundle/ApiController/MiniSiteApiController.php"
+    name_prefix: minisite_api_
+    prefix:   /api/{version}
+    defaults:
+      format: json
+      version: 1.0
+
+# Search
+BNSAppSearchBundleApi_search_internet:
+    type:      rest
+    resource: "@BNSAppSearchBundle/ApiController/SearchInternetApiController.php"
+    name_prefix: search_internet_api_
+    prefix:   /api/{version}
+    defaults:
+      format: json
+      version: 1.0
+
+BNSAppSearchBundleApi_search_white_list:
+    type:      rest
+    resource: "@BNSAppSearchBundle/ApiController/SearchWhiteListApiController.php"
+    name_prefix: search_white_list_api_
+    prefix:   /api/{version}
+    defaults:
+      format: json
+      version: 1.0
+
+#Campaign
+BNSAppCampaignBundleApi_campaign:
+    type:      rest
+    resource: "@BNSAppCampaignBundle/ApiController/CampaignApiController.php"
+    name_prefix:  campaign_api_
+    prefix:   /api/{version}
+    defaults:
+      _format: json
+      version: 1.0
+
+#DistributionList
+BNSAppUserDirectoryBundleApi_distribution_list:
+    type:      rest
+    resource: "@BNSAppUserDirectoryBundle/ApiController/DistributionListApiController.php"
+    name_prefix:  user_directory_api_distribution_list_
+    prefix:   /api/{version}/user-directory
+    defaults:
+      _format: json
+      version: 1.0
+
+#UserFastEdit
+BNSAppCampaignBundleApi_user_fast_edit:
+    type:      rest
+    resource: "@BNSAppCampaignBundle/ApiController/UserFastEditApiController.php"
+    name_prefix:  user_fast_edit_api_
+    prefix:   /api/{version}
+    defaults:
+      _format: json
+      version: 1.0
+
+# Lsu
+BNSAppLsuBundleApi_lsu_config:
+    type:      rest
+    resource: "@BNSAppLsuBundle/ApiController/LsuConfigApiController.php"
+    name_prefix:  lsu_config_api_
+    prefix:   /api/{version}
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppLsuBundleApi_lsu_template:
+    type:      rest
+    resource: "@BNSAppLsuBundle/ApiController/LsuTemplateApiController.php"
+    name_prefix:  lsu_template_api_
+    prefix:   /api/{version}
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppLsuBundleApi_lsu:
+    type:      rest
+    resource: "@BNSAppLsuBundle/ApiController/LsuApiController.php"
+    name_prefix:  lsu_api_
+    prefix:   /api/{version}
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppClassroomBundleApi_newspaper:
+    type:      rest
+    resource: "@BNSAppClassroomBundle/ApiController/ClassroomNewspaperApiController.php"
+    name_prefix:  classroom_api_
+    prefix:   /api/{version}/classroom/newspaper
+    defaults:
+      _format: json
+      version: 1.0
+
+# Resource - DEPRACATED
+#BNSAppResourceBundleApi_resource:
+#    type:     rest
+#    resource: "@BNSAppResourceBundle/ApiController/ResourceApiController.php"
+#    name_prefix:  resource_api_
+#    prefix:   /api/{version}/resource/resources
+#    defaults:
+#      _format: json
+#      version: 1.0

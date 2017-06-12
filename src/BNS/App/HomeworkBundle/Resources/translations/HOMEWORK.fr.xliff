@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-06-20T18:18:47Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="d342f4390339a53cbc784a148cff8aab2f657d33" resname="ADD_AND_CONTINUE">
+        <source>ADD_AND_CONTINUE</source>
+        <target state="new">Ajouter et continuer</target>
+      </trans-unit>
+      <trans-unit id="3d8e3e43955116bce9a896581af6a1541e9a03db" resname="ADULT_NO_WORk_TODAY_CAN_ADD_HERE">
+        <source>Aucun travail pour cette journée. Vous pouvez en ajouter un en cliquant %linkStart% ici.%linkEnd%</source>
+        <target state="new">Aucun travail pour cette journée. Vous pouvez en ajouter un en cliquant %linkStart% ici.%linkEnd%</target>
+        <note><![CDATA[%linkStart% is a placeholder
+%linkEnd% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="205bdfaae46abe5269bc0ffb81d25229512cb958" resname="CHILD_NO_WORK_TODAY">
+        <source>CHILD_NO_WORK_TODAY</source>
+        <target>Tu n'as pas de travail pour cette journée</target>
+      </trans-unit>
+      <trans-unit id="f5a79be02d266cdf2d1d18a3776cf1c8db1c98d3" resname="CHOICE_EVERY_MONTH">
+        <source>CHOICE_EVERY_MONTH</source>
+        <target>Tous les mois</target>
+      </trans-unit>
+      <trans-unit id="8091563f6dcb86475efc08ca0149fd03968505ba" resname="CHOICE_EVERY_TWO_WEEK">
+        <source>CHOICE_EVERY_TWO_WEEK</source>
+        <target>Toutes les deux semaines</target>
+      </trans-unit>
+      <trans-unit id="2f8d60becbf6b95b568afca1dbf2fecec5d2262c" resname="CHOICE_EVERY_WEEK">
+        <source>CHOICE_EVERY_WEEK</source>
+        <target>Toutes les semaines</target>
+      </trans-unit>
+      <trans-unit id="eb4b6adbc58fb9412b6afecaf04734f161fe4677" resname="CHOICE_FRIDAY">
+        <source>CHOICE_FRIDAY</source>
+        <target>Vendredi</target>
+      </trans-unit>
+      <trans-unit id="669f4bd9b621169683ff9f7cb803574156e9f37e" resname="CHOICE_MONDAY">
+        <source>CHOICE_MONDAY</source>
+        <target>Lundi</target>
+      </trans-unit>
+      <trans-unit id="edc8733b5526fec32e3c463532db176b18729f53" resname="CHOICE_ONCE">
+        <source>CHOICE_ONCE</source>
+        <target>Une fois</target>
+      </trans-unit>
+      <trans-unit id="c493ac49daa31777219003e860bbb7736de84afe" resname="CHOICE_SATURDAY">
+        <source>CHOICE_SATURDAY</source>
+        <target>Samedi</target>
+      </trans-unit>
+      <trans-unit id="837daf4dea287733f3bc869a5136fb8f6862a579" resname="CHOICE_SUNDAY">
+        <source>CHOICE_SUNDAY</source>
+        <target>Dimanche</target>
+      </trans-unit>
+      <trans-unit id="a6121756aca56894cdc1c9c83a91fa0d71d4104c" resname="CHOICE_THURSDAY">
+        <source>CHOICE_THURSDAY</source>
+        <target>Jeudi</target>
+      </trans-unit>
+      <trans-unit id="ef5c34d218abb84bd9829be7e4fb39eb71d2185c" resname="CHOICE_TUESDAY">
+        <source>CHOICE_TUESDAY</source>
+        <target>Mardi</target>
+      </trans-unit>
+      <trans-unit id="bda2bb1e537fc5340c0b62f1a0bef2cc72ea0683" resname="CHOICE_WEDNESDAY">
+        <source>CHOICE_WEDNESDAY</source>
+        <target>Mercredi</target>
+      </trans-unit>
+      <trans-unit id="364d7738e0d17724933f2c768b414e562733b75e" resname="DATE_UNTIL">
+        <source>DATE_UNTIL</source>
+        <target>au</target>
+      </trans-unit>
+      <trans-unit id="73134ef30709d326860ad4fcd332fca2cd5b8d05" resname="DATE_UNTIL_RECURRENCE">
+        <source>DATE_UNTIL_RECURRENCE</source>
+        <target>jusqu'au</target>
+      </trans-unit>
+      <trans-unit id="626b02dc04ebd71f2c83bc711aacf2c12f61e932" resname="DAY_OF_RECURRENCE">
+        <source>DAY_OF_RECURRENCE</source>
+        <target state="new">Récurrence</target>
+      </trans-unit>
+      <trans-unit id="246b297cfe08a2fec9f7fc5699ca8db0ee6972f9" resname="DELETE_DISCIPLINE_INFO">
+        <source>DELETE_DISCIPLINE_INFO</source>
+        <target>Attention, la suppression de cette matière entraînera également la suppression de toutes ses sous-matières !</target>
+      </trans-unit>
+      <trans-unit id="fe2485b392bddf2207f4dc913aeb7c9af7e8fed0" resname="DISCIPLINE_NAME_CANT_BE_EMPTY">
+        <source>DISCIPLINE_NAME_CANT_BE_EMPTY</source>
+        <target>Le nom de la matière ne doit pas être vide</target>
+      </trans-unit>
+      <trans-unit id="94bb4eb447acdb0f508a2cf89eb5e12e79ab9f22" resname="ENABLE_WORK_VALIDATION">
+        <source>ENABLE_WORK_VALIDATION</source>
+        <target>Activer la validation des travaux</target>
+      </trans-unit>
+      <trans-unit id="db3b36b4e03d5e4296269bbcd42635f6ee32e85a" resname="ERROR_OCCURENCE">
+        <source>Une erreur est survenue</source>
+        <target state="new">Une erreur est survenue</target>
+      </trans-unit>
+      <trans-unit id="b941db64f0e8272e07ea229c46a00bb2192a205d" resname="FILTER_DISCIPLINE">
+        <source>FILTER_DISCIPLINE</source>
+        <target>Filtrer une matière</target>
+      </trans-unit>
+      <trans-unit id="94e3cbc139c80209aa0bd47f2a9c424d31ac8184" resname="FLASH_OCCURENCE_DELETE_SUCCESS">
+        <source>FLASH_OCCURENCE_DELETE_SUCCESS</source>
+        <target>L'occurrence a été supprimée avec succès</target>
+      </trans-unit>
+      <trans-unit id="6f2a903c06e50c1c0b6581f80cdcfea93ec19461" resname="FLASH_PREFERENCE_SAVE_SUCCESS">
+        <source>FLASH_PREFERENCE_SAVE_SUCCESS</source>
+        <target>Vos préférences ont été enregistrées avec succès</target>
+      </trans-unit>
+      <trans-unit id="4f3d8788bb64d06f51de05667ba0e3b6791fec0e" resname="FLASH_SELECT_MIN_ONE_DAY">
+        <source>FLASH_SELECT_MIN_ONE_DAY</source>
+        <target>Vous devez sélectionner au moins un jour</target>
+      </trans-unit>
+      <trans-unit id="4834981138fe8dbed9d2612836ae55f9d9bb3ec5" resname="FLASH_WORK_ADD_SUCCESS">
+        <source>FLASH_WORK_ADD_SUCCESS</source>
+        <target>Votre travail a été ajouté avec succès</target>
+      </trans-unit>
+      <trans-unit id="e18edfa100bff1a76bfb412680b2cfc2abed0660" resname="FLASH_WORK_DELETE_SUCCESS">
+        <source>FLASH_WORK_DELETE_SUCCESS</source>
+        <target>Le travail a été supprimé avec succès</target>
+      </trans-unit>
+      <trans-unit id="040415378e0f13c08e0472a4e41edb17d76dad0b" resname="FLASH_WORK_MODIFIED">
+        <source>FLASH_WORK_MODIFIED</source>
+        <target>Votre travail a été modifié avec succès</target>
+      </trans-unit>
+      <trans-unit id="f6be7f4a131a3b372c7698e2955101123576b969" resname="GIVE_WORK">
+        <source>GIVE_WORK</source>
+        <target>Donner un travail</target>
+      </trans-unit>
+      <trans-unit id="1f8969d436579977f5b13e27e290ffdb25736672" resname="GROUPS">
+        <source>GROUPS</source>
+        <target>Groupes</target>
+      </trans-unit>
+      <trans-unit id="a9af8cb9579a59365efd0d289e6e8e423f874fa1" resname="HELP_TEXT">
+        <source>HELP_TEXT</source>
+        <target>Texte d'aide</target>
+      </trans-unit>
+      <trans-unit id="ff96057fb638486a169e68b6b2374ae6fc2ca2fb" resname="INPUT_ADD">
+        <source>INPUT_ADD</source>
+        <target>Ajouter</target>
+      </trans-unit>
+      <trans-unit id="d107943b5eed919a02eb3ee88c44c3d47256e14b" resname="INTEGRATION_MULTIMEDIA">
+        <source>Intégration médiathèque</source>
+        <target state="new">Intégration médiathèque</target>
+      </trans-unit>
+      <trans-unit id="e0714316a1773131450b1142d0ffb4f5b34dfb7c" resname="IS_A_RECURRENT_WORK">
+        <source>IS_A_RECURRENT_WORK</source>
+        <target>Est un travail récurrent</target>
+      </trans-unit>
+      <trans-unit id="b871f5d28957cc80fa78e05fcbf02cfbebf31f5d" resname="LABEL_ASSOCIATE_LOCKER_TO_WORK">
+        <source>LABEL_ASSOCIATE_LOCKER_TO_WORK</source>
+        <target>Associer un casier à ce travail</target>
+      </trans-unit>
+      <trans-unit id="e2faf6c641aa800f51fa71d57f587fca4d3554b6" resname="LABEL_CREATE_LOCKER_STORE">
+        <source>Créer un casier de dépôt</source>
+        <target state="new">Créer un casier de dépôt</target>
+      </trans-unit>
+      <trans-unit id="a67652a6d6781a7fb25a33ab12af1cc7985f90bd" resname="LABEL_DESCRIPTION">
+        <source>Description</source>
+        <target state="new">Description</target>
+      </trans-unit>
+      <trans-unit id="b4de23fbb5ec498e98857f57fa54ae939fea8ffe" resname="LINK_ADD_DISCIPLINE">
+        <source>LINK_ADD_DISCIPLINE</source>
+        <target>Ajouter une matière</target>
+      </trans-unit>
+      <trans-unit id="61023a81a5f848b6f642bc1cb0297192c3a98717" resname="LINK_ADD_WORK">
+        <source>LINK_ADD_WORK</source>
+        <target>Ajouter un travail</target>
+      </trans-unit>
+      <trans-unit id="c8ecb7b5f3b03dd4898f7860f0bb1fb477702bc5" resname="LINK_BACK_TO_WORK_LIST">
+        <source><![CDATA[<strong>Retourner</strong><br/> à la liste des travaux]]></source>
+        <target state="new"><![CDATA[<strong>Retourner</strong><br/> à la liste des travaux]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="1f8524949b59bf473e5b31304582c62cb6d54e28" resname="LINK_CANCEL">
+        <source>LINK_CANCEL</source>
+        <target>Annuler</target>
+      </trans-unit>
+      <trans-unit id="2b8d3f6bcc98097f3c8e1e40e7f27930c6a4cbf3" resname="LINK_CANCEL_MODIFICATION">
+        <source><![CDATA[<strong>Annuler</strong><br/>les modifications]]></source>
+        <target state="new"><![CDATA[<strong>Annuler</strong><br/>les modifications]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="6c81d28f86d6a0fa99f3657215f1c5902becbc8e" resname="LINK_CANCEl_DELETE">
+        <source><![CDATA[<strong>Annuler</strong><br/>la suppression]]></source>
+        <target state="new"><![CDATA[<strong>Annuler</strong><br/>la suppression]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="29ece03e4973bffd9dafff6d77b482c95000f6e3" resname="LINK_CLICK_FOR_VALIDATE">
+        <source>LINK_CLICK_FOR_VALIDATE</source>
+        <target>Clique pour valider</target>
+      </trans-unit>
+      <trans-unit id="fd250eab42b7368db686804039a6bafee4fb2d5b" resname="LINK_CUSTOMIZATION">
+        <source>LINK_CUSTOMIZATION</source>
+        <target>Personnalisation</target>
+      </trans-unit>
+      <trans-unit id="b66042ce07d692ee9b65ffe31b2a1a770fb2bb18" resname="LINK_DELETE">
+        <source>LINK_DELETE</source>
+        <target>Supprimer</target>
+      </trans-unit>
+      <trans-unit id="56bb0670805fa0daac0f27cd55354dea08132676" resname="LINK_DELETE_MESSAGE">
+        <source><![CDATA[<strong>Supprimer</strong><br/>le message]]></source>
+        <target state="new"><![CDATA[<strong>Supprimer</strong><br/>le message]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="afd27f13f76b3936227cf9bc49a994dff0d24f06" resname="LINK_DELETE_OCCURENCE">
+        <source><![CDATA[<strong>Supprimer</strong><br />l'occurence]]></source>
+        <target state="new"><![CDATA[<strong>Supprimer</strong><br />l'occurrence]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="2375edd7f71455f3d366a74adb4b7158bff4d80c" resname="LINK_DELETE_SERIE_WORK">
+        <source>LINK_DELETE_SERIE_WORK</source>
+        <target state="new"><![CDATA[Supprimer toute la série des travaux "%workName%"]]></target>
+        <note><![CDATA[%workName% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="a20a3b4c3734d923821877e2099a4e0bc2efd11f" resname="LINK_DELETE_THIS_WORK">
+        <source>LINK_DELETE_THIS_WORK</source>
+        <target>Supprimer ce travail</target>
+      </trans-unit>
+      <trans-unit id="357a680263c7bbd07eea4bb8c2d1cf9c49d82919" resname="LINK_DELETE_WORK">
+        <source>LINK_DELETE_WORK</source>
+        <target state="new"><![CDATA[<strong>Supprimer</strong><br />le travail]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="bc3c0c887985fc28ed397ad2db15aded5db63d80" resname="LINK_DELETE_WORK_FOR_THIS_DAY">
+        <source>LINK_DELETE_WORK_FOR_THIS_DAY</source>
+        <target>Supprimer le travail pour ce jour</target>
+      </trans-unit>
+      <trans-unit id="0d9c06ac0e4b1a35955afbe9d6ae41d98c6130a0" resname="LINK_EDIT_PREFERENCE">
+        <source>LINK_EDIT_PREFERENCE</source>
+        <target>Modifier vos préférences</target>
+      </trans-unit>
+      <trans-unit id="a131cfc56b3351fb5efaf6d70a67f50dd8bd6e82" resname="LINK_EDIT_WORK">
+        <source><![CDATA[<strong>Éditer</strong><br/>le travail]]></source>
+        <target state="new"><![CDATA[<strong>Éditer</strong><br/>le travail]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="d2512837ec4f11da0b34ca26b9e862ac266d69f5" resname="LINK_GO_TO_LAST_WEEK">
+        <source><![CDATA[Aller à la semaine<br/>précédente]]></source>
+        <target state="new"><![CDATA[Aller à la semaine<br/>précédente]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="c62a16ee3be6f92f5e98944504b83e5d123d9121" resname="LINK_GO_TO_NEXT_WEEK">
+        <source><![CDATA[Aller à la semaine<br/>suivante]]></source>
+        <target state="new"><![CDATA[Aller à la semaine<br/>suivante]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="31153cc55ab60a4a4905a52402c06524bb023a54" resname="LINK_HAND_BACK_MY_WORK">
+        <source>Rendre mon travail</source>
+        <target state="new">Rendre mon travail</target>
+      </trans-unit>
+      <trans-unit id="0d8c535c1902501aa948ee73c88c801c1b136bf6" resname="LINK_LAST_WORKS">
+        <source>LINK_LAST_WORKS</source>
+        <target>Travaux précédents</target>
+      </trans-unit>
+      <trans-unit id="82bffc0b0065d85fc56f474ddf9ec03242e1940d" resname="LINK_NO_ICON">
+        <source>Aucune icône</source>
+        <target state="new">Aucune icône</target>
+      </trans-unit>
+      <trans-unit id="d2eef022a71a8aa506250faf371be3de5bf4d663" resname="LINK_PARAMETERS">
+        <source>LINK_PARAMETERS</source>
+        <target>Paramètres</target>
+      </trans-unit>
+      <trans-unit id="bb6ad193e27769b05bdfe6c17eb48de419278745" resname="LINK_SAVE">
+        <source>LINK_SAVE</source>
+        <target>Enregistrer les paramètres</target>
+      </trans-unit>
+      <trans-unit id="990394cf269c6f24a624ec91345a6d11cb1af7c9" resname="LINK_SAVE_AND_CONTINUE">
+        <source>LINK_SAVE_AND_CONTINUE</source>
+        <target>Enregistrer et continuer</target>
+      </trans-unit>
+      <trans-unit id="68f9ed1d826a72947076a16a029f31d08829ada6" resname="LINK_SAVE_AND_FINISH">
+        <source>LINK_SAVE_AND_FINISH</source>
+        <target>Enregistrer et terminer</target>
+      </trans-unit>
+      <trans-unit id="ebb17d4893ebf8ad0057923632e22b8664490a42" resname="LINK_SAVE_DISCIPLINE">
+        <source>LINK_SAVE_DISCIPLINE</source>
+        <target>Gestion des matières</target>
+      </trans-unit>
+      <trans-unit id="ed23f3970d79c7b2490404df8d7c8fdc6ea31797" resname="LINK_SEE_CARD">
+        <source>LINK_SEE_CARD</source>
+        <target>Voir la fiche</target>
+      </trans-unit>
+      <trans-unit id="1d2bc3adbecb9d85017a5d141a6e0ee1ad95da17" resname="LINK_SEE_OLD_WORK">
+        <source><![CDATA[<span>Voir les</span> travaux passés]]></source>
+        <target state="new"><![CDATA[<span>Voir les</span> travaux passés]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="54504eee75ea968823540577901226cf2b9b19ea" resname="LINK_VALIDATE">
+        <source>LINK_VALIDATE</source>
+        <target>Valider</target>
+      </trans-unit>
+      <trans-unit id="54c9046fa81cd8064191ddf2cdee7b98ed15c58b" resname="LINK_VALIDATE_BY_USER">
+        <source>Validé par %user%</source>
+        <target state="new">Validé par %user%</target>
+        <note><![CDATA[%user% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="5312df467037c226a223411128659815641f3ff1" resname="LINK_VALIDATE_FINISH_WORK">
+        <source>LINK_VALIDATE_FINISH_WORK</source>
+        <target>Afficher les travaux terminés</target>
+      </trans-unit>
+      <trans-unit id="f0a84b9adf1f467b81dff20d6faa9071b36309f3" resname="LINK_VALIDATE_WORKS">
+        <source>LINK_VALIDATE_WORKS</source>
+        <target>Activer la validation des travaux</target>
+      </trans-unit>
+      <trans-unit id="be1c8fa20914cfce5ff8206637db332998c84a3f" resname="LINK_WORK_VALIDATED">
+        <source>LINK_WORK_VALIDATED</source>
+        <target>Travail validé</target>
+      </trans-unit>
+      <trans-unit id="c1571958139ab49186b6c28ee28a62ffb8b4a108" resname="LINK_YES_SURE">
+        <source>LINK_YES_SURE</source>
+        <target state="new">Supprimer la matière</target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="6c8e2dd48ea015f469ab7fb839516e6193331b94" resname="LOADING_PLEASE_WAIT">
+        <source>LOADING_PLEASE_WAIT</source>
+        <target>Chargement en cours, veuillez patienter...</target>
+      </trans-unit>
+      <trans-unit id="d57a0c460ac0a32b4a01b63af551799d0821a132" resname="MODAL_ADD_DISCIPLINE">
+        <source>MODAL_ADD_DISCIPLINE</source>
+        <target>Ajouter une matière</target>
+      </trans-unit>
+      <trans-unit id="a379d38f710f3dd36a92d6c95018a39d0778a64d" resname="MODAL_DELETE_DISCIPLINE">
+        <source>MODAL_DELETE_DISCIPLINE</source>
+        <target>Supprimer une matière</target>
+      </trans-unit>
+      <trans-unit id="e01b75eaf86104bb09656d305b15b987698409c1" resname="MODAL_DELETE_OCCURENCE">
+        <source>MODAL_DELETE_OCCURENCE</source>
+        <target>Suppression de l'occurrence</target>
+      </trans-unit>
+      <trans-unit id="8411b3e64b23814be1df94228ccfe16917f53d26" resname="MODAL_DELETE_WORK">
+        <source>MODAL_DELETE_WORK</source>
+        <target>Suppression du travail</target>
+      </trans-unit>
+      <trans-unit id="a9d371451b6909ac85117130b9153a96499a362c" resname="NAME">
+        <source>NAME</source>
+        <target>Nom</target>
+      </trans-unit>
+      <trans-unit id="5882cea0a92dfca9eed07605f9b5792551a4c679" resname="NAME_OF_NEW_DISCIPLINE">
+        <source>NAME_OF_NEW_DISCIPLINE</source>
+        <target>Nom de la nouvelle matière</target>
+      </trans-unit>
+      <trans-unit id="c462e8fc3e502ae6d5489c34ffa0054b7073578f" resname="NOTHING">
+        <source>NOTHING</source>
+        <target>Aucune</target>
+      </trans-unit>
+      <trans-unit id="7d2ab8e8ce664d0018928c14ee651896a5022954" resname="NO_DISCIPLINE">
+        <source>NO_DISCIPLINE</source>
+        <target>Il n'y a aucune matière</target>
+      </trans-unit>
+      <trans-unit id="d6032c536d80626864a1d341f2111283f31de2d4" resname="NO_DISCIPLINE_CREATE_ONE">
+        <source><![CDATA[Il n'y pas encore de matière.<br />Vous pouvez en créer sur la page de %linkStart% gestion des matières %linkEnd%.]]></source>
+        <target state="new"><![CDATA[Il n'y a pas encore de matières.<br />Vous pouvez en créer sur la page de %linkStart% gestion des matières %linkEnd%.]]></target>
+        <note><![CDATA[%linkStart% is a placeholder
+%linkEnd% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="ff68b1c20a97e105ac5677a9641be17a73b4d3a5" resname="NO_ICON">
+        <source>NO_ICON</source>
+        <target>Aucune icône</target>
+      </trans-unit>
+      <trans-unit id="c097480342e48f6e2c665e06381fc94ff3c80967" resname="NO_OLD_WORK">
+        <source>NO_OLD_WORK</source>
+        <target>Il n'y a pas de travaux passés</target>
+      </trans-unit>
+      <trans-unit id="d54dcc534f15205853d93665f684075d897ab6b4" resname="NO_WORK_THIS_WEEK">
+        <source>NO_WORK_THIS_WEEK</source>
+        <target>Il n'y a aucun travail pour cette semaine.</target>
+      </trans-unit>
+      <trans-unit id="bd39ada30cdda2fd5562d5f754eba47848bd0e6f" resname="OCCURENCE_DETAIL">
+        <source>OCCURENCE_DETAIL</source>
+        <target>Détails du travail</target>
+      </trans-unit>
+      <trans-unit id="a2588df1fc925cc620e3ca8e5503237dd9a9d0fc" resname="PLACEHOLDER_DAY_MONTH_YEAR">
+        <source>PLACEHOLDER_DAY_MONTH_YEAR</source>
+        <target>jour / mois / année</target>
+      </trans-unit>
+      <trans-unit id="6fc6392b32f4310fe77fcb799db59dd4c23b0620" resname="PLACEHOLDER_NEW_DISCIPLINE">
+        <source>PLACEHOLDER_NEW_DISCIPLINE</source>
+        <target>Nouvelle matière</target>
+      </trans-unit>
+      <trans-unit id="14045cf458f494677e5147d78e5671b1dbfd8139" resname="PLACEHOLDER_WORK_TITLE">
+        <source>PLACEHOLDER_WORK_TITLE</source>
+        <target>Intitulé du travail</target>
+      </trans-unit>
+      <trans-unit id="bf3a3f4a517dfcc3379001e2abba55e3bd3467f7" resname="PLACEHOLDER_WRITE_HELP_FOR_WORK">
+        <source>PLACEHOLDER_WRITE_HELP_FOR_WORK</source>
+        <target>Écrire une aide pour le travail</target>
+      </trans-unit>
+      <trans-unit id="268edee09c2f6673b0485260cafa873ce75e67fe" resname="PREFIX_DATE">
+        <source>PREFIX_DATE</source>
+        <target>Le</target>
+      </trans-unit>
+      <trans-unit id="0e11067603de14f83c060a30c31b4b477c61ee85" resname="SELECT_MIN_ONE_CLASS">
+        <source>SELECT_MIN_ONE_CLASS</source>
+        <target>Vous devez au moins sélectionner un groupe</target>
+      </trans-unit>
+      <trans-unit id="658786cd1c42dd08db2615a644a5bca3e8986bae" resname="SHOW_FINISHED_WORKS">
+        <source>SHOW_FINISHED_WORKS</source>
+        <target>Afficher les travaux terminés</target>
+      </trans-unit>
+      <trans-unit id="f73c6429794a2ab38d3fb5d1a29c2a4a0161abde" resname="SIGNATURE_NUMBER">
+        <source>SIGNATURE_NUMBER</source>
+        <target state="new"><![CDATA[[0,1] Signature | ]1,Inf[ Signatures]]></target>
+      </trans-unit>
+      <trans-unit id="7b49f6b70eba811bda3ecb6cb12cf123b6e24c69" resname="THIS_DAY_DESACTIVATE_IN_PREFERENCE">
+        <source>THIS_DAY_DESACTIVATE_IN_PREFERENCE</source>
+        <target>Ce jour est désactivé dans vos préférences.</target>
+      </trans-unit>
+      <trans-unit id="5e402268477fc1f342e47625d4f865f9ce680407" resname="TITLE_CHOICE_VISIBLE_DAY">
+        <source>TITLE_CHOICE_VISIBLE_DAY</source>
+        <target>Choix des jours visibles</target>
+      </trans-unit>
+      <trans-unit id="e98e4d2f1535cdd34cc577f3dd509c4c37a8d7eb" resname="TITLE_DATE">
+        <source>Date</source>
+        <target>Date</target>
+      </trans-unit>
+      <trans-unit id="db2f888952821f0b9d87a22a8ec08b1f5650ae66" resname="TITLE_DAYS">
+        <source>TITLE_DAYS</source>
+        <target state="new">Jours</target>
+      </trans-unit>
+      <trans-unit id="0f14454c753494663e3c4173794fe0c9466e346e" resname="TITLE_GROUPS">
+        <source>TITLE_GROUPS</source>
+        <target>Groupe(s)</target>
+      </trans-unit>
+      <trans-unit id="738ce06e00340303abfba048a96d19a14e480632" resname="TITLE_HOMEWORK">
+        <source>TITLE_HOMEWORK</source>
+        <target>Cahier de textes</target>
+      </trans-unit>
+      <trans-unit id="65bfa21960740412dd0e1238b870f72d0bcf4e39" resname="TITLE_HOMEWORK_CATEGORIES">
+        <source>TITLE_HOMEWORK_CATEGORIES</source>
+        <target>Cahier de textes - Catégories</target>
+      </trans-unit>
+      <trans-unit id="6eb2ba3f9be2f22320263c28290e686a269e4db6" resname="TITLE_HOMEWORK_MANAGEMENT">
+        <source>TITLE_HOMEWORK_MANAGEMENT</source>
+        <target>Cahier de textes - Gestion</target>
+      </trans-unit>
+      <trans-unit id="8468798ef2426dde315dd635debce1f5c62c3cce" resname="TITLE_MANAGE_DISCIPLINE">
+        <source>TITLE_MANAGE_DISCIPLINE</source>
+        <target>Gérer les matières</target>
+      </trans-unit>
+      <trans-unit id="b352ebb0ee2dbedf5fc6c5a80520dd975b835773" resname="TITLE_NEXT_WEEKS">
+        <source>TITLE_NEXT_WEEKS</source>
+        <target>Prochaines semaines</target>
+      </trans-unit>
+      <trans-unit id="dc9ef6984ab71414246704653c38cdcd44866cb1" resname="TITLE_OLD_WORK">
+        <source>TITLE_OLD_WORK</source>
+        <target>Travaux passés</target>
+      </trans-unit>
+      <trans-unit id="e2b2eb334d37a4b38c5cc514a515aa5f53975e86" resname="TITLE_OPTIONS">
+        <source>TITLE_OPTIONS</source>
+        <target>Options</target>
+      </trans-unit>
+      <trans-unit id="c62249ed83cca5ab456887977c1c7a5ecfb59687" resname="TITLE_SURE_TO_DELETE">
+        <source><![CDATA[<h2>Êtes-vous sûr de vouloir supprimer le travail ?</h2>
+        <h3>A noter que les documents joints/insérés ne seront pas supprimés.</h3>]]></source>
+        <target state="new"><![CDATA[<h2>Êtes-vous sûr de vouloir supprimer l'occurrence ?</h2>
+        <h3>A noter que les documents joints/insérés ne seront pas supprimés.</h3>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="45e9efd6768411b2c5473704eced1fa2b1f27720" resname="TITLE_SURE_TO_DELETE_DISCIPLINE">
+        <source>TITLE_SURE_TO_DELETE_DISCIPLINE</source>
+        <target><![CDATA[Êtes-vous sûr de vouloir supprimer la matière "<span class="title"></span>" ?]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="d21a007dc327d2b216343cbf5cacfe243a2e7325" resname="TITLE_SURE_TO_DELETE_LOSE_ALL_OCCURENCE">
+        <source><![CDATA[<h2>Êtes-vous sûr de vouloir supprimer le travail ?</h2>
+            <h3>Vous perdrez la totalité des occurences de ce travail.<br />A noter que les documents joints/insérés ne seront pas supprimés.</h3>]]></source>
+        <target state="new"><![CDATA[<h2>Êtes-vous sûr de vouloir supprimer le travail ?</h2>
+            <h3>Vous perdrez la totalité des occurrences de ce travail.<br />A noter que les documents joints/insérés ne seront pas supprimés.</h3>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="5df15d41320b1fe3f348c8d7ed681e4a739d928f" resname="TITLE_WORKS">
+        <source>TITLE_WORKS</source>
+        <target>Travaux</target>
+      </trans-unit>
+      <trans-unit id="3f659df7b981d722f9cac3402b2bea229fe014fc" resname="VISIBLE_DAYS_CHOICE">
+        <source>VISIBLE_DAYS_CHOICE</source>
+        <target>Choix des jours visibles</target>
+      </trans-unit>
+      <trans-unit id="e3d594ba31ca7989c911ce923411561dc6975593" resname="WEEK_FROM">
+        <source>WEEK_FROM</source>
+        <target>Semaine du</target>
+      </trans-unit>
+      <trans-unit id="fca3bd6c774e1cac2eaa771001db0f9e8311051c" resname="WORK_DISCIPLINE">
+        <source>WORK_DISCIPLINE</source>
+        <target>Matière</target>
+      </trans-unit>
+      <trans-unit id="5554be445a32539286913e0507bc81f2bb6ac48d" resname="WRITTEN_IN">
+        <source>WRITTEN_IN</source>
+        <target>Écrit dans</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

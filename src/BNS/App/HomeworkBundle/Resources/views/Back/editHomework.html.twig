@@ -1,3 +1,4 @@
+{% trans_default_domain "HOMEWORK" %}
 {% extends 'BNSAppHomeworkBundle:Back:layout.html.twig' %}
 
 {% block header %}
@@ -5,12 +6,14 @@
 		<div class="inner-header">
 			<div class="container container-fluid">
 				<div class="row-fluid">
-					<div class="span6">
-						<a href="{{ path('BNSAppHomeworkBundle_back') }}" class="btn bns-notice btn-24 medium-return button-return"><span class="icons-24 back-icon"></span><strong>Retourner</strong> <br> à la liste des travaux</a>
+					<div class="span4">
+						<a href="{{ path('BNSAppHomeworkBundle_back') }}" class="btn bns-notice btn-24 medium-return button-return"><span class="icons-24 back-icon"></span>
+                            {{ 'LINK_BACK_TO_WORK_LIST'|trans |desc('<strong>Retourner</strong><br/> à la liste des travaux') |raw }}
+                        </a>
 					</div>
-					<div class="span6 align-right">
-						<a href="#" class="btn bns-success validate-medium btn-24 medium submit-savecontinue-homework"><span class="icons-24 validate-icon"></span><strong>Enregistrer et continuer</strong></a>
-						<a href="#" class="btn bns-success validate-medium btn-24 medium submit-save-homework"><span class="icons-24 validate-icon"></span><strong>J'ai terminé</strong></a>
+					<div class="span8 align-right">
+						{% if homework.slug is empty %}<a href="#" class="btn bns-success validate-medium btn-24 medium submit-savecontinue-homework"><span class="icons-24 validate-icon"></span><strong>{% trans %}LINK_SAVE_AND_CONTINUE{% endtrans %}</strong></a>{% endif %}
+						<a href="#" class="btn bns-success validate-medium btn-24 medium submit-save-homework"><span class="icons-24 validate-icon"></span><strong>{% trans %}LINK_SAVE_AND_FINISH{% endtrans %}</strong></a>
 					</div>
 				</div>
 			</div>
@@ -26,104 +29,170 @@
         {{ path('BNSAppHomeworkBundle_back_save_homework', {'slug': homework.slug}) }}
     {% endif %}
     " method="post" {{ form_enctype(homework_form) }}>
-              
+
 	{% form_theme homework_form _self %}
 {% endblock surround_form_start %}
-			  
+
 {% block sidebar %}
-	<div class="section active">
-		Travail
-		<span class="shadow-section"></span>
-	</div>
-	{#{% include 'BNSAppHomeworkBundle:Block:load_subject_block.html.twig' with {'subjects': subjects} %}#}
-	<div class="title-container">
-        <div class="title active border-blue">Matière<span class="square icon-arrow"></span></div>
-		<div class="content-category">
-		   <ol>
-			   {% for subjectField in homework_form.subject_id %}
-				   <li><div>{{ subjectField.vars.label }}{{ form_widget(subjectField, {'attr': {'class': 'pull-right'} }) }}</div></li>
-			   {% endfor %}
-			   {#{{ form_widget(homework_form.subject_id) }}#}
-		   </ol>
-	   </div>
-	</div>
-    <div class="title-container">
-        <div class="title active border-blue">Classe(s)<span class="square icon-arrow"></span></div>
-		{{ form_errors(homework_form.groups) }}
-		<div class="content-category homework-classrooms-filters">
-			<ol>
-				{% for groupField in homework_form.groups %}
-					<li><div>{{ groupField.vars.label }} {{ form_widget(groupField, {'attr': {'class': 'pull-right'} }) }}</div></li>
-				{% endfor %}
-			</ol>
+	<div class="container-sidebar editor">
+		<div class="section active">
+            {% trans %}GIVE_WORK{% endtrans %}
+			<span class="shadow-section"></span>
 		</div>
-    </div>
-	<div class="container-section">
-		<div class="section">
-			<a href="{{ path('BNSAppHomeworkBundle_back_preferences') }}">Personnalisation</a>
+		{#{% include 'BNSAppHomeworkBundle:Block:load_subject_block.html.twig' with {'subjects': subjects} %}#}
+		<div class="title-container">
+			<div class="title active border-blue">{% trans %}WORK_DISCIPLINE{% endtrans %}<span class="square icon-arrow"></span></div>
+			<div class="content-title">
+			    <div class="form-title">
+				    <div id="section-homework-subject">
+					    <div class="loader loader-h"></div>
+					    <div class="category-icons-list">
+						    {{ render(controller('BNSAppBlogBundle:Back:getCategoryIcons')) }}
+						    <a href="#" class="default">{% trans %}NO_ICON{% endtrans %}</a>
+					    </div>
+					    <input type="text" size="16" class="add-category" placeholder="{{"PLACEHOLDER_NEW_DISCIPLINE"|trans}}" style="border-radius: 3px; {# BECAUSE WE DON'T HAVE ICON ! #}">
+					    <img src="{{ asset('/medias/images/icons/enter-key.png') }}" alt="" class="add-category-help" />
+					    <input type="button" class="btn btn-info btn-add-subject" value="{{ "INPUT_ADD"|trans }}" />
+				    </div>
+			    </div>
+			</div>
+			<div class="content-category">
+			   <ol>
+				   {% for subjectField in homework_form.subject_id %}
+					   <li class="sidebar-select"><div>{{ subjectField.vars.label }}{{ form_widget(subjectField, {'attr': {'class': 'pull-right'} }) }}</div></li>
+				   {% endfor %}
+			   </ol>
+				{% if homework_form.subject_id.vars.errors|length > 0 %}
+				<div class="alert alert-danger bns-alert">
+					{% for error in homework_form.subject_id.vars.errors %}
+						{{ error.message }}
+					{% endfor %}
+				</div>
+				{% endif %}
+		   </div>
+		</div>
+		<div class="title-container">
+			<div class="title active border-blue">{% trans %}TITLE_GROUPS{% endtrans %}<span class="square icon-arrow"></span></div>
+			<div class="content-category homework-classrooms-filters">
+				<ol>
+					{% for groupField in homework_form.groups %}
+					<li class="sidebar-select"><div>{{ groupField.vars.label }} {{ form_widget(groupField, {'attr': {'class': 'pull-right'} }) }}</div></li>
+					{% endfor %}
+				</ol>
+				{% if homework_form.groups.vars.data|length == 0 and app.request.server.get('REQUEST_METHOD') != 'GET' %}
+					<div class="alert alert-danger bns-alert">
+                        {% trans %}SELECT_MIN_ONE_CLASS{% endtrans %}
+					</div>
+				{% endif %}
+			</div>
+		</div>
+		<div class="title-container">
+			<div class="title active border-blue">{{ 'TITLE_DATE'|trans |desc('Date') }}<span class="square icon-arrow"></span></div>
+			<div class="content-category homework-classrooms-filters datepicker-sidebar">
+				<ol>
+					<li><div class="label-recurence">{% trans %}PREFIX_DATE{% endtrans %}</div> {{ form_widget(homework_form.date) }}<img class="show-calendar" src="{{ asset('/medias/images/icons/sidebar/datepicker.png') }}" alt=""></li>
+				</ol>
+				{% if homework_form.date.vars.errors|length > 0 %}
+				<div class="alert alert-danger bns-alert">
+					{% for error in homework_form.date.vars.errors %}
+						{{ error.message }}
+					{% endfor %}
+				</div>
+				{% endif %}
+			</div>
+		</div>
+
+		<div class="title-container">
+			<div class="title active border-blue">{% trans %}DAY_OF_RECURRENCE{% endtrans %}<span class="square icon-arrow"></span></div>
+			<div class="content-category homework-classrooms-filters">
+
+					<div class="recurrence padding-form">
+					<ol>
+					<li class="sidebar-select sidebar-select-toggle"><div>{% trans %}IS_A_RECURRENT_WORK{% endtrans %} <input type="checkbox" id="is-recurrence" /></div></li>
+					</ol>
+					<div id="toggle-recurrence" style="display:none;" >
+						<div class="shadow"></div>
+						<div>
+						<ol>
+							<li>{{ form_widget(homework_form.recurrence_type) }}</li>
+						</ol>
+						</div>
+						<div id="recurrence_container">
+							<div class="label-recurrence">{% trans %}DAY_OF_RECURRENCE{% endtrans %}</div>
+							{{ form_widget(homework_form.recurrence_days) }}
+						</div>
+						<div id="recurence-end" class="datepicker-sidebar">
+						<ol>
+							<li><div class="label-recurence">{% trans %}DATE_UNTIL_RECURRENCE{% endtrans %}</div> {{ form_widget(homework_form.recurrence_end_date) }}<img class="show-calendar" src="{{ asset('/medias/images/icons/sidebar/datepicker.png') }}" alt=""></li>
+						</ol>
+						</div>
+					</div>
+					{% if homework_form.recurrence_end_date.vars.errors|length > 0 %}
+					<div class="alert alert-danger bns-alert">
+						{% for error in homework_form.recurrence_end_date.vars.errors %}
+							{{ error.message }}
+						{% endfor %}
+					</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+
+		<div class="title-container">
+			<div class="title active border-blue">{{ 'INTEGRATION_MULTIMEDIA' |trans |desc('Intégration médiathèque') }}<span class="square icon-arrow"></span></div>
+			<div class="content-category homework-classrooms-filters">
+
+				<ol>
+					<li class="sidebar-select">
+						<div>{{ 'LABEL_CREATE_LOCKER_STORE'|trans |desc('Créer un casier de dépôt') }} {{ form_widget(homework_form.has_locker, {'attr': {'class': 'pull-right'} }) }}</div>
+					</li>
+				</ol>
+				{% if homework_form.has_locker.vars.errors|length > 0 %}
+					<div class="alert alert-danger bns-alert">
+						{% for error in homework_form.has_locker.vars.errors %}
+							{{ error.message }}
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
 		</div>
 	</div>
 {% endblock sidebar %}
 
 {% block content %}
+	{% include 'BNSAppMainBundle::notice.html.twig' %}
+	      {% if homework_form.name.vars.errors | length > 0 %}
+	      <div class="alert alert-danger bns-alert">
+                    {{ homework_form.name.vars.errors[0].message }}
+                <div class="jim"></div>
+		</div>
+	      {% endif %}
 	<div class="header-form">
-		<p>Rédiger un travail</p>
+	    <p></p>
 	</div>
 	<div class="content-form-manager">
 		<div class="padding-form">
-			{{ form_errors(homework_form.name) }}
-			{{ form_widget(homework_form.name, {'attr': {'placeholder': 'Intitulé du travail'} }) }}
+			{{ form_widget(homework_form.name, {'attr': {'placeholder': 'PLACEHOLDER_WORK_TITLE'|trans} }) }}
 		</div>
-		<div class="date padding-form">
-			{{ form_errors(homework_form.date) }}
-			{{ form_widget(homework_form.date) }}
-		</div>
-		<div class="recurrence padding-form">
-			<input type="checkbox" id="is-recurrence" />Est un travail récurrent
-
-			<div id="toggle-recurrence" style="display:none;" class="toggle-recurrence">
-				<div class="shadow"></div>
-				<div>
-					<div class="label-recurrence">Type de récurrence</div>
-					{{ form_errors(homework_form.recurrence_type) }}
-					{{ form_widget(homework_form.recurrence_type) }}
-				</div>
-				<div id="recurrence_container">
-					<div class="label-recurrence">Jours de récurrence</div>
-					{{ form_errors(homework_form.recurrence_days) }}
-					{{ form_widget(homework_form.recurrence_days) }}
-				</div>
-				<div id="recurence-end">
-					<div class="label-recurrence">Date de fin de récurrence</div>
-					{{ form_errors(homework_form.recurrence_end_date) }}
-					{{ form_widget(homework_form.recurrence_end_date) }}
-				</div>
-			</div>
+		<div class="padding-form">
+			{{ form_widget(homework_form.description, { 'attr': {'bns-tinymce': '', 'data-theme': 'simple', 'placeholder': 'PLACEHOLDER_WORK_TITLE'|trans} }) }}
 		</div>
 
 		<div class="padding-form">
-			{{ form_errors(homework_form.description) }}
-			{{ form_widget(homework_form.description, { 'attr': {'class': 'load_tinymce', 'data-theme': 'simple', 'placeholder': 'Ecrire  travail'} }) }}
-		</div>
-
-		{% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': homework.getResourceAttachments,"editable": true} %}
-
-		<div class="padding-form">
-			{{ form_errors(homework_form.helptext) }}
-			{{ form_widget(homework_form.helptext, {'attr': {'placeholder': 'Ecrire une aide pour le travail'} }) }}
+			{{ form_widget(homework_form.helptext, {'attr': {'placeholder': "PLACEHOLDER_WRITE_HELP_FOR_WORK"|trans } } ) }}
 		</div>
 
 		{% set homework = homework_form.vars.value %}
 
+		<div style="display: none;">
 		{{ form_rest(homework_form) }}
-		{% set homework = homework_form.vars.value %}
-		{% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': homework.getResourceAttachments,"editable": true} %}
-
-		{{ form_rest(homework_form) }}
+		</div>
+		    {% set homework = homework_form.vars.value %}
+		    {% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias': homework.getResourceAttachments, "editable": true, 'objectType': 'Homework', 'objectId': homework.id} %}
 	</div>
 
 {% endblock content %}
-	
+
 {% block surround_form_end %}
     </form>
 {% endblock surround_form_end %}
@@ -131,57 +200,144 @@
 
 {% block main_javascripts %}
     {{ parent() }}
-	
-	<script type="text/javascript" src="{{ asset('/medias/js/jquery.ui.nestedSortable.js') }}"></script>
+
 {% endblock %}
 
 {% block javascripts %}
-	<script src="http://jquery-ui.googlecode.com/svn/tags/latest/ui/minified/i18n/jquery-ui-i18n.min.js" type="text/javascript"></script>
-	<script type="text/javascript" src="{{ asset('/medias/js/homework/Back/editHomework.js') }}"></script>	
+    {{ parent() }}
+	<script type="text/javascript" src="{{ asset('/medias/js/jquery.ui.nestedSortable.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/homework/Back/editHomework.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/medias/js/homework/subjects.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/homework/collapse-sidebar.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/medias/js/date.js') }}"></script>
-	{{ tinymce_init() }}
-	
+
 	<script type="text/javascript">
 		$(function ()
 		{
-			// Filtres catégories
-			$('body').on('click', '.homework-classrooms-filters li', function (e)
-			{
-				var $row = $(e.currentTarget),
-					$checkbox = $row.find('.select').first();
+			$.extend($.datepicker.regional["{{ app.request.locale }}"], { dateFormat: "dd/mm/yy"});
+			$( ".jq-date" ).datepicker($.datepicker.regional[ "{{ app.request.locale }}" ]);
 
-				if ($(e.target).parent().hasClass('list-grip')) {
-					return;
+
+			// Show category input help - fadeOut
+			$('#section-homework-subject input.add-category').blur(function (e)
+			{
+				var $row = $(e.currentTarget).parent();
+				if ($(e.currentTarget).val() == '') {
+					$row.find('.add-category-help').fadeOut('slow');
+				}
+			});
+
+			// Show category input help - fadeIn
+			$('#section-homework-subject input.add-category').keypress(function (e)
+			{
+				    var $row = $(e.currentTarget).parent();
+				    if (e.which != 13) {
+					    $row.find('.add-category-help').fadeIn('slow');
+				    }
+				    else
+				    {
+					$('.btn-add-subject').click();
+				    }
+			});
+
+			// Add category process
+			$('.btn-add-subject').click(function (e)
+			{
+				var $this = $(e.currentTarget),
+				$row = $this.parent().parent(),
+				$input = $row.find('input[type="text"]').first();
+
+				if ($row.hasClass('loading') || $input.val().length == 0) {
+					return false;
 				}
 
-				// Like radio button, only one checked
-				$('.homework-classrooms-filters li .select').removeClass('checked');
-				$checkbox.toggleClass('checked');
-
-				// Articles loader
-				var $articlesLoader = $('.admin-blog-list .layer');
-				$articlesLoader.addClass('show');
-
-				var data = $row.attr('id').split('_'),
-					id = data[1];
+				$row.addClass('loading');
+				var $loader = $row.find('.loader');
+				$loader.fadeIn('fast');
 
 				$.ajax({
-					url: Routing.generate('blog_manager_articles'),
+					url: Routing.generate('BNSAppHomeworkBundle_backajax_subject_add'),
 					type: 'POST',
 					dataType: 'html',
-					data: {'is_enabled': $checkbox.hasClass('checked'), 'category': id},
+					data: {
+						'subject_title': $input.val(),
+						'quick_add': true
+					},
 					success: function (data)
 					{
-						$('.admin-blog-list .list-articles').html(data);
+						var $category = $(data);
+						$category.css('display', 'none');
+						$row.parent().parent().find('.content-category ol').prepend($category);
+						$category.slideDown('fast');
+
+						// Reset
+						$input.val('');
+						$this.find('.add-category-help').fadeOut('fast');
 					}
 				}).done(function ()
 				{
-					$articlesLoader.removeClass('show');
+					$row.removeClass('loading');
+					$loader.fadeOut('fast');
 				});
 
 				return false;
 			});
+
+
+			if($('#homework_form_recurrence_type :selected').val() != 'ONCE')
+			{
+			    $('#is-recurrence').click();
+			}
+
+
+			$('.sidebar-select').live("click", function(){
+			    var checked = $(this).find('input').first().is(':checked');
+			    if(checked)
+			    {
+				$(this).find('input').first().attr('checked', false);
+			    }
+			    else
+			    {
+				$(this).find('input').first().attr('checked', true);
+			    }
+
+			    if($(this).hasClass('sidebar-select-toggle')){
+				$('#toggle-recurrence').toggle();
+			    }
+			});
+
+			$('.sidebar-select [type=checkbox]').click(function(ev){
+			    var checked = $(this).is(':checked');
+			    if(checked)
+			    {
+				$(this).attr('checked', false);
+			    }
+			    else
+			    {
+				$(this).attr('checked', true);
+			    }
+
+			    if($(this).parent().parent().hasClass('sidebar-select-toggle')){
+				$('#toggle-recurrence').toggle();
+			    }
+			});
+
+			$('.sidebar-select [type=radio]').click(function(ev){
+			    var checked = $(this).is(':checked');
+			    if(checked)
+			    {
+				$(this).attr('checked', false);
+			    }
+			    else
+			    {
+				$(this).attr('checked', true);
+			    }
+
+			    if($(this).parent().parent().hasClass('sidebar-select-toggle')){
+				$('#toggle-recurrence').toggle();
+			    }
+			});
+
 		});
 	</script>
 {% endblock %}

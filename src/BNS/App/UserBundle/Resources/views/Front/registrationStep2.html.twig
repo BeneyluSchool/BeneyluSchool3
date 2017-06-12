@@ -1,0 +1,85 @@
+{% trans_default_domain "USER" %}
+{% extends 'BNSAppUserBundle:Front:registrationStep.html.twig' %}
+{% set step = 2 %}
+
+{% block dialog_content %}
+  {{ form_start(form, { attr: { novalidate: true } }) }}
+
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      {% include 'BNSAppUserBundle:Front:registrationProgressBar.html.twig' %}
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content class="md-dialog-content">
+    {% if not form.vars.valid %}
+      <div class="md-body-1 text-warn">{% trans %}DESCRIPTION_FORM_HAS_ERRORS{% endtrans %}</div>
+    {% endif %}
+    {{ form_errors(form) }}
+
+    <h2 class="title-modal">{% trans %}TITLE_CLASSROOM_DETAILS{% endtrans %}</h2>
+    <p class="subtitle-modal">
+      {% if app.user.registrationStep %}
+        {% trans %}DESCRIPTION_CLASSROOM_DETAILS{% endtrans %}
+      {% else %}
+        {% trans %}DESCRIPTION_CLASSROOM_DETAILS_EDIT{% endtrans %}
+      {% endif %}
+    </p>
+
+    <p class="form-label">{% trans %}LABEL_CLASS_NAME{% endtrans %} *</p>
+    <div class="layout-row layout-align-start-end">
+      <span class="flex flex-none">
+        <img src="{{ asset('medias/images/icons/modules/classroom/medium.png') }}" class="classroom" />
+      </span>
+      <div class="flex">
+        <md-input-container bns-no-message>
+          {{ form_label(form.label) }}
+          {{ form_widget(form.label) }}
+        </md-input-container>
+      </div>
+    </div>
+    <div class="md-body-1 text-warn">{{ form_errors(form.label) }}</div>
+
+    {% form_theme form.level 'BNSAppMainBundle:Form:material_fields.html.twig' %}
+    <p class="form-label">{% trans %}LABEL_CLASS_LEVEL{% endtrans %}</p>
+    {{ form_widget(form.level) }}
+    <div class="md-body-1 text-warn">{{ form_errors(form.level) }}</div>
+    <p><span class="form-label">*</span> {% trans %}REQUIRED_FIELDS{% endtrans %}</p>
+  </md-dialog-content>
+
+  <div class="md-actions">
+    <div class="flex-order-3">
+      {{ components.button('BUTTON_CUSTOMIZE_MY_CLASS'|trans, {
+        icon: {
+          name: 'check_circle',
+          attr: { class: 'hide-sm' }
+        },
+        raised: true,
+        intent: 'accent',
+        attr: {
+          type: 'submit',
+        },
+      }) }}
+    </div>
+    <div class="flex-order-2">
+      {% form_theme form.skip 'BNSAppMainBundle:Form:material_fields.html.twig' %}
+      {# multiple skip buttons, for different displays #}
+      {{ form_widget(form.skip, {
+        label: 'BUTTON_CUSTOMIZE_MY_CLASS_LATER',
+        attr: { class: 'md-primary hide-sm' }
+      }) }}
+      <md-button type="submit" class="md-primary hide-gt-sm" name="{{ form.skip.vars.full_name }}">
+        {{ 'BUTTON_LATER'|trans }}
+      </md-button>
+    </div>
+    <div class="flex">
+      {{ components.button(null, {
+        href: '',
+        icon: 'help',
+        attr: { id: 'intercom-widget-activator', class: 'hide-sm' }
+      }) }}
+    </div>
+  </div>
+
+  {{ form_end(form) }}
+{% endblock %}

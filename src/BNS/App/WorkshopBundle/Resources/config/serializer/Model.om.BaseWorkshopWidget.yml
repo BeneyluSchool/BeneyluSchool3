@@ -1,0 +1,22 @@
+BNS\App\WorkshopBundle\Model\om\BaseWorkshopWidget:
+  exclusion_policy: All
+  properties:
+    id:
+      expose: true
+    widget_group_id:
+      expose: true
+    position:
+      expose: true
+    media_id:
+      expose: true
+    content:
+      expose: true
+    subtype:
+      expose: true
+
+  virtual_properties:
+    getType:
+      expose: true
+
+    getSettings:
+      expose: true

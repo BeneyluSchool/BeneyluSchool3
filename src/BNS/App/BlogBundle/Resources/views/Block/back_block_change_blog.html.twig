@@ -1,0 +1,15 @@
+{% trans_default_domain "BLOG" %}
+<div class="title-container">
+  <div class="title active border-blue">{% trans %}BLOG_PUBLICATION{% endtrans %} <span class="square icon-arrow"></span></div>
+  <div class="content-category homework-classrooms-filters">
+    <ol>
+      {% for child in form.blog_ids %}
+        <label for="{{ child.vars.id }}">
+          <li class="sidebar-select">
+            <div>{{ child.vars.label }} {{ form_widget(child, {'attr': {'class': 'pull-right'} }) }}</div>
+          </li>
+        </label>
+      {% endfor %}
+    </ol>
+  </div>
+</div>

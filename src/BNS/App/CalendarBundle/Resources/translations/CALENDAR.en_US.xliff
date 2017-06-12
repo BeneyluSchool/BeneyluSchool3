@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-06-22T11:32:50Z" source-language="en" target-language="en-US" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="fcd8304c1014fb3f327306989c219b3f192dae48" resname="ADD_BY_AUTHOR">
+        <source>Ajouté par %author%</source>
+        <target state="new">Added by %author%</target>
+        <note><![CDATA[%author% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="1ca68483bed67729256655cd2caeac1727419146" resname="ALL_DAY_OF">
+        <source>ALL_DAY_OF</source>
+        <target>All day on %date%</target>
+        <note><![CDATA[%date% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="595839c0b0bdbbadcdbf5a4548a0eb897d5d9fe6" resname="ARTICLE_AT">
+        <source>Du</source>
+        <target state="new">From</target>
+      </trans-unit>
+      <trans-unit id="a114aaf1bb8a2a64302cb3f0aebe9bf43cd6b9ae" resname="ARTICLE_TO">
+        <source>le</source>
+        <target state="new">the</target>
+      </trans-unit>
+      <trans-unit id="324716d4caabe4c7821a52120a9b79c9a23c8e7b" resname="BEGIN_DATE_BEFORE_END_DATE">
+        <source>BEGIN_DATE_BEFORE_END_DATE</source>
+        <target>The starting date and time of the event should precede the ending date and time.</target>
+      </trans-unit>
+      <trans-unit id="d20a671a0c7ff01dc0ef9a282c519b3b21d6bee3" resname="BEGIN_HOURS_BETWEEN_MIN_MAX">
+        <source>BEGIN_HOURS_BETWEEN_MIN_MAX</source>
+        <target>The starting time of the event should be between 8AM and 10PM.</target>
+        <note><![CDATA[%min% is a placeholder
+%max% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="68321b31cbce1600a83ecd3598756dbfe6ec3d55" resname="DATE_DURATION">
+        <source>DATE_DURATION</source>
+        <target>Date and duration</target>
+      </trans-unit>
+      <trans-unit id="c152ad40eb588de489d5f5ca57b862ca3211e262" resname="DATE_FROM_AT_TO">
+        <source><![CDATA[Du %date% à <strong>%dateFrom%</strong> au %dateEnd%]]></source>
+        <target state="new"><![CDATA[From %date% at <strong>%dateFrom%</strong> to %dateEnd%]]></target>
+        <note><![CDATA[%date% is a placeholder
+%dateFrom% is a placeholder
+%dateEnd% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="a411e92cde593b4cbe2db037484893087ac8580c" resname="DATE_FROM_AT_TO_AT">
+        <source><![CDATA[Du %date% à <strong>%dateFrom%</strong> au %dateEnd% à <strong>%dateAt%</strong>]]></source>
+        <target state="new"><![CDATA[From %date% at <strong>%dateFrom%</strong> to %dateEnd% at <strong>%dateAt%</strong>]]></target>
+        <note><![CDATA[%date% is a placeholder
+%dateFrom% is a placeholder
+%dateEnd% is a placeholder
+%dateAt% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="54863b1159c1ef03f5bcfaa3ee3618580bbc5da7" resname="DATE_FROM_TO">
+        <source>Du %date% au %dateEnd%</source>
+        <target state="new">From %date% to %dateEnd%</target>
+        <note><![CDATA[%date% is a placeholder
+%dateEnd% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="e88f1a1dfae6c94abb56139711c1aacdcca1a5a5" resname="DATE_FROM_TO_AT">
+        <source><![CDATA[Du %date% au %dateEnd% à <strong>%dateAt%</strong>]]></source>
+        <target state="new"><![CDATA[From %date% to %dateEnd% at <strong>%dateAt%</strong>]]></target>
+        <note><![CDATA[%date% is a placeholder
+%dateEnd% is a placeholder
+%dateAt% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="f05d4629694c837a43ee0f8bd374caf35a317c69" resname="DATE_FROM_TO_THE">
+        <source>Le %date% de %dateFrom% à %dateAt%</source>
+        <target state="new">On %date% from %dateFrom% to %dateAt%</target>
+        <note><![CDATA[%date% is a placeholder
+%dateFrom% is a placeholder
+%dateAt% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="e5dfcecbb097a95fd49381fef62d4c495902ab96" resname="DATE_WEEK_CALENDAR">
+        <source>Du %dateStart% au %dateEnd%</source>
+        <target state="new">From %dateStart% to %dateEnd%</target>
+        <note><![CDATA[%dateStart% is a placeholder
+%dateEnd% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="34d5a663912b26b93d2dad8f7e3ea469559b07d5" resname="DETAIL_ALL_DAY_OF">
+        <source><![CDATA[Toute la journée du <p class="week-calendar">%date%</p>]]></source>
+        <target state="new"><![CDATA[All day on <p class="week-calendar">%date%</p>]]></target>
+        <note><![CDATA[%date% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="bef71a02b298f63979a675a80f38b0047e36bfcc" resname="DETAIL_DATE_FROM_AT_TO">
+        <source><![CDATA[Du %date% à <strong>%dateFrom%</strong> <p class="week-calendar">au %dateEnd%</p>]]></source>
+        <target state="new"><![CDATA[From %date% at <strong>%dateFrom%</strong> <p class="week-calendar">to %dateEnd%</p>]]></target>
+        <note><![CDATA[%date% is a placeholder
+%dateFrom% is a placeholder
+%dateEnd% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="d7c35f526c9e6e1d9ac24373877bd5567abe2d93" resname="DETAIL_DATE_FROM_AT_TO_AT">
+        <source><![CDATA[Du %date% à <strong>%dateFrom%</strong> <p class="week-calendar">au %dateEnd% à <strong>%dateAt%</strong></p>]]></source>
+        <target state="new"><![CDATA[From %date% at <strong>%dateFrom%</strong> <p class="week-calendar">to %dateEnd% at <strong>%dateAt%</strong></p>]]></target>
+        <note><![CDATA[%date% is a placeholder
+%dateFrom% is a placeholder
+%dateEnd% is a placeholder
+%dateAt% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="f48c9bbaeca23e1fae794fe8ba2e5ac8c9ce2fdf" resname="DETAIL_DATE_FROM_TO">
+        <source><![CDATA[Du %date% <p class="week-calendar">au %dateEnd%</p>]]></source>
+        <target state="new"><![CDATA[From %date% <p class="week-calendar">to %dateEnd%</p>]]></target>
+        <note><![CDATA[%date% is a placeholder
+%dateEnd% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="7832e28d1217b9f8bc1fe8237e368db4d30e12a9" resname="DETAIL_DATE_FROM_TO_AT">
+        <source><![CDATA[Du %date% au <p class="week-calendar">%dateEnd% à <strong>%dateAt%</strong></p>]]></source>
+        <target state="new"><![CDATA[From %date% at <p class="week-calendar">%dateEnd% to <strong>%dateAt%</strong></p>]]></target>
+        <note><![CDATA[%date% is a placeholder
+%dateEnd% is a placeholder
+%dateAt% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="24d6c4a0ef808470817536176b7c644539a875a5" resname="DETAIL_DATE_FROM_TO_THE">
+        <source><![CDATA[Le %date% <p class="week-calendar">de %dateFrom% à %dateAt%</p>]]></source>
+        <target state="new"><![CDATA[On %date%<p class="week-calendar">from %dateFrom% to %dateAt%</p>]]></target>
+        <note><![CDATA[%date% is a placeholder
+%dateFrom% is a placeholder
+%dateAt% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="60df41d41163aa9453ff1f5eac7f4e87e358f129" resname="END_DATE_MUST_BE_UPPER_THAN_BEGIN_DATE">
+        <source>END_DATE_MUST_BE_UPPER_THAN_BEGIN_DATE</source>
+        <target>The ending date of the recurrence should be posterior to the ending date of the event.</target>
+      </trans-unit>
+      <trans-unit id="7034cf70fdeb089a243d116e184bb708711d9e78" resname="END_HOURS_BETWEEN_MIN_MAX">
+        <source>END_HOURS_BETWEEN_MIN_MAX</source>
+        <target>The ending time of the event should be between 8AM and 10PM.</target>
+        <note><![CDATA[%min% is a placeholder
+%max% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="2c54a5480a66a1eb1a567faa4a4ac31de7eda25a" resname="ENTER_METHOD_TO_STOP_EVENT">
+        <source>ENTER_METHOD_TO_STOP_EVENT</source>
+        <target state="new">You can either stop your event by setting an ending date or after a number of repetitions.</target>
+      </trans-unit>
+      <trans-unit id="b947fa927032a1388c82db15bb65344e23073f0b" resname="ENTER_TYPE_OCCURENCE">
+        <source>ENTER_TYPE_OCCURENCE</source>
+        <target>You need to complete a type of occurrence.</target>
+      </trans-unit>
+      <trans-unit id="c89db44400b3dea1af79c026c160d75b56e7af4a" resname="EVENT_HAVENT_DESCRIPTION">
+        <source>EVENT_HAVENT_DESCRIPTION</source>
+        <target>This event has no description.</target>
+      </trans-unit>
+      <trans-unit id="b863eb098be0b95b7f04e5d66f488d02eaccfcd7" resname="EVENT_TAKE_PLACE">
+        <source><![CDATA[Lieu de l'évènement <strong>%eventPlace%</strong>]]></source>
+        <target state="new"><![CDATA[Event location <strong>%eventPlace%</strong>]]></target>
+        <note><![CDATA[%eventPlace% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="cd783c22e35626c6937172da1232546719c10c4e" resname="IN_CALENDAR">
+        <source>IN_CALENDAR</source>
+        <target>In the calendar</target>
+      </trans-unit>
+      <trans-unit id="854e359fbc84bcc326281829a6343daaa3e221ff" resname="LABEL_ALL_DAY">
+        <source>LABEL_ALL_DAY</source>
+        <target>All day</target>
+      </trans-unit>
+      <trans-unit id="f23551f24ae3188c949ecdf68a569a1251b37daa" resname="LABEL_DAILY">
+        <source>LABEL_DAILY</source>
+        <target>Everyday</target>
+      </trans-unit>
+      <trans-unit id="73aad568d6cc17db5470d42a506bb0399404e6b2" resname="LABEL_DATE_AT">
+        <source>LABEL_DATE_AT</source>
+        <target state="new">to</target>
+      </trans-unit>
+      <trans-unit id="40f64293689bb94f7e10fbb010cf0a531d55fb26" resname="LABEL_DATE_FROM">
+        <source>LABEL_DATE_FROM</source>
+        <target>From</target>
+      </trans-unit>
+      <trans-unit id="a4e8850d8d8edaf816ec02a1410d574163aa11d6" resname="LABEL_DATE_NUMBER">
+        <source>LABEL_DATE_NUMBER</source>
+        <target>From</target>
+      </trans-unit>
+      <trans-unit id="0c27a62e5cffb8465b7e7323c4f0cbd87a3080fa" resname="LABEL_DATE_TO">
+        <source>LABEL_DATE_TO</source>
+        <target>to</target>
+      </trans-unit>
+      <trans-unit id="f4035599cbb5bceaa3df2b825345e6cfe3894489" resname="LABEL_DURING">
+        <source>LABEL_DURING</source>
+        <target state="new">During:</target>
+      </trans-unit>
+      <trans-unit id="0759bdc28f6b3477708dca6c5d02fc6e583f0047" resname="LABEL_EMPTY_OCCURRENCE">
+        <source>LABEL_EMPTY_OCCURRENCE</source>
+        <target>Occurrence type</target>
+      </trans-unit>
+      <trans-unit id="c2cd3c034639bea7a58c6c63c620706016c62611" resname="LABEL_END_DATE">
+        <source>LABEL_END_DATE</source>
+        <target>Or ending date:</target>
+      </trans-unit>
+      <trans-unit id="b29e300214d0fad7e41c4a8ff8e0e8ba35a06868" resname="LABEL_ENTER_TIME">
+        <source>LABEL_ENTER_TIME</source>
+        <target>times</target>
+      </trans-unit>
+      <trans-unit id="bd9cef68b9e13e1f70afceef9d64ab77722df127" resname="LABEL_EVENT_RECURRENCE">
+        <source>LABEL_EVENT_RECURRENCE</source>
+        <target>This is a recurring event</target>
+      </trans-unit>
+      <trans-unit id="57cffb7ffcc7cf39db6b082421ca9a3107708d0f" resname="LABEL_MONTHLY">
+        <source>LABEL_MONTHLY</source>
+        <target>Every month</target>
+      </trans-unit>
+      <trans-unit id="b34cec65e2a6fd989f034cd401d809b0750611d9" resname="LABEL_TYPE_OCCURRENCE">
+        <source>LABEL_TYPE_OCCURRENCE</source>
+        <target>What type of occurence</target>
+      </trans-unit>
+      <trans-unit id="c92441b0a8963107a4d62717103f56210d726362" resname="LABEL_WEEKLY">
+        <source>LABEL_WEEKLY</source>
+        <target>Every week</target>
+      </trans-unit>
+      <trans-unit id="236866187e0fb5648e42e7bf5f84ef2e76f457a2" resname="LABEL_YEARLY">
+        <source>LABEL_YEARLY</source>
+        <target>Every year</target>
+      </trans-unit>
+      <trans-unit id="9a5023d12bf76bbebf18c4cfee679c63f9509a2a" resname="LAST_WEEK">
+        <source>LAST_WEEK</source>
+        <target><![CDATA[Previous<br /><strong>week</strong>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="c52ffd4f98e728c84b90065c68b06637f1fcac50" resname="LINE_LAST_WEEK">
+        <source>LINE_LAST_WEEK</source>
+        <target><![CDATA[Previous<br />week]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="5d65da8bda1b2045d45a23b1d662661869c720da" resname="LINE_NEXT_WEEK">
+        <source>LINE_NEXT_WEEK</source>
+        <target><![CDATA[Next<br />week]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="f7607744c24360f3387f71e16c7720971331962c" resname="LINK_ADD_EVENT">
+        <source>LINK_ADD_EVENT</source>
+        <target>Add an event</target>
+      </trans-unit>
+      <trans-unit id="81b67194f4ba41f690e3a89d6daca2e15627ffce" resname="LINK_BACK_TO_CALENDAR">
+        <source>LINK_BACK_TO_CALENDAR</source>
+        <target state="new"><![CDATA[<strong>Go back</strong><br />to calendar]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="1f8524949b59bf473e5b31304582c62cb6d54e28" resname="LINK_CANCEL">
+        <source>LINK_CANCEL</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="e7a9e9d20600891dbff1a631b59a419118d3c52f" resname="LINK_CANCEL_DELETE">
+        <source>LINK_CANCEL_DELETE</source>
+        <target><![CDATA[<strong>Cancel</strong><br />deletion]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="b0d66370fa420ff7e4bfac393b7d07d3717272d2" resname="LINK_CANCEL_TO_EDIT">
+        <source>LINK_CANCEL_TO_EDIT</source>
+        <target><![CDATA[<strong>Discard</strong><br />changes]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="411e26701b42e75cb8200920b79b5784c9cbabf3" resname="LINK_DELETE_EVENT">
+        <source>LINK_DELETE_EVENT</source>
+        <target><![CDATA[Delete | event]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="6d5bb4a8e97ee5bdb4180c99196c774975a2b84d" resname="LINK_EDIT_EVENT">
+        <source>LINK_EDIT_EVENT</source>
+        <target state="new"><![CDATA[<strong>Edit</strong><br />event]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="4a7ee563bc6d5915addbaf52987f333406e4fdda" resname="LINK_EVENT_RECURRENT">
+        <source><![CDATA[<strong>Évènement récurrent</strong><br /> %eventRecurrence%]]></source>
+        <target state="new"><![CDATA[<strong>Recurring event</strong><br /> %eventRecurrence%]]></target>
+        <note><![CDATA[%eventRecurrence% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="2472b143299f96cc0aaf065bef5cbf477f0ed594" resname="LINK_EVENT_TAKE_PLACE">
+        <source><![CDATA[<strong>Lieu de l'évènement</strong><br /> %eventPlace%]]></source>
+        <target state="new"><![CDATA[<strong>Event location</strong><br /> %eventPlace%]]></target>
+        <note><![CDATA[%eventPlace% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="c0e592d11dddbce7a141878e597988505ff820f2" resname="LINK_SAVE_EVENT">
+        <source>LINK_SAVE_EVENT</source>
+        <target>Save event</target>
+      </trans-unit>
+      <trans-unit id="5f05122a2673a201eb171c938a2500edfa5931e8" resname="LINK_SEE_EVENT">
+        <source>LINK_SEE_EVENT</source>
+        <target state="new"><![CDATA[<strong>View</strong><br />event]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="25b3d609ded081fc1707462614902ec948c91ff7" resname="LINK_UPDATE">
+        <source>LINK_UPDATE</source>
+        <target>Update</target>
+      </trans-unit>
+      <trans-unit id="bcf8aa90ce4b156b09eb0c5b6f2adb5e6b11db9c" resname="MUST_BE_INTEGER_POSITIVE">
+        <source>MUST_BE_INTEGER_POSITIVE</source>
+        <target>The number of repetitions should be superior to 0.</target>
+      </trans-unit>
+      <trans-unit id="2eb8aa9463e62b4287d9b2265d90145154a08b89" resname="NEXT_WEEK">
+        <source>NEXT_WEEK</source>
+        <target><![CDATA[Next<br /> <strong>week</strong>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="71aba12330f136e85b390a8fa306001f0b246989" resname="PLACEHOLDER_DATE">
+        <source>PLACEHOLDER_DATE</source>
+        <target>mm/dd/yyyy</target>
+      </trans-unit>
+      <trans-unit id="0da5b97e43e63cbf1d9d789c4dbd47cd62f28e9b" resname="PLACEHOLDER_ENTER_EVENT_PLACE">
+        <source>PLACEHOLDER_ENTER_EVENT_PLACE</source>
+        <target>Enter place here</target>
+      </trans-unit>
+      <trans-unit id="da45aae81930e7a6dd311472f7e77e27a56ee56e" resname="PLACEHOLDER_ENTER_EVENT_TITLE">
+        <source>PLACEHOLDER_ENTER_EVENT_TITLE</source>
+        <target>Enter title here</target>
+      </trans-unit>
+      <trans-unit id="57926c83daf3af558e332654e6667464b76a0377" resname="PLACEHOLDER_ENTER_QUANTITY">
+        <source>PLACEHOLDER_ENTER_QUANTITY</source>
+        <target>Enter the number of times</target>
+      </trans-unit>
+      <trans-unit id="4c90512f6d7f671f0c1a4b5d32f5de6a0203dfeb" resname="PLACEHOLDER_EVENT_DESCRIPTION">
+        <source>PLACEHOLDER_EVENT_DESCRIPTION</source>
+        <target>Event description</target>
+      </trans-unit>
+      <trans-unit id="57e4dd81c36ea8b545d7526ba909cb2ec4c2986d" resname="PREFIX_LABEL_OR_UNTIL">
+        <source>PREFIX_LABEL_OR_UNTIL</source>
+        <target><![CDATA[<strong>Or</strong> until]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="fe58cf5754b53ef3ce4f88f04181b5f15d2e25b2" resname="PREFIX_LABEL_REPEAT">
+        <source>PREFIX_LABEL_REPEAT</source>
+        <target>Repeats</target>
+      </trans-unit>
+      <trans-unit id="973a0dd053dbf5b9da696b1699b6d1482f070dd0" resname="THIS_DAY_BIRTHDAY_OF">
+        <source>THIS_DAY_BIRTHDAY_OF</source>
+        <target state="new">{0} On this day, there isn't any birthday | {1} On this day, there is the birthday of %usersStr% | ]1,Inf[ On this day, there are the birthdays of : %usersStr%</target>
+        <note><![CDATA[%usersStr% is a placeholder
+This text has plural translations based on %count% variable
+http://symfony.com/doc/current/components/translation/usage.html#pluralization]]></note>
+      </trans-unit>
+      <trans-unit id="c944a7fbd4e7998045ca0b17ed86108ea63f4e59" resname="TITLE_ANNIVERSARIES">
+        <source>TITLE_ANNIVERSARIES</source>
+        <target>Birthdays </target>
+      </trans-unit>
+      <trans-unit id="3d8f6dd8a09b2df6b3039051ba787169b6a19ac4" resname="TITLE_ANNIVERSARY">
+        <source>TITLE_ANNIVERSARY</source>
+        <target>Birthday </target>
+      </trans-unit>
+      <trans-unit id="00f4fbacba691d960b89b194436778f1b4361d3e" resname="TITLE_CALENDAR">
+        <source>TITLE_CALENDAR</source>
+        <target>Calendar</target>
+      </trans-unit>
+      <trans-unit id="d191d6d025cd8cf9a03649c7bc5a9a34ca107da8" resname="TITLE_CALENDARS">
+        <source>TITLE_CALENDARS</source>
+        <target>Calendars</target>
+      </trans-unit>
+      <trans-unit id="3f4e55db5ab3de7e91406989912d6c85cc06907c" resname="TITLE_CALENDAR_AJOUTER_EVENT">
+        <source>Calendrier - Ajouter un évènement</source>
+        <target state="new">Calendar - Add an event</target>
+      </trans-unit>
+      <trans-unit id="640da12e1f128a671ce5163fc16fa12f1a684898" resname="TITLE_CALENDAR_EDIT_EVENT">
+        <source>Calendrier - Modifier un évènement</source>
+        <target state="new">Calendar - Edit an event</target>
+      </trans-unit>
+      <trans-unit id="20e4be96fcf916ffc1aa9bac1224ef0ccca88609" resname="TITLE_CALENDAR_EVENT_TITLE">
+        <source>Calendrier - %eventTitle%</source>
+        <target state="new">Calendar - %eventTitle%</target>
+        <note><![CDATA[%eventTitle% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="2f296fd051ebf024e732667bf8eedf9941ad536a" resname="TITLE_EVENT">
+        <source>Évènement</source>
+        <target state="new">Event</target>
+      </trans-unit>
+      <trans-unit id="8d1cd2badd43b8023f061ff4c605ba278e0b13c0" resname="TITLE_MANAGEMENT">
+        <source>TITLE_MANAGEMENT</source>
+        <target>Calendar - Management</target>
+      </trans-unit>
+      <trans-unit id="6b5322f86904f8d924fd23a3cb8d325ba87cfe15" resname="TITLE_MANAGEMENT_EVENT_TITLE">
+        <source>Calendrier - Gestion - %eventTitle%</source>
+        <target state="new">Calendar - Management - %eventTitle%</target>
+        <note><![CDATA[%eventTitle% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="d8680de6b9d5057bc22241c952e8cfc0fc2b9977" resname="TITLE_MINE_CALENDAR">
+        <source>TITLE_MINE_CALENDAR</source>
+        <target>My calendars</target>
+      </trans-unit>
+      <trans-unit id="19d15f96e5e36935332a81a0c6dba51b9dd25ed7" resname="TITLE_PLACE">
+        <source>TITLE_PLACE</source>
+        <target>Place</target>
+      </trans-unit>
+      <trans-unit id="76f41a447bb1a1168e66e08c940d0280080325c9" resname="TITLE_RECURRENCE">
+        <source>TITLE_RECURRENCE</source>
+        <target>Repeat</target>
+      </trans-unit>
+      <trans-unit id="c13a9da1107d40b4ada742668d7e6801cd318307" resname="TITLE_SEE_EVENT">
+        <source>TITLE_SEE_EVENT</source>
+        <target>View events</target>
+      </trans-unit>
+      <trans-unit id="30fa6fa8d406d6aebeba6a09c80f10e854847cf3" resname="TITLE_SURE_DELETE_EVENT">
+        <source>TITLE_SURE_DELETE_EVENT</source>
+        <target>Are you sure you want to delete this event?</target>
+      </trans-unit>
+      <trans-unit id="396cb96ef1e4be2dc1677650eadf51e7046672ab" resname="TITLE_SURE_TO_DELETE_EVENT">
+        <source><![CDATA[<h2>Êtes-vous sûr de vouloir supprimer cet évènement "%eventTitle%" de votre calendrier ?</h2>
+        <h3>Cet évènement sera définitivement effacé du calendrier.<br />Les documents joints ou insérés ne seront pas supprimés de la médiathèque.</h3>]]></source>
+        <target state="new"><![CDATA[<h2>Do you really want to delete this event "%eventTitle%" from your calendar?</h2>
+ <h3>This event will be permanently removed from your calendar.<br />All attached/inserted documents will not be deleted from the media library.</h3>]]></target>
+        <note><![CDATA[%eventTitle% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="88a5fae1e0086e35447fafd68b4339f1d49f3131" resname="TITLE_WEEK">
+        <source>TITLE_WEEK</source>
+        <target>Week</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

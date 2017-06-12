@@ -19,17 +19,16 @@ class ResourceType extends AbstractType
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{	
-		// Titre
 		$builder->add('label', 'text');
-		// Description
-		$builder->add('description', 'textarea',array('required' => false));
+		$builder->add('description', 'textarea', array('required' => false));
 		$builder->add('id', 'hidden');
+		$builder->add('is_private', 'hidden');
 		
-		if($this->resource){
-			if($this->resource->isValueable()){
+		/*if ($this->resource) {
+			if ($this->resource->isValueable()) {
 				$builder->add('value', 'text');
 			}
-		}
+		}*/
 	}
 	
 	/**
@@ -50,6 +49,4 @@ class ResourceType extends AbstractType
 	{
 		return 'resource';
 	}
-	
-
 }

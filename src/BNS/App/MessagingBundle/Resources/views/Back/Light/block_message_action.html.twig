@@ -1,21 +1,22 @@
+{% trans_default_domain "MESSAGING" %}
 {% if type != "REJECTED" %}
-	<a href="#" class="messaging-moderation-message-action pull-right btn-16 small {{ type == "ACCEPTED" ? "btn bns-success" : type == "DELETE_FOREVER" ? "btn bns-danger" : type == "IN_MODERATION" ? "btn bns-warning" : "" }}" data-type="{{ type }}" data-message-id="{{ message.id }}">
-		{% if type == "ACCEPTED" %}
-			<span class="icons-16 validate-icon"></span></span><strong>Valider</strong>
-		{% elseif type == "IN_MODERATION" %}
-			<span class="icons-16 preview-icon"></span></span><strong>Passer en modération</strong>
-		{% elseif type == "DELETE_FOREVER" %}
-			<span class="icons-16 delete-icon"></span><strong>Supprimer</strong>
-		{% endif %}
-	</a>
+    <a href="#" class="messaging-moderation-message-action pull-right btn-16 small {{ type == "ACCEPTED" ? "btn bns-success" : type == "DELETE_FOREVER" ? "btn bns-danger" : type == "IN_MODERATION" ? "btn bns-warning" : "" }}" data-type="{{ type }}" data-message-id="{{ message.id }}">
+        {% if type == "ACCEPTED" %}
+            <span class="icons-16 validate-icon"></span></span><strong>{{ 'BUTTON_VALIDATE'|trans }}</strong>
+        {% elseif type == "IN_MODERATION" %}
+            <span class="icons-16 preview-icon"></span></span><strong>{{ 'BUTTON_MODERATION'|trans }}</strong>
+        {% elseif type == "DELETE_FOREVER" %}
+            <span class="icons-16 delete-icon"></span><strong>{{ 'BUTTON_DELETE'|trans }}</strong>
+        {% endif %}
+    </a>
 {% else %}
-	<div class="btn-group pull-right">	
-		<a href="#" data-toggle="dropdown" class="messaging-moderation-message-action btn bns-danger dropdown-toggle btn-16 small">
-			<span class="icons-16 delete-icon"></span>Refuser
-		</a>
-		<ul class="dropdown-menu">
-			<li><a href="#" class="messaging-moderation-message-action" data-type="{{ type }}" data-message-id="{{ message.id }}">Rejeter</a></li>
-			<li><a href="#" class="messaging-moderation-message-action" data-type="DELETE_FOREVER" data-message-id="{{ message.id }}">Supprimer définitivement</a></li>
-		</ul>
-	</div>
+    <div class="btn-group pull-right">
+        <a href="#" data-toggle="dropdown" class="messaging-moderation-message-action btn bns-danger dropdown-toggle btn-16 small">
+            <span class="icons-16 delete-icon"></span>{{ 'BUTTON_DENY'|trans }}
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="#" class="messaging-moderation-message-action" data-type="{{ type }}" data-message-id="{{ message.id }}">{{ 'LINK_REJECTED'|trans }}</a></li>
+            <li><a href="#" class="messaging-moderation-message-action" data-type="DELETE_FOREVER" data-message-id="{{ message.id }}">{{ 'LINK_DELETE_FOREVER'|trans }}</a></li>
+        </ul>
+    </div>
 {% endif %}

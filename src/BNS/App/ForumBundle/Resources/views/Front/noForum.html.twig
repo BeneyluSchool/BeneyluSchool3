@@ -1,0 +1,24 @@
+{% extends 'BNSAppForumBundle:Layout:front.html.twig' %}
+
+{% block javascripts %}
+{{ parent() }}
+{% endblock %}
+
+
+{% block container %}
+
+    {% if isAdmin %}
+        {% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+            'text' : "Il n'y a aucun forum, " ~ (is_child()?'tu peux':'vous pouvez' ) ~ " un créer un :",
+            'button': {
+                'text' : "Créer un forum",
+                'link' : path('BNSAppForumBundle_back_new_forum')
+            }
+        } %}
+    {% else %}
+        {% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+            'text' : "Il n'y a aucun forum",
+        } %}
+    {% endif %}
+
+{% endblock %}

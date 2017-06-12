@@ -28,8 +28,9 @@ class SchoolCreationType extends AbstractType
         $builder->add('email',			'text');
         $builder->add('phone_number',	'text', array('required' => false));
         $builder->add('fax_number',		'text', array('required' => false));
+        $builder->add('group_id','text', array('required' => false));
     }
-
+	
 	/**
 	 * @param \Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver
 	 */

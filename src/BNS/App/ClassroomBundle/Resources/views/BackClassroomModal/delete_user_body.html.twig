@@ -1,0 +1,15 @@
+{% trans_default_domain "CLASSROOM" %}
+<div class="modal-body">
+	<div class="content-modal-body">
+        {{ 'TITLE_SURE_TO_DELETE_USER'|trans({'%user%': user.getFullName |escape, '%class%': classroom.getLabel() |escape}) |desc('
+        			<h2>Êtes-vous sûr de vouloir supprimer "%user%" de la classe "%class%" ?</h2>
+		<h3>
+			Cet utilisateur ne pourra plus intéragir avec cette classe ainsi que ses élèves.<br />
+			<strong>Attention</strong>, cette action est irréversible !
+		</h3>
+
+        ') |raw }}
+
+	</div>
+</div>
+<div class="beneylu-jim"></div>

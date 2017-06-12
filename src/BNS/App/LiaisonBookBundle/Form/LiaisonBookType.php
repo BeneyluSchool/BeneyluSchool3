@@ -10,28 +10,38 @@ class LiaisonBookType extends AbstractType
 {
 
 	/**
-	 * @var boolean 
+	 * @var boolean
 	 */
 	private $editionMode;
 
 	/**
-	 * @param type $editionMode 
+	 * @param type $editionMode
 	 */
 	public function __construct($editionMode = false)
 	{
 		$this->editionMode = $editionMode;
 	}
-	
-	
+
+
 	/**
 	 * @param FormBuilderInterface $builder
-	 * @param array $options 
+	 * @param array $options
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
+		$date_format = "dd/MM/yyyy";
 		$builder->add('id', 'hidden', array('required' => false));
-		$builder->add('title');
-		$builder->add('content');
+		$builder->add('title', null ,array('label'=>'PLACEHOLDER_TITLE_MESSAGE',));
+		$builder->add('date', 'date', array(
+		    'input' => 'datetime',
+		    'widget' => 'single_text',
+			'proxy' => true,
+		    'attr' => array('class' => 'jq-date', 'placeholder' => 'DATE_PLACEHOLDER'),
+		    'required' => true,
+		));
+		$builder->add('content', 'textarea', array(
+			'parse_media' => true,
+		));
 	}
 
 	/**
@@ -41,11 +51,12 @@ class LiaisonBookType extends AbstractType
     {
         $resolver->setDefaults(array(
 			'data_class' => 'BNS\App\CoreBundle\Model\LiaisonBook',
+            'translation_domain' => 'LIAISONBOOK'
         ));
     }
 
 	/**
-	 * @return string 
+	 * @return string
 	 */
 	public function getName()
 	{

@@ -1,3 +1,7 @@
+{% trans_default_domain "NOTIFICATION" %}
+
+{% set hideEmpty = hideEmpty|default(false) %}
+
 <script type="text/javascript">
 	$(function ()
 	{
@@ -20,9 +24,9 @@
 			{% include 'BNSAppNotificationBundle:Notification:notification_list.html.twig' %}
 		{% endfor %}
 	</div>
-{% elseif firstCall %}
+{% elseif firstCall and not hideEmpty %}
 	<div class="no-notification">
-		Aucune nouvelle notification.
+		{{ 'NO_NEW_NOTIFICATION' |trans |desc('Aucune nouvelle notification.') }}
 	</div>
 {% endif %}
 
@@ -32,8 +36,8 @@
 			{% include 'BNSAppNotificationBundle:Notification:notification_list.html.twig' %}
 		{% endfor %}
 	</div>
-{% elseif page == 1 and not firstCall and unreadNotifications|length == 0 %}
+{% elseif page == 1 and not firstCall and unreadNotifications|length == 0 and not hideEmpty %}
 	<div class="no-notification">
-		Aucune notification.
+		{{ 'NO_NOTIFICATION'|trans |desc('Aucune notification.') }}
 	</div>
 {% endif %}

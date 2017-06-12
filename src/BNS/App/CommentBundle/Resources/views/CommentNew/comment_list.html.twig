@@ -1,0 +1,7 @@
+{% if onlyValidated is not defined %}
+    {% set onlyValidated = false %}
+{% endif %}
+
+{% for comment in comments %}
+	{% include 'BNSAppCommentBundle:CommentNew:comment_row.html.twig' with {'onlyValidated' : onlyValidated} %}
+{% endfor %}

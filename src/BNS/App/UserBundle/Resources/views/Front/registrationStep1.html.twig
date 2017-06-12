@@ -1,0 +1,93 @@
+{% trans_default_domain "USER" %}
+{% extends 'BNSAppUserBundle:Front:registrationStep.html.twig' %}
+{% set step = 1 %}
+
+{% block dialog_content %}
+  {{ form_start(form, { attr: { novalidate: true } }) }}
+
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      {% include 'BNSAppUserBundle:Front:registrationProgressBar.html.twig' %}
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content class="md-dialog-content">
+    {% if not form.vars.valid %}
+      <div class="md-body-1 text-warn">{% trans %}DESCRIPTION_FORM_HAS_ERRORS{% endtrans %}</div>
+    {% endif %}
+    {{ form_errors(form) }}
+
+    <h2 class="title-modal">{% trans %}TITLE_USER_DETAILS{% endtrans %}</h2>
+    <p class="subtitle-modal">{% trans with { '%beneylu_brand_name%': parameter('beneylu_brand_name') } %}DESCRIPTION_USER_DETAILS{% endtrans %}</p>
+
+    <div class="form-label">{% trans %}LABEL_WHATS_YOUR_NAME{% endtrans %} *</div>
+    <md-input-container bns-no-message>
+      {{ form_label(form.first_name) }}
+      {{ form_widget(form.first_name) }}
+    </md-input-container>
+    <div class="md-body-1 text-warn">{{ form_errors(form.first_name) }}</div>
+    <md-input-container bns-no-message>
+      {{ form_label(form.last_name) }}
+      {{ form_widget(form.last_name) }}
+    </md-input-container>
+    <div class="md-body-1 text-warn">{{ form_errors(form.last_name) }}</div>
+
+    <div class="layout-gt-sm-row layout-align-start-end">
+      <p class="form-label inline-display">{% trans %}LABEL_GENDER_ARE_YOU{% endtrans %} *</p>
+      <div class="flex">
+        {% form_theme form.civility 'BNSAppMainBundle:Form:material_fields.html.twig' %}
+        {{ form_widget(form.civility) }}
+      </div>
+    </div>
+    <div class="md-body-1 text-warn">{{ form_errors(form.civility) }}</div>
+
+    <div class="layout-gt-sm-row layout-align-start-end">
+      <p class="form-label inline-display">{% trans %}LABEL_WHERE_DO_YOU_LIVE{% endtrans %} *</p>
+      <md-input-container md-no-float bns-no-message class="flex">
+        {{ form_widget(form.country) }}
+      </md-input-container>
+    </div>
+    <div class="md-body-1 text-warn">{{ form_errors(form.country) }}</div>
+
+    <div class="layout-gt-sm-row layout-align-start-end">
+      <p class="form-label inline-display">{% trans %}LABEL_LANGUAGE_YOU_SPEAK{% endtrans %}</p>
+      <md-input-container md-no-float bns-no-message class="flex">
+        {{ form_widget(form.lang) }}
+      </md-input-container>
+    </div>
+    <div class="md-body-1 text-warn">{{ form_errors(form.lang) }}</div>
+    {% if cguEnabled %}
+      <div class="layout-gt-sm-row layout-align-start-end">
+        <p class="form-label inline-display">{{ 'ACCEPT_BENEYLU_READ_CGU'|trans |desc('J\'ai lu et j\'accepte') }}
+          <a href="{{ cguUrl }}" target="_blank" style="text-decoration: underline">{{ 'ACCESS_BENEYLU_CGU'|trans |desc('les conditions générales d\'utilisation.') }}</a> *</p>
+        <div class="flex">
+          {% form_theme form.cgu 'BNSAppMainBundle:Form:material_fields.html.twig' %}
+          {{ form_widget(form.cgu) }}
+        </div>
+      </div>
+      <div class="md-body-1 text-warn">{{ form_errors(form.cgu) }}</div>
+    {% endif %}
+
+    {{ form_rest(form) }}
+    <p><span class="form-label">*</span> {% trans %}REQUIRED_FIELDS{% endtrans %}</p>
+  </md-dialog-content>
+
+  <div class="md-actions">
+    {{ components.button(null, {
+    href: '',
+    icon: 'help',
+    attr: { id: 'intercom-widget-activator', class: 'hide-sm' }
+    }) }}
+    <span class="flex"></span>
+    {{ components.button('BUTTON_VALIDATE_MY_ACCOUNT'|trans, {
+      icon: 'check_circle',
+      raised: true,
+      intent: 'accent',
+      attr: {
+        type: 'submit',
+      },
+    }) }}
+  </div>
+
+  {{ form_end(form) }}
+{% endblock %}

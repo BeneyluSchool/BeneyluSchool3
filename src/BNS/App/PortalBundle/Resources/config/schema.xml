@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\PortalBundle\Model">
+    <table name="portal">
+        <column name="id" primaryKey="true" required="true" autoIncrement="true" type="INTEGER" />
+        <column name="group_id" required="true" type="INTEGER" />
+        <column name="label" required="false" type="VARCHAR" size="255" primaryString="true" />
+        <column name="background_small_id" required="false" type="INTEGER" />
+        <column name="background_medium_id" required="false" type="INTEGER" />
+        <column name="background_large_id" required="false" type="INTEGER" />
+        <column name="logo_id" required="false" type="INTEGER" />
+        <column name="settings" required="false" type="LONGVARCHAR" />
+        <foreign-key foreignTable="media" name="FK_PORTAL_BACKGROUND_SMALL" onDelete="SETNULL" onUpdate="SETNULL">
+            <reference foreign="id" local="background_small_id" />
+        </foreign-key>
+        <foreign-key foreignTable="media" name="FK_PORTAL_BACKGROUND_MEDIUM" onDelete="SETNULL" onUpdate="SETNULL">
+            <reference foreign="id" local="background_medium_id" />
+        </foreign-key>
+        <foreign-key foreignTable="media" name="FK_PORTAL_BACKGROUND_LARGE" onDelete="SETNULL" onUpdate="SETNULL">
+            <reference foreign="id" local="background_large_id" />
+        </foreign-key>
+        <foreign-key foreignTable="media" name="FK_PORTAL_LOGO" onDelete="SETNULL" onUpdate="SETNULL">
+            <reference foreign="id" local="logo_id" />
+        </foreign-key>
+        <foreign-key foreignTable="group" name="FK_PORTAL_GROUP" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="group_id" />
+        </foreign-key>
+        <behavior name="sluggable">
+            <parameter name="permanent" value="true" />
+        </behavior>
+        <behavior name="timestampable" />
+        <index name="GROUP_ID">
+            <index-column name="group_id" />
+        </index>
+    </table>
+
+    <table name="portal_zone">
+        <column name="id" primaryKey="true" required="true" autoIncrement="true" type="INTEGER" />
+        <column name="unique_name" required="true" type="VARCHAR" size="50" />
+        <column name="width" required="true" type="VARCHAR" size="10" />
+    </table>
+
+    <table name="portal_widget_group">
+        <column name="id" primaryKey="true" required="true" autoIncrement="true" type="INTEGER" />
+        <column name="portal_id" required="true" type="INTEGER" />
+        <column name="portal_zone_id" required="true" type="INTEGER" />
+        <index name="PORTAL_ID">
+            <index-column name="portal_id" />
+        </index>
+        <foreign-key foreignTable="portal" name="FK_PORTALWIDGETGROUPPORTAL" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="portal_id" />
+        </foreign-key>
+        <foreign-key foreignTable="portal_zone" name="FK_PORTALWIDGETGROUPZONE" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="portal_zone_id" />
+        </foreign-key>
+    </table>
+
+    <table name="portal_widget">
+        <column name="id" primaryKey="true" required="true" autoIncrement="true" type="INTEGER" />
+        <column name="portal_widget_group_id" required="true" type="INTEGER" />
+        <column name="position" required="true" type="INTEGER" />
+        <column name="enabled" required="true" type="INTEGER" default="0" />
+        <column name="type" required="true" type="ENUM" valueSet="BANNER, TEXT, LINK, RSS, SCHOOL" />
+        <column name="label" required="false" type="VARCHAR" size="255" />
+        <column name="datas" required="false" type="LONGVARCHAR" />
+        <foreign-key foreignTable="portal_widget_group" name="FK_PORTALWIDGETGROUP" onDelete="CASCADE" onUpdate="CASCADE">
+          <reference foreign="id" local="portal_widget_group_id" />
+        </foreign-key>
+        <behavior name="timestampable" />
+        <index name="PORTAL_WIDGET_GROUP_ID">
+            <index-column name="portal_widget_group_id" />
+        </index>
+  </table>
+</database>

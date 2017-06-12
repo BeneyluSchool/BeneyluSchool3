@@ -1,42 +1,179 @@
-<?xml version="1.0"?>
-<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-    <file source-language="en" datatype="plaintext" original="file.ext">
-        <body>
-            <trans-unit id="1">
-                <source>SideBar.Classroom.link.index</source>
-                <target>Ma classe</target>
-            </trans-unit>
-            <trans-unit id="2">
-                <source>SideBar.Classroom.link.team</source>
-                <target>Mes groupes</target>
-            </trans-unit>
-
-
-			<trans-unit id="101">
-                <source>SideBar.School.link.index</source>
-                <target>Mon école</target>
-            </trans-unit>
-			<trans-unit id="102">
-                <source>SideBar.School.link.classroom</source>
-                <target>Mes classes</target>
-            </trans-unit>
-			<trans-unit id="103">
-                <source>SideBar.School.link.user</source>
-                <target>Mes utilisateurs</target>
-            </trans-unit>
-			<trans-unit id="104">
-                <source>SideBar.School.link.right.manager</source>
-                <target>Gestion des droits</target>
-            </trans-unit>
-			
-			<trans-unit id="500">
-                <source>Front.Index.notice.email_sent</source>
-                <target>L'email a bien été envoyé !</target>
-            </trans-unit>
-			<trans-unit id="501">
-                <source>Front.Index.notice.update_done</source>
-                <target>Mise à jour effectuée !</target>
-            </trans-unit>
-        </body>
-    </file>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-07-07T17:49:32Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="af8b3e18eb786a5c9c34c8bb080cf55858d76fc5" resname="Front.Index.notice.email_sent">
+        <source>Front.Index.notice.email_sent</source>
+        <target>L'email a bien été envoyé !</target>
+      </trans-unit>
+      <trans-unit id="317ee3d2292f3f61be672c163a2dac368dfee661" resname="Front.Index.notice.update_done">
+        <source>Front.Index.notice.update_done</source>
+        <target>Mise à jour effectuée !</target>
+      </trans-unit>
+      <trans-unit id="224e7ee833f3b1411ad570f43c407753af9459ae" resname="SideBar.Classroom.link.index">
+        <source>SideBar.Classroom.link.index</source>
+        <target>Ma classe</target>
+      </trans-unit>
+      <trans-unit id="ae40fc41c9a5d3ef199dd5327a69a6301ea37ae2" resname="SideBar.Classroom.link.team">
+        <source>SideBar.Classroom.link.team</source>
+        <target>Mes groupes</target>
+      </trans-unit>
+      <trans-unit id="390ff2c7dd5fbdfabd84b087f0dcf6939192d218" resname="SideBar.School.link.classroom">
+        <source>SideBar.School.link.classroom</source>
+        <target>Mes classes</target>
+      </trans-unit>
+      <trans-unit id="006daf96473c165b811b4048cf5286c116d6a201" resname="SideBar.School.link.index">
+        <source>SideBar.School.link.index</source>
+        <target>Mon école</target>
+      </trans-unit>
+      <trans-unit id="717d865cf14674a2dd44f1a16be55c4dfb1be823" resname="SideBar.School.link.right.manager">
+        <source>SideBar.School.link.right.manager</source>
+        <target>Gestion des droits</target>
+      </trans-unit>
+      <trans-unit id="88db3f4a3025bf90643c5d54338c31360cc65f59" resname="SideBar.School.link.user">
+        <source>SideBar.School.link.user</source>
+        <target>Mes utilisateurs</target>
+      </trans-unit>
+      <trans-unit id="9eba07ab6b68159cf48a95463f6f7cde9dd87bd3" resname="main.oauth.error.oauth_invalid_access">
+        <source>main.oauth.error.oauth_invalid_access</source>
+        <target>Votre compte est désactivé.</target>
+      </trans-unit>
+      <trans-unit id="4bbd697bed7292dbc2f3e47fd41480eebcd025f6" resname="statistic.column.activation_activated_classroom">
+        <source>statistic.column.activation_activated_classroom</source>
+        <target>Classes inscrites</target>
+      </trans-unit>
+      <trans-unit id="1814fbd66a20e1528d96a6e023ea02da47c1b9e6" resname="statistic.column.activation_classroom_number">
+        <source>statistic.column.activation_classroom_number</source>
+        <target>Classes de l'école</target>
+      </trans-unit>
+      <trans-unit id="4c0796ed9b5ff846ee4cc41671cfa249ed5ff28c" resname="statistic.column.activation_date">
+        <source>statistic.column.activation_date</source>
+        <target>Date d'activation</target>
+      </trans-unit>
+      <trans-unit id="30db56306552089421cc091b1fd2c2f874cb0d0e" resname="statistic.column.activation_pupil_number">
+        <source>statistic.column.activation_pupil_number</source>
+        <target>Effectif inscrit</target>
+      </trans-unit>
+      <trans-unit id="999face7cc1c1e08a2d69ab6a79d76f90d615a65" resname="statistic.column.activation_school_name">
+        <source>statistic.column.activation_school_name</source>
+        <target>Ecoles</target>
+      </trans-unit>
+      <trans-unit id="dbc17cf15e40c7317d44e972e4a0f93cfbc41b17" resname="statistic.column.city">
+        <source>statistic.column.city</source>
+        <target>Ville</target>
+      </trans-unit>
+      <trans-unit id="bf672a1e2606517f113b6f90fb949d79fd5b8411" resname="statistic.column.connexion_count_parent">
+        <source>statistic.column.connexion_count_parent</source>
+        <target>Parent connexions</target>
+      </trans-unit>
+      <trans-unit id="e947371b6276d604ae7bb84a8ac5a5d511534c9b" resname="statistic.column.connexion_count_pupil">
+        <source>statistic.column.connexion_count_pupil</source>
+        <target>Elève connexions</target>
+      </trans-unit>
+      <trans-unit id="92e6c753070d7d1b58271f3da8c5ae3e3f877d6f" resname="statistic.column.connexion_count_teacher">
+        <source>statistic.column.connexion_count_teacher</source>
+        <target>Enseignant connexions</target>
+      </trans-unit>
+      <trans-unit id="d23e35810cc94f5f7c266beffba2b26ef3a352ad" resname="statistic.column.group">
+        <source>statistic.column.group</source>
+        <target>Périmètre</target>
+      </trans-unit>
+      <trans-unit id="c5eb4f83096619046f469bc69f57c1efd1e390da" resname="statistic.graph.title.graph_connect">
+        <source>statistic.graph.title.graph_connect</source>
+        <target>Statistique de connexion par profil</target>
+      </trans-unit>
+      <trans-unit id="81a0d119acedbe2b9d3bbadb7792724828a3fd51" resname="statistic.graph.title.statistic.classroom_school_activation">
+        <source>statistic.graph.title.statistic.classroom_school_activation</source>
+        <target>Suivis des écoles et classes inscrites</target>
+      </trans-unit>
+      <trans-unit id="3244103a05de9955f328bb5c0ab3551aa31a8d56" resname="statistic.graph.title.statistic.visit_by_module">
+        <source>statistic.graph.title.statistic.visit_by_module</source>
+        <target>Fréquentation des modules</target>
+      </trans-unit>
+      <trans-unit id="b7fd3c7f01b2585606862faa73b7f0566d11cafa" resname="statistic.indicator.BLOG_VISIT">
+        <source>statistic.indicator.BLOG_VISIT</source>
+        <target>Blog</target>
+      </trans-unit>
+      <trans-unit id="221bafb6647eb8ec4d6ef0ef0625ce4c2dff431b" resname="statistic.indicator.CALENDAR_VISIT">
+        <source>statistic.indicator.CALENDAR_VISIT</source>
+        <target>Calendrier</target>
+      </trans-unit>
+      <trans-unit id="90772abb8a69ba35dbddbf6a0c2ff7d57832dbae" resname="statistic.indicator.FORUM_VISIT">
+        <source>statistic.indicator.FORUM_VISIT</source>
+        <target>Forum</target>
+      </trans-unit>
+      <trans-unit id="4c174dc1bc3889b2b5416eec8d26b55083e7b672" resname="statistic.indicator.GPS_VISIT">
+        <source>statistic.indicator.GPS_VISIT</source>
+        <target>GPS</target>
+      </trans-unit>
+      <trans-unit id="667338a39c4862be18df67f76e273bde04b983ef" resname="statistic.indicator.HOMEWORK_VISIT">
+        <source>statistic.indicator.HOMEWORK_VISIT</source>
+        <target>Cahier de texte</target>
+      </trans-unit>
+      <trans-unit id="2c15f808a966158cacf122cc64849b7fe5e4d01a" resname="statistic.indicator.LIAISONBOOK_VISIT">
+        <source>statistic.indicator.LIAISONBOOK_VISIT</source>
+        <target>Carnet de liaison</target>
+      </trans-unit>
+      <trans-unit id="2709c5ebd84c8a5e4431a57a5ffb7f9a66c54d8a" resname="statistic.indicator.MEDIALIBRARY_VISIT">
+        <source>statistic.indicator.MEDIALIBRARY_VISIT</source>
+        <target>Médiathèque</target>
+      </trans-unit>
+      <trans-unit id="06b58249b0663b41304cff76ff9683b2fe531774" resname="statistic.indicator.MESSAGING_VISIT">
+        <source>statistic.indicator.MESSAGING_VISIT</source>
+        <target>Messagerie</target>
+      </trans-unit>
+      <trans-unit id="a0910f04ba019e72bf5d34bbf44b1cd5edf50f08" resname="statistic.indicator.PROFILE_VISIT">
+        <source>statistic.indicator.PROFILE_VISIT</source>
+        <target>Profil</target>
+      </trans-unit>
+      <trans-unit id="0b07bcf89591cc23bef73ab686cf7bdc11280464" resname="statistic.indicator.SEARCH_VISIT">
+        <source>statistic.indicator.SEARCH_VISIT</source>
+        <target>Moteur de recherche</target>
+      </trans-unit>
+      <trans-unit id="4a467e9130d604628fe4fcf0681ef448abb34b1a" resname="statistic.indicator.USERDIRECTORY_VISIT">
+        <source>statistic.indicator.USERDIRECTORY_VISIT</source>
+        <target>Annuaire Utilisateur</target>
+      </trans-unit>
+      <trans-unit id="e802569bcec0d861deb3c5d2463c316a3851c252" resname="statistic.indicator.WORKSHOP_VISIT">
+        <source>statistic.indicator.WORKSHOP_VISIT</source>
+        <target>Atelier</target>
+      </trans-unit>
+      <trans-unit id="10368b3fd020f0a154f0a6eb8f6ec249174fca71" resname="statistic.indicator.by_role.PARENT">
+        <source>statistic.indicator.by_role.PARENT</source>
+        <target>Parent</target>
+      </trans-unit>
+      <trans-unit id="3815dda662692b91dcc34add26b0c6b19f1952f1" resname="statistic.indicator.by_role.PUPIL">
+        <source>statistic.indicator.by_role.PUPIL</source>
+        <target>Elève</target>
+      </trans-unit>
+      <trans-unit id="6f2605d7af13f9101dd2bc5fd1164ace34384938" resname="statistic.indicator.by_role.TEACHER">
+        <source>statistic.indicator.by_role.TEACHER</source>
+        <target>Enseignant</target>
+      </trans-unit>
+      <trans-unit id="5f13623845816155b2400ea00e04c7313b3921ad" resname="statistic.indicator.classroom_activation">
+        <source>statistic.indicator.classroom_activation</source>
+        <target>Nombre de classes inscrites</target>
+      </trans-unit>
+      <trans-unit id="55376957cf74de1c9ce918aea22a3fa835582fbc" resname="statistic.indicator.main_connect.by_role.PARENT">
+        <source>statistic.indicator.main_connect.by_role.PARENT</source>
+        <target>Parent</target>
+      </trans-unit>
+      <trans-unit id="022b94e7d880051bd972cf3cf708420a28342d36" resname="statistic.indicator.main_connect.by_role.PUPIL">
+        <source>statistic.indicator.main_connect.by_role.PUPIL</source>
+        <target>Elève</target>
+      </trans-unit>
+      <trans-unit id="2d587d411772773427ffd5be6778ad1fb3aaf4c4" resname="statistic.indicator.main_connect.by_role.TEACHER">
+        <source>statistic.indicator.main_connect.by_role.TEACHER</source>
+        <target>Enseignant</target>
+      </trans-unit>
+      <trans-unit id="d90fb0c694ca6e7128b567c96dadae48378ab2c5" resname="statistic.indicator.school_activation">
+        <source>statistic.indicator.school_activation</source>
+        <target>Nombre d'écoles inscrites</target>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>

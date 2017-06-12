@@ -1,5 +1,8 @@
 {% extends '::base_manager.html.twig' %}
 
+{% set app_unique_name = templatable_object.getTemplateClassName()|upper %}
+{% set app_mode = 'back' %}
+
 {% block css %}
     {{ parent() }}
 
@@ -38,7 +41,3 @@
         </div>
     </div>
 {% endblock body %}
-	
-{% block dock_bar %}
-	{% render 'BNSAppMainBundle:DockBar:index' with {'module_unique_name' : templatable_object.getTemplateClassName()|upper, 'is_in_front' : false } %}
-{% endblock %}

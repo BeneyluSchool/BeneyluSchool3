@@ -1,0 +1,137 @@
+{# ToolBar settings #}
+{% include 'BNSAppResourceBundle:ToolBar:toolbar_settings.html.twig' with {
+	'navigationContext': 'FILE'
+} %}
+
+{{ modal('file-label-delete-modal', {
+	'title': 'Mettre à la corbeille ce document',
+	'body_template': {'template': 'BNSAppResourceBundle:Modal:file_label_delete_body.html.twig'},
+	'footer_template': {'template': 'BNSAppResourceBundle:Modal:file_label_delete_footer.html.twig'},
+	'type': 'error'
+}) }}
+
+{# Manual configuration for extra data file #}
+<script type="text/javascript">
+	toolBar.isFavoriteFile	= {{ resource.isFavorite(app.user.id) == true ? 'true' : 'false' }};
+	toolBar.isEditing		= false;
+	toolBar.isDeletedFile	= {{ isDeletedFile ? 'true' : 'false' }};
+	toolBar.canManage		= {{ can_manage ? 'true' : 'false' }};
+	toolBar.resource		= {
+		id: {{ resource.getid() }},
+		slug: '{{ resource.getSlug() }}',
+		label: '{{ resource.getLabel() }}',
+		type: '{{ resource.getTypeUniqueName() }}',
+		label_slug: '{{ label.getSlug() }}'
+	};
+	toolBar.label			= {
+		id: {{ label.getId() }},
+		type: '{{ label.getType() }}'
+	};
+</script>
+
+<div class="document-container">
+	<div class="header">
+		<div class="confidentiality">
+			{% if resource.isPrivate %}
+				<img src='{{ asset('/medias/images/icons/buttons/24x24/private.png') }}' />
+			{% else %}
+				<img src='{{ asset('/medias/images/icons/buttons/24x24/public.png') }}' />
+			{% endif %}
+		</div>
+		<h1>{{ resource.getLabel() }}</h1>
+	</div>
+
+	<div class="document">
+        {% if resource.getTypeUniqueName() == 'PROVIDER_RESOURCE' and not canAccess %}
+            <div class="alert bns-alert alert-danger">
+                La ressource pédagogique est <strong>indisponible</strong>. Sûrement parce que n'êtes plus abonné à l'éditeur ou que celui-ci a supprimé la ressource.
+                <div class="jim"></div>
+            </div>
+        {% endif %}
+
+		<div class="file {{ resource.getFileMimeType() != 'application/pdf' ? 'pull-left' : '' }}">
+			{% if resource.typeUniqueName == "FILE" or resource.typeUniqueName == "DOCUMENT" %}
+				{% include 'BNSAppResourceBundle:ResourceBlock:'~ rm.getTemplateName ~'.html.twig' with {'from_file_page': true, "resource" : resource , 'size' : "small", 'class' : '', 'with_title' : false, 'with_image': true, 'rm': rm} %}
+			{% else %}
+				{% include 'BNSAppResourceBundle:ResourceBlock:'~ rm.getTemplateName ~'.html.twig' with {'from_file_page': true, "resource" : resource , 'size' : "medium", 'class' : '', 'with_link' : false, 'rm': rm} %}
+			{% endif %}
+		</div>
+
+		<div class="informations">
+			<div class="pull-right">
+				{% if resource.getSize(false) != null %}
+					<div>
+						<p>Poids :</p>
+						{{ resource.getSize() }}
+					</div>
+				{% endif %}
+			</div>
+
+			<div>
+				<p>Type :</p>
+				<img src="{{ getFileTypeImageUrl(resource,"tiny") }}" alt="" />
+				{{ resource.printType }}
+			</div>
+
+			<div>
+				<p>Déposé par :</p>
+				<img src="{{ avatar(resource.getUser(), 'thumbnail') }}" alt="" class="avatar" /> {{ resource.getUser().getFullName() }}
+			</div>
+
+			<div>
+				<p>Modifié le :</p>
+				{{ date_from_now(resource.getUpdatedAt(), true, true) }}
+			</div>
+
+			{% if resource.typeUniqueName == "LINK" %}
+				<a href="{{ resource.value }}" class="btn look-image btn-warning" target="_blank"><span class="look-image"></span>Voir le site</a>
+			{% endif %}
+
+			{% if resource.getTypeUniqueName() in ['FILE', 'IMAGE'] %}
+				<div>
+					<p>Nombre de téléchargements :</p>
+					{% if resource.getDownloadCount() == 0 %}
+						Ce document n'a encore jamais été téléchargé
+					{% else %}
+						{{ resource.getDownloadCount() }}
+					{% endif %}
+				</div>
+			{% endif %}
+		</div>
+		<div class="clearfix"></div>
+	</div>
+
+	<div class="description">
+		<h2>Description</h2>
+		<p>
+			{% if resource.getDescription() != null %}
+				{{ resource.getDescription() }}
+			{% else %}
+				Aucune description
+			{% endif %}
+		</p>
+	</div>
+
+	{% set links = resource.getAllLinks(can_manage) %}
+	<div class="label-container">
+		<div class="title">
+			<h2>Emplacement{% if links|length > 1 %}s{% endif %} du document</h2>
+			(<span class="count" id="labels-count">{{ links|length }}</span>)
+		</div>
+
+		<ul>
+			{% for link in links %}
+				<li id="file-label-{{ link.getLabel().getId() }}" data-label-id="{{ link.getLabel().getId() }}" data-label-type="{{ link.getLabel().getType() }}" data-resource-id="{{ resource.getId() }}" {{ link.getLabel().getId() == label.getId() ? 'class="current"' : '' }}>
+					<ul>
+						{% for label in resource.getLabelPathFromLabel(link.getLabel(), currentGroupId) %}
+							<li>{{ label.getLabel() }}</li>
+						{% endfor %}
+					</ul>
+					{% if link.getLabel().getId() != label.getId() %}
+						<span class="cross delete-label" data-toggle="modal" data-target="#file-label-delete-modal">&times;</span>
+					{% endif %}
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+</div>

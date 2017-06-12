@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2017-03-27T18:49:47Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="2819a7001384dc86407d8b44eb1f4cb030c404c0" resname="INVALID_CHOOSE">
+        <source>INVALID_CHOOSE</source>
+        <target state="new">Su selección es incorrecta</target>
+      </trans-unit>
+      <trans-unit id="0bd3579549d797137fe331138895adee42b3e63d" resname="INVALID_CHOOSE_OPTION_UNCHECK">
+        <source>INVALID_CHOOSE_OPTION_UNCHECK</source>
+        <target state="new">Tienes que seleccionar una de las opciones</target>
+      </trans-unit>
+      <trans-unit id="02cd8c79c39202ddf80dee7b870c1207f6ec7013" resname="INVALID_CLASSNAME_EMPTY">
+        <source>INVALID_CLASSNAME_EMPTY</source>
+        <target state="new">El nombre de la clase no puede estar en blanco</target>
+      </trans-unit>
+      <trans-unit id="764228fcabe941c7a831a3de5f4fb75410ce8cae" resname="INVALID_COUNTRY_EMPTY">
+        <source>INVALID_COUNTRY_EMPTY</source>
+        <target state="new">El país no puede estar vacío</target>
+      </trans-unit>
+      <trans-unit id="d0a27efc751a47562cc013fb2d6453e50b6f28a6" resname="INVALID_EMAIL">
+        <source>INVALID_EMAIL</source>
+        <target state="new">La dirección de correo electrónico que has introducido no es válida</target>
+      </trans-unit>
+      <trans-unit id="b25fd7c6d93526307fbdd2f9a1834b8e7d4ec192" resname="INVALID_EMAIL_PLEASE_TRY_AGAIN">
+        <source>INVALID_EMAIL_PLEASE_TRY_AGAIN</source>
+        <target state="new">La dirección de correo electrónico introducida no es válida. Vuelve a intentarlo.</target>
+      </trans-unit>
+      <trans-unit id="d5e0a531932b4021447ea79aea1a9b143dcf8312" resname="INVALID_EMAIL_TOO_LONG">
+        <source>INVALID_EMAIL_TOO_LONG</source>
+        <target state="new">El correo electrónico es demasiado largo</target>
+      </trans-unit>
+      <trans-unit id="1e582a3b23052d508750a11a63c7a35753bd2dbc" resname="INVALID_ENTER_FIRSTNAME">
+        <source>INVALID_ENTER_FIRSTNAME</source>
+        <target state="new">Tienes que introducir un nombre</target>
+      </trans-unit>
+      <trans-unit id="800a4c189f354757c5e732619a35a7e515fccf61" resname="INVALID_ENTER_LASTNAME">
+        <source>INVALID_ENTER_LASTNAME</source>
+        <target state="new">Tienes que introducir un apellido</target>
+      </trans-unit>
+      <trans-unit id="53263ab69223e8da778e42c9c181f5a13658387e" resname="INVALID_FIRSTNAME_EMPTY">
+        <source>INVALID_FIRSTNAME_EMPTY</source>
+        <target state="new">El nombre no puede estar vacío</target>
+      </trans-unit>
+      <trans-unit id="68157cf2e6635256cc0bd661fa75ad35789605b9" resname="INVALID_FIRSTNAME_TOO_LONG">
+        <source>Le prénom est trop grand</source>
+        <target state="new">El nombre es demasiado largo</target>
+      </trans-unit>
+      <trans-unit id="9f3a59585adcacc143af4fece38782c3532d66a0" resname="INVALID_FIRSTNAME_TOO_SHORT">
+        <source>INVALID_FIRSTNAME_TOO_SHORT</source>
+        <target state="new">El nombre es demasiado corto (mínimo {{ limit }} caracteres)|El nombre es demasiado corto (mínimo {{ limit }} caracteres)</target>
+      </trans-unit>
+      <trans-unit id="4a24b45e531ee59a671c8c2cf402943c970fdb57" resname="INVALID_GENDER_EMPTY">
+        <source>INVALID_GENDER_EMPTY</source>
+        <target state="new">El género no puede estar en blanco</target>
+      </trans-unit>
+      <trans-unit id="78d7b8f66503655efbaf3facf33f398321ab122d" resname="INVALID_LASTNAME_EMPTY">
+        <source>INVALID_LASTNAME_EMPTY</source>
+        <target state="new">El apellido no puede estar vacío</target>
+      </trans-unit>
+      <trans-unit id="2ae828fa87cde98533000b0566fa4fcf5a8d17d3" resname="INVALID_LASTNAME_TOO_LONG">
+        <source>INVALID_LASTNAME_TOO_LONG</source>
+        <target state="new">El apellido es demasiado largo</target>
+      </trans-unit>
+      <trans-unit id="bf5d55273f06e979b3c66075ea31af953cc46f5d" resname="INVALID_LASTNAME_TOO_SHORT">
+        <source>INVALID_LASTNAME_TOO_SHORT</source>
+        <target state="new">El apellido es demasiado corto (mínimo {{ limit }} caracteres)|El apellido es demasiado corto (mínimo {{ limit }} caracteres)</target>
+      </trans-unit>
+      <trans-unit id="35a4751dee4f10bbfa0550234099dfd1282f0e41" resname="INVALID_PARTNER_NAME_EMPTY">
+        <source>INVALID_PARTNER_NAME_EMPTY</source>
+        <target state="new">El nombre de la asociación no puede estar en blanco</target>
+      </trans-unit>
+      <trans-unit id="b17fe6b1f23ce6bac866138ebcb443e3ebdbfd55" resname="INVALID_PARTNER_NAME_TOO_LONG">
+        <source>INVALID_PARTNER_NAME_TOO_LONG</source>
+        <target state="new">El nombre de la asociación es demasiado largo</target>
+      </trans-unit>
+      <trans-unit id="ac457b3dc2c1161ea3a8846981c7d092b9cccbb9" resname="INVALID_PARTNER_NAME_TOO_SHORT">
+        <source>INVALID_PARTNER_NAME_TOO_SHORT</source>
+        <target state="new">El nombre de la asociación es demasiado corto (mínimo {{ limit }} caracteres)|El nombre de la asociación es demasiado corto (mínimo {{ limit }} caracteres)</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

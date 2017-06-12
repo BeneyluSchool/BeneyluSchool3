@@ -1,0 +1,129 @@
+# Fichier des paramètres modifiables par instance
+
+# Swift Mailer
+# ------------------
+swiftmailer:
+    transport:
+    username:
+    password:
+    secret_mail_username:
+
+parameters:
+    # Databases
+    # ------------------
+    database_driver: mysql
+    database_host: localhost
+    database_port: null
+
+    app_database_user:
+    app_database_password:
+    app_database_name:
+
+    auth_database_user:
+    auth_database_password:
+    auth_database_name:
+
+    stat_database_user:
+    stat_database_password:
+    stat_database_name:
+
+    # RMQ
+    # ------------------
+    rmq_host:
+    rmq_user:
+    rmq_password:
+    rmq_port: 5672
+    rmq_vhost: /
+    rmq_exchange_mailer: mailer_prod
+    rmq_queue_mailer: mailer_prod
+    rmq_exchange_notification: notification_prod
+    rmq_queue_notification: notification_prod
+
+    # ----- MQ Consumers -----
+    rmq.consumers: [ 'mailer', 'notification', 'import_user', 'import_class', 'realtime', 'account_link' ]
+
+    # ----- Cron Timeout -----
+    cron.timeout: 3
+
+
+    # Redis
+    # ------------------
+    redis_host: redis://localhost
+
+
+    # Resources
+    # ------------------
+
+    #Si stockage S3 => s3, si stockage OVH => ovh_pcs, runabove => runabove sinon local
+    bns_media_storage: local
+
+    #Si runabove
+    bns.runabove.url:           https://auth.runabove.io/v2.0/
+    bns.runabove.username:
+    bns.runabove.password:
+    bns.runabove.tenant_name:
+    bns.runabove.container_name:
+
+    # ex : https://storage.sbg-1.runabove.io/v1/AUTH_azazazazazazaazazaz/container-name/
+    bns.runabove.remote_base_url:
+
+
+    # General
+    # ------------------
+    bns_domain_id:
+    bns_domain_name:
+    application_base_url:
+    beneyluschool_email:
+    google_analytics_id:
+    symfony_secret:
+
+
+    # Oauth
+    # ------------------
+    oauth_host:
+    oauth_client_secret:
+    oauth_security_client_id:
+    security.logout.username.secret_key:
+
+
+    # Resources
+    # ------------------
+    bns_bns3.aws_key:
+    bns_bns3.aws_secret_key:
+
+
+    # API
+    # ------------------
+    api_key_for_auth:
+    api_key_for_app:
+
+    # General
+    # ------------------
+    encode_key:
+
+
+    # Logon
+    # ------------------
+    # Custom logon view
+    # logon.custom_view: BNSAppMainBundle:Logon:index.html.twig
+
+
+    # Notification
+    # ------------------
+    # Condition to clear UNREAD notification from the database, default: "-2 month"
+    # notification.clear_command.unread_condition: "-2 month"
+    # Condition to clear READ notification from the database, default: "-1 month"
+    # notification.clear_command.read_condition: "-1 month"
+
+    # Registration
+    registration.current_year: 2012
+
+    # enable this to allow resource from nathan catalog
+#    bns_paas.nathan_pf: 123456
+#    bns_paas.nathan_key: 123456
+#
+#    nathan_ressource.clients:
+#      nathan:
+#        url: https://www.e-interforum.com/intra/webservices/connecteur-universel/wsConnecteurUniversel.php?wsdl
+#        pf: %bns_paas.nathan_pf%
+#        key: %bns_paas.nathan_key%

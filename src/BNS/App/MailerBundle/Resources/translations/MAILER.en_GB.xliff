@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-06-22T15:31:27Z" source-language="en" target-language="en-GB" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="56350d880ee931ce4c6846c127b36ceac3a88f8f" resname="BASE_PLAIN">
+        <source>
+L'équipe BeneyluSchool
+
+Veuillez ne pas répondre à ce message; il a été envoyé d'une adresse e-mail qui n'est pas relevée.
+Ce message est un service e-mail en rapport avec votre utilisation de %beneylu_brand_name%.
+Pour toute requête ou demande de support à propos de votre compte %beneylu_brand_name%, veuillez nous rendre visite sur notre forum.
+</source>
+        <target state="new">
+The BeneyluSchool team
+
+Please do not reply to this message, it has been sent automatically.
+This message is an email service linked to your %beneylu_brand_name%'s usage.
+If you have a request or need support about your  %beneylu_brand_name% account, please contact us via the speech bubble.</target>
+      </trans-unit>
+      <trans-unit id="d81b3967977240c1cd460f7ff76cfa6070ab47a0" resname="DO_NOT_ANSWER">
+        <source> Veuillez ne pas répondre à ce message; il a été envoyé d\'une adresse e-mail qui n\'est pas relevée.Ce message est un service e-mail en rapport avec votre utilisation de %chart%.</source>
+        <target state="new">Please do not reply to this message, it has been sent automatically. This message is an email service linked to your %chart%'s usage.</target>
+        <note><![CDATA[%chart% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="cced67892def505c525053eb23357b36e9aa3cd7" resname="EMAIL_SEND_BY_BENEYLU">
+        <source>Cet email vous est envoyé par %beneylu_brand_name%.</source>
+        <target state="new">This email was sent by %beneylu_brand_name%</target>
+      </trans-unit>
+      <trans-unit id="268edee09c2f6673b0485260cafa873ce75e67fe" resname="PREFIX_DATE">
+        <source>Le %date%,</source>
+        <target state="new">%date%,</target>
+        <note><![CDATA[%date% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="40a226669b45c20c5d098be733f4e8399eea5212" resname="TABLE_DATE_TITLE">
+        <source>Le %date%, %title%, %body%</source>
+        <target state="new">%date%, %title%, %body%</target>
+        <note><![CDATA[%date% is a placeholder
+%title% is a placeholder
+%body% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="d330e5dacb675e3240375d088f5061754348c1e3" resname="TO_CONNECT">
+        <source>Pour vous connecter</source>
+        <target state="new">To login</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

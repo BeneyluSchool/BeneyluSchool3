@@ -1,0 +1,44 @@
+{% extends 'BNSAppNoteBookBundle:Front:layout.front.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ asset('/medias/js/notebook/Front/index.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+    <div id="notebook-messages" class="content-message-bookbinding notebook-messages-min-height">
+        {% for new in news %}
+            <div class="content-news front {% if slug != null and slug == new.getSlug() %}focus{% endif %}">
+                <div class="news-title">
+                    <h1>{{ new.title }}</h1>
+                    <p>{{ new.date | date_bns('full', 'none') | capitalize }}</p>
+                    <div class="underline"></div>
+                </div>
+                <div class="news">
+                    {# Contenu d'une annonce du cahier journal #}
+
+                    <p>{{ new.content|purify }}</p>
+
+                    {% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias': new.getResourceAttachments,"editable": false, 'objectType': 'NoteBook', 'objectId': new.id} %}
+
+                </div>
+                <div class="border-tab"></div>
+            </div>
+        {% else %}
+            {% if has_right('NOTEBOOK_ACCESS_BACK') %}
+                {% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+                    'text' : "Il n'y a aucun message en " ~ newsDate | date_bns('none', 'none', 'LLLL y') ~ ". Vous pouvez :",
+                    'button': {
+                        'text' : "Ecrire un nouveau message",
+                        'link' : path('BNSAppNoteBookBundle_back_create')
+                    }
+                } %}
+            {% else %}
+                {% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+                    'text' : "Il n'y a aucun message en " ~ newsDate | date_bns('none', 'none', 'LLLL y'),
+                } %}
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

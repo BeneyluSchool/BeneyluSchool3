@@ -1,0 +1,14 @@
+{% trans_default_domain "CLASSROOM" %}
+<div class="loader loader-sb"></div>
+<div class="modal-body">
+	<div class="content-modal-body">
+        {{ 'TITLE_SURE_TO_LEAVE_PARTNERSHIP'|trans({'%partnership%': partnership.getLabel|escape}) |desc('
+        			 <h2>Êtes-vous sûr de vouloir quitter le partenariat <strong>"%partnership%"</strong> ?</h2>
+		<h3>
+			Vous ne pourrez plus interagir avec ce partenariat ainsi que ses membres.<br />
+			Si vous avez toujours le code du partenariat vous pourrez le rejoindre à nouveau.
+		</h3>
+        ') |raw }}
+	</div>
+</div>
+<div class="beneylu-jim"></div>

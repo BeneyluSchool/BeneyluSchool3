@@ -1,0 +1,37 @@
+{% trans_default_domain "CLASSROOM" %}
+<div class="verify-result">
+    {% if partnership != null %}
+        {% if is_already_member_of_partnership %}
+            <div class="alert alert-danger bns-alert">
+             {% trans %}ALREADY_PARTNERSHIP_MEMBER{% endtrans %}
+                <strong>"{{ partnership.getLabel }}"</strong>
+                <div class="jim"></div>
+            </div>
+        {% else %}
+            <div class="partnership-found">
+                <table>
+                    <tr>
+                        <td class="partnership-name">
+                            <p>
+                                {{ 'CODE_ASSOCIATE_TO_PARTNERSHIP'|trans({'%code%': partnershipId, '%partnership%': partnership.getLabel}) |desc('Le code %code% est associé au partenariat %partnership%') }}
+                            </p>
+                        </td>
+                        <td>
+                            <a href="{{ path('classroom_manager_join_partnership') }}" data-partnership-uid="{{ partnershipId }}" class="btn bns-success btn-24 medium-return btn-join-partnership">
+                                <span class="icons-24 validate-icon"></span>
+                                {{ 'LINK_JOIN_PARTNERSHIP'|trans({'%partnership%': partnership.getLabel})|desc('Rejoindre %partnership%') }}
+                            </a>
+                        </td>
+                        <td><div class="close">&times</div></td>
+                    </tr>
+                </table>
+
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="alert alert-danger bns-alert">
+            {{ 'NO_PARTNERSHIP_FOR_THIS_CODE'|trans({'%code%': partnershipId} |escape)|desc('Aucun partenariat n\'existe pour le code : <strong>%code%</strong>') |raw }}
+            <div class="jim"></div>
+        </div>
+    {% endif %}
+</div>

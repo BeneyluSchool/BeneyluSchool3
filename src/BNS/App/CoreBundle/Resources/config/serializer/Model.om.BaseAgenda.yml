@@ -1,0 +1,13 @@
+BNS\App\CoreBundle\Model\om\BaseAgenda:
+  exclusion_policy: All
+
+  properties:
+    id:
+      expose: true
+      groups: [Default]
+    title:
+      expose: true
+      groups: [Default]
+    group_id:
+      expose: true
+      groups: [list, agenda_list, detail, agenda_detail]

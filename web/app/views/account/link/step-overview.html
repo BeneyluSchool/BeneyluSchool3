@@ -1,0 +1,12 @@
+<div class="md-padding">
+  <p ng-if="ctrl.isProcessing" class="md-body-2" translate>ACCOUNT.DESCRIPTION_PROCESSING</p>
+  <p ng-if="!ctrl.isProcessing" class="md-body-2  text-center" translate>ACCOUNT.DESCRIPTION_NO_PROCESSING</p>
+
+  <!-- <p class="text-warn" ng-if="ctrl.isProcessing">TODO: capture de l'écran de récupération de compte parent</p> -->
+
+  <p class="text-center">
+    <md-button ui-sref="classroom" class="md-raised md-primary">
+      <span ng-bind-html="'ACCOUNT.BUTTON_GOTO_CLASSROOM'|translate|buttonize">.</span>
+    </md-button>
+  </p>
+</div>

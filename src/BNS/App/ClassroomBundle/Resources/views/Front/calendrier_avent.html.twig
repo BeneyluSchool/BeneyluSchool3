@@ -1,0 +1,54 @@
+{% trans_default_domain "CLASSROOM" %}
+{% extends '::base.html.twig' %}
+
+{% block title %}
+    Calendrier de l'avent
+{% endblock %}
+
+{% block body %}
+
+
+
+        <div class="deco">
+        </div>
+        <div class="bg">
+            <div class="carre1">
+                <div class="carre2">
+                    <div class="perso">
+                        <div class="jours" layout="row" layout-wrap layout-align="center center">
+
+                            {% for position in order %}
+
+
+                                {% if days[position-1] is defined %}
+                                        <div class="jour" flex="20">
+                                            <div class="case{% if days[position-1].date('j')== '25' %} jourj{% endif %}{% if days[position-1].date('j') in dejavus %} dejavu{% endif %}{% if position%3== 1 %} verte{% endif %}" >
+                                                {% if days[position-1].mediaPreviewId=="" %}
+                                                    <a href="{{ path("BNSAppClassroomBundle_calendrier_one_day" , { id: days[position-1].id , type: 'TEXT' }) }}" id='media-preview'>
+                                                {% else %}
+                                                    <a href="{{ path("BNSAppClassroomBundle_calendrier_one_day" , { id: days[position-1].id , type: 'IMAGE' }) }}" id='media-preview'>
+                                                {% endif %}
+                                                {{ days[position-1].date('j') }}
+                                                </a>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                    <div class="jour" flex="20">
+                                        <div class="case{% if position==25 %} jourj{% endif %}{% if position%3== 1 %} verte{% endif %}">
+                                            <a href="#" class="vide">
+                                                {{ position }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+{% endblock %}

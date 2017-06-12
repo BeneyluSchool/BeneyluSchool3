@@ -1,0 +1,15 @@
+{% extends 'BNSAppMiniSiteBundle:Layout:front_widget.html.twig' %}
+
+{% block widget_content %}
+	<div class="widget-content">
+		<div class="widget clock">
+			<div class="days">
+				<p>{{ "now"|date('d') }}</p>
+				<p class="month">{{ "now"|date('m') }}</p>
+			</div>
+			<div class="hours">
+				<p>{{ "now"|date('H') }}:{{ "now"|date('i') }}</p>
+			</div>
+		</div>
+	</div>
+{% endblock %}

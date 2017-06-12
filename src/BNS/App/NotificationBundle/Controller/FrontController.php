@@ -2,6 +2,9 @@
 
 namespace BNS\App\NotificationBundle\Controller;
 
+use BNS\App\CoreBundle\Model\User;
+use BNS\App\InfoBundle\Model\AnnouncementQuery;
+use BNS\App\InfoBundle\Model\AnnouncementUserQuery;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -29,18 +32,30 @@ class FrontController extends AbstractNotificationController
 		$personnalModules = array();
 		foreach ($userGroups as $group) {
 			foreach ($group->getGroupType()->getModules() as $module) {
-				if (!$module->isContextable()) {
+				if (!$module->isContextable() && $module->getUniqueName() != 'NOTIFICATION') {
 					$personnalModules[$module->getUniqueName()] = $module;
 				}
 			}
 		}
 		
 		// Unread notifications
+
+        //On ne renvoie que les notifications de modules dont on a les droits
+        $rm = $this->get('bns.right_manager');
+        $rmu = $rm->getModulesReachableUniqueNames();
+
 		$unreadNotifications = NotificationQuery::create('un')
 			->joinWith('NotificationType')
 			->where('un.TargetUserId = ?', $user->getId())
 			->where('un.IsNew = ?', true)
+            ->where('NotificationType.ModuleUniqueName IN ?',$rmu)
 		->find();
+
+        //On met à zéro le compteur
+        NotificationQuery::create('un')
+            ->where('un.TargetUserId = ?', $user->getId())
+            ->where('un.IsNew = ?', true)
+            ->update(array('IsNew' => false));
 		
 		// Notification settings
 		$notificationSettings = NotificationSettingsQuery::create('ns')
@@ -48,13 +63,43 @@ class FrontController extends AbstractNotificationController
 		->find();
 		
 		$settings = new NotificationSettingsCollection($notificationSettings);
+
+		$unreadAnnouncementsCount = $this->get('bns.announcement_manager')->countUnreadAnnouncements();
 		
 		return $this->render('BNSAppNotificationBundle:Front:index.html.twig', array(
-			'unreadNotifications'	=> new NotificationCollection($unreadNotifications, $settings),
+			'unreadNotifications'	=> new NotificationCollection($unreadNotifications, $settings, $unreadAnnouncementsCount),
 			'settings'				=> $settings,
 			'userGroups'			=> $userGroups,
 			'personnalModules'		=> $personnalModules
 		));
+	}
+
+	/**
+	 * @Route("/annonces", name="notification_render_announcements")
+	 */
+	public function renderAnnouncementsAction()
+	{
+		$announcements = $this->get('bns.announcement_manager')->getAnnouncements();
+		$readAnnouncements = [];
+		$unreadAnnouncements = [];
+		$readAnnouncementIds = [];
+		foreach ($this->get('bns.announcement_manager')->getReadUserAnnouncements() as $readUserAnnouncement) {
+			$readAnnouncementIds[] = $readUserAnnouncement->getAnnouncementId();
+		}
+		foreach ($announcements as $announcement) {
+			if (in_array($announcement->getId(), $readAnnouncementIds)) {
+				$readAnnouncements[] = $announcement;
+			} else {
+				$unreadAnnouncements[] = $announcement;
+			}
+		}
+
+		return new Response(json_encode([
+			'notifications' => $this->renderView('BNSAppNotificationBundle:Notification:announcement_list.html.twig', [
+				'unread' => $unreadAnnouncements,
+				'read' => $readAnnouncements,
+			])
+		]));
 	}
 	
 	/**
@@ -70,7 +115,6 @@ class FrontController extends AbstractNotificationController
 	public function renderNotificationAction($contextGroupId = null, $moduleUniqueName = null, $page = 1, $isCorrection = false)
 	{
 		$user = $this->getUser();
-		
 		if (null != $moduleUniqueName) {
 			$moduleUniqueName = strtoupper($moduleUniqueName);
 		}
@@ -116,14 +160,17 @@ class FrontController extends AbstractNotificationController
 			->combine(array('group', 'personnal'), \Criteria::LOGICAL_OR, 'group_combinate')
 			->condition('user', 'notification.target_user_id = notification_settings.user_id')
 			->condition('module', 'notification_type.module_unique_name = notification_settings.module_unique_name')
-			->condition('engine', 'notification_settings.notification_engine = 0')
+			->condition('engine', 'notification_settings.notification_engine = ?', 0)
 			->combine(array('group_combinate', 'user', 'module', 'engine'), \Criteria::LOGICAL_AND, 'settings_join_conditions')
 			->setJoinCondition('notification_settings', 'settings_join_conditions')
 			->where('n.TargetUserId = ?', $user->getId())
 			->where('notification_settings.USER_ID IS NULL')
 			->orderBy('n.Date', \Criteria::DESC)
 		;
-		
+
+
+
+
 		// Init route for view
 		$route = 'notification_render_page';
 		
@@ -153,13 +200,18 @@ class FrontController extends AbstractNotificationController
 			
 			$query->where('NotificationType.ModuleUniqueName = ?', $moduleUniqueName);
 			$nsQuery->where('ns.ModuleUniqueName = ?', $moduleUniqueName);
-		}
+		}else{
+            //On ne renvoie que les notifications de modules dont on a les droits
+            $rm = $this->get('bns.right_manager');
+            $rmu = $rm->getModulesReachableUniqueNames();
+            $query->where('NotificationType.ModuleUniqueName IN ?',$rmu);
+        }
 		
 		// If correction requested
 		if ($isCorrection) {
 			$route = 'notification_render_correction_page';
 			
-			$query->where('NotificationType.IS_CORRECTION = ?', true);
+			$query->where('NotificationType.IsCorrection = ?', true);
 		}
 		
 		// Retreive notification settings & notification pager
@@ -213,10 +265,38 @@ class FrontController extends AbstractNotificationController
 			'firstCall'				=> !$this->getRequest()->isXmlHttpRequest(),
 			'page'					=> $page
 		);
-		
+
+		$view = '';
+
+		// if there are unread announcements, prepend them to the notifications, only in the "all notifications" view
+		if (!$contextGroupId && !$moduleUniqueName && !$isCorrection && $page == 1) {
+			$announcements = $this->get('bns.announcement_manager')->getAnnouncements();
+			$unreadAnnouncements = [];
+			$readAnnouncementIds = [];
+			foreach ($this->get('bns.announcement_manager')->getReadUserAnnouncements() as $readUserAnnouncement) {
+				$readAnnouncementIds[] = $readUserAnnouncement->getAnnouncementId();
+			}
+			foreach ($announcements as $announcement) {
+				if (!in_array($announcement->getId(), $readAnnouncementIds)) {
+					$unreadAnnouncements[] = $announcement;
+				}
+			}
+
+			if (count($unreadAnnouncements)) {
+				$view = $this->renderView('BNSAppNotificationBundle:Notification:announcement_list.html.twig', [
+					'unread' => $unreadAnnouncements,
+					'read' => [],
+				]);
+				$params['hideEmpty'] = true;
+			}
+		}
+
+		// render the list of notifications
+		$view .= $this->renderView('BNSAppNotificationBundle:Notification:notification_module_list.html.twig', $params);
+
 		if ($this->getRequest()->isXmlHttpRequest()) {
 			return new Response(json_encode(array(
-				'notifications'		=> $this->renderView('BNSAppNotificationBundle:Notification:notification_module_list.html.twig', $params),
+				'notifications'		=> $view,
 				'hasNextPage'		=> $hasNext,
 				'page'				=> $page,
 				'moreLink'			=> $this->generateUrl($route, array(
@@ -226,10 +306,10 @@ class FrontController extends AbstractNotificationController
 				), true)
 			)));
 		}
-		
-		return $this->render('BNSAppNotificationBundle:Notification:notification_module_list.html.twig', $params);
+
+		return new Response($view);
 	}
-	
+
 	/**
 	 * @param array $countClassNames
 	 * @param string $className
@@ -249,14 +329,19 @@ class FrontController extends AbstractNotificationController
 	 */
 	public function countAction($isInFront)
 	{
+        $rm = $this->get('bns.right_manager');
+        $rmu = $rm->getModulesReachableUniqueNames();
+
 		$count = NotificationQuery::create('n')
 			->where('n.TargetUserId = ?', $this->getUser()->getId())
 			->where('n.IsNew = ?', true)
+            ->joinWith('NotificationType')
+            ->where('NotificationType.ModuleUniqueName IN ?',$rmu)
 		->count();
 		
 		return $this->render('BNSAppNotificationBundle:Front:count.html.twig', array(
 			'count' => $count,
-			'route'	=> $isInFront ? 'BNSAppNotificationBundle_front' : 'BNSAppNotificationBundle_back'
+			'route'	=> 'BNSAppNotificationBundle_front'
 		));
 	}
 }

@@ -1,9 +1,22 @@
+{% trans_default_domain "PROFILE" %}
+<md-content class="layout-column flex">
+	<md-list>
 {% for feed in feeds %}
 	{% include 'BNSAppProfileBundle:Moderation:back_statuses_row.html.twig' %}
 {% else %}
-	<div class="no-feed">
-		Aucun statut n'a été trouvé.
-	</div>
+    <bns-inset class="no-feed md-padding">
+        <p class="md-body-2 text-center">
+            {% if status == 'REFUSED' %}
+                {% trans %}NO_REFUSED_STATUS_FIND{% endtrans %}
+            {% elseif status == 'VALIDATED' %}
+                {% trans %}NO_VALIDATED_STATUS_FIND{% endtrans %}
+            {% elseif status == 'PENDING_VALIDATION' %}
+                {% trans %}NO_PENDING_VALIDATION_STATUS_FIND{% endtrans %}
+            {% endif %}
+        </p>
+    </bns-inset>
 {% endfor %}
+	</md-list>
+</md-content>
 
 {% include 'BNSAppProfileBundle:Moderation:back_statuses_pager.html.twig' %}

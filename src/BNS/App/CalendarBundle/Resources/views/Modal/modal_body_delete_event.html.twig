@@ -1,0 +1,10 @@
+{% trans_default_domain "CALENDAR" %}
+<div class="modal-body">
+	<div class="content-modal-body">
+        {{ 'TITLE_SURE_TO_DELETE_EVENT'|trans({'%eventTitle%': event.getTitle()}) |desc(
+        '<h2>Êtes-vous sûr de vouloir supprimer cet évènement "%eventTitle%" de votre calendrier ?</h2>
+        <h3>Cet évènement sera définitivement effacé du calendrier.<br />Les documents joints ou insérés ne seront pas supprimés de la médiathèque.</h3>'
+        ) |raw }}
+	</div>
+</div>
+<div class="beneylu-jim"></div>

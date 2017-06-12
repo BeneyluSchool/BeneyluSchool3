@@ -1,0 +1,33 @@
+{% trans_default_domain "COMMENT" %}
+	<section class="current">
+		{{ components.button('LINK_EDIT' | trans, { inactive: true, icon: 'edit' }) }}
+		<bns-form-proxy source="{{ form.vars.name }}" du-scroll-container="content"></bns-form-proxy>
+		<bns-expander label="{{ 'COMMENT_STATUS' | trans }}" is-open="true">
+				<div class="layout-row layout-padding">
+					<span class="flex">
+						{% if comment.getStatus() == 'PENDING_VALIDATION' %}
+							{{ 'STATUS_WAIT_FOR_MODERATION'|trans |desc('<span>En attente de modération</span>') |raw }}
+
+						{% elseif comment.getStatus() == 'REFUSED' %}
+							{{ 'STATUS_DENY'|trans |desc('<span>Refusé</span>') |raw }}
+
+						{% else %}
+							{{ 'STATUS_VALIDATE'|trans |desc('<span>Validé</span>') |raw }}
+
+						{% endif %}
+					</span>
+				</div>
+		</bns-expander>
+		<bns-expander label="{{ 'COMMENT_INFOS' | trans }}" is-open="true">
+					<div class="layout-row layout-align-start-center layout-padding">
+						<span class="flex flex-none">
+							{{ components.avatar(comment.getAuthor(), { size: 32, whiteframe: 'z1' }) }}
+						</span>
+						<span class="flex">
+							{{ 'CREATE_BY'|trans({'%userFullName%':comment.getAuthor().getFullName() |escape}) |desc('Créé par <strong>%userFullName%</strong>') |raw }}
+							<br>
+							{{ date_from_now(comment.getDate(), true, true) }}
+						</span>
+					</div>
+		</bns-expander>
+</section>

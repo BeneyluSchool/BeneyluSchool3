@@ -1,0 +1,35 @@
+<md-dialog class="bns-dialog bns-dialog-accent">
+  <md-toolbar class="md-accent">
+    <div class="md-toolbar-tools">
+      <div class="md-headline"><h2>{{('CAMPAIGN.TITLE_CONFIRM_'+(ctrl.shared.campaign.campaign.scheduled_at?'SCHEDULE':'SENT'))|translate}}</h2></div>
+      <span flex></span>
+      <md-button ng-click="ctrl.close()" class="md-icon-button" href>
+        <md-icon>close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content class="md-dialog-content">
+    <div ng-if="!ctrl.shared.campaign.campaign.scheduled_at" translate>CAMPAIGN.DESCRIPTION_CONFIRM_SENT</div>
+    <div ng-if="ctrl.shared.campaign.campaign.scheduled_at" translate translate-values="{date: ctrl.scheduledAtDate.format('LL'), time: ctrl.scheduledAtDate.format('LT') }">CAMPAIGN.DESCRIPTION_CONFIRM_SCHEDULE</div>
+    <div ng-if="ctrl.shared.campaign.campaign.type_name == 'SMS'"
+          translate-values="{COUNT: ctrl.shared.nbMessage+1}"
+          translate-interpolation="messageformat"
+          translate>CAMPAIGN.NB_MESSAGES</div>
+    <div ng-if="ctrl.shared.campaign.campaign.type_name == 'SMS'"
+         translate-values="{COUNT: ctrl.shared.allUsers.length}"
+         translate-interpolation="messageformat"
+         translate>CAMPAIGN.NB_CREDITS_COST</div>
+    <div translate-values="{COUNT: ctrl.shared.campaign.campaign.nb_recipient }"
+         translate-interpolation="messageformat"
+         translate>CAMPAIGN.NB_RECIPIENT_TITLE</div>
+  </md-dialog-content>
+
+  <div class="md-actions">
+    <md-button ng-click="ctrl.close()" href>
+      <span ng-bind-html="'CAMPAIGN.BUTTON_CANCEL'|translate|buttonize">.</span>
+    </md-button>
+    <md-button ng-click="ctrl.submit()" class="md-accent md-raised">
+      <span ng-bind-html="('CAMPAIGN.BUTTON_'+(ctrl.shared.campaign.campaign.scheduled_at?'SCHEDULE':'SEND'))|translate|buttonize">.</span>
+    </md-button>
+  </div>
+</md-dialog>

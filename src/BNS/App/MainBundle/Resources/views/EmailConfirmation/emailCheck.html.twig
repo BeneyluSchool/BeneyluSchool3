@@ -1,0 +1,18 @@
+{% trans_default_domain "MAIN" %}
+{% extends 'BNSAppMainBundle:EmailConfirmation:layout.html.twig' %}
+
+{% block content %}
+    {% if confirmation %}
+        <h2>{% trans %}TITLE_EMAIL_VALIDATE_SUCCESS{% endtrans %}</h2>
+        <p>{{ 'EMAIL_CONFIRM_CONTINUE_TO_USE_BENEYLU'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) }}</p>
+    {% else %}
+        {% if alreadyConfirmed %}
+            <h2>{% trans %}TITLE_EMAIL_ALREADY_CONFIRM{% endtrans %}</h2>
+            <p>{{ 'EMAIL_CONFIRM_CONTINUE_TO_USE_BENEYLU'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) }}</p>
+        {% else %}
+            <h2>{% trans %}TITLE_EMAIL_NOT_VALIDATE{% endtrans %}</h2>
+            <p>{% trans %}EMAIL_NOT_CONFIRM_DO_ANOTHER_REQUEST{% endtrans %}</p>
+        {% endif %}
+    {% endif %}
+{% endblock content %}
+

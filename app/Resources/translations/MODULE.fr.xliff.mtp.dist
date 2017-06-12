@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-01-20T18:05:52Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="626ff4c5177ef4ba51205c4e69f01766fb24593f" resname="DESCRIPTION_SPOT">
+        <source>DESCRIPTION_SPOT</source>
+        <target state="new">Accès au conteneur de ressources numériques</target>
+        <note><![CDATA[Description pour l'application SPOT]]></note>
+      </trans-unit>
+      <trans-unit id="690502c4cd16b9dd21611a57d94eec3259ea0a06" resname="SPOT">
+        <source>SPOT</source>
+        <target state="new">Conteneur de ressources</target>
+        <note><![CDATA[Application: SPOT]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

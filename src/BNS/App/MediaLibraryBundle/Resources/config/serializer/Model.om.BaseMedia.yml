@@ -1,0 +1,52 @@
+BNS\App\MediaLibraryBundle\Model\om\BaseMedia:
+  exclusion_policy: All
+  virtual_properties:
+    getTypeUniqueName:
+      expose: true
+    getExternalSource:
+      expose: true
+
+  properties:
+    id:
+      expose: true
+    label:
+      expose: true
+      groups: [ detail, media_detail, media_basic, list ]
+    description:
+      expose: true
+      groups: [ detail, media_detail ]
+    filename:
+      expose: true
+      groups: [ detail, media_detail ]
+    file_mime_type:
+      expose: true
+      groups: [ detail, media_detail ]
+    status_deletion:
+      expose: true
+      groups: [ detail, media_detail ]
+    status_creation:
+      expose: true
+      groups: [ detail, media_detail ]
+    user_id:
+      expose: true
+    is_private:
+      expose: true
+      groups: [ detail, media_detail ]
+    size:
+      expose: true
+      groups: [ detail, media_detail, media_basic ]
+    download_count:
+      expose: true
+      groups: [ detail, media_detail ]
+    slug:
+      expose: true
+      groups: [ detail, media_detail ]
+    copy_from_id:
+      expose: true
+      groups: [ detail, media_detail ]
+    created_at:
+      expose: true
+      groups: [ detail, media_detail ]
+    updated_at:
+      expose: true
+      groups: [ detail, media_detail ]

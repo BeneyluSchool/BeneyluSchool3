@@ -1,0 +1,15 @@
+{% trans_default_domain "CLASSROOM" %}
+<div class="modal-body">
+	<div class="loader loader-sb"></div>
+	<div class="alert alert-success bns-alert" style="display: none;">
+    {% trans %}WORK_GROUP_CREATE{% endtrans %}
+	    <div class="jim"></div>
+	</div>
+	<div class="alert alert-danger bns-alert hide empty">
+    {% trans %}ENTER_NAME{% endtrans %}
+	    <div class="jim"></div>
+	</div>
+	<div class="category-editor">
+		<input type="text" name="" value="" placeholder="{{"PLACEHOLDER_GROUP_NAME"|trans}}" style="border-radius: 3px {# BECAUSE WE DON'T HAVE ICON... #}" />
+	</div>
+</div>

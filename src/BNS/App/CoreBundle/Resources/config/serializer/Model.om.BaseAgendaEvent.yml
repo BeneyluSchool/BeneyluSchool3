@@ -1,0 +1,19 @@
+BNS\App\CoreBundle\Model\om\BaseAgendaEvent:
+  exclusion_policy: All
+
+  properties:
+    id:
+      expose: true
+      groups: [Default]
+    title:
+      expose: true
+      groups: [Default]
+    agenda_id:
+      expose: true
+      groups: [list, agenda_event_list, detail, agenda_event_detail]
+    is_all_day:
+      expose: true
+      groups: [list, agenda_event_list, detail, agenda_event_detail]
+    is_recurring:
+      expose: true
+      groups: [detail, agenda_event_detail]

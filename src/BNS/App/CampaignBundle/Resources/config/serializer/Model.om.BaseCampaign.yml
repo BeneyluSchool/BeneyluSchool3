@@ -1,0 +1,21 @@
+BNS\App\CampaignBundle\Model\om\BaseCampaign:
+  exclusion_policy: All
+  properties:
+      id:
+        expose: true
+      name:
+        expose: true
+      title:
+        expose: true
+      status:
+        expose: true
+        access_type: public_method
+      nb_recipient:
+        expose: true
+      sent_at:
+        expose: true
+      scheduled_at:
+        expose: true
+      created_at:
+        expose: true
+

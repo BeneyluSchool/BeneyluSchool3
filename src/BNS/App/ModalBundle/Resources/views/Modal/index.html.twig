@@ -3,7 +3,7 @@
 		{% if header_template.type == 'view' %}
 			{% include header_template.template with header_template.values %}
 		{% else %}
-			{% render header_template.template with header_template.values %}
+			{% render controller(header_template.template , header_template.values) %}
 		{% endif %}
 	{% else %}
 		{% include 'BNSAppModalBundle:Modal:header.html.twig' %}
@@ -13,7 +13,7 @@
 		{% if body_template.type == 'view' %}
 			{% include body_template.template with body_template.values %}
 		{% else %}
-			{% render body_template.template with body_template.values %}
+			{% render controller( body_template.template , body_template.values ) %}
 		{% endif %}
 	{% else %}
 		{% include 'BNSAppModalBundle:Modal:body.html.twig' %}
@@ -23,7 +23,7 @@
 		{% if footer_template.type == 'view' %}
 			{% include footer_template.template with footer_template.values %}
 		{% else %}
-			{% render footer_template.template with footer_template.values %}
+			{% render controller(footer_template.template , footer_template.values) %}
 		{% endif %}
 	{% else %}
 		{% include 'BNSAppModalBundle:Modal:footer.html.twig' %}

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-06-22T17:24:01Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="4d76b2a840fa05d113c0f4767efc357f3d96e0ce" resname="ADULT_DONT_PANIK">
+        <source>ADULT_DONT_PANIK</source>
+        <target state="new">Pas de panique, vous pouvez : </target>
+      </trans-unit>
+      <trans-unit id="8c3c74132877428a86a0a95a0617d47d4ea665df" resname="ADULT_HAVENT_RIGHT">
+        <source>ADULT_HAVENT_RIGHT</source>
+        <target state="new">Vous n'avez pas le droit de voir cette page</target>
+      </trans-unit>
+      <trans-unit id="e74113a5374c4adc73d817ff60e6a88dbcd40b89" resname="ADULT_MODULE_DESACTIVATE_BAD_WORKING_SPACE">
+        <source>ADULT_MODULE_DESACTIVATE_BAD_WORKING_SPACE</source>
+        <target state="new">Cette application est probablement désactivée, ou vous n'êtes pas dans le bon espace de travail.</target>
+      </trans-unit>
+      <trans-unit id="05cdc1a24d31753fd1a2cde5a1084f3b00dc3e94" resname="BENEYLU_MANAGEMENT">
+        <source>%beneylu_brand_name% - Gestion</source>
+        <target state="new">%beneylu_brand_name% - Gestion</target>
+      </trans-unit>
+      <trans-unit id="b59864a9a8ca9da1ed82593b0c87ba671db69fbf" resname="CHILD_DONT_PANIK">
+        <source>CHILD_DONT_PANIK</source>
+        <target state="new">Pas de panique, tu peux : </target>
+      </trans-unit>
+      <trans-unit id="22c3a35a76d669a3c86ab7d1f2afcd44c9560a26" resname="CHILD_HAVENT_RIGHT">
+        <source>CHILD_HAVENT_RIGHT</source>
+        <target state="new">Tu n'as pas le droit de voir cette page.</target>
+      </trans-unit>
+      <trans-unit id="1f8c969653cd92d7e1563d85cca8af7a75d4b96c" resname="CHILD_LINK_DISCONNECT_USER">
+        <source>CHILD_LINK_DISCONNECT_USER</source>
+        <target state="new">Te déconnecter puis te reconnecter</target>
+      </trans-unit>
+      <trans-unit id="64bd582bf919ed34a1ee2476b4e633e1ebfd4072" resname="CHILD_MODULE_DESACTIVATE_BAD_WORKING_SPACE">
+        <source>CHILD_MODULE_DESACTIVATE_BAD_WORKING_SPACE</source>
+        <target state="new">Cette application est probablement désactivée, ou tu n'es pas dans le bon espace de travail.</target>
+      </trans-unit>
+      <trans-unit id="ec01cec27b68bae7f7cbbd29fa354bd5d37210c2" resname="CHOICE_MAN">
+        <source>CHOICE_MAN</source>
+        <target>Homme</target>
+      </trans-unit>
+      <trans-unit id="36b1f12ec3786dfda96966bd60fa0701590effe7" resname="CHOICE_NO">
+        <source>CHOICE_NO</source>
+        <target>Non</target>
+      </trans-unit>
+      <trans-unit id="26cf2bbf1804fff0d6b179bf400483a87400fc4a" resname="CHOICE_WOMAN">
+        <source>CHOICE_WOMAN</source>
+        <target>Femme</target>
+      </trans-unit>
+      <trans-unit id="5efb3be1fbb630356d644cae60ac42c73effe07c" resname="CHOICE_YES">
+        <source>CHOICE_YES</source>
+        <target>Oui</target>
+      </trans-unit>
+      <trans-unit id="4b4eaf19f92a871691abab24d53c276dfe102fe0" resname="CHOOSE_GROUP_TYPE">
+        <source>CHOOSE_GROUP_TYPE</source>
+        <target>Choisir un type de groupe</target>
+      </trans-unit>
+      <trans-unit id="2ef4c42d98953ba147f4b6528c7d432b5052374e" resname="CHOOSE_RANK">
+        <source>CHOOSE_RANK</source>
+        <target>Choisir un rang</target>
+      </trans-unit>
+      <trans-unit id="fbe73e4031bd1e2a976ac53c21db51098692bd89" resname="CSV_FIELD_BIRTHDAY">
+        <source>CSV_FIELD_BIRTHDAY</source>
+        <target>Date de naissance</target>
+      </trans-unit>
+      <trans-unit id="0379af8077eaac578a3f5714043d4f19d6408d45" resname="CSV_FIELD_FIRSTNAME">
+        <source>CSV_FIELD_FIRSTNAME</source>
+        <target>Prenom</target>
+      </trans-unit>
+      <trans-unit id="a403396d0ca5a7d2bce1ea1f69309937a44292d6" resname="CSV_FIELD_GENDER">
+        <source>CSV_FIELD_GENDER</source>
+        <target>Sexe</target>
+      </trans-unit>
+      <trans-unit id="9f7242a8766557e2db9c348f05b706e986ff248d" resname="CSV_FIELD_LASTNAME">
+        <source>CSV_FIELD_LASTNAME</source>
+        <target>Nom</target>
+      </trans-unit>
+      <trans-unit id="a5925d828741b2e9611c4049c71e668d4787b5ba" resname="EMAIL_NOT_VALIDATED">
+        <source>Votre adresse email %mail% n'a pas encore été validée. Les comptes non validés sont supprimés au bout d'un mois.</source>
+        <target state="new">Votre adresse e-mail %mail% n'a pas encore été validée. Les comptes non validés sont supprimés au bout d'un mois.</target>
+        <note><![CDATA[%mail% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="e554096d3e34a019da6be7a85e388f431eb73921" resname="ERROR_DONT_PANIK">
+        <source>ERROR_DONT_PANIK</source>
+        <target state="new"><![CDATA[
+          <h1>Une erreur est (malheureusement) survenue</h1>
+          <p>Pas de panique, vous pouvez : </p>
+        ]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="2e2f27a6dc1cd89e040e1bf81596a8b8c0d15c2b" resname="EVENT_DAILY_REPEAT_NUMBER">
+        <source>EVENT_DAILY_REPEAT_NUMBER</source>
+        <target state="new">Cet événement a lieu tous les jours jusqu'au %date%.</target>
+        <note><![CDATA[%date% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="f12a02776cff5f1bd5d12dac18a9afbb229538cf" resname="EVENT_DAILY_REPEAT_NUMBER_COUNT">
+        <source>EVENT_DAILY_REPEAT_NUMBER_COUNT</source>
+        <target state="new">Cet événement a lieu tous les jours %number% fois.</target>
+        <note><![CDATA[%number% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="47cb16264fe02ad05bdc6db4d78c4a12d4679a29" resname="EVENT_MONTHLY_REPEAT_NUMBER">
+        <source>EVENT_MONTHLY_REPEAT_NUMBER</source>
+        <target state="new">Cet événement a lieu tous les mois jusqu'au %date%.</target>
+        <note><![CDATA[%date% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="43e2fdd802a13c52dd820f0b212fb13ac9872f59" resname="EVENT_MONTHLY_REPEAT_NUMBER_COUNT">
+        <source>EVENT_MONTHLY_REPEAT_NUMBER_COUNT</source>
+        <target state="new">Cet événement a lieu tous les mois %number% fois.</target>
+        <note><![CDATA[%number% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="4e940fe08a1707527c829e063c9b1540e171ddf0" resname="EVENT_WEEKLY_REPEAT_NUMBER">
+        <source>EVENT_WEEKLY_REPEAT_NUMBER</source>
+        <target state="new">Cet événement a lieu toutes les semaines jusqu'au %date%.</target>
+        <note><![CDATA[%date% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="3842cdac3a6be12f2d2de84f17acd354ede87921" resname="EVENT_WEEKLY_REPEAT_NUMBER_COUNT">
+        <source>EVENT_WEEKLY_REPEAT_NUMBER_COUNT</source>
+        <target state="new">Cet événement a lieu toutes les semaines %number% fois.</target>
+        <note><![CDATA[%number% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="01ffd7962d30b6cb374b62158bf58389d7f02f38" resname="EVENT_YEARLY_REPEAT_NUMBER">
+        <source>EVENT_YEARLY_REPEAT_NUMBER</source>
+        <target state="new">Cet événement a lieu tous les ans jusqu'au %date%.</target>
+        <note><![CDATA[%date% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="2e7c96f7309f2665e785caed7ff951b896b71ebe" resname="EVENT_YEARLY_REPEAT_NUMBER_COUNT">
+        <source>EVENT_YEARLY_REPEAT_NUMBER_COUNT</source>
+        <target state="new">Cet événement a lieu tous les ans %number% fois.</target>
+        <note><![CDATA[%number% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="d948e35857754694a567f2fcc27813f3b48427f9" resname="GROUP_HIMSELF">
+        <source>GROUP_HIMSELF</source>
+        <target>Groupe lui même</target>
+      </trans-unit>
+      <trans-unit id="e94f2ca38c0a0a9dfc18ac52aa7833ec7ec23d8a" resname="Group.Back.Assistance.Alert.Disconnect">
+        <source>Group.Back.Assistance.Alert.Disconnect</source>
+        <target state="new">Terminer l'assistance</target>
+      </trans-unit>
+      <trans-unit id="349c052b48b3f65cb9f0e4c417252a626f7a5d74" resname="Group.Back.Assistance.Alert.Message">
+        <source>Group.Back.Assistance.Alert.Message</source>
+        <target state="new">Vous assistez actuellement %fullname%</target>
+        <note><![CDATA[%fullname% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="48c95e7421062393c578c13a3c0f0e96c650a07a" resname="LABEL_ACTIVE_RULE">
+        <source>LABEL_ACTIVE_RULE</source>
+        <target>Règle active</target>
+      </trans-unit>
+      <trans-unit id="d308eb6c0c006660932cdba6fc1d88442742f4b7" resname="LABEL_BUNDLE">
+        <source>LABEL_BUNDLE</source>
+        <target state="new">Bundle</target>
+        <note><![CDATA[Administration]]></note>
+      </trans-unit>
+      <trans-unit id="efd86a00da882ceb3b9c6fd89d9e4c837a34f864" resname="LABEL_CONTEXTABLE">
+        <source>LABEL_CONTEXTABLE</source>
+        <target state="new">Contextualisable</target>
+        <note><![CDATA[Administration]]></note>
+      </trans-unit>
+      <trans-unit id="f2d1f348f6f5ae22216696966811694fe2cc56ba" resname="LABEL_FOR_WHO">
+        <source>LABEL_FOR_WHO</source>
+        <target>Pour qui ?</target>
+      </trans-unit>
+      <trans-unit id="cae10029d6ed1181457ec981b66f0cda3c3d291c" resname="LABEL_GROUP_TYPE">
+        <source>LABEL_GROUP_TYPE</source>
+        <target>Type de groupe :</target>
+      </trans-unit>
+      <trans-unit id="2dc955536696c831ac2ac56a0ec4e57800b6078e" resname="LABEL_LANG">
+        <source>LABEL_LANG</source>
+        <target>Langue</target>
+      </trans-unit>
+      <trans-unit id="61611682049d38ac723ed49f4a314d154ed78d15" resname="LABEL_NAME">
+        <source>LABEL_NAME</source>
+        <target>Nom :</target>
+      </trans-unit>
+      <trans-unit id="282cad5f371de2b7b48f17ddd6273d258757e8fb" resname="LABEL_OTHER_DEFAULT_RANK">
+        <source>LABEL_OTHER_DEFAULT_RANK</source>
+        <target>Rang autre par défaut</target>
+      </trans-unit>
+      <trans-unit id="49e90a91cfd05f8afabc36edd323d4d59d0b62e1" resname="LABEL_PARENT_DEFAULT_RANK">
+        <source>LABEL_PARENT_DEFAULT_RANK</source>
+        <target>Rang parent par défaut</target>
+      </trans-unit>
+      <trans-unit id="9b75fa67504f3a90493183414541eb0c575fdaf5" resname="LABEL_PUPIL_DEFAULT_RANK">
+        <source>LABEL_PUPIL_DEFAULT_RANK</source>
+        <target>Rang élève par défaut</target>
+      </trans-unit>
+      <trans-unit id="a1dc70e9b0ac074dcdc757275bc77f2438f04f47" resname="LABEL_RANK">
+        <source>LABEL_RANK</source>
+        <target>Rang</target>
+      </trans-unit>
+      <trans-unit id="a2e25e9a7840cba212fd5cf93c662c88ba8e2167" resname="LABEL_SHORTEN_MISTER">
+        <source>LABEL_SHORTEN_MISTER</source>
+        <target state="new">M</target>
+      </trans-unit>
+      <trans-unit id="973a795217d738111760958176a500ae4f0332ab" resname="LABEL_SHORTEN_MISTRESS">
+        <source>LABEL_SHORTEN_MISTRESS</source>
+        <target state="new">Mme</target>
+      </trans-unit>
+      <trans-unit id="adc31e6a1572804dea26e7fc9fae3441dca58336" resname="LABEL_TARGET_GROUP">
+        <source>LABEL_TARGET_GROUP</source>
+        <target>Groupes cibles ?</target>
+      </trans-unit>
+      <trans-unit id="77e39b14e8a22935794eaae924a3e502b4460745" resname="LABEL_UNIQUE_NAME">
+        <source>LABEL_UNIQUE_NAME</source>
+        <target state="new">Nom</target>
+      </trans-unit>
+      <trans-unit id="b6d73682ba84e02cf3b99efb202a98764f0c3f3a" resname="LINK_BACK_TO_HOMEPAGE">
+        <source>Revenir à la page d'accueil</source>
+        <target>Revenir à la page d'accueil</target>
+      </trans-unit>
+      <trans-unit id="1a28b1bd44940826ffd835f6da61384bcfce613e" resname="LINK_CALL_HELP">
+        <source>LINK_CALL_HELP</source>
+        <target state="new">%linkStart% Appeler à l'aide ! %linkEnd% (en précisant le contexte de votre erreur)</target>
+        <note><![CDATA[%linkStart% is a placeholder
+%linkEnd% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="7f13f91975fb6b80c3a5b2a8c84a231b3e4fdcb6" resname="LINK_DISCONNECT_USER">
+        <source>LINK_DISCONNECT_USER</source>
+        <target state="new">Vous déconnecter puis vous reconnecter</target>
+      </trans-unit>
+      <trans-unit id="79ba2a38bb14ea7c59159916c986883797749feb" resname="PARENT_NUMBER_OF">
+        <source>PARENT_NUMBER_OF</source>
+        <target>Parent %parentNumber% de</target>
+        <note><![CDATA[%parentNumber% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="bfa944ae3bb0cb968e00394e8f7be4a8260e0828" resname="PARENT_OF">
+        <source>PARENT_OF</source>
+        <target>Parent de</target>
+      </trans-unit>
+      <trans-unit id="0e62cbbc6d50efa9d57acebcfc25f31826ea77e4" resname="RECEIVE_AGAIN">
+        <source>Recevoir à nouveau le message</source>
+        <target state="new">Recevoir à nouveau le message</target>
+      </trans-unit>
+      <trans-unit id="61fbacff6793ffa03eb10b2caf9fd1ff94d4b564" resname="SINCE">
+        <source>Il y a %time%</source>
+        <target>Il y a %time%</target>
+        <note><![CDATA[%time% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="368704ef8737c67bf75c55487de5ccc03e54cc8d" resname="WELCOME_BENEYLU">
+        <source>Bienvenue sur %beneylu_brand_name%</source>
+        <target state="new">Bienvenue sur %beneylu_brand_name%</target>
+      </trans-unit>
+      <trans-unit id="82b99debcad55180aaa6979ee7a0395dad967921" resname="WELCOME_CHART">
+        <source>Bienvenue sur %chart%</source>
+        <target state="new">Bienvenue sur %chart%</target>
+        <note><![CDATA[%chart% is a placeholder
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,171 @@
+{% trans_default_domain "GROUP" %}
+{% extends 'BNSAppGroupBundle:Back:layout.html.twig' %}
+
+{% block title %}{{ 'TITLE_CLASS_IMPORT_CSV_FILE'|trans |desc('Classe - Importer vos fichiers CSV') }}{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script type="text/javascript">
+		$(function ()
+		{
+			$('.btn-confirm-import-pupil').click(function (e)
+			{
+				var $this = $(e.currentTarget);
+				if ($this.hasClass('disabled')) {
+					return false;
+				}
+
+				$this.addClass('disabled').attr('disabled', 'disabled');
+
+				$('#import-pupil-form').submit();
+				$('.alert-error').slideUp('fast');
+				$('#import-pupil-form').slideUp('fast', function ()
+				{
+					$('.alert-loading').slideDown('fast');
+				});
+			});
+		});
+	</script>
+{% endblock %}
+
+{% block header %}
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span7">
+						<a href="{{ path('BNSAppGroupBundle_group_sheet' , {"groupSlug" : group.slug}) }}" class="btn bns-notice btn-24 medium-return button-return">
+							<span class="icons-24 back-icon"></span>
+							{{ 'LINK_BACK_TO_CARD'|trans |desc('<strong>Retour</strong><br>à la fiche') |raw }}
+						</a>
+					</div>
+					<div class="span5 align-right">
+						<a href="#" class="btn bns-success validate-medium btn-24 medium btn-confirm-import-pupil">
+							<span class="icons-24 validate-icon"></span><strong>{{ 'LINK_I_FINISH'|trans |desc('J\'ai terminé') }}</strong>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock header %}
+
+{% block content %}
+	<div class="container-csv">
+		{% for message in app.session.flashbag.get('error') %}
+			<div class="alert alert-danger bns-alert">
+				{{ message }}
+				<div class="jim"></div>
+			</div>
+		{% endfor %}
+
+		<div class="news-title">
+			<h1 class="dashboard">{{ 'TITLE_PUPIL_IMPORT_FROM_CSV_FILE'|trans |desc('Import d\'élèves depuis un fichier CSV') }}</h1>
+		</div>
+
+		<div class="content-csv">
+			<div class="alert alert-info alert-loading">
+				<img src="{{ asset('/medias/images/icons/big-loader.gif') }}" alt="" />
+				<h3>{{ 'TITLE_IMPORT_IN_PROGRESS_PLEASE_WAIT'|trans |desc('Import en cours... veuillez patienter pendant que vos élèves se mettent en rang pour entrer dans leur nouvelle classe virtuelle.') }}</h3>
+			</div>
+
+			{% if app.session.flashBag.has('submit_import_form_error') %}
+                {% for message in app.session.flashbag.get('submit_import_form_error') %}
+                    <div class="alert alert-error bns-alert">
+                        {{ message }}
+                        {{ 'ERROR_DURING_FORM_SUBMIT_VERIFY_FORM_FIELD'|trans |desc("                        Une erreur est survenue lors de la soumission du formulaire. Veuillez vérifier que vous avez bien renseigné tous les champs du formulaire.
+") }}
+                        <div class="jim"></div>
+                    </div>
+                {% endfor %}
+			{% endif %}
+			<form action="{{ path('back_group_users_do_import_pupil_from_csv') }}" method="POST" id="import-pupil-form" {{ form_enctype(form) }}>
+				{{ form_widget(form) }}
+                                <input type="hidden" name="classroom_id" value="{{ classroom_id }}" />
+				<div class="clearfix"></div>
+				<p>
+					<i>{{ 'FILE_CSV_NOT_SAVE_ON_OUR_SERVER'|trans |desc('Nb: les fichiers CSV ne sont pas conservés sur nos serveurs, ils sont traités par un robot puis supprimés.') }}</i>
+				</p>
+			</form>
+		</div>
+
+		<div class="news-title">
+			<h1 class="dashboard">{{ 'TITLE_USER_MANUAL'|trans |desc('Mode d\'emploi') }}</h1>
+		</div>
+		<div class="content-csv">
+            {{ 'USER_MANUAL_DESCRIPTION'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('
+            <h3>Qu\'est-ce qu\'un fichier CSV ?</h3>
+
+			<p>Un fichier CSV n\'est rien d\'autre qu\'une <strong>liste de données</strong> (la liste détaillée de vos élèves par exemple) dans laquelle on a remplacé les séparations par <strong>des point-virgules</strong> ( ; ). </p>
+
+            <p>C\'est ainsi qu\'on dit que "le point-virgule est le séparateur du fichier CSV", tout simplement !</p>
+
+
+            <h3>Quel est l\'intérêt ?</h3>
+
+            <p>Le principal intérêt du fichier CSV est de <strong>permettre à des machines d\'interpréter</strong> des listes de données.</p>
+
+            <p>C\'est ainsi que vous pouvez envoyer la liste de tous vos élèves en une seule fois sur %beneylu_brand_name% : tous les comptes seront créés.	Cela <strong>évite la tâche fastidieuse</strong> de les créer un par un.</p>
+
+            <h3>Quels sont les formats acceptés ?</h3>
+
+            <p> Hélàs, tout cela n\'est pas magique. Il faut que la machine "comprenne" la liste que vous lui envoyez.</p>
+
+            <p>	Pour cela, il est nécessaire d\'écrire le fichier CSV d\'une certaine façon, en <strong>respectant une nomenclature</strong>. C\'est ce qu\'on appelle "<strong>le format</strong>". </p>
+
+            <p>Aujourd\'hui %beneylu_brand_name% accepte 2 formats : le format "<strong>Base Elèves</strong>" et le format "<strong>Simplifié</strong>" beaucoup plus simple.</p>
+
+            <h3>Comment écrire un fichier CSV ?</h3>
+
+            <p>	Il est très facile d\'écrire un fichier CSV (si si !).</p>
+            <p>Pour cela, <strong>munissez-vous d\'un tableur</strong> comme Excel ou OpenOffice Calc. C\'est de loin la solution la plus simple car le tableur se chargera pour vous de placer les points-virgules.</p>
+
+            <p>Nous vous conseillons très fortement de <strong>télécharger l\'un des fichiers exemples</strong> (voir ci-après) et de vous en servir comme base de rédaction de votre propre fichier. N\'hésitez pas, c\'est fait pour !</p>
+
+            <p>La 1ère ligne de votre "tableau" doit-être celle du format choisi (voir ci-après), elle définit les colonnes (nom prénom, ...). Les lignes suivantes sont tout simplement vos élèves, avec leurs informations dans chacune des colonnes : nom, prénom, ... </p>
+
+            <p>Il ne reste plus qu\'à enregistrer votre fichier au format CSV. Votre tableur doit vous proposer ce format lorsque vous choisissez "<strong>Enregistrer sous</strong>".</p>
+
+            <p>	Voilà, votre fichier "<strong>nom_de_mon_fichier.csv</strong>" est prêt pour %beneylu_brand_name% !</p>')|raw }}
+
+		</div>
+		<div class="news-title">
+			<h1 class="dashboard">{{ 'TITLE_DOWNLOAD'|trans |desc('Téléchargement') }}</h1>
+		</div>
+		<div class="row-fluid">
+			<div class="span6">
+				<div class="content-csv">
+                    {{ 'PUPIL_BASE_FORMAT_DESCRIPTION'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('
+                    <h4>Le format Base Elèves</h4>
+					<p>
+						Si vous disposez d\rune <strong>extraction Base Eleves</strong> de votre classe, vous pouvez la soumettre telle quelle à %beneylu_brand_name%,
+                    sans <strong>aucune modification à apporter</strong>.
+                    <br /><br />
+                    Seuls les champs nécessaires seront pris en compte, les autres seront simplement ignorés.
+                    <br /><br />') |raw}}
+
+						<a href="{{ asset('/medias/file/classroom/exemple_base_eleves.csv') }}">{{ 'DOWNLOAD_PUPIL_BASE_FORMAT_EXAMPLE'|trans |desc('Télécharger un exemple au format Base Elèves') }}</a><br />
+						<a href="{{ asset('/medias/file/classroom/exemple_base_eleves_vierge.csv') }}">{{ 'DOWNLOAD_PUPIL_BASE_FORMAT_EMPTY_FILE'|trans |desc('Télécharger un fichier vierge au format Base Elèves') }}</a>
+					</p>
+				</div>
+			</div>
+			<div class="span6">
+				<div class="content-csv">
+                    {{ 'SIMPLIFY_FORMAT_DESCRIPTION'|trans |desc('
+                    <h4>Le format Simplifié</h4>
+					<p>
+						Si vous souhaitez construire vous même votre fichier, nous vous invitons à télécharger le fichier exemple au format Simplifié et à
+						le compléter.
+						<br /><br />
+						Cette solution est <strong>très simple à mettre en oeuvre</strong>.
+						<br /><br />') |raw }}
+
+						<a href="{{ asset('/medias/file/classroom/exemple_beneylu_school.csv') }}">{{ 'DOWNLOAD_SIMPLIFY_FORMAT_EXAMPLE'|trans |desc('Télécharger un exemple au format Simplifié') }}</a><br />
+						<a href="{{ asset('/medias/file/classroom/exemple_beneylu_school_vierge.csv') }}">{{ 'DOWNLOAD_SIMPLIFY_FORMAT_EMPTY_FILE'|trans |desc('Télécharger un fichier vierge au format Simplifié') }}</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

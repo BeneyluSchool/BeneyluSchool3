@@ -1,0 +1,54 @@
+{% trans_default_domain "USER" %}
+{% extends '::base.html.twig' %}
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+
+{% block css %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('medias/css/user/front_register_modals.css') }}" />
+{% endblock %}
+
+{% block main_javascripts %}
+  {# redirect if displayed in iframe (user has logged out without completing its registration) #}
+  <script>
+    var inIframe = false;
+
+    try {
+      if (window.self !== window.top) {
+        inIframe = true;
+        window.angularStopBoot = true;
+      }
+    } catch (e) {
+      inIframe = true;
+      window.angularStopBoot = true;
+    }
+
+    if (inIframe) {
+      window.top.location.href = window.location.href;
+    }
+  </script>
+  <script>
+    if (window.inIframe) {
+      document.body.style.background = 'transparent';
+      document.body.style.overflow = 'hidden';
+    }
+  </script>
+  {{ parent() }}
+{% endblock %}
+
+{% block alert %}{% endblock %}
+
+{% block body %}
+  <div ng-init="dialog.show({title: 'Test!', templateUrl: 'modal.html', clickOutsideToClose: false, escapeToClose: false, locals: {app: app} })"></div>
+  <script id="modal.html" type="text/ng-template">
+    {% block dialog %}
+    <md-dialog class="bns-dialog bns-dialog-primary register-modal bns-dialog-md">
+      {% block dialog_content %}{% endblock %}
+    </md-dialog>
+    {% endblock %}
+    {% block jim %}<div class="bns-dialog-jim hide-sm hide-md"></div>{% endblock %}
+  </script>
+
+  {{ components.toasts(app.session.flashbag.all) }}
+{% endblock body %}
+
+{% block dock_bar %}{% endblock dock_bar %}

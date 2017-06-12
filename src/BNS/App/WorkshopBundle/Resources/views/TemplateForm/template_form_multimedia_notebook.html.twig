@@ -1,0 +1,45 @@
+{% import 'BNSAppCoreBundle:Macros:forms.html.twig' as forms %}
+
+<div class="page">
+	{% if canDeletePage %}
+		{{ modal('delete-page-' ~ form.vars.value.getId(), {
+			'title': 'Vous allez supprimer une page',
+			'body_template': {'template': 'BNSAppWorkshopBundle:Modal:delete_page_body.html.twig'},
+			'footer_template': {'template': 'BNSAppWorkshopBundle:Modal:delete_page_footer.html.twig', 'values': {'slug': form.vars.data.getResource().getSlug(), 'id': form.vars.data.id} },
+			'type': 'error'
+		}) }}
+		
+		<a href="#" class="btn delete-page bns-danger btn-24 medium-return" data-toggle="modal" data-target="#delete-page-{{ form.vars.value.getId() }}">
+			<span class="icons-24 delete-icon"></span>
+			<strong>Supprimer</strong><br />
+			la page ci-dessous
+		</a>
+	{% endif %}
+	<div class="row-fluid">
+		{% for i, input in form.workshop_document_inputs %}
+			<div class="span6">
+				<div class="tinyarea">
+					{{ form_widget(input.value, { 'attr': {'bns-tinymce': ''} }) }}
+					{{ forms.errors(input.value) }}
+				</div>
+
+				<div class="resources">
+					{% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': input.vars.value.getResourceAttachments(), 'editable': true, 'extraName': input.vars.value.isNew() ? '' ~ i : input.vars.value.getId()} %}
+				</div>
+
+				<div>
+					{{ form_widget(input.input_unique_name) }}
+				</div>
+
+				<script type="text/javascript">
+					{{ ajaxTiny(input.value.vars.id, false) }}
+				</script>
+			</div>
+		{% endfor %}
+	</div>
+
+	<div>
+		{{ form_rest(form) }}
+	</div>
+	<div class="clearfix"></div>
+</div>

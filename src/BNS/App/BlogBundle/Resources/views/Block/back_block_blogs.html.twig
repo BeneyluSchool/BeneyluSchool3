@@ -1,0 +1,13 @@
+{% trans_default_domain "BLOG" %}
+{% if article.blogs | length > 1 %}
+    {% set label = ('BLOG')|trans ~  's '  ~ ('OF_PUBLICATION')|trans  %}
+{% else %}
+    {% set label = ('BLOG')|trans ~  ' '  ~ ('OF_PUBLICATION')|trans  %}
+{% endif %}
+<bns-expander label="{{ label }}" class="ng-scope ng-isolate-scope" is-open="true">
+  <div class="layout-column layout-padding">
+    {% for blog in article.blogs %}
+      <div class="flex">{{ blog.title }}</div>
+    {% endfor %}
+  </div>
+</bns-expander>

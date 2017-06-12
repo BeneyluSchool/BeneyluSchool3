@@ -13,7 +13,7 @@ class EditGroupType extends AbstractType
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{	
 		$builder->add('home_message', 'textarea', array(
-			'label'	=> "Message d'accueil :"
+			'label'	=> "LABEL_WELCOME_MESSAGE"
 		));
 	}
 	
@@ -21,6 +21,7 @@ class EditGroupType extends AbstractType
     {
         $resolver->setDefaults(array(
 			'data_class' => 'BNS\App\GroupBundle\Form\Model\EditGroupFormModel',
+            'translation_domain' => 'GROUP'
         ));
     }
 	

@@ -1,0 +1,13 @@
+<md-button ui-sref="^.compose.new" class="md-raised md-primary">
+  <bns-icon>messaging:scroll</bns-icon>
+  <span ng-bind-html="'MESSAGING.BUTTON_NEW_MESSAGE'|translate|buttonize">.</span>
+</md-button>
+
+<md-button ng-if="ctrl.shared.selection.length"
+  ng-click="ctrl.restoreSelection()"
+  class="md-raised"
+  href
+>
+  <md-icon>settings_backup_restore</md-icon>
+  <span ng-bind-html="'MESSAGING.BUTTON_RESTORE_MESSAGES'|translate|buttonize">.</span>
+</md-button>

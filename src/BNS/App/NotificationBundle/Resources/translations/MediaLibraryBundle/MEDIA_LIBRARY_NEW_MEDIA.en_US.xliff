@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:45:05Z" source-language="en" target-language="en-US" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="5b01ee915f0f8e22912d602dac51f1133cff1786" resname="MEDIA_LIBRARY_NEW_MEDIA.EMAIL.content">
+        <source>MEDIA_LIBRARY_NEW_MEDIA.EMAIL.content</source>
+        <target><![CDATA[The document <a href="%media_folder_route%">%file_name%</a> has been filed by <strong>%user_fullname%</strong>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="ceb96310276e5bbbe24db4689d089becfd23ea2b" resname="MEDIA_LIBRARY_NEW_MEDIA.EMAIL.title">
+        <source>MEDIA_LIBRARY_NEW_MEDIA.EMAIL.title</source>
+        <target>A new document has been filed by one of your students</target>
+      </trans-unit>
+      <trans-unit id="f0a48e69de542fdd231976760d00f4dbe95202e1" resname="MEDIA_LIBRARY_NEW_MEDIA.SYSTEM.content">
+        <source>MEDIA_LIBRARY_NEW_MEDIA.SYSTEM.content</source>
+        <target><![CDATA[The document <a href="%media_folder_route%">%file_name%</a> has been filed by <strong>%user_fullname%</strong>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

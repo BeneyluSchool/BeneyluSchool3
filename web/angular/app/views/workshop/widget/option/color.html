@@ -1,0 +1,9 @@
+<ul class="workshop-widget-option-color-list">
+  <li ng-repeat="value in option.values"
+    ng-click="selectValue(value)"
+    ng-class="{ current: current == value }"
+    class="workshop-color-picker-btn"
+    >
+      <div class="color" ng-style="{ 'background-color': value }"></div>
+  </li>
+</ul>

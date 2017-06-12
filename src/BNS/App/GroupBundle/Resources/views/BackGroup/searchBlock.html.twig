@@ -1,0 +1,19 @@
+{% trans_default_domain "GROUP" %}
+<table class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<th>{{ 'TABLE_GROUP_FIND'|trans |desc('Groupes trouvés') }}</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for group in groups %}
+			<tr>
+				<td>
+					<a href="{{ path("BNSAppGroupBundle_group_sheet" , { groupSlug: group.slug }) }}">
+						{{ group.label }} - <i>{{ group.groupType.label }}</i>
+					</a>
+				</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>

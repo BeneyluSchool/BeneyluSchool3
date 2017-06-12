@@ -1,3 +1,4 @@
+{% trans_default_domain "TEAM" %}
 {% extends 'BNSAppTeamBundle:Layout:manager.html.twig' %}
 
 {% block content %}
@@ -6,19 +7,19 @@
         <div class="content">
             <div class="row-fluid">
                 <div class="span12">
-                    <h1>Page d'administration de l'équipe</h1>
-                                        
+                    <h1>{% trans %}TEAM_ADMIN_PAGE{% endtrans %}</h1>
+
                     <div class="form-edit-home-message">
-                        <h3>Message d'accueil</h3>
+                        <h3>{% trans %}WELCOME_MESSAGE{% endtrans %}</h3>
                         <form action="{{ path('BNSAppClassroomBundle_back') }}" method="POST" {{ form_enctype(form) }}>
                             {{ form_widget(form.homeMessage) }}
                             {{ form_rest(form) }}
-                            <input type="submit" class="btn btn-success" value="Mettre à jour !" />
+                            <input type="submit" class="btn btn-success" value={{ 'INPUT_UPDATE'|trans |desc('Mettre à jour !') }} />
                         </form>
                     </div>
-                    
-                    <h3>Mes modules et leurs états :</h3>
-					{% render "BNSAppMainBundle:Module:moduleActivation" with { 'roles': activation_role } %}
+
+                    <h3>{% trans %}MY_APPS_AND_STATES{% endtrans %}</h3>
+					{{ render(controller('BNSAppMainBundle:Module:moduleActivation', { 'roles': activation_role } )) }}
                     {#<table class="table table-bordered">
                         <thead>
                             <tr>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:44:36Z" source-language="en" target-language="en-GB" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="5617d652949f88674d5db89e47fcc28b8b5da1ab" resname="CALENDAR_NEW_BIRTHDAY.EMAIL.content">
+        <source>CALENDAR_NEW_BIRTHDAY.EMAIL.content</source>
+        <target><![CDATA[<strong>%userFullName%</strong>'s birthday is today! Why not send your birthday wishes?]]></target>
+        <note><![CDATA[%userFullName% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="b962cf12ed1c32f03b08598786510da7e1fab875" resname="CALENDAR_NEW_BIRTHDAY.EMAIL.title">
+        <source>CALENDAR_NEW_BIRTHDAY.EMAIL.title</source>
+        <target>There's a birthday in the class</target>
+      </trans-unit>
+      <trans-unit id="a8ae4d58ff81e1deba25bd162643429b3eb4c843" resname="CALENDAR_NEW_BIRTHDAY.SYSTEM.content">
+        <source>CALENDAR_NEW_BIRTHDAY.SYSTEM.content</source>
+        <target><![CDATA[<strong>%userFullName%</strong>'s birthday is today!]]></target>
+        <note><![CDATA[%userFullName% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

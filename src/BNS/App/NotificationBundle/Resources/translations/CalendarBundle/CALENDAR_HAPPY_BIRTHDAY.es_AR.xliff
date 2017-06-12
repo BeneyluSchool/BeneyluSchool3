@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:44:36Z" source-language="en" target-language="es-AR" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="e0282e2aa718c3af8a1351c6c0b934505b4f87c2" resname="CALENDAR_HAPPY_BIRTHDAY.EMAIL.content">
+        <source>CALENDAR_HAPPY_BIRTHDAY.EMAIL.content</source>
+        <target>¡Hoy es tu cumpleaños! ¡El equipo de Beneylu School te desea un feliz cumpleaños!</target>
+      </trans-unit>
+      <trans-unit id="eafcc3e4b970920ac51430b68e29ce1e64dff57f" resname="CALENDAR_HAPPY_BIRTHDAY.EMAIL.title">
+        <source>CALENDAR_HAPPY_BIRTHDAY.EMAIL.title</source>
+        <target>¡Hoy es un día especial!</target>
+      </trans-unit>
+      <trans-unit id="3aaf4547471d12833f5438e5ea5991be876d18fc" resname="CALENDAR_HAPPY_BIRTHDAY.SYSTEM.content">
+        <source>CALENDAR_HAPPY_BIRTHDAY.SYSTEM.content</source>
+        <target><![CDATA[<strong>¡Feliz cumpleaños!</strong>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

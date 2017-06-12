@@ -1,0 +1,68 @@
+{% trans_default_domain "MINISITE" %}
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+
+{% set peer_class = 'BNS\\App\\MiniSiteBundle\\Model\\MiniSitePageTextPeer' %}
+
+{% set dropdown_text %}
+	{% if text.isPublished() %}
+		{% trans %}PAGE_PUBLISH{% endtrans %}
+	{% elseif text.isDraft() %}
+		{% trans %}NEWS_DRAFT{% endtrans %}
+	{% elseif text.isFinished() %}
+		{% trans %}PAGE_FINISH{% endtrans %}
+	{% elseif text.isWaitingForCorrection() %}
+		{% trans %}PAGE_TO_CORRECT{% endtrans %}
+	{% endif %}
+{% endset %}
+
+{% set dropdown_items = [] %}
+
+{% if text.isPublished() %}
+	{% set dropdown_items = dropdown_items|merge([
+		components.button('NEWS_UNPUBLISH'|trans, {
+			href: path('ministe_manager_page_status', {'slug': text.getMiniSitePage().getSlug(), 'statusId': constant(peer_class ~ '::STATUS_FINISHED_INTEGER')}),
+			attr: { 'data-id': text.getMiniSitePage().getId(), 'data-type': 'text' }
+		})
+	]) %}
+{% elseif text.isDraft() %}
+	{% set dropdown_items = dropdown_items|merge([
+		components.button('NEWS_VALIDATE_AND_PUBLISH'|trans, {
+			href: path('ministe_manager_page_status', {'slug': text.getMiniSitePage().getSlug(), 'statusId': constant(peer_class ~ '::STATUS_PUBLISHED_INTEGER')}),
+			attr: { 'data-id': text.getMiniSitePage().getId(), 'data-type': 'text' }
+		}),
+		components.button('NEWS_VALIDATE_WITHOUT_PUBLISH'|trans, {
+			href: path('ministe_manager_page_status', {'slug': text.getMiniSitePage().getSlug(), 'statusId': constant(peer_class ~ '::STATUS_FINISHED_INTEGER')}),
+		}),
+		components.button('NEWS_SUBMIT_TO_CORRECT'|trans, {
+			href: path('ministe_manager_page_status', {'slug': text.getMiniSitePage().getSlug(), 'statusId': constant(peer_class ~ '::STATUS_WAITING_FOR_CORRECTION_INTEGER')}),
+			attr: { 'data-id': text.getMiniSitePage().getId(), 'data-type': 'text' }
+		})
+	]) %}
+{% elseif text.isFinished() %}
+	{% set dropdown_items = dropdown_items|merge([
+		components.button('LINK_PUBLISH'|trans, {
+			href: path('ministe_manager_page_status', {'slug': text.getMiniSitePage().getSlug(), 'statusId': constant(peer_class ~ '::STATUS_PUBLISHED_INTEGER')}),
+			attr: { 'data-id': text.getMiniSitePage().getId(), 'data-type': 'text' }
+		}),
+		components.button('NEWS_SUBMIT_TO_CORRECT'|trans, {
+			href: path('ministe_manager_page_status', {'slug': text.getMiniSitePage().getSlug(), 'statusId': constant(peer_class ~ '::STATUS_WAITING_FOR_CORRECTION_INTEGER')}),
+			attr: { 'data-id': text.getMiniSitePage().getId(), 'data-type': 'text' }
+		}),
+	]) %}
+{% elseif text.isWaitingForCorrection() %}
+	{% set dropdown_items = dropdown_items|merge([
+		components.button('NEWS_VALIDATE_AND_PUBLISH'|trans, {
+			href: path('ministe_manager_page_status', {'slug': text.getMiniSitePage().getSlug(), 'statusId': constant(peer_class ~ '::STATUS_PUBLISHED_INTEGER')}),
+			attr: { 'data-id': text.getMiniSitePage().getId(), 'data-type': 'text' }
+		}),
+		components.button('NEWS_VALIDATE_WITHOUT_PUBLISH'|trans, {
+			href: path('ministe_manager_page_status', {'slug': text.getMiniSitePage().getSlug(), 'statusId': constant(peer_class ~ '::STATUS_FINISHED_INTEGER')}),
+			attr: { 'data-id': text.getMiniSitePage().getId(), 'data-type': 'text' }
+		}),
+	]) %}
+{% endif %}
+
+{{ components.button_dropdown(dropdown_text, dropdown_items, {
+	href: '',
+	attr: { class: '' }
+})}}

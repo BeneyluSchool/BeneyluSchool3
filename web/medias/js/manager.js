@@ -1,5 +1,6 @@
 $(function ()
 {
+	// Collapse title sidebar
 	$('body').on('click', '.container-sidebar .title:has(.icon-arrow)', function (e)
 	{
 		var $this = $(e.currentTarget),
@@ -15,4 +16,8 @@ $(function ()
 			$this.removeClass('active');
 		}
 	});
+
+    $(".show-calendar").click(function(){
+        $(this).prev('input').focus();
+    });
 });

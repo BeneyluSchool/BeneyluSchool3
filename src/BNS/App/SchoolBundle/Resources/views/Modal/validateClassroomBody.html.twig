@@ -1,0 +1,34 @@
+{% trans_default_domain "SCHOOL" %}
+<div id="add-classroom-modal" class="modal-body">
+    <div class="loader loader-sb hide">
+        <div class="message ">
+          {% trans %}LOADING_PLEASE_WAIT{% endtrans %}
+        </div>
+    </div>
+    <div class="content-modal-body">
+      <h2> {% trans %}TITLE_ENTER_NEW_CLASS_NAME{% endtrans %}</h2>
+        <h3>
+          {% trans %}TITLE_MIGHT_ADD_TEACHER_AND_PUPIL_IN_SCHOOL{% endtrans %}
+        </h3>
+        <div id="add-classroom-form-error" class="hide">
+            <div class="row-fluid notice-message">
+                <div class="alert bns-alert alert-error">
+                  {% trans %}ENTER_CLASS_NAME{% endtrans %}
+                    <div class="jim"></div>
+                </div>
+            </div>
+        </div>
+        <div id="add-classroom-form-success" class="hide">
+            <div class="row-fluid notice-message">
+                <div class="alert bns-alert alert-success">
+                  {% trans %}CONFIRM_CLASS_ADDED{% endtrans %}
+                    <div class="jim"></div>
+                </div>
+            </div>
+        </div>
+        <p>
+            <input id="add-classroom-label" type="text" name="label" value="" placeholder="{{"PLACEHOLDER_CLASS_NAME"|trans}}" style="border-radius: 3px" />
+        </p>
+    </div>
+</div>
+<div class="beneylu-jim"></div>

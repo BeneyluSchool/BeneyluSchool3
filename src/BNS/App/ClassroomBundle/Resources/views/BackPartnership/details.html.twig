@@ -1,0 +1,142 @@
+{% trans_default_domain "CLASSROOM" %}
+{% extends 'BNSAppClassroomBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+  {% trans %}TITLE_PARTNERSHIP_ADMINISTRATION_PARTNERSHIP{% endtrans%}
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script type="text/javascript">
+    $(function ()
+    {
+      $('#leave-partnership-modal .modal-footer .bns-danger').click(function (e)
+      {
+        $('#leave-partnership-modal .loader').fadeIn('fast');
+      });
+
+      $('#delete-partnership-modal .modal-footer .bns-danger').click(function (e)
+      {
+        $('#delete-partnership-modal .loader').fadeIn('fast');
+      });
+    });
+  </script>
+{% endblock %}
+
+{% block top_bar %}{% endblock %}
+
+{% block header %}
+  <div class="header-buttons">
+    <div class="inner-header">
+      <div class="container container-fluid">
+        <div class="row-fluid">
+          <div class="span8">
+            <a href="{{ path('BNSAppClassroomBundle_back_partnership') }}" class="btn bns-notice btn-24 medium-return button-return">
+              <span class="icons-24 back-icon"></span>
+                {{ 'LINK_BACK_TO_LIST'|trans |raw }}
+
+
+            </a>
+            <a href="{{ path('BNSAppClassroomBundle_back_partnership_edit', {'partnershipSlug': partnership.getSlug}) }}" class="btn bns-info btn-24 medium-return spacer">
+              <span class="icons-24 edit-icon"></span>
+                {{ 'LINK_EDIT_PARTNERSHIP'|trans |desc('<strong>Editer</strong><br /> le partenariat')|raw }}
+            </a>
+            {% if members|length > 1 %}
+              <a href="#" class="btn bns-danger btn-24 medium-return btn-leave-partnership" data-toggle="modal" data-target="#leave-partnership-modal">
+                <span class="icons-24 cancel-icon"></span>
+                  {{ 'LINK_LEAVE_PARTNERSHIP'|trans |desc('<strong>Quitter</strong><br /> le partenariat')|raw }}
+              </a>
+            {% else %}
+              <a href="#" class="btn bns-danger btn-24 medium-return btn-delete-pupil" data-toggle="modal" data-target="#delete-partnership-modal">
+                <span class="icons-24 cancel-icon"></span>
+                  {{ 'LINK_REMOVE_PARTNERSHIP'|trans |desc('<strong>Supprimer</strong><br /> un partenariat')|raw }}
+              </a>
+            {%  endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block sidebar %}
+  {% include "BNSAppClassroomBundle:Sidebar:sidebar.html.twig" with {"page" : "partnership_details"} %}
+{% endblock sidebar %}
+
+{% block content %}
+  {% include 'BNSAppMainBundle::notice.html.twig' %}
+  <div class="container-classroom">
+    <div class="news-title dashboard-connect">
+      <div class="left-line-border">
+        <table class="table">
+          <thead>
+          <td>
+            <h1 class="dashboard modules">{% trans %}TITLE_PARTNERSHIP_MODULES{% endtrans%}</h1>
+
+          </td>
+          <td>
+            <img src="{{ asset('/medias/images/profile/avatar/thumbnail/teacher.png') }}" alt="avatar" />
+            <p>{% trans %}LABEL_TEACHERS{% endtrans%}</p>
+
+          </td>
+          <td>
+            <img src="{{ asset('/medias/images/profile/avatar/thumbnail/pupil_M.png') }}" alt="avatar" />
+            <p>{% trans %}LABEL_PUPILS{% endtrans%}</p>
+
+          </td>
+          <td>
+            <img src="{{ asset('/medias/images/profile/avatar/thumbnail/parent.png') }}" alt="avatar" />
+            <p>{% trans %}LABEL_PARENTS{% endtrans%}</p>
+
+          </td>
+          </thead>
+        </table>
+        {{ render(controller('BNSAppMainBundle:Module:moduleActivation', { 'roles': activationRoles, 'group' : partnership, 'groupType' : 'PARTNERSHIP' } )) }}
+      </div>
+    </div>
+    <div class="news-title">
+      <h1 class="dashboard">{% trans %}LABEL_PARTNERS{% endtrans%}</h1>
+
+    </div>
+    <div class="item-list-container">
+      {% if members|length < 2 %}
+        <div class="no-item">
+          <div class="bnj-not-found"></div>
+          <p>
+              {{ 'NO_GROUP_HAS_JOIN_PARTNERSHIP_INVITE_THEM'|trans({'%code%': partnershipUid}) |desc('Aucun groupe n\'a encore rejoint ce partenariat.<br /> Invitez de nouveaux partenaires en leur transmettant le code du partenariat : %code%')|raw }}
+          </p>
+          <div class="clearfix"></div>
+        </div>
+      {% else %}
+        {% for member in members %}
+          {% if member.getId != currentGroupId %}
+            {% include 'BNSAppClassroomBundle:BackPartnership:row_partner.html.twig' %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+
+  {{ modal('leave-partnership-modal', {
+    'title': 'MODAL_LEAVE_PARTNERSHIP'|trans,
+
+    'body_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:leave_partnership_body.html.twig', 'values': {
+      'partnership': partnership,
+    } },
+    'footer_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:leave_partnership_footer.html.twig', 'values': {
+      'partnership': partnership} },
+    'type': 'error'
+  }) }}
+  {{ modal('delete-partnership-modal', {
+    'title': 'MODAL_DELETE_PARTNERSHIP'|trans,
+
+    'body_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:delete_partnership_body.html.twig', 'values': {
+      'partnership': partnership,
+    } },
+    'footer_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:delete_partnership_footer.html.twig', 'values': {
+      'partnership': partnership} },
+    'type': 'error'
+  }) }}
+
+{% endblock %}

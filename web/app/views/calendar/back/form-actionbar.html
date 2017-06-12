@@ -1,0 +1,27 @@
+<md-button ui-sref="^.week" class="btn-hover md-primary md-hue-3">
+  <md-icon>chevron_left</md-icon>
+  <span ng-bind-html="'CALENDAR.BUTTON_BACK_TO_CALENDAR'|translate|buttonize">.</span>
+</md-button>
+
+<span class="bns-separator"></span>
+
+<md-button ng-if="ctrl.event.id"
+  ng-click="ctrl.deleteEvent($event)"
+  class="md-warn md-raised btn-hover"
+  href
+>
+  <md-icon>delete</md-icon>
+  <span ng-bind-html="'CALENDAR.LINK_DELETE_EVENT'|translate|buttonize"></span>
+</md-button>
+
+<span class="flex"></span>
+
+<md-button
+  form="calendar-event-form"
+  ng-disabled="shared.type.form.$invalid"
+  class="md-accent md-raised"
+  href
+>
+  <md-icon>check</md-icon>
+  <span ng-bind-html="'CALENDAR.LINK_SAVE_EVENT'|translate|buttonize">.</span>
+</md-button>

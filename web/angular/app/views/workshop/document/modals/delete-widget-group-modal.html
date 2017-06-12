@@ -1,0 +1,34 @@
+<bns-modal modal-close="ctrl.closeModal" modal-title="{{ 'WORKSHOP.DOCUMENT.DELETE_WIDGET_MODAL_TITLE' | translate }}" class="modal-danger" modal-icon="trash">
+  <div class="modal-body type">
+
+    <h4 translate>WORKSHOP.DOCUMENT.DELETE_WIDGET</h4>
+
+    <p translate>WORKSHOP.DOCUMENT.WIDGET_CONTENT_WILL_BE_DELETED</p>
+
+    <ul class="list-block list-block-danger">
+      <li>
+        <label>
+          <input type="checkbox" ng-model="ctrl.deletion.confirmed">
+          {{ 'WORKSHOP.DOCUMENT.CONFIRM_DELETE_THIS_WIDGET' | translate }}
+        </label>
+      </li>
+    </ul>
+
+    <div class="help-block text-danger">
+      {{ ctrl.deletion.error | translate }}
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <div class="content-btn-footer">
+      <button ng-disabled="!ctrl.deletion.confirmed" ng-click="ctrl.confirm()" class="btn btn-danger">
+        <i class="bns-icon-trash round"></i>
+        <strong translate>WORKSHOP.DOCUMENT.DELETE_THIS_WIDGET</strong>
+      </button>
+      <button type="button" class="btn" ng-click="ctrl.closeModal()">
+        <i class="bns-icon-arrow-left-curved round"></i>
+        <span translate>WORKSHOP.DOCUMENT.CANCEL</span>
+      </button>
+    </div>
+  </div>
+</bns-modal>

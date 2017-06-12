@@ -1,0 +1,109 @@
+module:
+  unique_name: HOMEWORK
+  is_contextable: false
+  name:
+    fr: Cahier de textes
+    en: Homework
+  description:
+    fr: Lire et valider les travaux donnés
+    en: Manage your assignments
+  default_rank:
+    pupil: USE
+    parent: READ
+    teacher: MANAGE
+    other: READ
+
+permissions:
+  ACCESS:
+    label:
+      fr: Voir cahier de textes
+      en: Homework access
+    description:
+      fr: Donne l'accès au cahier de textes
+      en:
+
+  ACCESS_BACK:
+    label:
+      fr: Gérer cahier de textes
+      en: Homework management access
+    description:
+      fr: Donne l'accès à la gestion du cahier de textes
+      en:
+
+  ACTIVATION:
+    label:
+      fr: Activer cahier de textes
+      en: Homework activation
+    description:
+      fr: Pouvoir activer ou désactiver le cahier de textes
+      en:
+
+  ACTIVATION_PARTNERSHIP:
+    label:
+      fr: Activer cahier de textes dans le partenariat
+      en: Homework activation in partnership
+    description:
+      fr: Pouvoir activer ou désactiver le cahier de textes dans le partenariat
+      en:
+
+  SIGN:
+    label:
+      fr: Signer cahier de textes
+      en: Use homework
+    description:
+      fr: Permet de signer dans le cahier de textes ses travaux
+      en:
+
+ranks:
+  READ:
+    label:
+      fr: Lire le cahier de textes
+      en: Read the textbook
+    description:
+      fr:
+      en:
+    permissions: [ACCESS]
+
+  USE:
+    label:
+      fr: Utiliser le cahier de textes
+      en: Use the homework agenda
+    description:
+      fr:
+      en:
+    permissions: [ACCESS, SIGN]
+
+  MANAGE:
+    label:
+      fr: Gérer le cahier de textes
+      en: Manage the homework agenda
+    description:
+      fr:
+      en:
+    permissions: [ACCESS, ACCESS_BACK, ACTIVATION]
+
+  MANAGE_PARTNERSHIP:
+    label:
+      fr: Gérer le cahier de textes dans partenariat
+      en: Manage the homework agenda in partnership
+    description:
+      fr:
+      en:
+    permissions: [ACTIVATION_PARTNERSHIP]
+
+  ACTIVATION_TEAM:
+    label:
+      fr: Gérer le cahier de textes dans groupe de travail
+      en: Manage the homework agenda in team
+    description:
+      fr:
+      en:
+    permissions: [ACTIVATION]
+
+markers:
+  HOMEWORK_CREATE_WORK:
+    description: Création d'un travail sur le cahier de textes
+  HOMEWORK_VALIDATE_WORK:
+    description: Validation d'un travail sur le cahier de textes
+  HOMEWORK_VISIT:
+    description: Visit sur le cahier de textes

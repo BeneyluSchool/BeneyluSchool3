@@ -1,0 +1,9 @@
+{% trans_default_domain "GROUP" %}
+<div class="modal-footer">
+	<div class="content-btn-footer">
+		<a href="{{ path('BNSAppGroupBundle_group_sheet',{'groupSlug':group.slug}) }}" class="btn bns-notice btn-24 medium">
+			<span class="icons-24 back-icon"></span>
+			<strong>{{ 'LINK_CLOSE_WINDOW'|trans |desc('Fermer la fenêtre') }}</strong>
+		</a>
+	</div>
+</div>

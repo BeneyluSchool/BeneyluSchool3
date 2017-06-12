@@ -1,0 +1,17 @@
+{% extends 'BNSAppPortalBundle:Layout:front.html.twig' %}
+
+{% block css %}
+	{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+{% endblock %}
+
+{% block content %}
+{% endblock content %}
+
+
+{% block dock_bar %}
+    {% if isAuthenticated %}{{ parent() }}{% endif %}
+{% endblock %}

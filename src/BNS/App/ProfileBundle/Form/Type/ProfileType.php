@@ -5,70 +5,166 @@ namespace BNS\App\ProfileBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Intl\Intl;
+use BNS\App\CoreBundle\Translation\TranslatorTrait;
+
 
 use BNS\App\CoreBundle\Access\BNSAccess;
 use BNS\App\CoreBundle\Model\User;
+use BNS\App\CoreBundle\Model\om\BaseUser;
 
 class ProfileType extends AbstractType
 {
-	const FORM_NAME = 'profile_form';
-	
-	/**
-	 * @var User représente l'user courant à qui l'on veut modifier son profil 
-	 */
-	private $user;
+    use TranslatorTrait;
 
-	public function __construct(User $user = null)
-	{
-		$this->user = $user;
-	}
-        
-	/**
-	 * @param FormBuilderInterface $builder
-	 * @param array $options 
-	 */
-	public function buildForm(FormBuilderInterface $builder, array $options)
-	{
-		$builder->add('avatarId', 'hidden', array(
-				'required'	=> false
-		));
-		
-		$isPupil = (0 == strcmp('pupil', BNSAccess::getContainer()->get('bns.user_manager')->setUser($this->user)->getMainRole()));
-		$builder->add('birthday', 'birthday', array(
-			'days'		=> range(1, 31),
-			'months'	=> range(1, 12),
-			'years'		=> range(date('Y', time()) - ($isPupil? 30 : 100), date('Y', time())),
-			'format'	=> 'dd MMMM yyyy',
-			'widget'	=> 'choice',
-			'input'		=> 'datetime',
-			'required'	=> false
-		));
+    const FORM_NAME = 'profile_form';
 
-		if (0 == strcmp('teacher', BNSAccess::getContainer()->get('bns.user_manager')->setUser($this->user)->getMainRole())) {
-			$builder->add('email', 'email', array(
-				'required'	=> true,
-			));
-		}
+    /**
+     * @var User représente l'user courant à qui l'on veut modifier son profil
+     */
+    private $user;
 
-		$builder->add('job', 'text');
-		$builder->add('description', 'textarea');
-	}
-	
-	/**
-	 * @param \BNS\App\BlogBundle\Form\Type\OptionsResolverInterface $resolver
-	 */
-	public function setDefaultOptions(OptionsResolverInterface $resolver)
+    /**
+     * @var string représente la timezone actuelle de l'utilisateur
+     */
+    private $currentTimezone;
+
+    /**
+     * @var string représente la langue actuelle de l'utilisateur
+     */
+    private $currentLanguage;
+
+
+    public function __construct(User $user = null, $parameters = null)
     {
-        $resolver->setDefaults(array(
-			'data_class' => 'BNS\App\ProfileBundle\Form\Model\ProfileFormModel',
-        ));
+        $this->user = $user;
+        $this->currentTimezone = $parameters['timezone'];
+        $this->currentLanguage = $parameters['lang'];
     }
 
-	/**
-	 * @return string 
-	 */
-	public function getName()
-	{
-            return self::FORM_NAME;
-	}
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder->add(
+            'avatarId',
+            'hidden',
+            array(
+                'required' => false
+            )
+        );
+
+        // TODO remove this BNSAccess, inject service or made the type a service
+        $container = BNSAccess::getContainer();
+        $rm = $container->get('bns.right_manager');
+        $um = $container->get('bns.user_manager')->setUser($this->user);
+        $groupManager = $rm->getCurrentGroupManager();
+        $mainRole = $um->getMainRole();
+
+        $translator = $this->getTranslator();
+        if (!$um->isChild()) {
+            $builder->add('firstName', 'text', array('required' => true, 'label'=>' '));
+            $builder->add('lastName', 'text', array('required' => true, 'label'=>' '));
+            $builder->add('gender', 'choice' , array(
+                'choices' => array(
+                    'M' => 'LABEL_MAN',
+                    'F' => 'LABEL_WOMAN',
+                ),
+                'expanded' => true,
+                'multiple' => false,
+                'choice_translation_domain' => 'PROFILE',
+                'label'=>' '
+            ));
+
+            $currentLang = null !== $this->currentLanguage ? $this->currentLanguage : 'English';
+            $builder->add('lang', 'available_locale', array(
+                'required' => true,
+                'data' => $currentLang,
+                'label' => 'LABEL_CHANGE_LANGUAGE'
+            ));
+
+            $timezone = null !== $this->currentTimezone ? new \DateTimeZone($this->currentTimezone) : new \DateTimeZone('Europe/Paris');
+
+            $builder->add('timezone', 'timezone', array(
+                'expanded' => false,
+                'multiple' => false,
+                'data' => $timezone->getName(),
+                'label' => 'LABEL_CHANGE_TIMEZONE'
+            ));
+        }
+
+        $isPupil = 'pupil' === $mainRole;
+
+        if ($rm->hasRight('PROFILE_ADMINISTRATION')) {
+            $builder->add(
+                'birthday',
+                'date',
+                array(
+                    'input' => 'datetime',
+                    'widget' => 'single_text',
+                    'required' => false,
+                    'attr' => array('class' => 'jq-date', 'placeholder' => 'DATE_PLACEHOLDER'),
+                    'label' => ' '
+                )
+            );
+        }
+
+        if ($um->isAdult()) {
+            $builder->add(
+                'email',
+                'email',
+                array(
+                    'required' => true,
+                    'attr' => array('placeholder' => 'EMAIL'),
+                    'label' => 'EMAIL'
+                )
+            );
+            if ($mainRole !== 'parent') {
+                $builder->add('email_private', 'email',
+                    array(
+                        'required' => false,
+                        'attr' => array('placeholder' => 'EMAIL_USE_TO_SEND_NOTIFICATION'),
+                        'label' => 'EMAIL_SECONDARY'
+                    )
+                );
+            }
+        }
+
+        if ($mainRole !== 'parent') {
+            $builder->add('job', 'text', array('label'=>' '));
+            $builder->add('description', 'textarea', array('label' => 'WRITING_INTRODUCTION', 'attr' => array('placeholder' => '', 'rows' => '3')));
+        }
+
+        if (in_array($mainRole, array('teacher', 'director')) && $groupManager->getProjectInfo('has_assistance')) {
+            $builder->add('assistance_enabled', 'checkbox',
+                array(
+                    'required' => false,
+                    'label' => 'ALLOWED_ADVISOR_TO_HELP_WITH_SAME_RIGHT'
+                )
+            );
+        }
+    }
+
+    /**
+     * @param OptionsResolverInterface $resolver
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(
+            array(
+                'data_class' => 'BNS\App\ProfileBundle\Form\Model\ProfileFormModel',
+                'translation_domain' => 'PROFILE'
+            )
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return self::FORM_NAME;
+    }
 }

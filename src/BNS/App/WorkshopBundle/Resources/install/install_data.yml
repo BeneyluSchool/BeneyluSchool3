@@ -1,0 +1,64 @@
+module:
+  unique_name: WORKSHOP
+  is_contextable: false
+  name:
+    fr: Atelier
+    en: Workshop
+  description:
+    fr: La création de documents numériques
+    en: The creation of digital documents
+  default_rank:
+    pupil: USE
+    parent: USE
+    teacher: MANAGE
+    other: USE
+
+permissions:
+  ACCESS:
+    label:
+      fr: Accéder à l'Atelier
+      en: Access to Work Shop
+    description:
+      fr: Permet de créer des documents numériques
+      en: Provide digital documents
+
+  QUESTIONNAIRE_CREATE: ~
+
+  QUESTIONNAIRE_WIDGETS_USE: ~
+
+  ACTIVATION:
+    label:
+      fr: Peut activer l'Atelier
+      en: Can enable the WorkShop
+    description:
+      fr: Peut créer des documents depuis l'Atelier
+      en: Can create document from the Workshop
+
+  ACTIVATION_PARTNERSHIP: ~
+
+ranks:
+  USE:
+    label:
+      fr: Utiliser l'Atelier
+      en: Use WorkShop
+    description:
+      fr: Permission de créer des documents
+      en: Permission to create documents
+    permissions: [ACCESS]
+  MANAGE:
+    label:
+      fr: Utiliser et activer l'Atelier
+      en: Use and active WorkShop
+    description:
+      fr: Permet d'utiliser et d'activer l'Atelier
+      en: Permission to use and active the Workshop
+    permissions: [ACCESS, ACTIVATION]
+  MANAGE_PARTNERSHIP:
+    permissions: [ACCESS, ACTIVATION_PARTNERSHIP]
+
+  QUESTIONNAIRE:
+    permissions: [QUESTIONNAIRE_CREATE, QUESTIONNAIRE_WIDGETS_USE]
+
+markers:
+  WORKSHOP_VISIT:
+    description: Visit sur l'atelier

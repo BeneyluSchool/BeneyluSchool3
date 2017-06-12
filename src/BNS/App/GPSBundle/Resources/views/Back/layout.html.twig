@@ -1,7 +1,15 @@
-{% extends '::base_manager.html.twig' %}
+{% trans_default_domain "GPS" %}
+{% extends 'BNSAppMainBundle:App:base.html.twig' %}
+
+{% set app_unique_name = 'GPS' %}
+{% set app_mode = 'back' %}
+
+
+{% block body_class %}{{ parent() }}module-gps module-back back{% endblock %}
+{% block body_attr %}{{ parent() }} data-app="{{ app_unique_name }}" data-mode="{{ app_mode }}" {% endblock %}
 
 {% block title %}
-	GPS - Gestion
+  {% trans %}TITLE_GPS_MANAGEMENT{% endtrans %}
 {% endblock %}
 
 {% block css %}
@@ -14,36 +22,46 @@
 {% block  main_javascripts %}
 	{{ parent() }}
 	<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
-{% endblock %}	
-	
-{% block  javascripts %}
-	{{ parent() }}
+
 	{% javascripts
 		'medias/js/gps/back.js'
 		'medias/js/jquery.form.js'
 		 filter='?yui_js' output='js/gps/back.js' %}
 		<script src="{{ asset_url }}"></script>
 		<script type="text/javascript" src="{{ asset('/medias/js/jquery.ui.nestedSortable.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('/medias/js/manager.js') }}"></script>
 	{% endjavascripts %}
 {% endblock %}
 
-{% block body %}
-	<div class="background-gps-admin"></div>
-	{% block action_bar %}{% endblock %}
-	<div class="container-fluid container gps-container">
-		<div class="row-fluid container-manager">
-			{% block sidebar %}{% endblock %}
-			<div class="span9 container-content no-margin">
-				{% block content %}{% endblock %}
-			</div>
-			<div class="container-manager-bottom">
-				<div class="content-manager-bottom"></div>
-			</div>
-		</div>
-	</div>
+
+
+{% block actionbar_content %}
+  {% block action_bar %}{% endblock %}
 {% endblock %}
-	
-{% block dock_bar %}
-	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "GPS" , 'is_in_front' : false } %}
+
+{% block sidebar_content %}
+  <div class="container-sidebar list" id="gps-sidebar">
+    <div class="section active">
+      {% trans %}TITLE_PLACE{% endtrans %}
+      <span class="shadow-section"></span>
+    </div>
+    <div class="title-container gps-category-filter">
+      <div class="title active border-blue">
+        {% trans %}SORT_BY_CATEGORY{% endtrans %}<span class="square icon-arrow"></span>
+      </div>
+      {% include "BNSAppGPSBundle:Back:blockCategorySidebar.html.twig" with {'categories' : categories, 'isEditionMode': false} %}
+    </div>
+    <div class="container-section">
+      <div class="section">
+        <a href="{{ path('BNSAppGPSBundle_back_categories') }}">{% trans %}LINK_CATEGORIES{% endtrans %}</a>
+      </div>
+    </div>
+  </div>
 {% endblock %}
-	
+
+{% block content %}
+  {% block body_content %}{% endblock %}
+    <div class="container-manager-bottom">
+      <div class="content-manager-bottom"></div>
+    </div>
+{% endblock %}

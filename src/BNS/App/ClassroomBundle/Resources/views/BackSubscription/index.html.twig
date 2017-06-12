@@ -1,0 +1,114 @@
+{% trans_default_domain "CLASSROOM" %}
+{% extends 'BNSAppClassroomBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+    {{ 'TITLE_SUBCRIPTION_MANAGEMENT' |trans |desc('Classe - Gestion des abonnements') }}
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+
+  <script type="text/javascript">
+    $(function () {
+      $('.container-sidebar .status-filters li').click(function (e) {
+        var $row = $(e.currentTarget),
+          $parent = $row.parent().parent(),
+          $checkbox = $row.find('.select'),
+          $loader = $('.subscription-container .loader');
+
+        // Show loader
+        $loader.fadeIn('fast');
+        $checkbox.toggleClass('checked');
+
+        $.ajax({
+          url: Routing.generate('classroom_manager_subscription_filter'),
+          type: 'POST',
+          dataType: 'html',
+          data: {'status': $checkbox.hasClass('checked'), filter: $row.data('filter')},
+          success: function (data) {
+            $('.subscription-container .item-list-container').html(data);
+          }
+        }).done(function () {
+          $loader.fadeOut('fast');
+        });
+
+        return false;
+      });
+
+      setTimeout(function () {
+        $('.bns-alert.alert-success div').slideUp('fast', function () { var $this = $(this); $this.parent().slideUp('fast', function () { $this.show() }) });
+      }, 8000);
+    });
+  </script>
+{% endblock javascripts %}
+
+{% block header %}
+  <div class="header-buttons">
+    <div class="inner-header">
+      <div class="container container-fluid">
+        <div class="row-fluid">
+          <div class="span12">
+            <a href="{{ path('classroom_manager_subscription_manage') }}" class="btn bns-info btn-24 large spacer">
+              <span class="icons-24 edit-icon"></span>
+              {% trans %}LINK_MANAGE_MINE_SUBSCRIPTION{% endtrans %}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block sidebar %}
+  <div class="container-sidebar list">
+    <div class="container-section">
+      <div class="section">
+        <a href="{{ path('BNSAppClassroomBundle_back') }}">{% trans %}LINK_DASHBOARD{% endtrans %}</a>
+      </div>
+      <div class="section">
+        <a href="{{ path('BNSAppClassroomBundle_back_classroom') }}">{% trans %}LINK_MY_CLASS{% endtrans %}</a>
+      </div>
+      <div class="section">
+        <a href="{{ path('BNSAppClassroomBundle_back_custom') }}">{% trans %}LINK_CUSTOMIZE{% endtrans %}</a>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="section active">
+      {% trans %}LINK_SUBSCRIPTION{% endtrans %}
+      <span class="shadow-section"></span>
+    </div>
+    {# {% include 'BNSAppClassroomBundle:BackSubscription:filters_type.html.twig' %}
+    {% include 'BNSAppClassroomBundle:BackSubscription:filters_status.html.twig' %} #}
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="container-classroom subscription-container">
+    {% for message in app.session.flashbag.get('success') %}
+      <div class="bns-alert alert alert-success">
+        {{ message }}
+        <div class="jim"></div>
+      </div>
+    {% endfor %}
+
+    <div class="loader loader-sb">
+      <div class="message">
+        {% trans %}SUBSCRIPTIONS_LOADING{% endtrans %}
+      </div>
+    </div>
+
+    <h1>{% trans %}MY_SUBSCRIPTIONS{% endtrans %}</h1>
+
+    {# TODO: push Beneylu Store
+    <div class="push">
+        <img src="http://placehold.it/900x125" alt="Accéder au Beneylu Store" />
+        <a class="btn bns-warning medium">Accéder au Beneylu Store</a>
+    </div>
+    #}
+
+    <div class="item-list-container">
+      {% include 'BNSAppClassroomBundle:BackSubscription:subscription_list.html.twig' %}
+    </div>
+  </div>
+{% endblock content %}

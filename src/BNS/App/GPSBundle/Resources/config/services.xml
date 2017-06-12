@@ -4,8 +4,21 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+    <parameters>
+        <parameter key="install_process_bns_app_gps_bundle.class">BNS\App\GPSBundle\Install\InstallProcess</parameter>
+        <parameter key="gps_service_bns_app_statistics_bundle.class">BNS\App\GPSBundle\Statistic\GPSStatisticsService</parameter>
+        <parameter key="bns.data_reset.change_year_gps.class">BNS\App\GPSBundle\DataReset\ChangeYearGPSDataReset</parameter>
+    </parameters>
 	
     <services>
+        <service id="install_process_bns_app_gps_bundle" class="%install_process_bns_app_gps_bundle.class%">
+            <tag name="bns.install_process" />
+        </service>
+
+        <service id="bns.data_reset.change_year_gps" class="%bns.data_reset.change_year_gps.class%">
+            <tag name="bns.data_reset" type="change_year" hasOptions="true" />
+        </service>
+		
         <service id="bns.front_map" class="BNS\App\GPSBundle\Map\FrontMap">
 			<tag name="vichgeo.map" alias="front_map" />
 			<argument type="service" id="bns.geocoords_manager" />
@@ -23,5 +36,8 @@
 		<service id="bns.icon_generator" class="BNS\App\GPSBundle\Map\IconGenerator">
 			<argument type="service" id="service_container" />
 		</service>
+        <service id="stat.gps" class="%gps_service_bns_app_statistics_bundle.class%">
+            <argument type="service" id="service_container"></argument>
+        </service>
     </services>
 </container>

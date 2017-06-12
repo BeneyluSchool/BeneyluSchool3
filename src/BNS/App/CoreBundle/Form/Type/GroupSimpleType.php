@@ -6,23 +6,21 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-use BNS\App\CoreBundle\Model\GroupTypeQuery;
-use BNS\App\CoreBundle\Access\BNSAccess;
-
 class GroupSimpleType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-		$builder->add('label','text',array('label' => 'Nom :'));
+		$builder->add('label','text',array('label' => 'LABEL_NAME'));
     }
 
-	/**
-	 * @param \BNS\App\BlogBundle\Form\Type\OptionsResolverInterface $resolver
-	 */
-	public function setDefaultOptions(OptionsResolverInterface $resolver)
+    /**
+     * @param \BNS\App\BlogBundle\Form\Type\OptionsResolverInterface $resolver
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'BNS\App\CoreBundle\Model\Group',
+            'translation_domain' => 'CORE'
         ));
     }
 

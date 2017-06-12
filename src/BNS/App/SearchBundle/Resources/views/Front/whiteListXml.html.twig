@@ -1,0 +1,31 @@
+{% trans_default_domain "SEARCH" %}
+<?xml version='1.0' encoding='UTF-8'?>
+<GoogleCustomizations>
+    <CustomSearchEngine>
+        <Title>{{ 'TITLE_BENEYLU'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('%beneylu_brand_name%') }}</Title>
+        <Description>{{ 'BENEYLU_SEARCH_ENGINE'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('Moteur de recherche de %beneylu_brand_name%') }}</Description>
+         <Context>
+      		<BackgroundLabels>
+        		<Label name="_cse_on" mode="FILTER"/>
+      		</BackgroundLabels>
+    	</Context>
+        <LookAndFeel nonprofit="true">
+        </LookAndFeel>
+        <ImageSearchSettings enable="true" layout="0" >
+        </ImageSearchSettings>
+    </CustomSearchEngine>
+	<Annotations>
+		{% for link in links %}
+      {% if link.value is not null %}
+			<Annotation about="{{ link.value }}/*">
+      			<Label name="_cse_on"/>
+    		</Annotation>
+      {% endif %}
+		{% endfor %}
+		{% for link in parent_white_list %}
+			<Annotation about="{{ link }}/*">
+      			<Label name="_cse_on"/>
+    		</Annotation>
+		{% endfor %}
+	</Annotations>
+</GoogleCustomizations>

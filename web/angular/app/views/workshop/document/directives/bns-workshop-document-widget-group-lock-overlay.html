@@ -1,0 +1,14 @@
+<div class="workshop-widget-group-lock-overlay">
+
+  <div class="centerer">&nbsp;</div>
+
+  <div ng-if="ctrl.lock._embedded.user.avatar"
+    bns-media-preview media="ctrl.lock._embedded.user.avatar"
+    class="user-avatar"
+  ></div>
+
+  <div class="user-name">
+    <span translate>WORKSHOP.DOCUMENT.EDITED_BY</span><br>
+    <strong>{{ ctrl.lock._embedded.user.full_name }}</strong>
+  </div>
+</div>

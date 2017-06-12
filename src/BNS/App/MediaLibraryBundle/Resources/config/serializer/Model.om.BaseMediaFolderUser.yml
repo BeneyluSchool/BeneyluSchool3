@@ -1,0 +1,17 @@
+BNS\App\MediaLibraryBundle\Model\om\BaseMediaFolderUser:
+  exclusion_policy: All
+  properties:
+    id:
+      expose: true
+    label:
+      expose: true
+    status_deletion:
+      expose: true
+    is_private:
+      expose: true
+    slug:
+      expose: true
+    created_at:
+      expose: true
+    updated_at:
+      expose: true

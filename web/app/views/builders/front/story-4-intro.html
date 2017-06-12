@@ -1,0 +1,132 @@
+<div container class="layout-gt-md-row story" id="story-4">
+  <div class="flex-gt-md-40 story-left-container">
+    <md-button ui-sref="^.home" class="back-to-stories md-whiteframe-z2">
+      <span translate>BUILDERS.BUTTON_BACK_TO_STORIES</span>
+    </md-button>
+      <h1 class="md-padding md-whiteframe-z2 title-board" ng-bind-html="'BUILDERS.TITLE_STORY_4' | translate"></h1>
+  </div>
+  <md-content class="flex-gt-md-60 story-right-container md-padding">
+    <p translate>BUILDERS.YOU_CAN_BE_A_HEROES</p>
+    <iframe class="centered" frameborder="0" width="480" height="270" src="//www.dailymotion.com/embed/video/x18opsb?endscreen-enable=false&ui-logo=false&sharing-enable=false" allowfullscreen></iframe>
+    <p class="espaced-p" translate>BUILDERS.BUILD_WITH_FRIENDS</p>
+    <img src="/ent/assets/images/apps/builders/bdp-method-intro.jpg" alt="" class="centered">
+    <p class="espaced-p" translate>BUILDERS.LOOKING_FOR_PROBLEM</p>
+    <md-button class="md-button md-primary centered md-raised build-btn" ui-sref="^.story({story: 4})" href><span translate>BUILDERS.WE_WANT_BUILD</span></md-button>
+    <div ng-if="ctrl.hasBack" class="md-padding teacher-block">
+      <md-tooltip md-direction="top">
+        <span class="flag flag-shield"></span>
+        {{::'BUILDERS.LABEL_TEACHER_ONLY'|translate}}
+      </md-tooltip>
+      <div class="layout-row" layout-align="center center">
+        <div>
+          <div class="shield-icon"></div>
+        </div>
+        <div>
+          <h2 translate>BUILDERS.I_HELP_PUPILS</h2>
+        </div>
+      </div>
+
+      <video ng-src="{{resources.get('comment-trouver-et-gerer-le-temps-du-projet.mp4')}}"
+        style="max-width: 100%"
+        controls
+        preload="metadata"
+        bns-ga-event-video="{category: 'Semaine des possibles', label: 'comment-trouver-et-gerer-le-temps-du-projet.mp4'}"
+      ></video>
+
+      <blockquote translate>BUILDERS.QUOTE_1</blockquote>
+      <p class="quote-author" translate>BUILDERS.QUOTE_AUTHOR_1</p>
+      <p class="espaced-p" translate>BUILDERS.YOU_LOVED_IT</p>
+      <md-button class="md-button md-primary centered md-raised build-btn" href="http://www.batisseursdepossibles.org/bibliotheque-de-projets" target="_blank">
+        <span translate>BUILDERS.SEE_PROJECT_LIBRARY</span>
+      </md-button>
+      <img src="/ent/assets/images/apps/builders/story-intro-4-1.jpg" alt="" class="centered">
+      <blockquote translate>BUILDERS.QUOTE_2</blockquote>
+      <p class="quote-author" translate>BUILDERS.QUOTE_AUTHOR_2</p>
+      <p class="espaced-p" translate>BUILDERS.SHARE_ON_OPENDOC</p>
+      <md-button class="md-button md-primary centered md-raised build-btn" href="http://www.lopendoc.org/batisseurs-de-possibles" target="_blank">
+        <span translate>BUILDERS.VISIT_OPENDOC</span>
+      </md-button>
+      <h2 translate>BUILDERS.WHAT_YOU_NEED</h2>
+      <div ng-cloak>
+        <md-tabs md-align-tabs="top" md-stretch-tabs="always" md-dynamic-height md-no-ink-bar md-swipe-content>
+          <md-tab id="tab1">
+            <md-tab-label>
+              <div class="question-icon tab-icon"></div>
+              <p translate>BUILDERS.I_ASK_QUESTION</p>
+            </md-tab-label>
+            <md-tab-body>
+               <p class="centered espaced-p" translate>BUILDERS.I_HAVE_SOME_QUESTIONS</p>
+               <blockquote translate>BUILDERS.QUOTE_3</blockquote>
+              <p class="quote-author" translate>BUILDERS.QUOTE_AUTHOR_3</p>
+              <p class="centered espaced-p"><a href="" class="contact-link">contact@batisseursdepossibles.org</a></p>
+            </md-tab-body>
+          </md-tab>
+          <md-tab id="tab2">
+            <md-tab-label>
+              <div class="tel-icon tab-icon"></div>
+              <p translate>BUILDERS.I_GIVE_PHONECALL</p>
+            </md-tab-label>
+            <md-tab-body>
+              <p class="centered espaced-p" translate>BUILDERS.I_HAVE_A_IDEA</p>
+              <form ng-submit="intro.sendContact()">
+                <md-input-container>
+                  <label translate>BUILDERS.MY_FIRST_NAME</label>
+                  <input ng-model="intro.contact.first_name" required="true">
+                </md-input-container>
+                <md-input-container>
+                  <label translate>BUILDERS.MY_LAST_NAME</label>
+                  <input ng-model="intro.contact.last_name" required="true">
+                </md-input-container>
+                <md-input-container>
+                  <label translate>BUILDERS.MY_PROJECT</label>
+                  <textarea rows="4" ng-model="intro.contact.project" required="true"></textarea>
+                </md-input-container>
+                <md-input-container>
+                  <label translate>BUILDERS.CLASS_LEVEL</label>
+                  <input ng-model="intro.contact.level">
+                </md-input-container>
+                <md-input-container>
+                  <label translate>BUILDERS.PHONE_NUMBER</label>
+                  <input ng-model="intro.contact.phone" required="true">
+                </md-input-container>
+                <md-input-container>
+                  <label translate>BUILDERS.IM_AVAILABLE</label>
+                  <input ng-model="intro.contact.availability">
+                </md-input-container>
+                <md-button type="submit" ng-disabled="intro.busy" class="md-primary md-raised centered">
+                  <span translate>BUILDERS.BUTTON_SAVE_ANSWER</span>
+                </md-button>
+              </form>
+            </md-tab-body>
+          </md-tab>
+          <md-tab id="tab3">
+            <md-tab-label>
+              <div class="doc-icon tab-icon"></div>
+              <p translate>BUILDERS.I_WANT_GET_BUILDERS_KIT</p>
+            </md-tab-label>
+            <md-tab-body>
+              <p class="centered espaced-p" translate>BUILDERS.ALONE_BUT_WITH_HELP</p>
+              <md-button class="md-primary md-primary centered md-raised build-btn"
+                         bns-ga-event="{category: 'Semaine des possibles', action: 'download', label: manuel-enseignant.pdf}"
+                         ng-href="{{::url||resources.get('manuel-enseignant.pdf')}}"
+                         target="_blank">
+                <span translate>BUILDERS.DOWNLOAD</span>
+              </md-button>
+            </md-tab-body>
+          </md-tab>
+        </md-tabs>
+      </div>
+      <h2 translate>BUILDERS.TITLE_FAQ</h2>
+      <p class="centered" translate>BUILDERS.PRESENTATION_FAQ</p>
+      <h3 translate>BUILDERS.FAQ_1</h3>
+      <p translate>BUILDERS.ANSWER_FAQ_1</p>
+      <h3 translate>BUILDERS.FAQ_2</h3>
+      <p translate>BUILDERS.ANSWER_FAQ_2</p>
+      <h3 translate>BUILDERS.FAQ_3</h3>
+      <p translate>BUILDERS.ANSWER_FAQ_3</p>
+      <h3 translate>BUILDERS.FAQ_4</h3>
+      <p translate>BUILDERS.ANSWER_FAQ_4</p>
+      <p class="centered espaced-p" translate>BUILDERS.QUESTION_AGAIN</p>
+    </div>
+  </md-content>
+</div>

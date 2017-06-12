@@ -1,0 +1,51 @@
+<span class="flex"></span>
+
+<md-button ng-if="ctrl.hasAccepted() || ctrl.hasRejected()"
+  ng-click="ctrl.moderateSelection()"
+  class="md-raised"
+  href
+>
+  <span ng-bind-html="'MESSAGING.BUTTON_MODERATE_MESSAGES'|translate|buttonize">.</span>
+</md-button>
+
+<md-button ng-if="ctrl.hasInModeration() || ctrl.hasRejected()"
+  ng-click="ctrl.acceptSelection()"
+  class="md-raised md-accent"
+  href
+>
+  <span ng-bind-html="'MESSAGING.BUTTON_VALIDATE_MESSAGES'|translate|buttonize">.</span>
+</md-button>
+
+<md-button ng-if="ctrl.hasInModeration() || ctrl.hasAccepted()"
+  ng-click="ctrl.rejectSelection()"
+  class="md-raised md-warn"
+  href
+>
+  <span ng-bind-html="'MESSAGING.BUTTON_REJECT_MESSAGES'|translate|buttonize">.</span>
+</md-button>
+
+<md-button ng-if="ctrl.canDelete()"
+  ng-click="ctrl.deleteSelection()"
+  class="md-raised md-warn"
+  href
+>
+  <span ng-bind-html="'MESSAGING.BUTTON_DELETE_MESSAGES'|translate|buttonize">.</span>
+</md-button>
+
+<md-button ng-if="!ctrl.shared.selection.length && 'IN_MODERATION' === ctrl.shared.status"
+  ng-disabled="!ctrl.shared.box.total"
+  ng-click="ctrl.acceptAll()"
+  class="md-raised md-accent"
+  href
+>
+  <span ng-bind-html="'MESSAGING.BUTTON_VALIDATE_ALL_MESSAGES'|translate|buttonize">.</span>
+</md-button>
+
+<md-button ng-if="!ctrl.shared.selection.length && 'REJECTED' === ctrl.shared.status"
+  ng-disabled="!ctrl.shared.box.total"
+  ng-click="ctrl.deleteAll()"
+  class="md-raised md-warn"
+  href
+>
+  <span ng-bind-html="'MESSAGING.BUTTON_DELETE_ALL_MESSAGES'|translate|buttonize">.</span>
+</md-button>

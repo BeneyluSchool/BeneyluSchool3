@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\WorkshopBundle\Model">
+
+  <table name="workshop_content">
+    <column name="id" primaryKey="true" required="true" autoIncrement="true" type="INTEGER" />
+
+    <column name="type" type="ENUM" default="DOCUMENT" valueSet="DOCUMENT, AUDIO" />
+
+    <column name="author_id" required="false" type="INTEGER" />
+    <foreign-key foreignTable="user" phpName="Author" name="FK_WORKSHOPDOCUMENT_USER" onDelete="SETNULL">
+      <reference foreign="id" local="author_id" />
+    </foreign-key>
+
+    <column name="media_id" required="true" type="INTEGER" />
+    <foreign-key foreignTable="media" name="FK_WORKSHOPDOCUMENT_MEDIA" onDelete="CASCADE">
+      <reference foreign="id" local="media_id" />
+    </foreign-key>
+
+    <behavior name="timestampable" />
+  </table>
+
+  <table name="workshop_content_contributor">
+    <column name="id" primaryKey="true" required="true" autoIncrement="true" type="INTEGER" />
+
+    <column name="user_id" type="INTEGER" primaryKey="true"/>
+    <foreign-key foreignTable="user" name="FK_WORKSHOPCONTENTCONTRIBUTOR_USER" onDelete="CASCADE">
+      <reference local="user_id" foreign="id"/>
+    </foreign-key>
+    <column name="content_id" type="INTEGER" primaryKey="true"/>
+    <foreign-key foreignTable="workshop_content" name="FK_WORKSHOPCONTENTCONTRIBUTOR_WORKSHOPCONTENT" onDelete="CASCADE">
+      <reference local="content_id" foreign="id"/>
+    </foreign-key>
+
+    <behavior name="timestampable" />
+  </table>
+
+  <table name="workshop_content_group_contributor">
+    <column name="id" primaryKey="true" required="true" autoIncrement="true" type="INTEGER" />
+
+    <column name="group_id" type="INTEGER" primaryKey="true"/>
+    <foreign-key foreignTable="group" name="FK_WORKSHOPCONTENTGROUPCONTRIBUTOR_GROUP" onDelete="CASCADE">
+      <reference local="group_id" foreign="id"/>
+    </foreign-key>
+    <column name="content_id" type="INTEGER" primaryKey="true"/>
+    <foreign-key foreignTable="workshop_content" name="FK_WORKSHOPCONTENTGROUPCONTRIBUTOR_WORKSHOPCONTENT" onDelete="CASCADE">
+      <reference local="content_id" foreign="id"/>
+    </foreign-key>
+
+    <behavior name="timestampable" />
+  </table>
+
+
+  <!-- *****************************************************************************************************************
+          Document
+  ****************************************************************************************************************** -->
+
+  <table name="workshop_document">
+    <column name="id" primaryKey="true" required="true" type="INTEGER" />
+    <foreign-key foreignTable="workshop_content" name="FK_WORKSHOPDOCUMENT_WORKSHOPCONTENT" onDelete="CASCADE">
+      <reference foreign="id" local="id" />
+    </foreign-key>
+
+    <column name="theme_code" required="true" type="VARCHAR" size="100" />
+    <column name="status" required="true" type="VARCHAR" size="100" default="e"/> <!-- editable (e), locked (l) -->
+
+    <column name="document_type" type="INTEGER" inheritance="single" default="1">
+      <inheritance key="1" class="WorkshopDocument"/>
+      <inheritance key="2" class="WorkshopQuestionnaire" extends="WorkshopDocument"/>
+    </column>
+
+    <column name="attempts_number" type="INTEGER" />
+
+    <behavior name="delegate">
+      <parameter name="to" value="workshop_content" />
+    </behavior>
+  </table>
+
+  <table name="workshop_page">
+    <column name="id" primaryKey="true" required="true" autoIncrement="true" type="INTEGER" />
+
+    <column name="document_id" required="true" type="INTEGER" />
+    <foreign-key foreignTable="workshop_document" name="FK_WORKSHOPPAGE_WORKSHOPDOCUMENT" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="document_id" />
+    </foreign-key>
+
+    <column name="layout_code" type="VARCHAR" size="100" />
+    <column name="position" required="true" type="INTEGER" />
+    <column name="orientation" required="true" type="VARCHAR" size="100" /> <!-- portrait (p), landscape (l). Default: p -->
+
+    <behavior name="sortable">
+      <parameter name="rank_column" value="position" />
+      <parameter name="use_scope" value="true" />
+      <parameter name="scope_column" value="document_id" />
+    </behavior>
+  </table>
+
+  <table name="workshop_widget_group">
+    <column name="id" primaryKey="true" required="true" autoIncrement="true" type="INTEGER" />
+
+    <column name="page_id" required="true" type="INTEGER" />
+    <foreign-key foreignTable="workshop_page" name="FK_WORKSHOPWIDGETGROUP_WORKSHOPPAGE" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="page_id" />
+    </foreign-key>
+
+    <column name="type" required="true" type="VARCHAR" size="100" /> <!-- full, half. Default: full -->
+    <column name="zone" required="true" type="INTEGER" />
+    <column name="position" required="true" type="INTEGER" />
+
+    <behavior name="sortable">
+      <parameter name="rank_column" value="position" />
+      <parameter name="use_scope" value="true" />
+      <parameter name="scope_column" value="page_id" />
+      <parameter name="scope_column" value="zone" />
+    </behavior>
+
+    <behavior name="versionable">
+      <parameter name="log_created_at" value="true" />
+      <parameter name="log_created_by" value="true" />
+      <parameter name="log_comment" value="true" />
+    </behavior>
+  </table>
+
+  <table name="workshop_widget">
+    <column name="id" primaryKey="true" required="true" autoIncrement="true" type="INTEGER" />
+
+    <column name="widget_group_id" required="true" type="INTEGER" />
+    <foreign-key foreignTable="workshop_widget_group" name="FK_WORKSHOPWIDGET_WORKSHOPWIDGETGROUP" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="widget_group_id" />
+    </foreign-key>
+
+    <column name="position" required="true" type="INTEGER" />
+    <column name="type" required="true" type="VARCHAR" size="100" /> <!-- title, text, textbox, media -->
+    <column name="subtype" required="false" type="VARCHAR" size="100" />
+
+    <column name="media_id" required="false" type="INTEGER" />
+    <foreign-key foreignTable="media" name="FK_WORKSHOPWIDGET_MEDIA" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="media_id" />
+    </foreign-key>
+
+    <column name="widget_extended_setting_id" required="false" type="INTEGER" />
+    <foreign-key foreignTable="workshop_widget_extended_setting" name="FK_WORKSHOPWIDGET_WORKSHOPWIDGETEXTENDEDSETTING" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="widget_extended_setting_id" />
+    </foreign-key>
+
+    <column name="content" type="LONGVARCHAR" />
+    <column name="settings" required="false" type="object" />
+
+    <behavior name="sortable">
+      <parameter name="rank_column" value="position" />
+      <parameter name="use_scope" value="true" />
+      <parameter name="scope_column" value="widget_group_id" />
+    </behavior>
+
+    <behavior name="versionable" />
+  </table>
+
+  <table name="workshop_widget_extended_setting">
+    <column name="id" primaryKey="true" required="true" autoIncrement="true" type="INTEGER" />
+
+    <column name="choices" required="true" type="object" />
+    <column name="correct_answers" required="true" type="object" />
+    <column name="advanced_settings" required="true" type="object" />
+  </table>
+
+  <table name="workshop_widget_group_lock">
+    <column name="user_id" type="INTEGER" primaryKey="true"/>
+    <foreign-key foreignTable="user" name="FK_WORKSHOPWIDGETGROUPLOCK_USER" onDelete="CASCADE">
+      <reference local="user_id" foreign="id"/>
+    </foreign-key>
+
+    <column name="widget_group_id" primaryKey="true" required="true" type="INTEGER" />
+    <foreign-key foreignTable="workshop_widget_group" name="FK_WORKSHOPWIDGETGROUPLOCK_WORKSHOPWIDGETGROUP" onDelete="CASCADE">
+      <reference local="widget_group_id" foreign="id"/>
+    </foreign-key>
+
+    <column name="workshop_document_id" primaryKey="true" required="true" type="INTEGER" />
+    <foreign-key foreignTable="workshop_document" name="FK_WORKSHOPWIDGETGROUPLOCK_WORKSHOPDOCUMENT" onDelete="CASCADE">
+      <reference local="workshop_document_id" foreign="id"/>
+    </foreign-key>
+
+    <behavior name="timestampable">
+      <parameter name="disable_updated_at" value="true" />
+    </behavior>
+  </table>
+
+  <table name="workshop_document_contribution">
+    <column name="user_id" type="INTEGER" primaryKey="true"/>
+    <foreign-key foreignTable="user" name="FK_WORKSHOPDOCUMENTCONTRIBUTION_USER" onDelete="CASCADE">
+      <reference local="user_id" foreign="id"/>
+    </foreign-key>
+
+    <column name="workshop_document_id" primaryKey="true" required="true" type="INTEGER" />
+    <foreign-key foreignTable="workshop_document" name="FK_WORKSHOPDOCUMENTCONTRIBUTION_WORKSHOPDOCUMENT" onDelete="CASCADE">
+      <reference local="workshop_document_id" foreign="id"/>
+    </foreign-key>
+
+    <behavior name="timestampable" />
+  </table>
+
+
+  <!-- *****************************************************************************************************************
+          Audio
+  ****************************************************************************************************************** -->
+
+  <table name="workshop_audio">
+    <column name="id" primaryKey="true" required="true" type="INTEGER" />
+    <foreign-key foreignTable="workshop_content" name="FK_WORKSHOPAUDIO_WORKSHOPCONTENT" onDelete="CASCADE">
+      <reference foreign="id" local="id" />
+    </foreign-key>
+
+    <behavior name="delegate">
+      <parameter name="to" value="workshop_content" />
+    </behavior>
+  </table>
+
+</database>

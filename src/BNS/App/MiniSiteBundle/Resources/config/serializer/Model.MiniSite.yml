@@ -1,0 +1,11 @@
+BNS\App\MiniSiteBundle\Model\MiniSite:
+  exclusion_policy: All
+
+  properties:
+    logoUrl:
+      expose: true
+
+  virtual_properties:
+    getBannerUrl:
+      expose: true
+

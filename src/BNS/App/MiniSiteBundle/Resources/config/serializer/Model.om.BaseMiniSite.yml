@@ -1,0 +1,12 @@
+BNS\App\MiniSiteBundle\Model\om\BaseMiniSite:
+  exclusion_policy: All
+  properties:
+    id:
+      expose: true
+
+    description:
+      expose: true
+    title:
+      expose: true
+    slug:
+      expose: true

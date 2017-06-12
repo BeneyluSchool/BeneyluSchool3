@@ -1,0 +1,5 @@
+{% if resource == null %}
+	<img src="{{ asset('/medias/images/resource/deleted/document.jpg') }}" alt="Ce document a été supprimé" />
+{% else %}
+	<img src="{{ asset('/medias/images/resource/deleted/' ~ resource.getTypeUniqueName()|lower ~ '.jpg') }}" alt="Ce document a été supprimé" />
+{% endif %}

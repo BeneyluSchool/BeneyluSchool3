@@ -1,0 +1,29 @@
+lunch:
+  - 1:
+    label: Semaine du goût
+    description: C'est la semaine du goût !
+    sections:
+    menus:
+      - 1:
+        status: 1
+        starter: Saumon
+        main_course: Poisson
+        dessert: Banane
+        dairy: Yaourt
+        accompaniment: Pates
+        afternoon_snack: Biscuit
+      - 2:
+        status: 2
+      - 3:
+        status: 3
+      - 4:
+        status: 1
+        full_menu: Salade de tomates et pates
+      - 5:
+        status: 1
+        starter: Salade
+        main_course: Viande
+        dessert: Fruit
+        dairy: Yaourt
+        accompaniment: Frites
+        afternoon_snack: Gateau

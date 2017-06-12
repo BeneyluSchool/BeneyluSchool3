@@ -58,6 +58,9 @@
 
 var MONTH_NAMES=new Array('January','February','March','April','May','June','July','August','September','October','November','December','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec');
 var DAY_NAMES=new Array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sun','Mon','Tue','Wed','Thu','Fri','Sat');
+
+var MONTHS_FR	= new Array('Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre', 'Janv', 'Fevr', 'Mars', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sept', 'Oct', 'Nov', 'Déc'),
+	DAYS_FR		= new Array('Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam');
 function LZ(x) {return(x<0||x>9?"":"0")+x}
 
 // ------------------------------------------------------------------
@@ -329,7 +332,49 @@ function parseDate(val) {
 		for (var j=0; j<l.length; j++) {
 			d=getDateFromFormat(val,l[j]);
 			if (d!=0) { return new Date(d); }
-			}
 		}
-	return null;
 	}
+		
+	return null;
+}
+
+/**
+ * @return Translated FR date
+ */
+function translate_date(date)
+{
+	var words = date.split(' ');
+	for (var i in words) {
+		var word = words[i];
+		if (word.length < 3) {
+			continue;
+		}
+		
+		var j;
+		if ((j = in_array_key(word, MONTH_NAMES)) !== false) {
+			words[i] = MONTHS_FR[j];
+		}
+		else if ((j = in_array_key(word, DAY_NAMES)) !== false) {
+			words[i] = DAYS_FR[j];
+		}
+	}
+	
+	return words.join(' ');
+}
+
+/**
+ * @params string The element to match
+ * @params array  The array
+ * 
+ * @return The key if found, false otherwise
+ */
+function in_array_key(elem, array)
+{
+	for (var i in array) {
+		if (array[i] == elem) {
+			return i;
+		}
+	}
+	
+	return false;
+}

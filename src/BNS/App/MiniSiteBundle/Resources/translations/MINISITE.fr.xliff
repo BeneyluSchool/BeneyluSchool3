@@ -1,0 +1,840 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-06-21T10:39:27Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="4a0de45c523d2f33e8528817372bfc0433da33ee" resname="ADD_EDITOR">
+        <source>ADD_EDITOR</source>
+        <target>Ajouter un éditeur</target>
+      </trans-unit>
+      <trans-unit id="b09391a1f7a2e3f14ec2b7fa901e14065128ccab" resname="ADD_WIDGET">
+        <source>ADD_WIDGET</source>
+        <target state="new">Ajouter un bloc</target>
+      </trans-unit>
+      <trans-unit id="1c91583b2a316c1ce22678ee26b93b81524077c0" resname="ADULT_CONTENT_PAGE">
+        <source>ADULT_CONTENT_PAGE</source>
+        <target>Contenu de votre future page</target>
+      </trans-unit>
+      <trans-unit id="44016b5a4458eee682a61e0cf3333667a6cbfe7b" resname="ADULT_FINISH_NEWS">
+        <source>ADULT_FINISH_NEWS</source>
+        <target>Enregistrer l'actualité</target>
+      </trans-unit>
+      <trans-unit id="2880e6d0eaf84db73c969a396f8c4d03b27bd7da" resname="ADULT_MESSAGE_NOT_EDITOR">
+        <source>ADULT_MESSAGE_NOT_EDITOR</source>
+        <target><![CDATA[Vous n'êtes pas encore éditeur sur ce mini-site. <br />Vous devez être affecté éditeur par un administrateur pour pouvoir contribuer.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="347dd15cd6dbf41d5d5444f411866ede580c7e46" resname="ADULT_PAGE_EMPTY_CREATE_FIRST">
+        <source>ADULT_PAGE_EMPTY_CREATE_FIRST</source>
+        <target><![CDATA[Cette page est vide.<br />Pourquoi ne pas créer votre première actualité ?]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="ac752d22deb96c0ac6c4ce8e5d869b72cba6e339" resname="ADULT_PAGE_SAVE_IN_DRAFT">
+        <source>ADULT_PAGE_SAVE_IN_DRAFT</source>
+        <target>la page a été sauvegardée dans vos brouillons.</target>
+      </trans-unit>
+      <trans-unit id="0b660235dfffcc338adf64e626cfbc49d883eb09" resname="ADULT_SURE_TO_DELETE_NEWS">
+        <source>Êtes-vous sûr de vouloir supprimer l'actualité "%title%" ?</source>
+        <target state="new">Êtes-vous sûr de vouloir supprimer l'actualité "%title%" ?</target>
+        <note><![CDATA[%title% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="ae694b8b2edd181b3639238b05386c1343c754e8" resname="ADULT_SURE_TO_DELETE_PAGE">
+        <source>ADULT_SURE_TO_DELETE_PAGE</source>
+        <target><![CDATA[<h2>
+           Êtes-vous sûr de vouloir supprimer la page "<span class="title"></span>" ?
+        </h2>
+		<p>
+            <strong>Attention</strong>, la suppression de cette page entraînera également <strong>la suppression de tout son contenu !</strong>
+		</p>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="405f6fbf678f7a9c964a31161b24b410aab8430c" resname="ADULT_SURE_TO_DELETE_WIDGET">
+        <source>ADULT_SURE_TO_DELETE_WIDGET</source>
+        <target><![CDATA[<h2>
+           Êtes-vous sûr de vouloir supprimer le widget "<span class="title"></span>" ?
+        </h2>
+		<p>
+            Attention, cette action est définitive !
+		</p>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="5bcd4d1f0b018beef96fb9a2e3e890a00ec4795c" resname="ADULT_TITLE_PAGE">
+        <source>ADULT_TITLE_PAGE</source>
+        <target>Titre de votre future page</target>
+      </trans-unit>
+      <trans-unit id="3d161ed724788d296a40da86b4cadef7b15733dc" resname="ADULT_WARNING_FIELD_MISSING_VERIFY_ALL">
+        <source><![CDATA[<strong>Attention</strong>, des champs ont été oubliés. Veuillez vérifier que vous avez correctement rempli tous les champs]]></source>
+        <target state="new"><![CDATA[<strong>Attention</strong>, des champs ont été oubliés. Veuillez vérifier que vous avez correctement rempli tous les champs]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="dad57a4c245a8007c90257aef0514c8b6a0f600c" resname="AUTHORS">
+        <source>AUTHORS</source>
+        <target>Auteurs</target>
+      </trans-unit>
+      <trans-unit id="07d9cfce8b735d9d8718cf556d07e06654b893f9" resname="BACK_MINISITE">
+        <source>BACK_MINISITE</source>
+        <target>Gestion de l'application</target>
+      </trans-unit>
+      <trans-unit id="216fd9dbc8813d77d92b3fea74e212766ca8b096" resname="BACK_PAGE">
+        <source>BACK_PAGE</source>
+        <target>Page</target>
+      </trans-unit>
+      <trans-unit id="e3dfcb4528d36247ea3a3f025ae1e65d8e27dd99" resname="BUTTON_ACTIVATE_PAGE">
+        <source>BUTTON_ACTIVATE_PAGE</source>
+        <target state="new">Activer|la page</target>
+      </trans-unit>
+      <trans-unit id="21e4505abee786c21ca1e08f77329cb566fe62aa" resname="BUTTON_DESACTIVATE_PAGE">
+        <source>BUTTON_DESACTIVATE_PAGE</source>
+        <target state="new">Désactiver|la page</target>
+      </trans-unit>
+      <trans-unit id="1fc13ed4641c7134a8ee8ece410c0576843330ce" resname="BUTTON_MAKE_PRIVATE_PAGE">
+        <source>BUTTON_MAKE_PRIVATE_PAGE</source>
+        <target state="new">Rendre privée|la page</target>
+      </trans-unit>
+      <trans-unit id="98a207a230252c4a3f4591792525cd7f4f8867cd" resname="BUTTON_MAKE_PUBLIC_PAGE">
+        <source>BUTTON_MAKE_PUBLIC_PAGE</source>
+        <target state="new">Rendre publique|la page</target>
+      </trans-unit>
+      <trans-unit id="4aad258e8da8f044abe44b56bf5505efa7a4f257" resname="CHILD_CONTENT_PAGE">
+        <source>CHILD_CONTENT_PAGE</source>
+        <target>Contenu de ta future page</target>
+      </trans-unit>
+      <trans-unit id="1f4bb7ded7872d6d92a13a1fe8c52ce9d0390927" resname="CHILD_FINISH_NEWS">
+        <source>CHILD_FINISH_NEWS</source>
+        <target>Finir mon actualité</target>
+      </trans-unit>
+      <trans-unit id="cdbb87f8ff9551f2a72ec65a32e762b9e0cb8373" resname="CHILD_MESSAGE_NOT_EDITOR">
+        <source>CHILD_MESSAGE_NOT_EDITOR</source>
+        <target>Tu n'es pas encore éditeur sur ce mini-site. Il faut que l'adulte qui s'en occupe te donne la permission d'écrire sur une page.</target>
+      </trans-unit>
+      <trans-unit id="499ad8c9f46c0627de3f15a30846ab2c0974bd0a" resname="CHILD_PAGE_EMPTY_CREATE_FIRST">
+        <source>CHILD_PAGE_EMPTY_CREATE_FIRST</source>
+        <target><![CDATA[Tu n'as pas encore écrit d'actualité.<br />Pourquoi ne pas en créer une nouvelle ?]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="4f1bf75930d5c3a7296b7431346a841912b49ffc" resname="CHILD_PAGE_SAVE_IN_DRAFT">
+        <source>CHILD_PAGE_SAVE_IN_DRAFT</source>
+        <target>la page a été sauvegardée dans tes brouillons.</target>
+      </trans-unit>
+      <trans-unit id="c3e1f42f4cf493833eaf9bfeaaa3ed7d3137e7d2" resname="CHILD_SURE_TO_DELETE_NEWS">
+        <source>Es-tu sûr de vouloir supprimer l'actualité "%title%" ?</source>
+        <target state="new">Es-tu sûr de vouloir supprimer l'actualité "%title%" ?</target>
+        <note><![CDATA[%title% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="83fe857de7fd89a3e733762ebff1dbe1ee3337c6" resname="CHILD_SURE_TO_DELETE_PAGE">
+        <source>CHILD_SURE_TO_DELETE_PAGE</source>
+        <target><![CDATA[<h2>
+            Es-tu sûr de vouloir supprimer la page "<span class="title"></span>" ?
+        </h2>
+		<p>
+            <strong>Attention</strong>, la suppression de cette page entraînera également <strong>la suppression de tout son contenu !</strong>
+		</p>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="8841b70ecb77715465d71da1e3c274abbe8e4997" resname="CHILD_SURE_TO_DELETE_WIDGET">
+        <source>CHILD_SURE_TO_DELETE_WIDGET</source>
+        <target><![CDATA[<h2>
+            Es-tu sûr de vouloir supprimer le widget "<span class="title"></span>" ?
+        </h2>
+		<p>
+            Attention, cette action est définitive !
+		</p>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="e88d250521d88cca1584554ac82383c0915cdc6c" resname="CHILD_TITLE_PAGE">
+        <source>CHILD_TITLE_PAGE</source>
+        <target>Titre de ta future page</target>
+      </trans-unit>
+      <trans-unit id="ecc1fd6f07dca2eb5b6329987365182a9986a8ac" resname="CHILD_WARNING_FIELD_MISSING_VERIFY_ALL">
+        <source><![CDATA[<strong>Attention</strong>, des champs ont été oubliés. Vérifie bien si tu as rempli tous les champs]]></source>
+        <target state="new"><![CDATA[<strong>Attention</strong>, des champs ont été oubliés. Vérifie bien que tu as rempli tous les champs]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="0c9bdd01d008b111a9866c2dcacce78d3f144ec0" resname="CHILD_WARNING_PAGE_PUBLISH_AND_DESACTIVATE">
+        <source>CHILD_WARNING_PAGE_PUBLISH_AND_DESACTIVATE</source>
+        <target state="new"><![CDATA[<strong>Attention :</strong> ta page est publiée mais est aussi désactivée. Personne ne peut la voir. Demande son activation à l'adulte responsable du minisite.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="c4758889f2d6b527dc07a9656d79de58dccd7552" resname="CONFIGURATION_SIDEBAR">
+        <source>CONFIGURATION_SIDEBAR</source>
+        <target state="new">Configuration de la barre latérale</target>
+      </trans-unit>
+      <trans-unit id="cf1689e5546b6073d8bbc206ea2110a25d7d9a01" resname="CREATE_AT_BY_USER">
+        <source>Créée %date% par %image% %user%</source>
+        <target state="new">Créée %date% par %image% %user%</target>
+        <note><![CDATA[%date% is a placeholder
+%image% is a placeholder
+%user% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="3926ea64c5d219e4b50239dc3685e419b930931d" resname="DATE_CREATION">
+        <source>DATE_CREATION</source>
+        <target state="new">Date de création</target>
+      </trans-unit>
+      <trans-unit id="d0ed15c78c3522e4dec7ecd88f8f19ba8659786e" resname="DESCRIPTION_WIDGET_TEMPLATE_RICH_TEXT">
+        <source>DESCRIPTION_WIDGET_TEMPLATE_RICH_TEXT</source>
+        <target>Ajoutez ce que vous souhaitez grâce à ce widget</target>
+      </trans-unit>
+      <trans-unit id="45956f9d609176d6769c32042659b5660d0ef2da" resname="DESCRIPTION_WIDGET_TEMPLATE_RSS">
+        <source>DESCRIPTION_WIDGET_TEMPLATE_RSS</source>
+        <target>Retrouvez vos flux RSS favoris grâce à ce widget</target>
+      </trans-unit>
+      <trans-unit id="d202704c055a48a19925429c8d3d61b454f0e340" resname="DESCRIPTION_WIDGET_TEMPLATE_TIME">
+        <source>DESCRIPTION_WIDGET_TEMPLATE_TIME</source>
+        <target>Affichez la date et l'heure avec ce widget haut en couleurs</target>
+      </trans-unit>
+      <trans-unit id="6a38e7641eca9e526398fde49963c013b1b72edd" resname="DRAFT">
+        <source>DRAFT</source>
+        <target>Brouillon</target>
+      </trans-unit>
+      <trans-unit id="ba3801f3453b18caa3367fb9ae7f2ff0e1e550b0" resname="EDIT_AT_BY_USER">
+        <source>Modifiée %date% par %image% %user%</source>
+        <target state="new">Modifiée %date% par %image% %user%</target>
+        <note><![CDATA[%date% is a placeholder
+%image% is a placeholder
+%user% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="2d355f876039ac53f695312b60eec80b1e602ea4" resname="FINISH">
+        <source>FINISH</source>
+        <target>Terminé</target>
+      </trans-unit>
+      <trans-unit id="d03d12c4eb40bfa7a42b09ae9a3a8508b3f49b3f" resname="FINISHED">
+        <source>FINISHED</source>
+        <target>Terminée</target>
+      </trans-unit>
+      <trans-unit id="4f80405322c5d68547f97d5c03950fc6c0863d79" resname="FLASH_MESSAGE_AUTO_SAVE">
+        <source>FLASH_MESSAGE_AUTO_SAVE</source>
+        <target>Le contenu de l'article a été sauvegardé automatiquement dans les brouillons.</target>
+      </trans-unit>
+      <trans-unit id="21f67a9dbd6bfe5f0a339710efdf33541f3db2b0" resname="FLASH_PUBLISHED_SUCCESS">
+        <source>FLASH_PUBLISHED_SUCCESS</source>
+        <target>La page a été publiée avec succès</target>
+      </trans-unit>
+      <trans-unit id="f55bd7222c5ec4134ea1f86ae992450638f91c77" resname="FLASH_UPDATED_SUCCESS">
+        <source>FLASH_UPDATED_SUCCESS</source>
+        <target>La page a été modifiée avec succès</target>
+      </trans-unit>
+      <trans-unit id="a3e22e7a267527dffe4aab6da09eae5ff633e527" resname="FLUX_RSS">
+        <source>FLUX_RSS</source>
+        <target>Flux RSS :</target>
+      </trans-unit>
+      <trans-unit id="1b64e3f28e2d7927312e5949288fa5364a974af6" resname="FUTUR_PAGE_CONTENT">
+        <source>FUTUR_PAGE_CONTENT</source>
+        <target>Contenu de votre future page</target>
+      </trans-unit>
+      <trans-unit id="89c5d62dde305cf095a27a5ba68ac15a50bd1af3" resname="INVALID_PAGE_TYPE">
+        <source>INVALID_PAGE_TYPE</source>
+        <target state="new">Le type de page n'existe pas, veuillez réessayer</target>
+      </trans-unit>
+      <trans-unit id="8aa6bece510c2655d6fa3f71527996c41fcc6bec" resname="LABEL_EDIT_SITE_BANNER">
+        <source>LABEL_EDIT_SITE_BANNER</source>
+        <target>Modifier la bannière du site</target>
+      </trans-unit>
+      <trans-unit id="3fb57a4ff147f265a3fa9f652075779ea7b4ebbb" resname="LABEL_SITE_BANNER">
+        <source>LABEL_SITE_BANNER</source>
+        <target>Bannière du site</target>
+      </trans-unit>
+      <trans-unit id="2235ec18546cbd6c61161942ad359fd0602947ba" resname="LABEL_WIDGET_TEMPLATE_RICH_TEXT">
+        <source>LABEL_WIDGET_TEMPLATE_RICH_TEXT</source>
+        <target>Texte</target>
+      </trans-unit>
+      <trans-unit id="dc6c7f14b970e7ea61987d62d1f57360c6400e31" resname="LABEL_WIDGET_TEMPLATE_RSS">
+        <source>LABEL_WIDGET_TEMPLATE_RSS</source>
+        <target>Flux RSS</target>
+      </trans-unit>
+      <trans-unit id="0ca1d898962355b577b06ff72b0c32c136600b98" resname="LABEL_WIDGET_TEMPLATE_TIME">
+        <source>LABEL_WIDGET_TEMPLATE_TIME</source>
+        <target>Heure</target>
+      </trans-unit>
+      <trans-unit id="2e83aa4198210e218953f9ccc3a4d64ccda79a72" resname="LAST_MODIFICATIONS">
+        <source>LAST_MODIFICATIONS</source>
+        <target>Dernières modifications</target>
+      </trans-unit>
+      <trans-unit id="0147649f0444df25e6ebb3a96de50ced80e6e544" resname="LAST_MODIFICATION_AT">
+        <source>Dernière modification %date%</source>
+        <target state="new">Dernière modification %date%</target>
+        <note><![CDATA[%date% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="a8faea8b0362c8623ea3eda7f0ffe141aa005a21" resname="LAST_MODIFICATION_AT_BY_USER">
+        <source>Dernière modification %date% par %image% %user%</source>
+        <target state="new">Dernière modification %date% par %image% %user%</target>
+        <note><![CDATA[%date% is a placeholder
+%image% is a placeholder
+%user% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="e212c90c2c6a37a55b08d8de420b0c64a1ae411e" resname="LINK_ACTIVATE_PAGE">
+        <source><![CDATA[<span class="enable %class%"><strong>Activer<br /></strong>la page</span>]]></source>
+        <target state="new"><![CDATA[<span>Activer la page</span>]]></target>
+        <note><![CDATA[%class% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="cec260f93511128fd1b16074593041ebb6f4efe9" resname="LINK_ADD">
+        <source>LINK_ADD</source>
+        <target>Ajouter la page</target>
+      </trans-unit>
+      <trans-unit id="3aceace20c7052203d7daaee8092c980f0f3194e" resname="LINK_ADD_AND_CONTINUE">
+        <source>LINK_ADD_AND_CONTINUE</source>
+        <target>Ajouter et continuer</target>
+      </trans-unit>
+      <trans-unit id="7643c4945d94f0cfd0034b6aab14b39600c90b89" resname="LINK_ADD_PAGE">
+        <source>LINK_ADD_PAGE</source>
+        <target>Ajouter une page</target>
+      </trans-unit>
+      <trans-unit id="f1469df257c643b79a5c5574848684351f2c6b67" resname="LINK_BACK_TO_NEWS">
+        <source>LINK_BACK_TO_NEWS</source>
+        <target><![CDATA[Retourner | à la liste d'actualités]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="1f8524949b59bf473e5b31304582c62cb6d54e28" resname="LINK_CANCEL">
+        <source>LINK_CANCEL</source>
+        <target>Annuler</target>
+      </trans-unit>
+      <trans-unit id="588919bca6344699fa4d21899e36b0552dfc6bce" resname="LINK_CANCEL_CREATION">
+        <source>LINK_CANCEL_CREATION</source>
+        <target><![CDATA[Annuler | la création]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="e7a9e9d20600891dbff1a631b59a419118d3c52f" resname="LINK_CANCEL_DELETE">
+        <source>LINK_CANCEL_DELETE</source>
+        <target><![CDATA[<strong>Annuler</strong><br />la suppression]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="2b8d3f6bcc98097f3c8e1e40e7f27930c6a4cbf3" resname="LINK_CANCEL_MODIFICATION">
+        <source>LINK_CANCEL_MODIFICATION</source>
+        <target><![CDATA[Annuler | les modifications]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="3238e7503f1ed023526baa803202e21e99571e07" resname="LINK_CONFIRM_DELETE">
+        <source>LINK_CONFIRM_DELETE</source>
+        <target><![CDATA[<strong>Supprimer</strong><br />l'actualité]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="a14dd84cdd936625497432e4e1b6e2e4508865b3" resname="LINK_CUSTOMIZE">
+        <source>LINK_CUSTOMIZE</source>
+        <target>Personnalisation</target>
+      </trans-unit>
+      <trans-unit id="89b3551884ed21c348950ad2659a1a844d781097" resname="LINK_DELETE_NEWS">
+        <source>LINK_DELETE_NEWS</source>
+        <target><![CDATA[Supprimer | l'actualité]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="f8831373855c85d966dbc6d85569a85ad9c4c9ec" resname="LINK_DELETE_WIDGET">
+        <source>LINK_DELETE_WIDGET</source>
+        <target>Supprimer le widget</target>
+      </trans-unit>
+      <trans-unit id="89d4e676b40c14588e5852e15e0475aa6eb78386" resname="LINK_DESACTIVATE_PAGE">
+        <source><![CDATA[<span class="disable %class%"><strong>Désactiver<br /></strong>la page</span>]]></source>
+        <target state="new"><![CDATA[<span>Désactiver la page</span>]]></target>
+        <note><![CDATA[%class% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="4f101287be7d2f6f0e2d61750094d5a75ba857ee" resname="LINK_EDIT_NEWS">
+        <source>LINK_EDIT_NEWS</source>
+        <target><![CDATA[Éditer | l'actualité]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="aa121d3df5559af705e2b99498a66df99e0f9e04" resname="LINK_EDIT_PAGE">
+        <source>LINK_EDIT_PAGE</source>
+        <target><![CDATA[Éditer | la page]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="573192e77efa01cb6ba21b6dab14199c0d0fac68" resname="LINK_EXPORT_DATA">
+        <source>LINK_EXPORT_DATA</source>
+        <target>Exporter les données</target>
+      </trans-unit>
+      <trans-unit id="5f23891a3c15e4a4fa169b59803b4cc8b9c01bd7" resname="LINK_INFORMATION">
+        <source>LINK_INFORMATION</source>
+        <target>Informations</target>
+      </trans-unit>
+      <trans-unit id="8b7b3e7e2c3caf603a516df85be31a29562da38c" resname="LINK_I_FINISH">
+        <source>LINK_I_FINISH</source>
+        <target>Enregistrer les informations</target>
+      </trans-unit>
+      <trans-unit id="31462163c772d76f510d4ef94b5dbdca32e92c98" resname="LINK_MANAGE_PAGE">
+        <source>LINK_MANAGE_PAGE</source>
+        <target>Gérer les pages</target>
+      </trans-unit>
+      <trans-unit id="602623150ffced7316c249b2a5a436a795b56598" resname="LINK_MODERATION">
+        <source>LINK_MODERATION</source>
+        <target>Modération</target>
+      </trans-unit>
+      <trans-unit id="26dbef1d399a99fb78a7292eac11d8c81c4652de" resname="LINK_PAGES">
+        <source>LINK_PAGES</source>
+        <target>Les pages</target>
+      </trans-unit>
+      <trans-unit id="8b1922fedede308fc1e29d27c9de9cf123013432" resname="LINK_PUBLISH">
+        <source>LINK_PUBLISH</source>
+        <target>Publier</target>
+      </trans-unit>
+      <trans-unit id="cc03989b73be9c64f63851997e7aab30a4fd9ec5" resname="LINK_RENDER_PRIVATE">
+        <source><![CDATA[<span class="private %class%">Rendre <strong>privé</strong></span>]]></source>
+        <target state="new"><![CDATA[<span class="private">Rendre <strong>privée</strong></span>]]></target>
+        <note><![CDATA[%class% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="08c7782727518bbde25e2e15a1c9a91ea831cd64" resname="LINK_RENDER_PUBLIC">
+        <source><![CDATA[<span class="public %class%">Rendre <strong class="public">publique</strong></span>]]></source>
+        <target state="new"><![CDATA[<span class="public">Rendre <strong>publique</strong></span>]]></target>
+        <note><![CDATA[%class% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="5c1e641db66353728cfdfd6effa0c2b9bf499a30" resname="LINK_SAVE_AS_DRAFT">
+        <source>LINK_SAVE_AS_DRAFT</source>
+        <target><![CDATA[Enregistrer | dans les brouillons]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="ed23f3970d79c7b2490404df8d7c8fdc6ea31797" resname="LINK_SEE_CARD">
+        <source>LINK_SEE_CARD</source>
+        <target>Voir la fiche</target>
+      </trans-unit>
+      <trans-unit id="175261daac30bb41fa9f7c0eac130b87afeb0588" resname="LINK_SEE_PAGE">
+        <source>LINK_SEE_PAGE</source>
+        <target><![CDATA[Voir | la page]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="86fe7a9150eaa0f1d56933f3629f7643e7e02dbc" resname="LINK_STATS">
+        <source>LINK_STATS</source>
+        <target>Statistiques</target>
+      </trans-unit>
+      <trans-unit id="54504eee75ea968823540577901226cf2b9b19ea" resname="LINK_VALIDATE">
+        <source>LINK_VALIDATE</source>
+        <target>Valider</target>
+      </trans-unit>
+      <trans-unit id="420c68c73b11d9221c105eb12970a82f92940804" resname="LINK_WIDGETS">
+        <source>LINK_WIDGETS</source>
+        <target>Les widgets</target>
+      </trans-unit>
+      <trans-unit id="516ee6664f501ea1d6d4e0fae16b5f7730377c42" resname="LINK_WRITE_NEWS">
+        <source>LINK_WRITE_NEWS</source>
+        <target>Écrire une actualité</target>
+      </trans-unit>
+      <trans-unit id="c1571958139ab49186b6c28ee28a62ffb8b4a108" resname="LINK_YES_SURE">
+        <source>LINK_YES_SURE</source>
+        <target>Supprimer la page</target>
+      </trans-unit>
+      <trans-unit id="8d05476e3bb7593b49bdb3a8f5069b292e4679c4" resname="LOADING_NEWS">
+        <source>LOADING_NEWS</source>
+        <target>Chargement des actualités en cours...</target>
+      </trans-unit>
+      <trans-unit id="e6ed98cf028fdd09ecaa49a69acc991018c42adc" resname="LOADING_PLEAE_WAIT">
+        <source>LOADING_PLEAE_WAIT</source>
+        <target>Chargement en cours, veuillez patienter...</target>
+      </trans-unit>
+      <trans-unit id="6c8e2dd48ea015f469ab7fb839516e6193331b94" resname="LOADING_PLEASE_WAIT">
+        <source>LOADING_PLEASE_WAIT</source>
+        <target state="new">Chargement, veuillez patientez...</target>
+      </trans-unit>
+      <trans-unit id="6f92096abaa56fdf2d4c7332b59c3f7cc31b70cd" resname="MINISITE_STATS">
+        <source>MINISITE_STATS</source>
+        <target>Statistiques du minisite</target>
+      </trans-unit>
+      <trans-unit id="7af3e4adfb056f58b992ff15a759483f71f4e193" resname="MODAL_DELETING_PAGE">
+        <source>MODAL_DELETING_PAGE</source>
+        <target>Suppression d'une page</target>
+      </trans-unit>
+      <trans-unit id="ff5d3f0ae011ce56bd66f8408b4f97fcbbfd443b" resname="MODAL_LINK_CONFIRM_DELETE">
+        <source>MODAL_LINK_CONFIRM_DELETE</source>
+        <target state="new">Supprimer l'actualité</target>
+      </trans-unit>
+      <trans-unit id="810da84a6235f8b030a054f659a5214d9588bec5" resname="NAME_PAGE">
+        <source>NAME_PAGE</source>
+        <target>Nom de la page</target>
+      </trans-unit>
+      <trans-unit id="ff3cce8999ac885abf0fccdd1e411aa9426a5047" resname="NAME_PAGES">
+        <source>NAME_PAGES</source>
+        <target>Noms des pages</target>
+      </trans-unit>
+      <trans-unit id="97c6a2f765a4d419d73ba08e7dbc474e7192716e" resname="NEED_ONE_SELECTED_CONTENT_TYPE">
+        <source>NEED_ONE_SELECTED_CONTENT_TYPE</source>
+        <target>Vous devez avoir au moins un type de contenu sélectionné</target>
+      </trans-unit>
+      <trans-unit id="61883486126c2695cd0480d2971f8cfee358b1a5" resname="NEED_ONE_SELECTED_STATUS">
+        <source>NEED_ONE_SELECTED_STATUS</source>
+        <target>Vous devez avoir au moins un statut sélectionné</target>
+      </trans-unit>
+      <trans-unit id="c70b979799c52ba297fe73acb49157e9cea5a042" resname="NEWS_DRAFT">
+        <source>NEWS_DRAFT</source>
+        <target>Brouillon</target>
+      </trans-unit>
+      <trans-unit id="72227960c6a687778b97dbb5a79d9c2bea9893b9" resname="NEWS_DRAFT_PLURAL">
+        <source>NEWS_DRAFT_PLURAL</source>
+        <target>Brouillons</target>
+      </trans-unit>
+      <trans-unit id="06b7790651d52cb09d50e2b23fb5cf88d7946d12" resname="NEWS_FINISH">
+        <source>NEWS_FINISH</source>
+        <target>Actualité terminée</target>
+      </trans-unit>
+      <trans-unit id="593f9ef480946d05a9753b53c548b018d7a0a52e" resname="NEWS_FINISH_PLURAL">
+        <source>NEWS_FINISH_PLURAL</source>
+        <target>Actualités terminées</target>
+      </trans-unit>
+      <trans-unit id="bdf1cc59afa674a97c7d70e01adb3b708c962110" resname="NEWS_PAGE">
+        <source>NEWS_PAGE</source>
+        <target state="new">page d'actualité</target>
+      </trans-unit>
+      <trans-unit id="a41a0530795ca983d8ae3ac0ad5e81e0c6a2e4a8" resname="NEWS_PAGE_CAN_HAVE_SEVERAL_NEWS">
+        <source>NEWS_PAGE_CAN_HAVE_SEVERAL_NEWS</source>
+        <target>Les pages de type actualités sont des pages où vous pouvez publier plusieurs actualités, à la manière d'un blog.</target>
+      </trans-unit>
+      <trans-unit id="438ae02b6fc9ce3618f4433b470e226f5c4e940c" resname="NEWS_PUBLISH">
+        <source>NEWS_PUBLISH</source>
+        <target>Actualité publiée</target>
+      </trans-unit>
+      <trans-unit id="6dea8d77c83e56654a0095b3d60e15688e6171df" resname="NEWS_PUBLISH_PLURAL">
+        <source>NEWS_PUBLISH_PLURAL</source>
+        <target>Actualités publiées</target>
+      </trans-unit>
+      <trans-unit id="91e42d6337bf3f12b8e204ac575ec420388414a4" resname="NEWS_STATUS">
+        <source>NEWS_STATUS</source>
+        <target>Statut de l'actualité</target>
+      </trans-unit>
+      <trans-unit id="052366971868d73c9df025a4c51b24df7fe12d51" resname="NEWS_SUBMIT_TO_CORRECT">
+        <source>NEWS_SUBMIT_TO_CORRECT</source>
+        <target>Soumettre à une correction</target>
+      </trans-unit>
+      <trans-unit id="86a2e35a0110007cb0475ddcbd9f00d4665539e6" resname="NEWS_TO_CORRECT">
+        <source>NEWS_TO_CORRECT</source>
+        <target>Actualité à corriger</target>
+      </trans-unit>
+      <trans-unit id="ef708b5e156c7f4fd8e268d199b5e8bfb35f48b2" resname="NEWS_TO_CORRECT_PLURAL">
+        <source>NEWS_TO_CORRECT_PLURAL</source>
+        <target>Actualités à corriger</target>
+      </trans-unit>
+      <trans-unit id="c1f77f40d317443526e7313309cb04cdcb40b7e6" resname="NEWS_UNPUBLISH">
+        <source>NEWS_UNPUBLISH</source>
+        <target>Dépublier</target>
+      </trans-unit>
+      <trans-unit id="2bc8736d7e73089ed337514c267b192f1efb18cd" resname="NEWS_VALIDATE_AND_PUBLISH">
+        <source>NEWS_VALIDATE_AND_PUBLISH</source>
+        <target>Valider et publier</target>
+      </trans-unit>
+      <trans-unit id="a1b104d37aa8763722aebd457d2e83f90b10eaf9" resname="NEWS_VALIDATE_WITHOUT_PUBLISH">
+        <source>NEWS_VALIDATE_WITHOUT_PUBLISH</source>
+        <target>Valider sans publier</target>
+      </trans-unit>
+      <trans-unit id="4e976c4290afc7fa3a493053121ec2e6f5c38f32" resname="NO_EDITOR_FOR_THIS_PAGE">
+        <source>NO_EDITOR_FOR_THIS_PAGE</source>
+        <target>Il n'y a pas d'éditeur pour cette page</target>
+      </trans-unit>
+      <trans-unit id="84d5100850ef70e55b69502340a1387034d5a95f" resname="NO_NEWS_FIND_IN_SEARCH">
+        <source>NO_NEWS_FIND_IN_SEARCH</source>
+        <target>Aucune actualité n'a été trouvée pour votre recherche.</target>
+      </trans-unit>
+      <trans-unit id="df3a9e26ed0e8f4a9db7242b752b41c00b3f7346" resname="NO_NEWS_PAGE_TO_MODERATE">
+        <source>NO_NEWS_PAGE_TO_MODERATE</source>
+        <target>Il n'y a aucune actualité ou page à modérer.</target>
+      </trans-unit>
+      <trans-unit id="d62fdca6c9e0b7680ade78f9978f15cd094eafe3" resname="NO_NEWS_YET_COME_BACK">
+        <source>NO_NEWS_YET_COME_BACK</source>
+        <target>Nous n'avons pas encore d'actualités, revenez nous voir bientôt !</target>
+      </trans-unit>
+      <trans-unit id="7fd0bc10e49b3061a006795d217e983fc42c5541" resname="NO_PAGE_ON_MINISITE_CREATE_ONE">
+        <source>NO_PAGE_ON_MINISITE_CREATE_ONE</source>
+        <target>Vous n'avez pas de pages sur votre minisite. Pourquoi ne pas en créer ?</target>
+      </trans-unit>
+      <trans-unit id="42449fbe29c14297fe1af5be2d5ddc5762c09da8" resname="NO_WAITING_FOR_MODERATION_NEWS">
+        <source>NO_WAITING_FOR_MODERATION_NEWS</source>
+        <target>Félicitations, il n'y a plus d'actualités à modérer pour les filtres souhaités.</target>
+      </trans-unit>
+      <trans-unit id="eedca2b746121ab1c23388b8eecd798b6c7f7a99" resname="NO_WAITING_FOR_MODERATION_PAGES">
+        <source>NO_WAITING_FOR_MODERATION_PAGES</source>
+        <target>Félicitations, il n'y a plus de page à modérer pour les filtres souhaités.</target>
+      </trans-unit>
+      <trans-unit id="1bdae89b37d24889d7dc956f57ed04e3ea7cc0f1" resname="NO_WIDGET_ON_MINISITE_ADD_ONE">
+        <source>NO_WIDGET_ON_MINISITE_ADD_ONE</source>
+        <target><![CDATA[Vous n'avez pas de widget sur votre minisite.<br />
+                        Cliquez sur le bouton en haut à gauche pour ajouter votre premier widget !]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="b31fe21272f466adf1385934e2b50d8c945f3f36" resname="NUMBER_FLUX_TO_DISPLAY">
+        <source>NUMBER_FLUX_TO_DISPLAY</source>
+        <target>Nombre de flux à afficher :</target>
+      </trans-unit>
+      <trans-unit id="5965afbc4b999f28c262c6bc79ec30ff12a09d85" resname="NUMBER_PAGE_VIEW">
+        <source>NUMBER_PAGE_VIEW</source>
+        <target>Nombre de pages vues</target>
+      </trans-unit>
+      <trans-unit id="d4fb3344a3742daec9122ca43a943bc59532b67f" resname="NUMBER_VIEW_PER_PAGE">
+        <source>NUMBER_VIEW_PER_PAGE</source>
+        <target>Nombre de vues par page</target>
+      </trans-unit>
+      <trans-unit id="618c7535011f9df31cd5ffb3ee3e00fec9a8775e" resname="PAGE">
+        <source>PAGE</source>
+        <target>La page</target>
+      </trans-unit>
+      <trans-unit id="47f9f6f14b3db7077ed55862bd772cfb560d6cd1" resname="PAGE_FINISH">
+        <source>PAGE_FINISH</source>
+        <target>Page terminée</target>
+      </trans-unit>
+      <trans-unit id="020a10176b7d02115d9aa83a5c1e74eb99b312ff" resname="PAGE_PUBLISH">
+        <source>PAGE_PUBLISH</source>
+        <target>Page publiée</target>
+      </trans-unit>
+      <trans-unit id="3f2cde701155f77290210da708f265099c2516c2" resname="PAGE_PUBLISH_CANT_MODIFY">
+        <source>PAGE_PUBLISH_CANT_MODIFY</source>
+        <target>La page a été publiée avec succès, tu ne peux donc plus la modifier.</target>
+      </trans-unit>
+      <trans-unit id="b3e7602c30171cd02e267bcd954cd7fdf2a63220" resname="PAGE_STATUS">
+        <source>PAGE_STATUS</source>
+        <target>Statut de la page</target>
+      </trans-unit>
+      <trans-unit id="9005ecca7b13697a0d1d767dc2d888ae49e5b4c3" resname="PAGE_TO_CORRECT">
+        <source>PAGE_TO_CORRECT</source>
+        <target>Page à corriger</target>
+      </trans-unit>
+      <trans-unit id="79228e2032a7235b8fe1f5e01d4f4c7be3b8efea" resname="PAGE_TYPE">
+        <source>PAGE_TYPE</source>
+        <target>Type de la page</target>
+      </trans-unit>
+      <trans-unit id="b1bfec352095d32f8c395830a1a018faf30f31fe" resname="PLACEHOLDER_NEW_PAGE_TITLE">
+        <source>PLACEHOLDER_NEW_PAGE_TITLE</source>
+        <target>Titre de la nouvelle page</target>
+      </trans-unit>
+      <trans-unit id="a6b19f4df149d88cce531fd7afd5b923ff2cd06d" resname="PLACEHOLDER_PAGE_TITLE">
+        <source>PLACEHOLDER_PAGE_TITLE</source>
+        <target>Titre de la page</target>
+      </trans-unit>
+      <trans-unit id="2f575270bb138aff8a52ac77ae1bb855f1d86b94" resname="PLACEHOLDER_SITE_TITLE">
+        <source>PLACEHOLDER_SITE_TITLE</source>
+        <target state="new">Nom du site</target>
+      </trans-unit>
+      <trans-unit id="258023dfd7091d1aad12c56429904ae6f04044bc" resname="PLACEHOLDER_TITLE">
+        <source>PLACEHOLDER_TITLE</source>
+        <target>Titre de l'actualité</target>
+      </trans-unit>
+      <trans-unit id="4f34bd36e3cdc1f9761a18cc21ddee11baa907a8" resname="PLACEHOLDER_TITLE_WIDGET">
+        <source>PLACEHOLDER_TITLE_WIDGET</source>
+        <target state="new">Titre du widget</target>
+      </trans-unit>
+      <trans-unit id="fa9125105eacd0dcbf75f7bd090c61b804e9c901" resname="PLEASE_ENTER_TITLE">
+        <source>PLEASE_ENTER_TITLE</source>
+        <target>Veuillez saisir un titre</target>
+      </trans-unit>
+      <trans-unit id="e355f37f4ce218af700e4d5edd2b2b9559c75dc8" resname="PUBLIC_LINK_OF_MINISITE">
+        <source>PUBLIC_LINK_OF_MINISITE</source>
+        <target>Adresse de votre minisite</target>
+      </trans-unit>
+      <trans-unit id="ff0fc30c743813f924dff4b751315af42d5ab08b" resname="PUBLISH">
+        <source>PUBLISH</source>
+        <target>Publiée</target>
+      </trans-unit>
+      <trans-unit id="b07e6974b17d4f70ae8c374e3fa347e712c9b7d0" resname="PUBLISHED">
+        <source>PUBLISHED</source>
+        <target>Publiée</target>
+      </trans-unit>
+      <trans-unit id="9b5e68af8e5d14482e18424e8f7a0c8d358c0f48" resname="PUBLISH_AT_BY">
+        <source>Publié %date% par %image% %user%</source>
+        <target state="new">Publiée %date% par %image% %user%</target>
+        <note><![CDATA[%date% is a placeholder
+%image% is a placeholder
+%user% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="b02430220c53e240462a44f403f3ef9fd25222fb" resname="PUT_ON_WELCOME_PAGE">
+        <source>PUT_ON_WELCOME_PAGE</source>
+        <target>Mettre en page d'accueil</target>
+      </trans-unit>
+      <trans-unit id="cbc38b868b427d802dc0819f25e3964829217781" resname="SIGN_IN">
+        <source>SIGN_IN</source>
+        <target>Se connecter</target>
+      </trans-unit>
+      <trans-unit id="1093ddc200211faa16851e03918a4871f66fd672" resname="STATIC_PAGE">
+        <source>STATIC_PAGE</source>
+        <target state="new">page statique</target>
+      </trans-unit>
+      <trans-unit id="413e0876fd13df3ed2dac916864ada73992333cf" resname="STATIC_PAGE_UNIQUE_CONTENT">
+        <source>STATIC_PAGE_UNIQUE_CONTENT</source>
+        <target>Les pages de type statique sont des pages avec un seul contenu, vous éditez donc la page entière.</target>
+      </trans-unit>
+      <trans-unit id="43118b4b390a98a8989754acc7499e48cf08ab1a" resname="SUBTITLE_MINISITE">
+        <source>Minisite</source>
+        <target state="new">Minisite</target>
+      </trans-unit>
+      <trans-unit id="64ff6b7929936b2598aea686a1ac81ea05a0261b" resname="THIS_WIDGET_HAVENT_CONFIGURATION">
+        <source>THIS_WIDGET_HAVENT_CONFIGURATION</source>
+        <target>Ce widget ne possède aucune configuration</target>
+      </trans-unit>
+      <trans-unit id="49dab9873f847696f43c30ada206da760f4ef9fb" resname="TITLE_CREATE_YOUR_PAGE">
+        <source>TITLE_CREATE_YOUR_PAGE</source>
+        <target>Créez votre page !</target>
+      </trans-unit>
+      <trans-unit id="eb531221645b35f3fb8232ddb84be44635cfedb4" resname="TITLE_DELETE_NEWS">
+        <source>TITLE_DELETE_NEWS</source>
+        <target><![CDATA[Supprimer l'actualité]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="47ad16e730628b38ffcdb506f29edc97baaf1778" resname="TITLE_DESCRIPTION">
+        <source>Description</source>
+        <target state="new">Description</target>
+      </trans-unit>
+      <trans-unit id="3b1d36490e248fb270db266caba3894f4976681c" resname="TITLE_EDITORS">
+        <source>TITLE_EDITORS</source>
+        <target>Les éditeurs</target>
+      </trans-unit>
+      <trans-unit id="4a7f965ffcb9d209d78e7ce8634d966cac8f5aac" resname="TITLE_FILTER_NEWS">
+        <source>TITLE_FILTER_NEWS</source>
+        <target>Filtrer les actualités</target>
+      </trans-unit>
+      <trans-unit id="e8611b9172277378d39d78ffc2216f675d84ee32" resname="TITLE_FILTER_STATUS">
+        <source>TITLE_FILTER_STATUS</source>
+        <target>Filtrer les statuts</target>
+      </trans-unit>
+      <trans-unit id="15ac32a23438a7c180a3f7e559fe58709f38e020" resname="TITLE_FILTER_TYPE_CONTENT">
+        <source>TITLE_FILTER_TYPE_CONTENT</source>
+        <target>Filtrer les types de contenu</target>
+      </trans-unit>
+      <trans-unit id="52ad25725b1d15f78352eaa91abdc30636690cec" resname="TITLE_FOR_VISITORS">
+        <source>TITLE_FOR_VISITORS</source>
+        <target>Pour nos visiteurs</target>
+      </trans-unit>
+      <trans-unit id="12833778ef219fc1cf5d5eed0b287b0d7a21ad96" resname="TITLE_FUTUR_PAGE">
+        <source>TITLE_FUTUR_PAGE</source>
+        <target>Titre de votre future page</target>
+      </trans-unit>
+      <trans-unit id="dc8d58757c9556f69c26ed0b2a86ca8936f118b5" resname="TITLE_GRAPH">
+        <source>TITLE_GRAPH</source>
+        <target>Graphique</target>
+      </trans-unit>
+      <trans-unit id="937c490e8e698fdf604221fbc6fbc226d2234f58" resname="TITLE_MANAGEMENT_MINISITE_CREATE_NEWS">
+        <source>TITLE_MANAGEMENT_MINISITE_CREATE_NEWS</source>
+        <target>Gestion du Minisite : créer une actualité</target>
+      </trans-unit>
+      <trans-unit id="0ed69d529dc1b3622ce077bac6b6f8b50320aa61" resname="TITLE_MANAGEMENT_MINISITE_EDIT_NEWS">
+        <source>TITLE_MANAGEMENT_MINISITE_EDIT_NEWS</source>
+        <target>Gestion du Minisite : éditer une actualité</target>
+      </trans-unit>
+      <trans-unit id="0fda9e9152b16d670626a6705df4759a4410fe3a" resname="TITLE_MINISITE">
+        <source>TITLE_MINISITE</source>
+        <target>Minisite</target>
+      </trans-unit>
+      <trans-unit id="a35a4b259d2d75e93780164e36ebb31feb59b5e1" resname="TITLE_MINISITE_MANAGEMENT">
+        <source>TITLE_MINISITE_MANAGEMENT</source>
+        <target>Minisite - Gestion</target>
+      </trans-unit>
+      <trans-unit id="2c976ced7c75bb2f4ca6de06203580d7f117da9e" resname="TITLE_MINISITE_PAGE">
+        <source>Minisite - %title%</source>
+        <target state="new">Minisite - %title%</target>
+        <note><![CDATA[%title% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="c5cb5f10b57823652f0d778a0f98c8b06ddf536a" resname="TITLE_NEWS">
+        <source>TITLE_NEWS</source>
+        <target>Les actualités</target>
+      </trans-unit>
+      <trans-unit id="5d1228d48005df2bf188d40d6bc4fc10c5b874b4" resname="TITLE_OUR_FUTUR_PAGE">
+        <source>TITLE_OUR_FUTUR_PAGE</source>
+        <target>Notre future page</target>
+      </trans-unit>
+      <trans-unit id="07a261233843d670dfd91de750cf520aed1ae706" resname="TITLE_PAGES">
+        <source>TITLE_PAGES</source>
+        <target>Les Pages</target>
+      </trans-unit>
+      <trans-unit id="96ce37a8c1b7d1f61262166a2f2d632e849d2762" resname="TITLE_SIDEBAR">
+        <source>TITLE_SIDEBAR</source>
+        <target>Barre latérale</target>
+      </trans-unit>
+      <trans-unit id="919832d1b6b9b74cb9c33178e3e4fdd587849e14" resname="TITLE_SITE_NAME">
+        <source>TITLE_SITE_NAME</source>
+        <target state="new">Site : %name%</target>
+        <note><![CDATA[%name% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="0d83fe1731bbbe9d74bb05d91ad82da0f05b15f7" resname="TITLE_STATIC_PAGE">
+        <source>TITLE_STATIC_PAGE</source>
+        <target>Les pages statiques</target>
+      </trans-unit>
+      <trans-unit id="5a5fb6886ad18fe942be9712fa4caf4ccbf404de" resname="TITLE_TITLE_MANAGEMENT">
+        <source>%title% - Gestion</source>
+        <target state="new">%title% - Gestion</target>
+        <note><![CDATA[%title% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="1cbbdd01fa33af981be44ae8aa48f4f5b7df0793" resname="TITLE_TOO_SHORT">
+        <source>TITLE_TOO_SHORT</source>
+        <target>Le titre est trop petit</target>
+      </trans-unit>
+      <trans-unit id="1e4f417451ddfa70af4d1c6de47a5028b3b7bec9" resname="TITLE_WELCOME">
+        <source>TITLE_WELCOME</source>
+        <target state="new">Accueil</target>
+      </trans-unit>
+      <trans-unit id="c92bd2409ed030c1cb1fc98e05171967fc89b926" resname="TITLE_WIDGET_AVAILABLE">
+        <source>TITLE_WIDGET_AVAILABLE</source>
+        <target>Widgets disponibles</target>
+      </trans-unit>
+      <trans-unit id="1cd8eca76eca8f8976a92cf0fa5d5a96a36e39ec" resname="TOO_FAULT_ON_THIS_PAGE_EDIT_IT">
+        <source>TOO_FAULT_ON_THIS_PAGE_EDIT_IT</source>
+        <target><![CDATA[Ton enseignant trouve qu'il y a trop de fautes sur ta page, tu devrais la corriger !<br /> Pour cela, clique sur le bouton "Éditer la page" en haut à gauche.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="4684e510ae7c668c37372bc3be199a6c9894bd84" resname="WAITING_FOR_CORRECTION">
+        <source>WAITING_FOR_CORRECTION</source>
+        <target>En attente de correction</target>
+      </trans-unit>
+      <trans-unit id="c52ac61e77c368b38263e17951ede51fa116e95f" resname="WAITING_TO_MODERATION">
+        <source>WAITING_TO_MODERATION</source>
+        <target>En attente de correction</target>
+      </trans-unit>
+      <trans-unit id="6d2408ff9618a3b32e4f0eccd4bc20a40ec4f5ac" resname="WARNING_DELETING_NEWS">
+        <source>WARNING_DELETING_NEWS</source>
+        <target state="new">Attention, la suppression de cette actualité est définitive. Tout son contenu sera perdu !</target>
+      </trans-unit>
+      <trans-unit id="b21c60a0d4f105b80cba3fb62ba8533e36c8f5af" resname="WARNING_PAGE_PUBLISH_AND_DESACTIVATE">
+        <source>WARNING_PAGE_PUBLISH_AND_DESACTIVATE</source>
+        <target state="new"><![CDATA[<strong>Attention :</strong> votre page est publiée mais est aussi désactivée. Personne ne peut la voir. Activez-la si vous souhaitez qu'elle soit visible sur votre minisite.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="f7ea242be0fef910896536b85ac3e13f49bd4057" resname="WELCOME_TO_YOUR_MINISITE">
+        <source>WELCOME_TO_YOUR_MINISITE</source>
+        <target>Bienvenue sur votre minisite ! Vous n'avez actuellement pas configuré le texte de votre page, rendez-vous dans l'administration pour ajouter du contenu à votre page.</target>
+      </trans-unit>
+      <trans-unit id="83ef9f6e953576aa659ae299db785cd473894050" resname="WILL_DISCOVER_FUTUR_PAGE_HERE">
+        <source>WILL_DISCOVER_FUTUR_PAGE_HERE</source>
+        <target>Vous découvrirez ici notre future page. Revenez nous voir bientôt !</target>
+      </trans-unit>
+      <trans-unit id="4624282010f98787e80de57402ab4e437956e703" resname="WRITE_AT_BY_USER">
+        <source>Écrit %date% par %image% %user%</source>
+        <target state="new">Écrit %date% par %image% %user%</target>
+        <note><![CDATA[%date% is a placeholder
+%image% is a placeholder
+%user% is a placeholder
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

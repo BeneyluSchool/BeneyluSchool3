@@ -1,0 +1,27 @@
+{% trans_default_domain "COMMENT" %}
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+
+<md-list-item class="md-3-line _md-no-proxy comment status-{{ comment.getStatus()|lower }}" id="comment-{{ comment.getId() }}">
+	<div class="loader loader-h"></div>
+	<img class="md-avatar" src="{{ avatar(comment.getAuthor(), 'thumbnail') }}">
+	<div class="md-list-item-text">
+		<div class="layout-gt-sm-row">
+
+			<h3 class="md-headline flex">{{ comment.getAuthor().getFullName() }}
+				{% if display is defined and display == 'blog' %}
+				- {{ comment.object.getTitle() }}
+				{% else %}
+					- {{ comment.object }}
+				{% endif %}
+			</h3>
+			<p class="md-body-1">
+				{{ 'SEND_DATE'|trans({'%date%': date_from_now(comment.getDate(), false, true, 'medium', 'short', false, true)}) |desc('Envoyé %date%') |raw }}
+			</p>
+		</div>
+		<div class="md-body-1">{{ comment.getContent()|nl2br }}</div>
+		<div class="comment-option" layout="row" layout-align="space-between center">
+			{% include 'BNSAppCommentBundle:BackNew:comment_moderation.html.twig' %}
+		</div>
+	</div>
+	<md-divider></md-divider>
+</md-list-item>

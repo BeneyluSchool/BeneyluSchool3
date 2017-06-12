@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-06-22T16:29:57Z" source-language="en" target-language="en-GB" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="0cfc8d161812190447bd32898a24f4ef1c6a6322" resname="BUTTON_JOIN_DOCUMENT">
+        <source>BUTTON_JOIN_DOCUMENT</source>
+        <target>Attach document</target>
+      </trans-unit>
+      <trans-unit id="66bb4751e44365cfeeb44d27274654b444064641" resname="DELETE_DOCUMENT">
+        <source>DELETE_DOCUMENT</source>
+        <target>Delete classroom's documents, personal documents will not be deleted</target>
+      </trans-unit>
+      <trans-unit id="d4617ae0a05f5c9064784d409e0bd247c0fe945d" resname="DOCUMENT_DELETED">
+        <source>Ce document a été supprimé</source>
+        <target state="new">This document has been deleted</target>
+      </trans-unit>
+      <trans-unit id="f115f0addc74d9c411bd86cfbe1700cd81f3363d" resname="KEEP_DOCUMENT">
+        <source>KEEP_DOCUMENT</source>
+        <target>Keep classroom's documents</target>
+      </trans-unit>
+      <trans-unit id="069ea69548bb7edde4ec8f7ac8736c71bfe6fa74" resname="LABEL_GENERAL_FOLDER">
+        <source>LABEL_GENERAL_FOLDER</source>
+        <target state="new">General folder</target>
+      </trans-unit>
+      <trans-unit id="1f8524949b59bf473e5b31304582c62cb6d54e28" resname="LINK_CANCEL">
+        <source>LINK_CANCEL</source>
+        <target state="new">Cancel</target>
+      </trans-unit>
+      <trans-unit id="b66042ce07d692ee9b65ffe31b2a1a770fb2bb18" resname="LINK_DELETE">
+        <source>Supprimer</source>
+        <target state="new">Delete</target>
+      </trans-unit>
+      <trans-unit id="024a59454023e29504b01d6b4e1ee9e8493cf65c" resname="LINK_DISPLAY">
+        <source>Afficher</source>
+        <target state="new">Display</target>
+      </trans-unit>
+      <trans-unit id="68af0a12c8b9be51aff653abc94e863309762f98" resname="LINK_DOWNLOAD">
+        <source>Télécharger</source>
+        <target state="new">Download</target>
+      </trans-unit>
+      <trans-unit id="479094daca673857cfe390fc9c685ce9d14df3f1" resname="MEDIA_DELETE">
+        <source>Ce média est supprimé : %media%</source>
+        <target state="new">This media has been deleted: %media%</target>
+        <note><![CDATA[%media% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="4715fb6727e137a856531a4e248368706ef9515c" resname="PLEASE_CHOICE">
+        <source>PLEASE_CHOICE</source>
+        <target>Please choose</target>
+      </trans-unit>
+      <trans-unit id="c1753e1650ee577f0a3ab4dfc0b4e34d72e7e785" resname="TITLE_ATTACHED_FILES">
+        <source>TITLE_ATTACHED_FILES</source>
+        <target><![CDATA[{0} | ]0,1] <h3>Attached document</h3> | ]1,Inf[ <h3>Attached documents</h3> ]]></target>
+        <note><![CDATA[This text has plural translations based on %count% variable
+http://symfony.com/doc/current/components/translation/usage.html#pluralizationThis text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

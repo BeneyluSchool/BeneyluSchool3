@@ -1,0 +1,73 @@
+{% trans_default_domain "MAIN" %}
+{% extends '::base.html.twig' %}
+
+{% block title %}
+	{{ 'TITLE_MEDIALANDES'|trans |desc('Médialandes') }}
+{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+	<link href="https://fonts.googleapis.com/css?family=Ubuntu:400,700" rel="stylesheet" type="text/css">
+	<link href="{{ asset('medias/css/resource/front.css') }}" rel='stylesheet' type='text/css'>
+	{# manager pour les modals #}
+	<link href="{{ asset("medias/css/manager.css") }}" type="text/css" media="screen" rel="stylesheet" />
+{% endblock %}
+
+{% block javascript %}
+
+{% endblock %}
+
+{% block body_class %}
+    {{ parent() }}
+     full-height
+{% endblock %}
+
+{% block html_class %}
+    {{ parent() }}
+    full-height
+{% endblock %}
+
+{% block body %}
+
+    <script type="text/javascript">
+        $(function () {
+            setTimeout(function(){
+                $('#message').fadeOut();
+            },15000);
+        });
+
+        var _paq = _paq || [];
+        _paq.push(["trackPageView"]);
+        _paq.push(["enableLinkTracking"]);
+
+        (function() {
+            var u=(("https:" == document.location.protocol) ? "https" : "http") + "://statistiques.alpi40.fr/";
+            _paq.push(["setTrackerUrl", u+"piwik.php"]);
+            _paq.push(["setSiteId", "129"]);
+            var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+            g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+        })();
+
+    </script>
+
+    <div class="resource-from-dock" style="height:100%;background: url('/medias/images/profile/background-profil.jpg') no-repeat fixed bottom center;
+    height: 100%;
+    margin: auto;
+    width: 100%;">
+        <div class="container-fluid container" style="height:100%; padding-top: 0px;margin-bottom: 65px;">
+            <div class="row-fluid" style="height:100%;">
+                <div id="message" class="span12" style="border-bottom: 1px solid #444;">
+                    <div style=" background-color: white; padding: 8px;">
+                        {{ 'MEDIALANDES_DESCRIPTION'|trans |desc('
+                        <p style="font-size: 11px; font-family: Ubuntu;">L\'ALPI et les médiathèques des Landes souhaitent mettre à votre disposition des contenus numériques au travers de Landécoles.</p>
+                        <p style="font-size: 11px; font-family: Ubuntu;">Pour vous identifier, vous devrez être inscrit individuellement à la médiathèque la plus proche de chez vous. Si vous n\'avez pas ces identifiants ou s\'ils ne fonctionnent pas, veuillez vous rapprocher de votre médiathèque.</p>
+') |raw }}
+                    </div>
+                </div>
+                <iframe style="border: 0px;" height="85%" width="100%" src="https://medialandes.mediatheques.fr/?ln=connexion"></iframe>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

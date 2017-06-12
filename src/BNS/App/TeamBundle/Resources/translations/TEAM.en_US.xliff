@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-06-21T10:20:10Z" source-language="en" target-language="en-US" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="e9651f4b20bd81a99b9289afb14db0699f462f9c" resname="INPUT_UPDATE">
+        <source>Mettre à jour !</source>
+        <target state="new">Update</target>
+      </trans-unit>
+      <trans-unit id="8f79a55d1741ed672ac0a2ce5ce937e6c08a76b0" resname="MEMBERS_TEAM">
+        <source>MEMBERS_TEAM</source>
+        <target>The members of the team are:</target>
+      </trans-unit>
+      <trans-unit id="ae647e18e500c9dc61d37a7a992004fd9c7cde72" resname="MY_APPS_AND_STATES">
+        <source>MY_APPS_AND_STATES</source>
+        <target>My apps and their state:</target>
+      </trans-unit>
+      <trans-unit id="4a6b2a1239cb76cd0096bae4357de06c1f9f8f7f" resname="NO_USER_IN_GROUP">
+        <source>NO_USER_IN_GROUP</source>
+        <target>No user in this work group yet.</target>
+      </trans-unit>
+      <trans-unit id="74cccf45fd12253fb34d8046ea63143d314d82a2" resname="TEAM">
+        <source>TEAM</source>
+        <target>Work group</target>
+      </trans-unit>
+      <trans-unit id="d629305d410c6b289391d97b9a85b74651536eb3" resname="TEAM_ADMIN_PAGE">
+        <source>TEAM_ADMIN_PAGE</source>
+        <target>Admin page for the work group</target>
+      </trans-unit>
+      <trans-unit id="02376a7ae10fd4410a3f041519e6334ddd3e762c" resname="TITLE_TEAM_ADMIN">
+        <source>TITLE_TEAM_ADMIN</source>
+        <target>Work group - Management</target>
+      </trans-unit>
+      <trans-unit id="ddac34d343a172d6bc6596f97515a9394f427157" resname="WELCOME_MESSAGE">
+        <source>WELCOME_MESSAGE</source>
+        <target>Welcome message</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

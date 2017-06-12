@@ -42,7 +42,12 @@ class ParameterExtension extends \Twig_Extension
 	 */
     public function getParameter($parameterName)
     {
-		return $this->container->getParameter($parameterName);
+        if($this->container->hasParameter($parameterName))
+        {
+            return $this->container->getParameter($parameterName);
+        }else{
+            return false;
+        }
     }
 
     /**

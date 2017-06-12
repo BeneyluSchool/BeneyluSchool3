@@ -12,7 +12,7 @@
 			<div class="container-school-search">
 				{% for school in schoolsZipCode %}
 					<div class="school-search" data-information-id="{{ school.id }}">
-						<img src="/medias/images/registration/class-small-hover.png" />
+						<img src="{{ asset('/medias/images/registration/class-small-hover.png') }}" />
 						<p><strong>{{ school.name }}</strong><br />{{ school.city }}</p>
 					</div>
 				{% endfor %}
@@ -30,7 +30,7 @@
 		<div class="container-school-search">
 			{% for school in schoolsUAI %}
 				<div class="school-search school-uai" data-information-id="{{ school.id }}">
-					<img src="/medias/images/registration/class-small-hover.png" class="school-uai" />
+					<img src="{{ asset('/medias/images/registration/class-small-hover.png') }}" class="school-uai" />
 					<p>
 						<strong>{{ school.name }}</strong><br />
 						{{ school.address }}<br />

@@ -1,0 +1,27 @@
+{% trans_default_domain "PORTAL" %}
+<div class="widget banner item">
+
+    <div class="header">
+        <div class="buttons-container">
+            {% block enable %}{% endblock %}
+            <a href="#" class="btn bns-notice btn-16 small move">
+                <span class="icons-16 generate-icon"></span>
+                {{ 'LINK_MOVE' |trans |desc('<strong>Déplacer</strong>') |raw }}
+            </a>
+            <a href="#" class="btn bns-danger btn-16 small delete-widget">
+                <span class="icons-16 cancel-icon"></span>
+                {{ 'LINK_DELETE' |trans |desc('<strong>Supprimer</strong>') |raw }}
+            </a>
+        </div>
+        <h3>{% block title %}{% endblock %}</h3>
+
+    </div>
+
+    <div class="view">
+        {% block headerView %}{% endblock %}
+    </div>
+
+    <div class="edit" {{ isNew is defined ? 'style="display:block;"' : '' }}>
+        {% block editView %}{% endblock %}
+    </div>
+</div>

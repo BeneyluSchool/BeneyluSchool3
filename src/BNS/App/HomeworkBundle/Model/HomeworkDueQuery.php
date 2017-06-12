@@ -2,6 +2,7 @@
 
 namespace BNS\App\HomeworkBundle\Model;
 
+use BNS\App\CoreBundle\Model\User;
 use BNS\App\HomeworkBundle\Model\om\BaseHomeworkDueQuery;
 use BNS\App\HomeworkBundle\Model\HomeworkGroupQuery;
 use \Criteria;
@@ -19,7 +20,7 @@ class HomeworkDueQuery extends BaseHomeworkDueQuery
     /**
      * Trouve la prochaine occurence (a partir de maintenant)
      * du devoir passe en parametre
-     * 
+     *
      * @param type $homeworkId id du homework concerne
      */
     public function findNextOccuringHomeworkDue($homeworkId)
@@ -61,7 +62,7 @@ class HomeworkDueQuery extends BaseHomeworkDueQuery
         $query = $query->useHomeworkQuery()
                 ->filterByHomeworkGroup($homeworkgroups, Criteria::IN);
 
-        if ($subjects_ids != null) 
+        if ($subjects_ids != null)
         {
             $query = $query->filterBySubjectId($subjects_ids, Criteria::IN);
         }
@@ -74,29 +75,37 @@ class HomeworkDueQuery extends BaseHomeworkDueQuery
         return $query->find();
     }
 
-    /*
-     * Trouve les HomeworkDues pour une date donnée
-     */
 
-    public function findForDay($user, $day)
+    /**
+     * Trouve les HomeworkDues pour une date donnée
+     *
+     * @param array $groupIds groupd Ids where user has HOMEWORK_ACCESS permission
+     * @param $day
+     * @return array|mixed|\PropelObjectCollection
+     */
+    public function findForDay(array $groupIds, $day)
     {
-        $homeworkDues = $this->filterByDueDate($day)
+        $homeworkDues =
+            $this->filterByDueDate($day)
                 ->useHomeworkQuery()
-                ->filterByGroup($user->getGroups(), \Criteria::IN)
-                ->joinHomeworkSubject()
+                    ->joinHomeworkSubject()
+                    ->useHomeworkGroupQuery()
+                        ->filterByGroupId($groupIds, \Criteria::IN)
+                    ->endUse()
                 ->endUse()
                 ->find();
 
         return $homeworkDues;
     }
 
-    /*
+    /**
+     * @deprecated should be removed security issue instead use findPastForGroups()
+     *
      * Trouve les HomeworkDues qui:
      * - qui sont terminés (ou non) pour un user donné
      * - pour un jour de la semaine donné
      * - avec des options de pagination
      */
-
     public function findFuturesForDayOfWeek($user, $dayOfWeek, $page = 1, $daysPerPage = 4)
     {
         //create interval given pagination data
@@ -106,28 +115,29 @@ class HomeworkDueQuery extends BaseHomeworkDueQuery
 
         $maxDate = new DateTime();
         $maxDate->setTimestamp(strtotime($this->daysInWeek[$dayOfWeek] . ' this week'));
-        $maxDate->add(new DateInterval('P' . ($page) * 7 * $daysPerPage . 'D'));
+        $maxDate->add(new DateInterval('P3M'));
 
         $interval = array('min' => $minDate->format("Y-m-d"), 'max' => $maxDate->format("Y-m-d"));
 
         $homeworkDues = $this->filterByDueDate($interval)
-                ->filterByDayOfWeek($dayOfWeek)
-                ->useHomeworkQuery()
+            ->filterByDayOfWeek($dayOfWeek)
+            ->useHomeworkQuery()
                 ->filterByGroup($user->getGroups(), \Criteria::IN)
                 ->joinHomeworkSubject()
-                ->endUse()
-                ->orderByDueDate()
-                ->find();
+            ->endUse()
+            ->orderByDueDate()
+            ->find();
 
         return $homeworkDues;
     }
 
-    /*
+    /**
+     * @deprecated should be removed security issue instead use findPastForGroups()
+     *
      * Trouve les HomeworkDues qui:
      * - qui sont dans le passé
      * - avec des options de pagination
      */
-
     public function findPast($user, $page = 1, $itemsPerPage = 5)
     {
         $today = new DateTime();
@@ -168,6 +178,28 @@ class HomeworkDueQuery extends BaseHomeworkDueQuery
         return array($pager->getResults(), $pager);
     }
 
+    public function findPastForGroupIds($groupIds, $page = 1, $itemsPerPage = 5)
+    {
+        if (!is_array($groupIds)) {
+            $groupIds = array($groupIds);
+        }
+        $today = new DateTime();
+        $interval = array('max' => $today);
+
+        $pager = $this->filterByDueDate($interval)
+            ->useHomeworkQuery()
+                ->useHomeworkGroupQuery()
+                    ->filterByGroupId($groupIds, Criteria::IN)
+                ->endUse()
+                ->joinHomeworkSubject()
+            ->endUse()
+            ->orderByDueDate(Criteria::DESC)
+            ->distinct()
+            ->paginate($page, $itemsPerPage);
+
+        return array($pager->getResults(), $pager);
+    }
+
     /*
      * Trouve les HomeworkDues qui:
      * - qui sont terminés (ou non) pour un user donné
@@ -189,15 +221,15 @@ class HomeworkDueQuery extends BaseHomeworkDueQuery
         $interval = array('min' => $minDate->format("Y-m-d"), 'max' => $maxDate->format("Y-m-d"));
 
         $homeworkDues = $this->filterByDueDate($interval)
-                ->useHomeworkQuery()
-                ->filterByGroup($groups, Criteria::IN)
+            ->useHomeworkQuery()
+                ->useHomeworkGroupQuery()
+                    ->filterByGroupId($groups, Criteria::IN)
                 ->endUse()
-                ->filterByDayOfWeek($dayOfWeek)
-                ->useHomeworkQuery()
                 ->joinHomeworkSubject()
-                ->endUse()
-                ->orderByDueDate()
-                ->find();
+            ->endUse()
+            ->filterByDayOfWeek($dayOfWeek)
+            ->orderByDueDate()
+            ->find();
 
         return $homeworkDues;
     }

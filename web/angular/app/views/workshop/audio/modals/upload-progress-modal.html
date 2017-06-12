@@ -1,0 +1,45 @@
+<bns-modal class="workshop-info-modal workshop-audio-create">
+  <div class="modal-body type">
+
+    <h2 translate>WORKSHOP.AUDIO.RECORDING_CONVERSION</h2>
+
+    <div class="progress-container">
+      <div ng-class="{ active: ctrl.busy, 'progress-danger': ctrl.error }" class="progress progress-striped">
+        <div class="bar" style="width: 100%;"></div>
+      </div>
+    </div>
+
+    <div ng-show="ctrl.busy" translate>WORKSHOP.AUDIO.LOADING_RECORD_IN_MEDIA_LIBRARY</div>
+
+    <div ng-show="ctrl.success">
+      <div class="help-block text-success">
+        {{ ctrl.success | translate }}
+      </div>
+      <div class="pull-right">
+        <button class="btn btn-success"  ng-click="ctrl.closeModal()">
+          <strong translate>WORKSHOP.AUDIO.BACK_TO_WORKSHOP</strong>
+        </button>
+      </div>
+    </div>
+
+    <div ng-show="ctrl.error">
+      <div class="help-block text-danger">
+        {{ ctrl.error | translate }}
+      </div>
+      <div class="pull-right">
+        <button class="btn btn-default" ng-click="ctrl.closeModal()">
+          <strong translate>WORKSHOP.AUDIO.CANCEL</strong>
+        </button>
+        <a ui-sref="app.mediaLibraryBoot" target="_blank" ng-show="'WORKSHOP.AUDIO.NOT_ENOUGH_SPACE_USER' === ctrl.error" class="btn btn-default">
+          <strong translate>WORKSHOP.AUDIO.OPEN_LIBRARY</strong>
+        </a>
+        <button class="btn btn-primary" ng-click="ctrl.save()">
+          <strong translate>WORKSHOP.AUDIO.TRY_AGAIN</strong>
+        </button>
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+  </div>
+</bns-modal>

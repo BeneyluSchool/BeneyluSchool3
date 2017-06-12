@@ -1,0 +1,99 @@
+BNS\App\MediaLibraryBundle\Model\Media:
+  exclusion_policy: All
+  properties:
+    searchStatus:
+      expose: true
+      groups: [ media_search ]
+
+  virtual_properties:
+    getImageUrl:
+      expose: true
+      serialized_name: image_url
+    getImageThumbnailUrl:
+      expose: true
+      serialized_name: image_thumbnail_url
+    getImageMediumUrl:
+      expose: true
+      serialized_name: image_medium_url
+    getDownloadUrl:
+      expose: true
+      serialized_name: download_url
+    getUniqueKey:
+      expose: true
+      serialized_name: unique_key
+      groups: [ detail, media_detail ]
+    isReadable:
+      expose: true
+      serialized_name: readable
+      groups: [ detail, media_detail ]
+    isWritable:
+      expose: true
+      serialized_name: writable
+      groups: [ detail, media_detail ]
+    isManageable:
+      expose: true
+      serialized_name: manageable
+      groups: [ detail, media_detail ]
+    getMediaValue:
+      expose: true
+      serialized_name: media_value
+      groups: [ detail, media_detail, media_search, media_basic ]
+    isFavorite:
+      expose: true
+      serialized_name: is_favorite
+      groups: [ detail, media_detail ]
+    getFromPaas:
+      expose: true
+      serialized_name: from_paas
+      groups: [ detail, media_detail ]
+    getProvider:
+      expose: true
+      serialized_name: provider
+      groups: [ detail, media_detail ]
+    getIsSystem:
+      expose: true
+      serialized_name: is_system
+      groups: [ detail, media_detail ]
+    getId:
+      expose: true
+      serialized_name: id
+    getHtmlBase:
+      expose: true
+      serialized_name: html_base
+      groups: [ detail, media_detail ]
+    getFileMimeType:
+      expose: true
+      serialized_name: mime_type
+      groups: [ detail, media_detail, media_basic ]
+    getWorkshopDocumentId:
+      expose: true
+      serialized_name: workshop_document_id
+      groups: [ detail, media_detail ]
+    getIsDownloadable:
+      expose: true
+      serialized_name: downloadable
+      groups: [ detail, media_detail, media_basic ]
+
+  relations:
+    - rel: contributor_group_ids
+      embedded:
+        content: expr(service('bns.workshop.content.manager').getContributorGroupIds(object.getWorkshopContent()))
+      exclusion:
+        groups: [detail, contributors]
+        exclude_if: expr(!object.isFromWorkshop() || !object.getWorkshopContent())
+    - rel: contributor_user_ids
+      embedded:
+        content: expr(service('bns.workshop.content.manager').getContributorUserIds(object.getWorkshopContent()))
+      exclusion:
+        groups: [detail, contributors]
+        exclude_if: expr(!object.isFromWorkshop() || !object.getWorkshopContent())
+    - rel: contributions
+      embedded:
+        content: expr(object.getContributions())
+      exclusion:
+        groups: [ detail, media_detail ]
+    - rel: sharer
+      embedded:
+        content: expr(object.getUserRelatedBySharedBy())
+      exclusion:
+        groups: [ detail, media_detail ]

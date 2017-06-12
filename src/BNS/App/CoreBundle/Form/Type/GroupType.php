@@ -13,21 +13,33 @@ class GroupType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-    	$query = GroupTypeQuery::create()->filterBySimulateRole(false)->joinWithI18n(BNSAccess::getLocale());
-		$builder->add('group_type','model',array('class' => 'BNS\App\CoreBundle\Model\GroupType','query' => $query,'label' => "Type de groupe :"));
-		
-		$builder->add('label','text',array('label' => 'Nom :'));
-		
+        $query = GroupTypeQuery::create()->filterBySimulateRole(false);
+        if (!$options['isAdminStrong']) {
+            $query->filterByType('ENVIRONMENT', \Criteria::NOT_EQUAL);
+        }
+
+        $builder->add('group_type',  'model', array(
+            'class' => 'BNS\App\CoreBundle\Model\GroupType',
+            'query' => $query,
+            'label' => "LABEL_GROUP_TYPE"
+        ));
+
+        $builder->add('label', 'text', array('label' => 'LABEL_NAME'));
+
     }
 
-	/**
-	 * @param \BNS\App\BlogBundle\Form\Type\OptionsResolverInterface $resolver
-	 */
-	public function setDefaultOptions(OptionsResolverInterface $resolver)
+    /**
+     * @param \BNS\App\BlogBundle\Form\Type\OptionsResolverInterface $resolver
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'BNS\App\CoreBundle\Model\Group',
-        ));
+        $resolver->setDefaults(
+            array(
+                'data_class' => 'BNS\App\CoreBundle\Model\Group',
+                'translation_domain' => 'CORE',
+                'isAdminStrong' => false
+            )
+        );
     }
 
     public function getName()

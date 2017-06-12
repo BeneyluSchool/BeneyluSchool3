@@ -1,0 +1,130 @@
+{% trans_default_domain "CLASSROOM" %}
+{% extends 'BNSAppClassroomBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+    {% if not isEditionMode %}
+        {{ 'TITLE_CLASS_NEW_PARTNERSHIP'|trans |desc('Classe - Nouveau partenariat') }}
+    {% else %}
+        {{ 'TITLE_CLASS_EDIT_PARTNERSHIP'|trans |desc('Classe - Édition du partenariat') }}
+
+    {% endif %}
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+{% endblock %}
+
+{% block header %}
+  <div class="header-buttons header-partnership-add">
+    <div class="inner-header">
+      <div class="container container-fluid">
+        <div class="row-fluid">
+          {% if isEditionMode %}
+            <div class="span8">
+              <a href="{{ path('BNSAppClassroomBundle_back_partnership_detail', {'partnershipSlug': partnership.getSlug}) }}" class="btn bns-danger btn-24 medium-return button-return">
+                <span class="icons-24 cancel-icon"></span>
+                  {{ 'LINK_CANCEL_MODIFICATION'|trans |raw }}
+
+              </a>
+            </div>
+            <div class="span4 align-right">
+              <a href="#" class="btn finish bns-success validate-medium btn-24 medium submit-partnership-form">
+                <span class="icons-24 validate-icon"></span>
+                <strong>{% trans %}LINK_SAVE_MODIFICATIONS{% endtrans%}</strong>
+
+              </a>
+            </div>
+          {% else %}
+            <div class="span8">
+              <a href="{{ path('BNSAppClassroomBundle_back_partnership') }}" class="btn bns-notice btn-24 medium-return button-return">
+                <span class="icons-24 back-icon"></span>
+                  {{ 'LINK_BACK_TO_CLASS'|trans |raw }}
+              </a>
+              <a href="{{ path('BNSAppClassroomBundle_back_partnership') }}" class="btn bns-danger btn-24 medium-return button-return">
+                <span class="icons-24 cancel-icon"></span>
+                  {{ 'LINK_CANCEL_CREATION'|trans |desc('<strong>Annuler</strong><br />la création') |raw }}
+
+              </a>
+            </div>
+            <div class="span4 align-right">
+              <a href="#" class="btn finish bns-success validate-medium btn-24 medium submit-partnership-form">
+                <span class="icons-24 validate-icon"></span>
+                <strong>{% trans %}LINK_CREATE_PARTNERSHIP{% endtrans%}</strong>
+
+              </a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block sidebar %}
+  {% if isEditionMode %}
+    {% include "BNSAppClassroomBundle:Sidebar:sidebar.html.twig" with {"page" : "partnership_edition"} %}
+  {% else %}
+    {% include 'BNSAppClassroomBundle:Sidebar:sidebar.html.twig' with {'page': 'partnership_add'} %}
+  {% endif %}
+{% endblock sidebar %}
+
+{% block content %}
+  <div class="item form">
+    <form action="{% if isEditionMode %} {{ path('BNSAppClassroomBundle_back_partnership_edit', {'partnershipSlug': partnership.getSlug}) }} {% else %} {{ path('BNSAppClassroomBundle_back_add_new_partnership', { highSchool: high_school }) }} {% endif %}" method="POST" id="partnership-form" {{ form_enctype(form) }}>
+      <div>
+        <label class="name"></label>
+        {% if form.name.vars.errors|length > 0 %}
+          <div class="alert alert-danger bns-alert">
+            {{ form_errors(form.name) }}
+            <div class="jim"></div>
+          </div>
+        {% endif %}
+        {{ form_widget(form.name, { 'attr': {'placeholder': "PLACEHOLDER_ENTER_PARTNERSHIP_NAME"|trans, 'class': "partnership_name"} }) }}
+      </div>
+      <div>
+        <label class="description">{{ 'LABEL_DESCRIPTION' |trans }}</label>
+        {{ form_widget(form.description, { 'attr': {'placeholder': "PLACEHOLDER_ENTER_PARTNERSHIP_DESCRIPTION"|trans, 'class': "partnership_description"} }) }}
+        {% if form.description.vars.errors|length > 0 %}
+          <div class="alert alert-danger bns-alert">
+            {{ form_errors(form.description) }}
+            <div class="jim"></div>
+          </div>
+        {% endif %}
+      </div>
+
+      {% if form.home_message is defined %}
+      <div>
+        <label class="description">{% trans %}LABEL_WELCOME_MESSAGE{% endtrans %}</label>
+        {{ form_widget(form.home_message, { 'attr': {'placeholder': "PLACEHOLDER_ENTER_WELCOME_MESSAGE"|trans, 'class': "partnership_description"} }) }}
+        {% if form.home_message.vars.errors|length > 0 %}
+          <div class="alert alert-danger bns-alert">
+            {{ form_errors(form.home_message) }}
+            <div class="jim"></div>
+          </div>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      {% if form.classrooms is defined %}
+        <div>
+          <label class="description">{% trans %}LABEL_PARTICIPATING_CLASSROOMS{% endtrans %}</label>
+          {% if form.classrooms.vars.errors|length > 0 %}
+            <div class="alert alert-danger bns-alert">
+              {{ form_errors(form.classrooms) }}
+              <div class="jim"></div>
+            </div>
+          {% endif %}
+          {% form_theme form.classrooms 'BNSAppMainBundle:Form:material_fields.html.twig' %}
+          {{ form_widget(form.classrooms, {
+            label: 'LABEL_PARTICIPATING_CLASSROOMS'|trans,
+            label_attr: {
+              class: 'description',
+            },
+          }) }}
+        </div>
+      {% endif %}
+      {{ form_rest(form) }}
+    </form>
+  </div>
+{% endblock %}

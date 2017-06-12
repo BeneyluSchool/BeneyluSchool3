@@ -1,28 +1,47 @@
-{% if error == false %}
-	<div class="url-datas span11">
-		<img class="span2 url-success" src="{% if datas.image_url is not empty %}{{ datas.image_url }}{% else %}{{  asset('/medias/images/resource/filetype/link.png') }}{% endif %}" />
-		<div class="description-url span6">
-			<p>
-				<b>Adresse : </b>
-				<i>{{ datas.url }}</i>
-			</p>
-			<p>
-				<b>Titre : </b>
-				<input type="text" value="{{ datas.title }}" name="title[]" class="input-large " />
-			</p>
-			<p><b>Description : </b></p>
-			<textarea class="url_description input-xlarge span6" name="description[]" placeholder="Description">{{ datas.description }}</textarea>
-			<input type="hidden" value="{{ datas.type }}" name="type[]" />
-			<input type="hidden" value="{{ datas.url }}" name="url[]" />
-		</div>
-		<div class="span2 cancel">
-			<a class="reset-url btn cancel-upload" href="#"><i class="icon-ban-circle icon-white"></i> Annuler</a>
-		</div>
+{% if unvalid_urls > 0 %}
+	
+	
+	<div class="alert alert-danger bns-alert">
+		{% if unvalid_urls > 1 %}
+			{{ unvalid_urls }} adresses n'ont pu être chargées.
+		{% else %}
+			Une adresse n'a pu être chargée.
+		{% endif %}
+		<div class="jim"></div>
 	</div>
-{% else %}
-	<div class="alert url-error span6 fade in">
-		<button type="button" class="close" data-dismiss="alert">×</button>
-		<h4 class="alert-heading">Erreur</h4>
-		<p>L'adresse renseignée n'est pas correcte, veuillez réessayer</p>
-	</div>
+
+	<script type="text/javascript">
+		$(function ()
+		{
+			setTimeout(function ()
+			{
+				$('.list-url .bns-alert').slideUp('fast');
+			}, 8000);
+		});
+	</script>
+
+{% endif %}
+
+{% if valid_urls > 0 %}
+	{% for data in datas %}
+		<div class="url-datas">
+			<img class="url-success" src="{% if data.image_url is not empty %}{{ data.image_url }}{% else %}{{  asset('/medias/images/resource/filetype/small/link.png') }}{% endif %}" />
+			<div class="description-url title-content">
+				<p>Nom du site : </p>
+				<input type="text" value="{{ data.title }}" name="title[]" class="input-large " />
+				<p>Adresse : </p>
+				<p class="url-website">{{ data.url }}</p>
+			</div>
+			<div class="description-url description-content">
+				<p>Description : </p>
+				<textarea class="url_description input-xlarge span6" name="description[]" placeholder="Description">{{ data.description }}</textarea>
+				<input type="hidden" value="{{ data.type }}" name="type[]" />
+				<input type="hidden" value="{{ data.url }}" name="url[]" />
+			</div>
+			<div class="cancel">
+				<a class="reset-url btn cancel-upload" href="#"><i class="icon-cancel"></i> Retirer de la liste</a>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	{% endfor %}
 {% endif %}

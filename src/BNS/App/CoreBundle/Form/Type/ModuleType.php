@@ -2,11 +2,10 @@
 
 namespace BNS\App\CoreBundle\Form\Type;
 
+use BNS\App\CoreBundle\Model\RankQuery;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
-use BNS\App\CoreBundle\Form\Type\ModuleI18nType;
 
 class ModuleType extends AbstractType
 {
@@ -15,28 +14,24 @@ class ModuleType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('uniqueName',null,array('label' => "Nom unique",'required' => true));
-        $builder->add('isContextable','checkbox',array('label' => 'Contextable','required' => false));
-        $builder->add('isActivable','checkbox',array('label' => 'Activable','required' => false));
-        $builder->add('bundleName',null,array('label' => "Bundle",'required' => true));
-        $builder->add('defaultPupilRank','model', array('class' => 'BNS\App\CoreBundle\Model\Rank','label' => "Rang élève par défaut",'required' => false));
-        $builder->add('defaultParentRank','model', array('class' => 'BNS\App\CoreBundle\Model\Rank','label' => "Rang parent par défaut",'required' => false));
-        $builder->add('defaultOtherRank','model', array('class' => 'BNS\App\CoreBundle\Model\Rank','label' => "Rang autres par défaut",'required' => false));
-		$builder->add('module_i18ns', 'collection', array(
-            'type'          => new ModuleI18nType(),
-            'allow_add'     => true,
-            'allow_delete'  => false,
-            'by_reference'  => true
-        ));
+        $ranks = RankQuery::create()->find()->getPrimaryKeys();
+
+        $builder->add('uniqueName',null,array('label' => "LABEL_UNIQUE_NAME",'required' => true));
+        $builder->add('isContextable','checkbox',array('label' => 'LABEL_CONTEXTABLE','required' => false));
+        $builder->add('bundleName',null,array('label' => "LABEL_BUNDLE",'required' => true));
+        $builder->add('default_pupil_rank', 'choice', ['choices' => array_combine($ranks, $ranks)]);
+        $builder->add('default_parent_rank', 'choice', ['choices' => array_combine($ranks, $ranks)]);
+        $builder->add('default_other_rank', 'choice', ['choices' => array_combine($ranks, $ranks)]);
     }
 
 	/**
-	 * @param \BNS\App\BlogBundle\Form\Type\OptionsResolverInterface $resolver
+	 * @param OptionsResolverInterface $resolver
 	 */
 	public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'BNS\App\CoreBundle\Model\Module',
+            'translation_domain' => 'CORE'
         ));
     }
 

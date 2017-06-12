@@ -1,48 +1,99 @@
+{% trans_default_domain "PROFILE" %}
 {% extends '::base.html.twig' %}
 
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+{% if form is defined %}{% form_theme form 'BNSAppMainBundle:Form:material_fields.html.twig' %}{% endif %}
+{% if filter_form is defined %}{% form_theme filter_form 'BNSAppMainBundle:Form:material_fields.html.twig' %}{% endif %}
 {% block title %}
 	{{ blog.getTitle() }}
 {% endblock %}
-
-{% block css %}
-    {{ parent() }}
-    <link href="{{ asset('/medias/css/blog/front.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('/medias/css/blog/templates/sky.css') }}" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
-{% endblock %}
-
-
+{% set app_unique_name = 'BLOG' %}
+{% set app_mode = 'front' %}
+{% block body_class %}layout-column module-blog module-front front{% endblock %}
+{% block body_attr %}{{ parent() }} data-app="{{ app_unique_name }}" data-mode="{{ app_mode }}"{% endblock %}
+{% block alert %}{% endblock %}
 {% block body %}
-    <div class="office blog"></div>
-    <div class="container container-fluid">
-        <div class="blog-container">
-            <div class="row-fluid">
-                {% include 'BNSAppBlogBundle:Front:header.html.twig' %}
-            </div>
-            <div class="row-fluid blog-content-container">
-                <div class="blog-content">
-                    <div class="blog-articles">
-                        {% include 'BNSAppBlogBundle:Article:front_article_list.html.twig' %}
-                    </div>
-                </div>
-                <div class="blog-sidebar">
-                    <div class="blog-blocks">
-                        <div>
-                            {% if (blog.getSortedBlogCategories()|length > 0) %}
-								{% include 'BNSAppBlogBundle:Block:front_block_categories.html.twig' %}
-                            {% endif %}
-							{% include 'BNSAppBlogBundle:Block:front_block_authors.html.twig' %}
-							{% render 'BNSAppBlogBundle:Front:getContextBlogs' %}
-							{% render 'BNSAppBlogBundle:Front:getArchives' with {'blog': blog} %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	{# Support IE8 #}
+	<script type="text/javascript">
+	$(function () {
+		if ($.browser.msie && parseInt($.browser.version) < 9) {
+			$('.blog-sidebar').css("height", $('.blog-articles').css("height"));
+			$('.blog-articles').bind('resize', function () {
+				$('.blog-sidebar').css("height", $('.blog-articles').css("height"));
+			});
+		}
+	});
+	</script>
+
+
+	{% block flash_container %}
+		{{ components.toasts(app.session.flashbag.all) }}
+	{% endblock flash_container %}
+
+	{% block actionbar_container %}
+		{% if closeYerbook == false %}
+			<div container>
+				<div class="row-fluid md-whiteframe-z2" style="position: relative; overflow: hidden">
+					<div class="span12">
+						<md-button href="{{ path('BNSAppSpotBundle_front' , { 'code': 'YERBOOK' }) }}" style="display: block; margin: 0; padding: 0; color: #fff; font-size: 0; line-height: 0; border-radius: 0;">
+							<img src="{{ asset('medias/images/blog/Yerbook-header.jpg') }}" style="margin-top: -20px;">
+						</md-button>
+						<md-button href="{{ path('blog_close_yerbook', {'_token': csrf_token('closeYerbook_')}) }}" class="md-icon-button" style="position: absolute;top: -4px;right: -6px; margin: 0">
+							<md-icon style="font-weight: bold;font-size:27px">close</md-icon>
+						</md-button>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+	{% endblock actionbar_container %}
+
+	{% block main_container %}
+		<div container class="main-container layout-row flex">
+			{% block sidebar_container %}
+				<md-sidenav ng-cloak class="md-sidenav-left bns-sidebar layout-column" md-component-id="left" md-is-locked-open="app.isSidebarLockedOpen()">
+					{% block sidebar %}
+
+						{% block sidebar_header %}
+							<header mode="front">
+								<md-button href="{{ path('BNSAppBlogBundle_front') }}">
+									<div class="flex layout-row layout-align-start-center layout-fill ng-scope">
+										<img src="{{ getResourceImageUrl(blog.getResource(), 'small') }}" alt="" width="64" />
+										<div class="flex sidebar-header-texts">
+											<h3 class="md-headline">{{ blog.getTitle() }}</h3>
+										</div>
+									</div>
+								</md-button>
+							</header>
+							<div><bns-sidebar-toggle></bns-sidebar-toggle></div>
+						{% endblock %}
+						<md-content>
+							{% block sidebar_content %}
+								{% autoescape false %}
+									<div class="description">{{ blog.getDescription() }}</div>
+								{% endautoescape %}
+								{% if blog.getBlogArticles()|length > 0 %}
+									{% if (blog.getSortedBlogCategories()|length > 0) %}
+										{% include 'BNSAppBlogBundle:Block:front_block_categories.html.twig' %}
+									{% endif %}
+								{% endif %}
+									{% include 'BNSAppBlogBundle:Block:front_block_authors.html.twig' %}
+									{{ render(controller('BNSAppBlogBundle:Front:getContextBlogs')) }}
+									{{ render(controller('BNSAppBlogBundle:Front:getArchives', {'blog': blog, 'archiveMonth': archive_month, 'archiveYear': archive_year} )) }}
+							{% endblock %}
+						</md-content>
+					{% endblock sidebar%}
+				</md-sidenav>
+			{% endblock sidebar_container %}
+			<div class="nav-mobile" ng-hide="app.isSidebarLockedOpen()"><bns-sidebar-toggle></bns-sidebar-toggle></div>
+			<md-content  id="content" class="bns-content layout-column flex" ng-cloak>
+				<div class="bns-content-inner layout-column flex md-whiteframe-z1">
+					{% block content %}
+						<md-content ng-cloak class="layout-padding">
+							{% include 'BNSAppBlogBundle:Article:front_article_list.html.twig' %}
+						</md-content>
+					{% endblock %}
+				</div>
+			</md-content>
+		</div>
+	{% endblock main_container %}
 {% endblock body %}
-	
-{% block dock_bar %}
-	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "BLOG" , 'is_in_front' : true } %}
-{% endblock %}

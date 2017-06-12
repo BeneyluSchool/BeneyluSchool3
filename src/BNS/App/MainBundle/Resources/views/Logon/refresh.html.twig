@@ -1,34 +1,65 @@
+{% trans_default_domain "MAIN" %}
 <html>
 	<head>
-		<title>Beneyluschool 3 - Redirection en cours...</title>
-		<link href="{{ asset('/medias/css/logon/front.css') }}" rel="stylesheet" type="text/css" />
+		<title>{{ 'TITLE_BENEYLU_REDIRECT_IN_PROGRESS'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('%beneylu_brand_name% - Redirection en cours...') }}</title>
+		<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet" type="text/css" />
+		<link href="{{ asset('medias/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ asset('medias/css/logon/front.css') }}" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="{{ asset('assets/styles/vendors.css') }}"/>
+		<link rel="stylesheet" href="{{ asset('assets/styles/styles.css') }}"/>
+		<script src="{{ asset('assets/scripts/vendors.js') }}"></script>
+		<script src="{{ asset('assets/scripts/scripts.js') }}"></script>
 		<script type="text/javascript">
 			function refresh()
 			{
-				{% if (redirect|length == 0) %}
-					this.parent.location.reload();
-				{% else %}
-					this.parent.location = '{{ redirect }}';
-				{% endif %}
-				setTimeout("document.getElementById('oops').style.display = 'block';", 3000);
+        if (window.opener) {
+          // something open this
+          try {
+            if (window.opener.document && parent.location) {
+              {% if (redirect|length == 0) %}
+              window.opener.location.reload();
+              {% else %}
+              window.opener.location = '{{ redirect }}';
+              {% endif %}
+              if (window.opener.focus) {
+                window.opener.focus();
+              }
+              window.close();
+              return;
+            }
+          } catch(e) {
+
+          }
+        }
+                {% if (redirect|length == 0) %}
+                this.parent.location.reload();
+                {% else %}
+                this.parent.location = '{{ redirect }}';
+                {% endif %}
+                setTimeout("document.getElementById('oops').style.visibility = 'visible';", 5000);
 			}
 		</script>
+        {% block analytics %}
+          {% if app.user is defined and app.user %}
+            {{ analyticsIdentify(app.user.getUser(), app.session) }}
+          {% endif %}
+        {% endblock %}
 	</head>
-	<body onload="refresh()">
-		<div class="layer">
-			<div class="message">
-				Connexion à Beneylu School en cours, veuillez patienter ...
-				<div><img src="{{ asset('/medias/images/icons/big-loader.gif') }}" alt="" /></div>
+	<body onload="refresh()" class="refresh-container inset" layout="column" ng-app="beneyluSchoolAuthApp">
+		<div flex layout="column" layout-align="space-around center">
+			<div class="md-title text-center">
+				{{ 'CONNECTION_IN_PROGRESS_PLEASE_WAIT'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('Connexion à %beneylu_brand_name% en cours,<br />veuillez patienter ...') |raw }}
 			</div>
-		</div>
-		<div id="oops" style="display: none;" class="load">
-			<p>Oops... ça ne fonctionne pas ?</p>
 
-			{% if (redirect|length == 0) %}
-				<p>Recharge la page en appuyant sur <strong>F5</strong> ou <strong>⌘ + R</strong></p>
-			{% else %}
-				<a href="{{ redirect }}">Clique ici</a> pour te rendre sur la Beneyluschool !
-			{% endif %}
+			<md-progress-circular md-mode="indeterminate" class="md-accent"></md-progress-circular>
+
+			<div id="oops" class="load" style="display: block; visibility: hidden">
+				{% if (redirect|length == 0) %}
+					{{ 'RELOAD_PAGE_PRESS_KEY'|trans |desc('<p>Rechargez la page en appuyant sur <strong>F5</strong> ou <strong>⌘ + R</strong></p>') |raw }}
+				{% else %}
+					{{ 'LINK_CLICK_TO_GO_ON_BENEYLU'|trans({'%linkStart%': '<a href="{{ redirect }}">', '%linkEnd%': '</a>', '%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('%linkStart%Clique ici%linkEnd% pour te rendre sur %beneylu_brand_name%') }}
+				{% endif %}
+			</div>
 		</div>
 	</body>
 </html>

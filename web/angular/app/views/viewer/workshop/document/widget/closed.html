@@ -1,0 +1,17 @@
+<md-input-container class="md-input-has-placeholder" ng-if="ctrl.canAnswer">
+  <label><span translate>WORKSHOP.QUESTIONNAIRE.ANSWER</span></label>
+  <input ng-model="ctrl.myResponse" placeholder="{{ 'WORKSHOP.QUESTIONNAIRE.WRITE_AN_ANSWER' | translate }}" ng-disabled="ctrl.timeStopped">
+</md-input-container>
+
+<div ng-if="!ctrl.canAnswer" ng-class="{'good-block': ctrl.isCorrect, 'wrong-block': !ctrl.isCorrect}" class="layout-row layout-align-start-center">
+  <div class="flex">
+    <span ng-if="!ctrl.myResponse.length" class="answer-text" translate>WORKSHOP.QUESTIONNAIRE.NOT_ANSWERED</span>
+    <span class="answer-text" ng-if="ctrl.myResponse.length">{{::ctrl.myResponse}}</span>
+  </div>
+  <div class="flex-none">
+    <span class="answer-text">{{::ctrl.resultMessage | translate}}</span>
+  </div>
+</div>
+<div class="good-block" ng-if="!ctrl.widget._embedded.extended_settings.advanced_settings.hide_solution && !ctrl.gapRetry && !ctrl.canRetry && !ctrl.isCorrect">
+  {{::ctrl.correctAnswers}}
+</div>

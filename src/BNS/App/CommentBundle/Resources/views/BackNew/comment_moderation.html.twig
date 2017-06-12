@@ -1,0 +1,41 @@
+{% trans_default_domain "COMMENT" %}
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+
+<bns-button-group layout="row" layout-sm="column" layout-align="end center">
+	{{ components.button('LINK_EDIT'|trans , {
+		intent: 'primary',
+		raised: true,
+		size: 'sm',
+		href : path(editRoute, {'id': comment.getId()})
+	}) }}
+
+	{% if comment.getStatus() in ['VALIDATED', 'REFUSED'] %}
+		{{ components.button('LINK_GO_TO_MODERATION'|trans |desc('<strong>Passer en modération</strong>'), {
+			intent: 'care',
+			raised: true,
+			size: 'sm',
+			hover : true,
+			attr : {'class' : 'md-care moderation-button', 'data-filter-status' : 'PENDING_VALIDATION', 'id' : comment.getId()}
+		}) }}
+	{% endif %}
+
+	{% if comment.getStatus() in ['PENDING_VALIDATION', 'VALIDATED'] %}
+		{{ components.button('LINK_DENY'|trans, {
+			intent: 'warn',
+			raised: true,
+			size: 'sm',
+			hover : true,
+			attr : {'class' : 'moderation-button', 'data-filter-status' : 'REFUSED', 'id' : comment.getId()}
+		}) }}
+	{% endif %}
+
+	{% if comment.getStatus() in ['PENDING_VALIDATION', 'REFUSED'] %}
+		{{ components.button('LINK_VALIDATE'|trans |desc('<strong>Valider</strong>') |raw, {
+			intent: 'accent',
+			raised: true,
+			size: 'sm',
+			hover: true,
+			attr : {'class' : 'moderation-button', 'data-filter-status' : 'VALIDATED', 'id' : comment.getId()}
+		}) }}
+	{% endif %}
+</bns-button-group>

@@ -1,0 +1,30 @@
+<div class="user-directory-inner-topbar user-directory-scene">
+  <a ng-if="!parameters.has_application_management" ui-sref="userDirectory.base.group.details({id: ctrl.group.id})" class="pull-right btn btn-sm">
+    <span translate>USER_DIRECTORY.GROUP.SEE_DETAILS</span>
+  </a>
+  <div ng-class="{ 'user-directory-context-selection': ctrl.group && ctrl.canSelectContext }" ng-click="ctrl.canSelectContext && ctrl.toggleContextSelection()">
+    <input ng-if="ctrl.group && ctrl.canSelectContext" type="checkbox" ng-model="dummy" ng-checked="ctrl.isContextSelected()">
+    <h2 class="user-directory-scene-title text-ellipsis">{{ ctrl.group.label }}</h2>
+  </div>
+</div>
+
+<div class="user-directory-inner-content user-directory-scene">
+  <scrollable>
+
+    <div class="user-directory-full-center layout-row layout-align-center-center" ng-show="ctrl.busy">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+
+    <div class="user-directory-full-center layout-row layout-align-center-center text-muted" ng-show="ctrl.group && !ctrl.busy && ctrl.isEmpty()" translate>USER_DIRECTORY.NO_USERS</div>
+
+    <div ng-repeat="type in ctrl.userTypes">
+      <div bns-user-directory-type locked="ctrl.locked" type="type.type" ids="type.ids" on-click="ctrl.viewProfile" group="ctrl.group"></div>
+    </div>
+
+    <div ng-show="ctrl.group._embedded.subgroups.length">
+      <h4 translate>USER_DIRECTORY.WORKSPACES</h4>
+      <div bns-user-directory-group-list="ctrl.group._embedded.subgroups" selection="ctrl.selectionGroup" on-click="ctrl.navigate" locked="ctrl.lockedGroup"></div>
+    </div>
+
+  </scrollable>
+</div>

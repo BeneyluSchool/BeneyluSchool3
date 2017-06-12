@@ -1,0 +1,7 @@
+BNS\App\CampaignBundle\Model\om\BaseCampaignRecipientGroup:
+  exclusion_policy: All
+  properties:
+      group_id:
+        expose: true
+      role_id:
+        expose: true

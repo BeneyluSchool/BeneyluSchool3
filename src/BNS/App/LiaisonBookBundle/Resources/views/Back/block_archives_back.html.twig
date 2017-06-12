@@ -1,22 +1,8 @@
-<div class="section active">
-	Messages
-	<span class="shadow-section"></span>
-</div>
-<div class="title-container">
-	<div class="title active border-blue">Archives<span class="square icon-arrow"></span></div>
-	<div class="content-title">
-		<ul>
-			{% for dateArchive in datesArchives %}
-				{% if dateArchive == newsDate %}
-					<li>
-						<a class="active" href="{{ path('BNSAppLiaisonBookBundle_back', {'month': dateArchive|date("n"), 'year': dateArchive|date("Y")}) }}">{{dateArchive|year_month_bns()}}</a>
-					</li>
-					{% else %}
-					<li>
-						<a href="{{ path('BNSAppLiaisonBookBundle_back', {'month': dateArchive|date("n"), 'year': dateArchive|date("Y")}) }}">{{dateArchive|year_month_bns()}}</a>
-					</li>
-				{% endif %}
-			{% endfor %}
-		</ul>
-	</div>
-</div>
+{% trans_default_domain "LIAISONBOOK" %}
+        <bns-expander label="{{ 'TITLE_ARCHIVED' | trans }}" class="ng-scope ng-isolate-scope" is-open="true">
+            <md-radio-group ng-init="liaisonbook.date='{{ app.session.get('liaisonbook-archive-date-month')~ '_' ~ app.session.get('liaisonbook-archive-date-year') }}'" ng-model="liaisonbook.date">
+                {% for dateArchive in datesArchives %}
+                <md-radio-button value="{{ dateArchive|date("n")}}_{{ dateArchive|date("Y") }}" id="{{ dateArchive|date("n")}}_{{ dateArchive|date("Y") }}" class="md-primary archive_link">{{dateArchive|date_bns('none', 'none', 'MMMM y')}}</md-radio-button>
+                {% endfor %}
+            </md-radio-group>
+        </bns-expander>

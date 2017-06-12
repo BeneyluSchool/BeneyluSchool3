@@ -1,0 +1,35 @@
+    <section ui-sref-active="current">
+      <md-button href ui-sref="^.moderation">
+        <md-icon>message</md-icon>
+        <span translate>MESSAGING.TITLE_MODERATION</span>
+      </md-button>
+
+      <bns-expander label="{{'MESSAGING.MESSAGE_STATUS'|translate}}" is-open="true">
+        <div class="input-container">
+          <md-radio-group ng-model="ctrl.shared.status">
+            <md-radio-button class="md-primary" ng-value="'IN_MODERATION'">{{'MESSAGING.MESSAGE_IN_MODERATION'|translate}}</md-radio-button>
+            <md-radio-button class="md-primary" ng-value="'ACCEPTED'" class="md-primary">{{'MESSAGING.MESSAGE_PUBLISH'|translate}}</md-radio-button>
+            <md-radio-button class="md-primary" ng-value="'REJECTED'" >{{'MESSAGING.MESSAGE_DENY'|translate}}</md-radio-button>
+          </md-radio-group>
+        </div>
+      </bns-expander>
+
+      <bns-expander label="{{'MESSAGING.LABEL_MODERATION_GROUP_FILTER'|translate}}" is-open="true">
+        <div class="input-container">
+          <md-radio-group ng-model="ctrl.shared.group">
+            <md-radio-button ng-repeat="group in ctrl.groups" class="md-primary" ng-value="group.id">{{ ::group.label }}</md-radio-button>
+          </md-radio-group>
+        </div>
+      </bns-expander>
+
+      <bns-expander label="{{'MESSAGING.TITLE_MODERATION'|translate}}" is-open="true">
+        <bns-switch manager="ctrl.groupModerationSwitchManager" label-left>
+          {{'MESSAGING.TITLE_MODERATE_IN_CLASS' | translate}}
+        </bns-switch>
+        <bns-switch manager="ctrl.externalModerationSwitchManager" label-left>
+          {{'MESSAGING.TITLE_MODERATE_OUTWARD' | translate}}
+        </bns-switch>
+      </bns-expander>
+    </section>
+
+    <section bns-app-menu-toggle></section>

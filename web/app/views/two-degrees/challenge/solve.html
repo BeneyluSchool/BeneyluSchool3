@@ -1,0 +1,25 @@
+<div container>
+  <md-button class="md-fab md-fab-top-left" ui-sref="app.twoDegrees.map">
+    <md-icon>close</md-icon>
+  </md-button>
+</div>
+
+<md-content class="flex layout-sm-column layout-md-column layout-gt-md-row main-container two-degrees-challenge-wrapper">
+  <bns-two-degrees-panel
+    bns-direction="{{$mdMedia('gt-md') ? 'right' : 'bottom'}}"
+    class="flex-none flex-gt-md-40"
+  >
+    <div class="text-center">
+      <span class="logo challenge-{{::ctrl.challenge.code}}"></span>
+      <h1 class="md-display-2 heading">{{::ctrl.challenge.title}}</h1>
+    </div>
+
+    <div class="md-padding text-content" ng-bind-html="ctrl.challenge.description"></div>
+  </bns-two-degrees-panel>
+
+  <section class="flex flex-gt-md-60 layout-column md-padding transparent two-degrees-container two-degrees-solve-container">
+    <form ng-submit="ctrl.submit()" name="ctrl.form">
+      <div ng-include="'views/two-degrees/challenge/solve-'+ctrl.challenge.code+'.html'"></div>
+    </form>
+  </section>
+</md-content>

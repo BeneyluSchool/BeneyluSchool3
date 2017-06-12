@@ -1,62 +1,35 @@
-{% extends '::base_manager.html.twig' %}
+{% extends 'BNSAppMainBundle:App:base.html.twig' %}
 
-{% if blog is defined %}
-	{% block title %}
-		{{ blog.getTitle() }} - Gestion
-	{% endblock %}
-{% endif %}
-
-{% block css %}
-    {{ parent() }}
-		
-	{# Appel CSS du package layout manager #}
-	{% include "BNSAppMainBundle:Manager:layoutStyle.html.twig" %}
-		
-	<link type="text/css" href="{{ asset('medias/css/ui-twitter-theme/jquery-ui-1.8.16.custom.css') }}" rel="stylesheet" />
-	<link href="{{ asset('/medias/css/blog/manager.css') }}" rel="stylesheet" type="text/css">
-{% endblock %}
+{% set app_unique_name = 'BLOG' %}
+{% set app_mode = 'back' %}
+{% trans_default_domain "BLOG" %}
+{% block body_class %}{{ parent() }} module-blog module-back back{% endblock %}
+{% block body_attr %}{{ parent() }} data-app="{{ app_unique_name }}" data-mode="{{ app_mode }}"{% endblock %}
 
 {% block javascripts %}
-	{{ parent() }}
-	
-	<script type="text/javascript" src="{{ asset('/medias/js/bootstrap/bootstrap-tooltip.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('/medias/js/bootstrap/bootstrap-popover.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('/medias/js/jquery.ui.nestedSortable.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('/medias/js/blog/categories.js') }}"></script>
-	<script type="text/javascript">
-		$(function ()
-		{
-			if ($('.alert-flash').length > 0) {
-				setTimeout(function ()
-				{
-					$('.alert-flash div').slideUp('fast', function () { $(this).parent().slideUp('fast', function () { $('.bns-alert div').show() }) });
-				}, 8000);
-			}
-		});
-	</script>
-{% endblock %}
+  {{ parent() }}
 
-{% block body %}
-	{% block header %}{% endblock header %}
-	<div class="office blog"></div>
-    <div class="container container-fluid blog-container">
-		{% block form_start %}{% endblock %}
-		<div class="row-fluid container-manager">
-			<div class="container-sidebar">
-				{% block sidebar %}Add your sidebar here!{% endblock %}
-				<div class="sidebar-shadow"></div>
-            </div>
-			<div class="span9 container-content no-margin">
-                {% block content %}Add your content here!{% endblock %}
-            </div>
-			<div class="container-manager-bottom">
-				<div class="content-manager-bottom"></div>
-			</div>
-		</div>
-		{% block form_end %}{% endblock %}
-	</div>
+  <script type="text/javascript" src="{{ asset('/medias/js/bootstrap/bootstrap-tooltip.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('/medias/js/bootstrap/bootstrap-popover.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('/medias/js/jquery.ui.nestedSortable.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('/medias/js/blog/articles.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('/medias/js/blog/categories.js') }}"></script>
+  <script type="text/javascript">
+    $(function ()
+    {
+      if ($('.alert-flash').length > 0) {
+        setTimeout(function ()
+        {
+          $('.alert-flash div').slideUp('fast', function () { $(this).parent().slideUp('fast', function () { $('.bns-alert div').show() }) });
+        }, 8000);
+      }
+    });
+  </script>
 {% endblock %}
-	
-{% block dock_bar %}
-	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "BLOG" , 'is_in_front' : false } %}
+{% block actionbar_content %}
+{% endblock actionbar_content %}
+{% block content %}
+  <md-content class="bns-content-inner">
+    {{ block('content') }}
+  </md-content>
 {% endblock %}

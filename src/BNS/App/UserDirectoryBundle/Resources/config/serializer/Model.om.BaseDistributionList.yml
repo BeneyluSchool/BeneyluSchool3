@@ -1,0 +1,11 @@
+BNS\App\UserDirectoryBundle\Model\om\BaseDistributionList:
+  exclusion_policy: All
+  properties:
+      id:
+        expose: true
+      name:
+        expose: true
+      nb_users:
+        expose: true
+      group_id:
+        expose: true

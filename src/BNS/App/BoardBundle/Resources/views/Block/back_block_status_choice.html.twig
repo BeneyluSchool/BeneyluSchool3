@@ -1,0 +1,40 @@
+{% import "BNSAppBoardBundle:Block:back_block_dates.html.twig" as block_dates %}
+
+<div class="title-container information-statuses-choice">
+	<div class="title active border-blue">Statut de l'information<span class="square icon-arrow"></span></div>
+	<div class="content-title">
+		<ul>
+			{#<li>
+				<label for="board_information_form_status_0">
+					<span class="vertical-separator gray"></span> <span>{% trans %}Brouillon{% endtrans %}</span>
+					{{ form_widget(form.status[0]) }}
+				</label>
+			</li>#}
+			<li class="show-publish-block">
+				<label for="board_information_form_status_0">
+					<span class="vertical-separator green"></span> <span>Publié</span>
+					{{ form_widget(form.status[0]) }}
+				</label>
+			</li>
+			<li class="show-programmation-block">
+				<label for="board_information_form_status_1">
+					<span class="vertical-separator purple"></span> <span>Publication programmée</span>
+					{{ form_widget(form.status[1]) }}
+				</label>
+			</li>
+		</ul>
+        {% if form.status.vars.errors|length > 0 %}
+			<div class="alert alert-danger bns-alert">
+				{{ form_errors(form.status) }}
+			</div>
+		{% endif %}
+	</div>
+</div>
+<div class="title-container publish-date {% if not information.isPublished() %}hide{% endif %}">
+	<div class="title active border-blue">Date de publication<span class="square icon-arrow"></span></div>
+	{{ block_dates.show(form.publication_day, form.publication_time, 'publish-datepicker datepicker', not information.isPublished ? "Laissez vide pour que l'information soit toujours affichée.": '') }}
+</div>
+<div class="title-container publish-programmation {% if not information.isProgrammed() %}hide{% endif %}">
+	<div class="title active border-blue">Programmer la publication<span class="square icon-arrow"></span></div>
+	{{ block_dates.show(form.programmation_day, form.programmation_time, 'datepicker') }}
+</div>

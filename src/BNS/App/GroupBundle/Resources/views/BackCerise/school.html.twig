@@ -1,0 +1,36 @@
+{% trans_default_domain "GROUP" %}
+{% extends 'BNSAppGroupBundle:Back:layout.html.twig' %}
+
+{% block css %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block sidebar %}
+    {{ render(controller('BNSAppGroupBundle:Back:sidebar', {'section' : 'cerise'} )) }}
+{% endblock sidebar %}
+
+{% block content %}
+
+    <h3 class="whitelist-title">{{ 'TITLE_ACCESS_CERISE_PRISM'|trans |desc('Accès à CERISE Prim') }}</h3>
+
+    {% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+        'text': 'CLICK_TO_ACCESS_CERISE'|trans |desc("Cliquez pour accéder à CERISE Prim"),
+        'button': {
+        'text': 'LOG_IN'|trans |desc('Se connecter'),
+        'link': path('BNSAppGroupBundle_back_cerise_login')
+        }
+    } %}
+
+    {% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+        'text': 'CLICK_TO_UPDATE_CERISE'|trans |desc("Cliquez pour mettre à jour vos données sur CERISE Prim"),
+        'button': {
+        'text':'UPDATE'|trans |desc('Mettre à jour'),
+        'link': path('BNSAppGroupBundle_back_cerise_update')
+        }
+    } %}
+{% endblock %}

@@ -1,0 +1,39 @@
+<bns-inset ng-show="ctrl.message" class="bns-small" ng-class="{ 'bns-accent':'success' === ctrl.messageType, 'bns-warn': 'error' === ctrl.messageType }">
+  {{ctrl.message}}
+</bns-inset>
+
+<p class="md-body-2" translate>USER.DESCRIPTION_QUICK_ADD_FORMAT</p>
+
+<md-input-container>
+  <label translate>USER.LABEL_PUPILS</label>
+  <textarea ng-model="ctrl.source" rows="3" placeholder="" ng-disabled="ctrl.bnsBusy" name="{{ctrl.bnsName}}"></textarea>
+  <div class="input-placeholder" translate>USER.PLACEHOLDER_PUPILS</div>
+</md-input-container>
+
+<table ng-show="ctrl.bnsPupils.length" class="table table-striped md-body-1">
+  <thead>
+    <tr>
+      <th translate>USER.LABEL_PUPIL_LAST_NAME</th>
+      <th translate>USER.LABEL_PUPIL_FIRST_NAME</th>
+      <th translate>USER.LABEL_PUPIL_GENDER</th>
+      <th translate>USER.LABEL_PUPIL_BIRTH_DATE</th>
+    </tr>
+  </thead>
+  <tr ng-repeat="pupil in ctrl.bnsPupils">
+    <td>{{::pupil.name}}</td>
+    <td>{{::pupil.firstName}}</td>
+    <td>{{::pupil.gender}}</td>
+    <td>{{::pupil.date}}</td>
+  </tr>
+</table>
+
+<div class="layout-row layout-align-end-center" ng-if="!ctrl.bnsHideActions">
+  <md-button ng-show="!ctrl.bnsValid" ng-click="ctrl.validate()" ng-disabled="ctrl.bnsBusy" class="md-raised">
+    <md-icon>find_replace</md-icon>
+    <span ng-bind-html="'USER.BUTTON_VALIDATE_INPUT'|translate|buttonize">.</span>
+  </md-button>
+  <md-button ng-show="ctrl.bnsValid" ng-click="ctrl.submit()" ng-disabled="ctrl.bnsBusy || !ctrl.bnsPupils.length" class="md-accent md-raised">
+    <md-icon>check</md-icon>
+    <span ng-bind-html="'USER.BUTTON_CONFIRM_ADD_PUPILS'|translate|buttonize">.</span>
+  </md-button>
+</div>

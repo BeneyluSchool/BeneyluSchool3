@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-07-07T12:50:27Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="d0a27efc751a47562cc013fb2d6453e50b6f28a6" resname="INVALID_EMAIL">
+        <source>INVALID_EMAIL</source>
+        <target state="new">L'adresse e-mail renseignée est invalide, veuillez réessayer</target>
+      </trans-unit>
+      <trans-unit id="6d4bb766911c9c7a62b4affb6483547718857de7" resname="INVALID_FIRST_NAME_EMPTY">
+        <source>INVALID_NAME_EMPTY</source>
+        <target>Veuillez saisir un prénom valide</target>
+      </trans-unit>
+      <trans-unit id="c1d31d9acf35512387dc628747942400d9aac46a" resname="INVALID_SECONDARY_EMAIL">
+        <source>INVALID_SECONDARY_EMAIL</source>
+        <target state="new">L'adresse e-mail secondaire renseignée est invalide, veuillez réessayer</target>
+      </trans-unit>
+      <trans-unit id="100d02a10a19ba539aa4fb85e312f0815688bdd0" resname="INVALID_STATUS_EMPTY">
+        <source>INVALID_STATUS_EMPTY</source>
+        <target state="new">Le statut ne peut pas être vide.</target>
+      </trans-unit>
+      <trans-unit id="1b970fdc9501823ca4f4e13b67e024a44daa81e8" resname="INVALID_STATUS_TOO_SHORT">
+        <source>INVALID_STATUS_TOO_SHORT</source>
+        <target state="new">Le statut est trop petit ({{ limit }} caractères minimum)</target>
+      </trans-unit>
+      <trans-unit id="17c657cf8bd865f262613dcf05daa8fb9fdae005" resname="INVALID_SURNAME_EMPTY">
+        <source>INVALID_SURNAME_EMPTY</source>
+        <target state="new">Veuillez saisir un nom valide</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

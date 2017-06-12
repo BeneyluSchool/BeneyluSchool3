@@ -1,0 +1,18 @@
+{% trans_default_domain "PORTAL" %}
+{% if not isAuthenticated %}
+    <div class="authentification">
+        {% if portal.getMediaRelatedByLogoId is not null %}
+            <div class="logo-sidebar">
+                <img src="{{ create_visualisation_url_resource(portal.getMediaRelatedByLogoId, true) }}" class="logo" />
+            </div>
+        {% endif %}
+        <h5 class="{{ portal.font }}">{{ 'TITLE_CONNECT_WITH'|trans |desc('Je me connecte avec ...') }}</h5>
+
+        <iframe id="logon-iframe" src="{{ redirectUrl }}&fromTemplate=main" width="100%" scrolling="auto" marginheight="0" marginwidth="0" frameborder="0">
+            {{ 'BROWSER_INCOMPATIBLE'|trans |desc('Votre navigateur ne semble pas compatible') }}
+        </iframe>
+        <div class="password-forget">
+            <a href="{{ path('user_password_reset') }}">{{ 'LINK_PASSWORD_LOST' |trans |desc('Mot de passe oublié ?') }}</a>
+        </div>
+    </div>
+{% endif %}

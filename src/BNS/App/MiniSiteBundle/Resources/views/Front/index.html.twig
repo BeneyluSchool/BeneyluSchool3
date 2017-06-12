@@ -1,30 +1,56 @@
+{% trans_default_domain "MINISITE" %}
 {% extends 'BNSAppMiniSiteBundle:Layout:front.html.twig' %}
 
 {% block header %}
-	<div class="header">
+	<div class="header-minisite">
 		<div class="banniere">
-			<img src="http://www.placehold.it/1150x190" alt="#" />
+			{% if miniSite.getBannerResourceId() == null %}
+				<img src="{{ asset('/medias/images/mini-site/front/banner.jpg') }}" alt="" />
+			{% else %}
+				<img src="{{ getResourceDataUrl(miniSite.getResource(), 'banner_minisite_front') }}" alt="" />
+			{% endif %}
 			<div class="title">
-				<p>{{ minisite.getTitle() }}</p>
+				<p>{{ miniSite.getTitle()|trans }}</p>
 			</div>
 		</div>
 		<div class="menu">
 			<ul>
-				{% for menuPage in minisite.getMiniSitePages() %}
-					<li><a href="{{ path('minisite_page', {'miniSiteSlug': minisite.getSlug(), 'pageSlug': menuPage.getSlug()}) }}"{% if menuPage.getId() == page.getId() %}class="active"{% endif %}>{{ menuPage.getTitle() }}</a></li>
+				{% for menuPage in miniSite.getMiniSitePages() %}
+					{% if menuPage.isActivated() and (app.user != null and (has_right('MINISITE_ACCESS') or menuPage.isPublic()) or app.user == null and menuPage.isPublic()) %}
+						<li>
+							<a href="{{ path('minisite_page', {'miniSiteSlug': miniSite.getSlug(), 'pageSlug': menuPage.getSlug()}) }}"
+								{% if menuPage.getId() == page.getId() %}class="active"{% endif %}>
+								{{ menuPage.getTitle() }}
+							</a>
+						</li>
+					{% endif %}
 				{% endfor %}
 			</ul>
+            {% if not is_authenticated() %}
+                <a class="btn bns-info small connexion" href="{{ parameter('application_base_url') }}"><strong>{% trans %}SIGN_IN{% endtrans %}</strong></a>
+            {% endif %}
 		</div>
 	</div>
 {% endblock header %}
 
 {% block content %}
 	<div class="span3">
-		{% for widget in minisite.getMiniSiteWidgets() %}
-			{% render 'BNSAppMiniSiteBundle:Front:renderWidget' with {'abstractWidget': widget} %}
+		{% for widget in miniSite.getMiniSiteWidgets() %}
+			{{ render(controller('BNSAppMiniSiteBundle:Front:renderWidget', {'abstractWidget': widget} )) }}
 		{% endfor %}
+
+		{#<div class="widget clock">
+			<div class="days">
+				<p>{{ "now"|date('d') }}</p>
+				<p class="month">{{ "now"|date('m') }}</p>
+			</div>
+			<div class="hours">
+				<p>{{ "now"|date('H') }}:{{ "now"|date('i') }}</p>
+			</div>
+		</div>#}
 	</div>
 	<div class="span9">
-		{% render 'BNSAppMiniSiteBundle:FrontPage:renderPage' with {'pageSlug': page.getSlug(), 'miniSite': minisite} %}
+		{{ render(controller('BNSAppMiniSiteBundle:FrontPage:renderPage', {'pageSlug': page.getSlug(), 'miniSite': miniSite, 'isPreview': isPreview} )) }}
 	</div>
+
 {% endblock content %}

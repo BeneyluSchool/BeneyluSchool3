@@ -1,0 +1,7 @@
+BNS\App\CoreBundle\Model\om\BaseGroupActivity:
+  exclusion_policy: All
+
+  properties:
+    activity_id:
+      expose: true
+      groups: [ groupActivity ]

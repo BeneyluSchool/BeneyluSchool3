@@ -1,0 +1,100 @@
+{% trans_default_domain "MAIN" %}
+{% extends '::base.html.twig' %}
+
+{% block css %}
+	{{ parent() }}
+	<link href="{{ asset('/medias/css/logon/front.css') }}" rel="stylesheet" type="text/css" />
+	<link href='https://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block body %}
+	<div class="background-login"></div>
+	<div class="container-fluid container">
+		<div class="container-logon">
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="header-login">
+						<a href="{{ path('home') }}">
+							<img class="logo" src="{{ asset('/medias/images/logon/logo-beneylu-school.png') }}" alt="{{ parameter('beneylu_brand_name') }}" />
+						</a>
+						<h1>{{ 'TITLE_WELCOME_TO_BENEYLU'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('<span>Bienvenue sur </span><br /> %beneylu_brand_name%')|raw }}</h1>
+						<div class="shadow"></div>
+						<div class="rope left"></div>
+						<div class="rope right"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row-fluid">
+				<div class="span12">
+                    <div class="content-login">
+                        {{ 'COOKIE_DESCRIPTION'|trans |desc('
+                        <h2>Qu\'est ce qu\'un cookie ?</h2>
+                        <p>
+                            Un cookie est un fichier texte susceptible d’être enregistré dans un espace dédié du disque dur de votre terminal à l’occasion de la consultation d’un service en ligne grâce à votre logiciel de navigation. Un fichier cookie permet à son émetteur d’identifier le terminal dans lequel il est enregistré, pendant la durée de validité ou d’enregistrement dudit cookie.
+                        </p>
+                        ')|raw }}
+
+                        <p>
+                            <a href="{{ parameter('bns_cookie_settings')['cookieURL'][app.request.locale]|default('http://fr.wikipedia.org/wiki/Cookie_(informatique)') }}" target="_blank">
+                                {{ 'LINK_KNOW_MORE'|trans |desc('En savoir plus') }}
+                            </a>
+                        </p>
+                        {{ 'WHAT_COOKIES_ON_OUR_SITE'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('
+                        <h2>Quels sont les cookies présents sur notre site</h2>
+
+                        <h3>Les cookies fonctionnels</h3>
+
+                        <p>Il s’agit des cookies indispensables à la navigation sur notre site (comme les identifiants de session) qui vous permettent d’utiliser les principales fonctionnalités du site et de sécuriser votre connexion.
+                            Ils vous permettent par exemple d’accéder directement à des espaces réservés et personnels de notre site, grâce à des identifiants ou des données que vous nous avez éventuellement antérieurement confiés. Sans ces cookies vous ne pourrez pas utiliser le site.
+                        </p>
+
+                        <h3>Les cookies analytiques</h3>
+
+                        <p>
+                            Il s’agit de cookies qui permettent de connaître le taux d’utilisation et les performances de l\'ENT, d’établir des statistiques et d’améliorer l’intérêt et l’ergonomie des services.
+                        </p>
+
+                        <h3>Les cookies de tiers</h3>
+
+                        <p>L\'émission et l\'utilisation de cookies par des tiers, sont soumises aux politiques « cookies » de ces tiers. Nous vous informons de l\'objet des cookies dont nous avons connaissance et des moyens dont vous disposez pour effectuer des choix à l\'égard de ces cookies.</p>
+
+                        <p>Voici les tiers enregistrant des cookies sur %beneylu_brand_name%</p>
+                        ')|raw }}
+                        <ul>
+                            <li><a href="https://facebook.com/">Facebook : </a> {{ 'DISPLAY_SOCIAL_BLOCK_ON_HOMEPAGE'|trans |desc('pour l\'affichage du bloc social, uniquement sur la page d\'accueil en état "non connecté"') }}</li>
+                            <li><a href="https://www.ovh.com">OVH : </a> {{ 'OPTIMIZE_MEDIA_DOWNLOAD'|trans |desc('pour optimiser le téléchargement des médias') }}</li>
+                            <li><a href="https://www.intercom.io/">Intercom : </a>{{ 'LETTER_BETWEEN_TEARCHER_AND_SUPPORT'|trans |desc('pour la correspondance entre les enseignants et le support technique') }} </li>
+                        </ul>
+{{ 'POSSIBILITY_ABOUT_COOKIE'|trans |desc('
+                        <h2>Vos possibilités concernant les cookies</h2>
+
+                        <p>L’enregistrement d’un cookie dans un terminal est essentiellement subordonné à la volonté de l’utilisateur du terminal, que celui-ci peut exprimer et modifier à tout moment et gratuitement.</p>
+
+                        <p>Si vous avez accepté dans votre logiciel de navigation l’enregistrement de cookies dans votre terminal, les cookies intégrés dans les pages et contenus que vous avez consultés pourront être stockés temporairement dans un espace dédié de votre terminal.</p>
+
+                        <p>Voilà le moyen mis à votre disposition pour accepter/refuser ou supprimer les cookies présents sur notre site.</p>
+
+                        <p>La plupart des navigateurs acceptent les cookies par défaut. Cependant, vous pouvez décider de bloquer ces cookies ou demander à votre navigateur de vous avertir lorsqu’un site tente d’implémenter un cookie sur votre terminal.</p>
+                        <p>Pour changer la gestion des cookies de votre navigateur, vous pouvez modifier les réglages dans l’onglet confidentialité.</p>
+                        <p>Pour la gestion des cookies et de vos choix la configuration de chaque navigateur est différente. Elle est décrite dans le menu d’aide de votre navigateur, qui vous permettra de savoir de quelle manière modifier vos souhaits en matière de cookies :</p>
+') |raw }}
+
+
+                        <ul class="ngo_ephox" style=" list-style: none; padding-left: 0;">
+                            <li><span class="net_gras"><a class="net_lien" href="{{ parameter('bns_cookie_settings')['WindowsURL'][app.request.locale]|default('http://windows.microsoft.com/fr-FR/windows-vista/Block-or-allow-cookies') }}" target="_blank">- {{ 'LINK_FOR_INTERNET_EXPLORER'|trans |desc('Pour Internet Explorer') }} </a> </span></li>
+                            <li><span class="net_gras"><a class="net_lien" href="{{ parameter('bns_cookie_settings')['AppleURL'][app.request.locale]|default('https://support.apple.com/fr-fr/ht1677') }}" target="_blank">- {{ 'LINK_FOR_SAFARI'|trans |desc('Pour Safari') }}</a></span></li>
+                            <li><span class="net_gras"><a class="net_lien" href="{{ parameter('bns_cookie_settings')['GoogleURL'][app.request.locale]|default('https://support.google.com/chrome/answer/95647?hl=fr&amp;hlrm=en&amp;safe=on') }}" target="_blank">- {{ 'LINK_FOR_CHROME'|trans |desc('Pour Google Chrome') }}</a></span></li>
+                            <li><span class="net_gras"><a class="net_lien" href="{{ parameter('bns_cookie_settings')['MozillaURL'][app.request.locale]|default('https://support.mozilla.org/fr/kb/activer-desactiver-cookies') }}" target="_blank">- {{ 'LINK_FOR_FIREFOX'|trans |desc('Pour Firefox') }}</a></span></li>
+                            <li><span class="net_gras"><a class="net_lien" href="{{ parameter('bns_cookie_settings')['operaURL'][app.request.locale]|default('http://help.opera.com/Windows/10.20/fr/cookies.html') }}" target="_blank">- {{ 'LINK_FOR_OPERA'|trans |desc('Pour Opera') }}</a></span></li>
+                        </ul>
+
+                        <a href="{{ path('home') }}">
+{{ 'LINK_BACK_TO_HOMEPAGE'|trans |desc('Retour sur la page d\'accueil') }}</a>
+
+                    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock body %}

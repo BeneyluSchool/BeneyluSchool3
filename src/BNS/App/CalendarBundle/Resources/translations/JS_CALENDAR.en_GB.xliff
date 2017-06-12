@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-08-10T18:09:58Z" source-language="en" target-language="en-GB" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="fcd8304c1014fb3f327306989c219b3f192dae48" resname="ADD_BY_AUTHOR">
+        <source>ADD_BY_AUTHOR</source>
+        <target>Added by {{author}}</target>
+      </trans-unit>
+      <trans-unit id="324716d4caabe4c7821a52120a9b79c9a23c8e7b" resname="BEGIN_DATE_BEFORE_END_DATE">
+        <source>BEGIN_DATE_BEFORE_END_DATE</source>
+        <target>The starting date should precede the ending date.</target>
+      </trans-unit>
+      <trans-unit id="4d8ee2ba4dd114a6bf9a05af9161b3d1bbcb1c89" resname="BUTTON_BACK_TO_CALENDAR">
+        <source>BUTTON_BACK_TO_CALENDAR</source>
+        <target>Go back to calendar</target>
+      </trans-unit>
+      <trans-unit id="7b6795e2cbfedd6319be4d6469c97e330b7fd98f" resname="DESCRIPTION_DELETE_EVENT">
+        <source>DESCRIPTION_DELETE_EVENT</source>
+        <target><![CDATA[<h3>Do you really want to delete this event&nbsp;?</h3>  <p>This event will be permanently removed from your calendar.<br />All attached/inserted documents will not be deleted from the media library.</p>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="db9700c04ef4f10aa1c61f5c7a97a5d68e701a31" resname="ERROR_THIS_FIELD_IS_REQUIRED">
+        <source>ERROR_THIS_FIELD_IS_REQUIRED</source>
+        <target>This field is required</target>
+      </trans-unit>
+      <trans-unit id="23b4ad7fb9ef0f92a6689b84e1c2af24940da098" resname="EVENT_DETAILS">
+        <source>EVENT_DETAILS</source>
+        <target>Event details</target>
+      </trans-unit>
+      <trans-unit id="91db140ed13ed0b79f12502e90245176270f3fbf" resname="EVENT_SAVE_ERROR">
+        <source>EVENT_SAVE_ERROR</source>
+        <target>An error occurred whilst saving the calendar</target>
+      </trans-unit>
+      <trans-unit id="8a8e8c287183f13379372fe8c9ea21955b744198" resname="FLASH_DELETE_EVENT_ERROR">
+        <source>FLASH_DELETE_EVENT_ERROR</source>
+        <target>This event could not be deleted</target>
+      </trans-unit>
+      <trans-unit id="104ff730100b7c434bb67e552472758574f96bd6" resname="FLASH_DELETE_EVENT_SUCCESS">
+        <source>FLASH_DELETE_EVENT_SUCCESS</source>
+        <target>Deleted event</target>
+      </trans-unit>
+      <trans-unit id="97505cb3eed4cc183a33c6682d88233b8dca038c" resname="FLASH_EVENT_SAVE_ERROR">
+        <source>FLASH_EVENT_SAVE_ERROR</source>
+        <target>The event could not be saved</target>
+      </trans-unit>
+      <trans-unit id="07d5e0fd51e603f070da53700260b77f3ecca166" resname="FLASH_EVENT_SAVE_SUCCESS">
+        <source>FLASH_EVENT_SAVE_SUCCESS</source>
+        <target>Saved event</target>
+      </trans-unit>
+      <trans-unit id="ef0d73996f84377645eebf79382342e50ceed6b8" resname="LABEL_AGENDA">
+        <source>LABEL_AGENDA</source>
+        <target>Choose the calendar</target>
+      </trans-unit>
+      <trans-unit id="f4dab2f3427f2413cf6502b690baf4d0b91eeb28" resname="LABEL_DATE_END">
+        <source>LABEL_DATE_END</source>
+        <target>To</target>
+      </trans-unit>
+      <trans-unit id="4a9f97711b603a2c00b22f0be625430a883942cc" resname="LABEL_DATE_START">
+        <source>LABEL_DATE_START</source>
+        <target>From</target>
+      </trans-unit>
+      <trans-unit id="ce5c27761c6c0ea3e15315f9927f8780087a6589" resname="LABEL_EVENT_LOCATION">
+        <source>LABEL_EVENT_LOCATION</source>
+        <target>Choose a location</target>
+      </trans-unit>
+      <trans-unit id="fd21b0f43f2036392cb4e0a13d3dba3821f89101" resname="LABEL_OR">
+        <source>LABEL_OR</source>
+        <target>Or</target>
+      </trans-unit>
+      <trans-unit id="417e4cb29c2a6a865c569997184d6f18aa340c83" resname="LABEL_RECURRING_COUNT">
+        <source>LABEL_RECURRING_COUNT</source>
+        <target>Number of times</target>
+      </trans-unit>
+      <trans-unit id="ae09979ca169cad0f77db2f43bb67923380ed3d6" resname="LABEL_RECURRING_END_DATE">
+        <source>LABEL_RECURRING_END_DATE</source>
+        <target>Until</target>
+      </trans-unit>
+      <trans-unit id="ac2a893fd552c2265d5d4b15ec91d0ad7dab7d17" resname="LABEL_TIME_END">
+        <source>LABEL_TIME_END</source>
+        <target>to</target>
+      </trans-unit>
+      <trans-unit id="3caa725cf789def400250780df8418adf7fa254d" resname="LABEL_TIME_START">
+        <source>LABEL_TIME_START</source>
+        <target>From</target>
+      </trans-unit>
+      <trans-unit id="411e26701b42e75cb8200920b79b5784c9cbabf3" resname="LINK_DELETE_EVENT">
+        <source>LINK_DELETE_EVENT</source>
+        <target>Delete | event</target>
+      </trans-unit>
+      <trans-unit id="00f4fbacba691d960b89b194436778f1b4361d3e" resname="TITLE_CALENDAR">
+        <source>TITLE_CALENDAR</source>
+        <target>Calendar</target>
+      </trans-unit>
+      <trans-unit id="4505c065ebc8711ffc91cc08d0413e2f3f5c3794" resname="TITLE_DELETE_EVENT">
+        <source>TITLE_DELETE_EVENT</source>
+        <target>Delete an event</target>
+      </trans-unit>
+      <trans-unit id="8d1cd2badd43b8023f061ff4c605ba278e0b13c0" resname="TITLE_MANAGEMENT">
+        <source>TITLE_MANAGEMENT</source>
+        <target>Calendar - Management</target>
+      </trans-unit>
+      <trans-unit id="b0890c85ca68634c310e09e31835af621f80950e" resname="TITLE_MULTI_DATE">
+        <source>TITLE_MULTI_DATE</source>
+        <target>From {{dateStart}} to {{dateEnd}}</target>
+      </trans-unit>
+      <trans-unit id="8c9c2f359b650c2a6d38528356d45e98beecfd8a" resname="TITLE_MULTI_DATE_TIME">
+        <source>TITLE_MULTI_DATE_TIME</source>
+        <target>From {{dateStart}} at {{timeStart}} to {{dateEnd}} at {{timeEnd}}</target>
+      </trans-unit>
+      <trans-unit id="57cb0cc67f440943a339874ae4e2e929d9cb929d" resname="TITLE_SINGLE_DATE">
+        <source>TITLE_SINGLE_DATE</source>
+        <target>{{date}}</target>
+      </trans-unit>
+      <trans-unit id="8de6a995c983a654b208449b53ee9b5b741d77c0" resname="TITLE_SINGLE_DATE_TIME">
+        <source>TITLE_SINGLE_DATE_TIME</source>
+        <target>{{date}} from {{timeStart}} to {{timeEnd}}</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

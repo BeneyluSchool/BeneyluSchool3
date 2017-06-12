@@ -86,6 +86,7 @@
 			<a href="#" class="btn bns-warning btn-24 medium-return"><span class="icons-24 save-icon"></span><strong>Bouton</strong> <br /> warning Medium return</a>
 			<br />  <br />
 			<a href="#" class="btn bns-warning btn-24 medium"><span class="icons-24 save-icon"></span><strong>Bouton</strong> warning medium</a>
+			<a href="#" class="btn bns-warning btn-24 medium"><span class="icons-24 restore-icon"></span><strong>Bouton</strong> warning medium</a>
 			<a href="#" class="btn bns-warning btn-16 small"><span class="icons-16 save-icon"></span><strong>Bouton</strong> warning small</a>
 			<a href="#" class="btn bns-warning btn-16 small toggle"><span class="icons-16 save-icon"></span><strong>Bouton</strong> warning small toggle</a>
 
@@ -110,33 +111,87 @@
 
 			<p><strong>classes spéciales pour les boutons de validation : validate-medium et validate-small</strong></p>
 		</div>
-		<hr>
-		<h2>Boutons utilisateurs et avatars</h2>
 
+		<hr />
+		<h2>Boutons utilisateurs et avatars</h2>
 		<div class="row-fluid">
 			<h3>Petit format</h3>
+			<a href="#" class="bns-user small">
+				<img src="{{ asset('/medias/images/profile/avatar/24x24/garcon.png') }}" alt="" />
+				<span class="name">Alexandre Zitouni</span>
+				<span class="action-icons"></span>
+			</a>
+			<a href="#" class="bns-user small cancel">
+				<img src="{{ asset('/medias/images/profile/avatar/24x24/garcon.png') }}" alt="" />
+				<span class="name">Alexandre Zitouni</span>
+				<span class="action-icons"></span>
+			</a>
+			<a href="#" class="bns-user small checkbox">
+				<img src="{{ asset('/medias/images/profile/avatar/24x24/fille.png') }}" alt="" />
+				<span class="name">Alexandre Zitouni</span>
+				<span class="action-icons"></span>
+			</a>
+			<a href="#" class="bns-user small checkbox selected">
+				<img src="{{ asset('/medias/images/profile/avatar/24x24/garcon.png') }}" alt="" />
+				<span class="name">Alexandre Zitouni</span>
+				<span class="action-icons"></span>
+			</a>
+			<a href="#" class="bns-user small">
+				<img src="{{ asset('/medias/images/profile/avatar/24x24/fille.png') }}" alt="" />
+				<span class="name">Exemple long prénom et nom</span>
+				<span class="action-icons"></span>
+			</a>
+			<a href="#" class="bns-user small checkbox selected toggle">
+				<img src="{{ asset('/medias/images/profile/avatar/24x24/fille.png') }}" alt="" />
+				<span class="name">Exemple toggle</span>
+				<span class="action-icons"></span>
+			</a>
+			<a href="#" class="bns-user small cancel toggle">
+				<img src="{{ asset('/medias/images/profile/avatar/24x24/fille.png') }}" alt="" />
+				<span class="name">Exemple toggle</span>
+				<span class="action-icons"></span>
+			</a>
 
-			<a href="#" class="bns-user small"><img src="/medias/images/profile/avatar/24x24/garcon.png" />Alexandre Zitouni <span class="action-icons"></span></a>
-			<a href="#" class="bns-user small bns-checkbox"><img src="/medias/images/profile/avatar/24x24/garcon.png" />Alexandre Zitouni <span class="action-icons"></span></a>
-			<a href="#" class="bns-user small bns-cancel"><img src="/medias/images/profile/avatar/24x24/garcon.png" />Alexandre Zitouni <span class="action-icons"></span></a>
-			<br /><br />
-			<a href="#" class="bns-user small bns-selected"><img src="/medias/images/profile/avatar/24x24/garcon.png" />Alexandre Zitouni <span class="action-icons"></span></a>
-			<br /><br />
-			<h4>Exemple :</h4>
-			<a href="#" class="bns-user small"><img src="/medias/images/profile/avatar/24x24/garcon.png" />Bob Chau <span class="action-icons"></span></a>
-			<a href="#" class="bns-user small"><img src="/medias/images/profile/avatar/24x24/garcon.png" />Jean-Michel De la Préfecture de justice <span class="action-icons"></span></a>
 			<h3>Grand format</h3>
-
-			<a href="#" class="btn bns-user big"><img src="/medias/images/profile/avatar/32x32/garcon.png" />Franck Castle <span class="action-icons"></span></a>
-			<a href="#" class="btn bns-user big bns-checkbox"><img src="/medias/images/profile/avatar/32x32/garcon.png" />Franck Castle <span class="action-icons"></span></a>
-			<a href="#" class="btn bns-user big bns-cancel"><img src="/medias/images/profile/avatar/32x32/garcon.png" />Franck Castle <span class="action-icons"></span></a>
-			<br /><br />
-			<a href="#" class="btn bns-user big bns-selected"><img src="/medias/images/profile/avatar/32x32/garcon.png" />Franck Castle <span class="action-icons"></span></a>
-			<br /><br />
-			<h4>Exemple :</h4>
-			<a href="#" class="btn bns-user big"><img src="/medias/images/profile/avatar/32x32/garcon.png" />Bob Chau<span class="action-icons"></span></a>
-			<a href="#" class="btn bns-user big"><img src="/medias/images/profile/avatar/32x32/garcon.png" />Jean-Michel De la Préfecture de justice<span class="action-icons"></span></a>
+			<a href="#" class="bns-user big">
+				<img src="{{ asset('/medias/images/profile/avatar/24x24/garcon.png') }}" alt="" />
+				<span class="name">Alexandre Zitouni</span>
+				<span class="action-icons"></span>
+			</a>
+			<a href="#" class="bns-user big cancel">
+				<img src="{{ asset('/medias/images/profile/avatar/24x24/garcon.png') }}" alt="" />
+				<span class="name">Alexandre Zitouni</span>
+				<span class="action-icons"></span>
+			</a>
+			<a href="#" class="bns-user big checkbox">
+				<img src="{{ asset('/medias/images/profile/avatar/24x24/fille.png') }}" alt="" />
+				<span class="name">Exemple long prénom et nom vraiment très long</span>
+				<span class="action-icons"></span>
+			</a>
+			<a href="#" class="bns-user big checkbox selected">
+				<img src="{{ asset('/medias/images/profile/avatar/24x24/garcon.png') }}" alt="" />
+				<span class="name">Alexandre Zitouni</span>
+				<span class="action-icons"></span>
+			</a>
+			<a href="#" class="bns-user big checkbox selected toggle">
+				<img src="{{ asset('/medias/images/profile/avatar/24x24/garcon.png') }}" alt="" />
+				<span class="name">Exemple toggle</span>
+				<span class="action-icons"></span>
+			</a>
+			<a href="#" class="bns-user big cancel toggle">
+				<img src="{{ asset('/medias/images/profile/avatar/24x24/garcon.png') }}" alt="" />
+				<span class="name">Exemple toggle</span>
+				<span class="action-icons"></span>
+			</a>
 		</div>
+
+		<hr />
+		<h2>Mise à jour d'un bouton à la volée (en JS)</h2>
+		Il ne faut pas oublier de propager l'évènement pour créer la tooltip du nom, pour cela :
+
+		{% autoescape 'js' %}
+			<pre>$('.bns-user').trigger('bns-user-update');</pre>
+		{% endautoescape %}
 	</div>
 			
 	{% include 'BNSAppHelloWorldBundle:Back:javascripts.html.twig' %}

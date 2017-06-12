@@ -1,0 +1,94 @@
+{% trans_default_domain "LIAISONBOOK" %}
+{% extends 'BNSAppLiaisonBookBundle:Back:layout.back.html.twig' %}
+
+{% block title %}
+	{% trans with {'%beneylu_brand_name%': parameter('beneylu_brand_name')} %}LIAISON_MANAGER_DETAILS_TITLE{% endtrans %}
+{% endblock %}
+
+
+{% block actionbar_content %}
+    {{ components.button_nav('LINK_BACK_TO_LIST' | trans, { href: path('BNSAppLiaisonBookBundle_back'), back: true } ) }}
+    {{ components.button('LINK_EDIT_MESSAGE' |trans, { intent: 'primary', raised: true, icon:'mode_edit', href: path('BNSAppLiaisonBookBundle_back_edit', {slug: new.slug}) }) }}
+    {{ components.button('LINK_DELETE_MESSAGE' |trans, { intent: 'warn', raised: true, href : '',icon:'delete', hover: true,
+        click: "dialog.confirm({ templateUrl: 'dialog-delete.html', targetEvent: $event })"
+
+    }) }}
+    <script type="text/ng-template" id="dialog-delete.html">
+        <md-dialog class="bns-dialog md-transition-in bns-dialog-warn">
+            <md-toolbar class="md-warn" >
+                <div class="md-toolbar-tools"><div class="md-headline"><h2>{% trans %}MODAL_DELETE_MESSAGE{% endtrans %}</h2></div>
+                    <span class="flex"></span><button class="md-icon-button md-button md-ink-ripple" ng-click="dialog.abort()">
+                        <md-icon class="ng-scope ng-isolate-scope material-icons">close</md-icon></button>
+                </div>
+            </md-toolbar>
+            <md-dialog-content>
+                <div class="md-padding">{% trans %}TITLE_SURE_TO_DELETE_MESSAGE{% endtrans %}</div>
+            </md-dialog-content><div class="md-actions">
+                <button class="md-button ng-scope md-ink-ripple" ng-click="dialog.abort()">
+                    <span class="ng-binding ng-scope">{% trans %}LINK_CLOSE{% endtrans %}</span>
+                </button>
+                {{ components.button('LINK_DELETE_MESSAGE' |trans, { intent: 'warn', raised: true, icon:'delete', href: path('BNSAppLiaisonBookBundle_back_delete', {slug: new.slug}) }) }}
+            </div>
+        </md-dialog>
+    </script>
+{% endblock %}
+
+{% block sidebar_content %}
+    <section>
+        <div class="section-title layout-row">
+            <md-icon>brush</md-icon>
+            <div class="flex">
+                <h3 class="md-headline text-ellipsis" translate>APPS.TITLE_CUSTOMIZATION</h3>
+                <div class="md-body-1 text-ellipsis">
+                    <span ng-show="navbar.app.is_open" translate>APPS.LABEL_APP_OPEN</span>
+                    <span ng-show="navbar.app && !navbar.app.is_open" translate>APPS.LABEL_APP_CLOSE</span>
+                </div>
+            </div>
+            <bns-app-toggle app="navbar.app" group="navbar.group" notify="true"></bns-app-toggle>
+        </div>
+    </section>
+
+{% endblock sidebar_content %}
+
+{% block content %}
+    <md-toolbar class="content-toolbar">
+        <div class="md-toolbar-tools layout-align-start-center">
+            <bns-sidebar-toggle></bns-sidebar-toggle>
+            <h1 class="md-title text-primary text-left flex flex-gt-sm-33">{{ new.title }}<h4>{{ new.date | date_bns('full', 'none') | capitalize}}</h4></h1>
+        </div>
+    </md-toolbar>
+    <md-content class="md-padding">
+    <div class="text">
+      {{ parse_public_resources(new.content | purify) }}
+    </div>
+      <div class="md-list-item-text">
+      <p class="md-body-1 text-muted">{{ 'CREATE_AT_BY_USER'|trans({'%date%': new.getCreatedAt() | date_bns('full', 'short'), '%user%': new.getUser().getFullName() |escape, '%imageLink%': '<img style="width:16px;" src="'~ avatar(new.getUser(), 'thumbnail') ~'" alt="" class="avatar" />' }) |desc('Le %date% par %imageLink% %user%') |raw}} </p>
+          </div>
+          <div class="resources">
+      {% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias': new.getResourceAttachments,"editable": false, 'objectType': 'LiaisonBook', 'objectId': new.id } %}
+    </div>
+        <md-divider></md-divider>
+        <md-subheader class="md-headline md-accent">{{ new.liaisonBookSignatures.count }} / {{ totalSignatures }} {% if new.liaisonBookSignatures.count > 1 %}{% trans %}PLURAL_SIGNATURE{% endtrans %}{% else %}{% trans %}SIGNATURE{% endtrans %}{% endif %}</md-subheader>
+      <div class="users">
+        {% for signature in new.liaisonBookSignatures %}
+          <a class="bns-user small">
+            <img src="{{ avatar(signature.user, 'thumbnail') }}" alt="" />
+            <span class="name">{{ signature.user.getFullName() }}</span>
+          </a>
+        {% endfor %}
+      </div>
+        <md-subheader class="md-headline md-warn">{% trans %}ON_HOLD{% endtrans %}</md-subheader>
+      <div class="users">
+        {% for user in usersNotSign %}
+          <a href="#" class="bns-user small cancel toggle">
+            <img src="{{ avatar(user, 'thumbnail') }}" alt="" />
+            <span class="name">{{ user.getFullName() }}</span>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+        </md-content>
+{% endblock %}
+
+
+

@@ -1,0 +1,27 @@
+{% trans_default_domain "GROUP" %}
+{% extends 'BNSAppGroupBundle:Back:layout.html.twig' %}
+			
+{% block content %}
+	
+	<h1>{{ 'TITLE_USER_SEARCH'|trans |desc('Recherche d\'utilisateurs') }}</h1>
+
+	<form action="{{ path('BNSAppGroupBundle_back_user_search') }}" method="post" {{ form_enctype(form) }} class="well form-inline">
+        {{ form_widget(form.id,{ 'attr': {'class': 'input-small','placeholder': 'PLACEHOLDER_ID' |trans |desc('Id')}}) }}
+        {{ form_widget(form.first_name,{ 'attr': {'class': 'input-small','placeholder': 'PLACEHOLDER_FIRSTNAME' |trans |desc('Prénom')}}) }}
+		{{ form_widget(form.last_name,{ 'attr': {'class': 'input-small','placeholder': 'PLACEHOLDER_LASTNAME' |trans |desc('Nom')}}) }}
+		{{ form_widget(form.username,{ 'attr': {'class': 'input-small','placeholder': 'PLACEHOLDER_LOGIN' |trans |desc('Login')}}) }}
+		{{ form_widget(form.email,{ 'attr': {'class': 'input-small','placeholder': 'PLACEHOLDER_EMAIL' |trans |desc('Email')}}) }}
+		{{ form_widget(form.with_archived,{ 'attr': {'class': 'input-small'}}) }} {{ form_label(form.with_archived, 'LABEL_PLUS_ARCHIVED' |trans |desc('+ Archivés')) }}
+
+		<input type="submit" value="{{ 'INPUT_SEARCH'|trans |desc('Rechercher') }}" class="btn-success"/>
+	 </form>
+
+	 {% if users|length > 0 %}
+		{% include "BNSAppGroupBundle:BackUser:searchBlock.html.twig" with{'users' : users } %}
+	{% else %}
+		<div class="alert alert-info bns-alert">
+            {{ 'ALERT_SEARCH_NO_RESULT'|trans |desc('Votre recherche n\'a pas remonté de résultat.') }}
+		</div>
+	{% endif %}
+
+{% endblock %}

@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<database name="stat" defaultIdMethod="native" namespace="BNS\App\StatisticsBundle\Model">
+  <table name="marker">
+    <column name="unique_name" primaryKey="true" required="true" size="255" type="VARCHAR" />
+    <column name="module_unique_name" required="true" size="255" type="VARCHAR" />
+  </table>
+  <table name="main">
+      <column name="marker_id" primaryKey="true" required="true" size="255" type="VARCHAR" />
+      <column name="date" primaryKey="true" required="true" type="TIMESTAMP" />
+      <column name="group_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="role_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="info" primaryKey="true" required="true" type="VARCHAR" />
+      <column name="value" required="true" type="INTEGER" />
+      <foreign-key foreignTable="marker" name="FK_MAIN_MARKER">
+        <reference foreign="unique_name" local="marker_id" />
+      </foreign-key>
+      <index name="FK_MAIN_MARKER">
+        <index-column name="marker_id" />
+      </index>
+  </table>
+  <table name="messaging">
+      <column name="marker_id" primaryKey="true" required="true" size="255" type="VARCHAR" />
+      <column name="date" primaryKey="true" required="true" type="TIMESTAMP" />
+      <column name="group_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="role_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="info" primaryKey="true" required="true" type="VARCHAR" />
+      <column name="value" required="true" type="INTEGER" />
+      <foreign-key foreignTable="marker" name="FK_MESSAGING_MARKER">
+        <reference foreign="unique_name" local="marker_id" />
+      </foreign-key>
+      <index name="FK_MESSAGING_MARKER">
+        <index-column name="marker_id" />
+      </index>
+  </table>
+  <table name="blog">
+      <column name="marker_id" primaryKey="true" required="true" size="255" type="VARCHAR" />
+      <column name="date" primaryKey="true" required="true" type="TIMESTAMP" />
+      <column name="group_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="role_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="info" primaryKey="true" required="true" type="VARCHAR" />
+      <column name="value" required="true" type="INTEGER" />
+      <foreign-key foreignTable="marker" name="FK_BLOG_MARKER">
+        <reference foreign="unique_name" local="marker_id" />
+      </foreign-key>
+      <index name="FK_BLOG_MARKER">
+        <index-column name="marker_id" />
+      </index>
+  </table>
+  <table name="profile">
+      <column name="marker_id" primaryKey="true" required="true" size="255" type="VARCHAR" />
+      <column name="date" primaryKey="true" required="true" type="TIMESTAMP" />
+      <column name="group_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="role_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="info" primaryKey="true" required="true" type="VARCHAR" />
+      <column name="value" required="true" type="INTEGER" />
+      <foreign-key foreignTable="marker" name="FK_PROFILE_MARKER">
+        <reference foreign="unique_name" local="marker_id" />
+      </foreign-key>
+      <index name="FK_PROFILE_MARKER">
+        <index-column name="marker_id" />
+      </index>
+  </table>
+  <table name="liaisonbook">
+      <column name="marker_id" primaryKey="true" required="true" size="255" type="VARCHAR" />
+      <column name="date" primaryKey="true" required="true" type="TIMESTAMP" />
+      <column name="group_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="role_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="info" primaryKey="true" required="true" type="VARCHAR" />
+      <column name="value" required="true" type="INTEGER" />
+      <foreign-key foreignTable="marker" name="FK_LBOOK_MARKER">
+        <reference foreign="unique_name" local="marker_id" />
+      </foreign-key>
+      <index name="FK_LBOOK_MARKER">
+        <index-column name="marker_id" />
+      </index>
+  </table>
+  <table name="homework">
+      <column name="marker_id" primaryKey="true" required="true" size="255" type="VARCHAR" />
+      <column name="date" primaryKey="true" required="true" type="TIMESTAMP" />
+      <column name="group_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="role_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="info" primaryKey="true" required="true" type="VARCHAR" />
+      <column name="value" required="true" type="INTEGER" />
+      <foreign-key foreignTable="marker" name="FK_HOMEWORK_MARKER">
+        <reference foreign="unique_name" local="marker_id" />
+      </foreign-key>
+      <index name="FK_HOMEWORK_MARKER">
+        <index-column name="marker_id" />
+      </index>
+  </table>
+  <table name="gps">
+      <column name="marker_id" primaryKey="true" required="true" size="255" type="VARCHAR" />
+      <column name="date" primaryKey="true" required="true" type="TIMESTAMP" />
+      <column name="group_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="role_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="info" primaryKey="true" required="true" type="VARCHAR" />
+      <column name="value" required="true" type="INTEGER" />
+      <foreign-key foreignTable="marker" name="FK_GPS_MARKER">
+        <reference foreign="unique_name" local="marker_id" />
+      </foreign-key>
+      <index name="FK_GPS_MARKER">
+        <index-column name="marker_id" />
+      </index>
+  </table>
+  <table name="resource">
+      <column name="marker_id" primaryKey="true" required="true" size="255" type="VARCHAR" />
+      <column name="date" primaryKey="true" required="true" type="TIMESTAMP" />
+      <column name="group_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="role_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="info" primaryKey="true" required="true" type="VARCHAR" />
+      <column name="value" required="true" type="INTEGER" />
+      <foreign-key foreignTable="marker" name="FK_RESOURCE_MARKER">
+        <reference foreign="unique_name" local="marker_id" />
+      </foreign-key>
+      <index name="FK_RESOURCE_MARKER">
+        <index-column name="marker_id" />
+      </index>
+  </table>
+  <table name="forum">
+      <column name="marker_id" primaryKey="true" required="true" size="255" type="VARCHAR" />
+      <column name="date" primaryKey="true" required="true" type="TIMESTAMP" />
+      <column name="group_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="role_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="info" primaryKey="true" required="true" type="VARCHAR" />
+      <column name="value" required="true" type="INTEGER" />
+      <foreign-key foreignTable="marker" name="FK_FORUM_MARKER">
+        <reference foreign="unique_name" local="marker_id" />
+      </foreign-key>
+      <index name="FK_FORUM_MARKER">
+        <index-column name="marker_id" />
+      </index>
+  </table>
+  <table name="calendar">
+      <column name="marker_id" primaryKey="true" required="true" size="255" type="VARCHAR" />
+      <column name="date" primaryKey="true" required="true" type="TIMESTAMP" />
+      <column name="group_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="role_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="info" primaryKey="true" required="true" type="VARCHAR" />
+      <column name="value" required="true" type="INTEGER" />
+      <foreign-key foreignTable="marker" name="FK_CALENDAR_MARKER">
+        <reference foreign="unique_name" local="marker_id" />
+      </foreign-key>
+      <index name="FK_CALENDAR_MARKER">
+        <index-column name="marker_id" />
+      </index>
+  </table>
+  <table name="minisite">
+      <column name="marker_id" primaryKey="true" required="true" size="255" type="VARCHAR" />
+      <column name="date" primaryKey="true" required="true" type="TIMESTAMP" />
+      <column name="group_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="role_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="info" primaryKey="true" required="true" type="VARCHAR" />
+      <column name="value" required="true" type="INTEGER" />
+      <foreign-key foreignTable="marker" name="FK_MSITE_MARKER">
+        <reference foreign="unique_name" local="marker_id" />
+      </foreign-key>
+      <index name="FK_MSITE_MARKER">
+        <index-column name="marker_id" />
+      </index>
+  </table>
+  <table name="group">
+      <column name="marker_id" primaryKey="true" required="true" size="255" type="VARCHAR" />
+      <column name="date" primaryKey="true" required="true" type="TIMESTAMP" />
+      <column name="group_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="role_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="info" primaryKey="true" required="true" type="VARCHAR" />
+      <column name="value" required="true" type="INTEGER" />
+      <foreign-key foreignTable="marker" name="FK_GROUP_MARKER">
+        <reference foreign="unique_name" local="marker_id" />
+      </foreign-key>
+      <index name="FK_GROUP_MARKER">
+        <index-column name="marker_id" />
+      </index>
+  </table>
+  <table name="classroom">
+      <column name="marker_id" primaryKey="true" required="true" size="255" type="VARCHAR" />
+      <column name="date" primaryKey="true" required="true" type="TIMESTAMP" />
+      <column name="group_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="role_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="info" primaryKey="true" required="true" type="VARCHAR" />
+      <column name="value" required="true" type="INTEGER" />
+      <foreign-key foreignTable="marker" name="FK_CLASSROOM_MARKER">
+        <reference foreign="unique_name" local="marker_id" />
+      </foreign-key>
+      <index name="FK_CLASSROOM_MARKER">
+        <index-column name="marker_id" />
+      </index>
+  </table>
+  <table name="board">
+      <column name="marker_id" primaryKey="true" required="true" size="255" type="VARCHAR" />
+      <column name="date" primaryKey="true" required="true" type="TIMESTAMP" />
+      <column name="group_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="role_id" primaryKey="true" required="true" type="INTEGER" />
+      <column name="info" primaryKey="true" required="true" type="VARCHAR" />
+      <column name="value" required="true" type="INTEGER" />
+      <foreign-key foreignTable="marker" name="FK_BOARD_MARKER">
+        <reference foreign="unique_name" local="marker_id" />
+      </foreign-key>
+      <index name="FK_BOARD_MARKER">
+        <index-column name="marker_id" />
+      </index>
+  </table>
+    <table name="medialibrary">
+        <column name="marker_id" primaryKey="true" required="true" size="255" type="VARCHAR" />
+        <column name="date" primaryKey="true" required="true" type="TIMESTAMP" />
+        <column name="group_id" primaryKey="true" required="true" type="INTEGER" />
+        <column name="role_id" primaryKey="true" required="true" type="INTEGER" />
+        <column name="info" primaryKey="true" required="true" type="VARCHAR" />
+        <column name="value" required="true" type="INTEGER" />
+        <foreign-key foreignTable="marker" name="FK_MEDIA_LIBRARY_MARKER">
+            <reference foreign="unique_name" local="marker_id" />
+        </foreign-key>
+        <index name="FK_MEDIA_LIBRARY_MARKER">
+            <index-column name="marker_id" />
+        </index>
+    </table>
+    <table name="search">
+        <column name="marker_id" primaryKey="true" required="true" size="255" type="VARCHAR" />
+        <column name="date" primaryKey="true" required="true" type="TIMESTAMP" />
+        <column name="group_id" primaryKey="true" required="true" type="INTEGER" />
+        <column name="role_id" primaryKey="true" required="true" type="INTEGER" />
+        <column name="info" primaryKey="true" required="true" type="VARCHAR" />
+        <column name="value" required="true" type="INTEGER" />
+        <foreign-key foreignTable="marker" name="FK_SEARCH_MARKER">
+            <reference foreign="unique_name" local="marker_id" />
+        </foreign-key>
+        <index name="FK_SEARCH_MARKER">
+            <index-column name="marker_id" />
+        </index>
+    </table>
+    <table name="user_directory">
+        <column name="marker_id" primaryKey="true" required="true" size="255" type="VARCHAR" />
+        <column name="date" primaryKey="true" required="true" type="TIMESTAMP" />
+        <column name="group_id" primaryKey="true" required="true" type="INTEGER" />
+        <column name="role_id" primaryKey="true" required="true" type="INTEGER" />
+        <column name="info" primaryKey="true" required="true" type="VARCHAR" />
+        <column name="value" required="true" type="INTEGER" />
+        <foreign-key foreignTable="marker" name="FK_USER_DIRECTORY_MARKER">
+            <reference foreign="unique_name" local="marker_id" />
+        </foreign-key>
+        <index name="FK_USER_DIRECTORY_MARKER">
+            <index-column name="marker_id" />
+        </index>
+    </table>
+    <table name="workshop">
+        <column name="marker_id" primaryKey="true" required="true" size="255" type="VARCHAR" />
+        <column name="date" primaryKey="true" required="true" type="TIMESTAMP" />
+        <column name="group_id" primaryKey="true" required="true" type="INTEGER" />
+        <column name="role_id" primaryKey="true" required="true" type="INTEGER" />
+        <column name="info" primaryKey="true" required="true" type="VARCHAR" />
+        <column name="value" required="true" type="INTEGER" />
+        <foreign-key foreignTable="marker" name="FK_WORKSHOP_MARKER">
+            <reference foreign="unique_name" local="marker_id" />
+        </foreign-key>
+        <index name="FK_WORKSHOP_MARKER">
+            <index-column name="marker_id" />
+        </index>
+    </table>
+</database>

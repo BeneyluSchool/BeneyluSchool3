@@ -1,0 +1,11 @@
+{% trans_default_domain "MINISITE" %}
+{% extends 'BNSAppMiniSiteBundle:Layout:back_widget.html.twig' %}
+
+{% block widget_content %}
+	<div class="row-fluid">
+		<div class="span12">
+      <p><em>{% trans %}THIS_WIDGET_HAVENT_CONFIGURATION{% endtrans %}</em></p>
+		</div>
+	</div>
+	{{ form_rest(form) }}
+{% endblock %}

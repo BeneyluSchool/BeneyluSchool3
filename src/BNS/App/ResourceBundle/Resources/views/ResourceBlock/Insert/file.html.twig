@@ -1,5 +1,8 @@
 {% extends 'BNSAppResourceBundle:ResourceBlock:file.html.twig' %}
 
 {% block content %}
-	{{ parent() }}
+	<a href="{{ create_visualisation_url_resource(resource) }}" class="btn look-image btn-warning bns-insert-resources file" target="_blank" data-slug="{{ resource.getSlug() }}" data-uid="{{ resource.getUserId() }}" data-id="{{ resource.getId() }}">
+		<span class="look-image"></span>
+		{{ resource.label }}
+	</a>
 {% endblock %}

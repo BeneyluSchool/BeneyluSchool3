@@ -1,0 +1,12 @@
+BNS\App\MiniSiteBundle\Model\MiniSitePageText:
+  exclusion_policy: All
+
+  virtual_properties:
+    getRichPublishedContent:
+      expose: true
+      serialized_name: published_content
+
+  relations:
+    - rel: attachments
+      embedded:
+        content: expr(object.getResourceAttachments())

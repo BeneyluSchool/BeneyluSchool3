@@ -1,0 +1,23 @@
+BNS\App\HomeworkBundle\Model\om\BaseHomeworkDue:
+  exclusion_policy: All
+
+  properties:
+    id:
+      expose: true
+    due_date:
+      expose: true
+    day_of_week:
+      expose: true
+    numberoftasksdone:
+      expose: true
+      groups: [ back ]
+      serialized_name: done
+    numberoftaskstotal:
+      expose: true
+      groups: [ back ]
+      serialized_name: total
+
+  relations:
+    - rel: homework
+      embedded:
+        content: expr(object.getHomework())

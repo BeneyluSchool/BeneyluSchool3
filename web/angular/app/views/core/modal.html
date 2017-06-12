@@ -1,0 +1,19 @@
+<div class="bns-modal app-root">
+  <div class="modal">
+    <i ng-if="icon" ng-class="'bns-icon-' + icon" class="round background-icon"></i>
+    <div class="modal-header" ng-if="title || showCloseButton">
+      <button ng-if="showCloseButton" class="close" ng-click="close()">×</button>
+      <h3>
+        <i ng-if="icon" ng-class="'bns-icon-' + icon" class="round"></i>
+        {{ title || '&nbsp;' }}
+      </h3>
+    </div>
+
+    <div ng-transclude></div>
+
+    <div ng-show="busy" class="loader-overlay">
+      <div class="loader"></div>
+    </div>
+  </div>
+  <div ng-if="showCloseOverlay" class="modal-backdrop" ng-click="close()"></div>
+</div>

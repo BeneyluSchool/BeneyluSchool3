@@ -1,0 +1,12 @@
+{% extends 'BNSAppMiniSiteBundle:Layout:back_widget.html.twig' %}
+
+{% block widget_content %}
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="tinyarea">
+				{{ form_widget(form.content, { 'attr': {'class': 'load_tinymce', 'data-theme': 'simple'} }) }}
+			</div>
+		</div>
+	</div>
+	{{ form_rest(form) }}
+{% endblock %}

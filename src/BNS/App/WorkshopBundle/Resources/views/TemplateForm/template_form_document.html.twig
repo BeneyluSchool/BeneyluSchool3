@@ -1,0 +1,24 @@
+{% import 'BNSAppCoreBundle:Macros:forms.html.twig' as forms %}
+
+{% for input in form.workshop_document_inputs %}
+	<div class="tinyarea">
+		{{ form_widget(input.value, { 'attr': {'bns-tinymce': ''} }) }}
+		{{ forms.errors(input.value) }}
+	</div>
+
+	<div class="resources">
+		{% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': input.vars.value.getResourceAttachments(), 'editable': true, 'extraName': input.vars.value.isNew() ? '0' : input.vars.value.getId()} %}
+	</div>
+
+	<div>
+		{{ form_widget(input.input_unique_name) }}
+	</div>
+
+	<script type="text/javascript">
+		{{ ajaxTiny(input.value.vars.id, false) }}
+	</script>
+{% endfor %}
+	
+<div>
+	{{ form_rest(form) }}
+</div>

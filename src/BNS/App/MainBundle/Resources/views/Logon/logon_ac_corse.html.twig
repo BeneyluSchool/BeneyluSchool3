@@ -1,0 +1,132 @@
+{% extends '::base.html.twig' %}
+{% trans_default_domain "MAIN" %}
+
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+
+{% set google_fonts = [
+'Jockey One',
+'Bree Serif',
+'Boogaloo',
+'Source Sans Pro',
+] %}
+
+{% block css %}
+  <link rel="stylesheet" href="{{ asset('assets/styles/styles-light.css') }}"/>
+{% endblock %}
+
+{% block html_attr %}ng-app="beneyluSchoolAuthApp" class="auth-app"{% endblock %}
+
+{% block main_javascripts %}{% endblock %}
+
+{% block javascripts %}{% endblock %}
+
+{% block analytics %}
+  {{ parent() }}
+  {% if needAnalyticsLogout %}
+    <script type="text/javascript">
+      $(function(){
+        setTimeout(function(){
+          analytics.user().traits({});
+          analytics.group().traits({});
+        }, 1500);
+      });
+    </script>
+  {% endif %}
+{% endblock %}
+
+{% block title %}{% trans with {'%beneylu_brand_name%': parameter('beneylu_brand_name')} %}TITLE_CONNECTION{% endtrans %}{% endblock %}
+
+{% block meta_description %}{% trans with {'%beneylu_brand_name%': parameter('beneylu_brand_name')} %}DESCRIPTION_CONNECTION{% endtrans %}{% endblock %}
+
+{% set iframeParams = '&fromTemplate=main&_locale=fr_FR' %}
+
+{% block body_class %}{{ parent() }} home{% endblock %}
+
+{% block body_attr %}ng-controller="LoginController as ctrl"{% endblock %}
+
+{% block body %}
+  <div class="layout-row layout-xs-column corse-logo">
+    <div class="text-center"><img src="{{ asset('medias/images/logon/corse/logo-ac.png') }}"></div>
+    <div class="text-center"> <img src="{{ asset('medias/images/logon/corse/logo.png') }}"></div>
+  </div>
+
+      {# splash page container #}
+    <div class="layout-row home-layout">
+
+        {# fullscreen #}
+        <div class="full-height-ruler"></div>
+        <div class="flex layout-column layout-align-center-center home-splash ac-corse {{ app.request.locale | replace('_','-') | lower }}">
+
+            {# message row #}
+            {% if parameter('home_message') %}
+                <div class="home-message inset">
+                    <div class="layout-column layout-gt-sm-row layout-align-center-center layout-padding md-whiteframe-z1 md-body-1 home-message-container">
+                        {{ parameter('home_message') | raw }}
+                    </div>
+                </div>
+            {% endif %}
+
+            {# login row #}
+            <div container class="flex layout-row layout-align-center-center layout-align-gt-md-end-center">
+
+                {# login blocks #}
+                <div class="flex home-blocks">
+                    <div class="layout-column layout-gt-sm-row layout-align-center-center">
+                        <div class="home-logo-container">{# avoid img as direct child of flex container #}
+                            <img src="{{ asset('assets/images/main/logo.png') }}" alt="Beneylu School" class="home-logo"/>
+                        </div>
+                        <div class="home-title">
+                            <div class="md-display-1">{% trans %}TITLE_ENTER_IN{% endtrans %}</div>
+                            <h1 class="md-display-1 home-brand">Beneylu <span class="school">School</span></h1>
+                        </div>
+                    </div>
+
+                    <div class="home-boxes">
+                      <div class="box-transparent">
+                          <div class="inner box-transparent">
+                              <iframe id="logon-iframe" src="{{ redirectUrl ~ iframeParams }}" width="100%" height="350px" scrolling="auto" marginheight="0" marginwidth="0" frameborder="0">
+                                  {% trans %}INCOMPATIBLE_BROWSER{% endtrans %}
+                              </iframe>
+                          </div>
+                      </div>
+
+                      <div class="inset">
+                          <div class="layout-row layout-align-center-center no-register">
+                            <div class="button-container">
+                              <a href="{{ path('user_password_reset') }}">
+                                <button class="md-primary md-raised md-button md-default-theme password-lost">
+                                  <md-icon>lock</md-icon>{% trans %}FORGOTTEN_PASSWORD{% endtrans %}
+                                </button>
+                              </a>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            {# cookies row #}
+            {% if not app.request.cookies.has('hide-cookies-alert') %}
+                <div class="home-cookies-container md-padding" ng-hide="ctrl.hasAcceptedCookies">
+                    <div container class="layout-row">
+                        <div class="flex flex-gt-md-80 flex-offset-gt-md-10 layout-row layout-align-space-between-start">
+                            <div class="flex flex-gt-md-80 md-body-1 text-center">
+                                {% trans with { '%cookies_more_info_url%': path('main_logon_cookies'), '%beneylu_brand_name%': parameter('beneylu_brand_name') } %}DESCRIPTION_COOKIES_POLICY{% endtrans %}
+                            </div>
+                          {{ components.button(null, { icon: 'clear', click: 'ctrl.acceptCookies()' }) }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock body %}
+
+{% block angular_scripts %}
+
+  {# Load the material app #}
+  <script src="{{ asset('assets/scripts/vendors-light.js') }}"></script>
+  <script src="{{ asset('assets/scripts/scripts.js') }}"></script>
+  <script src="{{ asset('assets/scripts/views-light.js') }}"></script>
+
+{% endblock %}

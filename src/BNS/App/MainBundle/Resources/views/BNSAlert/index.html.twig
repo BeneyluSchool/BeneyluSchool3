@@ -1,0 +1,34 @@
+{% for type in ['success','error','info'] %}
+	{% if app.session.flashbag.has(type) %}
+		{% for message in app.session.flashbag.get(type) %}
+			{% include 'BNSAppMainBundle:BNSAlert:row.html.twig' with {'message' : message , 'type' : type } %}
+		{% endfor %}
+	{% endif %}
+{% endfor %}
+
+{# S'il s'agit d'un formulaire #}
+{% if form is defined %}
+	{# S'il y a des erreurs #}
+	{% if form.text is defined %}
+		{% if form.text.vars.errors|length > 0 %}
+			{% set message = "<ul>" %}
+			{% for error in form.text.vars.errors %}
+				{% set message = message ~ "<li>" ~ error.message ~"</li>" %}
+			{% endfor %}
+			{% set message = message ~ "</ul>" %}
+			{% include 'BNSAppMainBundle:BNSAlert:row.html.twig' with {'message' :  message, 'type' : 'error' } %}
+		{% endif %}
+	{% endif %}
+{% endif %}
+
+<script type="text/javascript">
+	$(function ()
+	{
+		if ($('{% if containter is defined %} {{ container }} {% endif %} .alert.alert-success .alert.alert-error .alert.alert-info').length > 0) {
+			setTimeout(function ()
+			{
+				$('{% if containter is defined %} {{ container }} {% endif %} .alert.alert-success .alert.alert-error .alert.alert-info').slideUp('fast');
+			}, 8000); // 8 seconds
+		}
+	});
+</script>

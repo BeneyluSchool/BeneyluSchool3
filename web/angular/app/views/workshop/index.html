@@ -1,0 +1,91 @@
+<div class="container workshop-index">
+  <div class="row">
+    <div class="span6">
+      <div class="create-section">
+        <h2 translate>WORKSHOP.CREATE_A</h2>
+        <ul class="workshop-create">
+          <li>
+            <span class="btn btn-default" ng-click="ctrl.createDocument()">
+              <img ng-src="{{ ctrl.url.image('workshop/creation/document.png') }}" alt="">
+              <span translate>WORKSHOP.DOCUMENT</span>
+            </span>
+          </li>
+
+          <li>
+            <span class="btn btn-default" ng-click="ctrl.createAudio()">
+              <img ng-src="{{ ctrl.url.image('workshop/creation/audio.png') }}" alt="">
+              <span translate>WORKSHOP.AUDIO</span>
+            </span>
+          </li>
+
+          <li ng-show="ctrl.me.rights.workshop_questionnaire_create">
+            <span class="btn btn-default" ng-click="ctrl.createQuestionnaire()">
+              <img ng-src="{{ ctrl.url.image('workshop/creation/document.png') }}" alt="">
+              <span translate>WORKSHOP.QUESTIONNAIRE</span>
+            </span>
+          </li>
+
+          <li ng-repeat="i in ctrl.range(ctrl.me.rights.workshop_questionnaire_create ? 6 : 7) track by $index">
+            <span class="btn btn-default disabled">
+              <img ng-src="{{ ctrl.url.image('workshop/creation/soon.png') }}" alt="">
+              <span translate>WORKSHOP.SOON</span>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="span6">
+      <div class="latest-section">
+        <h2 translate>WORKSHOP.MY_LAST_CREATIONS</h2>
+        <ul class="documents">
+          <li ng-repeat="content in ctrl.contents">
+
+            <div ng-if="ctrl.isDocument(content)" class="layout-row layout-align-start-center">
+              <span class="document-preview">
+                <i ng-if="!ctrl.canEditDocument(content)" class="bns-icon-lock"></i>
+                <span bns-media-preview media="content._embedded.media"></span>
+              </span>
+              <span class="document-label flex text-ellipsis">
+                {{ ::content.label }}<br>
+                <small title="{{::ctrl.contributorsList(content)}}">{{::ctrl.contributorsList(content)}}</small>
+              </span>
+              <a ng-if="ctrl.canEditDocument(content)" ui-sref="app.workshop.document.base.index({ documentId: content.id, pagePosition: 1 })" class="btn btn-default pull-right">
+                <span class="bns-icon-pencil round"></span>
+                <strong translate>WORKSHOP.EDIT</strong>
+              </a>
+              <a ng-if="!ctrl.canEditDocument(content)" ui-sref="app.mediaLibrary.base.media({ id: content.media_id })" class="btn btn-default pull-right">
+                <span class="bns-icon-document round"></span>
+                <strong translate>WORKSHOP.VIEW</strong>
+              </a>
+            </div>
+
+            <div ng-if="ctrl.isAudio(content)">
+              <a ui-sref="app.mediaLibrary.base.media({ id: content.media_id })" class="btn btn-default pull-right">
+                <span class="bns-icon-pencil round"></span>
+                <strong translate>WORKSHOP.VIEW</strong>
+              </a>
+              <span class="document-preview">
+                <span bns-media-preview media="content._embedded.media"></span>
+              </span>
+              <span class="document-label">{{ ::content.label }}</span>
+            </div>
+
+            <div class="clearfix"></div>
+          </li>
+          <li ng-show="ctrl.busy">
+            <div class="loader"></div>
+          </li>
+          <li ng-show="!ctrl.busy && !ctrl.contents.length">
+            <p class="muted text-center" translate>WORKSHOP.NO_DOCUMENTS</p>
+          </li>
+        </ul>
+        <a ui-sref="app.mediaLibraryBoot" class="bottom-link">
+          <img src="/medias/images/icons/modules/resource/medium.png" alt="">
+          <span translate>
+            WORKSHOP.GOTO_MEDIA_LIBRARY_HTML
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

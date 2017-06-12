@@ -1,0 +1,15 @@
+{% trans_default_domain "PROFILE" %}
+<div class="modal-body" data-object="{{ feed.getId() }}">
+  <div class="content-modal-body">
+    {% if is_child() %}
+        {{ 'TITLE_CHILD_DELETE_SURE_DELETE_STATUS_CONSEQUENCE'|trans |desc('<h2>Es-tu sûr de vouloir supprimer le statut de ton profil ?</h2>
+			<h3>Tu perdra la totalité du contenu de ton statut.<br />A noter que si tu as ajouté un document à ton statut, il ne sera pas supprimé de la médiathèque.</h3>') |raw }}
+    {% else %}
+        {{ 'TITLE_ADULT_DELETE_SURE_DELETE_STATUS_CONSEQUENCE'|trans |desc('<h2>Êtes-vous sûr de vouloir supprimer le statut de votre profil ?</h2>
+			<h3>Vous perdrez la totalité du contenu du statut.<br />A noter que si vous avez ajouté un document à votre statut, il ne sera pas supprimé de la médiathèque.</h3>') |raw }}
+    {% endif %}
+
+    {# <p>{{ feed.getProfileFeedStatus().getContent() }}</p> #}
+  </div>
+</div>
+<div class="beneylu-jim"></div>

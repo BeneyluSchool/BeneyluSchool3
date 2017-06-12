@@ -1,5 +1,6 @@
 <?php
 namespace BNS\App\GPSBundle\Controller;
+use BNS\App\CoreBundle\Annotation\Rights;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -11,13 +12,16 @@ use Symfony\Component\HttpFoundation\Response;
  */
 
 class FrontController extends Controller
-{	
+{
     /**
      * @Route("", name="BNSAppGPSBundle_front")
      * @Template()
+     * @Rights("GPS_ACCESS")
      */
     public function indexAction()
-    {		
+    {
+        $this->get('stat.gps')->visit();
+
         //Récupération du groupe en cours
         $rm = $this->get('bns.right_manager');
         $group = $rm->getCurrentGroup();

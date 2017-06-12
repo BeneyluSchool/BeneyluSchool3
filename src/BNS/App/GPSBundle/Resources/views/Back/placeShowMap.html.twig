@@ -1,6 +1,11 @@
+{% trans_default_domain "GPS" %}
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+
 <div class="gps-place-back-map">
-	<a href="#" class="btn bns-danger btn-16 small gps-place-back-map-close"><span class="icons-16 cancel-icon"></span><strong>Fermer</strong></a>
-	<br />
+
+  {{ components.button( 'LINK_CLOSE' | trans , { href: '#', icon: 'close', raised: true, size: 'sm', attr: {'class' : 'gps-place-back-map-close'} }) }}
+
+  <br />
 	{{ vichgeo_map_for('front_map', place) }}
 	<script>
 		$('#map_canvas').css('width','100%');

@@ -1,0 +1,35 @@
+BNS\App\MessagingBundle\Model\MessagingMessage:
+  exclusion_policy: All
+
+  virtual_properties:
+    isDraft:
+      expose: true
+      serialized_name: is_draft
+    getExtract:
+      expose: true
+    getRichContent:
+      expose: true
+      groups: [ detail, message_detail ]
+      serialized_name: content
+
+  relations:
+    - rel: user
+      embedded:
+        content: expr(object.getUser())
+        exclusion:
+          groups: [ list, message_list, detail, message_detail ]
+    - rel: tos
+      embedded:
+        content: expr(object.showTos())
+        exclusion:
+          groups: [ detail, message_detail ]
+    - rel: attachments
+      embedded:
+        content: expr(object.getResourceAttachments())
+        exclusion:
+          groups: [ detail, message_detail ]
+    - rel: group
+      embedded:
+        content: expr(object.getGroup())
+        exclusion:
+          groups: [ list, message_list, detail, message_detail ]

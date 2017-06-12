@@ -1,0 +1,89 @@
+<div class="statistic-inner-content statistic-scene">
+  <bns-sidebar-toggle></bns-sidebar-toggle>
+
+  <h3 class="flex flex-none heading" >{{ ctrl.title }}&nbsp;</h3>
+
+  <div class="statistic-loader" ng-show="ctrl.state.busy.state">
+    <div layout="row" layout-sm="column" layout-align="space-around">
+      <md-progress-circular md-mode="indeterminate" ></md-progress-circular>
+    </div>
+  </div>
+
+  <div ng-show="!ctrl.state.busy.state">
+    <div ng-if="ctrl.graphInitilized">
+      <div bns-highchart id="chart1" config="ctrl.state.chartConfig"></div>
+    </div>
+
+    <md-content class="layout-padding">
+      <div ng-if="ctrl.activationStats" class="all-stat-bar">
+        <div class="stat-bar flex">
+          <span class="title" translate>STATISTIC.ACTIVATED_SCHOOL</span>
+          <div class="progress progress-striped"
+               ng-init="percent = ((ctrl.activationStats.totals.activatedSchools / ctrl.activationStats.totals.activatedSchools ? ctrl.activationStats.totals.activatedSchools / ctrl.activationStats.totals.activatedSchools : 0))*100"
+               ng-class="{true: 'progress-succeed', false: ''}[percent > 60 && percent <= 100] ||
+               {true: 'progress-warning', false: ''}[percent > 30 && percent <= 60] ||
+               {true: 'progress-danger', false: ''}[percent >= 0 && percent <= 30]"
+          >
+            <div class="bar" ng-style="{width: (percent==0)? 100 + '%' : percent + '%'}">
+              <span>{{ ctrl.activationStats.totals.activatedSchools }} / {{ ctrl.activationStats.totals.activatedSchools }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="stat-bar flex">
+          <span class="title" translate>STATISTIC.ACTIVATED_CLASSROOM</span>
+          <div class="progress progress-striped"
+               ng-init="percent1 = ((ctrl.activationStats.totals.activatedClassrooms / ctrl.activationStats.totals.classrooms ? ctrl.activationStats.totals.activatedClassrooms / ctrl.activationStats.totals.classrooms : 0))*100"
+               ng-class="{true: 'progress-succeed', false: ''}[percent1 > 60 && percent1 <= 100] ||
+               {true: 'progress-warning', false: ''}[percent1 > 30 && percent1 <= 60] ||
+               {true: 'progress-danger', false: ''}[percent1 >= 0 && percent1 <= 30]"
+          >
+
+            <div class="bar" ng-style="{width: (percent1==0)? 100 + '%' : percent1 + '%'}">
+              <span>{{ ctrl.activationStats.totals.activatedClassrooms }} / {{ ctrl.activationStats.totals.classrooms }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="stat-bar flex">
+          <span class="title" translate>STATISTIC.PUPILS_NUMBER</span>
+          <div class="progress progress-striped"
+               ng-init="percent2 = ((ctrl.activationStats.totals.pupils / ctrl.activationStats.totals.pupils ? ctrl.activationStats.totals.pupils / ctrl.activationStats.totals.pupils : 0))*100"
+               ng-class="{true: 'progress-succeed', false: ''}[percent2 > 60 && percent2 <= 100] ||
+               {true: 'progress-warning', false: ''}[percent2 > 30 && percent2 <= 60] ||
+               {true: 'progress-danger', false: ''}[percent2 >= 0 && percent2 <= 30]"
+          >
+            <div class="bar" ng-style="{width: (percent2==0)? 100 + '%' : percent2 + '%'}">
+              <span>{{ ctrl.activationStats.totals.pupils }} / {{ ctrl.activationStats.totals.pupils }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </md-content>
+
+    <hr>
+
+    <div ng-repeat="config in ctrl.gridConfig">
+      <div ng-if="config.data && config.data.length > 0">
+
+        <md-content class="layout-padding expander-label">
+          <!--<h3>{{ config.title }}</h3>-->
+
+          <div ng-if="ctrl.state.filters.statistic && ctrl.state.filters.statistic.name == 'CLASSROOM_SCHOOL_ACTIVATION'">
+
+            <div class="stat_number">
+              <h3 class="groups-name flex">{{ config.group.label }}</h3>
+
+              <div class="one-stat flex"><span class="number">{{ config.totals.pupils }}</span> <span translate>STATISTIC.PUPILS_NUMBER</span></div>
+              <div class="one-stat flex"><span class="number">{{ config.totals.classrooms }}</span> <span translate>STATISTIC.CLASSROOM_NUMBER</span></div>
+              <div class="one-stat flex"><span class="number">{{ config.totals.activatedClassrooms }}</span> <span translate>STATISTIC.ACTIVATED_CLASSROOM</span></div>
+            </div>
+          </div>
+        </md-content>
+
+        <bns-expander is-open="true">
+          <div ui-grid="config" ui-grid-selection ui-grid-grouping ui-grid-exporter ui-grid-resize-columns class="myGrid"></div>
+        </bns-expander>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,12 @@
+<md-dialog class="starter-kit-achievement-dialog">
+  <md-dialog-content class="md-dialog-content">
+    <h3 class="md-headline" translate>STARTER_KIT.TITLE_CONGRATS</h3>
+    <div class="md-title" ng-bind-html="ctrl.step.data.content|trustHtml"></div>
+  </md-dialog-content>
+  <div class="md-actions">
+    <md-button ng-click="ctrl.accept()" class="md-primary">
+      <span ng-bind-html="'STARTER_KIT.BUTTON_CONTINUE'|translate|buttonize"></span>
+      <md-icon>chevron_right</md-icon>
+    </md-button>
+  </div>
+</md-dialog>

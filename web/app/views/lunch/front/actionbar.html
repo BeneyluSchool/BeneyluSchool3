@@ -1,0 +1,18 @@
+<div layout="column" layout-align="center center">
+  <md-menu ng-if="shared.lunchWeek.id">
+    <md-button aria-label="Open print menu" class="md-raised" ng-click="$mdOpenMenu($event)">
+      <md-icon>print</md-icon>
+      <span ng-bind-html="'LUNCH.BUTTON_PRINT_MENU' | translate | buttonize"></span>
+    </md-button>
+    <md-menu-content width="4">
+      <md-menu-item ng-repeat="item in [1, 2]">
+        <md-button ng-click="menuPrint($index)" aria-label="Print mode">
+          <div ng-switch on="$index">
+              <div ng-switch-when="0" translate>LUNCH.PRINT_WEEK</div>
+              <div ng-switch-when="1" translate>LUNCH.PRINT_MONTH</div>
+          </div>
+        </md-button>
+      </md-menu-item>
+    </md-menu-content>
+  </md-menu>
+</div>

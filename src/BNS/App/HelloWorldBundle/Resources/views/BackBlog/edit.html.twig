@@ -1,0 +1,52 @@
+{% extends 'BNSAppHelloWorldBundle:BackBlog:base.html.twig' %}
+
+{% block actionbar_content %}
+
+  {{ components.button_nav('Back', { href: path('hello_world_manager_blog'), back: true }) }}
+  {{ components.button('Add | to favorites', { icon: 'star_border', raised: true }) }}
+  {{ components.button('Delete|this article', { intent: 'warn', raised: true, icon: 'delete', hover: true }) }}
+
+  <span flex></span>
+
+  {{ components.button('Save', { intent: 'accent', icon: 'done', raised: true }) }}
+
+{% endblock %}
+
+{% block sidebar_content %}
+
+  {# Displays fields of the main form here, if they are proxied #}
+  <bns-form-proxy source="{{ form.vars.name }}" du-scroll-container="content"></bns-form-proxy>
+
+{% endblock %}
+
+{% block content %}
+
+  {{ form_start(form) }}
+  {{ form_errors(form) }}
+
+  <header class="md-padding" layout="row">
+    <bns-sidebar-toggle type="button"></bns-sidebar-toggle>
+    <div flex>
+      {{ form_row(form.title) }}
+    </div>
+  </header>
+
+  <section class="md-padding">
+    {{ form_rest(form) }}
+  </section>
+
+  {{ form_end(form) }}
+
+  {% if actual_article %}
+    <section class="md-padding">
+      {# Pièces Jointes #}
+      {% include 'BNSAppMainBundle:Components:attachments.html.twig' with {
+        'medias': actual_article.getResourceAttachments(),
+        'editable': false,
+        'objectType': 'BlogArticle',
+        'objectId': actual_article.id
+      } %}
+    </section>
+  {% endif %}
+
+{% endblock %}

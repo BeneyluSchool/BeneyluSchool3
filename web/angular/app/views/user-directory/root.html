@@ -1,0 +1,15 @@
+<div class="user-directory-root">
+
+  <div class="user-directory-overlay" ng-click="ctrl.deactivate()" tabindex="-1"></div>
+
+  <div class="user-directory-topbar-container" ui-view="topbar"></div>
+
+  <div class="user-directory-main-container">
+    <div class="user-directory-navigation-container" ui-view="navigation"></div>
+
+    <div class="user-directory-scene-container" ui-view="scene"></div>
+
+    <div class="user-directory-selection-container" ui-view="selection"></div>
+  </div>
+
+</div>

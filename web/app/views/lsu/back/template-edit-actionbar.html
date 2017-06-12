@@ -1,0 +1,11 @@
+<md-button ui-sref="^">
+  <md-icon>chevron_left</md-icon>
+  <span ng-bind-html="'LSU.BUTTON_BACK_TO_LIST'|translate|buttonize"></span>
+</md-button>
+
+<span class="bns-separator"></span>
+
+<md-button ng-if="shared.template.id" ng-click="ctrl.removeTemplate($event)" class="md-raised md-warn btn-hover">
+  <md-icon>delete</md-icon>
+  <span ng-bind-html="'LSU.BUTTON_DELETE_TEMPLATE'|translate|buttonize"></span>
+</md-button>

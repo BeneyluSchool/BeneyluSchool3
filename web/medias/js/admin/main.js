@@ -54,7 +54,7 @@ $(function(){
 		});
 	});
 	
-	$('.group-parent-edit').live('click',function(event){
+	$('.group-parent-add').live('click',function(event){
 		event.preventDefault();
 		$('.group-parent-form').toggle('blink');
 	});
@@ -66,4 +66,11 @@ $(function(){
 			$('#rank-add-permission-button').hide();
 	});
 	
+	$('.add-rule.btn').click(function(){
+		$('.add-rule-form').toggle('slow');
+	});
+
+    $('.import-rules.btn').click(function(){
+        $('.import-rules-form').toggle('slow');
+    });
 });

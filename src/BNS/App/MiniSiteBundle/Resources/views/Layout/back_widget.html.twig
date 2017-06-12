@@ -1,22 +1,45 @@
-<div class="widget" id="widget-{{ widget.getId() }}" data-input-names="title,{{ widget.getPropertiesAsString() }},_token">
+{% trans_default_domain "MINISITE" %}
+<div class="widget" id="widget-{{ widget.getId() }}" data-input-names="title,{{ widget.getPropertiesAsString() }},_token" data-id="{{ widget.getId() }}">
+	{% block widget_loader %}
+		<div class="loader loader-sb"></div>
+	{% endblock widget_loader %}
 	{% block widget_header %}
-		<div class="btn-group">
-			<div class="header btn-info">
-				{{ form_widget(form.title, {'attr': {'placeholder': 'Titre du widget'}}) }} <span class="caret"></span><p>{{ widget.getMiniSiteWidgetTemplate().getLabel() }}</p>
-			</div>
+		<div class="header">
+      <p>{{ widget.getMiniSiteWidgetTemplate().getLabel() }}</p>
+
+      <a class="widget-delete" id="delete-widget-{{ widget.getId() }}" href="#" data-toggle="modal" data-target="#delete-widget-modal" >
+
+        <md-icon class="material-icons">close</md-icon>
+
+
+      </a>
 		</div>
 	{% endblock widget_header %}
 
 	{% block widget_container %}
 		<div class="widget-content">
+      {{ form_widget(form.title, {'attr': {'placeholder': 'PLACEHOLDER_TITLE_WIDGET' |trans } }) }}
 			{% block widget_content %}
 				Add my content please!
 			{% endblock widget_content %}
-
-			{% block widget_buttons %}
-				<input type="submit" class="btn validate" value="Valider" id="submit-widget-{{ widget.getId() }}" />
-				<a class="btn btn-danger delete" id="delete-widget-{{ widget.getId() }}" href="{{ path('minisite_manager_custom_widget_delete_confirm', {'widgetId': widget.getId()}) }}">{% trans %}MiniSite.Back.Custom.Widgets.Delete{% endtrans %}</a>
-			{% endblock widget_buttons %}
+			{% block widget_errors %}
+				<div class="alert alert-danger bns-alert hide">
+					<span class="message"></span>
+		</div>
+			{% endblock widget_errors %}
 		</div>
 	{% endblock widget_container %}
+
+	{% block widget_footer %}
+		<div class="footer">
+			{% block widget_buttons %}
+
+
+				<a href="#" class="widget-validate bns-sucess md-accent md-raised md-button md-ink-ripple" id="submit-widget-{{ widget.getId() }}">
+          <md-icon class="material-icons">done</md-icon>
+					<span>{% trans %}LINK_VALIDATE{% endtrans %}</span>
+				</a>
+			{% endblock widget_buttons %}
+		</div>
+	{% endblock widget_footer %}
 </div>

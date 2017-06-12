@@ -1,0 +1,73 @@
+<div class="space-ops-stage md-padding layout-row">
+  <bns-space-ops-game-gauge game="ctrl.game"></bns-space-ops-game-gauge>
+</div>
+
+<div class="space-ops-content layout-column flex">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <span class="md-title text-glow" translate>SPACE_OPS.LABEL_LIVES</span>
+      <bns-space-ops-game-lives lives="ctrl.game.lives"></bns-space-ops-game-lives>
+      <span class="flex"></span>
+      <span class="md-title text-glow">{{'SPACE_OPS.LABEL_POINTS'|translate}} {{ctrl.game.score}}</span>
+    </div>
+  </md-toolbar>
+
+  <md-content class="flex layout-row layout-align-center-center">
+    <div ng-if="ctrl.level && !ctrl.game.isLost() && !ctrl.game.isWon()" ng-class="{'success':'win'===ctrl.status, 'error':'lose'===ctrl.status}" class="space-ops-solver">
+      <h3 class="md-display-1 text-center text-glow" translate>SPACE_OPS.TITLE_SOLVE_OPERATION</h3>
+      <form ng-submit="ctrl.solve()" class="space-ops-box">
+        <div class="md-display-4 layout-gt-md-row layout-align-space-between-center layout-padding">
+          <div class="text-center flex flex-none layout-padding text-glow">
+            <span class="flex flex-none">{{ctrl.level.left}}</span>
+            <span class="flex flex-none">{{ctrl.level.operator|niceOperator}}</span>
+            <span class="flex flex-none">{{ctrl.level.right}}</span>
+          </div>
+          <div class="flex flex-none text-center text-glow">=</div>
+          <div class="flex layout-row layout-align-center-center">
+            <input type="number" ng-model="ctrl.answer" required min="{{::ctrl.minValue}}" max="{{::ctrl.maxValue}}" ng-attr-readonly="ctrl.status">
+          </div>
+          <div class="flex flex-none layout-row layout-align-center-center">
+            <md-button type="submit" class="validate md-raised" ng-class="{ 'md-accent':'win'===ctrl.status, 'md-warn':'lose'===ctrl.status, 'md-primary':!ctrl.status }">
+              <md-icon ng-show="ctrl.status">{{'win'===ctrl.status?'check':('lose'===ctrl.status?'clear':'')}}</md-icon>
+              <span ng-show="!ctrl.status" translate>SPACE_OPS.BUTTON_VALIDATE</span>
+            </md-button>
+          </div>
+        </div>
+        <div class="solver-message md-headline text-center text-glow">{{ctrl.message}}</div>
+      </form>
+    </div>
+
+    <div ng-if="ctrl.game.isLost()" class="space-ops-box box-restart md-padding">
+      <div class="layout-gt-sm-row">
+        <div class="space-ops-logo"></div>
+        <div class="flex text-glow">
+          <h1 class="md-display-3" translate>SPACE_OPS.TITLE_YOU_LOSE</h1>
+          <div class="md-headline" translate>SPACE_OPS.DESCRIPTION_YOU_LOSE</div>
+        </div>
+      </div>
+      <div class="text-center box-actions">
+        <md-button ng-click="ctrl.game.restart()" class="btn-lg md-raised" href>
+          <span ng-bind-html="'SPACE_OPS.BUTTON_RESTART_MISSION'|translate|buttonize">.</span>
+        </md-button>
+      </div>
+    </div>
+
+    <div ng-if="ctrl.game.isWon()" class="space-ops-box box-restart md-padding">
+      <div class="layout-gt-sm-row">
+        <div class="space-ops-logo"></div>
+        <div class="flex text-glow">
+          <h1 class="md-display-3" translate>SPACE_OPS.TITLE_YOU_WIN</h1>
+          <div class="md-headline" translate>SPACE_OPS.DESCRIPTION_YOU_WIN</div>
+        </div>
+      </div>
+      <div class="layout-row layout-align-center-center box-actions">
+        <div ng-transclude></div>
+        <md-button ng-click="ctrl.game.continue()" class="btn-lg md-raised md-primary" href>
+          <span ng-bind-html="'SPACE_OPS.BUTTON_RESTART_MISSION'|translate|buttonize">.</span>
+        </md-button>
+      </div>
+    </div>
+  </md-content>
+</div>
+
+<div class="flex-5"></div>

@@ -1,0 +1,28 @@
+{% trans_default_domain "MEDIA_LIBRARY" %}
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+<div class="content-joined">
+    {#
+    {% if (medias|length > 0) %}
+        {{ 'TITLE_ATTACHED_FILES'|transchoice(medias|length) |raw }}
+    {% endif %}
+    {% if editable == true and has_right_somewhere('MEDIA_LIBRARY_ACCESS') %}
+
+          {{ components.button( 'BUTTON_JOIN_DOCUMENT' | trans , { intent: 'primary', icon: 'edit', raised: true, attr:{'class': 'media-join pull-right'}}) }}
+
+    {% endif %}
+    <div id="resource-join-{{ random(1000000) }}" class="resource-list" data-object-type="{{ objectType|default('') }}" data-object-id="{{ objectId|default('') }}">
+        {% for media in medias %}
+            {% set tpl = media.getTypeUniqueName() | lower %}
+            {% include 'BNSAppMediaLibraryBundle:MediaBlock/Join:' ~ tpl ~ '.html.twig' %}
+        {% endfor %}
+    </div>
+    #}
+    <bns-attachments
+        {% if hideEmpty|default(false) and medias|length == 0 and not editable %}ng-hide="true"{% endif %}
+        data-object-type="{{ objectType|default('') }}"
+        data-object-id="{{ objectId|default('') }}"
+        source="{{ medias|serialize }}"
+        editable="{{ editable }}"
+        {% if startOpen is defined and not startOpen %}start-open="false"{% endif %}
+    ></bns-attachments>
+</div>

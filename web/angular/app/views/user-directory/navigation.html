@@ -1,0 +1,22 @@
+
+<div class="user-directory-inner-topbar user-directory-navigation">
+  <!-- search -->
+</div>
+
+<div class="user-directory-inner-content user-directory-navigation">
+  <scrollable>
+
+    <h3 class="user-directory-navigation-title" translate>USER_DIRECTORY.MY_WORKSPACES</h3>
+
+    <div ng-if="ctrl.groupsTree"
+      bns-navigation-tree-root="ctrl.treeConfiguration"
+      tree="ctrl.groupsTree"
+    ></div>
+
+    <div ng-if="ctrl.distributionGroupsTree"
+      bns-navigation-tree-root="ctrl.distributionTreeConfiguration"
+      tree="ctrl.distributionGroupsTree"
+    ></div>
+
+  </scrollable>
+</div>

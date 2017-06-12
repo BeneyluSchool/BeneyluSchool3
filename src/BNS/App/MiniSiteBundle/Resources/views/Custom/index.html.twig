@@ -1,359 +1,476 @@
+{% trans_default_domain "MINISITE" %}
 {% extends 'BNSAppMiniSiteBundle:Layout:manager.html.twig' %}
 
 {% block javascripts %}
-	{{ parent() }}
-	<script type="text/javascript" src="{{ asset('/medias/js/jquery.scrollTo.js') }}"></script>
-	<script type="text/javascript">
-		$(function() {
-			// Drag'n'drop categories
-			$('.load-sortable').sortable({
-				placeholder: 'placeholder',
-				cancel: '.open',
-				distance: 20,
-				update: function ()
-				{
-					$.ajax({
-						url: '{{ path('minisite_manager_custom_page_order') }}',
-						type: 'POST',
-						data: {'pages': $('.load-sortable').sortable('toArray')}
-					});
-				}
-			});
-			
-			// Editor drag
-			$('.editor').draggable({
-				helper: 'original',
-				revert: true,
-				refreshPositions: true
-			});
+  {{ parent() }}
 
-			/* DELETE EDITOR PROCESS */
-			$('.editor-delete-zone').droppable({
-				accept: '.editor',
-				activeClass: 'active-delete-zone',
-				hoverClass: 'hover-delete-zone',
-				drop: function(event, ui)
-				{
-					var $editor = $(ui.draggable[0]),
-						editorId = $editor.attr('id').split('-');
-						
-					editorId = editorId[1];					
-					$editor.fadeOut('slow');
-					
-					$.ajax({
-						url: Routing.generate('minisite_manager_editor_delete'),
-						type: 'POST',
-						dataType: 'json',
-						data: {'editor_id': editorId}
-					});
-				}
-			});
-			
-			/* EDITION MODE OPEN */
-			$('.pages-sort .content-title-page .edit-button').live('click', function (e)
-			{
-				var $this = $(this),
-					$row = $this.parent().parent().parent();
-					
-				openEdition($row);
-				
-				return false;
-			});
-			
-			function openEdition($row)
-			{
-				// Change title label into input
-				$row.find('.content-title-page .title').fadeOut('fast', function ()
-				{
-					$row.find('.content-title-page input').fadeIn('slow');
-				});
-				// Close crud, open edit buttons
-				$row.find('.crud').slideUp('fast', function ()
-				{
-					$row.find('.edit').slideDown('fast', function ()
-					{
-						// Open edit form
-						$row.addClass('open');
-						$row.find('.content-form-edit').slideDown('slow');
-						$row.find('input[type="text"]').focus();
-					});
-				});
-			}
-			
-			/* EDITION MODE CLOSE */
-			function closeEdition($row)
-			{
-				// Change title input into label
-				$row.find('.content-title-page input').fadeOut('fast', function ()
-				{
-					$row.find('.content-title-page .title').fadeIn('fast');
-				});
-				
-				// Close edit form
-				$row.find('.content-form-edit').slideUp('fast');
-				
-				// Close edit, open crud buttons
-				$row.find('.edit').slideUp('fast', function ()
-				{
-					$row.removeClass('open');
-					$row.find('.crud').slideDown('fast');
-				});
-			}
-			
-			/* DELETE MODE OPEN */
-			$('.delete-button a').click(function (e)
-			{
-				var $this = $(this),
-					$row = $this.parent().parent().parent();
-				
-				// Close crud, open delete mode
-				$row.find('.crud').slideUp('fast', function ()
-				{
-					$row.find('.delete').slideDown('fast', function ()
-					{
-						$row.addClass('open');
-					});
-				});
-				
-				return false;
-			});
-			
-			// Cancel edition
-			$('.pages-sort .edit .cancel').live('click', function (e)
-			{
-				closeEdition($(this).parent().parent().parent());
-			});
-			
-			// Validation edition
-			$('.pages-sort .edit .confirm').live('click', function (e)
-			{
-				if ($(this).hasClass('disabled')) {
-					return;
-				}
-				
-				var $this = $(this),
-					$row = $this.parent().parent().parent();
-				
-				// Edit the title
-				$input = $row.find('.content-title-page input');
-				$row.find('.content-title-page .title').text($input.val());
-				$row.find('input, .btn').addClass('disabled').attr('disabled', 'disabled');
-				$row.css('opacity', '.5');
-				
-				$.ajax({
-					url: $this.attr('href'),
-					type: 'POST',
-					dataType: 'json',
-					data: {
-						'mini_site_page_form[title]': $input.val(),
-						'mini_site_page_form[type]': $row.find('select').val(),
-						'mini_site_page_form[is_home]': $row.find('input[type="checkbox"]').val(),
-						'mini_site_page_form[_token]': $('#csrf-token').val()
-					}
-				}).done(function ()
-				{
-					$row.find('input, .btn').removeClass('disabled').removeAttr('disabled');
-					closeEdition($row);
-					$row.css('opacity', '1');
-				});
-				
-				return false;
-			});
-			
-			/* ADD PAGE PROCESS */
-			$('.header-btn .add-page').click(function (e)
-			{
-				var $this = $(this);
-				if ($this.hasClass('disabled')) {
-					return false;
-				}
-				
-				$this.addClass('disabled');
-				
-				$.ajax({
-					url: $this.attr('href'),
-					success: function (data)
-					{
-						var $data = $(data);
-						$data.css('display', 'none');
-						$('.load-sortable').append($data);
-						$.scrollTo('#scroll-anchor', 500, {
-							onAfter: function ()
-							{
-								$data.slideDown('slow', function ()
-								{
-									openEdition($data);
-									$this.removeClass('disabled');
-								});
-							}
-						});
-					}
-				});
-				
-				return false;
-			});
-			
-			$('.load-sortable .btn-activation').live('click', function (e)
-			{
-				var $this = $(this),
-					$span = $this.find('span'),
-					$row = $this.parent().parent().parent().parent(),
-					pageId = $row.attr('id').split('_');
-					
-				pageId = pageId[1];
-			
-				if ($span.hasClass('disabled')) {
-					$span.removeClass('disabled');
-					$row.find('.page-checkbox').css('display', 'block');
-				}
-				else {
-					$span.addClass('disabled');
-					$row.find('.page-checkbox').css('display', 'none');
-				}
-				
-				$.ajax({
-					url: $this.attr('href'),
-					type: 'POST',
-					dataType: 'json',
-					data: {'page_id': pageId}
-				});
-				
-				return false;
-			});
-			
-			$('.news-title .btn-activation').click(function (e)
-			{
-				var $this = $(this),
-					$span = $this.find('span');
-			
-				if ($span.hasClass('disabled')) {
-					$span.removeClass('disabled');
-				}
-				else {
-					$span.addClass('disabled');
-				}
-				
-				$.ajax({
-					url: $this.attr('href')
-				});
-				
-				return false;
-			});
-			
-			$('.load-sortable .delete .confirm').live('click', function(e)
-			{
-				var $this = $(this);
-				
-				$this.addClass('disabled').attr('disabled', 'disabled');
-				$.ajax({
-					url: $this.attr('href'),
-					success: function (data)
-					{
-						var $modal = $(data);
-						$('body').prepend($modal);
-						
-						$modal.modal('show').on('hidden', function ()
-						{
-							$(this).remove();
-						});
-						$this.removeClass('disabled').removeAttr('disabled');
-					}
-				});
-				
-				return false;
-			});
-			
-			$('.load-sortable .delete .cancel').click(function (e)
-			{
-				var $this = $(this),
-					$row = $this.parent().parent().parent();
-				
-				// Close delete, open crud
-				$row.find('.delete').slideUp('fast', function ()
-				{
-					$row.find('.crud').slideDown('fast', function ()
-					{
-						$row.removeClass('open');
-					});
-				});
-				
-				return false;
-			});
-			
-			$('#minisite_delete_modal .modal-footer .delete-process').live('click', function (e)
-			{
-				var $this = $(this);
-				$this.addClass('disabled').attr('disabled', 'disabled');
-				
-				$.ajax({
-					url: $this.attr('href'),
-					success: function (data)
-					{
-						var listId = $('#minisite_delete_modal .modal-body').data('object');
-						$('#list_' + listId).slideUp('slow', function ()
-						{
-							$(this).remove();
-						});
-						
-						$('#minisite_delete_modal').modal('hide');
-					}
-				});
-				
-				return false;
-			});
-		});
-	</script>
+  <script type="text/javascript">
+    var categoriesRoutes = {
+      'insert': '{{ path('minisite_manager_custom_page_new') }}',
+      'remove': '{{ path('minisite_manager_custom_page_delete') }}'
+    };
+  </script>
+  <script type="text/javascript" src="{{ asset('/medias/js/category/category.js') }}"></script>
+  <script type="text/javascript">
+    $(function() {
+      // Drag'n'drop categories
+      $('.load-sortable').sortable({
+        placeholder: 'placeholder',
+        handle: '.list-grip',
+        cancel: '.active',
+        distance: 0,
+        update: function ()
+        {
+          $.ajax({
+            url: '{{ path('minisite_manager_custom_page_order') }}',
+            type: 'POST',
+            data: {'pages': $('.load-sortable').sortable('toArray')}
+          });
+        }
+      });
+
+
+      // Edit page process
+      $('body').off('click', '.content-categories-management ol.load-sortable .submit-category');
+      $('.content-categories-management').on('click', 'ol.load-sortable .submit-category', function (e)
+      {
+        var $this = $(e.currentTarget).parent().parent(),
+          categoryId = $this.attr('id').split('_'),
+          $input = $this.find('input').first(),
+          $loader = $this.find('.loader').first(),
+          categoryId = categoryId[1];
+
+        // Show error title if needed
+        if ($input.val().length < 3) {
+          $this.find('.alert.title').slideDown('fast');
+
+          return false;
+        }
+        else {
+          $this.find('.alert.title').slideUp('fast');
+        }
+
+        $('body').trigger('close-category');
+        $this.find('div').first().addClass('loading');
+        $loader.fadeIn('fast');
+
+        // Retreive data
+        var data = {};
+        $.each($this.find('input'), function (i, item) {
+          var $item = $(item);
+
+          // Si checkbox et non checkée
+          if ($item.attr('type') == 'checkbox' && !$item.is(':checked')) {
+            return;
+          }
+          else {
+            data[$item.attr('name')] = $item.val();
+          }
+        });
+
+        $.ajax({
+          url: Routing.generate('minisite_manager_custom_page_edit', {'id': categoryId}),
+          type: 'POST',
+          dataType: 'json',
+          data: data,
+          success: function (data) {
+            if (data.is_home) {
+              $('.load-sortable .info .is-home').show().find('input').attr('checked', false);
+              $('.load-sortable .info').removeClass('info');
+              $this.addClass('info').find('.is-home').hide();
+            }
+
+            $this.find('div.title').first().text($input.val());
+          }
+        }).done(function ()
+        {
+          $loader.fadeOut('fast');
+          $this.find('div').first().removeClass('loading');
+        });
+      });
+
+      // Insert page process
+      $('#new-category-modal .submit-create-category').unbind('click');
+      $('#new-category-modal .submit-create-category').click(function (e)
+      {
+        var $this = $(e.currentTarget),
+          $modalBody = $('#new-category-modal'),
+          $loader = $modalBody.find('.loader'),
+          $title = $modalBody.find('.category-editor input[type="text"]'),
+          $type = $modalBody.find('.category-editor .change-type');
+
+        if ($title.val().length == 0) {
+          $modalBody.find('.bns-alert.empty').slideDown('fast');
+
+          return false;
+        }
+        else {
+          $modalBody.find('.bns-alert.empty').slideUp('fast');
+        }
+
+        $loader.fadeIn('fast');
+
+        // Retreive data
+        var data = {};
+        $.each($modalBody.find('input, select'), function (i, item) {
+          var $item = $(item);
+
+          data[$item.attr('name')] = $item.val();
+        });
+
+        $.ajax({
+          url: categoriesRoutes.insert,
+          type: 'POST',
+          dataType: 'html',
+          data: data,
+          success: function (data) {
+            var $category = $(data);
+            $category.css('display', 'none').find('div').first().addClass('new-animation new');
+
+            var $categoryList = $('.content-categories-management ol.load-sortable');
+
+            // Hide empty message
+            $categoryList.find('.no-item').slideUp('fast');
+            $categoryList.append($category);
+
+            $category.slideDown('fast', function () {
+              $category.find('div').first().removeClass('new');
+              setTimeout(function () {
+                $category.find('div').first().removeClass('new-animation');
+              }, 5000);
+            });
+          }
+        }).done(function () {
+          // Reset modal
+          $title.val('');
+          $type.val('TEXT');
+
+          $loader.fadeOut('fast');
+
+          if ($this.data('dismiss') == 'modal') {
+            $('#new-category-modal').modal('hide');
+          }
+        });
+
+        return false;
+      });
+
+      // Edit page type change description
+      $('.modal#new-category-modal .change-type').change(function (e) {
+        var $this = $(e.currentTarget),
+          $parent = $this.parent();
+
+        $parent.find('.description').hide();
+        $parent.find('.description.type-' + $this.val().toLowerCase()).css('display', 'inline-block');
+      });
+
+      // Delete process
+      // Deleting category modal process
+      $('#delete-category-modal .delete-category-button').unbind('click');
+      $('#delete-category-modal .delete-category-button').click(function (e)
+      {
+        var $this = $(e.currentTarget),
+          $modal = $('#delete-category-modal'),
+          categoryId = $modal.find('input#delete-category-id').val(),
+
+          $li = $('.content-categories-management ol.load-sortable li#list_' + categoryId);
+        if ($li.hasClass('info')) {
+          $li.find('div:first-child').trigger('click');
+          $li.find('.alert.delete').slideDown('fast');
+
+          return true;
+        }
+        else {
+          $li.find('.alert.delete').slideUp('fast');
+        }
+
+        $this.addClass('disabled').attr('disabled', 'disabled');
+        $li.slideUp('fast', function ()
+        {
+          $modal.modal('hide');
+          $this.removeClass('disabled').removeAttr('disabled');
+          $modal.find('p.sub-category-warning').hide();
+          $(this).remove();
+        });
+
+        $.ajax({
+          url: categoriesRoutes.remove,
+          type: 'POST',
+          data: {'id': categoryId}
+        });
+      });
+
+      // Switch activation process
+      $('.header-buttons #disable-page').click(function (e)
+      {
+        var $this = $(this),
+          $row = $.menu.el(),
+          pageId = $row.attr('id').split('_');
+
+        if ($this.hasClass('disabled')) {
+          return false;
+        }
+
+        $this.addClass('disabled');
+        pageId = pageId[1];
+
+        $.ajax({
+          url: $this.attr('href'),
+          type: 'POST',
+          dataType: 'json',
+          data: {'page_id': pageId},
+          success: function () {
+            if ($row.hasClass('danger')) {
+              $row.removeClass('danger');
+              $row.addClass('success');
+              $row.find('.is-home').slideDown('fast');
+            }
+            else {
+              $row.removeClass('success');
+              $row.addClass('danger');
+              $row.find('.is-home').slideUp('fast');
+            }
+
+            $this.removeClass('disabled');
+            $row.trigger('switch-activation');
+          }
+        });
+
+        return false;
+      });
+
+      // Show disable or enable process
+      $('.content-categories-management').on('click', 'ol.load-sortable li > div:first-child', function (e) {
+        $(e.currentTarget).parent().trigger('switch-activation');
+        $(e.currentTarget).parent().trigger('switch-confidentiality');
+      });
+
+      $('ol.load-sortable').on('switch-activation', 'li', function (e) {
+        var $li = $(e.currentTarget);
+
+        // Can't disable homepage
+        if ($li.hasClass('info')) {
+          $('#disable-page').hide();
+
+          return;
+        }
+        else {
+          $('#disable-page').show();
+        }
+
+        if ($li.hasClass('danger')) {
+          $('#disable-page').removeClass('bns-danger').addClass('bns-warning');
+          $('#disable-page').find('.cancel-icon').removeClass('cancel-icon').addClass('validate-black-icon');
+          $('#disable-page .disable').hide();
+          $('#disable-page .enable').show();
+        }
+        else {
+          $('#disable-page').removeClass('bns-warning').addClass('bns-danger');
+          $('#disable-page').find('.validate-black-icon').removeClass('validate-black-icon').addClass('cancel-icon');
+          $('#disable-page .enable').hide();
+          $('#disable-page .disable').show();
+        }
+      });
+
+      $('ol.load-sortable').on('switch-confidentiality', 'li', function (e) {
+        var $row = $(e.currentTarget);
+        if ($row.hasClass('private')) {
+          $('#confidentiality-page').find('.private-icon').removeClass('private-icon').addClass('public-icon');
+          $('#confidentiality-page').find('.private').hide();
+          $('#confidentiality-page').find('.public').show();
+        }
+        else {
+          $('#confidentiality-page').find('.public-icon').removeClass('public-icon').addClass('private-icon');
+          $('#confidentiality-page').find('.public').hide();
+          $('#confidentiality-page').find('.private').show();
+        }
+      });
+
+      // Switch confidentiality process
+      $('.header-buttons #confidentiality-page').click(function (e)
+      {
+        var $this = $(e.currentTarget),
+          $row = $.menu.el(),
+          pageId = $row.attr('id').split('_');
+
+        if ($this.hasClass('disabled')) {
+          return false;
+        }
+
+        $this.addClass('disabled');
+        pageId = pageId[1];
+
+        $.ajax({
+          url: $this.attr('href'),
+          type: 'POST',
+          dataType: 'json',
+          data: {'id': pageId},
+          success: function () {
+            $row.toggleClass('private');
+            $row.trigger('switch-confidentiality');
+            $this.removeClass('disabled');
+          }
+        });
+
+        return false;
+      });
+    });
+  </script>
 {% endblock javascripts %}
 
 {% block sidebar %}
-	{{ parent() }}
+  {% include 'BNSAppMiniSiteBundle:Sidebar:sidebar.html.twig' with {'index': 'custom', 'section': 'pages'} %}
 {% endblock sidebar %}
 
 {% block header %}
-	<div class="content-add-btn agenda">
-		<a class="btn btn-info btn-new-article" href="#"><span class="icon-add-article blog"></span>{% trans %}MiniSite.Back.HeaderButtons.AddEditor{% endtrans %}</a>
-		<a class="btn btn-info btn-new-article add-page" href="{{ path('minisite_manager_page_add') }}"><span class="icon-add-article blog"></span>{% trans %}MiniSite.Back.HeaderButtons.AddPage{% endtrans %}</a>
-	</div>
+  <div class="header-buttons">
+            <a href="#" data-toggle="modal" data-target="#new-category-modal">
+
+              {{ components.button( 'LINK_ADD_PAGE' | trans , { intent: 'primary', href: '#', icon: 'add_circle', raised: true }) }}
+
+            </a>
+
+          <div class="span9 align-right switchable-menu" id="default-header"></div>
+          <div class="span9 switchable-menu hide" id="category-edit-mode" data-effect="drop">
+            <a id="disable-page" href="{{ path('minisite_manager_switch_activation_page') }}" class="btn bns-danger btn-24 medium-return">
+              <span class="icons-24 cancel-icon"></span>
+                {{ 'LINK_DESACTIVATE_PAGE'|trans({'%class%': ''})  |raw }}
+                {{ 'LINK_ACTIVATE_PAGE'|trans({'%class%': 'hide'}) |raw }}
+
+            </a>
+            <a id="confidentiality-page" href="{{ path('minisite_manager_page_confidentiality') }}" class="btn bns-warning btn-24 medium">
+              <span class="icons-24 public-icon"></span>
+                {{ 'LINK_RENDER_PUBLIC'|trans({'%class%': ''}) |desc('<span class="public %class%">Rendre <strong class="public">publique</strong></span>') |raw }}
+                {{ 'LINK_RENDER_PRIVATE'|trans({'%class%': 'hide'}) |desc('<span class="private %class%">Rendre <strong>privé</strong></span>') |raw }}
+            </a>
+            <a href="#" data-toggle="menu" data-target="#default-header" class="btn bns-danger btn-24 medium-return cancel-button pull-right">
+              <span class="icons-24 cancel-icon"></span>
+              {% trans %}LINK_CANCEL_MODIFICATION{% endtrans %}
+
+
+            </a>
+            </div>
+          </div>
+  </div>
 {% endblock header %}
 
 {% block content %}
-    <div class="content-mini-site">
-		{% if switchPublicIsAllowed %}
-			<div class="content-title">
-				<div class="news-title">
-					<h1 class="dashboard">{% trans %}MiniSite.Back.Custom.SitePublic{% endtrans %}</h1>
-					<a class="btn-activation" href="{{ path('minisite_manager_switch_public') }}"><span {% if minisite.isPublic() %}class="disabled"{% endif %}></span></a>
-				</div>
-			</div>
-		{% endif %}
-        <div class="content-title">
-            <div class="news-title title-editor">
-                <h1 class="dashboard">{% trans %}MiniSite.Back.Custom.Editors{% endtrans %}</h1>
-            </div>
-        </div>
-        <div class="editor-list">
-            {% for editor in editors %}
-                <div class="editor content-editor" id="editor-{{ editor.getId() }}">
-                    <img src="{{ asset('/medias/images/blog/avatar-student.png') }}" alt="" /> <p>{{ editor.getFirstName() }}</p> <p>{{ editor.getLastName() }}</p>
-                </div>
-            {% endfor %}
-        </div>
-        <div class="editor-delete-zone content-delete-zone">
-           <p> <span class="delete-ico"></span> {% trans %}MiniSite.Back.Custom.DeleteBoxDescription{% endtrans %}</p>
-        </div>
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools layout-align-start-center">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+    <h1 class="md-title text-primary text-left flex flex-gt-sm-33">{% trans%}LINK_CUSTOMIZE{% endtrans %} - {% trans %}TITLE_PAGES{% endtrans %}</h1>
+  </div>
+</md-toolbar>
 
-        <div class="content-title">
-            <div class="news-title title-no-shadow">
-                <h1 class="dashboard">{% trans %}MiniSite.Back.Custom.Pages{% endtrans %}</h1>
-            </div>
-        </div>
+<md-content  id="content" >
+  <div class="content-mini-site content-categories-management">
 
-        <ol class="pages-sort load-sortable">
-            {% for page in minisite.getMiniSitePages() %}
-                {% include 'BNSAppMiniSiteBundle:Page:back_page_row.html.twig' %}
-            {% endfor %}
-        </ol>
-		<div id="scroll-anchor"></div>
-		<input type="hidden" id="csrf-token" name="mini_site_page_form[_token]" value="{{ csrf_token }}" />
-    </div>
+
+
+
+
+    <ol class="load-sortable">
+      {% for page in minisite.getMiniSitePages() %}
+        {{ render(controller('BNSAppMiniSiteBundle:BackCustom:renderPage', {'page': page} )) }}
+      {% endfor %}
+    </ol>
+
+    <div id="scroll-anchor"></div>
+  </div>
+
+  </md-content>
 {% endblock content %}
+
+{% block dialog %}
+  <md-dialog id="new-category-modal" class="bns-dialog bns-dialog-primary bns-jim-tool modal hide fade error" role="dialog" tabindex="-1">
+    {% set form = newPageForm %}
+
+    <md-dialog-content class="md-dialog-content" role="document" tabindex="-1">
+      <div class="loader loader-sb"></div>
+      <div class="modal-body">
+        <div class="md-body-1 content-modal-body">
+          <div class="md-headline text-primary">{% trans %}LINK_ADD_PAGE{% endtrans %}</div>
+          <br>
+          <div class="category-editor">
+            <md-input-container md-no-float>
+            {{ form_widget(form.title, {'attr': {'placeholder': 'PLACEHOLDER_NEW_PAGE_TITLE'|trans} }) }}
+            </md-input-container>
+            <div class="page-type">
+              <p>{% trans %}PAGE_TYPE{% endtrans %}</p>
+              {{ form_widget(form.type, {'attr': {'class': 'change-type'} }) }}
+              <p class="description type-text">
+                {% trans %}STATIC_PAGE_UNIQUE_CONTENT{% endtrans %}
+              </p>
+              <p class="description type-news hide">
+                {% trans %}NEWS_PAGE_CAN_HAVE_SEVERAL_NEWS{% endtrans %}
+              </p>
+            </div>
+          </div>
+
+          <div class="errors">
+            {{ form_errors(form) }}
+          </div>
+          <div>
+            {{ form_rest(form) }}
+          </div>
+
+          <div class="alert alert-danger bns-alert hide empty">
+            {% trans %}PLEASE_ENTER_TITLE{% endtrans %}
+          </div>
+        </div>
+      </div>
+    </md-dialog-content>
+    <div class="md-actions">
+      {{ components.button( 'LINK_CANCEL' | trans , { href: '#', attr:{'data-dismiss': 'modal'} }) }}
+      {{ components.button( 'LINK_ADD_AND_CONTINUE' | trans , {href: '#', raised: true, attr:{'class': 'submit-create-category'} }) }}
+      {{ components.button( 'LINK_ADD' | trans , {href: '#', raised: true, intent: 'primary', attr:{'class': 'submit-create-category', 'data-dismiss':'modal'}, icon: 'add_circle' }) }}
+    </div>
+  </md-dialog>
+
+  <md-dialog id="delete-category-modal" class="bns-dialog bns-dialog-warn modal hide fade error" role="dialog" tabindex="-1">
+    <md-toolbar class="md-warn">
+      <div class="md-toolbar-tools">
+        <div class="md-headline">
+          <h2>{% trans %}MODAL_DELETING_PAGE{% endtrans %}</h2>
+        </div>
+        <span class="flex"></span>
+        <button class="md-icon-button md-button md-ink-ripple close" data-dismiss="modal">
+          <md-icon class="material-icons">close</md-icon>
+        </button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content class="md-dialog-content" role="document" tabindex="-1">
+      <div class="modal-body">
+        <div class="md-body-1 content-modal-body">
+          {% if is_adult() %}
+            {{ 'ADULT_SURE_TO_DELETE_PAGE'|trans |desc('<h2>
+              Êtes-vous sûr de vouloir supprimer la page "" ?
+          </h2>
+          <p>
+              <strong>Attention</strong>, la suppression de cette page entraînera également <strong>la suppression de tout son contenu !</strong>
+          </p>')  |raw}}
+          {% else %}
+            {{ 'CHILD_SURE_TO_DELETE_PAGE'|trans |desc('<h2>
+              Es-tu sûr de vouloir supprimer la page "<span class="title"></span>" ?
+          </h2>
+          <p>
+              <strong>Attention</strong>, la suppression de cette page entraînera également <strong>la suppression de tout son contenu !</strong>
+          </p>') |raw  }}
+          {% endif %}
+          <input type="hidden" id="delete-category-id" />
+        </div>
+      </div>
+    </md-dialog-content>
+    <div class="md-actions">
+      <button class="md-button md-ink-ripple" data-dismiss="modal">
+        <span>{% trans %}LINK_CANCEL{% endtrans %}</span>
+      </button>
+      <button class="md-raised md-button md-ink-ripple md-warn delete-category-button" data-dismiss="modal">
+        <span>{% trans %}LINK_YES_SURE{% endtrans %}</span>
+      </button>
+    </div>
+      <span class="dialog-icon-container text-warn" style="">
+        <md-icon>warning</md-icon>
+      </span>
+  </md-dialog>
+{% endblock dialog %}

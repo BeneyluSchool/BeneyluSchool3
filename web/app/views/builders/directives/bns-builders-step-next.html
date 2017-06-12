@@ -1,0 +1,14 @@
+<p ng-if="!!ctrl.book.answers[ctrl.step]">
+
+  <md-button ng-if="!(ctrl.book.is_complete && ctrl.step == 4)" ng-click="ctrl.next()" ng-show="ctrl.step < 4" href>
+    <span translate translate-values="{step: ctrl.step + 1}">BUILDERS.BUTTON_SEE_STEP</span>
+    <md-icon>chevron_right</md-icon>
+  </md-button>
+  <md-button ng-if="ctrl.book.is_complete && ctrl.step == 4" ng-click="ctrl.next()" ng-show="ctrl.step > 3" href>
+    <span translate>BUILDERS.BUTTON_SEE_STEP_5</span>
+    <md-icon>chevron_right</md-icon>
+  </md-button>
+
+</p>
+
+<p ng-if="!ctrl.book.is_complete"> <span translate>BUILDERS.STEPS_BEFORE_BONUS_1</span> <span ng-repeat="step in ctrl.unfinishedSteps"><a href ng-click="ctrl.goTo(step)">{{ ('BUILDERS.THE_STEP_CMS_' + step)|translate }}</a>{{ $last ? ' ' : ', '}}</span> <span translate>BUILDERS.STEPS_BEFORE_BONUS_2</span></p>

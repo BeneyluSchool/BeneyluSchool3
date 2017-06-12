@@ -1,181 +1,242 @@
+{% trans_default_domain "MINISITE" %}
 {% extends 'BNSAppMiniSiteBundle:Layout:manager.html.twig' %}
 
 {% block javascripts %}
-	<script type="text/javascript" src="{{ asset('/medias/js/bootstrap/bootstrap-tooltip.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('/medias/js/jquery.ui.nestedSortable.js') }}"></script>
-	<script type="text/javascript">
-		$(function() {
-			$('.load-sortable').sortable({
-				placeholder: 'placeholder',
-				update: function ()
-				{
-					$.ajax({
-						url: '{{ path('minisite_manager_custom_widget_order') }}',
-						type: 'POST',
-						data: {'widgets': $('.load-sortable').sortable('toArray')}
-					});
-				}
-			});
-			
-			/* WIDGET SAVE PROCESS */
-			$('.widget input[type="submit"]').live('click', function (e)
-			{
-				var $this = $(this),
-					widgetId = $this.attr('id');
-					
-				if ($this.hasClass('disabled')) {
-					return false;
-				}
-					
-				widgetId = widgetId.split('-');
-				widgetId = widgetId[2];
-				
-				var $widget = $('#widget-' + widgetId);
-				
-				var inputNames = $widget.data('input-names').split(','),
-					inputsData = new Object();
-					
-				for (i in inputNames) {
-					inputsData['mini_site_widget_form_' + widgetId + '[' + inputNames[i] +']'] = $('#mini_site_widget_form_' + widgetId + '_' + inputNames[i]).val();
-				}
-				
-				// Token exception
-				inputsData['mini_site_widget_form_' + widgetId + '[' + inputNames[i] +']'] = $('#widget_csrf_token').val();
-				
-				$widget.css('opacity', '.5');
-				$widget.find('input').addClass('disabled').attr('disabled', 'disabled');
-				
-				$.ajax({
-					url: Routing.generate('minisite_manager_custom_widget_save', {'widgetId': widgetId}),
-					type: 'POST',
-					dataType: 'json',
-					data: inputsData,
-					success: function (data)
-					{
-						// TODO errors
-					}
-				}).done(function ()
-				{
-					$widget.css('opacity', '1');
-					$widget.find('input').removeClass('disabled').removeAttr('disabled');
-				});
-				
-				return false;
-			});
-			
-			/* WIDGET NEW PROCESS */
-			$('.widget-template').click(function (e)
-			{
-				var $this = $(this),
-					widgetType = $this.data('type');
-					
-				if ($this.hasClass('disabled')) {
-					return false;
-				}
-					
-				$this.addClass('disabled');
-				
-				$.ajax({
-					url: Routing.generate('minisite_manager_custom_widget_new', {'widgetType': widgetType}),
-					dataType: 'html',
-					success: function (data)
-					{
-						var $data = $(data);
-						$data.css('display', 'none');
-						$('.widget-list').prepend($data);
-						$data.slideDown('slow');
-					}
-				}).done(function ()
-				{
-					$this.removeClass('disabled');
-				});
-				
-				return false;
-			});
-			
-			/* WIDGET DELETE MODAL */
-			$('.load-sortable .delete').live('click', function(e)
-			{
-				var $this = $(e.currentTarget);
-				
-				$this.addClass('disabled').attr('disabled', 'disabled');
-				$.ajax({
-					url: $this.attr('href'),
-					success: function (data)
-					{
-						var $modal = $(data);
-						$('body').prepend($modal);
-						
-						$modal.modal('show').on('hidden', function ()
-						{
-							$(this).remove();
-						});
-						$this.removeClass('disabled').removeAttr('disabled');
-					}
-				});
-				
-				return false;
-			});
-			
-			/* WIDGET DELETE CONFIRM */
-			$('#minisite_delete_modal .modal-footer .delete-process').live('click', function (e)
-			{
-				var $this = $(this);
-				$this.addClass('disabled').attr('disabled', 'disabled');
-				
-				$.ajax({
-					url: $this.attr('href'),
-					success: function (data)
-					{
-						var widgetId = $('#minisite_delete_modal .modal-body').data('object');
-						$('#widget-' + widgetId).fadeOut('slow', function ()
-						{
-							$(this).remove();
-						});
-						
-						$('#minisite_delete_modal').modal('hide');
-					}
-				});
-				
-				return false;
-			});
-		});
-	</script>
+  {{ parent() }}
+
+  <script type="text/javascript" src="{{ asset('/medias/js/jquery.ui.nestedSortable.js') }}"></script>
+  <script type="text/javascript">
+    $(function() {
+      $('.load-sortable').sortable({
+        placeholder: 'placeholder',
+        update: function () {
+          $.ajax({
+            url: '{{ path('minisite_manager_custom_widget_order') }}',
+            type: 'POST',
+            data: {'widgets': $('.load-sortable').sortable('toArray')}
+          });
+        }/*,
+         start: function (e, ui) {
+         $tiny = $(ui.item).find('.tinyarea textarea');
+         if ($tiny.length > 0) {
+         tinyMCE.execCommand('mceRemoveControl', false, $tiny.attr('id'));
+         }
+         },
+         stop: function (e, ui) {
+         $tiny = $(ui.item).find('.tinyarea textarea');
+         if ($tiny.length > 0) {
+         tinyMCE.execCommand('mceAddControl', false, $tiny.attr('id'));
+         }
+         }*/
+      });
+
+      // Widget save process
+      $('.widget-list').on('click', '.widget .widget-validate', function (e) {
+        var $this = $(this),
+          $widget = $this.parent().parent(),
+          widgetId = $widget.data('id'),
+          $loader = $widget.find('.loader').first();
+
+        $loader.fadeIn('fast');
+        var inputNames = $widget.data('input-names').split(','),
+          inputsData = {};
+
+        // Retreive inputs data
+        for (i in inputNames) {
+          inputsData['mini_site_widget_form_' + widgetId + '[' + inputNames[i] +']'] = $('#mini_site_widget_form_' + widgetId + '_' + inputNames[i]).val();
+        }
+
+        // Token exception
+
+        $.ajax({
+          url: Routing.generate('minisite_manager_custom_widget_save', {'widgetId': widgetId}),
+          type: 'POST',
+          dataType: 'json',
+          data: inputsData,
+          success: function (data) {
+            var $errorDiv = $widget.find('.alert.bns-alert.alert-danger');
+            if (data.errors) {
+              $errorDiv.find('span').text(data.errors);
+              $errorDiv.slideDown('fast');
+            }
+            else {
+              $errorDiv.slideUp('fast');
+            }
+          }
+        }).done(function () {
+          $loader.fadeOut('fast');
+        });
+
+        return false;
+      });
+
+      // Widget creation process
+      $(document.body).on('click', '.widget-template', function (e) {
+        var $this = $(this),
+          widgetType = $this.data('widget-type');
+
+        if ($this.hasClass('disabled')) {
+          return false;
+        }
+
+        $this.addClass('disabled');
+
+        $.ajax({
+          url: Routing.generate('minisite_manager_custom_widget_new', {'widgetType': widgetType}),
+          dataType: 'html',
+          success: function (data) {
+            var $data = $(data);
+            $data.hide();
+            $('.widget-list').prepend($data);
+            $('.content-mini-site.widget .no-item').slideUp('fast');
+            $data.slideDown('slow');
+          }
+        }).done(function () {
+          $this.removeClass('disabled');
+        });
+
+        return false;
+      });
+
+      // Widget delete confirmation process
+      $('.widget-list').on('click', '.widget .widget-delete', function (e) {
+        var $this = $(e.currentTarget),
+          $widget = $this.parent().parent(),
+          $modal = $('#delete-widget-modal');
+
+        $modal.data('widget-id', $widget.data('id'));
+        $modal.find('.modal-body .title').text($widget.find('.header input[type="text"]').val());
+      });
+
+      // Widget delete process
+      $('#widget-delete-confirm').click(function (e) {
+        var $this = $(e.currentTarget),
+          $modal = $('#delete-widget-modal'),
+          widgetId = $modal.data('widget-id');
+
+        $('#widget-' + widgetId).slideUp('fast', function () {
+          $(this).remove();
+
+          if ($('.widget-list .widget').length == 0) {
+            $('.content-mini-site.widget .no-item').slideDown('fast');
+          }
+        });
+
+        $.ajax({
+          url: $this.attr('href'),
+          type: 'POST',
+          data: {'widget_id': widgetId}
+        });
+      });
+
+      // Activate tooltip
+      // TODO fix conflict bootstrap / jQuery UI
+//      $('.widget-template[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
 {% endblock javascripts %}
 
 {% block sidebar %}
-	{{ parent() }}
+  {% include 'BNSAppMiniSiteBundle:Sidebar:sidebar.html.twig' with {'index': 'widgets'} %}
 {% endblock sidebar %}
 
+{% block header %}
+  <div class="minisite-widget-toolbar-container">
+
+    {% set attributes = '' %}
+    {% set buttons = [] %}
+
+   {% for template in templates %}
+    {% if template.description|length > 0 %}
+      {% set attributes = 'data-toggle="tooltip" title="'~template.getDescription()~'" ' %}
+    {% endif %}
+      {% set type = template.getType() %}
+
+    {% set buttons = buttons | merge([components.button(template.label(), {attr:{'class':'widget-template', 'data-widget-type': type } } )])   %}
+
+   {% endfor %}
+
+    {{ components.button_dropdown('ADD_WIDGET'|trans, buttons, {
+      width: 4, intent: 'primary', icon: 'add_circle', raised: true
+    }) }}
+  </div>
+
+{% endblock %}
+
 {% block content %}
-	<div class="content-mini-site widget">
-		<div class="row-fluid content-widget">
-			<div class="span7">
-				<h1 class="dashboard">{% trans %}MiniSite.Back.Custom.Sidebar{% endtrans %}</h1>
-			</div>
-			<div class="span5">
-				<h1 class="dashboard">{% trans %}MiniSite.Back.Custom.Modules{% endtrans %}</h1>
-			</div>
-		</div>
-		<div class="row-fluid">
-			<div class="span7">
-				<ol class="widget-list load-sortable">
-					{% for widget in widgets %}
-						{% render 'BNSAppMiniSiteBundle:BackCustom:renderWidget' with {'widget': widget, 'view': widget.getViewPath(true)} %} {# true for back view #}
-					{% endfor %}
-				</ol>
-				<input id="widget_csrf_token" type="hidden" value="{{ csrf_token }}" />
-			</div>
-			<div class="span5">
-				<div class="widget-templates">
-					{% for template in templates %}
-						<div class="btn widget-template" {% if template.getDescription()|length > 0 %}rel="tooltip" title="{{ template.getDescription() }}"{% endif %} data-type="{{ template.getType() }}">
-							{{ template.getLabel() }}
-							<span class="add-widget"></span>
-						</div>
-					{% endfor %}
-				</div>
-			</div>
-		</div>
-	</div>
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools layout-align-start-center">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+    <h1 class="md-title text-primary text-left flex flex-gt-sm-33">{% trans%}CONFIGURATION_SIDEBAR{% endtrans %}</h1>
+  </div>
+</md-toolbar>
+
+
+<md-content  >
+  <md-dialog id="delete-widget-modal" class="bns-dialog bns-dialog-warn modal hide fade error" role="dialog" tabindex="-1">
+    <md-toolbar class="md-warn">
+      <div class="md-toolbar-tools">
+        <div class="md-headline">
+          <h2>{% trans %}LINK_DELETE_WIDGET{% endtrans %}</h2>
+        </div>
+        <span class="flex"></span>
+        <button class="md-icon-button md-button md-ink-ripple close" data-dismiss="modal">
+          <md-icon class="material-icons">close</md-icon>
+        </button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content class="md-dialog-content" role="document" tabindex="-1">
+      <div class="modal-body">
+        <div class="md-body-1 content-modal-body">
+          {% if is_adult() %}
+            {{ 'ADULT_SURE_TO_DELETE_WIDGET'|trans |desc(' <h2>
+            Êtes-vous sûr de vouloir supprimer le widget "<span class="title"></span>" ?
+        </h2>
+		<p>
+            Attention, cette action est définitive !
+		</p>')  |raw}}
+          {% else %}
+            {{ 'CHILD_SURE_TO_DELETE_WIDGET'|trans |desc('<h2>
+            Es-tu sûr de vouloir supprimer le widget "<span class="title"></span>" ?
+        </h2>
+		<p>
+            Attention, cette action est définitive !
+		</p>') |raw  }}
+          {% endif %}
+          <input type="hidden" id="delete-category-id" />
+        </div>
+      </div>
+    </md-dialog-content>
+    <div class="md-actions">
+      <button class="md-button md-ink-ripple" data-dismiss="modal">
+        <span>{% trans %}LINK_CANCEL{% endtrans %}</span>
+      </button>
+      <a href="{{ path('minisite_manager_custom_widget_delete') }}" id="widget-delete-confirm" data-dismiss="modal">
+      <button class="md-raised md-button md-ink-ripple md-warn delete-category-button" data-dismiss="modal">
+        <span>{% trans %}LINK_DELETE_WIDGET{% endtrans %}</span>
+      </button></a>
+    </div>
+      <span class="dialog-icon-container text-warn" style="">
+        <md-icon>warning</md-icon>
+      </span>
+  </md-dialog>
+
+
+  <div class="content-mini-site widget">
+<div class="minisite-container">
+
+        <ol class="widget-list load-sortable item-list-container">
+          {% for widget in widgets %}
+            {{ render(controller('BNSAppMiniSiteBundle:BackCustom:renderWidget', {'widget': widget, 'view': widget.getViewPath(true)} )) }} {# true for back view #}
+          {% endfor %}
+        </ol>
+        <div class="no-item {{ widgets|length > 0 ? 'hide' : '' }}">
+          {% trans %}NO_WIDGET_ON_MINISITE_ADD_ONE{% endtrans %}
+
+
+        </div>
+
+  </div>
+  </div>
+  </md-content>
 {% endblock content %}

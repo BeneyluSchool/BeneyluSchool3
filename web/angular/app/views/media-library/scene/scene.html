@@ -1,0 +1,34 @@
+<scrollable>
+  <div ng-if="shared.context" class="media-library-scene">
+
+    <div class="media-library-scene-actions">
+      <bns-starter-kit-pointer ng-if="!isSelectionMode" step="1-1.1" pointer="select_all"></bns-starter-kit-pointer>
+      <span ng-if="!isSelectionMode" class="action-link" ng-click="selectAll()" translate>MEDIA_LIBRARY.SELECT_ALL</span>
+      <span ng-if="!isSelectionMode" class="action-link" ng-click="selectAll(true)" translate>MEDIA_LIBRARY.UNSELECT_ALL</span>
+    </div>
+
+    <h2 class="media-library-scene-title">
+      {{ shared.context.label }}
+    </h2>
+
+    <div class="media-library-scene-grid" bns-scene-content-loader></div>
+
+    <div ng-show="!shared.context.loaded" class="media-library-loader"></div>
+
+    <div ng-if="shared.context.loaded && !(shared.context.children.length || shared.context.medias.length)">
+      <div ng-if="shared.canCreate"
+        ng-include="'/ent/angular/app/views/media-library/upload/incentive.html'"
+        ng-class="{ 'visible': visible }"
+        onload="visible = true"
+        class="media-library-upload-drop-incentive-scene-container"
+      ></div>
+      <div ng-if="!shared.canCreate" class="media-library-empty-folder-notice" ng-switch on="shared.context.slug">
+        <span ng-switch-when="favorites" translate>MEDIA_LIBRARY.NO_FAVORITES</span>
+        <span ng-switch-when="recents" translate>MEDIA_LIBRARY.NO_RECENT_DOCUMENTS</span>
+        <span ng-switch-when="trash" translate>MEDIA_LIBRARY.TRASH_IS_EMPTY</span>
+        <span ng-switch-default>{{ (('USER' === shared.context.type && shared.context.usage && !shared.context.usage[1]) ? 'MEDIA_LIBRARY.ERROR_USER_HAS_NO_FOLDER_ACCESS' : 'MEDIA_LIBRARY.FOLDER_IS_EMPTY') | translate }}</span>
+      </div>
+    </div>
+
+  </div>
+</scrollable>

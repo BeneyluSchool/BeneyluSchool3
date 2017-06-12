@@ -1,0 +1,12 @@
+{% if not information.expiresAt is empty %}
+<div class="title-container">
+	<div class="title active border-blue">Date de fin de publication <span class="square icon-arrow"></span></div>
+	<div class="content-title">
+		<ul>
+			<li class="text-row">
+				<div>{{ date_from_now(information.expiresAt, true, true) }}</div>
+			</li>
+		</ul>
+	</div>
+</div>
+{% endif %}

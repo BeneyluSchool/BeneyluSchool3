@@ -1,0 +1,43 @@
+{% trans_default_domain "BLOG" %}
+{% extends 'BNSAppBlogBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+  {{ 'TITLE_YERBOOK'|trans }}
+
+{% endblock %}
+
+{% block sidebar_content %}
+    <section>
+      {{ components.button( 'TITLE_ARTICLES' | trans , { href:   path('BNSAppBlogBundle_back'), icon: 'insert_drive_file' }) }}
+    </section>
+
+    <section>
+      {{ include('BNSAppBlogBundle:Sidebar:sidebar_comments.html.twig') }}
+    </section>
+
+    <section>
+      {{ include('BNSAppBlogBundle:Sidebar:sidebar_customize.html.twig') }}
+    </section>
+
+    <section class="current">
+      {{ components.button( 'LINK_YERBOOK' | trans, { href: path('blog_manager_yerbook'), icon: 'book' }) }}
+    </section>
+{% endblock sidebar_content %}
+
+{% block content %}
+  <md-toolbar class="content-toolbar">
+    <div class="md-toolbar-tools layout-align-start-center">
+      <bns-sidebar-toggle></bns-sidebar-toggle>
+      <h1 class="md-title text-primary text-left flex flex-gt-sm-33">{% trans%}TITLE_YERBOOK_IS_BACK{% endtrans %}</h1>
+    </div>
+  </md-toolbar>
+  <div class="md-padding">
+    <img src="{{ asset('medias/images/blog/yerbook-back.jpg') }}"><br><br>
+    <p>{% trans %}YERBOOK_PRESENTATION{% endtrans %}</p>
+    <div class="text-center">
+      <a href="{{ path('BNSAppSpotBundle_front' , { 'code': 'YERBOOK' }) }}" class="md-primary md-raised md-button">
+      <img src="{{ asset('app/images/apps/spot/icon-40.png') }}">
+        <span>{% trans %}BUTTON_INSTALL_APP{% endtrans %}</span></a>
+    </div>
+  </div>
+{% endblock content %}

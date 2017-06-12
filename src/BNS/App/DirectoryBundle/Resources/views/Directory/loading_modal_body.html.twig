@@ -1,17 +1,27 @@
+{% trans_default_domain "DIRECTORY" %}
 <div class="loading-container">
-	<img src="{{ asset('/medias/images/icons/medium-loader.gif') }}" alt="Gif animé de chargement" /> Chargement en cours, veuillez patienter...
-</div>
+		<img src="{{ asset('/medias/images/icons/medium-loader.gif') }}" alt="Gif animé de chargement" /> {{ 'LABEL_lOADING_IN_PROGRESS'|trans |desc('Chargement en cours, veuillez patienter...') }}
+	</div>
 
-<div class="directory-container"></div>
+<div class="directory-container directory-main-container"></div>
 <script type="text/javascript">
 	var $isDirectoryFirstLoad = true;
 	$(document).ready(function()
 	{
-		$('div.content-dockbar img').click(function(event)
-		{
-			if ($(this).parent().attr('href').indexOf(Routing.generate('BNSAppDirectoryBundle_front')) == -1) {
+		// new navbar
+		$('body').on('bns.directory_invoke', handleDirectoryClick);
+
+		// old dockbar
+		$('div.content-dockbar img').click(function (event) {
+			if ($(this).parent().attr('data-module') != 'DIRECTORY') {
 				return;
 			}
+
+			handleDirectoryClick(event);
+		});
+
+		function handleDirectoryClick(event)
+		{
 
 			event.preventDefault();
 			$('#directory-modal').modal({
@@ -30,13 +40,13 @@
 					success: function(data)
 					{
 						$('div.loading-container').hide();
-						$('div.directory-container').html(data);
+						$('div.directory-main-container').html(data);
 						
 					}
 				});
 
 				$isDirectoryFirstLoad = false;
 			}
-		});
+		}
 	});
 </script>

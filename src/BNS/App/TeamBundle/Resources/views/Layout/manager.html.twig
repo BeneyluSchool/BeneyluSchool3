@@ -1,18 +1,22 @@
+{% trans_default_domain "TEAM" %}
 {% extends '::base_manager.html.twig' %}
 
+{% set app_unique_name = 'TEAM' %}
+{% set app_mode = 'back' %}
+
 {% block title %}
-	Equipe - Gestion
+	{% trans %}TITLE_TEAM_ADMIN{% endtrans %}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    
+
     <script type="text/javascript" src="{{ asset('/medias/js/team/team.js') }}"></script>
 {% endblock %}
 
 {% block css %}
 	{{ parent() }}
-	
+
 	<link href="{{ asset('/medias/css/team/manager.css') }}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
@@ -25,8 +29,4 @@
             </div>
         </div>
 	</body>
-{% endblock %}
-	
-{% block dock_bar %}
-	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : 'TEAM' , 'is_in_front' : false } %}
 {% endblock %}

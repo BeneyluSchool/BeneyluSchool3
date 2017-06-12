@@ -1,0 +1,132 @@
+{% trans_default_domain "SEARCH" %}
+{% extends '::base.html.twig' %}
+
+{% set app_unique_name = 'SEARCH' %}
+{% set app_mode = 'front' %}
+
+{% block body_class %}
+    {{ parent() }}
+    full-height overflow-hidden
+{% endblock %}
+
+{% block css %}
+    {{ parent() }}
+    <link href="{{ asset('medias/css/search/front.css') }}" rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+    <script src="https://www.google.com/jsapi"></script>
+    <script  type="text/javascript">
+
+        $("#search-input").focus()
+
+        var crefUrl = "{{ white_list_url }}";
+
+        google.load('search', '1');
+        var currentSearch = '';
+
+        function doSearch(searchQuery)
+        {
+            // Bouton : recherche au clic
+            currentSearch = searchQuery;
+
+            if (searchQuery.length > 0) {
+                //Exécution de la recherche
+                var customSearchControl = new google.search.CustomSearchControl({'crefUrl' : crefUrl}, {'enableImageSearch': true});
+
+                // Récupération des objets
+                var imageSearcher = customSearchControl.getImageSearcher();
+                // Fin Récupération
+
+                // Layout des images
+                imageSearcher.setLayout(google.search.ImageSearch.LAYOUT_POPUP);
+                // Fin layout
+
+                // Bouton : recherche au clic
+
+                // On ne dessine que les résultats
+                var drawOptions = new google.search.DrawOptions();
+                drawOptions.enableSearchResultsOnly();
+                drawOptions.setAutoComplete(true);
+
+                // Finally
+                customSearchControl.draw('search-results', drawOptions);
+                $('#search-results').show();
+                $('body').css('overflow','auto');
+
+                $.ajax({
+                    url: Routing.generate('BNSAppSearchBundle_front_add_search'),
+                    type: 'POST',
+                    dataType: 'html',
+                    data: {'q': searchQuery },
+                    success: function (data)
+                    {
+
+                    }
+                });
+
+                customSearchControl.execute(searchQuery);
+
+            }
+        }
+
+        $('#search-google-submit').live('click', function(){
+            doSearch($('#search-input').val());
+        });
+        $('#search-input').keyup(function(event) {
+            if (event.keyCode == 13) {
+                doSearch($('#search-input').val());
+            }
+        });
+
+
+    </script>
+{% endblock %}
+
+
+{% block body %}
+
+    <div class="external">
+        {% if parameter('has_universalis')%}
+            <a id="universalis" href="{{ path('BNSAppSearchBundle_universalis') }}" class="resource-nav universalis" target="_blank">
+                <img src="{{ asset('/medias/images/search/universalis.jpg') }}" />
+            </a>
+        {%  endif %}
+        {% if parameter('has_medialandes') == true %}
+
+            <a id="medialandes" href="http://crdp.ac-bordeaux.fr/cddp40/canope40/" class="resource-nav" target="_blank">
+                <img src="{{ asset('/medias/images/search/canope.png') }}" />
+            </a>
+
+            {% if has_medialandes  == true %}
+                <a id="medialandes" href="https://imediale.fr/cas/login?service=http%3A%2F%2Fmedialandes.mediatheques.fr%2F%3Fut%3Dlogin" class="resource-nav universalis" target="_blank">
+                    <img src="{{ asset('/medias/images/search/medialandes.png') }}" />
+                </a>
+            {% endif %}
+        {% endif %}
+    </div>
+
+
+
+    <div class="search-container">
+
+
+
+        <div id="resource-search-alert" class="row content-home alert-message hide">
+            <div class="alert alert-error">
+                <p>{% trans %}SEARCH_WARNING{% endtrans %}</p>
+            </div>
+        </div>
+        <div id="search-content-form">
+            <div class="content-home input row">
+                <input type='text' id="search-input" class="" placeholder=""/>
+                <a id="search-google-submit" class="btn bns-info btn-16 small web-submit">
+                    <span class="icons-earth icons-16"></span>
+                  {% trans %}LINK_SEARCH{% endtrans %}
+                </a>
+            </div>
+        </div>
+        <div id="search-results" class="search-results "></div>
+    </div>
+{% endblock %}

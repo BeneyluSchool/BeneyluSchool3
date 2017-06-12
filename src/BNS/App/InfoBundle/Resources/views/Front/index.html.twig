@@ -1,0 +1,71 @@
+{% trans_default_domain "INFO" %}
+{% extends 'BNSAppInfoBundle:Front:layout.html.twig' %}
+
+{% block css %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+
+    {% if announcements|length > 0 %}
+        <div class="item-list-container">
+            <h1>{{ 'TITLE_ANNOUNCEMENT'|trans |desc('Annonces') }}</h1>
+            {% for announcement in announcements %}
+                {% include "BNSAppInfoBundle:Block:announcement_custom.html.twig" %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
+
+    <div class="row-fluid">
+        <div class="blog-items {{ onPublicVersion ? "span8" : 'span12' }}">
+            <h1>
+                {{ 'TITLE_NEWS_BENEYLU'|trans({'%beneylu_brand%': parameter('beneylu_brand_name')}) |desc('Les actus %beneylu_brand%') }}
+            </h1>
+
+            {% for announcement in blogAnnouncements %}
+                {% include "BNSAppInfoBundle:Block:announcement_blog.html.twig" %}
+            {% endfor %}
+        </div>
+        {% if onPublicVersion %}
+            <div class="span4">
+                <h1>
+                    {{ 'TITLE_MY_SUBSCRIPTION'|trans |desc('Mon abonnement') }}
+                </h1>
+
+                <div class="current-subscription small {{ premiumInformation == false ? 'classroom' : 'school' }}">
+                    {% if premiumInformation != false %}
+                        <div class="offer-text small">
+                            <p>
+                                {{ 'YOUR_IN_SCHOOL_BENEYLU_VERSION'|trans({'%beneylu_brand%': parameter('beneylu_brand_name')}) |desc('Vous êtes en <b>version école</b><br /> de %beneylu_brand%.') |raw }}
+
+                            </p>
+                            <p>
+
+                                    {{ 'SUBSCRIPTION_VALID_UNTIL_DATE'|trans({'%date%': premiumInformation['end']|date('d/m/Y')}) |desc('<span class="small">Abonnement valide jusqu\'au : </span><b>%date%</b>') |raw }}
+                            </p>
+                        </div>
+                    {% else %}
+
+                        <div class="offer-text small">
+                            <p>
+                                {{ 'FREE_VERSION_UNTIL_DATE'|trans({'%beneylu_brand%': parameter('beneylu_brand_name'), '%date%': subscriptionDate|date('d/m/Y')}) |desc('Vous êtes en <b>version gratuite</b> <br />de %beneylu_brand% depuis le <br /><strong>%date%</strong>') |raw }}
+                            </p>
+                        </div>
+
+                    {% endif %}
+
+                    <a href="{{ path('BNSAppInfoBundle_front_subscription') }}" class="btn bns-notice small">
+                        {{ 'LINK_KNOW_MORE'|trans |desc('<strong>En savoir</strong> plus') |raw}}
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}
+
+{% block sidebar %}
+    {% include "BNSAppInfoBundle:Front:sidebar.html.twig" %}
+{% endblock %}

@@ -1,0 +1,29 @@
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+
+    <h3 translate>SEARCH.TITLE_LAST_SEARCH</h3>
+  </div>
+</md-toolbar>
+
+<bns-inset ng-show="!ctrl.search.lastSearchs.length && !ctrl.busy" class="layout-row layout-margin text-center">
+  <span translate>SEARCH.NO_SEARCH_DONE</span>
+</bns-inset>
+
+<md-content>
+  <md-list>
+    <md-list-item class="md-3-line" ng-repeat="search in ctrl.search.lastSearchs">
+      <div class="md-list-item-text" layout="column">
+        <h3>{{ search.label }}</h3>
+
+        <md-list-item class="legend">
+          <span translate translate-values="{date: (search.created_at|amDateFormat:'dddd Do MMMM') }">SEARCH.LAST_SEARCH_AT </span>
+          <img ng-src="{{ search.user.avatar_url }}" class="md-avatar">
+          <span>{{ search.user.full_name }}</span>
+        </md-list-item>
+
+      </div>
+      <md-divider ></md-divider>
+    </md-list-item>
+  </md-list>
+</md-content>

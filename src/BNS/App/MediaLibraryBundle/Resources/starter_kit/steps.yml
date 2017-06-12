@@ -1,0 +1,285 @@
+# Level 0
+-
+  -
+    step: 0-0
+    type: start
+    data:
+      - title
+      - content
+      - levels: [level_1, level_2, level_3]
+
+# Level 1
+-
+  -
+    step: 1-0
+    type: introduction
+    data: [ title, content, accept ]
+  -
+    step: 1-1.1
+    type: pointer
+    state: app.mediaLibrary.base.folders.details
+    data:
+      - content
+      - accept
+      - pointers: [ my_documents, my_workspaces, selection, select_all, favorites, recents, trash, quota, actions ]
+  -
+    step: 1-1.2
+    type: explanation
+    state: app.mediaLibrary.base.folders.details
+    target: '#media-library-navigation-workspaces > ul > li:first-child'
+    validate: click
+    data: [ content, action ]
+  -
+    step: 1-1.3
+    type: explanation
+    data: [ content, action ]
+  -
+    step: 1-1.4
+    type: validate
+    data: [ action ]
+    validate: uploader.queue.length
+  -
+    step: 1-2.1
+    type: pointer
+    data:
+      - content
+      - pointers: [ loader ]
+    target: '.media-library-upload-container'
+  -
+    step: 1-2.1.1
+    type: pointer
+    data: [ content ]
+  -
+    step: 1-2.2
+    type: achievement
+    data: [ content ]
+    achievement: UPLOAD_FIRST_DOCUMENT
+  -
+    step: 1-2.3
+    type: explanation
+    target: '.media-library-scene-element.file:last-child .media-library-scene-element-visual'
+    parent: 'body'
+    validate: click
+    data: [ content, action ]
+  -
+    step: 1-2.4
+    type: pointer
+    data:
+      - content
+      - accept
+      - pointers: [ back, copy, favorite, private, delete, download, edit ]
+  -
+    step: 1-2.5
+    type: explanation
+    state: app.mediaLibrary.base.media
+    data: [ content, action ]
+  -
+    step: 1-2.5.1
+    type: stepper
+    state: app.mediaLibrary.base.media
+    data: [ title ]
+  -
+    step: 1-2.5.2
+    type: stepper
+    state: app.mediaLibrary.base.media
+    data: [ title ]
+  -
+    step: 1-2.5.3
+    type: explanation
+    state: app.mediaLibrary.base.media
+    data: [ content ]
+  -
+    step: 1-2.6
+    type: achievement
+    state: app.mediaLibrary.base.media
+    data: [ content ]
+    achievement: EDIT_FIRST_DOCUMENT
+  -
+    step: 1-2.7
+    type: explanation
+    state: app.mediaLibrary.base.media
+    data: [ content, action ]
+  -
+    step: 1-2.8
+    type: explanation
+    state: app.mediaLibrary.base.media
+    data: [ content, action ]
+  -
+    step: 1-2.9
+    type: pointer
+    state: app.mediaLibrary.base.folders.details
+    data: [ content ]
+  -
+    step: 1-3.1
+    type: achievement
+    state: app.mediaLibrary.base.folders.details
+    data: [ content ]
+    achievement: PRIVATIZE_FIRST_DOCUMENT
+  -
+    step: 1-4.1
+    type: conclusion
+    data: [ title, content, action ]
+
+# Level 2
+-
+  -
+    step: 2-0
+    type: introduction
+    data: [ title, content, accept ]
+  -
+    step: 2-1.1
+    type: explanation
+    target: '#media-library-navigation-workspaces > ul > li:first-child'
+    validate: click
+    data: [ content ]
+  -
+    step: 2-1.2
+    type: explanation
+    target: '#media-library-create-menu'
+    validate: 'shared.context.medias.length >= 3'
+    data: [ content, action ]
+  -
+    step: 2-1.3.1
+    type: explanation
+    data: [ content, action ]
+    target: '#media-library-create-menu'
+    validate: click
+  -
+    step: 2-1.3.2
+    type: explanation
+    data: [ action ]
+    target: '#media-library-create-menu > .dropdown-menu > li:first-child'
+    validate: click
+  -
+    step: 2-1.3.3
+    type: explanation
+    data: [ content, action ]
+    target: '#media-library-add-folder-modal button[type="submit"]'
+    parent: '#media-library-add-folder-modal'
+    validate: folder.created
+  -
+    step: 2-1.4
+    type: achievement
+    data: [ content ]
+    achievement: CREATE_FIRST_FOLDER
+  -
+    step: 2-2.1
+    type: explanation
+    data: [ content, accept ]
+  -
+    step: 2-2.2.1
+    type: validate
+    target: '.media-library-scene-element.file:nth-last-child(3) .media-library-scene-element-label'
+    validate: shared.selection.has(element)
+  -
+    step: 2-2.2.2
+    type: validate
+    target: '.media-library-scene-element.file:nth-last-child(2) .media-library-scene-element-label'
+    validate: shared.selection.has(element)
+  -
+    step: 2-2.2.3
+    type: validate
+    target: '.media-library-scene-element.file:nth-last-child(1) .media-library-scene-element-label'
+    validate: shared.selection.has(element)
+  -
+    step: 2-2.3
+    type: explanation
+    data: [ content, action ]
+    target: '.media-library-scene-element.folder.manageable:last .media-library-scene-element-visual'
+    validate: click
+  -
+    step: 2-3.1.1
+    type: explanation
+    data: [ content, action ]
+    target: '#media-library-arrangement-menu'
+    validate: click
+  -
+    step: 2-3.1.2
+    type: explanation
+    data: [ content, action ]
+    target: '#media-library-move-menu-item'
+    validate: click
+  -
+    step: 2-3.2
+    type: achievement
+    data: [ content ]
+    achievement: MOVE_FIRST_DOCUMENTS
+  -
+    step: 2-4.1
+    type: explanation
+    data: [ content, action ]
+    target: '.media-library-scene-element.file:last .media-library-scene-element-label'
+    validate: click
+  -
+    step: 2-4.2
+    type: explanation
+    data: [ content, action ]
+    target: '#media-library-toggle-favorite'
+    validate: shared.selectionIsAllFavorites
+  -
+    step: 2-4.3
+    type: explanation
+    data: [ content, action ]
+    target: '#media-library-navigation-special > ul > li:first-child'
+    validate: click
+  -
+    step: 2-4.4
+    type: explanation
+    data: [ content, action, accept ]
+  -
+    step: 2-5.1
+    type: conclusion
+    data: [ title, content, action ]
+
+# Level 3
+-
+  -
+    step: 3-0
+    type: introduction
+    data: [ title, content, accept ]
+  -
+    step: 3-1.1
+    type: explanation
+    state: app.mediaLibrary.base.folders.details  # reset state to default user folder
+    data: [ content, action ]
+    target: '#media-library-navigation-workspaces > ul > li:first-child'
+    validate: click
+  -
+    step: 3-1.2.1
+    type: explanation
+    data: [ content, action ]
+    target: '#media-library-create-menu'
+    validate: click
+  -
+    step: 3-1.2.2
+    type: explanation
+    data: [ action ]
+    target: '#media-library-create-menu > .dropdown-menu > li:first-child'
+    validate: click
+  -
+    step: 3-1.2.3
+    type: explanation
+    data: [ action ]
+    target: '#media-library-add-folder-modal button[type="submit"]'
+    parent: '#media-library-add-folder-modal'
+    validate: folder.created
+  -
+    step: 3-1.3
+    type: explanation
+    data: [ content, action ]
+    target: '.media-library-scene-element.folder.manageable:last .media-library-scene-element-visual'
+    validate: click
+  -
+    step: 3-1.4
+    type: explanation
+    data: [ content, action ]
+    target: '#media-library-toggle-locker'
+    validate: shared.context.is_locker
+  -
+    step: 3-1.5
+    type: explanation
+    data: [ content, accept ]
+  -
+    step: 3-2.1
+    type: conclusion
+    data: [ title, content ]

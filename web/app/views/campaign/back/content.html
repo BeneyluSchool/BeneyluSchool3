@@ -1,0 +1,61 @@
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+
+    <h3 translate>CAMPAIGN.CAMPAIGNS_LIST</h3>
+
+    <md-autocomplete md-search-text="ctrl.search"
+                     md-items="[]"
+                     placeholder="{{ 'CAMPAIGN.PLACEHOLDER_ENTER_SEARCH' | translate }}"
+                     class="flex bns-search">
+    </md-autocomplete>
+  </div>
+</md-toolbar>
+
+<md-content id="infiniteList" class="flex">
+
+    <md-list >
+      <div infinite-scroll="ctrl.loadMore()"
+           infinite-scroll-distance="1"
+           infinite-scroll-disabled="ctrl.busy"
+           infinite-scroll-container='"#infiniteList"'
+      >
+      <md-list-item ng-repeat="campaign in ctrl.items" ng-click="app.go('app.campaign.back.show', { id: campaign.id})">
+        <div class="md-list-item-text layout-row layout-padding layout-align-start-center flex">
+          <div class="flex flex-none" ng-click="$event.stopPropagation()">
+            <bns-list-item-selector status="{{ campaign.status | lowercase }}" ng-class="{last: $last}">
+              <md-checkbox class="md-primary checkbox-alone" ng-checked="exists(campaign.id, selected)" ng-click="toggle(campaign.id, selected)" ng-true-value="{{ campaign.id }}" ng-false-value="0">
+              </md-checkbox>
+            </bns-list-item-selector>
+          </div>
+
+          <div class="flex">
+            <md-icon ng-show="campaign.type_name == 'SMS'">phone_android</md-icon>
+            <md-icon ng-show="campaign.type_name == 'EMAIL'">email</md-icon>
+            <md-icon ng-show="campaign.type_name == 'MESSAGING'"><img src="../assets/images/apps/messaging/icon-40.png"></md-icon>
+            <span translate translate-values="{date: (moment(campaign.sent_at).format('LLL')) }" ng-show="campaign.sent_at" class="date-label">CAMPAIGN.SENT_AT_DATE</span>
+            <span translate translate-values="{date: (moment(campaign.scheduled_at).format('LLL')) }" ng-show="campaign.scheduled_at" class="date-label">CAMPAIGN.SCHEDULED_FOR</span>
+            <span translate translate-values="{date: (moment(campaign.created_at).format('LLL')) }" ng-show="!campaign.sent_at && !campaign.scheduled_at" class="date-label">CAMPAIGN.CREATED_AT</span>
+            <span class="date-label" style="margin-left:2px;">-</span>
+            <span translate-values="{COUNT: campaign.nb_recipient }" class="date-label" style="margin-left:2px;" translate-interpolation="messageformat" translate>CAMPAIGN.NB_RECIPIENT_TITLE</span>
+
+            <p class="md-body-1">{{ ::campaign.name || ('CAMPAIGN.TITLE_NEW_'+campaign.type_name+'_CAMPAIGN')|translate }}</p>
+
+          </div>
+
+          <md-icon style="color: #54BBE0">chevron_right</md-icon>
+
+          <md-divider ></md-divider>
+          </div></md-list-item>
+
+        <bns-inset ng-show="!ctrl.busy && !ctrl.hasSearch && !ctrl.hasFilter && (!ctrl.items || 0 === ctrl.items.length)" class="md-padding text-center">{{ 'CAMPAIGN.DESCRIPTION_NO_CAMPAIGN' | translate }}</bns-inset>
+
+        <bns-inset ng-show="!ctrl.busy && ctrl.hasSearch && (!ctrl.items || 0 === ctrl.items.length)" class="md-padding text-center">{{ 'CAMPAIGN.DESCRIPTION_NO_CAMPAIGN_SEARCH' | translate }}</bns-inset>
+        <bns-inset ng-show="!ctrl.busy && !ctrl.hasSearch && ctrl.hasFilter && (!ctrl.items || 0 === ctrl.items.length)" class="md-padding text-center">{{ 'CAMPAIGN.DESCRIPTION_NO_CAMPAIGN_FILTER' | translate }}</bns-inset>
+      </div>
+    </md-list>
+
+  <div class="layout-row layout-align-center-center">
+    <md-progress-circular ng-show="ctrl.busy" md-mode="indeterminate"></md-progress-circular>
+  </div>
+</md-content>

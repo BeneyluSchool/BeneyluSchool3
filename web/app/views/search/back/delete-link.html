@@ -1,0 +1,23 @@
+<md-dialog class="bns-dialog bns-dialog-warn">
+  <md-toolbar class="md-warn">
+    <div class="md-toolbar-tools">
+      <div class="md-headline"><h2 translate>SEARCH.TITLE_CONFIRM_DELETE_LINK</h2></div>
+      <span flex></span>
+      <md-button ng-click="ctrl.close()" class="md-icon-button" href>
+        <md-icon>close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content class="md-dialog-content">
+    <h3 class="md-title">{{ctrl.link.media_value}}</h3>
+    <div translate>SEARCH.DESCRIPTION_CONFIRM_DELETE_LINK</div>
+  </md-dialog-content>
+  <div class="md-actions">
+    <md-button ng-click="ctrl.close()" href>
+      <span ng-bind-html="'SEARCH.BUTTON_CANCEL'|translate|buttonize">.</span>
+    </md-button>
+    <md-button ng-click="ctrl.delete(ctrl.link)" class="md-warn md-raised">
+      <span ng-bind-html="'SEARCH.BUTTON_DELETE_LINK'|translate|buttonize">.</span>
+    </md-button>
+  </div>
+</md-dialog>

@@ -1,41 +1,40 @@
+{% trans_default_domain "CALENDAR" %}
 {% extends '::base_manager.html.twig' %}
 
+{% set app_unique_name = 'CALENDAR' %}
+{% set app_mode = 'back' %}
+
 {% block css %}
-	{{ parent() }}
+  {{ parent() }}
 
-	{# Appel CSS du package layout manager #}
-	{% include "BNSAppMainBundle:Manager:layoutStyle.html.twig" %}
+  {# Appel CSS du package layout manager #}
+  {% include "BNSAppMainBundle:Manager:layoutStyle.html.twig" %}
 
-	{# Appel CSS du package calendar #}
-	{% include "BNSAppMainBundle:Manager:layoutCalendarStyle.html.twig" %}
+  {# Appel CSS du package calendar #}
+  {% include "BNSAppMainBundle:Manager:layoutCalendarStyle.html.twig" %}
 
-	<link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet' type='text/css'>
-    <link href="{{ asset('/medias/css/calendar/manager.css') }}" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet' type='text/css'>
+  <link href="{{ asset('/medias/css/calendar/manager.css') }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
-{% block title %}Calendrier - Gestion{% endblock %}
+{% block title %}{% trans %}TITLE_MANAGEMENT{% endtrans %}{% endblock %}
 
 {% block body %}
-	<div class="background-admin-calendar"></div>
-	{% block header %}{% endblock header %}
-    <div class="container container-fluid">
-		<div class="row-fluid container-manager">
-			<div class="container-sidebar">
-				{% block sidebar %}
-					Hey, did you forget your sidebar ?
-				{% endblock %}
-				<div class="sidebar-shadow"></div>
-			</div>
-			<div class="span9 container-content no-margin">
-				{% block content %}{% endblock %}
-			</div>
-			<div class="container-manager-bottom">
-				<div class="content-manager-bottom"></div>
-			</div>
-		</div>
-	</div>
-{% endblock %}
-
-{% block dock_bar %}
-	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "CALENDAR" , 'is_in_front' : false } %}
+  <div class="background-admin-calendar"></div>
+  {% block header %}{% endblock header %}
+  <div class="container container-fluid">
+    {% block form_start %}{% endblock %}
+    <div class="row-fluid container-manager calendar-container">
+      {% block sidebar %}
+        Hey, did you forget your sidebar ?
+      {% endblock %}
+      <div class="span9 container-content no-margin">
+        {% block content %}{% endblock %}
+      </div>
+      <div class="container-manager-bottom">
+        <div class="content-manager-bottom"></div>
+      </div>
+    </div>
+    {% block form_end %}{% endblock %}
+  </div>
 {% endblock %}

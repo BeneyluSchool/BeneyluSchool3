@@ -1,0 +1,13 @@
+{% trans_default_domain "CLASSROOM" %}
+<div class="modal-footer">
+	<div class="content-btn-footer">
+		<a href="{{ path('back_classroom_teacher_leave_classroom', { 'teacherLogin': user.getLogin() }) }}" class="btn bns-danger btn-24 medium-return">
+			<span class="icons-24 delete-icon"></span>
+            {{ 'LINK_DELETE_USER'|trans |desc('<strong>Supprimer</strong><br />l\'utilisateur de la classe') |raw}}
+		</a>
+		<a href="#" class="btn bns-notice btn-24 medium" data-dismiss="modal">
+			<span class="icons-24 back-icon"></span>
+			<strong>{% trans %}LINK_CANCEL{% endtrans %}</strong>
+		</a>
+	</div>
+</div>

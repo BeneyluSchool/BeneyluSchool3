@@ -1,0 +1,11 @@
+<scrollable>
+  <div class="workshop-scene">
+    <div ng-if="ctrl.canRecord()">
+      <div bns-workshop-audio-recorder></div>
+    </div>
+
+    <div ng-if="!ctrl.canRecord()">
+      <h1>Audio recording not supported :(</h1>
+    </div>
+  </div>
+</scrollable>

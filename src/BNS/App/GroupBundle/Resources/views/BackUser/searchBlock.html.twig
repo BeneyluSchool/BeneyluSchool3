@@ -1,0 +1,19 @@
+{% trans_default_domain "GROUP" %}
+<table class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<th>{{ 'TABLE_USER_FIND'|trans |desc('Utilisateurs trouvés') }}</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for user in users %}
+			<tr>
+				<td>
+					<a href="{{ path("BNSAppGroupBundle_back_user_sheet" , { 'userId': user.id }) }}">
+						{{ user.firstName }} {{ user.lastName }}
+					</a>
+				</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>

@@ -9,20 +9,25 @@
 {% endblock css %}
 
 {% block header %}
-	<h1>Confirmation de la pré-inscription</h1>
+	<h1>Confirmation d'inscription</h1>
 	<p></p>	
+{% endblock %}
+
+{% block analytics %}
+    {{ analyticsAlias(teacher) }}
+    {{ analyticsIdentify(teacher, app.session) }}
 {% endblock %}
 	
 {% block content %}
 	<h2>Bienvenue</h2>
 	<p></p>
-	<p>Votre pré-inscription a bien été prise en compte.</p>
+	<p>Votre inscription a bien été prise en compte.</p>
 	
-	<p>Vous serez parmi les premiers avertis du retour de Beneylu School, un email contenant vos informations de connexion vous sera alors envoyé automatiquement.</p>
+	<p>Nous sommes ravis de vous accueillir sur Beneylu School</p>
 
-	<p>
-		A très bientôt,
-	</p>
+	<p>Vous avez dû recevoir vos informations de connexion par email, à l'adresse renseignée lors de l'étape précédente.</p>
+	
+	<p>A très vite</p>
 	<p>
 		<strong>L'équipe Beneylu School.</strong>
 	</p>

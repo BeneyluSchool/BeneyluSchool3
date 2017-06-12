@@ -23,7 +23,7 @@
     </index>
   </table>
   <table name="notification_type">
-    <column name="module_unique_name" primaryKey="true" required="true" size="255" type="VARCHAR" />
+    <column name="module_unique_name" required="true" size="255" type="VARCHAR" />
     <column name="unique_name" primaryKey="true" required="true" size="255" type="VARCHAR" />
 	<column name="is_correction" defaultValue="0" required="true" type="BOOLEAN" />
     <column name="disabled_engine" size="255" type="VARCHAR" />
@@ -36,7 +36,7 @@
   </table>
   <table name="notification_settings">
     <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="context_group_id" type="INTEGER" required="true" />
+    <column name="context_group_id" type="INTEGER" />
     <column name="module_unique_name" size="255" type="VARCHAR" required="true" />
     <column name="user_id" type="INTEGER" required="true" />
     <column name="notification_engine" type="ENUM" valueSet="SYSTEM, EMAIL" required="true" />

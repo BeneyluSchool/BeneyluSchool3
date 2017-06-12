@@ -1,55 +1,124 @@
+{% trans_default_domain "CLASSROOM" %}
 {% extends 'BNSAppClassroomBundle:Layout:manager.html.twig' %}
 
+{% block css %}
+  {{ parent() }}
+  <link href="{{ asset('/medias/css/manager.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
 {% block javascripts %}
-    {{ parent() }}
-    
-    {# REQUIRE FOR USERPICKER #}
-    <script type="text/javascript" src="{{ asset('/medias/js/main/userpicker.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('/medias/js/bootstrap/bootstrap-tab.js') }}"></script>
-	{# END REQUIRE #}
-    
-    <script type="text/javascript" src="{{ asset('/medias/js/bootstrap/bootstrap-modal.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('/medias/js/classroom/back-team.js') }}"></script>
-    
+  {{ parent() }}
+
+  {# REQUIRE FOR USERPICKER #}
+  <script type="text/javascript" src="{{ asset('/medias/js/main/userpicker.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('/medias/js/bootstrap/bootstrap-tab.js') }}"></script>
+  {# END REQUIRE #}
+  <script type="text/javascript" >
+    $(function() {
+      $(".create-group-btn").click(function newTeam(e) {
+        var modalBtn = $(e.currentTarget);
+        var modalBody = $('#new-category-modal .modal-body');
+        var loadingImg = modalBody.parent().find('.loader');
+        var nameTextInput = modalBody.find('input[type="text"]');
+        if (nameTextInput.val().replace(/ /g, '') == '') {
+          $('.alert-danger').slideDown('fast');
+          $('.alert-success').slideUp('fast');
+          return false;
+        } else {
+          $('.alert-danger').slideUp('fast');
+        }
+
+        loadingImg.show();
+        $('#teams-container .loader').fadeIn('fast');
+        $.ajax({
+          url: Routing.generate('BNSAppClassroomBundle_back_new_team'),
+          type: 'POST',
+          dataType: 'html',
+          data: {'team_name': nameTextInput.val()},
+          success: function(data)
+          {
+            var teamsContainer = $("#teams-container");
+            if (null !== data)
+            {
+              $("#no-item").remove();
+            }
+            teamsContainer.html(data + teamsContainer.html());
+            $(".no-item").remove();
+            $("div.add-group-form").fadeOut("slow");
+            nameTextInput.val('');
+            loadingImg.hide();
+            $('.alert-success').slideDown('fast');
+            $('a.add-group').removeClass('disabled');
+            $('#teams-container .loader').fadeOut('fast');
+          }}).fail(function() {
+          loadingImg.hide();
+          $('.alert-danger').slideDown('fast');
+          $('.alert-success').slideUp('fast');
+          $('a.add-group').removeClass('disabled');
+          $('#teams-container .loader').fadeOut('fast');
+        });
+      });
+    });
+  </script>
 {% endblock %}
 
-    
-{% block top_left_buttons_action %}
-	<div class="content-add-btn agenda">
-		<a class="btn btn-info btn-new-article add-group" href="#"><span class="icon-add-article blog"></span>Créer une nouvelle équipe</a>
-	</div>
-{% endblock %}
-    
 {% block sidebar %}
-    {% include 'BNSAppClassroomBundle:Sidebar:sidebar.html.twig' with {'page': 'classroom', 'section' : 'team'} %}
-{% endblock sidebar %}    
-    
+  {% include 'BNSAppClassroomBundle:Sidebar:sidebar.html.twig' with {'page': 'classroom', 'section' : 'team'} %}
+{% endblock sidebar %}
+
+{% block header %}
+  <div class="header-buttons">
+    <div class="inner-header">
+      <div class="container container-fluid">
+        <div class="row-fluid">
+          <div class="span12 header-classroom-details">
+            <div class="content-add-btn classroom btn-group no-margin">
+              <a href="#" class="btn save btn-new-team bns-info btn-24 large" data-target="#new-category-modal" data-toggle="modal">
+                <span class="icons-24 add-icon"></span>
+                {{ 'LINK_CREATE_WORKING_GROUP'|trans |desc('Créer un groupe de travail') }}
+
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
 {% block content %}
-	<div class="container-classroom container-team">
-		<div class="news-title">
-			<h1 class="dashboard">Les équipes</h1>
-		</div>
+  <div class="container-classroom container-team">
+    <div class="news-title">
+      <h1>{% trans %}TITLE_WORKING_GROUP{% endtrans %}</h1>
 
-		<div class="add-group-form hide">
-			<h3>Ajouter une nouvelle équipe :</h3>
-			<label for="new-workgroup-name">Nom de l'équipe :</label> <input type="text" id="new-workgroup-name" class="input-new-workgroup-name"/>
-			<button class="btn btn-info create-group-btn"><span class="add-icon"></span>Ajouter l'équipe</button>
-			<img src="{{ asset('/medias/images/icons/loading.gif') }}" class="loading" style="display: none;" />
-		</div>
+      {% include 'BNSAppMainBundle::notice.html.twig' %}
+    </div>
 
-		<div class="modal hide" id="userPickerModal"></div>
+    <div id="teams-container" class="content-team">
+      <div class="loader loader-h"></div>
+      {% for team in teams %}
+        {% include 'BNSAppClassroomBundle:BackTeam:team_block.html.twig' with {'team': team, 'classroom': classroom } %}
+      {% else %}
+        <div class="no-item">
+          <div class="bnj-not-found"></div>
+          <p> {% trans %}CLASS_HAVENT_WORKING_GROUP{% endtrans %}</p>
 
-		<div id="teams-container" class="content-team">
-			{% for team in teams %}
-				{% include 'BNSAppClassroomBundle:BackTeam:team_block.html.twig' with {'team': team, 'classroom': classroom } %}
-			{% else %}
-				<div id="no-team" class="">
-					<div class="team-container">
-						<p>La classe ne comporte actuellement pas d'équipe. Vous pouvez en créer</p>
-					</div>
-				</div>
-			{% endfor %}
-		</div>
-	</div>
+          <a href="#" class="add-partnership-button btn bns-info btn-24 large add-icon"  data-target="#new-category-modal" data-toggle="modal">
+            <span class="icons-24 add-icon"></span>{% trans %}LINK_CREATE_WORKING_GROUP{% endtrans %}</a>
+
+          <div class="clearfix"></div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {# Attention à ne pas oublier de copier les templates des modals et à ne pas modifier l'ID de la modal, sinon le JS ne fonctionnera plus #}
+  {{ modal('new-category-modal', {
+    'title': 'LINK_CREATE_WORKING_GROUP'|trans,
+
+    'body_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:team_management_add_body.html.twig'},
+    'footer_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:team_management_add_footer.html.twig'},
+    'type': 'info'
+  }) }}
 
 {% endblock %}

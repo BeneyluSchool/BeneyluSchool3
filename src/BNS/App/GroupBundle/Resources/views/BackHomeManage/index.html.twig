@@ -1,0 +1,62 @@
+{% trans_default_domain "GROUP" %}
+{% extends 'BNSAppGroupBundle:Back:layout.html.twig' %}
+
+{% block header %}
+    <div class="header-buttons">
+        <div class="inner-header">
+            <div class="container container-fluid">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <a href="{{ path('BNSAppGroupBundle_back_home_manage_new') }}" class="btn bns-info btn-24 large write-new-status-btn">
+                            <span class="icons-24 add-icon"></span>
+                           {{ 'LINK_CREATE_NEWS'|trans |desc('Créer une actualité') }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock header %}
+
+{% block sidebar %}
+    {{ render(controller('BNSAppGroupBundle:Back:sidebar', {'section' : 'logon_message'} )) }}
+{% endblock sidebar %}
+
+
+{% block content %}
+    {% for homeNew in homeNews %}
+        <div class="item">
+            <div class="vertical-separator validated"></div>
+            <div class="header">
+                <div class="buttons-container">
+                    <a href="{{ path('BNSAppGroupBundle_back_home_manage_sheet', {'slug': homeNew.slug}) }}" class="btn bns-notice btn-16 small right btn-visualisation">
+                        <span class="icons-16 arrow-right-icon right"></span>
+                        <strong>{{ 'BUTTON_SEE_CARD'|trans |desc('Voir la fiche') }}</strong>
+                    </a>
+                </div>
+            </div>
+            <div class="text">
+                <h3>{{ homeNew.title }}</h3>
+                {% if homeNew.resource != null %}
+                    <div class="resource pull-left"><img src="{{ getResourceImageUrl(homeNew.resource, 'small') }}" alt="" /></div>
+                {% endif %}
+                {{ homeNew.description  | purify  }}
+                <div class="clearfix"></div>
+            </div>
+            <div class="footer">
+                {{ 'POST_AT'|trans({'%date%': date_from_now(homeNew.createdAt, false, true)}) |desc('Posté %date%') }}
+            </div>
+        </div>
+    {% else %}
+        {% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+        'text': 'NO_NEWS_CREATE_ONE'|trans |desc("Il n'existe aucune actualité.<br />Pourquoi ne pas en créer une ?") |raw,
+        'button': {
+        'text': 'CREATE_NEWS'|trans |desc('Créer une actualité'),
+        'link': path('BNSAppGroupBundle_back_home_manage_new')
+        }
+        } %}
+    {% endfor %}
+{% endblock %}
+
+
+

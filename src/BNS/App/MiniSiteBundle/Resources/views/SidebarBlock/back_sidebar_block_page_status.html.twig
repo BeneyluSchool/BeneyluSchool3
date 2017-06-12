@@ -1,0 +1,31 @@
+{% trans_default_domain "MINISITE" %}
+<bns-expander label=
+
+		"{% if isNews is defined %}
+      {% trans %}NEWS_STATUS{% endtrans %}
+		{% else %}
+      {% trans %}PAGE_STATUS{% endtrans %}
+		{% endif %}"
+
+              class="ng-scope ng-isolate-scope" is-open="true">
+
+		<ul>
+			<li class="text-row">
+				<div>
+					<span class="vertical-separator separator-one {{ status|lower }}"></span>
+					<span>
+            <p class="text-status">
+						{% if status == 'FINISHED' %}
+              {% trans %}FINISH{% endtrans %}
+						{% elseif status == 'PUBLISHED' %}
+              {% trans %}PUBLISH{% endtrans %}
+						{% elseif status == 'DRAFT' %}
+              {% trans %}NEWS_DRAFT{% endtrans %}
+						{% else %}
+              {% trans %}WAITING_TO_MODERATION{% endtrans %}
+						{% endif %}</p>
+					</span>
+				</div>
+			</li>
+		</ul>
+</bns-expander>

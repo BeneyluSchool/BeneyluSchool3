@@ -1,0 +1,43 @@
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+    <md-button ng-click="ctrl.editUser(ctrl.prev)" class="md-icon-button" ng-disabled="!ctrl.prev">
+      <md-icon>chevron_left</md-icon>
+    </md-button>
+    <h3 class="flex heading text-center text-ellipsis" translate translate-values="{name: shared.record.user.full_name}">LSU.TITLE_WRITE_FOR</h3>
+    <md-button ng-click="ctrl.editUser(ctrl.next)" class="md-icon-button" ng-disabled="!ctrl.next">
+      <md-icon>chevron_right</md-icon>
+    </md-button>
+    <bns-loader></bns-loader>
+  </div>
+</md-toolbar>
+
+<md-content>
+  <div ui-view="content_edit"></div>
+</md-content>
+
+<div ng-if="shared.selectedUsersMap.list.length" class="lsu-records-mass-container layout-column layout-align-center-center">
+
+  <h4 class="md-headline text-center" translate translate-values="{count: shared.selectedUsersMap.list.length}" translate-interpolation="messageformat">LSU.TITLE_NB_SELECTED_RECORDS</h4>
+
+  <div class="text-center">
+    <md-button ng-href="{{ctrl.getExportUrl('pdf', shared.selectedUsersMap.list)}}"
+      target="_blank"
+      class="md-raised"
+    >
+      <md-icon>picture_as_pdf</md-icon>
+      <span ng-bind-html="'LSU.BUTTON_EXPORT_PDF'|translate|buttonize"></span>
+    </md-button>
+
+    <md-button ng-href="{{ctrl.getExportUrl('xml', shared.selectedUsersMap.list)}}"
+      target="_blank"
+      class="md-raised"
+    >
+      <md-icon>insert_drive_file</md-icon>
+      <span ng-bind-html="'LSU.BUTTON_EXPORT_LSU'|translate|buttonize"></span>
+    </md-button>
+  </div>
+
+  <p class="md-body-1" translate>LSU.DESCRITPION_EXPORT_ONLY_VALID</p>
+
+</div>

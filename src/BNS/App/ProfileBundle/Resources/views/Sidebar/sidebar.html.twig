@@ -1,98 +1,61 @@
-{% if section == 'home' or section == 'status' %}
-	<div class="section active">
-		Mon profil
-		<span class="shadow-section"></span>
-	</div>
-	<div class="title-container">
-		<div class="content-title">
-			{% if profile is defined and profile != null and profile.isFilled() %}
-			<ul>
-				<li>
-					<a href="{{ path('BNSAppProfileBundle_back_status') }}" class="{% if section == 'status' %}active{% endif %}"">Mes statuts</a>
-				</li>
-				<li>
-					<a href="{{ path('profile_back_edit', {'userSlug': user.getSlug()}) }}" class="{% if section == 'home' %}active{% endif %}">Mes informations</a>
-				</li>
-			</ul>
-			{% else %}
-			<ul>
-				<li>
-					<a href="{{ path('profile_back_edit', {'userSlug': user.getSlug()}) }}" class="{% if section == 'home' %}active{% endif %}">Mes informations</a>
-				</li>
-				<li>
-					<a href="{{ path('BNSAppProfileBundle_back_status') }}" class="{% if section == 'status' %}active{% endif %}">Mes statuts</a>
-				</li>
-			</ul>
-			{% endif %}
-		</div>
-	</div>
-{% else %}
-	<div class="container-section">
-		<div class="section">
-			<a href="{{ path('BNSAppProfileBundle_back') }}">Mon profil</a>
-		</div>
-		{% if has_right('PROFILE_ADMINISTRATION') and section != 'moderation' %}
-			<div class="section">
-				<a href="{{ path('profile_manager_moderation') }}">Modération</a>
-			</div>
-		{% endif %}
-	</div>
-{% endif %}
+{% trans_default_domain "PROFILE" %}
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
 
-{% if has_right('PROFILE_ADMINISTRATION') %}
-	{% if section == 'comments' %}
-		<div class="section active">
-			Commentaires
-			<span class="shadow-section"></span>
-		</div>
+{% set user = user|default(app.user) %}
 
-		<div class="title-container">
-			<div class="title active border-blue">Modération<span class="square icon-arrow"></span></div>
-			<div class="content-title">
-				<ul>
-					<li>
-						<a href="{{ path('profile_manager_comment_moderation_switch') }}" class="switchable moderation-comment {% if not is_moderate %}off{% endif %}">
-							Modération des commentaires
-							<span class="btn-switch"></span>
-						</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-		{% include 'BNSAppCommentBundle:Sidebar:back_block_moderation_filters.html.twig' %}
-	{% elseif section == 'moderation' %}
-		<div class="section active">
-			Modération
-			<span class="shadow-section"></span>
-		</div>
-		<div class="title-container">
-			<div class="title active border-blue">Modération<span class="square icon-arrow"></span></div>
-			<div class="content-title">
-				<ul>
-					<li>
-						<a href="{{ path('profile_manager_moderation_switch') }}" class="switchable moderation-statuses {% if not is_moderate %}off{% endif %}">
-							Modération des statuts
-							<span class="btn-switch"></span>
-						</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-		{% include 'BNSAppProfileBundle:Sidebar:back_block_statuses_moderation_filters.html.twig' %}
-		
-		<div class="container-section">
-			<div class="section">
-				<a href="{{ path('profile_manager_comment') }}">Commentaires</a>
-			</div>
-		</div>
-	{% else %}
-		<div class="container-section">
-			<div class="section">
-				<a href="{{ path('profile_manager_moderation') }}">Modération</a>
-			</div>
-			<div class="section">
-				<a href="{{ path('profile_manager_comment') }}">Commentaires</a>
-			</div>
-		</div>
+{% if profile is defined and profile != null and profile.isFilled() %}
+	{% if has_right('PROFILE_FULL_ACCESS_BACK') %}
+		<section {% if section == 'home' %}class="current"{% endif %}>{{ components.button( 'MY_PROFILE' | trans , { href:  path('profile_back_edit', {'userSlug': user.getSlug()}), icon: 'mode_edit' }) }}</section>
 	{% endif %}
+	<section {% if section == 'status' %}class="current"{% endif %}>{{ components.button( 'LINK_MINE_STATUS' | trans , { href:   path('BNSAppProfileBundle_back_status'), icon: 'rate_review' }) }}</section>
+{% else %}
+	<section {% if section == 'home' %}class="current"{% endif %}>{{ components.button( 'MY_PROFILE' | trans , { href:  path('profile_back_edit', {'userSlug': user.getSlug()}), icon: 'mode_edit' }) }}</section>
+	{% if has_right('PROFILE_FULL_ACCESS_BACK') %}
+		<section {% if section == 'status' %}class="current"{% endif %}>{{ components.button( 'LINK_MINE_STATUS' | trans , { href:   path('BNSAppProfileBundle_back_status'), icon: 'rate_review' }) }}</section>
+	{% endif %}
+{% endif %}
+{% if has_right('PROFILE_ADMINISTRATION') %}
+<section {% if section == 'moderation' %}class="current"{% endif %}>
+	{{ components.button( 'LINK_MODERATION' | trans , { href:   path('profile_manager_moderation'), icon: 'forum', attr : {'class' : 'moderation-switch'} }) }}
+	<div bns-profile-switch data-success="Modération des status ouverte" data-fail="Modération des status fermée" data-url="{{ path('profile_manager_moderation_switch') }}">
+		<md-switch ng-change="onChange()" aria-label=" " ng-model="active"  class="bns-switch ng-pristine ng-valid ng-scope md-checked ng-touched switch-list"></md-switch>
+	</div>
+	{% if section == 'moderation' %}
+		<bns-expander label="{% trans %}FILTER_BY_STATE{% endtrans %}" is-open="true">
+			<div class="layout-column nav-list">
+				{{ components.button( 'LINK_STATUS_IN_MODERATION' | trans, { href: path('profile_manager_moderation_statuses_load'), icon :'warning', attr : {'data-filter-status':'PENDING_VALIDATION', 'class' : 'statuses-sidebar-filter md-primary'} }) }}
+				{{ components.button( 'LINK_STATUS_PUBLISH' | trans, { href: path('profile_manager_moderation_statuses_load'), icon : 'done', attr : {'data-filter-status':'VALIDATED', 'class' : 'statuses-sidebar-filter'} }) }}
+				{{ components.button( 'LINK_STATUS_DENY' | trans, { href: path('profile_manager_moderation_statuses_load'), icon : 'clear', attr : {'data-filter-status':'REFUSED', 'class' : 'statuses-sidebar-filter'} }) }}
+			</div>
+		</bns-expander>
+	{% endif %}
+</section>
+<section {% if section == 'comments' %}class="current"{% endif %}>
+	{{ components.button( 'LINK_COMMENTS' | trans , { href:   path('profile_manager_comment'), icon: 'comment' }) }}
+	<div bns-profile-switch data-success="{{ 'COMMENT_MODERATION_OPENED' | trans }}" data-fail="{{ 'COMMENT_MODERATION_CLOSED' | trans }}" data-url="{{ path('profile_manager_comment_moderation_switch') }}">
+		<md-switch ng-change="onChange()" aria-label=" " ng-model="active"  class="bns-switch ng-pristine ng-valid ng-scope md-checked ng-touched switch-list"></md-switch>
+	</div>
+	{% if section == 'comments' %}
+		<bns-expander label="{% trans %}FILTER_BY_STATE{% endtrans %}" is-open="true">
+			<div class="layout-column nav-list">
+				{{ components.button( 'LINK_SEE_ALL_COMMENT' | trans|desc('Commentaires en modération') , { href: path('comment_manager_load'), icon :'warning', attr : {'data-filter-status':'PENDING_VALIDATION', 'class' : 'comment-sidebar-filter md-primary'} }) }}
+				{{ components.button( 'LINK_COMMENT_PUBLISH' | trans|desc('Commentaires publiés') , { href: path('comment_manager_load'), icon : 'done', attr : {'data-filter-status':'VALIDATED', 'class' : 'comment-sidebar-filter'} }) }}
+				{{ components.button( 'LINK_COMMENT_DENY' | trans|desc('Commentaires refusés') , { href: path('comment_manager_load'), icon : 'clear', attr : {'data-filter-status':'REFUSED', 'class' : 'comment-sidebar-filter'} }) }}
+			</div>
+		</bns-expander>
+	{% endif %}
+</section>
+
+	{# TODO #}
+	{% if false and has_right_somewhere("SPOT_ACCESS") %}
+	<section>
+		{{ components.button( 'LINK_SUBSCRIPTION' | trans , { href:   path('bns_app_profile_backpaassubscription_subscription'), icon: 'bookmark' }) }}
+	</section>
+	{% endif %}
+{% endif %}
+{% if not is_child() %}
+	<section {% if section == 'merge-accounts' %}class="current"{% endif %}>{{ components.button( 'MERGE_ACCOUNT' | trans , { href:   path('BNSAppProfileBundle_back_merge_accounts'), icon: 'people_outline' }) }}</section>
+{% endif %}
+{% if has_right('PROFILE_ADMINISTRATION') %}
+<section bns-app-menu-toggle></section>
 {% endif %}

@@ -1,0 +1,27 @@
+
+      <bns-calendar selection="{{shared.date.format('YYYY-MM-DD')}}" mode="week" sync-view></bns-calendar>
+      <md-divider></md-divider>
+
+      <bns-expander label="{{'HOMEWORK.LABEL_SUBJECTS'|translate}}" is-open="true">
+        <div class="input-container">
+          <bns-checkbox-group ng-if="ctrl.subjects.length" ng-model="shared.filters.subjects" choices="ctrl.subjects"></bns-checkbox-group>
+          <div ng-if="!ctrl.subjects.length" class="md-padding md-body-1" translate>HOMEWORK.NO_SUBJECTS</div>
+        </div>
+      </bns-expander>
+
+      <bns-expander label="{{'HOMEWORK.LABEL_GROUPS'|translate}}" is-open="true">
+        <div class="input-container">
+          <bns-checkbox-group ng-if="ctrl.groups.length" ng-model="shared.filters.groups" choices="ctrl.groups"></bns-checkbox-group>
+        </div>
+      </bns-expander>
+
+      <bns-expander label="{{'HOMEWORK.LABEL_DAYS'|translate}}" is-open="true">
+        <div class="input-container">
+          <bns-checkbox-group ng-if="ctrl.days.length"
+            ng-model="shared.filters.days"
+            bns-day
+            choices="ctrl.days"
+            class="homework-days"
+          ></bns-checkbox-group>
+        </div>
+      </bns-expander>

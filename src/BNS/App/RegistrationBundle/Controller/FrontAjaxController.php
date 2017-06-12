@@ -22,6 +22,11 @@ class FrontAjaxController extends Controller
 	 */
 	public function searchSchoolAction()
 	{
+        /**
+         * Deprecated
+         */
+        return $this->render($this->generateUrl('home'));
+
 		if (!$this->getRequest()->isMethod('POST') || !$this->getRequest()->isXmlHttpRequest()) {
 			throw new NotFoundHttpException('This page excepts AJAX & POST header !');
 		}

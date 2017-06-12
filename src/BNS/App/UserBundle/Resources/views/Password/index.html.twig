@@ -1,7 +1,8 @@
+{% trans_default_domain 'USER' %}
 {% extends '::base.html.twig' %}
 
 {% block title %}
-	Création d'une classe
+    {{ 'TITLE_BENEYLU_CREATE_PASSWORD'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('%beneylu_brand_name% - Création d\'un mot de passe') }}
 {% endblock %}
 	
 {% block css %}
@@ -13,8 +14,30 @@
 	
 {% block javascripts %}
 	{{ parent() }}
+	
 	<script type="text/javascript" src="{{ asset('/medias/js/jquery.maphilight.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('/medias/js/user/password.js') }}"></script>
+	<script type="text/javascript">
+		$(function ()
+		{
+			$('.link-print').click(function (e)
+			{
+				var $this = $(e.currentTarget);
+				
+				$.ajax({
+					url: $this.attr('href'),
+					type: 'POST',
+					data: {'user_password': $('#password_generation_form_password').val()},
+					success: function (e)
+					{
+						window.open($this.attr('href'));
+					}
+				});
+					
+				return false;
+			});
+		});
+	</script>
 {% endblock javascripts %}
 
 {% block body %}
@@ -40,7 +63,7 @@
 					</div>
 					<div class="wheel confirm disabled">
 						<div class="under"></div>
-						<a href="#" onclick="return false;" class="inner">OK</a>
+						<a href="#" onclick="return false;" class="inner">{{ 'LINK_OK'|trans |desc('OK') }}</a>
 					</div>
 				</div>
 
@@ -89,20 +112,18 @@
 			</div>
 			<div class="span7">
 				<div class="content-message-password">
-					<h1>Création de mot de passe</h1>
-					<br />
+					{{ 'DESCRIPTION_CREATE_PASSWORD'|trans |desc('<h1>Création de mot de passe</h1>
 					<p>
-						Vous pouvez désormais créer votre propre mot de passe : rien de plus simple, tout se passe en 3 étapes :
+						Rien de plus simple, tout se passe en 3 étapes :
 
 						<ol>
-							<li>Choisir ses lettres : il faut cliquer sur une consonne, une voyelle, puis sur "OK" (recommencer 3 fois)</li>
-							<li>Choisir ses chiffres : il faut cliquer 3 chiffres différents, puis sur "OK"</li>
-							<li>Bien noter le mot de passe choisi !!! Il apparaît ci dessous.</li>
-						</ol>
-					</p>
-				
+							<li class="first step"><strong>Choisir ses lettres :</strong> il faut cliquer sur une consonne puis sur une voyelle. Ne pas oublier d\'appuyer sur "<strong>OK</strong>" pour confirmer. Recommencer trois fois l\'opération.</li>
+							<li><strong>Choisir ses chiffres :</strong> il faut cliquer sur 3 chiffres différents. Ne pas oublier d\'appuyer sur "<strong>OK</strong>" pour confirmer.</li>
+							<li><strong>Bien noter le mot de passe pour ne pas le perdre !</strong></li>
+                    </ol>
+                    </p>') |raw }}
 					<div class="content-password-hud">
-						<h5>Voici la combinaison choisie :</h5>
+						<h5>{{ 'TITLE_COMBINAISON_CHOOSE'|trans |desc('Voici la combinaison choisie :') }}</h5>
 						<h1><div id="password-hud" class="password-hud"></div></h1>
 						<div class="alert alert-danger">
 
@@ -120,9 +141,11 @@
 							</div>
 
 							<div class="submit">
-								<a id="confirm_password" class="btn bns-success disabled btn-24 medium" href="#"><span class="icons-24 validate-icon"></span><strong>J'utilise cette combinaison</strong></a>
+								<a id="confirm_password" class="btn bns-success disabled btn-24 medium" href="#"><span class="icons-24 validate-icon"></span>
+                                {{ 'LINK_I_USE_THIS_COMBINAISON'|trans |desc('<strong>J\'utilise cette combinaison</strong>')|raw }}
+                                </a>
 								<div class="clearfix"></div>
-								<a id="clear_password" href="#" class="reset">Utiliser une autre combinaison</a>
+								<a id="clear_password" href="#" class="reset">{{ 'LINK_USE_OTHER_COMBINAISON'|trans |desc('Utiliser une autre combinaison') }}</a>
 								{#<input id="confirm_password" class="btn btn-success disabled btn-large" type="submit" value="OK" disabled="disabled" />
 								<input id="clear_password" class="btn btn-danger btn-large" type="submit" value="Recommencer" />#}
 							</div>
@@ -132,9 +155,14 @@
 					<div class="container-warning-password">
 						<div class="content-warning-password">
 							<div class="warning-password"></div>
-						   <h2>Attention !</h2>
-							<p>Note bien la combinaison de ton mot de passe car une fois que tu auras quitté cette page tu ne pourras plus y revenir</p>
-							<a href="#" class="link-print">Imprimer mon mot de passe</a>
+						   <h2>{{ 'TITLE_WARNING'|trans |desc('Attention !') }}</h2>
+                            {% if is_child() %}
+                                <p>{{ 'CHILD_WRITE_PASSWORD_BEFORE_QUIT_PAGE'|trans |desc('Note bien la combinaison de ton mot de passe car une fois que tu auras quitté cette page tu ne pourras plus y revenir') }}</p>
+								<a href="{{ path('user_password_print') }}" class="link-print">{{ 'CHILD_PRINT_PASSWORD'|trans |desc('Imprimer mon mot de passe') }}</a>
+							{% else %}
+								<p>    {{ 'ADULT_WRITE_PASSWORD_BEFORE_QUIT_PAGE'|trans |desc('Notez bien la combinaison de votre mot de passe car une fois que vous aurez quitté cette page vous ne pourrez plus y revenir') }}</p>
+								<a href="{{ path('user_password_print') }}" class="link-print">{{ 'ADULT_PRINT_PASSWORD'|trans |desc('Imprimer votre mot de passe') }}</a>
+							{% endif %}
 						</div>
 					</div>
 				</div>

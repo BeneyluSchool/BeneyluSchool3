@@ -13,6 +13,9 @@ use BNS\App\CoreBundle\Model\GroupPeer;
 class DirectoryController extends Controller
 {
 	private $groupsCache = array();
+	private static $directoryModules = array('DIRECTORY_ACCESS','PROFILE_ACCESS');
+    private static $messagingPermission = array('MESSAGING_ACCESS');
+    private $partnersIds;
 	
     /**
      * @Route("/", name="BNSAppDirectoryBundle_front", options={"expose"=true})
@@ -25,13 +28,13 @@ class DirectoryController extends Controller
 		
 		$groupsICanView = $this->getGroupsWhereIHaveDirectoryAccessPermission();
 		// On garde le groupe sur lequel on navigue comme groupe référence
-		$currentGroup = null;
+		$currentGroup = $this->get('bns.right_manager')->getCurrentGroup();
 		$currentGroupId = $this->get('bns.right_manager')->getCurrentGroupId();
 		
 		$groups = array();
 		// On boucle sur tous les groupes pour lesquels on a la permission 'DIRECTORY_ACCESS' pour leur injecter les sous-groupes et les utilisateurs
 		foreach ($groupsICanView as $group) {
-			$group = $this->hydrateGroupWithUserAndSubgroups($group, array('TEACHER', 'PUPIL', 'PARENT'));
+			$group = $this->hydrateGroupWithUserAndSubgroups($group, array('TEACHER', 'PUPIL'));
 			// Si le groupe a le même id que l'id du groupe référence alors on garde le groupe dans une variable à part
 			if ($currentGroup == null && !$group->hasSubgroup() && $currentGroupId == $group->getId()) {
 				$currentGroup = $group;
@@ -73,6 +76,9 @@ class DirectoryController extends Controller
 		$groupTargetSlug = $request->get('group_target_slug', null);
 		//Module si spécifique
 		$module = $request->get('module',null);
+
+        // On vérifie si l'utilisateur ne souhaite pas afficher une liste d'utilisateurs
+        $usersIdsToHide = $request->get('user_ids_hide', array());
 		
 		$groupTarget = null;
 		if ($groupTargetSlug != null) {
@@ -84,7 +90,7 @@ class DirectoryController extends Controller
 		$groupsICanView = array();
 		// Si l'utilisateur a fourni aucun group_id, on affiche l'UserPicker avec les groupes dont il a accès depuis l'annuaire
 		if (0 >= count($groupIds)) {
-			$groupsICanView = $this->getGroupsWhereIHaveDirectoryAccessPermission($groupTypesFilter);
+			$groupsICanView = $this->getGroupsWhereIHaveDirectoryAccessPermission($groupTypesFilter, $module);
 		}
 		else {
 			// Arrivé ici, il y a bien une liste de group_id fourni par l'utilisateur, on boucle sur toutes les informations du tableau
@@ -101,28 +107,42 @@ class DirectoryController extends Controller
 		}
 		
 		$groups = array();
-		$currentGroup = null;
+        //On va déterliner le groupe à afficher par défaut
+        $currentGroup = null;
 		$currentGroupId = $this->get('bns.right_manager')->getCurrentGroupId();
 		// On boucle sur tous les groupes pour leur injecter les sous-groupes et les utilisateurs
-		foreach ($groupsICanView as $group) {
-			$group = $this->hydrateGroupWithUserAndSubgroups($group, $rolesFilter);
+        foreach ($groupsICanView as $group) {
+
+            $realRoleFilter = in_array($group->getId(),is_array($this->partnersIds) ? $this->partnersIds : array()) ? array('PUPIL','TEACHER') : $rolesFilter;
+
+			$group = $this->hydrateGroupWithUserAndSubgroups($group, $realRoleFilter, $module);
 			// Si le groupe a le même id que l'id du groupe référence alors on garde le groupe dans une variable à part
 			if ($currentGroup == null && !$group->hasSubgroup() && $currentGroupId == $group->getId()) {
 				$currentGroup = $group;
 			}
 			elseif ($groupTarget != null && $groupTarget->getId() == $group->getId()) {
 				$groupTarget = $group;
-			}
-			else {
+			}else{
 				$groups[] = $group;
 			}
+            //Si groupe courrant dans la liste des groupes accessibles on le set
+            if($currentGroup == null && $currentGroupId == $group->getId())
+            {
+                $currentGroup = $group;
+            }
 		}
+        //Si le groupe courrant n'a pas été trouvé c'est que nous n'avons pas accès à la messagerie dedans, on prend alors le dernier groupe auquel on a accès
+        if($currentGroup == null)
+        {
+            $currentGroup = $group;
+        }
 		
 		return $this->render('BNSAppDirectoryBundle:Directory:index.html.twig', array(
 			'modal_id'				=> $modalId,
 			'groups'				=> $groups,
 			'current_group'			=> $currentGroup,
 			'group_target'			=> $groupTarget,
+            'user_ids_hide'                 => $usersIdsToHide,
 			'is_userpicker'			=> true,
 			'module'				=> $module
 		));
@@ -174,22 +194,64 @@ class DirectoryController extends Controller
 	 * d'utilisateur; paramètre facultatif; par défaut, tous les type de groupe sont affichés
 	 * @return array<Group> tableau contenant tous les groupes dont l'utilisateur courant a la permission DIRECTORY_ACCESS
 	 */
-	private function getGroupsWhereIHaveDirectoryAccessPermission(array $groupTypesFilter = array())
+	private function getGroupsWhereIHaveDirectoryAccessPermission(array $groupTypesFilter = array(), $module = null)
 	{
 		// On récupère tous les groupes où on a la permission de voir le groupe en question dans l'annuaire
 		$groupsICanView = array();
+        if($module == "MESSAGING")
+        {
+            $permission = self::$messagingPermission;
+        }else{
+            $permission = self::$directoryModules;
+        }
+
 		// On vérifie s'il y a un filtre par type de groupe à appliquer ou non
 		if (count($groupTypesFilter) > 0) {
-			foreach($this->get('bns.user_manager')->setUser($this->getUser())->getGroupsWherePermission('DIRECTORY_ACCESS') as $groupICanView) {
+			foreach($this->get('bns.user_manager')->setUser($this->getUser())->getGroupsWherePermissions($permission) as $groupICanView) {
 				if (in_array($groupICanView->getGroupType()->getType(), $groupTypesFilter)) {
 					$groupsICanView[] = $groupICanView;
 				}
 			}
 		}else{
-			$groupsICanView = $this->get('bns.user_manager')->setUser($this->getUser())->getGroupsWherePermission('DIRECTORY_ACCESS');
+			$groupsICanView = $this->get('bns.user_manager')->setUser($this->getUser())->getGroupsWherePermissions($permission);
 		}
-		
-		return $groupsICanView;
+
+        $finalGroups = array();
+        $finalDone = array();
+        $myGroupsIds = $this->get('bns.right_manager')->getUserManager()->getGroupsIdsUserBelong();
+        //Une fois les groupes récupérés, isoler les groupes partenariats pour les proposer
+        foreach($groupsICanView as $group)
+        {
+            if($group->isPartnerShip())
+            {
+                //Pour un partenariat on prend les siblings, pas les groupes eux mêmes
+                $gm = $this->get('bns.group_manager');
+                $gm->setGroupById($group->getId());
+                $partners = $gm->getPartners();
+                foreach($partners as $partner)
+                {
+                    //On ne prend pas si déjà inséré ET si c'est un groupe auquel j'apartiens (qui remontera différemment)
+                    if(!in_array($partner->getId(),$finalDone) && !in_array($partner->getId(),$myGroupsIds))
+                    {
+                        $finalGroups[] = $partner;
+	                    if($this->get('bns.right_manager')->hasRight('PROFILE_ACCESS', $group->getId()))
+	                    {
+		                    $partner->setCanSeeProfile(true);
+	                    }
+                        $finalDone[] = $partner->getId();
+                        //On stocke les partenaires pour utilisation ultérieure
+                        $this->partnersIds[] = $partner->getId();
+                    }
+                }
+            }else{
+                if(!in_array($group->getId(),$finalDone))
+                {
+                    $finalGroups[] = $group;
+                    $finalDone[] = $group->getId();
+                }
+            }
+        }
+		return $finalGroups;
 	}
 	
 	/**
@@ -197,10 +259,10 @@ class DirectoryController extends Controller
 	 * sont également setté pour le groupe, de manière récursive tant que le groupe est ni une Classe, ni une Equipe.
 	 * 
 	 * @param \BNS\App\CoreBundle\Model\Group $group le groupe dont on souhaite fixé ses sous-groupes et ses utilisateurs
-	 * @param array<string> $rolesFilter tableau contenant des unique name des type de groupe type rôle dont on souhaite afficher
+	 * @param array<string> $rolesFilter tableau contenant des unique name des types de groupe type rôle dont on souhaite afficher
 	 * @return type
 	 */
-	private function hydrateGroupWithUserAndSubgroups(Group $group, array $rolesFilter)
+	private function hydrateGroupWithUserAndSubgroups(Group $group, array $rolesFilter, $module = null)
 	{
 		$isGroupInCache = false;
 		// On recherche si on a déjà le groupe en cache (ce qui signifie que l'on a déjà fait les requêtes pour le récupérer et l'hydrater)

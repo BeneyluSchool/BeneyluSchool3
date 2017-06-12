@@ -1,0 +1,66 @@
+<div class="bns-content-inner">
+  <md-toolbar class="content-toolbar">
+    <div class="purple-border-top"></div>
+    <div class="md-toolbar-tools" layout-align="space-between center">
+      <bns-sidebar-toggle></bns-sidebar-toggle>
+
+      <md-button ng-click="prevMonth()"
+        hide-print class="md-primary md-hue-3 btn-hover" ng-class="{ 'md-icon-button': $mdMedia('sm') }">
+        <md-icon>chevron_left</md-icon>
+        <span hide show-gt-sm ng-bind-html="'LUNCH.BUTTON_PREV_MONTH' | translate | buttonize:'small':'small'"></span>
+      </md-button>
+      <div flex class="md-title text-primary" ng-class="{ 'md-subhead': $mdMedia('sm') }">
+        <h1 translate>LUNCH.MONTH_WEEKS</h1>
+         <h2>{{ ::shared.date.format('MMMM YYYY') }}</h2>
+      </div>
+      <md-button ng-click="nextMonth()"
+        hide-print class="md-primary md-hue-3 btn-hover" ng-class="{ 'md-icon-button': $mdMedia('sm') }">
+        <span hide show-gt-sm ng-bind-html="'LUNCH.BUTTON_NEXT_MONTH' | translate | buttonize:'small':'small'"></span>
+        <md-icon>chevron_right</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+  <div ng-show="ctrl.busy" layout="row" layout-align="center center" class="md-padding lunch-menu">
+  <div class="purple-border-bottom"></div>
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+  </div>
+  <div ng-show="!ctrl.busy && !month.length" class="lunch-menu">
+    <div class="purple-border-bottom"></div>
+    <img flex="100" class="img-nolunch" src="/ent/assets/images/apps/lunch/no-lunch.png" alt="">
+    <div class="md-title md-padding text-primary text-primary-hue-3 text-center no-lunch-large" translate>LUNCH.NO_MENU_THIS_MONTH</div>
+  </div>
+  <div ng-if="!ctrl.busy && month.length" class="lunch-menu md-body-1">
+    <div class="purple-border-bottom"></div>
+    <div ng-model="month" ng-repeat="week in month">
+      <div layout="row" class="week-date">
+        <div class="md-title">
+          <div translate translate-values="{ start: (week.date_start|lunchWeekDisplayLabel ).format('dddd D MMMM'), end: (week.date_start|lunchWeekDisplayLabel ).add(4, 'days').format('dddd D MMMM') }">LUNCH.WEEK_FROM_TO</div>
+        </div>
+      </div>
+      <div layout="row"  class="month-grid">
+        <div flex="20" ng-repeat="day in week._embedded.days" ng-init="date = shared.date.clone().add($index, 'days')" class="flex-lunch">
+          <div layout="row" layout-sm="column" layout-align="start center" class="date-container">
+            <div class="day-date heading">{{ ::date.format('dddd') }}</div>
+          </div>
+          <div ng-if="day.status === '2'" class="md-title md-padding text-primary text-center" translate>LUNCH.STATUS_SPECIAL</div>
+          <div ng-if="day.status === '3'">
+            <img flex="50" class="img-nolunch" src="/ent/assets/images/apps/lunch/no-lunch.png" alt="">
+            <div class="md-title md-padding text-primary text-primary-hue-3 text-center no-lunch" translate>LUNCH.STATUS_NO_LUNCH</div>
+          </div>
+          <div ng-repeat="section in ctrl.editor.sections">
+            <div layout="row" layout-sm="column" layout-align="start center" ng-if="day.status === '1'">
+              <div class="lunch-section" ng-class="{'push-left': section.value != 'full_menu', 'afternoon-snack': section.value === 'afternoon_snack'}">
+                <div ng-if="day[section.value] && section.value != 'afternoon_snack'">
+                  <div class="section-title">
+                    <h5 class="md-title">{{ ::(section.value === 'full_menu' ? '' : section.label) | translate }}</h5>
+                  </div>
+                    <div class="menu-description">{{ ::day[section.value] }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

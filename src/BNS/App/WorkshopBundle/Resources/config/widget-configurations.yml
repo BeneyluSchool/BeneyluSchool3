@@ -1,0 +1,96 @@
+# Workshop widget configurations, tying together a widgetGroup and one (or more)
+# widgets. Used for insertion of new widgets in a document.
+
+widget_configurations:
+  -
+    code: title
+    label:
+      fr: Titre
+      en: Title
+    widget_group_type: full
+    widget_types: [ 'title' ]
+
+  -
+    code: paragraph
+    label:
+      fr: Paragraphe
+      en: Paragraph
+    widget_group_type: full
+    widget_types: [ 'text' ]
+
+  -
+    code: 'paragraph-box'
+    label:
+      fr: Paragraphe encadré
+      en: Framed paragraph
+    widget_group_type: full
+    widget_types: [ 'textbox' ]
+
+  -
+    code: 'text-image-left'
+    label:
+      fr: Image à gauche
+      en: Left image
+    widget_group_type: half
+    widget_types: [ 'media:image', 'text' ]
+
+  -
+    code: 'text-image-right'
+    label:
+      fr: Image à droite
+      en: Right image
+    widget_group_type: half
+    widget_types: [ 'text', 'media:image' ]
+
+  -
+    code: media
+    label:
+      fr: Média
+      en: Media
+    widget_group_type: full
+    widget_types: [ 'media' ]
+
+  -
+    code: simple
+    label:
+      fr: Question à choix unique
+      en: Simple choice
+    widget_group_type: full
+    widget_types: [ 'simple' ]
+    permission: WORKSHOP_QUESTIONNAIRE_WIDGETS_USE
+
+  -
+    code: multiple
+    label:
+      fr: Question à choix multiple
+      en: Multiple choice
+    widget_group_type: full
+    widget_types: [ 'multiple' ]
+    permission: WORKSHOP_QUESTIONNAIRE_WIDGETS_USE
+
+  -
+    code: closed
+    label:
+      fr: Question fermée
+      en: Closed question
+    widget_group_type: full
+    widget_types: [ 'closed' ]
+    permission: WORKSHOP_QUESTIONNAIRE_WIDGETS_USE
+
+  -
+    code: gap-fill-text
+    label:
+      fr: Text à trous
+      en: Gap fill text
+    widget_group_type: full
+    widget_types: [ 'gap-fill-text' ]
+    permission: WORKSHOP_QUESTIONNAIRE_WIDGETS_USE
+
+  -
+    code: page-break
+    label:
+      fr: Saut de page
+      en: Page break
+    widget_group_type: full
+    widget_types: [ 'page-break' ]
+    permission: WORKSHOP_QUESTIONNAIRE_WIDGETS_USE

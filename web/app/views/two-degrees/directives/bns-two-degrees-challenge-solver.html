@@ -1,0 +1,38 @@
+<ul class="layout-row layout-align-center-center layout-wrap two-degrees-challenge-choices">
+  <li ng-repeat="item in items" class="text-center">
+    <div class="flex layout-row layout-align-start-center choice-label">
+      <span class="challenge-letter pellet flex-none">{{::letters[$index]}}</span>
+      <span class="text-left choice-text-up" ng-bind-html="'TWO_DEGREES.LABEL_'+item|tokenize|translate"></span>
+    </div>
+    <div class="pellet pellet-lg item item-{{::item}}"></div>
+    <div class="choice-label choice-text-down" ng-bind-html="'TWO_DEGREES.LABEL_'+item|tokenize|translate"></div>
+  </li>
+</ul>
+
+<md-input-container md-no-float>
+  <input type="text" ng-model="ctrl.answer"
+    placeholder="{{placeholder|translate}}"
+    name="answer"
+    required ng-pattern="regex"
+    ng-minlength="min"
+    ng-maxlength="max"
+    class="input-lg"
+    autocapitalize="off"
+    autocomplete="off"
+    autocorrect="off"
+    spellcheck="false"
+    capitalize
+  >
+  <div ng-messages="ctrl.form.answer.$error" multiple>
+    <div ng-message="required">{{'TWO_DEGREES.INPUT_PASSCODE_REQUIRED'|translate}}</div>
+    <div ng-message="pattern">{{'TWO_DEGREES.INPUT_PASSCODE_INVALID_LETTERS'|translate}}</div>
+    <div ng-message="minlength">{{'TWO_DEGREES.INPUT_PASSCODE_TOO_SMALL'|translate}}</div>
+    <div ng-message="maxlength">{{'TWO_DEGREES.INPUT_PASSCODE_TOO_LONG'|translate}}</div>
+  </div>
+</md-input-container>
+
+<div class="text-center">
+  <md-button class="md-raised md-accent btn-lg" ng-disabled="ctrl.form.$invalid || ctrl.busy">
+    <span ng-bind-html="'TWO_DEGREES.BUTTON_FORWARD'|translate|buttonize">.</span>
+  </md-button>
+</div>

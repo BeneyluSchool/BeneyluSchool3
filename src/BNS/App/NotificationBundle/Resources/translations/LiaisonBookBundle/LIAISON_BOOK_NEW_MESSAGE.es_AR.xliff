@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:44:58Z" source-language="en" target-language="es-AR" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="6f517544be9be51ef5d336c928f620741bedeab7" resname="LIAISON_BOOK_NEW_MESSAGE.EMAIL.content">
+        <source>LIAISON_BOOK_NEW_MESSAGE.EMAIL.content</source>
+        <target><![CDATA[Se añadió un mensaje al cuaderno de comunicación: <a href="%message_url%">%message_title%</a>.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="a36bf0cf414259eda5b8c1cffa74d4046b36d33d" resname="LIAISON_BOOK_NEW_MESSAGE.EMAIL.title">
+        <source>LIAISON_BOOK_NEW_MESSAGE.EMAIL.title</source>
+        <target>Se añadió un mensaje al cuaderno de comunicación</target>
+      </trans-unit>
+      <trans-unit id="2633c4403c56b51864d385fa2caa3e79f925edff" resname="LIAISON_BOOK_NEW_MESSAGE.SYSTEM.content">
+        <source>LIAISON_BOOK_NEW_MESSAGE.SYSTEM.content</source>
+        <target><![CDATA[Se añadió un mensaje al cuaderno de comunicación: <a href="%message_url%">%message_title%</a>.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

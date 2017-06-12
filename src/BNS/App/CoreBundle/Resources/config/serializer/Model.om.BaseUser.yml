@@ -1,0 +1,33 @@
+BNS\App\CoreBundle\Model\om\BaseUser:
+  exclusion_policy: All
+  properties:
+    id:
+      expose: true
+      groups: [ Default, detail, list ]
+    phone:
+      expose: true
+      groups: [ detail, list ]
+    first_name:
+      expose: true
+      groups: [ detail, list, lsu_users ]
+    last_name:
+      expose: true
+      groups: [ detail, list, lsu_users ]
+    email:
+      expose: true
+      groups: [ detail, list ]
+    aaf_id:
+      expose: true
+      groups: [ detail, list, user_detail, user_list ]
+    aaf_academy:
+      expose: true
+      groups: [ detail, list, user_detail, user_list ]
+    created_at:
+      expose: true
+      groups: [ detail, list, user_detail, user_list ]
+    last_connection:
+      expose: true
+      groups: [ detail, list, user_detail, user_list ]
+    ine:
+      expose: true
+      groups: [ lsu_users ]

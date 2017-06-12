@@ -1,0 +1,25 @@
+{% set isFavorite = provider_favorites_ids[uai] is defined and provider_favorites_ids[uai][resource.getProviderId()] is defined and resource.getId() in provider_favorites_ids[uai][resource.getProviderId()] or (is_favorite is defined and is_favorite) %}
+{% set isSelected = resource.getId() in selection_ids %}
+
+<div id="item-{{ resource.getId() }}" class="item {% if isFavorite %}favorite{% endif %} {% if isSelected %}selected{% endif %}" data-select-name="{{ resource.getLabel()|truncate(25, false, '...') }}" data-id="{{ resource.getId() }}" data-provider-id="{{ resource.getProviderId() }}" data-uai="{{ uai }}">
+	{% if isFavorite %}
+		{% set image_size = 'favorite' %}
+		{% set truncate_size = 48 %}
+		{% set favorite_class = 'active' %}
+	{% else %}
+		{% set image_size = 'small' %}
+		{% set truncate_size = 18 %}
+		{% set favorite_class = '' %}
+	{% endif %}
+
+	<a href="{{ path('resource_navigate_provider_resource', {'uai': uai, 'providerId': resource.getProviderId(), 'id': resource.getId()}) }}" rel="history" title="{{ resource.getLabel() }}">
+		<img src="{{ resource.getImageUrl() }}" alt="" data-favorite-src="{{ resource.getImageUrl() }}" data-normal-src="{{ resource.getImageUrl() }}" />
+	</a>
+	<div class="title" data-favorite-title="{{ resource.getLabel()|truncate(35, false, '...') }}" data-normal-title="{{ resource.getLabel()|truncate(12, false, '...') }}">
+		{% if isFavorite %}
+            <a href="{{ path('resource_document_favorite') }}" class="favorite {{ favorite_class }}" data-resource-id="{{ resource.getId() }}"></a>
+        {% endif %}
+        
+		<p title="{{ resource.getLabel() }}">{{ resource.getLabel()|truncate(truncate_size, false, '...') }}</p>
+	</div>
+</div>

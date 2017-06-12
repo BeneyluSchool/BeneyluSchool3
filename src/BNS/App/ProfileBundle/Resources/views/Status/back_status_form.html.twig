@@ -1,0 +1,88 @@
+{% trans_default_domain "PROFILE" %}
+{% extends 'BNSAppProfileBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+  {% if isEditionMode is defined %}
+    {% trans %}TITLE_PROFILE_EDIT_STATUS{% endtrans %}
+
+  {% else %}
+    {% trans %}TITLE_PROFILE_CREATE_STATUS{% endtrans %}
+
+  {% endif %}
+{% endblock title %}
+
+{% block javascripts %}
+  {{ parent() }}
+
+  <script type="text/javascript">
+    $(function ()
+    {
+      $('.finish').click(function (e)
+      {
+        $('#form_new_status').submit();
+      });
+    });
+  </script>
+{% endblock javascripts %}
+
+{% block actionbar_content %}
+  {{ components.button_nav('LINK_BACK_TO_LIST' | trans, { href: path('BNSAppProfileBundle_back_status'), back: true } ) }}
+  <span flex></span>
+  {{ components.button( 'LINK_I_FINISHED' | trans , { intent: 'accent', href: '#', icon: 'done', raised: true, attr : {'class':'finish'} }) }}
+{% endblock actionbar_content %}
+
+{% block sidebar_content %}
+    {% include 'BNSAppProfileBundle:Sidebar:sidebar.html.twig' with {'section': 'status-create', 'profile': user.getProfile(), 'isNewStatus': true} %}
+{% endblock sidebar_content %}
+
+
+{% block content %}
+  <md-toolbar class="content-toolbar">
+    <div class="md-toolbar-tools layout-align-start-center">
+      <bns-sidebar-toggle></bns-sidebar-toggle>
+      <h1 class="md-title text-primary">{% trans %}TITLE_STATUS_CONTENT{% endtrans %}</h1>
+    </div>
+  </md-toolbar>
+  <md-content class="md-padding">
+    {% if isEditionMode is not defined %}
+      {% set isEditionMode = false %}
+    {% endif %}
+    {{ form_start(form, {
+      'action': isEditionMode ?  path('profile_manager_feed_edit', {'id': feed.getFeedId()}) : path('profile_manager_feed_new'),
+      'attr' : {
+        'id' : 'form_new_status',
+      }
+    }) }}
+  {% if 'new_year_status' in app.request.requestUri and is_child() %}
+     <div class="alert success bns-alert alert-success">
+       {{ 'DISPLAY_WISH_ADD_KEYWORD'|trans({'%date%': "now"|date("Y")}) |desc('Pour afficher ton message de voeux sur l\'accueil ajout le mot clé #%date% dedans.') |raw }}
+       <div class="jim"></div>
+     </div>
+  {% endif %}
+
+      {# Content #}
+      {{ form_row(form.text) }}
+
+      <div class="resources">
+        {{  form.resourceId.vars.value }}
+        {{ form_widget(form.resourceId) }}
+        <div id="resource-selection-callback" class="image-joined"></div>
+
+        {% include 'BNSAppMediaLibraryBundle:Front:selection.html.twig' with {
+        'label' : "TITLE_ADD_PICTURE"|trans,
+
+        'input_id': 'profile_feed_form_resourceId',
+        'allowed_type': 'IMAGE',
+        'name': form.resourceId.vars.full_name,
+        'callback': 'resource-selection-callback',
+        'with_cancel': true,
+        'current_src': "",
+        'default_src': "",
+        'current_value': form.resourceId.vars.value
+        } %}
+      </div>
+
+      <div>{{ form_end(form) }}</div>
+      </md-content>
+
+  {% endblock %}

@@ -10,6 +10,11 @@ use Symfony\Bridge\Propel1\Logger\PropelLogger as BasePropelLogger;
 class PropelLogger extends BasePropelLogger
 {
 	/**
+	 * @var boolean 
+	 */
+	private $isPrepared = false;
+
+	/**
      * A convenience function for logging a debug event.
      *
      * @param mixed $message the message to log.
@@ -68,8 +73,12 @@ class PropelLogger extends BasePropelLogger
 					}
 				}
 			}
-			
-			$this->queries[] = $message . ' | ' . json_encode($cleanedTrace);
+			try{
+                $this->queries[] = $message . ' | ' . json_encode($cleanedTrace);
+            }catch(\Exception $e){
+
+            }
+
         }
     }
 }

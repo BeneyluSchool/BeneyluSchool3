@@ -1,73 +1,119 @@
+{% trans_default_domain "BLOG" %}
 {% extends 'BNSAppBlogBundle:Layout:manager.html.twig' %}
-
 {% block javascripts %}
-	{{ parent() }}
-	
-	<script type="text/javascript" src="{{ asset('/medias/js/datepicker_i18n/jquery.ui.datepicker-fr.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('/medias/js/blog/articles.js') }}"></script>
-	<script type="text/javascript">
-		$(function ()
-		{
-			$('body').on('click', '.item-list-container .item', function (e)
-			{
-				window.location = $(e.currentTarget).find('.btn-visualisation').attr('href');
-			});
-		});
-	</script>
+  {{ parent() }}
+  <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+
+  <script type="text/javascript" src="{{ asset('/medias/js/datepicker_i18n/jquery.ui.datepicker-fr.js') }}"></script>
+  <script type="text/javascript">
+    $(function ()
+    {
+      $('#submit-pdf-form').click(function(e){
+        e.preventDefault();
+        $('#generate-blog-pdf').modal('hide');
+        $('#pdf-form').submit();
+      });
+
+    });
+  </script>
+  <script type="text/javascript">
+    function deleteselected(){
+      angular.element('.articles.has-item-selectors').scope().DeleteSelected();
+    }
+  </script>
 {% endblock %}
-	
-{% block header %}
-	<div class="header-buttons">
-		<div class="inner-header">
-			<div class="container container-fluid">
-				<div class="row-fluid">
-					<div class="span12">
-						<a href="{{ path('blog_manager_new_article') }}" class="btn bns-info btn-24 large create-article">
-							<span class="icons-24 add-icon"></span>
-							Ecrire un article
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-{% endblock header %}
 
-{% block sidebar %}
-	<div class="section active">
-		{% trans %}Blog.Back.Sidebar.Articles{% endtrans %}
-		<span class="shadow-section"></span>
-	</div>
-	{% include 'BNSAppBlogBundle:Block:back_block_filters.html.twig' %}
-	{% render 'BNSAppBlogBundle:Back:loadCategoriesBlock' with {'blog': blog} %}
+{% block actionbar_content %}
+    {{ components.button( 'WRITE_ARTICLE' | trans , { intent: 'primary', href: path('blog_manager_new_article'), icon: 'add_circle', raised: true }) }}
+    {% if has_right('BLOG_ADMINISTRATION') %}
+      {{ components.button('GENERATE_PDF_BLOG' |trans, {raised: true, hover: true, icon:'insert_drive_file', href:'#', attr : {'data-toggle' : 'modal','data-target' :'#generate-blog-pdf' } }) }}
+    {% endif %}
+    {#{{ components.button('Editer | les articles' |trans, {raised: true, hover: true, icon:'edit', href:'#', attr : {'id' : 'edit-selected' } }) }}#}
+    {{ components.button('BUTTON_DELETE_ARTICLES' |trans, {raised: true, hover: true, icon:'delete', href:'#', attr : {'id' : 'delete-selected' },
+      click: "dialog.confirm({ templateUrl: 'dialog-delete.html', targetEvent: $event })"
+    }) }}
+    <script type="text/ng-template" id="dialog-delete.html">
+      <md-dialog class="bns-dialog bns-dialog-warn">
+        <md-toolbar class="md-warn">
+          <div class="md-toolbar-tools"><div class="md-headline"><h2>{{ 'TITLE_DELETE_ARTICLES'|trans }}</h2></div>
+            <span class="flex"></span><button class="md-icon-button md-button md-ink-ripple" ng-click="dialog.abort()">
+              <md-icon class="ng-scope ng-isolate-scope material-icons">close</md-icon></button>
+          </div>
+        </md-toolbar>
+        <md-dialog-content class="md-dialog-content">
+          <h3>{% trans %}TITLE_CONFIRM_DELETE_ARTICLES{% endtrans %}</h3>
+          <div class="md-body-1">{% trans %}DESCRIPTION_CONFIRM_DELETE_ARTICLES{% endtrans %}</div>
+        </md-dialog-content>
+        <div class="md-actions">
+          {{ components.button('LINK_CLOSE'|trans, {
+            href: '',
+            icon: 'undo',
+            click: 'dialog.abort()',
+          }) }}
+          {{ components.button('BUTTON_DELETE_ARTICLES' |trans, {
+            intent: 'warn',
+            raised: true,
+            icon: 'delete',
+            href: '#',
+            attr: {'onclick' : 'deleteselected()', 'ng-click' : 'dialog.abort()'}
+          }) }}
+        </div>
+      </md-dialog>
+    </script>
+{% endblock actionbar_content %}
 
-	{% if has_right('BLOG_ADMINISTRATION') %}
-		<div class="container-section">
-			<div class="section">
-				<a href="{{ path('blog_manager_comment') }}">Commentaires</a>
-			</div>
-			<div class="section">
-				<a href="{{ path('blog_manager_custom') }}">{% trans %}Blog.Back.Sidebar.Customing{% endtrans %}</a>
-			</div>
-		</div>
-	{% endif %}
-{% endblock sidebar %}
-	
+{% block sidebar_content %}
+      <section class="current">
+        {{ components.button('TITLE_ARTICLES'|trans, {
+          href: path('BNSAppBlogBundle_back'),
+          icon: 'insert_drive_file',
+        }) }}
+
+        {% include 'BNSAppBlogBundle:Block:back_block_filters.html.twig' %}
+        {{ render(controller('BNSAppBlogBundle:Back:loadCategoriesBlock', {'blog': blog} )) }}
+      </section>
+
+    {% if has_right('BLOG_ADMINISTRATION') %}
+      <section>
+        {{ include('BNSAppBlogBundle:Sidebar:sidebar_comments.html.twig') }}
+      </section>
+
+      <section>
+        {{ include('BNSAppBlogBundle:Sidebar:sidebar_customize.html.twig') }}
+      </section>
+
+      {% if hasYerbook is defined and hasYerbook %}
+        <section>
+          {{ components.button( 'LINK_YERBOOK' | trans, { href: path('blog_manager_yerbook'), icon: 'book' }) }}
+        </section>
+      {% endif %}
+    {% endif %}
+{% endblock sidebar_content %}
+
 {% block content %}
-	{% for message in app.session.flashbag.get('success') %}
-		<div class="alert alert-success alert-flash bns-alert">
-			{{ message }}
-				<div class="jim"></div>
-		</div>
-	{% endfor %}
-	<div class="layer">
-		<div class="message">
-			{% trans %}Blog.Back.ArticleLoading{% endtrans %}
-			<div><img src="{{ asset('/medias/images/icons/big-loader.gif') }}" alt="" /></div>
-		</div>
-	</div>
-	<div class="item-list-container">
-		{% render 'BNSAppBlogBundle:BackArticle:getArticles' with {'blog': blog} %}
-	</div>
-	</div>
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools layout-align-start-center">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+    <h1 class="md-title text-primary text-left flex flex-gt-sm-33">{% trans%}LINK_ALL_ARTICLES{% endtrans %}</h1>
+  </div>
+</md-toolbar>
+
+  <md-content class="item-list-container layout-column flex">
+    {{ render(controller('BNSAppBlogBundle:BackArticle:getArticles', {'blog': blog} )) }}
+  </md-content>
+
+  {% if has_right('BLOG_ADMINISTRATION') %}
+    {# Génération de pdf pour le blog #}
+    {{ modal('generate-blog-pdf', {
+      'title': 'TITLE_GENERATE_BLOG_PDF'|trans,
+
+      'body_template': {'template': 'BNSAppBlogBundle:Modal:generatePdfBody.html.twig', 'values': {
+        'categories': blog.orderedCategories
+      } },
+      'type': 'success',
+      'footer_template': {'template': 'BNSAppBlogBundle:Modal:generatePdfFooter.html.twig'}
+    }) }}
+  {% endif %}
+
+
 {% endblock content %}

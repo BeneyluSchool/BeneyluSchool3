@@ -1,0 +1,61 @@
+<md-toolbar ng-class="{ shown: ctrl.navbar.shown, 'beta-mode': ctrl.navbar.beta.beta_mode }" class="no-transition">
+  <div container class="md-toolbar-tools">
+
+    <div class="navbar-group-container">
+      <md-button ng-if="ctrl.navbar.group.app" ng-click="ctrl.goTo(ctrl.navbar.group.app)" class="group-button">
+        <div class="layout-row layout-align-center-center">
+          <bns-navbar-icon item="ctrl.navbar.group.app" flags="{ 'settings': ctrl.navbar.mode === 'back' && ctrl.navbar.group.app.has_access_back }"></bns-navbar-icon>
+          <span>{{ ctrl.navbar.group.app.custom_label || ctrl.navbar.group.app.label }} </span>
+          <md-tooltip md-direction="top">{{ ctrl.navbar.group.app.custom_label || ctrl.navbar.group.app.label }}</md-tooltip>
+        </div>
+      </md-button>
+    </div>
+
+    <md-tabs class="flex hide-sm navbar-apps" md-no-ink-bar>
+      <md-tab ng-repeat="app in ctrl.navbar.apps|filter:{is_favorite:true}|orderBy:'rank'"
+        ng-disabled="!ctrl.navbar.canAccess(app)"
+        ng-click="ctrl.goTo(app)"
+      >
+        <div class="app-button">
+          <bns-navbar-icon item="app" flags="{ 'settings': ctrl.navbar.mode === 'back' && app.has_access_back, 'shield': app.is_private }"></bns-navbar-icon>
+          <bns-counter data-value="{{ ::app.counter }}"></bns-counter>
+          <span class="app-label">{{ ::app.custom_label || app.label }}</span>
+          <md-tooltip md-direction="top">{{ ::app.custom_label || app.label }}</md-tooltip>
+        </div>
+      </md-tab>
+    </md-tabs>
+
+    <span class="flex navbar-apps-spacer"></span>
+
+    <md-button ng-if="ctrl.navbar.hasHelp" ng-click="ctrl.showHelp($event)" hide-sm class="app-button">
+      <bns-navbar-help-counter></bns-navbar-help-counter>
+      <bns-navbar-icon item="'help'"></bns-navbar-icon>
+      <span translate>NAVBAR.HELP</span>
+    </md-button>
+
+    <md-button ng-click="ctrl.showAppsDialog($event)" class="app-button">
+      <bns-navbar-icon item="'apps'"></bns-navbar-icon>
+      <span translate>NAVBAR.APPS</span>
+    </md-button>
+
+  </div>
+</md-toolbar>
+
+<div container>
+  <div class="layout-row navbar-toggle-container" ng-class="{ shown: ctrl.navbar.shown }">
+    <md-button ng-click="ctrl.navbar.toggle()" id="navbar-toggle" class="md-icon-button navbar-toggle" aria-label="Navigation">
+      <md-icon>chevron_right</md-icon>
+    </md-button>
+
+    <md-button ng-if="ctrl.navbar.app"
+      ng-click="ctrl.switchMode(ctrl.navbar.app)"
+      aria-label="{{ ctrl.navbar.app.label }}"
+      id="navbar-switch-mode"
+      class="md-icon-button navbar-icon-button"
+    >
+      <bns-navbar-icon item="ctrl.navbar.app"
+        flags="{ 'settings': ctrl.navbar.mode === 'front' && ctrl.navbar.app.has_access_back, 'back': ctrl.navbar.mode === 'back' }"></bns-navbar-icon>
+      <md-tooltip md-direction="top">{{ ctrl.navbar.mode === 'front' && ctrl.navbar.app.has_access_back ? ('NAVBAR.SWITCH_TO_BACK_MODE' | translate) : ('NAVBAR.SWITCH_TO_FRONT_MODE' | translate) }}</md-tooltip>
+    </md-button>
+  </div>
+</div>

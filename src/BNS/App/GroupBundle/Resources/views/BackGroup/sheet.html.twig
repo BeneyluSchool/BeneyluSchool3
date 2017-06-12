@@ -1,0 +1,238 @@
+{% trans_default_domain "GROUP" %}
+{% extends 'BNSAppGroupBundle:Back:layout.html.twig' %}
+
+{% block css %}
+    {{ parent() }}
+    <link title="style" type="text/css" rel="stylesheet" href="{{ asset('medias/css/dataTable_jui.css') }}" />
+{% endblock %}
+
+{% block header %}
+	
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span12">
+						<div class="btn-group pull-left">
+                            <a href="#" class="btn bns-info btn-24 medium dropdown-toggle spacer" data-toggle="dropdown"><span class="icons-24 add-icon"></span>{{ 'LINK_ADD_USERS'|trans |desc('Ajouter des utilisateurs') }}</a>
+                            <ul class="dropdown-menu">
+                                {% if creatableRoles is defined and creatableRoles|length > 0 %}
+                                    {% for role in creatableRoles %}
+                                        <li><a href="#add-user-modal" data-role="{{ role.type }}" data-role-label="{{ role.label }}" data-groupSlug="{{ group.slug }}" data-toggle="modal" class="add-user-button">{{ 'LINK_ADD_ROLE'|trans({'%role%': role.label}) |desc('Ajouter un %role%') }}</a></li>
+                                    {% endfor %}
+                                    {% if group.getGroupType.getType == 'CLASSROOM' and has_right('PUPIL_CREATE') %}
+                                        <li><a href="{{ path('back_group_users_import_csv_pupil', { 'groupSlug' : group.getSlug() }) }}">{{ 'LINK_IMPORT_PUPIL'|trans |desc('Importer des élèves') }}</a></li>
+                                    {% endif %}
+                                {% endif %}
+                                {% if has_right('USER_ASSIGNMENT') %}
+                                    <li><a href="#quick-link-group-modal" data-toggle="modal">{{ 'LINK_TIE_USERS'|trans |desc('Lier des utilisateurs') }}</a></li>
+                                {% endif %}
+                            </ul>
+						</div>
+                        {% if creatableGroupTypes is defined and creatableGroupTypes|length > 0 %}
+                            <div class="btn-group pull-left">
+                                <a href="#" class="btn bns-info btn-24 medium dropdown-toggle spacer" data-toggle="dropdown"><span class="icons-24 add-icon"></span>{{ 'LINK_ADD_GROUP'|trans |desc('Ajouter un groupe') }}</a>
+                                <ul class="dropdown-menu">
+                                    {% for creatablegroupType in creatableGroupTypes %}
+                                        <li><a href="#add-group-modal" data-group-type="{{ creatablegroupType.type }}" data-group-type-label="{{ creatablegroupType.label }}" data-groupSlug="{{ group.slug }}" data-toggle="modal" class="add-group-button">{{ 'TITLE_ADD_ONE_GROUPNAME'|trans({'%group%': creatablegroupType.label})  }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+
+                        {% if has_right(group.groupType.type ~ '_CREATE_RULE') %}
+                            <a data-target="#add-rule-modal" data-toggle="modal"  id="" class="btn bns-info btn-24 medium dropdown-toggle">
+                                <span class="icons-24 add-icon"></span>
+                                {{ 'LINK_ADD_RULE'|trans |desc('Ajouter une règle') }}
+                            </a>
+                        {% endif %}
+						<a href="{{ path('BNSAppGroupBundle_group_list' , {'groupTypeType' : group.groupType.type }) }}" class="btn bns-notice btn-24 medium-return">
+							<span class="icons-24 back-icon"></span>
+							{{ 'LINK_RETURN_TO_LIST'|trans |desc('<strong>Retourner</strong><br>à la liste') |raw }}
+						</a>
+
+					
+                        {% if has_right(group.groupType.type ~ '_EDIT') %}
+                            <a href="{{ path('BNSAppGroupBundle_group_sheet_edit', { 'groupSlug' : group.getSlug() }) }}" class="btn bns-info btn-24 medium-return button-return">
+                                <span class="icons-24 edit-icon"></span>
+                                {{ 'LINK_EDIT_GROUP'|trans |desc('<strong>Éditer</strong><br>le groupe') |raw }}
+                            </a>
+                            {% if group.getGroupType.getType == 'SCHOOL' and parameter('check_group_enabled') == true %}
+                                {% if not group.enabled %}
+                                    <a href="{{ path('BNSAppGroupBundle_back_group_autorise'  , {'groupSlug' : group.slug }) }}" class="btn bns-success btn-24 medium-return">
+                                        <span class="icons-24 validate-icon"></span>
+                                        {{ 'LINK_ALLOW_SCHOOL'|trans |desc('<strong>Autoriser</strong> <br> l\'école') |raw }}
+                                    </a>
+                                {% else %}
+                                    <a href="{{ path('BNSAppGroupBundle_back_group_autorise'  , {'groupSlug' : group.slug }) }}" class="btn bns-danger btn-24 medium-return">
+                                        <span class="icons-24 cancel-icon"></span>
+                                        {{ 'LINK_FORBID_SCHOOL'|trans |desc('<strong>Refuser</strong> <br> l\'école') |raw }}
+                                    </a>
+                                {% endif %}
+                            {%  endif %}
+                        {% endif %}
+                        {% if has_right(group.groupType.type ~ '_DELETE') %}
+                            {% if group.getGroupType.getType != 'ENVIRONMENT' %}
+                                <a href="#" class="btn bns-danger btn-24 medium-return" data-toggle="modal" data-target="#delete-group-modal">
+                                    <span class="icons-24 delete-icon"></span>
+                                    {{ 'LINK_DELETE_GROUP'|trans |desc('<strong>Supprimer</strong><br />le groupe') |raw }}
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                        <div class="btn-group pull-right">
+                            {% if group.getGroupType.getType == 'SCHOOL' %}
+                                <a href="{{ path('BNSAppGroupBundle_group_school_export', { 'groupSlug' : group.getSlug() }) }}" class="btn bns-warning btn-24 medium-return">
+                                    <span class="icons-24 save-icon"></span>
+                                    {{ 'LINK_EXPORT_LIST'|trans |desc('<strong>Exporter</strong><br />
+                                    la liste') |raw }}
+                                </a>
+                            {% endif %}
+                        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock header %}
+
+{% block sidebar %}
+   
+    {{ render(controller('BNSAppGroupBundle:Back:sidebar', {'groupSlug': group.getSlug()} )) }}
+{% endblock sidebar %}
+
+{% block content %}
+	<div class="news-title">
+		<h1 class="dashboard">
+            {% if parameter('check_group_enabled') == true and group.getGroupType.getType in ['CLASSROOM'] %}
+
+                <a href="{{ path('BNSAppGroupBundle_group_enable_toggle' , {'groupSlug' : group.slug }) }}" >
+                    <img src="{{ group.isEnabled ? asset("/medias/images/icons/btn-green-connect.png") : asset("/medias/images/icons/btn-red-connect.png") }}"
+                        {% include 'BNSAppMainBundle::popover.html.twig'
+                            with {
+                            'noElement' : true,
+                            'element' : 'span',
+                            'class'   : 'btn-switch',
+                            'title'   : 'MODAL_TITLE_ACTIVATION_SPACE'|trans |desc("Activation des espaces"),
+                            'content' : 'MODAL_CONTENT_GREEN_LIGHT_DESCRIPTION'|trans |desc("Un feu vert signifie que la l'espace classe ou école est activée et accessible. Au contraire un feu rouge signifie que l'espace est inaccessible. <br />Activer un espace est indispensable afin de le rendre accessible aux utilisateurs.") |raw,
+                            'module'  : 'notification',
+                            'size'    : 'large',
+                            'placement': 'bottom'
+                            }
+                        %} />
+                </a>
+
+
+
+            {% endif %}
+            {{ group.label }}
+        </h1>
+	</div>
+    
+    {% if parentGroups|length > 0 %}
+        <h5>{{ 'TITLE_GROUP_PARENT_PLURAL'|transchoice(parentGroups|length) |desc('[0,1] Groupe parent |]1,Inf[ Groupes parents') }}</h5>
+        {% for parent in parentGroups %}
+            {% set viewable = parent.groupType.type in viewableGroupTypeArray %}
+            <a href="{{ viewable ? path('BNSAppGroupBundle_group_sheet' , {'groupSlug' : parent.slug }) : '#' }}" class="bns-user small {% if not viewable %}not-clickable{% endif %}">
+                <img src="{{ avatar(parent, 'small') }}" />
+				<span class="name">{{ parent.label }}</span>
+				{% if viewable %}<span class="action-icons"></span>{% endif %}
+			</a>
+        {% endfor %}
+    {% endif %}
+    {% if subGroups|length > 0 %}
+        <h5>{{ 'TITLE_GROUP_CHILD_PLURAL'|transchoice(subGroups|length) |desc('[0,1] Groupe enfant |]1,Inf[ Groupes enfants') }}</h5>
+        {% for sub in subGroups %}
+            {% set viewable = sub.groupType.type in viewableGroupTypeArray %}
+            <a href="{{ viewable ? path('BNSAppGroupBundle_group_sheet' , {'groupSlug' : sub.slug }) : '#' }}" class="bns-user small {% if not viewable %}not-clickable{% endif %}">
+                <img src="{{ avatar(sub, 'small') }}" />
+				<span class="name">{{ sub.label }}</span>
+                {% if viewable %}<span class="action-icons"></span>{% endif %}
+			</a>
+        {% endfor %}
+    {% endif %}
+        
+	{% if group.getGroupType.getType != 'ENVIRONMENT' %}
+        {% for viewableRole in viewableRoles %}
+            <h3>{{ viewableRole.label }}</h3>
+            {% include "BNSAppGroupBundle:BackUser:list.html.twig" with {'role' : viewableRole , 'group' : group } %}
+        {% endfor %}
+    {% endif %}
+		
+	<div class="news-title">
+		<h1 class="dashboard">{{ 'TITLE_GROUP_RIGHT'|trans |desc('Droits sur le groupe') }}</h1>
+	</div>
+	
+	
+	{{ render(controller('BNSAppGroupBundle:BackGroup:rules', {'groupSlug' : group.slug , 'type' : 'mine' } )) }}
+		
+	<div class="news-title">
+		<h1 class="dashboard">{{ 'TITLE_RIGHT_DELEGATE'|trans |desc('Droits délégués') }}</h1>
+	</div>
+			
+	{{ render(controller('BNSAppGroupBundle:BackGroup:rules', {'groupSlug' : group.slug , 'type' : 'delegated' } )) }}
+
+    {#
+	<div class="news-title">
+		<h1 class="dashboard">Droits hérités</h1>
+	</div>
+			
+	
+	{{ render(controller('BNSAppGroupBundle:BackGroup:rules', {'groupSlug' : group.slug , 'type' : 'rooted' } )) }}
+	#}
+	{% autoescape false %}
+			
+		{# Modal d'ajout d'utilisateurs #}
+		{{ modal('add-user-modal', {
+			'body_template': {'template': 'BNSAppGroupBundle:BackGroup:addUserModalBody.html.twig' , 'values': {
+				'group': group,
+			} },
+			'title': 'MODAL_TITLE_ADD_NEW_ROLE'|trans |desc('Ajouter un nouveau <span class="user-role-label"></span>') |raw,
+			'footer_template': {'template': 'BNSAppGroupBundle:BackGroup:addUserModalFooter.html.twig' }
+		}) }}
+
+		{# Modal d'ajout de groupe #}
+		{{ modal('add-group-modal', {
+			'body_template': {'template': 'BNSAppGroupBundle:BackGroup:addGroupModalBody.html.twig' , 'values': {
+				'group': group,
+			} },
+			'title': 'MODAL_TITLE_ADD_GROUP'|trans |desc('Ajouter un(e) <span class="group-type-label"></span>') |raw,
+			'footer_template': {'template': 'BNSAppGroupBundle:BackGroup:addGroupModalFooter.html.twig' }
+		}) }}
+			
+		{# Modal d'ajout de règle #}
+		{{ modal('add-rule-modal', {
+			'body_template': {'template': 'BNSAppGroupBundle:BackGroup:addRuleModalBody.html.twig' , 'values': {
+				'form': rule_form,
+				'group': group,
+			} },
+			'title': 'MODAL_TITLE_ADD_RULE'|trans |desc('Ajouter une règle') |raw,
+			'footer_template': {'template': 'BNSAppGroupBundle:BackGroup:addRuleModalFooter.html.twig' }
+		}) }}
+                        
+        {{ modal('delete-group-modal', {
+        'title':'MODAL_TITLE_DELETE_GROUP'|trans  |desc('Supprimer le groupe'),
+        'body_template': {'template': 'BNSAppGroupBundle:BackModal:delete_group_body.html.twig', 'values': {
+                'group': group
+        } },
+        'type': 'error',
+        'footer_template': {'template': 'BNSAppGroupBundle:BackModal:delete_group_footer.html.twig', 'values': {
+                'group': group
+        } }
+        }) }}
+            
+        {{ modal('quick-link-group-modal', {
+        'title': 'MODAL_TITLE_TIE_USER'|trans |desc('Lier des utilisateurs'),
+        'body_template': {'template': 'BNSAppGroupBundle:BackModal:quick_link_user_body.html.twig', 'values': {
+                'group': group,
+                'viewableRoles' : viewableRoles
+        } },
+        'type': 'success',
+        'footer_template': {'template': 'BNSAppGroupBundle:BackModal:quick_link_user_footer.html.twig', 'values': {
+                'group': group
+        } }
+        }) }}
+
+	{% endautoescape %}		
+		
+{% endblock %}

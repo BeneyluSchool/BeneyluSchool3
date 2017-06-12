@@ -1,0 +1,46 @@
+<div class="hide" id="labels-sidebar">
+	<ul>
+		{{ render(controller('BNSAppResourceBundle:Label:list', {'type' : "user", 'user' : app.user.getUser } )) }}
+		{% for group in manageable_groups %}
+			{{ render(controller('BNSAppResourceBundle:Label:list', {'type' : "group", 'group' : group } )) }}
+		{% endfor %}
+	</ul>
+</div>
+<div id="{% if current_label is not empty %}{{ current_label.getToken }}{% endif %}" class="destination-choice-toolbar alert alert-success"	style="display: none;"></div>
+
+{# TODO dégueulasse #}
+{% if isFile %}
+	<script type="text/javascript">
+		var fgMenuCallbackFile = function (item) {
+			$('.destination-choice-toolbar').attr('id',$(item).attr('id'));
+			$('#resource-toolbar #resource-manage-file-container .dropdown-menu a.active').trigger('selection-manage');
+			$('#resource-toolbar #resource-manage-file-container .dropdown-menu a').removeClass('active');
+			$('#resource-toolbar #resource-manage-file-container .btn-group .dropdown-toggle').dropdown('toggle');
+		}
+
+		$(function() {
+			// Menu de choix du label
+			$('#resource-toolbar #resource-manage-file-container .btn-group .dropdown-menu').menu({
+				content: $('#labels-sidebar').html(),
+				backLink: false
+			});
+		});
+	</script>
+{% else %}
+	<script type="text/javascript">
+		var fgMenuCallback = function (item) {
+			$('.destination-choice-toolbar').attr('id',$(item).attr('id'));
+			$('#resource-toolbar-selection .dropdown-menu a.active').trigger('selection-manage');
+			$('#resource-toolbar-selection .dropdown-menu a').removeClass('active');
+			$('#resource-toolbar-selection .btn-group .dropdown-toggle').dropdown('toggle');
+		}
+
+		$(function() {
+			// Menu de choix du label
+			$('#resource-toolbar-selection .btn-group .dropdown-menu').menu({
+				content: $('#labels-sidebar').html(),
+				backLink: false
+			});
+		});
+	</script>
+{% endif %}

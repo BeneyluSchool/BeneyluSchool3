@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-07-07T12:33:20Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="ac32319671a8b206f767f6df7bf69657493234ef" resname="ADD_LINK">
+        <source>ADD_LINK</source>
+        <target>Ajouter un lien</target>
+      </trans-unit>
+      <trans-unit id="51adcad10aa9a70ae760ec3e52934cea0f4519f8" resname="BUTTON_ADD_LINK">
+        <source>BUTTON_ADD_LINK</source>
+        <target>Ajouter</target>
+      </trans-unit>
+      <trans-unit id="20dcb001a684d816442623a8cfdc2f4859f65d63" resname="BUTTON_CANCEL">
+        <source>BUTTON_CANCEL</source>
+        <target>Annuler</target>
+      </trans-unit>
+      <trans-unit id="e957bbdbb1555a7428697851cdaabc9261f14a35" resname="BUTTON_DELETE_LINK">
+        <source>BUTTON_DELETE_LINK</source>
+        <target>Supprimer</target>
+      </trans-unit>
+      <trans-unit id="1c3c85e440a172417537a5ec2a136d5dd3d07ed4" resname="BUTTON_EDIT_LINK">
+        <source>BUTTON_EDIT_LINK</source>
+        <target>Valider</target>
+      </trans-unit>
+      <trans-unit id="cc64f35d044f3c8be7b46ded0b495c36ab2c18c8" resname="BUTTON_SEARCH">
+        <source>BUTTON_SEARCH</source>
+        <target>Rechercher</target>
+      </trans-unit>
+      <trans-unit id="51ae7da76322140e38d4a952727661ccba266d88" resname="DESCRIPTION_CONFIRM_DELETE_LINK">
+        <source>DESCRIPTION_CONFIRM_DELETE_LINK</source>
+        <target>Etes vous sur de vouloir supprimer ce lien ? </target>
+      </trans-unit>
+      <trans-unit id="95712a76df79cc6855da71287622784c4453f018" resname="EDIT_LINK">
+        <source>EDIT_LINK</source>
+        <target>Modifier</target>
+      </trans-unit>
+      <trans-unit id="f889b37cb8ab01956de0609a1a25169c348d97fd" resname="GENERAL_WHITE_LIST_ACTIVATION">
+        <source>GENERAL_WHITE_LIST_ACTIVATION</source>
+        <target>Activation de la liste blanche générale</target>
+      </trans-unit>
+      <trans-unit id="e3666814d78c11d1d1637d1f1b17c11629d94ae2" resname="GET_WHITE_LIST_ERROR">
+        <source>GET_WHITE_LIST_ERROR</source>
+        <target>La liste blanche n'a pas pu être chargée</target>
+      </trans-unit>
+      <trans-unit id="61892fd0bd0712200b42d2a7fc250ce1815f9afe" resname="LAST_SEARCH_AT">
+        <source>LAST_SEARCH_AT</source>
+        <target>Faite le {{date}} par </target>
+      </trans-unit>
+      <trans-unit id="1f8524949b59bf473e5b31304582c62cb6d54e28" resname="LINK_CANCEL">
+        <source>LINK_CANCEL</source>
+        <target>Annuler</target>
+      </trans-unit>
+      <trans-unit id="55f5c3922f9ff9222f761e6243deab102c42ec45" resname="NO_LINK">
+        <source>NO_LINK</source>
+        <target>Vous n'avez pas encore de liens dans votre liste blanche.</target>
+      </trans-unit>
+      <trans-unit id="f81bf28814c1b7c69ceea1a053ac0961e57c416b" resname="PLACEHOLDER_INPUT_LINK">
+        <source>PLACEHOLDER_INPUT_LINK</source>
+        <target>Url du lien</target>
+      </trans-unit>
+      <trans-unit id="7648774bd2c6d89c2e3aafad75317d8039dc0a62" resname="PLACEHOLDER_INPUT_SEARCH">
+        <source>PLACEHOLDER_INPUT_SEARCH</source>
+        <target>Saisir une recherche</target>
+      </trans-unit>
+      <trans-unit id="9acbcfd5b19ef5b33022657c2d1a1d9929b49e24" resname="SUCESS_DELETE">
+        <source>SUCESS_DELETE</source>
+        <target>lien supprimé</target>
+      </trans-unit>
+      <trans-unit id="0a53e1d49dc0a14c93c029f85d8f7a48b9203329" resname="TITLE_CONFIRM_DELETE_LINK">
+        <source>TITLE_CONFIRM_DELETE_LINK</source>
+        <target>Confirmer la suppresion du lien</target>
+      </trans-unit>
+      <trans-unit id="7d3a205c4ed427d48c6cc5b33edec6b804a29d99" resname="TITLE_SEARCH_ENGINE">
+        <source>TITLE_SEARCH_ENGINE</source>
+        <target>Moteur de recherche</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

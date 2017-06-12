@@ -1,0 +1,27 @@
+{% set isFavorite = resource.id in favorites_ids or (is_favorite is defined and is_favorite) %}
+{% set isSelected = resource.id in selection_ids %}
+
+<div id="item-{{ resource.id }}" class="item {% if isFavorite %}favorite{% endif %} {% if isSelected %}selected{% endif %}" data-select-name="{{ resource.getLabel()|truncate(25, false, '...') }}" data-id="{{ resource.getId() }}">
+	{% if isFavorite %}
+		{% set image_size = 'favorite' %}
+		{% set truncate_size = 45 %}
+		{% set favorite_class = 'active' %}
+	{% else %}
+		{% set image_size = 'small' %}
+		{% set truncate_size = 12 %}
+		{% set favorite_class = '' %}
+	{% endif %}
+
+	{% if current_label == null %}
+		{% set current_label = resource.getStrongLinkedLabel() %}
+	{% endif %}
+
+	<a href="{{ path('resource_navigate_file', {'labelSlug': current_label.getSlug(), 'resourceSlug': resource.getSlug()}) }}" rel="history" title="{{ resource.getLabel() }}">
+		<img src="{{ getResourceImageUrl(resource, image_size) }}" alt="" data-favorite-src="{{ getResourceImageUrl(resource, 'favorite') }}" data-normal-src="{{ getResourceImageUrl(resource, 'small') }}" />
+	</a>
+	<div class="title" data-favorite-title="{{ resource.getLabel()|truncate(35, false, '...') }}" data-normal-title="{{ resource.getLabel()|truncate(12, false, '...') }}">
+		<a href="{{ path('resource_document_favorite') }}" class="favorite {{ favorite_class }}" data-resource-id="{{ resource.id }}"></a>
+		<p title="{{ resource.getLabel() }}">{{ resource.getLabel()|truncate(truncate_size, false, '...') }}</p>
+		<a href="{{ path('resource_selection_toggle') }}" class="select"></a>
+	</div>
+</div>

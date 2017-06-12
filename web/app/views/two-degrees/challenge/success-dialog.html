@@ -1,0 +1,13 @@
+<md-dialog md-theme="two-degrees"
+  class="character-dialog two-degrees-challenge-success challenge-scientist challenge-{{::dialog.challenge.code}}"
+>
+  <md-dialog-content class="md-dialog-content">
+    <h2 class="md-display-1 heading text-center" translate>TWO_DEGREES.TITLE_CONGRATULATIONS</h2>
+    <p class="text-content text-center" ng-bind-html="dialog.challenge.success"></p>
+    <div class="text-center">
+      <md-button class="md-raised md-accent btn-lg" ng-click="dialog.close()">
+        <span ng-bind-html="'TWO_DEGREES.BUTTON_DISCOVER_INNOVATION'|translate|buttonize">.</span>
+      </md-button>
+    </div>
+  </md-dialog-content>
+</md-dialog>

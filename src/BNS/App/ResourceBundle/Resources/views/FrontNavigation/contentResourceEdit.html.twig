@@ -1,8 +1,31 @@
-<div class="header-resource-edit">
-    <form id="resource-edit-form" action="{{ path('BNSAppResourceBundle_front_navigation_content_resource_edit' , { 'resource_id': resource.getId }) }}" method="post" enctype="multipart/form-data">
+<form id="resource-edit-form" action="{{ path('BNSAppResourceBundle_front_navigation_content_resource_edit' , { 'resource_id': resource.getId }) }}" method="post" enctype="multipart/form-data">
+	<div class="header-resource-edit">
 		{{ form_errors(form) }}
 		{{ form_widget(form.label) }}
 		{{ form_row(form.id) }}
+		{{ form_widget(form.is_private) }}
+		<a href="#" class="private-toggle btn bns-warning btn-16 medium {{ resource.isPrivate ? "" : "hide" }}">
+			<span class="icons-16 private-icon"></span>
+			<strong>
+				<span class='statut'>
+					Privé
+				</span>
+				<span class='action hide'>
+					Rendre public
+				</span>
+			</strong>
+		</a>
+		<a href="#" class="private-toggle btn bns-warning btn-16 medium {{ resource.isPrivate ? "hide" : "" }}">
+			<span class="icons-16 public-icon"></span>
+			<strong>
+				<span class='statut'>
+					Public
+				</span>
+				<span class='action hide'>
+					Rendre privé
+				</span>
+			</strong>
+		</a>
 		<div class="description-edit">
 			<p>
 				<img src="{{ getFileTypeImageUrl(resource,"tiny") }}" />
@@ -11,45 +34,66 @@
 				</span>déposé{{ resource.gender == "f" ? "e" : "" }} par <span>{{ resource.getUser.getFullName }}</span>
 			</p>
 			<p class="right">
-				Dernière modification : le {{ resource.getUpdatedAt| date_bns('full', 'none') }} à {{ resource.getUpdatedAt| date_bns('none', 'short') }}
+				Dernière modification le {{ resource.getUpdatedAt| date_bns('short', 'none') }}
 			</p>
 		</div>
-		<div class="container-image-edit">
-			<img class="span3" src="{{ getResourceImageUrl(resource,'medium')}}" />
+	</div>
+	<div class="container-image-edit">
+		<img class="" src="{{ getResourceImageUrl(resource,'small')}}" />
 
-			<div class="content-image-edit">
-				<p>Description :</p>
-				{{ form_widget(form.description, { 'attr': {'class': 'container-description-edit','placeholder': "Vous pouvez saisir une description" } }) }}
-			</div>
+		<div class="content-image-edit">
+			<p>Description :</p>
+			{{ form_widget(form.description, { 'attr': {'class': 'container-description-edit','placeholder': "Vous pouvez saisir une description" } }) }}
+		</div>
 
+		<div class="buttons">
+			<a href="#" class="btn bns-danger btn-16 small cancel-edit" data-resource-id="{{ resource.id }}">
+				<span class="icons-16 cancel-icon"></span>
+				<strong>Annuler</strong>
+			</a>
+			<button id="resource-edit-save" class="btn finish bns-success validate-medium btn-24 medium">
+				<span class="icons-24 validate-icon"></span>
+				<strong>Valider</strong>
+			</button>
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	<script type="text/javascript">
+		$('.private-toggle').click(function(){
+			$('.private-toggle').toggle();
+			$('#resource_is_private').val($('#resource_is_private').val() == '1' ? '0' : '1');
+		});
+	</script>
+{# TODO
 			<div class="content-libel edit">
-				<p>Libellés</p>
+				<p>Libellés associés</p>
 				<div class="libel">
-					{% render "BNSAppResourceBundle:Label:choose" %}
+					{% render "BNSAppResourceBundle:Label:choose" with {"title" : "Ajouter un libellé" , 'show_destination' : false } %}
 					<div class="labels-list">
 						{% include 'BNSAppResourceBundle:FrontNavigation:contentResourceEditLabels.html.twig' with {"resource" : resource } %}
 					</div>
 				</div>
-				<button id="resource-edit-save" class="btn btn-warning">Enregistrer</button>
 			</div>
-	</form>
-</div>    {#fermeture container-image-edit#}
+#}
+</form>
+
 <script type="text/javascript">
 	$('#resource-edit-form').ajaxForm({
 		target: '#resource-current'
 	});
-	function itemClicked(item)
-	{  
+	var itemClicked = function (item) {
 		var params = $(item).attr('id').split('_');
 		var type = params[0];
 		var object_id = params[1];
 		var label_id = params[2];
-		
+
 		$.post(
 			Routing.generate('BNSAppResourceBundle_front_navigation_content_resource_add_label', {}),
 			{ 'resource_id' : $('#resource_id').val() , 'label_id' : label_id, 'type': type },
 			function complete(data)
-			{					
+			{
 				$(".labels-list").html(data);
 			}
 		);

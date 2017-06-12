@@ -1,0 +1,12 @@
+<md-dialog md-theme="two-degrees"
+  ng-click="dialog.close()"
+  class="character-dialog two-degrees-challenge-presentation challenge-scientist challenge-{{::dialog.challenge.code}}"
+>
+  <md-button class="md-icon-button md-raised dialog-close">
+    <md-icon>close</md-icon>
+  </md-button>
+
+  <md-dialog-content class="md-dialog-content">
+    <div class="text-center" ng-bind-html="dialog.challenge.presentation"></div>
+  </md-dialog-content>
+</md-dialog>

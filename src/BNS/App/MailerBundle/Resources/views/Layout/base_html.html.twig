@@ -1,18 +1,87 @@
-<!DOCTYPE html>
+{% trans_default_domain "MAILER" %}
+
+{% if parameter('graphic_chart') != false %}
+    {% set chartValue = parameter('graphic_chart') %}
+    {% set chartLabel = chartValue.label %}
+{% else %}
+    {% set chartValue = false %}
+    {% set chartLabel = parameter('beneylu_brand_name') %}
+{% endif %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="shortcut icon" href="{{ cdnUrl }}/favicon.ico" />
         <title>{% block title %}{{ title }}{% endblock %}</title>
-        <link rel="shortcut icon" href="{{ baseUrl }}/favicon.ico" />
-		{% block css %}
-			
-		{% endblock %}
-    </head>
-    <body>
-        {% block body %}
-			{% autoescape false %}
-				{{ body }}
-			{% endautoescape %}
-		{% endblock %}
+		{% block css %}{% endblock %}
+	</head>
+	<body style="margin: 0; padding: 0; font-family: Trebuchet MS, Arial, Verdana, sans-serif;">
+		<!-- Start Main Table -->
+		<table width="100%" height="100%" cellpadding="0" style="padding: 20px 0px 20px 0px" background="white" >
+			<tr align="center">
+				<td>
+                    {% if chartValue != false %}
+					    <table cellpadding="0" cellspacing="0" background="{{ cdnUrl }}/medias/images/main/graphic_chart/{{ chartValue.name }}/background-mail.png" width="580" height="580" style="padding: 0; background-repeat: no-repeat;">
+                    {% else %}
+                        <table cellpadding="0" cellspacing="0" background="{{ cdnUrl }}/medias/images/mail/background-mail.png" width="580" height="580" style="padding: 0; background-repeat: no-repeat;">
+                    {% endif %}
+						<tr style="height: 100px; float: left;">
+							<td style="float: left;">
+								&nbsp;<img src="{{ cdnUrl }}/medias/images/mail/pixel.gif" alt="{{ chartLabel }}" style="font-size: 28px; color: #000; height: 50px; font-weight: bold; padding-left: 10px; padding-top: 25px; border: none;" />
+							</td>
+						</tr>
+						<tr>
+							<td style="color: #634B33; font-family: Trebuchet MS; font-size: 13px; padding-left: 15px;">
+                                {{ 'PREFIX_DATE'|trans({'%date%': date}) |desc('Le %date%,') }}
+
+                            </td>
+                        </tr>
+                            <tr>
+                                <td style="color: #342314; font-family: Trebuchet MS; font-size: 22px; font-weight: bold; padding-left: 15px; padding-top: 20px; padding-bottom: 5px;">
+                                    <table width="390" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td>{{ title }}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left: 15px;">
+                                    <table cellpadding="0" cellspacing="0" width="360" style="background:#ECDCC5; border: 1px solid #D9BA8C; padding: 10px;">
+                                        <tr>
+                                            <td style="color: #634B33; font-family: Trebuchet MS; font-size: 15px;">
+                                                {{ body | raw }}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table cellpadding="0" cellspacing="0" width="420">
+                                        <tr>
+                                            <td style="color: #634B33; font-family: Trebuchet MS; font-weight: bold; padding-left: 15px; font-size: 13px; font-style: italic; padding-top: 15px;">
+                                                {{ chartLabel }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-top:10px; padding-left: 15px;">
+                                                <p style="color: #634B33; font-family: Trebuchet MS; font-size: 11px; margin: 0;">{{ 'TO_CONNECT'|trans |desc('Pour vous connecter') }}</p>
+                                                <p style="margin: 0;"><a style="color: #634B33; font-family: Trebuchet MS; font-size: 11px;" href="{{ baseUrl }}">{{ baseUrl }}</a></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="color: #634B33; font-family: Trebuchet MS; font-size: 11px; padding-top:10px; padding-left: 15px;">
+                                                {{ 'DO_NOT_ANSWER'|trans({'%chart%': chartLabel}) |desc('Veuillez ne pas répondre à ce message; il a été envoyé d\'une adresse e-mail qui n\'est pas relevée.Ce message est un service e-mail en rapport avec votre utilisation de %chart%.') }}
+
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                            </td>
+                            </tr>
+                        </table>
     </body>
 </html>

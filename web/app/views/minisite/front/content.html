@@ -1,0 +1,50 @@
+<div class="bns-content-inner bns-minisite-content-inner">
+<!--     <md-toolbar class="content-toolbar">
+        <div class="md-toolbar-tools" layout-align="space-between center">
+            <bns-sidebar-toggle></bns-sidebar-toggle>
+            <h2 class="flex md-title text-primary" ng-if="!ctrl.page.content.published_title">{{ ::ctrl.page.page.title }}</h2>
+            <h2 class="flex md-title text-primary" ng-if="ctrl.page.content.published_title">{{ ::ctrl.page.content.published_title }}</h2>
+        </div>
+    </md-toolbar> -->
+
+    <div ng-show="ctrl.busy" layout="row" layout-align="center center" class="md-padding">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+
+    <div ng-if="!ctrl.busy" class="md-body-1">
+      <div class="page-content">
+        <div ng-if="ctrl.page.page.type === 'TEXT'">
+          <div ng-if="!ctrl.page.content.published_content"></div>
+          <div ng-bind-html="ctrl.page.content.published_content|trustHtml" bns-bind-medias></div>
+          <bns-attachments ng-if="ctrl.page.content._embedded.attachments.length"
+            source="ctrl.page.content._embedded.attachments"
+            data-object-type="MiniSitePageText"
+            data-object-id="{{::ctrl.page.page.id}}"
+          ></bns-attachments>
+        </div>
+        <div ng-if="ctrl.page.page.type === 'NEWS'">
+          <bns-inset class="md-padding text-center" ng-if="!ctrl.page.news._embedded.items.length">
+            <p translate>MINISITE.NO_NEWS</p>
+          </bns-inset>
+          <div class="news" ng-repeat="news in ctrl.page.news._embedded.items">
+            <h3>{{ ::news.title }}</h3>
+            <p class="article-infos" translate translate-values="{ date: moment(news.published_at).format('LLL'), author: news.author.full_name  }">MINISITE.NEWS_INFOS</p>
+            <div ng-bind-html="news.content|trustHtml"></div>
+            <bns-attachments ng-if="news._embedded.attachments.length"
+              source="news._embedded.attachments"
+              data-object-type="MiniSitePageNews"
+              data-object-id="{{::news.id}}"
+            ></bns-attachments>
+          </div>
+          <div class="nav-container" ng-if="ctrl.page.news.pages > 1">
+            <md-button ng-click="prev(ctrl.page.news.page)" class="md-raised btn-hover" ng-disabled="ctrl.page.news.page === 1">
+              <md-icon>chevron_left</md-icon>
+            </md-button>
+            <md-button ng-click="next(ctrl.page.news.page)" class="md-raised btn-hover" ng-disabled="ctrl.page.news.page === ctrl.page.news.pages">
+              <md-icon>chevron_right</md-icon>
+            </md-button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

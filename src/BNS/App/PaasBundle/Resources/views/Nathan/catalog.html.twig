@@ -1,0 +1,21 @@
+{% include '::base.html.twig' %}
+
+{% block body %}
+
+  <h1>Nathan resources</h1>
+
+  {% for resource in resources %}
+    <div>
+      <h3>{{ resource.TitreRessource }}</h3>
+      <h4>Editeur: {{ resource.EditeurRessource }}</h4>
+      {% if resource.UrlVisuelRessource %}
+      <img src="{{ resource.UrlVisuelRessource }}" alt="image" />
+      {% endif %}
+      <a href="{{ resource.UrlAccesressource }}" target="_blank">Accéder à la ressource</a>
+      <p>{{ resource.Description }}</p>
+    </div>
+    {% else %}
+    <h3>Aucune ressources</h3>
+  {% endfor %}
+
+{% endblock %}

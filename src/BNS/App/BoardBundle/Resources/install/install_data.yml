@@ -1,0 +1,87 @@
+module:
+  unique_name: BOARD
+  is_contextable: true
+  name:
+    fr: Tableau d'information
+    en: Board
+  description:
+    fr: Lire et écrire des informations et des alertes dans le tableau d'information
+    en: English board
+  default_rank:
+    pupil: READ
+    parent: READ
+    teacher: MANAGE
+    other: READ
+
+permissions:
+  ACCESS:
+    label:
+      fr: Voir tableau d'information
+      en: Board access
+    description:
+      fr: Donne l'accès au tableau d'information du groupe
+      en: Give access to the board
+
+  ACCESS_BACK:
+    label:
+      fr: Gérer tableau d'information
+      en: Access to the board back
+    description:
+      fr: Donne l'accès à la gestion du tableau d'information pour ses données uniquement
+      en: Give access to the managment group board
+
+  ACTIVATION:
+    label:
+      fr: Activer tableau d'information
+      en: Can enable the board
+    description:
+      fr: Peut activer ou désactiver le tableau d'information dans le groupe
+      en: Can enable or disable the board
+
+  ACTIVATION_PARTNERSHIP:
+    label:
+      fr: Activer tableau d'information dans partenariat
+      en: Can enable the board in partnership
+    description:
+      fr: Peut activer ou désactiver le tableau d'information dans partenariat
+      en: Can enable or disable the board in partnership
+
+ranks:
+  READ:
+    label:
+      fr: Accès en lecture au tableau d'information
+      en: Board read access
+    description:
+      fr: Accès en lecture au tableau d'information
+      en: Board read access
+    permissions: [ACCESS]
+
+  MANAGE:
+    label:
+      fr: Manager le tableau d'information
+      en: Board manage
+    description:
+      fr: Manager le tableau d'information
+      en: Board manage
+    permissions: [ACCESS, ACCESS_BACK, ACTIVATION]
+
+  MANAGE_PARTNERSHIP:
+    label:
+      fr: Manager le tableau d'information dans le partenariat
+      en: Board manage in partnership
+    description:
+      fr: Manager le tableau d'information dans partenariat
+      en: Board manage in partnership
+    permissions: [ACTIVATION_PARTNERSHIP]
+  ACTIVATION_TEAM:
+    label:
+      fr: Manager le tableau d'information dans le groupe de travail
+      en: Board manage in team
+    description:
+      fr: Manager le tableau d'information dans groupe de travail
+      en: Board manage in team
+    permissions: [ACTIVATION]
+
+markers:
+  BOARD_MESSAGE_PUBLISH:
+    description: Publication d'un message su le tableau d'information

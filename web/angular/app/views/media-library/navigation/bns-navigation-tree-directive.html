@@ -1,0 +1,3 @@
+<ul class="navigation-tree" >
+  <li ng-repeat="node in tree.roots" ng-if="canDisplayRoot(node)" ng-controller="MediaLibraryNavigationNodeCtrl" ng-include="template" class="navigation-node" ></li>
+</ul>

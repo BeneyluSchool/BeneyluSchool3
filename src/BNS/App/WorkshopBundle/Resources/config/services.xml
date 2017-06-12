@@ -1,0 +1,104 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="install_process_workshop_bundle.class">BNS\App\WorkshopBundle\Install\InstallProcess</parameter>
+        <parameter key="bns.workshop.right_manager.class">BNS\App\WorkshopBundle\Manager\RightManager</parameter>
+        <parameter key="bns.workshop.content.manager.class">BNS\App\WorkshopBundle\Manager\ContentManager</parameter>
+        <parameter key="bns.workshop.lock.manager.class">BNS\App\WorkshopBundle\Manager\LockManager</parameter>
+        <parameter key="bns.workshop.contribution.manager.class">BNS\App\WorkshopBundle\Manager\ContributionManager</parameter>
+        <parameter key="bns.workshop.document.manager.class">BNS\App\WorkshopBundle\Manager\DocumentManager</parameter>
+        <parameter key="bns.workshop.widget_group.manager.class">BNS\App\WorkshopBundle\Manager\WidgetGroupManager</parameter>
+        <parameter key="bns.workshop.layout.manager.class">BNS\App\WorkshopBundle\Manager\LayoutManager</parameter>
+        <parameter key="bns.workshop.theme.manager.class">BNS\App\WorkshopBundle\Manager\ThemeManager</parameter>
+        <parameter key="bns.workshop.widget_configuration.manager.class">BNS\App\WorkshopBundle\Manager\WidgetConfigurationManager</parameter>
+    </parameters>
+
+    <services>
+        <service id="install_process_bns_app_workshop_bundle" class="%install_process_workshop_bundle.class%">
+            <tag name="bns.install_process" />
+        </service>
+
+
+        <!-- Event listeners -->
+        <service id="bns.workshop.content_serialize_listener" class="BNS\App\WorkshopBundle\EventListener\WorkshopContentSerializeSubscriber">
+            <tag name="jms_serializer.event_subscriber" />
+        </service>
+
+
+        <!-- Managers -->
+
+        <service id="bns.workshop.right_manager" class="%bns.workshop.right_manager.class%">
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="bns.workshop.content.manager" class="%bns.workshop.content.manager.class%">
+            <argument type="service" id="bns.workshop.right_manager" />
+            <argument type="service" id="bns.media.creator" />
+            <argument type="service" id="date_i18n" />
+        </service>
+
+        <service id="bns.workshop.document.manager" class="%bns.workshop.document.manager.class%">
+            <argument type="service" id="bns.workshop.theme.manager" />
+            <argument type="service" id="bns.workshop.content.manager" />
+        </service>
+
+        <service id="bns.workshop.widget_group.manager" class="%bns.workshop.widget_group.manager.class%">
+            <argument type="service" id="bns.workshop.widget_configuration.manager" />
+            <argument type="service" id="bns.workshop.contribution.manager" />
+            <argument type="service" id="bns.realtime.publisher" />
+        </service>
+
+        <service id="bns.workshop.layout.manager" class="%bns.workshop.layout.manager.class%">
+            <argument>Resources/config/layouts.yml</argument>
+        </service>
+
+        <service id="bns.workshop.theme.manager" class="%bns.workshop.theme.manager.class%">
+            <argument>Resources/config/themes.yml</argument>
+        </service>
+
+        <service id="bns.workshop.widget_configuration.manager" class="%bns.workshop.widget_configuration.manager.class%">
+            <argument>Resources/config/widget-configurations.yml</argument>
+        </service>
+
+        <service id="bns.workshop.lock.manager" class="%bns.workshop.lock.manager.class%">
+            <argument type="service" id="bns.realtime.publisher" />
+        </service>
+
+        <service id="bns.workshop.contribution.manager" class="%bns.workshop.contribution.manager.class%" />
+
+
+        <!-- Forms -->
+
+        <service id="bns.workshop.form.type.document" class="BNS\App\WorkshopBundle\Form\Api\ApiWorkshopDocumentType">
+            <argument type="service" id="bns.workshop.theme.manager" />
+            <tag name="form.type" alias="workshop_document" />
+        </service>
+
+        <service id="bns.workshop.form.type.page" class="BNS\App\WorkshopBundle\Form\Api\ApiWorkshopPageType">
+            <argument type="service" id="bns.workshop.layout.manager" />
+            <tag name="form.type" alias="workshop_page" />
+        </service>
+
+        <service id="bns.workshop.form.type.widget_configuration" class="BNS\App\WorkshopBundle\Form\Api\ApiWorkshopWidgetConfigurationType">
+            <argument type="service" id="bns.workshop.widget_configuration.manager" />
+            <tag name="form.type" alias="workshop_widget_configuration" />
+        </service>
+
+        <service id="bns.workshop.form.type.widget" class="BNS\App\WorkshopBundle\Form\Api\ApiWorkshopWidgetType">
+            <argument type="service" id="bns.media_library_right.manager" />
+            <tag name="form.type" alias="workshop_widget" />
+        </service>
+
+        <service id="bns.workshop.form.type.audio" class="BNS\App\WorkshopBundle\Form\Api\ApiWorkshopAudioType">
+            <tag name="form.type" alias="workshop_audio" />
+        </service>
+
+        <service id="stat.workshop" class="BNS\App\WorkshopBundle\Statistic\WorkshopStatisticsService">
+            <argument type="service" id="service_container" />
+        </service>
+    </services>
+</container>

@@ -1,170 +1,167 @@
+{% trans_default_domain "PROFILE" %}
 {% extends 'BNSAppProfileBundle:Layout:manager.html.twig' %}
 
 {% block title %}
-	{{ parent() }} Gestion
+  {{ parent() }} {% trans %}TITLE_EDIT_PROFILE{% endtrans %}
 {% endblock title %}
-	
+
 {% block javascripts %}
-	{{ parent() }}
-	
-	<script type="text/javascript">
-		$(function ()
-		{
-			if ($('.alert-success').length > 0) {
-				setTimeout(function ()
-				{
-					$('.alert-success').slideUp('fast');
-				}, 8000);
-			}
-		});
-	</script>
+  {{ parent() }}
+
+  <script type="text/javascript">
+    $(function () {
+      if ($('.alert-success').length > 0) {
+        setTimeout(function () {
+          $('.alert-success').slideUp('fast');
+        }, 8000);
+      }
+    });
+  </script>
 {% endblock javascripts %}
 
-{% block header %}
-	<div class="header-buttons">
-		<div class="inner-header">
-			<div class="container container-fluid">
-				<div class="row-fluid">
-					{% if user.getId() != app.user.getId() %}
-						<div class="span6">
-							<a href="{{ path('BNSAppClassroomBundle_back_pupil_detail', {'userSlug': user.getSlug()}) }}" class="btn bns-notice btn-24 medium-return button-return">
-								<span class="icons-24 back-icon"></span>
-								<strong>Retourner à</strong><br />la fiche élève
-							</a>
-						</div>
-						<div class="span6 align-right">
-							<a href="#" class="btn finish bns-success validate-medium btn-24 medium submit-profile">
-								<span class="icons-24 validate-icon"></span>
-								<strong>J'ai terminé</strong>
-							</a>
-						</div>
-					{% else %}
-						<div class="span12 align-right">
-							<a href="#" class="btn finish bns-success validate-medium btn-24 medium submit-profile">
-								<span class="icons-24 validate-icon"></span>
-								<strong>J'ai terminé</strong>
-							</a>
-						</div>
-					{% endif %}
-				</div>
-			</div>
-		</div>
-	</div>
-	</div>
-{% endblock %}
-
-{% block sidebar %}
-    {% if user.getId() != app.user.getId() %}
-        {% include "BNSAppClassroomBundle:Sidebar:sidebar.html.twig" with {'page': 'classroom', 'section': 'users'} %}
+{% block actionbar_content %}
+  {% if user.getId() != app.user.getId() %}
+    {{ components.button( 'BACK_TO_PUPIL_CARD' | trans , { intent: 'accent', href: path('BNSAppClassroomBundle_back_pupil_detail', {'userSlug': user.getSlug()}), icon: 'done', raised: true, attr : {'class':'button-return'} }) }}
+    <span flex></span>
+    {{ components.button( 'LINK_I_FINISHED' | trans , { intent: 'accent', href: '#', icon: 'done', raised: true, attr : {'class':'submit-profile'} }) }}
+  {% else %}
+    {# Pour les adultes venant juste mettre à jour leur compte, bouton retour à la page d'accueil de l'Espace de travail #}
+    {% if not has_right('PROFILE_ACCESS_BACK') %}
+      {{ components.button( 'BACK_TO_PUPIL_CARD' | trans , { intent: 'accent', href: path('home'), icon: 'done', raised: true, attr : {'class':'button-return'} }) }}
+      <span flex></span>
+      {{ components.button( 'LINK_SAVE' | trans , { intent: 'accent', href: '#', icon: 'done', raised: true, attr : {'class':'submit-profile'} }) }}
     {% else %}
-        {% include 'BNSAppProfileBundle:Sidebar:sidebar.html.twig' with {'section': 'home', 'profile': user.getProfile()} %}
+      <span flex></span>
+      {{ components.button( 'LINK_SAVE' | trans , { intent: 'accent', href: '#', icon: 'done', raised: true, attr : {'class':'submit-profile'} }) }}
     {% endif %}
+  {% endif %}
 {% endblock %}
-    
+
+{% block sidebar_content %}
+  {% if user.getId() != app.user.getId() %}
+    {% include "BNSAppClassroomBundle:Sidebar:sidebar.html.twig" with {'page': 'classroom', 'section': 'users'} %}
+  {% else %}
+    {% include 'BNSAppProfileBundle:Sidebar:sidebar.html.twig' with {'section': 'home', 'profile': user.getProfile()} %}
+  {% endif %}
+{% endblock sidebar_content %}
+
 {% block content %}
-	<div class="container-profile-description">
-		<form id="save-profile" action="{{ path('BNSAppProfileBundle_back_save', {'userSlug': user.getSlug()}) }}" method="POST" {{ form_enctype(form) }}>
-		{% for message in app.session.flashbag.get('success') %}
-			<div class="alert alert-success">
-				{{ message }}
-			</div>
-		{% endfor %}
-		{{ form_errors(form) }}
-		<div class="profile-general-informations-container">
+  <md-toolbar class="content-toolbar">
+    <div class="md-toolbar-tools layout-align-start-center">
+      <bns-sidebar-toggle></bns-sidebar-toggle>
+      <h1 class="md-title text-primary text-left flex flex-gt-sm-33">{{ user.firstName }} {{ user.lastName }}</h1>
+    </div>
+  </md-toolbar>
+  <md-content class="layout-padding">
+    <div class="container-profile-description">
+      {{ form_start(form, {action: path('BNSAppProfileBundle_back_save', {'userSlug': user.getSlug()}), attr:{id:"save-profile" } }) }}
+      {{ form_errors(form) }}
+      <div class="layout-gt-sm-row">
+        <div class="layout-column layout-align-start-center avatar-container {% if isChild %}child-avatar{% endif %}" >
+          <input type="hidden" id="default-avatar" value="{{ avatar(user, 'small', true) }}"/>
 
-                    <input type="hidden" id="default-avatar" value="{{ avatar(user, 'small', true) }}"/>
-			<div id="resource-selection-callback">
-				<img src="{{ avatar(user, 'small') }}" />
-			</div>
+          <div id="resource-selection-callback">
+            <img src="{{ avatar(user, 'small') }}" class="bns-avatar size-128"/>
+          </div>
 
-			<h3>{{ user.getFirstName() }} {{ user.getLastName() }}</h3>
+          {% if user.getId() == app.user.getId() %}
+            {% set button_label = 'BUTTON_CHOOSE_AVATAR'|trans %}
+            {% set button_delete_label = 'BUTTON_DELETE_AVATAR'|trans %}
+          {% else %}
+            {% set button_label = "BUTTON_CHANGE_AVATAR"|trans %}
+            {% set button_delete_label = "BUTTON_DELETE_AVATAR"|trans %}
+          {% endif %}
 
-			<div class="form-profil birthday">
-				<p>
-					{% if user.getId() != app.user.getId() %}
-						Né{% if user.getGender() == 'F'%}e{% endif %} le 
-					{% else %}
-						Mon anniversaire 
-					{% endif %}
-				</p>
-				{{ form_widget(form.birthday) }}
-				{{ form_errors(form.birthday) }}
-			</div>
+          {% include 'BNSAppMediaLibraryBundle:Front:selection.html.twig' with {
+            'label' : button_label,
+            'label_delete' : button_delete_label,
+            'input_id': 'profile_form_avatarId',
+            'allowed_type': 'IMAGE',
+            'name': form.avatarId.vars.full_name,
+            'callback': 'resource-selection-callback',
+            'with_cancel': true,
+            'current_src': avatar(user, 'small'),
+            'default_src': avatar(user, 'small',true),
+            'current_value': form.avatarId.vars.value
+          } %}
+        </div>
+        <div class="flex layout-column layout-align-center-start layout-margin">
+          <div class="form-profil fullname">
+{% if user.getId() != app.user.getId() or not isChild %}
+            <md-input-container  class="md-input-has-messages md-input-has-value"><label>{% trans %}SURNAME_NAME{% endtrans %}</label></md-input-container>
+            {{ form_row(form.firstName, { 'attr': {'required md-no-asterisk' : ''} }) }}
+            {{ form_row(form.lastName, { 'attr': {'required md-no-asterisk' : ''} }) }}
+            {{ form_row(form.gender) }}
+{% else %}
+  <label>{{ user.firstName }} {{ user.lastName }}</label>
+  {% if form.birthday is not defined and user.birthday != null %}
+    <br>
+    {% if user.id != app.user.id %}
+      {{ (user.gender == 'F' ? 'BORN_WOMAN' : 'BORN_MAN') |trans }}
+    {% endif %}
+    <label style="font-size: 18px;">
+      {{ 'LABEL_DATE_BIRTHDAY'|trans({'%date%': user.birthday | date_bns('long','none') })|desc('Le %date%') }}
+    </label>
+  {% endif %}
+  <br>
+{% endif %}
+          </div>
+        </div>
+      </div>{# end layout row #}
+      <div class="profile-general-informations-container">
+{% if user.getId() != app.user.getId() or not isChild %}
+        {{ form_row(form.lang) }}
+        {{ form_row(form.timezone) }}
+{% endif %}
+        {% if form.birthday is defined %}
+          {% if user.id != app.user.id %}
+            <p>{{ (user.gender == 'F' ? 'BORN_WOMAN' : 'BORN_MAN') |trans }}</p>
+          {% endif %}
+          <label style="font-size: 18px;">{% trans %}DATE_BIRTHDAY{% endtrans %}</label>
+          {{ form_row(form.birthday) }}
+        {% endif %}
 
-			<div class="form-profil avatar">
-				{% if user.getId() == app.user.getId() %}
-					{% set button_label = 'Choisir mon avatar' %}
-					{% set button_delete_label = 'Supprimer mon avatar' %}
-				{% else %}
-					{% set button_label = "Changer l'avatar" %}
-					{% set button_delete_label = "Supprimer l'avatar" %}
-				{% endif %}
-				{{ form_widget(form.avatarId) }}
-				{% include 'BNSAppResourceBundle:Front:selectImage.html.twig' with {
-					'label' : button_label,
-					'input_id': 'profile_header_form_avatar',
-					'name': form.avatarId.vars.full_name,
-					'callback': 'resource-selection-callback'
-				} %}
-				{% if form.avatarId.vars.value != '' %}
-					<a href="#" class="remove-avatar btn">{{ button_delete_label }}</a>
-				{% endif %}
-			</div>
-		</div>
+        <div class="clearfix"></div>
+        {% if form.assistance_enabled is defined %}
+          <div class="form-assistance">
+            <div class="checkbox">
+              {{ form_widget(form.assistance_enabled) }}
+            </div>
+          </div>
+        {% endif %}
+        </div>
 
-		{% if form.email is defined %}
-			<div class="form-profil mail">
-				<div class="profile-email-container">
-					<p>Adresse électronique</p> {{ form_widget(form.email) }}
-					{% if form.email.vars.errors|length > 0 %}
-						<div class="alert alert-danger">
-							{{ form_errors(form.email) }}
-						</div>
-					{% endif %}
-				</div>
-			</div>
-		{% endif %}
+      {% if form.email is defined %}
+        {{ form_row(form.email) }}
+      {% endif %}
 
-	</div>
-	<div class="container-profile-description">
+      {% if form.email_private is defined %}
+        {{ form_row(form.email_private) }}
+        {% if user.emailPrivate != null %}
+          <span class="email-private-notice">{% trans %}EMAIL_USE_TO_SEND_NOTIFICATION{% endtrans %}</span>
+        {% endif %}
+      {% endif %}
 
-		<div class="profile-user-detail-informations-container">
+      {% if has_right('PROFILE_FULL_ACCESS_BACK') %}
+        {% if form.job is defined %}
+          {{ form_row(form.job, {
+            label: (user.id != app.user.id ? 'WANT_BECOME' : 'LATER_WANT_BECOME')| trans,
+            row_attr: { class: 'md-input-has-placeholder' },
+            required: false,
+          }) }}
+        {% endif %}
+        {% if form.description is defined %}
+          {{ form_row(form.description, { required: false }) }}
+        {% endif %}
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
 
-			<div class="description-profil">
-				<p>
-					{% if user.getId() != app.user.getId() %}
-						Voudrait devenir
-					{% else %}
-						Plus tard je voudrais devenir
-					{% endif %}
-				</p>
-				{{ form_widget(form.job) }}
-				{{ form_errors(form.job) }}
+        {{ render(controller('BNSAppProfileBundle:Preferences:index', {'user': user, 'editable': true, 'isMyPreferences': user.id == app.user.id, 'fullwidth': 1} )) }}
+      {% else %}
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
+      {% endif %}
 
-				<p class="description">
-					{% if app.user.getId() == user.getId() %}
-						J'écris ma présentation
-						{%if form.description.vars.value == '' %}
-							maintenant
-						{% endif %} 
-					{% else %}
-						Présentation
-					{% endif %}
-				</p>
-				{{ form_widget(form.description) }}
-				{{ form_errors(form.description) }}
-
-				{{ form_rest(form) }}
-			</form>
-			</div>
-
-			<div class="feelings">
-				{% if user.getId() != app.user.getId() %}
-					{% render 'BNSAppProfileBundle:Preferences:index' with {'user': user, 'editable': true, 'isMyPreferences': false} %}
-				{% else %}
-					{% render 'BNSAppProfileBundle:Preferences:index' with {'user': user, 'editable': true} %}
-				{% endif %}
-			</div>
-		</div>
-	</div>
+    </div>
+  </md-content>
 {% endblock %}

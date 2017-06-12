@@ -1,6 +1,9 @@
+{% trans_default_domain "MAIN" %}
 <div class="modal-header">
     <button class="close" data-dismiss="modal">×</button>
-    <h3>Sélection d'utilisateur {% if currentGroup is not null %} pour {{ currentGroup.getLabel() }} {% endif %}</h3>
+     {% if currentGroup is not null %}{{ 'TITLE_SELECT_USER_TO'|trans({'%group%': currentGroup.getLabel() |escape}) |desc('<h3>Sélection d\'utilisateur pour %group%</h3>') |raw }}
+    {% else %}
+        {{ 'TITLE_SELECT_USER'|trans |desc('<h3>Sélection d\'utilisateur</h3>') |raw }}{% endif %}
 </div>
 
 <div class="modal-body">
@@ -11,10 +14,10 @@
                 {% for user in currentGroup.getUsers() %}
                     <button class="btn btn-danger user-{{ user.getId() }} btn-large modal-btn-remove-user">{{ user.getFullName() }}</button>
                 {% else %}
-                    <p>Aucun utilisateur dans le groupe pour le moment.</p>
+                    <p>{{ 'NO_USER_IN_THIS_GROUP'|trans |desc('Aucun utilisateur dans le groupe pour le moment.') }}</p>
                 {% endfor %}
             {% else %}
-                <p>Aucun utilisateur dans le groupe pour le moment.</p>
+                <p>{{ 'NO_USER_IN_THIS_GROUP'|trans }}</p>
             {% endif %}
         </div>
     </div>   
@@ -37,8 +40,8 @@
 </div>
 <div class="modal-footer">
     <img src="{{ asset('/medias/images/icons/loading.gif') }}" class="loading" />
-    <a href="#" class="btn btn-primary btn-confirm">Confirmer</a>
-    <a href="#" class="btn" data-dismiss="modal">Close</a> 
+    <a href="#" class="btn btn-primary btn-confirm">{{ 'LINK_CONFIRM'|trans |desc('Confirmer') }}</a>
+    <a href="#" class="btn" data-dismiss="modal">{{ 'LINK_CLOSE'|trans |desc('Fermer') }}</a>
 </div>
 
 <script type="text/javascript">

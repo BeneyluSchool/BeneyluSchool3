@@ -8,10 +8,10 @@
 	 */
 
 	var startHour = 8; // Compris entre 0 et 23
-	var endHour = 19; // Compris entre 0 et 23
+	var endHour = 21; // Compris entre 0 et 23
 	var hourCellHeight = 42;
-	
-	
+
+
 	var __WDAY = new Array(i18n.xgcalendar.dateformat.sun, i18n.xgcalendar.dateformat.mon, i18n.xgcalendar.dateformat.tue, i18n.xgcalendar.dateformat.wed, i18n.xgcalendar.dateformat.thu, i18n.xgcalendar.dateformat.fri, i18n.xgcalendar.dateformat.sat);
     var __MonthName = new Array(i18n.xgcalendar.dateformat.jan, i18n.xgcalendar.dateformat.feb, i18n.xgcalendar.dateformat.mar, i18n.xgcalendar.dateformat.apr, i18n.xgcalendar.dateformat.may, i18n.xgcalendar.dateformat.jun, i18n.xgcalendar.dateformat.jul, i18n.xgcalendar.dateformat.aug, i18n.xgcalendar.dateformat.sep, i18n.xgcalendar.dateformat.oct, i18n.xgcalendar.dateformat.nov, i18n.xgcalendar.dateformat.dec);
     if (!Clone || typeof (Clone) != "function") {
@@ -153,103 +153,103 @@
     $.fn.bcalendar = function(option) {
         var def = {
             /**
-             * @description {Config} view  
+             * @description {Config} view
              * {String} Three calendar view provided, 'day','week','month'. 'week' by default.
              */
-            view: "week", 
+            view: "week",
             /**
-             * @description {Config} weekstartday  
+             * @description {Config} weekstartday
              * {Number} First day of week 0 for Sun, 1 for Mon, 2 for Tue.
              */
             weekstartday: 1,  //start from Monday by default
             theme: 0, //theme no
             /**
-             * @description {Config} height  
+             * @description {Config} height
              * {Number} Calendar height, false for page height by default.
              */
-            height: false, 
+            height: false,
             /**
-             * @description {Config} url  
+             * @description {Config} url
              * {String} Url to request calendar data.
              */
-            url: "", 
+            url: "",
             /**
-             * @description {Config} eventItems  
+             * @description {Config} eventItems
              * {Array} event items for initialization.
-             */   
-            eventItems: [], 
-            method: "POST", 
+             */
+            eventItems: [],
+            method: "POST",
             /**
-             * @description {Config} showday  
+             * @description {Config} showday
              * {Date} Current date. today by default.
              */
-            showday: new Date(), 
+            showday: new Date(),
             /**
 	 	         * @description {Event} onBeforeRequestData:function(stage)
 	 	         * Fired before any ajax request is sent.
 	 	         * @param {Number} stage. 1 for retrieving events, 2 - adding event, 3 - removiing event, 4 - update event.
 	           */
-            onBeforeRequestData: false, 
+            onBeforeRequestData: false,
             /**
 	 	         * @description {Event} onAfterRequestData:function(stage)
 	 	         * Fired before any ajax request is finished.
 	 	         * @param {Number} stage. 1 for retrieving events, 2 - adding event, 3 - removiing event, 4 - update event.
 	           */
-            onAfterRequestData: false, 
+            onAfterRequestData: false,
             /**
 	 	         * @description {Event} onAfterRequestData:function(stage)
 	 	         * Fired when some errors occur while any ajax request is finished.
 	 	         * @param {Number} stage. 1 for retrieving events, 2 - adding event, 3 - removiing event, 4 - update event.
 	           */
-            onRequestDataError: false,              
-            
-            onWeekOrMonthToDay: false, 
+            onRequestDataError: false,
+
+            onWeekOrMonthToDay: false,
             /**
 	 	         * @description {Event} quickAddHandler:function(calendar, param )
-	 	         * Fired when user quick adds an item. If this function is set, ajax request to quickAddUrl will abort. 
+	 	         * Fired when user quick adds an item. If this function is set, ajax request to quickAddUrl will abort.
 	 	         * @param {Object} calendar Calendar object.
 	 	         * @param {Array} param Format [{name:"name1", value:"value1"}, ...]
-	 	         * 	 	         
+	 	         *
 	           */
-            quickAddHandler: false, 
+            quickAddHandler: false,
             /**
-             * @description {Config} quickAddUrl  
-             * {String} Url for quick adding. 
+             * @description {Config} quickAddUrl
+             * {String} Url for quick adding.
              */
-            quickAddUrl: "", 
+            quickAddUrl: "",
             /**
-             * @description {Config} quickUpdateUrl  
+             * @description {Config} quickUpdateUrl
              * {String} Url for time span update.
              */
-            quickUpdateUrl: "", 
+            quickUpdateUrl: "",
             /**
-             * @description {Config} quickDeleteUrl  
+             * @description {Config} quickDeleteUrl
              * {String} Url for removing an event.
              */
-            quickDeleteUrl: "", 
+            quickDeleteUrl: "",
             /**
-             * @description {Config} autoload  
-             * {Boolean} If event items is empty, and this param is set to true. 
+             * @description {Config} autoload
+             * {Boolean} If event items is empty, and this param is set to true.
              * Event will be retrieved by ajax call right after calendar is initialized.
-             */  
+             */
             autoload: false,
             /**
-             * @description {Config} readonly  
-             * {Boolean} Indicate calendar is readonly or editable 
+             * @description {Config} readonly
+             * {Boolean} Indicate calendar is readonly or editable
              */
-            readonly: false, 
+            readonly: false,
             /**
-             * @description {Config} extParam  
-             * {Array} Extra params submitted to server. 
+             * @description {Config} extParam
+             * {Array} Extra params submitted to server.
              * Sample - [{name:"param1", value:"value1"}, {name:"param2", value:"value2"}]
              */
-            extParam: [], 
+            extParam: [],
             /**
-             * @description {Config} enableDrag  
-             * {Boolean} Whether end user can drag event item by mouse. 
+             * @description {Config} enableDrag
+             * {Boolean} Whether end user can drag event item by mouse.
              */
-            enableDrag: true, 
-            loadDateR: [] 
+            enableDrag: true,
+            loadDateR: []
         };
         var eventDiv = $("#gridEvent");
         if (eventDiv.length == 0) {
@@ -282,10 +282,10 @@
 
         //populate events data for first display.
         if (option.url && option.autoload) {
-            populate(); 
+            populate();
         }
         else {
-            //contruct HTML          
+            //contruct HTML
             render();
             //get date range
             var d = getRdate();
@@ -369,10 +369,10 @@
                 }
             }
         }
-        //contruct DOM 
+        //contruct DOM
         function render() {
             //params needed
-            //viewType, showday, events, config			
+            //viewType, showday, events, config
             var showday = new Date(option.showday.getFullYear(), option.showday.getMonth(), option.showday.getDate());
             var events = option.eventItems;
             var config = { view: option.view, weekstartday: option.weekstartday, theme: option.theme };
@@ -396,7 +396,7 @@
                     alert(i18n.xgcalendar.no_implement);
                     break;
             }
-            initevents(option.view); 
+            initevents(option.view);
             ResizeView();
         }
 
@@ -477,8 +477,8 @@
         function closeCc() {
             $("#cal-month-cc").css("visibility", "hidden");
         }
-        
-        //all-day event, including more-than-one-day events 
+
+        //all-day event, including more-than-one-day events
         function PropareEvents(dayarrs, events, aDE, sDE) {
             var l = dayarrs.length;
             var el = events.length;
@@ -535,7 +535,7 @@
             var lrdate = dayarrs[l - 1].date;
             for (var i = 0; i < l; i++) { //to deal with more-than-one-day event
                 var de = deB[i];
-                if (de.length > 0) { //           
+                if (de.length > 0) { //
                     for (var j = 0; j < de.length; j++) {
                         var end = DateDiff("d", lrdate, de[j].event[3]) > 0 ? lrdate : de[j].event[3];
                         de[j].colSpan = DateDiff("d", dayarrs[i].date, end) + 1
@@ -546,9 +546,9 @@
             //for all-day events
             for (var i = 0; i < l; i++) {
                 var de = deA[i];
-                if (de.length > 0) { 
-                    var x = []; 
-                    var y = []; 
+                if (de.length > 0) {
+                    var x = [];
+                    var y = [];
                     var D = [];
                     var dl = de.length;
                     var Ia;
@@ -625,12 +625,12 @@
                     //title = i18n.xgcalendar.to_date_view;
                     cl = "";//"wk-daylink";
                 }
-                ht.push("<th abbr='", dateFormat.call(dayarrs[i].date, i18n.xgcalendar.dateformat.fulldayvalue), "' class='gcweekname' scope=\"col\"><div title='", title, "' ", ev, " class='wk-dayname "+ tabClassDay[i] + "'><span class='", cl, "' style='text-transform: capitalize;'>", dayarrs[i].display, "</span></div></th>");
+                ht.push("<th abbr='", dateFormat.call(dayarrs[i].date, i18n.xgcalendar.dateformat.fulldayvalue), "' class='gcweekname' scope=\"col\"><div title='", title, "' ", ev, " class='wk-dayname "+ tabClassDay[i] + "'><span class='", cl, "' style='text-transform: capitalize;'>", dayarrs[i].display, "<br />", dateFormat.call(dayarrs[i].date, 'd'), "</span></div></th>");
 
             }
             ht.push("<th width=\"16\" rowspan=\"3\">&nbsp;</th>");
             ht.push("</tr>"); //end tr1;
-            //2:          
+            //2:
             ht.push("<tr>");
             ht.push("<td class=\"wk-allday\"");
 
@@ -719,7 +719,7 @@
             ht.push("<tr>");
             ht.push("<td style=\"width: 60px\" class=\"tg-times\">");
 
-            //get current time 
+            //get current time
             var now = new Date(); var h = now.getHours(); var m = now.getMinutes();
             var mHg = gP(h, m) - 4; //make middle alignment vertically
             //ht.push("<div id=\"tgnowptr\" class=\"tg-nowptr\" style=\"left:0px;top:", mHg + $(".wk-top").height(), "px\"></div>");
@@ -769,7 +769,7 @@
                 hv.push(tt);
             }
         }
-        function getTitle(event) {			
+        function getTitle(event) {
             var timeshow, locationshow, attendsshow, eventshow;
             var showtime = event[4] != 1;
             eventshow = event[1];
@@ -798,7 +798,16 @@
             p.starttime = pZero(e.st.hour) + 'h' + pZero(e.st.minute);
 			p.endtime = pZero(e.et.hour) + 'h' + pZero(e.et.minute);
             p.content = e.event[1];
-            p.agendaclass = e.event[11] + ($.inArray(e.event[11], hiddingAgendas) > -1? ' hide' : ' show');
+            p.agendaclass = e.event[11];
+
+			// Hide agendas
+			var agendaClasses = e.event[11].split(' ');
+			for (i in agendaClasses) {
+				if ($.inArray(agendaClasses[i], hiddingAgendas) > -1) {
+					p.agendaclass = p.agendaclass + ' hide';
+				}
+			}
+
             p.agendacolor = e.event[12];
 			p.recurrentclass = e.event[13];
             p.title = getTitle(e.event);
@@ -937,7 +946,7 @@
                 htb.push("</tr>");
                 var sfirstday = C[j * 7];
                 BuildMonthRow(htb, formatevents[j], dMax, roweventcount, sfirstday);
-                //htb=htb.concat(rowHtml); rowHtml = null;  
+                //htb=htb.concat(rowHtml); rowHtml = null;
 
                 htb.push("</tbody></table>");
                 //month-row
@@ -947,8 +956,8 @@
             formatevents = B = C = hastdata = null;
             //return htb;
         }
-        
-        //formate datetime 
+
+        //formate datetime
         function formartEventsInHashtable(events, startday, daylength, rbdate, redate) {
             var hast = new Object();
             var l = events.length;
@@ -1009,10 +1018,10 @@
             return hast;
         }
         function BuildMonthRow(htr, events, dMax, sc, day) {
-            var x = []; 
-            var y = []; 
-            var z = []; 
-            var cday = [];  
+            var x = [];
+            var y = [];
+            var z = [];
+            var cday = [];
             var l = events.length;
             var el = 0;
             //var c = tc();
@@ -1044,7 +1053,7 @@
                     var tempdata = { "class": "", axis: "", ch: "", title: "", abbr: "", html: "", otherAttr: "", click: "javascript:void(0);" };
                     var tempCss = ["st-c"];
 
-                    if (e) { 
+                    if (e) {
                         x[h] = x[h] + 1;
                         //last event of the day
                         var bs = false;
@@ -1135,19 +1144,28 @@
 
             }
             var cen = e.event[1];
-            
+
             var content = [];
             content.push(Tp(sp, { content: cen }));
             content.push(i);
             if (e.reevent)
             { content.push(i2); }
             p.content = content.join("");
-            p.agendaclass = e.event[11] + ($.inArray(e.event[11], hiddingAgendas) > -1? ' hide' : ' show');
+			p.agendaclass = e.event[11];
+
+			// Hide agendas
+			var agendaClasses = e.event[11].split(' ');
+			for (i in agendaClasses) {
+				if ($.inArray(agendaClasses[i], hiddingAgendas) > -1) {
+					p.agendaclass = p.agendaclass + ' hide';
+				}
+			}
+
             p.agendacolor = e.event[12];
             p.recurrentclass = e.event[13];
             return Tp(__ALLDAYEVENTTEMP, p);
         }
-        //to populate the data 
+        //to populate the data
         function populate() {
             if (option.isloading) {
                 return true;
@@ -1169,20 +1187,20 @@
                         param[param.length] = option.extParam[pi];
                     }
                 }
-				
+
                 $.ajax({
                     type: option.method, //
                     url: option.url,
-                    data: param,				   
+                    data: param,
 			        //dataType: "text",  // fixed jquery 1.4 not support Ms Date Json Format /Date(@Tickets)/
                     dataType: "json",
-                    dataFilter: function(data, type) { 
+                    dataFilter: function(data, type) {
                         //return data.replace(/"\\\/(Date\([0-9-]+\))\\\/"/gi, "new $1");
-                        
+
                         return data;
                       },
-                    success: function(data) {//function(datastr) {									
-						//datastr =datastr.replace(/"\\\/(Date\([0-9-]+\))\\\/"/gi, 'new $1');						
+                    success: function(data) {//function(datastr) {
+						//datastr =datastr.replace(/"\\\/(Date\([0-9-]+\))\\\/"/gi, 'new $1');
                         //var data = (new Function("return " + datastr))();
                         if (data != null && data.error != null) {
                             if (option.onRequestDataError) {
@@ -1192,9 +1210,9 @@
                         else {
                             data["start"] = parseDate(data["start"]);
                             data["end"] = parseDate(data["end"]);
-                            $.each(data.events, function(index, value) { 
+                            $.each(data.events, function(index, value) {
                                 value[2] = parseDate(value[2]);
-                                value[3] = parseDate(value[3]); 
+                                value[3] = parseDate(value[3]);
                             });
                             responseData(data, data.start, data.end);
                             pushER(data.start, data.end);
@@ -1204,8 +1222,8 @@
                         }
                         option.isloading = false;
                     },
-                    error: function(data) {	
-						try {							
+                    error: function(data) {
+						try {
                             if (option.onRequestDataError) {
                                 option.onRequestDataError(1, data);
                             } else {
@@ -1223,8 +1241,8 @@
             else {
                 alert("url" + i18n.xgcalendar.i_undefined);
             }
-            
-            
+
+
         }
         function responseData(data, start, end) {
             var events;
@@ -1287,7 +1305,7 @@
                         option.eventItems = events.concat(option.eventItems);
                         return;
                     }
-                    if (option.eventItems[sl - 1][2] < s) 
+                    if (option.eventItems[sl - 1][2] < s)
                     {
                         option.eventItems = option.eventItems.concat(events);
                         return;
@@ -1358,7 +1376,7 @@
                 return "#" + d.substring(c * 30 + i * 6, c * 30 + (i + 1) * 6);
             }
             var c = d != null && d != undefined ? d : option.theme;
-           
+
             return [zc(c, 0), zc(c, 1), zc(c, 2), zc(c, 3)];
         }
         function Tp(temp, dataarry) {
@@ -1453,12 +1471,12 @@
 
         function buildtempdayevent(sh, sm, eh, em, h, title, w, resize, thindex, isDragEvent) {
             var theme = thindex != undefined && thindex >= 0 ? tc(thindex) : tc();
-			
+
             if (sh < startHour) {
 				sh += startHour;
 				eh += startHour;
 			}
-			
+
             var newtemp = Tp(__SCOLLEVENTTEMP, {
                 bdcolor: theme[0],
                 bgcolor2: theme[0],
@@ -1521,8 +1539,8 @@
             render();
         }
         function getbuddlepos(x, y) {
-            var tleft = x - 110; 
-            var ttop = y - 217; 
+            var tleft = x - 110;
+            var ttop = y - 217;
             var maxLeft = document.documentElement.clientWidth;
             var maxTop = document.documentElement.clientHeight;
             var ishide = false;
@@ -1734,13 +1752,13 @@
                     $.post(option.quickUpdateUrl, param, function(data) {
                         if (data) {
                             if (data == true) {
-                            	
+
                                 option.isloading = false;
                                 option.onAfterRequestData && option.onAfterRequestData(4);
                             }
                             else {
                                 option.onRequestDataError && option.onRequestDataError(4, data);
-                                option.isloading = false;									
+                                option.isloading = false;
                                 d = rebyKey(id, true);
                                 d[2] = os;
                                 d[3] = od;
@@ -1750,7 +1768,7 @@
                                 option.onAfterRequestData && option.onAfterRequestData(4);
                             }
                         }
-                    }, "json");					
+                    }, "json");
                     d = rebyKey(id, true);
                     if (d) {
                         d[2] = start;
@@ -1774,7 +1792,7 @@
             var dtend = (end.getTime() / 1000);// + timezone;*/
             var link = Routing.generate('BNSAppCalendarBundle_back_add_event', {'start': start, 'end': end, 'allday': (isallday === true? 1 : 0)});
             window.location = link;
-             
+
             return;
             /*
             if ((!option.quickAddHandler && option.quickAddUrl == "") || option.readonly) {
@@ -1865,7 +1883,7 @@
                         var ed = strtodate(dateend);
                         var diff = DateDiff("d", sd, ed);
                         newdata.push(sd, ed, allday == "1" ? 1 : 0, diff > 0 ? 1 : 0, 0);
-                        newdata.push(-1, 0, "", ""); 
+                        newdata.push(-1, 0, "", "");
                         tId = Ind(newdata);
                         realsedragevent();
                         render();
@@ -1886,8 +1904,8 @@
                 });
                 buddle.mousedown(function(e) { return false });
             }
-			
-            var dateshow = CalDateShow(start, end, !isallday, true);			
+
+            var dateshow = CalDateShow(start, end, !isallday, true);
             var off = getbuddlepos(pos.left, pos.top);
             if (off.hide) {
                 $("#prong2").hide()
@@ -1900,8 +1918,8 @@
             $("#bbit-cal-allday").val(isallday ? "1" : "0");
             $("#bbit-cal-start").val(dateFormat.call(start, i18n.xgcalendar.dateformat.fulldayvalue + " HH:mm"));
             $("#bbit-cal-end").val(dateFormat.call(end, i18n.xgcalendar.dateformat.fulldayvalue + " HH:mm"));
-            buddle.css({ "visibility": "visible", left: off.left, top: off.top });			
-			calwhat.blur().focus(); //add 2010-01-26 blur() fixed chrome 
+            buddle.css({ "visibility": "visible", left: off.left, top: off.top });
+			calwhat.blur().focus(); //add 2010-01-26 blur() fixed chrome
             $(document).one("mousedown", function() {
                 $("#bbit-cal-buddle").css("visibility", "hidden");
                 realsedragevent();
@@ -1990,8 +2008,8 @@
             }
             return i;
         }
-        
-        
+
+
         function ResizeView() {
             var _MH = document.documentElement.clientHeight;
             var _viewType = option.view;
@@ -2034,7 +2052,7 @@
                     chip.click(dayshow);
                     if (chip.hasClass("drag")) {
                         chip.mousedown(function(e) { dragStart.call(this, "dw3", e); return false; });
-                        //resize                      
+                        //resize
                         chip.find("div.resizer").mousedown(function(e) {
                             dragStart.call($(this).parent().parent(), "dw4", e); return false;
                         });
@@ -2104,10 +2122,10 @@
             var source = e.srcElement || e.target;
             realsedragevent();
             switch (type) {
-                case "dw1": 
+                case "dw1":
                     _dragdata = { type: 1, target: obj, sx: e.pageX, sy: e.pageY };
                     break;
-                case "dw2": 
+                case "dw2":
                     var w = obj.width();
                     var h = obj.height();
                     var offset = obj.offset();
@@ -2128,7 +2146,7 @@
                     _dragdata = { type: 2, target: obj, sx: e.pageX, sy: e.pageY, pw: pw, xa: xa, ya: ya, h: h };
                     w = left = l = py = pw = xa = null;
                     break;
-                case "dw3": 
+                case "dw3":
                     var evid = obj.parent().attr("id").replace("tgCol", "");
                     var p = obj.parent();
                     var pos = p.offset();
@@ -2174,7 +2192,7 @@
                     var dp = DateDiff("d", data[2], data[3]) + 1;
                     _dragdata = { type: 6, target: obj, sx: e.pageX, sy: e.pageY, data: data, xa: xa, ya: ya, fdi: fdi, h: h, dp: dp, pw: pw };
                     break;
-                case "m1": 
+                case "m1":
                     var w = obj.width();
                     var offset = obj.offset();
                     var left = offset.left;
@@ -2202,7 +2220,7 @@
                     }
                     _dragdata = { type: 3, target: obj, sx: e.pageX, sy: e.pageY, pw: pw, xa: xa, ya: ya, h: h };
                     break;
-                case "m2": 
+                case "m2":
                     var row0 = $("#mvrow_0");
                     var row1 = $("#mvrow_1");
                     var w = row0.width();
@@ -2387,12 +2405,12 @@
                                         //log.info("ny=" + ny);
                                         var offset = startHour * hourCellHeight;
                                     	gh = gW(ny - offset, ny + d.h - offset);
-										
+
 										// Restrict move to calendar
 										if (ny < 0 || ny + gh.h > 462) { return false; }
                                         tempdata = buildtempdayevent(gh.sh + startHour, gh.sm, gh.eh + startHour, gh.em, gh.h, data[1], false, false, data[7], true);
-                                        
-										
+
+
 										d.cpwrap.css("top", ny + "px").html(tempdata);
                                     }
                                     d.ny = ny;
@@ -2526,8 +2544,8 @@
                         quickadd(start, end, false, pos);
                         break;
                     case 2: //week view
-                    case 3: //month view					
-                        var source = e.srcElement || e.target;                       
+                    case 3: //month view
+                        var source = e.srcElement || e.target;
                         var lassoid = new Date().getTime();
                         if (!d.lasso) {
 							 if ($(source).hasClass("monthdayshow"))
@@ -2551,7 +2569,7 @@
                         break;
                     case 4: // event moving
                         if (d.cpwrap) {
-                        	
+
                             var start = DateAdd("d", d.cdi, option.vstart);
                             var end = DateAdd("d", d.cdi, option.vstart);
                             var gh = gW(d.ny, d.ny + d.h);
@@ -2651,7 +2669,7 @@
             var l = xa.length > 0 ? xa.length : 1;
             var h = ya.length > 0 ? ya.length : 1;
             var play = [];
-            var width = xa[0].e - xa[0].s; 
+            var width = xa[0].e - xa[0].s;
             var i = sp.x;
             var j = sp.y;
             var max = Math.min(document.documentElement.clientWidth, xa[l - 1].e) - 2;
@@ -2699,7 +2717,7 @@
         //.mouseout(dragEnd);
 
         var c = {
-            sv: function(view) { //switch view                
+            sv: function(view) { //switch view
                 if (view == option.view) {
                     return;
                 }
@@ -2735,7 +2753,7 @@
                 render();
                 dochange();
             },
-            nt: function() {				
+            nt: function() {
                 switch (option.view) {
                     case "day":
                         option.showday = DateAdd("d", 1, option.showday);
@@ -2766,10 +2784,10 @@
         this[0].bcal = c;
         return this;
     };
-    
+
     /**
      * @description {Method} swtichView To switch to another view.
-     * @param {String} view View name, one of 'day', 'week', 'month'. 
+     * @param {String} view View name, one of 'day', 'week', 'month'.
      */
     $.fn.swtichView = function(view) {
         return this.each(function() {
@@ -2778,7 +2796,7 @@
             }
         })
     };
-    
+
     /**
      * @description {Method} reload To reload event of current time range.
      */
@@ -2789,12 +2807,12 @@
             }
         })
     };
-    
+
     /**
      * @description {Method} gotoDate To go to a range containing date.
-     * If view is week, it will go to a week containing date. 
-     * If view is month, it will got to a month containing date.          
-     * @param {Date} date. Date to go. 
+     * If view is week, it will go to a week containing date.
+     * If view is month, it will got to a month containing date.
+     * @param {Date} date. Date to go.
      */
     $.fn.gotoDate = function(d) {
         return this.each(function() {
@@ -2803,11 +2821,11 @@
             }
         })
     };
-    
+
     /**
      * @description {Method} previousRange To go to previous date range.
-     * If view is week, it will go to previous week. 
-     * If view is month, it will got to previous month.          
+     * If view is week, it will go to previous week.
+     * If view is month, it will got to previous month.
      */
     $.fn.previousRange = function() {
         return this.each(function() {
@@ -2816,11 +2834,11 @@
             }
         })
     };
-    
+
     /**
      * @description {Method} nextRange To go to next date range.
-     * If view is week, it will go to next week. 
-     * If view is month, it will got to next month. 
+     * If view is week, it will go to next week.
+     * If view is month, it will got to next month.
      */
     $.fn.nextRange = function() {
         return this.each(function() {
@@ -2829,20 +2847,20 @@
             }
         })
     };
-    
-    
+
+
     $.fn.BcalGetOp = function() {
         if (this[0].bcal) {
             return this[0].bcal.go();
         }
         return null;
     };
-    
-    
+
+
     $.fn.BcalSetOp = function(p) {
         if (this[0].bcal) {
             return this[0].bcal.so(p);
         }
     };
-    
+
 })(jQuery);

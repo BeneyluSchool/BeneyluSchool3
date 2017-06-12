@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:45:27Z" source-language="en" target-language="en-GB" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="efce9d394915558cbfbba6850066d6f5a2d34428" resname="PROFILE_COMMENT_PUBLISHED.EMAIL.content">
+        <source>PROFILE_COMMENT_PUBLISHED.EMAIL.content</source>
+        <target><![CDATA[<strong>%sender_full_name%</strong> has just commented <a href="%comment_route%">a status</a> your took part in]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="02de79b668fff6dc65ae4f01bfc9e1b674c8a2bb" resname="PROFILE_COMMENT_PUBLISHED.EMAIL.title">
+        <source>PROFILE_COMMENT_PUBLISHED.EMAIL.title</source>
+        <target>A comment has just been posted on a status you edited</target>
+      </trans-unit>
+      <trans-unit id="30b6f01eaa57677cfb7713892dc6e8d020fa492d" resname="PROFILE_COMMENT_PUBLISHED.SYSTEM.content">
+        <source>PROFILE_COMMENT_PUBLISHED.SYSTEM.content</source>
+        <target><![CDATA[<strong>%sender_full_name%</strong> has just commented <a href="%comment_route%">the status of %profile_full_name%</a>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,57 @@
+{% extends '::base.html.twig' %}
+
+{% block css %}
+	{{ parent() }}
+	<link href="{{ asset('/medias/css/logon/front-roanne.css') }}" rel="stylesheet" type="text/css" />
+    <link href='https://fonts.googleapis.com/css?family=Cantora+One' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Boogaloo' rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript" src="{{ asset('medias/js/main/logon.js') }}"></script>
+    <script type="text/javascript">
+        $("logon-iframe").one('load', function ()
+        {
+
+        });
+    </script>
+
+{% endblock %}
+
+{% block body %}
+
+    {# Définition des paramètres passer à l'iframe de connexion #}
+    {%  set iframeParams = '&fromTemplate=roanne' %}
+    <div style="background-color: white;">
+        <div class="header">
+            <img src="{{ asset('/medias/images/logon/roanne/logo_roannais.png') }}" id="bns_logo" />
+            <img src="{{ asset('/medias/images/logon/roanne/logo_dasen.png') }}" id="bns_logo" />
+        </div>
+    </div>
+    <div class="container">
+        <br clear="all" />
+        <h1 class="main-title">L'espace numérique de travail<br />
+            des écoles de Roannais Agglomération</h1>
+            {#        <div class="rss_block_bg rss_block ">
+                        <h2 class="news">Actualités</h2>
+                    </div>
+            #}
+        <div id="tableau">
+            <iframe id="logon-iframe"  src="{{ redirectUrl ~ iframeParams }}" width="100%" height="330px" scrolling="auto" marginheight="0" marginwidth="0" frameborder="0" allowtransparency="true">
+                Votre navigateur ne semble pas compatible
+            </iframe>
+            <a href="{{ path('user_password_reset') }}" class="btn bns-notice btn-16 small password">
+                <span class="icons-16 refresh-icon"></span>
+                <strong>Mot de passe</strong> oublié ?
+            </a>
+        </div>
+    </div>
+
+    <div class="wrapper">
+        <div class="bg">
+        </div>
+    </div>
+    <br clear="all">
+
+{% endblock body %}

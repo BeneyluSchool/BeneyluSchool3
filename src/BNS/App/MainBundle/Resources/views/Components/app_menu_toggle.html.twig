@@ -1,0 +1,22 @@
+{% if href is defined and href %}
+  <md-button href="{{ href }}">
+{% else %}
+  <div class="md-button">
+{% endif %}
+  <md-icon>brush</md-icon>
+  <span class="flex layout-margin">
+    <div><span class="md-headline" translate>APPS.TITLE_CUSTOMIZATION</span></div>
+    <div ng-show="navbar.app">
+      <small class="md-body-1 text-ellipsis">
+        {% verbatim -%}
+        {{('APPS.LABEL_'+((type||'APP').toUpperCase())+'_'+(navbar.app.is_open?'OPEN':'CLOSE'))|translate}}
+        {%- endverbatim %}
+      </small>
+    </div>
+  </span>
+  <bns-app-toggle app="navbar.app" group="navbar.group" class="md-secondary" notify="true" type="type" bns-eat-click-if="true"></bns-app-toggle>
+{% if href is defined and href %}
+  </md-button>
+{% else %}
+  </div>
+{% endif %}

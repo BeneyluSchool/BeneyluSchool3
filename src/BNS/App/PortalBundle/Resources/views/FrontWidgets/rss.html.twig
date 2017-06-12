@@ -1,0 +1,43 @@
+{% trans_default_domain "PORTAL" %}
+{% if widget.data('rss') != null %}
+    <div class="rss row-fluid">
+        <div class="title background-{{ portal.color }} {{ portal.font }} {{ zone == 'side' ? portal.color : '' }}">
+            {{ widget.data('title') }}
+        </div>
+        {% set rss = widget.data('rss') %}
+        {% for i in 0..4 %}
+            <div class="feed">
+                {% if rss[i] is defined %}
+                    {% set feed = simplePie.set_feed_url(rss[i]['feed']) %}
+                    {% set feed = simplePie.init %}
+                    {% set linkImage = rss[i]['image'] is defined and rss[i]['image'] is not empty ? rss[i]['image'] : null %}
+
+                    {% for item in simplePie.get_items(0,2) %}
+                        <div class="feed-item">
+
+                            {% if linkImage is not null %}
+
+                                <img class="thumb" src="{{ getResourceImageUrlFromId(linkImage,'small') }}" />
+
+                            {% endif %}
+
+                            <div class="feed-content">
+                                <h4 class="{{ portal.font }} {{ portal.color }}">{{ item.get_title|raw }}</h4>
+
+                                <hr class="separator" />
+
+                                <p class="{{ portal.font }}">{{ item.get_content|striptags|raw }}</p>
+
+                                <a class="external-link {{ portal.font }}" href="{{ item.get_link }}" target="_blank">
+                                    {{ 'LINK_SEE_ALL_NEWS'|trans |desc('Voir toute l\'actualité') }}
+                                </a>
+                            </div>
+                        </div>
+                        <br clear="all" />
+                    {% endfor %}
+
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}

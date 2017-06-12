@@ -1,0 +1,216 @@
+{##
+ # Renders a material design button (or link).
+ #
+ # Options are:
+ #  - intent (string): the button color (primary, accent, warn)
+ #  - hue (integer): a color variation (1, 2, 3)
+ #  - hover (bool): true to give color (intent & hue) effect on hover
+ #  - raised (bool): true to give the button a bg color and shadow, else only text is decorated
+ #  - size (string): the button size (sm)
+ #  - href (string): if given, <a> will be used, else <button>
+ #  - inactive (bool): if true, disables all component interactions
+ #  - noink (bool): if true, disabled the ripple effect
+ #  - disabled (bool): same as the html attr
+ #  - type (string): same as the html attr
+ #  - icon (mixed): If string, supposed to be the icon name. Icon will be positioned on the left
+ #                  If object, should have the following properties:
+ #                   - name: the icon name
+ #                   - pos: the icon position (left, right)
+ #                   - bns: whether to use the <bns-icon> directive rather than <md-icon> (used for custom icons)
+ #                  An alternate way to use bns icons is to prefix the icon name, as in "bns:classroom". It is the same
+ #                  as giving { name: "classroom", bns: true }
+ #}
+{% macro button(text, options = {}) %}
+  {% spaceless %}
+    {% set classes = '' %}
+    {% set attr = {} %}
+    {% set icon = false %}
+
+    {% if options.intent is defined and options.intent in ['primary', 'accent', 'warn'] %}
+      {% set classes = classes ~ ' md-'~options.intent %}
+    {% endif %}
+    {% if options.raised is defined and options.raised %}
+      {% set classes = classes ~ ' md-raised' %}
+    {% endif %}
+    {% if options.hue is defined and options.hue %}
+      {% set classes = classes ~ ' md-hue-'~options.hue %}
+    {% endif %}
+    {% if options.hover is defined and options.hover %}
+      {% set classes = classes ~ ' btn-hover' %}
+    {% endif %}
+    {% if options.size is defined and options.size in ['sm'] %}
+      {% set classes = classes ~ ' btn-'~options.size %}
+    {% endif %}
+
+    {% if options.click is defined %}
+      {% set attr = attr|merge({ 'ng-click': options.click }) %}
+    {% endif %}
+    {% if options.href is defined %}
+      {% set attr = attr|merge({ 'ng-href': options.href }) %}
+    {% endif %}
+    {% if options.noink is defined and options.noink %}
+      {% set attr = attr|merge({ 'md-no-ink': '' }) %}
+    {% endif %}
+    {% if options.disabled is defined and options.disabled %}
+      {% set attr = attr|merge({ 'disabled': '' }) %}
+    {% endif %}
+    {% if options.type is defined and options.type %}
+      {% set attr = attr|merge({ 'type': options.type }) %}
+    {% endif %}
+
+    {# merge user-defined attrs #}
+    {% if options.attr is defined %}
+      {% set attr = attr|merge(options.attr) %}
+    {% endif %}
+
+    {% if options.icon is defined %}
+      {% if options.icon is string %}
+        {% set icon = { name: options.icon } %}
+      {% else %}
+        {% set icon = options.icon %}
+      {% endif %}
+      {% set icon = icon|merge({
+        pos: icon.pos|default('left'),
+        mini: icon.mini|default(false),
+        bns: icon.bns|default(false),
+        attr: icon.attr|default({})
+      }) %}
+      {% if ('bns:' in icon.name) %}
+        {% set icon = icon|merge({
+          name: icon.name | replace({'bns:': ''}),
+          bns: true
+        }) %}
+      {% endif %}
+    {% endif %}
+
+    {# icon-only button #}
+    {% if not text and icon and icon.name %}
+      {% if icon.mini %}
+        {% set classes = classes ~ ' mini' %}
+      {% else %}
+        {% set classes = classes ~ ' md-icon-button' %}
+      {% endif %}
+    {% endif %}
+
+    {# use an inactive component, only for layout and appearance #}
+    {% if options.inactive is defined and options.inactive %}
+      {% set tag = 'div' %}
+      {% set classes = classes ~ ' md-button' %}
+    {% else %}
+      {% set tag = 'md-button' %}
+    {% endif %}
+
+    {# prepare text #}
+    {% set text = text | trans %}
+
+    {# merge internal classes into attrs #}
+    {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' ' ~ classes)|trim }) %}
+
+    <{{ tag }}{% for name, value in attr %} {{ name }}="{{ value }}"{% endfor %}>
+      {% if icon and icon.pos == 'left' %}<{{ icon.bns ? 'bns' : 'md' }}-icon{% for name, value in icon.attr %} {{ name }}="{{ value }}"{% endfor %}>{{ icon.name }}</{{ icon.bns ? 'bns' : 'md' }}-icon>{% endif %}
+      {% if text %}<span ng-bind-html="{{ getBindValue(text) }} | buttonize">{{ text }}</span>{% endif %}
+      {% if icon and icon.pos == 'right' %}<{{ icon.bns ? 'bns' : 'md' }}-icon{% for name, value in icon.attr %} {{ name }}="{{ value }}"{% endfor %}>{{ icon.name }}</{{ icon.bns ? 'bns' : 'md' }}-icon>{% endif %}
+    </{{ tag }}>
+
+  {% endspaceless %}
+{% endmacro %}
+
+{% macro button_nav(text, options = {}) %}
+  {% spaceless %}
+    {% import _self as components %}
+    {% set back = options.back|default(false) %}
+    {% set options = options|merge({
+      intent: options.intent|default('primary'),
+      hue: options.hue|default(3),
+      hover: true,
+      attr: { class: 'btn-nav' }|merge(options.attr|default({})),
+      icon: (back ? { name: 'chevron_left', pos: 'left' } : { name: 'chevron_right', pos: 'right' })|merge(options.icon|default({}))
+    }) %}
+    {{ components.button(text, options) }}
+  {% endspaceless %}
+{% endmacro %}
+
+{##
+ # Renders a material design dropdown button
+ #
+ # Items are an array of arbitrary html content, most likely md-buttons
+ #
+ # Options are the same as `button`, with the following additions:
+ #  - width (integer): the menu width. Defaults to no value, so menu adapts to its content
+ #}
+{% macro button_dropdown(text, items = [], options = {}) %}
+  {% spaceless %}
+    {% import _self as components %}
+    {% set width = options.width|default('') %}
+    {% set buttonOpts = {
+      click: '$mdOpenMenu()',
+      icon: { name: 'arrow_drop_down', pos: 'right', attr: { 'md-menu-origin2': '' }, mini: true }
+    }|merge(options) %}
+
+    <md-menu>
+      {{ components.button(text, buttonOpts) }}
+      <md-menu-content{% if width %} width="{{ width }}"{% endif %}>
+        {% for item in items %}
+          <md-menu-item>
+            {{ item }}
+          </md-menu-item>
+        {% endfor %}
+      </md-menu-content>
+    </md-menu>
+  {% endspaceless %}
+{% endmacro %}
+
+{##
+ # Displays flash messages as material toasts
+ #
+ # flashes is a bag of flash messages, typically app.session.flashbag.all
+ #}
+{% macro toasts(flashes) %}
+  {% for type, messages in flashes %}
+    {% for message in messages %}
+      <bns-toast-invoke type="{{ type }}" content="{{ message }}"></bns-toast-invoke>
+    {% endfor %}
+  {% endfor %}
+{% endmacro %}
+
+{##
+ # Displays a user avatar.
+ #
+ # Options are:
+ #  - size (integer): the avatar size in pixels
+ #  - whiteframe (string): a md whiteframe value, ie 'z1', '10dp', ...
+ #}
+{% macro avatar(user, options = {}) %}
+  {% spaceless %}
+    {% set attr = {
+      alt: user.getFullName()|escape
+    } %}
+    {% set preset = 'thumbnail' %}
+    {% set classes = 'bns-avatar' %}
+
+    {% if options.size is defined and options.size %}
+      {% set attr = attr|merge({ width: options.size, height: options.size }) %}
+      {% set classes = classes ~ ' size-' ~ options.size %}
+      {% if options.size > 60 %}
+        {% set preset = 'small' %}
+      {% endif %}
+    {% endif %}
+    {% if options.whiteframe is defined and options.whiteframe %}
+      {% set classes = classes ~ ' md-whiteframe-' ~ options.whiteframe %}
+    {% endif %}
+
+    {% set attr = attr|merge({
+      src: avatar(user, preset)
+    }) %}
+
+    {# merge user-defined attrs #}
+    {% if options.attr is defined %}
+      {% set attr = attr|merge(options.attr) %}
+    {% endif %}
+
+    {# merge internal classes into attrs #}
+    {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' ' ~ classes)|trim }) %}
+
+    <img {% for name, value in attr %} {{ name }}="{{ value }}"{% endfor %} />
+  {% endspaceless %}
+{% endmacro %}

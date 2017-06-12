@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-04-15T12:30:44Z" source-language="en" target-language="en-GB" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="003e97e73ddc6efeebafa7db3b122572b0b1c33b" resname="BUTTON_CONTINUE">
+        <source>BUTTON_CONTINUE</source>
+        <target>Continue</target>
+      </trans-unit>
+      <trans-unit id="1402a582f378d474483414da1064a21d9f3e4a97" resname="BUTTON_DO_LEVEL">
+        <source>BUTTON_DO_LEVEL</source>
+        <target>Start level</target>
+      </trans-unit>
+      <trans-unit id="8eada1d0504466d75ee0eaacb9761928fd5db289" resname="BUTTON_EXIT">
+        <source>BUTTON_EXIT</source>
+        <target>Exit</target>
+      </trans-unit>
+      <trans-unit id="d94ffa5d6b688f0d0f72f8c18a8c222263f6cf82" resname="BUTTON_GO">
+        <source>BUTTON_GO</source>
+        <target>Let's go</target>
+      </trans-unit>
+      <trans-unit id="122cdbc9bb4dd7e46c51dbdc62a343e5edb0e0ae" resname="BUTTON_NEXT_LEVEL">
+        <source>BUTTON_NEXT_LEVEL</source>
+        <target>Off to level {{level}}!</target>
+      </trans-unit>
+      <trans-unit id="e55924cb440bb92ed9d1852fc4cb163bbd6fbba6" resname="BUTTON_NO_GO">
+        <source>BUTTON_NO_GO</source>
+        <target>No thank you,|I'll manage by myself.</target>
+      </trans-unit>
+      <trans-unit id="6e1bbc8cfbf5272095e5f341475494df7500e4b2" resname="BUTTON_REDO_LEVEL">
+        <source>BUTTON_REDO_LEVEL</source>
+        <target>Restart level</target>
+      </trans-unit>
+      <trans-unit id="4d2138def6cd8618f8533d03f3e3a4deaa311494" resname="DESCRIPTION_RESTART_TUTORIAL">
+        <source>DESCRIPTION_RESTART_TUTORIAL</source>
+        <target>You can restart the tutorial from the “Help” tab in management mode of the application.</target>
+      </trans-unit>
+      <trans-unit id="66cc7010b171c4cfad6a8d9b65b9e551e52191a2" resname="FLASH_GET_LEVELS_ERROR">
+        <source>FLASH_GET_LEVELS_ERROR</source>
+        <target>The levels could not be loaded</target>
+      </trans-unit>
+      <trans-unit id="5214846226cc2e65fad8af2a8d26368f83fd69de" resname="FLASH_START_LEVEL_ERROR">
+        <source>FLASH_START_LEVEL_ERROR</source>
+        <target>The level could not be started</target>
+      </trans-unit>
+      <trans-unit id="8d35a1e6b824553da782aed79a4fb19f916334a8" resname="LABEL_COMPLETE_LEVEL_TO_CONTINUE">
+        <source>LABEL_COMPLETE_LEVEL_TO_CONTINUE</source>
+        <target>Complete level {{level}} to continue</target>
+      </trans-unit>
+      <trans-unit id="65444d34a5765467cbd0c9ad749da69821af4df9" resname="LABEL_DURATION">
+        <source>LABEL_DURATION</source>
+        <target>{{duration}} minutes</target>
+      </trans-unit>
+      <trans-unit id="fb952d52ad97add568e1907250000d739d8c0299" resname="LABEL_LEVEL">
+        <source>LABEL_LEVEL</source>
+        <target>Level {{level}}</target>
+      </trans-unit>
+      <trans-unit id="21e25f4451d6a4a7534b2ceed8e05e4fe52239e5" resname="TITLE_CONGRATS">
+        <source>TITLE_CONGRATS</source>
+        <target>Congratulations</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,15 +1,25 @@
+{% trans_default_domain "MINISITE" %}
 {% extends '::base.html.twig' %}
 
+{% set app_unique_name = 'MINISITE' %}
+{% set app_mode = 'front' %}
+
 {% block title %}
-	Minisite
+  {% if miniSite.getTitle() %}
+    {{ miniSite.getTitle()|trans }}
+  {% else %}
+    {% trans %}TITLE_MINISITE{% endtrans %}
+  {% endif %}
 {% endblock %}
+
+{% block meta_description %}{{ miniSite.getDescription() |striptags }}{% endblock %}
 
 {% block css %}
 	{{ parent() }}
 	<link href="{{ asset('/medias/css/minisite/front.css') }}" rel="stylesheet" type="text/css"/>
 	<link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
 {% endblock css %}
-	
+
 {% block body %}
 	<div class="background-mini-site"></div>
 	<div class="container container-fluid">
@@ -23,8 +33,3 @@
 		</div>
 	</div>
 {% endblock body %}
-	
-
-{% block dock_bar %}
-	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "MINISITE" , 'is_in_front' : true } %}
-{% endblock %}

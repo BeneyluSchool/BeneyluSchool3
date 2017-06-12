@@ -1,7 +1,12 @@
+{% trans_default_domain "NOTIFICATION" %}
+
 {% extends '::base.html.twig' %}
 
+{% set app_unique_name = 'NOTIFICATION' %}
+{% set app_mode = 'front' %}
+
 {% block title %}
-	Les Notifications
+	{{ 'TITLE_NOTIFICATIONS'|trans |desc('Les Notifications') }}
 {% endblock %}
 	
 {% block javascripts %}
@@ -31,7 +36,7 @@
 	
 {% block body %}
 	<div class="background-notification"></div>
-	<div class="container container-fluid">
+	<div class="container container-fluid navbar-compatible-container">
 		<div class="notification-container">
 			<div class="row-fluid notification-content-container">
 				<div class="notification-sidebar">
@@ -43,7 +48,7 @@
 					<div class="notification-content-inner">
 						<div class="layer">
 							<div class="message">
-								Chargement des notifications en cours, veuillez patienter...
+								{{ 'LOADING_NOTIFICATIONS_IN_PROGRESS'|trans |desc('Chargement des notifications en cours, veuillez patienter...') }}
 								<div><img src="{{ asset('/medias/images/icons/big-loader.gif') }}" alt=""></div>
 							</div>
 						</div>
@@ -55,7 +60,3 @@
 		</div>
 	</div>
 {% endblock body %}
-	
-{% block dock_bar %}
-	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "NOTIFICATION" , 'is_in_front' : true } %}
-{% endblock %}

@@ -1,10 +1,25 @@
-{% if comment.getStatus() == 'VALIDATED' or has_right(admin_right) or (comment.getAuthor().getId() == app.user.id and comment.getStatus() == 'PENDING_VALIDATION') %}
+{% trans_default_domain "COMMENT" %}
+{% if onlyValidated is not defined %}
+  {% set onlyValidated = false %}
+{% endif %}
+
+{% if comment.getStatus() == 'VALIDATED' or
+    (onlyValidated == false and (
+        (has_right(admin_right) and comment.getStatus() != 'REFUSED') or (comment.getAuthor().getId() == app.user.id and comment.getStatus() == 'PENDING_VALIDATION')
+    ))
+%}
 	{% set isPendingValidation = comment.getStatus() == 'PENDING_VALIDATION' and (has_right(admin_right) or app.user.id == comment.getAuthor().getId()) %}
 
 	<div class="comment {% if comment.getObjectAuthor().getId() == comment.getAuthor().getId() %}owner{% endif %} {% if isPendingValidation %}moderate{% endif %}">
 		{# Not implemented yet! <a class="btn btn-share" href="#"><span class="copy-link"></span>Editer</a> #}
-		<img src="{{ avatar(comment.getAuthor(), 'thumbnail') }}" alt=""/>
-		<p class="comment-information">{{ comment.getAuthor().getFullName() }} <span class="date">- {{ date_from_now(comment.getDate(), true) }}{% if isPendingValidation %} - en attente de modération{% endif %}</span></p>
-		<p class="text">{{ comment.getContent()|nl2br }}</p>
-	</div>
+
+        <p class="comment-information"><img src="{{ avatar(comment.getAuthor(), 'thumbnail') }}" alt="" height="20px" width="20px"/>
+            {% if isPendingValidation %}
+                {{ 'AUTHOR_DATE_WAIT_FOR_MODERATION'|trans({'%userFullName%': comment.getAuthor().getFullName() |escape, '%date%': comment.getDate() }) |desc('%userFullName% <span class="date">- %date% - en attente de modération</span>') |raw}}
+            {% else %}
+                {{ 'AUTHOR_DATE'|trans({'%userFullName%': comment.getAuthor().getFullName() |escape, '%date%': comment.getDate() }) |desc('%userFullName% <span class="date">- %date%</span>') |raw}}
+            {% endif %}
+        </p>
+        <p class="text">{{ comment.getContent()|nl2br }}</p>
+    </div>
 {% endif %}

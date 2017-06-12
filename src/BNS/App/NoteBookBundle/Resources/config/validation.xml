@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
+
+    <class name="BNS\App\NoteBookBundle\Model\NoteBook">
+        <property name="title">
+            <constraint name="NotBlank">
+                    <option name="message">Veuillez saisir un titre</option>
+            </constraint>
+        </property>
+        <property name="content">
+            <constraint name="NotBlank">
+                    <option name="message">Veuillez saisir un contenu</option>
+            </constraint>
+        </property>
+	<property name="date">
+            <constraint name="NotBlank">
+                    <option name="message">Veuillez saisir une date</option>
+            </constraint>
+        </property>
+    </class>
+	
+</constraint-mapping>

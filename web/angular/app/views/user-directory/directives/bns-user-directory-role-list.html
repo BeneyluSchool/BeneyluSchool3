@@ -1,0 +1,16 @@
+<ul class="user-directory-group-list">
+  <li ng-repeat="role in ctrl.list"
+    ng-click="ctrl.handleClick(role) !== false ? ctrl.toggle(role) : ''"
+    ng-class="{ selected: ctrl.selection.has(role) }"
+    class="user-directory-group user-directory-role"
+  >
+    <span class="group-selector" ng-click="ctrl.toggle(role); $event.stopPropagation();">
+      <input type="checkbox" ng-checked="ctrl.selection.has(role)" ng-disabled="ctrl.isLocked(role)">
+    </span>
+    <span bns-group-image="role" role="true"></span>
+    <div class="group-label role-label" ng-click="ctrl.toggle(role); $event.stopPropagation();">
+      <div>{{ ::('USER_DIRECTORY.'+role.type+'S')|translate }}</div>
+      <div class="text-muted"><small>{{ ::role.group.label }}</small></div>
+    </span>
+  </li>
+</ul>

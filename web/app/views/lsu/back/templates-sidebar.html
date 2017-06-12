@@ -1,0 +1,4 @@
+<bns-expander label="{{'LSU.LABEL_FILTER_TEMPLATES'|translate}}" start-open="true">
+  <div ng-show="!shared.allLevels.length" class="md-padding md-body-1" translate>LSU.DESCRIPTION_NO_TEMPLATE</div>
+  <bns-checkbox-group ng-show="shared.allLevels.length" ng-model="shared.levels" choices="shared.allLevels"></bns-checkbox-group>
+</bns-expander>

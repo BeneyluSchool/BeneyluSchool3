@@ -3,7 +3,11 @@
 	<p class="date">{{ date_from_now(news.getPublishedAt()) }}</p>
 	<p class="article">
 		{% autoescape false %}
-			{{ news.getContent() }}
+			{{ parse_public_resources(news.getContent()|purify, false) }}
 		{% endautoescape %}
 	</p>
 </div>
+
+<br clear="all" />
+
+{% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias': news.getResourceAttachments,"editable": false, 'objectType': 'MiniSitePageNews', 'objectId': news.id} %}

@@ -1,0 +1,35 @@
+<div container class="layout-gt-md-row step" id="story-{{::ctrl.book.story}}-step-{{ctrl.step}}">
+  <div class="flex flex-gt-md-35 step-left-container">
+    <md-button ui-sref="^.home" class="back-to-stories md-whiteframe-z2">
+      <span translate>BUILDERS.BUTTON_BACK_TO_STORIES</span>
+    </md-button>
+    <div ng-show="ctrl.step < 5">
+      <h1 class="step-title">{{ctrl.step+'. '+(('BUILDERS.TITLE_STEP_'+ctrl.step)|translate)}}</h1>
+      <h2 class="step-subtitle" ng-bind-html="('BUILDERS.TITLE_STORY_'+ctrl.book.story)|translate|buttonize"></h2>
+    </div>
+    <div ng-show="ctrl.step == 5">
+      <h1 class="step-subtitle">
+        <div translate>BUILDERS.TITLE_I_WANT_TO_BUILD</div>
+      </h1>
+    </div>
+
+    <div ng-if="ctrl.book.story < 4" ng-include="ctrl.asideTemplate"></div>
+  </div>
+  <md-content class="flex flex-gt-md-65 md-padding step-right-container">
+    <div class="layout-row layout-align-space-between-center nav-btn-container cms-block-container">
+      <md-button ng-click="ctrl.prev()" ng-style="{visibility: ctrl.step > 1 ? 'visibile':'hidden'}" href>
+        <md-icon>chevron_left</md-icon>
+        <span translate translate-values="{step: ctrl.step - 1}">BUILDERS.BUTTON_SEE_STEP</span>
+      </md-button>
+      <md-button ng-click="ctrl.next()" ng-style="{visibility: ctrl.step < 4 ? 'visibile':'hidden'}" href>
+        <span translate translate-values="{step: ctrl.step + 1}">BUILDERS.BUTTON_SEE_STEP</span>
+        <md-icon>chevron_right</md-icon>
+      </md-button>
+      <md-button ng-if="ctrl.book.is_complete && ctrl.step == 4" ng-click="ctrl.next()" ng-style="{visibility: ctrl.step > 3 ? 'visibile':'hidden'}" href>
+        <span translate>BUILDERS.BUTTON_SEE_STEP_5</span>
+        <md-icon>chevron_right</md-icon>
+      </md-button>
+    </div>
+    <div ng-include="ctrl.template"></div>
+  </md-content>
+</div>

@@ -1,708 +1,781 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\CoreBundle\Model">
-  <table name="user">
-    <column name="id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="login" required="true" size="255" type="VARCHAR" />
-    <column name="first_name" required="true" size="45" type="VARCHAR" />
-    <column name="last_name" required="true" size="45" type="VARCHAR" />
-    <column name="gender" required="true" type="ENUM" valueSet="M, F" />
-    <column name="email" size="255" type="VARCHAR" />
-    <column name="lang" required="true" size="5" type="VARCHAR" />
-	<column defaultValue="0" name="high_role_id" size="255" type="VARCHAR" />
-    <column name="birthday" type="DATE" />
-    <column name="last_connection" type="TIMESTAMP" />
-    <column name="profile_id" required="true" type="INTEGER" />
-    <column defaultValue="0" name="is_expert" required="true" type="BOOLEAN" />
-    <column defaultValue="0" name="resource_used_size" required="true" type="INTEGER" />
-    <foreign-key foreignTable="profile" name="FK_USER_PROFILE">
-      <reference foreign="id" local="profile_id" />
-    </foreign-key>
-    <index name="FK_USER_PROFILE">
-      <index-column name="profile_id" />
-    </index>
-	<behavior name="sluggable">
-      <parameter name="slug_column" value="slug" />
-      <parameter name="slug_pattern" value="{FirstName}-{LastName}" />
-      <parameter name="replace_pattern" value="/[^\w\/]+/u" />
-      <parameter name="replacement" value="-" />
-      <parameter name="separator" value="-" />
-      <parameter name="permanent" value="false" />
-    </behavior>
-  </table>
-  <table name="group">
-    <column name="id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="label" primaryString="true" required="true" size="255" type="VARCHAR" />
-    <column name="group_type_id" required="true" type="INTEGER" />
-    <column name="registration_date" type="TIMESTAMP" required="true" />
-    <column name="pending_validation_date" type="TIMESTAMP" />
-    <column name="validation_status" required="true" type="ENUM" valueSet="VALIDATED, PENDING_VALIDATION, PENDING_SCHOOL_EMAIL_ADDRESS" defaultValue="PENDING_VALIDATION" />
-    <column name="payment_status" required="true" type="ENUM" valueSet="FREE, PAID, PENDING_PAYEMENT_CREDIT_CARD, PENDING_PAYEMENT_CHECK, PENDING_PAYMENT_ADMINISTRATIVE_WARRANT" defaultValue="FREE" />
-    <column name="confirmation_token" type="VARCHAR" size="255" />
-    <foreign-key foreignTable="group_type" name="FK_GROUP_GROUPTYPE" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="id" local="group_type_id" />
-    </foreign-key>
-    <index name="FK_GROUP_GROUPTYPE">
-      <index-column name="group_type_id" />
-    </index>
-	 <unique name="CONFIRMATION_TOKEN_IS_UNIQUE">
-      <unique-column name="confirmation_token" />
-    </unique>
-    <behavior name="sluggable">
-      <parameter name="slug_column" value="slug" />
-      <parameter name="slug_pattern" value="{label}" />
-      <parameter name="replace_pattern" value="/[^\w\/]+/u" />
-      <parameter name="replacement" value="-" />
-      <parameter name="separator" value="-" />
-      <parameter name="permanent" value="true" />
-    </behavior>
-  </table>
-  <table name="group_type">
-    <column name="id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="label" required="true" size="255" type="VARCHAR" />
-    <column name="description" required="true" size="255" type="VARCHAR" />
-	<column name="slug" required="false" size="255" type="VARCHAR" />
-    <column name="centralize" required="true" type="BOOLEAN" />
-    <column name="type" required="true" type="VARCHAR" size="255" />
-    <column defaultValue="0" name="simulate_role" required="true" type="BOOLEAN" />
-    <column defaultValue="1" name="is_recursive" required="true" type="BOOLEAN" />
-	<index name="GROUPTYPE_TYPE">
-      <index-column name="type" />
-    </index>
-    <behavior name="i18n">
-      <parameter name="i18n_columns" value="label, description, slug" />
-      <parameter name="locale_column" value="lang" />
-      <parameter name="i18n_table" value="group_type_i18n" />
-      <parameter name="i18n_phpname" value="GroupIType18n" />
-    </behavior>
-  </table>
-  <table name="group_type_i18n">
-	<behavior name="sluggable">
-      <parameter name="slug_column" value="slug" />
-      <parameter name="slug_pattern" value="{label}" />
-      <parameter name="replace_pattern" value="/[^\w\/]+/u" />
-      <parameter name="replacement" value="-" />
-      <parameter name="separator" value="-" />
-      <parameter name="permanent" value="true" />
-    </behavior>
-  </table>
-  <table name="module">
-    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="unique_name" required="true" size="255" type="VARCHAR" />
-    <column name="label" primaryString="true" required="true" size="255" type="VARCHAR" />
-    <column name="description" required="true" size="255" type="VARCHAR" />
-    <column name="is_contextable" required="true" type="BOOLEAN" />
-    <column name="is_activable" required="true" type="BOOLEAN" default="false" />
-    <column name="bundle_name" size="100" type="VARCHAR" />
-    <column name="default_pupil_rank" size="45" type="VARCHAR" />
-    <column name="default_parent_rank" size="45" type="VARCHAR" />
-    <column name="default_other_rank" size="45" type="VARCHAR" />
-    <unique name="UNIQUE_NAME_IS_UNIQUE">
-      <unique-column name="unique_name" />
-    </unique>
-    <behavior name="i18n">
-      <parameter name="i18n_columns" value="label,description" />
-      <parameter name="locale_column" value="lang" />
-      <parameter name="i18n_table" value="module_i18n" />
-      <parameter name="i18n_phpname" value="ModuleI18n" />
-    </behavior>
-  </table>
-  <table name="group_type_data">
-    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="group_type_id" required="true" type="INTEGER" />
-    <column name="group_type_data_template_unique_name" required="true" size="255" type="VARCHAR" />
-    <foreign-key foreignTable="group_type" name="FK_GROUPTYPEDATA_GROUPTYPE" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="id" local="group_type_id" />
-    </foreign-key>
-    <foreign-key foreignTable="group_type_data_template" name="FK_GROUPTYPEDATA_GROUPTYPEDATATEMPLATE" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="unique_name" local="group_type_data_template_unique_name" />
-    </foreign-key>
-    <index name="FK_GROUPTYPEDATA_GROUPTYPE">
-      <index-column name="group_type_id" />
-    </index>
-    <index name="FK_GROUPTYPEDATA_GROUPTYPEDATATEMPLATE">
-      <index-column name="group_type_data_template_unique_name" />
-    </index>
-  </table>
-  <table name="group_data">
-    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="group_type_data_id" required="true" type="INTEGER" />
-    <column name="group_id" required="true" type="INTEGER" />
-    <column name="value" type="LONGVARCHAR" />
-    <foreign-key foreignTable="group" name="FK_GROUPDATA_GROUP" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="id" local="group_id" />
-    </foreign-key>
-    <foreign-key foreignTable="group_type_data" name="FK_GROUPDATA_GROUPTYPEDATA" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="id" local="group_type_data_id" />
-    </foreign-key>
-    <index name="FK_GROUPDATA_GROUP">
-      <index-column name="group_id" />
-    </index>
-    <index name="FK_GROUPDATA_GROUPTYPEDATA">
-      <index-column name="group_type_data_id" />
-    </index>
-  </table>
-  <table name="group_type_data_choice">
-    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="group_type_data_template_unique_name" required="true" size="255" type="VARCHAR" />
-    <column name="value" required="true" size="255" type="VARCHAR" />
-    <column name="label" required="true" size="255" type="VARCHAR" />
-    <foreign-key foreignTable="group_type_data_template" name="FK_GROUPTYPEDATACHOICE_GROUPTYPEDATA_TEMPLATE" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="unique_name" local="group_type_data_template_unique_name" />
-    </foreign-key>
-    <index name="FK_GROUPTYPEDATACHOICE_GROUPTYPEDATA_TEMPLATE">
-      <index-column name="group_type_data_template_unique_name" />
-    </index>
-    <behavior name="i18n">
-      <parameter name="i18n_columns" value="label" />
-      <parameter name="locale_column" value="lang" />
-      <parameter name="i18n_table" value="group_type_data_choice_i18n" />
-      <parameter name="i18n_phpname" value="GroupTypeDataChoiceI18n" />
-    </behavior>
-  </table>
-  <table name="group_data_choice">
-    <column name="group_data_id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="group_type_data_choice_id" primaryKey="true" required="true" type="INTEGER" />
-    <foreign-key foreignTable="group_type_data_choice" name="FK_GROUPDATACHOICE_GROUPTYPEDATACHOICE" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="id" local="group_type_data_choice_id" />
-    </foreign-key>
-    <foreign-key foreignTable="group_data" name="FK_GROUPDATA_CHOICE_GROUPDATA" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="id" local="group_data_id" />
-    </foreign-key>
-    <index name="FK_GROUPDATACHOICE_GROUPTYPEDATACHOICE">
-      <index-column name="group_type_data_choice_id" />
-    </index>
-    <index name="FK_GROUPDATA_CHOICE_GROUPDATA">
-      <index-column name="group_data_id" />
-    </index>
-  </table>
-  <table name="group_type_data_template">
-    <column name="unique_name" primaryKey="true" required="true" size="255" type="VARCHAR" />
-    <column name="type" required="true" type="ENUM" valueSet="SINGLE, ONE_CHOICE, MULTIPLE_CHOICE, TEXT" />
-    <column name="label" required="true" size="255" type="VARCHAR" />
-    <column name="default_value" size="255" type="VARCHAR" />
-    <behavior name="i18n">
-      <parameter name="i18n_columns" value="label" />
-      <parameter name="locale_column" value="lang" />
-      <parameter name="i18n_table" value="group_type_data_template_i18n" />
-      <parameter name="i18n_phpname" value="GroupTypeDataTemplateI18n" />
-    </behavior>
-  </table>
-  <table name="profile">
-    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="job" size="255" type="VARCHAR" />
-    <column name="description" type="LONGVARCHAR" />
-	<column name="avatar_id" type="INTEGER" />
-	<foreign-key foreignTable="resource" name="FK_PROFILE_AVATAR" onDelete="SETNULL">
-		<reference foreign="id" local="avatar_id" />
-    </foreign-key>
-    <behavior name="aggregate_column">
-		<parameter name="name" value="nb_feeds" />
-		<parameter name="foreign_table" value="profile_feed" />
-		<parameter name="expression" value="COUNT(profile_id)" />
-	</behavior>
-	<behavior name="bns_templatable" />
-	<behavior name="bns_resource_attachmentable" />
-  </table>
-  <table name="profile_preference">
-    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="profile_id" required="true" type="INTEGER" />
-    <column name="item" required="true" size="255" type="VARCHAR" />
-    <column name="is_like" required="true" type="BOOLEAN" />
-    <foreign-key foreignTable="profile" name="FK_PROFILEPREFERENCE_PROFILE">
-      <reference foreign="id" local="profile_id" />
-    </foreign-key>
-    <index name="FK_PROFILEPREFERENCE_PROFILE">
-      <index-column name="profile_id" />
-    </index>
-  </table>
-  <table name="profile_feed">
-    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="profile_id" required="true" type="INTEGER" />
-    <column name="date" required="true" type="TIMESTAMP" />
-	<column name="status" required="true" type="ENUM" defaultValue="PENDING_VALIDATION" valueSet="PENDING_VALIDATION, VALIDATED, REFUSED" />
-    <foreign-key foreignTable="profile" name="FK_PROFILEFEED_PROFILE">
-      <reference foreign="id" local="profile_id" />
-    </foreign-key>
-    <index name="FK_PROFILEFEED_PROFILE">
-      <index-column name="profile_id" />
-    </index>
-    <behavior name="aggregate_column">
-		<parameter name="name" value="nb_comments" />
-		<parameter name="foreign_table" value="profile_comment" />
-		<parameter name="expression" value="COUNT(object_id)" />
-	</behavior>
-  </table>
-  <table name="profile_feed_status">
-    <column name="feed_id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="content" required="true" type="LONGVARCHAR" />
-	<column name="resource_id" type="INTEGER" />
-    <foreign-key foreignTable="profile_feed" name="FK_PROFILEFEEDSTATUS_PROFILEFEED" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="id" local="feed_id" />
-    </foreign-key>
-	<foreign-key foreignTable="resource" name="FK_ProfileFeedStatus_Resource" onDelete="SETNULL">
-		<reference foreign="id" local="resource_id" />
-    </foreign-key>
-    <index name="FK_PROFILEFEEDSTATUS_PROFILEFEED">
-      <index-column name="feed_id" />
-    </index>
-  </table>
-  <table name="profile_feed_resource">
-    <column name="feed_id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="resource_id" required="true" type="INTEGER" />
-    <column name="description" type="LONGVARCHAR" />
-    <foreign-key foreignTable="profile_feed" name="FK_PROFILEFEEDVIDEO_PROFILEFEED" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="id" local="feed_id" />
-    </foreign-key>
-    <index name="FK_PROFILEFEEDVIDEO_PROFILEFEED">
-      <index-column name="feed_id" />
-    </index>
-  </table>
-  <table name="profile_comment">
-    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="object_id" required="true" type="INTEGER" />
-    <column name="author_id" required="true" type="INTEGER" />
-    <column name="date" required="true" type="TIMESTAMP" />
-    <column name="content" required="true" type="LONGVARCHAR" />
-	<column name="status" required="true" type="ENUM" defaultValue="PENDING_VALIDATION" valueSet="PENDING_VALIDATION, VALIDATED, REFUSED" />
-    <foreign-key foreignTable="profile_feed" name="FK_PROFILECOMMENT_PROFILEFEED" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="id" local="object_id" />
-    </foreign-key>
-    <foreign-key foreignTable="user" name="FK_PROFILECOMMENT_USER" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="id" local="author_id" />
-    </foreign-key>
-    <index name="FK_PROFILECOMMENT_PROFILEFEED">
-      <index-column name="object_id" />
-    </index>
-    <index name="FK_PROFILECOMMENT_USER">
-      <index-column name="author_id" />
-    </index>
-  </table>
-  <table name="email_template">
-    <column name="label" required="true" size="255" type="VARCHAR" />
-	<column name="unique_name" primaryKey="true" required="true" size="255" type="VARCHAR" />
-    <column name="subject" required="true" size="255" type="VARCHAR" />
-    <column name="html_body" required="true" type="LONGVARCHAR" />
-    <column name="plain_body" required="true" type="LONGVARCHAR" />
-    <column name="vars" required="true" size="255" type="VARCHAR" />
-    <column name="html_layout" required="true" type="VARCHAR" size="255" defaultValue="BNSAppMailerBundle:Layout:base_html.html.twig" />
-    <column name="plain_layout" required="true" type="VARCHAR" size="255" defaultValue="BNSAppMailerBundle:Layout:base_plain.html.twig" />
-    <behavior name="i18n">
-      <parameter name="i18n_columns" value="subject, label, html_body, plain_body" />
-      <parameter name="locale_column" value="lang" />
-      <parameter name="i18n_table" value="email_template_i18n" />
-      <parameter name="i18n_phpname" value="EmailTemplateI18n" />
-    </behavior>
-  </table>
-  <table name="blog">
-    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="group_id" required="true" type="INTEGER" />
-    <column name="avatar_resource_id" type="INTEGER" />
-    <column name="title" required="true" size="255" type="VARCHAR" />
-    <column name="description" type="LONGVARCHAR" />
-    <column defaultValue="1" name="is_comment_moderate" required="true" type="BOOLEAN" />
-    <foreign-key foreignTable="group" name="FK_BLOG_GROUP" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="id" local="group_id" />
-    </foreign-key>
-	<foreign-key foreignTable="resource" name="FK_BLOG_RESOURCE" onDelete="SETNULL" onUpdate="CASCADE">
-      <reference foreign="id" local="avatar_resource_id" />
-    </foreign-key>
-    <index name="FK_BLOG_GROUP">
-      <index-column name="group_id" />
-    </index>
-  </table>
-  <table name="blog_article">
-    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="blog_id" required="true" type="INTEGER" />
-    <column name="author_id" required="true" type="INTEGER" />
-    <column name="created_at" required="true" type="TIMESTAMP" />
-    <column name="published_at" type="TIMESTAMP" />
-    <column name="updated_at" type="TIMESTAMP" />
-    <column name="title" required="true" size="255" type="VARCHAR" />
-    <column name="content" type="LONGVARCHAR" />
-    <column defaultValue="DRAFT" name="status" type="ENUM" valueSet="DRAFT, PUBLISHED, FINISHED, WAITING_FOR_CORRECTION" />
-    <column defaultValue="0" name="is_star" required="true" type="BOOLEAN" />
-    <column defaultValue="1" name="is_comment_allowed" required="true" type="BOOLEAN" />
-    <foreign-key foreignTable="blog" name="FK_BLOGARTICLE_BLOG" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="id" local="blog_id" />
-    </foreign-key>
-    <foreign-key foreignTable="user" name="FK_BLOGARTICLE_USER" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="id" local="author_id" />
-    </foreign-key>
-    <index name="FK_BLOGARTICLE_BLOG">
-      <index-column name="blog_id" />
-    </index>
-    <index name="FK_BLOGARTICLE_USER">
-      <index-column name="author_id" />
-    </index>
-	<behavior name="aggregate_column">
-		<parameter name="name" value="nb_comments" />
-		<parameter name="foreign_table" value="blog_article_comment" />
-		<parameter name="expression" value="COUNT(object_id)" />
-	</behavior>
-	<behavior name="sluggable">
-		<parameter name="slug_column" value="slug" />
-		<parameter name="slug_pattern" value="{title}" />
-		<parameter name="replace_pattern" value="/[^\w\/]+/u" />
-		<parameter name="replacement" value="-" />
-		<parameter name="separator" value="-" />
-		<parameter name="permanent" value="false" />
-    </behavior>
-	<behavior name="bns_resource_attachmentable" />
-  </table>
-  <table name="blog_category">
-    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="blog_id" required="true" type="INTEGER" />
-    <column name="title" required="true" size="255" type="VARCHAR" />
-    <column name="icon_classname" required="false" size="50" type="VARCHAR" defaultValue="default" />
-    <foreign-key foreignTable="blog" name="FK_BLOGCATEGORY_BLOG" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="id" local="blog_id" />
-    </foreign-key>
-    <index name="FK_BLOGCATEGORY_BLOG">
-      <index-column name="blog_id" />
-    </index>
-    <behavior name="nested_set">
-      <parameter name="left_column" value="left" />
-      <parameter name="right_column" value="right" />
-      <parameter name="level_column" value="level" />
-      <parameter name="use_scope" value="true" />
-      <parameter name="scope_column" value="blog_id" />
-    </behavior>
-    <behavior name="sluggable">
-      <parameter name="slug_column" value="slug" />
-      <parameter name="slug_pattern" value="{title}" />
-      <parameter name="replace_pattern" value="/[^\w\/]+/u" />
-      <parameter name="replacement" value="-" />
-      <parameter name="separator" value="-" />
-      <parameter name="permanent" value="true" />
-    </behavior>
-  </table>
-  <table name="blog_article_category">
-    <column name="article_id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="category_id" primaryKey="true" required="true" type="INTEGER" />
-    <foreign-key foreignTable="blog_article" name="FK_BLOGARTICLECATEGORY_BLOGARTICLE" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="id" local="article_id" />
-    </foreign-key>
-    <foreign-key foreignTable="blog_category" name="FK_BLOGARTICLECATEGORY_BLOGCATEGORY" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="id" local="category_id" />
-    </foreign-key>
-    <index name="FK_BLOGARTICLECATEGORY_BLOGARTICLE">
-      <index-column name="article_id" />
-    </index>
-    <index name="FK_BLOGARTICLECATEGORY_BLOGCATEGORY">
-      <index-column name="category_id" />
-    </index>
-  </table>
-  <table name="blog_article_comment">
-    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="object_id" required="true" type="INTEGER" />
-    <column name="author_id" required="true" type="INTEGER" />
-    <column name="date" required="true" type="TIMESTAMP" />
-    <column name="content" required="true" type="LONGVARCHAR" />
-	<column name="status" required="true" type="ENUM" defaultValue="PENDING_VALIDATION" valueSet="PENDING_VALIDATION, VALIDATED, REFUSED" />
-    <foreign-key foreignTable="blog_article" name="FK_BLOGARTICLECOMMENT_BLOGARTICLE" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="id" local="object_id" />
-    </foreign-key>
-    <foreign-key foreignTable="user" name="FK_BLOGARTICLECOMMENT_USER" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="id" local="author_id" />
-    </foreign-key>
-    <index name="FK_BLOGARTICLECOMMENT_BLOGARTICLE">
-      <index-column name="object_id" />
-    </index>
-    <index name="FK_BLOGARTICLECOMMENT_USER">
-      <index-column name="author_id" />
-    </index>
-  </table>
-  <table name="permission">
-    <column name="unique_name" primaryKey="true" required="true" size="255" type="VARCHAR" />
-    <column name="module_id" type="INTEGER" />
-    <column defaultValue="1" name="is_activable" required="true" type="BOOLEAN" />
-    <column name="label" required="true" size="255" type="VARCHAR" />
-    <column name="description" type="LONGVARCHAR" />
-    <foreign-key foreignTable="module" name="FK_PERMISSION_MODULE" onDelete="CASCADE">
-      <reference foreign="id" local="module_id" />
-    </foreign-key>
-    <index name="FK_PERMISSION_MODULE">
-      <index-column name="module_id" />
-    </index>
-    <behavior name="i18n">
-      <parameter name="i18n_columns" value="label,description" />
-      <parameter name="locale_column" value="lang" />
-      <parameter name="i18n_table" value="permission_i18n" />
-      <parameter name="i18n_phpname" value="PermissionI18n" />
-    </behavior>
-  </table>
-  <table name="rank">
-    <column name="unique_name" primaryKey="true" required="true" size="255" type="VARCHAR" />
-    <column name="module_id" required="true" type="INTEGER" />
-    <column name="label" primaryString="true" required="true" size="255" type="VARCHAR" />
-    <column name="description" type="LONGVARCHAR" />
-    <foreign-key foreignTable="module" name="FK_RANK_MODULE" onDelete="CASCADE">
-      <reference foreign="id" local="module_id" />
-    </foreign-key>
-    <index name="FK_RANK_MODULE">
-      <index-column name="module_id" />
-    </index>
-    <behavior name="i18n">
-      <parameter name="i18n_columns" value="label,description" />
-      <parameter name="locale_column" value="lang" />
-      <parameter name="i18n_table" value="rank_i18n" />
-      <parameter name="i18n_phpname" value="RankI18n" />
-    </behavior>
-  </table>
-  <table name="agenda">
-    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="title" size="255" type="VARCHAR" />
-    <column name="group_id" type="INTEGER" />
-    <column name="color_class" required="true" size="255" type="VARCHAR" />
-    <foreign-key foreignTable="group" name="FK_AGENDA_GROUP">
-      <reference foreign="id" local="group_id" />
-    </foreign-key>
-    <index name="FK_AGENDA_GROUP">
-      <index-column name="group_id" />
-    </index>
-  </table>
-  <table name="agenda_event">
-    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="title" required="true" size="255" type="VARCHAR" />
-    <column name="date_start" required="true" type="DATE" />
-    <column name="date_end" required="true" type="DATE" />
-    <column name="agenda_id" required="true" type="INTEGER" />
-    <column defaultValue="0" name="is_recurring" required="true" type="BOOLEAN" />
-    <column name="icalendar_vevent" required="true" type="LONGVARCHAR" />
-    <column defaultValue="0" name="is_all_day" required="true" type="BOOLEAN" />
-    <foreign-key foreignTable="agenda" name="FK_AGENDAEVENT_AGENDA">
-      <reference foreign="id" local="agenda_id" />
-    </foreign-key>
-    <index name="FK_AGENDAEVENT_AGENDA">
-      <index-column name="agenda_id" />
-    </index>
-    <behavior name="sluggable">
-      <parameter name="slug_column" value="slug" />
-      <parameter name="slug_pattern" value="{title}" />
-      <parameter name="replace_pattern" value="/[^\w\/]+/u" />
-      <parameter name="replacement" value="-" />
-      <parameter name="separator" value="-" />
-      <parameter name="permanent" value="true" />
-    </behavior>
-	<behavior name="bns_resource_attachmentable" />
-  </table>
-  <table name="liaison_book">
-    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="title" required="true" size="255" type="VARCHAR" />
-    <column name="content" required="true" type="LONGVARCHAR" />
-    <column name="date" required="true" type="TIMESTAMP" />
-    <column name="group_id" primaryKey="true" required="true" type="INTEGER" />
-    <foreign-key foreignTable="group" name="fk_liaison_book_group1">
-      <reference foreign="id" local="group_id" />
-    </foreign-key>
-    <index name="fk_liaison_book_group1">
-      <index-column name="group_id" />
-    </index>
-	<behavior name="bns_resource_attachmentable" />
-    <behavior name="timestampable" />
-  </table>
-  <table name="liaison_book_signature">
-    <column name="id" primaryKey="true" required="true" type="INTEGER" autoIncrement="true" />
-    <column name="user_id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="liaison_book_id" primaryKey="true" required="true" type="INTEGER" />
-    <foreign-key foreignTable="user" name="fk_liaison_book_signature_user1" onDelete="CASCADE">
-      <reference foreign="id" local="user_id" />
-    </foreign-key>
-    <foreign-key foreignTable="liaison_book" name="fk_liaison_book_signature_liaison_book1" onDelete="CASCADE">
-      <reference foreign="id" local="liaison_book_id" />
-    </foreign-key>
-    <index name="fk_liaison_book_signature_user1">
-      <index-column name="user_id" />
-    </index>
-    <index name="fk_liaison_book_signature_liaison_book1">
-      <index-column name="liaison_book_id" />
-    </index>
-    <behavior name="timestampable" />
-  </table>
-  <table name="mini_site">
-    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="group_id" required="true" type="INTEGER" />
-    <column name="is_public" required="true" type="BOOLEAN" defaultValue="false" />
-    <column name="banner_resource_id" required="false" type="INTEGER" />
-    <column name="description" type="LONGVARCHAR" />
-    <column defaultValue="'Mini Site'" name="title" required="true" size="255" type="VARCHAR" />
-	<foreign-key foreignTable="resource" name="FK_MINISITE_RESOURCE" onDelete="SETNULL" onUpdate="CASCADE">
-      <reference foreign="id" local="banner_resource_id" />
-    </foreign-key>
-    <behavior name="sluggable">
-      <parameter name="slug_column" value="slug" />
-      <parameter name="slug_pattern" value="{title}" />
-      <parameter name="replace_pattern" value="/[^\w\/]+/u" />
-      <parameter name="replacement" value="-" />
-      <parameter name="separator" value="-" />
-      <parameter name="permanent" value="false" />
-    </behavior>
-  </table>
-  <table name="mini_site_page">
-    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="mini_site_id" required="true" type="INTEGER" />
-    <column defaultValue="false" name="is_activated" required="true" type="BOOLEAN" />
-    <column defaultValue="false" name="is_home" required="true" type="BOOLEAN" />
-    <column name="title" required="true" size="255" type="VARCHAR" />
-    <column defaultValue="TEXT" name="type" required="true" type="ENUM" valueSet="TEXT, NEWS" />
-    <foreign-key foreignTable="mini_site" name="FK_MINISITEPAGE_MINISITE" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="id" local="mini_site_id" />
-    </foreign-key>
-    <index name="FK_MINISITEPAGE_MINISITE">
-      <index-column name="mini_site_id" />
-    </index>
-    <behavior name="sortable">
-	  <parameter name="rank_column" value="rank" />
-	  <parameter name="use_scope" value="true" />
-	  <parameter name="scope_column" value="mini_site_id" />
-	</behavior>
-    <behavior name="sluggable">
-      <parameter name="slug_column" value="slug" />
-      <parameter name="slug_pattern" value="{title}" />
-      <parameter name="replace_pattern" value="/[^\w\/]+/u" />
-      <parameter name="replacement" value="-" />
-      <parameter name="separator" value="-" />
-      <parameter name="permanent" value="false" />
-    </behavior>
-  </table>
-  <table name="mini_site_page_text">
-    <column name="page_id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="author_id" required="true" type="INTEGER" />
-	<column name="status" defaultValue="DRAFT" required="true" type="ENUM" valueSet="DRAFT, PUBLISHED, FINISHED, WAITING_FOR_CORRECTION" />
-	<column name="published_at" type="TIMESTAMP" />
-    <column name="draft_content" required="true" type="LONGVARCHAR" />
-    <column name="draft_title" required="true" size="255" type="VARCHAR" />
-    <column name="published_content" type="LONGVARCHAR" />
-    <column name="published_title" size="255" type="VARCHAR" />
-    <foreign-key foreignTable="mini_site_page" name="FK_MINISITEPAGETEXT_MINISITEPAGE" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="id" local="page_id" />
-    </foreign-key>
-    <foreign-key foreignTable="user" name="FK_MINISITEPAGETEXT_USER" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="id" local="author_id" />
-    </foreign-key>
-    <index name="FK_MINISITEPAGETEXT_MINISITEPAGE">
-      <index-column name="page_id" />
-    </index>
-    <index name="FK_MINISITEPAGETEXT_USER">
-      <index-column name="author_id" />
-    </index>
-    <behavior name="timestampable">
-      <parameter name="create_column" value="created_at" />
-      <parameter name="update_column" value="updated_at" />
-    </behavior>
-	<behavior name="bns_resource_attachmentable" />
-  </table>
-  <table name="mini_site_page_news">
-    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="page_id" required="true" type="INTEGER" />
-    <column name="author_id" required="true" type="INTEGER" />
-    <column name="title" required="true" size="255" type="VARCHAR" />
-    <column name="content" required="true" type="LONGVARCHAR" />
-    <column defaultValue="DRAFT" name="status" required="true" type="ENUM" valueSet="DRAFT, PUBLISHED, FINISHED, WAITING_FOR_CORRECTION" />
-    <column name="published_at" type="TIMESTAMP" />
-    <foreign-key foreignTable="mini_site_page" name="FK_MINISITEPAGENEWS_MINISITEPAGE" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="id" local="page_id" />
-    </foreign-key>
-    <foreign-key foreignTable="user" name="FK_MINISITEPAGENEWS_USER" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="id" local="author_id" />
-    </foreign-key>
-    <index name="FK_MINISITEPAGENEWS_MINISITEPAGE">
-      <index-column name="page_id" />
-    </index>
-    <index name="FK_MINISITEPAGENEWS_USER">
-      <index-column name="author_id" />
-    </index>
-    <behavior name="timestampable">
-      <parameter name="create_column" value="created_at" />
-      <parameter name="update_column" value="updated_at" />
-    </behavior>
-	<behavior name="sluggable">
-      <parameter name="slug_column" value="slug" />
-      <parameter name="slug_pattern" value="{title}" />
-      <parameter name="replace_pattern" value="/[^\w\/]+/u" />
-      <parameter name="replacement" value="-" />
-      <parameter name="separator" value="-" />
-      <parameter name="permanent" value="false" />
-    </behavior>
-	<behavior name="bns_resource_attachmentable" />
-  </table>
-  <table name="mini_site_widget_template">
-    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="type" required="true" size="255" type="VARCHAR" />
-    <column name="label" required="true" size="255" type="VARCHAR" />
-    <column name="description" size="255" type="VARCHAR" />
-    <behavior name="i18n">
-      <parameter name="i18n_columns" value="label, description" />
-      <parameter name="locale_column" value="lang" />
-      <parameter name="i18n_table" value="mini_site_widget_template_i18n" />
-      <parameter name="i18n_phpname" value="MiniSiteWidgetTemplateI18n" />
-    </behavior>
-  </table>
-  <table name="mini_site_widget">
-    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="mini_site_id" required="true" type="INTEGER" />
-    <column name="widget_template_id" required="true" type="INTEGER" />
-	<column name="title" required="true" size="255" type="VARCHAR" />
-    <foreign-key foreignTable="mini_site" name="FK_MINISITEWIDGET_MINISITE" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="id" local="mini_site_id" />
-    </foreign-key>
-    <foreign-key foreignTable="mini_site_widget_template" name="FK_MINISITEWIDGET_MINISITEWIDGETTEMPLATE" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference foreign="id" local="widget_template_id" />
-    </foreign-key>
-    <index name="FK_MINISITEWIDGET_MINISITE">
-      <index-column name="mini_site_id" />
-    </index>
-    <index name="FK_MINISITEWIDGET_MINISITEWIDGETTEMPLATE">
-      <index-column name="widget_template_id" />
-    </index>
-	<behavior name="extra_properties" /> <!-- NOT GENERATED BY PROPEL UTILITY, DO NOT DELETE ! -->
-	<behavior name="sortable">
-	  <parameter name="rank_column" value="rank" />
-	  <parameter name="use_scope" value="true" />
-	  <parameter name="scope_column" value="mini_site_id" />
-	</behavior>
-  </table>
-  <table name="pupil_parent_link">
-    <column name="user_pupil_id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="user_parent_id" primaryKey="true" required="true" type="INTEGER" />
-    <foreign-key foreignTable="user" name="FK_PupilParentLink_User_Pupil">
-      <reference foreign="id" local="user_pupil_id" />
-    </foreign-key>
-    <foreign-key foreignTable="user" name="FK_PupilParentLink_User_Parent">
-      <reference foreign="id" local="user_parent_id" />
-    </foreign-key>
-    <index name="FK_PupilParentLink_User_Pupil">
-      <index-column name="user_pupil_id" />
-    </index>
-    <index name="FK_PupilParentLink_User_Parent">
-      <index-column name="user_parent_id" />
-    </index>
-  </table>
-  <table name="user_guide_tour">
-    <column name="user_id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="route" primaryKey="true" required="true" size="255" type="VARCHAR" />
-    <foreign-key foreignTable="user" name="FK_UserGuideTour_User">
-      <reference foreign="id" local="user_id" />
-    </foreign-key>
-    <index name="FK_UserGuideTour_User">
-      <index-column name="user_id" />
-    </index>
-  </table>
-  <table name="logging">
-	<column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
-    <column name="user_id" required="false" type="INTEGER" />
-	<column name="group_id" required="false" type="INTEGER" />
-    <column name="username" required="false" size="255" type="VARCHAR" />
-	<column name="route" required="true" size="255" type="VARCHAR" />
-	<column name="action" required="true" size="255" type="VARCHAR" />
-	<column name="module" required="false" size="255" type="VARCHAR" />
-    <foreign-key foreignTable="user" name="FK_logging_User">
-      <reference foreign="id" local="user_id" />
-    </foreign-key>
-	<foreign-key foreignTable="group" name="FK_logging_Group">
-      <reference foreign="id" local="group_id" />
-    </foreign-key>
-    <behavior name="timestampable" />
-  </table>
+    <table name="user">
+        <column name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="login" required="true" size="255" type="VARCHAR"/>
+        <column name="first_name" required="true" size="45" type="VARCHAR"/>
+        <column name="last_name" required="true" size="45" type="VARCHAR"/>
+        <column name="gender" required="true" type="ENUM" valueSet="M, F"/>
+        <column name="email" size="255" type="VARCHAR"/>
+        <column name="email_private" size="255" type="VARCHAR"/>
+        <column name="lang" required="true" size="5" type="VARCHAR"/>
+        <column name="high_role_id" size="255" type="VARCHAR" defaultValue="0"/>
+        <column name="birthday" type="DATE"/>
+        <column name="last_connection" type="TIMESTAMP"/>
+        <column name="profile_id" required="true" type="INTEGER"/>
+        <column name="policy" required="true" type="BOOLEAN" defaultValue="0"/>
+        <column name="cgu_validation" required="true" type="BOOLEAN" defaultValue="0"/>
+        <column name="cgu_validation_date" type="DATE"/>
+        <column name="cgu_version" type="VARCHAR" size="10"/>
+        <column name="is_expert" required="true" type="BOOLEAN" defaultValue="0"/>
+        <column name="resource_used_size" required="true" type="BIGINT" defaultValue="0"/>
+        <column name="timezone" type="VARCHAR" defaultValue="Europe/Paris"/>
+
+        <column name="import_id" required="false" type="INTEGER"/>
+        <column name="ine" required="false" type="VARCHAR" size="50"/>
+        <column name="aaf_id" required="false" type="VARCHAR" size="50"/>
+        <column name="aaf_academy" required="false" type="VARCHAR" size="10"/>
+        <column name="aaf_level" required="false" type="VARCHAR" size="10"/>
+        <column name="aaf_cycle" required="false" type="VARCHAR" size="10"/>
+        <column name="aaf_linked" required="false" type="BOOLEAN" default="NULL"/>
+        <column name="account_requested" required="false" type="BOOLEAN" default="0"/>
+        <column name="archived" required="false" type="BOOLEAN" defaultValue="0"/>
+        <column name="archive_date" required="false" type="DATE"/>
+        <column name="expires_at" type="TIMESTAMP"/>
+        <column name="spot_clic" required="false" type="BOOLEAN" defaultValue="0"/>
+        <column name="country" required="false" size="5" type="VARCHAR"/>
+        <column name="email_validated" required="true" type="BOOLEAN" defaultValue="1"/>
+        <column name="email_confirmation_token" required="false" type="VARCHAR" size="255"/>
+        <column name="connexion_token" required="false" type="VARCHAR" size="255"/>
+        <column name="registration_step" required="false" type="INTEGER" default="NULL"/>
+        <column name="favorite_group_id" required="false" type="INTEGER" />
+        <column name="register_origin" required="false" type="varchar" size="100" />
+        <column name="phone" required="false" type="VARCHAR" size="50" />
+        <column name="beta" required="true" type="BOOLEAN" defaultValue="0" />
+
+        <foreign-key foreignTable="profile" name="FK_USER_PROFILE">
+            <reference foreign="id" local="profile_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="import" name="FK_USER_IMPORT" onDelete="SETNULL">
+            <reference foreign="id" local="import_id"/>
+        </foreign-key>
+        <index name="FK_USER_PROFILE">
+            <index-column name="profile_id"/>
+        </index>
+        <index name="FK_USER_BIRTHDAY">
+            <index-column name="birthday"/>
+        </index>
+        <index name="FK_USER_NAME">
+            <index-column name="first_name"/>
+            <index-column name="last_name"/>
+        </index>
+        <index name="FK_LAST_NAME">
+            <index-column name="last_name"/>
+        </index>
+        <index name="FK_FIRST_NAME">
+            <index-column name="first_name"/>
+        </index>
+        <index name="FK_USER_LOGIN">
+            <index-column name="login"/>
+        </index>
+        <index name="FK_USER_EMAIL">
+            <index-column name="email"/>
+        </index>
+        <index name="FK_USER_EXPIRES">
+            <index-column name="expires_at"/>
+        </index>
+        <index name="FK_USER_AAF">
+            <index-column name="aaf_id"/>
+        </index>
+        <index name="FK_USER_AAF_ACADEMY">
+            <index-column name="aaf_academy"/>
+        </index>
+        <index name="FK_USER_LAST_CONNECTION">
+            <index-column name="last_connection"/>
+        </index>
+        <index name="FK_USER_SLUG">
+            <index-column name="slug"/>
+        </index>
+        <index name="FK_CONNEXION_TOKEN">
+            <index-column name="token"/>
+        </index>
+        <behavior name="sluggable">
+            <parameter name="slug_column" value="slug"/>
+            <parameter name="slug_pattern" value="{FirstName}-{LastName}"/>
+            <parameter name="replace_pattern" value="/[^\w]+/u"/>
+            <parameter name="replacement" value="-"/>
+            <parameter name="separator" value="-"/>
+            <parameter name="permanent" value="false"/>
+        </behavior>
+        <behavior name="timestampable"/>
+    </table>
+    <table name="group">
+        <column name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="label" primaryString="true" required="true" size="255" type="VARCHAR"/>
+        <column name="group_type_id" required="true" type="INTEGER"/>
+        <column name="enabled" required="false" type="BOOLEAN" defaultValue="1"/>
+        <column name="archived" required="false" type="BOOLEAN" defaultValue="0"/>
+        <column name="archive_date" required="false" type="DATE"/>
+        <column name="expires_at" required="false" type="DATE"/>
+        <column name="registration_date" type="TIMESTAMP" required="true"/>
+        <column name="pending_validation_date" type="TIMESTAMP"/>
+        <column name="validation_status" required="true" type="ENUM"
+                valueSet="VALIDATED, PENDING_VALIDATION, PENDING_SCHOOL_EMAIL_ADDRESS, REFUSED"
+                defaultValue="PENDING_VALIDATION"/>
+        <column name="payment_status" required="true" type="ENUM"
+                valueSet="FREE, PAID, PENDING_PAYEMENT_CREDIT_CARD, PENDING_PAYEMENT_CHECK, PENDING_PAYMENT_ADMINISTRATIVE_WARRANT"
+                defaultValue="FREE"/>
+        <column name="confirmation_token" type="VARCHAR" size="255"/>
+        <column name="import_id" required="false" type="INTEGER"/>
+        <column name="aaf_id" required="false" type="VARCHAR" size="50"/>
+        <column name="aaf_academy" required="false" type="VARCHAR" size="10"/>
+        <column name="aaf_linked" required="false" type="BOOLEAN" default="NULL"/>
+        <column name="is_premium" type="BOOLEAN" defaultValue="0"/>
+        <column name="lang" required="false" size="5" type="VARCHAR"/>
+        <column name="country" required="false" size="5" type="VARCHAR"/>
+        <column name="enabled_at" required="false" type="DATE" />
+        <column name="sorted_modules" required="false" type="ARRAY" /> <!-- ordered ids of module -->
+        <column name="favorite_modules" required="false" type="ARRAY" /> <!-- ids of favorites module -->
+        <foreign-key foreignTable="group_type" name="FK_GROUP_GROUPTYPE" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="group_type_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="import" name="FK_GROUP_IMPORT" onDelete="SETNULL">
+            <reference foreign="id" local="import_id"/>
+        </foreign-key>
+        <index name="FK_GROUP_GROUPTYPE">
+            <index-column name="group_type_id"/>
+        </index>
+        <index name="FK_GROUP_AAF">
+            <index-column name="aaf_id"/>
+        </index>
+        <index name="FK_GROUP_AAF_ACADEMY">
+            <index-column name="aaf_academy"/>
+        </index>
+        <unique name="CONFIRMATION_TOKEN_IS_UNIQUE">
+            <unique-column name="confirmation_token"/>
+        </unique>
+        <behavior name="sluggable">
+            <parameter name="slug_column" value="slug"/>
+            <parameter name="slug_pattern" value="{label}"/>
+            <parameter name="replace_pattern" value="/[^\w]+/u"/>
+            <parameter name="replacement" value="-"/>
+            <parameter name="separator" value="-"/>
+            <parameter name="permanent" value="true"/>
+        </behavior>
+    </table>
+    <table name="group_type">
+        <column name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="centralize" required="true" type="BOOLEAN"/>
+        <column name="type" required="true" type="VARCHAR" size="255"/>
+        <column defaultValue="0" name="simulate_role" required="true" type="BOOLEAN"/>
+        <column defaultValue="1" name="is_recursive" required="true" type="BOOLEAN"/>
+        <index name="GROUPTYPE_TYPE">
+            <index-column name="type"/>
+        </index>
+    </table>
+    <table name="module">
+        <column name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="unique_name" required="true" size="255" type="VARCHAR"/>
+        <column name="is_contextable" required="true" type="BOOLEAN"/>
+        <column name="is_enabled" required="true" type="BOOLEAN" default="false"/>
+        <column name="type" required="true" type="ENUM" defaultValue="APP" valueSet="APP, EVENT"/>
+        <column name="bundle_name" size="100" type="VARCHAR"/>
+        <column name="default_pupil_rank" size="45" type="VARCHAR"/>
+        <column name="default_parent_rank" size="45" type="VARCHAR"/>
+        <column name="default_teacher_rank" size="45" type="VARCHAR"/>
+        <column name="default_other_rank" size="45" type="VARCHAR"/>
+        <unique name="UNIQUE_NAME_IS_UNIQUE">
+            <unique-column name="unique_name"/>
+        </unique>
+        <index name="BundleName">
+            <index-column name="bundle_name"/>
+        </index>
+    </table>
+
+    <table name="group_module" isCrossRef="true">
+        <column name="group_id" primaryKey="true" required="true" type="INTEGER" />
+        <column name="module_id" primaryKey="true" required="true" type="INTEGER" />
+        <foreign-key foreignTable="group" name="FK_GROUP_ID" onDelete="CASCADE">
+            <reference foreign="id" local="group_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="module" name="FK_MODULE_ID" onDelete="CASCADE">
+            <reference foreign="id" local="module_id"/>
+        </foreign-key>
+    </table>
+
+    <table name="group_type_data">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="group_type_id" required="true" type="INTEGER"/>
+        <column name="group_type_data_template_unique_name" required="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="group_type" name="FK_GROUPTYPEDATA_GROUPTYPE" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="group_type_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="group_type_data_template" name="FK_GROUPTYPEDATA_GROUPTYPEDATATEMPLATE"
+                     onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="unique_name" local="group_type_data_template_unique_name"/>
+        </foreign-key>
+        <index name="FK_GROUPTYPEDATA_GROUPTYPE">
+            <index-column name="group_type_id"/>
+        </index>
+        <index name="FK_GROUPTYPEDATA_GROUPTYPEDATATEMPLATE">
+            <index-column name="group_type_data_template_unique_name"/>
+        </index>
+    </table>
+    <table name="group_data">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="group_type_data_id" required="true" type="INTEGER"/>
+        <column name="group_id" required="true" type="INTEGER"/>
+        <column name="value" type="LONGVARCHAR"/>
+        <foreign-key foreignTable="group" name="FK_GROUPDATA_GROUP" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="group_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="group_type_data" name="FK_GROUPDATA_GROUPTYPEDATA" onDelete="CASCADE"
+                     onUpdate="CASCADE">
+            <reference foreign="id" local="group_type_data_id"/>
+        </foreign-key>
+        <index name="FK_GROUPDATA_GROUP">
+            <index-column name="group_id"/>
+        </index>
+        <index name="FK_GROUPDATA_GROUPTYPEDATA">
+            <index-column name="group_type_data_id"/>
+        </index>
+    </table>
+    <table name="group_type_data_choice">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="group_type_data_template_unique_name" required="true" size="255" type="VARCHAR"/>
+        <column name="value" required="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="group_type_data_template" name="FK_GROUPTYPEDATACHOICE_GROUPTYPEDATA_TEMPLATE"
+                     onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="unique_name" local="group_type_data_template_unique_name"/>
+        </foreign-key>
+        <index name="FK_GROUPTYPEDATACHOICE_GROUPTYPEDATA_TEMPLATE">
+            <index-column name="group_type_data_template_unique_name"/>
+        </index>
+    </table>
+    <table name="group_data_choice">
+        <column name="group_data_id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="group_type_data_choice_id" primaryKey="true" required="true" type="INTEGER"/>
+        <foreign-key foreignTable="group_type_data_choice" name="FK_GROUPDATACHOICE_GROUPTYPEDATACHOICE"
+                     onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="group_type_data_choice_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="group_data" name="FK_GROUPDATA_CHOICE_GROUPDATA" onDelete="CASCADE"
+                     onUpdate="CASCADE">
+            <reference foreign="id" local="group_data_id"/>
+        </foreign-key>
+        <index name="FK_GROUPDATACHOICE_GROUPTYPEDATACHOICE">
+            <index-column name="group_type_data_choice_id"/>
+        </index>
+        <index name="FK_GROUPDATA_CHOICE_GROUPDATA">
+            <index-column name="group_data_id"/>
+        </index>
+    </table>
+    <table name="group_type_data_template">
+        <column name="unique_name" primaryKey="true" required="true" size="255" type="VARCHAR"/>
+        <column name="type" required="true" type="ENUM" valueSet="SINGLE, ONE_CHOICE, MULTIPLE_CHOICE, TEXT, BOOLEAN"/>
+        <column name="default_value" size="255" type="VARCHAR"/>
+    </table>
+    <table name="profile">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="job" size="255" type="VARCHAR"/>
+        <column name="description" type="LONGVARCHAR"/>
+        <column name="avatar_id" type="INTEGER"/>
+        <column name="assistance_enabled" type="boolean" default="0" />
+        <column name="close_yerbook" type="boolean" default="0" />
+        <foreign-key foreignTable="media" phpName="Resource" name="FK_PROFILE_AVATAR" onDelete="SETNULL">
+            <reference foreign="id" local="avatar_id"/>
+        </foreign-key>
+        <behavior name="aggregate_column">
+            <parameter name="name" value="nb_feeds"/>
+            <parameter name="foreign_table" value="profile_feed"/>
+            <parameter name="expression" value="COUNT(profile_id)"/>
+        </behavior>
+        <behavior name="bns_templatable"/>
+        <behavior name="bns_media_attachmentable"/>
+    </table>
+    <table name="profile_preference">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="profile_id" required="true" type="INTEGER"/>
+        <column name="item" required="true" size="255" type="VARCHAR"/>
+        <column name="is_like" required="true" type="BOOLEAN"/>
+        <foreign-key foreignTable="profile" name="FK_PROFILEPREFERENCE_PROFILE">
+            <reference foreign="id" local="profile_id"/>
+        </foreign-key>
+        <index name="FK_PROFILEPREFERENCE_PROFILE">
+            <index-column name="profile_id"/>
+        </index>
+    </table>
+    <table name="profile_feed">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="profile_id" required="true" type="INTEGER"/>
+        <column name="date" required="true" type="TIMESTAMP"/>
+        <column name="status" required="true" type="ENUM" defaultValue="PENDING_VALIDATION"
+                valueSet="PENDING_VALIDATION, VALIDATED, REFUSED, PUBLISHABLE"/>
+        <column name="publishable" required="false" type="BOOLEAN"/>
+        <foreign-key foreignTable="profile" name="FK_PROFILEFEED_PROFILE">
+            <reference foreign="id" local="profile_id"/>
+        </foreign-key>
+        <index name="FK_PROFILEFEED_PROFILE">
+            <index-column name="profile_id"/>
+        </index>
+    </table>
+    <table name="profile_feed_status">
+        <column name="feed_id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="content" required="true" type="LONGVARCHAR"/>
+        <column name="resource_id" type="INTEGER"/>
+        <column name="module_unique_name" type="VARCHAR" size="60"/>
+        <foreign-key foreignTable="profile_feed" name="FK_PROFILEFEEDSTATUS_PROFILEFEED" onDelete="CASCADE"
+                     onUpdate="CASCADE">
+            <reference foreign="id" local="feed_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="media" phpName="Resource" name="FK_ProfileFeedStatus_Resource" onDelete="SETNULL">
+            <reference foreign="id" local="resource_id"/>
+        </foreign-key>
+        <index name="FK_PROFILEFEEDSTATUS_PROFILEFEED">
+            <index-column name="feed_id"/>
+        </index>
+    </table>
+    <table name="profile_feed_resource">
+        <column name="feed_id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="resource_id" required="true" type="INTEGER"/>
+        <column name="description" type="LONGVARCHAR"/>
+        <foreign-key foreignTable="profile_feed" name="FK_PROFILEFEEDVIDEO_PROFILEFEED" onDelete="CASCADE"
+                     onUpdate="CASCADE">
+            <reference foreign="id" local="feed_id"/>
+        </foreign-key>
+        <index name="FK_PROFILEFEEDVIDEO_PROFILEFEED">
+            <index-column name="feed_id"/>
+        </index>
+    </table>
+    <table name="profile_comment">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="object_id" required="true" type="INTEGER"/>
+        <column name="author_id" required="true" type="INTEGER"/>
+        <column name="date" required="true" type="TIMESTAMP"/>
+        <column name="content" required="true" type="LONGVARCHAR"/>
+        <column name="status" required="true" type="ENUM" defaultValue="PENDING_VALIDATION"
+                valueSet="PENDING_VALIDATION, VALIDATED, REFUSED"/>
+        <foreign-key foreignTable="profile_feed" name="FK_PROFILECOMMENT_PROFILEFEED" onDelete="CASCADE"
+                     onUpdate="CASCADE">
+            <reference foreign="id" local="object_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="user" name="FK_PROFILECOMMENT_USER" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="author_id"/>
+        </foreign-key>
+        <index name="FK_PROFILECOMMENT_PROFILEFEED">
+            <index-column name="object_id"/>
+        </index>
+        <index name="FK_PROFILECOMMENT_USER">
+            <index-column name="author_id"/>
+        </index>
+    </table>
+    <table name="email_template">
+        <column name="label" required="true" size="255" type="VARCHAR"/>
+        <column name="unique_name" primaryKey="true" required="true" size="255" type="VARCHAR"/>
+        <column name="subject" required="true" size="255" type="VARCHAR"/>
+        <column name="html_body" required="true" type="LONGVARCHAR"/>
+        <column name="plain_body" required="true" type="LONGVARCHAR"/>
+        <column name="vars" required="true" size="255" type="VARCHAR"/>
+        <column name="html_layout" required="true" type="VARCHAR" size="255"
+                defaultValue="BNSAppMailerBundle:Layout:base_html.html.twig"/>
+        <column name="plain_layout" required="true" type="VARCHAR" size="255"
+                defaultValue="BNSAppMailerBundle:Layout:base_plain.html.twig"/>
+        <behavior name="i18n">
+            <parameter name="i18n_columns" value="subject, label, html_body, plain_body"/>
+            <parameter name="locale_column" value="lang"/>
+            <parameter name="i18n_table" value="email_template_i18n"/>
+            <parameter name="i18n_phpname" value="EmailTemplateI18n"/>
+        </behavior>
+    </table>
+    <table name="blog">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="group_id" required="true" type="INTEGER"/>
+        <column name="avatar_resource_id" type="INTEGER"/>
+        <column name="title" required="true" size="255" type="VARCHAR"/>
+        <column name="description" type="LONGVARCHAR"/>
+        <column defaultValue="1" name="is_comment_moderate" required="true" type="BOOLEAN"/>
+        <foreign-key foreignTable="group" name="FK_BLOG_GROUP" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="group_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="media" phpName="Resource" name="FK_BLOG_RESOURCE" onDelete="SETNULL"
+                     onUpdate="CASCADE">
+            <reference foreign="id" local="avatar_resource_id"/>
+        </foreign-key>
+        <index name="FK_BLOG_GROUP">
+            <index-column name="group_id"/>
+        </index>
+    </table>
+    <table name="blog_article">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="blog_reference_id" required="true" type="INTEGER"/>
+        <column name="author_id" required="true" type="INTEGER"/>
+        <column name="created_at" required="true" type="TIMESTAMP"/>
+        <column name="published_at" type="TIMESTAMP"/>
+        <column name="updated_at" type="TIMESTAMP"/>
+        <column name="title" required="true" size="255" type="VARCHAR"/>
+        <column name="content" type="CLOB"/>
+        <column defaultValue="DRAFT" name="status" type="ENUM"
+                valueSet="DRAFT, PUBLISHED, FINISHED, WAITING_FOR_CORRECTION"/>
+        <column defaultValue="0" name="is_star" required="true" type="BOOLEAN"/>
+        <column defaultValue="1" name="is_comment_allowed" required="true" type="BOOLEAN"/>
+        <foreign-key foreignTable="blog" name="FK_BLOGARTICLE_BLOG" onDelete="CASCADE" onUpdate="CASCADE"
+                     phpName="blogReference">
+            <reference foreign="id" local="blog_reference_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="user" name="FK_BLOGARTICLE_USER" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="author_id"/>
+        </foreign-key>
+        <index name="FK_BLOGARTICLE_BLOG">
+            <index-column name="blog_reference_id"/>
+        </index>
+        <index name="FK_BLOGARTICLE_USER">
+            <index-column name="author_id"/>
+        </index>
+        <behavior name="sluggable">
+            <parameter name="slug_column" value="slug"/>
+            <parameter name="slug_pattern" value="{title}"/>
+            <parameter name="replace_pattern" value="/[^\w]+/u"/>
+            <parameter name="replacement" value="-"/>
+            <parameter name="separator" value="-"/>
+            <parameter name="permanent" value="false"/>
+        </behavior>
+        <behavior name="bns_media_attachmentable"/>
+    </table>
+    <table name="blog_article_blog" isCrossRef="true">
+        <column name="article_id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="blog_id" primaryKey="true" required="true" type="INTEGER"/>
+        <foreign-key foreignTable="blog_article" name="FK_BLOGARTICLEBLOG_BLOGARTICLE" onDelete="CASCADE"
+                     onUpdate="CASCADE" phpName="BlogRel">
+            <reference foreign="id" local="article_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="blog" name="FK_BLOGARTICLEBLOG_BLOG" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="blog_id"/>
+        </foreign-key>
+        <index name="FK_BLOGARTICLECATEGORY_BLOGARTICLE">
+            <index-column name="article_id"/>
+        </index>
+        <index name="FK_BLOGARTICLECATEGORY_BLOGCATEGORY">
+            <index-column name="blog_id"/>
+        </index>
+    </table>
+    <table name="blog_category">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="blog_id" required="true" type="INTEGER"/>
+        <column name="title" required="true" size="255" type="VARCHAR"/>
+        <column name="icon_classname" required="false" size="50" type="VARCHAR" defaultValue="default"/>
+        <foreign-key foreignTable="blog" name="FK_BLOGCATEGORY_BLOG" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="blog_id"/>
+        </foreign-key>
+        <index name="FK_BLOGCATEGORY_BLOG">
+            <index-column name="blog_id"/>
+        </index>
+        <behavior name="nested_set">
+            <parameter name="left_column" value="left"/>
+            <parameter name="right_column" value="right"/>
+            <parameter name="level_column" value="level"/>
+            <parameter name="use_scope" value="true"/>
+            <parameter name="scope_column" value="blog_id"/>
+        </behavior>
+        <behavior name="sluggable">
+            <parameter name="slug_column" value="slug"/>
+            <parameter name="slug_pattern" value="{title}"/>
+            <parameter name="replace_pattern" value="/[^\w]+/u"/>
+            <parameter name="replacement" value="-"/>
+            <parameter name="separator" value="-"/>
+            <parameter name="permanent" value="true"/>
+        </behavior>
+    </table>
+    <table name="blog_article_category" isCrossRef="true">
+        <column name="article_id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="category_id" primaryKey="true" required="true" type="INTEGER"/>
+        <foreign-key foreignTable="blog_article" name="FK_BLOGARTICLECATEGORY_BLOGARTICLE" onDelete="CASCADE"
+                     onUpdate="CASCADE">
+            <reference foreign="id" local="article_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="blog_category" name="FK_BLOGARTICLECATEGORY_BLOGCATEGORY" onDelete="CASCADE"
+                     onUpdate="CASCADE">
+            <reference foreign="id" local="category_id"/>
+        </foreign-key>
+        <index name="FK_BLOGARTICLECATEGORY_BLOGARTICLE">
+            <index-column name="article_id"/>
+        </index>
+        <index name="FK_BLOGARTICLECATEGORY_BLOGCATEGORY">
+            <index-column name="category_id"/>
+        </index>
+    </table>
+    <table name="blog_article_comment">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="object_id" required="true" type="INTEGER"/>
+        <column name="author_id" required="true" type="INTEGER"/>
+        <column name="blog_id" required="false" type="INTEGER"/>
+        <column name="date" required="true" type="TIMESTAMP"/>
+        <column name="content" required="true" type="LONGVARCHAR"/>
+        <column name="status" required="true" type="ENUM" defaultValue="PENDING_VALIDATION"
+                valueSet="PENDING_VALIDATION, VALIDATED, REFUSED"/>
+        <foreign-key foreignTable="blog_article" name="FK_BLOGARTICLECOMMENT_BLOGARTICLE" onDelete="CASCADE"
+                     onUpdate="CASCADE">
+            <reference foreign="id" local="object_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="blog" name="FK_BLOGCOMMENT_BLOGARTICLE" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="blog_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="user" name="FK_BLOGARTICLECOMMENT_USER" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="author_id"/>
+        </foreign-key>
+        <index name="FK_BLOGARTICLECOMMENT_BLOGARTICLE">
+            <index-column name="object_id"/>
+        </index>
+        <index name="FK_BLOGARTICLECOMMENT_USER">
+            <index-column name="author_id"/>
+        </index>
+        <index name="FK_BLOGARTICLECOMMENT_BLOG">
+            <index-column name="blog_id"/>
+        </index>
+    </table>
+    <table name="permission">
+        <column name="unique_name" primaryKey="true" required="true" size="255" type="VARCHAR"/>
+        <column name="module_id" type="INTEGER"/>
+        <column defaultValue="1" name="is_activable" required="true" type="BOOLEAN"/>
+        <foreign-key foreignTable="module" name="FK_PERMISSION_MODULE" onDelete="CASCADE">
+            <reference foreign="id" local="module_id"/>
+        </foreign-key>
+        <index name="FK_PERMISSION_MODULE">
+            <index-column name="module_id"/>
+        </index>
+    </table>
+    <table name="rank">
+        <column name="unique_name" primaryKey="true" required="true" size="255" type="VARCHAR"/>
+        <column name="module_id" required="true" type="INTEGER"/>
+        <foreign-key foreignTable="module" name="FK_RANK_MODULE" onDelete="CASCADE">
+            <reference foreign="id" local="module_id"/>
+        </foreign-key>
+        <index name="FK_RANK_MODULE">
+            <index-column name="module_id"/>
+        </index>
+    </table>
+    <table name="rank_default">
+        <column name="group_type" primaryKey="true" required="true" size="60" type="VARCHAR"/>
+        <column name="rank_default" primaryKey="true" required="true" size="60" type="VARCHAR"/>
+        <column name="role" primaryKey="true" required="true" size="60" type="VARCHAR"/>
+        <column name="module_unique_name" primaryKey="true" required="true" size="60" type="VARCHAR"/>
+        <column name="beta" type="BOOLEAN" defaultValue="0" />
+        <foreign-key foreignTable="module" name="FK_RANK_DEFAULT_MODULE" onDelete="CASCADE">
+            <reference foreign="unique_name" local="module_unique_name"/>
+        </foreign-key>
+        <behavior name="timestampable"/>
+    </table>
+    <table name="agenda">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="title" size="255" type="VARCHAR"/>
+        <column name="group_id" type="INTEGER"/>
+        <column name="color_class" required="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="group" name="FK_AGENDA_GROUP" onDelete="CASCADE">
+            <reference foreign="id" local="group_id"/>
+        </foreign-key>
+        <index name="FK_AGENDA_GROUP">
+            <index-column name="group_id"/>
+        </index>
+    </table>
+    <table name="agenda_event">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="title" required="true" size="255" type="VARCHAR"/>
+        <column name="date_start" required="true" type="DATE"/>
+        <column name="date_end" required="true" type="DATE"/>
+        <column name="agenda_id" required="true" type="INTEGER"/>
+        <column defaultValue="0" name="is_recurring" required="true" type="BOOLEAN"/>
+        <column name="icalendar_vevent" required="true" type="CLOB"/>
+        <column defaultValue="0" name="is_all_day" required="true" type="BOOLEAN"/>
+        <foreign-key foreignTable="agenda" name="FK_AGENDAEVENT_AGENDA" onDelete="CASCADE">
+            <reference foreign="id" local="agenda_id"/>
+        </foreign-key>
+        <index name="FK_AGENDAEVENT_AGENDA">
+            <index-column name="agenda_id"/>
+        </index>
+        <behavior name="sluggable">
+            <parameter name="slug_column" value="slug"/>
+            <parameter name="slug_pattern" value="{title}"/>
+            <parameter name="replace_pattern" value="/[^\w]+/u"/>
+            <parameter name="replacement" value="-"/>
+            <parameter name="separator" value="-"/>
+            <parameter name="permanent" value="true"/>
+        </behavior>
+        <behavior name="bns_media_attachmentable"/>
+    </table>
+    <table name="liaison_book">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="title" required="true" size="255" type="VARCHAR"/>
+        <column name="content" required="true" type="CLOB"/>
+        <column name="date" required="true" type="TIMESTAMP"/>
+        <column name="group_id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="author_id" primaryKey="true" required="true" type="INTEGER"/>
+        <foreign-key foreignTable="group" name="fk_liaison_book_group1" onDelete="CASCADE">
+            <reference foreign="id" local="group_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="user" name="fk_liaison_book_user1" onDelete="CASCADE">
+            <reference foreign="id" local="author_id"/>
+        </foreign-key>
+        <index name="fk_liaison_book_group1">
+            <index-column name="group_id"/>
+        </index>
+        <behavior name="bns_media_attachmentable"/>
+        <behavior name="timestampable"/>
+        <behavior name="sluggable">
+            <parameter name="slug_column" value="slug"/>
+            <parameter name="slug_pattern" value="{title}"/>
+            <parameter name="replace_pattern" value="/[^\w]+/u"/>
+            <parameter name="replacement" value="-"/>
+            <parameter name="separator" value="-"/>
+            <parameter name="permanent" value="false"/>
+        </behavior>
+    </table>
+    <table name="liaison_book_signature">
+        <column name="id" primaryKey="true" required="true" type="INTEGER" autoIncrement="true"/>
+        <column name="user_id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="liaison_book_id" primaryKey="true" required="true" type="INTEGER"/>
+        <foreign-key foreignTable="user" name="fk_liaison_book_signature_user1" onDelete="CASCADE">
+            <reference foreign="id" local="user_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="liaison_book" name="fk_liaison_book_signature_liaison_book1" onDelete="CASCADE">
+            <reference foreign="id" local="liaison_book_id"/>
+        </foreign-key>
+        <index name="fk_liaison_book_signature_user1">
+            <index-column name="user_id"/>
+        </index>
+        <index name="fk_liaison_book_signature_liaison_book1">
+            <index-column name="liaison_book_id"/>
+        </index>
+        <behavior name="timestampable"/>
+    </table>
+    <table name="pupil_parent_link">
+        <column name="user_pupil_id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="user_parent_id" primaryKey="true" required="true" type="INTEGER"/>
+        <foreign-key foreignTable="user" name="FK_PupilParentLink_User_Pupil" onDelete="CASCADE">
+            <reference foreign="id" local="user_pupil_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="user" name="FK_PupilParentLink_User_Parent" onDelete="CASCADE">
+            <reference foreign="id" local="user_parent_id"/>
+        </foreign-key>
+        <index name="FK_PupilParentLink_User_Pupil">
+            <index-column name="user_pupil_id"/>
+        </index>
+        <index name="FK_PupilParentLink_User_Parent">
+            <index-column name="user_parent_id"/>
+        </index>
+    </table>
+    <table name="pupil_assistant_link">
+        <column name="pupil_id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="assistant_id" primaryKey="true" required="true" type="INTEGER"/>
+        <foreign-key foreignTable="user" name="FK_pupil_assistant_link_pupil" onDelete="CASCADE">
+            <reference foreign="id" local="pupil_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="user" name="FK_pupil_assistant_link_assistant" onDelete="CASCADE">
+            <reference foreign="id" local="assistant_id"/>
+        </foreign-key>
+        <index name="FI_pupil_assistant_link_pupil">
+            <index-column name="pupil_id"/>
+        </index>
+        <index name="FI_pupil_assistant_link_assistant">
+            <index-column name="assistant_id"/>
+        </index>
+    </table>
+    <table name="user_guide_tour">
+        <column name="user_id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="route" primaryKey="true" required="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="user" name="FK_UserGuideTour_User" onDelete="CASCADE">
+            <reference foreign="id" local="user_id"/>
+        </foreign-key>
+        <index name="FK_UserGuideTour_User">
+            <index-column name="user_id"/>
+        </index>
+    </table>
+    <table name="logging">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="user_id" required="false" type="INTEGER"/>
+        <column name="group_id" required="false" type="INTEGER"/>
+        <column name="username" required="false" size="255" type="VARCHAR"/>
+        <column name="route" required="true" size="255" type="VARCHAR"/>
+        <column name="action" required="true" size="255" type="VARCHAR"/>
+        <column name="module" required="false" size="255" type="VARCHAR"/>
+        <column name="ip" required="false" size="50" type="VARCHAR"/>
+        <column name="parameters" required="false" type="LONGVARCHAR"/>
+        <behavior name="timestampable"/>
+    </table>
+    <table name="import">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="date_create" required="true" type="TIMESTAMP"/>
+        <column name="date_launch" required="false" type="TIMESTAMP"/>
+        <column name="date_end" required="false" type="TIMESTAMP"/>
+        <column name="type" required="true" type="VARCHAR"/>
+        <column name="data_validated_nbr" required="false" type="INTEGER"/>
+        <column name="data_error_nbr" required="false" type="INTEGER"/>
+        <column name="status" required="true" type="VARCHAR"/>
+        <column name="error_msg" required="false" type="LONGVARCHAR"/>
+        <column name="file_line_total_nbr" required="false" type="INTEGER"/>
+        <column name="file_line_processed_nbr" required="false" type="INTEGER"/>
+        <column name="file_line_add_nbr" required="false" type="INTEGER"/>
+        <column name="file_line_modify_nbr" required="false" type="INTEGER"/>
+        <column name="file_line_delete_nbr" required="false" type="INTEGER"/>
+        <column name="user_id" required="false" type="INTEGER"/>
+        <column name="group_id" required="false" type="INTEGER"/>
+        <foreign-key foreignTable="group" name="FK_IMPORT_GROUP" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="group_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="user" name="FK_IMPORT_USER" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="user_id"/>
+        </foreign-key>
+    </table>
+    <table name="import_waiting_attribution">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="import_id" required="false" type="INTEGER"/>
+        <column name="child_identifier" required="true" type="VARCHAR"/>
+        <column name="child_identifier_type" required="true" type="VARCHAR"/>
+        <column name="parent_identifier" required="true" type="VARCHAR"/>
+        <column name="parent_identifier_type" required="true" type="VARCHAR"/>
+        <behavior name="timestampable"/>
+        <foreign-key foreignTable="import" name="FK_IMPORT_WAITING_ATTRIBUTION" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="import_id"/>
+        </foreign-key>
+    </table>
+    <table name="api_limit">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="ip" required="true" type="INTEGER"/>
+        <column name="action" required="true" type="VARCHAR"/>
+        <column name="value" required="true" default="0" type="INTEGER"/>
+        <behavior name="timestampable"/>
+        <index name="INDEX_API_LIMIT_IP">
+            <index-column name="ip"/>
+        </index>
+        <index name="INDEX_API_LIMIT_ACTION">
+            <index-column name="action"/>
+        </index>
+    </table>
+    <table name="ip2country">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="min" required="true" type="INTEGER"/>
+        <column name="max" required="true" type="INTEGER"/>
+        <column name="code" required="true" type="VARCHAR" size="4" />
+        <column name="name" required="true" type="VARCHAR" size="100" />
+    </table>
+
+    <table name="activity">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+        <column name="unique_name" type="varchar" size="255" required="true" />
+        <column name="label" type="varchar" size="255" required="true" primaryString="true" />
+        <column name="image_url" type="longvarchar" />
+        <column name="offer_data" type="object" />
+        <unique>
+            <unique-column name="unique_name" />
+        </unique>
+
+        <behavior name="timestampable" />
+    </table>
+
+    <table name="group_activity">
+        <column name="group_id" type="integer" required="true" primaryKey="true" />
+        <column name="activity_id" type="integer" required="true" primaryKey="true" />
+
+        <column name="opened" type="boolean" default="0" />
+        <column name="uninstalled" type="boolean" default="0" />
+        <column name="expired" type="boolean" default="0" />
+
+        <foreign-key name="FK_GROUP_ACTIVITY_GROUP" foreignTable="group" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="group_id" />
+        </foreign-key>
+        <foreign-key name="FK_GROUP_ACTIVITY_ACTIVITY" foreignTable="activity" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="activity_id" />
+        </foreign-key>
+
+        <behavior name="timestampable" />
+    </table>
 </database>

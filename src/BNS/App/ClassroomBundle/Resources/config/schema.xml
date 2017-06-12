@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\ClassroomBundle\Model">
+    <table name="classroom_newspaper">
+        <column name="id" primaryKey="true" autoIncrement="true" required="true" type="INTEGER"/>
+        <column name="date" required="true" type="date"/>
+        <column name="title" primaryString="true" type="VARCHAR" size="255"/>
+        <column name="media_title" type="VARCHAR" size="255"/>
+        <column name="media_preview_id" required="false" type="INTEGER"/>
+        <column name="media_id" required="false" type="INTEGER"/>
+        <column name="joke" required="false" type="LONGVARCHAR"/>
+        <column name="riddle" required="false" type="LONGVARCHAR"/>
+        <column name="riddle_answer" required="false" type="LONGVARCHAR"/>
+        <column name="text" required="false" type="LONGVARCHAR"/>
+        <column name="views" required="false" type="INTEGER" default="0"/>
+        <column name="is_calendar" required="false" type="INTEGER"/>
+        <column name="caption" required="false" type="VARCHAR" size="255"/>
+        <column name="lended_by" required="false" type="VARCHAR" size="255"/>
+        <column name="day_read" required="false" type="LONGVARCHAR"/>
+        <foreign-key foreignTable="media" name="fk_classroom_newspaper_media">
+            <reference foreign="id" local="media_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="media" name="fk_classroom_newspaper_media_preview">
+            <reference foreign="id" local="media_preview_id"/>
+        </foreign-key>
+        <behavior name="timestampable"/>
+        <index name="CLASSROOM_NEWSPAPER_DATE">
+            <index-column name="date"/>
+        </index>
+    </table>
+
+
+    <table name="avent_calendar">
+        <column name="id" type="INTEGER" autoIncrement="true" primaryKey="true" required="true"/>
+        <column name="user_id" type="INTEGER" primaryKey="true" required="true"/>
+        <foreign-key foreignTable="user" name="fk_classroom_calendar_user1" onDelete="CASCADE">
+            <reference foreign="id" local="user_id"/>
+        </foreign-key>
+        <column name="days" type="ARRAY" required="false"/>
+    </table>
+
+    <table name="group_blackboard">
+        <column name="id" primaryKey="true" autoIncrement="true" required="true" type="INTEGER"/>
+        <column name="group_id" required="true" type="INTEGER"/>
+        <column name="title" primaryString="true" type="VARCHAR" size="255"/>
+        <column name="description" required="true" type="LONGVARCHAR"/>
+        <column name="notice" required="true" type="LONGVARCHAR"/>
+        <column name="image_id" type="INTEGER"/>
+        <column name="flux" type="INTEGER"/>
+
+        <foreign-key foreignTable="group" name="FK_GROUP_BLACKBOARD_GROUP" onDelete="CASCADE">
+            <reference foreign="id" local="group_id" />
+        </foreign-key>
+
+        <foreign-key foreignTable="media" phpName="Resource" name="FK_BLACKBOARD_IMAGE" onDelete="SETNULL">
+            <reference foreign="id" local="image_id"/>
+        </foreign-key>
+
+        <behavior name="bns_media_attachmentable"/>
+    </table>
+
+    <table name="classroom_push">
+        <column name="id" primaryKey="true" autoIncrement="true" required="true" type="INTEGER" />
+        <column name="from_date" type="DATE" />
+        <column name="to_date" type="DATE" />
+        <column name="module_unique_name" type="VARCHAR" size="255" required="false" />
+        <column name="title" type="VARCHAR" size="255" required="false" />
+        <column name="description" type="LONGVARCHAR" required="false" />
+
+        <index name="CLASSROOM_PUSH_INDEX_FROM_DATE">
+            <index-column name="from_date"/>
+        </index>
+        <index name="CLASSROOM_PUSH_INDEX_TO_DATE">
+            <index-column name="to_date"/>
+        </index>
+
+        <behavior name="i18n">
+            <parameter name="i18n_columns" value="title, description" />
+            <parameter name="default_locale" value="en" />
+        </behavior>
+    </table>
+</database>

@@ -1,0 +1,37 @@
+<nav layout="column" role="menubar">
+  <a ui-sref="app.breakfastTour.map"
+    ui-sref-active="active"
+    class="navigation-map"
+    role="menuitem"
+    aria-label="Map"
+  >
+    <md-tooltip md-direction="right">{{ ::'BREAKFAST_TOUR.NAVIGATION_BACK_TO_MAP' | translate }}</md-tooltip>
+  </a>
+  <a ui-sref="app.breakfastTour.breakfast.details({code: ctrl.breakfast.code})"
+    ui-sref-active="active"
+    ng-if="ctrl.breakfast.unlocked"
+    class="navigation-details details-{{ ::ctrl.breakfast.code }}"
+    role="menuitem"
+    aria-label="Breakfast details"
+  >
+    <md-tooltip md-direction="right">{{ ::'BREAKFAST_TOUR.NAVIGATION_THE_TRAY' | translate }}</md-tooltip>
+  </a>
+  <a ui-sref="app.breakfastTour.breakfast.ingredients({code: ctrl.breakfast.code})"
+    ui-sref-active="active"
+    ng-if="ctrl.breakfast.unlocked"
+    class="navigation-ingredients ingredients-{{ :: ctrl.breakfast.code }}"
+    role="menuitem"
+    aria-label="Breakfast ingredients"
+  >
+    <md-tooltip md-direction="right">{{ ::'BREAKFAST_TOUR.NAVIGATION_THE_INGREDIENTS' | translate }}</md-tooltip>
+  </a>
+  <a ui-sref="app.breakfastTour.breakfast.flavors({code: ctrl.breakfast.code})"
+    ui-sref-active="active"
+    ng-if="ctrl.breakfast.unlocked"
+    class="navigation-flavors flavors-{{ ::ctrl.breakfast.code }}"
+    role="menuitem"
+    aria-label="Breakfast flavors"
+  >
+    <md-tooltip md-direction="right"> {{ ::'BREAKFAST_TOUR.NAVIGATION_THE_FLAVORS' | translate }}</md-tooltip>
+  </a>
+</nav>

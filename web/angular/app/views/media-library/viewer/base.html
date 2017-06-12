@@ -1,0 +1,106 @@
+<div class="media-library-topbar-container">
+
+  <div class="media-library-topbar">
+
+    <div class="btn-toolbar media-library-topbar-toolbar">
+
+      <!-- back -->
+      <div class="toolbar-section">
+        <bns-starter-kit-pointer step="1-2.4" pointer="back"></bns-starter-kit-pointer>
+        <div class="btn-group" bns-starter-kit-explanation
+             bns-starter-kit-validate="click"
+             step="1-2.8|2-3.3">
+          <button ng-click="isViewMode ? closeMediaLibrary() : navigateBack()" class="btn">
+            <i class="bns-icon-arrow-left round"></i>
+            <strong translate>MEDIA_LIBRARY.BACK</strong>
+          </button>
+        </div>
+      </div>
+
+      <!-- move / fav / private -->
+      <div ng-if="media.manageable" class="toolbar-section">
+        <bns-starter-kit-pointer step="1-2.4" pointer="copy"></bns-starter-kit-pointer>
+        <div class="btn-group">
+          <div ng-click="copyInDocuments()" class="btn btn-multiline">
+            <i class="bns-icon-refresh round"></i>
+            <span translate>MEDIA_LIBRARY.COPY_IN_DOCUMENTS_HTML</span>
+          </div>
+        </div>
+
+        <bns-starter-kit-pointer step="1-2.4" pointer="favorite"></bns-starter-kit-pointer>
+        <div class="btn-group" bns-starter-kit-explanation
+             bns-starter-kit-validate="click"
+             step="2-7.5">
+          <div ng-click="toggleFavorite()" class="btn btn-multiline">
+            <i ng-if="!media.is_favorite" class="bns-icon-star-empty"></i>
+            <i ng-if="media.is_favorite" class="bns-icon-star"></i>
+            <span ng-if="!media.is_favorite" translate>MEDIA_LIBRARY.FAVORITE_ITEM_HTML</span>
+            <span ng-if="media.is_favorite" translate>MEDIA_LIBRARY.UNFAVORITE_ITEM_HTML</span>
+          </div>
+        </div>
+
+        <bns-starter-kit-pointer step="1-2.4" pointer="private"></bns-starter-kit-pointer>
+        <div class="btn-group" bns-starter-kit-explanation
+             bns-starter-kit-validate="click"
+             step="1-2.7|2-7.1">
+          <div ng-click="togglePrivate()" class="btn btn-multiline">
+            <i ng-if="!media.is_private" class="bns-icon-lock-empty"></i>
+            <i ng-if="media.is_private" class="bns-icon-lock"></i>
+            <span ng-if="!media.is_private" translate>MEDIA_LIBRARY.PRIVATIZE_ITEM_HTML</span>
+            <span ng-if="media.is_private" translate>MEDIA_LIBRARY.PUBLICIZE_ITEM_HTML</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- delete -->
+      <div ng-if="media.writable" class="toolbar-section">
+        <bns-starter-kit-pointer step="1-2.4" pointer="delete"></bns-starter-kit-pointer>
+        <div class="btn-group">
+          <div ng-click="remove()" class="btn btn-danger-hover btn-multiline">
+            <i class="bns-icon-trash round"></i>
+            <span translate>MEDIA_LIBRARY.DELETE_ITEM_HTML</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- viewer / selection -->
+      <div class="toolbar-section pull-right">
+        <bns-starter-kit-pointer step="1-2.4" pointer="download"></bns-starter-kit-pointer>
+        <div ng-if="media && !isSelectionMode" class="btn-group">
+          <a ng-if="media | isMediaLink" href="{{ media.media_value }}" target="_blank" class="btn btn-lg btn-success">
+            <i class="bns-icon-download round"></i>
+            <strong translate>VIEWER.SEE_WEBSITE</strong>
+          </a>
+          <a ng-if="!((media | isMediaLink) || (media | isMediaHtml) || (media | isMediaHtmlBase) || (media | isMediaWorkshopDocument) ) && (media | isDownloadable)" href="{{ media.download_url }}" target="_blank" class="btn btn-lg btn-success">
+            <i class="bns-icon-download round"></i>
+            <strong translate>VIEWER.DOWNLOAD_DOCUMENT</strong>
+          </a>
+        </div>
+
+        <div ng-if="shared.globalSelectionEnabled && isSelectionMode" class="btn-group">
+          <button class="btn btn-lg btn-success" ng-disabled="!isSelectable(media)" ng-click="joinMedia()">
+            <i class="bns-icon-checked round"></i>
+            <strong translate>MEDIA_LIBRARY.JOIN_DOCUMENT</strong>
+          </button>
+        </div>
+
+        <div class="btn-group">
+          <div class="btn btn-text one-line" ng-click="isViewMode ? closeMediaLibrary() : navigateBack()"><strong>X</strong></div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="media-library-container media-library-viewer-container" bns-media-library-viewer-panel-state-watch>
+  <div class="media-library-viewer-panel-container"
+    ng-include="'/ent/angular/app/views/media-library/viewer/panel.html'"
+  ></div>
+
+  <div class="media-library-viewer-media-container"
+    ng-include="'/ent/angular/app/views/media-library/viewer/media.html'"
+  ></div>
+</div>

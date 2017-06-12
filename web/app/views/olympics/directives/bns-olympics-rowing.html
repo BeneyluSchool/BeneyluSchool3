@@ -1,0 +1,26 @@
+<p><strong><i>Clique sur l'aviron au bon moment : quand CARLA dit “Hop !”.<br>Si tu es en rythme, tu gagnes des points.<br>Si tu es décalé... tu en perds !</i></strong></p>
+
+<div class="olympics-rowing-game" bns-eat-click-if="true" style="overflow: hidden">
+  <div class="layout-row layout-align-space-between-start">
+    <span ng-style="{visibility: ctrl.rowing.window?'visible':'hidden'}" class="olympics-rowing-bubble">Hop !</span>
+    <div>
+      <h3 class="md-title">Ton score :</h3>
+      <div class="olympics-rowing-score md-whiteframe-z5">{{ctrl.rowing.score}}</div>
+    </div>
+  </div>
+
+  <div class="layout-column">
+    <md-button md-no-ink ng-click="ctrl.rowing.row()" ng-disabled="!ctrl.rowing.timer || !ctrl.played" class="md-raised md-accent flex layout-column layout-align-center-center">
+        <div class="olympics-icon-rowing layout-margin"></div>
+        <div>Rame !</div>
+    </md-button>
+
+    <md-button md-no-ink ng-if="!ctrl.played" ng-click="ctrl.begin()" class="md-raised md-accent flex">
+      Commence le jeu
+    </md-button>
+
+    <md-button md-no-ink ng-if="ctrl.played && !ctrl.rowing.timer" ng-click="ctrl.reset()" class="md-raised md-accent flex">
+      Recommence le jeu
+    </md-button>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<div class="title-container information-is-alert-choice">
+    <div class="title active border-blue">Alerte<span class="square icon-arrow"></span></div>
+    <div class="content-title">
+    {% if view is defined and view %}
+        <ul>
+            <li class="text-row">
+                <div>Est une alerte</div>
+            </li>
+        </ul>
+    {% else %}
+        <ul>
+            <li>
+                <label for="{{ form.is_alert.vars.id }}">
+                    <span>Est-ce une alerte ?</span>
+                    {{ form_widget(form.is_alert) }}
+                </label>
+            </li>
+        </ul>
+		<div class="alert alert-info bns-alert">
+			Si votre information est une alerte, celle-ci remontera tout en haut dans le fil d'informations.
+		</div>
+			
+        {% if form.is_alert.vars.errors|length > 0 %}
+			<div class="alert alert-danger bns-alert">
+				{{ form_errors(form.is_alert) }}
+			</div>
+        {% endif %}
+    {% endif %}
+    </div>
+</div>

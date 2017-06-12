@@ -1,0 +1,24 @@
+<div class="section active">
+	Messages
+	<span class="shadow-section"></span>
+</div>
+<div class="title-container">
+    <div class="title active border-light-blue">Archives<span class="square icon-arrow"></span></div>
+    <div class="content-title">
+        <div class="content-category">
+            <ol>
+                {% for dateArchive in datesArchives %}
+                        <li class="archive_link" id="{{ dateArchive|date("n")}}_{{ dateArchive|date("Y") }}">
+                            <div>
+                                <div>{{dateArchive|year_month_bns()}}</div>
+                                <span class="select {% if dateArchive|date('m') == app.session.get('notebook-archive-date-month') and dateArchive|date('Y') == app.session.get('notebook-archive-date-year') %} checked {% endif %}"></span>
+                            </div>
+                        </li>
+                    </a>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+</div>
+
+                                

@@ -1,56 +1,193 @@
+<div class="loader loader-h"></div>
+<div class="navigation">
+    {% if userLabel != null %}
+        <a href="{{ path('resource_navigate', {'slug': userLabel.getSlug() }) }}" rel="history" title="Mes documents" class="resource-nav my-documents" data-toggle="menu" data-target="#resource-toolbar-navigate-folder">
+            <span class="icons documents"></span>
+            Mes documents
+            {% set freeQuota = 100 - quota['percent'] %}
+            <abbr class="quota {{ quota['status'] }}" title="{{ quota['percent'] }}% d'espace utilisé ({{ quota['used'] }} / {{ quota['total'] }})">
+                <span class="used" style="width: {{ quota['percent'] }}%;"></span>
+            </abbr>
+            <span class="big-arrow"></span>
+        </a>
+        <div class="my-documents-folders hide">
+            <ul>
+                <li>
+                    <a href="{{ path('resource_favorites') }}" class="resource-nav favorite no-folder" rel="history" title="Mes favoris">
+                        <span class="icons arrow"></span>
+                        <span class="icons fav"></span>
+                        Mes favoris
+                        <div class="separator"></div>
+                    </a>
+                </li>
+                {% for childLabel in userLabel.getChildren() %}
+                    {% include 'BNSAppResourceBundle:FrontNavigation:sidebarLabel.html.twig' with {'label' : childLabel} %}
+                {% endfor %}
+                <li>
+                    <a href="{{ path('resource_garbage') }}" class="resource-nav garbage no-folder" rel="history" title="Corbeille">
+                        <span class="icons arrow"></span>
+                        <span class="icons garbage"></span>
+                        Corbeille
+                        <div class="separator"></div>
+                    </a>
+                </li>
+            </ul>
+        </div>
 
-<a class="home resource-nav {% if root_level is defined %} active {% endif %}" href="{{ path('BNSAppResourceBundle_home') }}">
-	Accueil
-</a>
-<div class="home-link-separation"></div>
+        <hr />
+    {% endif %}
 
-{% if root_level is defined %}
+    {% if has_right_somewhere('RESOURCE_ACCESS')  %}
+        {{ modal('change-context-modal', {
+            'title': 'Changer de médiathèque',
+            'body_template': {'template': 'BNSAppResourceBundle:Modal:change_context_body.html.twig'},
+            'footer_template': {'template': 'BNSAppResourceBundle:Modal:change_context_footer.html.twig'},
+            'type': 'info'
+        }) }}
 
-	<a href="#" class="resource-nav favorite">Mes favoris</a>
+        <a class="resource-nav context {% if accessGroups | length <= 1 %}no-change{% endif %}" rel="history" href="{{ path('resource_navigate', {'slug': groupContextLabel.getSlug() }) }}" title="{{ groupContextLabel.getLabel() }}" data-toggle="menu" data-target="#resource-toolbar-navigate-folder">
+            <img src="{{ asset(group_type_icon("", currentGroupType, 'medium')) }}" />
+            <span class="text">{{ groupContextLabel.getLabel() }}</span>
+            <span class="big-arrow"></span>
+            {% if accessGroups | length > 1 %}
+                <span class="change-context">
+                    Changer de médiathèque
+                </span>
+            {%  endif %}
+        </a>
 
-	<a href="#" id="user-{{ user_label.id}}" class="resource-nav my-folder">Mes documents</a>
+        <div class="group-folders hide">
+            <ul>
+                {% for childLabel in groupContextLabel.getChildren() %}
+                    {% include 'BNSAppResourceBundle:FrontNavigation:sidebarLabel.html.twig' with {'label' : childLabel} %}
+                {% endfor %}
+            </ul>
+        </div>
 
-	{% for label in group_labels %}
-		<a href="#" id="group-{{ label.id}}" class="resource-nav folder-closed">{{ label.label }}</a>
-	{% endfor %}
-	
-	<div class="home-link-separation"></div>
-		<a href="#" id="garbage" class="resource-nav garbage">Ma corbeille</a>
-	</div>
+        <hr />
+    {% endif %}
 
-{% else %}
+    <a class="resource-nav thesaurus">
 
-	<div class="current">
-		<div class="gap"></div>
-		<div class="folders">
-			{% include 'BNSAppResourceBundle:FrontNavigation:sidebarLabel.html.twig' with {'node' : root , 'current_label' : current_label , 'selection_ids' : selection_ids , 'show' : true } %}
-		</div>
-	</div>
-	<div class="content-sidebar-resource main-content">
-		<a id="resource-sidebar-new-label-btn" class="btn add create add-folder" data-target="#resourceAddLabel" data-toggle="modal" >Créer un nouveau dossier</a>
-		
-		
-		
-		{#<div id="resource-sidebar-new-label-waiting" style="display:none;">
-			<img src="{{ asset('/medias/images/commons/big-loader.gif') }}" />
-		</div>
-		<div class="container-resource-sidebar-new-label">
-			<div id="resource-sidebar-new-label-form" style="display:none;">
-				<p><span class="add-folder"></span>Création d'un nouveau dossier :</p>
-				<input id="resource-sidebar-new-label-input" type="text" />
-				<button id="resource-sidebar-new-label-submit" class="btn create-file">Valider</button>
-				<button id="resource-sidebar-new-label-cancel" class="btn create-file">Annuler</button>
-			</div>
-		</div>#}
-	</div>
+        <img src="{{ asset('/medias/images/resource/icons/thesaurus.png') }}" />
+        <span class="text">Thésaurus</span>
+        <span class="big-arrow"></span>
+    </a>
+
+    <div class="thesaurus-container hide">
+        <div class="search-container">
+            <div>
+                <div class="form">
+                    <p>Moteur de recherche</p>
+                    <form id="form-search" action="#" method="POST">
+                        <input type="text" placeholder="Exemple : {{ searchExample }}" id="search-input" />
+                        <input type="submit" value="" id="submit-search" />
+                    </form>
+                </div>
+
+                <ul class="tags-container"></ul>
+            </div>
+        </div>
+
+        <hr />
+        <div class="filters-container">
+            <div class="filter group">
+                <p>Par sources <span class="arrow"></span></p>
+                <ul>
+                    <li data-group="my-documents">Mes documents</li>
+                    {% for group in accessGroups %}
+                        {# TODO put uid #}
+                        <li class="is-group" data-group="{{ group.getId() }}">{{ group.getLabel() }}</li>
+                    {% endfor %}
+                    <li data-group="internet">Internet</li>
+                    {%  if canHaveCatalog %}
+                        <li data-group="provider_resources">Mes abonnements pédagogiques</li>
+                    {% endif %}
+                </ul>
+            </div>
+            {%  if canHaveCatalog %}
+                <div class="filter scolom" data-template="SCOLOM-9.1.1">
+                    <p>Par matière <span class="arrow"></span></p>
+                    <ul>
+                        <li data-template-data="scolomfr-voc-015-num-001">Français</li>
+                        <li data-template-data="scolomfr-voc-015-num-002">Mathématiques</li>
+                        <li data-template-data="scolomfr-voc-015-num-003">Langue vivante</li>
+                        <li data-template-data="scolomfr-voc-015-num-013">Art plastique</li>
+                        <li data-template-data="scolomfr-voc-015-num-006">Histoire</li>
+                        <li data-template-data="scolomfr-voc-015-num-007">Géographie</li>
+                        <li class="more">
+                            <a>Voir les autres matières</a>
+                        </li>
+                    </ul>
+                    <ul class="hide more">
+                        <li data-template-data="scolomfr-voc-015-num-004">Sciences et vie de la Terre</li>
+                        <li data-template-data="scolomfr-voc-015-num-005">Vie de classe</li>
+                        <li data-template-data="scolomfr-voc-015-num-008">Education Physique et Sportive</li>
+                    </ul>
+                </div>
+                <div class="filter scolom" data-template="SCOLOM-9.1.4">
+                    <p>Par niveau <span class="arrow"></span></p>
+                    <ul>
+                        <li data-template-data="scolomfr-voc-022-num-010">CP</li>
+                        <li data-template-data="scolomfr-voc-015-num-011">CE1</li>
+                        <li data-template-data="scolomfr-voc-015-num-013">CE2</li>
+                        <li data-template-data="scolomfr-voc-015-num-014">CM1</li>
+                        <li data-template-data="scolomfr-voc-015-num-015">CM2</li>
+                        <li class="more">
+                            <a>Voir les autres niveaux</a>
+                        </li>
+                    </ul>
+                    <ul class="hide more">
+                        <li data-template-data="scolomfr-voc-015-num-004">Toute petite section</li>
+                        <li data-template-data="scolomfr-voc-015-num-005">Petite section</li>
+                        <li data-template-data="scolomfr-voc-015-num-006">Moyenne section</li>
+                        <li data-template-data="scolomfr-voc-015-num-007">Grande section</li>
+                        <li data-template-data="scolomfr-voc-015-num-018">6ème</li>
+                        <li data-template-data="scolomfr-voc-015-num-020">5ème</li>
+                        <li data-template-data="scolomfr-voc-015-num-021">4ème</li>
+                        <li data-template-data="scolomfr-voc-015-num-023">3ème</li>
+                        <li data-template-data="scolomfr-voc-015-num-025">2nd</li>
+                        <li data-template-data="scolomfr-voc-015-num-028">1ère</li>
+                        <li data-template-data="scolomfr-voc-015-num-039">Terminale</li>
+                    </ul>
+                </div>
+
+                <div class="filter scolom" data-template="SCOLOM-1.9">
+                    <p>Par type de fichier <span class="arrow"></span></p>
+                    <ul>
+                        <li data-template-data="scolomfr-type-7">Fichier</li>
+                        <li data-template-data="scolomfr-type-6">Image</li>
+                        <li data-template-data="scolomfr-type-4">Vidéo</li>
+                        <li data-template-data="scolomfr-type-11">Audio</li>
+                        <li data-template-data="scolomfr-type-">Lien</li>
+                        {#<li class="more">
+                            <a>Voir les autres types</a>
+                        </li>#}
+                    </ul>
+                    {#<ul class="hide more">
+                        <li data-template-data="scolomfr-type-">Localisation</li>
+                        <li data-template-data="scolomfr-type-10">Parcours pédagogique</li>
+                    </ul>#}
+                </div>
+            {%  endif %}
+        </div>
+    </div>
+
+    <hr />
+
+    {% if hasUai and parameter('has_universalis')%}
+        <a id="universalis" href="{{ path('BNSAppResourceBundle_universalis') }}" class="resource-nav universalis" target="_blank">
+            <img src="{{ asset('/medias/images/resource/icons/thesaurus.png') }}" />
+            <span class="text">UNIVERSALIS</span>
+        </a>
+        <hr />
+    {%  endif %}
+    {% if parameter('has_medialandes') == true and has_medialandes  == true %}
+        <a id="medialandes" href="{{ path('BNSAppMainBundle_medialandes_index') }}" class="resource-nav universalis" target="_blank">
+            <img src="{{ asset('/medias/images/resource/icons/thesaurus.png') }}" />
+            <span class="text">Médialandes</span>
+        </a>
+        <hr />
+    {% endif %}
+
 </div>
-<div id="filter-type">
-	{% render "BNSAppResourceBundle:FrontNavigation:filterType" %}
-</div>
-{% endif %}
-
-<script type="text/javascript">
-	$(function(){
-		activeLabelDrop();
-	});
-</script>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
+
+    <class name="BNS\App\ForumBundle\Model\Forum">
+        <property name="title">
+            <constraint name="NotBlank">
+                <option name="message">Veuillez saisir un titre</option>
+            </constraint>
+        </property>
+        <property name="archive_after_closed">
+            <constraint name="NotBlank">
+                <option name="message">Veuillez choisir un nombre de mois</option>
+            </constraint>
+            <constraint name="Choice">
+                <option name="choices">
+                    <value>1</value>
+                    <value>2</value>
+                    <value>6</value>
+                    <value>12</value>
+                </option>
+                <option name="message">Veuillez choisir un nombre de mois</option>
+                <option name="groups">Edit</option>
+            </constraint>
+        </property>
+        <getter property="group">
+            <constraint name="NotBlank">
+                <option name="message">Veuillez choisir un groupe</option>
+                <option name="groups">New</option>
+            </constraint>
+        </getter>
+        
+        <constraint name="Callback">
+            <option name="methods">
+                <value>isCloseUntilValid</value>
+            </option>
+            <option name="groups">Edit</option>
+        </constraint>
+    </class>
+    
+    <class name="BNS\App\ForumBundle\Model\ForumMessage">
+        <property name="content">
+            <constraint name="NotBlank">
+                <option name="message">Veuillez saisir un contenu</option>
+            </constraint>
+        </property>
+        <getter property="forumSubject">
+            <constraint name="Valid" />
+        </getter>
+    </class>
+    
+    <class name="BNS\App\ForumBundle\Model\ForumSubject">
+        <property name="title">
+            <constraint name="NotBlank">
+                <option name="message">Veuillez saisir un titre</option>
+            </constraint>
+        </property>
+    </class>
+</constraint-mapping>

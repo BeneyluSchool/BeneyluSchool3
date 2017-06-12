@@ -1,0 +1,128 @@
+module:
+  unique_name: GROUP
+  is_contextable: true
+  name:
+    fr: Groupe
+    en: Group
+  description:
+    fr: 'Module d''accueil des groupes'
+    en: 'Home module for groups'
+permissions:
+  ACCESS:
+    label:
+      fr: 'Voir groupe'
+      en: 'Group access'
+    description:
+      fr: 'Donne l''accès au module Groupe'
+      en: null
+  ACCESS_BACK:
+    label:
+      fr: 'Gérer groupe'
+      en: 'Group management access'
+    description:
+      fr: 'Donne l''accès à la gestion du groupe'
+      en: null
+  INVITE_IN_CLASSROOM:
+    label:
+      fr: 'S''inviter dans une classe'
+      en: 'Invite in classroom'
+    description:
+      fr: 'Donne la possibilité de s''inviter dans une classe en tant qu''enseignant'
+      en: null
+  EDIT_MEDIA_LIBRARY_SIZE:
+    label:
+      fr: 'Pouvoir éditer les informations de médiathèque'
+      en: null
+    description:
+      fr: 'Donne la possibilité d''éditer les informations de médiathèque'
+      en: null
+  STAT_ACCESS:
+    label:
+      fr: 'Accès aux statistiques'
+      en: 'statistics access'
+    description:
+      fr: 'Donne la possibilité d''accéder a la page de visualisation des statistiques'
+      en: null
+  IMPORT_SCHOOL_ADULTS:
+    label:
+      fr: 'Import d''utilisateurs adultes'
+      en: 'Import of adult users'
+    description:
+      fr: 'Import d''utilisateurs adultes'
+      en: null
+  IMPORT_SCHOOL_PUPILS:
+    label:
+      fr: 'Import d''élèves'
+      en: 'Import of pupils'
+    description:
+      fr: 'Import d''élèves'
+      en: null
+  IMPORT_CLASSROOMS:
+    label:
+      fr: 'Import de classes'
+      en: 'Import of classrooms'
+    description:
+      fr: 'Import de classes'
+      en: null
+  IMPORT_SCHOOLS:
+    label:
+      fr: 'Import d''écoles'
+      en: 'Import of schools'
+    description:
+      fr: 'Import d''écoles'
+      en: null
+  GIVE_ASSISTANCE:
+    label:
+      fr: 'Assister un enseignant / directeur en récupérant ces accès'
+      en: 'Give assistance to teacher / director with their access'
+    description:
+      fr: null
+      en: null
+ranks:
+  USE:
+    label:
+      fr: 'Utiliser le module groupe'
+      en: 'Use the group'
+    description:
+      fr: null
+      en: null
+    permissions:
+      - ACCESS
+  MANAGE:
+    label:
+      fr: 'Gérer le groupe "customisé"'
+      en: 'Manage the classroom'
+    description:
+      fr: null
+      en: null
+    permissions:
+      - ACCESS
+      - ACCESS_BACK
+      - STAT_ACCESS
+  IMPORT_USER_MANAGE:
+    label:
+      fr: 'Gérer les imports d''utilisateurs'
+      en: 'Manage the users import'
+    description:
+      fr: null
+      en: null
+    permissions:
+      - IMPORT_SCHOOL_ADULTS
+      - IMPORT_SCHOOL_PUPILS
+  IMPORT_GROUPS_MANAGE:
+    label:
+      fr: 'Gérer les imports de groupes'
+      en: 'Manage the groups import'
+    description:
+      fr: null
+      en: null
+    permissions:
+      - IMPORT_CLASSROOMS
+      - IMPORT_SCHOOLS
+markers:
+  GROUP_CREATE_GROUP:
+    description: 'Création d''un groupe'
+  GROUP_CLASSROOM_ACTIVATION:
+    description: 'Classes activées'
+  GROUP_SCHOOL_ACTIVATION:
+    description: 'Ecoles activées'

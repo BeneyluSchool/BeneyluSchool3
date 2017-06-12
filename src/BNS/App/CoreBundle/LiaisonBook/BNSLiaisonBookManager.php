@@ -14,15 +14,15 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  * Classe permettant la gestion des carnets de liaison / signatures
  */
 class BNSLiaisonBookManager
-{	
+{
 
         protected $api;
-    
+
 	public function __construct($api)
 	{
 		$this->api = $api;
 	}
-        
+
         /**
 	 * @param array $liaisonBookInfos contient tous les paramètres nécessaires à la création d'un carnet de liaison
 	 * La clé d'un paramètre doit être le nom du paramètre; Les paramètres obligatoires sont title, content, group_id
@@ -36,7 +36,7 @@ class BNSLiaisonBookManager
             foreach ($obligatoryProperties as $obligatoryProperty)
             {
                     if (!array_key_exists($obligatoryProperty, $liaisonBookInfos))
-                    {				
+                    {
                             throw new Exception($obligatoryProperty.' argument is missing in array passing as parameter of createLiaisonBook() method.');
                     }
             }
@@ -46,10 +46,11 @@ class BNSLiaisonBookManager
             $liaisonBook->setTitle($liaisonBookInfos['title']);
             $liaisonBook->setContent($liaisonBookInfos['content']);
             $liaisonBook->setGroupId($liaisonBookInfos['group_id']);
+            $liaisonBook->setAuthorId($liaisonBookInfos['author_id']);
             $liaisonBook->setDate(new \DateTime());
             $liaisonBook->save();
 	}
-        
+
         /**
 	 * @param $user : utilisateur qui signe
          * @param $liaisonBook : la news du carnet de liaison qu'il signe
@@ -58,7 +59,7 @@ class BNSLiaisonBookManager
 	{
             //Si la signature n'existe pas déjà
             $liaisonBookSignature = LiaisonBookSignatureQuery::create()->findByLiaisonbookIdAndUserId($liaisonBook->getId(), $user->getId());
-            
+
             if($liaisonBookSignature == null)
             {
                 //Ajout de la signature de l'utilisateur pour le liaison book
@@ -68,7 +69,7 @@ class BNSLiaisonBookManager
                 $liaisonBookSignature->save();
             }
 	}
-             
+
 	/**
 	 * @param $group_id : groupe en cours
 	 */
@@ -77,7 +78,7 @@ class BNSLiaisonBookManager
             $liaisonBooks = LiaisonBookQuery::create()->filterByGroupId($group_id)->orderByDate(\Criteria::DESC)->find();
             return $liaisonBooks;
 	}
-        
+
         /**
 	 * @param $id : groupe du liaisonBook
 	 */
@@ -86,7 +87,7 @@ class BNSLiaisonBookManager
             $liaisonBook = LiaisonBookQuery::create()->findOneById($id);
             return $liaisonBook;
 	}
-        
+
         /**
 	 * @param $group_id : groupe en cours
          * @param $month : mois du post
@@ -97,7 +98,7 @@ class BNSLiaisonBookManager
             $liaisonBooks = LiaisonBookQuery::create()->orderByDate()->findByGroupIdAndDate($group_id, $month, $year);
             return $liaisonBooks;
 	}
-        
+
         /**
 	 * @param $group_id : groupe en cours
          * @param $month : mois du post
@@ -108,21 +109,21 @@ class BNSLiaisonBookManager
             $liaisonBooks = LiaisonBookQuery::create()->orderByDate()->findByGroupIdAndLessOneYear($group_id);
             return $liaisonBooks;
 	}
-        
+
 	public function getUsersThatHaveThePermissionInGroup($permission_unique_name, $group_id)
 	{
-		$users = $this->api->send('group_get_users_with_permission', array(
-			'route' =>  array(
-				'group_id' => $group_id,
-				'permission_unique_name' => $permission_unique_name
-			))
-		);
-		
-		if (null == $users) {
-			return array();
-		}
+            $users = $this->api->send('group_get_users_with_permission_new', array(
+                'route' =>  array(
+                    'group_id' => $group_id,
+                    'permission_unique_name' => $permission_unique_name
+                ))
+            );
 
-		return $users;
+            if (null == $users) {
+                return array();
+            }
+
+            return $users;
 	}
-        
+
 }

@@ -1,0 +1,18 @@
+{% for node in groupNodes %}
+    <ul>
+        <li>
+            <div style="padding-left: {{ 52 + padding }}px" {{ not has_right('RESOURCE_ACCESS', node.getData('id')) ? 'class="disabled"' : '' }} data-group="{{ node.getGroup().getId() }}">
+                <span class="children-arrow {{ node.hasChildren() ? 'open' : '' }}" style="left: {{ padding - 10 }}px"></span>
+                <img src="{{ asset(group_type_icon(node.getGroup(), null, 'medium')) }}" style="left: {{ 10 + padding }}px" />
+                <span class="text">{{ node.getData('label') }}</span>
+                {% if node.hasChildren() %}
+                    <span class="big-arrow in"></span>
+                {% endif %}
+            </div>
+
+            {% if node.hasChildren() is defined %}
+                {% include 'BNSAppResourceBundle:Modal:change_context_body_content.html.twig' with {'groupNodes': node.getChildren(), 'padding': padding + 30} %}
+            {% endif %}
+        </li>
+    </ul>
+{% endfor %}

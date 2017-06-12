@@ -1,13 +1,17 @@
 $(document).ready(function() {
 	guiders.createGuider({
-		attachTo: ".btn-new-article",
+		attachTo: ".header-buttons .add-button",
 		buttons: [{name: "Suivant", classString: "btn btn-info btn-small pull-right", onclick: guiders.next}],
-		description: "<p>Cliquez sur ce bouton pour créer un nouvel événement.</p>",
+		description: "<p>Cliquez sur ce bouton pour créer un nouvel évènement.</p>",
 		id: "first",
 		next: "second",
 		position: 7,
-		title: "Créer un événement",
-		xButton: true
+		title: "Créer un évènement",
+		xButton: true,
+		offset: {
+			top: 35,
+			left: 0
+		}
 	}).show();
 	
 	guiders.createGuider({
@@ -20,7 +24,7 @@ $(document).ready(function() {
 		title: 'Navigation par semaine',
 		xButton: true,
 		offset: {
-			top: -20,
+			top: 20,
 			left: 0
 		}
 	});
@@ -35,7 +39,7 @@ $(document).ready(function() {
 		title: 'Changer de couleur',
 		xButton: true,
 		offset: {
-			top: 0,
+			top: 10,
 			left: -17
 		}
 	});
@@ -43,9 +47,9 @@ $(document).ready(function() {
 	guiders.createGuider({
 		buttons: [{name: "Ne plus afficher pour cette page", classString: "btn btn-info btn-small pull-right btn-never-display-guide-tour", onclick: guiders.hideAll }],
 		description: 
-			"<p>Glissez / déposez les événements pour éditer intuitivement la date de début et de fin.</p> <p>Note : les événements récurrents ne peuvent être édités au moyen d'un glisser / déposer.</p>",
+			"<p>Glissez / déposez les évènements pour éditer intuitivement la date de début et de fin.</p> <p>Note : les évènements récurrents ne peuvent être édités au moyen d'un glisser / déposer.</p>",
 		id: "fourth",
-		title: "Edition d'événement intuitive",
+		title: "Edition d'évènement intuitive",
 		xButton: true
 	});
 });

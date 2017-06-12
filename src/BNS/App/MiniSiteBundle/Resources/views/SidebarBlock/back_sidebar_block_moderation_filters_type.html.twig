@@ -1,0 +1,13 @@
+{% trans_default_domain "MINISITE" %}
+
+<bns-expander label="{{ 'TITLE_FILTER_TYPE_CONTENT' | trans }}" class="ng-scope ng-isolate-scope" is-open="true">
+
+
+  <div class="content-title container-content content-form content-type">
+    <div class="loader loader-h"></div>
+
+    {{ form_row(filter_form.type) }}
+
+  </div>
+
+</bns-expander>

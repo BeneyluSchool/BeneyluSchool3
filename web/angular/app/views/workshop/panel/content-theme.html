@@ -1,0 +1,7 @@
+<h3>Thème</h3>
+
+<ul class="workshop-themes-nav">
+  <li ng-repeat="theme in themes" class="workshop-theme" ng-class="{ current: shared.theme.code == theme.code }">
+    <a href="" ng-click="previewTheme(theme)">{{ theme.label }}</a>
+  </li>
+</ul>

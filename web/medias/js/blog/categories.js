@@ -70,17 +70,24 @@ $(function ()
 		if (e.which != 13) {
 			$row.find('.add-category-help').fadeIn('slow');
 		}
+		else {
+			return categorySubmit(e);
+		}
 	});
 
 	// Add category process
-	$('.article-categories-filter form').submit(function (e)
+	$('.article-categories-filter input[type="button"]').click(function (e)
 	{
-		var $this = $(e.currentTarget),
-			$row = $this.parent(),
+		return categorySubmit(e);
+	});
+	
+	function categorySubmit(e)
+	{
+		var $row = $(e.currentTarget).parent(),
 			$input = $row.find('input[type="text"]').first(),
-			$icon = $this.find('.category-icon span');
+			$icon = $row.find('.category-icon span');
 
-		if ($row.hasClass('loading')) {
+		if ($row.hasClass('loading') || $input.val().length == 0) {
 			return false;
 		}
 
@@ -89,21 +96,22 @@ $(function ()
 		$loader.fadeIn('fast');
 
 		$.ajax({
-			url: $this.attr('action'),
+			url: $row.find('input[type="button"]').data('action'),
 			type: 'POST',
 			dataType: 'html',
 			data: {'title': $input.val(), 'iconName': $icon.attr('class')},
 			success: function (data)
 			{
+				$('.article-categories-filter .content-category ol.load-sortable .no-category').slideUp('fast');
+				
 				var $category = $(data);
 				$category.css('display', 'none');
-				$row.parent().find('.content-category ol.load-sortable').prepend($category);
+				$('.article-categories-filter .content-category ol.load-sortable').prepend($category);
 				$category.slideDown('fast');
 				
 				// Reset
 				$input.val('');
-				$icon.removeClass().addClass('default');
-				$this.find('.add-category-help').fadeOut('fast');
+				$row.find('.add-category-help').fadeOut('fast');
 			}
 		}).done(function ()
 		{
@@ -112,7 +120,7 @@ $(function ()
 		});
 
 		return false;
-	});
+	}
 
 	// Drag'n'drop categories
 	$('.article-categories-filter ol.load-sortable').nestedSortable({

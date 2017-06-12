@@ -1,13 +1,28 @@
-<div class="title-container article-statuses-filter">
-	<div class="title active border-blue">Filter les articles<span class="square icon-arrow"></span></div>
-	<div class="content-title">
-		<div class="loader loader-h"></div>
-		<ul>
-			<li data-filter="{{ constant('BNS\\App\\CoreBundle\\Model\\BlogArticlePeer::STATUS_PUBLISHED_INTEGER') }}"><div><span class="vertical-separator green"></span> <span>{% trans %}Blog.Back.Sidebar.PublishedArticles{% endtrans %}</span> <span class="select"></span></div></li>
-			<li data-filter="programmed"><div><span class="vertical-separator purple"></span> <span>{% trans %}Blog.Back.Sidebar.ProgrammedArticles{% endtrans %}</span> <span class="select"></span></div></li>
-			<li data-filter="{{ constant('BNS\\App\\CoreBundle\\Model\\BlogArticlePeer::STATUS_WAITING_FOR_CORRECTION_INTEGER') }}"><div><span class="vertical-separator orange"></span> <span>{% trans %}Blog.Back.Sidebar.CorrectionArticles{% endtrans %}</span> <span class="select"></span></div></li>
-			<li data-filter="{{ constant('BNS\\App\\CoreBundle\\Model\\BlogArticlePeer::STATUS_FINISHED_INTEGER') }}"><div><span class="vertical-separator blue"></span> <span>{% trans %}Blog.Back.Sidebar.FinishedArticles{% endtrans %}</span> <span class="select"></span></div></li>
-			<li data-filter="{{ constant('BNS\\App\\CoreBundle\\Model\\BlogArticlePeer::STATUS_DRAFT_INTEGER') }}"><div><span class="vertical-separator gray"></span> <span>{% trans %}Blog.Back.Sidebar.DraftArticles{% endtrans %}</span> <span class="select"></span></div></li>
-		</ul>
-	</div>
-</div>
+{% trans_default_domain "BLOG" %}
+{% set choices = [
+{
+  name: 'form_filter[status][]',
+  value: constant('BNS\\App\\CoreBundle\\Model\\BlogArticlePeer::STATUS_PUBLISHED_INTEGER'),
+  htmlLabel: '<span>'~('PUBLISH_ARTICLE'|trans)~'</span><span class="indicator"> ('~filterIndicators['PUBLISHED']|default('0')~')</span>',
+}, {
+  name: 'form_filter[status][]',
+  value: 'programmed',
+  htmlLabel: '<span>'~('PROGRAMMED_ARTICLE'|trans)~'</span><span class="indicator"> ('~filterIndicators['PROGRAMMED']|default('0')~')</span>',
+}, {
+  name: 'form_filter[status][]',
+  value: constant('BNS\\App\\CoreBundle\\Model\\BlogArticlePeer::STATUS_WAITING_FOR_CORRECTION_INTEGER'),
+  htmlLabel: '<span>'~('ARTICLES_TO_CORRECT'|trans)~'</span><span class="indicator"> ('~filterIndicators['WAITING_FOR_CORRECTION']|default('0')~')</span>',
+}, {
+  name: 'form_filter[status][]',
+  value: constant('BNS\\App\\CoreBundle\\Model\\BlogArticlePeer::STATUS_FINISHED_INTEGER'),
+  htmlLabel: '<span>'~('ARTICLES_FINISHED'|trans)~'</span><span class="indicator"> ('~filterIndicators['FINISHED']|default('0')~')</span>',
+}, {
+  name: 'form_filter[status][]',
+  value: constant('BNS\\App\\CoreBundle\\Model\\BlogArticlePeer::STATUS_DRAFT_INTEGER'),
+  htmlLabel: '<span>'~('DRAFTS'|trans)~'</span><span class="indicator"> ('~filterIndicators['DRAFT']|default('0')~')</span>',
+}
+] %}
+
+<bns-expander class="article-statuses-filter" label="{{ 'FILTER_ARTICLE' | trans }}" is-open="true">
+  <bns-checkbox-group name="" id="form_filter_status" ng-model="model_filter['status']" choices="{{ choices|serialize }}" bns-status></bns-checkbox-group>
+</bns-expander>

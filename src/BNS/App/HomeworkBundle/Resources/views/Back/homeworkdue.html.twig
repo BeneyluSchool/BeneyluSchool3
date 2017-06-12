@@ -1,57 +1,34 @@
+{% trans_default_domain "HOMEWORK" %}
 <article data-hd-id="{{ homeworkdue.id }}" data-homework-id="{{ homeworkdue.homework.id }}">
-    <div class="header-enunciated ">
+	<div class="content-article">
+	        <div class="header-enunciated ">
 		<div class="enunciated">
 			<div class="matter">
 				{{ homeworkdue.homework.name }}
 			</div>
 			<div class="name-work">
-				{{ homeworkdue.homework.homeworksubject.name }}
+				{% if homeworkdue.homework.homeworksubject  %}{{ homeworkdue.homework.homeworksubject.name }}{% endif %}
 			</div>
 		</div>
 		<div class="groups">
-			<p>
-			{% for group in homeworkdue.homework.groups %}
-				{{ group.label|e }}
-			{% endfor %}
-			</p>
+			<div class="buttons-container">
+			    <a href="#" class="btn bns-notice btn-16 small right btn-visualisation">
+				    <span class="icons-16 arrow-right-icon right"></span>
+				    <strong>{% trans %}LINK_SEE_CARD{% endtrans %}</strong>
+			    </a>
+			</div>
 		</div>
 		<div class="clearfix"></div>
 	</div>
-	<div class="content-article">
 		<div class="enunciated-work">
-			<p>{{ homeworkdue.homework.description | raw }}</p>
-			{% if homeworkdue.homework.helptext is defined %}
-			<p class="help-work">{{ homeworkdue.homework.helptext }}</p>
-			{% endif %}
-			{% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': homeworkdue.homework.getResourceAttachments, "editable": false} %}
-			{#<a class="btn" href="{{ path('BNSAppHomeworkBundle_back_edit_homework', {"slug":homeworkdue.homework.slug}) }}">Modifier le travail</a>
-			<button class="btn delete-homeworkdue" value="{{homeworkdue.id }}" >Supprimer cette occurrence de travail</button>#}
+			<p>{{ homeworkdue.getShortDescription() | purify }}</p>
 		</div>
-		<div class="task-done">
-			<span class="work-done">{{ homeworkdue.getHomeworkTasks() | length }}</span><span class="total-student">/{{ homeworkdue.numberOfTasksTotal }}</span> <span class="works-validates">Travaux validés</span>
-			{% if homeworkdue.getHomeworkTasks() | length > 0%}
-			<div class="task-done-users">
-				{% for task in homeworkdue.getHomeworkTasks() %}
-				<a href="#" class="bns-user small"><img src="{{ avatar(task.getUser(), 'small') }}" />{{ task.getUser().getFullName()}}<span class="action-icons"></span></a>
-				{% endfor %}
-			</div>
-			{% endif %}
+		<div class="footer">
+		    {% trans %}WRITTEN_IN{% endtrans %}
+		    {% for group in homeworkdue.homework.groups %}
+				<b>{{ group.label|e }} </b>
+		    {% endfor %}
 		</div>
+
 	</div>
-	<div class="task-done">
-                <a href="#" class="btn bns-notice show-tasksdone-users"><span class="work-done">{{ homeworkdue.getHomeworkTasks() | length }}</span><span class="total-student">/{{ homeworkdue.numberOfTasksTotal }}</span> <span class="works-validates">Travaux validés</span></a>
-                {% if homeworkdue.getHomeworkTasks() | length > 0%}
-                <div class="task-done-users">
-                    <a href="#" class="hide-tasksdone-users btn bns-danger btn-16 small"><span class="icons-16 cancel-icon"></span><strong>Cacher</strong></a>
-                    {% for task in homeworkdue.getHomeworkTasks() %}
-                        <a href="#" class="bns-user small"><img src="{{ avatar(task.getUser(), 'small') }}" />{{ task.getUser().getFullName()}}</a>
-                    {% endfor %}
-                </div>
-                {% endif %}
-	</div>
-{{ modal('deleteModal_' ~ homeworkdue.id, {
-		'title': 'Suppression de l\'occurence',
-		'body': 'Êtes-vous sûr de vouloir supprimer cette occurence ?',
-		'type': 'error',
-		'footer_template': {'template': 'BNSAppHomeworkBundle:Block:modal_footer_delete_occurence.html.twig', 'values': {'id': homeworkdue.id }},
-}) }}
+    </article>

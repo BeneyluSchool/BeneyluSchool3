@@ -1,0 +1,22 @@
+<md-button type="button"
+  bns-user-directory-invoke="{{picker.view}}"
+  selection="picker.ids"
+  on-selection="picker.onSelection"
+  class="md-raised md-primary btn-xs"
+>
+  <span ng-bind-html="'USER_PICKER.BUTTON_USER_DIRECTORY'|translate|buttonize">.</span>
+</md-button>
+
+<md-contact-chips ng-model="picker.users"
+  md-contacts="picker.getContacts($query)"
+  md-contact-name="full_name"
+  md-contact-image="avatar_url"
+  md-highlight-flags="i"
+  md-require-match="true"
+  placeholder="{{picker.placeholder}}"
+  secondary-placeholder="{{picker.placeholderAlt}}"
+  filter-selected="true"
+>
+</md-contact-chips>
+
+

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:44:43Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="f9355c9e627a516de332a1520dc5e90d897b0b97" resname="FORUM_NEW_FORUM_REPLY.EMAIL.content">
+        <source>FORUM_NEW_FORUM_REPLY.EMAIL.content</source>
+        <target><![CDATA[A reply has been posted on a forum of Beneylu School ! You can see it <a href="%message_route%">here</a>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="a940534c946fa350e32f4e01b2f2a504e0508f9c" resname="FORUM_NEW_FORUM_REPLY.EMAIL.title">
+        <source>FORUM_NEW_FORUM_REPLY.EMAIL.title</source>
+        <target>[Beneylu School] A reply has been posted on a forum</target>
+      </trans-unit>
+      <trans-unit id="e81a63a65d43022f96c57ae4cfed5747c4121963" resname="FORUM_NEW_FORUM_REPLY.SYSTEM.content">
+        <source>FORUM_NEW_FORUM_REPLY.SYSTEM.content</source>
+        <target><![CDATA[A new reply has been posted in "<a href="%message_route%">%subject_title%</a>"]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

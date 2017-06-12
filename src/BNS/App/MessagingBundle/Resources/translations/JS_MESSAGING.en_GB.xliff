@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-08-17T09:13:31Z" source-language="en" target-language="en-GB" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="e31ee81cafca376c2bc5317eed312cab3a124bf6" resname="BUTTON_BACK">
+        <source>BUTTON_BACK</source>
+        <target>Go back</target>
+      </trans-unit>
+      <trans-unit id="4b4582c33c74aaa72fd6bfaf206e2fcce0a3d904" resname="BUTTON_DELETE_ALL_MESSAGES">
+        <source>BUTTON_DELETE_ALL_MESSAGES</source>
+        <target>Delete | all messages</target>
+      </trans-unit>
+      <trans-unit id="b7dfd70ca996a8fe0773879d67ed65da47f650f2" resname="BUTTON_DELETE_DRAFT">
+        <source>BUTTON_DELETE_DRAFT</source>
+        <target>Delete | draft</target>
+      </trans-unit>
+      <trans-unit id="46735de06ca10d9f3366ebe98f59ee9625592770" resname="BUTTON_DELETE_MESSAGE">
+        <source>BUTTON_DELETE_MESSAGE</source>
+        <target>Delete | message</target>
+      </trans-unit>
+      <trans-unit id="4c73e100ed22e71323ee5f388c2e06f87e4e1340" resname="BUTTON_DELETE_MESSAGES">
+        <source>BUTTON_DELETE_MESSAGES</source>
+        <target>Delete | these messages</target>
+      </trans-unit>
+      <trans-unit id="f90cf01788ffe7b59bbde96678dd8abbc1914b39" resname="BUTTON_MARK_AS_READ">
+        <source>BUTTON_MARK_AS_READ</source>
+        <target>Mark | as read</target>
+      </trans-unit>
+      <trans-unit id="74dba5ea5583d076216953fcefd789527ce3a926" resname="BUTTON_MARK_AS_UNREAD">
+        <source>BUTTON_MARK_AS_UNREAD</source>
+        <target>Mark | as unread</target>
+      </trans-unit>
+      <trans-unit id="8c527cefba013f867f9a78a898a300d00b77ab94" resname="BUTTON_MODERATE_MESSAGES">
+        <source>BUTTON_MODERATE_MESSAGES</source>
+        <target>Moderate | these messages</target>
+      </trans-unit>
+      <trans-unit id="fde533ddecd55bfcb7fc25acd014e9bd318efec4" resname="BUTTON_NEW_MESSAGE">
+        <source>BUTTON_NEW_MESSAGE</source>
+        <target>Write a message</target>
+      </trans-unit>
+      <trans-unit id="1703b7df9cb38f6df8dd373cbcd2548277122250" resname="BUTTON_REJECT_MESSAGES">
+        <source>BUTTON_REJECT_MESSAGES</source>
+        <target>Decline | these messages</target>
+      </trans-unit>
+      <trans-unit id="9d7aba4fea53c6d2b8ac563209207ec2046e56d7" resname="BUTTON_RESTORE_MESSAGE">
+        <source>BUTTON_RESTORE_MESSAGE</source>
+        <target>Restore | message</target>
+      </trans-unit>
+      <trans-unit id="f7b4e09cff9c8b8d6c0d75ccb9806f90ea1ac618" resname="BUTTON_RESTORE_MESSAGES">
+        <source>BUTTON_RESTORE_MESSAGES</source>
+        <target>Restore | these messages</target>
+      </trans-unit>
+      <trans-unit id="07907fe8f3bd531821cde4fa73e20754c16a09ba" resname="BUTTON_SAVE">
+        <source>BUTTON_SAVE</source>
+        <target>Save</target>
+      </trans-unit>
+      <trans-unit id="43ec614b34c2fb2de74b4b1e8e4842bfe2b8d943" resname="BUTTON_SEND_RESPONSE">
+        <source>BUTTON_SEND_RESPONSE</source>
+        <target>Send answer</target>
+      </trans-unit>
+      <trans-unit id="c99ee003274d154ff9962be3932e4a633c7eb4f4" resname="BUTTON_VALIDATE_ALL_MESSAGES">
+        <source>BUTTON_VALIDATE_ALL_MESSAGES</source>
+        <target>Validate | all messages</target>
+      </trans-unit>
+      <trans-unit id="63daac5726eb080c2f32944e5fbb7ba1676daca1" resname="BUTTON_VALIDATE_MESSAGES">
+        <source>BUTTON_VALIDATE_MESSAGES</source>
+        <target>Validate | these messages</target>
+      </trans-unit>
+      <trans-unit id="ab0e51b879fdb26afa8bc69088cf48fc23d87246" resname="DESCRIPTION_INBOX_IS_EMPTY">
+        <source>DESCRIPTION_INBOX_IS_EMPTY</source>
+        <target>No received messages</target>
+      </trans-unit>
+      <trans-unit id="97d3c368363c63ff9db2767dc66c9fd9856142e3" resname="DESCRIPTION_NO_DRAFTS">
+        <source>DESCRIPTION_NO_DRAFTS</source>
+        <target>No drafts</target>
+      </trans-unit>
+      <trans-unit id="042b92fb7263798ed97f635a857117b963bcdfe1" resname="DESCRIPTION_NO_MESSAGE_ACCEPTED">
+        <source>DESCRIPTION_NO_MESSAGE_ACCEPTED</source>
+        <target>No validated messages.</target>
+      </trans-unit>
+      <trans-unit id="5ee41ea099b680e31ec27e4c1a975409089c7170" resname="DESCRIPTION_NO_MESSAGE_IN_MODERATION">
+        <source>DESCRIPTION_NO_MESSAGE_ACCEPTED</source>
+        <target>No moderated messages.</target>
+      </trans-unit>
+      <trans-unit id="eb55e0d5ead2c9d5182ca7be0f6b5309fc6130eb" resname="DESCRIPTION_NO_MESSAGE_REJECTED">
+        <source>DESCRIPTION_NO_MESSAGE_REJECTED</source>
+        <target>No declined messages.</target>
+      </trans-unit>
+      <trans-unit id="369bee60e82a02e9adc62373c2665941b1713e34" resname="DESCRIPTION_NO_SENT_MESSAGE">
+        <source>DESCRIPTION_NO_SENT_MESSAGE</source>
+        <target>No sent messages</target>
+      </trans-unit>
+      <trans-unit id="6dee5d0148cfcbdac5b304edccb2a77c4d97edf3" resname="DESCRIPTION_TRASH_IS_EMPTY">
+        <source>DESCRIPTION_TRASH_IS_EMPTY</source>
+        <target>The recycle bin is empty</target>
+      </trans-unit>
+      <trans-unit id="64527909f50ec1a8bf448179d9d5a7e4bf3eafd6" resname="DRAFT_MESSAGES">
+        <source>UNREAD_MESSAGES</source>
+        <target>{COUNT, plural, 1{1 draft} other{# drafts}}</target>
+      </trans-unit>
+      <trans-unit id="c59aec828c4d05d33337c61ad9ce871f08341a38" resname="DRAFT_MESSAGE_ERROR">
+        <source>DRAFT_MESSAGE_ERROR</source>
+        <target>The draft could not be saved</target>
+      </trans-unit>
+      <trans-unit id="856090f46369179bcb2c2c20d1f2169cb44d4266" resname="DRAFT_MESSAGE_SUCCESS">
+        <source>DRAFT_MESSAGE_SUCCESS</source>
+        <target>Saved draft</target>
+      </trans-unit>
+      <trans-unit id="db9700c04ef4f10aa1c61f5c7a97a5d68e701a31" resname="ERROR_THIS_FIELD_IS_REQUIRED">
+        <source>ERROR_THIS_FIELD_IS_REQUIRED</source>
+        <target>This field is required</target>
+      </trans-unit>
+      <trans-unit id="c527552a3d2ce952bb7569a374c1a22e5ee67644" resname="FLASH_ACCEPT_MESSAGES_ERROR">
+        <source>FLASH_ACCEPT_MESSAGES_ERROR</source>
+        <target>The messages could not be accepted</target>
+      </trans-unit>
+      <trans-unit id="3b2f1b0f35fbf6eed759368c82768ff0fe18fc37" resname="FLASH_ACCEPT_MESSAGES_SUCCESS">
+        <source>FLASH_ACCEPT_MESSAGES_SUCCESS</source>
+        <target>{COUNT, plural, 1{1 accepted message} other{# accepted messages}}</target>
+      </trans-unit>
+      <trans-unit id="c99e71b2b11c71792f7931996c357d6e99538218" resname="FLASH_CONVERSATION_DELETE_ERROR">
+        <source>FLASH_CONVERSATION_DELETE_ERROR</source>
+        <target>The conversation could not be deleted</target>
+      </trans-unit>
+      <trans-unit id="e9f7df1a70591ffb719e33bc1d49bc25490567b2" resname="FLASH_CONVERSATION_DELETE_SUCCESS">
+        <source>FLASH_CONVERSATION_DELETE_SUCCESS</source>
+        <target>Deleted conversion</target>
+      </trans-unit>
+      <trans-unit id="aa931f1bf850c735b5a3daa1bdf0b64a08565b29" resname="FLASH_CONVERSATION_RESTORE_ERROR">
+        <source>FLASH_CONVERSATION_RESTORE_SUCCESS</source>
+        <target>The conversation could not be restored</target>
+      </trans-unit>
+      <trans-unit id="600fbdb960129fb25d173ab83be542367226f71b" resname="FLASH_CONVERSATION_RESTORE_SUCCESS">
+        <source>FLASH_CONVERSATION_RESTORE_SUCCESS</source>
+        <target>Restored conversation</target>
+      </trans-unit>
+      <trans-unit id="66474d4d59d4ee8fc8316b6de4fc443cb3fed58e" resname="FLASH_CONVERSATION_UNREAD_ERROR">
+        <source>FLASH_CONVERSATION_UNREAD_ERROR</source>
+        <target>The conversation could not be marked as unread</target>
+      </trans-unit>
+      <trans-unit id="88769857977a7b1ac1e2c69c0f31b8036c3b7344" resname="FLASH_CONVERSATION_UNREAD_SUCCESS">
+        <source>FLASH_CONVERSATION_UNREAD_SUCCESS</source>
+        <target>Conversation marked as unread</target>
+      </trans-unit>
+      <trans-unit id="200b2873f6187b754c3d1b58663457a020ef1287" resname="FLASH_DELETE_CONVERSATIONS_ERROR">
+        <source>FLASH_DELETE_CONVERSATIONS_ERROR</source>
+        <target>The conversations could not be deleted</target>
+      </trans-unit>
+      <trans-unit id="13b63b068929ca2bcdae130738f06c69118dd402" resname="FLASH_DELETE_CONVERSATIONS_SUCCESS">
+        <source>FLASH_DELETE_CONVERSATIONS_SUCCESS</source>
+        <target>{COUNT, plural, 1{deleted conversation} other{# deleted conversations}}</target>
+      </trans-unit>
+      <trans-unit id="2db234c87b3fc08d79492874a28456a20f9d8510" resname="FLASH_DELETE_DRAFT_ERROR">
+        <source>FLASH_DELETE_DRAFT_ERROR</source>
+        <target>The draft could not be deleted</target>
+      </trans-unit>
+      <trans-unit id="4a5c89a21f43fc9c890606c4c19baa260fad273f" resname="FLASH_DELETE_DRAFT_SUCCESS">
+        <source>FLASH_DELETE_DRAFT_SUCCESS</source>
+        <target>Deleted draft</target>
+      </trans-unit>
+      <trans-unit id="e531cf14a95c1c7a23e7cd8bd56ece11e391f8d1" resname="FLASH_DELETE_MESSAGES_ERROR">
+        <source>FLASH_DELETE_MESSAGES_ERROR</source>
+        <target state="new">The messages could not be deleted</target>
+      </trans-unit>
+      <trans-unit id="906c0e6bb581079f30822a69f0063497e077bdaa" resname="FLASH_DELETE_MESSAGES_SUCCESS">
+        <source>FLASH_DELETE_MESSAGES_SUCCESS</source>
+        <target>{COUNT, plural, 1{deleted message} other{# deleted messages}}</target>
+      </trans-unit>
+      <trans-unit id="8dcea627202c6fbdfec9159b4bc332ebf391be47" resname="FLASH_GET_CONVERSATION_ERROR">
+        <source>FLASH_GET_CONVERSATION_ERROR</source>
+        <target>The conversation could not be loaded</target>
+      </trans-unit>
+      <trans-unit id="cb91e765bc37d8e53f435dccba5610301b09b7fd" resname="FLASH_GET_DRAFT_ERROR">
+        <source>FLASH_GET_DRAFT_ERROR</source>
+        <target>The draft could not be loaded</target>
+      </trans-unit>
+      <trans-unit id="fced2e112b77f23f4a4dcca911ea43776c8f34e2" resname="FLASH_GET_MESSAGE_ERROR">
+        <source>FLASH_GET_MESSAGE_ERROR</source>
+        <target>The message could not be loaded</target>
+      </trans-unit>
+      <trans-unit id="8dfe586d9b694b1327635bc89323107497fd647a" resname="FLASH_MESSAGE_SEND_ERROR">
+        <source>FLASH_MESSAGE_SEND_ERROR</source>
+        <target>The message could not be sent</target>
+      </trans-unit>
+      <trans-unit id="c07cc34af7edfeace7adcee2fc0360bed5f6ded4" resname="FLASH_MESSAGE_SENT">
+        <source>FLASH_MESSAGE_SENT</source>
+        <target>Sent message</target>
+      </trans-unit>
+      <trans-unit id="05def9d9c751e36495dd167bfde4c3900841029a" resname="FLASH_MESSAGE_SENT_IN_MODERATION">
+        <source>FLASH_MESSAGE_SENT_IN_MODERATION</source>
+        <target>Message sent, awaiting moderation</target>
+      </trans-unit>
+      <trans-unit id="41d0b561d6ca73e7f1dcd6f13e57c2188418630d" resname="FLASH_MODERATE_MESSAGES_ERROR">
+        <source>FLASH_MODERATE_MESSAGES_ERROR</source>
+        <target>The messages could not be moderated</target>
+      </trans-unit>
+      <trans-unit id="5096fe2fc5d3cdebf01dcdc0674cbc9b4191a9cf" resname="FLASH_MODERATE_MESSAGES_SUCCESS">
+        <source>FLASH_ACCEPT_MESSAGES_SUCCESS</source>
+        <target>{COUNT, plural, 1{1 message moderated} other{# messages moderated}}</target>
+      </trans-unit>
+      <trans-unit id="b8ba9d440937575a729b74f2bff24a72344807a9" resname="FLASH_READ_CONVERSATIONS_ERROR">
+        <source>FLASH_READ_CONVERSATIONS_ERROR</source>
+        <target>The conversations could not be marked as read</target>
+      </trans-unit>
+      <trans-unit id="4da1a6bcb7bd193d8e2e6c7a43ec20d520645d44" resname="FLASH_REJECT_MESSAGES_ERROR">
+        <source>FLASH_REJECT_MESSAGES_ERROR</source>
+        <target>The messages could not be declined</target>
+      </trans-unit>
+      <trans-unit id="fb675dae2285607f16f05e1397b733479d2ba135" resname="FLASH_REJECT_MESSAGES_SUCCESS">
+        <source>FLASH_DELETE_MESSAGES_SUCCESS</source>
+        <target>{COUNT, plural, 1{1 message declined} other{# messages declined}}</target>
+      </trans-unit>
+      <trans-unit id="b39c3351011dc4e091761ad8351b7044dac446e7" resname="FLASH_RESTORE_CONVERSATIONS_ERROR">
+        <source>FLASH_RESTORE_CONVERSATIONS_ERROR</source>
+        <target>The conversations could not be restored</target>
+      </trans-unit>
+      <trans-unit id="f6a437de209d4deb1db9ba4593c73ec532ae6f1b" resname="FLASH_RESTORE_CONVERSATIONS_SUCCESS">
+        <source>FLASH_RESTORE_CONVERSATIONS_SUCCESS</source>
+        <target>{COUNT, plural, 1{restored conversation} other{# restored conversations}}</target>
+      </trans-unit>
+      <trans-unit id="a7b58142647f41fb179bec51bcc872c0929cd517" resname="FLASH_SAVE_MESSAGE_SUCCESS">
+        <source>FLASH_SAVE_MESSAGE_SUCCESS</source>
+        <target>Saved message</target>
+      </trans-unit>
+      <trans-unit id="bb82bba5931d6a3162f08ea08dd1b99090f965e0" resname="FLASH_UNREAD_CONVERSATIONS_ERROR">
+        <source>FLASH_UNREAD_CONVERSATIONS_ERROR</source>
+        <target>The conversations could not be marked as unread</target>
+      </trans-unit>
+      <trans-unit id="c7e9aa726b45c9ea9be1bbaec11f018c8980b314" resname="LABEL_MODERATION_GROUP_FILTER">
+        <source>LABEL_MODERATION_GROUP_FILTER</source>
+        <target>Filter per group</target>
+      </trans-unit>
+      <trans-unit id="cba16f51fed2f07737a10010d97407b58c9a9eff" resname="LABEL_SHOW_PREVIOUS_MESSAGES">
+        <source>LABEL_SHOW_PREVIOUS_MESSAGES</source>
+        <target>{COUNT, plural, 1{Display the previous answer} other{Display the last # answers}}</target>
+      </trans-unit>
+      <trans-unit id="144125cd9a0561cd95db4fb6f072cafb01615e9e" resname="MESSAGE_STATUS_1">
+        <source>MESSAGE_STATUS_1</source>
+        <target>Sent</target>
+      </trans-unit>
+      <trans-unit id="433bc8d55cf043f438930911c56f1849e6ff4ea8" resname="MESSAGE_STATUS_2">
+        <source>MESSAGE_STATUS_2</source>
+        <target>Being moderated</target>
+      </trans-unit>
+      <trans-unit id="9563ea21c679aab5fb6918fc7ac52051462e85c8" resname="PLACEHOLDER_ADD_ANOTHER_RECIPIENT">
+        <source>PLACEHOLDER_ADD_ANOTHER_RECIPIENT</source>
+        <target>Add another recipient</target>
+      </trans-unit>
+      <trans-unit id="926b31bf59a9723443d5e0b54c46225af3bce5c3" resname="PLACEHOLDER_ADD_RECIPIENT">
+        <source>PLACEHOLDER_ADD_RECIPIENT</source>
+        <target>Add a recipient</target>
+      </trans-unit>
+      <trans-unit id="10af63c1572a3aa946e519af01e9f6b4dffb8239" resname="TITLE_ANSWER_MESSAGE">
+        <source>TITLE_ANSWER_MESSAGE</source>
+        <target>Reply to message</target>
+      </trans-unit>
+      <trans-unit id="5a9ca16bf16d93c20a11024e7e725e9e885d6729" resname="TITLE_MESSAGE_EDIT">
+        <source>TITLE_MESSAGE_EDIT</source>
+        <target>Message editing</target>
+      </trans-unit>
+      <trans-unit id="4004c60d6757453935711719e12337ade01fb85c" resname="TITLE_META">
+        <source>TITLE_META</source>
+        <target>Mail</target>
+      </trans-unit>
+      <trans-unit id="3bd44897bdfd66bc04ce0a9d1d3676a74057d083" resname="UNREAD_MESSAGES">
+        <source>UNREAD_MESSAGES</source>
+        <target>{COUNT, plural, 1{1 unread message} other{# unread messages}}</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

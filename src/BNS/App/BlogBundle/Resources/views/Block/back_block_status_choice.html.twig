@@ -1,65 +1,59 @@
+{% trans_default_domain "BLOG" %}
+{% import "BNSAppBlogBundle:Block:back_block_dates.html.twig" as block_dates %}
+
 <div class="title-container article-statuses-choice">
-	<div class="title active border-blue">Filter les articles<span class="square icon-arrow"></span></div>
-	<div class="content-title">
-		<ul>
-			<li>
-				<label for="blog_article_form_status_0">
-					<span class="vertical-separator gray"></span> <span>{% trans %}Brouillon{% endtrans %}</span>
-					{{ form_widget(form.status[0]) }}
-				</label>
-			</li>
-			<li>
-				<label for="blog_article_form_status_2">
-					<span class="vertical-separator blue"></span> <span>Terminé</span>
-					{{ form_widget(form.status[2]) }}
-				</label>
-			</li>
-			<li>
-				<label for="blog_article_form_status_3">
-					<span class="vertical-separator orange"></span> <span>A corriger</span>
-					{{ form_widget(form.status[3]) }}
-				</label>
-			</li>
-			<li>
-				<label for="blog_article_form_status_1">
-					<span class="vertical-separator green"></span> <span>Publié</span>
-					{{ form_widget(form.status[1]) }}
-				</label>
-			</li>
-			<li class="show-programmation-block">
-				<label for="blog_article_form_status_4">
-					<span class="vertical-separator purple"></span> <span>Publication programmée</span>
-					{{ form_widget(form.status[4]) }}
-				</label>
-			</li>
-		</ul>
-		{% if form.status.vars.errors|length > 0 %}
-			<div class="alert alert-danger bns-alert">
-				{{ form_errors(form.status) }}
-			</div>
-		{% endif %}
-	</div>
+  <div class="title active border-blue">{% trans %}ARTICLE_STATUS{% endtrans %}<span class="square icon-arrow"></span></div>
+  <div class="content-title">
+    <ul>
+      <li>
+        <label for="blog_article_form_status_0">
+          <span class="vertical-separator gray"></span> <span>{% trans %}DRAFT{% endtrans %}</span>
+          {{ form_widget(form.status[0]) }}
+        </label>
+      </li>
+      <li>
+        <label for="blog_article_form_status_2">
+          <span class="vertical-separator blue"></span> <span>{% trans %}ARTICLE_FINISHED{% endtrans %}</span>
+          {{ form_widget(form.status[2]) }}
+        </label>
+      </li>
+      <li>
+        <label for="blog_article_form_status_3">
+          <span class="vertical-separator orange"></span> <span>{% trans %}ARTICLE_TO_CORRECT{% endtrans %}</span>
+          {{ form_widget(form.status[3]) }}
+        </label>
+      </li>
+      <li class="show-publish-block">
+        <label for="blog_article_form_status_1">
+          <span class="vertical-separator green"></span> <span>{% trans %}ARTICLE_PUBLISH{% endtrans %}</span>
+          {{ form_widget(form.status[1]) }}
+        </label>
+      </li>
+      <li class="show-programmation-block">
+        <label for="blog_article_form_status_4">
+          <span class="vertical-separator purple"></span> <span>{% trans %}ARTICLE_PROGRAM{% endtrans %}</span>
+          {{ form_widget(form.status[4]) }}
+        </label>
+      </li>
+    </ul>
+    {% if form.status.vars.errors|length > 0 %}
+      <div class="alert alert-danger bns-alert">
+        {{ form_errors(form.status) }}
+      </div>
+    {% endif %}
+  </div>
+</div>
+<div class="title-container publish-date {% if not article.isPublished() %}hide{% endif %}">
+  <div class="title active border-blue">{% trans %}DATE_OF_PUBLISH{% endtrans %}<span class="square icon-arrow"></span></div>
+  {% if not article.isPublished() %}
+    <div class="bns-alert alert-info alert">
+      {% trans %}LEAVE_EMPTY_TO_PARAM_TODAY{% endtrans %}.
+
+    </div>
+  {% endif %}
+  {{ block_dates.show(form.publication_day, form.publication_time, 'publish-datepicker') }}
 </div>
 <div class="title-container publish-programmation {% if not article.isProgrammed() %}hide{% endif %}">
-	<div class="title active border-blue">Programmer la publication<span class="square icon-arrow"></span></div>
-	<div class="content-title">
-		<div class="form-widget">
-			<div class="datepicker">
-				<span class="date">Le</span> {{ form_widget(form.programmation_day, {'type': 'text', 'attr': {'placeholder': 'jour /mois / année'} }) }}  <img src="/medias/images/icons/sidebar/datepicker.png" alt="">
-			</div>
-			<div class="hours">
-				<span class="date">A</span>
-				{{ form_widget(form.programmation_time['hour']) }}
-				<span class="date label-right"> &nbsp;H</span>
-				{{ form_widget(form.programmation_time['minute']) }}
-			</div>
-		</div>
-			
-		{% if form.programmation_day.vars.errors|length > 0 or form.programmation_time.vars.errors|length > 0 %}
-			<div class="alert alert-danger bns-alert">
-				{{ form_errors(form.programmation_day) }}
-				{{ form_errors(form.programmation_time) }}
-			</div>
-		{% endif %}
-	</div>
+  <div class="title active border-blue">{% trans %}PROGRAM_PUBLICATION{% endtrans %}<span class="square icon-arrow"></span></div>
+  {{ block_dates.show(form.programmation_day, form.programmation_time, 'datepicker') }}
 </div>

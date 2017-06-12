@@ -130,7 +130,11 @@
 		{
 			{% if (debug) %} console.log('getContentFor(' + inputId + ')'); {% endif %}
 			var $input = $('#' + inputId);
-			
+
+			if ($input.length == 0) {
+				$input = $('[bns-id="' + inputId + '"]');
+			}
+
 			if ($input.length == 0) {
 				throw new Error('Unkwown input with id : ' + inputId + ' !');
 			}

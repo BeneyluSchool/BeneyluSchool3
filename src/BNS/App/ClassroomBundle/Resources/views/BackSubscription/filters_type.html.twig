@@ -1,0 +1,20 @@
+{% trans_default_domain "CLASSROOM" %}
+<div class="title-container type-filters" data-filter-name="type">
+	<div class="title active border-blue">{% trans %}TITLE_SUBSCRIPTION_TYPE{% endtrans %} <span class="square icon-arrow"></span></div>
+	<div class="content-title">
+		<ul>
+			<li data-filter="subscription">
+                <div>
+                    <span>{% trans %}LINK_SUBSCRIPTION{% endtrans %}</span>
+                    <span class="select"></span>
+                </div>
+            </li>
+            <li data-filter="buy">
+                <div>
+                    <span>{% trans %}LINK_PURCHASE{% endtrans %}</span>
+                    <span class="select"></span>
+                </div>
+            </li>
+		</ul>
+	</div>
+</div>

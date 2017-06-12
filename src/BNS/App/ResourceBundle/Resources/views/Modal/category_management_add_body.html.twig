@@ -1,0 +1,39 @@
+<div class="modal-body">
+	<div class="loader loader-sb"></div>
+	<div class="alert alert-success bns-alert" style="display: none;">
+	    Le libellé a bien été ajouté 
+	    <div class="jim"></div>
+	</div>
+	<div class="alert alert-danger bns-alert hide empty">
+	    Veuillez saisir un nom
+	    <div class="jim"></div>
+	</div>
+	<div class="category-editor content-modal-body large">
+	    <div class="form-content">
+		<input type="text" name="" value="" placeholder="Nom du nouveau libellé" /><br />
+		<h3><b>Choisir un emplacement : </b></h3>
+		{% if parents|length > 2 %}
+			<input type="hidden" id="selector" value="select" />
+			<label for="radio_0" class="choice-base-folder">
+				<select name="parent" id="radio_0">
+					<option value="0">Mes documents</option>
+					<option disabled="disabled">---</option>
+					{% for parent in parents %}
+						<option value="{{ parent.id }}">{{ parent.label }}</option>
+					{% endfor %}
+				</select>
+			</label>
+		{% else %}
+			<input type="hidden" id="selector" value="radio" />
+			<label for="radio_0" class="choice-base-folder">
+				<input type="radio" style="display: inline;" name="parent" checked="checked" value="0" id="radio_0" /> Mes documents
+			</label>
+			{% for parent in parents %}
+				<label for="radio_{{ parent.id }}" class="choice-base-folder">
+					<input type="radio" style="display: inline;" name="parent" value="{{ parent.id }}" id="radio_{{ parent.id }}" /> {{ parent.label }}
+				</label>
+			{% endfor %}
+		{% endif %}
+	    </div>
+	</div>
+</div>

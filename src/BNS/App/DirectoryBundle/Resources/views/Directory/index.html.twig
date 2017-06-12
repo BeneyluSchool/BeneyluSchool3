@@ -1,33 +1,58 @@
+{% trans_default_domain "DIRECTORY" %}
 <div class="row-fluid header">
-	<div class="title pull-left">
-		Mes contacts
+	<div class="title span4">
+		<span>
+            {{ 'LABEL_MY_CONTACTS'|trans |desc('Mes contacts') }}
+        </span>
 	</div>
-	<div class="pull-right">
-		 <a type="button" class="close close-button" data-dismiss="modal"></a>
-	</div>
-	<div class="user-filter-form pull-right">
-		<input type="text" class="search-input" placeholder="Rechercher..." /> <button class="btn btn-warning filter-user"><span class="icons-search"></span> Rechercher</button>
-	</div>	
+    <div class="span7">
+        <div class="user-filter-form pull-right">
+            <input type="text" class="search-input" placeholder="{{ is_adult() ? 'LABEL_CHOOSE_SEARCH'|trans |desc('Veuillez saisir votre recherche') : 'LABEL_WRITE_SEARCH'|trans |desc('Entre ta recherche ici') }}" /> <button class="btn btn-warning filter-user"><span class="search"></span> {{ 'BUTTON_SEARCH'|trans |desc(' Rechercher') }}</button>
+        </div>
+    </div>
+    <div class="span1 ">
+        <div class="close-button-container">
+            <a type="button" class="close close-button" data-dismiss="modal"></a>
+        </div>
+    </div>
 </div>
 
 <div class="row-fluid directory-content" id="directory-content">
-	<div class="side span3 sidebar">
-		<ul>
-			{% include 'BNSAppDirectoryBundle:Common:link_group_tab.html.twig' with {'group': current_group, 'is_default_group': true, 'context': 'default'} %}
-		</ul>
-		<ul>
-			{% include 'BNSAppDirectoryBundle:Common:link_group_tab_list.html.twig' with {'groups': groups, 'is_default_group': true, 'context': 'default'} %}
-		</ul>
+	<div class="sidebar-container">
+        <div class="side sidebar directory-sidebar">
+            <ul>
+                {% include 'BNSAppDirectoryBundle:Common:link_group_tab_list.html.twig' with {'groups': groups, 'is_default_group': true, 'context': 'default', 'current_group': current_group } %}
+            </ul>
+        </div>
 	</div>
-	<div class="side span9 main pull-left">
+	<div class="side main pull-left directory-main-content">
+        {% if is_userpicker %}
+            <div class="title-block">
+                <h2 class="selection"><span>{{ 'LABEL_MY_SELECTION'|trans |desc('Ma sélection') }}</span></h2>
+                <div class="border-blue"></div>
+            </div>
+            <div class="content-user-selected">
+                <a href="#" id="{{ modal_id }}-add-selected-user" class="btn bns-success validate-medium btn-24 medium add-selected-user pull-right"><span class="icons-24 validate-icon"></span><strong>{{ 'BUTTON_SAVE'|trans |desc('Enregistrer') }}</strong></a>
+                <img src="{{ asset('/medias/images/icons/small-loader.gif') }}" class="loading hide" />
+                <div class="selected-user-container">
+                    {% if group_target is defined and group_target != null%}
+                        {% for subgroup_role in group_target.getSubgroupsRoleWithUsers() %}
+                            {% if subgroup_role.getUsers()|length > 0 %}
+                                {% for user in subgroup_role.getUsers() %}
+                                    {% include 'BNSAppDirectoryBundle:Common:user_selected_block.html.twig' with {'user': user, 'is_userpicker': is_userpicker} %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <p class="no-selection">{% if is_child() %}{{ 'LABEL_NO_RECIPIENT_CHILD'|trans |desc('Tu n\'as pas encore choisi de destinataire.') }}{% else %}{{ 'LABEL_NO_RECIPIENT_OTHER'|trans |desc('Vous n\'avez pas encore choisi de destinataire.') }}{% endif %}</p>
+                    {% endif %}
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        {% endif %}
 		{% include 'BNSAppDirectoryBundle:Common:group_tab.html.twig' with {'group': current_group, 'is_default_group': true} %}
-
 		{% include 'BNSAppDirectoryBundle:Common:group_tab_list.html.twig' with {'groups': groups} %}
 	</div>
 </div>
 
 <script type="text/javascript" src="{{ asset('/medias/js/directory/directory.js') }}"></script>
-
-{#<div class="offset-block"></div>
-<span class="label label-inverse hide reset-filter">Réinitialisation des filtres</span>
-{% include 'BNSAppDirectoryBundle:Common:group_context_label_list.html.twig' with {'groups': groups} %}#}

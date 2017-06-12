@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-07-11T12:22:08Z" source-language="en" target-language="es-AR" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="8364ce67648cd8ba64d2d4772178b2abde2a2b4b" resname="ACTIVATE_CATEGORY">
+        <source>ACTIVATE_CATEGORY</source>
+        <target>Activación de la categoría</target>
+      </trans-unit>
+      <trans-unit id="b2e0052880be7890c4be5a1309e75c28ca0470f1" resname="CHOICE_DELETE_PLACE">
+        <source>CHOICE_DELETE_PLACE</source>
+        <target>Eliminar lugares</target>
+      </trans-unit>
+      <trans-unit id="78f1c12d84fbe32a06cddc227864ffb889c230cf" resname="CHOICE_KEEP_PLACE">
+        <source>CHOICE_KEEP_PLACE</source>
+        <target>Guardar lugares</target>
+      </trans-unit>
+      <trans-unit id="7ffa1bba5b379d96f840d6f445d7a342c030b6c6" resname="CHOOSE_CATEGORY">
+        <source>CHOOSE_CATEGORY</source>
+        <target>Seleccioná una categoría</target>
+      </trans-unit>
+      <trans-unit id="31eb53ea15d09b80c3dfbbbc6b84c977f8aa8829" resname="CREATE_AT_IN_CATEGORY">
+        <source>Crée %date% dans la catégorie %category%</source>
+        <target state="new">Creado %date% en la categoría %category%</target>
+        <note><![CDATA[%date% is a placeholder
+%category% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="de4e23f2df3353834718e57371ef48c19a661daa" resname="DESCRIPTION_DELETE_CATEGORY">
+        <source>DESCRIPTION_DELETE_CATEGORY</source>
+        <target>Advertencia: si eliminás esta categoría, se eliminarán todos los lugares que hay en ella.</target>
+      </trans-unit>
+      <trans-unit id="2cc0624e9ad37fdca9b3654bc3c25606780b1fc9" resname="ENABLED_DISABLE_CATEGORY">
+        <source>ENABLED_DISABLE_CATEGORY</source>
+        <target>Una luz verde significa que la categoría es visible en el GPS. Una luz roja significa que la categoría está oculta.</target>
+      </trans-unit>
+      <trans-unit id="4c9f65504981457a726583aefd767341508c9ebf" resname="FLASH_PLACE_CREATE_SUCCESS">
+        <source>FLASH_PLACE_CREATE_SUCCESS</source>
+        <target state="new">El lugar ha sido añadido con éxito</target>
+      </trans-unit>
+      <trans-unit id="ff96057fb638486a169e68b6b2374ae6fc2ca2fb" resname="INPUT_ADD">
+        <source>INPUT_ADD</source>
+        <target>Añadir</target>
+      </trans-unit>
+      <trans-unit id="57ca7f31615ea62e0df738ad33fab34c77edbd30" resname="LABEL_ADRESS">
+        <source>LABEL_ADRESS</source>
+        <target state="new">Dirección</target>
+      </trans-unit>
+      <trans-unit id="a67652a6d6781a7fb25a33ab12af1cc7985f90bd" resname="LABEL_DESCRIPTION">
+        <source>LABEL_DESCRIPTION</source>
+        <target>Descripción</target>
+      </trans-unit>
+      <trans-unit id="61611682049d38ac723ed49f4a314d154ed78d15" resname="LABEL_NAME">
+        <source>LABEL_NAME</source>
+        <target>Nombre</target>
+      </trans-unit>
+      <trans-unit id="cec260f93511128fd1b16074593041ebb6f4efe9" resname="LINK_ADD">
+        <source>LINK_ADD</source>
+        <target>Añadir una categoría</target>
+      </trans-unit>
+      <trans-unit id="6eb7e9ccca64938b6808272c96c47250e5f8bf02" resname="LINK_ADD_CATEGORY">
+        <source>LINK_ADD_CATEGORY</source>
+        <target>Añadir una categoría</target>
+      </trans-unit>
+      <trans-unit id="bbf783da14ae04f43a07e84e9a33152575d248f4" resname="LINK_ADD_PLACE">
+        <source>LINK_ADD_PLACE</source>
+        <target>Añadir un lugar</target>
+      </trans-unit>
+      <trans-unit id="d8be7dd02f85a983a8d9ac68de97a3624ae6e657" resname="LINK_BACK_TO_LIST">
+        <source><![CDATA[<strong>Retourner à</strong><br>la liste]]></source>
+        <target state="new"><![CDATA[<strong>Volver a</strong><br>la lista]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="1f8524949b59bf473e5b31304582c62cb6d54e28" resname="LINK_CANCEL">
+        <source>LINK_CANCEL</source>
+        <target state="new">Cancelar</target>
+      </trans-unit>
+      <trans-unit id="ad91e9de2c89e3dd3481a207642b6917e37ab971" resname="LINK_CANCEL_ADD_PLACE">
+        <source>LINK_CANCEL_ADD_PLACE</source>
+        <target state="new">Cancelar | adición de un lugar</target>
+      </trans-unit>
+      <trans-unit id="f596f444928502f724310fc6c60e6ea65b13fa04" resname="LINK_CANCEL_EDIT_PLACE">
+        <source>LINK_CANCEL_EDIT_PLACE</source>
+        <target state="new">Cancelar | edición de un lugar</target>
+      </trans-unit>
+      <trans-unit id="2b8d3f6bcc98097f3c8e1e40e7f27930c6a4cbf3" resname="LINK_CANCEL_MODIFICATION">
+        <source><![CDATA[<strong>Annuler</strong><br />les modifications]]></source>
+        <target state="new"><![CDATA[<strong>Descartar</strong><br />los cambios]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="f77751b65b91dcd964b9a283a8b1016a77406804" resname="LINK_CANCEL_PLACE_ADD">
+        <source><![CDATA[<strong>Annuler</strong><br>l'ajout du lieu]]></source>
+        <target state="new"><![CDATA[<strong>Cancelar</strong><br>la adición del lugar]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="230e8906f1e7d4ce2676d0197a58f7925abd5e72" resname="LINK_CANCEL_PLACE_EDIT">
+        <source><![CDATA[<strong>Annuler</strong><br>l'édition du lieu]]></source>
+        <target state="new"><![CDATA[<strong>Cancelar</strong><br>la edición del lugar]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="7de43b51f8f40dcdda2f2f92d2be099879ca9e46" resname="LINK_CATEGORIES">
+        <source>LINK_CATEGORIES</source>
+        <target>Categorías</target>
+      </trans-unit>
+      <trans-unit id="f32334b41ec1e592405625c6b43db3c85ba7db83" resname="LINK_CLOSE">
+        <source>LINK_CLOSE</source>
+        <target>Cerrar</target>
+      </trans-unit>
+      <trans-unit id="b66042ce07d692ee9b65ffe31b2a1a770fb2bb18" resname="LINK_DELETE">
+        <source>LINK_DELETE</source>
+        <target>Eliminar la categoría</target>
+      </trans-unit>
+      <trans-unit id="008e72576c5499b2253923e357dfaa3d24a919dc" resname="LINK_DELETE_CATEGORY">
+        <source>LINK_DELETE_CATEGORY</source>
+        <target>Eliminar la categoría</target>
+      </trans-unit>
+      <trans-unit id="2d4177776e88e472325ff7634c80115ac1666595" resname="LINK_DELETE_PLACE">
+        <source><![CDATA[<strong>Supprimer</strong><br>le lieu]]></source>
+        <target state="new"><![CDATA[<strong>Eliminar</strong><br>el lugar]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="f255c373e83ddc298904b10117c51064a10d3e24" resname="LINK_EDIT_PLACE">
+        <source><![CDATA[<strong>Éditer</strong><br>le lieu]]></source>
+        <target state="new"><![CDATA[<strong>Editar</strong><br>el lugar]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="e4d7fb20c544156b6387f8913ac6d43bab30283c" resname="LINK_MODIFICATION_CANCEL">
+        <source>LINK_MODIFICATION_CANCEL</source>
+        <target state="new">Omitir | cambios</target>
+      </trans-unit>
+      <trans-unit id="6b92764a39f8f4aae78481f19658b1e8420731f4" resname="LINK_PLACE">
+        <source>LINK_PLACE</source>
+        <target>Lugares</target>
+      </trans-unit>
+      <trans-unit id="98d4087dd8bf4d5cf966aded0ec5d3c2b820857a" resname="LINK_PLACE_DELETE">
+        <source>LINK_PLACE_DELETE</source>
+        <target state="new">Eliminar | lugar</target>
+      </trans-unit>
+      <trans-unit id="e560352cff5577d2a1870e980b03c49342c39030" resname="LINK_PLACE_EDIT">
+        <source>LINK_PLACE_EDIT</source>
+        <target state="new">Editar | lugar</target>
+      </trans-unit>
+      <trans-unit id="eb8839be30f79dc0e95d2ec61bf2bfb23f09f6d3" resname="LINK_RETURN_TO_LIST">
+        <source>LINK_RETURN_TO_LIST</source>
+        <target state="new">Regresar | a la lista</target>
+      </trans-unit>
+      <trans-unit id="bb6ad193e27769b05bdfe6c17eb48de419278745" resname="LINK_SAVE">
+        <source>LINK_SAVE</source>
+        <target>Guardar el lugar</target>
+      </trans-unit>
+      <trans-unit id="f7d6948bf426b1306149ed1d9108db1407637074" resname="LINK_SEARCH">
+        <source>LINK_SEARCH</source>
+        <target>Buscar</target>
+      </trans-unit>
+      <trans-unit id="ed23f3970d79c7b2490404df8d7c8fdc6ea31797" resname="LINK_SEE_CARD">
+        <source>LINK_SEE_CARD</source>
+        <target>Ver la ficha</target>
+      </trans-unit>
+      <trans-unit id="b68b425c342987d83fd6cde84607d830cf967b4d" resname="LINK_SEE_ON_MAP">
+        <source>LINK_SEE_ON_MAP</source>
+        <target>Ver en el mapa</target>
+      </trans-unit>
+      <trans-unit id="54504eee75ea968823540577901226cf2b9b19ea" resname="LINK_VALIDATE">
+        <source>LINK_VALIDATE</source>
+        <target>Validar</target>
+      </trans-unit>
+      <trans-unit id="582ae57f32e08f70a7ac05b6f14f82bcb5d19fb4" resname="LINK_VIEW_ROAD">
+        <source><![CDATA[<span>Vue</span> Route]]></source>
+        <target state="new"><![CDATA[Vista <span>calle</span>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="f65f483b65b15cd47472ea3753cf7e470ff96c1a" resname="LINK_VIEW_SATELLITE">
+        <source><![CDATA[<span>Vue</span> Satellite]]></source>
+        <target state="new"><![CDATA[Vista <span>satélite</span>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="fb771afa0f225b7c2ebd9d2eff43c7e8ea4bbef2" resname="LINK_VIEW_TERRAIN">
+        <source><![CDATA[<span>Vue</span> Terrain]]></source>
+        <target state="new"><![CDATA[Vista <span>tierra</span>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="47983996e59f9d733ccb9a7d39554df7a3b41a9f" resname="LIST_LINKS_PLACE">
+        <source>LIST_LINKS_PLACE</source>
+        <target state="new">Lista de lugares</target>
+      </trans-unit>
+      <trans-unit id="b6f589ff753e1527116cfdaf52ee0d21cea25876" resname="MINE_PLACE">
+        <source>MINE_PLACE</source>
+        <target>Mis lugares</target>
+      </trans-unit>
+      <trans-unit id="f079aa0b15008e717042ef8c6641098133b568cc" resname="MODAL_ADD_PLACE_CATEGORY">
+        <source>MODAL_ADD_PLACE_CATEGORY</source>
+        <target>Añadir una categoría de lugar</target>
+      </trans-unit>
+      <trans-unit id="ab826c2fd8ac7c06691fbdbf9e17894c80f61b64" resname="MODAL_DELETE_CATEGORY">
+        <source>MODAL_DELETE_CATEGORY</source>
+        <target>Eliminar la categoría</target>
+      </trans-unit>
+      <trans-unit id="6ab1b6a40c0a2d63373beda70c8c59cbd9e8a072" resname="MODAL_DELETE_PLACE">
+        <source>MODAL_DELETE_PLACE</source>
+        <target>Eliminar el lugar</target>
+      </trans-unit>
+      <trans-unit id="637d41c546e25f7ea3bd2b49957703bbc73794ec" resname="MODAL_DELETE_PLACE_CATEGORY">
+        <source>MODAL_DELETE_PLACE_CATEGORY</source>
+        <target>Eliminando una categoría de lugar</target>
+      </trans-unit>
+      <trans-unit id="9cd966ea68f86576c5154cb9aa4f678ce5b2e6a1" resname="MODAL_SURE_DELETE_CATEGORY">
+        <source>MODAL_SURE_DELETE_CATEGORY</source>
+        <target>¿Seguro que querés eliminar esta categoría y sus lugares?</target>
+      </trans-unit>
+      <trans-unit id="83434bbfae5337e6a7e4f2346f5af5aa4b1c4567" resname="NO_CATEGORY_CAN_CREATE">
+        <source>Il n'y a pas encore de catégories. Vous pouvez en créer grâce au champ ci-dessus pour organiser vos lieux.</source>
+        <target state="new">Todavía no hay categorías. Podés crearlas en la %linkStart% página de gestión de categorías%linkEnd%</target>
+        <note><![CDATA[%linkStart% is a placeholder
+%linkEnd% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="56b802eea9fe33a4b4e541279d40c011937718f3" resname="NO_CATEGORY_CAN_CREATE_ON_MANAGEMENT_CATEGORY">
+        <source>Il n'y pas encore de catégorie. Vous pouvez en créer sur la page de %linkStart% gestion des catégories %linkEnd%.</source>
+        <target>Todavía no hay categorías. Podés crearlas en la %linkStart% página de gestión de categorías%linkEnd%</target>
+        <note><![CDATA[%linkStart% is a placeholder
+%linkEnd% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="ac8c0b252737dbb41c6b09432a488ca94d06227d" resname="NO_PLACE_CATEGORY_IN_YOUR_GPS">
+        <source>NO_PLACE_CATEGORY_IN_YOUR_GPS</source>
+        <target>Todavía no tenés ninguna categoría de lugar en su GPS</target>
+      </trans-unit>
+      <trans-unit id="1e9da64d48f0b2e3fc3746ffc4cf5b45382c0dcf" resname="NO_PLACE_IN_GPS">
+        <source>NO_PLACE_IN_GPS</source>
+        <target>Todavía no tenés ningún lugar en su GPS</target>
+      </trans-unit>
+      <trans-unit id="e987598ed92200e5b1b4c6bea15b90afc823e281" resname="PLACEHOLDER_ENTER_NAME_ADDRESS_ETC">
+        <source>PLACEHOLDER_ENTER_NAME_ADDRESS_ETC</source>
+        <target>Introducí el nombre, la dirección, las coordenadas...</target>
+      </trans-unit>
+      <trans-unit id="e9eda5652bc79fd66af12e810bcdbb4b64c08c28" resname="PLACEHOLDER_NEW_CATEGORY">
+        <source>PLACEHOLDER_NEW_CATEGORY</source>
+        <target>Nueva categoría</target>
+      </trans-unit>
+      <trans-unit id="966c826b3053753bcb44f927945f798e8276cb2c" resname="PLACEHOLDER_NO_RESULT">
+        <source>PLACEHOLDER_NO_RESULT</source>
+        <target>Ningún resultado</target>
+      </trans-unit>
+      <trans-unit id="a28f2e6c963fc8e84b3a06488574599f3233bdd3" resname="PLACEHOLDER_PLACE_ADDRESS">
+        <source>PLACEHOLDER_PLACE_ADDRESS</source>
+        <target>Dirección del lugar</target>
+      </trans-unit>
+      <trans-unit id="350fabd7feafc939eae4e4abc8cc675e802b6588" resname="PLACEHOLDER_PLACE_DESCRIPTION">
+        <source>PLACEHOLDER_PLACE_DESCRIPTION</source>
+        <target>Descripción del lugar</target>
+      </trans-unit>
+      <trans-unit id="f9647ca0ef33373f146e1b41d9f419cb852ad4cb" resname="PLACEHOLDER_PLACE_NAME">
+        <source>PLACEHOLDER_PLACE_NAME</source>
+        <target>Nombre del lugar</target>
+      </trans-unit>
+      <trans-unit id="4be708deb7a279967c2d912150819f7dcb917a9b" resname="PLACEHOLDER_TITLE_NEW_CATEGORY">
+        <source>PLACEHOLDER_TITLE_NEW_CATEGORY</source>
+        <target>Título de la nueva categoría</target>
+      </trans-unit>
+      <trans-unit id="4b3432107954fb2c3a112f11c6dd70e339af8f96" resname="PLACE_CHANGING_PLEASE_WAIT">
+        <source>PLACE_CHANGING_PLEASE_WAIT</source>
+        <target>Cargando los lugares, esperá...</target>
+      </trans-unit>
+      <trans-unit id="5327d8de98a471cce4acfaf6bcc3ad5f2b7cbd0c" resname="PLACE_WAS_DELETE">
+        <source>PLACE_WAS_DELETE</source>
+        <target state="new">El lugar ha sido añadido con éxito</target>
+      </trans-unit>
+      <trans-unit id="ecf6e44301cac9f242257277f7032ae2981600a9" resname="PLACE_WAS_MODIFY">
+        <source>PLACE_WAS_MODIFY</source>
+        <target state="new">El lugar ha sido modificado con éxito</target>
+      </trans-unit>
+      <trans-unit id="f348a70e40904b751b46ef7e3010bf592dae6b17" resname="PLEASE_CHOOSE">
+        <source>PLEASE_CHOOSE</source>
+        <target>Seleccioná una categoría</target>
+      </trans-unit>
+      <trans-unit id="ae3c0fb31c219fc22ab21ae2336d7b8ac097bc54" resname="SEARCH_PLACE">
+        <source>SEARCH_PLACE</source>
+        <target>Buscar un lugar</target>
+      </trans-unit>
+      <trans-unit id="7e2dd345dc5ec19beaea17bd5733f9de3d3def51" resname="SORT_BY_CATEGORY">
+        <source>SORT_BY_CATEGORY</source>
+        <target>Filtrar por categoría</target>
+      </trans-unit>
+      <trans-unit id="a0396fd2f95dc0df0a3fbc69ad001eb2689caea5" resname="TITLE_CREATE_PLACE">
+        <source>Créer un lieu</source>
+        <target state="new">Añadir un lugar</target>
+      </trans-unit>
+      <trans-unit id="0b65c4c9fa9aa7c18e23f2814ec79f84d55205a5" resname="TITLE_EDIT_PLACE">
+        <source>Éditer un lieu</source>
+        <target state="new">Editar un lugar</target>
+      </trans-unit>
+      <trans-unit id="a5373698725e2812cfea004bca4216b4ebe92871" resname="TITLE_GPS">
+        <source>GPS</source>
+        <target state="new">GPS</target>
+      </trans-unit>
+      <trans-unit id="a65fd648ae6e44c53ce19a272c4bd2d54c637673" resname="TITLE_GPS_MANAGEMENT">
+        <source>TITLE_GPS_MANAGEMENT</source>
+        <target>GPS - Gestión</target>
+      </trans-unit>
+      <trans-unit id="19d15f96e5e36935332a81a0c6dba51b9dd25ed7" resname="TITLE_PLACE">
+        <source>TITLE_PLACE</source>
+        <target state="new">Lugar</target>
+      </trans-unit>
+      <trans-unit id="c9cd147829e8b1ed603bec9e70939d05eed57f86" resname="TITLE_SURE_TO_DELETE_PLACE">
+        <source><![CDATA[Êtes-vous sûr de vouloir supprimer le lieu <strong>"%place%"</strong>  ?]]></source>
+        <target state="new"><![CDATA[¿Seguro que querés eliminar el lugar <strong>"%place%"</strong>?]]></target>
+        <note><![CDATA[%place% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="9b263311347a95f37a3df27243b3758a150be210" resname="TITLE_SURE_TO_REMOVE_CATEGORY">
+        <source><![CDATA[Êtes-vous sûr de vouloir supprimer la catégorie "<span class="title"></span>" ?]]></source>
+        <target><![CDATA[¿Seguro que querés eliminar la categoría "<span class="title"></span>"?]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

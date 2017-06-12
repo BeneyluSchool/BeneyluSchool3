@@ -1,0 +1,8 @@
+{% trans_default_domain "SCHOOL" %}
+<div class="modal-body">
+	<div class="content-modal-body">
+        {{ 'TITLE_SURE_DELETE_USER'|trans({'%userFullName%': user.getFullName() |escape}) |desc('<h2>Êtes-vous sûr de vouloir supprimer %userFullName% de l\'école ?</h2><h3>Cet utilisateur ne pourra plus intéragir avec cette école.<br />
+                                <strong>Attention</strong>, cette action est irréversible !</h3>') |raw}}
+	</div>
+</div>
+<div class="beneylu-jim"></div>

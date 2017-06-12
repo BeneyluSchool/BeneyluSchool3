@@ -1,0 +1,95 @@
+{% extends 'BNSAppBoardBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+    {{ rss.title }} - Gestion
+{% endblock title %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(function ()
+        {
+            $('.header-buttons .delete-information').click(function (e)
+            {
+                $('#modal-information-delete').modal('show');
+
+                return false;
+            });
+        });
+    </script>
+{% endblock javascripts %}
+
+{% block header %}
+    <div class="header-buttons">
+        <div class="inner-header">
+            <div class="container container-fluid">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <a href="{{ path('board_manager_rss') }}" class="btn bns-notice btn-24 medium-return">
+                            <span class="icons-24 back-icon"></span>
+                            <strong>Retourner</strong><br />à la liste
+                        </a>
+                        <a href="{{ path('board_manager_rss_edit', {'id': rss.id()}) }}" class="btn bns-info btn-24 medium-return button-return">
+                            <span class="icons-24 edit-icon"></span>
+                            <strong>Éditer</strong><br />le flux externe
+                        </a>
+
+						<a href="#" class="btn bns-danger btn-24 medium-return delete-information">
+							<span class="icons-24 delete-icon"></span>
+							<strong>Supprimer</strong><br />le flux externe
+						</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock header %}
+
+{% block sidebar %}
+    <div class="container-sidebar">
+        <div class="section active">
+            {% trans %}Flux externe{% endtrans %}
+            <span class="shadow-section"></span>
+        </div>
+    </div>
+{% endblock sidebar %}
+
+{% block content %}
+	{{ render(controller('BNSAppBoardBundle:BackAjax:renderDeleteRssModal', {'rss': rss} )) }}
+
+    <div class="item visualisation">
+        {% for message in app.session.flashbag.get('success') %}
+            <div class="alert alert-success alert-flash bns-alert">
+                {{ message }}
+                <div class="jim"></div>
+            </div>
+        {% endfor %}
+
+        <div class="header">
+            <h3>{{ rss.title }}</h3>
+        </div>
+        <div class="footer">
+            <p>
+                Créé {{ date_from_now(rss.createdAt, false, true) }}
+                par <img src="{{ avatar(rss.user, 'thumbnail') }}" alt="" class="avatar" /> {{ rss.user.fullName }}
+            </p>
+            <p>
+                Dernière modification {{ date_from_now(rss.updatedAt, false, true) }}
+            </p>
+        </div>
+        <div class="text">
+        {% for item in items %}
+            <h4><a href="{{ item.link }}">{{ item.title }}</a></h4>
+            <p>{{ item.description }}</p>
+            <hr />
+        {% else %}
+            <div class="alert alert-info bns-alert">
+                Aucune information n'est disponible dans se flux externe.
+                <div class="jim"></div>
+            </div>
+        {% endfor %}
+        </div>
+
+    </div>
+{% endblock %}

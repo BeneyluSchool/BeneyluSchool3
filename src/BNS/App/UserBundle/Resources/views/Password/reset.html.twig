@@ -1,3 +1,4 @@
+{% trans_default_domain 'USER' %}
 {% extends '::base.html.twig' %}
 
 {% block css %}
@@ -13,9 +14,9 @@
 	<div class="container-fluid container">
 		<div class="row-fluid">
 			<div class="span12">
-				<a href="#"><img src="/medias/images/registration/beneyluschool.png" /></a>
-				<h1>Mot de passe oublié ?</h1>
-				<p>Vous avez oublié votre mot de passe ? <strong>Pas de panique !</strong></p>
+				<a href="{{ path('home') }}"><img src="{{ asset('/medias/images/registration/beneyluschool.png') }}" /></a>
+				{{ 'PASSWORD_LOST_DONT_PANIQUE'|trans |desc('<h1>Mot de passe oublié ?</h1>
+				<p>Vous avez oublié votre mot de passe ? <strong>Pas de panique !</strong></p>') |raw }}
 				<div class="pattern"></div>
 			</div>
 		</div>
@@ -25,17 +26,19 @@
 	<div class="container-registration">
 		<div class="row-fluid">
 			<div class="span12">
-				<h3 class="reset-password">Réinitialisation du mot de passe</h3>
+				<h3 class="reset-password">{{ 'TITLE_RESET_PASSWORD_ADULT_ONLY'|trans |desc('Réinitialisation du mot de passe (adultes uniquement)') }}</h3>
 				<p class="reset-password">
-					Nous allons le réinitialiser, vous n'avez qu'à renseigner votre adresse 
-					et nous enverrons un <strong>e-mail avec un lien de confirmation</strong> qui réinitialisera votre mot de passe,
-					vous permettant de le modifier dès votre prochaine connexion.
+					{{ 'WE_WILL_RESET_PASSWORD_DESCRIPTION' |trans |desc('Nous allons le réinitialiser, vous n\'avez qu\'à renseigner votre adresse
+                    et nous enverrons un <strong>e-mail avec un lien de confirmation</strong> qui réinitialisera votre mot de passe,
+                    vous permettant de le modifier dès votre prochaine connexion.
+                    <br />
+                    <b>Attention</b>, cette procédure est réservée aux adultes ayant indiqué leur adresse email dans l\'ENT.
+                    Si votre enfant a perdu son mot de passe, il faut en demander un nouveau à son enseignant.') |raw }}
 				</p>
-
 				<form action="{{ path('user_password_reset') }}" method="POST" {{ form_enctype(form) }}>
 					<div class="input-reset-password">
 						<div>
-							{{ form_widget(form.email, {'attr': {'placeholder': 'Entrez votre adresse e-mail'} }) }}
+							{{ form_widget(form.email, {'attr': {'placeholder': 'PLACEHOLDER_TYPE_YOUR_EMAIL'|trans} }) }}
 							{{ form_errors(form.email) }}
 						</div>
 
@@ -46,11 +49,11 @@
 					</div>
 
 					<div class="submit">
-						<input type="submit" class="btn btn-success" value="Envoyer" />
+						<input type="submit" class="btn btn-success" value="{{ 'BUTTON_SEND'|trans }}" />
 						<div class="clearfix"></div>
 					</div>
 				</form>
-			</div>
+            </div>
 		</div>
 	</div>
 </div>

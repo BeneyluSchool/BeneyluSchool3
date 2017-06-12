@@ -1,0 +1,15 @@
+<script type="text/javascript">
+    $(function ()
+    {
+        $('.item-list-container.assistant').prepend($('#lastInsertedAssistant').html());
+        $('#lastInsertedAssistant').empty();
+        $('#add-assistant-success').show();
+        $('.bnj-not-found.assistant').parent().fadeOut();
+        $('#add-assistant-modal').modal('hide');
+        window.location.reload();
+    });
+</script>
+
+<div id="lastInsertedAssistant">
+    {% include 'BNSAppClassroomBundle:BackClassroom:row_teacher.html.twig' with {'teacher' : assistant } %}
+</div>

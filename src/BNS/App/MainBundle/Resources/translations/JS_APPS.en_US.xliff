@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-10-04T13:06:45Z" source-language="en" target-language="en-US" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="adb85e60f05335b3149ba2b1a9538e2f844e0db0" resname="BUTTON_UNINSTALL">
+        <source>BUTTON_UNINSTALL</source>
+        <target>Uninstall</target>
+      </trans-unit>
+      <trans-unit id="68e140976805b8d7718751ef968a6dd535fe9ffb" resname="BUTTON_UNINSTALL_CANCEL">
+        <source>BUTTON_UNINSTALL_CANCEL</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="03592a48c0a0534a8a05b305cf543dcb9dca9051" resname="BUTTON_UNINSTALL_CONFIRM">
+        <source>BUTTON_UNINSTALL_CONFIRM</source>
+        <target>Confirm | uninstallation</target>
+      </trans-unit>
+      <trans-unit id="33561df151a950acd9b34b2e37eeb717c46f7895" resname="DESCRIPTION_NO_ACTIVITIES">
+        <source>DESCRIPTION_NO_ACTIVITIES</source>
+        <target>There are no activities</target>
+      </trans-unit>
+      <trans-unit id="e03e1703441d3698d8c06b36e77f453ba11effeb" resname="DESCRIPTION_NO_ACTIVITIES_TO_MANAGE">
+        <source>DESCRIPTION_NO_ACTIVITIES_TO_MANAGE</source>
+        <target>There are no activities to manage</target>
+      </trans-unit>
+      <trans-unit id="6c4a804bf6ef83484e96778f17877b95459f96ba" resname="DESCRIPTION_NO_APPLICATIONS">
+        <source>DESCRIPTION_NO_APPLICATIONS</source>
+        <target>There are no apps</target>
+      </trans-unit>
+      <trans-unit id="09ce2098084e5b8c7ee660a8dbf91526f77328ea" resname="DESCRIPTION_NO_APPLICATIONS_TO_MANAGE">
+        <source>DESCRIPTION_NO_APPLICATIONS_TO_MANAGE</source>
+        <target>There are no apps to manage</target>
+      </trans-unit>
+      <trans-unit id="88d01f4bea227b9fcd20ce9a7a26a5164ef38e07" resname="DESCRIPTION_SOME_ACTIVITIES_PARTIALLY_OPEN">
+        <source>DESCRIPTION_SOME_ACTIVITIES_PARTIALLY_OPEN</source>
+        <target>Some apps are partially open. Click on the button to open or close them completely.</target>
+      </trans-unit>
+      <trans-unit id="60440789067d221c0cf4ad414bcb1342673d5903" resname="DESCRIPTION_SOME_APPLICATIONS_PARTIALLY_OPEN">
+        <source>DESCRIPTION_SOME_APPLICATIONS_PARTIALLY_OPEN</source>
+        <target>Some apps are partially open. Click on the button to open or close them completely.</target>
+      </trans-unit>
+      <trans-unit id="746f03c81a21a0fadc87ae0f8865e93dc7dc0a3e" resname="DESCRIPTION_UNINSTALL_CONFIRM">
+        <source>DESCRIPTION_UNINSTALL_CONFIRM</source>
+        <target>You can reinstall the app anytime from Beneylu Spot</target>
+      </trans-unit>
+      <trans-unit id="80b9144b698dc0d8dc6ae4e695e52dca40cae5f6" resname="FLASH_ACTIVITIES_CLOSE_ERROR">
+        <source>FLASH_ACTIVITIES_CLOSE_ERROR</source>
+        <target>An error occurred whilst closing the activity</target>
+      </trans-unit>
+      <trans-unit id="ba8dc5eac6ea8aaa246009c24b0842f4ded7f89f" resname="FLASH_ACTIVITIES_CLOSE_SUCCESS">
+        <source>FLASH_ACTIVITIES_CLOSE_SUCCESS</source>
+        <target>Activity closed</target>
+      </trans-unit>
+      <trans-unit id="83b2da581d656c3b006995eeb2e16c96d65550aa" resname="FLASH_ACTIVITIES_OPEN_ERROR">
+        <source>FLASH_ACTIVITIES_OPEN_ERROR</source>
+        <target>An error occurred whilst opening the activity</target>
+      </trans-unit>
+      <trans-unit id="d299b61039ed967bbcb8b3943e1b8fb237f719ea" resname="FLASH_ACTIVITIES_OPEN_SUCCESS">
+        <source>FLASH_ACTIVITIES_OPEN_SUCCESS</source>
+        <target>Activity opened</target>
+      </trans-unit>
+      <trans-unit id="3a0ca45f225e3f57217009ec1c3e5cdcb13fd833" resname="FLASH_APP_CLOSE_ERROR">
+        <source>FLASH_APP_CLOSE_ERROR</source>
+        <target>An error occurred whilst closing the app</target>
+      </trans-unit>
+      <trans-unit id="f8ed078459f52161dc5e380d077cc12a6213ee0e" resname="FLASH_APP_CLOSE_SUCCESS">
+        <source>FLASH_APP_CLOSE_SUCCESS</source>
+        <target>Closed app</target>
+      </trans-unit>
+      <trans-unit id="82473537e21d2b297d862c08a647768f0f3dfd56" resname="FLASH_APP_OPEN_ERROR">
+        <source>FLASH_APP_OPEN_ERROR</source>
+        <target>An error occurred whilst opening the app</target>
+      </trans-unit>
+      <trans-unit id="947c771668a9e035696830d8efab7520ae1c3fe4" resname="FLASH_APP_OPEN_SUCCESS">
+        <source>FLASH_APP_OPEN_SUCCESS</source>
+        <target>Open app</target>
+      </trans-unit>
+      <trans-unit id="a8537899c56bf5b71dacceaf4bed80ffcd50d5f3" resname="FLASH_APP_UNINSTALL_ERROR">
+        <source>FLASH_APP_UNINSTALL_ERROR</source>
+        <target>An error occurred whilst uninstalling the app</target>
+      </trans-unit>
+      <trans-unit id="5ef7a0c9ac38121b2a66bb64a3a1f78c57d79b3d" resname="FLASH_APP_UNINSTALL_SUCCESS">
+        <source>FLASH_APP_UNINSTALL_SUCCESS</source>
+        <target>Uninstalled app</target>
+      </trans-unit>
+      <trans-unit id="72abd595ff1485e1753202d0b7b9264495a8d6fa" resname="FLASH_REORDER_APPS_ERROR">
+        <source>FLASH_REORDER_APPS_ERROR</source>
+        <target>Apps order could not be saved</target>
+      </trans-unit>
+      <trans-unit id="0c528901000fbb7889cd2d0e5a786a37d4e619eb" resname="FLASH_REORDER_APPS_SUCCESS">
+        <source>FLASH_REORDER_APPS_SUCCESS</source>
+        <target>Apps order saved</target>
+      </trans-unit>
+      <trans-unit id="8a36c0c0eeb44120fd4f12fadc5d4612b0791fa4" resname="LABEL_ACTIVITIES_CLOSE">
+        <source>LABEL_ACTIVITIES_CLOSE</source>
+        <target>Closed activity</target>
+      </trans-unit>
+      <trans-unit id="1bece2102b6c09b9cd95218f3642b9528fed78ba" resname="LABEL_ACTIVITIES_OPEN">
+        <source>LABEL_ACTIVITIES_OPEN</source>
+        <target>Open activity</target>
+      </trans-unit>
+      <trans-unit id="51a285f2e41f0fd85f8809e2c4eb4b157a4a4d74" resname="LABEL_ACTIVITIES_OPENING_TO_USERS">
+        <source>LABEL_ACTIVITIES_OPENING_TO_USERS</source>
+        <target>Activities opened for users</target>
+      </trans-unit>
+      <trans-unit id="f0c4d59ef7fc304e618db78b5f3eb9e4c9cad1f1" resname="LABEL_APPLICATIONS_OPENING_TO_USERS">
+        <source>LABEL_APPLICATIONS_OPENING_TO_USERS</source>
+        <target>Apps opened for users</target>
+      </trans-unit>
+      <trans-unit id="17b94e494671c502f18d85bff55bc693a449d8b1" resname="LABEL_APPS_TO_FAVORITES">
+        <source>LABEL_APPS_TO_FAVORITES</source>
+        <target>Add apps to favorites</target>
+      </trans-unit>
+      <trans-unit id="6d0b31298f6d272c29bd67d2911e15455464b895" resname="LABEL_APP_CLOSE">
+        <source>LABEL_APP_CLOSE</source>
+        <target>Closed app</target>
+      </trans-unit>
+      <trans-unit id="f46520df8d225b31626e5200102233dfd5021008" resname="LABEL_APP_OPEN">
+        <source>LABEL_APP_OPEN</source>
+        <target>Open app</target>
+      </trans-unit>
+      <trans-unit id="8e0e98ac7d8f9166847e5ea7cbe19a812d81a5d7" resname="LABEL_NEW_ACTIVITY">
+        <source>LABEL_NEW_ACTIVITY</source>
+        <target>New activity</target>
+      </trans-unit>
+      <trans-unit id="aade3189356dde870e5a548476665e62de66fb81" resname="LABEL_NEW_APPLICATION">
+        <source>LABEL_NEW_APPLICATION</source>
+        <target>New app</target>
+      </trans-unit>
+      <trans-unit id="f1bb6b8d44036ea8f413a846f5e1bb2c4fc474d3" resname="LABEL_OPEN_ACTIVITY_TO_PUPILS">
+        <source>LABEL_OPEN_ACTIVITY_TO_PUPILS</source>
+        <target>Open the activity for students</target>
+      </trans-unit>
+      <trans-unit id="0bb53af5b729a6a6e85d8fe1b337e9e278c8ba2b" resname="LABEL_OPEN_APPLICATION_TO_PUPILS">
+        <source>LABEL_OPEN_APPLICATION_TO_PUPILS</source>
+        <target>Open the application for students</target>
+      </trans-unit>
+      <trans-unit id="f2d59512d92207cbcd08b28419df8a5807100005" resname="LABEL_OPEN_CLOSE">
+        <source>LABEL_OPEN_CLOSE</source>
+        <target>Open / Close</target>
+      </trans-unit>
+      <trans-unit id="5d6247d6d567a20576dce0f9e501a23000eb6c80" resname="LABEL_UNINSTALL">
+        <source>LABEL_UNINSTALL</source>
+        <target>Uninstall</target>
+      </trans-unit>
+      <trans-unit id="52f20e600288240e8dc0df2e579e0b5436b1db67" resname="LINK_MANAGE_OUR_ACTIVITIES">
+        <source>LINK_MANAGE_OUR_ACTIVITIES</source>
+        <target>Manage our activities</target>
+      </trans-unit>
+      <trans-unit id="d2b175387a2f6939ba0fa53a3ec10a39c69714ff" resname="LINK_MANAGE_OUR_APPLICATIONS">
+        <source>LINK_MANAGE_OUR_APPLICATIONS</source>
+        <target>Manage our apps</target>
+      </trans-unit>
+      <trans-unit id="07d694c6650399e1bed6dd738787ed23ad19af01" resname="LINK_SHOW_OUR_ACTIVITIES">
+        <source>LINK_SHOW_OUR_ACTIVITIES</source>
+        <target>See our activities</target>
+      </trans-unit>
+      <trans-unit id="edc0ad211d13829491ea6c7df9000cb27565d478" resname="LINK_SHOW_OUR_APPLICATIONS">
+        <source>LINK_SHOW_OUR_APPLICATIONS</source>
+        <target>See our apps</target>
+      </trans-unit>
+      <trans-unit id="2f443578a8f96e1b5d499c31773fb37f1265d7c9" resname="SCHOOL.BUTTON_REGISTER">
+        <source>SCHOOL.BUTTON_REGISTER</source>
+        <target>Switch to the school version|for {{price}} per month per school</target>
+      </trans-unit>
+      <trans-unit id="85366af0deeea9bf6b2d568bb34b1b5aa5b4c043" resname="SCHOOL.DESCRIPTION_JOIN_OTHER_USERS">
+        <source>SCHOOL.DESCRIPTION_JOIN_OTHER_USERS</source>
+        <target>Have your own classroom with {{beneylu_brand_name}} all the while exchanging ideas and collaborating. How nice! Share this adventure with the whole school and enjoy our latest updates. </target>
+      </trans-unit>
+      <trans-unit id="68596fda91b67a14347be2ca0704c49fd0b88cb3" resname="SCHOOL.DESCRIPTION_MANAGE_SCHOOL">
+        <source>SCHOOL.DESCRIPTION_MANAGE_SCHOOL</source>
+        <target>Thanks to our school workspace {{beneylu_brand_name}}, create classrooms, invite teachers, import students' accounts and choose school apps.</target>
+      </trans-unit>
+      <trans-unit id="1215842281018c3649ae56816783820d46d00b2b" resname="SCHOOL.DESCRIPTION_SCHOOL_LIFE">
+        <source>SCHOOL.DESCRIPTION_SCHOOL_LIFE</source>
+        <target>Communicate with all the parents, teachers and students. Post information via exclusive apps such as our website including the latest news.</target>
+      </trans-unit>
+      <trans-unit id="99707ae113e8bbcd9bae188f959dec217e9f7a77" resname="SCHOOL.DESCRIPTION_SECURED_SOFTWARE">
+        <source>SCHOOL.DESCRIPTION_SECURED_SOFTWARE</source>
+        <target>The school version includes 5 GB of free storage. Enjoy a common and secured place to share your documents and get organized.</target>
+      </trans-unit>
+      <trans-unit id="8a18e35ced9a89067bd84f494b0d0b4ad6db8bf9" resname="SCHOOL.LABEL_BY_MONTH">
+        <source>SCHOOL.LABEL_BY_MONTH</source>
+        <target>Per month</target>
+      </trans-unit>
+      <trans-unit id="27b6329d0c6fbcc89a45823b719abd05fd35dbe1" resname="SCHOOL.LABEL_WITHOUT_COMMITMENT">
+        <source>SCHOOL.LABEL_WITHOUT_COMMITMENT</source>
+        <target>Obligation free</target>
+      </trans-unit>
+      <trans-unit id="2db2cd55f8984cdda91a2c60d925de06b1272e05" resname="SCHOOL.TITLE_JOIN_OTHER_USERS">
+        <source>SCHOOL.TITLE_JOIN_OTHER_USERS</source>
+        <target>20,000 teachers welcome you</target>
+      </trans-unit>
+      <trans-unit id="3dc7ded763aabc5ecca01c438f221f93175c46ab" resname="SCHOOL.TITLE_MANAGE_SCHOOL">
+        <source>SCHOOL.TITLE_MANAGE_SCHOOL</source>
+        <target>Supervise the school life</target>
+      </trans-unit>
+      <trans-unit id="95942531ccac0c5efd8c166ca00d51c04f35ebb6" resname="SCHOOL.TITLE_SCHOOL_LIFE">
+        <source>SCHOOL.TITLE_SCHOOL_LIFE</source>
+        <target>Communicate with the entire school</target>
+      </trans-unit>
+      <trans-unit id="1cf6c4681e63a4f1c945a549e764b80bb475e50d" resname="SCHOOL.TITLE_SECURED_SOFTWARE">
+        <source>SCHOOL.TITLE_SECURED_SOFTWARE</source>
+        <target>Share your documents safely</target>
+      </trans-unit>
+      <trans-unit id="cb7285c8a78457ff606edcd31c6e82ce9782b51f" resname="SCHOOL.TITLE_START_WITH_OFFER_HTML">
+        <source>SCHOOL.TITLE_START_WITH_OFFER_HTML</source>
+        <target><![CDATA[Start with our school offer <br><strong>{{beneylu_brand_name}}</strong>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="952f2ed3c76addf47c0d0e7617b4065c9ebf967c" resname="TITLE_CUSTOMIZATION">
+        <source>TITLE_CUSTOMIZATION</source>
+        <target>Customization</target>
+      </trans-unit>
+      <trans-unit id="5dd34c9b323c95c2b706f41abbcb6ae031dd0c64" resname="TITLE_UNINSTALL_CONFIRM">
+        <source>TITLE_UNINSTALL_CONFIRM</source>
+        <target>App uninstallation</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,38 @@
+<div class="flex layout-row cms-builders">
+  <div container class="flex layout-row">
+    <md-content class="md-padding flex layout-row pushed">
+
+      <div class="cms-content">
+        <h1 translate>BUILDERS.TITLE_CMS_METHOD</h1>
+
+        <img src="/ent/assets/images/apps/builders/bdp-method.jpg" alt="" class="centered">
+
+        <p translate>BUILDERS.CMS_METHOD_PRESENTATION</p>
+        <h2 class="orange" translate>BUILDERS.TITLE_STEP_CMS_1</h2>
+        <p translate>BUILDERS.STEP_CMS_1</p>
+        <h2 class="yellow" translate>BUILDERS.TITLE_STEP_CMS_2</h2>
+        <p translate>BUILDERS.STEP_CMS_2</p>
+        <h2 class="green" translate>BUILDERS.TITLE_STEP_CMS_3</h2>
+        <p translate>BUILDERS.STEP_CMS_3</p>
+        <h2 class="purple" translate>BUILDERS.TITLE_STEP_CMS_4</h2>
+        <p translate>BUILDERS.STEP_CMS_4</p>
+
+        <img src="/ent/assets/images/apps/builders/bdp-method-2.jpg" alt="" class="centered">
+        <md-button class="md-primary md-raised centered method-btn"
+          ng-href="{{resources.get('infographie-batisseurs.pdf')}}"
+          bns-ga-event="{category: 'Semaine des possibles', action: 'download', label: 'infographie-batisseurs.pdf'}"
+          target="_blank"
+        >
+          <span translate>BUILDERS.CMS_METHOD_DOWNLOAD</span>
+        </md-button>
+      </div>
+    </md-content>
+
+    <md-button ng-click="ctrl.showMenu()" class="back-to-stories md-whiteframe-z2" href>
+      <span translate>BUILDERS.BUTTON_BACK_TO_MENU</span>
+    </md-button>
+
+    <md-button ui-sref="^.^.home" class="md-icon-button md-fab md-fab-top-right">
+      <md-icon>close</md-icon>
+    </md-button>
+  </div>

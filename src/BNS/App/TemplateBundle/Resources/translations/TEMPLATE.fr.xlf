@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-08-31T18:51:28Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="945d968ce9e2b4ec05a7737c493b2161c4202a08" resname="BUTTON_I_FINISH">
+        <source><![CDATA[<strong>J'ai terminé</strong>]]></source>
+        <target><![CDATA[<strong>J'ai terminé</strong>]]></target>
+        <jms:reference-file line="37">views/Template/template_index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="f3ba228ceba925c853f0cb91542f54f38b341925" resname="BUTTON_OVERVIEW_THEME">
+        <source><![CDATA[<strong>Aperçu</strong><br />du thème]]></source>
+        <target><![CDATA[<strong>Aperçu</strong><br />du thème]]></target>
+        <jms:reference-file line="25">views/Template/template_index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="123c4cc27c05131fec21d59c3aa6484e273135df" resname="MODAL_VIEWING">
+        <source>Prévisualisation</source>
+        <target>Prévisualisation</target>
+        <jms:reference-file line="30">views/Template/template_index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="da569fdc3678973d81bf7fa0a960dbd61d870b4c" resname="PLEASE_WAIT_LOADING">
+        <source>Veuillez patienter, le chargement de l'aperçu en cours.</source>
+        <target>Veuillez patienter, le chargement de l'aperçu en cours.</target>
+        <jms:reference-file line="3">views/Preview/theme_preview_modal_body.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="4e697d80d059024b7e1cff04e7325e9474b46318" resname="TITLE_BACKGROUND">
+        <source>Choisir mon fond de page</source>
+        <target>Choisir mon fond de page</target>
+        <jms:reference-file line="2">views/BackgroundPicker/background_list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="2f56c3f87184f800bc7960d196d8b8341ea55769" resname="TITLE_CHOOSE_BACKGROUND_COLOR_FOR_BLOCK">
+        <source>Choisir ma couleur de fond pour les blocs</source>
+        <target state="new">Choisir ma couleur de fond pour les blocs</target>
+        <jms:reference-file line="2">views/ColorPicker/color_list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="7f8be54e4c98ea3898893b11ae9729df7bafe4a1" resname="TITLE_CHOOSE_FONT">
+        <source>Choisir ma police d'écriture</source>
+        <target>Choisir ma police d'écriture</target>
+        <jms:reference-file line="2">views/FontPicker/font_list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="7f8be54e4c98ea3898893b11ae9729df7bafe4a1" resname="TITLE_THEMES">
+        <source>TITLE_THEMES</source>
+        <target><![CDATA[<h2>Thèmes</h2>]]></target>
+        <jms:reference-file line="2">views/ThemePicker/theme_list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="7f8be54e4c98ea3898893b11ae9729df7bafe4a1" resname="MUST_INCLUDE_SIDEBAR">
+        <source>MUST_INCLUDE_SIDEBAR</source>
+        <target>Vous devez inclure votre sidebar !</target>
+        <jms:reference-file line="2">views/Template/template_index.html.twig</jms:reference-file>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

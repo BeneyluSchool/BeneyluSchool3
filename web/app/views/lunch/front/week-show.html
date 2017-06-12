@@ -1,0 +1,94 @@
+<div class="bns-content-inner">
+  <md-toolbar class="content-toolbar">
+    <div class="purple-border-top"></div>
+    <div class="md-toolbar-tools" layout-align="space-between center">
+      <bns-sidebar-toggle></bns-sidebar-toggle>
+
+      <md-button ui-sref="{week: shared.date.clone().subtract(7, 'days').format('YYYY-MM-DD') }"
+        hide-print class="md-primary md-hue-3 btn-hover" ng-class="{ 'md-icon-button': $mdMedia('sm') }">
+        <md-icon>chevron_left</md-icon>
+        <span hide show-gt-sm ng-bind-html="'LUNCH.BUTTON_PREVIOUS_WEEK' | translate | buttonize:'small':'small'"></span>
+      </md-button>
+      <div flex class="md-title text-primary" ng-class="{ 'md-subhead': $mdMedia('sm') }">
+        <h1 translate>LUNCH.TITLE_MENU_OF_THE_WEEK</h1>
+        <div ng-if="shared.date.format('M') != shared.date.clone().add(4, 'days').format('M')">
+          <h2 translate translate-values="{ start: shared.date.format('D MMMM'), end: shared.date.clone().add(4, 'days').format('D MMMM') }">LUNCH.WEEK_FROM_TO_BIS</h2>
+        </div>
+        <div ng-if="shared.date.format('M') == shared.date.clone().add(4, 'days').format('M')">
+          <h2 translate translate-values="{ start: shared.date.format('D'), end: shared.date.clone().add(4, 'days').format('D MMMM') }">LUNCH.WEEK_FROM_TO_BIS</h2>
+        </div>
+      </div>
+      <md-button ui-sref="{week: shared.date.clone().add(7, 'days').format('YYYY-MM-DD') }"
+        hide-print class="md-primary md-hue-3 btn-hover" ng-class="{ 'md-icon-button': $mdMedia('sm') }">
+        <span hide show-gt-sm ng-bind-html="'LUNCH.BUTTON_NEXT_WEEK' | translate | buttonize:'small':'small'"></span>
+        <md-icon>chevron_right</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+  <div ng-show="ctrl.busy" layout="row" layout-align="center center" class="md-padding lunch-menu week-display">
+  <div class="purple-border-bottom"></div>
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+  </div>
+
+  <div ng-show="!ctrl.busy && !shared.lunchWeek.id" class="lunch-menu week-display">
+
+  <div class="purple-border-bottom"></div>
+    <img flex="100" class="img-nolunch" src="/ent/assets/images/apps/lunch/no-lunch.png" alt="">
+    <div class="md-title md-padding text-primary text-primary-hue-3 text-center no-lunch-large" translate>LUNCH.NO_MENU_THIS_WEEK</div>
+  </div>
+  <div ng-if="!ctrl.busy && shared.lunchWeek.id" class="lunch-menu md-body-1 week-display">
+    <div class="purple-border-bottom"></div>
+    <div>
+        <h2 ng-show="shared.lunchWeek.label" class="md-headline event-title">{{ ::shared.lunchWeek.label }}</h2>
+        <div ng-show="shared.lunchWeek.description" class="week-description event-description">{{ ::shared.lunchWeek.description }}</div>
+    </div>
+    <ul class="flex-container">
+        <li class="lunch-item" flex="50" ng-repeat="day in shared.lunchWeek._embedded.days" ng-init="date = shared.date.clone().add($index, 'days')" ng-class-odd="'odd'" ng-class-even="'even'">
+          <div class="lunch-block">
+            <div layout="row" layout-sm="column" layout-align="start center" class="date-container">
+                <div class="day-date heading">{{ ::date.format('D') }}</div>
+                <div class="day-texts md-subhead">
+                  <div>{{ ::date.format('dddd') }}</div>
+                </div>
+              </div>
+              <div layout="row" layout-sm="column" class="lunch-ribbon">
+                <div class="ribbon-title">
+                  <md-icon md-svg-src="/ent/app/images/apps/lunch/starter-icon.svg" class="s24" aria-label=""></md-icon>
+                  <h3 class="md-title" translate>LUNCH.VALUE_LUNCH</h3>
+                </div>
+              </div>
+              <div ng-if="day.status === '2'" class="md-title md-padding text-primary text-center" translate>LUNCH.STATUS_SPECIAL</div>
+              <div ng-if="day.status === '3'">
+                <img flex="100" class="img-nolunch" src="/ent/assets/images/apps/lunch/no-lunch.png" alt="">
+                <div class="md-title md-padding text-primary text-primary-hue-3 text-center no-lunch" translate>LUNCH.STATUS_NO_LUNCH</div>
+              </div>
+              <div ng-repeat="section in ctrl.editor.sections" ng-if="!ctrl.isSectionEmpty(section.value)">
+                <div layout="row" layout-sm="column" layout-align="start center" ng-if="day.status === '1'">
+                  <div class="lunch-section" ng-class="{'push-left': section.value != 'full_menu', 'afternoon-snack': section.value === 'afternoon_snack'}">
+                    <div ng-if="day[section.value] && section.value != 'afternoon_snack'">
+                      <div class="section-title">
+                        <md-icon ng-if="section.value != 'full_menu'" class="" md-svg-src="/ent/app/images/apps/lunch/{{section.value}}-icon.svg" class="s24" aria-label="{{section.value}}"></md-icon>
+                        <h5 class="md-title">{{ ::(section.value === 'full_menu' ? '' : section.label) | translate }}</h5>
+                      </div>
+                        <div class="menu-description">{{ ::day[section.value] }}</div>
+                    </div>
+                    <div ng-show="section.value === 'afternoon_snack' && day[section.value] != '' && day[section.value] != null" class="snack svg-container">
+                      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="Untitled-page%201" viewBox="0 0 316 139" style="background-color:#ffffff00" version="1.1" xml:space="preserve" x="0px" y="0px" width="316px" height="139px"><path opacity="0.2" d="M 1 24.4193 L 295 11 L 296 135.9032 L 153 127.6451 L 17 139 L 1 24.4193 Z" fill="#333e09"></path><path filter="" d="M 2 24 L 296 11 L 290 126 L 153 121 L 9 128 L 2 24 Z" fill="#a5b933"></path><path opacity="0.2" d="M 198.2029 113.3438 C 198.2029 115.3629 199.8512 117 201.884 117 L 247.8986 117 C 249.9315 117 251.5797 115.3629 251.5797 113.3438 L 251.5797 94.4229 C 259.9702 102.3456 271.0712 111.8271 279.0949 114.9875 C 282.3366 116.3229 285.7742 117 289.3116 117 C 292.8453 117 296.2821 116.3229 299.5283 114.9866 C 302.7771 113.6481 305.689 111.7133 308.1838 109.2358 C 310.6777 106.7592 312.6262 103.8675 313.9743 100.6393 C 315.317 97.4203 315.9991 94.0069 316 90.4922 C 316 86.98 315.3179 83.5657 313.9941 80.3964 C 306.1824 60.8329 259.6879 9.8824 239.7094 2.0125 C 236.4677 0.6771 233.0302 0 229.4928 0 C 225.959 0 222.5223 0.6771 219.2761 2.0134 C 216.0264 3.3523 213.1144 5.2871 210.6205 7.7646 C 208.1248 10.2439 206.1772 13.1361 204.8301 16.3612 C 203.4856 19.5823 202.8043 22.9962 202.8043 26.5078 C 202.8043 30.0199 203.4865 33.4343 204.8103 36.6036 C 206.6464 41.2034 210.3608 46.9662 214.0428 52.0971 C 207.226 52.7545 201.2676 54.0314 196.9465 55.819 C 195.3765 56.4684 193.9727 57.4016 192.7737 58.5928 C 191.5685 59.7899 190.6285 61.1859 189.9788 62.7431 C 189.3289 64.2999 189 65.9478 189 67.6406 C 189 69.3339 189.3289 70.9822 189.9788 72.5399 C 190.6294 74.0984 191.5703 75.495 192.7746 76.6897 C 193.978 77.8854 195.3836 78.8192 196.9519 79.4655 C 197.3626 79.6346 197.7805 79.7818 198.2029 79.9073 L 198.2029 113.3438 ZM 211.6324 33.8551 C 210.6601 31.5258 210.1667 29.0536 210.1667 26.5078 C 210.1667 23.962 210.6592 21.4903 211.6307 19.1619 C 212.6058 16.8276 214.0177 14.7325 215.8277 12.9343 C 217.6342 11.1388 219.7434 9.7373 222.0954 8.7684 C 224.4429 7.8021 226.9315 7.3125 229.4928 7.3125 C 232.0568 7.3125 234.5453 7.8021 236.9422 8.7885 C 241.2382 10.481 247.1113 14.6282 253.6522 20.1933 L 245.2959 28.4926 C 243.8579 29.9208 243.8579 32.2354 245.2959 33.6636 C 246.0139 34.3773 246.9567 34.7344 247.8986 34.7344 C 248.8405 34.7344 249.7832 34.3773 250.5012 33.6636 L 259.1586 25.0649 C 263.4949 29.0375 267.9985 33.4659 272.4426 38.0924 L 263.7017 46.7739 C 262.2637 48.2021 262.2637 50.5167 263.7017 51.9449 C 264.4197 52.6586 265.3625 53.0156 266.3043 53.0156 C 267.2462 53.0156 268.189 52.6586 268.907 51.9449 L 277.4719 43.4381 C 281.7776 48.1115 285.9342 52.8773 289.7277 57.486 L 282.1074 65.0551 C 280.6695 66.4833 280.6695 68.7979 282.1074 70.2261 C 282.8256 70.9398 283.7683 71.2969 284.7101 71.2969 C 285.652 71.2969 286.5947 70.9398 287.3129 70.2261 L 294.3408 63.2462 C 300.5492 71.2344 305.2621 78.3612 307.1719 83.1448 C 308.1442 85.4742 308.6377 87.9464 308.6377 90.4913 C 308.6368 93.0398 308.1442 95.512 307.1736 97.8386 C 306.1977 100.1751 304.7858 102.2697 302.9784 104.0648 C 301.1693 105.8607 299.0601 107.2631 296.7089 108.2316 C 294.3615 109.1979 291.873 109.6875 289.3116 109.6875 C 286.7476 109.6875 284.259 109.1979 281.8621 108.2115 C 275.4066 105.6679 264.4125 96.949 251.5797 84.212 L 251.5797 79.9073 C 252.0031 79.7818 252.42 79.6346 252.8316 79.465 C 254.399 78.8192 255.8046 77.8854 257.0071 76.6911 C 258.2122 75.495 259.1533 74.0984 259.804 72.539 C 260.4537 70.9822 260.7826 69.3339 260.7826 67.6406 C 260.7826 65.9478 260.4537 64.2999 259.804 62.7418 C 259.1541 61.1859 258.2141 59.7899 257.0089 58.5928 C 255.81 57.4016 254.4062 56.4684 252.8361 55.819 C 246.3393 53.1312 236.1541 51.5897 224.8914 51.5897 C 224.1912 51.5897 223.4956 51.5955 222.8045 51.6075 C 217.2145 44.2173 213.2753 37.9693 211.6324 33.8551 ZM 197.9791 71.5174 C 197.4614 71.0041 197.0579 70.406 196.7802 69.7405 C 196.5034 69.0756 196.3623 68.369 196.3623 67.6406 C 196.3623 66.9131 196.5034 66.2065 196.7802 65.5429 C 197.0579 64.877 197.4623 64.278 197.981 63.7621 C 198.4959 63.2506 199.0998 62.8494 199.7775 62.5692 C 204.6341 60.5598 212.4297 59.2592 221.1202 58.9655 C 221.1257 58.965 221.132 58.9659 221.1373 58.9659 C 222.3785 58.924 223.6412 58.903 224.8931 58.903 C 235.0684 58.903 244.4556 60.2737 250.0051 62.5692 C 250.6828 62.8494 251.2867 63.2506 251.8017 63.7621 C 252.3203 64.278 252.7247 64.877 253.0024 65.5416 C 253.2792 66.2065 253.4203 66.9131 253.4203 67.6406 C 253.4203 68.369 253.2792 69.0756 253.0024 69.7397 C 252.7247 70.406 252.3211 71.0041 251.8026 71.5187 C 251.2849 72.0333 250.6819 72.4341 250.0106 72.7108 C 249.3428 72.9857 248.6328 73.125 247.8986 73.125 C 245.8656 73.125 244.2174 74.7621 244.2174 76.7813 L 244.2174 85.7224 L 244.2174 109.6875 L 205.5652 109.6875 L 205.5652 76.7813 C 205.5652 74.7621 203.917 73.125 201.884 73.125 C 201.1498 73.125 200.4398 72.9857 199.7729 72.7108 C 199.1008 72.4341 198.4977 72.0333 197.9791 71.5174 Z" fill="#ffffff"></path>
+                        <svg height="100" width="100%" class="description-text">
+                            <text x="25" y="0">
+                              <tspan x="25" y="50" class="md-title">{{ ::section.label | translate }}</tspan>
+                              <tspan x="25" y="80" class="menu-description">{{ ::day[section.value] }}</tspan>
+                            </text>
+                        </svg>
+                      </svg>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+        </li>
+      </ul>
+  </div>
+</div>

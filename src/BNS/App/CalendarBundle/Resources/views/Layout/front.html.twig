@@ -1,26 +1,26 @@
+{% trans_default_domain "CALENDAR" %}
 {% extends '::base.html.twig' %}
 
-{% block title %}Calendrier{% endblock %}
+{% set app_unique_name = 'CALENDAR' %}
+{% set app_mode = 'front' %}
+
+{% block title %}{% trans %}TITLE_CALENDAR{% endtrans %}{% endblock %}
 
 {% block css %}
-	{{ parent() }}
+  {{ parent() }}
 
-    <link href="{{ asset('/medias/css/calendar/front.css') }}" rel="stylesheet" type="text/css">
-	<link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet' type='text/css'>
+  <link href="{{ asset('/medias/css/calendar/front.css') }}" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Righteous' rel='stylesheet' type='text/css'>
 {% endblock %}
 
 {% block body %}
 
-<div class="background-calendar"></div>
-<div class="container-fluid">
-	<div class="row-fluid">
-		{% block content %}{% endblock %}
-	</div>
-</div>
+  <div class="background-calendar"></div>
+  <div class="container-fluid">
+    <div class="row-fluid">
+      {% block content %}{% endblock %}
+    </div>
+  </div>
 
-{% endblock %}
-
-{% block dock_bar %}
-	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "CALENDAR" , 'is_in_front' : true } %}
 {% endblock %}

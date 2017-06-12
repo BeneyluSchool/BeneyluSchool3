@@ -1,0 +1,31 @@
+<div ng-repeat="(id, provider) in providers" class="media-provider-group">
+  <div class="media-provider">
+    <img ng-if="provider.image_thumbnail_url" ng-src="{{ provider.image_thumbnail_url }}" alt="" class="media-provider-thumbnail">
+    <h4 class="media-provider-name">{{ provider.name }}</h4>
+  </div>
+
+  <div ng-repeat="element in shared.context.medias | filter:{ provider: { id: provider.id } }:true"
+    ng-controller="MediaLibrarySceneElementCtrl"
+    ng-class="{ selected: shared.selection.has(element), disabled: !isSelectionEnabled(element) }"
+    class="media-library-scene-element file"
+  >
+    <div ng-click="viewMedia(element)" class="media-library-scene-element-nav" title="{{ ::element.label }}">
+      <div ng-class="{ 'no-url': !element.image_url }" class="media-library-scene-element-visual">
+        <div class="centerer"></div><span bns-media-preview media="element"></span>
+        <div class="flags">
+          <div ng-show="element.is_private" class="flag-lock"></div>
+        </div>
+      </div>
+      <div ng-click="isSelectable(element) && toggleSelection(element); $event.stopPropagation()" class="media-library-scene-element-label">
+        <input type="checkbox"
+          ng-if="isSelectable(element)"
+          ng-checked="shared.selection.has(element)"
+          ng-model="dummy"
+          ng-disabled="!isSelectionEnabled(element)"
+        >
+        <span bns-favorite-flag="element"></span>
+        {{ ::element.label }}
+      </div>
+    </div>
+  </div>
+</div>

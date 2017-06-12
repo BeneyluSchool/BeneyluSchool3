@@ -1,0 +1,29 @@
+<md-bottom-sheet class="bns-bottom-sheet-menu builders-menu" ng-cloak>
+
+  <div container class="flex layout-row">
+    <md-list container class="bns-bottom-sheet-menu-list">
+      <md-list-item ng-click="menu.go('app.builders.front.cms.builders'); menu.close()">
+        <h3 class="flex" translate>BUILDERS.BUTTON_BUILDERS</h3>
+      </md-list-item>
+
+      <md-list-item ng-if="hasBack" ng-click="menu.go('app.builders.front.cms.tools'); menu.close()">
+        <h3 class="flex" translate>BUILDERS.BUTTON_TOOLS</h3>
+      </md-list-item>
+
+      <md-list-item ng-click="menu.go('app.builders.front.cms.characters'); menu.close()">
+        <h3 class="flex" translate>BUILDERS.BUTTON_CHARACTERS</h3>
+      </md-list-item>
+
+      <md-list-item ng-click="menu.go('app.builders.front.cms.method'); menu.close()">
+        <h3 class="flex" translate>BUILDERS.BUTTON_METHOD</h3>
+      </md-list-item>
+    </md-list>
+    <div class="bns-bottom-sheet-menu-actions" container>
+      <md-button class="back-to-stories md-whiteframe-z2" ng-click="menu.go('app.builders.front.home'); menu.close()" >{{::'BUILDERS.BUTTON_BACK_TO_STORIES'|translate}}</md-button>
+      <md-button class="md-icon-button bns-bottom-sheet-close" ng-click="menu.cancel()">
+        <md-icon>close</md-icon>
+      </md-button>
+    </div>
+  </div>
+
+</md-bottom-sheet>

@@ -17,19 +17,17 @@ use BNS\App\HomeworkBundle\Model\HomeworkSubjectQuery;
 class HomeworkSubject extends BaseHomeworkSubject
 {
 
-    public static function fetchRoot($group_id)
+    public static function fetchRoot($group_id, \PropelPDO $con = null)
     {
-        $root = HomeworkSubjectQuery::create()->findRoot($group_id);
+        $root = HomeworkSubjectQuery::create()->findRoot($group_id, $con);
 
         if ($root == null) {
             $root = new HomeworkSubject();
             $root->setGroupId($group_id);
             $root->setName("subjects for group " . $group_id);
             $root->makeRoot();
-            $root->save();
+            $root->save($con);
         }
-
-        //TODO parse and init some standard subjects? (francais, maths, histoire?)
 
         return $root;
     }

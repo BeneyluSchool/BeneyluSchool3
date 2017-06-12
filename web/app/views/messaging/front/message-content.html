@@ -1,0 +1,19 @@
+<md-toolbar class="md-whiteframe-3dp content-toolbar">
+  <div class="md-toolbar-tools layout-align-start-center">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+
+    <h3 class="heading">{{ ::ctrl.message.subject }}</h3>
+  </div>
+</md-toolbar>
+
+<div class="messaging-loader">
+  <md-progress-linear md-mode="indeterminate" ng-show="ctrl.busy"></md-progress-linear>
+</div>
+
+<md-content>
+
+  <md-list class="message-conversation">
+    <md-list-item bns-messaging-message message="ctrl.message"></md-list-item>
+  </md-list>
+
+</md-content>

@@ -2,18 +2,22 @@
 
 {% block css %}
 	{{ parent() }}
-
 	<link rel="stylesheet" href="{{ asset('/medias/css/registration/front.css') }}" />
 	<link href='https://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
 {% endblock css %}
 
-{% block title %}
-	<a href="#"><img src="/medias/images/registration/beneyluschool.png" /></a>
+{% block header %}
+	<a href="{{ path('home') }}"><img src="{{ asset('/medias/images/registration/beneyluschool.png') }}" /></a>
 	<h1>Validation de la classe</h1>
 	<p>Cette étape permet de certifier que la classe fait bien partie de votre école</p>
-{% endblock title %}
+{% endblock %}
 {% block content %}
+
 	<h2>La classe a été validée</h2>
 	<p>Merci, la classe "<strong>{{ classRoom.getLabel() }}</strong>" est désormais confirmée.</p>
 {% endblock content %}
+
+{% block analytics %}
+    {{ analyticsIdentify(teacher, app.session) }}
+{% endblock %}

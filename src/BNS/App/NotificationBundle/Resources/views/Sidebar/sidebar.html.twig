@@ -1,9 +1,11 @@
+{% trans_default_domain "NOTIFICATION" %}
+
 <div class="notification-block">
 	<ul>
 		<li class="active">
 			<a href="{{ path('notification_render') }}">
-				<img src="/medias/images/icons/group_context/environment.png" alt="">
-				Voir tout
+				<img src="{{ asset('/medias/images/icons/group_context/environment/medium.png') }}" alt="">
+				{{ 'LINK_SEE_ALL'|trans |desc('Voir tout') }}
 				{% set totalCount = unreadNotifications.getTotalCount() %}
 				{% if totalCount > 0 %}
 					<div class="count-notification all">
@@ -14,9 +16,22 @@
 			<div class="border-sidebar"></div>
 		</li>
 		<li>
+			<a href="{{ path('notification_render_announcements') }}">
+				<img src="{{ asset('/medias/images/icons/group_context/environment/medium.png') }}" alt="">
+				{% trans from 'INFO' %}TITLE_ANNOUNCEMENT{% endtrans %}
+				{% set count = unreadNotifications.getAnnouncementCount() %}
+				{% if count > 0 %}
+					<div class="count-notification announcements">
+						{{ count }}
+					</div>
+				{% endif %}
+			</a>
+			<div class="border-sidebar"></div>
+		</li>
+		<li>
 			<a href="{{ path('notification_render_correction') }}">
-				<img src="/medias/images/icons/group_context/environment.png" alt="">
-				Mes corrections
+				<img src="{{ asset('/medias/images/icons/group_context/environment/medium.png') }}" alt="">
+				{{ 'LINK_MY_CORRECTION'|trans |desc('Mes corrections') }}
 				{% set correctionCount = unreadNotifications.getCorrectionCount() %}
 				{% if correctionCount> 0 %}
 					<div class="count-notification correction">
@@ -29,8 +44,8 @@
 		{% if settings.isPersonnalModulesEnabled(personnalModules) %}
 			<li>
 				<a href="{{ path('notification_render_group', {'contextGroupId': 'personnal'}) }}">
-					<img src="{{ asset('/medias/images/icons/group_context/environment.png') }}" alt="">
-					Mes modules
+					<img src="{{ asset('/medias/images/icons/group_context/environment/medium.png') }}" alt="">
+					{{ 'LINK_MINE_MODULE'|trans |desc('Mes modules') }}
 					{% set personnalCount = unreadNotifications.getCount('personnal') %}
 					{% if personnalCount > 0 %}
 						<div class="count-notification only-group-personnal">
@@ -43,7 +58,7 @@
 						{% if settings.isModuleEnabled('personnal', module) %}
 							<li>
 								<a class="module-row" href="{{ path('notification_render_group_module', {'contextGroupId': 'personnal', 'moduleUniqueName': module.getUniqueName()|lower}) }}">
-									<img src="{{ asset ('/medias/images/icons/modules/btn-' ~ module.getUniqueName()|lower ~ '-medium.png') }}" alt="" />
+									<img src="{{ asset ('/medias/images/icons/modules/' ~ module.getUniqueName()|lower ~ '/medium.png') }}" alt="" />
 									{{ module.getLabel() }}
 
 									{% set moduleCount = unreadNotifications.getCount('personnal', module.getUniqueName()) %}
@@ -64,7 +79,7 @@
 			{% if settings.isGroupEnabled(group, true) %}
 				<li>
 					<a href="{{ path('notification_render_group', {'contextGroupId': group.getId()}) }}">
-						<img src="{{ asset('/medias/images/icons/group_context/' ~ group.getGroupType.getType|lower ~ '.png') }}" alt="">
+						<img src="{{ asset('/medias/images/icons/group_context/' ~ group.getGroupType.getType|lower ~ '/medium.png') }}" alt="">
 						{{ group.getLabel() }}
 						{% set groupCount = unreadNotifications.getCount(group.getId()) %}
 						{% if groupCount > 0 %}
@@ -78,7 +93,7 @@
 							{% if settings.isModuleEnabled(group.getId(), module) %}
 								<li>
 									<a class="module-row" href="{{ path('notification_render_group_module', {'contextGroupId': group.getId(), 'moduleUniqueName': module.getUniqueName()|lower}) }}">
-										<img src="{{ asset ('/medias/images/icons/modules/btn-' ~ module.getUniqueName()|lower ~ '-medium.png') }}" alt="" />
+										<img src="{{ asset ('/medias/images/icons/modules/' ~ module.getUniqueName()|lower ~ '/medium.png') }}" alt="" />
 										{{ module.getLabel() }}
 
 										{% set moduleCount = unreadNotifications.getCount(group.getId(), module.getUniqueName()) %}

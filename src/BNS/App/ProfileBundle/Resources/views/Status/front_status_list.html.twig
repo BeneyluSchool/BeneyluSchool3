@@ -1,15 +1,30 @@
+{% trans_default_domain "PROFILE" %}
 {% for feed in feeds %}
 	{% include 'BNSAppProfileBundle:Status:front_status_row.html.twig' with {'feed': feed} %}
 {% else %}
-	<div class="row-fluid">
-		<div class="span12">
+	<div class="md-padding">
 			<p class="no-feed">
 				{% if user.getId() != app.user.id %}
-					Désolé{% if user.getGender() == 'F' %}e{% endif %} les amis, je n'ai pas encore eu le temps d'écrire un message. Je vous invite à revenir un peu plus tard.
-				{% else %}
-					Comme c'est dommage, tu n'as pas encore de statut, tu peux en créer un en cliquant sur <a href="{{ path('BNSAppProfileBundle_back_status') }}">ce lien</a>.
-				{% endif %}
+					{% trans %}YET_NO_STATUS{% endtrans %}
+				{% elseif has_right('PROFILE_FULL_ACCESS_BACK') %}
+            {% if is_adult() %}
+              {{ 'ADULT_CLICK_NO_STATUS_LINK'|trans({
+                '%linkStart%': '<a href="' ~ path('BNSAppProfileBundle_back_status') ~ '">',
+                '%linkEnd%': '</a>'
+              }) |raw }}
+            {% else %}
+              {{ 'CHILD_CLICK_NO_STATUS_LINK'|trans({
+                '%linkStart%': '<a href="' ~ path('BNSAppProfileBundle_back_status') ~ '">',
+                '%linkEnd%': '</a>'
+              }) |raw }}
+            {% endif %}
+         {% else %}
+           {% if is_adult() %}
+             {% trans %}ADULT_NO_STATUS_YET{% endtrans %}
+           {% else %}
+             {% trans %}NO_STATUS{% endtrans %}
+           {% endif %}
+         {% endif %}
 			</p>
-		</div>
 	</div>
 {% endfor %}

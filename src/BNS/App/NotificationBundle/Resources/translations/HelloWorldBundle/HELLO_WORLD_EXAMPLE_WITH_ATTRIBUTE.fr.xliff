@@ -1,24 +1,33 @@
-<?xml version="1.0"?>
-<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-    <file source-language="en" datatype="plaintext" original="file.ext">
-        <body>
-			<!-- Allowed attributes name : testAttribute, exampleAttribute, pixelCookersName,  -->
-
-			<!-- EMAIL Engine -->
-            <trans-unit id="1">
-                <source>HELLO_WORLD_EXAMPLE_WITH_ATTRIBUTE.EMAIL.title</source>
-                <target>Un exemple de notification avec attributs</target>
-            </trans-unit>
-			<trans-unit id="2">
-                <source>HELLO_WORLD_EXAMPLE_WITH_ATTRIBUTE.EMAIL.content</source>
-                <target><![CDATA[Un exemple de notification via e-mail avec attributs (testAttribute: <i>%testAttribute%</i>, exampleAttribute: <b>%exampleAttribute%</b>, pixelCookersName: <u>%pixelCookersName%</u>) avec un engine désactivé (email).]]></target>
-            </trans-unit>
-			
-			<!-- SYSTEM Engine -->
-			<trans-unit id="100">
-                <source>HELLO_WORLD_EXAMPLE_WITH_ATTRIBUTE.SYSTEM.content</source>
-                <target><![CDATA[Un exemple de notification avec attributs (testAttribute: <i>%testAttribute%</i>, exampleAttribute: <b>%exampleAttribute%</b>, pixelCookersName: <u>%pixelCookersName%</u>).]]></target>
-            </trans-unit>
-        </body>
-    </file>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:44:51Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="e7ca58c1b512711faa31a29976750db9d47ea4b5" resname="HELLO_WORLD_EXAMPLE_WITH_ATTRIBUTE.EMAIL.content">
+        <source>HELLO_WORLD_EXAMPLE_WITH_ATTRIBUTE.EMAIL.content</source>
+        <target><![CDATA[Un exemple de notification via e-mail avec attributs (testAttribute: <i>%testAttribute%</i>, exampleAttribute: <b>%exampleAttribute%</b>, pixelCookersName: <u>%pixelCookersName%</u>) avec un engine désactivé (email).]]></target>
+        <note><![CDATA[%testAttribute% is a placeholder
+%exampleAttribute% is a placeholder
+%pixelCookersName% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="77effb7b4124860f1ef1b53d61795c32c2c83d29" resname="HELLO_WORLD_EXAMPLE_WITH_ATTRIBUTE.EMAIL.title">
+        <source>HELLO_WORLD_EXAMPLE_WITH_ATTRIBUTE.EMAIL.title</source>
+        <target>Un exemple de notification avec attributs</target>
+      </trans-unit>
+      <trans-unit id="ddce8a828440cb4c35cf854fd1d96796d721c0a8" resname="HELLO_WORLD_EXAMPLE_WITH_ATTRIBUTE.SYSTEM.content">
+        <source>HELLO_WORLD_EXAMPLE_WITH_ATTRIBUTE.SYSTEM.content</source>
+        <target><![CDATA[Un exemple de notification avec attributs (testAttribute: <i>%testAttribute%</i>, exampleAttribute: <b>%exampleAttribute%</b>, pixelCookersName: <u>%pixelCookersName%</u>).]]></target>
+        <note><![CDATA[%testAttribute% is a placeholder
+%exampleAttribute% is a placeholder
+%pixelCookersName% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>

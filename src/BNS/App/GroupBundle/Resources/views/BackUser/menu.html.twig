@@ -1,0 +1,133 @@
+{% trans_default_domain "GROUP" %}
+<div class="header-buttons">
+	<div class="inner-header">
+		<div class="container container-fluid">
+			<div class="row-fluid">
+				<div class="span8">
+					{% if page == "edit" %}
+						<a href="{{path('BNSAppGroupBundle_back_user_sheet' , { 'userId': user.id }) }}" class="btn bns-notice btn-24 medium-return button-return">
+							<span class="icons-24 back-icon"></span>
+							{{ 'LINK_RETURN_TO_CARD'|trans |desc('<strong>Retourner</strong><br>à la fiche') |raw }}
+						</a>
+
+						<a href="{{path('BNSAppGroupBundle_back_user_sheet' , { 'userId': user.id }) }}" class="btn bns-danger btn-24 medium-return button-return">
+							<span class="icons-24 cancel-icon"></span>
+                            {{ 'LINK_CANCEL_MODIFICATION'|trans |desc('<strong>Annuler</strong><br>les modifications') |raw }}
+						</a>
+					{% else %}
+						{% if canEdit %}
+							<a href="{{path('BNSAppGroupBundle_back_user_edit_sheet' , { 'login': user.login }) }}" class="btn bns-info btn-24 medium-return button-return pull-left">
+								<span class="icons-24 edit-icon"></span>
+                                {{ 'LINK_EDIT_USER'|trans |desc('<strong>Éditer</strong><br>l\'utilisateur') |raw }}
+							</a>
+
+                            <div class="btn-group pull-left">
+                                <a href="#" class="btn bns-warning btn-24 medium-return dropdown-toggle" data-toggle="dropdown">
+                                    <span class="icons-24 refresh-icon"></span>
+                                    {{ 'LINK_REGENERATE_PASSWORD'|trans |desc('<strong>Régénérer</strong><br>le mot de passe') |raw }}
+                                    <span class="caret white"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{{ path('BNSAppGroupBundle_back_user_refresh_password' , { 'login': user.login }) }}" >{{ 'LINK_SEND_MAIL_AND_DISPLAY'|trans |desc('Envoyer un email et afficher') }}</a></li>
+                                    <li><a href="{{ path('BNSAppGroupBundle_back_user_refresh_sheet'  , { 'login': user.login }) }}">{{ 'LINK_CREATE_CARD'|trans |desc('Créer une fiche') }}</a></li>
+                                </ul>
+                            </div>
+
+                            {% if user.isEnabled %}
+								<a href="#" class="btn bns-danger btn-24 medium-return btn-disable-pupil" data-toggle="modal" data-target="#disable-pupil-modal">
+									<span class="icons-24 cancel-icon"></span>
+									{{ 'LINK_DESACTIVATE_USER'|trans |desc('<strong>Désactiver</strong><br />l\'utilisateur') |raw}}
+								</a>
+							{% else %}
+								<a href="#" class="btn bns-success btn-24 medium-return btn-enable-pupil" data-toggle="modal" data-target="#enable-pupil-modal">
+									<span class="icons-24 validate-icon"></span>
+                                    {{ 'LINK_REACTIVATE_USER'|trans |desc('<strong>Réactiver</strong><br />l\'utilisateur')|raw }}
+								</a>
+							{% endif %}
+                        {% endif %}
+                        {% if canViewAs %}
+							<a href="{{ path('BNSAppGroupBundle_back_user_get_rights' , { 'login': user.login }) }}" class="btn bns-notice btn-24 medium-return ">
+								<span class="icons-24 preview-icon"></span>
+								{{ 'LINK_SEE_AS_USER'|trans |desc('<strong>Voir</strong><br>Comme l\'utilisateur')|raw }}
+							</a>
+                        {% endif%}
+                        {% if canAssist %}
+                          <a href="#" data-toggle="modal" data-target="#assistance-modal" class="btn bns-notice btn-24 medium-return ">
+                            <span class="icons-24 preview-icon"></span>
+                              {{ 'LINK_ASSIST_USER'|trans |desc('<strong>Assister</strong><br/>l\'utilisateur') |raw }}
+
+                          </a>
+                        {% endif%}
+						{% if canDelete %}
+                            {% if user.archived %}
+                                <a href="{{ path('BNSAppGroupBundle_back_user_restore' , { 'login': user.login }) }}" class="btn bns-success btn-24 medium-return">
+                                    <span class="icons-24 validate-icon"></span>{{ 'LINK_RESTORE_USER'|trans |desc('<strong>Restaurer</strong> <br> l\'utilisateur') |raw }}
+                                </a>
+                            {% else %}
+                                <a href="#" class="btn bns-danger btn-24 medium-return" data-toggle="modal" data-target="#delete-pupil-modal">
+                                    <span class="icons-24 delete-icon"></span>
+                                    {{ 'LINK_DELETE_USER'|trans |desc('<strong>Supprimer</strong><br />l\'utilisateur')|raw }}
+                                </a>
+                            {% endif %}
+						{% endif %}
+					{% endif %}
+				</div>
+				<div class="span4 align-right">
+					{% if page == "edit" %}
+						<a id="edit_form_submit" href="#" class="btn finish bns-success validate-medium btn-24 medium">
+							<span class="icons-24 validate-icon"></span>
+							<strong>{{ 'LINK_SAVE'|trans |desc('Enregistrer') }}</strong>
+						</a>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+{{ modal('disable-pupil-modal', {
+		'title': 'MODAL_TITLE_DESACTIVATE_USER_ACCOUNT'|trans |desc('Désactiver un compte utilisateur'),
+		'body_template': {'template': 'BNSAppGroupBundle:BackModal:disable_user_body.html.twig', 'values': {
+				'user': user
+		} },
+		'type': 'error',
+		'footer_template': {'template': 'BNSAppGroupBundle:BackModal:disable_user_footer.html.twig', 'values': {
+				'user': user
+		} }
+}) }}
+
+{{ modal('enable-pupil-modal', {
+		'title':'MODAL_TITLE_REACTIVATE_USER_ACCOUNT'|trans |desc('Réactiver un compte utilisateur'),
+		'body_template': {'template': 'BNSAppGroupBundle:BackModal:enable_user_body.html.twig', 'values': {
+				'user': user
+		} },
+		'type': 'error',
+		'footer_template': {'template': 'BNSAppGroupBundle:BackModal:enable_user_footer.html.twig', 'values': {
+				'user': user
+		} }
+}) }}
+
+{{ modal('delete-pupil-modal', {
+		'title':'MODAL_TITLE_DELETE_USER_ACCOUNT'|trans |desc('Supprimer un compte utilisateur'),
+		'body_template': {'template': 'BNSAppGroupBundle:BackModal:delete_user_body.html.twig', 'values': {
+				'user': user
+		} },
+		'type': 'error',
+		'footer_template': {'template': 'BNSAppGroupBundle:BackModal:delete_user_footer.html.twig', 'values': {
+				'user': user
+		} }
+}) }}
+
+{{ modal('assistance-modal', {
+  'title':'MODAL_TITLE_ASSIST_USER'|trans |desc('Assister un utilisateur'),
+  'body_template': {'template': 'BNSAppGroupBundle:BackModal:assistance_user_body.html.twig', 'values': {
+    'user': user
+  } },
+  'type': 'info',
+  'footer_template': {'template': 'BNSAppGroupBundle:BackModal:assistance_user_footer.html.twig', 'values': {
+    'user': user
+  } }
+}) }}
+

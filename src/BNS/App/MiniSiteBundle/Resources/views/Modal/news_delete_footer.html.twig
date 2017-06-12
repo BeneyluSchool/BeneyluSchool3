@@ -1,0 +1,13 @@
+{% trans_default_domain "MINISITE" %}
+<div class="modal-footer">
+	<div class="content-btn-footer">
+		<a href="{{ path('minisite_manager_page_news_delete', {'slug': slug}) }}" class="btn bns-danger btn-24 medium-return">
+			<span class="icons-24 delete-icon"></span>
+      {% trans %}LINK_CONFIRM_DELETE{% endtrans %}
+		</a>
+		<a href="#" class="btn bns-notice btn-24 medium" data-dismiss="modal">
+			<span class="icons-24 back-icon"></span>
+      {% trans %}LINK_CANCEL{% endtrans %}
+		</a>
+	</div>
+</div>

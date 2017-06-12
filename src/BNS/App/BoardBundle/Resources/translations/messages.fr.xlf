@@ -1,0 +1,162 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+			<!-- GENERAL -->
+            <trans-unit id="1">
+                <source>Board.General.Loading</source>
+                <target>Chargement...</target>
+            </trans-unit>
+			<trans-unit id="2">
+                <source>Board.General.Add</source>
+                <target>Ajouter</target>
+            </trans-unit>
+			<trans-unit id="3">
+                <source>Board.General.Del</source>
+                <target>Suppr.</target>
+            </trans-unit>
+			<trans-unit id="4">
+                <source>Board.General.Edit</source>
+                <target>Editer</target>
+            </trans-unit>
+			<trans-unit id="5">
+                <source>Board.General.Cancel</source>
+                <target>Annuler</target>
+            </trans-unit>
+			<trans-unit id="6">
+                <source>Board.General.Warning</source>
+                <target>Attention</target>
+            </trans-unit>
+			<trans-unit id="7">
+                <source>Board.General.Delete</source>
+                <target>Supprimer</target>
+            </trans-unit>
+			
+			
+			<!-- SIDEBAR -->
+			<!-- index_manager.html -->
+			<trans-unit id="100">
+                <source>Board.Back.Sidebar.Informations</source>
+                <target>Informations</target>
+            </trans-unit>
+			<trans-unit id="101">
+                <source>Board.Back.Sidebar.Comments</source>
+                <target>Commentaires</target>
+            </trans-unit>
+			<trans-unit id="102">
+                <source>Board.Back.Sidebar.Customing</source>
+                <target>Personnalisation</target>
+            </trans-unit>
+			
+			<!-- back_block_categories.html -->
+			<trans-unit id="103">
+                <source>Board.Back.Sidebar.Tooltip.AddIcon</source>
+                <target>Ajouter une icône</target>
+            </trans-unit>
+			
+			<!-- back_block_dates.html -->
+			<trans-unit id="106">
+                <source>Board.Back.Sidebar.Dates</source>
+                <target>Dates</target>
+            </trans-unit>
+			
+			<!-- back_block_filters.html -->
+			<trans-unit id="107">
+                <source>Board.Back.Sidebar.InformationsStatus</source>
+                <target>Statut des informations</target>
+            </trans-unit>
+			<trans-unit id="108">
+                <source>Board.Back.Sidebar.PublishedInformations</source>
+                <target>Informations publiées</target>
+            </trans-unit>
+			<trans-unit id="109">
+                <source>Board.Back.Sidebar.ProgrammedInformations</source>
+                <target>Informations programmées</target>
+            </trans-unit>
+			<trans-unit id="110">
+                <source>Board.Back.Sidebar.CorrectionInformations</source>
+                <target>Informations à corriger</target>
+            </trans-unit>
+			<trans-unit id="111">
+                <source>Board.Back.Sidebar.FinishedInformations</source>
+                <target>Informations terminées</target>
+            </trans-unit>
+			<trans-unit id="112">
+                <source>Board.Back.Sidebar.DraftInformations</source>
+                <target>Brouillons</target>
+            </trans-unit>
+			
+			<!-- back_block_status.html -->
+			<trans-unit id="113">
+                <source>Board.Back.Sidebar.InformationStatus</source>
+                <target>Statut de l'information</target>
+            </trans-unit>
+			<trans-unit id="114">
+                <source>Board.Back.Sidebar.DraftInformation</source>
+                <target>Brouillon</target>
+            </trans-unit>
+			<trans-unit id="115">
+                <source>Board.Back.Sidebar.FinishedInformation</source>
+                <target>Terminé</target>
+            </trans-unit>
+			<trans-unit id="116">
+                <source>Board.Back.Sidebar.PublishedInformation</source>
+                <target>Publié</target>
+            </trans-unit>
+			<trans-unit id="117">
+                <source>Board.Back.Sidebar.CorrectionInformation</source>
+                <target>Informations à corriger</target>
+            </trans-unit>
+			<trans-unit id="118">
+                <source>Board.Back.Sidebar.ProgrammedInformation</source>
+                <target>Publication programmé</target>
+            </trans-unit>
+			
+			<!-- back_block_students.html -->
+			<trans-unit id="119">
+                <source>Board.Back.Sidebar.Students</source>
+                <target>Élèves</target>
+            </trans-unit>
+			
+			<!-- front_block_archives.html -->
+			<trans-unit id="120">
+                <source>Board.Front.Sidebar.Archives</source>
+                <target>Archives</target>
+            </trans-unit>
+			
+			<!-- front_block_categories.html -->
+			<trans-unit id="121">
+                <source>Board.Back.Sidebar.AllCategories</source>
+                <target>Toutes les catégories</target>
+            </trans-unit>
+			
+
+			<!-- CONTENT -->
+			<!-- index_manager.html -->
+			<trans-unit id="200">
+                <source>Board.Back.InformationLoading</source>
+                <target>Chargement des informations en cours, veuillez patienter...</target>
+            </trans-unit>
+			
+			<!-- back_article_list.html -->
+			<trans-unit id="201">
+                <source>Board.Back.NoInformationWasFound</source>
+                <target>Aucune information n'a été trouvé.</target>
+            </trans-unit>
+			<trans-unit id="202">
+                <source>Board.Back.Comment</source>
+                <target>Commentaire</target>
+            </trans-unit>
+			<trans-unit id="203">
+                <source>Board.Back.WroteAtBy</source>
+                <target>Ecrit le %date% par</target>
+            </trans-unit>
+			
+			<!-- back_article_form.html -->
+			<trans-unit id="204">
+                <source>Board.Back.AutosaveFeedback</source>
+                <target>le contenu de l'information a été sauvegardé automatiquement dans les brouillons.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -1,36 +1,105 @@
 imports:
     - { resource: config_app.yml }
     - { resource: parameters_dev.yml }
-    - { resource: secret_dev.yml }
 
 framework:
+    trusted_proxies:  %trusted_proxies%
     router:   { resource: "%kernel.root_dir%/config/routing_app_dev.yml" }
     profiler: { only_exceptions: false }
+    assets:
+        version: dev
+
+nelmio_api_doc:
+    name:                 Documentation de l'API Beneylu School
+    exclude_sections:     []
+    default_sections_opened:  false
+    motd:
+        template:             NelmioApiDocBundle::Components/motd.html.twig
+    request_listener:
+        enabled:              true
+        parameter:            _doc
+    sandbox:
+        enabled:              true
+        endpoint:             ~
+        accept_type:          ~
+        body_format:          json
+        request_format:
+            method:               format_param
+            default_format:       json
+
+twig:
+  debug:            %kernel.debug%
+  globals:
+    cdn_url: @bns.parameter.cdn_url
 
 web_profiler:
     toolbar: true
-    intercept_redirects: true
+    intercept_redirects: false
+
+web_profiler_extra:
+    routing:
+        enabled:        false
+        display_in_wdt: false
+    container:
+        enabled:        false
+        display_in_wdt: false
+    assetic:
+        enabled:        false
+        display_in_wdt: false
+    twig:
+        enabled:        true
+        display_in_wdt: true
 
 monolog:
+    channels: [account_link]
     handlers:
         main:
-            type:  stream
+            type: rotating_file
+            max_files: 10
             path:  %kernel.logs_dir%/%kernel.environment%.log
             level: debug
-        firephp:
-            type:  firephp
-            level: debug
+            channels: [!event, '!account_link']
+#        firephp:
+#            type:  firephp
+#            level: debug
         mailer:
-            type:  stream
-            level: debug
+            type: rotating_file
+            level: error
             path:  %kernel.logs_dir%/mailer_%kernel.environment%.log
+        account_link:
+            type: rotating_file
+            max_files: 10
+            level: info
+            path:  %kernel.logs_dir%/account_link_%kernel.environment%.log
+            channels: [account_link]
 
 assetic:
     use_controller: false
     java: "java"
-    
+
 knp_snappy:
     pdf:
-        binary:     %kernel.root_dir%/../bin/windows/wkhtml/wkhtmltopdf
+        binary:     C:/"Program Files"/wkhtmltopdf/bin/wkhtmltopdf
     image:
-        binary:     %kernel.root_dir%/../bin/windows/wkhtml/wkhtmltoimage
+        binary:     C:/"Program Files"/wkhtmltopdf/bin/wkhtmltoimage
+
+dubture_f_fmpeg:
+    ffmpeg_binary:      C:/Portables/ffmpeg/ffmpeg.exe
+    ffprobe_binary:     C:/Portables/ffmpeg/ffprobe.exe
+    binary_timeout:     300 # Use 0 for infinite
+    threads_count:      4
+
+nelmio_cors:
+    paths:
+      '^/api/[0-9]+(\.[0-9]+)?/users/me/school.json':
+        allow_origin: ['*']
+
+
+parameters:
+    paas_order_url:                      http://paas.beneylu.dev/app_dev.php/order/take
+    paas_check_url:                      http://paas.beneylu.dev/app_dev.php/subscription/expose
+    paas_processed_url:                  http://paas.beneylu.dev/app_dev.php/subscription/processed
+    public_version_url:                  https://beneylu.com
+
+    bns_app.session.max_idle_time:  14400
+    bns_breakfast_item_id: 2

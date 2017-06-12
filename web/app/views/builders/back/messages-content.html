@@ -1,0 +1,41 @@
+<md-toolbar md-scroll-shrink md-shrink-speed-factor="0.5" class="content-toolbar flex-none">
+  <div class="md-toolbar-tools">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+    <h3 class="text-ellipsis" translate>BUILDERS.TITLE_MESSAGES</h3>
+  </div>
+</md-toolbar>
+
+<md-content>
+  <md-list class="bns-list-status">
+    <md-list-item class="md-2-line md-no-proxy" ng-repeat="message in ctrl.messages" ng-class="{'approved md-accent': message.is_approved, 'md-warn': !message.is_approved}">
+      <div class="md-list-item-text">
+        <h4>
+          <strong>{{::message._embedded.user.full_name}}</strong>
+          - <span>{{::message.created_at|amDateFormat:'LL'}}</span>
+        </h4>
+        <p ng-bind-html="message.content|nl2br"></p>
+      </div>
+
+      <md-button ng-click="ctrl.toggleApproval(message)"
+        ng-class="{'md-warn': message.is_approved, 'md-accent': !message.is_approved}"
+        class="hide-gt-sm md-secondary md-icon-button"
+      >
+      <md-icon>{{message.is_approved?'clear':'done'}}</md-icon>
+      </md-button>
+      <md-button ng-click="ctrl.toggleApproval(message)" ng-class="{'md-warn': message.is_approved, 'md-accent': !message.is_approved}" class="hide-sm" href>
+        <md-icon>{{message.is_approved?'clear':'done'}}</md-icon>
+        <span>{{('BUILDERS.BUTTON_'+(message.is_approved?'REFUSE':'APPROVE')+'_MESSAGE')|translate}}</span>
+      </md-button>
+
+      <md-divider></md-divider>
+    </md-list-item>
+
+    <bns-inset ng-show="!ctrl.busy && !ctrl.messages.length" class="md-padding">
+      <div translate>BUILDERS.DESCRIPTION_NO_MESSAGES</div>
+    </bns-inset>
+
+    <div ng-show="ctrl.busy && !ctrl.messages.length" class="layout-row layout-align-center-center">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+  </md-list>
+</md-content>

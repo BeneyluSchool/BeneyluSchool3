@@ -1,0 +1,45 @@
+BNS\App\CoreBundle\Model\User:
+  exclusion_policy: All
+  virtual_properties:
+    getFullName:
+      expose: true
+      groups: [Default, list, user_list, detail, user_detail ]
+    getAvatarUrl:
+      expose: true
+      groups: [ list, user_list, detail, user_detail, media_search, lsu_avatar ]
+    getAvatarResource:
+      expose: true
+      serialized_name: avatar
+      groups: [ list, detail, user_detail ]
+    getGender:
+      expose: true
+      groups: [ detail, user_detail ]
+    isAdult:
+      expose: true
+      groups: [ detail, user_detail ]
+    isChild:
+      expose: true
+      groups: [ detail, user_detail ]
+    getFavoriteGroupId:
+      expose: true
+      groups: [Default,me]
+    getBeta:
+      expose: true
+      groups: [me]
+    getBirthdayDate:
+      expose: true
+      groups: [lsu_birthday]
+      serialized_name: birthday
+
+  relations:
+    - rel: profile
+      href: expr(service('bns.user_directory.manager').getProfileUrl(object))
+      exclusion:
+        groups: [ list, user_list, detail, user_detail ]
+        exclude_if: expr(!isset("profile_link"))
+    - rel: children
+      embedded:
+        content: expr(object.getActiveChildren())
+        exclusion:
+          groups: [ user_children_preview ]
+          exclude_if: expr(object.isChild())

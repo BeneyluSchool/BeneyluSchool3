@@ -1,0 +1,38 @@
+  <bns-expander label="{{'CAMPAIGN.CAMPAIGN_STATUS'|translate}}" is-open="true">
+    <md-list>
+      <md-list-item class="layout-row layout-align-start-center">
+        <div flex class="campaign-status "
+             ng-class="{ sent: ctrl.shared.campaign.campaign.status=='SENT' || ctrl.shared.campaign.campaign.status=='PENDING' || ctrl.shared.campaign.campaign.status=='WAITING',
+             scheduled: ctrl.shared.campaign.campaign.status=='SCHEDULED',
+             draft: ctrl.shared.campaign.campaign.status=='DRAFT'}"
+             ng-if="ctrl.shared.campaign.campaign"
+        >
+          <span>{{'CAMPAIGN.CAMPAIGN_STATUS_'+ctrl.shared.campaign.campaign.status |translate}}</span>
+        </div>
+      </md-list-item>
+    </md-list>
+  </bns-expander>
+
+  <bns-expander label="{{'CAMPAIGN.CAMPAIGN_TYPE'|translate}}" is-open="true">
+    <md-list>
+      <md-list-item ng-if="ctrl.shared.campaign.campaign">
+        <md-icon ng-if="ctrl.shared.campaign.campaign.type_name == 'SMS'">phone_android</md-icon>
+        <md-icon ng-if="ctrl.shared.campaign.campaign.type_name == 'EMAIL'">email</md-icon>
+        <md-icon ng-if="ctrl.shared.campaign.campaign.type_name == 'MESSAGING'"><img src="../assets/images/apps/messaging/icon-40.png"></md-icon>
+        <span>{{ 'CAMPAIGN.CAMPAIGN_TYPE_'+ctrl.shared.campaign.campaign.type_name |translate }}</span>
+      </md-list-item>
+    </md-list>
+  </bns-expander>
+
+  <bns-expander label="{{'CAMPAIGN.SENDING_SCHEDULED'|translate}}" is-open="true" ng-if="ctrl.shared.campaign.campaign.status == 'DRAFT' || ctrl.shared.campaign.campaign.status == 'SCHEDULED'">
+    <div class="layout-row">
+      <md-input-container class="flex" bns-date-time-input-container>
+        <label translate>CAMPAIGN.SCHEDULED_AT_DATE</label>
+        <input type="date" ng-model="ctrl.shared.campaign.campaign.scheduled_at" name="scheduledAtDate">
+      </md-input-container>
+      <md-input-container class="flex" bns-date-time-input-container>
+        <label translate>CAMPAIGN.SCHEDULED_AT_TIME</label>
+        <input type="time" data-type="time" ng-model="ctrl.shared.campaign.campaign.scheduled_at" name="scheduledAtTime">
+      </md-input-container>
+    </div>
+  </bns-expander>

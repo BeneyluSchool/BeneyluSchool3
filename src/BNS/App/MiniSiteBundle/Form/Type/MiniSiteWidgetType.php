@@ -32,14 +32,21 @@ class MiniSiteWidgetType extends AbstractType
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('title', 'text', array('required' => true));
+        $builder->add('title', 'text', array(
+			'required' => true,
+			'error_bubbling' => true
+		));
 		
 		foreach ($this->properties as $property => $data) {
 			if (is_array($data)) {
-				$builder->add(strtolower($property), $data['input'], $data['options']);
+				$builder->add(strtolower($property), $data['input'], array_merge($data['options'], array(
+					'error_bubbling' => true
+				)));
 			}
 			else {
-				$builder->add(strtolower($property), $data);
+				$builder->add(strtolower($property), $data, array(
+					'error_bubbling' => true
+				));
 			}
 		}
     }
@@ -51,6 +58,7 @@ class MiniSiteWidgetType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => $this->namespace,
+            //'csrf_protection' => false
         ));
     }
 

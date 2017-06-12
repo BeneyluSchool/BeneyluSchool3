@@ -1,0 +1,9 @@
+{% trans_default_domain "SCHOOL" %}
+<div class="modal-body">
+	<div class="content-modal-body">
+        {{ 'TITLE_PROMOTE_REFERAL'|trans({'%userFullName%': user.getFullName() |escape}) |desc('<h2>Vous êtes sur le point de nommer %userFullName% référent ENT dans l\'école.</h2><h3>Cet utilisateur aura alors les mêmes droits que le directeur et pourra effectuer les actions d\'administration dans l\'école.<br />
+                        Vous pouvez à tout moment révoquer les référents écoles!</h3>') |raw}}
+
+	</div>
+</div>
+<div class="beneylu-jim"></div>

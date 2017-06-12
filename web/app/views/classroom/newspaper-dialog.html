@@ -1,0 +1,56 @@
+<md-dialog class="classroom-newspaper-dialog" aria-label="{{::'CLASSROOM.TITLE_NEWSPAPER'|translate}}">
+
+  <md-button ng-click="ctrl.hide()" class="classroom-newspaper-close md-icon-button">
+    <md-icon>clear</md-icon>
+  </md-button>
+
+  <md-dialog-content>
+
+    <div class="layout-gt-md-row">
+      <div class="flex layout-column layout-align-center-center classroom-newspaper-block">
+        <h2 class="md-display-1" translate>CLASSROOM.TITLE_NEWSPAPER</h2>
+        <div class="classroom-newspaper-date">{{::moment(ctrl.newspaper.date).format('dddd D MMMM')}}</div>
+      </div>
+
+      <div class="flex classroom-newspaper-block">
+        <p class="classroom-newspaper-section" translate>CLASSROOM.TITLE_NEWS_OF_THE_DAY</p>
+        <div ng-bind-html="::ctrl.newspaper.text"></div>
+      </div>
+    </div>
+
+    <div class="text-center classroom-newspaper-block">
+      <h1 class="md-headline">{{::ctrl.newspaper.title}}</h1>
+      <h3 class="md-subhead">{{::ctrl.newspaper.media_title}}</h3>
+    </div>
+
+    <div class="layout-column layout-align-start-center layout-margin layout-padding classroom-newspaper-media">
+      <md-button ng-if="::ctrl.newspaper.preview" href ng-click="ctrl.openMedia($event)" aria-label="{{::ctrl.newspaper.title}}" bns-ga-event="{category: 'Newspaper', action: 'media', label: ctrl.newspaper.title}">
+        <bns-viewer-media media="ctrl.newspaper.preview" class="md-whiteframe-z1"></bns-viewer-media>
+      </md-button>
+      <bns-viewer-media ng-if="::!ctrl.newspaper.preview" media="ctrl.newspaper.media"></bns-viewer-media>
+      <p ng-if="::ctrl.newspaper.caption" class="md-caption">{{::ctrl.newspaper.caption}}</p>
+    </div>
+
+    <div class="layout-gt-md-row">
+      <div class="flex classroom-newspaper-block">
+        <p class="classroom-newspaper-section" translate>CLASSROOM.TITLE_RIDDLE</p>
+        <div ng-bind-html="::ctrl.newspaper.riddle"></div>
+        <p ng-if="::ctrl.newspaper.last_riddle_answer" class="classroom-newspaper-section" translate>CLASSROOM.TITLE_RIDDLE_ANSWER</p>
+        <div ng-if="::ctrl.newspaper.last_riddle" ng-bind-html="::ctrl.newspaper.last_riddle"></div>
+        <div ng-if="::ctrl.newspaper.last_riddle_answer" ng-bind-html="::ctrl.newspaper.last_riddle_answer"></div>
+      </div>
+
+      <div class="flex classroom-newspaper-block">
+        <p class="classroom-newspaper-section" translate>CLASSROOM.TITLE_JOKE</p>
+        <div ng-bind-html="::ctrl.newspaper.joke"></div>
+      </div>
+    </div>
+
+    <div ng-if="::ctrl.newspaper.day_read" class="classroom-newspaper-block">
+      <p class="classroom-newspaper-section" translate>CLASSROOM.TITLE_DAY_READ</p>
+      <div ng-bind-html="::ctrl.newspaper.day_read"></div>
+      <p ng-if="::ctrl.newspaper.lended_by" class="md-caption">{{::ctrl.newspaper.lended_by}}</p>
+    </div>
+
+  </md-dialog-content>
+</md-dialog>

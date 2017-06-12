@@ -1,0 +1,16 @@
+{% trans_default_domain "CLASSROOM" %}
+<div class="loader loader-sb"></div>
+<div class="modal-body">
+	<div class="content-modal-body">
+        {{ 'TITLE_SURE_TO_DELETE_PARTNERSHIP'|trans({'%partnership%': partnership.getLabel |escape}) |desc('
+        <h2>Êtes-vous sûr de vouloir supprimer le partenariat <strong>"%partnership%"</strong>  ?</h2>
+		<h3>
+			Le partenariat ne pourra plus être utilisé.<br />
+			<strong>Attention  :</strong> <br />- Les données associées au partenariat seront supprimées. (Blog, Calendrier, ...)
+                        <br />- Vous ne pourrez pas récupérer le partenariat par la suite.
+		</h3>
+
+        ') |raw }}
+	</div>
+</div>
+<div class="beneylu-jim"></div>

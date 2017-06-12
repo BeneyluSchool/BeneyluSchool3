@@ -6,12 +6,17 @@
     <class name="BNS\App\CoreBundle\Model\LiaisonBook">
         <property name="title">
             <constraint name="NotBlank">
-                    <option name="message">Veuillez saison un titre</option>
+                    <option name="message">INVALID_LIAISONBOOK_TITLE_EMPTY</option>
             </constraint>
         </property>
         <property name="content">
             <constraint name="NotBlank">
-                    <option name="message">Veuillez saison un contenu</option>
+                    <option name="message">INVALID_LIAISONBOOK_CONTENT_EMPTY</option>
+            </constraint>
+        </property>
+	<property name="date">
+            <constraint name="NotBlank">
+                    <option name="message">INVALID_DATE_EMPTY</option>
             </constraint>
         </property>
     </class>

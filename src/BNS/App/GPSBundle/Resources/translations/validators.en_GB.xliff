@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-06-20T19:52:52Z" source-language="en" target-language="en-GB" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="53790d2903185b1e6f704c6c3a5e4b2e36bf2f83" resname="INVALID_CHOICE_ADDRESS">
+        <source>INVALID_CHOICE_ADDRESS</source>
+        <target state="new">Please enter an address</target>
+      </trans-unit>
+      <trans-unit id="a2cf85110a8afcdc10249bb2c066e8b1126661e6" resname="INVALID_CHOICE_A_CATEGORY">
+        <source>INVALID_CHOICE_A_CATEGORY</source>
+        <target state="new">Please choose a category</target>
+      </trans-unit>
+      <trans-unit id="4b07c02bc2a82962eb119fe9be4192962620b7cf" resname="INVALID_CHOICE_INVALID">
+        <source>INVALID_CHOICE_INVALID</source>
+        <target state="new">Your choice is incorrect</target>
+      </trans-unit>
+      <trans-unit id="79990bcbb133a79f19baf1f385e56e2e092444c1" resname="INVALID_CHOICE_PLACE">
+        <source>INVALID_CHOICE_PLACE</source>
+        <target state="new">Please enter a location name</target>
+      </trans-unit>
+      <trans-unit id="541013f3e57a623676676d9d400c7c1aa25abdb3" resname="INVALID_SELECT_OPTIONS">
+        <source>INVALID_SELECT_OPTIONS</source>
+        <target state="new">You need to select one of the options</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,33 +1,53 @@
-{% if pager.getResults()|length > 0 %}
-	{% for news in pager.getResults() %}
-		{% include 'BNSAppMiniSiteBundle:PageNews:front_news_row.html.twig' %}
-	{% endfor %}
-{% else %}
-	<div class="no-news">
-		{% trans %}MiniSite.Back.Page.NoNewsFound{% endtrans %}
-	</div>
+{% trans_default_domain "MINISITE" %}
+<div id="news-pager">
+    {% if pager.getResults()|length > 0 %}
+        {% for news in pager.getResults() %}
+            {% include 'BNSAppMiniSiteBundle:PageNews:front_news_row.html.twig' %}
+        {% endfor %}
+    {% else %}
+        <div class="no-item">
+          {% trans %}NO_NEWS_YET_COME_BACK{% endtrans %}
+        </div>
+    {% endif %}
+
+    {% if (pager.getLastPage() > 1) %}
+        <div class="pagination" style="text-align :center;">
+            <ul>
+                {% if (pager.getPage() > pager.getFirstPage()) %}
+                    <li><a class="article-pager" href="{{ path('minisite_front_page_list_page', {'slug': page.getSlug(), 'numberPage': pager.getPreviousPage()}) }}">←</a></li>
+                {% else %}
+                    <li class="disabled"><a href="#" onclick="return false;">←</a></li>
+                {% endif %}
+
+                {% for i in range(pager.getFirstPage(), pager.getLastPage()) %}
+                    <li{% if (pager.getPage() == i) %} class="active article-pager"{% endif %}><a class="article-pager" href="{{ path('minisite_front_page_list_page', {'slug': page.getSlug(), 'numberPage': i}) }}">{{ i }}</a></li>
+                {% endfor %}
+
+                {% if (pager.getPage() < pager.getLastPage()) %}
+                    <li><a class="article-pager" href="{{ path('minisite_front_page_list_page', {'slug': page.getSlug(), 'numberPage': pager.getNextPage()}) }}">→</a></li>
+                {% else %}
+                    <li class="disabled"><a href="#" onclick="return false;">→</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
+
+</div>
+
+
+{% if not isAjaxCall %}
+    <script type="text/javascript">
+        // Ajaxification des articles - pagination
+        $('body').on('click', '.article-pager', function (e)
+        {
+            $.ajax({
+                url: $(this).attr('href'),
+                success: function (data)
+                {
+                    $('#news-pager').html(data);
+                }
+            });
+            return false;
+        });
+    </script>
 {% endif %}
-
-{#
-{% if (pager.getLastPage() > 1) %}
-	<div class="pagination" style="text-align :center;">
-		<ul>
-			{% if (pager.getPage() > pager.getFirstPage()) %}
-				<li><a href="{{ path('minisite_manager_page_list_page', {'slug': page.getSlug(), 'numberPage': pager.getPreviousPage()}) }}">←</a></li>
-			{% else %}
-				<li class="disabled"><a href="#" onclick="return false;">←</a></li>
-			{% endif %}
-
-			{% for i in range(pager.getFirstPage(), pager.getLastPage()) %}
-				<li{% if (pager.getPage() == i) %} class="active"{% endif %}><a href="{{ path('blog_manager_articles_page', {'page': i}) }}">{{ i }}</a></li>
-			{% endfor %}
-
-			{% if (pager.getPage() < pager.getLastPage()) %}
-				<li><a href="{{ path('minisite_manager_page_list_page', {'slug': page.getSlug(), 'numberPage': pager.getNextPage()}) }}">→</a></li>
-			{% else %}
-				<li class="disabled"><a href="#" onclick="return false;">→</a></li>
-			{% endif %}
-		</ul>
-	</div>
-{% endif %}
-#}

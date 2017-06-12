@@ -121,17 +121,6 @@ $(function(){
 		);
 	});
 	
-	$('.white-list-toggle').live('click',function(){
-		var id = $(this).parent().attr('id');
-		$(this).removeClass("active").addClass('loading');
-		$.post(
-			Routing.generate('BNSAppResourceBundle_white_list_toggle', {}),
-			{ 'resource_id': id }, 
-			function complete(html)
-			{
-				$('#' + id).replaceWith(html);
-			}
-		);
-	});
+
 	
 });

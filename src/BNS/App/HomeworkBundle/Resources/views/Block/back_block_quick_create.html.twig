@@ -1,7 +1,8 @@
+{% trans_default_domain "HOMEWORK" %}
 <div>
     <form action="{{ path('BNSAppHomeworkBundle_backajax_quick_add') }}" id="quickadd-homework-{{ day }}" method="post" {{ form_enctype(homework_form) }}>
         <div>
-            <div>Nom</div>
+            <div>{% trans %}NAME{% endtrans %}</div>
             {{ form_errors(homework_form.name) }}
             {{ form_widget(homework_form.name) }}
         </div>
@@ -12,30 +13,30 @@
             {{ form_widget(homework_form.recurrence_end_date) }}
         </div>
         <div>
-            <div>Description</div>
+            <div>{{ 'LABEL_DESCRIPTION'|trans |desc('Description') }}</div>
             {{ form_errors(homework_form.description) }}
-            {{ form_widget(homework_form.description, { 'attr': {'class': 'load_tinymce', 'data-theme': 'simple'} }) }}
+            {{ form_widget(homework_form.description, { 'attr': {'bns-tinymce': ''} }) }}
         </div>
         <div>
-            <div>Texte d'aide</div>
+            <div>{% trans %}HELP_TEXT{% endtrans %}</div>
             {{ form_errors(homework_form.helptext) }}
             {{ form_widget(homework_form.helptext) }}
         </div>
         <div>
-            <div>Matière</div>
+            <div>{% trans %}WORK_DISCIPLINE{% endtrans %}</div>
             {{ form_errors(homework_form.subject_id) }}
             {% for subjectField in homework_form.subject_id %}
                 <li><div>{{ subjectField.vars.label | raw }}<div class="crud">{{ form_widget(subjectField) }}</div></div></li>
             {% endfor %}
         </div>
         <div>
-            <div>Groupes</div>
+            <div>{% trans %}TITLE_GROUPS{% endtrans %}</div>
             {{ form_errors(homework_form.groups) }}
             {{ form_widget(homework_form.groups) }}
         </div>
 
         {{ form_rest(homework_form) }}
-        <input type="submit" class="btn btn-info" value="Ajouter" />
+        <input type="submit" class="btn btn-info" value="{{ 'INPUT_ADD'|trans }}" />
     </form>
     {{ tinymce_init() }}
 </div>

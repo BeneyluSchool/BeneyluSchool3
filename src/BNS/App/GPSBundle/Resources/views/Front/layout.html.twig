@@ -1,6 +1,11 @@
+{% trans_default_domain "GPS" %}
+
 {% extends '::base.html.twig' %}
 
-{% block title %}GPS{% endblock %}
+{% set app_unique_name = 'GPS' %}
+{% set app_mode = 'front' %}
+
+{% block title %}{{ 'TITLE_GPS'|trans  }}{% endblock %}
 
 {% block css %}
 	{{ parent() }}
@@ -9,11 +14,7 @@
 {% block javascripts %}
 	{{ parent() }}
 {% endblock %}
-	
+
 {% block body %}
 	{% block content %}{% endblock %}
-{% endblock %}
-
-{% block dock_bar %}
-	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "GPS" , 'is_in_front' : true } %}
 {% endblock %}

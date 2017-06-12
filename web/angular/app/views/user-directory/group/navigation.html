@@ -1,0 +1,26 @@
+
+<div class="user-directory-inner-topbar user-directory-navigation user-directory-group-navigation">
+  <h2 class="user-directory-navigation-title">{{ ctrl.group.label }}</h2>
+</div>
+
+<div class="user-directory-inner-content user-directory-navigation user-directory-group-navigation">
+  <scrollable>
+
+    <section ng-show="ctrl.teachers.length">
+      <h3 class="user-directory-navigation-title" translate>USER_DIRECTORY.TEACHERS</h3>
+
+      <ul class="user-directory-item-list">
+        <li ng-repeat="teacher in ctrl.teachers" bns-user-directory-item="teacher"></li>
+      </ul>
+    </section>
+
+    <section ng-show="ctrl.workspaces.length">
+      <h3 class="user-directory-navigation-title" translate>USER_DIRECTORY.WORKSPACES</h3>
+
+      <ul class="user-directory-item-list">
+        <li ng-repeat="workspace in ctrl.workspaces" bns-user-directory-item="workspace"></li>
+      </ul>
+    </section>
+
+  </scrollable>
+</div>

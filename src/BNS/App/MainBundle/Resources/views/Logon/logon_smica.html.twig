@@ -1,0 +1,132 @@
+{% extends '::base.html.twig' %}
+
+{% block css %}
+    {{ parent() }}
+    <link href='https://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Bree+Serif' rel='stylesheet' type='text/css'>
+    <link href="{{ asset('/medias/css/logon/front-main.css') }}" rel="stylesheet" type="text/css" />
+    <!--[if lt IE 9]>
+    <style>
+        .layout .header .box-transparent{
+           background-color: white;
+        }
+    </style>
+
+    <![endif]-->
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('medias/js/main/logon.js') }}"></script>
+    <script type="text/javascript">
+        $(function(){
+
+            $('#search-screenshot').keyup (function(){
+                if($(this).val() == "")
+                {
+                    $('.screenshot').show('slow');
+                }else{
+                    $(".screenshot > a > span.keywords:not(:contains('" + $(this).val().toLowerCase() + "'))").parents('.screenshot').hide();
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block title %}Me connecter à Beneylu School{% endblock %}
+
+{% block meta_description %}Si vous avez un compte Beneylu School, c'est la bonne adresse pour vous connecter. Sinon visitez plutôt http://beneylu.com/school{% endblock %}
+
+{%  set iframeParams = '&fromTemplate=main' %}
+
+{% block body %}
+    <div class="layout layout-column smica">
+        <div class="header">
+            <div class="container">
+                <div class="row">
+                    <div class="span8  hidden-phone hidden-tablet">
+                        <div class="row logo-row">
+                            <div class="span2">
+                                <div class="logo"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span6 offset1">
+                                <div class="title">
+                                    <h1>
+                                    <span class="small">
+                                        Bienvenue sur
+                                    </span>
+                                    <span class="big">
+                                        Beneylu School
+                                    </span>
+                                    </h1>
+                                    <h2>L'espace numérique de travail des écoles primaires de l'Aveyron</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <div class="connexion">
+                            <div class="box-transparent">
+                                <div class="inner box-transparent">
+                                <span class="instruction">
+                                    Je me connecte avec ...
+                                </span>
+                                    <iframe id="logon-iframe" src="{{ redirectUrl ~ iframeParams }}" width="100%" height="315px" scrolling="auto" marginheight="0" marginwidth="0" frameborder="0">
+                                        Votre navigateur ne semble pas compatible
+                                    </iframe>
+                                    <a href="{{ path('user_password_reset') }}">
+                                        <span class="password-lost">J'ai oublié mon mot de passe ?</span>
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+                        {% if enable_register and false %}
+                            <div class="inscription">
+                                <a href="{{ path('registration_free') }}" class="button">
+                                    <span class="triangle"></span>
+                                    <span class="white">Je suis enseignant</span>
+                                    <span class="black">J'inscris ma classe gratuitement</span>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+        <div class="footer hidden-phone hidden-tablet">
+            <div class="container">
+                <div class="footer-content row">
+                    <div class="span1">
+                        <img src="{{ asset('/medias/images/logon/home/logo-footer.png') }}" />
+                    </div>
+                    <div class="span4">
+                        Vous ne trouvez pas l'information que vous cherchez sur le site ?
+                        <a href="http://network.beneyluschool.com/contact.html" target="'_blank" class="contact">
+                            Contactez nous ici
+                        </a>
+
+                    <span class="copyright">
+                        © Beneylu School {{ "now"|date("Y") }} Tous droits réservés - Beneylu est une marque déposée.
+                    </span>
+                    </div>
+                    <div class="span7">
+                        <ul class="links">
+                            <li>Déclaration CNIL 1321978</li>
+                            <li>
+                                <a href="http://beneylu.com/school" target="'_blank" class="contact">
+                                    Découvrir Beneylu School
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock body %}

@@ -1,0 +1,205 @@
+{% trans_default_domain "PROFILE" %}
+{% extends 'BNSAppProfileBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+  {{ parent() }} {% trans %}MERGE_ACCOUNT{% endtrans %}
+
+{% endblock title %}
+
+{% block javascripts %}
+  {{ parent() }}
+
+  <script type="text/javascript">
+    $(function ()
+    {
+      var angularizer = new Angularizer();
+
+      // Vérification si merge possible de l'utilisateur
+      $('body').on('click', '.authentication-submit-link .authentication-submit', function (e)
+      {
+        var $this = $(document),
+          $login = $this.find('#authentication_form_login'),
+          $password = $this.find('#authentication_form_password'),
+          $row = $this.find('.item-list-container'),
+          $validateMergeButton = $this.find('.submit-merge-users'),
+          $validateCheckButton = $this.find('.authentication-submit-link'),
+          $cancelMergeButton = $this.find('.cancel-merge-users'),
+          $flashSuccess = $this.find('.notice-message'),
+          $loader = $('#loader-check');
+
+        if($.trim($login.val()) == "" || $.trim($password.val()) == "")
+        {
+          return false;
+        }
+
+        $loader.fadeIn('fast');
+
+        $.ajax({
+          url: $this.find('#authentication-form').attr('action'),
+          type: 'POST',
+          dataType: 'html',
+          data: {
+            'target_user_login': $login.val(),
+            'target_user_password': $password.val()
+          },
+          success: function (data)
+          {
+            $data = $row.find('.verify-result');
+
+            if ($data.length == 0) {
+              $row.append(angularizer.process(data));
+            }
+            else {
+              $data.replaceWith(angularizer.process(data));
+            }
+
+            $loader.fadeOut('fast');
+
+            $flashSuccess.hide('blink');
+            if($(data).find('.roles-found').length) {
+              $validateMergeButton.show('blink');
+              $cancelMergeButton.show('blink');
+              $validateCheckButton.hide('blink');
+              $login.prop('disabled', true);
+              $password.prop('disabled', true);
+            }
+          }
+        });
+
+        return false;
+      });
+
+      // Fusion avec l'utilisateur fourni
+      $('body').on('click', '.md-toolbar-tools .submit-merge-users', function (e)
+      {
+        var $this = $(document),
+          $login = $this.find('#authentication_form_login'),
+          $password = $this.find('#authentication_form_password'),
+          $validateMergeButton = $this.find('.submit-merge-users'),
+          $cancelMergeButton = $this.find('.cancel-merge-users'),
+          $loader = $('#loader-merge');
+
+        if($.trim($login.val()) == "" || $.trim($password.val()) == "")
+        {
+          return false;
+        }
+
+        $loader.fadeIn('fast');
+        $validateMergeButton.hide('blink');
+        $cancelMergeButton.hide('blink');
+
+        $.ajax({
+          url: $validateMergeButton.attr('href'),
+          type: 'POST',
+          dataType: 'html',
+          data: {
+            'target_user_login': $login.val(),
+            'target_user_password': $password.val()
+          },
+          success: function (data)
+          {
+            $('.item-list-container').html(angularizer.process(data));
+            $loader.fadeOut('fast');
+          }
+        });
+
+        return false;
+      });
+
+    });
+  </script>
+{% endblock javascripts %}
+
+{% block actionbar_content %}
+  {{ components.button('LINK_CANCEL_MERGE'|trans, {
+    href: path('BNSAppProfileBundle_back_merge_accounts'),
+    raised: true,
+    intent: 'warn',
+    hover: true,
+    icon: 'clear',
+    attr: {
+      class: 'cancel-merge-users',
+      style: 'display: none;',
+      target: '_self',
+    }
+  }) }}
+
+  <span class="flex"></span>
+
+  {{ components.button('TO_MERGE_ACCOUNTS'|trans, {
+    href: path('BNSAppProfileBundle_back_merge_validate'),
+    intent: 'accent',
+    raised: true,
+    icon: 'done',
+    attr: {
+      class: 'finish submit-merge-users',
+      style: 'display: none;',
+    },
+  }) }}
+{% endblock actionbar_content %}
+
+{% block sidebar_content %}
+  {% include 'BNSAppProfileBundle:Sidebar:sidebar.html.twig' with {'section': 'merge-accounts', 'profile': user.getProfile()} %}
+{% endblock sidebar_content %}
+
+{% block content %}
+  <md-toolbar class="content-toolbar">
+    <div class="md-toolbar-tools">
+      <bns-sidebar-toggle></bns-sidebar-toggle>
+      <h1 class="md-title text-primary">{% trans %}TITLE_MERGE_ACCOUNT{% endtrans %}</h1>
+    </div>
+  </md-toolbar>
+<md-content class="md-padding">
+  <div id="loader-check" class="loader sb">
+    <div class="message">
+      {% trans %}CHECK_IN_PROGRESS{% endtrans %}
+      <br />
+      {% trans %}PLEASE_WAIT{% endtrans %}
+    </div>
+  </div>
+  <div id="loader-merge" class="loader sb">
+    <div class="message">
+      {% trans %}MERGE_IN_PROGRESS{% endtrans %}
+      <br />
+      {% trans %}PLEASE_WAIT{% endtrans %}
+    </div>
+  </div>
+  <div class="item-list-container">
+    <span class="md-body-1">
+      {{ 'DESCRIPTION_MERGING_ACCOUNT'|trans({'%userFullName%': app.user.fullName |escape})|raw }}
+    </span>
+    </br>
+    <bns-inset class="bns-care bns-small">
+      {% trans %}THIS_OPERATION_IS_IRREVERSIBLE{% endtrans %}
+    </bns-inset>
+
+    {{ form_start(form, {action: path('BNSAppProfileBundle_back_authenticate_target_user'), attr:{id:"authentication-form" } }) }}
+
+      <div>
+        {% if form.login.vars.errors|length > 0 %}
+          <bns-inset class="bns-warn bns-small">
+            {{ form_errors(form.login) }}
+          </bns-inset>
+        {% endif %}
+        {{ form_row(form.login, { 'attr': {'autocomplete': "off"} }) }}
+      </div>
+
+      <div>
+        {% if form.password.vars.errors|length > 0 %}
+          <div class="alert alert-danger bns-alert">
+            {{ form_errors(form.password) }}
+            <div class="jim"></div>
+          </div>
+        {% endif %}
+        {{ form_row(form.password, { 'attr': { 'autocomplete': "off"} }) }}
+      </div>
+      {{ form_rest(form) }}
+    {{ form_end(form) }}
+    <div class="authentication-submit-link" layout="row">
+    <span flex></span>
+      {{ components.button( 'LINK_VALIDATE' | trans , { intent: 'accent', href: '#', icon: 'done', raised: true, attr : {'class':'authentication-submit'} }) }}
+    </div>
+    {% include 'BNSAppMainBundle::notice.html.twig' %}
+  </div>
+  </md-content>
+{% endblock content %}

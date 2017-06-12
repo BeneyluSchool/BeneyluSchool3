@@ -1,0 +1,12 @@
+<div>
+	<div id="comments_{{ object_id }}" >
+        <div class="comment-form">
+            <div class="shadow-bot"></div>
+            <div class="clearfix"></div>
+        </div>
+		<div class="comments-list">
+			{% include 'BNSAppCommentBundle:CommentNew:comment_list.html.twig' with {'onlyValidated' : true} %}
+			<div class="clearfix"></div>
+		</div>
+	</div>
+</div>

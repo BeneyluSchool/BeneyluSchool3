@@ -1,4 +1,5 @@
-        <div class="row-fluid">
+{% trans_default_domain "MESSAGING" %}
+<div class="row-fluid">
             <div class="span1">
                 <div class="left-post"></div>
             </div>
@@ -8,7 +9,7 @@
                     <ul>
                         <!-- For each des dossiers retournés par le controller -->
                         <li>
-                            <a href="#" class="mailFolder btn actif">Modération</a>
+                            <a href="#" class="mailFolder btn actif">{{ 'LINK_MODERATION'|trans }}</a>
                         </li>
                     </ul>
                 </div>

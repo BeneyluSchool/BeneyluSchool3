@@ -3,12 +3,24 @@ app/bootstrap*
 
 # Symfony directories
 vendor/*
+vendor2.1/*
+vendor2.3/*
 */logs/*
 */cache/*
 web/uploads/*
 web/bundles/*
 web/css/*
 web/js/*
+
+# On ne versionne pas le FOS JS Routing
+web/medias/js/fos_js_routes.js
+
+# images optimisees
+web/images/*
+
+#Donnees d'import
+src/BNS/App/FixtureBundle/Resources/data/Migration/*
+src/BNS/App/FixtureBundle/Resources/logs/*
 
 # BNS resources
 /app/data/resources/*
@@ -17,6 +29,7 @@ web/js/*
 # Configuration files
 app/config/parameters.ini
 # Secret files
+app/config/parameters.js
 app/config/parameters_test.yml
 app/config/parameters_prod.yml
 
@@ -52,6 +65,9 @@ nbproject/*
 # PHP Storm
 .idea/*
 
+# Sublime Text
+*.sublime-*
+
 # External tool builders
 .externalToolBuilders/
 
@@ -66,9 +82,17 @@ nbproject/*
 
 # Propel generated files
 app/propel/sql
+/app/propel_auth/*
+!/app/propel_auth/migrations
 /src/BNS/App/*Bundle/Model/map
 /src/BNS/App/*Bundle/Model/om
+/src/BNS/Central/*Bundle/Model/map
+/src/BNS/Central/*Bundle/Model/om
 /app/data/temp/
+
+#Commandes perso
+rjs
+ass
 
 # GIT
 *.orig
@@ -77,3 +101,24 @@ app/propel/sql
 /web/auth_dev.php
 /web/app_test.php
 /web/auth_test.php
+
+# Bower
+.bower-cache
+.bower-registry
+.bower-tmp
+/web/bower_components
+
+# Node
+node_modules
+npm-debug.log
+
+# Grunt
+.tmp
+.sass-cache
+
+# Material app
+/web/assets
+/web/assets-version
+
+# Translations MTP
+/app/Resources/translations/*.xliff

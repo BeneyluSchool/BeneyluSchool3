@@ -1,5 +1,4 @@
-
-# Full documentation of security.yml : http://symfony.com/doc/2.0/reference/configuration/security.html
+# Full documentation of security.yml : http://symfony.com/doc/current/reference/configuration/security.html
 security:
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
@@ -13,7 +12,7 @@ security:
             id: bns.security.oauth.user_provider
     firewalls:
         dev:
-            pattern:  ^/(_(profiler|wdt)|css|images|js|less)/
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
         oauth_area:
@@ -21,26 +20,90 @@ security:
             oauth:
                 resource_owners:
                     bns_auth_provider: /login_check
-                # TODO make failure page
                 login_path:        /
                 check_path:        /login_check
-                failure_path:      /login
+#                failure_path:      %oauth_host%/login
+                success_handler: security.authentication.success_handler.logging
+                failure_handler: bns.oauth_authentication_failure_handler
                 oauth_user_provider:
                     service: bns.security.oauth.user_provider
             anonymous:             ~
             logout:
                 path:              /logout
                 target:            /
+                invalidate_session: true
+                handlers: [bns.security.logout.locale_handler]
                 #success_handler:   bns.security.logout.success_handler
-    
+
     access_control:
-        - { path: ^/$, roles: [IS_AUTHENTICATED_ANONYMOUSLY, IS_AUTHENTICATED_FULLY] }
         - { path: ^/enter$, roles: [IS_AUTHENTICATED_ANONYMOUSLY, IS_AUTHENTICATED_FULLY] }
+        - { path: ^/goto/([a-zA-Z0-9-_]+)(/(.+))?$, roles: [IS_AUTHENTICATED_ANONYMOUSLY, IS_AUTHENTICATED_FULLY] }
         - { path: ^/inscription$, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
-        - { path: ^/inscription, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
-        - { path: ^/mentions-legales, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
-        - { path: ^/gestion/mot-de-passe/reinitialisation, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
-        - { path: ^/ressource/white-list/, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
-        - { path: ^/, roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/inscription(/|$), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/mentions-legales(/|$), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/cookies(/|$), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/gestion/mot-de-passe/reinitialisation(/|$), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/gestion(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/recherche/white-list/, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/site/gestion/, roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/site/(.+), roles: [IS_AUTHENTICATED_ANONYMOUSLY, IS_AUTHENTICATED_FULLY] }
+        - { path: ^/mediatheque/telecharger-temporaire/, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/mediatheque/visualiser/(.+)/(.+), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/groupe/gestion/cerise/(.+), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/paas/nathan(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/paas(/|$), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/monitoring$, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/classe/newsPaper/expose/(.+), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/classe/journal/video-du-jour(/|$), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/yerbook/commande/valider/retour(/|$), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/yerbook/commande/valider/ipn(/|$), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/switch-language/(.+), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/api/1.0/minisite/(.+), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/api/1.0/users/subscription.json, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/api/1.0/users/spot-create-account.json, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/api/1.0/two-degrees/participation/total.json$, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/api/1.0/cache/, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/api/1.0/statistics/visits/MINISITE.json, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/my-avatar$, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/mes-invitations(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/groupe(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/classe(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/equipe(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/ecole(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/administration(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/profil(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/hello-world(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/app(/|$), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/cahier-de-texte(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/calendrier(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/blog(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/gps(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/mediatheque-2(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/suivi-eleves(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/carnet-de-liaison(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/autosave(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/messagerie(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/commentaire(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/theme(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/notification(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/annuaire(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/visite-guidee(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/recherche(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/forum(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/tableau-information(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/reservation(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/informations(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/cahier-journal(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/spot-integre(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/spot(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/paas(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/statistiques(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/evenement(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/portail(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/api(/|-documentation/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/, roles: [IS_AUTHENTICATED_ANONYMOUSLY, IS_AUTHENTICATED_FULLY] }
+        - { path: ^/yerbook/?$, roles: [IS_AUTHENTICATED_ANONYMOUSLY, IS_AUTHENTICATED_FULLY] }
+        - { path: ^/yerbook/se-connecter/?$, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         #- { path: ^/_internal, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }

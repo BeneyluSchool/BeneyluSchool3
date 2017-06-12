@@ -1,0 +1,35 @@
+<div class="user-directory-inner-topbar user-directory-scene">
+  <h2 class="user-directory-scene-title">{{ ctrl.group.label }}</h2>
+</div>
+
+<div class="user-directory-inner-content user-directory-scene">
+  <scrollable>
+
+    <div ng-show="ctrl.busy" class="layout-row layout-align-center-center">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+
+    <md-list ng-show="!ctrl.busy">
+      <md-list-item ng-repeat="list in ctrl.lists"
+        data-selected="{{selected = ctrl.selectionDistribution.has(list)}}"
+        class="md-2-line"
+      >
+        <md-checkbox ng-model="selected"
+          ng-change="ctrl.selectionDistribution.toggle(list)"
+          class="md-primary"
+        ></md-checkbox>
+        <div class="md-list-item-text">
+          <h3>{{list.name}}</h3>
+          <p>{{list.nb_users}}</p>
+        </div>
+        <md-icon class="md-secondary" ng-click="ctrl.showEditDialog($event, list)" aria-label="edit">edit</md-icon>
+        <md-divider></md-divider>
+      </md-list-item>
+
+      <md-list-item ng-if="!ctrl.lists.length" class="layout-column layout-align-center-center">
+        <div class="md-padding" translate>USER_DIRECTORY.NO_DISTRIBUTION_LIST</div>
+      </md-list-item>
+    </md-list>
+
+  </scrollable>
+</div>

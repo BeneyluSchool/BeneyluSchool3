@@ -1,0 +1,32 @@
+<div class="title-container information-statuses-filter">
+	<div class="title active border-blue">Filtrer les informations<span class="square icon-arrow"></span></div>
+	<div class="content-title">
+		<div class="loader loader-h"></div>
+		<ul>
+			<li data-filter="{{ constant('BNS\\App\\BoardBundle\\Model\\BoardInformationPeer::STATUS_PUBLISHED') }}">
+				<div>
+					<span class="vertical-separator green"></span>
+					<span>{% trans %}Board.Back.Sidebar.PublishedInformations{% endtrans %}</span>
+					<span class="indicator">({{ filterIndicators['PUBLISHED']|default('0') }})</span>
+					<span class="select"></span>
+				</div>
+			</li>
+			<li data-filter="programmed">
+				<div>
+					<span class="vertical-separator purple"></span>
+					<span>{% trans %}Board.Back.Sidebar.ProgrammedInformations{% endtrans %}</span>
+					<span class="select"></span>
+					<span class="indicator">({{ filterIndicators['PROGRAMMED']|default('0') }})</span>
+				</div>
+			</li>
+			{#<li data-filter="{{ constant('BNS\\App\\BoardBundle\\Model\\BoardInformationPeer::STATUS_DRAFT') }}">
+				<div>
+					<span class="vertical-separator gray"></span>
+					<span>{% trans %}Board.Back.Sidebar.DraftInformations{% endtrans %}</span>
+					<span class="select"></span>
+					<span class="indicator">({{ filterIndicators['DRAFT']|default('0') }})</span>
+				</div>
+			</li>#}
+		</ul>
+	</div>
+</div>

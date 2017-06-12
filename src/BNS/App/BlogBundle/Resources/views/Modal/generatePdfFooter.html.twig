@@ -1,0 +1,25 @@
+{% trans_default_domain "BLOG" %}
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+
+<div class="modal-footer">
+  <div class="content-btn-footer layout-row layout-align-end-center">
+    {{ components.button('LINK_CLOSE'|trans, {
+      href: '#',
+      raised: true,
+      icon: 'undo',
+      attr: {
+        'data-dismiss': 'modal'
+      }
+    }) }}
+
+    {{ components.button('GENERATE_PDF_BLOG'|trans, {
+      href: '#',
+      intent: 'accent',
+      raised: true,
+      icon: 'check',
+      attr: {
+        id: 'submit-pdf-form'
+      }
+    }) }}
+  </div>
+</div>

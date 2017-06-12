@@ -1,0 +1,13 @@
+{% trans_default_domain "PORTAL" %}
+<div class="modal-footer">
+	<div class="content-btn-footer">
+		<a id="no-save-confirm" href="#" class="btn bns-success btn-24 medium-return">
+			<span class="icons-24 validate-icon"></span>
+            {{ 'LINK_QUIT_PAGE'|trans |desc('<strong>Quitter</strong><br />La page') |raw }}
+		</a>
+		<a href="#" class="btn bns-notice btn-24 medium" data-dismiss="modal">
+			<span class="icons-24 back-icon"></span>
+{{ 'LINK_CANCEL'|trans |desc('<strong>Annuler</strong>') |raw }}
+		</a>
+	</div>
+</div>

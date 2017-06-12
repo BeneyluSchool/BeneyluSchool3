@@ -1,0 +1,45 @@
+<scrollable class="media-library-navigation">
+  <div class="media-library-navigation-inner">
+
+    <div ng-show="shared.userTree.roots.length">
+      <h4 translate class="media-library-navigation-title">MEDIA_LIBRARY.MY_DOCUMENTS</h4>
+
+      <bns-starter-kit-pointer step="1-1.1" pointer="my_documents"></bns-starter-kit-pointer>
+      <div bns-navigation-tree tree="shared.userTree" template="'/ent/angular/app/views/media-library/navigation/node.html'"></div>
+    </div>
+
+    <div ng-show="shared.groupTree.roots.length">
+      <h4 translate class="media-library-navigation-title">MEDIA_LIBRARY.MY_WORKSPACES</h4>
+
+      <bns-starter-kit-pointer step="1-1.1" pointer="my_workspaces"></bns-starter-kit-pointer>
+      <div bns-navigation-tree tree="shared.groupTree" template="'/ent/angular/app/views/media-library/navigation/node.html'" id="media-library-navigation-workspaces"></div>
+    </div>
+
+    <div class="media-library-navigation-spacer"></div>
+
+    <bns-starter-kit-pointer step="1-1.1" pointer="favorites"></bns-starter-kit-pointer>
+    <bns-starter-kit-pointer step="1-1.1" pointer="recents"></bns-starter-kit-pointer>
+    <bns-starter-kit-pointer step="1-1.1" pointer="trash"></bns-starter-kit-pointer>
+    <div bns-navigation-tree tree="shared.specialTree" template="'/ent/angular/app/views/media-library/navigation/node-static.html'" id="media-library-navigation-special"></div>
+
+    <div class="media-library-navigation-spacer"></div>
+
+    <bns-starter-kit-pointer step="1-1.1" pointer="quota"></bns-starter-kit-pointer>
+    <div ng-show="root.usage.total" class="text-center text-muted media-library-usage">
+      {{ root.usage.current | octet }} ({{ root.usage.current*100/root.usage.total|number:0 }}%) {{ 'MEDIA_LIBRARY.USED_ON' | translate }} {{ root.usage.total | octet }}
+    </div>
+
+
+    <div ng-if="shared.library.rights.back && hasStarterKit">
+      <div class="media-library-navigation-spacer"></div>
+
+      <div class="layout-row">
+        <md-button ui-sref="app.mediaLibrary.base.folders.help" ui-sref-active="md-primary md-hue-3" class="flex">
+          <md-icon>help</md-icon>
+          <span ng-bind-html="'MEDIA_LIBRARY.BUTTON_HELP'|translate|buttonize"></span>
+        </md-button>
+      </div>
+    </div>
+
+  </div>
+</scrollable>

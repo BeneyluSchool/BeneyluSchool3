@@ -1,0 +1,30 @@
+<div container class=" flex layout-row main-container">
+
+  <div ng-if="ctrl.canChallenge()" class="challenge-chefs-navigation">
+    <a ui-sref="app.breakfastTour.challenge" class="md-whiteframe-z3" translate>
+      BREAKFAST_TOUR.LINK_CHALLENGE_CHEFS
+    </a>
+  </div>
+
+  <md-content class="flex layout-row layout-align-space-around transparent breakfast-tour-map-wrapper">
+    <div class="md-whiteframe-z2 breakfast-tour-map-container border-dashed">
+      <div class="breakfast-tour-map">
+        <div ng-repeat="breakfast in ctrl.breakfasts"
+          ng-click="ctrl.navigate(breakfast)"
+          class="animate-grow breakfast-flag flag-{{ ::breakfast.code }} {{ ::breakfast.unlocked?'unlocked':'' }}"
+        >
+          <md-tooltip md-direction="top">{{ ::breakfast.country }}</md-tooltip>
+        </div>
+
+        <div class="breakfast-tour-map-description pennant pennant-double" translate>BREAKFAST_TOUR.DESCRIPTION_MAP_GAME</div>
+
+        <div ng-if="true || ctrl.canReset()" class="breakfast-tour-map-reset pennant pennant-double">
+          <md-button ng-click="ctrl.resetBreakfast()">
+            <span translate>BREAKFAST_TOUR.BUTTON_RESTART_GAME</span>
+          </md-button>
+        </div>
+      </div>
+    </div>
+  </md-content>
+
+</div>

@@ -8,9 +8,9 @@
 	{{ parent() }}
 	<link rel="stylesheet" href="{{ asset('/medias/css/ui-twitter-theme/jquery-ui-1.8.16.custom.css') }}" />
 	<link rel="stylesheet" href="{{ asset('/medias/css/registration/front.css') }}" />
-	<link href='http://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Gochi+Hand' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Gochi+Hand' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
 {% endblock css %}
 	
 {% block javascripts %}
@@ -43,7 +43,7 @@
 	<div class="container-fluid container">
 		<div class="row-fluid">
 			<div class="span12">
-				<a href="http://www.beneyluschool.net"><img src="{{ asset('/medias/images/registration/beneyluschool.png') }}" /></a>
+				<a href="{{ path('home') }}"><img src="{{ asset('/medias/images/registration/beneyluschool.png') }}" /></a>
 				<h1>Demande de création d'école</h1>
 				<p>Si votre école n'est pas répertoriée dans notre liste, vous pouvez faire une demande de création.</p>
 				<div class="pattern"></div>
@@ -68,7 +68,7 @@
 							<div class="container-my-account">
 								<div class="password">
 									<h3>Que dois-je faire ?</h3>
-									<p>Il vous suffit de remplir les informations concernant votr école.</p>
+									<p>Il vous suffit de remplir les informations concernant votre école.</p>
 									
 									<p>Dès que les données nous sont transmises, nous les confirmons de notre coté et l'école devient accessible dans la liste.</p>
 									

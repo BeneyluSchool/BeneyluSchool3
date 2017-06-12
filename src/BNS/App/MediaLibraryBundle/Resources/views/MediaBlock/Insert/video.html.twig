@@ -1,0 +1,5 @@
+<div style="" id="{{ media.getId() }}-listen">
+    <video controls="controls" width="640" height="390">
+        <source src="{{ create_visualisation_url_resource(media) }}" type="{{ media.getHtml5VideoMimeType() }}" class="bns-insert-resources video" data-slug="{{ media.getSlug() }}" data-uid="{{ media.getUserId() }}" data-id="{{ media.getId() }}" />
+    </video>
+</div>

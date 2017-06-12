@@ -1,6 +1,11 @@
+{% trans_default_domain "HOMEWORK" %}
+<div class="loader loader-sb"></div>
 <div class="modal-body">
-	<div class="loader loader-sb"></div>
+    	<div class="alert alert-danger bns-alert" style="display: none;">
+            {% trans %}DISCIPLINE_NAME_CANT_BE_EMPTY{% endtrans %}
+	    <div class="jim"></div>
+	</div>
 	<div class="category-editor">
-		<input type="text" name="" value="" placeholder="Titre de la nouvelle catégorie" style="border-radius: 3px {# BECAUSE WE DON'T HAVE ICON... #}" />
+		<input type="text" name="" value="" placeholder="{{"NAME_OF_NEW_DISCIPLINE"|trans}}" style="border-radius: 3px {# BECAUSE WE DON'T HAVE ICON... #}" />
 	</div>
 </div>

@@ -1,10 +1,8 @@
 {% block content %}
-	
 	{% for resource in resources %}
 		{% include "BNSAppResourceBundle:FrontNavigation:resourceListBlock.html.twig" with {"resource" : resource } %}
 	{% else %}
 		Il n'y a pas de document correspondant à votre recherche
 	{% endfor %}
-	
 {% endblock %}
 	

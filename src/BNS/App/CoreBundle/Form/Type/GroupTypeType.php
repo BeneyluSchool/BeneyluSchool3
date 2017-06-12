@@ -13,12 +13,6 @@ class GroupTypeType extends AbstractType
         $builder->add('centralize','checkbox', array('required' => false));
 		$builder->add('simulate_role','checkbox', array('required' => false));
 		$builder->add('type','text', array('required' => true));
-		$builder->add('group_type_i18ns', 'collection', array(
-            'type'          => new \BNS\App\CoreBundle\Form\Type\GroupTypeI18nType(),
-            'allow_add'     => true,
-            'allow_delete'  => false,
-            'by_reference'  => true
-        ));
     }
 
 	/**

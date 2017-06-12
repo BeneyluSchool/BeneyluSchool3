@@ -1,0 +1,186 @@
+<form name="ctrl.form">
+
+  <div class="md-padding">
+    <div class="md-whiteframe-z1 md-body-2 layout-row">
+      <div class="flex md-padding">
+        <div translate translate-values="{start: moment(ctrl.template.started_at).format('YYYY'), end: moment(ctrl.template.started_at).add(1, 'year').format('YYYY')}">LSU.TITLE_SCHOOL_YEAR</div>
+        <div translate translate-values="{cycle: ctrl.template.lsu_config.lsu_level.cycle}">LSU.TITLE_PUPIL_LEARNING_ASSESSMENT</div>
+        <div translate translate-values="{period: ctrl.template.period, start: moment(ctrl.template.started_at).format('L'), end: moment(ctrl.template.ended_at).format('L')}">LSU.DESCRIPTION_PERIOD</div>
+        <div>
+          <strong>{{ctrl.record.user.full_name}}</strong>&nbsp;
+        </div>
+      </div>
+      <md-button ng-if="ctrl.isEditable && ctrl.record" ng-click="ctrl.showEditRecordHeaderDialog($event)" class="md-icon-button">
+        <md-icon>edit</md-icon>
+      </md-button>
+    </div>
+  </div>
+
+  <md-subheader ng-if="ctrl.template && ctrl.commons.length" class="md-no-sticky bns-subheader-solid">
+    <div class="md-title" translate>LSU.LABEL_COMMON_GROUND_MASTERY</div>
+  </md-subheader>
+
+  <table ng-if="ctrl.template && ctrl.commons.length" class="lsu-table md-body-1">
+    <thead>
+      <colgroup>
+        <col>
+        <col class="lsu-achievement-column lsu-achievement-not">
+        <col class="lsu-achievement-column lsu-achievement-partial">
+        <col class="lsu-achievement-column lsu-achievement-success">
+        <col class="lsu-achievement-column lsu-achievement-overstep">
+      </colgroup>
+    </thead>
+    <tbody>
+      <tr>
+        <th></th>
+        <th class="vertical-cell">
+          <span translate>LSU.LABEL_MASTERY_NOT</span>
+        </th>
+        <th class="vertical-cell">
+          <span translate>LSU.LABEL_MASTERY_PARTIAL</span>
+        </th>
+        <th class="vertical-cell">
+          <span translate>LSU.LABEL_MASTERY_SUCCESS</span>
+        </th>
+        <th class="vertical-cell">
+          <span translate>LSU.LABEL_MASTERY_OVERSTEP</span>
+        </th>
+      </tr>
+      <tr ng-repeat="domain in ctrl.commons"
+        bns-lsu-record-domain-row="domain"
+        bns-lsu-common
+        bns-lsu-position="ctrl.positions[domain.id]"
+        bns-lsu-editable="ctrl.isEditable"
+        class="domain-row"
+      ></tr>
+    </tbody>
+  </table>
+
+  <div ng-if="ctrl.template && !ctrl.template.is_cycle_end">
+
+    <md-subheader ng-if="ctrl.template && !ctrl.template.is_cycle_end && ctrl.domains.length" class="md-no-sticky bns-subheader-solid">
+      <div class="md-title" translate>LSU.LABEL_ACHIEVEMENTS</div>
+    </md-subheader>
+
+    <table ng-if="ctrl.template && !ctrl.template.is_cycle_end && ctrl.domains.length" class="lsu-table md-body-1">
+      <thead>
+        <colgroup>
+          <col class="lsu-domain-column">
+          <col class="lsu-subdomain-column">
+          <col class="lsu-topics-column">
+          <col class="lsu-comments-column">
+          <col class="lsu-achievement-column lsu-achievement-not">
+          <col class="lsu-achievement-column lsu-achievement-partial">
+          <col class="lsu-achievement-column lsu-achievement-success">
+          <col class="lsu-achievement-column lsu-achievement-overstep">
+        </colgroup>
+      </thead>
+      <tbody>
+        <tr>
+          <th rowspan="2" colspan="2" translate>LSU.LABEL_DOMAIN</th>
+          <th rowspan="2" translate>LSU.LABEL_MAIN_TOPICS</th>
+          <th rowspan="2" translate>LSU.LABEL_COMMENTS</th>
+          <th colspan="4" class="lsu-achievements-header">
+            <div translate>LSU.LABEL_POSITION</div>
+            <div translate>LSU.LABEL_GOALS</div>
+          </th>
+        </tr>
+        <tr>
+          <th class="lsu-achievement-header vertical-cell">
+            <span translate>LSU.LABEL_NOT_ACHIEVED</span>
+          </th>
+          <th class="lsu-achievement-header vertical-cell">
+            <span translate>LSU.LABEL_PARTIALLY_ACHIEVED</span>
+          </th>
+          <th class="lsu-achievement-header vertical-cell">
+            <span translate>LSU.LABEL_ACHIEVED</span>
+          </th>
+          <th class="lsu-achievement-header vertical-cell">
+            <span translate>LSU.LABEL_OVERACHIEVED</span>
+          </th>
+        </tr>
+        <tr ng-repeat-start="domain in ctrl.domains"
+          bns-lsu-record-domain-row="domain"
+          bns-lsu-details="ctrl.details[domain.id]"
+          bns-lsu-comment="ctrl.comments[domain.id]"
+          bns-lsu-position="ctrl.positions[domain.id]"
+          bns-lsu-editable="ctrl.isEditable"
+          class="domain-row"
+        ></tr>
+        <tr ng-repeat-end="domain in ctrl.domains"
+          ng-repeat="subdomain in ::domain.subdomains"
+          bns-lsu-record-domain-row="subdomain"
+          bns-lsu-details="ctrl.details[subdomain.id]"
+          bns-lsu-position="ctrl.positions[subdomain.id]"
+          bns-lsu-editable="ctrl.isEditable"
+          class="lsu-subdomain-row"
+          ng-class="::{'lsu-subdomain-row-first': $first, 'lsu-subdomain-row-last': $last}"
+        ></tr>
+      </tbody>
+    </table>
+
+    <div ng-if="ctrl.hasCourse()">
+      <md-subheader class="md-no-sticky bns-subheader-solid">
+        <div class="md-title" translate>LSU.TITLE_EDUCATIVE_COURSES</div>
+      </md-subheader>
+
+      <div ng-repeat="course in ctrl.allCourses" ng-if="::ctrl.template.data[course] || ctrl.model.data[course]">
+        <dl ng-if="::ctrl.template.data[course] || ctrl.model.data[course]" class="md-padding md-body-2 lsu-content">
+          <dt>{{('LSU.LABEL_'+course)|translate}}</dt>
+          <dd>
+            <div ng-if="::ctrl.template.data[course]">{{::ctrl.template.data[course]}}</div>
+            <div ng-if="::!ctrl.isEditable && ctrl.record.data[course]">{{::ctrl.record.data[course]}}</div>
+          </dd>
+        </dl>
+
+        <div ng-if="::ctrl.isEditable" class="lsu-form-row">
+          <md-input-container>
+            <label>{{('LSU.LABEL_'+course)|translate}}</label>
+            <textarea ng-model="ctrl.model.data[course]" ng-model-options="{allowInvalid: true}" rows="2" md-maxlength="600"></textarea>
+          </md-input-container>
+        </div>
+      </div>
+
+      <md-divider></md-divider>
+    </div>
+
+    <div ng-if="::ctrl.isEditable || ctrl.record.accompanying_condition.length || ctrl.model.accompanying_condition_other">
+      <md-subheader class="md-no-sticky bns-subheader-solid">
+        <div class="md-title" translate>LSU.LABEL_ACCOMPANYING_CONDITIONS</div>
+      </md-subheader>
+
+      <bns-checkbox-group ng-if="::ctrl.isEditable" choices="ctrl.allAccompanyingConditions" ng-model="ctrl.model.accompanyingCondition">
+        <bns-choice-label>{{choice.label|translate}}</bns-choice-label>
+      </bns-checkbox-group>
+      <div ng-if="::ctrl.isEditable" ng-show="ctrl.hasPPREModel()" class="lsu-form-row">
+        <md-input-container>
+          <label translate>LSU.LABEL_ACCOMPANYING_CONDITION_OTHER</label>
+          <textarea ng-model="ctrl.model.accompanyingConditionOther" rows="2" md-maxlength="600"></textarea>
+        </md-input-container>
+      </div>
+      <div class="md-padding md-body-2" ng-if="::!ctrl.isEditable && (ctrl.record.accompanying_condition.length || ctrl.record.accompanying_condition_other)">
+        <ul>
+          <li ng-repeat="condition in ::ctrl.record.accompanying_condition">{{::condition}}</li>
+          <li ng-if="ctrl.hasPPRE() && ctrl.record.accompanying_condition_other">{{::ctrl.record.accompanying_condition_other}}</li>
+        </ul>
+      </div>
+
+      <md-divider></md-divider>
+    </div>
+  </div>
+
+  <div ng-if="::ctrl.isEditable || ctrl.record.global_evaluation">
+    <md-subheader class="md-no-sticky bns-subheader-solid">
+      <div class="md-title">{{(ctrl.template.is_cycle_end ? 'LSU.LABEL_CYCLE_SYNTHESIS' : 'LSU.LABEL_GENERAL_COMMENT_PUPIL_PROGRESS')|translate}}</div>
+    </md-subheader>
+
+    <div ng-if="::ctrl.isEditable" class="lsu-form-row">
+      <md-input-container>
+        <label>{{(ctrl.template.is_cycle_end ? 'LSU.PLACEHOLDER_CYCLE_SYNTHESIS' : 'LSU.PLACEHOLDER_GENERAL_COMMENT')|translate}}</label>
+        <textarea name="globalEvaluation" ng-model="ctrl.model.globalEvaluation" ng-model-options="{allowInvalid: true}" rows="3" required md-maxlength="1500"></textarea>
+      </md-input-container>
+    </div>
+    <div ng-if="::!ctrl.isEditable && ctrl.record.global_evaluation" class="md-padding md-body-2 lsu-content"> {{::ctrl.record.global_evaluation}}</div>
+  </div>
+
+</form>

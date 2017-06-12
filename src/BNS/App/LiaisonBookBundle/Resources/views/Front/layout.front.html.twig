@@ -1,52 +1,75 @@
+{% trans_default_domain "LIAISONBOOK" %}
 {% extends '::base.html.twig' %}
 
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+
+
+{# form theme #}
+{% if form is defined %}{% form_theme form 'BNSAppMainBundle:Form:material_fields.html.twig' %}{% endif %}
+{% if filter_form is defined %}{% form_theme filter_form 'BNSAppMainBundle:Form:material_fields.html.twig' %}{% endif %}
+
+{# head #}
 {% block title %}
-	Carnet de liaison
+  {% trans with {'%beneylu_brand_name%': parameter('beneylu_brand_name')} %}LiaisonBook.Back.Titre{% endtrans %}
 {% endblock %}
+{% set app_unique_name = 'LIAISONBOOK' %}
+{% set app_mode = 'front' %}
+{# body #}
+{% block body_class %}layout-column module-liaisonbook module-front front{% endblock %}
+{% block body_attr %} data-app="{{ app_unique_name }}" data-mode="{{ app_mode }}" {{ parent() }} {% endblock %}
 
-{% block css %}
-	{{ parent() }}
+{% block alert %}{% endblock %}
 
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu:400,700" rel="stylesheet" type="text/css">
-	<link href="{{ asset('/medias/css/liaisonbook/front.css') }}" rel="stylesheet" type="text/css">
-{% endblock %}
-        
+{% block body %}
+    <script type="text/javascript" src="{{ asset('/medias/js/bootstrap/bootstrap-alert.js') }}"></script>
+
+    {% block flash_container %}
+        {{ components.toasts(app.session.flashbag.all) }}
+    {% endblock flash_container %}
+
+    {% block actionbar_container %}
+    {% endblock actionbar_container %}
+
+    {% block main_container %}
+        <div class="flex-5"></div>
+        <div container class="main-container layout-row flex" ng-cloak>
+            <div class="flex-offset-sm-5 flex-offset-md-5 flex-offset-lg-5 flex-offset-gt-lg-15"></div>
+            {% block sidebar_container %}
+                <md-sidenav  class=" md-sidenav-left bns-sidebar layout-column" md-component-id="left" md-is-locked-open="app.isSidebarLockedOpen()">
+                    {% block sidebar %}
+
+                        {% block sidebar_header %}
+                            <header bns-sidebar-header app="navbar.app" mode="front"></header>
+                        {% endblock %}
+
+                        <md-content>
+                            {% block sidebar_content %}{% endblock %}
+                        </md-content>
+
+                    {% endblock sidebar%}
+                </md-sidenav>
+            {% endblock sidebar_container %}
+            <div class="marvel-device ipad layout-column">
+                <div class="camera"></div>
+
+                <md-content id="content" class="bns-content layout-column flex screen">
+                    <div class="bns-content-inner layout-column">
+                        {{ block('content') }}
+                    </div>
+                </md-content>
+                <div class="home"></div>
+            </div>
+            <div class="flex-offset-sm-5 flex-offset-md-5 flex-offset-lg-5 flex-offset-gt-lg-15"></div>
+        </div>
+        <div class="flex-5"></div>
+
+    {% endblock main_container %}
+
+{% endblock body %}
+
 {% block javascripts %}
     {{ parent() }}
-	
-    <script type="text/javascript" src="/medias/js/bootstrap/bootstrap-alert.js"></script>
-{% endblock %} 
-        
-{% block body %}
-        {% include 'BNSAppMainBundle::notice.html.twig' %}
-        <div class="book-binding"></div>
-        <div class="container-fluid container">
-            <div class="row-fluid ">
-                <div class="span1">&nbsp;</div>
-                <div class="border-container-bookbinding">
-                    <div class="container-bookbinding">
-                        <div class="span8 no-margin">
-                            {% block content %}
-
-                            {% endblock %}
-                        </div>
-                        <div class="span2 no-margin">
-                            {% block archives %}
-                            {% render 'BNSAppLiaisonBookBundle:Common:archives' with { 'newsDate' : newsDate, 'admin' : false } %}
-                            {% endblock %}
-                        </div>
-                        <div class="span1 no-margin">
-                            <div class="container-btn-tab liaisonbook-messages-min-height">
-                                <div class="effect-tab"></div>
-                                <div class="btn-tab"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-{% endblock %} 
-
-{% block dock_bar %}
-	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "LIAISONBOOK" , 'is_in_front' : true } %}
+    <script type="text/javascript" src="{{ asset('medias/js/liaisonbook/Front/index.js') }}"></script>
 {% endblock %}
+
+{% block respond_script %}{% endblock %}

@@ -1,7 +1,8 @@
+{% trans_default_domain "HOMEWORK" %}
 {% extends 'BNSAppHomeworkBundle:Back:layout.html.twig' %}
 
 {% block title %}
-	Cahier de texte - Catégories
+	{% trans %}TITLE_HOMEWORK_CATEGORIES{% endtrans %}
 {% endblock %}
 
 {% block javascripts %}
@@ -59,8 +60,10 @@
 						type: 'POST',
 						dataType: 'json',
 						data: {'left_id': leftId, 'right_id': rightId, 'parent_id': parentId, 'subject_id' : targetId}	
+					}).done(function ()
+					{
+						checkSubjects();
 					});
-
 				}
 			);
 
@@ -128,7 +131,11 @@
 					url: categoriesRoutes.remove,
 					type: 'POST',
 					data: {'id': categoryId}
+				}).done(function ()
+				{
+					checkSubjects();
 				});
+				
 			});
 
 			// Cancel modifications
@@ -166,7 +173,9 @@
 				{
 					$loader.fadeOut('fast');
 					$this.find('div').first().removeClass('loading');
+					checkSubjects();
 				});
+				
 			});
 
 			// Submit new category
@@ -174,7 +183,17 @@
 			{
 				var $this = $(e.currentTarget),
 					$modalBody = $('#new-category-modal .modal-body'),
-					$loader = $modalBody.find('.loader');
+					$loader = $modalBody.parent().find('.loader');
+					
+				if($modalBody.find('input[type="text"]').val() == "")
+				{
+				    $('.bns-alert').slideDown('fast');
+				    return false;
+				}
+				else
+				{
+				    $('.bns-alert').slideUp('fast');
+				}
 
 				$loader.fadeIn('fast');
 
@@ -207,36 +226,55 @@
 					if ($this.data('dismiss') == 'modal') {
 						$('#new-category-modal').modal('hide');
 					}
+					checkSubjects();
 				});
-
 				return false;
 			});
-
+			
+			
+			function checkSubjects()
+			{
+			    var cpt = 0;
+			    $('.subject-item').each(function(){
+				cpt++;
+			    });
+			    if(cpt == 0)
+			    {
+				$('.no-item').show();
+			    }
+			    else
+			    {
+				$('.no-item').hide();
+			    }
+			}
+			
 			function closeCategory()
 			{
 				$('.content-categories-management ol.load-sortable div.active').removeClass('active');
 				$('.content-categories-management ol.load-sortable .category-editor').slideUp('fast');
 			}
+
 		});
 	</script>
 {% endblock javascripts %}
 	
 {% block header %}
+  {% trans_default_domain "HOMEWORK" %}
 	<div class="header-buttons">
 		<div class="inner-header">
 			<div class="container container-fluid">
 				<div class="row-fluid">
-					<div class="span6">
+					<div class="span8">
 						<a href="#" class="btn bns-info btn-24 large button-return" data-target="#new-category-modal" data-toggle="modal">
 							<span class="icons-24 add-icon"></span>
-							Ajouter une matière
+                            {% trans %}LINK_ADD_DISCIPLINE{% endtrans %}
 						</a>
 					</div>
-					<div class="span6 align-right switchable-menu" id="default-header"></div>
-					<div class="span6 align-right switchable-menu hide" id="category-edit-mode" data-effect="drop">
+					<div class="span4 align-right switchable-menu" id="default-header"></div>
+					<div class="span4 align-right switchable-menu hide" id="category-edit-mode" data-effect="drop">
 						<a href="#" data-toggle="menu" data-target="#default-header" class="btn bns-danger btn-24 medium-return cancel-button">
 							<span class="icons-24 cancel-icon"></span>
-							<strong>Annuler</strong><br />les modifications
+                            {{ 'LINK_CANCEL_MODIFICATION'|trans |desc('<strong>Annuler</strong><br/>les modifications') |raw }}
 						</a>
 					</div>
 				</div>
@@ -246,45 +284,49 @@
 {% endblock header %}
 
 {% block sidebar %}
-	<div class="container-section">
-		<div class="section">
-			<a href="{{ path('BNSAppHomeworkBundle_back') }}">Travaux</a>
+  {% trans_default_domain "HOMEWORK" %}
+	<div class="container-sidebar list">
+		<div class="container-section">
+			<div class="section">
+				<a href={{ path('BNSAppHomeworkBundle_back') }}>{% trans %}TITLE_WORKS{% endtrans %}</a>
+			</div>
 		</div>
-	</div>
-	<div class="section active">
-		Personnalisation
-		<span class="shadow-section"></span>
-	</div>
-	<div class="title-container article-statuses-filter">
-		<div class="content-title">
-			<ul>
-				<li>
-					<a href="{{ path('BNSAppHomeworkBundle_back_preferences') }}">Gestion des jours</a>
-				</li>
-				<li>
-					<a class="active" href="{{ path('homework_manager_categories') }}">Gestion des matières</a>
-				</li>
-			</ul>
+		<div class="section active">
+            {% trans %}LINK_CUSTOMIZATION{% endtrans %}
+			<span class="shadow-section"></span>
+		</div>
+		<div class="title-container article-statuses-filter">
+			<div class="content-title">
+				<ul>
+					<li>
+						<a href="{{ path('homework_manager_categories') }}" class="active" >{% trans %}LINK_SAVE_DISCIPLINE{% endtrans %}</a>
+					</li>
+					<li>
+						<a href="{{ path('BNSAppHomeworkBundle_back_preferences') }}" >{% trans %}LINK_PARAMETERS{% endtrans %}</a>
+					</li>
+				</ul>
+			</div>
 		</div>
 	</div>
 {% endblock sidebar %}
 
 {% block content %}
+  {% trans_default_domain "HOMEWORK" %}
 	<div class="content-categories-management">
-		<h1>Gérer les matières</h1>
+		<h1>{% trans %}TITLE_MANAGE_DISCIPLINE{% endtrans %}</h1>
 		
 		{# Attention à ne pas oublier de copier les templates des modals et à ne pas modifier l'ID de la modal, sinon le JS ne fonctionnera plus #}
 		{{ modal('new-category-modal', {
-			'title': 'Ajouter une matière',
+			'title': 'MODAL_ADD_DISCIPLINE'|trans,
 			'body_template': {'template': 'BNSAppHomeworkBundle:Subject:modal_subject_management_add_body.html.twig'},
-			'footer_template': {'template': 'BNSAppHelloWorldBundle:Modal:category_management_add_footer.html.twig'},
+			'footer_template': {'template': 'BNSAppHomeworkBundle:Modal:category_management_add_footer.html.twig'},
 			'type': 'info'
 		}) }}
 		
 		{{ modal('delete-category-modal', {
-			'title': "Suppression d'une matière",
+			'title': "MODAL_DELETE_DISCIPLINE"|trans,
 			'body_template': {'template': 'BNSAppHomeworkBundle:Subject:modal_subject_management_delete_body.html.twig'},
-			'footer_template': {'template': 'BNSAppHelloWorldBundle:Modal:category_management_delete_footer.html.twig'},
+			'footer_template': {'template': 'BNSAppHomeworkBundle:Modal:category_management_delete_footer.html.twig'},
 			'type': 'error'
 		}) }}
 		
@@ -293,9 +335,21 @@
 				{% for subject in subjects %}
 					{% include 'BNSAppHomeworkBundle:Subject:back_subject_management_row.html.twig' %}
 				{% endfor %}
-			{% else %}
-				<p>Il n'existe pas encore de matière. Pourquoi ne pas en créer une dès maintenant ?<br />C'est simple : cliquez sur le bouton "Ajouter une matière" en haut à gauche.</p>
 			{% endif %}
+			<div class="no-item" {% if subjects|length > 0 %} style="display:none;"{%endif%}>
+			    <div class="bnj-not-found"></div>
+			    <p>
+                    {% trans %}NO_DISCIPLINE{% endtrans %}
+			    </p>
+
+			    <p class="buttons-container">
+				<a href="#" class="btn bns-info btn-24 large button-return" data-target="#new-category-modal" data-toggle="modal">
+					<span class="icons-24 add-icon"></span>
+                    {% trans %}MODAL_ADD_DISCIPLINE{% endtrans %}
+				</a>
+			    </p>
+			    <div class="clearfix"></div>
+			</div>
 		</ol>
 	</div>
 {% endblock content %}

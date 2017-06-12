@@ -1,3 +1,4 @@
+{% trans_default_domain "HOMEWORK" %}
 {% extends 'BNSAppHomeworkBundle:Front:layout.html.twig' %}
 
 {% block homework_body %}
@@ -9,11 +10,11 @@
                     {% include 'BNSAppHomeworkBundle:Front:border-menu.html.twig' with {'preferences': preferences }%}
 
                     <div class="title-text-book worked">
-                        <h1>Travaux passés</h1>
+                        <h1>{% trans %}TITLE_OLD_WORK{% endtrans %}</h1>
                     </div>
 
                     <div id="homework">
-                    {% render "BNSAppHomeworkBundle:Front:historyPage" with {'page' : page } %}
+                    {{ render(controller('BNSAppHomeworkBundle:Front:historyPage', {'page' : page } )) }}
                     </div>
 
                     <div class="ring-text-book"></div>

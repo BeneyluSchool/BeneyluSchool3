@@ -1,0 +1,68 @@
+{% trans_default_domain "INFO" %}
+{% extends 'BNSAppInfoBundle:Front:layout.html.twig' %}
+
+{% block css %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+
+    <h1>{{ 'TITLE_HELP_CENTER'|trans |desc('Centre d\'aide') }}</h1>
+
+    {% include 'BNSAppMainBundle::notice.html.twig' %}
+
+    <div class="incentive">
+        <div class="content">
+            <img src="{{ asset('/medias/images/info/community.png') }}" />
+            <span class="message">{{ 'SEARCH_ANSWER_TO_YOUR_QUESTION'|trans |desc('Vous cherchez des réponses à vos questions ?') }}</span>
+            <span class="message right">{{ 'WANT_EXCHANGE_WITH_COMMUNITY'|trans |desc('Vous souhaitez échanger avec la communauté ?') }}</span>
+            <a href="http://beneylu.com/school/apprendre{{ queryString }}" target="_blank" class="btn bns-notice btn-24 large incentive-btn">
+                <span class="icons-24 preview-icon"></span>
+                {{ 'LINK_READ_GUIDE'|trans |desc('<strong>Lire</strong> les guides') |raw }}
+            </a>
+            <a href="http://beneylu.com/forum/{{ queryString }}" target="_blank" class="btn bns-notice btn-24 large large incentive-btn btn-right">
+                <span class="icons-24 preview-icon"></span>
+                {{ 'LINK_SEE_FORUM'|trans |desc('<strong>Voir</strong> le forum') |raw }}
+            </a>
+        </div>
+    </div>
+
+
+
+
+    {#
+
+    <h1>Contactez nous</h1>
+
+    <div class="contact-form">
+
+        <div class="alert alert-success bns-alert">
+            Un mot gentil, une idée : écrivez nous !
+            <div class="jim"></div>
+        </div>
+
+        <form id="contact-form" action="" method="post" {{ form_enctype(form) }} class="form-horizontal">
+
+            {{ form_widget(form.description) }}
+            {{ form_rest(form) }}
+
+            <a id="contact-submit-form" href="#" class="btn bns-success btn-24 medium-return"><span class="icons-24 validate-icon"></span><strong>Envoyer</strong> <br> mon message</a>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        $(function(){
+            $('#contact-submit-form').click(function(e){
+                e.preventDefault();
+                $('#contact-form').submit();
+            });
+        });
+    </script>
+
+    #}
+
+{% endblock %}
+
+{% block sidebar %}
+    {% include "BNSAppInfoBundle:Front:sidebar.html.twig" %}
+{% endblock %}

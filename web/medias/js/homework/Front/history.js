@@ -24,11 +24,11 @@ $(document).ready(function ()
                 {
                     $this.removeClass('not-validate').addClass('btn-success');
                     $this.attr('data-task-done', 1);
-                    $this.html('<span class="icons-validated"></span>Travail validé');
+                    $this.html('<span class="icons-validated"></span>' + $(this).attr('data-label-validate'));
                 },
                 error: function (data)
                 {
-                    console.log("TODO : AJAX error when changing task status");
+
                 }
             });
         }

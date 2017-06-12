@@ -1,13 +1,12 @@
+{% trans_default_domain "MINISITE" %}
 {% extends 'BNSAppMiniSiteBundle:Layout:back_widget.html.twig' %}
 
 {% block widget_content %}
-	<p class="name-rss">
-		{% trans %}MiniSite.Back.Custom.Widgets.RSS.URL{% endtrans %} : {{ form_widget(form.rss_url) }}
-	</p>
+			<label for="{{ form.rss_url.vars.id }}">{% trans %}FLUX_RSS{% endtrans %}</label>
+      {{ form_widget(form.rss_url) }}
+      <label for="{{ form.limit.vars.id }}">{% trans %}NUMBER_FLUX_TO_DISPLAY{% endtrans %}</label>
+      {{ form_widget(form.limit) }}
 
-	<p class="number-rss">{% trans %}MiniSite.Back.Custom.Widgets.RSS.Limit{% endtrans %}
-	{{ form_widget(form.limit) }}
-	</p>
 
 	{{ form_rest(form) }}
 {% endblock %}

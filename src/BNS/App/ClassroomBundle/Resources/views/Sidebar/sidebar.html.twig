@@ -1,56 +1,654 @@
-
-
+{% trans_default_domain "CLASSROOM" %}
+{% if hasGroupBoard is not defined %}
+  {% set hasGroupBoard = false %}
+{% endif %}
 {% if page == 'index' %}
-	<div class="section active">
-		Tableau de bord
-		<span class="shadow-section"></span>
-	</div>
-	<div class="container-section">
-{% else %}
-	<div class="container-section">
-		<div class="section">
-			<a href="{{ path('BNSAppClassroomBundle_back') }}">Tableau de bord</a>
-		</div>
+    <div class="container-sidebar list">
+        <div class="section active">
+            {% trans %}LINK_DASHBOARD{% endtrans %}
+            <span class="shadow-section"></span>
+        </div>
+        <div class="title-container">
+            <div class="title active border-blue">{% trans %}CLASS_CODE{% endtrans %} <span class="square icon-arrow"></span></div>
+            <div class="content-title">
+                <ul>
+                    <li class="text-row">
+                        <div>
+                            <span class="uid">{{ uid }}</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppClassroomBundle_back_classroom') }}">{% trans %}LINK_MY_CLASS{% endtrans %}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppClassroomBundle_back_custom') }}">{% trans %}LINK_CUSTOMIZE{% endtrans %}</a>
+            </div>
+            {% if hasGroupBoard %}
+              <div class="section">
+                  <a href="{{ path('BNSAppClassroomBundle_back_blackboard') }}">{% trans %}LINK_BLACKBOARD{% endtrans %}</a>
+              </div>
+            {% endif %}
+            <div class="section">
+                <a href="{{ path('classroom_manager_stats') }}">{% trans %}LINK_STATS{% endtrans %}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppClassroomBundle_back_sponsorship') }}">{% trans %}LINK_SPONSORSHIP{% endtrans %}</a>
+            </div>
+            {% if has_right_somewhere('SPOT_ACCESS') %}
+                <div class="section">
+                    <a href="{{ path('bns_app_classroom_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTION{% endtrans %}</a>
+                </div>
+            {% endif %}
+        </div>
+        {{ render(controller('BNSAppClassroomBundle:BackChangeYear:sidebar')) }}
+    </div>
+{% endif %}
+
+{% if page == 'sponsorship' %}
+    <div class="container-sidebar list">
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppClassroomBundle_back') }}">{% trans %}LINK_DASHBOARD{% endtrans %}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppClassroomBundle_back_classroom') }}">{% trans %}LINK_MY_CLASS{% endtrans %}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppClassroomBundle_back_custom') }}">{% trans %}LINK_CUSTOMIZE{% endtrans %}</a>
+            </div>
+            {% if hasGroupBoard %}
+              <div class="section">
+                  <a href="{{ path('BNSAppClassroomBundle_back_blackboard') }}">{% trans %}LINK_BLACKBOARD{% endtrans %}</a>
+              </div>
+            {% endif %}
+            <div class="section">
+                <a href="{{ path('classroom_manager_stats') }}">{% trans %}LINK_STATS{% endtrans %}</a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="section active">
+          {% trans %}LINK_SPONSORSHIP{% endtrans %}
+            <span class="shadow-section"></span>
+        </div>
+
+        {% if has_right_somewhere('SPOT_ACCESS') %}
+            <div class="container-section">
+                <div class="section">
+                    <a href="{{ path('bns_app_classroom_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTION{% endtrans %}</a>
+                </div>
+            </div>
+        {% endif %}
+        {{ render(controller('BNSAppClassroomBundle:BackChangeYear:sidebar')) }}
+    </div>
+{% endif %}
+
+
+{% if page == 'subscription' %}
+    <div class="container-sidebar list">
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppClassroomBundle_back') }}"> {% trans %}LINK_DASHBOARD{% endtrans %}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppClassroomBundle_back_classroom') }}">{% trans %}LINK_MY_CLASS{% endtrans %}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppClassroomBundle_back_custom') }}">{% trans %}LINK_CUSTOMIZE{% endtrans %}</a>
+            </div>
+            {% if hasGroupBoard %}
+              <div class="section">
+                  <a href="{{ path('BNSAppClassroomBundle_back_blackboard') }}">{% trans %}LINK_BLACKBOARD{% endtrans %}</a>
+              </div>
+            {% endif %}
+            <div class="section">
+                <a href="{{ path('classroom_manager_stats') }}">{% trans %}LINK_STATS{% endtrans %}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppClassroomBundle_back_sponsorship') }}">{% trans %}LINK_SPONSORSHIP{% endtrans %}</a>
+            </div>
+        </div>
+        <div class="section active">
+            {% trans %}LINK_SUBSCRIPTION{% endtrans %}
+            <span class="shadow-section"></span>
+        </div>
+        {% block subscriptionMenu %}{% endblock %}
+
+        {{ render(controller('BNSAppClassroomBundle:BackChangeYear:sidebar')) }}
+    </div>
 {% endif %}
 
 {% if page == 'classroom' %}
-	</div>
-	<div class="clearfix"></div>
+    <div class="container-sidebar list">
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppClassroomBundle_back') }}"> {% trans %}LINK_DASHBOARD{% endtrans %}</a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
 
-	<div class="section active">
-		Ma classe
-		<span class="shadow-section"></span>
-	</div>
-	<div class="title-container">
-		<div class="content-title">
-			<ul>
-				<li>
-					<a class="{% if section == 'users' %}active{% endif %}" href="{{ path('BNSAppClassroomBundle_back_classroom') }}">Utilisateurs</a>
-				</li>
-				{#<li>
-					<a class="{% if section == 'team' %}active{% endif %}" href="{{ path('BNSAppClassroomBundle_back_team') }}">Equipes</a>
-				</li>#}
-			</ul>
-		</div>
-	</div>
-	<div class="container-section">
-{% else %}
-	<div class="section">
-		<a href="{{ path('BNSAppClassroomBundle_back_classroom') }}">Ma classe</a>
-	</div>
+        <div class="section active">
+            {% trans %}LINK_MY_CLASS{% endtrans %}
+            <span class="shadow-section"></span>
+        </div>
+        <div class="title-container">
+            <div class="content-title">
+                <ul>
+                    <li>
+                        <a class="{% if section == 'users' %}active{% endif %}" href="{{ path('BNSAppClassroomBundle_back_classroom') }}">{% trans %}LINK_USER{% endtrans %}</a>
+                    </li>
+                    <li>
+                        <a class="{% if section == 'team' %}active{% endif %}" href="{{ path('BNSAppClassroomBundle_back_team') }}">{% trans %}LINK_WORKING_GROUP{% endtrans %}</a>
+                    </li>
+                    <li>
+                        <a class="{% if section == 'partnership' %}active{% endif %}" href="{{ path('BNSAppClassroomBundle_back_partnership') }}">{% trans %}LINK_MINE_PARTNERSHIP{% endtrans %}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppClassroomBundle_back_custom') }}">{% trans %}LINK_CUSTOMIZE{% endtrans %}</a>
+            </div>
+            {% if hasGroupBoard %}
+              <div class="section">
+                  <a href="{{ path('BNSAppClassroomBundle_back_blackboard') }}">{% trans %}LINK_BLACKBOARD{% endtrans %}</a>
+              </div>
+            {% endif %}
+            <div class="section">
+                <a href="{{ path('classroom_manager_stats') }}">{% trans %}LINK_STATS{% endtrans %}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppClassroomBundle_back_sponsorship') }}">{% trans %}LINK_SPONSORSHIP{% endtrans %}</a>
+            </div>
+            {% if has_right_somewhere('SPOT_ACCESS') %}
+                <div class="section">
+                    <a href="{{ path('bns_app_classroom_backpaassubscription_subscription') }}">      {% trans %}LINK_SUBSCRIPTION{% endtrans %}
+                    </a>
+                </div>
+            {% endif %}
+            {# TODO remove deprecated code #}
+            {% if has_right('CLASSROOM_SUBSCRIPTION_ACCESS') %}
+                <div class="section">
+                    <a href="{{ path('classroom_manager_subscription') }}">      {% trans %}LINK_SUBSCRIPTION{% endtrans %}
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+        {{ render(controller('BNSAppClassroomBundle:BackChangeYear:sidebar')) }}
+    </div>
+{% endif %}
+
+{% if page == 'classroom-visualisation' %}
+    <div class="container-sidebar list">
+        <div class="section full-name active">
+            <div class="section-title">
+                <h1 class="dashboard"><img src="{{ avatar(user, 'thumbnail') }}" /> {{ user.getFullName() }}</h1>
+
+            </div>
+            <span class="shadow-section"></span>
+        </div>
+        {% if not isEnabled %}
+            <div class="title-container">
+                <div class="content-title">
+                    <ul>
+                        <li class="text-row">
+                            <div>
+                                <div class="bns-alert alert alert-danger">
+                                    {% trans %}THIS_PUPIL_IS_DESACTIVATE{% endtrans %}
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+        {% endif %}
+        <div class="title-container">
+            <div class="title border-blue active">{% trans %}GENERAL_INFORMATION{% endtrans %} <span class="square icon-arrow"></span></div>
+            <div class="content-title" style="display: block;">
+                <div class="content-profile">
+                    <p class="type">{{ 'LASTNAME_USER'|trans({'%user%': user.getLastName()|escape}) |desc('<strong>Nom :</strong> %user%')|raw }}</p>
+                    <p class="type">{{ 'FIRSTNAME_USER'|trans({'%user%': user.getFirstName()|escape}) |desc('<strong>Prénom :</strong> %user%')|raw }}</p>
+                    <p class="type">{{ 'LOGIN_USER'|trans({'%user%': user.getLogin()|escape}) |desc('<strong>Identifiant :</strong> %user%')|raw }}</p>
+
+                    {% if user.getBirthday() != null %}
+                        <p class="type">
+                            {% if user.getGender() == 'F' %}
+                                {{ 'BORN_USER'|transchoice(1, {'%date%': user.getBirthday()|date_bns('long', 'none') }) |desc('{0} <strong> Né le : </strong>%date% | {1} <strong> Née le : </strong%date%>') |raw }}
+                            {% else %}
+                                {{ 'BORN_USER'|transchoice(0, {'%date%': user.getBirthday()|date_bns('long', 'none') }) |desc('{0} <strong> Né le : </strong>%date% | {1} <strong> Née le : </strong%date%>') |raw }}
+                            {% endif %}
+                        </p>
+                    {% endif %}
+                </div>
+
+              {% if is_child(user) %}
+                <div class="content-profile">
+                  <p class="type"><strong>{% trans %}PARENT_ASSOCIATE{% endtrans %} : </strong></p>
+                  {% if parents|length > 0 %}
+                    <div class="block-users parents">
+                      {% for parent in parents %}
+                        <a class="bns-user small" href="{{ path('BNSAppClassroomBundle_back_pupil_detail_edit', {'userSlug': parent.slug}) }}">
+                          <img src="{{ avatar(parent, 'thumbnail') }}" alt=""/>
+                          <span class="name">{{ parent.getFullName() }}</span>
+                        </a>
+                      {% endfor %}
+                    </div>
+
+                  {% else %}
+                    <i>{% trans %}NO_PARENT_ASSOCIATE{% endtrans %}</i>
+
+                  {% endif %}
+                </div>
+                <div class="content-profile">
+                  {% if assistants|length > 0 %}
+                    <p class="type"><strong>{% trans %}ASSISTANT_ASSOCIATE{% endtrans %} : </strong></p>
+                    <div class="block-users parents">
+                      {% for assistant in assistants %}
+                        <a class="bns-user small" href="{{ path('BNSAppClassroomBundle_back_pupil_detail_edit', {'userSlug': assistant.slug}) }}">
+                          <img src="{{ avatar(assistant, 'thumbnail') }}" alt=""/>
+                          <span class="name">{{ assistant.getFullName() }}</span>
+                        </a>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                </div>
+                <br/>
+              {% endif %}
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if page == 'classroom-user-edit' %}
+    <div class="container-sidebar list editor">
+        <div class="section full-name active">
+            <div class="section-title">
+                <h1 class="dashboard"><img src="{{ avatar(user, 'thumbnail') }}" /> {{ user.getFullName() }}</h1>
+
+            </div>
+            <span class="shadow-section"></span>
+        </div>
+        <div class="title-container">
+            <div class="title border-blue active">{% trans %}GENERAL_INFORMATION{% endtrans %} <span class="square icon-arrow"></span></div>
+            <div class="content-title" style="display: block;">
+                <div class="content-profile">
+                    <input type="hidden" id="default-avatar" value="{{ avatar(user, 'small', true) }}"/>
+                    <div id="resource-selection-callback">
+                        <img src="{{ avatar(user, 'small') }}" />
+                    </div>
+                    {% if user.getId() == app.user.getId() %}
+                        {% set button_label = 'CHOOSE_MY_AVATAR'|trans %}
+                        {% set button_delete_label = 'DELETE_MY_AVATAR'|trans %}
+
+
+                    {% else %}
+                        {% set button_label = "CHANGE_MY_AVATAR"|trans %}
+                        {% set button_delete_label = "DELETE_AVATAR"|trans %}
+
+
+                    {% endif %}
+                    {% include 'BNSAppMediaLibraryBundle:Front:selection.html.twig' with {
+                    'label' : button_label,
+                    'input_id': 'profile_form_avatarId',
+                    'allowed_type': 'IMAGE',
+                    'name': form.avatarId.vars.full_name,
+                    'callback': 'resource-selection-callback',
+                    'with_cancel': true,
+                    'current_src': avatar(user, 'small'),
+                    'default_src': avatar(user, 'small',true),
+                    'current_value': form.avatarId.vars.value
+                    } %}
+
+                    <p class="type">
+                        <strong>{% trans %}LABEL_NAME{% endtrans %}</strong>
+
+                    </p>
+                    {{ form_widget(form.lastName) }}
+                    {% if form.lastName.vars.errors|length > 0 %}
+                        <div class="alert alert-danger bns-alert">
+                            {{ form_errors(form.lastName) }}
+                        </div>
+                    {% endif %}
+                    <p class="type">
+                        <strong>{% trans %}LABEL_FIRSTNAME{% endtrans %} </strong>
+
+                    </p>
+                    {{ form_widget(form.firstName) }}
+                    {% if form.firstName.vars.errors|length > 0 %}
+                        <div class="alert alert-danger bns-alert">
+                            {{ form_errors(form.firstName) }}
+                        </div>
+                    {% endif %}
+
+                    {% if is_adult(user) %}
+                        <p class="type"><strong>{% trans %}LABEL_EMAIL{% endtrans %} </strong></p>
+
+                        {{ form_widget(form.email) }}
+                        {% if form.email.vars.errors|length > 0 %}
+                            <div class="alert alert-danger bns-alert">
+                                {{ form_errors(form.email) }}
+                            </div>
+                        {% endif %}
+                    <p class="type"><strong>{% trans %}LABEL_CHANGE_LANGUAGE{% endtrans %}</strong></p>
+                        {{ form_widget(form.lang) }}
+                    {% endif %}
+                    <p class="type">
+                        {% if user.getGender() == 'F' %}
+                            {{ 'LABEL_BORN_USER'|transchoice(1, {'%date%': user.getBirthday}) |desc('{0} <strong> Né le : </strong> | {1} <strong> Née le : </strong>') |raw }}
+                        {% else %}
+                            {{ 'LABEL_BORN_USER'|transchoice(0, {'%date%': user.getBirthday}) |desc('{0} <strong> Né le : </strong> | {1} <strong> Née le : </strong>') |raw }}
+                        {% endif %}
+                    </p>
+                    <div class="birthday-datepicker">
+                        {{ form_widget(form.birthday) }}
+                    </div>
+                    {% if form.birthday.vars.errors|length > 0 %}
+                        <div class="alert alert-danger bns-alert">
+                            {{ form_errors(form.birthday) }}
+                        </div>
+                    {% endif %}
+                    <p class="type">
+                        <strong>{{ 'LABEL_GENDER'|trans  |desc('Sexe :') }} </strong>
+                    </p>
+                    <div  class="gender">
+                        {{ form_widget(form.gender) }}
+                    </div>
+                    {% if form.gender.vars.errors|length > 0 %}
+                        <div class="alert alert-danger bns-alert">
+                            {{ form_errors(form.gender) }}
+                        </div>
+                    {% endif %}
+                </div>
+                {% if is_child(user) %}
+                    <div class="content-profile">
+                        <p class="type"><strong>{% trans %}PARENT_ASSOCIATE{% endtrans %} : </strong></p>
+                        {% if parents|length > 0 %}
+                            <div class="block-users parents">
+                                {% for parent in parents %}
+                                    <a href="#" class="bns-user small checkbox selected" data-user-id="{{ parent.getId() }}">
+                                        <img src="{{ avatar(parent, 'thumbnail') }}" alt="" />
+                                        <span class="name">{{ parent.getFullName() }}</span>
+                                        <span class="action-icons"></span>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <i>{% trans %}NO_PARENT_ASSOCIATE{% endtrans %}</i>
+
+                        {% endif %}
+                    </div>
+                  {% if assistants|length > 0 %}
+                    <div class="content-profile">
+                      <p class="type"><strong>{% trans %}ASSISTANT_ASSOCIATE{% endtrans %} : </strong></p>
+                      <div class="block-users assistants">
+                        {% for assistant in assistants %}
+                          <a href="#" class="bns-user small checkbox selected" data-user-id="{{ assistant.id }}">
+                            <img src="{{ avatar(assistant, 'thumbnail') }}" alt="" />
+                            <span class="name">{{ assistant.getFullName() }}</span>
+                            <span class="action-icons"></span>
+                          </a>
+                        {% endfor %}
+                      </div>
+                  </div>
+                  {% endif %}
+                  <br/>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% endif %}
 
 {% if page == 'custom' %}
-	</div>
-	<div class="section active">
-		Personnalisation
-		<span class="shadow-section"></span>
-	</div>
-{% else %}
-	<div class="section">
-		<a href="{{ path('BNSAppClassroomBundle_back_custom') }}">Personnalisation</a>
-	</div>
-</div>
+    <div class="container-sidebar list">
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppClassroomBundle_back') }}">{% trans %}LINK_DASHBOARD{% endtrans %}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppClassroomBundle_back_classroom') }}">{% trans %}LINK_MY_CLASS{% endtrans %}</a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="section active">
+            {% trans %}LINK_CUSTOMIZE{% endtrans %}
+
+            <span class="shadow-section"></span>
+        </div>
+        <div class="container-section">
+            {% if hasGroupBoard %}
+              <div class="section">
+                  <a href="{{ path('BNSAppClassroomBundle_back_blackboard') }}">{% trans %}LINK_BLACKBOARD{% endtrans %}</a>
+              </div>
+            {% endif %}
+            <div class="section">
+                <a href="{{ path('classroom_manager_stats') }}">{% trans %}LINK_STATS{% endtrans %}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppClassroomBundle_back_sponsorship') }}">{% trans %}LINK_SPONSORSHIP{% endtrans %}</a>
+            </div>
+
+            {% if has_right_somewhere('SPOT_ACCESS') %}
+                <div class="section">
+                    <a href="{{ path('bns_app_classroom_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTION{% endtrans %}</a>
+                </div>
+            {% endif %}
+            {% if has_right('SUBSCRIPTION_ACCESS') %}
+                <div class="container-section">
+                    <div class="section">
+                        <a href="{{ path('classroom_manager_subscription') }}">{% trans %}LINK_SUBSCRIPTION{% endtrans %}</a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        {{ render(controller('BNSAppClassroomBundle:BackChangeYear:sidebar')) }}
+    </div>
 {% endif %}
 
+{% if page == 'blackboard' %}
+    <div class="container-sidebar list">
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppClassroomBundle_back') }}">{% trans %}LINK_DASHBOARD{% endtrans %}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppClassroomBundle_back_classroom') }}">{% trans %}LINK_MY_CLASS{% endtrans %}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppClassroomBundle_back_custom') }}">{% trans %}LINK_CUSTOMIZE{% endtrans %}</a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
 
+        <div class="section active">
+            {% trans %}LINK_BLACKBOARD{% endtrans %}
+
+            <span class="shadow-section"></span>
+        </div>
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('classroom_manager_stats') }}">{% trans %}LINK_STATS{% endtrans %}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppClassroomBundle_back_sponsorship') }}">{% trans %}LINK_SPONSORSHIP{% endtrans %}</a>
+            </div>
+
+            {% if has_right_somewhere('SPOT_ACCESS') %}
+                <div class="section">
+                    <a href="{{ path('bns_app_classroom_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTION{% endtrans %}</a>
+                </div>
+            {% endif %}
+            {% if has_right('SUBSCRIPTION_ACCESS') %}
+                <div class="container-section">
+                    <div class="section">
+                        <a href="{{ path('classroom_manager_subscription') }}">{% trans %}LINK_SUBSCRIPTION{% endtrans %}</a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        {{ render(controller('BNSAppClassroomBundle:BackChangeYear:sidebar')) }}
+    </div>
+{% endif %}
+
+{% if page == 'stats' %}
+    <div class="container-sidebar list">
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppClassroomBundle_back') }}">{% trans %}LINK_DASHBOARD{% endtrans %}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppClassroomBundle_back_classroom') }}">{% trans %}LINK_MY_CLASS{% endtrans %}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppClassroomBundle_back_custom') }}">{% trans %}LINK_CUSTOMIZE{% endtrans %}</a>
+            </div>
+            {% if hasGroupBoard %}
+              <div class="section">
+                  <a href="{{ path('BNSAppClassroomBundle_back_blackboard') }}">{% trans %}LINK_BLACKBOARD{% endtrans %}</a>
+              </div>
+            {% endif %}
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="section active">
+            {% trans %}LINK_STATS{% endtrans %}
+            <span class="shadow-section"></span>
+        </div>
+
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppClassroomBundle_back_sponsorship') }}">{% trans %}LINK_SPONSORSHIP{% endtrans %}</a>
+            </div>
+        {% if has_right_somewhere('SPOT_ACCESS') %}
+                <div class="section">
+                    <a href="{{ path('bns_app_classroom_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTION{% endtrans %}</a>
+                </div>
+        {% endif %}
+        </div>
+        {{ render(controller('BNSAppClassroomBundle:BackChangeYear:sidebar')) }}
+    </div>
+{% endif %}
+
+{% if page == 'partnership_add' %}
+    <div class="container-sidebar">
+        <div class="section active">
+            {# Création d'un<br/><strong>Nouveau partenariat</strong> #}
+            {% if high_school is defined and high_school and current_school is defined and current_school %}
+                {% if 'HIGH_SCHOOL' == current_school.getType() %}
+                    {% trans %}TITLE_PARTNERSHIP_SCHOOLS{% endtrans %}
+                {% else %}
+                    {% trans %}TITLE_PARTNERSHIP_HIGH_SCHOOL{% endtrans %}
+                {% endif %}
+            {% else %}
+                {% trans %}TITLE_PARTNERSHIP{% endtrans %}
+            {% endif %}
+            <span class="shadow-section"></span>
+        </div>
+    </div>
+{% endif %}
+
+{% if page == 'partnership_details' %}
+    <div class="container-sidebar">
+        <div class="section active">
+            {# Administration<br/><strong>du partenariat</strong> #}
+            {% trans %}TITLE_PARTNERSHIP{% endtrans %}
+            <span class="shadow-section"></span>
+        </div>
+
+        <div class="title-container article-statuses-filter">
+            <div class="title active border-blue">{% trans %}GENERAL_INFORMATION{% endtrans %}<span class="square icon-arrow"></span></div>
+            <div class="content-title">
+                <div class="loader loader-h"></div>
+                <div class="partnership-information">
+                    <p class="type">{{ 'NAME_PARTNERSHIP'|trans({'%teamName%': partnership.getLabel |escape}) |desc('<strong>Nom :</strong> %teamName%')  |raw}}</p>
+                    <p class="type">{{ 'CODE_PARTNERSHIP' |trans({'%code%': partnershipUid}) |desc('<strong>Code : </strong>%code%') |raw}}</p>
+                    <p class="type">{{ 'DATE_CREATION_PARTNERSHIP'|trans({'%date%': partnership.getRegistrationDate|date('d/m/Y')}) |desc('<strong>Date de création :</strong> %date%') |raw }}</p>
+
+                    {% if partnership.printAttribute('HOME_MESSAGE') is not null and partnership.printAttribute('HOME_MESSAGE') != '' %}
+                        <p class="type">{{ 'WELCOME_MESSAGE_PARTNERSHIP' |trans({'%homeMessage%': partnership.printAttribute('HOME_MESSAGE') |escape}) |desc('<strong>Message d\'acceuil : </strong><br/>%homeMessage%') |raw }}</p>
+                    {% endif %}
+                    {% if partnership.printAttribute('DESCRIPTION') is not null and partnership.printAttribute('DESCRIPTION') != '' %}
+                        {{ 'DESCRIPTION_PARTNERSHIP'|trans({'%description%': partnership.printAttribute('DESCRIPTION') |escape}) |desc('<strong>Description : </strong><br/>%description%')  |raw}}
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if page == 'partnership_edition' %}
+    <div class="container-sidebar editor">
+        <div class="section active">
+            {# Edition<br/><strong>du partenariat</strong> #}
+            {% trans %}TITLE_PARTNERSHIP{% endtrans %}
+
+            <span class="shadow-section"></span>
+        </div>
+
+        <div class="title-container article-statuses-filter">
+            <div class="title active border-blue">{% trans %}GENERAL_INFORMATION{% endtrans %}<span class="square icon-arrow"></span></div>
+            <div class="content-title">
+                <div class="loader loader-h"></div>
+                <div class="partnership-information">
+                    <p class="type">{{ 'CODE_PARTNERSHIP' |trans({'%code%': partnershipUid|escape}) |raw }}</p>
+                    <p class="type">{{ 'DATE_CREATION_PARTNERSHIP'|trans({'%date%': partnership.getRegistrationDate|date('d/m/Y')}) |raw }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if page == 'team_edition' %}
+    <div class="container-sidebar">
+        <div class="section active">
+            {% trans %}LINK_WORKING_GROUP{% endtrans %}
+            <span class="shadow-section"></span>
+        </div>
+
+        <div class="title-container article-statuses-filter">
+            <div class="title active border-blue">{% trans %}GENERAL_INFORMATION{% endtrans %}<span class="square icon-arrow"></span></div>
+            <div class="content-title">
+                <div class="loader loader-h"></div>
+                <div class="partnership-information">
+                    <p class="type">{{ 'DATE_CREATION_TEAM'|trans({'%date%': team.getRegistrationDate|date('d/m/Y')}) |raw }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if page == 'team_details' %}
+    <div class="container-sidebar">
+        <div class="section active">
+            {% trans %}LINK_WORKING_GROUP{% endtrans %}
+            <span class="shadow-section"></span>
+        </div>
+
+        <div class="title-container article-statuses-filter">
+            <div class="title active border-blue">{% trans %}GENERAL_INFORMATION{% endtrans %}<span class="square icon-arrow"></span></div>
+            <div class="content-title">
+                <div class="loader loader-h"></div>
+                <div class="partnership-information">
+                    <p class="type">{{ 'NAME_TEAM'|trans({'%teamName%': team.getLabel |escape}) |desc('<strong>Nom :</strong> %teamName%')  |raw}}</p>
+                    <p class="type">{{ 'DATE_CREATION_TEAM'|trans({'%date%': team.getRegistrationDate|date('d/m/Y')}) |desc('<strong>Date de création :</strong> %date%') |raw }}</p>
+                    <p class="type">
+                        {% if team.printAttribute('DESCRIPTION') is not null and team.printAttribute('DESCRIPTION') != '' %}
+                            {{ 'DESCRIPTION_TEAM'|trans({'%description%': team.printAttribute('DESCRIPTION') |escape}) |desc('<strong>Description : </strong> %description%')  |raw}}
+                        {% else %}
+                            {{ 'NO_DESCRIPTION_TEAM'|trans |desc('<strong>Description : </strong> Ajoutez une description à votre groupe de travail !')  |raw}}
+
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

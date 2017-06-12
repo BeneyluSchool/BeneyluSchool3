@@ -1,0 +1,4 @@
+<div class="layout-padding layout-margin layout-gt-sm-row layout-align-start-center">
+  <div ng-if="::image" class="flex story-image story-image-{{::ctrl.book.story+'-'+ctrl.step+'-'+position}} story-image-{{::image}}"></div>
+  <div class="flex" ng-bind-html="'BUILDERS.STORY_'+ctrl.book.story+'_STEP_'+ctrl.step+'_CONTENT_'+position|translate"></div>
+</div>

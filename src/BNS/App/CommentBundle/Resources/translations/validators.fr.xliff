@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-08-13T18:52:25Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="da65ee20cebb43f47d055b6824b8cf0759e6e898" resname="INVALID_AUTHOR_ID_NOT_INTEGER">
+        <source>INVALID_AUTHOR_ID_NOT_INTEGER</source>
+        <target>L'ID de l'auteur doit être un entier</target>
+      </trans-unit>
+      <trans-unit id="9f07df04b5fd2f086a59e3ed97c6c47b5c16072b" resname="INVALID_AUTHOR_SELECT_NOT_AUTHOR_OF_COMMENT">
+        <source>INVALID_AUTHOR_SELECT_NOT_AUTHOR_OF_COMMENT</source>
+        <target>Veuillez sélectionner l'auteur du commentaire</target>
+      </trans-unit>
+      <trans-unit id="92b11aa763845b2b75b82297552d1663c4c6f98a" resname="INVALID_COMMENT_EMPTY">
+        <source>INVALID_COMMENT_EMPTY</source>
+        <target>Le commentaire ne peut pas être vide</target>
+      </trans-unit>
+      <trans-unit id="6aaade1b3995a965cb8ea3286bb5e10c349e5e95" resname="INVALID_ID_NOT_INTEGER">
+        <source>INVALID_ID_NOT_INTEGER</source>
+        <target>L'ID de l'objet lié doit être un entier</target>
+      </trans-unit>
+      <trans-unit id="cfed392a9209486844c3e01b1b6c2b2e9cb16e89" resname="INVALID_SELECT_OBJECT_NOT_CONNECT_TO_COMMENT">
+        <source>INVALID_SELECT_OBJECT_NOT_CONNECT_TO_COMMENT</source>
+        <target>Veuillez sélectionner l'objet auquel le commentaire est lié</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

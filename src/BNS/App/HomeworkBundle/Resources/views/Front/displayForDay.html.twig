@@ -1,70 +1,85 @@
+{% trans_default_domain "HOMEWORK" %}
+{% set ngApp = 'beneyluSchoolComponentsApp' %}
+
 {% extends 'BNSAppHomeworkBundle:Front:layout.html.twig' %}
 
 {% block homework_body %}
-    <div class="row-fluid">
-        <div class="span12">
-             <div class="container-text-book">
+<div class="row-fluid">
+    <div class="span12">
+        <div class="container-text-book">
 
-                <div class="content-text-book">
-                    {% include 'BNSAppHomeworkBundle:Front:border-menu.html.twig' with {'preferences': preferences } %}
-                    <div class="title-text-book {{ day_of_week }}">
-                        <h1>{{ start_day | localizeddate('full', 'none') | capitalize }}</h1>
-                    </div>
-
-                    {% if admin %}
-                        {% if due_admin is empty %}
-                            <p class="no-works-today">Aucun travaux pour cette journée</p>
-                        {% else %}
-                            {% for homeworkdue in due_admin %}
-                                {% include 'BNSAppHomeworkBundle:Front:subject.html.twig' with {'homeworkdue': homeworkdue, 'preferences': preferences} %}
-                            {% endfor %}
-                        {% endif %}
-                        {% if due_later_admin_sorted is not empty %}
-                            {% for due_date, homeworkdues in due_later_admin_sorted %}
-                                <div class="next-week">
-                                {% if loop.first %}
-                                    <h3>Prochaines semaines</h3>
-                                {% endif %}
-                                    <h2>{{ due_date | localizeddate('full', 'none') | capitalize }}</h2>
-                                </div>
-                                <div class="clearfix"></div>                                
-                                {% for homeworkdue in homeworkdues %}
-                                    {% include 'BNSAppHomeworkBundle:Front:subject.html.twig' with {'homeworkdue': homeworkdue, 'preferences': preferences} %}
+            <div class="content-text-book">
+                        {% include 'BNSAppHomeworkBundle:Front:border-menu.html.twig' with {'preferences': preferences } %}
+                        <div class="title-text-book {{ day_of_week }}">
+                            <h1>{{ start_day | localizeddate('full', 'none') | capitalize }}</h1>
+                        </div>
+                        {# {% if admin %}
+                            {% if due_admin is empty %}
+                                <p class="no-works-today">Aucun travail pour cette journée. Vous pouvez en ajouter un en cliquant <a href="{{ path('BNSAppHomeworkBundle_back_new_homework_date', {'day': start_day|date("d-m-Y") }) }}">ici</a></p>
+                            {% else %}
+                                {% for homeworkdue in due_admin %}
+                                    {% include 'BNSAppHomeworkBundle:Front:subject.html.twig' with {'homeworkdue': homeworkdue, 'preferences': preferences, 'hasSeveralHomeworks': hasSeveralHomeworks } %}
                                 {% endfor %}
-                            {% endfor %}
-                        {% endif %}              
-                    {% else %}
-                                    
+                            {% endif %}
+                            {% if due_later_admin_sorted is not empty %}
+                                {% for due_date, homeworkdues in due_later_admin_sorted %}
+                                    <div class="next-week">
+                                        {% if loop.first %}
+                                            <h3>Prochaines semaines</h3>
+                                        {% endif %}
+                                        <h2>{{ due_date | localizeddate('full', 'none') | capitalize }}</h2>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    {% for homeworkdue in homeworkdues %}
+                                        {% include 'BNSAppHomeworkBundle:Front:subject.html.twig' with {'homeworkdue': homeworkdue, 'preferences': preferences, 'hasSeveralHomeworks': hasSeveralHomeworks } %}
+                                    {% endfor %}
+                                {% endfor %}
+                            {% endif %}
+                        {% else %} #}
                         {% if due_this_week is empty %}
-                            <p class="no-works-today">Tu n’as pas de travaux pour cette journée</p>
+                            {% if is_child() %}
+                                <p class="no-works-today">{% trans %}CHILD_NO_WORK_TODAY{% endtrans %}</p>
+                            {% else %}
+                                <p class="no-works-today">
+                                    {{ 'ADULT_NO_WORk_TODAY_CAN_ADD_HERE'
+                                    |trans({
+                                        '%linkStart%': '<a href="'~  path('BNSAppHomeworkBundle_back_new_homework_date', {'day': start_day|date("d-m-Y")}) ~'">', '%linkEnd%': '</a>'})
+                                    |desc(
+                                    'Aucun travail pour cette journée. Vous pouvez en ajouter un en cliquant %linkStart% ici.%linkEnd%'
+                                    ) |raw }}
+
+                                </p>
+                            {% endif %}
                         {% else %}
                             {% for homeworkdue in due_this_week %}
-                                {% include 'BNSAppHomeworkBundle:Front:subject.html.twig' with {'homeworkdue': homeworkdue, 'preferences': preferences} %}
+                                {% set locker = homeworkdue.homework.hasLocker ? getLockerForHomework(homeworkdue.homework) : false %}
+                                {% if locker %}<div id="angularize-homework-uploader" bns-uploader="{ marker: '{{ locker.marker }}' }" uploader="uploader" nv-file-drop nv-file-over>{% endif %}
+                                    {% include 'BNSAppHomeworkBundle:Front:subject.html.twig' with {'homeworkdue': homeworkdue, 'preferences': preferences, 'hasSeveralHomeworks': hasSeveralHomeworks, 'locker': locker } %}
+                                {% if locker %}</div>{% endif %}
                             {% endfor %}
                         {% endif %}
-                            
+
                         {% if due_later_sorted is not empty %}
                             {% for due_date, homeworkdues in due_later_sorted %}
                                 <div class="next-week">
-                                {% if loop.first %}
-                                    <h3>Prochaines semaines</h3>
-                                {% endif %}
+                                    {% if loop.first %}
+                                        <h3>{% trans %}TITLE_NEXT_WEEKS{% endtrans %}</h3>
+                                    {% endif %}
                                     <h2>{{ due_date | localizeddate('full', 'none') | capitalize }}</h2>
-									<div class="shadow-homework"></div>
+                                    <div class="shadow-homework"></div>
                                 </div>
                                 <div class="clearfix"></div>
-								<div class="content-next-week">
-                                {% for homeworkdue in homeworkdues %}
-                                    {% include 'BNSAppHomeworkBundle:Front:subject.html.twig' with {'homeworkdue': homeworkdue, 'preferences': preferences} %}
-                                {% endfor %}
-								</div>
+                                <div class="content-next-week">
+                                    {% for homeworkdue in homeworkdues %}
+                                        {% include 'BNSAppHomeworkBundle:Front:subject.html.twig' with {'homeworkdue': homeworkdue, 'preferences': preferences, 'hasSeveralHomeworks': hasSeveralHomeworks } %}
+                                    {% endfor %}
+                                </div>
                             {% endfor %}
-                        {% endif %}                           
-                    {% endif %}
+                        {% endif %}
+                        {# {% endif %} #}
                     <div class="ring-text-book"></div>
                 </div>
-
-                {% include 'BNSAppHomeworkBundle:Front:menu.html.twig' with {'day_of_week': day_of_week, 'preferences': preferences} %}
+                {% include 'BNSAppHomeworkBundle:Front:menu.html.twig' with {'day_of_week': day_of_week, 'preferences': preferences, 'hasSeveralHomeworks': hasSeveralHomeworks } %}
 
             </div> <!-- span12 -->
         </div> <!-- container-text-book -->
@@ -76,5 +91,23 @@
 {% endblock %}
 
 {% block javascripts %}
-<script type="text/javascript" src="{{ asset('/medias/js/homework/Front/displayForDay.js') }}"></script>	
+    {{ parent() }}
+
+    {# angular components in the page, must bootstrap #}
+    <script type="text/javascript">
+        $(function () {
+            angularBootstrap().then(function ($injector) {
+                var $compile = $injector.get('$compile');
+                var $rootScope = $injector.get('$rootScope');
+                var app = angular.module('beneyluSchoolMaterialApp');
+
+                app.loadLegacyApp().then(function () {
+                    var $root = angular.element('#angularize-homework-uploader');
+                    $compile($root)($rootScope);
+                });
+            });
+        });
+    </script>
+
+		<script type="text/javascript" src="{{ asset('/medias/js/homework/Front/displayForDay.js') }}"></script>	
 {% endblock %}

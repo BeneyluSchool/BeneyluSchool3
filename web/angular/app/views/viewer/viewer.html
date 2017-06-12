@@ -1,0 +1,19 @@
+<div class="viewer-wrapper">
+
+  <div class="viewer-overlay"></div>
+
+  <div ng-if="!noClose" ng-click="ctrl.deactivate()" class="viewer-close"><i class="bns-icon-cross"></i></div>
+
+  <div ng-if="ctrl.media" class="viewer-media-container">
+    <div class="viewer-media-wrapper" ng-class="ctrl.mediaWrapperClass">
+      <div bns-viewer-media media="ctrl.media"></div>
+    </div>
+  </div>
+
+  <div ng-if="ctrl.media" class="viewer-toolbar">
+    <div class="container-fluid">
+      <h1 class="resource-label">{{ ctrl.media.label }}</h1>
+    </div>
+  </div>
+
+</div>

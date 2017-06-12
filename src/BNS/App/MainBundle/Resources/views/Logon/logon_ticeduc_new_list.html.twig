@@ -1,0 +1,6 @@
+{% for new in news %}
+    {% include 'BNSAppMainBundle:Logon:logon_ticeduc_new_row.html.twig' with {'new' : new } %}
+    {% if loop.index != loop.last %}
+        <hr class="new-separator" />
+    {% endif %}
+{% endfor %}

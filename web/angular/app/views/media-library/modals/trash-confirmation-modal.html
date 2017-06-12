@@ -1,0 +1,64 @@
+<bns-modal modal-close="closeModal" modal-title="{{ 'MEDIA_LIBRARY.DELETE_THESE_ELEMENTS_PLURAL' | translate:'{NUM: items.valid.length}':'messageformat' }}" class="modal-danger" modal-icon="trash">
+  <div class="modal-body type">
+
+    <div ng-if="validFolders.length">
+      <h4 ng-show="isMove" translate translate-values="{NUM: validFolders.length}" translate-interpolation="messageformat" class="text-danger">MEDIA_LIBRARY.THESE_FOLDERS_MOVED_TRASH_PLURAL</h4>
+      <h4 ng-show="isRemove" translate translate-values="{NUM: validFolders.length}" translate-interpolation="messageformat" class="text-danger">MEDIA_LIBRARY.THESE_FOLDERS_DELETED_PLURAL</h4>
+
+      <ul class="list-block list-block-danger">
+        <li ng-repeat="item in validFolders">
+          {{ item.label }}
+          <a href="" ng-click="removeValidItem(item)" class="pull-right">x</a>
+        </li>
+      </ul>
+
+      <div translate translate-values="{NUM: validFolders.length}" translate-interpolation="messageformat">MEDIA_LIBRARY.THIS_WILL_DELETE_FOLDERS_CONTENT_PLURAL</div>
+    </div>
+
+    <div ng-if="validFiles.length">
+      <h4 ng-show="isMove" translate translate-values="{NUM: validFiles.length}" translate-interpolation="messageformat" class="text-danger">MEDIA_LIBRARY.THESE_DOCUMENTS_MOVED_TRASH_PLURAL</h4>
+      <h4 ng-show="isRemove" translate translate-values="{NUM: validFiles.length}" translate-interpolation="messageformat" class="text-danger">MEDIA_LIBRARY.THESE_DOCUMENTS_DELETED_PLURAL</h4>
+
+      <ul class="list-block list-block-danger">
+        <li ng-repeat="item in validFiles">
+          {{ item.label }}
+          <a href="" ng-click="removeValidItem(item)" class="pull-right">x</a>
+        </li>
+      </ul>
+    </div>
+
+    <div ng-if="invalidFolders.length">
+      <h4 ng-show="isMove" translate translate-values="{NUM: invalidFolders.length}" translate-interpolation="messageformat" class="text-danger">MEDIA_LIBRARY.THESE_FOLDERS_NOT_MOVED_TRASH_PLURAL</h4>
+      <h4 ng-show="isRemove" translate translate-values="{NUM: invalidFolders.length}" translate-interpolation="messageformat" class="text-danger">MEDIA_LIBRARY.THESE_FOLDERS_NOT_DELETED_PLURAL</h4>
+
+      <ul class="list-block list-block-danger">
+        <li ng-repeat="item in invalidFolders">
+          {{ item.label }}
+        </li>
+      </ul>
+    </div>
+
+    <div ng-if="invalidFiles.length">
+      <h4 ng-show="isMove" translate translate-values="{NUM: invalidFiles.length}" translate-interpolation="messageformat" class="text-danger">MEDIA_LIBRARY.THESE_DOCUMENTS_NOT_MOVED_TRASH_PLURAL</h4>
+      <h4 ng-show="isRemove" translate translate-values="{NUM: invalidFiles.length}" translate-interpolation="messageformat" class="text-danger">MEDIA_LIBRARY.THESE_DOCUMENTS_NOT_DELETED_PLURAL</h4>
+
+      <ul class="list-block list-block-danger">
+        <li ng-repeat="item in invalidFiles">
+          {{ item.label }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="content-btn-footer">
+      <button ng-disabled="!items.valid.length" ng-click="confirm()" class="btn btn-danger">
+        <i class="bns-icon-trash round"></i>
+        <strong translate translate-values="{NUM: items.valid.length}" translate-interpolation="messageformat">MEDIA_LIBRARY.DELETE_THESE_ELEMENTS_PLURAL</strong>
+      </button>
+      <button type="button" class="btn btn-multiline text-left" ng-click="closeModal()">
+        <i class="bns-icon-arrow-left-curved round"></i>
+        <span translate>MEDIA_LIBRARY.CANCEL_DELETE_HTML</span>
+      </button>
+    </div>
+  </div>
+</bns-modal>

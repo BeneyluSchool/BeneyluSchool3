@@ -1,0 +1,53 @@
+      <section>
+        <div class="md-button">
+          <md-icon>phonelink_ring</md-icon>
+          <div class="flex layout-row layout-align-start-center">
+            <div class="md-headline flex" translate>CAMPAIGN.MY_CREDITS</div>
+            <div ng-show="ctrl.credit.balance >= 0" class="md-title">
+              {{ ctrl.credit.balance }}
+              <span ng-show="!!ctrl.credit.country && ctrl.credit.balance > 0">({{ ctrl.credit.country }})</span>
+            </div>
+          </div>
+        </div>
+        <div class="nav-list layout-column">
+          <md-button ng-href="{{ctrl.reloadCreditUrl}}" class="flex">
+            <md-icon>refresh</md-icon>
+            <span translate>CAMPAIGN.RENEW_MY_CREDITS</span>
+          </md-button>
+        </div>
+      </section>
+
+      <section ui-sref-active="current">
+        <md-button href ui-sref="^.list">
+          <md-icon>mail_outline</md-icon>
+          <span translate>CAMPAIGN.CAMPAIGNS_LIST</span>
+        </md-button>
+
+        <bns-expander label="{{'CAMPAIGN.CAMPAIGNS_STATUS'|translate}}" is-open="true">
+          <md-list ng-repeat="stat in status">
+            <md-list-item>
+              <div flex class="campaign-status {{ stat | lowercase }}">
+                <md-checkbox class="md-primary checkbox-right checkbox-alone" ng-checked="existsStat(stat, statusSelected)" ng-click="toggleStat(stat, statusSelected)">
+                  <span>{{ 'CAMPAIGN.CAMPAIGNS_STATUS_'+stat |translate }}</span>
+                </md-checkbox>
+              </div>
+            </md-list-item>
+          </md-list>
+        </bns-expander>
+
+        <bns-expander label="{{'CAMPAIGN.CAMPAIGN_TYPES'|translate}}" is-open="true">
+          <md-list ng-repeat="type in types">
+            <md-list-item class="campaign-type">
+              <div flex="10">
+                <md-icon ng-if="type == 'SMS'">phone_android</md-icon>
+                <md-icon ng-if="type == 'EMAIL'">email</md-icon>
+                <md-icon ng-if="type == 'MESSAGING'"><img src="../assets/images/apps/messaging/icon-40.png"></md-icon>
+              </div>
+              <div flex="90">
+                <md-checkbox class="md-primary checkbox-right checkbox-alone" ng-checked="exists(type, selected)" ng-click="toggle(type, selected)">
+                <span>{{ 'CAMPAIGN.CAMPAIGN_TYPE_'+type |translate }}</span>
+              </md-checkbox></div>
+            </md-list-item>
+          </md-list>
+        </bns-expander>
+      </section>

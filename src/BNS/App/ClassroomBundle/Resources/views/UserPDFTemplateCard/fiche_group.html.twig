@@ -1,0 +1,72 @@
+{% trans_default_domain "CLASSROOM" %}
+
+{% extends '::base.html.twig' %}
+
+{% block alert %}{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{{ asset('/css/base.css') }}" type="text/css"/>
+  <link rel="stylesheet" href="{{ asset('/medias/css/classroom/card-group.css') }}" type="text/css"/>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Boogaloo" rel="stylesheet">
+{% endblock %}
+
+{% block respond_script %} {% endblock %}
+
+{% block body %}
+    {% for user in users %}
+      {% if 1 == loop.index % 8 %}
+      <div class="card-container{% if loop.length - loop.index < 8 %} card-last-container{% endif %}">
+      {% endif %}
+        <div class="card{% if (loop.index % 8 == 0) or (loop.index % 8 == 7)  %} no-border-bottom{% endif %}{% if 0 == loop.index % 2 %} odd{% endif %}">
+          <div class="banniere{% if parameter('graphic_chart') %} chart{% endif %}">
+            {% if parameter('graphic_chart') != false %}
+              {% set chartValue = parameter('graphic_chart') %}
+              <img src="{{ asset('/medias/images/main/graphic_chart/' ~ chartValue.name ~ '/logo.jpg'  ) }}" class="header-logo" width="80px" height="60px"/>
+            {% else %}
+              <img src="{{ asset('/medias/images/classroom/pupil_parent_card/bns_logo.png') }}" class="header-logo" />
+            {% endif %}
+            <p class="texte_fiche">{{ 'LOGIN_CARD'|trans }}</p>
+            <p class="nom">
+                {% if user.isChild %}
+                  {{ user.fullName }}
+                {% else %}
+                  {% set child = user.getFirstActiveChildInList(pupilIds) %}
+                  {% if child %}
+                    {% trans %}LABEL_PARENTS_OF{% endtrans %} {{ child.fullName }}
+                  {% else %}
+                    {{ user.fullName }}
+                  {% endif %}
+                {% endif %}
+            </p>
+          </div>
+          <table class="card-content">
+            <tr>
+              <td class="login">{{ 'LOGIN'|trans }}</td>
+              <td class="right">{{ user.login }} </td>
+            </tr>
+            <tr >
+              <td class="password">{{ 'PASSWORD'|trans }}</td>
+              <td class="right"> {{ user.password }} </td>
+            </tr>
+          </table>
+          <div class="footer">
+            <p class="confidentiel">{% if user.isChild %}{{ 'CHILD_PASSWORD_PRIVATE'|trans }} {% else %}{{ 'ADULT_PASSWORD_PRIVATE'|trans }} {% endif %}</p>
+            <p class="link_site"> {{ parameter('application_base_url') }} </p>
+          </div>
+        </div> <!-- end card -->
+      {% if loop.last or 0 == loop.index % 8 %}
+      </div> <!-- end card container -->
+      {% endif %}
+    {% endfor %}
+  <style type="text/css">
+    .card-container {
+      overflow: hidden;
+      page-break-after: always;
+    }
+    .card-container.card-last-container {
+      page-break-after: avoid;
+    }
+  </style>
+{% endblock %}
+{% block dock_bar %}
+{% endblock %}

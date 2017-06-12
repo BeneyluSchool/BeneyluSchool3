@@ -1,0 +1,64 @@
+{% trans_default_domain "PROFILE" %}
+{% extends 'BNSAppProfileBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+  {{ 'TITLE_PROFILE_EDIT_COMMENT'|trans }}
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+
+  <script type="text/javascript">
+    $(function ()
+    {
+      // Finish button
+      $('.md-toolbar-tools .finish').click(function (e)
+      {
+        if ($(e.currentTarget).hasClass('disabled')) {
+          return false;
+        }
+
+        $('#form_edit_comment').submit();
+
+        return false;
+      });
+    });
+  </script>
+{% endblock %}
+
+{% block actionbar_content %}
+    {% if isModeration %}
+      {{ components.button_nav('LINK_BACK_TO_MODERATION' | trans, { href: path('profile_manager_comment'), back: true } ) }}
+      {{ components.button( 'LINK_CANCEL_MODIFICATION' | trans , { href: path('profile_manager_comment'), raised: true, icon: 'close' }) }}
+    {% else %}
+      {{ components.button_nav('LINK_BACK_TO_STATUS' | trans, { href: path('profile_manager_feed_visualisation', {'feedId': comment.getObject().getId()}), back: true } ) }}
+      {{ components.button( 'LINK_CANCEL_MODIFICATION' | trans , { href: path('profile_manager_feed_visualisation', {'feedId': comment.getObject().getId()}), raised: true ,icon: 'close' }) }}
+    {% endif %}
+  {{ components.button( 'LINK_SEE_STATUS' | trans , { href: path('profile_feed_visualisation', {'feedId': comment.getObject().getId()}), raised: true, icon : 'remove_red_eye' }) }}
+  <span flex></span>
+  {{ components.button( 'LINK_SAVE_COMMENT' | trans , { intent: 'accent', href: '#', icon: 'done', raised: true, attr : {'class':'finish'} }) }}
+{% endblock actionbar_content %}
+
+{% block sidebar_content %}
+  {% include 'BNSAppCommentBundle:Sidebar:back_block_comment_visualisation_informations.html.twig' %}
+{% endblock sidebar_content %}
+
+
+  {% block content %}
+    <md-toolbar class="content-toolbar">
+      <div class="md-toolbar-tools layout-align-start-center">
+        <bns-sidebar-toggle></bns-sidebar-toggle>
+        <h1 class="md-title text-primary">{{ 'EDIT_COMMENT'|trans }}</h1>
+      </div>
+    </md-toolbar>
+<md-content class="md-padding">
+    {{ form_start(form, {
+      action: isModeration ? path('profile_manager_comment_moderation_edit', {'id': comment.getId()}) : path('profile_manager_comment_edit', {'id': comment.getId()}),
+      attr: { id: 'form_edit_comment' }
+    }) }}
+    {{ form_row(form.content, {
+      label: 'TITLE_COMMENT_CONTENT'|trans([], 'COMMENT')
+    }) }}
+    {{ form_end(form) }}
+</md-content>
+{% endblock content %}

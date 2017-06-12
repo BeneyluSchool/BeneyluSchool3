@@ -5,13 +5,15 @@ namespace BNS\App\ResourceBundle\FileSystem;
 use Gaufrette\Filesystem,
 	Gaufrette\Adapter\Cache as CacheAdapter,
 	Gaufrette\Adapter\Local as LocalAdapter,
-	Gaufrette\Adapter\S3    as S3Adapter;
+	Gaufrette\Adapter\S3    as S3Adapter,
+	BNS\App\ResourceBundle\FileSystem\BNSAdapter;
+use Symfony\Component\DependencyInjection\ContainerAware;
 
 /**
  * @author Eymeric Taelman
  * Classe La création et la gestion du FileSystem Gaufrette
  */
-class BNSFileSystemManager
+class BNSFileSystemManager extends ContainerAware
 {	
 	
 	protected $localAdapter;
@@ -19,21 +21,15 @@ class BNSFileSystemManager
 	protected $adapter;
 	protected $fileSystem;
 	protected $tempDir;
+    public    $resourceStorageType;
 			
-	public function __construct($resourceStorage,$localAdapter,$s3Adapter,$tempDir)
+	public function __construct($container, $adapter)
 	{
-		//Selon $resourceStorage on adapate l'adapter (hahaha !)
-
-		//Attention : on partu du postulat (pour la manipulation des fichiers notamment) que l'on aura TOUJOURS un fallback en local
-		if($resourceStorage == "local"){
-			$adapter = $localAdapter;
-		}elseif($resourceStorage == "s3"){
-			//Pour S3 cache en local
-			$adapter = new CacheAdapter($s3Adapter,$localAdapter,3600);
-		}
+		//Attention : on part du postulat (pour la manipulation des fichiers notamment) que l'on aura TOUJOURS un fallback en local
 		$this->adapter = $adapter;
-		$this->fileSystem = new Filesystem($adapter);
-		$this->tempDir = $tempDir;
+		$this->fileSystem = new Filesystem(new BNSAdapter($adapter,$container->get("bns.local.adapter")));
+		$this->tempDir = $container->getParameter('kernel.cache_dir');
+        $this->resourceStorageType = $container->getParameter('bns_resource_storage');
     }
 	
 	/*
@@ -64,6 +60,11 @@ class BNSFileSystemManager
 	{
 		return $this->tempDir;
 	}
+
+    public function getResourceStorageType()
+    {
+        return $this->resourceStorageType;
+    }
 	
 		
 }

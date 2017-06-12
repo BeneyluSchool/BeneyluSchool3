@@ -1,0 +1,155 @@
+{% trans_default_domain "PORTAL" %}
+
+{% extends 'BNSAppPortalBundle:Layout:manager.html.twig' %}
+
+{% block css %}
+	{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+{% endblock %}
+	
+{% block header %}
+    <div class="header-buttons">
+        <div class="inner-header">
+            <div class="container container-fluid">
+                <div class="row-fluid">
+                    <div class="span9">
+                        <div class="content-add-btn btn-group no-margin">
+                            <a href="#" class="btn save bns-info btn-24 large dropdown-toggle" data-toggle="dropdown">
+                                <span class="icons-24 add-icon"></span>
+                                {{ 'LINK_ADD_CONTENT'|trans |desc('Ajouter du contenu') }}
+                                <span class="caret white"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a id="" href="#" data-widget-type="BANNER" class="add-widget">{{ 'LINK_ADD_BANNER'|trans |desc('Ajouter une bannière') }}</a></li>
+                                <li><a id="" href="#" data-widget-type="TEXT" class="add-widget">{{ 'LINK_ADD_TEXT'|trans |desc('Ajouter un texte') }}</a></li>
+                                <li><a id="" href="#" data-widget-type="RSS" class="add-widget">{{ 'LINK_RSS_FLUX'|trans |desc('Ajouter des flux RSS') }}</a></li>
+                                <li><a id="" href="#" data-widget-type="LINK" class="add-widget">{{ 'LINK_ADD_LINK'|trans |desc('Ajouter des liens') }}</a></li>
+                                <li><a id="" href="#" data-widget-type="SCHOOL" class="add-widget">{{ 'LINK_SCHOOL_DIRECTORY'|trans |desc('Ajouter l\'annuaire des écoles') }}</a></li>
+                            </ul>
+                            <a href="" class="btn bns-danger btn-24 medium-return button-return" style="margin-left: 10px;">
+                                <span class="icons-24 cancel-icon"></span>
+                                {{ 'LINK_CANCEL_MODIFICATION'|trans |desc('<strong>Annuler</strong><br>les modifications') |raw }}
+
+                            </a>
+                        </div>
+                    </div>
+                    <div class="span3 align-right">
+                        <a id="submit-form" href="#" class="btn bns-success validate-medium btn-24 medium">
+                            <span class="icons-24 validate-icon"></span> {{ 'LINK_SAVE'|trans |desc('<strong>Enregistrer</strong>') |raw }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function ()
+        {
+            var action = false;
+
+            $('.add-widget').click(function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: url = Routing.generate('BNSAppPortalBundle_back_add_widget',{ type: $(this).attr('data-widget-type'), widgetGroupId: {{ widgetGroup.id }} }),
+                    success: function (html) {
+                        $('#no-info').hide('slow');
+                        $('#widgets').prepend(html);
+                    }
+                });
+            });
+            $('.widget .view').live('click',function(e){
+                    $(this).hide('slow');
+                    $(this).parent().children('.edit').show('slow');
+            });
+            $('.delete-widget').live('click',function(){
+                $(this).parents('.widget').remove();
+            });
+
+            $('#widgets').sortable({
+                revert: true,
+                handle: ".move",
+                start: function( event, ui ) {
+                    action = true;
+                    $('.tiny-editor').each(function(index ){
+                        tinyMCE.execCommand( 'mceRemoveControl', false, $(this).attr('id') );
+                    });
+                },
+                stop: function(e,ui) {
+                    // breaks here - constructor error
+                    $('.tiny-editor').each(function(index ){
+                        tinyMCE.execCommand( 'mceAddControl', false, $(this).attr('id') );
+                    });
+                   // $(this).sortable( "refresh" );
+                }
+            });
+
+            $('.enable-btn').click(function(e) {
+                var widgetId = $(this).attr('data-widget-id');
+                if($(this).find('span').first().hasClass('on'))
+                {
+                    $('#enabled-' + widgetId).val(0);
+                }else{
+                    $('#enabled-' + widgetId).val(1);
+                }
+                $(this).find('span').toggleClass('on');
+                $(this).find('span').toggleClass('off');
+            });
+
+
+
+            $('.span9.container-content').click(function(){
+                action = true;
+            });
+
+            $('.content-footer a , .container-sidebar.list a').click(function(e){
+                if(action)
+                {
+                    e.preventDefault();
+                    $('#warning-modal').modal('show');
+                    $('#no-save-confirm').attr('href',$(this).attr('href'));
+                }
+            });
+
+        });
+    </script>
+
+{% endblock header %}
+
+{% block sidebar %}
+    {% include "BNSAppPortalBundle:Back:sidebar.html.twig" with {"page" : "main_zone"} %}
+{% endblock sidebar %}
+	
+{% block content %}
+
+    {% include '@BNSAppMain/notice.html.twig' %}
+
+    <form action="" method="POST" id="main-form">
+        <div id="widgets" class="item-list-container">
+            {% for widget in widgets %}
+                {% include '@BNSAppPortal/BackWidgets/' ~ widget.type|lower ~ '.html.twig' with {'widget' : widget } %}
+            {% else %}
+                <div id="no-info">
+                    {% include '@BNSAppMain/NoInformation/index.html.twig' with {'text' : 'HAVENT_CONTENT_ZONE' |trans |desc('Vous n\'avez pas encore de zone de contenu.')} %}
+                </div>
+            {% endfor %}
+        </div>
+    </form>
+
+    {{ modal('warning-modal', {
+        'title': 'MODAL_GOING_TO_QUIT_PAGE' |trans |desc('Vous êtes sur le point de quitter cette page'),
+        'body_template': {
+        'template': 'BNSAppPortalBundle:Modal:no_save_warning_body.html.twig',
+        'values': {}
+        },
+        'footer_template': {'template': 'BNSAppPortalBundle:Modal:no_save_warning_footer.html.twig',
+        'values': {}
+        },
+        'type': 'notice'
+    }) }}
+
+
+{% endblock %}

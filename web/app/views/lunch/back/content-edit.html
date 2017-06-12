@@ -1,0 +1,84 @@
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools layout-align-start-center">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+
+    <h2 class="flex md-title text-primary" translate translate-values="{ start: shared.date.format('dddd D MMMM'), end: shared.date.clone().add(4, 'days').format('dddd D MMMM') }">LUNCH.WEEK_FROM_TO</h2>
+  </div>
+</md-toolbar>
+
+<md-content>
+
+  <div class="layout-row layout-align-space-around" ng-show="!shared.editor.ready">
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+  </div>
+
+  <form name="form" bns-form-proxy-source="form" scope="true" ng-if="shared.editor.ready">
+
+    <section class="md-padding">
+      <h3 class="md-title" translate>LUNCH.TITLE_EVENT</h3>
+
+      <md-input-container>
+        <label translate>LUNCH.LABEL_EVENT_NAME</label>
+        <input type="text" ng-model="ctrl.weekForm.label">
+      </md-input-container>
+
+      <md-input-container>
+        <label translate>LUNCH.LABEL_EVENT_DESCRIPTION</label>
+        <textarea ng-model="ctrl.weekForm.description"></textarea>
+      </md-input-container>
+
+      <div id="lunch-week-sections" class="input-container proxy">
+        <label>{{'LUNCH.LABEL_SECTIONS'|translate}}</label>
+        <bns-checkbox-group ng-model="ctrl.weekForm.sections" choices="shared.editor.sections"></bns-checkbox-group>
+      </div>
+    </section>
+
+    <div ng-repeat="day in ctrl.weekForm.lunch_days">
+      <md-divider></md-divider>
+
+      <section class="md-padding">
+
+        <div class="layout-row">
+          <h3 class="md-title">{{ ::shared.date.clone().add($index, 'days').format('dddd D MMMM') }}</h3>
+
+          <span class="flex"></span>
+
+          <md-radio-group ng-model="day.status" bns-button-group style="margin: auto">
+            <md-button bns-button-radio ng-repeat="status in shared.editor.statuses" value="{{ status.value }}" class="md-raised btn-sm">
+              {{ ::status.label | translate }}
+            </md-button>
+          </md-radio-group>
+        </div>
+
+
+        <div ng-switch="day.status">
+          <div ng-switch-when="1">
+
+            <md-input-container flex="100" ng-repeat="section in shared.editor.sections" ng-show="ctrl.weekForm.sections.indexOf(section.value) > -1" md-no-float>
+              <div ng-if="section.value === 'full_menu'">
+                <textarea ng-model="day[section.value]" placeholder="{{ 'LUNCH.MENU_DETAIL' | translate }}"></textarea>
+              </div>
+              <div ng-if="section.value !== 'full_menu'">
+                <div class="edit-section">
+                  <md-icon md-svg-src="/ent/app/images/apps/lunch/{{section.value}}-icon.svg" class="s24 {{section.value}}-icon"></md-icon>
+                  <label>{{ ::section.label | translate }}</label>
+                </div>
+                <textarea ng-model="day[section.value]" placeholder="{{ 'LUNCH.SECTION_DETAIL' | translate}}"></textarea>
+              </div>
+
+            </md-input-container>
+          </div>
+
+          <div ng-switch-when="2" translate class="md-padding md-subhead frame-primary text-center">
+            LUNCH.STATUS_SPECIAL
+          </div>
+          <div ng-switch-when="3" translate class="md-padding md-subhead frame-primary-hue-3 text-center">
+            LUNCH.STATUS_NO_LUNCH
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </form>
+
+</md-content>

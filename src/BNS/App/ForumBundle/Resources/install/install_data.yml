@@ -1,0 +1,96 @@
+module:
+  unique_name: FORUM
+  is_contextable: false
+  name:
+    fr: Forum
+    en: Forum
+  description:
+    fr: Lire et écrire dans les forums de discussion
+    en: Read and write forums
+  default_rank:
+    pupil: USE
+    parent: USE
+    teacher: MANAGE
+    other: USE
+
+permissions:
+  ACCESS:
+    label:
+      fr: Voir le forum
+      en: Forum access
+    description:
+      fr: Donne l'accès aux forums de discussion
+      en: Give access to the forum
+
+  ACCESS_BACK:
+    label:
+      fr: Accès à la gestion du forum
+      en: Access to the forum admin
+    description:
+      fr: Donne accès à la gestion des forums de discussion, création de forum, modération des messages ...
+      en: Access to the forum admin
+
+  ACTIVATION:
+    label:
+      fr: Peut activer le forum
+      en: Can enable the forum
+    description:
+      fr: Peut activer ou désactiver le forum de discussion
+      en: Can enable or disable the forum
+
+  ACTIVATION_PARTNERSHIP:
+    label:
+      fr: Peut activer le forum dans partenariat
+      en: Can enable the forum in partnership
+    description:
+      fr: Peut activer ou désactiver le forum de discussion dans partenariat
+      en: Can enable or disable the forum in partnership
+
+ranks:
+  USE:
+    label:
+      fr: Utiliser le forum
+      en: Use forums
+    description:
+      fr: Utiliser le forum de discussion
+      en: Use forums
+    permissions: [ACCESS]
+
+  MANAGE:
+    label:
+      fr: Gérer les forums de discussion
+      en: Manage forums
+    description:
+      fr: Gérer les forums de discussion
+      en: Manage forums
+    permissions: [ACCESS, ACCESS_BACK, ACTIVATION]
+
+  MANAGE_PARTNERSHIP:
+    label:
+      fr: Gérer les forums de discussion dans les partneriats
+      en: Manage forums in partnership
+    description:
+      fr: Gérer les forums de discussion dans partneriat
+      en: Manage forums in partnership
+    permissions: [ACTIVATION_PARTNERSHIP]
+
+  ACTIVATION_TEAM:
+    label:
+      fr: Gérer les forums de discussion dans les groupes de travail
+      en: Manage forums in team
+    description:
+      fr: Gérer les forums de discussion dans groupe de travail
+      en: Manage forums in team
+    permissions: [ACTIVATION]
+
+notification_types:
+  FORUM_NEW_FORUM_MESSAGE: { }
+  FORUM_NEW_FORUM_REPLY: { }
+
+markers:
+  FORUM_CREATE_TOPIC:
+    description: Création d'un topic sur le forum
+  FORUM_CREATE_MESSAGE:
+    description: Création d'un message sur le forum
+  FORUM_VISIT:
+    description: Visite sur le forum

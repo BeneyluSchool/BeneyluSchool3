@@ -1,0 +1,10 @@
+Export : {{ date|year_month_bns }}
+
+{% for message in messages %}
+{{ message.title }}
+{{ message.date | date_bns('full', 'none') }} par {{ message.user.fullName }}
+
+{{ message.exportContent|replace("\r","")|purify }}
+----------
+
+{% endfor %}

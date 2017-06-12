@@ -1,0 +1,17 @@
+{% trans_default_domain "GROUP" %}
+<div class="alert alert-success alert-add-user create-user-success hide">
+	{{ 'NEW_ROLE_CREATE_SUCCESS'|trans |desc('Le nouveau <span class="user-role-label"></span> a bien été créé') |raw }}
+</div>
+
+
+<div class="add-user-modal-content"></div>
+
+<div class="loader create-user-loader hide">
+    <p><img src="{{ asset('/medias/images/icons/medium-loader.gif') }}" />
+        {{ 'NEW_ROLE_CREATION_IN_PROGRESS'|trans |desc('Le processus de création du nouveau <span class="user-role-label"></span> est en cours, veuillez patienter...') |raw }}</p>
+</div>
+
+<div class="loader invite-user-loader hide">
+	<p><img src="{{ asset('/medias/images/icons/medium-loader.gif') }}" />
+        {{ 'NEW_INVITATION_ROLE_IN_PROGRESS'|trans |desc('Le processus d\'invitation du nouveau <span class="user-role-label"></span> est en cours, veuillez patienter...') |raw }}</p>
+</div>

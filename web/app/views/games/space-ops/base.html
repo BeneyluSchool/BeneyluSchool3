@@ -1,0 +1,63 @@
+<md-content class="flex layout-row main-container">
+  <div ng-if="!ctrl.game.operation" class="flex layout-sm-column layout-md-column layout-align-sm-center-center2 layout-align-md-center-center2 layout-gt-md-row layout-align-gt-md-center-center2 space-ops-start-container">
+
+    <div class="space-ops-splash">
+      <div class="space-ops-logo"></div>
+      <div class="space-ops-presentation">
+        <h1 class="space-ops-title md-display-4 text-glow" translate>SPACE_OPS.TITLE</h1>
+        <div class="space-ops-description md-headline" translate>SPACE_OPS.DESCRIPTION</div>
+      </div>
+      <div class="space-ops-character"></div>
+    </div>
+
+    <div class="space-ops-starter">
+      <div ng-if="ctrl.me.rights.space_ops_activation" class="space-ops-management-box">
+        <bns-app-toggle app="navbar.app" group="navbar.group" type="'activities'">
+          <span translate>APPS.LABEL_OPEN_ACTIVITY_TO_PUPILS</span>
+        </bns-app-toggle>
+      </div>
+
+    <div class="space-ops-operations layout-row layout-wrap layout-align-center-center">
+      <div class="operation">
+        <md-button ng-click="ctrl.start('+')" class="md-raised" aria-label="{{::SPACE_OPS.BUTTON_ADDITION|translate}}">
+          <div class="operation-icon addition"></div>
+        </md-button>
+        <div class="md-title" translate>SPACE_OPS.BUTTON_ADDITION</div>
+      </div>
+      <div class="operation">
+        <md-button ng-click="ctrl.start('-')" class="md-raised" aria-label="{{::SPACE_OPS.BUTTON_SUBSTRACTION}}">
+          <div class="operation-icon substraction"></div>
+        </md-button>
+        <div class="md-title" translate>SPACE_OPS.BUTTON_SUBSTRACTION</div>
+      </div>
+      <div class="operation">
+        <md-button ng-click="ctrl.start('*')" class="md-raised" aria-label="{{::SPACE_OPS.BUTTON_MULTIPLICATION}}">
+          <div class="operation-icon multiplication"></div>
+        </md-button>
+        <div class="md-title" translate>SPACE_OPS.BUTTON_MULTIPLICATION</div>
+      </div>
+      <div class="operation">
+        <md-button ng-click="ctrl.start('all')" class="md-raised" aria-label="{{::SPACE_OPS.BUTTON_ALL_OPERATIONS}}">
+          <div class="operation-icon all"></div>
+        </md-button>
+        <div class="md-title" translate>SPACE_OPS.BUTTON_ALL_OPERATIONS</div>
+      </div>
+    </div>
+
+    </div>
+  </div>
+
+  <div ng-if="ctrl.game.operation" class="flex layout-column space-ops-game-container">
+    <md-button ng-click="ctrl.quit()" class="quit" href>
+      <md-icon>chevron_left</md-icon>
+      <span ng-bind-html="'SPACE_OPS.BUTTON_BACK_HOME'|translate|buttonize"></span>
+    </md-button>
+
+    <bns-space-ops-game game="ctrl.game" class="flex layout-row">
+      <md-button class="btn-lg md-raised" ng-click="ctrl.share()" ng-disabled="ctrl.hasShared"  href>
+        <img ng-src="{{ctrl.me.avatar_url}}" alt="{{me.fullname}}" class="md-avatar">
+        <span ng-bind-html="'SPACE_OPS.BUTTON_SHARE_ON_PROFILE'|translate|buttonize">.</span>
+      </md-button>
+    </bns-space-ops-game>
+  </div>
+</md-content>

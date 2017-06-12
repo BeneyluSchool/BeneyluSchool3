@@ -1,10 +1,20 @@
 {% block content %}
-	{% if size is not defined %}
-		{% set size = "medium" %}
-	{% endif %}
+	{% if with_image is not defined or (with_image is defined and with_image == true) %}
+		{% if size is not defined %}
+			{% set size = "small" %}
+		{% endif %}
+		{% if class is not defined %}
+			{% set class = "span5" %}
+		{% endif %}
 
-	<img id="" class="span5" src="{{ getResourceImageUrl(resource,size) }}" />
-	<div class="link-web">
-		Adresse : <a href="{{ resource.value }}" target='_blank'>{{ resource.value }}</a>
-	</div>
+
+		
+
+		<img id="" class="{{class }}" src="{{  getResourceImageUrl(resource,size) == getFileTypeImageUrl(resource,size) ? getResourceImageUrl(resource,'favorite') : getResourceImageUrl(resource,size) }} " />
+	{% endif %}
+	{% if with_link is not defined or (with_link is defined and with_link == true) %}
+		<div class="link-web">
+			Adresse : <a href="{{ resource.value }}" target='_blank'>{{ resource.value }}</a>
+		</div>
+	{% endif %}
 {% endblock %}

@@ -1,0 +1,194 @@
+{% trans_default_domain "CLASSROOM" %}
+{% extends 'BNSAppClassroomBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+    {{ 'TITLE_MINE_PARTNERSHIP' |trans |desc('Classe - Mes partenariats') }}
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+
+  <script type="text/javascript">
+    $(function ()
+    {
+      $('.item-list-container .item').live("click", function (e)
+      {
+        window.location = $(e.currentTarget).find('.btn-visualisation').attr('href');
+      });
+
+      // Verify partnership id
+      $('body').on('submit', '#join-partnership-modal form#verify_partnership', function (e)
+      {
+        var $this = $(e.currentTarget),
+          partnershipId = $this.find('#partnership-id-to-check').val(),
+          $row = $this.parent(),
+          $loader = $row.find('.loader');
+
+        //Si l'username n'est pas renseigné
+        if($.trim(partnershipId) == "")
+        {
+          return false;
+        }
+
+        $loader.fadeIn('fast');
+
+        $.ajax({
+          url: $this.attr('action'),
+          type: 'POST',
+          dataType: 'html',
+          data: {'partnership_id': partnershipId},
+          success: function (data)
+          {
+            $data = $row.find('.verify-result');
+            if ($data.length == 0) {
+              $row.append(data);
+            }
+            else {
+              $data.replaceWith(data);
+            }
+
+            $loader.fadeOut('fast');
+          }
+        });
+
+        return false;
+      });
+
+      // Ferme le résultat de la vérification
+      $('body').on('click', '#join-partnership-modal .verify-result .close', function (e)
+      {
+        var $this = $(e.currentTarget);
+        $row = $this.parent().parent().parent().parent().parent(),
+          $partnershipUid = $('#partnership-id-to-check');
+
+        $row.slideUp('fast', function () { $(this).remove() });
+        $partnershipUid.val('');
+        $partnershipUid.focus();
+      });
+
+      // Rejoindre partenariat
+      $('body').on('click', '#join-partnership-modal .verify-result .btn-join-partnership', function (e)
+      {
+        var $this = $(e.currentTarget),
+          $row = $this.parent().parent().parent().parent().parent().parent().parent()
+        $loader = $row.find('.loader'),
+          $verifyDiv = $row.find('.verify-result'),
+          $partnershipUidInput = $row.find('#partnership-id-to-check');
+
+        $loader.fadeIn('fast');
+
+        $.ajax({
+          url: $this.attr('href'),
+          type: 'POST',
+          data: {'partnership_id': $this.attr('data-partnership-uid')},
+          success: function ()
+          {
+            var route = Routing.generate('BNSAppClassroomBundle_back_partnership');
+            window.location = route;
+          },
+          error: function () {
+            $data = $row.find('.alert.alert-danger.alert-error');
+            $verifyDiv.hide();
+            $data.show();
+            $loader.fadeOut('fast');
+          }
+        });
+
+        return false;
+      });
+    });
+  </script>
+  <script type="text/javascript" src="{{ asset('medias/js/jquery.form.js') }}"></script>
+{% endblock %}
+
+{% block sidebar %}
+  {% include 'BNSAppClassroomBundle:Sidebar:sidebar.html.twig' with {'page': 'classroom', 'section': 'partnership' } %}
+{% endblock sidebar %}
+
+{% block header %}
+  <div class="header-buttons">
+    <div class="inner-header">
+      <div class="container container-fluid">
+        <div class="row-fluid">
+          <div class="span12 header-classroom-details">
+            <div class="content-add-btn agenda btn-group no-margin">
+              <a href="#" class="btn save btn-new-article bns-info btn-24 large dropdown-toggle" data-toggle="dropdown">
+                <span class="icons-24 add-icon"></span>
+                {% trans %}LINK_ADD_PARTNERSHIP{% endtrans%}
+
+                <span class="caret white"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="{{ path('BNSAppClassroomBundle_back_add_new_partnership') }}">{% trans %}LINK_CREATE_A_PARTNERSHIP{% endtrans%}</a></li>
+                {% if can_partnership_with_school or can_partnership_with_high_school %}
+                  <li>
+                    <a href="{{ path('BNSAppClassroomBundle_back_add_new_partnership', { highSchool: 'college' }) }}">
+                      {% if can_partnership_with_school %}{% trans %}LINK_CREATE_A_PARTNERSHIP_WITH_SCHOOL{% endtrans %}{% else %}{% trans %}LINK_CREATE_A_PARTNERSHIP_WITH_HIGH_SCHOOL{% endtrans %}{% endif %}
+                    </a>
+                  </li>
+                {% endif %}
+                <li><a href="#join-partnership-modal" data-role="pupil" data-role-label="élève" data-toggle="modal" >{% trans %}LINK_JOIN_A_PARTNERSHIP{% endtrans%}</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="container-classroom">
+    {% include 'BNSAppMainBundle::notice.html.twig' %}
+
+    <div class="news-title">
+      <h1 class="dashboard">{% trans %}TITLE_PARTNERSHIP{% endtrans%}</h1>
+
+    </div>
+    <div class="item-list-container partnership">
+      {% if partnerships is empty %}
+        <bns-inset class="no-item" bns-inset-elevation="0" ng-cloak>
+          <p> {% trans %}YOUR_CLASS_HAVENT_JOIN_PARTNERSHIP{% endtrans%} </p>
+
+          <div class="layout-row layout-align-center-center">
+            <div class="content-add-btn agenda btn-group no-margin">
+              <a href="#" class="btn save btn-new-article bns-info btn-24 large dropdown-toggle" data-toggle="dropdown">
+                <span class="icons-24 add-icon"></span>
+                {% trans %}LINK_ADD_PARTNERSHIP{% endtrans%}
+
+                <span class="caret white"></span>
+              </a>
+              <ul class="dropdown-menu text-left">
+                <li><a href="{{ path('BNSAppClassroomBundle_back_add_new_partnership') }}">{% trans %}LINK_CREATE_A_PARTNERSHIP{% endtrans%}</a></li>
+                {% if can_partnership_with_school or can_partnership_with_high_school %}
+                  <li>
+                    <a href="{{ path('BNSAppClassroomBundle_back_add_new_partnership', { highSchool: 'college' }) }}">
+                      {% if can_partnership_with_school %}{% trans %}LINK_CREATE_A_PARTNERSHIP_WITH_SCHOOL{% endtrans %}{% else %}{% trans %}LINK_CREATE_A_PARTNERSHIP_WITH_HIGH_SCHOOL{% endtrans %}{% endif %}
+                    </a>
+                  </li>
+                {% endif %}
+                <li><a href="#join-partnership-modal" data-role="pupil" data-role-label="élève" data-toggle="modal" >{% trans %}LINK_JOIN_A_PARTNERSHIP{% endtrans%}</a></li>
+              </ul>
+            </div>
+          </div>
+        </bns-inset>
+      {% else %}
+        {% for partnership in partnerships %}
+          {% include 'BNSAppClassroomBundle:BackPartnership:row_partnership.html.twig' %}
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+
+  {# Modal rejoindre un partenariat #}
+  {{ modal('join-partnership-modal', {
+    'body_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:join_partnership_body.html.twig' },
+    'title': 'LINK_JOIN_A_PARTNERSHIP'|trans,
+
+    'footer_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:join_partnership_footer.html.twig' }
+  }) }}
+{% endblock %}
+
+
+

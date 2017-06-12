@@ -1,0 +1,55 @@
+<div class="bns-attachments" ng-class="{'empty': !attachments.source.length}">
+
+  <bns-expander label="{{'ATTACHMENTS.TITLE_ATTACHED_DOCUMENTS'|translate:{COUNT: attachments.source.length}:'messageformat'}}" start-open="attachments.startOpen">
+
+    <md-list class="files">
+      <md-list-item ng-repeat="media in attachments.source track by media.id" class="layout-row layout-padding">
+        <span class="flex flex-none attachment-preview">
+          <bns-media-preview media="media" class="md-whiteframe-1dp"></bns-media-preview>
+        </span>
+        <div class="flex">
+          <div class="attachment-label md-body-1 text-ellipsis" title="{{::media.label}}">{{::media.label}}</div>
+          <div class="attachment-details md-caption">
+            {{('ATTACHMENTS.TYPE_' + media.type_unique_name)|translate}}
+            {{::(media.size ? (' - ' + (media.size|octet)) : '')}}
+          </div>
+        </div>
+
+        <md-button type="button" ng-if="attachments.editable" ng-click="attachments.remove(media)" class="md-icon-button">
+          <md-icon>delete</md-icon>
+        </md-button>
+
+        <input ng-if="attachments.editable" type="hidden" value="{{::media.id}}" name="resource-joined[]">
+
+        <md-button href
+          ng-if="!attachments.anonymous"
+          data-media-id="{{media.id}}"
+          class="btn-joined resource-open-joined media-view btn-nav"
+        >
+          <span ng-bind-html="'ATTACHMENTS.LINK_SEE_DOCUMENT'|translate|buttonize"></span>
+          <md-icon>chevron_right</md-icon>
+        </md-button>
+
+        <md-button ng-if="::attachments.anonymous && media.download_url"
+          ng-href="{{::media.download_url}}"
+          target="_blank"
+          class="btn-nav"
+        >
+          <span ng-bind-html="'ATTACHMENTS.LINK_DOWNLOAD_DOCUMENT'|translate|buttonize"></span>
+          <md-icon>file_download</md-icon>
+        </md-button>
+      </md-list-item>
+    </md-list>
+
+  </bns-expander>
+
+  <div ng-if="attachments.editable" class="layout-row layout-align-start-center layout-padding attachments-add">
+    <span class="flex"></span>
+
+    <md-button href="" class="media-join md-primary md-raised">
+      <bns-icon>media-library</bns-icon>
+      <span ng-bind-html="'ATTACHMENTS.BUTTON_JOIN_DOCUMENTS'|translate|buttonize"></span>
+    </md-button>
+  </div>
+
+</div>

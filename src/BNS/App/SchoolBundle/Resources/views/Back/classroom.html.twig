@@ -1,0 +1,351 @@
+{% trans_default_domain "SCHOOL" %}
+{% extends 'BNSAppSchoolBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+    {{ 'TITLE_SCHOOL_CLASSROOM'|trans({'%classroom%': classroom}) |desc('École - Classe %classroom%') }}
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script type="text/javascript" src="{{ asset('medias/js/jquery.form.js') }}"></script>
+  <script type="text/javascript">
+    $(function ()
+    {
+      $('#add-teacher-button , #add-teacher-suggest').click(function (e)
+      {
+
+        e.preventDefault();
+
+        var $this = $(e.currentTarget),
+          url = Routing.generate('BNSAppSchoolBundle_back_add_teacher',{ classroomId: {{ classroom.id }} }),
+          $loader = $('#add-teacher-modal .loader:not(.loader-h)');
+        $loader.fadeIn('fast');
+
+        $.ajax({
+          url: url,
+          success: function (form) {
+            $('#add-teacher-modal .form-content').html(form);
+            $loader.fadeOut('fast', function () {
+              $(this).hide();
+            });
+          }
+        });
+      });
+
+          $('#add-assistant-button').click(function (e)
+          {
+            e.preventDefault();
+
+            var $this = $(e.currentTarget),
+              url = Routing.generate('BNSAppSchoolBundle_back_add_assistant',{ classroomId: {{ classroom.id }} }),
+              $loader = $('#add-assistant-modal .loader:not(.loader-h)');
+            $loader.fadeIn('fast');
+
+            $.ajax({
+              url: url,
+              success: function (form) {
+                $('#add-assistant-modal .form-content').html(form);
+                $loader.fadeOut('fast', function () {
+                  $(this).hide();
+                });
+              }
+            });
+          });
+
+      $('#affect-teacher-button').click(function (e)
+      {
+        e.preventDefault();
+
+        var $this = $(e.currentTarget),
+          url = Routing.generate('BNSAppSchoolBundle_back_affect_teacher',{ classroomId: {{ classroom.id }} }),
+          $loader = $('#affect-teacher-modal .loader:not(.loader-h)');
+        $loader.fadeIn('fast');
+
+        $.ajax({
+          url: url,
+          success: function (form) {
+            $('#affect-teacher-modal .form-content').html(form);
+            $loader.fadeOut('fast', function () {
+              $(this).hide();
+            });
+          }
+        });
+      });
+
+      $('#add-pupil-button , #add-pupil-suggest ').click(function (e)
+      {
+        e.preventDefault();
+
+        var $this = $(e.currentTarget),
+          url = Routing.generate('BNSAppSchoolBundle_back_add_pupil',{ classroomId: {{ classroom.id }} }),
+          $loader = $('#add-pupil-modal .loader:not(.loader-h)');
+        $loader.fadeIn('fast');
+
+        $.ajax({
+          url: url,
+          success: function (form) {
+            $('#add-pupil-modal .form-content').html(form);
+            $loader.fadeOut('fast', function () {
+              $(this).hide();
+            });
+          }
+        });
+      });
+    });
+  </script>
+{% endblock %}
+
+{% block top_bar %}{% endblock %}
+
+{% block sidebar %}
+  {% include "BNSAppSchoolBundle:Sidebar:sidebar.html.twig" with {"page" : "classrooms", "section" : "list_classroom" } %}
+{% endblock sidebar %}
+
+{% block header %}
+  <div class="header-buttons">
+    <div class="inner-header">
+      <div class="container container-fluid">
+        <div class="row-fluid">
+          <div class="span12 header-classroom-details">
+                            {% if has_right('SCHOOL_CREATE_PUPIL') or has_right('SCHOOL_CREATE_TEACHER') or has_right('SCHOOL_CREATE_ASSISTANT') %}
+              <div class="content-add-btn agenda btn-group no-margin">
+                <a href="#" class="btn save bns-info btn-24 large dropdown-toggle" data-toggle="dropdown">
+                  <span class="icons-24 add-icon"></span>
+                  {% trans %}LINK_ADD_USER{% endtrans %}
+
+                  <span class="caret white"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  {% if has_right('SCHOOL_CREATE_TEACHER') %}
+                  <li><a id="add-teacher-button" href="#add-teacher-modal" data-toggle="modal" data-target="#add-teacher-modal" class="add-user-button"> {% trans %}LINK_ADD_TEACHER{% endtrans %}</a></li>
+                  {% else %}
+                  <li><a href="#affect-teacher-modal" id="affect-teacher-button" data-toggle="modal" class="add-user-button"> {% trans %}LINK_ASSIGN_TEACHER{% endtrans %}</a></li>
+                  {% endif %}
+                  {% if has_right('SCHOOL_CREATE_ASSISTANT') %}
+                  <li><a id="add-assistant-button"   href="#add-assistant-modal" data-toggle="modal" class="add-user-button"> {% trans %}LINK_ADD_ASSISTANT{% endtrans %}</a></li>
+                  {% endif %}
+                  {% if has_right('SCHOOL_CREATE_PUPIL') %}
+                  <li><a id="add-pupil-button"   href="#add-pupil-modal" data-toggle="modal" class="add-user-button">{% trans %}LINK_ADD_PUPIL{% endtrans %}</a></li>
+                  {% endif %}
+                  {% if has_right('SCHOOL_CREATE_PUPIL') %}
+                  <li><a href="{{ path('BNSAppSchoolBundle_back_import_classroom' , {'groupSlug' : classroom.slug }) }}">{% trans %}LINK_IMPORT_PEPOLE_FROM_CSV{% endtrans %}</a></li>
+                  {% endif %}
+                </ul>
+              </div>
+            {% else %}
+              <a href="#affect-teacher-modal" id="affect-teacher-button" class="btn bns-info btn-24 large" data-toggle="modal" data-target="#affect-teacher-modal">
+                <span class="icons-24 add-icon"></span>
+                {% trans %}LINK_AFFECT_TEACHER_TO_CLASS{% endtrans %}
+
+              </a>
+            {% endif %}
+
+            <a href="{{ path('BNSAppSchoolBundle_back_classrooms') }}" class="btn bns-notice btn-24 medium-return button-return">
+              <span class="icons-24 back-icon"></span>
+              {{ 'LINK_BACK_TO_CLASS_LIST'|trans |raw }}
+
+            </a>
+
+            {% if parameter('check_group_validated') %}
+              {% if not classroom.isValidated() %}
+                <a href="{{ path('BNSAppSchoolBundle_back_validate_classroom' , {'classroomId' : classroom.id }) }}" class="btn bns-success btn-24 medium-return">
+                  <span class="icons-24 validate-icon"></span>
+                    {{ 'LINK_VALIDATE_THIS_CLASS'|trans |raw }}
+
+
+                </a>
+              {% endif %}
+              <a href="#" class="btn bns-danger btn-24 medium-return" data-toggle="modal" data-target="#delete-classroom-modal">
+                <span class="icons-24 delete-icon"></span>
+                {{ 'LINK_NOTIFY_THIS_CLASS'|trans |desc('<strong>Supprimer</strong> <br>cette classe') |raw }}
+
+
+              </a>
+            {% elseif has_right('SCHOOL_CREATE_CLASSROOM') %}
+              <a href="#" class="btn bns-danger btn-24 medium-return" data-toggle="modal" data-target="#delete-classroom-modal">
+                <span class="icons-24 delete-icon"></span>
+                  {{ 'LINK_NOTIFY_THIS_CLASS'|trans |desc('<strong>Supprimer</strong> <br>cette classe') |raw }}
+
+
+              </a>
+            {% endif %}
+
+            {% if parameter('check_group_enabled') %}
+              {% if not classroom.isEnabled() %}
+                <a href="{{ path('BNSAppSchoolBundle_back_enable_toggle_classroom' , {'classroomId' : classroom.id }) }}" class="btn bns-success btn-24 medium-return">
+                  <span class="icons-24 validate-icon"></span>
+                    {{ 'LINK_ACTIVATE_THIS_CLASS'|trans |raw }}
+
+
+
+                </a>
+              {% else %}
+                <a href="{{ path('BNSAppSchoolBundle_back_enable_toggle_classroom' , {'classroomId' : classroom.id }) }}" class="btn bns-danger btn-24 medium-return">
+                  <span class="icons-24 preview-icon"></span>
+                    {{ 'LINK_DEACTIVATE_THIS_CLASS'|trans |raw }}
+
+
+
+                </a>
+              {% endif %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+
+{% block content %}
+
+  <div class="layer"></div>
+  <div class="container-classroom">
+
+    {% include 'BNSAppMainBundle::notice.html.twig' %}
+
+    <div id="add-teacher-success" class="alert alert-success bns-alert hide">
+      {% trans %}TEACHER_ADDED{% endtrans %}
+
+      <div class="jim"></div>
+    </div>
+
+    <div id="add-pupil-success" class="alert alert-success bns-alert hide">
+      {% trans %}PUPIL_ADDED{% endtrans %}
+
+      <div class="jim"></div>
+    </div>
+
+    <div class="news-title">
+      <h1 class="dashboard">{{ 'TITLE_PUPIL'|transchoice(pupils|length) |desc('[0,1] élève | ]1,Inf[ élèves') }} - {{ classroom.label }}</h1>
+    </div>
+
+    <div class="item-list-container pupil">
+      {% if pupils is empty %}
+        <div class="no-item">
+          <div class="bnj-not-found pupil"></div>
+          {% if has_right('SCHOOL_CREATE_PUPIL') %}
+            <p>{% trans %}NO_PUPIL_REGISTERED_CAN_REGISTERED_FIRST{% endtrans %}</p>
+
+            <a id="add-pupil-suggest" href="#add-pupil-modal" data-role="pupil" data-role-label="élève" data-toggle="modal" class="add-user-button btn bns-info btn-24 large add-icon"><span class="icons-24 add-icon"></span>{% trans %}LINK_ADD_NEW_PUPIL{% endtrans %}</a>
+          {% else %}
+            <p>{% trans %}NO_PUPIL_REGISTERED_YET{% endtrans %}</p>
+
+          {% endif %}
+          <div class="clearfix"></div>
+        </div>
+      {% else %}
+        {% for pupil in pupils %}
+          {% include 'BNSAppSchoolBundle:Block:pupilRow.html.twig' %}
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    <div class="news-title">
+      <h1 class="dashboard">{{ 'TITLE_TEACHER'|transchoice(teachers|length) |desc('[0,1]Enseignant | ]1,Inf[ Enseignants ') }} - {{ classroom.label }}</h1>
+    </div>
+
+    <div class="item-list-container teacher">
+      {% if teachers is empty %}
+        <div class="no-item">
+          <div class="bnj-not-found teacher"></div>
+          {% if has_right('SCHOOL_CREATE_TEACHER') %}
+            <p>{% trans %}NO_TEACHER_REGISTERED_YET{% endtrans %}</p>
+
+            <a id="add-teacher-suggest" href="#add-teacher-modal" data-role="pupil" data-role-label="élève" data-toggle="modal" class="add-user-button btn bns-info btn-24 large add-icon">
+              <span class="icons-24 add-icon"></span>
+              {% trans %}LINK_ADD_NEW_TEACHER{% endtrans %}
+
+            </a>
+          {% else %}
+            <p>  {% trans %}NO_TEACHER_REGISTERED_YET{% endtrans %}</p>
+
+          {% endif %}
+          <div class="clearfix"></div>
+        </div>
+      {% else %}
+        {% for teacher in teachers %}
+          {% include 'BNSAppSchoolBundle:Block:teacherRow.html.twig' %}
+        {% endfor %}
+      {% endif %}
+    </div>
+
+      {% if not assistants is empty %}
+        <div class="news-title">
+          <h1 class="dashboard">{{ 'TITLE_ASSISTANT'|transchoice(assistants|length) |desc('[0,1]Auxiliaire | ]1,Inf[ Auxiliaires') }} - {{ classroom.label }}</h1>
+        </div>
+
+        <div class="item-list-container teacher">
+          {% for assistant in assistants %}
+            {% include 'BNSAppSchoolBundle:Block:assistantRow.html.twig' %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+  {# Modal d'ajout d'utilisateurs #}
+  {# Elèves #}
+  {{ modal('add-pupil-modal', {
+    'body_template': {'template': 'BNSAppSchoolBundle:Modal:addPupilBody.html.twig', 'values': {
+      'classroom': classroom
+    } },
+    'title': 'LINK_ADD_NEW_PUPIL'|trans,
+
+    'footer_template': {'template': 'BNSAppSchoolBundle:Modal:addPupilFooter.html.twig' }
+  }) }}
+
+  {# Enseignants #}
+  {{ modal('add-teacher-modal', {
+    'body_template': {'template': 'BNSAppSchoolBundle:Modal:addTeacherBody.html.twig' },
+    'title': 'LINK_ADD_NEW_TEACHER'|trans,
+
+    'footer_template': {'template': 'BNSAppSchoolBundle:Modal:addTeacherFooter.html.twig' }
+  }) }}
+
+  {{ modal('affect-teacher-modal', {
+    'body_template': {'template': 'BNSAppSchoolBundle:Modal:affectTeacherBody.html.twig' },
+    'title': 'LINK_AFFECT_TEACHER_TO_CLASS'|trans,
+
+    'footer_template': {'template': 'BNSAppSchoolBundle:Modal:affectTeacherFooter.html.twig' }
+  }) }}
+
+    {# Assistant #}
+    {{ modal('add-assistant-modal', {
+      'body_template': {'template': 'BNSAppSchoolBundle:Modal:addAssistantBody.html.twig' },
+      'title': 'LINK_ADD_NEW_ASSISTANT'|trans|desc('Ajouter un nouvel Auxiliaire'),
+      'footer_template': {'template': 'BNSAppSchoolBundle:Modal:addAssistantFooter.html.twig' }
+    }) }}
+
+  {# Modal de validation de classe #}
+  {{ modal('validate-classroom-modal', {
+    'body_template': {'template': 'BNSAppSchoolBundle:Modal:validateClassroomBody.html.twig' },
+    'title': 'LINK_VALIDATE_CLASS'|trans |desc('Valider la classe'),
+    'footer_template': {'template': 'BNSAppSchoolBundle:Modal:validateClassroomFooter.html.twig' }
+  }) }}
+
+  {# Modal de signalement #}
+  {{ modal('signal-classroom-modal', {
+    'body_template': {'template': 'BNSAppSchoolBundle:Modal:signalClassroomBody.html.twig', 'values': {
+      'classroom': classroom
+    } },
+    'title': 'LINK_NOTIFY_CLASS'|trans,
+
+    'type': 'error',
+    'footer_template': {'template': 'BNSAppSchoolBundle:Modal:signalClassroomFooter.html.twig' }
+  }) }}
+
+  {# Modal de suppression #}
+  {{ modal('delete-classroom-modal', {
+    'body_template': {'template': 'BNSAppSchoolBundle:Modal:deleteClassroomBody.html.twig', 'values': {
+      'classroom': classroom
+    } },
+    'title': 'LINK_DELETE_CLASS'|trans |desc('Supprimer une classe'),
+    'type': 'error',
+    'footer_template': {'template': 'BNSAppSchoolBundle:Modal:deleteClassroomFooter.html.twig', 'values': {
+      'classroom': classroom
+    } }
+  }) }}
+
+
+
+{% endblock %}

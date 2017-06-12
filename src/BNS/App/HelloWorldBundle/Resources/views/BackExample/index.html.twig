@@ -45,6 +45,6 @@
 	<div class="layer"></div>
 	<div class="item-list-container">
 		{# Replace all "item" by your PHP object name #}
-		{% render 'BNSAppHelloWorldBundle:BackExample:getItems' %}
+		{{ render(controller('BNSAppHelloWorldBundle:BackExample:getItems')) }}
 	</div>
 {% endblock %}

@@ -1,0 +1,24 @@
+<h2 translate>WORKSHOP.DOCUMENT.PAGES</h2>
+
+<ul ng-sortable="ctrl.sortableConf" class="workshop-pages-nav" ng-class="{ busy: ctrl.busy }">
+  <li ng-repeat="page in ctrl.document._embedded.pages" class="workshop-page">
+    <span ui-sref="app.workshop.document.base.pages({ pagePosition: page.position })" ng-class="{ current: ctrl.page.position == page.position }">
+      <span ng-show="ctrl.document._embedded.pages.length > 1" ng-click="ctrl.removePage(page); $event.stopPropagation()" class="page-delete btn btn-sm btn-text">
+        <i class="bns-icon-cross round"></i>
+      </span>
+      <span bns-workshop-document-page-preview="page"></span>
+      <span class="page-position">{{ page.position }}</span>
+    </span>
+  </li>
+</ul>
+<ul class="workshop-pages-nav">
+  <li class="workshop-page new-page">
+    <span ng-click="ctrl.addPage(true)">
+      <img src="/ent/angular/app/images/workshop/a4-new.png" alt="">
+    </span>
+    <button ng-click="ctrl.addPage(true)" class="btn btn-primary">
+      <i class="bns-icon-plus round"></i>
+      <span translate>WORKSHOP.DOCUMENT.CREATE_PAGE</span>
+    </button>
+  </li>
+</ul>

@@ -1,0 +1,13 @@
+<md-dialog class="classroom-newspaper-media-dialog" aria-label="{{::dialog.newspaper.title}}">
+  <md-toolbar class="toolbar-inverse">
+    <div class="md-toolbar-tools">
+      <h3 class="md-title flex">{{::dialog.newspaper.title}}</h3>
+      <md-button ng-click="dialog.hide()" class="md-icon-button">
+        <md-icon>clear</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content>
+    <bns-viewer-media media="dialog.newspaper.media" bns-delay="500"></bns-viewer-media>
+  </md-dialog-content>
+</md-dialog>

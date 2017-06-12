@@ -1,0 +1,29 @@
+{% set module = announcement.getModuleUniqueName()|default('MAIN') %}
+
+<div class="module-container">
+  <div class="module">
+    {% if announcement.resource %}
+      <img class="" src="{{ getResourceImageUrl(announcement.resource) }}" alt="" />
+    {% else %}
+      <img class="{{ module|lower }}" src="{{ asset('/medias/images/icons/modules/' ~ module|lower ~ '/medium.png') }}" alt="" />
+    {% endif %}
+    <ul>
+      <li>
+        <div class="layout-row">
+          <h3 class="flex-75">{{ announcement.label }}</h3>
+          <p class="date flex-20">{{ date_from_now(announcement.getCreatedAt()) }}</p>
+        </div>
+        <div class="notification">{{ parse_public_resources(announcement.description|purify) }}</div>
+        {% if readBtn is defined and readBtn %}
+          <p class="text-right">
+            <a href="{{ path('BNSAppInfoBundle_announcement_read' , {'slug' : announcement.slug }) }}" class="btn read read-announcement bns-notice btn-16 small">
+              <span class="icons-16 preview-icon"></span>
+              {% trans from 'INFO' %}LINK_INDICATED_AS_READ{% endtrans %}
+            </a>
+            &nbsp;
+          </p>
+        {% endif %}
+      </li>
+    </ul>
+  </div>
+</div>

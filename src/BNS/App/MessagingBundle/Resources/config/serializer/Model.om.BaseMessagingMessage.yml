@@ -1,0 +1,18 @@
+BNS\App\MessagingBundle\Model\om\BaseMessagingMessage:
+  exclusion_policy: All
+
+  properties:
+    id:
+      expose: true
+    author_id:
+      expose: true
+    subject:
+      expose: true
+    status:
+      expose: true
+    created_at:
+      expose: true
+    updated_at:
+      expose: true
+    group_id:
+      expose: true

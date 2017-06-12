@@ -1,0 +1,21 @@
+BNS\App\WorkshopBundle\Model\WorkshopPage:
+  exclusion_policy: All
+  relations:
+    - rel: self
+      href:
+        route: workshop_page_api_get
+        parameters:
+            id: expr(object.getId())
+            version: "1.0"
+        absolute: true
+    - rel: widgetGroups
+      embedded:
+        content: expr(object.getWorkshopWidgetGroups())
+      exclusion:
+        groups: [detail]
+    - rel: layout
+      embedded:
+        content: expr(service('bns.workshop.layout.manager').getForObject(object))
+      exclusion:
+        groups: [detail]
+        exclude_if: expr(!object.getLayoutCode())

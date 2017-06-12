@@ -3,10 +3,10 @@
 namespace BNS\App\ProfileBundle\Form\Model;
 
 use BNS\App\CoreBundle\Access\BNSAccess;
-
-use BNS\App\CoreBundle\Model\User;
-use BNS\App\CoreBundle\Model\ProfileFeedStatus;
 use BNS\App\CoreBundle\Form\Model\IFormModel;
+use BNS\App\CoreBundle\Model\ProfileFeedPeer;
+use BNS\App\CoreBundle\Model\ProfileFeedStatus;
+use BNS\App\CoreBundle\Model\User;
 
 class ProfileFeedFormModel implements IFormModel
 {
@@ -31,23 +31,48 @@ class ProfileFeedFormModel implements IFormModel
 	public $resourceId;
 	
 	/**
+	 * @var ProfileFeed 
+	 */
+	private $profileFeed;
+	
+	/**
 	 * @param User $user
 	 */
-	public function __construct()
+	public function __construct($feed = null)
 	{
-		$this->user = BNSAccess::getUser();
-		$this->date = time();
+		if (null != $feed) {
+			$this->user = $feed->getProfileFeed()->getAuthor();
+			$this->date	= $feed->getProfileFeed()->getDate();
+			$this->text	= $feed->getContent();
+			$this->profileFeed = $feed;
+		}
+		else {
+			$this->user = BNSAccess::getUser();
+			$this->date = time();
+			$this->profileFeed = new ProfileFeedStatus();
+		}
 	}
 	
-	public function save()
+	public function save($isModerated = true, $isAdmin = false)
 	{
-		$profileFeed = new ProfileFeedStatus();
-		$profileFeed->getFeed()->setProfileId($this->user->getId());
-		$profileFeed->getFeed()->setDate($this->date);
-		$profileFeed->setContent($this->text);
-		$profileFeed->setResourceId($this->resourceId);
-			
+		$this->profileFeed->getFeed()->setProfileId($this->user->getProfileId());
+		$this->profileFeed->getFeed()->setDate($this->date);
+		$this->profileFeed->setContent($this->text);
+		$this->profileFeed->setResourceId($this->resourceId);
+		
+		// Automatic validation for new feed & for admin
+		if (!$isModerated || $isAdmin) {
+			$this->profileFeed->getFeed()->setStatus(ProfileFeedPeer::STATUS_VALIDATED);
+		}
 		// Finally
-		$profileFeed->save();
+		$this->profileFeed->save();
+	}
+	
+	/**
+	 * @return ProfileFeed 
+	 */
+	public function getFeed()
+	{
+		return $this->profileFeed->getFeed();
 	}
 }

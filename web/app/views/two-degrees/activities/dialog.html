@@ -1,0 +1,16 @@
+<md-dialog md-theme="two-degrees" class="two-degrees-activity-dialog">
+  <md-dialog-content class="md-dialog-content">
+    <div class="activity-header">
+      <span class="logo activity-{{::dialog.activity.code|assetize}}"></span>
+      <h3 class="md-headline heading activity-from">{{::dialog.activity.from}}</h3>
+      <h1 class="md-display-1 heading activity-title">{{::dialog.activity.title}}</h1>
+      <div class="text-content" ng-bind-html="dialog.activity.description"></div>
+    </div>
+
+    <div class="text-center">
+      <md-button ui-sref="app.twoDegrees.activity({code: dialog.activity.code})" ng-click="$mdDialog.hide()" class="md-raised md-accent btn-lg">
+        <span ng-bind-html="'TWO_DEGREES.LINK_DO_EXPERIENCE'|translate|buttonize">.</span>
+      </md-button>
+    </div>
+  </md-dialog-content>
+</md-dialog>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-06-20T20:04:29Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="aa6095d5b02b89b03fcf2207d7933623d15c9088" resname="INVALID_DATE_EMPTY">
+        <source>INVALID_DATE_EMPTY</source>
+        <target>Veuillez saisir une date</target>
+      </trans-unit>
+      <trans-unit id="af80373d4e53c9d2bc38a73a7e60e659945cd087" resname="INVALID_LIAISONBOOK_CONTENT_EMPTY">
+        <source>INVALID_LIAISONBOOK_CONTENT_EMPTY</source>
+        <target>Veuillez saisir un contenu</target>
+      </trans-unit>
+      <trans-unit id="6e7a3f0e6bf28657f0e04e21910fa8f8fc61df52" resname="INVALID_LIAISONBOOK_TITLE_EMPTY">
+        <source>INVALID_LIAISONBOOK_TITLE_EMPTY</source>
+        <target>Veuillez saisir un titre</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,37 @@
+{% trans_default_domain "SEARCH" %}
+{% extends 'BNSAppSearchBundle:Back:layout.html.twig' %}
+
+{% block sidebar %}
+	{% include "BNSAppSearchBundle:Back:sidebar.html.twig" with {"page" : 'index'} %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="items-container">
+      <h1>{% trans %}TITLE_LAST_SEARCH{% endtrans %}</h1>
+        {% for research in lastSearchs %}
+            <div class="item">
+                <div class="header">
+                    <h3 class="search-label">
+                        {{ research.label }}
+                    </h3>
+                </div>
+                <div class="footer">
+
+                    <p>
+                        {{ 'LAST_SEARCH_AT_BY'
+                        |trans({
+                            '%date%': date_from_now(research.createdAt, false , 'full'),
+                            '%user%': research.user.fullName |escape,
+                            '%image%': '<img src="'~ avatar(research.user) ~'" alt="" class="avatar">'})
+                        |desc('Faite le %date% par %image% %user%')
+                        |raw }}
+                    </p>
+                </div>
+            </div>
+        {% else %}
+            {% include "@BNSAppMain/NoInformation/index.html.twig" with {'text' : "NO_SEARCH_DONE"|trans} %}
+        {% endfor %}
+    </div>
+
+{% endblock %}

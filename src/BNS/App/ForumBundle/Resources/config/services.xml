@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+
+    <parameters>
+        <parameter key="install_process_forum_bundle.class">BNS\App\ForumBundle\Install\InstallProcess</parameter>
+        <parameter key="forum_service_bns_app_statistics_bundle.class">BNS\App\ForumBundle\Statistic\ForumStatisticsService</parameter>
+    </parameters>
+
+    <services>
+        <service id="install_process_bns_app_forum_bundle" class="%install_process_forum_bundle.class%">
+            <tag name="bns.install_process" />
+        </service>
+        <service id="stat.forum" class="%forum_service_bns_app_statistics_bundle.class%">
+            <argument type="service" id="service_container"></argument>
+        </service>
+    </services>
+
+</container>

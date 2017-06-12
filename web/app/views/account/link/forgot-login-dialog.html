@@ -1,0 +1,40 @@
+<md-dialog class="bns-dialog bns-dialog-primary bns-dialog-sm">
+  <form ng-if="!ctrl.isSuccess" name="form" ng-submit="ctrl.submit()">
+    <md-dialog-content class="md-dialog-content">
+      <p class="md-body-2" translate>ACCOUNT.DESCRIPTION_INPUT_OLD_EMAIL</p>
+
+      <md-input-container>
+        <label translate>ACCOUNT.LABEL_OLD_IDENTIFIER</label>
+        <input type="text" name="identifier" ng-model="ctrl.identifier" required>
+      </md-input-container>
+
+      <div class="text-warn">
+        &nbsp;<span ng-show="ctrl.isError" translate>ACCOUNT.FLASH_ERROR_ACCOUNT_NOT_FOUND</span>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions>
+      <md-button ng-click="ctrl.cancel()">
+        <span ng-bind-html="'ACCOUNT.BUTTON_CANCEL'|translate|buttonize"></span>
+      </md-button>
+      <md-button type="submit" class="md-primary md-raised" ng-disabled="!form.$valid">
+        <span ng-bind-html="'ACCOUNT.BUTTON_RECOVER_PASSWORD'|translate|buttonize">.</span>
+      </md-button>
+    </md-dialog-actions>
+  </form>
+
+  <md-dialog-content ng-if="ctrl.isSuccess" class="md-dialog-content">
+    <p class="md-body-2" translate>ACCOUNT.DESCRIPTION_RESET_PASSWORD_SENT</p>
+  </md-dialog-content>
+
+  <md-dialog-actions ng-if="ctrl.isSuccess">
+    <md-button ng-click="ctrl.confirm()" class="md-primary md-raised">
+      <span ng-bind-html="'ACCOUNT.BUTTON_CONTINUE'|translate|buttonize">.</span>
+    </md-button>
+  </md-dialog-actions>
+
+  <div ng-show="ctrl.busy" class="progress-overlay">
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+  </div>
+</md-dialog>
+<div class="bns-dialog-jim"></div>

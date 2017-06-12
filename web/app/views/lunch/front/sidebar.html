@@ -1,0 +1,26 @@
+
+<section class="current">
+  <h3 class="md-headline">
+   <img class="lunch-icon" src="/ent/assets/images/apps/lunch/icon.png" alt="">
+    <span translate>LUNCH.TITLE_MENU_FRONT</span>
+  </h3>
+  <bns-calendar selection="{{ shared.date.format('YYYY-MM-DD') }}" mode="week"></bns-calendar>
+</section>
+
+<section class="display-container">
+  <div class="blur"></div>
+  <bns-expander label="{{'LUNCH.TITLE_MENU_EXPANDER' | translate}}" is-open="true">
+    <md-radio-group role="radiogroup" ng-model="display.data">
+          <md-radio-button value="week" class="md-raised md-checked md-primary">
+            <div translate>LUNCH.WEEK_DISPLAY</div>
+          </md-radio-button>
+          <md-radio-button value="day" class="md-raised md-checked md-primary">
+            <div translate>LUNCH.DAY_DISPLAY</div>
+          </md-radio-button>
+          <md-radio-button value="month" class="md-raised md-checked md-primary">
+            <div translate>LUNCH.MONTH_DISPLAY</div>
+          </md-radio-button>
+    </md-radio-group>
+  </bns-expander>
+</section>
+<div class="lunch-carla"></div>

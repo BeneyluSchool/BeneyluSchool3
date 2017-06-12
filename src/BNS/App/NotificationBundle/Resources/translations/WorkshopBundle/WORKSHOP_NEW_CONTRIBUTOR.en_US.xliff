@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:45:34Z" source-language="en" target-language="en-US" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="c9da4dad80be848acbd0cafc6c3c32e7af1b0e80" resname="WORKSHOP_NEW_CONTRIBUTOR.EMAIL.content">
+        <source>WORKSHOP_NEW_CONTRIBUTOR.EMAIL.content</source>
+        <target><![CDATA[You are now an editor of the document <a href="%document_route%">%document_name%</a> in the workshop]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="266b4851fd8f4616b57b6303a56e050666918270" resname="WORKSHOP_NEW_CONTRIBUTOR.EMAIL.title">
+        <source>WORKSHOP_NEW_CONTRIBUTOR.EMAIL.title</source>
+        <target>You have been added as an editor of a document in the workshop</target>
+      </trans-unit>
+      <trans-unit id="0d44044363c373361b81df194d91a202328e2b5e" resname="WORKSHOP_NEW_CONTRIBUTOR.SYSTEM.content">
+        <source>WORKSHOP_NEW_CONTRIBUTOR.SYSTEM.content</source>
+        <target><![CDATA[You are now an editor of the document <a href="%document_route%">%document_name%</a> in the workshop]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

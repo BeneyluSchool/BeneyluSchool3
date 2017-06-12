@@ -1,0 +1,125 @@
+<div class="day-{{ ::shared.day.format('d') }} flex layout-column">
+  <bns-starter-kit-pointer step="1-1.2" pointer="toolbar"></bns-starter-kit-pointer>
+  <md-toolbar class="content-toolbar">
+    <div class="md-toolbar-tools">
+      <bns-sidebar-toggle></bns-sidebar-toggle>
+      <div class="md-headline heading">{{shared.day|amDateFormat:'dddd Do MMMM YYYY'}}</div>
+
+      <span class="flex"></span>
+      <span ng-if="ctrl.homeworks.length && ctrl.canMarkDone(ctrl.homeworks[0]) && ctrl.preferences.activate_validation" class="heading">
+        {{ ctrl.countDone() + ' / ' + ctrl.homeworks.length }}
+      </span>
+    </div>
+  </md-toolbar>
+
+  <md-content class="flex layout-column">
+    <div ng-show="ctrl.busy" layout="row" layout-align="center center" class="md-padding">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+    <div ng-show="!ctrl.busy && !ctrl.homeworks.length" class="no-homework-container" layout="row" layout-align="center center">
+      <div layout="row" layout-align="center center">
+        <div class="heading-container">
+          <div class="no-homework-img"></div>
+            <h3 class="md-display-1 heading" translate>HOMEWORK.NO_HOMEWORK</h3>
+          <div class="text-center">
+            <md-button class="add-btn" ng-if="shared.canCreate"
+              ui-sref="app.homework.back.create({day: shared.day.format('YYYY-MM-DD')})"
+            >
+              <span ng-bind-html="'HOMEWORK.BUTTON_ADD_HOMEWORK'|translate|buttonize">.</span>
+            </md-button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <md-list ng-show="!ctrl.busy && ctrl.homeworks" class="homeworks">
+      <md-list-item class="homework" ng-repeat-start="homeworkDue in ctrl.homeworks" ng-class="{ 'done': homeworkDue.done || homeworkDue._embedded.children_done.length }">
+        <div class="md-list-item-text flex"
+          bns-uploader="{ marker: homeworkDue._embedded.homework.locker_marker }"
+          uploader="uploader"
+          nv-file-drop nv-file-over
+        >
+          <div class="md-padding">
+            <div class="layout-row">
+              <h3 class="flex md-headline heading">
+                {{::homeworkDue._embedded.homework.name}}
+                <small ng-if="::homeworkDue._embedded.homework.subject">{{::homeworkDue._embedded.homework.subject}}</small>
+              </h3>
+              <md-button class="md-more"
+                ng-click="limit = homeworkDue._embedded.homework.description.length"
+                ng-show="homeworkDue._embedded.homework.description.length > ctrl.max && limit == ctrl.max"
+                href
+                bns-starter-kit-explanation
+                bns-starter-kit-validate="limit === homeworkDue._embedded.homework.description.length"
+                step="1-1.1"
+              >
+                <span translate>HOMEWORK.BUTTON_SEE_MORE</span>
+                <md-icon>keyboard_arrow_down</md-icon>
+              </md-button>
+              <md-button class="md-more" ng-click="limit = ctrl.max" ng-show="limit > ctrl.max" href>
+                <span translate>HOMEWORK.BUTTON_REDUCE</span>
+                <md-icon>keyboard_arrow_up</md-icon>
+              </md-button>
+            </div>
+
+            <bns-entity-list list="homeworkDue._embedded.homework.groups"></bns-entity-list>
+
+            <div class="flex layout-row description-container">
+              <div class="flex">
+                <bns-starter-kit-pointer step="1-1.2" pointer="homework"></bns-starter-kit-pointer>
+                <div class="md-body-1 homework-description" ng-class="{'opened': homeworkDue._embedded.homework.description.length < ctrl.max || limit !== ctrl.max}" ng-bind-html="homeworkDue._embedded.homework.description | strLimit: limit | trustHtml" ng-init="limit = ctrl.max"></div>
+                <div ng-if="homeworkDue._embedded.homework.helptext" class="md-caption homework-help" ng-bind-html="homeworkDue._embedded.homework.helptext|nl2br"></div>
+              </div>
+              <div ng-if="ctrl.canMarkDone(homeworkDue) && ctrl.preferences.activate_validation" class="homework-due-buttons">
+                <md-button ng-show="!homeworkDue.done"
+                  ng-click="ctrl.markDone(homeworkDue)"
+                  step="1-1.2"
+                  bns-starter-kit-validate="homeworkDue.done"
+                  class="btn-mark-done"
+                >
+                    <div class="to-do-img"></div>
+                  <span ng-bind-html="'HOMEWORK.BUTTON_DO_HOMEWORK'|translate|buttonize">.</span>
+                </md-button>
+                <div ng-if="homeworkDue.done" class="layout-column layout-align-center-center layout-margin text-accent-hue-2">
+                  <div class="done-img flex flex-none"></div>
+                  <span ng-bind-html="'HOMEWORK.BUTTON_DONE_HOMEWORK'|translate|buttonize">.</span>
+                </div>
+              </div>
+
+              <!-- parent marker -->
+              <div ng-if="homeworkDue._embedded.children_done.length" class="layout-column layout-align-center-center layout-padding homework-due-buttons">
+                <div class="done-img"></div>
+                <md-button ng-repeat="child in homeworkDue._embedded.children_done">
+                  {{::child.full_name}}
+                </md-button>
+              </div>
+            </div>
+          </div>
+
+          <div ng-if="ctrl.canMarkDone(homeworkDue) && homeworkDue._embedded.homework.locker_marker && ctrl.preferences.activate_validation" class="flex layout-row layout-padding">
+            <span class="flex"></span>
+            <md-button class="upload-document" href="" bns-uploader-control="{ multiple: true }">
+              <bns-icon class="bns-icon-media-library ng-scope">media-library</bns-icon>
+              <span ng-bind-html="'HOMEWORK.LINK_HAND_BACK_MY_WORK'|translate|buttonize"></span>
+            </md-button>
+          </div>
+
+          <div ng-if="homeworkDue._embedded.users_done.length && ctrl.preferences.activate_validation" class="layout-padding">
+            <div class="md-subhead flex" translate>HOMEWORK.TITLE_DONE_BY</div>
+
+            <md-button class="md-accent" ng-repeat="child in homeworkDue._embedded.users_done">
+              {{::child.full_name}}
+            </md-button>
+          </div>
+          <bns-attachments ng-if="homeworkDue._embedded.homework._embedded.attachments.length"
+            source="homeworkDue._embedded.homework._embedded.attachments"
+            data-object-type="Homework"
+            data-object-id="{{homeworkDue._embedded.homework.id}}"
+          ></bns-attachments>
+        </div>
+      </md-list-item>
+      <md-divider ng-repeat-end></md-divider>
+    </md-list>
+
+  </md-content>
+</div>

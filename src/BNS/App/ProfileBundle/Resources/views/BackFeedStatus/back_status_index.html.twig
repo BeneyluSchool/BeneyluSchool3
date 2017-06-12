@@ -1,115 +1,47 @@
+{% trans_default_domain "PROFILE" %}
 {% extends 'BNSAppProfileBundle:Layout:manager.html.twig' %}
 
 {% block title %}
-	{{ parent() }} Statuts
+	{{ parent() }} {% trans %}TITLE_STATUS{% endtrans %}
 {% endblock title %}
-	
+
 {% block javascripts %}
 	{{ parent() }}
-	
-	<script type="text/javascript" src="{{ asset('/medias/js/manager-menu.js') }}"></script>
+
 	<script type="text/javascript">
 		$(function ()
 		{
-			var timeToCheck = false;
-
-			setInterval(function()
+			$('body').on('click', '.item-list-container .item', function (e)
 			{
-				if (timeToCheck) {
-					if ($.trim($('input#status-joined-image').val()) != '') {
-						$('.btn-cancel-join-resource').show();
-						timeToCheck = false;
-					}
-				}
-			}, 500);
-
-			$('a.resource-selection').click(function()
-			{
-				timeToCheck = true;
+				window.location = $(e.currentTarget).find('.btn-visualisation').attr('href');
 			});
 
-			$('.btn-cancel-join-resource').click(function(event)
-			{
-				event.preventDefault();
-				$('input#status-joined-image').val('');
-				$('div#resource-selection-callback').html('');
-				$(this).hide();
-			});
+			if ($('.bns-alert') > 0) {
+				setTimeout(function ()
+				{
+					$('.bns-alert div').slideUp('fast', function () { var $this = $(this); $this.parent().slideUp('fast', function () { $this.show() }) });
+				}, 8000);
+			}
 		});
 	</script>
 {% endblock javascripts %}
 
-{% block header %}
-	<div class="header-buttons">
-		<div class="inner-header">
-			<div class="container container-fluid">
-				<div class="row-fluid">
-					<div class="span12 switchable-menu" id="default-menu" data-effect="drop" data-direction="right">
-						<a href="#" class="btn bns-info btn-24 large write-new-status-btn{% if feeds|length <= 0 %} disabled{% endif %}" data-toggle="menu" data-target="#publish-menu">
-							<span class="icons-24 add-icon"></span>
-							Ajouter un nouveau statut
-						</a>
-					</div>
-					<div class="hide switchable-menu" id="publish-menu" data-effect="fade">
-						<div class="span6 no-margin">
-							<a href="#" class="btn bns-notice btn-24 medium-return cancel-statut" data-toggle="menu" data-target="#default-menu">
-								<span class="icons-24 back-icon"></span>
-								<strong>Annuler</strong><br />mon statut
-							</a>
-						</div>
-						<div class="span6 align-right">
-							<a href="#" class="btn bns-success validate-medium btn-24 medium publish-status-btn" data-toggle="menu" data-target="#default-menu">
-								<span class="icons-24 validate-icon"></span>
-								<strong>Publier mon nouveau statut</strong>
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-{% endblock header %}
+{% block actionbar_content %}
+	{{ components.button( 'LINK_CREATE_NEW_STATUS' | trans , { intent: 'primary', href: path('profile_manager_feed_new'), icon: 'add_circle', raised: true }) }}
+{% endblock actionbar_content %}
 
-{% block sidebar %}
+{% block sidebar_content %}
 	{% include 'BNSAppProfileBundle:Sidebar:sidebar.html.twig' with {'section': 'status', 'profile': user.getProfile()} %}
-{% endblock %}
+{% endblock sidebar_content %}
+
 
 {% block content %}
-	<div class="row-fluid add-new-status {% if feeds|length > 0 %}hide{% endif %}">
-		<h3>Nouveau statut</h3>
-		<form id="new-status-form" action="{{ path('BNSAppProfileBundle_back_status_post') }}" method="POST" {{ form_enctype(form) }}>
-
-			<img src="{{ avatar(app.user, 'small') }}" />
-
-			<div class="control-group">
-				{{ form_widget(form.text, {'attr': {'placeholder': 'Saisir un nouveau statut ici'} }) }}
-				{{ form_errors(form.text) }}<br />
-			</div>
-
-			<div class="form-profil content-image-joined">
-				{{ form_widget(form.resourceId) }}
-				<div id="resource-selection-callback" class="image-joined"></div>
-				{% include 'BNSAppResourceBundle:Front:selectImage.html.twig' with {
-					'label' : 'Associer une image',
-					'input_id': 'status-joined-image',
-					'name': form.resourceId.vars.full_name,
-					'callback': 'resource-selection-callback'
-				} %}
-				<br />
-				<a href="#" class="btn bns-danger btn-16 small btn-cancel-join-resource hide">
-					<span class="icons-16 cancel-icon"></span>
-					<strong>Annuler</strong>
-				</a>
-			</div>
-		</form>
-
-	</div>
-	<div class="content-title">
-		<div class="news-title">
-			<h1 class="dashboard">Mes statuts postés</h1>
+	<md-toolbar class="content-toolbar">
+		<div class="md-toolbar-tools layout-align-start-center">
+			<bns-sidebar-toggle></bns-sidebar-toggle>
+			<h1 class="md-title text-primary text-left flex flex-gt-sm-33">{% trans %}TITLE_MINE_STATUS{% endtrans %}</h1>
 		</div>
-	</div>
-	<div class="feeds-container">
-		{% include 'BNSAppProfileBundle:Status:back_status_list.html.twig' with {'feeds': feeds} %}
-	</div>
+	</md-toolbar>
+		{% include 'BNSAppMainBundle:BNSAlert:index.html.twig' %}
+		{% include 'BNSAppProfileBundle:Status:back_status_list.html.twig' %}
 {% endblock content %}

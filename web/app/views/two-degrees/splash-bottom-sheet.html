@@ -1,0 +1,18 @@
+<md-bottom-sheet md-theme="two-degrees" class="layout-column two-degrees-splash-presentation">
+  <div class="flex layout-column layout-align-center-center splash-presentation-outside">
+    <div class="map-presentation"></div>
+
+    <div class="text-content">
+      <div><strong translate>TWO_DEGREES.TITLE_FUTURE_IS_COMING</strong></div>
+      <div translate>TWO_DEGREES.DESCRIPTION_SECRET_ISLAND</div>
+    </div>
+  </div>
+
+  <bns-two-degrees-panel bns-direction="top-center">
+    <div class="splash-presentation-content text-center">
+      <md-button ui-sref="^.map" class="md-raised btn-lg md-accent">
+        <span ng-bind-html="'TWO_DEGREES.BUTTON_ARE_YOU_READY'|translate|buttonize">.</span>
+      </md-button>
+    </div>
+  </bns-two-degrees-panel>
+</md-bottom-sheet>

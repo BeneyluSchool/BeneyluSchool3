@@ -1,108 +1,111 @@
+{% trans_default_domain "PROFILE" %}
 <script type="text/javascript">
 	$(function ()
 	{
+		var angularizer = new Angularizer();
 		// Filters process
 		$('.statuses-sidebar-filter').click(function (e)
 		{
-			$('.statuses-sidebar-filter').removeClass('active');
+			$('.statuses-sidebar-filter').removeClass('md-primary');
 			var $this = $(e.currentTarget),
 				$layer = $('#layer');
-				
-			$this.addClass('active');
-			$layer.addClass('show');
-			
+
+			$this.addClass('md-primary');
+			$layer.fadeIn('fast');
+
 			$.ajax({
 				url: $this.attr('href'),
 				type: 'POST',
 				dataType: 'html',
 				data: {
 					'page': 1,
-					'status': $this.data('filter-status')
+					'object_status': $this.data('filter-status')
 				},
 				success: function (data)
 				{
-					$('.feeds-list').html(data);
+          $('.feeds-list').html(angularizer.process(data));
+          if ($this.data('filter-status') != 'PENDING_VALIDATION' || $('.feeds-list').children().length < 2 ) {
+            $('.md-toolbar-tools .validate-all-statuses').hide();
+          }
+          else {
+            $('.md-toolbar-tools .validate-all-statuses').show();
+          }
 				}
 			}).done(function ()
 			{
-				$layer.removeClass('show');
+				$layer.fadeOut('fast')
 			});
-			
+
 			return false;
 		});
-		
 		// Buttons moderation process
-		$('.feed-moderation a').live('click', function (e)
+		$('.feed-moderation').live('click', function (e)
 		{
 			var $this = $(e.currentTarget),
-				$row = $this.parent().parent().parent();
-				
-			if ($row.hasClass('btn-group')) {
-				$row = $row.parent().parent().parent();
-			}
-			
-			var id = $row.attr('id').split('-');
-				
+				id = this.id,
+				// $row = $('#status-' + id).parent();
+				$row = $this.closest('md-list-item');
+
+
+			// if ($row.hasClass('btn-group')) {
+			// 	$row = $row.parent().parent().parent();
+			// }
+
 			if ($row.hasClass('disabled')) {
 				return false;
 			}
-				
-			id = id[1];
+
 			$row.css('opacity', '.4').addClass('disabled');
 			var date = $('.feed').last().length > 0 ? $('.feed').last().data('after-date') : null,
 				page = $('.pagination').length > 0 ? $('.pagination').data('current-page') : 1;
-			
+
 			$.ajax({
 				url: '{{ path('profile_manager_moderation_statuses_update') }}',
 				type: 'POST',
 				dataType: 'json',
 				data: {
-					'status': $this.data('filter-status'),
+					'object_status': $this.data('filter-status'),
 					'id': id,
 					'date': date,
 					'page': page
 				},
 				success: function (data)
 				{
-					$data = $(data.feed);
+
+					$data = $(angularizer.process(data.feed));
 					$data.css('display', 'none');
 
-					if ($('.pagination').length > 0) {
-						$('.pagination').before($data);
-					}
-					else {
-						$('.feeds-list').append($data);
-					}
+					$('.feeds-list md-list').append($data);
 
 					$data.slideDown('slow');
-					
+
 					if (data.pager != '') {
-						$('.pagination').replaceWith(data.pager);
+						$('.pagination').closest('md-toolbar').replaceWith(angularizer.process(data.pager));
 					}
 					else {
-						$('.pagination').slideUp('slow');
+						$('.pagination').closest('md-toolbar').slideUp('slow');
 					}
 				}
 			}).done(function ()
 			{
-				$row.slideUp('slow');
+				$row.css({'min-height': 0}).slideUp('slow');
 			});
-			
+
 			return false;
 		});
-		
+
 		// Pagination process
 		$('.pagination a').live('click', function (e)
 		{
 			var $this = $(e.currentTarget),
 				$layer = $('#layer');
-			
-			$layer.addClass('show');
+
+			$layer.fadeIn('fast');
 			setTimeout(function ()
 			{
 				$layer.find('.message').addClass('bottom');
 			}, 50);
-			
+
 			$.ajax({
 				url: $this.attr('href'),
 				type: 'POST',
@@ -113,26 +116,26 @@
 				},
 				success: function (data)
 				{
-					$('.feeds-list').html(data);
+					$('.feeds-list').html(angularizer.process(data));
 				}
 			}).done(function ()
 			{
-				$layer.removeClass('show');
+				$layer.fadeOut('fast');
 				$layer.find('.message').removeClass('bottom');
 			});
-			
+
 			return false;
 		});
-		
+
 		// Validate all button process
-		$('div.header-buttons .validate-all-statuses').click(function (e)
+		$('div.md-toolbar-tools .validate-all-statuses').click(function (e)
 		{
 			var $this = $(e.currentTarget);
-			
+
 			if ($this.hasClass('disabled')) {
 				return false;
 			}
-			
+
 			$this.addClass('disabled').attr('disabled', 'disabled');
 			$.ajax({
 				url: '{{ path('profile_manager_moderation_statuses_validate_all') }}',
@@ -142,10 +145,10 @@
 					window.location.reload(true);
 				}
 			});
-			
+
 			return false;
 		});
-		
+
 		$('.container-sidebar .moderation-statuses').click(function (e)
 		{
 			var $this = $(e.currentTarget);
@@ -158,11 +161,11 @@
 			$.ajax({
 				url: $this.attr('href'),
 				type: 'POST',
-				data: {'state': $this.hasClass('off')},
+				data: {'state': !$this.hasClass('off')},
 				success: function (data)
 				{
 					$this.removeClass('loading');
-					$this.toggleClass('off');
+					$this.toggleClass('on').toggleClass('off');
 				}
 			});
 
@@ -171,14 +174,6 @@
 	});
 </script>
 
-<div class="feeds-list-container">
-	<div id="layer" class="layer span9 no-margin">
-		<div class="message">
-			Chargement des statuts en cours
-			<div><img src="{{ asset('/medias/images/icons/big-loader.gif') }}" alt=""></div>
-		</div>
-	</div>
-	<div class="feeds-list">
-		{% render 'BNSAppProfileBundle:BackModeration:show' with {'page': page} %}
-	</div>
+<div class="feeds-list-container feeds-list flex layout-column">
+		{{ render(controller('BNSAppProfileBundle:BackModeration:show', {'page': page} )) }}
 </div>

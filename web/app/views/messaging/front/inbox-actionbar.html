@@ -1,0 +1,33 @@
+<md-button ui-sref="^.compose.new" class="md-raised md-primary">
+  <bns-icon>messaging:scroll</bns-icon>
+  <span ng-bind-html="'MESSAGING.BUTTON_NEW_MESSAGE'|translate|buttonize">.</span>
+</md-button>
+
+<md-button ng-if="ctrl.hasUnread()"
+  ng-click="ctrl.readSelection()"
+  class="md-raised"
+  href
+>
+  <md-icon>drafts</md-icon>
+  <span ng-bind-html="'MESSAGING.BUTTON_MARK_AS_READ'|translate|buttonize">.</span>
+</md-button>
+
+<md-button ng-if="ctrl.hasRead()"
+  ng-click="ctrl.unreadSelection()"
+  class="md-raised"
+  href
+>
+  <md-icon>markunread</md-icon>
+  <span ng-bind-html="'MESSAGING.BUTTON_MARK_AS_UNREAD'|translate|buttonize">.</span>
+</md-button>
+
+<span class="flex"></span>
+
+<md-button ng-if="ctrl.shared.selection.length"
+  ng-click="ctrl.removeSelection()"
+  class="md-raised md-warn"
+  href
+>
+  <bns-icon>messaging:trash</bns-icon>
+  <span ng-bind-html="'MESSAGING.BUTTON_DELETE_MESSAGES'|translate|buttonize">.</span>
+</md-button>

@@ -1,0 +1,426 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+	Beneylu Spot
+{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+	<link href="https://fonts.googleapis.com/css?family=Ubuntu:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Boogaloo' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Bree+Serif' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+
+    <link href="{{ asset('medias/css/resource/front.css') }}" rel='stylesheet' type='text/css'>
+	{# manager pour les modals #}
+    <link href="{{ asset("medias/css/main/spot-waiting.css") }}" type="text/css" media="screen" rel="stylesheet" />
+    <link href="{{ asset('/medias/css/group/front.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/medias/css/school/front.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block javascript %}
+
+{% endblock %}
+
+{% block body_class %}
+    {{ parent() }}
+    full-height
+{% endblock %}
+
+{% block html_class %}
+    {{ parent() }}
+    full-height
+{% endblock %}
+
+{% block body %}
+
+    <div class="background-group spot-waiting"></div>
+    <div class="inactive-page spot-waiting-page">
+        <div class="container">
+            <div class="row">
+                <div class="span8">
+                    <h1 class="title main-title">
+                        <img class="logo" src="{{ asset('/medias/images/main/spot/logo.png') }}"/>
+                        <div class="title">
+                            <span class="small">
+                            Découvrez
+                            </span>
+                            <span class="big">
+                                Beneylu Spot
+                            </span>
+                        </div>
+                    </h1>
+
+                    <br clear="all" />
+
+                    <p class="explanations">
+                        Vous avez choisi d’intégrer <b>le numérique dans votre pédagogie</b>, vous faites bien partie des pionniers de l’enseignement&nbsp;2.0 : bravo ! <br />Proposez maintenant à vos élèves de vivre une expérience encore plus riche avec 500 contenus et applications.
+                    </p>
+
+                    <p class="explanations">
+                        Cela s’appelle <b>Beneylu Spot</b>, le magasin de ressources compatibles avec Beneylu School.
+                    </p>
+
+                    <ul class="question big">
+                        <li class="spot">
+                            <div class="question-content">
+                                <h3 class="title">Mon Crédit-ressources pour la liberté</h3>
+                                <p>Vous pouvez commander des ressources à chaque fois que vous en avez besoin. Librement.</p>
+                            </div>
+                        </li>
+                        <li class="card">
+                            <div class="question-content">
+                                <h3 class="title">Ma carte Beneylu Spot pour recharger</h3>
+                                <p>Vos cartes Beneylu Spot permettent de recharger votre Crédit-ressources. Instantanément.</p>
+                            </div>
+                        </li>
+                        <li class="school">
+                            <div class="question-content">
+                                <h3 class="title">Mes contenus et applications pour l’école primaire</h3>
+                                <p>Vous choisissez parmi un catalogue varié de 500 contenus et applications, à tous les prix. Facilement.</p>
+                            </div>
+                        </li>
+                        <li class="media">
+                            <div class="question-content">
+                                <h3 class="title">Mes ressources optimisées pour Beneylu School</h3>
+                                <p>Vos nouvelles ressources sont livrées dans votre médiathèque Beneylu School. Directement.</p>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <script>
+                        $(function () {
+                            $('#myTab a').click(function (e) {
+                                e.preventDefault();
+                                $(this).tab('show');
+                            });
+                        });
+                    </script>
+
+
+                    <h1 class="sublined title main-title faq">
+                        <span class="big">
+                            Foire aux questions
+                        </span>
+                    </h1>
+
+
+                    <ul class="nav nav-tabs" id="myTab">
+                        <li class="active"><a href="#home">Beneylu Spot</a></li>
+                        <li><a href="#catalog">Le catalogue</a></li>
+                        <li><a href="#card">La carte Beneylu Spot</a></li>
+                        <li><a href="#command">Les commandes</a></li>
+                        <li><a href="#how">Comment ça marche ?</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="home">
+                            <h4>Pourquoi ce nouveau module ?</h4>
+                            <p>
+                                Parce qu'enrichir vos leçons de <strong>contenus numériques et d'applications de qualité</strong> rend le cours tellement plus vivant ! Pour que chaque élève profite, <strong>à son rythme, à l'école comme à la maison</strong>, des ressources que vous lui proposez.
+                            </p>
+
+                            <h4>D'où vient le nom Beneylu Spot ?</h4>
+
+                            <p>
+                                Beneylu, vous connaissez l'histoire. Le "Spot" c'est l'endroit où il se passe quelque chose, le "Spot" c'est le coup de projecteur, et "to Spot" c'est <strong>repérer</strong>. La mission de Beneylu Spot, c'est de réunir pour tous les enseignants <strong>les meilleures ressources numériques</strong>.
+                            </p>
+
+                            <h4>Est-ce comme l'AppStore ou Google Play ?</h4>
+
+                            <p>
+                                C'est comparable ! Beneylu Spot, c'est le <strong>magasin de ressources pour l'école primaire</strong> pour installer des contenus et des applications dans votre ENT Beneylu School.
+                            </p>
+
+                            <h4>Comment sont déterminés les prix ?</h4>
+
+                            <p>
+                                Pour que vous fassiez toujours la bonne affaire, la charte Beneylu Spot engage contractuellement les éditeurs à proposer leurs articles au <strong>prix le plus bas disponible sur le marché</strong>.
+                            </p>
+
+                            <h4>Quand sera mis en ligne le magasin dans Beneylu School ?</h4>
+
+                            <p>
+                                Le module ouvre ses portes pour la <strong>rentrée de septembre 2015</strong>. D'ici là, chargez votre Crédit-ressources avec les Cartes Beneylu Spot, c'est le moyen le plus facile.
+                            </p>
+
+                            <h4>Est-ce que Beneylu School va devenir payant ?</h4>
+
+                            <p>
+                                Nous ne nous lasserons jamais d'y répondre. La version classe que vous connaissez est <strong>gratuite</strong> depuis 2008 et compte bien le rester.
+                            </p>
+
+                            <h4>Qu'est-ce que le Crédit-ressources ?</h4>
+
+                            <p>
+                                Votre Crédit-ressources est votre <strong>porte-monnaie</strong> sur Beneylu Spot. Quand il est crédité, vous pouvez acheter des ressources. Pour le recharger, le moyen le plus facile est d'acheter une Carte Beneylu Spot.
+                            </p>
+
+                        </div>
+                        <div class="tab-pane" id="catalog">
+
+                            <h4>Que trouve-t-on dans le catalogue Beneylu Spot ?</h4>
+
+                            <p>
+                                Vous trouverez des contenus et des applications compatibles avec Beneylu School, dédiés à l'école primaire et conformes à la <strong>charte de qualité Beneylu Spot</strong>.
+                            </p>
+
+                            <h4>Qui sélectionne les ressources du catalogue Beneylu Spot ?</h4>
+
+                            <p>
+                                Les ressources sont proposées par les <strong>éditeurs scolaires, petits et grands, connus et nouveaux</strong>, et validées par l'équipe Beneylu selon la charte de qualité Beneylu Spot.
+                            </p>
+
+                            <h4>Qui produit les ressources du catalogue Beneylu Spot ?</h4>
+
+                            <p>
+                                Il y a de <strong>grandes maisons d'édition</strong> comme Universalis, des <strong>start-up innovantes</strong> comme MonEdukaMoi, des <strong>enseignants</strong> comme Rallye Lecture ou des <strong>institutionnels</strong> comme les Fondamentaux de Canopé. Bref, tous ceux qui sont déterminés à produire <strong>des ressources de qualité pour l'école primaire</strong>.
+                            </p>
+
+                            <h4>Combien y a t-il de ressources dans le catalogue ?</h4>
+
+                            <p>
+                                Environ <strong>500 pour le lancement</strong>, de nature très variée, pour tous les niveaux de l'école primaire et toutes les disciplines.
+                            </p>
+
+                            <h4>Quelques exemples de ressources et de prix ? ?</h4>
+
+                            <p>
+                                Allons-y avec quelques ressources emblématiques (les prix sont <strong>TTC</strong>, même si les catalogues aiment bien les présenter HT pour donner l'impression que c'est moins cher) :
+                            <ul>
+                                <li>Le pack complet des <strong>infographies PlayBac</strong>, 49 € par classe, pour la vie</li>
+                                <li>Le <strong>Rallye Lecture</strong>, 15 € par classe, par an</li>
+                                <li>L'<strong>Encyclopédie Universalis école</strong>, 161 € par école et par an</li>
+                                <li><strong>1,2,3...Cabri, je fais des maths</strong> CM1, 69 € par classe et par an</li>
+                                <li>Les <strong>Assimocards</strong> "De la phrase aux textes", 29 € par classe et par an</li>
+                                <li>La version école de <strong>Beneylu School</strong>, 4,90 € par école et par mois</li>
+                            </ul>
+
+                            Et encore plein d'autres à découvrir ! Nous en ajoutons tous les mois.
+                            </p>
+
+                            <h4>Quelle est la différence entre une application et un contenu ?</h4>
+
+                            <p>
+                                Langage d'expert ! Un contenu est versé dans la médiathèque et peut être utilisé dans votre production, c'est le cas d'une infographie Playbac par exemple. Une application se lance depuis l'ENT et interagit avec l'élève, c'est le cas de Cabrilog pour les mathématiques par exemple.
+                            </p>
+
+                            <h4>Comment faire mon choix dans le catalogue ?</h4>
+
+                            <p>
+                                Laissez-vous porter, naviguez par <strong>niveau</strong>, par <strong>discipline</strong> ou encore dans les <strong>sélections</strong> comme "Le moyen-âge en images".
+                            </p>
+
+                            <h4>Pour quels niveaux sont élaborées les ressources ?</h4>
+
+                            <p>
+                                Pour tous les niveaux de l'école élémentaire, <strong>du CP au CM2</strong>, vous trouverez votre bonheur.
+                            </p>
+
+                            <h4>Y a t-il des ressources gratuites ?</h4>
+
+                            <p>
+                                <strong>Oui</strong> bien sûr, et nous en cherchons en permanence (partagez vos plans avec le bouton "aide" en bas à droite). Les plus connues sont les centaines de vidéos "Les fondamentaux" produites par Canopé.
+                            </p>
+
+                            <h4>Puis-je acheter la version école de Beneylu School avec mon Crédit-ressources ?</h4>
+
+                            <p>
+                                Absolument, votre Crédit-ressources peut vous servir à acheter la <strong>version école de Beneylu School</strong>. C'est l'un des produits du catalogue.
+                            </p>
+
+                        </div>
+                        <div class="tab-pane" id="card">
+
+                            <h4>Pourquoi une carte Beneylu Spot ?</h4>
+
+                            <p>
+                                La Carte Beneylu Spot <strong>facilite la recharge</strong> de votre Crédit-ressources. Elle permet de planifier un budget pour vos commandes scolaires, en vous laissant la liberté de <strong>choisir vos ressources tout au long de l'année</strong>, au moment où vous en avez besoin. Nous savons bien que prévoir en mai toutes les ressources utiles pour l'année scolaire suivante est absurde, le Crédit-ressources vous offre la liberté de choisir vos ressources au moment où vous en avez besoin.
+                            </p>
+
+                            <h4>Comment acheter une carte Beneylu Spot ?</h4>
+
+                            <p>
+                                C'est très simple : il faut cliquer sur le <strong>gros bouton orange à droite</strong> et de se laisser guider. Vous pourrez régler par carte bancaire, par chèque et par un mandat administratif (paiement mairie). Le bouton "aide" en bas à droite vous permet de demander un coup de main à l'équipe Beneylu, nous aurons plaisir à vous aider !
+                            </p>
+
+                            <h4>À quoi me sert une carte Beneylu Spot ?</h4>
+
+                            <p>
+                                La Carte Beneylu Spot fonctionne <strong>comme une carte cadeau</strong>. Une fois achetée, elle vous donne un code pour recharger votre Crédit-ressources. Et vous dépenserez votre Crédit-ressources quand vous en aurez besoin.
+                            </p>
+
+                            <h4>Quelle carte Beneylu Spot choisir ?</h4>
+
+                            <p>
+                                Il en existe 3, <strong>pour tous les budgets et toutes les ambitions</strong>. Si vous vous lancez dans le numérique pédagogique, la <strong>carte "Prof' numérique" à 100 €</strong> devrait suffire pour démarrer. Si vous voulez investir vos élèves toute l'année, la <strong>carte "Classe numérique" à 200 €</strong> vous permet d'acheter régulièrement des ressources de qualité. Enfin, si vous faites partie des écoles pionnières et que le numérique est inscrit dans votre projet, alors la <strong>carte "Ecole numérique" à 500 €</strong> servira vos ambitions !
+                            </p>
+
+                            <h4>Où puis-je voir mon Crédit-ressources ?</h4>
+
+                            <p>
+                                Votre Crédit-ressources est <strong>affiché en permanence</strong> en haut et à gauche du futur module Beneylu Spot. Les achats sont historisés et le Crédit-ressources utilisé en toute transparence, au niveau de la classe et de l'école.
+                            </p>
+
+                            <h4>Quand acheter une carte Beneylu Spot ?</h4>
+
+                            <p>
+                                <strong>Dès maintenant</strong> pardi ! Pensez à inscrire l'achat à vos commandes scolaires, c'est la période. Le bouton "aide" en bas à droite vous permet de demander un coup de main à l'équipe Beneylu, nous aurons plaisir à vous aider !
+                            </p>
+
+                        </div>
+                        <div class="tab-pane" id="command">
+
+                            <h4>Comment présenter les cartes Beneylu Spot à mes collègues ?</h4>
+
+                            <p>
+                                Ils ont tous certainement déjà acheté une carte pré-payée (téléphone, Fnac, iTunes, ...), ils <strong>connaissent le principe</strong>. S'ils sont <strong>curieux du numérique pédagogique</strong>, c'est gagné : le système est tellement pratique et le catalogue tellement large qu'ils devraient accrocher rapidement. S'ils sont <strong>encore sceptiques</strong>, qu'ils vous autorisent à leur prouver par l'exemple le plaisir d'enseigner avec le numérique et le levier inouï que cela constitue vers la <strong>pédagogie différenciée</strong>.
+                            </p>
+
+                            <h4>Comment présenter les cartes Beneylu Spot à ma mairie ?</h4>
+
+                            <p>
+                                Tout simplement comme un pack de ressources numériques, utilisables en classe <strong>et à la maison</strong>, qui respectent la liberté pédagogique et le budget accordé.
+                            </p>
+
+                            <h4>Qui peut commander une carte Beneylu Spot?</h4>
+
+                            <p>
+                                Votre école, via vos <strong>commandes scolaires habituelles</strong>, ou la collectivité directement.
+                            </p>
+
+                            <h4>Qui peut utiliser le Crédit-ressources ?</h4>
+
+                            <p>
+                                Le Crédit-ressources est attaché à l'école. Ainsi, tous les enseignants de l'école ayant <strong>un compte Beneylu School validé</strong> peuvent profiter du Crédits-ressources. Tous les achats sont <strong>historisés</strong> et respectent le principe de transparence. Et si vous vous êtes trompé, il suffit de nous écrire pour annuler la commande ;)
+                            </p>
+
+                            <h4>Quels sont les moyens de paiement autorisés ?</h4>
+
+                            <p>
+                                Les moyens de paiement à votre disposition sont : la carte bancaire, le chèque et le <strong>mandat administratif (paiement mairie)</strong>.
+                            </p>
+
+                            <h4>Comment ma mairie peut-elle acheter des cartes Beneylu Spot ?</h4>
+
+                            <p>
+                                En suivant son <strong>processus habituel de commandes scolaires</strong>, ce qui peut être très différent d'une ville à l'autre. Elle peut bien sûr prendre contact directement avec nous pour poser ses questions.
+                            </p>
+
+                            <h4>Quelles sont les licences associées aux contenus ?</h4>
+
+                            <p>
+                                Il y a des ressources "achetées à vie" et d'autres sur "abonnement annuel". Des ressources en "licence classe" et d'autres en "licence école". Et aussi des ressources gratuites. De tout quoi.
+                            </p>
+
+                        </div>
+                        <div class="tab-pane" id="how">
+                            <h4>Qu'est-ce que le Crédit-ressources ?</h4>
+
+                            <p>
+                                Votre Crédit-ressources est votre <strong>porte-monnaie</strong> sur Beneylu Spot. Quand il est crédité, vous pouvez acheter des ressources. Pour le recharger, le moyen le plus facile est d'acheter une Carte Beneylu Spot.
+                            </p>
+
+                            <h4>Quelle est la différence entre le Crédit-ressources et la carte Beneylu Spot ?</h4>
+
+                            <p>
+                                Le Crédit-ressources est le porte-monnaie qui vous permet de régler vos achats, quand il est crédité. La Carte Beneylu Spot vous permet de recharger, avec un code, votre Crédit-ressources. <strong>Le Crédit paie, la Carte recharge</strong>.
+                            </p>
+
+                            <h4>Comment utiliser ma carte Beneylu Spot ?</h4>
+
+                            <p>
+                                Dès l'ouverture du module Beneylu Spot (rentrée 2015), il vous suffira de cliquer sur <strong>"recharger mon Crédit-ressources"</strong> et d'entrer le code inscrit sur votre Carte Beneylu Spot.
+                            </p>
+
+                            <h4>Comment puis-je commander avec mon Crédit-ressources ?</h4>
+
+                            <p>
+                                Au moment de régler votre achat, plusieurs moyens de paiement vous sont proposés, dont votre Crédit-ressources. En réglant avec votre Crédit-ressources, ce dernier est débité du montant de votre commande et votre ressource est livrée instantanément dans votre ENT Beneylu School.
+                            </p>
+
+                            <h4>Comment me sont livrées mes ressources ?</h4>
+
+                            <p>
+                                Les ressources vous sont livrées <strong>dans votre médiathèque Beneylu School</strong>, dans un dossier dédié. Vous pouvez alors les ranger partout où vous voulez dans votre médiathèque et ainsi les utiliser depuis tous les modules : blog, cahier de textes, messagerie,... sans jamais sortir de Beneylu School. Et bien sûr, cela est accessible de l'école comme de la maison.
+                            </p>
+
+                            <h4>Que signifie "ressource compatible avec Beneylu School" ?</h4>
+
+                            <p>
+                                Cela signifie que la ressource est <strong>utilisable directement depuis les modules Beneylu School</strong>, sans jamais avoir à sortir. Par exemple, une vidéo achetée peut être insérée dans un article de blog.
+                            </p>
+
+                            <h4>Qui peut accéder à Beneylu Spot ?</h4>
+
+                            <p>
+                                Seuls <strong>les enseignants</strong> peuvent accéder au module. Les élèves et leurs parents ne le voient pas.
+                            </p>
+
+                            <h4>J'ai une question ?</h4>
+
+                            <p>
+                                Nous allons tout faire pour y répondre (quand y'a du défi...) : posez votre question depuis le bouton "aide" en bas à droite de l'écran, nous aurons plaisir à y répondre.
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="span4">
+                    <div class="process">
+                        <div class="offers">
+                            <span class="spot-title">
+                                Les cartes Beneylu Spot
+                            </span>
+
+                            <span class="title-desc">
+                                <b>3 formules :</b> pour tous les budgets, toutes les ambitions. Choisissez la carte qui vous correspond.
+                            </span>
+
+                            <ul class="cards">
+                                <li class="card-100">
+                                    <div class="card-content">
+                                        <h3 class="card-title">Carte “Prof’ numérique” - 100€</h3>
+                                        <p>100 € de Crédit-ressources pour démarrer sereinement avec le numérique éducatif.</p>
+                                    </div>
+                                </li>
+
+                                <li class="card-200">
+                                    <div class="card-content">
+                                        <h3 class="card-title">Carte “Classe numérique” - 200€</h3>
+                                        <p>200 € de Crédit-ressources pour dynamiser sa classe, avec du contenu varié.</p>
+                                    </div>
+                                </li>
+
+                                <li class="card-500">
+                                    <div class="card-content">
+                                        <h3 class="card-title">Carte “École numérique” - 500€</h3>
+                                        <p>500 € de Crédit-ressources pour stimuler son projet d’école, avec un large choix.</p>
+                                    </div>
+                                </li>
+                            </ul>
+
+                            <a id="cta" class="spot-confirm btn bns-warning toggle" href="{{ path('BNSAppMainBundle_spot_redirect') }}">
+                                <span class="card"></span>
+                                <span class="btn-container">
+                                    <span class="btn-title">Je commande</span>
+                                    <span class="btn-subtitle">ma <b>carte Beneylu Spot</b></span>
+                                </span>
+                            </a>
+                            <div class="payment">
+                                <div class="title">Paiement sécurisé</div>
+                                <p>
+                                    Chèque, carte de paiement ou mandat administratif, achetez en toute sécurité sur Beneylu Spot.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

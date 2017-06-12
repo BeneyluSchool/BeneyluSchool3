@@ -1,0 +1,28 @@
+{% trans_default_domain "GROUP" %}
+{% if render == "form" %}
+
+	{% set formDatas = "data-group-slug=" ~ group.slug ~ " data-template-name=" ~ attributeUniqueName ~ " id=form-" ~ group.slug ~ '-' ~ attributeUniqueName ~ ""  %}
+
+	{% if type == 'SINGLE' %}
+		<input type="text" value="{{ value }}" {{ formDatas }} />
+	{% endif %}
+
+	{% if type == 'TEXT' %}
+		<textarea {{ formDatas }}>{{ value }}</textarea>
+	{% endif %}
+
+	{% if type == 'ONE_CHOICE' or type == 'MULTIPLE_CHOICE' %}
+		<select {{ formDatas }} {% if type == 'MULTIPLE_CHOICE' %} multiple {%endif%}>
+			{% for item in collection %}
+				<option {% if item.getValue in collectionArray %} selected="selected" {% endif %} value="{{ item.getValue }}">{{ item.label }}</option>
+			{% endfor %}
+		</select>
+	{% endif %}
+
+	<button id="submit-{{ group.getId ~ "-" ~ attributeUniqueName }}" class="btn group-attribute-form-submit">{{ 'BUTTON_OK'|trans |desc('Ok') }}</button>
+{% else %}
+	{{ group.printAttribute(attributeUniqueName) }}
+	<a href="#">
+		<img src="{{ asset('/medias/images/icons/edit.png')}}" class="edit-btn" />
+	</a>
+{% endif %}

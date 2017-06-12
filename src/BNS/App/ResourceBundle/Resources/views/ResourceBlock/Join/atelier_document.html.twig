@@ -1,0 +1,7 @@
+{% extends 'BNSAppResourceBundle:ResourceBlock:file.html.twig' %}
+
+{% block content %}
+	<img id="" class="" src="{{ getResourceImageUrl(resource,"thumbnail") }}" />
+	<p><span>{{ resource.label }}</span> - {{ resource.printType }}</p>	
+	<a href="{{ path('workshop_visualisation', {'slug': resource.getSlug()}) }}" class="btn btn-joined" target='_blank'>Voir</a>
+{% endblock %}

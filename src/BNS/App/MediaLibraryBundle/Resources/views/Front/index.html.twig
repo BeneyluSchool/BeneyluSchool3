@@ -1,0 +1,59 @@
+{% extends 'BNSAppMediaLibraryBundle:Layout:layout.html.twig' %}
+
+{% set isEmbed = embedded is defined and embedded %}
+
+{% block css %}
+    {{ parent() }}
+    <style>
+        @font-face {
+            font-family: 'bns-icons';
+            src: url('/ent/angular/app/fonts/bns-icons.eot');
+            src: url('/ent/angular/app/fonts/bns-icons.eot#iefix') format('embedded-opentype'),
+            url('/ent/angular/app/fonts/bns-icons.woff') format('woff'),
+            url('/ent/angular/app/fonts/bns-icons.ttf') format('truetype'),
+            url('/ent/angular/app/fonts/bns-icons.svg#bns-icons') format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+    </style>
+{% endblock %}
+
+{% block body_class %}{{ parent() }} media-library {{ isEmbed ? 'embedded' }}{% endblock %}
+{% block body %}
+
+    {% if not isEmbed %}
+        <div class="office"></div>
+    {% endif %}
+
+    {% block alert %}
+        {% if isEmbed %}
+            {# do nothing #}
+        {% else %}
+            {{ parent() }}
+        {% endif %}
+    {% endblock %}
+
+
+{% endblock %}
+
+{% block angular_bootstrap %}
+  {# load the media library manually (call from iframe) #}
+  <script type="text/javascript">
+    $(function () {
+      angularBootstrap().then(function ($injector) {
+        var app = angular.module('beneyluSchoolMaterialApp');
+        app.loadLegacyApp().then(function () {
+          $injector.get('$location').path('/media-library/boot');
+        });
+      })
+    });
+  </script>
+{% endblock %}
+
+{% block dock_bar %}
+  {% if isEmbed %}
+    {# do nothing #}
+  {% else %}
+    {{ parent() }}
+  {% endif %}
+{% endblock %}

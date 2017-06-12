@@ -1,0 +1,66 @@
+{% trans_default_domain "SEARCH" %}
+{% if page == 'index' %}
+
+
+    <div class="section active">
+      {% trans %}TITLE_LAST_SEARCH{% endtrans %}
+        <span class="shadow-section"></span>
+    </div>
+    <div class="container-section">
+        <div class="section">
+            <a href="{{ path('BNSAppSearchBundle_back_white_list') }}">{% trans %}LINK_WHITE_LIST{% endtrans %}</a>
+        </div>
+    </div>
+
+
+{% elseif page == "white_list" %}
+
+
+    <div class="container-section">
+        <div class="section">
+            <a href="{{ path('BNSAppSearchBundle_back') }}">{% trans %}TITLE_LAST_SEARCH{% endtrans %}</a>
+        </div>
+    </div>
+
+    <div class="section active">
+      {% trans %}LINK_WHITE_LIST{% endtrans %}
+        <span class="shadow-section"></span>
+    </div>
+    <div class="title-container">
+        <div class="content-title">
+            <ul>
+                <li><a href="{{ path('BNSAppSearchBundle_back_white_list') }}" {% if section == "own" %}class="active"{% endif %}>{% trans %}LINK_MY_WHITE_LIST{% endtrans %}</a></li>
+                <li><a href="{{ path('BNSAppSearchBundle_back_white_list_general') }}" {% if section == "general" %}class="active"{% endif %}>{% trans %}LINK_GENERAL_WHITE_LIST{% endtrans %}</a></li>
+                {% if section is defined  and section == 'general' %}
+
+                        <div class="title border-blue active">{% trans %}OPTIONS{% endtrans %}<span class="square icon-arrow"></span></div>
+                        <div class="content-title">
+                            <ul>
+                                <li>
+                                    <a class="toggle-general-white-list switchable {{ white_list_use ? "" : "off" }}">
+                                      {% trans %}LINK_ENABLED_DISABLED_GREEN_LIGHT_DESCRIPTION{% endtrans %}
+                                        {% include 'BNSAppMainBundle::popover.html.twig'
+                                        with {
+                                        'element' : 'span',
+                                        'class'   : 'btn-switch',
+                                        'title'   : "LINK_ENABLED_DISABLED_GREEN_LIGHT_DESCRIPTION"|trans,
+                                        'content' : "LINK_ENABLED_DISABLED_GREEN_LIGHT_DESCRIPTION"|trans,
+                                        'module'  : 'resource',
+                                        'size'    : 'medium',
+                                        'placement' : 'right'
+                                        }
+                                        %}
+                                    </a>
+                                </li>
+                            </ul>
+
+                    </div>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endif %}
+
+
+
+

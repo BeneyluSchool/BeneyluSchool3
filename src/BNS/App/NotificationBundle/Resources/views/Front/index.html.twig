@@ -1,3 +1,5 @@
+{% trans_default_domain "NOTIFICATION" %}
+
 {% extends 'BNSAppNotificationBundle:Layout:front.html.twig' %}
 
 {% block javascripts %}
@@ -79,16 +81,32 @@
 					}
 				});
 			}
+
+			$('.btn.read-announcement').live('click',function(e){
+				e.preventDefault();
+				var $btn = $(this);
+				var $container = $btn.closest('.new-notifications');
+				$.ajax({
+					url: $(this).attr('href'),
+					type: 'POST',
+					success: function () {
+						$container.addClass('old-notifications').removeClass('new-notifications');
+						$btn.hide();
+						decreaseCount($('.count-notification.all'), 1);
+						decreaseCount($('.count-notification.announcements'), 1);
+					}
+				});
+			});
 		});
 	</script>
 {% endblock %}
 
 {% block content %}
 	<div class="content-notification-list">
-		{% render 'BNSAppNotificationBundle:Front:renderNotification' %}
+		{{ render(controller('BNSAppNotificationBundle:Front:renderNotification')) }}
 	</div>
 	<div class="content-load-more">
-		<a href="{{ path('notification_render_page', {'page': 2}) }}">Afficher plus de notifications...</a>
+		<a href="{{ path('notification_render_page', {'page': 2}) }}">{{ 'LINK_DISPLAY_MORE_NOTIFICATION'|trans |desc('Afficher plus de notifications...') }}</a>
 		<div class="arrow"></div>
 	</div>
 {% endblock content %}

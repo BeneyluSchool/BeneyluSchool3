@@ -6,25 +6,27 @@
     <class name="BNS\App\CommentBundle\Form\Model\CommentForm">
         <property name="content">
             <constraint name="NotBlank">
-				<option name="message">Le commentaire ne peut pas être vide !</option>
+				<option name="message">INVALID_COMMENT_EMPTY</option>
 			</constraint>
         </property>
 		<property name="object_id">
             <constraint name="NotNull">
-				<option name="message">Veuillez sélectionner l'objet auquel le commentaire est lié</option>
+				<option name="message">INVALID_SELECT_OBJECT_NOT_CONNECT_TO_COMMENT</option>
 			</constraint>
-			<constraint name="Type">
-				<option name="type">integer</option>
-				<option name="message">L'ID de l'objet lié doit être un entier</option>
+			<constraint name="Regex">
+				<option name="pattern">/\d/</option>
+				<option name="match">true</option>
+				<option name="message">INVALID_ID_NOT_INTEGER</option>
 			</constraint>
         </property>
 		<property name="author_id">
             <constraint name="NotNull">
-				<option name="message">Veuillez sélectionner l'auteur du commentaire</option>
+				<option name="message">INVALID_AUTHOR_SELECT_NOT_AUTHOR_OF_COMMENT</option>
 			</constraint>
-			<constraint name="Type">
-				<option name="type">integer</option>
-				<option name="message">L'ID de l'auteur doit être un entier</option>
+			<constraint name="Regex">
+				<option name="pattern">/\d/</option>
+				<option name="match">true</option>
+				<option name="message">INVALID_AUTHOR_ID_NOT_INTEGER</option>
 			</constraint>
         </property>
     </class>

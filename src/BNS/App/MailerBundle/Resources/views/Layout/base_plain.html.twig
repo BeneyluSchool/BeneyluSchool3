@@ -1,1 +1,12 @@
+{% trans_default_domain "MAILER" %}
+
 {{ body }}
+
+---
+{{ 'BASE_PLAIN'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('
+L\'équipe BeneyluSchool
+
+Veuillez ne pas répondre à ce message; il a été envoyé d\'une adresse e-mail qui n\'est pas relevée.
+Ce message est un service e-mail en rapport avec votre utilisation de %beneylu_brand_name%.
+Pour toute requête ou demande de support à propos de votre compte %beneylu_brand_name%, veuillez nous rendre visite sur notre forum.
+') }}

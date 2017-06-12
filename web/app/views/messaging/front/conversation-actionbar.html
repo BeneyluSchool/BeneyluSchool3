@@ -1,0 +1,50 @@
+<md-button ui-sref="^"
+  class="btn-nav"
+>
+  <md-icon>chevron_left</md-icon>
+  <span ng-bind-html="'MESSAGING.BUTTON_BACK'|translate|buttonize">.</span>
+</md-button>
+
+<span class="bns-separator"></span>
+
+<md-button ng-if="ctrl.shared.handler.canUnread()"
+  ng-disabled="ctrl.shared.handler.busy"
+  ng-click="ctrl.unreadConversation()"
+  class="md-raised"
+  href
+>
+<bns-icon>messaging:message</bns-icon>
+  <span ng-bind-html="'MESSAGING.BUTTON_MARK_AS_UNREAD'|translate|buttonize">.</span>
+</md-button>
+
+<md-button ng-if="ctrl.shared.handler.canRemove()"
+  ng-disabled="ctrl.shared.handler.busy"
+  ng-click="ctrl.removeConversation()"
+  class="md-warn md-raised"
+  href
+>
+  <bns-icon>messaging:trash</bns-icon>
+  <span ng-bind-html="'MESSAGING.BUTTON_DELETE_MESSAGE'|translate|buttonize">.</span>
+</md-button>
+
+<md-button ng-if="ctrl.shared.handler.canRestore()"
+  ng-disabled="ctrl.shared.handler.busy"
+  ng-click="ctrl.restoreConversation()"
+  class="md-raised"
+  href
+>
+ <md-icon>settings_backup_restore</md-icon>
+  <span ng-bind-html="'MESSAGING.BUTTON_RESTORE_MESSAGE'|translate|buttonize">.</span>
+</md-button>
+
+<span class="flex"></span>
+
+<md-button ng-if="ctrl.shared.handler.canAnswer()"
+  form="conversation-form"
+  ng-disabled="ctrl.shared.form.$invalid || ctrl.shared.handler.busy"
+  class="md-accent md-raised"
+  href
+>
+  <bns-icon>messaging:send</bns-icon>
+  <span ng-bind-html="'MESSAGING.BUTTON_SEND_RESPONSE'|translate|buttonize">.</span>
+</md-button>

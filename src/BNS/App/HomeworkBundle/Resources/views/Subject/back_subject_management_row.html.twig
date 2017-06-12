@@ -1,4 +1,5 @@
-<li id="list_{{ subject.getId() }}" data-toggle="menu" data-target="#category-edit-mode">
+{% trans_default_domain "HOMEWORK" %}
+<li class="subject-item" id="list_{{ subject.getId() }}" data-toggle="menu" data-target="#category-edit-mode">
 <div>
 	<div class="loader loader-h"></div>
 	<span class="list-grip"></span>
@@ -9,6 +10,6 @@
 	<input type="text" name="" value="{{ subject.getName() }}" style="border-radius: 3px; {# BECAUSE WE DON'T HAVE ICON... #}" />
 	<a href="#" class="btn bns-success btn-16 validate-small submit-category" data-toggle="menu" data-target="#default-header">
 		<span class="icons-16 validate-icon"></span>
-		<strong>Valider</strong>
+		<strong>{% trans %}LINK_VALIDATE{% endtrans %}</strong>
 	</a>
 </div>

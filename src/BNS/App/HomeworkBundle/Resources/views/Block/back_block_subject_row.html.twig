@@ -1,6 +1,6 @@
 <li id="list_{{ subject.getId() }}">
 <div>
-	<span class="list-grip"></span>
+	{% if isEditionMode %}<span class="list-grip"></span>{% endif %}
 	<div>{{ subject.getName() }}</div>
-	<span class="select"></span>
+	<span class="select {% if subject.getId() in app.session.get('subjects-session') %}checked{% endif %}"></span>
 </div>

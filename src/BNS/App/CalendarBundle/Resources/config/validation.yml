@@ -1,16 +1,11 @@
 BNS\App\CalendarBundle\Form\Model\CalendarEventFormModel:
   properties:
+    agendaId:
+      - NotBlank: { message: INVALID_AGENDA_EMPTY }
     title:
-      - NotBlank: { message: Le titre ne doit pas être vide. }
-      - MinLength: { limit: 3 }
-    dateStart:
-      - NotBlank: { message: La date de début de l'événement doit être renseignée. }
-      - Date: { message: La date de début que vous avez saisi n'est pas une date valide. }
-    dateEnd:
-      - NotBlank: { message: La date de fin de l'événement doit être renseignée. }
-      - Date: { message: La date de fin que vous avez saisi n'est pas une date valide. }
-    recurringEndDate:
-      - Date: { message: La date de fin de récurrence que vous avez saisi n'est pas une date valide. }
+      - NotBlank: { message: INVALID_TITLE_EMPTY }
+      - Length: { min: 3, minMessage: INVALID_TITLE_TOO_SHORT }
+      - Length: { max: 50, maxMessage: INVALID_TITLE_TOO_LONG }
   constraints:
     - Callback:
         methods:  [isValidRecurringOptions, isValidDateTimeStartAndEnd]

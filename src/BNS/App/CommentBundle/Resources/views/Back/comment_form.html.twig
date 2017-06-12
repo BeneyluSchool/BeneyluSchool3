@@ -1,0 +1,27 @@
+{% trans_default_domain "COMMENT" %}
+{% import 'BNSAppCoreBundle:Macros:forms.html.twig' as forms %}
+
+{% extends extendsView %}
+
+{% block comment_form %}
+<md-toolbar class="content-toolbar">
+	<div class="md-toolbar-tools">
+		<bns-sidebar-toggle></bns-sidebar-toggle>
+		<h2 flex class="text-primary md-headline">{{ 'LINK_EDIT'|trans |raw }}</h2>
+	</div>
+</md-toolbar>
+
+<md-content>
+		<div class="md-padding">
+			<div class="item form comment-form">
+				<h3>{{ 'TITLE_COMMENT_CONTENT'|trans |desc('Contenu du commentaire') }}</h3>
+				{{ form_start(form) }}
+					{{ form_row(form.content) }}
+					<section class="md-padding">
+						{{ form_rest(form) }}
+					</section>
+				{{ form_end(form) }}
+			</div>
+		</div>
+	</md-content>
+{% endblock %}

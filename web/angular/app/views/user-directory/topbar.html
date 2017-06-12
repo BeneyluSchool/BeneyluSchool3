@@ -1,0 +1,109 @@
+<div class="user-directory-topbar btn-toolbar" ng-if="!ctrl.state.type || ctrl.state.type === 'user'">
+
+  <div ng-if="ctrl.rights.canAddGroup" class="btn-group">
+    <a href="" data-toggle="dropdown" class="btn btn-lg btn-primary dropdown-toggle">
+      <i class="round bns-icon-plus"></i>
+      <strong translate>USER_DIRECTORY.ADD</strong>
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a href="" ng-click="ctrl.addUser()">
+          <span translate>USER_DIRECTORY.ADD_USERS_MODAL_TITLE</span>
+        </a>
+      </li>
+      <li>
+        <a href="" ng-click="ctrl.addGroup()">
+          <span translate>USER_DIRECTORY.ADD_WORKGROUP</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div ng-if="ctrl.rights.canDeleteGroup" class="btn-group">
+    <button ng-click="ctrl.deleteGroup()" class="btn btn-lg btn-danger">
+      <i class="round bns-icon-cross"></i>
+      <span translate>USER_DIRECTORY.DELETE_WORKGROUP</span>
+    </button>
+  </div>
+
+  <div ng-if="ctrl.rights.canEditWorkspace" class="btn-group">
+    <button ng-click="ctrl.editWorkspace()" class="btn btn-default btn-multiline">
+      <i class="round bns-icon-pencil"></i>
+      <span translate>USER_DIRECTORY.EDIT_WORKSPACE_HTML</span>
+    </button>
+  </div>
+
+  <div ng-if="ctrl.selection.list.length && (ctrl.rights.canAddGroup || ctrl.rights.canAddUsers || ctrl.rights.canRemoveUsers)" class="btn-group">
+    <a href="" data-toggle="dropdown" class="btn dropdown-toggle">
+      <i class="round bns-icon-box"></i>
+      <span translate>USER_DIRECTORY.MOVE</span>
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      <li ng-if="ctrl.rights.canAddGroup">
+        <a href="" ng-click="ctrl.addGroup(true)">
+          <span translate>USER_DIRECTORY.CREATE_WORKGROUP_WITH_USERS_HTML</span>
+        </a>
+      </li>
+      <li ng-if="ctrl.rights.canAddUsers">
+        <a href="" ng-click="ctrl.addUsers()">
+          <span translate>USER_DIRECTORY.ADD_USERS_TO_WORKGROUP_HTML</span>
+        </a>
+      </li>
+      <li ng-if="ctrl.rights.canRemoveUsers">
+        <a href="" ng-click="ctrl.removeUsers()">
+          <span translate>USER_DIRECTORY.REMOVE_USERS_FROM_WORKGROUP_HTML</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="toolbar-section pull-right">
+    <div class="btn-group">
+      <button ng-if="ctrl.isSelectionMode()" ng-click="ctrl.validateSelection()" class="btn btn-success btn-lg">
+        <i class="bns-icon-checked round"></i>
+        <strong translate>USER_DIRECTORY.SELECT</strong>
+      </button>
+    </div>
+
+    <div class="btn-group">
+      <div ng-click="ctrl.close()" class="btn btn-text btn-lg">
+        <i class="bns-icon-cross no-bg"></i>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="user-directory-topbar md-toolbar-tools" ng-if="ctrl.state.type === 'distribution'">
+
+  <md-button ng-if="ctrl.rights.canAddLists"
+    ng-click="ctrl.createDistributionListRequest($event)"
+    class="md-raised md-primary"
+    href
+  >
+    <md-icon>add_circle</md-icon>
+    <span ng-bind-html="'USER_DIRECTORY.BUTTON_CREATE_DISTRIBUTION_LIST'|translate|buttonize"></span>
+  </md-button>
+
+  <md-button ng-show="ctrl.state.selectionDistribution.list.length"
+    ng-click="ctrl.deleteDistributionListsRequest($event)"
+    class="md-raised md-warn btn-hover"
+  >
+    <md-icon>delete</md-icon>
+    <span ng-bind-html="'USER_DIRECTORY.BUTTON_DELETE_DISTRIBUTION_LISTS'|translate|buttonize"></span>
+  </md-button>
+
+  <span class="flex"></span>
+
+  <md-button ng-if="ctrl.isSelectionMode()" ng-click="ctrl.validateSelection()" class="md-raised md-accent">
+    <md-icon>check_box</md-icon>
+    <span translate>USER_DIRECTORY.SELECT</span>
+  </md-button>
+
+  <md-button ng-click="ctrl.close()" class="md-icon-button">
+    <md-icon>close</md-icon>
+  </md-button>
+
+</div>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-06-22T10:47:59Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="c8ae5343ce0b7c108fa6b169f7ad1a11775abb6e" resname="EMAIL_NOTIFICATION">
+        <source>Notifications e-mail</source>
+        <target state="new">Notificaciones por correo</target>
+      </trans-unit>
+      <trans-unit id="5285ebf684d1fa5bdb6b3a2211613f4543798e40" resname="GET_NOTIFICATION_NEED_YOUR_EMAIL">
+        <source><![CDATA[<strong>Le saviez-vous :</strong> pour recevoir vos notifications par e-mail, vous devez renseigner votre adresse sur votre <strong> profil %linkEnd% </strong>.]]></source>
+        <target state="new"><![CDATA[<strong>Sabías que:</strong> para recibir notificaciones por correo, debes introducir tu dirección de correo electrónico en tu <strong> perfil %linkEnd% </strong>.]]></target>
+        <note><![CDATA[%linkEnd% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="b70c925df792bfc3014c9f8a90d4f3fb4e915b07" resname="LINK_ALL_DESELECT">
+        <source>Tout désélectionner</source>
+        <target state="new">Deseleccionar todo</target>
+      </trans-unit>
+      <trans-unit id="ba93e09ef01f5548cef0bfb021600ca31dc01a87" resname="LINK_ALL_SELECT">
+        <source>Tout sélectionner</source>
+        <target state="new">Seleccionar todo</target>
+      </trans-unit>
+      <trans-unit id="0519e82a7200c7aa474b02b96fe8257215fd1563" resname="LINK_DISPLAY_MORE_NOTIFICATION">
+        <source>Afficher plus de notifications...</source>
+        <target state="new">Mostrar más notificaciones...</target>
+      </trans-unit>
+      <trans-unit id="6f1af90c59b43d710f923aaacb1d5004bdf8130f" resname="LINK_MINE_MODULE">
+        <source>Mes modules</source>
+        <target state="new">Mis aplicaciones</target>
+      </trans-unit>
+      <trans-unit id="78a7875c1657792814b21fe129a92dcfdf94fafe" resname="LINK_MY_CORRECTION">
+        <source>Mes corrections</source>
+        <target state="new">Mis correcciones</target>
+      </trans-unit>
+      <trans-unit id="7d135119df8105ac77c881014e36f476f9488cee" resname="LINK_SEE_ALL">
+        <source>Voir tout</source>
+        <target state="new">Ver todas las notificaciones</target>
+      </trans-unit>
+      <trans-unit id="da83ca6b9722a1829e956572a513abdd1a5ed0c3" resname="LOADING_NOTIFICATIONS_IN_PROGRESS">
+        <source>Chargement des notifications en cours, veuillez patienter...</source>
+        <target state="new">Las notificaciones se están cargando, espera...</target>
+      </trans-unit>
+      <trans-unit id="8c352ceb4e1a2d25bc4d409cc07905bbf39c0c11" resname="MINE_MODULE">
+        <source>Mes modules</source>
+        <target state="new">Mis aplicaciones</target>
+      </trans-unit>
+      <trans-unit id="02db6ed314fe3664a76da467ad26bc8466120084" resname="NOTIFICATION">
+        <source>Notification</source>
+        <target state="new">Notificaciones</target>
+      </trans-unit>
+      <trans-unit id="82ca5fdaf0033adec519204a8f0b649a2fee87b2" resname="NOTIFICATION_BENEYLU">
+        <source>Notifications %beneylu_brand_name%</source>
+        <target state="new">Notificaciones %beneylu_brand_name%</target>
+      </trans-unit>
+      <trans-unit id="b3e95a595448ee456f4f50cf6e3072d52427372b" resname="NOTIFICATION_DELETED">
+        <source>NOTIFICATION_DELETED</source>
+        <target state="new">Esta notificación se ha eliminado correctamente</target>
+      </trans-unit>
+      <trans-unit id="f85053ac2c4277c320d8ea95c46814077c9fa4c8" resname="NO_NEW_NOTIFICATION">
+        <source>Aucune nouvelle notification.</source>
+        <target state="new">No hay notificaciones nuevas.</target>
+      </trans-unit>
+      <trans-unit id="d981e667891885d26ee84e9914221641c443d371" resname="NO_NOTIFICATION">
+        <source>Aucune notification.</source>
+        <target state="new">No hay notificaciones.</target>
+      </trans-unit>
+      <trans-unit id="e3ba4e11ca6c6862b7813edbb8c39aaa23fe84f1" resname="TITLE_NOTIFICATIONS">
+        <source>Les Notifications</source>
+        <target state="new">Notificaciones</target>
+      </trans-unit>
+      <trans-unit id="675b01a232bc006b929d13183f67903fe9fdc534" resname="TITLE_NOTIFICATION_MANAGEMENT">
+        <source>Gestion des notifications</source>
+        <target state="new">Gestión de notificaciones</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

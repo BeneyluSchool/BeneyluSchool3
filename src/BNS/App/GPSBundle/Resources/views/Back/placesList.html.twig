@@ -1,14 +1,16 @@
-
-
+{% trans_default_domain "GPS" %}
 {% for place in places %}
 	{% if loop.first %}
 		<div class="layer"></div>
-		<div class="item-list-container">
+		<md-content class="flex">
+
 	{% endif %}
 		{% include "BNSAppGPSBundle:Back:blockPlace.html.twig" with {'place' : place} %}
 	{% if loop.last %}
-		</div>
+		</md-content>
 	{% endif %}
 {% else %}
-	{% include "BNSAppMainBundle:NoInformation:index.html.twig" with {'text' : "Vous n'avez pas encore de lieu dans votre GPS", button : { 'text' : "Ajouter un lieu" , 'link' : path('BNSAppGPSBundle_back_new_place') }} %}
+<div class="md-padding">
+	{% include "BNSAppMainBundle:NoInformation:index.html.twig" with {'text' : "NO_PLACE_IN_GPS"|trans, design: 'new', button : { 'text' : "LINK_ADD_PLACE"|trans , 'link' : path('BNSAppGPSBundle_back_new_place') }} %}
+</div>
 {% endfor %}

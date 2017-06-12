@@ -1,0 +1,60 @@
+<md-toolbar class="md-whiteframe-3dp content-toolbar">
+  <div class="md-toolbar-tools layout-align-start-center">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+
+    <h3 class="heading" translate>MESSAGING.TITLE_NEW_MESSAGE</span>
+  </div>
+</md-toolbar>
+
+<div class="messaging-loader">
+  <md-progress-linear md-mode="indeterminate" ng-show="ctrl.shared.handler.busy"></md-progress-linear>
+</div>
+
+<md-content>
+
+  <form id="compose-form" name="ctrl.shared.type.form" ng-submit="$event.preventDefault(); ctrl.postMessage()">
+    <script type="text/ng-template" id="form-error-messages">
+      <div ng-message="required">{{'MESSAGING.ERROR_THIS_FIELD_IS_REQUIRED'|translate}}</div>
+    </script>
+
+    <fieldset ng-disabled="ctrl.shared.handler.locked" class="md-padding">
+      <md-input-container>
+        <label translate>MESSAGING.MESSAGE_SUBJECT</label>
+        <input type="text" ng-model="ctrl.shared.type.form.subject.value" name="subject" required>
+        <div ng-messages="ctrl.shared.type.form.subject.$error">
+          <div ng-messages-include="form-error-messages"></div>
+        </div>
+      </md-input-container>
+
+      <bns-user-picker users="ctrl.shared.type.tos"
+        view="'messaging-recipients'"
+        placeholder="'MESSAGING.PLACEHOLDER_ADD_RECIPIENT'|translate"
+        placeholder-alt="'MESSAGING.PLACEHOLDER_ADD_ANOTHER_RECIPIENT'|translate"
+      ></bns-user-picker>
+
+      <md-input-container md-no-float>
+        <input type="hidden" ng-model="ctrl.shared.type.form.to.value" name="to" required placeholder="ids">
+        <div ng-messages="ctrl.shared.type.form.to.$error">
+          <div ng-messages-include="form-error-messages"></div>
+        </div>
+      </md-input-container>
+
+    </fieldset>
+
+    <md-divider></md-divider>
+
+    <fieldset ng-disabled="ctrl.shared.handler.locked" class="md-padding">
+      <md-input-container md-no-float>
+        <textarea bns-tinymce ng-model="ctrl.shared.type.form.content.value" name="content" ng-required="true" placeholder="CONTENT"></textarea>
+        <div ng-messages="ctrl.shared.type.form.content.$error">
+          <div ng-messages-include="form-error-messages"></div>
+        </div>
+      </md-input-container>
+    </fieldset>
+
+    <md-divider></md-divider>
+
+    <bns-attachments source="ctrl.shared.type.attachments" editable="true"></bns-attachments>
+  </form>
+
+</md-content>

@@ -1,0 +1,90 @@
+{% extends '::base.html.twig' %}
+
+{% block css %}
+	{{ parent() }}
+	<link href="{{ asset('/medias/css/logon/front.css') }}" rel="stylesheet" type="text/css" />
+	<link href='https://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript" src="{{ asset('medias/js/main/logon.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+	<div class="background-login"></div>
+	<div class="container-fluid container">
+		<div class="container-logon">
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="header-login">
+						<img class="logo" src="{{ asset('/medias/images/logon/logo-beneylu-school.png') }}" alt="BeneyluSchool" />
+						<h1><span>Bienvenue dans</span><br />l'Espace formation</h1>
+						<img class="content-connection" src="{{ asset('/medias/images/logon/vignette.png') }}"/>
+                        <div class="fanion-text">Connexion à l'Espace de Formation</div>
+						<div class="shadow"></div>
+						<div class="rope left"></div>
+						<div class="rope right"></div>
+					</div>
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class="span8">
+					<div class="content-login">
+						<div class="intro-login">
+							<p>
+                                L’espace numérique de travail des écoles de l’académie de Montpellier
+							</p>
+                            <img src="{{ asset('/medias/images/logon/ac-montpellier/logo-ent-ecole-formation.png') }}" alt="" style="" />
+                            <p>
+                                ENT-école est un Espace Numérique de Travail (ENT)  spécialement conçu pour les écoles de l’académie de Montpellier.
+                            </p>
+                            <p>
+                                Pour plus d’information sur ENT-école, vous pouvez consulter les pages de présentation sur le portail  du numérique : <a href="http://www.ac-montpellier.fr/sections/numerique-ent/ent-ecole" target="_blank">Découvrir ENT-école</a>.
+                            </p>
+                            <p><img src="{{ asset('/medias/images/logon/ac-montpellier/ue.jpg') }}" alt="" style="float: right;" /></p>
+                            <br clear="all" />
+						</div>
+					</div>
+				</div>
+				<div class="span4">
+					<div class="content-logon">
+						<iframe id="logon-iframe" src="{{ redirectUrl }}" width="100%" scrolling="auto" marginheight="0" marginwidth="0" frameborder="0">
+							Votre navigateur ne semble pas compatible
+						</iframe>
+
+						<div class="browser-error" style="display: none">
+							<h3>Votre navigateur ne semble pas à jour</h3>
+							<h4>Vous pouvez le mettre à jour en cliquant sur les liens ci-dessous.</h4>
+							<div class="browser-list">
+								<a href="https://www.google.com/intl/fr/chrome/browser/" target="_blank">
+									<img class="browser" src="{{ asset('/medias/images/logon/chrome.png') }}" alt="Google Chrome" >
+								</a>
+								<a href="http://www.mozilla.org/fr/firefox/new/" target="_blank">
+									<img class="browser" src="{{ asset('/medias/images/logon/firefox.png') }}" alt="Mozilla Firefox" >
+								</a>
+								<a href="http://www.apple.com/fr/safari/" target="_blank">
+									<img class="browser" src="{{ asset('/medias/images/logon/safari.png') }}" alt="Apple Safari" >
+								</a>
+								<a href="http://windows.microsoft.com/fr-FR/internet-explorer/products/ie/home" target="_blank">
+									<img class="browser" src="{{ asset('/medias/images/logon/internet-explorer.png') }}" alt="Microsoft Internet Explorer" >
+								</a>
+							</div>
+						</div>
+						<div class="password-forget">
+							<a href="{{ path('user_password_reset') }}">Mot de passe oublié ?</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="footer-logon">
+            <div class="footer-logon">
+                <p>
+                    - Enregistrement CNIL N°1336311
+
+                </p>
+            </div>
+        </div>
+	</div>
+{% endblock body %}

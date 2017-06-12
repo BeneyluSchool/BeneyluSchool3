@@ -1,0 +1,84 @@
+{% extends 'BNSAppForumBundle:Layout:front.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {{ tinymce_init() }}
+{% endblock %}
+
+{% block actionbar %}
+    {% if not forum.isReadOnly %}
+    <div class="row-fluid">
+        <div class="well">
+            <a href="{{ path('BNSAppForumBundle_front_new_subject', {'slug': forum.slug}) }}" class="btn bns-info btn-24 medium create-subject">
+                <span class="icons-24 add-icon"></span>
+                <strong>Ecrire un nouveau sujet</strong>
+            </a>
+        </div>
+    </div>
+    {% endif %}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="viewSubject">
+    <h1>{{ subject.title }}</h1>
+
+    {% for message in messages %}
+
+    <div class="row-fluid message-row {{ loop.index is odd ? 'odd' : 'even' }}">
+        <div class="span2">
+            <div class="avatar">
+                <img src="{{ avatar(message.user, 'thumbnail', true) }}" alt="" />
+                <p class="message-information">{{ message.user.fullName|default('anonyme') }} <br />{{ date_from_now(message.createdAt, true) }}</p>
+            </div>
+        </div>
+        <div class="span10">
+            <div class="message-text">
+            {{ message.content|purify }}
+            </div>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span2">&nbsp;</div>
+        <div class="resources span10">
+            {% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias': message.resourceAttachments, 'editable': false, 'objectType': 'ForumMessage', 'objectId': message.id} %}
+        </div>
+    </div>
+
+    {% endfor %}
+
+    {% if messages.haveToPaginate %}
+        {{ pagerfanta(messages, 'twitter_bootstrap_translated', {'prev_message': '←', 'next_message': '→'}) }}
+    {% endif %}
+
+
+    <hr />
+
+    {% if not forum.isReadOnly %}
+    <div class="row-fluid">
+        <form action="{{ path('BNSAppForumBundle_front_new_message', {'slug' : subject.slug}) }}" method="post">
+            <div class="tinyarea mini-tinyarea">
+                {{ form_widget(form.content, { 'attr': {'bns-tinymce': ''} }) }}
+                {{ form_errors(form.content) }}
+            </div>
+            {{ form_rest(form) }}
+            {% set formJoin = form.vars.value %}
+            {% if formJoin is not null %}
+                <div class="content-attachment">
+                    <div class="attachment">
+                        {% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias': formJoin.getResourceAttachments, "editable": true, 'objectId': formJoin.id} %}
+                    </div>
+                </div>
+            {% endif %}
+            <div class="clearfix"></div>
+            <button type="submit" class="btn bns-success btn-24 medium create-subject pull-right">
+                <span class="icons-24 validate-icon"></span>
+                <strong>Je réponds</strong>
+            </button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

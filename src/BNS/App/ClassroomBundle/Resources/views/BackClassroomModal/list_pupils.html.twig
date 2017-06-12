@@ -1,0 +1,32 @@
+{% trans_default_domain "CLASSROOM" %}
+
+{% if pupilsList %}
+<div id="pupils_previsualisation">
+  <table class="table-prev">
+    <tr>
+      <th>{{ 'PLACEHOLDER_NAME'|trans }}</th>
+      <th>{{ 'FIRSTNAME'|trans }}</th>
+      <th>{{ 'BIRTHDAY'|trans }}</th>
+      <th>{{ 'GENDER'|trans }}</th>
+    </tr>
+    {% for user in pupilsList %}
+      <tr>
+        <td> {{ user.name }} </td>
+        <td> {{ user.firstName }} </td>
+
+        {% if user.date is defined %}
+        <td>  {{ user.date }}</td>
+        {% else %}
+          <td></td>
+        {% endif %}
+
+      {% if user.gender is defined %}
+        <td> {{ user.gender }}</td>
+      {% else %}
+        <td></td>
+      {% endif %}
+      </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endif %}

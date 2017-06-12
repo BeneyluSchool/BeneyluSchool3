@@ -6,7 +6,7 @@ use BNS\App\CoreBundle\Date\ExtendedDateTime;
 use BNS\App\CoreBundle\Model\Group;
 use BNS\App\CoreBundle\Model\GroupQuery;
 use BNS\App\CoreBundle\Utils\Console;
-use BNS\App\CoreBundle\Utils\String;
+use BNS\App\CoreBundle\Utils\StringUtil;
 use BNS\App\ResourceBundle\Model\ResourceLabelGroup;
 use BNS\App\ResourceBundle\Model\ResourceLabelGroupQuery;
 use BNS\App\ResourceBundle\Model\ResourceQuery;
@@ -24,17 +24,17 @@ use Symfony\Component\Yaml\Yaml;
 class FixturesCreateUserCommand extends AbstractCommand
 {
     /**
-     * @var array<Resource> 
+     * @var array<Resource>
      */
     private $avatars;
 
     /**
-     * @var array<User> 
+     * @var array<User>
      */
     private $users;
 
     /**
-     * @var array 
+     * @var array
      */
     private $maleFirstnames;
 
@@ -62,7 +62,7 @@ class FixturesCreateUserCommand extends AbstractCommand
      * @var int
      */
     private $countLastnames;
-    
+
 
 	protected function configure()
     {
@@ -140,11 +140,11 @@ EOT
             if (null == $email) {
                 $email = $dialog->ask($output, '    > Please, provide your e-mail address : ');
             }
-            
+
             $pos        = strpos($email, '@');
             $emailFirst = substr($email, 0, $pos);
             $emailLast  = substr($email, $pos);
-            
+
             $choice = $input->getOption('email-creation-choice');
             if (null == $choice) {
                 $output->writeln(array(
@@ -156,7 +156,7 @@ EOT
                     ''
                 ));
             }
-            
+
             while (null == $choice || !in_array($choice, array(1, 2))) {
                 $choice = $dialog->ask($output, '    > Your choice ? [1]: ', 1);
             }
@@ -164,16 +164,16 @@ EOT
             $output->writeln('');
             Console::progress($output, $countTeacher);
             $usedData = array();
-            
+
             for ($i = 0; $i < $countTeacher; $i++) {
                 mt_srand();
                 list($gender, $firstname, $lastname) = $this->generateUserData($usedData);
 
                 if (1 == $choice) {
-                    $userEmail = $emailFirst . '+' . strtolower(String::filterString($firstname)) . '.' . strtolower(String::filterString($lastname)) . $emailLast;
+                    $userEmail = $emailFirst . '+' . strtolower(StringUtil::filterString($firstname)) . '.' . strtolower(StringUtil::filterString($lastname)) . $emailLast;
                 }
                 else {
-                    $userEmail = strtolower(String::filterString($firstname)) . '.' . strtolower(String::filterString($lastname)) . '@beneyluschool.net';
+                    $userEmail = strtolower(StringUtil::filterString($firstname)) . '.' . strtolower(StringUtil::filterString($lastname)) . '@beneyluschool.net';
                 }
 
                 $birthday = new ExtendedDateTime();
@@ -189,7 +189,7 @@ EOT
                     'lang'       => 'fr',
                     'gender'     => $gender
 				));
-                
+
                 $this->users['TEACHER'][] = $teacher;
                 $classroomManager->assignTeacher($teacher);
 
@@ -375,7 +375,7 @@ EOT
                     $user->getProfile()->setAvatarId($this->avatars[rand(0, $countAvatars - 1)]->getId());
                     $user->getProfile()->save();
                 }
-                
+
                 Console::progress($output, $count, ++$i);
             }
         }

@@ -1,0 +1,91 @@
+{% trans_default_domain "MINISITE" %}
+{% extends 'BNSAppMiniSiteBundle:Layout:manager.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script	type="text/javascript" src="{{ asset('/medias/js/date.js') }}"></script>
+	<script	type="text/javascript" src="{{ asset('/medias/js/highcharts.js') }}"></script>
+	<script	type="text/javascript" src="{{ asset('/medias/js/highcharts-exporting.js') }}"></script>
+	<script	type="text/javascript" src="{{ asset('/medias/js/highcharts-template.js') }}"></script>
+	<script type="text/javascript">
+		$(function () {
+			chart = new Highcharts.Chart({
+				chart: {
+					renderTo: 'stats-container',
+					type: 'bar',
+					marginRight: 35,
+					marginBottom: 70
+				},
+				title: {
+					text: '{{ 'NUMBER_VIEW_PER_PAGE'|trans }}',
+					x: -20 //center
+				},
+				xAxis: {
+					categories: {% autoescape false %}{{ pagesName }}{% endautoescape %},
+					title: {
+						text: null
+					}
+				},
+				yAxis: {
+					min: 0,
+					title: {
+						text: '{{ 'NUMBER_PAGE_VIEW'|trans }}',
+						align: 'high'
+					},
+					labels: {
+						overflow: 'justify'
+					}
+				},
+				plotOptions: {
+					bar: {
+						dataLabels: {
+							enabled: true
+						}
+					}
+				},
+				series: {% autoescape false %}{{ pagesStats }}{% endautoescape %}
+			});
+
+			// Affichage des filtres
+			$('#show-filters').click(function () {
+				if ($('#filters').css('display') == 'none') {
+					$('#filters').slideDown('fast');
+				}
+				else {
+					$('#filters').slideUp('fast');
+				}
+
+				return false;
+			});
+		});
+	</script>
+{% endblock %}
+
+{% block sidebar %}
+	{% include 'BNSAppMiniSiteBundle:Sidebar:sidebar.html.twig' with {'index': 'stats', 'section': 'visualisation'} %}
+{% endblock sidebar %}
+
+{% block content %}
+  <md-toolbar class="content-toolbar">
+    <div class="md-toolbar-tools layout-align-start-center">
+      <bns-sidebar-toggle></bns-sidebar-toggle>
+      <h1 class="md-title text-primary text-left flex flex-gt-sm-33">{% trans%}MINISITE_STATS{% endtrans %}</h1>
+    </div>
+  </md-toolbar>
+
+  <md-content  style="padding: 16px">
+    <div class="minisite-stats-container">
+
+      <div class="stats-list">
+        <h2>
+          {% trans %}TITLE_GRAPH{% endtrans %}
+
+          {{ components.button( 'LINK_EXPORT_DATA' | trans , {href: path('minisite_manager_stats_export'), raised: true, hover: true, size:'sm', attr:{'class':'pull-right', 'id':'export-button'}}) }}
+
+        </h2>
+        <div id="stats-container" class="chart"></div>
+      </div>
+    </div>
+  </md-content>
+{% endblock %}

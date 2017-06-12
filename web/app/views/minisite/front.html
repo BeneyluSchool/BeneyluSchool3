@@ -1,0 +1,71 @@
+<!-- <div class="header-container md-whiteframe-z1">
+  <div class="header" ng-style="{'background-image':ctrl.minisite.minisite.banner_url?'url('+ctrl.minisite.minisite.banner_url+')':''}"></div>
+</div> -->
+<md-content bns-minisite-scroll class="layout-column">
+
+  <header md-page-header>
+    <div md-header-picture ng-style="{'background-image':ctrl.minisite.minisite.banner_url?'url('+ctrl.minisite.minisite.banner_url+')':''}" ng-class="{'banner-default': ctrl.minisite.minisite && !ctrl.minisite.minisite.banner_url}"><div class="layer"></div></div>
+    <md-toolbar class="scroll-toolbar md-whiteframe-z1" scroll>
+      <div class="md-toolbar-tools" md-header-title>
+        <div class="left-col layout-row layout-align-space-between-center hide show-gt-sm">
+          <bns-sidebar-toggle></bns-sidebar-toggle>
+          <div class="school-logo" ng-style="{'background-image': ctrl.minisite.minisite?('url('+(ctrl.minisite.minisite.logo_url||'/ent/medias/images/mini-site/front/bns-logo.png')+')'):''}"></div>
+          <h2 flex>{{ ::ctrl.minisite.minisite.title }}</h2>
+        </div>
+        <bns-sidebar-toggle class="hide-gt-sm"></bns-sidebar-toggle>
+        <div class="right-col flex">
+          <h2 flex>{{root.title}}</h2>
+        </div>
+      </div>
+
+    </md-toolbar>
+  </header>
+  <section layout="row" flex container class="main-container minisite-container md-whiteframe-z1">
+
+      <md-sidenav layout="column" class="md-sidenav-left bns-sidebar" md-component-id="left" md-is-locked-open="app.isSidebarLockedOpen()">
+
+          <md-content flex>
+  <!--           <md-toolbar class="content-toolbar">
+                <div class="flex layout-row layout-align-space-between-center">
+                  <div class="flex-33 school-logo" ng-style="{'background-image': ctrl.minisite.minisite?('url('+(ctrl.minisite.minisite.logo_url||'/ent/medias/images/mini-site/front/bns-logo.png')+')'):''}"></div>
+                  <div class="flex-66"><h3 class="flex">{{ ::ctrl.minisite.minisite.title }}</h3></div>
+                </div>
+            </md-toolbar> -->
+
+            <div class="layout-row layout-align-start-center layout-margin hide-gt-sm">
+              <div class="school-logo flex flex-none" ng-style="{'background-image': ctrl.minisite.minisite?('url('+(ctrl.minisite.minisite.logo_url||'/ent/medias/images/mini-site/front/bns-logo.png')+')'):''}"></div>
+              <h2 class="flex md-title">{{ ::ctrl.minisite.minisite.title }}</h2>
+            </div>
+
+
+            <section ng-if="::ctrl.loginUrl" class="page-list layout-column">
+              <md-button href ng-href="{{ctrl.loginUrl}}" class="md-primary">
+                <bns-icon>classroom</bns-icon>
+                <span ng-bind-html="'MINISITE.BUTTON_LOGIN'|translate|buttonize"></span>
+              </md-button>
+            </section>
+
+            <section class="page-list layout-column">
+              <md-button ng-repeat="link in ctrl.minisite.pages"
+                ui-sref="app.minisite.front.page({page_slug: link.slug})"
+                ui-sref-active="current"
+                         ng-click="app.isSidebarLockedOpen()? '' :app.toggleSidebar()"
+              >
+                {{ ::link.title }}
+              </md-button>
+            </section>
+
+            <div bns-minisite-widgets widgets="ctrl.minisite.widgets" hide-md hide-sm></div>
+
+            <div class="bns-sidebar-spacer"></div>
+          </md-content>
+
+      </md-sidenav>
+
+      <div id="content" class="bns-content" flex>
+          <div ui-view="content"></div>
+          <div bns-minisite-widgets widgets="ctrl.minisite.widgets" hide-gt-md></div>
+      </div>
+
+  </section>
+</md-content>

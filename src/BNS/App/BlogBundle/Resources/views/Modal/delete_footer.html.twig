@@ -1,12 +1,13 @@
+{% trans_default_domain "BLOG" %}
 <div class="modal-footer">
-	<div class="content-btn-footer">
-		<a href="{{ route }}" class="btn bns-danger btn-24 medium-return delete-process">
-			<span class="icons-24 delete-icon"></span>
-			<strong>{% trans %}Blog.General.Delete{% endtrans %}</strong><br />l'article
-		</a>
-		<a href="#" class="btn bns-notice btn-24 medium" data-dismiss="modal">
-			<span class="icons-24 back-icon"></span>
-			<strong>{% trans %}Modal.Close{% endtrans %}</strong>
-		</a>
-	</div>
+  <div class="content-btn-footer">
+    <a href="{{ route }}" class="btn bns-danger btn-24 medium-return delete-process">
+      <span class="icons-24 delete-icon"></span>
+        {{ 'LINK_DELETE_ARTICLE'|trans |desc('<strong>Supprimer</strong><br /> l\'article') |raw }}
+    </a>
+    <a href="#" class="btn bns-notice btn-24 medium" data-dismiss="modal">
+      <span class="icons-24 back-icon"></span>
+      <strong>{% trans %}LINK_CLOSE{% endtrans %}</strong>
+    </a>
+  </div>
 </div>

@@ -1,0 +1,58 @@
+<bns-expander is-open="true" label="{{'WORKSHOP.QUESTIONNAIRE.ADVANCED_SETTINGS'|translate}}">
+  <form name="advancedSettingsForm">
+      <script type="text/ng-template" id="form-error-messages">
+      </script>
+
+    <md-divider></md-divider>
+
+    <md-switch ng-model="widget.advancedSettings.show_chrono" ng-change="ctrl.toggleSetting()" class="bns-switch bns-switch-right" aria-label="" label-left>
+      <span translate>WORKSHOP.QUESTIONNAIRE.SHOW_CHRONO</span>
+    </md-switch>
+    <div ng-if="widget.advancedSettings.show_chrono" class="layout-row layout-align-center-center">
+      <md-input-container>
+        <input ng-model="widget.advancedSettings.chrono.minutes" placeholder="{{ 'WORKSHOP.QUESTIONNAIRE.MINUTES' | translate }}" type="number" min="0">
+      </md-input-container>:
+      <md-input-container>
+        <input ng-model="widget.advancedSettings.chrono.seconds" name="seconds" placeholder="{{ 'WORKSHOP.QUESTIONNAIRE.SECONDS' | translate }}" type="number" min="0"
+               max="59">
+        <div ng-messages="advancedSettingsForm.seconds.$error">
+          <div ng-message="max">{{'WORKSHOP.ERROR_THIS_FIELD_LESS_60'|translate}}</div>
+        </div>
+      </md-input-container>
+    </div>
+
+    <md-divider></md-divider>
+
+    <md-switch ng-model="widget.advancedSettings.hide_solution" ng-change="ctrl.toggleSetting()" class="bns-switch bns-switch-right" aria-label="" label-left>
+      <span translate>WORKSHOP.QUESTIONNAIRE.HIDE_SOLUTION</span>
+    </md-switch>
+
+    <md-divider></md-divider>
+
+    <md-switch ng-model="widget.advancedSettings.show_comment" ng-change="ctrl.toggleSetting()" class="bns-switch bns-switch-right" aria-label="" label-left>
+      <span translate>WORKSHOP.QUESTIONNAIRE.SHOW_COMMENT</span>
+    </md-switch>
+    <textarea ng-if="widget.advancedSettings.show_comment" name="comment" ng-model="widget.advancedSettings.comment" placeholder="{{ 'WORKSHOP.QUESTIONNAIRE.WRITE_COMMENT' | translate }}" required></textarea>
+    <md-divider></md-divider>
+
+    <md-switch ng-model="widget.advancedSettings.show_clue" ng-change="ctrl.toggleSetting()" class="bns-switch bns-switch-right" aria-label="" label-left>
+      <span translate>WORKSHOP.QUESTIONNAIRE.SHOW_CLUE</span>
+    </md-switch>
+    <md-input-container ng-if="widget.advancedSettings.show_clue" md-no-float>
+      <input ng-model="widget.advancedSettings.clue" placeholder="{{ 'WORKSHOP.QUESTIONNAIRE.CLUE' | translate }}" name="clue" required>
+      <div ng-messages="advancedSettingsForm.clue.$error">
+        <div ng-message="required">{{'WORKSHOP.ERROR_THIS_FIELD_IS_REQUIRED'|translate}}</div>
+      </div>
+    </md-input-container>
+
+    <md-divider></md-divider>
+
+    <md-switch ng-model="widget.advancedSettings.show_help" ng-change="ctrl.toggleSetting()" class="bns-switch bns-switch-right" aria-label="" label-left>
+      <span translate>WORKSHOP.QUESTIONNAIRE.SHOW_HELP</span>
+    </md-switch>
+    <textarea ng-if="widget.advancedSettings.show_help" ng-model="widget.advancedSettings.help" placeholder="{{ 'WORKSHOP.QUESTIONNAIRE.WRITE_HELP' | translate }}" required></textarea>
+
+    <md-divider></md-divider>
+
+    </form>
+</bns-expander>

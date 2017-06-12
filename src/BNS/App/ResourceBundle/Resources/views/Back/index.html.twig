@@ -12,25 +12,23 @@
 			{% if can_administrate %}
 
 				<h4>Utilisation de l'espace pour {{ current_group_label }}</h4>
-
-				{% include "BNSAppResourceBundle:Common:progressBar.html.twig" with {"ratio" : group_ratio } %}
+				{% include "BNSAppResourceBundle:Common:progressBar.html.twig" with {'ratio' : group_ratio, 'used' : group_ressource_used, 'total' : group_ressource_available} %}
 
 			{% endif %}
 
 			<h4>Utilisation de mon espace</h4>
-
-			{% include "BNSAppResourceBundle:Common:progressBar.html.twig" with {"ratio" : user_ratio } %}
+			{% include "BNSAppResourceBundle:Common:progressBar.html.twig" with {'ratio' : user_ratio, 'used' : user_ressource_used, 'total' : user_ressource_available } %}
 		</div>
 
 		<div class="row-fluid">
 			<div class="span7">
-				<h3 class="title-resource">Dernièrs documents déposés</h3>
+				<h3 class="title-resource">Derniers documents déposés</h3>
 				{% for resource in last_resources %}
 					<div class="last-ressource-back">
 					{% include "BNSAppResourceBundle:Back:block_last_resource.html.twig" with {"resource" : resource } %}
 					</div>
 					{% else %}
-						<p>Aucune resource n'a encore été déposée</p>
+						<p>Aucune ressource n'a encore été déposée</p>
 				{% endfor %}
 			</div>
 			<div class="span5">

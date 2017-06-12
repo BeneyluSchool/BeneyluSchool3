@@ -1,0 +1,98 @@
+{% trans_default_domain "USER" %}
+{% extends 'BNSAppUserBundle:Front:registrationStep.html.twig' %}
+{% set step = 3 %}
+
+{% block dialog_content %}
+  {{ form_start(form, { attr: { novalidate: true } }) }}
+
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      {% include 'BNSAppUserBundle:Front:registrationProgressBar.html.twig' %}
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content class="md-dialog-content">
+    {% if not form.vars.valid %}
+      <div class="md-body-1 text-warn">{% trans %}DESCRIPTION_FORM_HAS_ERRORS{% endtrans %}</div>
+    {% endif %}
+    {{ form_errors(form) }}
+
+    <h2 class="title-modal">{% trans %}TITLE_SCHOOL_DETAILS{% endtrans %}</h2>
+    <p class="subtitle-modal">
+      {% if app.user.registrationStep %}
+        {% trans with { '%beneylu_brand_name%': parameter('beneylu_brand_name') } %}DESCRIPTION_SCHOOL_DETAILS{% endtrans %}
+      {% else %}
+        {% trans %}DESCRIPTION_SCHOOL_DETAILS_EDIT{% endtrans %}
+      {% endif %}
+    </p>
+
+    <p class="form-label">{% trans %}LABEL_SCHOOL_NAME{% endtrans %} *</p>
+    <div class="layout-row layout-align-start-end">
+      <span class="flex flex-none">
+        <img src="{{ asset('medias/images/icons/group_context/school/medium.png') }}" class="school" />
+      </span>
+      <div class="flex">
+        <md-input-container bns-no-message>
+          {{ form_label(form.label) }}
+          {{ form_widget(form.label) }}
+        </md-input-container>
+      </div>
+    </div>
+    <div class="md-body-1 text-warn">{{ form_errors(form.label) }}</div>
+
+    <p class="form-label">{% trans %}LABEL_CITY{% endtrans %} *</p>
+    <div class="layout-gt-sm-row layout-align-start-start">
+      <div class="flex flex-gt-sm-30">
+        <md-input-container bns-no-message>
+          {{ form_label(form.zipcode, null, { label_attr: { class: 'text-ellipsis' } }) }}
+          {{ form_widget(form.zipcode) }}
+        </md-input-container>
+        <div class="md-body-1 text-warn">{{ form_errors(form.zipcode) }}</div>
+      </div>
+      <div class="flex flex-gt-sm-70">
+        <md-input-container bns-no-message>
+          {{ form_label(form.city) }}
+          {{ form_widget(form.city) }}
+        </md-input-container>
+        <div class="md-body-1 text-warn">{{ form_errors(form.city) }}</div>
+      </div>
+    </div>
+    <p><span class="form-label">*</span> {% trans %}REQUIRED_FIELDS{% endtrans %}</p>
+  </md-dialog-content>
+
+  <div class="md-actions">
+    <div class="flex-order-2">
+      {{ components.button('REGISTER_MY_SCHOOL'|trans, {
+        icon: {
+          name: 'check_circle',
+          attr: { class: 'hide-sm' }
+        },
+        raised: true,
+        intent: 'accent',
+        attr: {
+          type: 'submit',
+        },
+      }) }}
+    </div>
+    <div class="flex-order-1">
+      {% form_theme form.skip 'BNSAppMainBundle:Form:material_fields.html.twig' %}
+      {# multiple skip buttons, for different displays #}
+      {{ form_widget(form.skip, {
+        label: 'BUTTON_REGISTER_MY_SCHOOL_LATER',
+        attr: { class: 'md-primary hide-sm' }
+      }) }}
+      <md-button type="submit" class="md-primary hide-gt-sm" name="{{ form.skip.vars.full_name }}">
+        {{ 'BUTTON_LATER'|trans }}
+      </md-button>
+    </div>
+    <div class="flex">
+      {{ components.button(null, {
+        href: '',
+        icon: 'help',
+        attr: { id: 'intercom-widget-activator', class: 'hide-sm' }
+      }) }}
+    </div>
+  </div>
+
+  {{ form_end(form) }}
+{% endblock %}

@@ -1,0 +1,25 @@
+{% trans_default_domain "COMMENT" %}
+
+{% if comments|length > 0 %}
+  <md-content class="flex">
+    <md-list>
+	{% for comment in comments %}
+		{% include 'BNSAppCommentBundle:BackNew:comment_row.html.twig' %}
+	{% endfor %}
+    </md-list>
+  </md-content>
+{% else %}
+    <bns-inset class="no-comment md-padding text-center">
+        <p>
+        {% if status == 'VALIDATED' %}
+            {{ 'NO_VALIDATED_COMMENT_FIND'|trans |desc('Aucun commentaire publié n\'a été trouvé.') }}
+        {% elseif status == 'REFUSED' %}
+            {{ 'NO_REFUSED_COMMENT_FIND'|trans |desc('Aucun commentaire refusé n\'a été trouvé.') }}
+        {% elseif status == 'PENDING_VALIDATION' %}
+            {{ 'NO_PENDING_VALIDATION_COMMENT_FIND'|trans |desc('Aucun commentaire en modération n\'a été trouvé.') }}
+        {% endif %}
+        </p>
+    </bns-inset>
+{% endif %}
+
+{% include 'BNSAppCommentBundle:BackNew:comment_pager.html.twig' %}

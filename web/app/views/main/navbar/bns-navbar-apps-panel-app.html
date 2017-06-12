@@ -1,0 +1,9 @@
+<md-button ng-click="panel.selectApp(app)" ng-disabled="!navbar.canAccess(app)" class="app-button" aria-label="{{::app.label}}">
+  <bns-navbar-icon item="app" flags="{ 'settings': navbar.mode === 'back' && app.has_access_back, 'shield': app.is_private }"></bns-navbar-icon>
+  <bns-counter data-value="{{ ::app.counter }}"></bns-counter>
+  <div class="layout-row layout-align-center-center">
+    <span ng-if="app.can_open" class="app-status" ng-class="{ opened: app.is_open, maybe: app.is_partially_open }"></span>
+    <span class="app-label" ng-bind-html="::app.label|trustHtml"></span>
+  </div>
+  <md-tooltip md-direction="top"><span ng-bind-html="::app.label|trustHtml"></span></md-tooltip>
+</md-button>

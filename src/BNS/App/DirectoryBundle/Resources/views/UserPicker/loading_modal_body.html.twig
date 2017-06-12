@@ -1,5 +1,18 @@
+{% trans_default_domain "DIRECTORY" %}
+
 <div class="loading-container">
-	<img src="{{ asset('/medias/images/icons/medium-loader.gif') }}" alt="Gif animé de chargement" /> Chargement en cours, veuillez patienter...
+	<img src="{{ asset('/medias/images/icons/medium-loader.gif') }}" alt="Gif animé de chargement" /> {{ 'LABEL_lOADING_IN_PROGRESS'|trans |desc('Chargement en cours, veuillez patienter...') }}
 </div>
 
-<div class="directory-container"></div>
+<div class="directory-container user-picker-container"></div>
+<script type="text/javascript">
+    var $isUserPickerFirstLoad = true;
+    $(document).ready(function()
+    {
+        var realHeight = $(window).height() - 150 + 'px';
+        $('.directory-modal').css('height',realHeight);
+        $('.directory-modal').css('min-height',realHeight);
+        $('.directory-modal').css('max-height',realHeight);
+
+    });
+</script>

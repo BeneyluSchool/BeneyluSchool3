@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\StarterKitBundle\Model">
+    <table name="starter_kit_state">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+        <column name="user_id" required="true" type="INTEGER" />
+        <foreign-key foreignTable="user" name="starter_kit_user" onDelete="CASCADE">
+            <reference foreign="id" local="user_id" />
+        </foreign-key>
+        <index name="starter_kit_user_index">
+            <index-column name="user_id" />
+        </index>
+        <column name="name" required="true" size="255" type="VARCHAR" />
+        <column name="enabled" type="BOOLEAN" defaultValue="false" />
+        <column name="last_step" type="VARCHAR" size="20" />
+        <column name="max_level" type="INTEGER" defaultValue="0" />
+        <behavior name="timestampable" />
+    </table>
+</database>

@@ -1,0 +1,10 @@
+BNS\App\WorkshopBundle\Model\om\BaseWorkshopWidgetExtendedSetting:
+  exclusion_policy: All
+
+  virtual_properties:
+    getChoices:
+      expose: true
+    getCorrectAnswers:
+          expose: true
+    getAdvancedSettings:
+          expose: true

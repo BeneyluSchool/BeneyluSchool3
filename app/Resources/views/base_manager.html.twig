@@ -1,7 +1,8 @@
+{% trans_default_domain "CORE" %}
 {% extends '::base.html.twig' %}
 
 {% block title %}
-	Beneyluschool - Gestion
+	{{ 'BENEYLU_MANAGEMENT'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('%beneylu_brand_name% - Gestion') }}
 {% endblock %}
 	
 {% block javascripts %}

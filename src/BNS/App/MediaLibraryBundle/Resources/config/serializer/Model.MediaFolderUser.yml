@@ -1,0 +1,37 @@
+BNS\App\MediaLibraryBundle\Model\MediaFolderUser:
+  exclusion_policy: All
+  virtual_properties:
+      getType:
+        expose: true
+      getChildren:
+        expose: true
+      getMedias:
+        expose: true
+      getMarker:
+        expose: true
+      getUsageRatio:
+        expose: true
+      getUniqueKey:
+        expose: true
+        serialized_name: unique_key
+      isReadable:
+        expose: true
+        serialized_name: readable
+      isManageable:
+        expose: true
+        serialized_name: manageable
+      isWritable:
+        expose: true
+        serialized_name: writable
+      isFavorite:
+        expose: true
+        serialized_name: is_favorite
+      isSystem:
+        expose: true
+        serialized_name: is_system
+      getParentKey:
+        expose: true
+        serialized_name: parent_key
+      getNiceUsage:
+        expose: true
+        serialized_name: usage

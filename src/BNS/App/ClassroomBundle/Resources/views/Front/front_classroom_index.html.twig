@@ -1,7 +1,22 @@
+{% trans_default_domain "CLASSROOM" %}
 {% extends '::base.html.twig' %}
 
+{% set app_unique_name = 'CLASSROOM' %}
+{% set app_mode = 'front' %}
+
+{% block body_class %}
+    {{ parent() }}
+    nine-height
+    {{ hasValidationAlert ? 'has-validation-alert-home' }}
+{% endblock %}
+
+{% block html_class %}
+    {{ parent() }}
+    full-height
+{% endblock %}
+
 {% block title %}
-	Classe
+  {% trans %}TITLE_CLASS{% endtrans %}
 {% endblock %}
 
 {% block javascripts %}
@@ -15,34 +30,430 @@
 			});
 		});
 	</script>
+  {% if newYearStatus %}
+    <script type="text/javascript" src="{{ asset('/medias/js/rhinoslider/js/rhinoslider-1.05.min.js') }}"></script>
+  {% endif %}
 {% endblock javascripts %}
 
 {% block css %}
 	{{ parent() }}
-	<link href="{{ asset('/medias/css/classroom/front.css') }}" rel="stylesheet" type="text/css" /> 
-	<link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-	<link href='https://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
+	<link href="{{ asset('/medias/css/classroom/front.css') }}" rel="stylesheet" type="text/css" />
+  {% if newYearStatus %}
+    <link href="{{ asset('/medias/js/rhinoslider/css/rhinoslider-1.05.css') }}" rel="stylesheet" type="text/css" />
+  {% endif %}
+{% endblock %}
+
+
+{% block alert %}
+  {{ parent() }}
+  {% if hasEvaluent(school) %}
+    <div class="validation-alert navbar-fixed-top navbar navbar-inverse navbar-fixed-top">
+      <div class="top-container">
+        <div class="">
+          <div class="alert-validation-info">
+            <div class="container" style="">
+              <span class="text-aqua">
+                {% if is_child(app.user) %}
+                  {% trans %}NATIONAL_POLL{% endtrans %}
+                  <img src="{{ asset('/medias/images/classroom/evaluent.jpg') }}" style="float: right;"/>
+                  <a href="{{ getEvaluentLink('PUPIL') }}" target="_blank">
+                    <span class="h4" style="float: left;width: 85%;">{% trans %}LINK_CLICK_PUPIL{% endtrans %}</span>
+                  </a>
+                  <br/><br/>
+                  <a href="{{ getEvaluentLink('PARENT') }}" target="_blank">
+                    <span class="h4" style="float: left;width: 85%;">{% trans %}LINK_CLICK_PARENT{% endtrans %}</span>
+                  </a>
+                {% else %}
+                  <a href="{{ getEvaluentLink() }}" target="_blank">
+                    <span class="h4" style="float: left;width: 85%;">{% trans %}LINK_NATIONAL_POLL{% endtrans %}</span>
+                    <img src="{{ asset('/medias/images/classroom/evaluent.jpg') }}" style="float: right"/>
+                  </a>
+                {% endif %}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
 {% endblock %}
 
 {% block body %}
-	<div class="office"></div>
+<div class="home-window" style="background-image: url('{{ asset('/medias/images/classroom/home_window/' ~ customWindow ~ '.png') }}');"></div>
+	<div class="office home">
+	</div>
 	{% for message in app.session.flashbag.get('success') %}
-		<div class="alert alert-success">
-			<button type="button" class="close">×</button>
+		<div class="alert alert-success bns-alert">
 			{{ message }}
+			<div class="jim"></div>
 		</div>
 	{% endfor %}
-	
-	<div class="board">
-		<span class="message">{{ "now" | date_bns('full', 'none') |capitalize}}</span>
-		<hr class="horizontal-separator" />
-		<span class="message">
-			{{ message|nl2br }}
-		</span>
-		
-	</div>
-{% endblock %}
-	
-{% block dock_bar %}
-	{% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "CLASSROOM" , 'is_in_front' : true } %}
+  <div class="board">
+
+    {% set formatedDate = ("now" | date_bns('full', 'none')) %}
+    {# set upper case only the first char #}
+    <span class="message">{{ formatedDate[:1]|upper ~ formatedDate[1:] }}</span>
+    <hr class="horizontal-separator" />
+    {% if blackboard is not null and blackboard.imageId %}
+          <div class="row-fluid">
+              <div class="span6">
+                <span class="message">
+                    {{ message|trans|nl2br }}
+                </span>
+              </div>
+              <div class="span6 blackboard-img">
+                  <img src="{{ getResourceImageUrlFromId(blackboard.imageId, 'board') }}" />
+              </div>
+          </div>
+      {% else %}
+        <span class="message">
+            {{ message|trans|nl2br }}
+        </span>
+      {% endif %}
+
+  </div>
+
+
+  {% if hasAventCalendar %}
+    <a href="{{ path('BNSAppClassroomBundle_calendrier_avent') }}">
+      <div class="aventcalendar{% if hasAventCalendar %} animate-wiggle{% endif %}"></div>
+    </a>
+  {% endif %}
+
+    {% if newYearStatus %}
+
+        {% if not app.request.cookies.has('show_new_year_status') %}
+            <div id="new_year_status_alert" class="alert success bns-alert hide alert-success">
+                <p>{% if is_adult() %}
+                        {{ 'WISHES_ADULT'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |raw}}
+                {% else %}
+                    {{ 'WISHES_CHILD'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |raw}}
+                {% endif %}
+                </p>
+                <a id="show_new_year_status" href="#" class="btn finish bns-success validate-medium btn-24 medium pull-right">
+                    <span class="icons-24 validate-icon"></span>
+                    <strong>{% trans %}SEE_WISHES{% endtrans %}</strong>
+                </a>
+                <div class="jim"></div>
+            </div>
+        {% endif %}
+
+        <div id="new_year_status" class="{% if not app.request.cookies.has('show_new_year_status') %} hidden {% endif %}">
+            <div id="rhino-nav" class="owl-carousel">
+                {% for status in newYearStatus %}
+                    <div class="btn btn-large btn-primary disabled">
+                        <span id="close-rhino" class="close close-rhino"></span>
+                        <p class='status-text'>{{ status.text }}</p>
+                        <p class="pull-right status-signature">{{ status.username }} - {{ status.address }}</p>
+                    </div>
+                {% endfor %}
+
+            </div>
+
+            {% if has_right('PROFILE_ACCESS_BACK') %}
+                <a class="call-to-action" href="#">
+                    {% trans %}MESSAGE_WRITE{% endtrans %}
+                </a>
+            {% endif %}
+
+
+            <div id="rhino-form-container" class=" btn btn-large btn-primary disabled">
+                <form method='post' id="rhino-form" action="{{ path('profile_manager_feed_new') }}?redirect=classroom" >
+                    <textarea name="profile_feed_form[text]" placeholder="{{ is_adult() ? 'ADULT_PUBLISH_MESSAGE'|trans({'%date%': 'now'|date('Y')}) : 'CHILD_PUBLISH_MESSAGE'|trans({'%date%': 'now'|date('Y')}) |raw}}"></textarea>
+                    <input type="hidden" name="profile_feed_form[_token]"
+                           value="{{ csrf_token('profile_feed_form') }}"
+                            />
+
+                    <a id="submit-new-year-message" href="#" class="btn bns-success validate-small btn-16">
+                        <span class="icons-16 validate-icon"></span>
+                        <strong>{% trans %}SEND{% endtrans %}</strong>
+                    </a>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if profile_completion %}
+        <md-content id="profile-completion-container" class="md-padding md-whiteframe-z2 hide-sm">
+            <div class="md-title text-center">{% trans from 'USER' %}TITLE_COMPLETE_PROFILE{% endtrans %}</div>
+            <div class="md-padding">
+                <md-progress-linear md-mode="determinate" value="{{ profile_completion }}" class="md-accent bns-progress jim"></md-progress-linear>
+            </div>
+            <div class="md-body-1 text-center">
+                <a href="{{ path('user_front_registration_step', {step: 2}) }}">{% trans from 'USER' %}LINK_COMPLETE_PROFILE{% endtrans %}</a>
+            </div>
+        </md-content>
+    {% endif %}
+
+    {% if has_right('SPACE_OPS_ACCESS') or has_right('SPACE_OPS_ACTIVATION') %}
+        <div id="space-ops-hologram-container">
+            <md-button ng-cloak href="{{ path('space_ops_front') }}">
+                <div class="space-ops-hologram animate-levitate pause-hover"></div>
+                <md-tooltip>{% trans from 'MODULE' %}SPACE_OPS{% endtrans %}</md-tooltip>
+            </md-button>
+        </div>
+    {% endif %}
+
+    {% if has_right('TOUR_ACCESS') or has_right('TOUR_ACTIVATION') %}
+        <div id="tour-bubble-container">
+            <md-button ng-cloak href="{{ path('tour_front') }}">
+                <div class="tour-bubble animate-speech-bubble pause-hover"></div>
+                <md-tooltip>{% trans from 'MODULE' %}TOUR{% endtrans %}</md-tooltip>
+            </md-button>
+            <div class="tour-globe"></div>
+        </div>
+    {% endif %}
+
+    {% if has_right('PSSST_ACCESS') %}
+        <div id="pssst-sheet-container" class="animate-sheet-slide-container">
+            <div class="animate-sheet-slide">
+                <md-button href="{{ path('pssst_front') }}" class="md-whiteframe-z2">
+                    <div class="pssst-sheet"></div>
+                    <md-tooltip>{% trans from 'MODULE' %}PSSST{% endtrans %}</md-tooltip>
+                </md-button>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if not hasAventCalendar and push and push.getModuleUniqueName() and isAllowedApplication(push.getModuleUniqueName(), current_group())%}
+        {% set push_app = push.getApplication() %}
+        {% set has_push_access = has_right(push.getModuleUniqueName()~'_ACCESS') %}
+        {% set push_app_image_style = "background-image: url('../assets/images/apps/"~push.getModuleUniqueName()|lower|replace('_', '-')~"/icon.png');" %}
+        <div id="classroom-push-container" >
+            <div bns-sparkle="{timeout: 8000, color: 'rainbow'}">
+                <md-button ng-cloak
+                           class="classroom-push"
+                           ng-click="dialog.show({templateUrl: 'classroom-push-dialog', clickOutsideToClose: true, targetEvent: $event})"
+                           style="{{ push_app_image_style }}"
+                >
+                    <md-tooltip md-direction="top">{{ push.getFinalTitle() }}</md-tooltip>
+                </md-button>
+            </div>
+        </div>
+
+            {% set has_push_activation = has_right(push.getModuleUniqueName()~'_ACTIVATION') %}
+            {% set has_push_install = has_right('SPOT_ACCESS') %}
+            <script type="text/ng-template" id="classroom-push-dialog">
+                <md-dialog class="bns-dialog bns-dialog-primary bns-dialog-sm classroom-push-dialog" >
+                    <md-dialog-content class="md-dialog-content" ng-init="pushApp = {{ push_app|serialize }}">
+                        <md-button class="md-icon-button bns-dialog-close" ng-click="dialog.hide()">
+                            <md-icon>close</md-icon>
+                        </md-button>
+                        <div class="md-body-2 text-center" style="margin-right: 30px;">{% trans with { '%beneylu_brand_name%': parameter('beneylu_brand_name') } %}TITLE_CURRENTLY_ON_BENEYLU_SCHOOL{% endtrans %}</div>
+                        <h3 class="md-headline text-center">{{ push.getFinalTitle() }}</h3>
+                        <div class="layout-row layout-align-center-center">
+                            <md-button ng-href="{% if has_push_access %}{% verbatim %}{{ pushApp._links.front.href }}{% endverbatim %}{% elseif has_push_install %}{{ path('BNSAppSpotBundle_front', { code: push.getModuleUniqueName() }) }}{% endif %}"
+                                       class="classroom-push-icon-button"
+                                       style="{{ push_app_image_style }}"
+                                       aria-label="{{ push.getFinalTitle() }}"
+                                       {% if not (has_push_access or has_push_install) %}disabled{% endif %}
+                            ></md-button>
+                        </div>
+                        {% if has_push_activation %}
+                            <div class="frame frame-primary md-whiteframe-z1 layout-margin layout-padding layout-row layout-align-center-center">
+                                <div class="layout-column layout-align-center-center text-center">
+                                    <span class="flag flag-shield"></span>
+                                    <div class="md-body-1">{% trans from "JS_BUILDERS" %}LABEL_TEACHER_ONLY{% endtrans %}</div>
+                                </div>
+                                <span class="flex"></span>
+                                <bns-app-toggle class="classroom-push-toggle"
+                                                app-name="{{ push.getModuleUniqueName() }}"
+                                                group-id="{{ current_group_id() }}"
+                                                type="'activities'"
+                                >
+                                    <span translate>{% if push_app and 'APP' == push_app.type %}APPS.LABEL_OPEN_APPLICATION_TO_PUPILS{% else %}APPS.LABEL_OPEN_ACTIVITY_TO_PUPILS{% endif %}</span>
+                                </bns-app-toggle>
+                            </div>
+                        {% endif %}
+                        <div class="md-body-2 text-center">{{ push.getDescription()|raw }}</div>
+                    </md-dialog-content>
+                </md-dialog>
+            </script>
+    {% endif %}
+
+    {% if false and has_right('BUILDERS_ACCESS') %}
+        <a id="builders-feed-container" bns-builders-message-feed href="{{ path('builders_front') }}"></a>
+    {% endif %}
+
+    {% if lang =='fr' %}
+        <bns-classroom-newspaper bns-delay="3000"></bns-classroom-newspaper>
+    {% endif %}
+    {% if blackboard != null %}
+        <a href="#" id="blackboard">
+        </a>
+
+        <div id="blackboard-container" class="blackboard-container">
+            <div id="blackboard-modal" class="modal fade bottom full-height">
+                <div class="modal-dialog full-height">
+                    <div class="modal-content full-height ">
+                        <div class="modal-header">
+                            <a id="blackboard-close" data-dismiss="modal" href="#"></a>
+                            <h1>{{ blackboard.title }}</h1>
+                        </div>
+                        <div class="modal-body full-height">
+                            {% if blackboard.notice is defined and blackboard.notice != ''  %}
+                                <h2 class="notice">{{ blackboard.notice }}</h2>
+                            {% endif %}
+                            <div class="row-fluid">
+                                <div class="span8">
+
+                                    {% autoescape false %}
+                                    {{ parse_public_resources(blackboard.description,true,'medium',true) }}
+                                    {% endautoescape %}
+                                    <div class="resources">
+                                        {# Pieces Jointes #}
+                                        {% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias': blackboard.getResourceAttachments(), 'editable': false, 'objectType': 'GroupBlackboard', 'objectId': blackboard.id, 'startOpen': false } %}
+                                    </div>
+                                </div>
+                                <div class="span4 notifications">
+                                    <h3>{% trans %}BLACKBOARD_FRONT_NOTIF{% endtrans %}</h3>
+                                    {% if lastFlux is not empty %}
+                                        {% for flux in lastFlux %}
+                                            <div class="flux-block">
+                                                <div class="row-fluid">
+                                                    <div class="span2">
+                                                        {% if flux.flux_type == 'blog' %}
+                                                            <div class="blog-icon"></div>
+                                                        {% elseif flux.flux_type == 'media' %}
+                                                            <div class="media-icon"></div>
+                                                        {% elseif flux.flux_type == 'homework' %}
+                                                            <div class="homework-icon"></div>
+                                                        {% elseif flux.flux_type == 'liaison_book' %}
+                                                            <div class="liaisonbook-icon"></div>
+                                                        {% else %}
+                                                            autre
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="span10">
+                                                        {% if flux.flux_type == 'blog' %}
+                                                        <a href="{{ path('blog_article_permalink', {'slug': flux.slug}) }}">{% trans %}BLACKBOARD_NEW_ARTICLE{% endtrans %}</a>
+                                                        {% elseif flux.flux_type == 'media' %}
+                                                        <a href="" bns-viewer data-media-id="{{ flux.id }}" terminal="true" class="media-view" data-dismiss="media-modal">
+                                                            {% trans %}BLACKBOARD_NEW_MEDIA{% endtrans %}
+                                                        </a>
+                                                        {% elseif flux.flux_type == 'homework' %}
+                                                            <a href="{{ path('BNSAppHomeworkBundle_front_display_for_day', {'dayOfWeek': flux.day}) }}">{% trans %}BLACKBOARD_NEW_HOMEWORK{% endtrans %}</a>
+                                                        {% elseif flux.flux_type == 'liaison_book' %}
+                                                            <a href="{{ path('liaison_book_message', {'slug': flux.slug}) }}">{% trans %}BLACKBOARD_NEW_LIAISONBOOK_MESSAGE{% endtrans %}</a>
+                                                        {% else %}
+                                                            autre
+                                                        {% endif %}
+                                                        <div class="bottom">
+                                                            {% if flux.author is not null %}
+                                                                {{ 'CREATE_AT_BY'|trans({'%date%': date_from_now ( flux.date_display, false, false, 'short', 'short' ),'%imageLink%': '<img src="' ~ avatar(flux.author, 'thumbnail') ~ '" alt="" class="avatar" />' ,'%user%': flux.author_full |escape }) |desc('%date% par %imageLink% %user%') |raw}}
+                                                            {% else %}
+                                                                {{ date_from_now(flux.date_display, false, false, 'short', 'short')|raw }}
+                                                            {% endif%}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+
+                                    {% else %}
+                                        {% trans %}BLACKBOARD_NO_FLUX{% endtrans %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="media-modal" class="modal fade bottom">
+            <a id="media-close" data-dismiss="media-modal" href="#"></a>
+            {#<iframe style="background-color: transparent" allowtransparency="true" id="media-iframe" width="100%" height="95%" src="/ent/medias/js/pdfjs/web/viewer.html?file={{ create_visualisation_url_resource(newspaper.mediaRelatedByMediaId, true, false)  |url_encode }}"></iframe>#}
+        </div>
+
+    <script type="text/javascript">
+            $('#blackboard').click(function() {
+                $('#blackboard-modal')
+                        .prop('class', 'modal fade') // revert to default
+                        .addClass( 'bottom' );
+                $('#blackboard-modal').modal('show');
+            });
+        </script>
+
+    {% endif %}
+
+    <script type="text/javascript">
+
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays*24*60*60*1000));
+            var expires = "expires="+d.toUTCString();
+            document.cookie = cname + "=" + cvalue + "; " + expires;
+        }
+
+        {% if newYearStatus %}
+        $(document).ready(function() {
+            $('#rhino-nav').rhinoslider({
+                effect: 'fade',
+                showTime: 8000,
+                effectTime: 4000,
+                controlsMousewheel: false,
+                controlsPrevNext: false,
+                controlsPlayPause: false,
+                autoPlay: true,
+                pauseOnHover: false,
+                showBullets: 'never'
+            });
+
+            $('#show_new_year_status').click(function(){
+                setCookie('show_new_year_status','true',31);
+                $('#new_year_status_alert').hide('slow');
+                $('#new_year_status').removeClass('hidden');
+            });
+
+            $('.close-rhino').click(function(){
+                $('#new_year_status').hide('slow');
+            });
+
+            $('.call-to-action').click(function(){
+                $('#rhino-nav').data('rhinoslider').pause();
+                $('#rhino-nav').remove();
+                $('.rhino-container').remove();
+                $('.call-to-action').remove();
+                $('#rhino-form-container').show();
+            });
+
+            $('#submit-new-year-message').click(function(e){
+                e.preventDefault();
+                $('#rhino-form').submit();
+            });
+        });
+        {% endif %}
+
+
+
+        $(function(){
+            placeElements();
+        });
+
+        function placeElements(){
+            var haut = $( window ).height();
+            var height = haut;
+            if(height < 655)
+            {
+                $('.home.office').css('padding-top','100px');
+                haut += 100;
+            }else{
+                $('.home.office').css('padding-top','0px');
+            }
+            hautBoard = haut - haut / 2 - 85 - 180;
+            hautWindow = haut - haut / 2 - 459 - 70;
+            $('.board').css('top', hautBoard + 'px');
+            $('.home-window').css('top', hautWindow + 'px');
+        };
+
+
+
+        $( window ).resize(function() {
+            placeElements();
+        });
+    </script>
+
+
+
 {% endblock %}

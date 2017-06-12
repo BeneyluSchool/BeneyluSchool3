@@ -37,7 +37,6 @@ $(document).ready(function ()
 
     function onResize()
     {
-        console.log($form, $form.css('height'));
         $form.css('height', window.innerHeight - 267 + 'px');
     }
     

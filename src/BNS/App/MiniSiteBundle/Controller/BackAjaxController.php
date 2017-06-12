@@ -2,34 +2,30 @@
 
 namespace BNS\App\MiniSiteBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\DependencyInjection\Container;
+use \BNS\App\CoreBundle\Annotation\Rights;
+use \BNS\App\MiniSiteBundle\Form\Type\MiniSitePageType;
+use \BNS\App\MiniSiteBundle\Model\MiniSitePageEditor;
+use \BNS\App\MiniSiteBundle\Model\MiniSitePageEditorQuery;
+use \BNS\App\MiniSiteBundle\Model\MiniSiteWidget;
+use \BNS\App\MiniSiteBundle\Model\MiniSiteWidgetQuery;
+use \BNS\App\MiniSiteBundle\Model\MiniSiteWidgetTemplatePeer;
+use \BNS\App\MiniSiteBundle\Model\MiniSiteWidgetTemplateQuery;
 
-use BNS\App\CoreBundle\Annotation\Rights;
-use BNS\App\MiniSiteBundle\Form\Type\MiniSitePageType;
-use BNS\App\CoreBundle\Model\MiniSiteWidgetQuery;
-use BNS\App\CoreBundle\Model\MiniSiteWidget;
-use BNS\App\CoreBundle\Model\MiniSitePage;
-use BNS\App\CoreBundle\Model\MiniSitePagePeer;
-use BNS\App\CoreBundle\Model\MiniSiteWidgetTemplateQuery;
-use BNS\App\CoreBundle\Model\MiniSiteWidgetTemplatePeer;
-use BNS\App\CoreBundle\Model\UserQuery;
-use BNS\App\CoreBundle\Model\MiniSiteWidgetPeer;
-use BNS\App\CoreBundle\Model\MiniSitePeer;
-use BNS\App\CoreBundle\Model\MiniSitePageNewsPeer;
-use BNS\App\CoreBundle\Model\MiniSitePageNewsQuery;
-use BNS\App\CoreBundle\Model\MiniSitePageQuery;
+use \Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use \Symfony\Component\DependencyInjection\Container;
+use \Symfony\Component\HttpFoundation\Request;
+use \Symfony\Component\HttpFoundation\Response;
+use \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @Route("/gestion")
  */
 class BackAjaxController extends AbstractMiniSiteController
-{
+{    
 	/**
 	 * @Route("/personnalisation/pages/ordre", name="minisite_manager_custom_page_order")
+	 * 
 	 * @Rights("MINISITE_ADMINISTRATION")
 	 */
 	public function savePageOrderAction()
@@ -61,6 +57,7 @@ class BackAjaxController extends AbstractMiniSiteController
 	
 	/**
 	 * @Route("/personnalisation/widget/ordre", name="minisite_manager_custom_widget_order")
+	 * 
 	 * @Rights("MINISITE_ADMINISTRATION")
 	 */
 	public function saveWidgetOrderAction()
@@ -91,67 +88,68 @@ class BackAjaxController extends AbstractMiniSiteController
 	}
 	
 	/**
-	 * @Route("/personnalisation/page/{id}/sauvegarder", name="minisite_manager_custom_page_save")
+	 * @Route("/personnalisation/page/{id}/editer", name="minisite_manager_custom_page_edit", options={"expose": true})
+	 * 
 	 * @Rights("MINISITE_ADMINISTRATION")
 	 */
-	public function savePageAction($id)
+	public function editPageAction($id)
 	{
-		if ('POST' != $this->getRequest()->getMethod() || !$this->getRequest()->isXmlHttpRequest()) {
+		$request = $this->getRequest();
+		if (!$request->isMethod('POST') || !$request->isXmlHttpRequest()) {
 			throw new NotFoundHttpException('The page request must be POST & AJAX !');
 		}
-		
+
 		$miniSite = $this->getMiniSite();
 		$page = $miniSite->findPageById($id);
-		
+
 		if ($page === false) {
 			throw new AccessDeniedHttpException('You try to edit a page from a foreign minisite !');
 		}
-		
+
 		if (null == $page) {
 			throw new NotFoundHttpException('The page with id ' . $id . ' is NOT found !');
 		}
-		
-		$form = $this->createForm(new MiniSitePageType(), $page);
-		$form->bindRequest($this->getRequest());
-		
+
+		$form = $this->createForm(new MiniSitePageType(), clone $page, array(
+			'is_edition' => true
+		));
+		$form->bind($this->getRequest());
+
 		$errors = array();
 		if ($form->isValid()) {
 			$page = $form->getData();
-			
+
 			if (!$page->isActivated() && $page->isHome()) {
 				$page->setIsHome(false);
 			}
 			
-			$context = $this->get('bns.right_manager')->getContext();
-			$homePage = MiniSitePageQuery::create()
-				->join('MiniSite')
-				->add(MiniSitePeer::GROUP_ID, $context['id'])
-				->add(MiniSitePagePeer::IS_HOME, true)
-			->findOne();
-			
-			if (null != $homePage && $page->isHome() && $homePage->getId() != $page->getId()) {
+			$homePage = $miniSite->getHomePage();
+			if (null == $homePage) {
+				throw new \RuntimeException('Can NOT find the minisite homepage for id ' . $miniSite->getId());
+			}
+
+			if ($page->isHome() && $homePage->getId() != $page->getId()) {
 				$homePage->setIsHome(false);
 				$homePage->save();
 			}
-			else if ($homePage->getId() == $page->getId() && !$page->isHome()) {
-				throw new AccessDeniedHttpException('You can NOT remove the home status on the homepage !');
+			elseif ($homePage->getId() == $page->getId()) {
+				// You can NOT remove the home status on the homepage !
+				$page->setIsHome(true);
 			}
 			
 			$page->save();
 		}
-		else {
-			foreach ($form->getErrors() as $error) {
-				$errors[] = $error->getMessage();
-			}
-		}
 		
 		return new Response(json_encode(array(
-			'errors'	=> $errors
+			'has_errors' => isset($errors[0]),
+			'errors'	 => $errors,
+			'is_home'	 => $form->getData()->isHome()
 		)));
 	}
 	
 	/**
 	 * @Route("/personnalisation/widget/{widgetId}/sauvegarder", name="minisite_manager_custom_widget_save", options={"expose"=true})
+	 * 
 	 * @Rights("MINISITE_ADMINISTRATION")
 	 */
 	public function saveWidgetAction($widgetId)
@@ -173,15 +171,21 @@ class BackAjaxController extends AbstractMiniSiteController
 		$widget = $className::create($abstractWidget);
 		
 		$form = $this->createForm($widget->getFormType(), $widget);
-		$form->bindRequest($this->getRequest());
+		$form->bind($this->getRequest());
+		$errors = false;
+		
 		if ($form->isValid()) {
 			$widgetData = $form->getData();
 			$widgetData->save();
-			
-			return new Response();
 		}
-		
-		$errors = $form->getErrorsAsString();
+		else {
+			$errorsAsObject = $form->getErrors();
+			$errors = array();
+
+			foreach ($errorsAsObject as $error) {
+				$errors[] = $error->getMessage();
+			}
+		}
 		
 		return new Response(json_encode(array('errors' => $errors)));
 	}
@@ -189,6 +193,7 @@ class BackAjaxController extends AbstractMiniSiteController
 		
 	/**
 	 * @Route("/personnalisation/widget/{widgetType}/nouveau", name="minisite_manager_custom_widget_new", options={"expose"=true})
+	 * 
 	 * @Rights("MINISITE_ADMINISTRATION")
 	 */
 	public function newWidgetAction($widgetType)
@@ -223,136 +228,90 @@ class BackAjaxController extends AbstractMiniSiteController
 	}
 	
 	/**
-	 * @Route("/page/ajouter", name="minisite_manager_page_add")
+	 * @Route("/personnalisation/page/ajouter", name="minisite_manager_custom_page_new")
+	 * 
 	 * @Rights("MINISITE_ADMINISTRATION")
 	 */
-	public function addPageAction()
+	public function newPageAction(Request $request)
 	{
-		if (!$this->getRequest()->isXmlHttpRequest()) {
-			throw new NotFoundHttpException('The page request must be AJAX !');
+		if (!$request->isMethod('POST') || !$request->isXmlHttpRequest()) {
+			throw new NotFoundHttpException('The page request must be POST & AJAX !');
 		}
 		
 		$miniSite = $this->getMiniSite();
-		
-		$page = new MiniSitePage();
-		$page->setTitle('Nouvelle Page');
-		$page->setMiniSiteId($miniSite->getId());
-		$page->setType(MiniSitePagePeer::TYPE_TEXT);
-		$page->setIsActivated(false);
-		$page->save();
-		
-		return $this->render('BNSAppMiniSiteBundle:Page:back_page_row.html.twig', array(
-			'page'	=> $page,
-			'isNew'	=> true
+		$form = $this->createForm(new MiniSitePageType());
+		$form->bind($request);
+
+		if ($form->isValid()) {
+			$page = $form->getData();
+			$page->setMiniSiteId($miniSite->getId());
+			$page->save();
+            
+            //statistic action
+            //type égale à 1 si page dynamique, égale à 0 si statique 
+            if('NEWS' == $page->getType()) {
+                $this->get("stat.site")->createDynamicPage();
+            } else if('TEXT' == $page->getType()) {
+                $this->get("stat.site")->createStaticPage();
+            }
+		}
+        
+		return $this->forward('BNSAppMiniSiteBundle:BackCustom:renderPage', array(
+			'page'	=> $page
 		));
 	}
 	
 	/**
-	 * @Route("/personnalisation/page/{pageId}/supprimer/confirmation/", name="minisite_manager_custom_page_delete_confirm")
+	 * @Route("/personnalisation/page/supprimer", name="minisite_manager_custom_page_delete")
+	 * 
 	 * @Rights("MINISITE_ADMINISTRATION")
 	 */
-	public function showDeleteModalPageAction($pageId)
+	public function deletePageAction(Request $request)
 	{
-		if (!$this->getRequest()->isXmlHttpRequest()) {
-			throw new NotFoundHttpException('The page request must be AJAX !');
+		if (!$request->isMethod('POST') || !$request->isXmlHttpRequest() ||
+			$request->get('id', false) === false) {
+			throw new NotFoundHttpException('The page request must be POST with mandatory parameters & AJAX !');
 		}
 		
 		$miniSite = $this->getMiniSite();
-		$page = $miniSite->findPageById($pageId);
+		$page = $miniSite->findPageById($request->get('id'));
 		
 		if (false === $page) {
-			throw new NotFoundHttpException('The page with id : ' . $pageId . ' is NOT found !');
+			throw new NotFoundHttpException('The page with id : ' . $request->get('id') . ' is NOT found !');
 		}
-		
-		return $this->render('BNSAppMiniSiteBundle:Modal:delete_layout.html.twig', array(
-			'bodyValues'	=> array(
-				'page' => $page,
-			),
-			'footerValues'	=> array(
-				'page'  => $page,
-				'route'	=> $this->generateUrl('minisite_manager_custom_page_delete', array('pageId' => $page->getId()))
-			),
-			'type'	=> 'page',
-			'title'	=> $page->getTitle()
-		));
-	}
-	
-	/**
-	 * @Route("/personnalisation/page/{pageId}/supprimer", name="minisite_manager_custom_page_delete")
-	 * @Rights("MINISITE_ADMINISTRATION")
-	 */
-	public function deletePageAction($pageId)
-	{
-		if (!$this->getRequest()->isXmlHttpRequest()) {
-			throw new NotFoundHttpException('The page request must be AJAX !');
+
+		// Can NOT delete homepage
+		if ($page->isHome()) {
+			throw new \RuntimeException('Can NOT delete minisite homepage !');
 		}
-		
-		$miniSite = $this->getMiniSite();
-		$page = $miniSite->findPageById($pageId);
-		
-		if (false === $page) {
-			throw new NotFoundHttpException('The page with id : ' . $pageId . ' is NOT found !');
-		}
-		
+
 		// Process
 		$page->delete();
-		
+
 		return new Response();
 	}
 	
 	/**
-	 * @Route("/personnalisation/widget/{widgetId}/supprimer/confirmation/", name="minisite_manager_custom_widget_delete_confirm")
+	 * @Route("/personnalisation/widget/supprimer", name="minisite_manager_custom_widget_delete")
+	 * 
 	 * @Rights("MINISITE_ADMINISTRATION")
 	 */
-	public function showDeleteModalWidgetAction($widgetId)
+	public function deleteWidgetAction(Request $request)
 	{
-		if (!$this->getRequest()->isXmlHttpRequest()) {
-			throw new NotFoundHttpException('The page request must be AJAX !');
+		if (!$request->isMethod('POST') || !$request->isXmlHttpRequest() ||
+			$request->get('widget_id', false) === false) {
+			throw new NotFoundHttpException('The page request must be POST with mandatory parameters & AJAX !');
 		}
 		
 		$context = $this->get('bns.right_manager')->getContext();
-		$widget = MiniSiteWidgetQuery::create()
-			->joinWith('MiniSite')
-			->add(MiniSitePeer::GROUP_ID, $context['id'])
-			->add(MiniSiteWidgetPeer::ID, $widgetId)
+		$widget = MiniSiteWidgetQuery::create('msw')
+			->joinWith('msw.MiniSite ms')
+			->where('ms.GroupId = ?', $context['id'])
+			->where('msw.Id = ?', $request->get('widget_id'))
 		->findOne();
 		
 		if (null == $widget) {
-			throw new NotFoundHttpException('The widget with id : ' . $widgetId . ' is NOT found !');
-		}
-		
-		return $this->render('BNSAppMiniSiteBundle:Modal:delete_layout.html.twig', array(
-			'bodyValues'	=> array(
-				'widget' => $widget,
-			),
-			'footerValues'	=> array(
-				'widget' => $widget,
-				'route'	 => $this->generateUrl('minisite_manager_custom_widget_delete', array('widgetId' => $widget->getId()))
-			),
-			'type'	=> 'widget',
-			'title'	=> $widget->getTitle()
-		));
-	}
-	
-	/**
-	 * @Route("/personnalisation/widget/{widgetId}/supprimer", name="minisite_manager_custom_widget_delete")
-	 * @Rights("MINISITE_ADMINISTRATION")
-	 */
-	public function deleteWidgetAction($widgetId)
-	{
-		if (!$this->getRequest()->isXmlHttpRequest()) {
-			throw new NotFoundHttpException('The page request must be AJAX !');
-		}
-		
-		$context = $this->get('bns.right_manager')->getContext();
-		$widget = MiniSiteWidgetQuery::create()
-			->joinWith('MiniSite')
-			->add(MiniSitePeer::GROUP_ID, $context['id'])
-			->add(MiniSiteWidgetPeer::ID, $widgetId)
-		->findOne();
-		
-		if (null == $widget) {
-			throw new NotFoundHttpException('The widget with id : ' . $widgetId . ' is NOT found !');
+			throw new NotFoundHttpException('The widget with id : ' . $request->get('widget_id') . ' is NOT found !');
 		}
 		
 		// Process
@@ -362,98 +321,11 @@ class BackAjaxController extends AbstractMiniSiteController
 	}
 	
 	/**
-	 * @Route("/page/news/{slug}/supprimer/confirmation/", name="minisite_manager_page_news_delete_confirm")
-	 * @Rights("MINISITE_ADMINISTRATION")
-	 */
-	public function showDeleteModalPageNewsAction($slug)
-	{
-		if (!$this->getRequest()->isXmlHttpRequest()) {
-			throw new NotFoundHttpException('The page request must be AJAX !');
-		}
-		
-		$context = $this->get('bns.right_manager')->getContext();
-		$news = MiniSitePageNewsQuery::create()
-			->joinWith('MiniSitePage')
-			->joinWith('MiniSitePage.MiniSite')
-			->add(MiniSitePeer::GROUP_ID, $context['id'])
-			->add(MiniSitePageNewsPeer::SLUG, $slug)
-		->findOne();
-		
-		if (null == $news) {
-			throw new NotFoundHttpException('The widget with slug : ' . $slug . ' is NOT found !');
-		}
-		
-		return $this->render('BNSAppMiniSiteBundle:Modal:delete_layout.html.twig', array(
-			'bodyValues'	=> array(
-				'news' => $news,
-			),
-			'footerValues'	=> array(
-				'news' => $news,
-				'route'	 => $this->generateUrl('minisite_manager_page_news_delete', array('slug' => $news->getSlug()))
-			),
-			'type'	=> 'news',
-			'title'	=> $news->getTitle()
-		));
-	}
-	
-	/**
-	 * @Route("/page/news/{slug}/supprimer", name="minisite_manager_page_news_delete")
-	 * @Rights("MINISITE_ADMINISTRATION")
-	 */
-	public function deletePageNewsAction($slug)
-	{
-		if (!$this->getRequest()->isXmlHttpRequest()) {
-			throw new NotFoundHttpException('The page request must be AJAX !');
-		}
-		
-		$context = $this->get('bns.right_manager')->getContext();
-		$news = MiniSitePageNewsQuery::create()
-			->joinWith('MiniSitePage')
-			->joinWith('MiniSitePage.MiniSite')
-			->add(MiniSitePeer::GROUP_ID, $context['id'])
-			->add(MiniSitePageNewsPeer::SLUG, $slug)
-		->findOne();
-		
-		if (null == $news) {
-			throw new NotFoundHttpException('The widget with slug : ' . $slug . ' is NOT found !');
-		}
-		
-		// Process
-		$news->delete();
-		
-		return new Response();
-	}
-	
-	/**
-	 * @Route("/personnalisation/editeur/supprimer", name="minisite_manager_editor_delete", options={"expose"=true})
-	 * @Rights("MINISITE_ADMINISTRATION")
-	 */
-	public function deleteEditorAction()
-	{
-		if ('POST' != $this->getRequest()->getMethod() || !$this->getRequest()->isXmlHttpRequest()) {
-			throw new NotFoundHttpException('The page request must be POST & AJAX !');
-		}
-		
-		$editorId = $this->getRequest()->get('editor_id', null);
-		if (null == $editorId) {
-			throw new \InvalidArgumentException('The parameter editor_id is missing !');
-		}
-		
-		$user = UserQuery::create()->findPK($editorId);
-		if (null == $user) {
-			throw new NotFoundHttpException('The editor user with id : ' . $editorId . ' is NOT found !');
-		}
-		
-		$this->getEditorSubGroupManager()->removeUser($user);
-		
-		return new Response();
-	}
-	
-	/**
 	 * @Route("/personnalisation/page/switch", name="minisite_manager_switch_activation_page")
+	 * 
 	 * @Rights("MINISITE_ADMINISTRATION")
 	 */
-	public function switchActivationPageAction()
+	public function switchPageActivationAction()
 	{
 		if ('POST' != $this->getRequest()->getMethod() || !$this->getRequest()->isXmlHttpRequest()) {
 			throw new NotFoundHttpException('The page request must be POST & AJAX !');
@@ -466,9 +338,14 @@ class BackAjaxController extends AbstractMiniSiteController
 		
 		$miniSite = $this->getMiniSite();
 		$page = $miniSite->findPageById($pageId);
-		
+
 		if (false === $page) {
 			throw new NotFoundHttpException('The page with id : ' . $pageId . ' is NOT found !');
+		}
+
+		// Can NOT disable homepage
+		if ($page->isHome()) {
+			throw new \RuntimeException('Can NOT disable homepage id ' . $page->getId() . ' !');
 		}
 		
 		$page->switchActivation();
@@ -478,23 +355,137 @@ class BackAjaxController extends AbstractMiniSiteController
 	}
 	
 	/**
-	 * @Route("/personnalisation/public/switch", name="minisite_manager_switch_public")
+	 * @Route("/personnalisation/page/confidentialite", name="minisite_manager_page_confidentiality")
+	 * 
 	 * @Rights("MINISITE_ADMINISTRATION")
 	 */
-	public function switchPublicAction()
+	public function switchPageConfidentialityAction(Request $request)
 	{
-		if (!$this->getRequest()->isXmlHttpRequest()) {
-			throw new NotFoundHttpException('The page request must be AJAX !');
+		if (!$request->isMethod('POST') || !$request->isXmlHttpRequest() ||
+			$request->get('id', false) === false) {
+			throw new NotFoundHttpException('The page request must be POST with mandatory parameters & AJAX !');
 		}
 		
-		if (!$this->get('bns.group_manager')->getAttribute('MINISITE_ALLOW_PUBLIC', false)) {
+		if (!$this->get('bns.group_manager')->setGroup($this->get('bns.right_manager')->getCurrentGroup())->getAttribute('MINISITE_ALLOW_PUBLIC', false)) {
 			throw new AccessDeniedHttpException('The environment does NOT allow to switch your minisite public status !');
 		}
 		
 		$miniSite = $this->getMiniSite();
-		$miniSite->switchPublic();
-		$miniSite->save();
+		$page = $miniSite->findPageById($request->get('id'));
+		if (false === $page) {
+			throw new NotFoundHttpException('The page with id : ' . $request->get('id') . ' is NOT found !');
+		}
 		
+		$page->switchConfidentiality();
+		$page->save();
+		
+		return new Response();
+	}
+
+	/**
+	 * @Route("/personnalisation/editeurs/ajouter", name="minisite_manager_editors_add")
+	 *
+	 * @Rights("MINISITE_ADMINISTRATION")
+	 */
+	public function addEditors(Request $request)
+	{
+		if (!$request->isMethod('POST') || !$request->isXmlHttpRequest() ||
+			$request->get('page_id', false) === false || $request->get('editors_ids', false) === false) {
+			throw new NotFoundHttpException('The page request must be POST with mandatory parameters & AJAX !');
+		}
+
+		$miniSite = $this->getMiniSite();
+		$page = $miniSite->findPageById($request->get('page_id'));
+
+		if (false === $page) {
+			throw new NotFoundHttpException('The page with id : ' . $request->get('page_id') . ' is NOT found !');
+		}
+
+		$classRoomManager = $this->get('bns.classroom_manager');
+		$classRoomManager->setClassroom($this->get('bns.right_manager')->getCurrentGroup());
+
+		$editorsIds = $request->get('editors_ids');
+		$foundEditors = array();
+		$pupils = $classRoomManager->getPupils();
+
+		// Check if it's my user
+		foreach ($editorsIds as $editor) {
+			foreach ($pupils as $pupil) {
+				if ($pupil->getId() == $editor) {
+					$foundEditors[] = $pupil;
+					break 1;
+				}
+			}
+		}
+
+		if (count($foundEditors) != count($editorsIds)) {
+			$teachers = $classRoomManager->getTeachers();
+
+			foreach ($editorsIds as $editor) {
+				foreach ($teachers as $teacher) {
+					if ($teacher->getId() == $editor) {
+						$foundEditors[] = $teacher;
+						break 1;
+					}
+				}
+			}
+		}
+
+		// Saving process
+		foreach ($foundEditors as $user) {
+			$editor = new MiniSitePageEditor();
+			$editor->setPageId($page->getId());
+			$editor->setUserId($user->getId());
+			$editor->save();
+		}
+
+		return $this->render('BNSAppMiniSiteBundle:Editor:editor_list.html.twig', array(
+			'editors' => $foundEditors
+		));
+	}
+
+	/**
+	 * @Route("/personnalisation/editeurs/supprimer", name="minisite_manager_editors_delete")
+	 *
+	 * @Rights("MINISITE_ADMINISTRATION")
+	 */
+	public function deleteEditor(Request $request)
+	{
+		$editorSlug = $request->get('editor_slug', false);
+		$editorId = $request->get('editor_id', false);
+		$pageId = $request->get('page_id', false);
+		if (!$request->isMethod('POST') || !$request->isXmlHttpRequest() ||
+			($editorSlug === false && $editorId === false) || $pageId === false) {
+			throw new NotFoundHttpException('The page request must be POST with mandatory parameters & AJAX !');
+		}
+
+		$editor = MiniSitePageEditorQuery::create('mspe')
+			->join('mspe.MiniSitePage msp')
+			->join('mspe.User u')
+			->where('mspe.PageId = ?', $pageId)
+			->_if($editorSlug)
+				->where('u.Slug = ?', $editorSlug)
+			->_else()
+				->where('u.Id = ?', $editorId)
+			->_endif()
+		->findOne();
+
+		// Editor not found
+		if (null == $editor) {
+			return $this->redirectHome();
+		}
+		
+		$miniSite = $this->getMiniSite();
+		$page = $miniSite->findPageById($request->get('page_id'));
+
+		// Foreign page
+		if (false === $page) {
+			return $this->redirectHome();
+		}
+
+		// Finally
+		$editor->delete();
+
 		return new Response();
 	}
 }

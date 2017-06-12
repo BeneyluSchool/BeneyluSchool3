@@ -1,0 +1,35 @@
+BNS\App\MessagingBundle\Model\MessagingConversation:
+  exclusion_policy: All
+
+  virtual_properties:
+    countMessages:
+      exposed: true
+      serialized_name: length
+      groups: [ detail, conversation_detail ]
+
+  relations:
+    - rel: message
+      embedded:
+        content: expr(object.getMessage())
+        exclusion:
+          groups: [ list, conversation_list, detail, conversation_detail ]
+    - rel: last_message
+      embedded:
+        content: expr(object.getVisibleLastMessage())
+        exclusion:
+          groups: [ list, conversation_list, detail, conversation_detail ]
+    - rel: user
+      embedded:
+        content: expr(object.getUserRelatedByUserId())
+        exclusion:
+          groups: [ list, conversation_list, detail, conversation_detail ]
+    - rel: user_with
+      embedded:
+        content: expr(object.getUserRelatedByUserWithId())
+        exclusion:
+          groups: [ list, conversation_list, detail, conversation_detail ]
+    - rel: children
+      embedded:
+        content: expr(object.getVisibleChildren())
+        exclusion:
+          groups: [ detail, conversation_detail ]

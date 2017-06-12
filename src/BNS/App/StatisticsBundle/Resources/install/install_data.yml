@@ -1,0 +1,71 @@
+module:
+  unique_name: STATISTICS
+  is_contextable: false
+  name:
+    fr: Statistiques
+    en: Statistic
+  description:
+    fr: Les statistiques
+    en: Statistics
+  default_rank:
+    pupil: USE
+    parent: USE
+    teacher: USE
+    other: USE
+
+permissions:
+  ACCESS:
+    label:
+      fr: Accès Statistiques
+      en: Statistics access
+    description:
+      fr: Donne l'accès au Statistics
+      en: Give access to the Statistics
+  SCHOOL:
+    label:
+      fr: Accès aux données des écoles
+      en: Access school data
+    description:
+      fr: Donne l'accès aux statistiques des écoles
+      en: Give access to school's statistics
+  CLASSROOM:
+    label:
+      fr: Accès aux données des classes
+      en: Access classroom data
+    description:
+      fr: Donne l'accès aux statistiques des classes
+      en: Give access to classroom's statistics
+#  ACTIVATION:
+#    label:
+#      fr: Activer cahier de texte
+#      en: Homework activation
+#    description:
+#      fr: Pouvoir activer ou désactiver le cahier de texte
+#      en:
+
+
+ranks:
+  USE:
+    label:
+      fr: Utiliser les statistiques
+      en: Use Statistics
+    description:
+      fr: Utiliser les statistiques
+      en: Use Statistics
+    permissions: [ACCESS]
+  SCHOOL:
+    label:
+      fr: Utiliser les statistiques (avec accès aux données des écoles)
+      en: Use Statistics (with access to school data)
+    description:
+      fr: Utiliser les statistiques (avec accès aux données des écoles)
+      en: Use Statistics (with access to school data)
+    permissions: [ACCESS, SCHOOL]
+  CLASSROOM:
+    label:
+      fr: Utiliser les statistiques (avec accès aux données des classes)
+      en: Use Statistics (with access to classroom data)
+    description:
+      fr: Utiliser les statistiques (avec accès aux données des classes)
+      en: Use Statistics (with access to classroom data)
+    permissions: [ACCESS, CLASSROOM]

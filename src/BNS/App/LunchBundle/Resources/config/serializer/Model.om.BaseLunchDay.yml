@@ -1,0 +1,22 @@
+BNS\App\LunchBundle\Model\om\BaseLunchDay:
+  exclusion_policy: All
+
+  properties:
+    status:
+      expose: true
+    day_of_week:
+      expose: true
+    full_menu:
+      expose: true
+    starter:
+      expose: true
+    main_course:
+      expose: true
+    dessert:
+      expose: true
+    dairy:
+      expose: true
+    accompaniment:
+      expose: true
+    afternoon_snack:
+      expose: true

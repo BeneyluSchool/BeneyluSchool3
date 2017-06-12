@@ -1,0 +1,6 @@
+BNS\App\SearchBundle\Model\SearchInternet:
+  exclusion_policy: All
+
+  virtual_properties:
+    getUser:
+      expose: true

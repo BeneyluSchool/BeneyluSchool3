@@ -13,13 +13,13 @@
 		{% endfor %}
 	</ol>
 </div> #}
-
+{% trans_default_domain "HOMEWORK" %}
 <div class="title-container">
-	<div class="title active border-blue">Groupes<span class="square icon-arrow"></span></div>
+	<div class="title active border-blue">{% trans %}GROUPS{% endtrans %}<span class="square icon-arrow"></span></div>
 	<div class="content-title">
 		<ul id="groups">
 			{% for group in groups %}
-				<li><div>{{group.label}}<span id="listcheck_{{ group.getId() }}" class="group-filter select {% if group.getId() in app.session.get('groups-session') %}checked{% endif %}"></span></div></li>
+				<li class="group-filter-list"><div>{{group.label}}<span id="listcheck_{{ group.getId() }}" class="group-filter select {% if group.getId() in app.session.get('groups-session') %}checked{% endif %}"></span></div></li>
 			{% endfor %}
 		</ul>
 	</div>

@@ -1,0 +1,45 @@
+{% trans_default_domain "GROUP" %}
+<div class="create-user-form-container">
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="content-form-user sidebar">
+				<form id="rule-add-form" action="{{ path('BNSAppGroupBundle_group_add_rule' , {'groupSlug' : group.slug }) }}" method="post" {{ form_enctype(form) }} class="form-horizontal">			
+
+					{% for message in app.session.flashbag.get('error') %}
+						<div class="alert bns-alert alert-danger">
+							{{ message }}
+						</div>
+					{% endfor %}
+					<div class="form form-widget">
+						{{ form_label(form.rank_unique_name) }}
+						{{ form_widget(form.rank_unique_name,{'attr': {'class': 'form-widget'}}) }}
+					</div>
+					<div class="form form-widget">
+						{{ form_label(form.who_group_id) }}
+						{{ form_widget(form.who_group_id) }}
+					</div>
+					<div class="form">
+						{{ form_label(form.rule_where_group_type_id) }}
+						{{ form_widget(form.rule_where_group_type_id) }}
+					</div>
+					
+                                        <div class="form" style="display:none;">
+						{{ form_label(form.state) }}
+						{{ form_widget(form.state) }}
+					</div>
+                                        
+					{{ form_rest(form) }}
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		$('#rule-add-form').ajaxForm({
+			success: function(data){
+				$('#rule-add-form').replaceWith(data);
+			}
+		});
+	});
+</script>

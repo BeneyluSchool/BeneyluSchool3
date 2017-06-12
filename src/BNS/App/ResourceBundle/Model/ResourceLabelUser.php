@@ -6,29 +6,44 @@ use BNS\App\ResourceBundle\Model\om\BaseResourceLabelUser;
 use BNS\App\ResourceBundle\Model\ResourceLabelGroupQuery;
 use BNS\App\CoreBundle\Access\BNSAccess;
 
-/**
- * Skeleton subclass for representing a row from the 'resource_label_user' table.
- *
- * 
- *
- * You should add additional methods to this class to meet the
- * application requirements.  This class will only be generated as
- * long as it does not already exist in the output directory.
- *
- * @package    propel.generator.src.BNS.App.ResourceBundle.Model
- */
-class ResourceLabelUser extends BaseResourceLabelUser {
+class ResourceLabelUser extends BaseResourceLabelUser
+{
 
+    public function delete(\PropelPDO $con = null)
+    {
+        //Récupération des resources stronged linked
+        $resources = ResourceQuery::create()
+            ->useResourceLinkUserQuery()
+            ->filterByIsStrongLink(true)
+            ->filterByResourceLabelUserId($this->getId())
+            ->endUse()
+            ->find();
+        $rm = BNSAccess::getContainer()->get('bns.resource_manager');
+        foreach($resources as $resource)
+        {
+            $rm->delete($resource, $resource->getUserId(), $this->getType(), $this->getId(), true);
+            $resource->setStatusDeletion(Resource::DELETION_STATUS_DELETED);
+            $resource->save();
+        }
+
+        parent::delete();
+
+        $rm->recalculateQuota($this->getType(), $this->getUserId());
+    }
+
+	/**
+	 * @return string
+	 */
 	public function getType()
 	{
 		return 'user';
 	}
-	
+
 	public function getToken()
 	{
 		return $this->getType() . '_' . $this->getUserId() . '_' . $this->getId();
 	}
-	
+
 	public function hasParent(PropelPDO $con = null)
 	{
 	   $rightManager = BNSAccess::getContainer()->get('bns.right_manager');
@@ -38,7 +53,7 @@ class ResourceLabelUser extends BaseResourceLabelUser {
 		}
 		return false;
 	}
-	
+
 	public function getParent(PropelPDO $con = null)
 	{
 		if($this->isRoot()){
@@ -51,25 +66,55 @@ class ResourceLabelUser extends BaseResourceLabelUser {
 			return parent::getParent();
 		}
 	}
-	
+
 	public function isChoiceable()
 	{
 		return true;
 	}
-	
+
 	public function isDeleteable()
 	{
 		return true;
 	}
-	
+
 	public function isEditable()
 	{
 		return true;
 	}
-	
+
 	public function isMoveable()
 	{
 		return true;
 	}
-	
-} // ResourceLabelUser
+
+	/**
+	 * @return array<ResourceLinkUser>
+	 */
+	public function getResourceLinks()
+	{
+		return $this->getResourceLinkUsers();
+	}
+
+	/**
+	 * Generate slug if not exists
+	 *
+	 * @return string The slug
+	 */
+	public function getSlug()
+	{
+		if (null == parent::getSlug()) {
+			$this->setSlug($this->createSlug());
+			$this->save();
+		}
+
+		return parent::getSlug();
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getObjectLinkedId()
+	{
+		return $this->getUserId();
+	}
+}

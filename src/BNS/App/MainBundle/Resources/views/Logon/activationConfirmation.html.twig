@@ -1,0 +1,38 @@
+{% trans_default_domain 'USER' %}
+{% extends '::base.html.twig' %}
+
+{% block css %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('/medias/css/registration/front.css') }}" />
+  <link href='https://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
+{% endblock css %}
+
+{% block body %}
+  <div class="background-registration"></div>
+  <div class="container-header-registration">
+    <div class="container-fluid container">
+      <div class="row-fluid">
+        <div class="span12">
+          <a href="{{ path('home') }}"><img src="{{ asset('/medias/images/registration/beneyluschool.png') }}" /></a>
+          {{ 'ACCOUNT_ACTIVATION_CONFIRMATION'|trans |desc('<h1>Confirmation</h1>
+        <p>Un email a été envoyé.</p>') |raw }}
+          <div class="pattern"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container container-fluid container-fluid-registration">
+    <div class="container-registration">
+      <div class="row-fluid">
+        <div class="span12">
+          <h3 class="reset-password">{{ 'TITLE_ACCOUNT_ACTIVATED'|trans |desc('Votre compte a bien été activé') }}</h3>
+          <p class="reset-password">
+            {{ 'DESCRIPTION_ACCOUNT_ACTIVATED' |trans |desc('Un email vient de vous être envoyé comprenant vos informations temporaires de connexion.') |raw }}
+          </p>
+          <p>&nbsp;</p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock body %}

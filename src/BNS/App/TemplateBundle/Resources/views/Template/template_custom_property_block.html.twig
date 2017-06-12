@@ -1,35 +1,29 @@
 <div class="row-fluid">
 	<div class="span6">
-		{% render 
-			'BNSAppTemplateBundle:Template:renderBackgroundPicker' 
-			with {
+		{% render controller('BNSAppTemplateBundle:Template:renderBackgroundPicker', {
 				'templateCssClass': template_css_class,
 				'userCurrentBackgroundTemplateEntity': templatable_object.getTemplateCustomBackground()
-			} 
+			})
 		%}
 	</div>
 
 	<div class="span6">
 		<div class="row-fluid">
 			<div class="span12">
-				{% render 
-					'BNSAppTemplateBundle:Template:renderFontPicker' 
-					with {
+				{% render controller('BNSAppTemplateBundle:Template:renderFontPicker', {
 						'templateCssClass': template_css_class,
 						'userCurrentFontTemplateEntity': templatable_object.getTemplateCustomFont()
-					} 
-				%}						
+					})
+				%}
 			</div>
 		</div>
 		<div class="row-fluid">
 			<div class="span12">
-				{% render 
-					'BNSAppTemplateBundle:Template:renderColorPicker' 
-					with {
+				{% render controller('BNSAppTemplateBundle:Template:renderColorPicker', {
 						'templateCssClass': template_css_class,
 						'userCurrentColorTemplateEntity': templatable_object.getTemplateCustomColor()
-					} 
-				%}								
+					})
+				%}
 			</div>
 		</div>
 	</div>

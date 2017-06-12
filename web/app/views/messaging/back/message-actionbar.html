@@ -1,0 +1,18 @@
+<md-button ui-sref="^.moderation"
+  class="btn-nav"
+>
+  <md-icon>chevron_left</md-icon>
+  <span ng-bind-html="'MESSAGING.BUTTON_BACK'|translate|buttonize">.</span>
+</md-button>
+
+<span class="flex"></span>
+
+<md-button
+  form="message-form"
+  ng-disabled="ctrl.shared.type.form.$invalid"
+  class="md-accent md-raised"
+  href
+>
+  <md-icon>check</md-icon>
+  <span ng-bind-html="'MESSAGING.BUTTON_SAVE'|translate|buttonize">.</span>
+</md-button>

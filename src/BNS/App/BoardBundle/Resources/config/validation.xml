@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
+
+    <class name="BNS\App\BoardBundle\Form\Model\BoardInformationFormModel">
+        <property name="title">
+            <constraint name="NotBlank">
+                <option name="message">Le titre ne doit pas être vide</option>
+            </constraint>
+            <constraint name="Length">
+                <option name="max">255</option>
+                <option name="maxMessage">Le titre est trop grand|Le titre est trop grand</option>
+                <option name="min">3</option>
+                <option name="minMessage">Le titre est trop petit ({{ limit }} caractère minimum)|Le titre est trop petit ({{ limit }} caractères minimum)</option>
+            </constraint>
+        </property>
+        <property name="content">
+            <constraint name="NotBlank">
+                <option name="message">Le contenu ne doit pas être vide</option>
+            </constraint>
+        </property>
+        <property name="destination">
+            <constraint name="NotBlank">
+                <option name="message">Au moins un lieu de destination doit être renseigné</option>
+                <option name="groups"><value>new</value></option>
+            </constraint>
+        </property>
+        <constraint name="Callback">
+            <option name="methods">
+                <value>isStatusExists</value>
+                <value>isProgrammedAndDestination</value>
+                <value>isProgrammationValid</value>
+            </option>
+        </constraint>
+    </class>
+    
+        <class name="BNS\App\BoardBundle\Model\BoardRss">
+        <property name="title">
+            <constraint name="NotBlank">
+                <option name="message">Le titre ne doit pas être vide</option>
+            </constraint>
+            <constraint name="Length">
+                <option name="max">255</option>
+                <option name="maxMessage">Le titre est trop grand|Le titre est trop grand</option>
+                <option name="min">3</option>
+                <option name="minMessage">Le titre est trop petit ({{ limit }} caractère minimum)|Le titre est trop petit ({{ limit }} caractères minimum)</option>
+            </constraint>
+        </property>
+        <property name="url">
+            <constraint name="Url">
+                <option name="message">Cette url n'est pas valide</option>
+            </constraint>
+            <constraint name="NotBlank">
+                <option name="message">L'Url du flux externe doit être renseigné</option>
+            </constraint>
+        </property>
+    </class>
+
+</constraint-mapping>

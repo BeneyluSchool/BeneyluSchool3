@@ -1,79 +1,66 @@
+{% trans_default_domain "GROUP" %}
 {% extends 'BNSAppGroupBundle:Back:layout.html.twig' %}
 
-{% block header %}
-	
-	<div class="header-buttons">
-		<div class="inner-header">
-			<div class="container container-fluid">
-				<div class="row-fluid">
-					<div class="align-right">
-						<a id="group-submit-home-message" href="#" class="btn bns-success validate-medium btn-24 medium submit-custom-classroom-form">
-							<span class="icons-24 validate-icon"></span><strong>Enregistrer le message</strong>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+{% block css %}
+	{{ parent() }}
+	<link href="{{ asset('/medias/css/jquery.jOrgChart.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('/medias/css/prettify.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
 
-{% endblock header %}
+{% block javascripts %}
+	{{ parent() }}
+    <script type="text/javascript" src="{{ asset('/medias/js/jquery.jOrgChart.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/prettify.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('medias/js/jquery.form.js') }}"></script>
+{% endblock %}
+
+{% block sidebar %}
+    {{ render(controller('BNSAppGroupBundle:Back:sidebar', {'section' : 'search'} )) }}
+{% endblock sidebar %}
 
 {% block content %}
+
 	<div class="content-group">
-		<div class="news-title">
-			<h1 class="dashboard">Message d'accueil</h1>
-		</div>
-		<div class="form-home-message content-custom">
-			<form action="{{ path('BNSAppGroupBundle_back') }}" method="POST" id="group-home-message" {{ form_enctype(form) }}>
-				{{ form_widget(form.home_message, {'attr': {'class': 'custom-classroom', 'placeholder': "Message d'accueil" }}) }}
-				{{ form_errors(form.home_message) }}
-			</form>
-		</div>
-	
+					
+		<h1>{{ 'TITLE_USER_SEARCH'|trans |desc('Recherche d\'utilisateurs') }}</h1>
+        
+        {% include 'BNSAppMainBundle:BNSAlert:index.html.twig' %} 
 
+		<form action="{{ path('BNSAppGroupBundle_back_user_search') }}" method="post" {{ form_enctype(formUser) }} class="well form-inline">
+            {{ form_widget(formUser.id,{ 'attr': {'class': 'input-small','placeholder': 'PLACEHOLDER_ID' |trans |desc('Id')}}) }}
+			{{ form_widget(formUser.first_name,{ 'attr': {'class': 'input-small','placeholder': 'PLACEHOLDER_FIRSTNAME' |trans |desc('Prénom')}}) }}
+			{{ form_widget(formUser.last_name,{ 'attr': {'class': 'input-small','placeholder': 'PLACEHOLDER_LASTNAME' |trans |desc('Nom')}}) }}
+			{{ form_widget(formUser.username,{ 'attr': {'class': 'input-small','placeholder': 'PLACEHOLDER_LOGIN' |trans |desc('Login')}}) }}
+			{{ form_widget(formUser.email,{ 'attr': {'class': 'input-small','placeholder': 'PLACEHOLDER_EMAIL' |trans |desc('Email')}}) }}
+			{{ form_widget(formUser.with_archived,{ 'attr': {'class': 'input-small'}}) }} {{ form_label(formUser.with_archived, 'LABEL_PLUS_ARCHIVED' |trans |desc('+ Archivés')) }}
+            {{ form_rest(formUser) }}
+			<input type="submit" value="{{ 'LINK_SEARCH'|trans }}" class="btn-success"/>
 
-		<div class="news-title">
-			<h1 class="dashboard">Droits</h1>
-		</div>
-			
-		{% for rule in rules %}
-			{% if loop.first %}
-				<table class="table table-striped">
-					<tr>
-						<th>Pour</th>
-						<th>Rang</th>
-						<th>Etat</th>
-						<th>Groupe cible</th>
-					</tr>
-			{% endif %}
+		 </form>
+		
+		<h1>{{ 'TITLE_SEARCH_GROUP'|trans |desc('Recherche de groupes') }}</h1>
 
-				<tr>
-					<td>
-						{{ruleDatas.group[rule.who_group_id].label }}
-					</td>
-					<td>
-						{{rule.rank_unique_name }}
-					</td>
-					<td>
-						{% include "BNSAppGroupBundle:Back:ruleToggle.html.twig" with{'rule' : rule} %}
-					</td>
-					<td>
-						{% if rule.rule_where.group_type_id is defined %}
-							{{ ruleDatas.group_type[rule.rule_where.group_type_id].type }}
-						{% else %}
-							{{ group.label }}
-						{% endif %}
-					</td>
-				</tr>
-				
-				{% if loop.last %}
-					</table>
-				{% endif %}
-			{% else %}	
-				<div class="alert">
-					Il n'y a pas encore de règle en place pour ce groupe.
-				</div>
-			{% endfor %}
+		<form action="{{ path('BNSAppGroupBundle_group_search') }}" method="post" {{ form_enctype(formGroup) }} class="well form-inline">
+
+			{{ form_widget(formGroup.label,{ 'attr': {'class': 'input-small','placeholder': "PLACEHOLDER_LASTNAME"|trans }}) }}
+			{{ form_widget(formGroup.groupType,{ 'attr': {'class': 'input-small','placeholder': 'PLACEHOLDER_TYPE_GROUP'|trans |desc('Type de groupe')}}) }}
+
+			<input type="submit" value="{{ 'INPUT_SEARCH'|trans |desc('Rechercher') }}" class="btn-success"/>
+		 </form>
+        
+        {% if(has_right('SCHOOL_ASSIGNMENT')) %}
+        
+        <h1>{{ 'TITLE_ASSIGN_USER'|trans |desc('Affecter des utilisateurs') }}</h1>
+
+            <form action="{{ path('BNSAppGroupBundle_group_user_assignment') }}" method="post" {{ form_enctype(formAssignment) }} class="well form-inline">
+
+                {{ form_widget(formAssignment.uai,{ 'attr': {'class': 'input','placeholder': 'PLACEHOLDER_START_SCHOOL_UAI' |trans |desc("Uai de l'école de départ")}}) }}
+                {{ form_widget(formAssignment.uaiTarget,{ 'attr': {'class': 'input','placeholder': 'PLACEHOLDER_TARGET_SCHOOL_UAI' |trans |desc("Uai de l'école cible")}}) }}
+
+                <input type="submit" value="{{ 'TITLE_ASSIGN_USER'|trans |desc('Affecter des utilisateurs') }}" class="btn-success"/>
+            </form>
+        
+        {% endif %}
 		
 	</div>
 

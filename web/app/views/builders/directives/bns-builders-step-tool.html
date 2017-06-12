@@ -1,0 +1,16 @@
+<div class="layout-gt-sm-row layout-align-start-center">
+  <div class="flex">
+    <h3>{{::('BUILDERS.TITLE_DOWNLOAD_TOOL'|translate) + ' - ' + name}}</h3>
+  </div>
+  <md-button class="md-primary md-raised"
+    bns-ga-event="{category: 'Semaine des possibles', action: 'download', label: file}"
+    ng-href="{{::url||resources.get(file)}}"
+    target="_blank"
+  >
+    <span translate>BUILDERS.DOWNLOAD</span>
+  </md-button>
+</div>
+<md-tooltip md-direction="top">
+  <span class="flag flag-shield"></span>
+  {{::'BUILDERS.LABEL_TEACHER_ONLY'|translate}}
+</md-tooltip>

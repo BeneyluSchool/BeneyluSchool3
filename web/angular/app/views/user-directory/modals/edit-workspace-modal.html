@@ -1,0 +1,27 @@
+<bns-modal modal-close="ctrl.closeModal" modal-title="{{ 'USER_DIRECTORY.EDIT_WORKSPACE_MODAL_TITLE' | translate:{name: ctrl.context.label} }}" modal-icon="pencil" modal-busy="ctrl.busy">
+  <form name="groupForm" ng-submit="ctrl.confirm()">
+    <div class="modal-body">
+
+      <div ng-show="groupForm.label.$error.required" class="pull-right text-danger" translate>USER_DIRECTORY.REQUIRED</div>
+      <label for="group-label" translate>USER_DIRECTORY.WORKSPACE_NAME</label>
+      <input type="text" id="group-label" name="label" ng-model="ctrl.group.label" bns-focus-request required>
+    </div>
+
+    <div class="modal-footer">
+      <div class="content-btn-footer">
+        <div ng-show="ctrl.group.error" class="help-block text-danger pull-left">
+          {{ ctrl.group.error | translate }}
+        </div>
+
+        <button type="submit" ng-disabled="!groupForm.$valid" class="btn btn-success">
+          <i class="bns-icon-checked round"></i>
+          <strong translate>USER_DIRECTORY.SAVE</strong>
+        </button>
+        <button class="btn" ng-click="ctrl.closeModal()">
+          <i class="bns-icon-arrow-left-curved round"></i>
+          <strong translate>USER_DIRECTORY.CANCEL</strong>
+        </button>
+      </div>
+    </div>
+  </form>
+</bns-modal>

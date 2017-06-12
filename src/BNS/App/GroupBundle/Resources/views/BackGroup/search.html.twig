@@ -1,0 +1,24 @@
+{% trans_default_domain "GROUP" %}
+{% extends 'BNSAppGroupBundle:Back:layout.html.twig' %}
+			
+{% block content %}
+	
+	<h1>{{ 'TITLE_SEARCH_GROUP'|trans |desc('Recherche de groupes') }}</h1>
+
+	<form action="{{ path('BNSAppGroupBundle_group_search') }}" method="post" {{ form_enctype(form) }} class="well form-inline">
+
+		{{ form_widget(form.label,{ 'attr': {'class': 'input-small','placeholder': 'PLACEHOLDER_LASTNAME' |trans |desc('Nom')}}) }}
+		{{ form_widget(form.groupType,{ 'attr': {'class': 'input-small','placeholder': 'PLACEHOLDER_GROUP_TYPE'|trans |desc("Type de groupe")}}) }}
+
+		<input type="submit" value="{{ 'INPUT_SEARCH'|trans |desc("Rechercher") }}" class="btn-success"/>
+	 </form>
+
+	 {% if groups|length > 0 %}
+		{% include "BNSAppGroupBundle:BackGroup:searchBlock.html.twig" with{'groups' : groups } %}
+	{% else %}
+		<div class="alert alert-info bns-alert">
+			{{ 'ALERT_SEARCH_NO_RESULT'|trans |desc('Votre recherche n\'a pas remonté de résultat.') }}
+		</div>
+	{% endif %}
+
+{% endblock %}

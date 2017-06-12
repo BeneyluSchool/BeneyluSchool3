@@ -1,0 +1,18 @@
+<div class="workshop-widget-group-toolbar">
+  <span class="btn btn-xs btn-primary pull-left workshop-toolbar-action action-sort"
+    ng-hide="hasEditWidget"
+  ><i class="bns-icon-move no-bg"></i></span>
+  <span class="btn btn-xs btn-primary pull-right workshop-toolbar-action action-delete"
+        ng-hide="hasEditWidget"
+        ng-click="ctrl.remove()"
+  ><i class="bns-icon-trash no-bg"></i></span>
+  <span class="btn btn-xs btn-primary pull-right workshop-toolbar-action action-duplicate"
+    ng-hide="hasEditWidget"
+    ng-click="ctrl.duplicate()"
+  ><i class="bns-icon-file no-bg"></i></span>
+
+  <div class="pull-right" ng-show="hasEditWidget">
+    <span class="btn btn-mini btn-danger" ng-click="rollback()">Annuler</span>
+    <span class="btn btn-mini btn-success" ng-click="commit()">Valider</span>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+<div class="lsu-records-list-print">
+  <div ng-repeat="record in ctrl.records" class="lsu-record">
+
+    <bns-lsu-record bns-lsu-record="record"
+      bns-lsu-template="record.lsu_template"
+      bns-lsu-domains="ctrl.domainsByCycle[record.lsu_template.lsu_config.lsu_level.cycle]"
+      bns-lsu-commons="ctrl.commons"
+      class="md-whiteframe-z2"
+    ></bns-lsu-record>
+
+  </div>
+</div>

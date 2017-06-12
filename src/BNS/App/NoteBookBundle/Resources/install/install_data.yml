@@ -1,0 +1,50 @@
+module:
+  unique_name: NOTEBOOK
+  is_contextable: true
+  name:
+    fr: Cahier journal
+    en: Liaison book
+  description:
+    fr: Lire le Cahier journal
+    en: Note book
+  default_rank:
+    pupil: null
+    parent: null
+    teacher: null
+    other: null
+
+permissions:
+  ACCESS:
+    label:
+      fr: Voir cahier journal
+      en: Notebook access
+    description:
+      fr: Donne l'accès au cahier journal
+      en: Give access to note book
+
+  ACCESS_BACK:
+    label:
+      fr: Gérer cahier journal
+      en: Notebook access
+    description:
+      fr: Donne l'accès au cahier journal
+      en: Give access to note book
+
+ranks:
+  READ:
+    label:
+      fr: Accès en lecture au cahier journal
+      en: Note book read access
+    description:
+      fr: Accès en lecture au cahier journal
+      en: Note book read access
+    permissions: [ACCESS]
+
+  USE:
+    label:
+      fr: Utiliser le cahier journal
+      en: Note book use
+    description:
+      fr: Utiliser le cahier journal
+      en: Note book use
+    permissions: [ACCESS, ACCESS_BACK]

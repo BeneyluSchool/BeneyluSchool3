@@ -1,0 +1,27 @@
+<md-bottom-sheet md-theme="olympics" class="layout-row olympics-menu pixelized">
+  <md-list class="flex layout-column layout-align-center-center">
+    <md-list-item>
+      <md-button ui-sref="app.olympics.heroes" ng-click="menu.close()">
+        Découvre les héros
+      </md-button>
+    </md-list-item>
+
+    <md-list-item>
+      <md-button ng-click="menu.reset($event)">
+        Recommence les Jeux
+      </md-button>
+    </md-list-item>
+
+    <md-list-item>
+      <md-button ui-sref="classroom" ng-click="menu.close()">
+        Quitte l’activité
+      </md-button>
+    </md-list-item>
+
+    <md-list-item ng-if="menu.canManage" class="menu-bottom">
+      <bns-inset bns-inset-icon="shield" bns-inset-size="small">
+        <md-button href="https://storage.gra1.cloud.ovh.net/v1/AUTH_03caab6673f7495a9b7f2af36e8d748e/beneylu-public/olympics/beneylu-jo-fiche-de-preparation.pdf" target="_blank">Téléchargez la fiche de l’activité</md-button>
+      </bns-inset>
+    </md-list-item>
+  </md-list>
+</md-bottom-sheet>

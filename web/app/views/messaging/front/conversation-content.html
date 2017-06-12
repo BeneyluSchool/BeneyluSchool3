@@ -1,0 +1,40 @@
+<md-toolbar class="md-whiteframe-3dp content-toolbar">
+  <div class="md-toolbar-tools layout-align-start-center">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+
+    <h3 class="heading">{{ ::ctrl.shared.handler.conversation._embedded.message.subject }}</h3>
+  </div>
+</md-toolbar>
+
+<div class="messaging-loader">
+  <md-progress-linear md-mode="indeterminate" ng-show="ctrl.shared.handler.busy"></md-progress-linear>
+</div>
+
+<md-content>
+
+  <md-list class="message-conversation" ng-class="{'has-expander': ctrl.hasExpander(), 'expanded': ctrl.expanded}">
+    <md-list-item bns-messaging-message message="ctrl.shared.handler.conversation._embedded.message"></md-list-item>
+
+    <md-list-item ng-repeat-start="message in ctrl.shared.handler.conversation._embedded.children" bns-messaging-message message="message"></md-list-item>
+    <md-list-item ng-if="ctrl.showExpander($index)" ng-repeat-end class="conversation-expander">
+      <md-button class="heading" ng-click="ctrl.expand()">
+        <span translate translate-values="{COUNT: ctrl.countHiddenMessages()}" translate-interpolation="messageformat">MESSAGING.LABEL_SHOW_PREVIOUS_MESSAGES</span>
+      </md-button>
+    </md-list-item>
+  </md-list>
+
+  <form ng-if="ctrl.shared.handler.canAnswer()" id="conversation-form" name="ctrl.shared.form" ng-submit="$event.preventDefault(); ctrl.postAnswer()">
+    <fieldset ng-disabled="ctrl.shared.handler.busy" class="md-padding">
+      <h3 class="heading md-headline" translate>MESSAGING.TITLE_ANSWER_MESSAGE</h3>
+
+      <md-input-container md-no-float>
+        <textarea bns-tinymce ng-model="ctrl.shared.form.answer" required placeholder="{{'MESSAGING.TITLE_ANSWER_MESSAGE'|translate}}"></textarea>
+      </md-input-container>
+    </fieldset>
+
+    <md-divider></md-divider>
+
+    <bns-attachments source="ctrl.shared.attachments" editable="true"></bns-attachments>
+  </form>
+
+</md-content>

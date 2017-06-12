@@ -1,67 +1,58 @@
+{% trans_default_domain "LIAISONBOOK" %}
 {% extends 'BNSAppLiaisonBookBundle:Back:layout.back.html.twig' %}
-
+{% set liaisonBook = form.vars.value %}
 {% block title %}
-	Beneyluschool - Carnet de liaison - Manager - Création
+    {% if isEditionMode %}
+        {{ 'TITLE_MANAGEMENT_EDIT'|trans({'%beneylu_brand_name%': parameter('brand_name')}) |desc('%beneylu_brand_name% - Carnet de liaison - Manager - Édition') }}
+    {% else %}
+        {{ 'TITLE_MANAGEMENT_CREATE'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('%beneylu_brand_name% - Carnet de liaison - Manager - Création') }}
+    {% endif %}
 {% endblock %}
-	
+
 {% block javascripts %}
-    {{ parent() }}
-	<script type="text/javascript" src="{{ asset('/medias/js/liaisonbook/Back/newMessage.js') }}"></script>
-	{{ tinymce_init() }}
+  {{ parent() }}
+    <script>function callback_tinymce_init(editor) {}</script>
+  {{ tinymce_init() }}
 {% endblock %}
-{% block header %}
-	<div class="span6">
-		<a href="{{ path('BNSAppLiaisonBookBundle_back') }}" class="btn bns-notice btn-24 medium-return button-return">
-			<span class="icons-24 back-icon"></span>
-			<strong>Retourner</strong><br>à l'index
-		</a>
-	</div>
-	<div class="span6 align-right">
-		<a href="#" class="btn finish bns-success validate-medium btn-24 medium">
-			<span class="icons-24 validate-icon"></span><strong>J'ai terminé</strong>
-		</a>
-	</div>
-{% endblock header %}
+{% block actionbar_content %}
+    {{ components.button_nav('LINK_BACK_TO_LIST' | trans, { href: path('BNSAppLiaisonBookBundle_back'), back: true } ) }}
+    <span class="flex"></span>
+    {{ components.button( 'LINK_PUBLISH_NOTE' | trans , { intent: 'accent', href: '#', icon: 'done', raised: true, attr : {'form':'form_new_message', 'onclick':'javascript:getElementById(this.getAttribute("form")).submit();'} }) }}
+{% endblock %}
+
+{% block sidebar_content %}
+        <bns-form-proxy source="{{  form.vars.name }}" du-scroll-container="content"></bns-form-proxy>
+{% endblock sidebar_content %}
+
 
 {% block content %}
-        <div class="liaisonbook-back-new-message">
-			<div class="news-title">
-				<h1 class="dashboard">Rédiger un message</h1>
-			</div>
-            {% set liaisonBook = form.vars.value %}
-            {% if (isEditionMode) %}
-                    <form id="form_new_message" action="{{ path('BNSAppLiaisonBookBundle_back_edit', {'liaisonBookId': liaisonBook.getId()}) }}" method="POST" {{ form_enctype(form) }}>
-            {% else %}
-                    <form id="form_new_message" action="{{ path('BNSAppLiaisonBookBundle_back_create_finish') }}" method="POST" {{ form_enctype(form) }}>
-            {% endif %}
-                <div>
-                        {{ form_widget(form.id, { 'attr': {'class': 'liaisonbook-id'} }) }}
-                        {{ form_errors(form.id) }}
-                </div>
-                <div>
-                        {{ form_widget(form.title, { 'attr': {'class': 'input-xlarge-bns', 'placeholder': 'Titre du message'} }) }}
-                        {% if form_errors(form.title) != '' %}
-                        <div class="errors-container span8 alert alert-error">
-                            {{ form_errors(form.title) }}
-                        </div>
-                        {% endif %}
-                </div>
-                <div class="tinyarea">
-                        {{ form_widget(form.content, { 'attr': {'class': 'load_tinymce', 'data-theme': 'simple'} }) }}<br />
-                        {% if form_errors(form.content) != '' %}
-                        <div class="errors-container span8 alert alert-error">
-                            {{ form_errors(form.content) }}
-                        </div>
-                        {% endif %}
-                </div>
-                <div>{{ form_rest(form) }}</div>
-            			
-				{% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': liaisonBook.getResourceAttachments,"editable": true} %}
-			
-			</form>
-        </div>
+    <md-toolbar class="content-toolbar">
+        <div class="md-toolbar-tools layout-align-start-center">
+            <bns-sidebar-toggle></bns-sidebar-toggle>
+            <h1 class="md-title text-primary text-left" flex flex-gt-sm="33"></h1>
+            <div class="flex"></div>
+  </div>
+    </md-toolbar>
+        <md-content class="layout-padding">
+            {{ form_start(form, {
+                'action': isEditionMode ?  path('BNSAppLiaisonBookBundle_back_edit', {'slug': liaisonBook.slug}) : path('BNSAppLiaisonBookBundle_back_create_finish'),
+                'attr' : {
+                    'id' : 'form_new_message',
+                }
+            }) }}
+        <header class="md-padding">
+            {{ form_row(form.title) }}
+        </header>
+        <section class="md-padding">
+            {{ form_errors(form.content) }}
+            {{ form_widget(form.content, { 'attr': {'bns-tinymce': ''} }) }}
+          {{ form_rest(form) }}
+			{% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias': liaisonBook.getResourceAttachments,"editable": true, 'objectType': 'LiaisonBook', 'objectId': liaisonBook.id} %}
+        </section>
+        </form>
+      </md-content>
 {% endblock %}
 
 
-	
-	
+
+

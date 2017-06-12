@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:45:12Z" source-language="en" target-language="es-AR" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="6bc4c4cf8469dc7b8810a7cbb7d5dd9cc268f641" resname="MESSAGING_NEW_ANSWER_RECEIVED.EMAIL.content">
+        <source>MESSAGING_NEW_ANSWER_RECEIVED.EMAIL.content</source>
+        <target><![CDATA[Recibiste <a href="%message_route%">una respuesta</a> de <strong>%sender_full_name%</strong>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="680a7b5333e4f453cbb1b61fafcb3706030cac12" resname="MESSAGING_NEW_ANSWER_RECEIVED.EMAIL.title">
+        <source>MESSAGING_NEW_ANSWER_RECEIVED.EMAIL.title</source>
+        <target>Recibiste una respuesta de %sender_full_name%</target>
+      </trans-unit>
+      <trans-unit id="fa3f0b8b0c6138965403ec1d0feebc306994b42a" resname="MESSAGING_NEW_ANSWER_RECEIVED.SYSTEM.content">
+        <source>MESSAGING_NEW_ANSWER_RECEIVED.SYSTEM.content</source>
+        <target><![CDATA[Recibiste <a href="%message_route%">una respuesta</a> de <strong>%sender_full_name%</strong>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

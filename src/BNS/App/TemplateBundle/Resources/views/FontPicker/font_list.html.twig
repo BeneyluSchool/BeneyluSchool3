@@ -1,4 +1,5 @@
-<h4>Choisir ma police d'écriture</h4>
+{% trans_default_domain "TEMPLATE" %}
+<h4>{{ 'TITLE_CHOOSE_FONT'|trans |desc('Choisir ma police d\'écriture') }}</h4>
 <hr />
 
 <input type="hidden" name="selected_font_css_class" id="selected-font" value="{{ user_current_font_css_class }}" />

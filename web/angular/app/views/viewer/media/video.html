@@ -1,0 +1,7 @@
+<div class="bns-viewer-video">
+  <video controls bns-video-player>
+    <source ng-src="{{ media.download_url }}" type="{{ media.file_mime_type }}" />
+    <div translate>VIEWER.BROWSER_CANNOT_PLAY_THIS_VIDEO</div>Votre navigateur ne peut pas lire ce fichier vidéo.<br>
+    <div translate translate-values="{ url: media.download_url }">VIEWER.DOWNLOAD_POSSIBILITY_HTML</div>
+  </video>
+</div>

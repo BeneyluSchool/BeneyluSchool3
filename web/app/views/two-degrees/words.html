@@ -1,0 +1,34 @@
+<div container>
+  <md-button class="md-fab md-fab-top-left" ui-sref="app.twoDegrees.map">
+    <md-icon>close</md-icon>
+  </md-button>
+</div>
+
+<md-content class="flex layout-sm-column layout-md-column layout-gt-md-row main-container two-degrees-words-wrapper">
+  <bns-two-degrees-panel
+    bns-direction="{{$mdMedia('gt-md') ? 'right' : 'bottom'}}"
+    class="flex-none flex-gt-md-40"
+  >
+    <div class="text-center">
+      <span class="logo words"></span>
+      <h1 class="md-display-2 heading" translate>TWO_DEGREES.TITLE_GREEN_DICTIONARY</h1>
+    </div>
+
+    <div class="flex words-list">
+      <div ng-repeat="(letter, words) in ctrl.sortedWords" class="layout-column word-group">
+        <h3 class="md-display-1 heading">{{::letter}}</h3>
+        <md-button ng-repeat="word in words"
+          ui-sref=".detail({code: word.code})"
+          ui-sref-active="md-primary"
+          class="word"
+        >{{::word.title}}</md-button>
+      </div>
+    </div>
+  </bns-two-degrees-panel>
+
+  <section class="flex-none flex-gt-md-60 md-padding pixelized two-degrees-word-container">
+    <div ui-view="detail">
+      <div class="two-degrees-empty-desc" translate>TWO_DEGREES.DESCRIPTION_UNLOCK_CHALLENGES_AND_CHOOSE_WORD</div>
+    </div>
+  </section>
+</md-content>

@@ -1,0 +1,6 @@
+{% import "BNSAppBoardBundle:Block:back_block_dates.html.twig" as block_dates %}
+
+<div class="title-container publish-end-date hide">
+	<div class="title active border-blue">Date de fin de publication<span class="square icon-arrow"></span></div>
+	{{ block_dates.show(form.publication_end_day, form.publication_end_time, 'publish-end-datepicker datepicker', "Laissez vide pour que l'information soit toujours affichée.") }}
+</div>

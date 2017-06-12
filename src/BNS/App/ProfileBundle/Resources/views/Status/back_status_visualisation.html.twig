@@ -1,0 +1,108 @@
+{% trans_default_domain "PROFILE" %}
+{% extends 'BNSAppProfileBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+  {% trans %}TITLE_PROFIL_MANAGEMENT{% endtrans %}
+
+{% endblock title %}
+
+{% block javascripts %}
+  {{ parent() }}
+
+  <script type="text/javascript">
+    $(function ()
+    {
+      $('.md-toolbar-tools .delete-item').click(function (e)
+      {
+        $('#modal-status-delete').modal('show');
+
+        return false;
+      });
+
+      if ($('.profile-container .item.visualisation .alert.alert-success').length > 0) {
+        setTimeout(function ()
+        {
+          $('.bns-alert.alert-success div').slideUp('fast', function () { var $this = $(this); $this.parent().slideUp('fast', function () { $this.show() }) });
+        }, 8000); // 8 seconds
+      }
+    });
+  </script>
+{% endblock javascripts %}
+
+{% block actionbar_content %}
+  {{ components.button_nav('LINK_BACK_TO_LIST' | trans, { href: path('BNSAppProfileBundle_back_status'), back: true } ) }}
+  {% if has_right('PROFILE_ADMINISTRATION') %}
+    {{ components.button('LINK_EDIT_STATUS' |trans, {raised: true, hover: true, icon:'mode_edit', href: path('profile_manager_feed_edit', {'id': feed.getId()}) }) }}
+  {% endif %}
+  {{ components.button('LINK_SEE_STATUS' |trans, { raised: true, hover: true, icon:'remove_red_eye', href: path('profile_feed_visualisation', {'feedId': feed.getId()}) }) }}
+  {{ components.button('LINK_DELETE_STATUS' |trans, { intent: 'warn', raised: true, href : '',icon:'delete', hover: true,
+    click: "dialog.confirm({ templateUrl: 'dialog-delete.html', targetEvent: $event })"
+  }) }}
+
+  <script type="text/ng-template" id="dialog-delete.html">
+    <md-dialog class="bns-dialog md-transition-in bns-dialog-warn">
+      <md-toolbar class="md-warn" >
+        <div class="md-toolbar-tools"><div class="md-headline"><h2>{% trans %}TITLE_DELETE_STATUS{% endtrans %}</h2></div>
+          <span class="flex"></span><button class="md-icon-button md-button md-ink-ripple" ng-click="dialog.abort()">
+            <md-icon class="ng-scope ng-isolate-scope material-icons">close</md-icon></button>
+        </div>
+      </md-toolbar>
+      <md-dialog-content>
+        {% if is_child() %}
+          {{ 'TITLE_CHILD_DELETE_SURE_DELETE_STATUS_CONSEQUENCE'|trans |desc('<h2>Es-tu sûr de vouloir supprimer le statut de ton profil ?</h2>
+			<h3>Tu perdra la totalité du contenu de ton statut.<br />A noter que si tu as ajouté un document à ton statut, il ne sera pas supprimé de la médiathèque.</h3>') |raw }}
+        {% else %}
+          {{ 'TITLE_ADULT_DELETE_SURE_DELETE_STATUS_CONSEQUENCE'|trans |desc('<h2>Êtes-vous sûr de vouloir supprimer le statut de votre profil ?</h2>
+			<h3>Vous perdrez la totalité du contenu du statut.<br />A noter que si vous avez ajouté un document à votre statut, il ne sera pas supprimé de la médiathèque.</h3>') |raw }}
+        {% endif %}
+      </md-dialog-content><div class="md-actions">
+        <button class="md-button ng-scope md-ink-ripple" ng-click="dialog.abort()">
+          <span class="ng-binding ng-scope">{% trans %}LINK_CANCEL{% endtrans %}</span>
+        </button>
+        {{ components.button('LINK_DELETE_STATUS' |trans, { intent: 'warn', raised: true, icon:'delete', href: path('profile_manager_feed_delete', {'feedId': feed.getId()}) }) }}
+      </div>
+    </md-dialog>
+  </script>
+{% endblock actionbar_content %}
+
+{% block sidebar_content %}
+  {% include 'BNSAppProfileBundle:Sidebar:sidebar.html.twig' with {'section': 'status', 'visualize': true, 'profile': user.getProfile()} %}
+{% endblock sidebar_content %}
+
+{% block content %}
+  <md-toolbar class="content-toolbar">
+    <div class="md-toolbar-tools layout-align-start-center">
+      <bns-sidebar-toggle></bns-sidebar-toggle>
+      <h1 class="md-title text-primary text-left flex flex-gt-sm-33">{% trans %}TITLE_MY_STATUS{% endtrans %}</h1>
+    </div>
+  </md-toolbar>
+<md-content class="md-padding feed-id" id="{{ feed.getId() }}">
+  {{ render(controller('BNSAppProfileBundle:BackFeedStatus:renderDeleteFeedModal', {'feed': feed} )) }}
+      {% if feed.isPendingValidation() %}
+        <bns-inset class="bns-primary bns-small">
+          {% trans %}STATUS_WAIT_TO_MODERATE{% endtrans %}
+        </bns-inset>
+      {% endif %}
+    {% if feed.getProfileFeedStatus().getResource() != null %}
+      <div layout="column" layout-align="center center"><img src="{{ getResourceImageUrl(feed.getProfileFeedStatus().getResource(), 'medium') }}" alt="" /></div>
+    {% endif %}
+
+     <p class="md-body-1"> {{ feed.getProfileFeedStatus().getContent()|purify }}</p>
+     <p class="md-body-1 text-muted">
+         {{ 'POST_AT'|trans({'%datePost%': date_from_now(feed.getDate(), false, true)}) |desc('Posté %datePost%') |raw }}
+     </p>
+
+
+    {% if has_right('PROFILE_ADMINISTRATION') %}
+
+      {% render controller('BNSAppCommentBundle:BackComment:visualize', {
+      'objectId':		feed.getId(),
+      'namespace':	'\\BNS\\App\\CoreBundle\\Model\\ProfileComment',
+      'editRoute':	'profile_manager_comment_edit',
+      'material' : true
+      }) %}
+
+    {% endif %}
+  </div>
+  </md-content>
+{% endblock %}

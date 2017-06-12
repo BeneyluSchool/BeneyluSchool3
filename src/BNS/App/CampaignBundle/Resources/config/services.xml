@@ -1,0 +1,65 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="install_process_bns_app_campaign_bundle" class="BNS\App\CampaignBundle\Install\InstallProcess">
+            <tag name="bns.install_process" />
+        </service>
+
+        <service class="BNS\App\CampaignBundle\Manager\CampaignManager" id="bns_app_campaign.campaign_manager">
+            <argument id="old_sound_rabbit_mq.campaign_producer" type="service"/>
+            <argument id="old_sound_rabbit_mq.campaign_message_producer" type="service" />
+            <argument id="bns.group_manager" type="service" />
+            <argument id="logger" type="service"/>
+        </service>
+
+        <service class="BNS\App\CampaignBundle\Consumer\CampaignConsumer" id="bns_app_campaign.campaign_consumer">
+            <argument id="logger" type="service" />
+            <argument type="service" id="bns_app_campaign.campaign_manager"/>
+        </service>
+
+        <service class="BNS\App\CampaignBundle\Consumer\CampaignMessageConsumer" id="bns_app_campaign.campaign_message_consumer">
+            <argument id="logger" type="service" />
+            <argument type="collection" /> <!-- injected senders -->
+        </service>
+
+        <service class="BNS\App\CampaignBundle\Sender\MessagingSender" id="bns_app_campaign.messaging_sender">
+            <argument type="service" id="logger" />
+            <tag name="bns_campaign_sender" />
+        </service>
+
+        <service class="BNS\App\CampaignBundle\Sender\SmsSender" id="bns_app_campaign.sms_sender">
+            <argument type="service" id="logger" />
+            <argument type="service" id="bns_app_campain.paas_sms_manager" />
+            <tag name="bns_campaign_sender" />
+        </service>
+
+        <service class="BNS\App\CampaignBundle\Sender\EmailSender" id="bns_app_campaign.email_sender">
+            <argument type="service" id="mailer" />
+            <argument type="service" id="bns.media.manager" />
+            <argument type="service" id="logger" />
+            <argument type="service" id="exercise_html_purifier.default" />
+            <argument type="service" id="bns.media_library.public_media_parser" />
+            <argument type="collection">
+                <argument type="string" key="sender">%email_default_from_email%</argument>
+                <argument type="string" key="sender_name">%email_default_from_name%</argument>
+                <argument type="string" key="reply_to">%email_default_reply_to_email%</argument>
+                <argument type="string" key="reply_to_name">%email_default_from_name%</argument>
+            </argument>
+
+            <tag name="bns_campaign_sender" />
+        </service>
+
+        <service id="bns_app_campain.paas_sms_manager" class="BNS\App\CampaignBundle\Manager\PaasSmsManager">
+            <argument type="service" id="logger" />
+            <argument>%paas_url%</argument>
+            <argument type="service" id="buzz" />
+            <argument type="service" id="bns.paas.security_manager" />
+        </service>
+
+    </services>
+
+</container>

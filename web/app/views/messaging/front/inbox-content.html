@@ -1,0 +1,27 @@
+<md-toolbar class="md-whiteframe-3dp content-toolbar">
+  <div class="md-toolbar-tools layout-align-space-between-center">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+
+    <h3 class="flex flex-none heading" translate>MESSAGING.TITLE_MESSAGES_RECEIVE</h3>
+
+    <md-autocomplete md-search-text="ctrl.search"
+      md-items="dummy in []"
+      placeholder="{{ 'MESSAGING.PLACEHOLDER_ENTER_SEARCH' | translate }}"
+    class="flex bns-search"></md-autocomplete>
+  </div>
+</md-toolbar>
+
+<div class="messaging-loader">
+  <md-progress-linear md-mode="indeterminate" ng-show="ctrl.shared.handler.busy"></md-progress-linear>
+</div>
+
+<bns-messaging-box name="inbox" box="ctrl.box" selection="ctrl.shared.selection" show-avatars="true" class="flex layout-column">
+  <div class="md-padding text-center">
+    <div class="messaging-logo"></div>
+    <div class="md-padding md-headline heading" translate>MESSAGING.DESCRIPTION_INBOX_IS_EMPTY</div>
+    <md-button ui-sref="^.compose.new" class="md-primary md-raised btn-lg">
+      <bns-icon>messaging:scroll</bns-icon>
+      <span ng-bind-html="'MESSAGING.BUTTON_NEW_MESSAGE'|translate|buttonize">.</span>
+    </md-button>
+  </div>
+</bns-messaging-box>

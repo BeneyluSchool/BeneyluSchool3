@@ -1,0 +1,35 @@
+<md-dialog class="new-link-modal bns-dialog bns-dialog-primary bns-jim-tool" aria-label="">
+  <md-toolbar class="md-primary toolbar-inverse">
+    <div class="md-toolbar-tools">
+      <h2 class="md-headline flex" translate>SEARCH.EDIT_LINK</h2>
+      <md-button class="md-icon-button" ng-click="ctrl.close()">
+        <md-icon>close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content class="md-dialog-content" ng-show="!ctrl.busy">
+    <div>
+      <form ng-submit="ctrl.editLink(ctrl.link)" class="flex layout-row layout-align-start-center">
+        <div class="flex">
+          <md-input-container md-no-float>
+            <label translate>SEARCH.PLACEHOLDER_INPUT_LINK</label>
+            <input type="text" ng-model="ctrl.link.media_value">
+          </md-input-container>
+        </div>
+      </form>
+    </div>
+  </md-dialog-content>
+  <div class="layout-row layout-align-center-center">
+    <md-progress-circular ng-show="ctrl.busy" md-mode="indeterminate"></md-progress-circular>
+  </div>
+
+        <div class="md-actions">
+          <md-button ng-click="ctrl.close()">
+            <span ng-bind-html="'SEARCH.LINK_CANCEL'|translate|buttonize">.</span>
+          </md-button>
+          <md-button class="md-raised md-primary" ng-click="ctrl.editLink(ctrl.link,ctrl.link.media_value)" ng-disabled="ctrl.busy">
+              <md-icon class="layout-margin">add_circle</md-icon>
+              <span ng-bind-html="'SEARCH.BUTTON_EDIT_LINK'|translate|buttonize">.</span>
+          </md-button>
+        </div>
+</md-dialog>

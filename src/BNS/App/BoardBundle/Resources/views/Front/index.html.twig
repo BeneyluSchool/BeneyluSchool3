@@ -1,0 +1,41 @@
+{% extends '::base.html.twig' %}
+
+{% set app_unique_name = 'BOARD' %}
+{% set app_mode = 'front' %}
+
+{% block title %}
+    Tableau d'information
+{% endblock %}
+
+{% block css %}
+    {{ parent() }}
+    <link href="{{ asset('/medias/css/board/front.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('/medias/css/board/templates/sky.css') }}" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block body %}
+    <div class="office board"></div>
+    <div class="container container-fluid">
+        <div class="board-container">
+            <div class="row-fluid">
+                {% include 'BNSAppBoardBundle:Front:header.html.twig' %}
+            </div>
+            <div class="row-fluid board-content-container">
+                <div class="board-content">
+                    <div class="board-informations">
+                        {% include 'BNSAppBoardBundle:Information:front_information_list.html.twig' %}
+                    </div>
+                </div>
+                    <div class="board-sidebar">
+                        <div class="board-blocks">
+                            <div class="rss-sidebar">
+                                {% include 'BNSAppBoardBundle:Rss:front_rss_list.html.twig' %}
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

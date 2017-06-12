@@ -1,0 +1,58 @@
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools layout-align-space-between-center">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+
+    <bns-week-toolbar start="shared.date" class="flex"></bns-week-toolbar>
+  </div>
+</md-toolbar>
+
+<div ng-show="ctrl.busy" class="layout-row layout-align-space-around">
+  <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+</div>
+
+<bns-inset ng-show="!ctrl.busy && !shared.lunchWeek.id" class="md-padding text-center">
+      <div translate>LUNCH.NO_MENU_THIS_WEEK</div>
+      <md-button ui-sref=".edit" class="md-primary md-raised">
+        <md-icon>add_circle</md-icon>
+        <span ng-bind-html="'LUNCH.BUTTON_ADD_MENU' | translate | buttonize"></span>
+      </md-button>
+</bns-inset>
+
+<div ng-if="!ctrl.busy && shared.lunchWeek.id" class="lunch-menu md-body-1">
+  <div class="md-padding">
+    <h2 ng-show="shared.lunchWeek.label" class="md-headline">{{ ::shared.lunchWeek.label }}</h2>
+    <div ng-show="shared.lunchWeek.description" class="week-description">{{ ::shared.lunchWeek.description }}</div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th ng-repeat="day in shared.lunchWeek._embedded.days" ng-init="date = shared.date.clone().add($index, 'days')">
+          <div layout="row" layout-sm="column" layout-align="center center">
+            <div class="day-date md-display-2 heading text-primary-hue-1">{{ ::date.format('D') }}</div>
+            <div class="day-texts md-body-1">
+              <div>{{ ::date.format('dddd') }}</div>
+              <div hide-sm>{{ ::date.format('MMMM') }}</div>
+            </div>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="day-status">
+        <td ng-repeat="day in shared.lunchWeek._embedded.days" ng-attr-rowspan="{{ day.status !== '1' ? 10 : undefined }}">
+          <div ng-if="day.status === '2'" class="md-title md-padding text-primary text-center" translate>LUNCH.STATUS_SPECIAL</div>
+          <div ng-if="day.status === '3'" class="md-title md-padding text-primary text-primary-hue-3 text-center" translate>LUNCH.STATUS_NO_LUNCH</div>
+        </td>
+      </tr>
+      <tr ng-repeat="section in ctrl.editor.sections" ng-if="!ctrl.isSectionEmpty(section.value)">
+        <td ng-repeat="day in shared.lunchWeek._embedded.days" ng-if="day.status === '1'" class="lunch-cell">
+          <div ng-if="day[section.value]" class="md-padding">
+            <h5 class="md-subhead">{{ ::(section.value === 'full_menu' ? 'LUNCH.VALUE_LUNCH' : section.label) | translate }}</h5>
+            <div class="menu-description">{{ ::day[section.value] }}</div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,53 @@
+{% trans_default_domain "PORTAL" %}
+{% if page == 'index' %}
+    <div class="container-sidebar list">
+        <div class="section active">
+            {{ 'TITLE_GENERAL' |trans |desc('Général') }}
+            <span class="shadow-section"></span>
+        </div>
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppPortalBundle_back_main_zone') }}">{{ 'LINK_MAIN_ZONE' |trans |desc('Zone principale') }}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppPortalBundle_back_side_zone') }}">{{ 'LINK_COLUMN_SIDE' |trans |desc('Colonne latérale') }}</a>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if page == 'main_zone' %}
+    <div class="container-sidebar list">
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppPortalBundle_back') }}">{{ 'TITLE_GENERAL' |trans |desc('Général') }}</a>
+            </div>
+        </div>
+        <div class="section active">
+            {{ 'LINK_MAIN_ZONE' |trans |desc('Zone principale') }}
+            <span class="shadow-section"></span>
+        </div>
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppPortalBundle_back_side_zone') }}">{{ 'LINK_COLUMN_SIDE' |trans |desc('Colonne latérale') }}</a>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if page == 'side_zone' %}
+    <div class="container-sidebar list">
+        <div class="container-section">
+            <div class="section">
+                <a href="{{ path('BNSAppPortalBundle_back') }}">{{ 'TITLE_GENERAL' |trans |desc('Général') }}</a>
+            </div>
+            <div class="section">
+                <a href="{{ path('BNSAppPortalBundle_back_main_zone') }}">{{ 'LINK_MAIN_ZONE' |trans |desc('Zone principale') }}</a>
+            </div>
+        </div>
+        <div class="section active">
+            {{ 'LINK_COLUMN_SIDE' |trans |desc('Colonne latérale') }}
+            <span class="shadow-section"></span>
+        </div>
+    </div>
+{% endif %}

@@ -1,0 +1,49 @@
+{% extends '::base.html.twig' %}
+
+{% set isEmbed = isEmbed is defined ? isEmbed : false %}
+
+{% set app_mode = app_mode | default('front') %}
+
+{% if not hasApplicationManagement() and app_unique_name is not defined %}{% set app_unique_name = 'MEDIA_LIBRARY' %}{% endif %}
+
+{% block title %}App{% endblock %}
+
+{% block css %}
+  {{ parent() }}
+<link rel="stylesheet" href="{{ asset('bower_components/angular-ui-grid/ui-grid.min.css') }}"/>
+{% endblock %}
+
+{% block body_attr %} layout="column" {{ parent() }} {% endblock %}
+
+{% block javascripts %}
+  {# Track hash changes as actual page views, for the angular app #}
+  {# google analytics has already been configured in the base template #}
+  {% if app.environment == 'app_prod' and parameter('google_analytics_id') %}
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        window.onhashchange = trackHashChange;
+        trackHashChange(); // initial page load
+
+        function trackHashChange () {
+          _gaq.push(['_trackPageview', window.location.pathname + window.location.search + window.location.hash]);
+        }
+    </script>
+  {% endif %}
+
+{% endblock %}
+
+{% block analytics_identify %}{% if not isEmbed %}{{ parent() }}{% endif %}{% endblock %}
+
+{% block body_class %}{{ parent() }} {{ isEmbed ? 'embedded' }}{% endblock %}
+
+{% block body %}
+
+  {% if not isEmbed %}
+    {#<div class="office"></div>#}
+  {% endif %}
+
+{% endblock %}
+
+{% block dock_bar %}
+  {% if not isEmbed %}{{ parent() }}{% endif %}
+{% endblock %}

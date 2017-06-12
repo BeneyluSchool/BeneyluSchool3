@@ -1,0 +1,31 @@
+<div ng-show="ctrl.ids.length" class="layout-column">
+  <h4 class="flex layout-row layout-align-start-center">
+    <span class="layout-margin"></span>
+    <md-checkbox ng-if="!ctrl.selectionRole" ng-checked="ctrl.isAllSelected" ng-click="ctrl.toggleSelection()"><span class="hide">.</span></md-checkbox>
+    <md-checkbox ng-if="ctrl.selectionRole" ng-checked="ctrl.selectionRole.has(ctrl.role)" ng-click="ctrl.selectionRole.toggle(ctrl.role)" class="md-primary"><span class="hide">{{::('USER_DIRECTORY.' + ctrl.type + 'S' | translate)}}</span></md-checkbox>
+    <md-button ng-if="::ctrl.group.view_users" class="flex" ng-click="ctrl.expanded = !ctrl.expanded" href="">
+      <span class="md-title flex">
+        {{ ('USER_DIRECTORY.' + ctrl.type + 'S' | translate) + ' (' + ctrl.ids.length + ')' }}
+      </span>
+      <md-icon>keyboard_arrow_{{ctrl.expanded?'up':'down'}}</md-icon>
+    </md-button>
+    <span ng-if="::!ctrl.group.view_users" class="md-title flex">
+      {{ ('USER_DIRECTORY.' + ctrl.type + 'S' | translate) + ' (' + ctrl.ids.length + ')' }}
+    </span>
+  </h4>
+
+  <div ng-show="ctrl.expanded" bns-user-directory-user-list="ctrl.users" selection="ctrl.selection" locked="ctrl.locked" on-click="ctrl.onClick"></div>
+
+  <div class="flex layout-row layout-align-center-center" ng-show="ctrl.busy">
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+  </div>
+
+  <div ng-if="::ctrl.group.view_users" class="layout-row">
+    <md-button ng-show="ctrl.expanded && ctrl.index < ctrl.ids.length && !ctrl.busy"
+      ng-click="ctrl.loadMore()"
+      class="flex"
+      href=""
+    ><span translate>USER_DIRECTORY.LOAD_MORE_USERS</span></md-button>
+  </div>
+
+</div>

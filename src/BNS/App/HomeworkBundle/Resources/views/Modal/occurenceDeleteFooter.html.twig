@@ -1,0 +1,14 @@
+{% trans_default_domain "HOMEWORK" %}
+<div class="modal-footer">
+	<div class="content-btn-footer">
+		<a href="{{ path('BNSAppHomeworkBundle_back_homeworkdue_delete', { 'dueId' : id }) }}" class="btn bns-danger btn-24 medium-return delete-process">
+			<span class="icons-24 delete-icon"></span>
+            {{ 'LINK_DELETE_OCCURENCE'|trans |desc('<strong>Supprimer</strong><br />l\'occurence')|raw }}
+
+		</a>
+		<a href="#" class="btn bns-notice btn-24 medium" data-dismiss="modal">
+			<span class="icons-24 back-icon"></span>
+			<strong>{% trans %}LINK_CANCEL{% endtrans %}</strong>
+		</a>
+	</div>
+</div>

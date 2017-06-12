@@ -1,0 +1,27 @@
+{% block content %}
+	{% if with_image is not defined or (with_image is defined and with_image == true) %}
+		{% if size is not defined %}
+			{% set size = "small" %}
+		{% endif %}
+		{% if class is not defined %}
+			{% set class = "span5" %}
+		{% endif %}
+
+		<img id="" class="{{ class }}" src="{{  getResourceImageUrl(resource,size) == getFileTypeImageUrl(resource,size) ? getResourceImageUrl(resource,'favorite') : getResourceImageUrl(resource,size) }} " />
+	{% endif %}
+
+    {% if canAccess %}
+        <div class="loader loader-hb" id="download-loader">
+            <div class="message">
+                Chargement de la ressource pédagogique en cours, veuillez patienter...
+            </div>
+        </div>
+        
+        <div class="download">
+            <a href="{{ path('resource_provider_goto', {'uai': resource.getResourceProvider().getUai(), 'providerId': resource.getResourceProvider().getProviderId(), 'id': resource.getResourceProvider().getReference() }) }}" class="btn bns-notice btn-24 large resource-provider-goto">
+                <span class="icons-24 preview-icon"></span>
+                Accéder à la ressource
+            </a>
+        </div>
+    {% endif %}
+{% endblock %}

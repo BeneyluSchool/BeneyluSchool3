@@ -1,64 +1,172 @@
-{% if section == 'new_event' %}
-	<div class="section active">
-		Nouvel évènement
-		<span class="shadow-section"></span>
-	</div>
-	<div class="title-container">
-		<div class="title active border-blue">Liste des agendas <span class="square icon-arrow"></span></div>
-		<div class="content-title agenda-selector">
-			<ul>
-				{% for agenda in agendas %}
-					<li class="text-row">
-						<div class="content-agenda {{ agenda.getColorClass() }}">
-							<img src="/medias/images/calendar/color-picker-bg-transparent.png" />
-							<span id="{{ agenda.getId() }}" class="color-img"></span>
-							<span class="agenda-title">Agenda de {{ agenda.getTitle() }}</span>
-						</div>
-					</li>
-				{% endfor %}
-			</ul>
-		</div>
-	</div>
-{% endif %}
+{% trans_default_domain "CALENDAR" %}
+{% if section == 'event_form' %}
+  <div class="container-sidebar editor">
+    <div class="section active">
+      {% if isEdition %}
+          {{ 'TITLE_EVENT'|trans |desc('Évènement') }}
+      {% else %}
+          {% trans %}LINK_ADD_EVENT{% endtrans %}
+      {% endif %}
+      <span class="shadow-section"></span>
+    </div>
+    <div class="title-container">
+      <div class="title active border-blue">{% trans %}TITLE_CALENDAR{% endtrans %}<span class="square icon-arrow"></span></div>
+      <div class="content-title agenda-selector">
+        <ul>
+          {% for i,agenda in agendas %}
+            <li>
+              <label for="calendar_event_form_agendaId_{{ i }}" class="content-agenda {{ agenda.getColorClass() }}">
+                <img src="{{ asset('/medias/images/calendar/color-picker-bg-transparent.png') }}" />
+                <span class="color-img"></span>
+                <span class="agenda-title">&nbsp;{{ agenda.getTitle() }}</span>
+                {{ form_widget(form.agendaId[i]) }}
+              </label>
+            </li>
+          {% endfor %}
+        </ul>
+        {% if form.agendaId.vars.errors|length > 0 %}
+          <div class="alert alert-danger bns-alert">
+            {{ form_errors(form.agendaId) }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="title-container agenda-date">
+      <div class="title active border-blue">{% trans %}DATE_DURATION{% endtrans %}<span class="square icon-arrow"></span></div>
+      <div class="content-title">
+        <div class="form-widget">
+          <div class="datepicker dstart">
+            <span class="date">{% trans %}LABEL_DATE_FROM{% endtrans %}</span> {{ form_widget(form.dateStart, {'attr': {'placeholder': 'PLACEHOLDER_DATE'|trans} }) }} <img src="{{ asset('/medias/images/icons/sidebar/datepicker.png') }}" alt="">
+          </div>
+          <div class="datepicker dend">
+            <span class="date">{% trans %}LABEL_DATE_AT{% endtrans %}</span> {{ form_widget(form.dateEnd, {'attr': {'placeholder': 'PLACEHOLDER_DATE'|trans} }) }} <img src="{{ asset('/medias/images/icons/sidebar/datepicker.png') }}" alt="">
+          </div>
+          <div class="hours">
+            <span class="date">{% trans %}LABEL_DATE_NUMBER{% endtrans %}</span>
 
-{% if section == 'home' %}
-	<div class="section active">
-		Calendrier
-		<span class="shadow-section"></span>
-	</div>
-	<div class="title-container">
-		<div class="content-title">
-			<div id="dp-location" class="datepicker-back">
-				<div id="hdtxtshow" class="date-picker-position"></div>
-			</div>
-		</div>
-	</div>
-	<div class="title-container">
-		<div class="title active border-blue">Agendas <span class="square icon-arrow"></span></div>
-		<div class="content-title agenda-selector agenda-filter-container">
-			<div class="loader loader-h"></div>
-			<ul>
-				{% for agenda in agendas %}
-					<li>
-						<div class="content-agenda {{ agenda.getColorClass() }}">
-							<select class="colorpicker"  name="colour">
-								{% for id, value in colors %}
-									<option value="{{ value }}">{{ id }}</option>
-								{% endfor %}
-							</select>
-							<span id="{{ agenda.getId() }}" class="color-img"></span>
-							<span class="agenda-title">Agenda de {{ agenda.getTitle() }}</span>
-						</div>
-					</li>
-				{% endfor %}
-			</ul>
-		</div>
-	</div>
-{% else %}
-	<div class="container-section">
-		<div class="section">
-			<a href="{{ path('BNSAppCalendarBundle_back') }}">Calendrier</a>
-		</div>
-	</div>
+            {{ form_widget(form.timeStart) }}
+            <span class="date label-right"> {% trans %}LABEL_DATE_TO{% endtrans %}</span>
+            {{ form_widget(form.timeEnd) }}
+          </div>
+          <div class="all-day">
+            {{ form_widget(form.isAllDay) }}
+            {{ form_label(form.isAllDay, 'LABEL_ALL_DAY'|trans) }}
+          </div>
+        </div>
+
+        {% if form.dateStart.vars.errors|length > 0 or form.dateEnd.vars.errors|length > 0 or
+        form.timeStart.vars.errors|length > 0 or form.timeEnd.vars.errors|length > 0 or
+        form.isAllDay.vars.errors|length > 0 %}
+          <div class="alert alert-danger bns-alert">
+            {{ form_errors(form.dateStart) }}
+            {{ form_errors(form.dateEnd) }}
+            {{ form_errors(form.timeStart) }}
+            {{ form_errors(form.timeEnd) }}
+            {{ form_errors(form.isAllDay) }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="title-container">
+      <div class="title active border-blue">{% trans %}TITLE_PLACE{% endtrans %}<span class="square icon-arrow"></span></div>
+      <div class="content-title">
+        <div class="form-widget">
+          {{ form_widget(form.location, {'attr': {'placeholder': "PLACEHOLDER_ENTER_EVENT_PLACE"|trans, 'class': 'places'} }) }}
+        </div>
+        {% if form.location.vars.errors|length > 0 %}
+          <div class="alert alert-danger bns-alert">
+            {{ form_errors(form.location) }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="title-container agenda-recursive">
+      <div class="title active border-blue">{% trans %}TITLE_RECURRENCE{% endtrans %}<span class="square icon-arrow"></span></div>
+      <div class="content-title">
+        <div class="form-widget">
+          <div class="all-day">
+            {{ form_widget(form.isRecurring) }}
+            {{ form_label(form.isRecurring, 'LABEL_EVENT_RECURRENCE'|trans) }}
+          </div>
+          <div class="recursive {% if not event.isRecurring() %}hide{% endif %}">
+            <div class="occurrence">
+              {{ form_widget(form.recurringType) }}
+            </div>
+            <div>
+              <span class="date repeat">{% trans %}PREFIX_LABEL_REPEAT{% endtrans %}</span> {{ form_widget(form.recurringCount, { 'attr': {'class': 'occurrence-repeat', 'placeholder': 'PLACEHOLDER_ENTER_QUANTITY'|trans} }) }} <span class="date label-right">{% trans %}LABEL_ENTER_TIME{% endtrans %}</span>
+            </div>
+            <div>
+              <span class="date">{% trans %}PREFIX_LABEL_OR_UNTIL{% endtrans %}</span> {{ form_widget(form.recurringEndDate, { 'attr': {'class': 'occurrence-date', 'placeholder': 'PLACEHOLDER_DATE'|trans} }) }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% elseif section == 'home' %}
+  <div class="container-sidebar list">
+    <div class="section active">
+      {% trans %}TITLE_CALENDAR{% endtrans %}
+
+      <span class="shadow-section"></span>
+    </div>
+    <div class="title-container">
+      <div class="content-title">
+        <div id="dp-location" class="datepicker-back">
+          <div id="hdtxtshow" class="date-picker-position"></div>
+        </div>
+      </div>
+    </div>
+    <div class="title-container">
+      <div class="title active border-blue">{% trans %}TITLE_CALENDARS{% endtrans %} <span class="square icon-arrow"></span></div>
+      <div class="content-title agenda-selector agenda-filter-container">
+        <div class="loader loader-h"></div>
+        <ul>
+          {% for agenda in agendas %}
+            <li>
+              <div class="content-agenda {{ agenda.getColorClass() }}">
+                <select class="colorpicker"  name="colour">
+                  {% for id, value in colors %}
+                    <option value="{{ value }}">{{ id }}</option>
+                  {% endfor %}
+                </select>
+                <span id="{{ agenda.getId() }}" class="color-img"></span>
+                <span class="agenda-title">&nbsp;{{ agenda.getTitle() }}</span>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+{% elseif section == 'visualisation' %}
+  <div class="container-sidebar">
+    <div class="section active">
+      {% trans %}TITLE_CALENDAR{% endtrans %}
+
+      <span class="shadow-section"></span>
+    </div>
+    <div class="title-container">
+      <div class="content-title">
+        <div id="dp-location" class="datepicker-back">
+          <div id="hdtxtshow" class="date-picker-position"></div>
+        </div>
+      </div>
+    </div>
+    <div class="title-container">
+      <div class="title active border-blue">{% trans %}TITLE_CALENDARS{% endtrans %} <span class="square icon-arrow"></span></div>
+      <div class="content-title agenda-selector agenda-filter-container">
+        <div class="loader loader-h"></div>
+        <ul>
+          <li class="text-row">
+            <div class="content-agenda {{ event.getAgenda().getColorClass() }}">
+              <img src="{{ asset('/medias/images/calendar/color-picker-bg-transparent.png') }}" />
+              <span class="color-img"></span>
+              <span class="agenda-title">&nbsp;{{ event.getAgenda().getTitle() }}</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 {% endif %}
-<div class="sidebar-shadow"></div>

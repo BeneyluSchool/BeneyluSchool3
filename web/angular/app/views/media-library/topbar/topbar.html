@@ -1,0 +1,203 @@
+<div class="media-library-topbar">
+
+  <bns-starter-kit-pointer step="1-1.1" pointer="actions"></bns-starter-kit-pointer>
+
+  <div ng-show="shared.library" class="btn-toolbar media-library-topbar-toolbar">
+
+    <!-- creation -->
+    <div ng-if="shared.canCreate" class="toolbar-section">
+      <div id="media-library-create-menu" class="btn-group" bns-starter-kit-explanation
+           bns-starter-kit-validate="click"
+           step="1-1.3">
+        <a href="" data-toggle="dropdown" class="btn btn-lg btn-primary dropdown-toggle">
+          <i class="round bns-icon-plus"></i>
+          <strong translate>MEDIA_LIBRARY.ADD</strong>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="" ng-click="addFolder()">
+              <i class="bns-icon-folder"></i>
+              <span translate>MEDIA_LIBRARY.ADD_FOLDER_HTML</span>
+            </a>
+          </li>
+          <li>
+            <a href="" ng-click="triggerUploadBrowse()" bns-starter-kit-explanation
+               step="1-1.4">
+              <i class="bns-icon-file"></i>
+              <span translate>MEDIA_LIBRARY.ADD_FILE_HTML</span>
+            </a>
+          </li>
+          <li>
+            <a href="" ng-click="addUrl()">
+              <i class="bns-icon-link"></i>
+              <span translate>MEDIA_LIBRARY.ADD_LINK_HTML</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- back -->
+    <div class="toolbar-section">
+      <div class="btn-group">
+        <button ng-click="navigateBack()" class="btn btn-one-line" ng-disabled="!shared.parent">
+          <i class="bns-icon-arrow-left round"></i>
+          <strong translate>MEDIA_LIBRARY.BACK</strong>
+        </button>
+      </div>
+    </div>
+
+    <!-- rename -->
+    <div ng-if="shared.canWrite && !shared.selection.list.length" class="toolbar-section">
+      <div class="btn-group">
+        <button ng-click="renameFolder()" class="btn btn-multiline">
+          <i class="bns-icon-pencil round"></i>
+          <span translate>MEDIA_LIBRARY.RENAME_FOLDER_HTML</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- locker -->
+    <div id="media-library-toggle-locker" ng-if="shared.canToggleLocker && !shared.selection.list.length" class="toolbar-section">
+      <div class="btn-group">
+        <button ng-click="toggleLocker()" class="btn btn-multiline">
+          <i ng-if="shared.context.is_locker" class="bns-icon-locker"></i>
+          <i ng-if="!shared.context.is_locker" class="bns-icon-folder"></i>
+          <span ng-if="shared.context.is_locker" translate>MEDIA_LIBRARY.CHANGE_INTO_FOLDER_HTML</span>
+          <span ng-if="!shared.context.is_locker" translate>MEDIA_LIBRARY.CHANGE_INTO_LOCKER_HTML</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- move / fav / private -->
+    <div ng-if="shared.globalSelectionEnabled && shared.selection.list.length" class="toolbar-section">
+      <div id="media-library-arrangement-menu" ng-if="shared.canCreate" class="btn-group">
+        <a href="" data-toggle="dropdown" class="btn dropdown-toggle">
+          <i class="bns-icon-box round"></i>
+          <strong translate>MEDIA_LIBRARY.ARRANGEMENT</strong>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li id="media-library-move-menu-item" ng-if="shared.selectionHasManageables && shared.selectionIsAllWritables">
+            <a href="" ng-click="moveSelection()" translate>MEDIA_LIBRARY.MOVE_SELECTION_HTML</a>
+          </li>
+          <li>
+            <a href="" ng-click="copySelection()" translate>MEDIA_LIBRARY.COPY_SELECTION_HTML</a>
+          </li>
+          <li ng-if="shared.library.rights.share && shared.selectionHasFiles">
+            <a href="" ng-bind-html="'MEDIA_LIBRARY.DISTRIBUTE_DOCUMENTS_HTML' | translate"
+              bns-user-directory-invoke="media-library-share"
+              selection="true"
+              on-selection="mediaLibraryShare"
+            >
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div ng-if="!isSelectionMode && shared.selection.list.length" class="btn-group visible-lg-inline-block">
+        <div id="media-library-toggle-favorite" ng-click="toggleFavoriteSelection()" class="btn btn-multiline">
+          <i ng-if="!shared.selectionIsAllFavorites" class="bns-icon-star-empty"></i>
+          <i ng-if="shared.selectionIsAllFavorites" class="bns-icon-star"></i>
+          <span ng-if="!shared.selectionIsAllFavorites" translate>MEDIA_LIBRARY.FAVORITE_SELECTION_HTML</span>
+          <span ng-if="shared.selectionIsAllFavorites" translate>MEDIA_LIBRARY.UNFAVORITE_SELECTION_HTML</span>
+        </div>
+      </div>
+
+      <div ng-if="shared.selectionHasManageables" class="btn-group">
+        <div ng-click="togglePrivateSelection()" class="btn btn-multiline">
+          <i ng-if="!shared.selectionIsAllPrivates" class="bns-icon-lock-empty"></i>
+          <i ng-if="shared.selectionIsAllPrivates" class="bns-icon-lock"></i>
+          <span ng-if="!shared.selectionIsAllPrivates" translate>MEDIA_LIBRARY.PRIVATIZE_SELECTION_HTML</span>
+          <span ng-if="shared.selectionIsAllPrivates" translate>MEDIA_LIBRARY.PUBLICIZE_SELECTION_HTML</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- trash context -->
+    <div ng-if="shared.isTrash" class="toolbar-section">
+      <div class="btn-group">
+        <button ng-disabled="!(shared.context.children.length || shared.context.medias.length)" ng-click="emptyTrash()" class="btn btn-danger-hover btn-multiline">
+          <i class="bns-icon-trash round"></i>
+          <span translate>MEDIA_LIBRARY.EMPTY_TRASH_HTML</span>
+        </button>
+      </div>
+
+      <div class="btn-group">
+        <button ng-disabled="!(shared.context.children.length || shared.context.medias.length)" ng-click="restoreTrash()" class="btn btn-multiline">
+          <i class="bns-icon-arrow-left-curved round"></i>
+          <span translate>MEDIA_LIBRARY.RESTORE_TRASH_HTML</span>
+        </button>
+      </div>
+
+      <div ng-if="shared.contextSelection.list.length" class="btn-group">
+        <div ng-click="deleteContextSelection()" class="btn btn-danger-hover btn-multiline">
+          <i class="bns-icon-trash round"></i>
+          <span translate>MEDIA_LIBRARY.DELETE_SELECTION_FOREVER_HTML</span>
+        </div>
+      </div>
+
+      <div ng-if="shared.contextSelection.list.length" class="btn-group">
+        <div ng-click="restoreContextSelection()" class="btn btn-multiline">
+          <i class="bns-icon-arrow-left-curved round"></i>
+          <span translate>MEDIA_LIBRARY.RESTORE_SELECTION_HTML</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- delete -->
+    <div ng-if="!isSelectionMode" class="toolbar-section">
+      <div ng-if="shared.globalSelectionEnabled && shared.selection.list.length && shared.selectionIsAllWritables" class="btn-group">
+        <div ng-click="deleteSelection()" class="btn btn-danger-hover btn-multiline">
+          <i class="bns-icon-trash round"></i>
+          <span translate>MEDIA_LIBRARY.DELETE_SELECTION_HTML</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- viewer / selection -->
+    <div class="toolbar-section pull-right">
+
+      <div ng-if="shared.globalSelectionEnabled && isSelectionMode" class="btn-group">
+        <button class="btn btn-lg btn-success" ng-disabled="!shared.selection.list.length" ng-click="joinSelection()">
+          <i class="bns-icon-checked round"></i>
+          <strong translate
+            translate-values="{NUM: shared.selection.list.length, MODE: submode}"
+            translate-interpolation="messageformat"
+          >MEDIA_LIBRARY.SELECT_DOCUMENTS_PLURAL</strong>
+        </button>
+      </div>
+
+      <div ng-if="isSelectionMode || isViewMode" class="btn-group">
+        <button class="btn btn-text" ng-click="closeMediaLibrary()">
+          <strong>X</strong>
+        </button>
+      </div>
+
+      <div ng-if="shared.globalSelectionEnabled && !isSelectionMode"
+        ng-show="(shared.selection.list|mediaLibraryFiles).length"
+        class="btn-group"
+      >
+        <button ng-click="viewMediaSelection()" class="btn btn-lg btn-success">
+          <i class="bns-icon-checked round"></i>
+          <strong translate
+            translate-values="{NUM: (shared.selection.list|mediaLibraryFiles).length}"
+            translate-interpolation="messageformat"
+          >MEDIA_LIBRARY.OPEN_DOCUMENTS_PLURAL</strong>
+        </button>
+        <a href="#" class="btn btn-lg btn-success dropdown-toggle dropdown-toggle-alone" data-toggle="dropdown">
+          <span class="caret"></span>
+          <strong>&nbsp;</strong>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="" ng-click="downloadArchiveSelection()" translate>MEDIA_LIBRARY.DOWNLOAD_ARCHIVE_SELECTION</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+</div>

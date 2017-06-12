@@ -1,0 +1,26 @@
+{% trans_default_domain "MEDIA_LIBRARY" %}
+{% block content %}
+    <div class="resource-joined attachment">
+        <img id="" class="" src="{{ getResourceImageUrl(media,"thumbnail") }}" />
+        <p><span>{{ media.label }}</span></p>
+        {% if media.isActive %}
+            {% if is_authenticated() and canReadResource(media) %}
+                <a href="" bns-viewer data-media-id="{{ media.id }}" terminal="true" class="btn btn-joined resource-open-joined media-view">
+                    {{ 'LINK_DISPLAY'|trans |desc('Afficher') }}
+                </a>
+            {% else %}
+                <a href="{{ create_visualisation_url_resource(media,true) }}" class="btn btn-joined">
+                    {{ 'LINK_DOWNLOAD'|trans |desc('Télécharger') }}
+                </a>
+            {% endif %}
+            {% if editable is defined and editable == true %}
+                <span id="" class="resource-joined-delete"></span>
+                <input type="hidden" value="{{ media.getId }}" name="resource-joined[]"/>
+            {% endif %}
+        {% else %}
+            <span class="">
+                {{ 'DOCUMENT_DELETED'|trans }}
+            </span>
+        {% endif %}
+    </div>
+{% endblock %}

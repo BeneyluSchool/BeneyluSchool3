@@ -1,0 +1,8 @@
+<form ng-if="!ctrl.book.answers[ctrl.step]" ng-submit="ctrl.answers[ctrl.step] = 1; ctrl.submitAnswer(ctrl.step)">
+  <input type="hidden" ng-model="ctrl.answers[ctrl.step]">
+  <md-button type="submit" ng-disabled="ctrl.busy" class="md-primary md-raised centered">
+    <span translate>BUILDERS.BUTTON_FINISHED</span>
+  </md-button>
+</form>
+
+<p ng-if="!!ctrl.book.answers[ctrl.step]">{{ 'BUILDERS.LABEL_FINISHED_'+ctrl.book.story | translate}}</p>

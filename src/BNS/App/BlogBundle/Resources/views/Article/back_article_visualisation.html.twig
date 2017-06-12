@@ -1,189 +1,244 @@
+{% trans_default_domain "BLOG" %}
 {% extends 'BNSAppBlogBundle:Layout:manager.html.twig' %}
 
+{% set can_manage = has_right('BLOG_ADMINISTRATION') or (has_right('BLOG_PUBLISH') and article.getAuthor().getId() == app.user.id) %}
+{% set can_admin = has_right('BLOG_ADMINISTRATION') %}
+
 {% block title %}
-	{{ article.getTitle() }} - Gestion
+    {{ 'TITLE_ARTICLE_MANAGEMENT'|trans({'%articleTitle%': article.getTitle() }) |desc('%articleTitle% - Gestion') }}
+
 {% endblock title %}
 
 {% block javascripts %}
-	{{ parent() }}
-	
-	<script type="text/javascript">
-		$(function ()
-		{
-			$('.header-buttons .delete-article').click(function (e)
-			{
-				$('#modal-article-delete').modal('show');
-				
-				return false;
-			});
-			
-			$('.header-buttons .pin-article').click(function (e)
-			{
-				var $this = $(e.currentTarget);
-				
-				if ($this.hasClass('loading')) {
-					return false;
-				}
-				
-				$this.addClass('loading');
-				var articleId = $this.data('article-id');
-				
-				$.ajax({
-					url: $this.attr('href'),
-					success: function ()
-					{
-						// Show success alert
-						if ($this.hasClass('toggle')) {
-							$('#article-was-released').slideDown('fast');
-						}
-						else {
-							$('#article-was-pinned').slideDown('fast');
-						}
-						
-						// Delete success alert
-						setTimeout(function ()
-						{
-							$('.bns-alert div').slideUp('fast', function () { $(this).parent().slideUp('fast', function () { $('.bns-alert div').show() }) });
-						}, 8000);
-						
-						// Switch the button
-						$('.pin-article').toggleClass('hide');
-					}
-				}).done(function ()
-				{
-					$this.removeClass('loading');
-				});
-				
-				return false;
-			});
-		});
-	</script>
+  {{ parent() }}
+
+  <script type="text/javascript">
+    $(function ()
+    {
+
+      // prevent navigation when no comments in page
+      // actual filter is handled by script in comments template
+      $('body').on('click', '.comment-sidebar-filter', function (e) {
+        e.preventDefault();
+      });
+
+      $('body').on('click', '.md-toolbar-tools .pin-article', function (e)
+      {
+        var $this = $(e.currentTarget);
+
+        if ($this.hasClass('loading')) {
+          return false;
+        }
+
+        $this.addClass('loading');
+
+        $.ajax({
+          url: $this.attr('href'),
+          success: function ()
+          {
+            // Show success alert
+            var $alert;
+            if ($this.hasClass('toggle')) {
+              $alert = $('#article-was-released');
+            }
+            else {
+              $alert = $('#article-was-pinned');
+            }
+            $alert.slideDown('fast');
+
+            // Delete success alert
+            setTimeout(function() {
+              $alert.slideUp('fast');
+            }, 3000);
+
+            // Switch the button
+            $('.pin-article').toggleClass('hide');
+          }
+        }).done(function ()
+        {
+          $this.removeClass('loading');
+        });
+
+        return false;
+      });
+    });
+  </script>
+  <script type="text/ng-template" id="dialog-delete.html">
+    <md-dialog class="bns-dialog bns-dialog-warn">
+      <md-toolbar class="md-warn">
+        <div class="md-toolbar-tools"><div class="md-headline"><h2>{{ 'DELETE_ARTICLE'|trans }}</h2></div>
+          <span class="flex"></span><button class="md-icon-button md-button md-ink-ripple" ng-click="dialog.abort()">
+            <md-icon class="ng-scope ng-isolate-scope material-icons">close</md-icon></button>
+        </div>
+      </md-toolbar>
+      <md-dialog-content class="md-dialog-content">
+        <div class="md-body-1">
+          {% if is_adult() %}
+            {{ 'TITLE_ADULT_CONFIRMATION_DELETE'|trans({'%articleTitle%': article.getTitle() |escape}) |desc('
+        <h3>Êtes-vous sûr de vouloir supprimer l\'article "%articleTitle%" de votre blog ?</h3>
+         <div class="md-body-1">>Vous perdrez la totalité du contenu de l\'article.<br/>A noter que les documents joints/insérés ne seront pas supprimés.</div>
+         ') |raw }}
+          {% else %}
+            {{ 'TITLE_CHILD_CONFIRMATION_DELETE'|trans({'%articleTitle%': article.getTitle() |escape}) |desc('
+        <h3>Tu es sûr de vouloir supprimer l\'article "%articleTitle%" de ton blog ?</h3>
+         <div class="md-body-1">tu perdras la totalité du contenu de l\'article.<br/>A noter que les documents joints/insérés ne seront pas supprimés.</div>
+         ') |raw }}
+          {% endif %}
+        </div>
+      </md-dialog-content>
+      <div class="md-actions">
+        {{ components.button('LINK_CLOSE'|trans, {
+        href: '',
+        icon: 'undo',
+        click: 'dialog.abort()',
+        }) }}
+        {{ components.button('LINK_DELETE_ARTICLE' |trans, {
+        intent: 'warn',
+        raised: true,
+        icon: 'delete',
+        href: path('blog_manager_article_delete', {'articleId': article.id}),
+        attr: {'ng-click' : 'dialog.abort()'}
+        }) }}
+      </div>
+    </md-dialog>
+  </script>
 {% endblock javascripts %}
 
-{% block header %}
-	<div class="header-buttons">
-		<div class="inner-header">
-			<div class="container container-fluid">
-				<div class="row-fluid">
-					<div class="span12">
-						<a href="{{ path('BNSAppBlogBundle_back') }}" class="btn bns-notice btn-24 medium-return">
-							<span class="icons-24 back-icon"></span>
-							<strong>Retourner</strong><br />à la liste
-						</a>
-						<a href="{{ path('blog_manager_edit_article', {'articleSlug': article.getSlug()}) }}" class="btn bns-info btn-24 medium-return button-return">
-							<span class="icons-24 edit-icon"></span>
-							<strong>Éditer</strong><br />l'article
-						</a>
-						<a href="{{ path('blog_article_permalink', {'slug': article.getSlug()}) }}" class="btn bns-notice btn-24 medium-return {% if not has_right('BLOG_ADMINISTRATION') %}button-return{% endif %}">
-							<span class="icons-24 preview-icon"></span>
-							<strong>Voir</strong><br />l'article
-						</a>
-						{% if has_right('BLOG_ADMINISTRATION') %}
-							<a href="{{ path('blog_manager_article_pin', {'articleSlug': article.getSlug()}) }}" class="btn bns-warning btn-24 medium-return button-return pin-article {% if article.isStar() %}hide{% endif %}">
-								<span class="icons-24 preview-icon" style="background: url('http://cdn2.iconfinder.com/data/icons/iconza/iconza_24x24_000000/push_pin.png');"></span>
-								<strong>Épingler</strong><br />l'article
-							</a>
-							<a href="{{ path('blog_manager_article_pin', {'articleSlug': article.getSlug()}) }}" class="btn bns-warning btn-24 medium-return button-return pin-article {% if not article.isStar() %}hide{% endif %} toggle">
-								<span class="icons-24 preview-icon" style="background: url('http://cdn2.iconfinder.com/data/icons/iconza/iconza_24x24_000000/push_pin.png');"></span>
-								<strong>Détacher</strong><br />l'article
-							</a>
-						{% endif %}
-							
-						{% if has_right('BLOG_ADMINISTRATION') or article.isDraft() %}
-							<a href="#" class="btn bns-danger btn-24 medium-return delete-article">
-								<span class="icons-24 delete-icon"></span>
-								<strong>Supprimer</strong><br />l'article
-							</a>
-						{% endif %}
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-{% endblock header %}
-	
-{% block sidebar %}
-	<div class="section active">
-		{% trans %}Article{% endtrans %}
-		<span class="shadow-section"></span>
-	</div>
-	{% include 'BNSAppBlogBundle:Block:back_block_status.html.twig' %}
+{% block actionbar_content %}
+    {{ components.button_nav('LINK_BACK_TO_LIST' | trans, { href: path('BNSAppBlogBundle_back'), back: true } ) }}
+    {% if can_manage or article.isDraft() or article.isWaitingForCorrection%}
+    {{ components.button( 'LINK_EDIT_ARTICLE' | trans , { href:   path('blog_manager_edit_article', {'articleSlug': article.getSlug()}), icon: 'mode_edit', raised: true }) }}
+    {% endif %}
+    {% if article.isPublished %}
+      {{ components.button( 'LINK_SEE_ARTICLE' | trans , { href:   path('blog_article_permalink', {'slug': article.getSlug()}), icon: 'remove_red_eye', raised: true }) }}
+    {% endif %}
+    {% if can_admin %}
+      {{ components.button( 'LINK_PIN_ARTICLE' | trans , {
+        href: path('blog_manager_article_pin', {'articleSlug': article.getSlug()}),
+        icon: 'attach_file',
+        raised: true,
+        attr: { 'class' : 'pin-article' ~ (article.isStar() ? ' hide') }
+      }) }}
+      {{ components.button( 'LINK_DETACH_ARTICLE' | trans , {
+        href: path('blog_manager_article_pin', {'articleSlug': article.getSlug()}),
+        icon: 'attach_file',
+        raised: true,
+        attr: { 'class' : 'pin-article toggle' ~ (article.isStar() ?'': ' hide') }
+      }) }}
+    {% endif %}
+    {% if can_manage or article.isDraft() %}
+      {{ components.button('LINK_DELETE_ARTICLE' |trans, {raised: true, intent: 'warn', icon:'delete', href:'#', attr : {'id' : 'delete-selected', 'class' : 'delete-article' },
+      click: "dialog.confirm({ templateUrl: 'dialog-delete.html', targetEvent: $event })"
+      }) }}
+    {% endif %}
+{% endblock actionbar_content %}
 
-	{% if has_right('BLOG_ADMINISTRATION') %}
-		<div class="container-section">
-			<div class="section">
-				<a href="{{ path('blog_manager_comment') }}">Commentaires</a>
-			</div>
-			<div class="section">
-				<a href="{{ path('blog_manager_custom') }}">{% trans %}Blog.Back.Sidebar.Customing{% endtrans %}</a>
-			</div>
-		</div>
-	{% endif %}
-{% endblock sidebar %}
+{% block sidebar_content %}
+      <section class="current">
+        {{ components.button('TITLE_ARTICLES'|trans, {
+          href: path('BNSAppBlogBundle_back'),
+          icon: 'insert_drive_file',
+        }) }}
+
+        {% include 'BNSAppBlogBundle:Block:back_block_status.html.twig' %}
+        {% include 'BNSAppBlogBundle:Block:back_block_created_at.html.twig' %}
+
+        {% if article.isCommentAllowed() and can_admin %}
+          <bns-expander label="{{ 'LINK_COMMENTS' | trans }}" is-open="true">
+            <div class="layout-column nav-list">
+              {{ components.button( 'LINK_SEE_ALL_COMMENT' | trans|desc('Commentaires en modération') , { href: path('comment_manager_load'), icon :'warning', attr : {'data-filter-status':'PENDING_VALIDATION', 'class' : 'comment-sidebar-filter'} }) }}
+              {{ components.button( 'LINK_COMMENT_PUBLISH' | trans|desc('Commentaires publiés') , { href: path('comment_manager_load'), icon : 'done', attr : {'data-filter-status':'VALIDATED', 'class' : 'comment-sidebar-filter'} }) }}
+              {{ components.button( 'LINK_COMMENT_DENY' | trans|desc('Commentaires refusés') , { href: path('comment_manager_load'), icon : 'clear', attr : {'data-filter-status':'REFUSED', 'class' : 'comment-sidebar-filter'} }) }}
+            </div>
+          </bns-expander>
+        {% endif %}
+
+        {% include 'BNSAppBlogBundle:Block:back_block_blogs.html.twig' %}
+      </section>
+{% endblock sidebar_content %}
 
 {% block content %}
-	{% if has_right('BLOG_ADMINISTRATION') or article.isDraft() %}
-		{% render 'BNSAppBlogBundle:BackAjax:renderDeleteArticleModal' with {'article': article} %}
-	{% endif %}
-	
-	<div class="item visualisation">
-		{% for message in app.session.flashbag.get('success') %}
-			<div class="alert alert-success alert-flash bns-alert">
-				{{ message }}
-				<div class="jim"></div>
-			</div>
-		{% endfor %}
-		<div class="alert alert-success bns-alert hide" id="article-was-pinned">
-			L'article a été épinglé avec succès !
-			<div class="jim"></div>
-		</div>
-		<div class="alert alert-success bns-alert hide" id="article-was-released">
-			L'article a été détaché avec succès !
-			<div class="jim"></div>
-		</div>
-			
-		<div class="header">
-			<h3>{{ article.getTitle() }}</h3>
-			{% if article.getSortedBlogCategories()|length > 0 %}
-				<div class="categories">
-					<ul>
-						{% for category in article.getSortedBlogCategories() %}
-							<li>
-								{% if category.hasIcon() %}<span class="sprite-icon {{ category.getIconClassname() }}"></span>{% endif %}
-								{{ category.getTitle() }}
-								{% if (category.getChildren()|length > 0) %}
-									<ul>
-										{% for child in category.getChildren() %}
-											<li>{{ child.getTitle() }}</li>
-										{% endfor %}
-									</ul>
-								{% endif %}
-							</li>
-						{% endfor %}
-					 </ul>
-				</div>
-			{% endif %}
-		</div>
-		<div class="footer">
-			{% if article.isPublished() or article.isProgrammed() %}
-				Écrit {{ date_from_now(article.getPublishedAt(), false, true) }}
-			{% else %}
-				Créé {{ date_from_now(article.getCreatedAt(), false, true) }}
-			{% endif %}
-			par <img src="{{ avatar(article.getAuthor(), 'thumbnail') }}" alt="" class="avatar" /> {{ article.getAuthor().getFullName() }}
-		</div>
-		<div class="text">
-			{% autoescape false %}
-				{{ article.getContent() }}
-			{% endautoescape %}
-		</div>
-		<div class="resources">
-			{% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': article.getResourceAttachments(), 'editable': false} %}
-		</div>
-		
-		{% render ('BNSAppCommentBundle:BackComment:visualize') with {
-			'objectId':		article.getId(),
-			'namespace':	'\\BNS\\App\\CoreBundle\\Model\\BlogArticleComment'
-		} %}
-	</div>
+  {% if can_manage or article.isDraft() %}
+    {{ render(controller('BNSAppBlogBundle:BackAjax:renderDeleteArticleModal', {'article': article} )) }}
+  {% endif %}
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools layout-align-start-center">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+    <h1 class="md-title text-primary text-left flex flex-gt-sm-33">{{ article.getTitle() }}</h1>
+  </div>
+</md-toolbar>
+<bns-inset class="bns-small bns-accent md-padding hide" id="article-was-pinned">{% trans %}ARTICLE_PIN_SUCCESS{% endtrans %}</bns-inset>
+<bns-inset class="bns-small bns-accent md-padding hide" id="article-was-released">{% trans %}ARTICLE_DETACH_SUCCESS{% endtrans %}</bns-inset>
+<md-content class="md-padding">
+  <div class="item visualisation">
+    <div class="container-description-article">
+      {% include '@BNSAppBlog/Article/article_categories.html.twig' %}
+      <div class="author-infos">
+          {% if article.getPublishedAt() %}
+            {{ 'ARTICLE_CREATE_FROM_PUBLISH_AT'|trans({
+              '%image%':  components.avatar(article.getAuthor(), { size: 24 }),
+              '%userFullName%': article.getAuthor().getFullName() |escape,
+              '%datePublish%': date_from_now(article.getPublishedAt(), false, true, 'medium', 'short', false, true)
+            }) |desc('Ecrit par %image%<strong>%userFullName%</strong>, %datePublish%') |raw }}
+          {% else %}
+            {{ 'ARTICLE_CREATE_FROM_PUBLISH_AT'|trans({
+              '%image%':  components.avatar(article.getAuthor(), { size: 24 }),
+              '%userFullName%': article.getAuthor().getFullName() |escape,
+              '%datePublish%': date_from_now(article.getCreatedAt(), false, true, 'medium', 'short', false, true)
+            }) |desc('Ecrit par %image%<strong>%userFullName%</strong>, %datePublish%') |raw }}
+          {% endif %}
+          {% if article.getUpdatedAt() %}
+            <p class="md-body-1 text-muted">
+                {{ 'LAST_MODIFICATION_AT'|trans({'%dateCreation%': date_from_now(article.getUpdatedAt(), false, true, 'medium', 'short', false, true)}) |desc('Dernière modification %dateCreation%') |raw}}
+            </p>
+        {% endif %}
+      </div>
+
+    </div>
+    <div class="text">
+      {% if not can_manage and is_child() %}
+        {% if article.isFinished() %}
+          <div class="alert alert-info bns-alert large small-text">
+            {% trans %}CHILD_ARTICLE_WILL_BE_CORRECT{% endtrans %}
+
+            <div class="jim"></div>
+          </div>
+        {% elseif article.isWaitingForCorrection() %}
+          <div class="alert alert-error bns-alert large small-text">
+            {{ 'CHILD_ARTICLE_TOO_FAULT'|trans |desc('Ton enseignant trouve qu\'il y a trop de fautes dans ton article, tu devrais le corriger !<br/> Pour cela, clique sur le bouton "Éditer l\'article" en haut à gauche.') |raw }}
+
+
+            <div class="jim"></div>
+          </div>
+        {% elseif article.isPublished() %}
+          <div class="alert alert-info bns-alert large small-text">
+            {% trans %}CHILD_ARTICLE_PUBLISH_CANT_MODIFY{% endtrans %}
+
+            <div class="jim"></div>
+          </div>
+        {% endif %}
+      {% endif %}
+      {% autoescape false %}
+        <div class="md-body-1">
+          {{ parse_public_resources(article.getContent()|purify,true,'medium',true) }}
+        </div>
+      {% endautoescape %}
+    </div>
+    <div class="resources">
+      {% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias': article.getResourceAttachments(), 'editable': false, 'objectType': 'BlogArticle', 'objectId': article.id } %}
+    </div>
+
+    {% if article.isCommentAllowed() and can_admin %}
+      <md-divider></md-divider>
+      {% render controller('BNSAppCommentBundle:BackComment:visualize',
+      {
+      'objectId':		article.getId(),
+      'namespace':	'\\BNS\\App\\CoreBundle\\Model\\BlogArticleComment',
+      'editRoute':	'blog_manager_comment_edit',
+       'material' : true
+      }
+      ) %}
+    {% endif %}
+  </div>
+  </md-content>
 {% endblock %}

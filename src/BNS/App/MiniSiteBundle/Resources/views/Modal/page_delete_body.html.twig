@@ -1,0 +1,13 @@
+{% trans_default_domain "MINISITE" %}
+<div class="modal-body">
+	<div class="content-modal-body">
+        {% if is_adult() %}
+            {{ 'ADULT_SURE_TO_DELETE_PAGE'|trans|raw}}
+        {% else %}
+            {{ 'CHILD_SURE_TO_DELETE_PAGE'|trans|raw  }}
+        {% endif %}
+
+		<input type="hidden" id="delete-category-id" />
+	</div>
+</div>
+<div class="beneylu-jim"></div>

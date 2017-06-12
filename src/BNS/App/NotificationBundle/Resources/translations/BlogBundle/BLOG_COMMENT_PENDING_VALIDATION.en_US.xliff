@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:44:29Z" source-language="en" target-language="en-US" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="80cf7d793f3a43a67ab710b4b55733d6c96ce107" resname="BLOG_COMMENT_PENDING_VALIDATION.EMAIL.content">
+        <source>BLOG_COMMENT_PENDING_VALIDATION.EMAIL.content</source>
+        <target><![CDATA[A comment has just been submitted for validation by <strong>%sender_full_name%</strong> on the article "<a href="%comment_route%">%article_title%</a>"]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="211e6b6bfed5bd69a5481cc7b696a8cda22128bd" resname="BLOG_COMMENT_PENDING_VALIDATION.EMAIL.title">
+        <source>BLOG_COMMENT_PENDING_VALIDATION.EMAIL.title</source>
+        <target>A comment has just been submitted for validation</target>
+      </trans-unit>
+      <trans-unit id="50f7583b81b8673e61d2f6ff69c3ac68f1fc8416" resname="BLOG_COMMENT_PENDING_VALIDATION.SYSTEM.content">
+        <source>BLOG_COMMENT_PENDING_VALIDATION.SYSTEM.content</source>
+        <target><![CDATA[A comment has just been submitted for validation by <strong>%sender_full_name%</strong> on the article "<a href="%comment_route%">%article_title%</a>"]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,35 @@
+<!-- cell 1 or 2 -->
+<th
+  rowspan="{{::row.nbSubdomains + 1}}"
+  colspan="{{::(row.isRoot && !row.nbSubdomains && !row.isCommon) ? 2 : 1}}"
+  ng-class="::{'vertical-cell': row.nbSubdomains, 'lsu-subdomain-label': !row.isRoot, 'lsu-domain-label': row.isRoot, 'text-left': !row.nbSubdomains }"
+>
+  <span>{{::row.domain.label}}</span>
+</th>
+
+<!-- cells 2~3 for roots with subdomains-->
+<td ng-if="::!row.hasControls && !rom.isCommon" colspan="2" class="phantom-cell"></td>
+
+<!-- cell 3 -->
+<td ng-if="::row.hasControls && !row.isCommon" class="lsu-details-cell">
+  <ul class="lsu-domain-details">
+    <li ng-repeat="detail in ::row.details">{{::detail.label}}</li>
+  </ul>
+</td>
+
+<!-- cell 4 -->
+<td ng-if="::row.hasComment" rowspan="{{::row.nbSubdomains + 1}}" class="lsu-comment-cell" ng-class="::{editable: row.isEditable}">
+  <md-input-container ng-if="::row.isEditable" md-no-float bns-no-label bns-no-message>
+    <textarea rows="2" ng-model="row.comment" placeholder="{{::'LSU.PLACEHOLDER_RECORD_COMMENT'|translate}}" md-no-resize></textarea>
+  </md-input-container>
+  <div ng-if="::!row.isEditable" class="lsu-content">{{::row.comment}}</div>
+</td>
+
+<!-- cells 5~8 for roots with subdomains-->
+<td ng-if="::!row.hasControls" colspan="4" class="phantom-cell"></td>
+
+<!-- cells 5~8 -->
+<td ng-if="::row.hasControls" ng-repeat="position in ::['NOT', 'PARTIAL', 'SUCCESS', 'OVERSTEP']" class="lsu-achievement-cell">
+  <md-button ng-if="::row.isEditable" href ng-class="{active: position === row.position}" ng-click="row.setPosition(position)" aria-label="{{::position}}"></md-button>
+  <div ng-if="!row.isEditable && position === row.position" class="active"></div>
+</td>

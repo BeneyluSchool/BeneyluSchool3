@@ -1,0 +1,12 @@
+<div class="category-container">
+  {%- for category in article.getSortedCategories(blog|default(null)) -%}
+    <div class="category-item">
+      {# display parent when child selected #}
+      {% if category.level == 2 %}
+      {% set parent = category.parent %}
+        {% if parent.iconClassname|length > 0 and category.iconClassname() != 'default' %}<span class="sprite category {{ parent.iconClassname }}"></span>{% endif %} {{ parent.title }} >
+      {% endif %}
+      {% if category.iconClassname|length > 0 and category.iconClassname != 'default' %}<span class="sprite category {{ category.iconClassname }}"></span>{% endif %} {{ category.title }}
+    </div>
+  {%- endfor -%}
+</div>

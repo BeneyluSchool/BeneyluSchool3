@@ -1,0 +1,593 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-12-09T15:23:19Z" source-language="en" target-language="es-AR" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="6d764d789b50cef62be9574f0f19ca28b7b4e271" resname="ACCEPT_POLICY">
+        <source>Accepter la charte d'utilisation</source>
+        <target state="new">Aceptar nuestra política</target>
+      </trans-unit>
+      <trans-unit id="80b2a12dc43a7edabfba7b8cc126615c7fd62bae" resname="ACCOUNT_ACTIVATION_CONFIRMATION">
+        <source>ACCOUNT_ACTIVATION_CONFIRMATION</source>
+        <target state="new"><![CDATA[<h1>Confirmación</h1>
+        <p>Un email ha sido enviado.</p>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="1e6a40c8e201e3d4cf00f84f8a1cde490efea4f5" resname="ACCOUNT_ASK_ACTIVATION">
+        <source>ACCOUNT_ASK_ACTIVATION</source>
+        <target state="new"><![CDATA[<h1>Demanda de activación de la cuenta</h1>
+        <p>Una cuenta ha sido creada para usted pero todavía no posee la información de conexión.&nbsp;? Es aquí donde todo sucede.</p>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="2cb195c91ca9071e60a26e47db0a51bb01d729d2" resname="ACCOUNT_NEARLY_VALIDATED">
+        <source>ACCOUNT_NEARLY_VALIDATED</source>
+        <target>Tu cuenta pronto estará lista, solo tenés que rellenar algunos campos y estará completada.</target>
+      </trans-unit>
+      <trans-unit id="917d93230f550a378a193e7b916e1d43839cd881" resname="ACCOUNT_NOW_VALIDATED">
+        <source>ACCOUNT_NOW_VALIDATED</source>
+        <target><![CDATA[Gracias, tu cuenta ya está validada. <br />Este es el mejor momento para empezar a preparar la clase antes de dar la bienvenida a tus alumnos.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="f75c9366c17bba1697ba7352657e6b8247a7be6e" resname="ADULT_ACCESS_BENEYLU_READ_POLICY">
+        <source>Pour accéder à %beneylu_brand_name%, vous devez lire et accepter la charte d'utilisation.</source>
+        <target state="new">Para acceder a %beneylu_brand_name%, debés leer y aceptar nuestra política.</target>
+      </trans-unit>
+      <trans-unit id="7396cfa400eb66915d25c73fd0fc68f4228c2438" resname="ADULT_PRINT_PASSWORD">
+        <source>Imprimer votre mot de passe</source>
+        <target state="new">Imprimir mi contraseña</target>
+      </trans-unit>
+      <trans-unit id="fbb6eaa7f3684f530921eb8c53e32860db2aa6a0" resname="ADULT_WRITE_PASSWORD_BEFORE_QUIT_PAGE">
+        <source>Notez bien la combinaison de votre mot de passe car une fois que vous aurez quitté cette page vous ne pourrez plus y revenir</source>
+        <target state="new">Tomá nota de la combinación de tu contraseña, porque una vez abandonés esta página no podrás volver atrás.</target>
+      </trans-unit>
+      <trans-unit id="c5e7c966691395820c7ebc1dd6f2a094fc2696d7" resname="BUTTON_CUSTOMIZE_MY_CLASS">
+        <source>BUTTON_CUSTOMIZE_MY_CLASS</source>
+        <target>Personalizar mi clase</target>
+      </trans-unit>
+      <trans-unit id="a85d00fb6df705289ad77e669ba297baaee59d16" resname="BUTTON_CUSTOMIZE_MY_CLASS_LATER">
+        <source>BUTTON_CUSTOMIZE_MY_CLASS_LATER</source>
+        <target>Personalizar mi clase después</target>
+      </trans-unit>
+      <trans-unit id="44bb6c6ba574f8af78af81c6888b241039cb4dec" resname="BUTTON_LATER">
+        <source>BUTTON_LATER</source>
+        <target>Luego</target>
+      </trans-unit>
+      <trans-unit id="78c877aa537649792e5db9cfa4b4c1a41101c435" resname="BUTTON_NO_THANK">
+        <source>BUTTON_NO_THANK</source>
+        <target state="new">No gracias, me las arreglo solo.</target>
+      </trans-unit>
+      <trans-unit id="925c0793c956b3c830b7a81d94692e8daf8eedf4" resname="BUTTON_PREPARE_MY_CLASS">
+        <source>BUTTON_PREPARE_MY_CLASS</source>
+        <target>Preparar mi clase</target>
+      </trans-unit>
+      <trans-unit id="a090052c63a3ae612ccf1807c4d106f5e4c59e36" resname="BUTTON_RECOVER_PASSWORD">
+        <source>BUTTON_RECOVER_PASSWORD</source>
+        <target state="new">Recuperar mi contraseña</target>
+      </trans-unit>
+      <trans-unit id="4dfa8e399fe587763b3cf20a600c52bd00b6fc1c" resname="BUTTON_REGISTER_MY_SCHOOL_LATER">
+        <source>BUTTON_REGISTER_MY_SCHOOL_LATER</source>
+        <target>Registrar mi escuela después</target>
+      </trans-unit>
+      <trans-unit id="552612dd6acf5e91e2aa8596602995fbafb28f79" resname="BUTTON_SAVE_THE_CHANGES">
+        <source>BUTTON_SAVE_THE_CHANGES</source>
+        <target>Guardar los cambios</target>
+      </trans-unit>
+      <trans-unit id="2f6d9b0bfe4882253bb3dceccb824ab9f91bbf0d" resname="BUTTON_SEND">
+        <source>BUTTON_SEND</source>
+        <target state="new">Restablecer mi contraseña</target>
+      </trans-unit>
+      <trans-unit id="a6eab0a3c6707b0fcbf7b8fb86d879d6e831d25c" resname="BUTTON_VALIDATE_MY_ACCOUNT">
+        <source>BUTTON_VALIDATE_MY_ACCOUNT</source>
+        <target>Crear mi cuenta</target>
+      </trans-unit>
+      <trans-unit id="c4673249990241887fe4b5357a3e8a781edc9cc1" resname="CHILD_ACCESS_BENEYLU_READ_POLICY">
+        <source>Pour accéder à %beneylu_brand_name%, tu dois lire et accepter la charte d'utilisation.</source>
+        <target state="new">Para acceder a %beneylu_brand_name%, debes leer y aceptar nuestra política.</target>
+      </trans-unit>
+      <trans-unit id="6974f4410995c438c814355dee23aee639c315ea" resname="CHILD_PRINT_PASSWORD">
+        <source>Imprimer mon mot de passe</source>
+        <target state="new">Imprimir mi contraseña</target>
+      </trans-unit>
+      <trans-unit id="eb62b1736a2f7b5734cc95cfe804683276b140eb" resname="CHILD_WRITE_PASSWORD_BEFORE_QUIT_PAGE">
+        <source>Note bien la combinaison de ton mot de passe car une fois que tu auras quitté cette page tu ne pourras plus y revenir</source>
+        <target state="new">Tomá nota de la combinación de tu contraseña, porque una vez abandones esta página no podrás volver atrás.</target>
+      </trans-unit>
+      <trans-unit id="08f3a0ba60a8359e6a1ea27f27f9dc53c5e9c42f" resname="CONFIRM_TOO_SPEED">
+        <source><![CDATA[<h1>Confirmation </h1>
+	<p>Oops, vous allez un peu vite !</p>
+]]></source>
+        <target state="new"><![CDATA[<h1>Confirmación </h1>
+<p>¡Ups, vas un poco rápido!</p>
+]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="6ca6ae07145d14b47516856e022c6013be4201f5" resname="DESCRIPTION_ACCOUNT_ACTIVATED">
+        <source>DESCRIPTION_ACCOUNT_ACTIVATED</source>
+        <target state="new">Un email le ha sido enviado con la información temporaria de conexión.</target>
+      </trans-unit>
+      <trans-unit id="f93170cb6ab342e8e1b85c8084fd0913536fff75" resname="DESCRIPTION_ACTIVATE_ACCOUNT">
+        <source>DESCRIPTION_ACTIVATE_ACCOUNT</source>
+        <target state="new"><![CDATA[Puede pedir la activación de su cuenta Beneylu School.
+            <br>
+           Solo necesitás indicar su <strong>dirección de correo eletrónico</strong> aquí abajo para recibir las instrucciones via email.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="2c664ed03ed52f560bb97290dd798e073f6b176d" resname="DESCRIPTION_ALREADY_ACTIVATED">
+        <source>DESCRIPTION_ALREADY_ACTIVATED</source>
+        <target state="new"><![CDATA[Tu cuenta ya ha sido activda, podés pedir una nueva contraseña a partir de<a href="%reset_password_url%">la pagina de recuperación de contraseñas</a>.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="130f101907a718fa2e326008d78edca22c8da607" resname="DESCRIPTION_BLOG">
+        <source>DESCRIPTION_BLOG</source>
+        <target state="new">Instalá el blog, una herramienta de expresión genial con la cual todos los alumnos participan.</target>
+      </trans-unit>
+      <trans-unit id="781df13ef0dd597738b62c4499a7b96d38599ae2" resname="DESCRIPTION_CLASSROOM_DETAILS">
+        <source>DESCRIPTION_CLASSROOM_DETAILS</source>
+        <target><![CDATA[¡Felicidades&nbsp;! Has creado tu cuenta. Es el momento perfecto para personalizar tu clase antes de recibir a tus alumnos. ¡Síguenos!.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="ffa0c4f8a39da653b6bfe79382f43a83af88dd19" resname="DESCRIPTION_CREATE_PASSWORD">
+        <source><![CDATA[<h1>Création de mot de passe</h1>
+					<p>
+						Rien de plus simple, tout se passe en 3 étapes :
+
+						<ol>
+							<li class="first step"><strong>Choisir ses lettres :</strong> il faut cliquer sur une consonne puis sur une voyelle. Ne pas oublier d'appuyer sur "<strong>OK</strong>" pour confirmer. Recommencer trois fois l'opération.</li>
+							<li><strong>Choisir ses chiffres :</strong> il faut cliquer sur 3 chiffres différents. Ne pas oublier d'appuyer sur "<strong>OK</strong>" pour confirmer.</li>
+							<li><strong>Bien noter le mot de passe pour ne pas le perdre !</strong></li>
+                    </ol>
+                    </p>]]></source>
+        <target state="new"><![CDATA[<h1>Creación de la contraseña</h1>
+<p>
+No hay nada más fácil, solo hay que seguir estos 3 pasos:
+
+<ol>
+<li class="first step"><strong>Elegir las letras:</strong>pulsa en una consonante y luego en una vocal. No olvides pulsar "<strong>Aceptar</strong>"para confirmar. Repetí este proceso tres veces.</li>
+<li><strong>Elegir los números:</strong> pulsa en 3 números distintos. No olvides pulsar "<strong>Aceptar</strong>" para confirmar.</li>
+<li><strong>¡Tomá nota de tu contraseña para no olvidarte!</strong></li>
+</ol>
+</p>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="b3d7518672313ab13018f8c17d51800139cd2148" resname="DESCRIPTION_EMAIL_NOT_FOUND">
+        <source>DESCRIPTION_EMAIL_NOT_FOUND</source>
+        <target state="new">No hemos podido activar tu cuenta, por favor contactanos a %support_email%</target>
+      </trans-unit>
+      <trans-unit id="0dfa702024d58177d2dada900607df1014df4c13" resname="DESCRIPTION_FORM_HAS_ERRORS">
+        <source>DESCRIPTION_FORM_HAS_ERRORS</source>
+        <target>¡Ups! Quedan algunos campos por llenar.</target>
+      </trans-unit>
+      <trans-unit id="e05ae1e7a392226d6d0e16f5b482a2a605097825" resname="DESCRIPTION_HOMEWORK">
+        <source>DESCRIPTION_HOMEWORK</source>
+        <target state="new">Instalá el cuaderno de comunicación para organizar las tareas de tu clase al día a día.</target>
+      </trans-unit>
+      <trans-unit id="33589d4aa7dd5786b7234c443e3673b363547ea7" resname="DESCRIPTION_MEDIALIBRARY">
+        <source>DESCRIPTION_MEDIALIBRARY</source>
+        <target state="new">Cargá tus fotos, canciones y videos en la mediateca y compartelos con tus alumnos.</target>
+      </trans-unit>
+      <trans-unit id="dd61d786d7958c9fdbabfeeba58d67586ebf2fdd" resname="DESCRIPTION_PASSWORD_SEND_BY_MAIL">
+        <source><![CDATA[<h3>Votre mot de passe a été envoyé par e-mail.</h3>
+<p>
+	Vous allez recevoir très rapidement un e-mail comportant votre mot de passe temporaire, puis à votre prochaine connexion,
+	vous serez invité à choisir un nouveau mot de passe.
+</p>
+<p>
+	<strong>L'équipe %beneylu_brand_name%</strong>
+</p>
+]]></source>
+        <target state="new"><![CDATA[<h3>Te hemos enviado la contraseña por correo electrónico.</h3>
+<p>
+Pronto recibirás un correo con tu contraseña temporal. La próxima vez que inicies sesión, te pediremos que cambies la contraseña.
+</p>
+<p>
+<strong>El equipo de %beneylu_brand_name%</strong>
+</p>
+]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="34662901f1b92de34487f88da05d05bb3ee77578" resname="DESCRIPTION_RESET_PASSWORD_REQUEST">
+        <source><![CDATA[	<h3>Vous avez déjà fait une demande de réinitialisation de mot de passe</h3>
+	<p>	Attention, vous devez attendre trente minutes entre chaque demande de réinitialisation de mot de passe. </p>
+	<p>Vous n'avez toujours pas reçu l'e-mail ? Nous vous conseillons de regarder votre boite de messages indésirables, peut-être que le message s'est glissé à cet endroit.</p>
+<p>
+    <strong>L'équipe %beneylu_brand_name%</strong>
+</p>
+]]></source>
+        <target state="new"><![CDATA[ <h3>Ya has solicitado restablecer la contraseña</h3>
+<p>	Atención, tenés que esperar treinta minutos entre cada solicitud de cambio de la contraseña. </p>
+<p>¿Todavía no has recibido ningún correo? Revisá la carpeta de correo basura, podría estar allí.</p>
+<p>
+<strong>El equipo de %beneylu_brand_name%</strong>
+</p>
+]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="740aeee81c3cda09e79d53fbf3fb3a9242472dee" resname="DESCRIPTION_SCHOOL_DETAILS">
+        <source>DESCRIPTION_SCHOOL_DETAILS</source>
+        <target><![CDATA[¡Importante! Para ayudarte correctamente, nos gustaría conocer mas acerca de ti y tu escuela. Completá tu perfil y empezá la aventura %beneylu_brand_name%.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="17ecbad99fe13e884439f39ca1e5a4ce3f4e0e54" resname="DESCRIPTION_USER_DETAILS">
+        <source>DESCRIPTION_USER_DETAILS</source>
+        <target><![CDATA[¡Bienvenido a la aventura %beneylu_brand_name%&nbsp;! Preparate para vivir momentos increíbles. Antes de lanzarte, te tenemos una pequeña entrevista para crear tu cuenta  %beneylu_brand_name%. ¿Listo&nbsp;?]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="1d84c50d83a3218a6934ed116f9be294cbe36b9b" resname="EMAIL_NOT_FOUND">
+        <source>EMAIL_NOT_FOUND</source>
+        <target>No se ha podido encontrar la dirección de correo electrónico que has introducido</target>
+      </trans-unit>
+      <trans-unit id="a3e73556721aecf0abd6df56ee1de1e55d3800bd" resname="EMAIL_SENT">
+        <source>Un mail a été envoyé</source>
+        <target state="new">Te hemos enviado un correo.</target>
+      </trans-unit>
+      <trans-unit id="0c7faecc7a0acb12a060351fd08389d6c1d9c280" resname="ERROR_ALREADY_EXIST">
+        <source>ERROR_ALREADY_EXIST</source>
+        <target>La dirección de correo electrónico ya existe</target>
+      </trans-unit>
+      <trans-unit id="c897d3915302ba146db7853693a9e975d3c48129" resname="ERROR_CANT_CREATE_SCHOOL">
+        <source>ERROR_CANT_CREATE_SCHOOL</source>
+        <target state="new">No se ha podido crear la escuela</target>
+      </trans-unit>
+      <trans-unit id="6308db384c2b6a1a7ef4f3665d93b9beea0112c3" resname="ERROR_INVALID_EMAIL">
+        <source>ERROR_INVALID_EMAIL</source>
+        <target>La dirección de correo electrónico es inválida</target>
+      </trans-unit>
+      <trans-unit id="89fc79f09f80a52f9f18191ef67b81fd939c2b8b" resname="ERROR_NOT_AUTHORIZED">
+        <source>ERROR_NOT_AUTHORIZED</source>
+        <target>No autorizado</target>
+      </trans-unit>
+      <trans-unit id="d3b1a35c0dfe91b35d568b2898e530d9a8dc58fa" resname="FLASH_SAVE_SHCOOL_DETAILS_SUCCESS">
+        <source>FLASH_SAVE_SHCOOL_DETAILS_SUCCESS</source>
+        <target>¡El perfil de tu escuela está completo!</target>
+      </trans-unit>
+      <trans-unit id="c80460ed2e3f9fded7822986ed7fb03005087c0b" resname="FLASH_SUCCESS_PASSWORD_MODIFIED">
+        <source>FLASH_SUCCESS_PASSWORD_MODIFIED</source>
+        <target>Felicidades, la contraseña se ha modificado correctamente</target>
+      </trans-unit>
+      <trans-unit id="b98f6c2e8ff7fad4bc3706412588df6679fb3822" resname="GET_NOTIFICATION_CHILD_BY_EMAIL">
+        <source>GET_NOTIFICATION_CHILD_BY_EMAIL</source>
+        <target>Recibí notificaciones por correo para no perderte ninguna de las actividades de tu hijo/a en %brandName%.
+Podrás seguir las últimas noticias de su clase a diario.</target>
+        <note><![CDATA[%brandName% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="5e041612b0cccdd55c925cdfd4bfb495d3a280e0" resname="LABEL_ACCEPT_CHARTER">
+        <source>LABEL_ACCEPT_CHARTER</source>
+        <target>He leído y acepto la política</target>
+      </trans-unit>
+      <trans-unit id="2348c480b7b17c7f48b98f67dc25e3a3b9f98191" resname="LABEL_CITY">
+        <source>LABEL_CITY</source>
+        <target>¿En qué ciudad está tu escuela?</target>
+      </trans-unit>
+      <trans-unit id="72a21b633f2ceb11c007011aee576c159813c579" resname="LABEL_CLASS_LEVEL">
+        <source>LABEL_CLASS_LEVEL</source>
+        <target>¿En qué grado estan tus alumnos?</target>
+      </trans-unit>
+      <trans-unit id="2ed3ed5f9171432a10e8647611bdf76823aa3969" resname="LABEL_CLASS_NAME">
+        <source>LABEL_CLASS_NAME</source>
+        <target>Nombra tu clase</target>
+      </trans-unit>
+      <trans-unit id="31c25de772d9273b9e1354534c44f4c115d0fa9c" resname="LABEL_COUNTRY">
+        <source>LABEL_COUNTRY</source>
+        <target>Seleccioná tu país</target>
+      </trans-unit>
+      <trans-unit id="61d74c7ac383cf04b9f78c01efba8f55a2f823dd" resname="LABEL_DOCUMENTATION">
+        <source>LABEL_DOCUMENTATION</source>
+        <target state="new">Encontrá %link_start%docenas de consejos%link_end% para dominar %beneylu_brand_name%.</target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="cb0b3c0d0e4a91062e11a305054392dd8d38d2c9" resname="LABEL_EMAIL">
+        <source>LABEL_EMAIL</source>
+        <target>Introducí tu correo electrónico para recibir notificaciones</target>
+      </trans-unit>
+      <trans-unit id="8432b524e1d9bc21dca4d5bd40e90522bd718202" resname="LABEL_FIRST_NAME">
+        <source>LABEL_FIRST_NAME</source>
+        <target>Introducí tu nombre</target>
+      </trans-unit>
+      <trans-unit id="49576db2240685ac40314401bbd330a36f7ee958" resname="LABEL_GENDER_ARE_YOU">
+        <source>LABEL_GENDER_ARE_YOU</source>
+        <target>Eres...</target>
+      </trans-unit>
+      <trans-unit id="b2aaa7f7d9e3004d010a62bd33e140ffae7c8689" resname="LABEL_GENDER_FEMALE">
+        <source>LABEL_GENDER_FEMALE</source>
+        <target>Una mujer</target>
+      </trans-unit>
+      <trans-unit id="59059f64088eb62bfc7926ffa0e897f3796cefd0" resname="LABEL_GENDER_MALE">
+        <source>LABEL_GENDER_MALE</source>
+        <target>Un hombre</target>
+      </trans-unit>
+      <trans-unit id="437e8713db5696cab1db51d646d704194ccd7cd7" resname="LABEL_LANGUAGE_YOU_SPEAK">
+        <source>LABEL_LANGUAGE_YOU_SPEAK</source>
+        <target>Hablas...</target>
+      </trans-unit>
+      <trans-unit id="d1541f2e5039e2ba0ac23a4aeeebe3ab41245b6e" resname="LABEL_LAST_NAME">
+        <source>LABEL_LAST_NAME</source>
+        <target>Introducí tu apellido</target>
+      </trans-unit>
+      <trans-unit id="4ab0a689b794b8165efc1ba15711d6e0479251e5" resname="LABEL_MADAME">
+        <source>LABEL_MADAME</source>
+        <target>Sra</target>
+      </trans-unit>
+      <trans-unit id="d66991f6fc514421ed02b5733a6fe5e5351abf70" resname="LABEL_MISTER">
+        <source>LABEL_MISTER</source>
+        <target state="new">Sr</target>
+      </trans-unit>
+      <trans-unit id="436fef830f04d1bb9558869eea1d2173488b0df8" resname="LABEL_MY_CLASSROOM">
+        <source>LABEL_MY_CLASSROOM</source>
+        <target>Mi clase</target>
+      </trans-unit>
+      <trans-unit id="eaac4dacb9a38873f1f177573a8bc74a7580ca57" resname="LABEL_MY_SCHOOL">
+        <source>LABEL_MY_SCHOOL</source>
+        <target>Mi escuela</target>
+      </trans-unit>
+      <trans-unit id="334884e76fee3cc9b38e36a012b3ec8173128e95" resname="LABEL_SCHOOL_COUNTRY">
+        <source>LABEL_SCHOOL_COUNTRY</source>
+        <target>¿En qué país está tu escuela?</target>
+      </trans-unit>
+      <trans-unit id="aae37f533339eae704c7c52e583012c2a8012a99" resname="LABEL_SCHOOL_NAME">
+        <source>LABEL_SCHOOL_NAME</source>
+        <target>¿Cómo se llama tu escuela?</target>
+      </trans-unit>
+      <trans-unit id="e44113c8db6f96b410ac131b3e3e8e892886cde3" resname="LABEL_TYPE_CLASS_NAME">
+        <source>LABEL_TYPE_CLASS_NAME</source>
+        <target>Introducí el nombre de tu clase</target>
+      </trans-unit>
+      <trans-unit id="cca231db2b1580e0e380d3d8a20c2abc46aed6ae" resname="LABEL_WHATS_YOUR_NAME">
+        <source>LABEL_WHATS_YOUR_NAME</source>
+        <target>¿Cómo te llamas?</target>
+      </trans-unit>
+      <trans-unit id="9ba8855492749975a5a11b520ca74bec98dbd820" resname="LABEL_WHERE_DO_YOU_LIVE">
+        <source>LABEL_WHERE_DO_YOU_LIVE</source>
+        <target>¿Dónde vives?</target>
+      </trans-unit>
+      <trans-unit id="5de660f02037c0fd1002c91942901274369ce8b0" resname="LABEL_ZIP_CODE">
+        <source>LABEL_ZIP_CODE</source>
+        <target>¿Cuál es el código postal de tu escuela?</target>
+      </trans-unit>
+      <trans-unit id="4549bf8ecb7527119f5f8f00ebb343bd54c8ac99" resname="LINK_COMPLETE_PROFILE">
+        <source>LINK_COMPLETE_PROFILE</source>
+        <target>Lanzáte, sólo son 2 minutitos</target>
+      </trans-unit>
+      <trans-unit id="4e212f5e4339888441bb3a4ca3de1c0d2b545688" resname="LINK_I_USE_THIS_COMBINAISON">
+        <source><![CDATA[<strong>J'utilise cette combinaison</strong>]]></source>
+        <target state="new"><![CDATA[<strong>Quiero utilizar esta combinación</strong>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="b4cac972432458682012767a1bd029bf965ba37b" resname="LINK_MERGE_ACCOUNTS">
+        <source>LINK_MERGE_ACCOUNTS</source>
+        <target><![CDATA[¿Ya tenés una cuenta en %beneylu_brand_name%? <a href="%start_link%">Podés unir tus cuentas, obtené más información aquí</a>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="7f52b51571cb43616064e37c8ab7d2d3fe1ca60f" resname="LINK_OK">
+        <source>OK</source>
+        <target state="new">OK</target>
+      </trans-unit>
+      <trans-unit id="85142f8dc2f5dbd52b7b36fecf317402d6a71dfb" resname="LINK_SKIP_THIS_STEP">
+        <source>LINK_SKIP_THIS_STEP</source>
+        <target>Saltarse este paso</target>
+      </trans-unit>
+      <trans-unit id="f5dc545e6c4c353e46041d59686572052e9c73b6" resname="LINK_USE_OTHER_COMBINAISON">
+        <source>Utiliser une autre combinaison</source>
+        <target state="new">Utilizar otra combinación</target>
+      </trans-unit>
+      <trans-unit id="5fb1560e44166e637dc820b6618786fa06197182" resname="PASSWORD_LOST_DONT_PANIQUE">
+        <source><![CDATA[<h1>Mot de passe oublié ?</h1>
+				<p>Vous avez oublié votre mot de passe ? <strong>Pas de panique !</strong></p>]]></source>
+        <target state="new"><![CDATA[<h1>¿Olvidaste tu contraseña?</h1>
+<p>¿Olvidaste  tu contraseña? <strong>¡No pasa nada!</strong></p>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="234842f78eea66bb058416c9684ded89c2ed2051" resname="PLACEHOLDER_CITY">
+        <source>PLACEHOLDER_CITY</source>
+        <target>Ciudad de la escuela</target>
+      </trans-unit>
+      <trans-unit id="8579aff274258256e434b1bb3a309eac876f5b96" resname="PLACEHOLDER_SCHOOL_NAME">
+        <source>PLACEHOLDER_SCHOOL_NAME</source>
+        <target>Nombre de la escuela</target>
+      </trans-unit>
+      <trans-unit id="0aac3a3dfaadc039bf797191b51d2e356d7cc34a" resname="PLACEHOLDER_TYPE_YOUR_EMAIL">
+        <source>PLACEHOLDER_TYPE_YOUR_EMAIL</source>
+        <target state="new">Introducí tu correo electrónico</target>
+      </trans-unit>
+      <trans-unit id="053dde2662a055d498d1fd6ce949f8b12fe2bf40" resname="PLACEHOLDER_ZIP_CODE">
+        <source>PLACEHOLDER_ZIP_CODE</source>
+        <target>Código postal de la escuela</target>
+      </trans-unit>
+      <trans-unit id="31be469709fb845b0652caa330c99da8dd3e968e" resname="POLICY">
+        <source>Charte d'utilisation</source>
+        <target state="new">Política</target>
+      </trans-unit>
+      <trans-unit id="ae95526dfb052c7c57c377da77f1227b8159bbcd" resname="REGISTER_MY_SCHOOL">
+        <source>REGISTER_MY_SCHOOL</source>
+        <target>Registrar mi escuela</target>
+      </trans-unit>
+      <trans-unit id="d28b55093f4416cdd7c49c9655634b8bb08dbc7a" resname="REQUIRED_FIELDS">
+        <source>REQUIRED_FIELDS</source>
+        <target>Campos requiridos.</target>
+      </trans-unit>
+      <trans-unit id="7197897026d408833befb482f802f187c623824b" resname="SELECT_YOUR_NOTIFICATIONS">
+        <source>SELECT_YOUR_NOTIFICATIONS</source>
+        <target><![CDATA[<h2>Elegí las notificaciones que querés recibir</h2>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="d3efbc185e257454a51424138d62c4a2789b5c7b" resname="STEP_ONE_SUCCESS">
+        <source>STEP_ONE_SUCCESS</source>
+        <target>Tus informaciones personales se han guardado correctamente</target>
+      </trans-unit>
+      <trans-unit id="11408c92696384aa9c8e9e15370c58456412698b" resname="STEP_THREE_SUCCESS">
+        <source>STEP_THREE_SUCCESS</source>
+        <target>Tu registro está completo.</target>
+      </trans-unit>
+      <trans-unit id="e6da452502cd2e9f58b7702da88774696c7b30e5" resname="STEP_TWO_SUCCESS">
+        <source>STEP_TWO_SUCCESS</source>
+        <target>Las informaciones de tu clase se han guardado correctamente</target>
+      </trans-unit>
+      <trans-unit id="0e2a6cb405103f8079239c11abaa4d157dd8ad78" resname="SUBTITLE_SCHOOL_NAME">
+        <source>SUBTITLE_SCHOOL_NAME</source>
+        <target><![CDATA[Escribí el nombre de tu escuela para acoger a los padres de tus alumnos antes de aprovechar al máximo tu entorno virtual de aprendizaje.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="6f9d7c25435247a15f038134b9026b9e67b23085" resname="TITLE_ABOUT_YOURSELF">
+        <source>TITLE_ABOUT_YOURSELF</source>
+        <target>Sobre ti</target>
+      </trans-unit>
+      <trans-unit id="af3c77b69f5ef1decca093c3b0c25a83ef26a755" resname="TITLE_ACCOUNT_ACTIVATED">
+        <source>TITLE_ACCOUNT_ACTIVATED</source>
+        <target state="new">Tu cuenta ha sido activada</target>
+      </trans-unit>
+      <trans-unit id="a0d16e662da9bf507a0b8ac996112697da780af0" resname="TITLE_ACTIVATE_ACCOUNT">
+        <source>TITLE_ACTIVATE_ACCOUNT</source>
+        <target state="new">Activación de su cuenta</target>
+      </trans-unit>
+      <trans-unit id="8328fd0d40921592f0c60dd67ddfa6f5fea094f8" resname="TITLE_ALREADY_MAKE_RESET_REQUEST">
+        <source>Vous avez déjà fait une demande de réinitialisation de mot de passe</source>
+        <target state="new">Has solicitado restablecer tu contraseña</target>
+      </trans-unit>
+      <trans-unit id="a93a41b233128117fa04fd756d771b0e05b1a7e5" resname="TITLE_BENEYLU_ADD_EMAIL">
+        <source>%beneylu_brand_name% - Modifier votre nom et ajouter une adresse email</source>
+        <target state="new">%beneylu_brand_name% - Modificá tu apellido y añadí una dirección de correo electrónico</target>
+      </trans-unit>
+      <trans-unit id="f0364bf215742ce8238256f42257cb3928efb89a" resname="TITLE_BENEYLU_CREATE_PASSWORD">
+        <source>%beneylu_brand_name% - Création d'un mot de passe</source>
+        <target state="new">%beneylu_brand_name% - Creación de la contraseña</target>
+      </trans-unit>
+      <trans-unit id="928477178b781307e7978cddb9752390142c4d8a" resname="TITLE_BENEYLU_CUSTOM_ACCOUNT">
+        <source>Personnalisation de votre compte %beneylu_brand_name%</source>
+        <target state="new">Personalizar tu cuenta %beneylu_brand_name%</target>
+      </trans-unit>
+      <trans-unit id="8d2ff2c9506197fbba3437264c2f6c8ca85dbf48" resname="TITLE_BENEYLU_POLICY">
+        <source>%beneylu_brand_name% - Charte d'utilisation</source>
+        <target state="new">%beneylu_brand_name% - Política</target>
+      </trans-unit>
+      <trans-unit id="e81c99c4c53a82a9c5f23bc71421f83a6d20a968" resname="TITLE_BLOG_DESCRIPTION">
+        <source>TITLE_BLOG_DESCRIPTION</source>
+        <target state="new">Creá el relato de tu año escolar en el blog</target>
+      </trans-unit>
+      <trans-unit id="f1434b642d1fdba5c5fbd2b43c8852b08f67c910" resname="TITLE_CLASSROOM_DETAILS">
+        <source>TITLE_CLASSROOM_DETAILS</source>
+        <target><![CDATA[¡Ya es tiempo de personalizar tu clase&nbsp;!]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="f5ecb39872129c72f0a0a4f3c3c7d0404e615787" resname="TITLE_COMBINAISON_CHOOSE">
+        <source>Voici la combinaison choisie :</source>
+        <target state="new">Esta es la combinación elegida: </target>
+      </trans-unit>
+      <trans-unit id="8c8764f6245fc5f8e8f0c75d7c25aad254705bea" resname="TITLE_COMPLETE_PROFILE">
+        <source>TITLE_COMPLETE_PROFILE</source>
+        <target>Rellená las informaciones de tu cuenta</target>
+      </trans-unit>
+      <trans-unit id="49e2ff1003186fdfc94ac6137586378399252872" resname="TITLE_CONFIRM">
+        <source>Confirmation</source>
+        <target state="new">Confirmación</target>
+      </trans-unit>
+      <trans-unit id="776610ff6e6ab878386362d183e600c940e7a7b8" resname="TITLE_HOMEWORK_DESCRIPTION">
+        <source>TITLE_HOMEWORK_DESCRIPTION</source>
+        <target state="new">Planificar las tareas y ayudar a mis alumnos</target>
+      </trans-unit>
+      <trans-unit id="bae421bd3b97343f0046d19a73dc668afadc456b" resname="TITLE_MAIL_JUST_SEND_TO_YOU">
+        <source>Un e-mail vient de vous être envoyé.</source>
+        <target state="new">Te hemos enviado un correo electrónico.</target>
+      </trans-unit>
+      <trans-unit id="3805a0b114c0977fc204e0d964e85615262ed599" resname="TITLE_MEDIALIBRARY_DESCRIPTION">
+        <source>TITLE_MEDIALIBRARY_DESCRIPTION</source>
+        <target state="new">Almacenar y compartir mis archivos con mis alumnos</target>
+      </trans-unit>
+      <trans-unit id="dfbf9db68a029bfa5dcdeb20777e2f0e0fed3248" resname="TITLE_RESET_PASSWORD_ADULT_ONLY">
+        <source>Réinitialisation du mot de passe (adultes uniquement)</source>
+        <target state="new">Restauración de la contraseña (solo adultos)</target>
+      </trans-unit>
+      <trans-unit id="c01224be3155cdb7335a3f7b83fe1cf9cccf7229" resname="TITLE_SCHOOL_DETAILS">
+        <source>TITLE_SCHOOL_DETAILS</source>
+        <target><![CDATA[¿Cómo es tu escuela?]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="cb7d70bc230d18e718c983041dc0b714e1b61c3d" resname="TITLE_SCHOOL_NAME">
+        <source>TITLE_SCHOOL_NAME</source>
+        <target>Nombre de tu escuela</target>
+      </trans-unit>
+      <trans-unit id="f830b0576fbb173d1e6fbc6cc43d6620ded95853" resname="TITLE_THANKS_MAIl_SENT">
+        <source>Merci, un mail a été envoyé !</source>
+        <target state="new">Gracias, ¡te hemos enviado un correo!</target>
+      </trans-unit>
+      <trans-unit id="3150f67cb2d18919b58e28ef06b86843e59169bb" resname="TITLE_USER_DETAILS">
+        <source>TITLE_USER_DETAILS</source>
+        <target><![CDATA[¿Qué tal si nos conocemos&nbsp;?]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="3ce0eb27d6179da7348ac5953a5b3a7a4791b7a0" resname="TITLE_VALIDATED_ACCOUNT">
+        <source>TITLE_VALIDATED_ACCOUNT</source>
+        <target>Tu cuenta está validada</target>
+      </trans-unit>
+      <trans-unit id="f77c8d8c77fdff9ecdb4b6a2f82809a17a23ba7f" resname="TITLE_VALIDATION_ACCOUNT">
+        <source>TITLE_VALIDATION_ACCOUNT</source>
+        <target>Creación de tu cuenta %beneylu_brand_name%</target>
+      </trans-unit>
+      <trans-unit id="77e9df79ea75805104f238653f27d31d60bc1499" resname="TITLE_WARNING">
+        <source>Attention !</source>
+        <target state="new">¡Cuidado!</target>
+      </trans-unit>
+      <trans-unit id="00ab10628f1a60ff7e6801554955dc1cf72212e8" resname="TITLE_WELCOME_IN_CLASSROOM">
+        <source>TITLE_WELCOME_IN_CLASSROOM</source>
+        <target state="new">Bienvenido en tu clase</target>
+      </trans-unit>
+      <trans-unit id="da2e1cfb735788fa56d37a57c774d637067f78b1" resname="TITLE_WHAT_YOU_WANT">
+        <source>TITLE_WHAT_YOU_WANT</source>
+        <target state="new">¿Con qué querés empezar en %beneylu_brand_name%?</target>
+      </trans-unit>
+      <trans-unit id="585c576b8bcd18a6d11edfcbe4d9f48791f1d42b" resname="TITLE_YOUR_CLASSROOM">
+        <source>TITLE_YOUR_CLASSROOM</source>
+        <target>Tu clase</target>
+      </trans-unit>
+      <trans-unit id="03a0d09b5d76b8bf040732ecf374325a7dbb7fdd" resname="TITLE_YOUR_SCHOOL">
+        <source>TITLE_YOUR_SCHOOL</source>
+        <target>Tu escuela</target>
+      </trans-unit>
+      <trans-unit id="49e470b31c257a3c3b150ff785f31b580e32c6fb" resname="TYPE_YOUR_FIRSTNAME_AND_LASTNAME">
+        <source>TYPE_YOUR_FIRSTNAME_AND_LASTNAME</source>
+        <target>Introducí tu nombre y apellido para que sepamos un poco más de ti.</target>
+      </trans-unit>
+      <trans-unit id="45656c3a5988cbc73942dc10062895605cd4a5dd" resname="WE_WILL_RESET_PASSWORD_DESCRIPTION">
+        <source><![CDATA[Nous allons le réinitialiser, vous n'avez qu'à renseigner votre adresse
+                    et nous enverrons un <strong>e-mail avec un lien de confirmation</strong> qui réinitialisera votre mot de passe,
+                    vous permettant de le modifier dès votre prochaine connexion.
+                    <br />
+                    <b>Attention</b>, cette procédure est réservée aux adultes ayant indiqué leur adresse email dans l'ENT.
+                    Si votre enfant a perdu son mot de passe, il faut en demander un nouveau à son enseignant.]]></source>
+        <target state="new"><![CDATA[Para restablecer la contraseña, solo tenés que completar tu dirección y te enviaremos un <strong>correo con el enlace de confirmación</strong>, que restablecerá tu contraseña y te permitirá cambiarla la próxima vez que inicies sesión.
+<br />
+<b>Atención</b>, este proceso está reservado a los adultos que hayan indicado su dirección de correo electrónico.
+Si tu hijo/a ha olvidado su contraseña, puedes pedirle a su profesor una contraseña nueva.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="bc9dee784b294f5637079ad605bc00d04f40f02f" resname="WILL_FIND_CONFIRM_LINK_TO_RESET_PASSWORD">
+        <source>Vous y trouverez un lien de confirmation sur lequel cliquer pour terminer le processus de réinitialisation de votre mot de passe.</source>
+        <target state="new">Pulsá en el enlace de confirmación para terminar el proceso de restauración de la contraseña.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,21 @@
+{% trans_default_domain "BLOG" %}
+<div class="title-container allow-comment-choice">
+  <div class="title active border-blue">{% trans %}TITLE_COMMENT{% endtrans %}
+    <span class="square icon-arrow"></span></div>
+  <div class="content-title">
+    <ul>
+      <li>
+        <label for="{{ form.is_comment_allowed.vars.id }}">
+          <span>{% trans %}LABEL_ALLOW_COMMENT{% endtrans %}</span>
+
+          {{ form_widget(form.is_comment_allowed) }}
+        </label>
+      </li>
+    </ul>
+    {% if form.is_comment_allowed.vars.errors|length > 0 %}
+      <div class="alert alert-danger bns-alert">
+       {{ form_errors(form.is_comment_allowed) }}
+      </div>
+    {% endif %}
+  </div>
+</div>

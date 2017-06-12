@@ -1,0 +1,184 @@
+{% trans_default_domain "CLASSROOM" %}
+{% extends 'BNSAppClassroomBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+    {{ 'TITLE_WORKING_GROUP_EDIT' |trans |desc('Groupe de travail - Edition du groupe') }}
+
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+
+  <script type="text/javascript" src="{{ asset('/medias/js/bootstrap/bootstrap-tab.js') }}"></script>
+  <script type="text/javascript" >
+    $(function() {
+      var userIds = new Array();
+      var groupSlug = '{{ team.getSlug() }}';
+
+      //On supprime les utilisateurs sélectionnés
+      $('.submit-partnership-form').live("click", function(event)
+      {
+        var loadingImg = $('.container-classroom .loader');
+
+        $('#delete-user-modal .loader').fadeIn('fast');
+        loadingImg.show();
+
+        $.post(
+          Routing.generate('BNSAppClassroomBundle_back_team_remove_pupil'),
+          {
+            team_slug: groupSlug,
+            user_ids: userIds
+          },
+          function (data) {
+            $('#team-user-form').submit();
+          });
+      });
+
+      //On ajoute l'utilisateur à supprimer dans une liste et on le masque
+      $('.buttons-container .btn-suppression').live("click", function(event)
+      {
+        var $this = $(event.currentTarget);
+        // on ajoute l'id du user a supprimer si enregistrement dans un tableau
+        userIds.push($this.attr('userid'));
+        var userDiv = $this.parent().parent();
+
+        userDiv.slideUp(function() {
+          userDiv.remove();
+        });
+
+        parentDiv = userDiv.parent();
+        if (1 >= parentDiv.children().size()) {
+          //Il n'y a plus d'utilisateur dans le rôle
+          //On fait disparaitre la div de titre
+          parentDiv.prev().slideUp(function() {
+            parentDiv.remove();
+            parentDiv.prev().remove();
+          });
+        }
+      });
+
+      //Btn enregistrer
+      $('.submit-team-user-form').click(function() {
+        //si on a supprimé des utilisateurs on affiche la modal
+        if (userIds.length > 0) {
+          $('.btn-delete-user-modal').trigger('click');
+        } else {
+          $('#team-user-form').submit();
+        }
+      });
+    });
+  </script>
+{% endblock %}
+
+{% block header %}
+  <div class="header-buttons header-partnership-add">
+    <div class="inner-header">
+      <div class="container container-fluid">
+        <div class="row-fluid">
+          <div class="span8">
+            <a href="{{ path('BNSAppClassroomBundle_back_team_details', { 'slug': team.getSlug() }) }}" class="btn bns-notice btn-24 medium-return button-return">
+              <span class="icons-24 back-icon"></span>
+                {{ 'LINK_COMEBACK_TO_LIST'|trans |raw }}
+
+            </a>
+            <a class="btn bns-danger btn-24 medium-return" href="#" onClick="window.location.reload()">
+              <span class="icons-16 cancel-icon"></span>
+                {{ 'LINK_CANCEL_MODIFICATION'|trans |raw}}
+
+
+            </a>
+          </div>
+          <div class="span4 align-right">
+            <a href="#" class="btn finish bns-success validate-medium btn-24 medium hide btn-delete-user-modal" data-toggle="modal" data-target="#delete-user-modal"></a>
+            <a href="#" class="btn finish bns-success validate-medium btn-24 medium submit-team-user-form">
+              <span class="icons-24 validate-icon"></span>
+                <strong>{% trans %}LINK_SAVE_MODIFICATIONS{% endtrans%}</strong>
+
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block sidebar %}
+  {% include "BNSAppClassroomBundle:Sidebar:sidebar.html.twig" with {"page" : "team_edition"} %}
+{% endblock sidebar %}
+
+{% block content %}
+  <div class="item form">
+    <form action="{{ path('BNSAppClassroomBundle_back_team_edit_team', {'slug': team.getSlug}) }}" method="POST" id="team-user-form" {{ form_enctype(form) }}>
+      <div>
+        <label class="name">{% trans %}LABEL_NAME_WORKING_GROUP{% endtrans %} :</label>
+
+        {{ form_widget(form.name, { 'attr': {'placeholder': 'PLACEHOLDER_ENTER_WORKING_GROUP_NAME'|trans |desc('Saisissez un nom pour le groupe de travail'), 'class': "team_name"} }) }}
+        {% if form.name.vars.errors|length > 0 %}
+          <div class="alert alert-danger bns-alert">
+            {{ form_errors(form.name) }}
+            <div class="jim"></div>
+          </div>
+        {% endif %}
+      </div>
+      <div>
+        <label class="description">{% trans %}LABEL_DESCRIPTION{% endtrans %}</label>
+        {{ form_widget(form.description, { 'attr': {'placeholder': 'PLACEHOLDER_ENTER_WORKING_GROUP_DESCRIPTION'|trans |desc('Saisissez une description pour le groupe de travail'), 'class': "team_description"} }) }}
+        {% if form.description.vars.errors|length > 0 %}
+          <div class="alert alert-danger bns-alert">
+            {{ form_errors(form.description) }}
+            <div class="jim"></div>
+          </div>
+        {% endif %}
+      </div>
+      {{ form_rest(form) }}
+    </form>
+  </div>
+
+  <div class="container-classroom">
+    <div class="loader loader-sb"></div>
+    {% if teachers is not empty %}
+      <div class="news-title">
+        <h1 class="dashboard">{{ 'TITLE_TEACHERS'|transchoice(teachers | length) }}</h1>
+      </div>
+      <div class="item-list-container teacher">
+        {% for user in teachers %}
+          {% include 'BNSAppClassroomBundle:BackTeam:row_team_user.html.twig' %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if pupils is not empty %}
+      <div class="news-title pupils">
+        <h1 class="dashboard">{{ 'TITLE_PUPILS'|transchoice(pupils|length) }}</h1>
+      </div>
+      <div class="item-list-container pupil">
+        {% for user in pupils %}
+          {% include 'BNSAppClassroomBundle:BackTeam:row_team_user.html.twig' %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if parents is not empty %}
+      <div class="news-title parents">
+        <h1 class="dashboard">{% trans %}LABEL_PARENTS{% endtrans %}</h1>
+      </div>
+      <div class="item-list-container parent">
+        {% for user in parents %}
+          {% include 'BNSAppClassroomBundle:BackTeam:row_team_user.html.twig' %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+
+  {{ modal('delete-user-modal', {
+    'title': 'MODAL_SAVE_MODIFICATION'|trans,
+
+    'body_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:save_team_change_body.html.twig', 'values': {
+      'team': team,
+    } },
+    'footer_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:save_team_change_footer.html.twig', 'values': {
+      'team': team} },
+    'type': 'error'
+  }) }}
+{% endblock %}

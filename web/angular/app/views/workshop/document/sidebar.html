@@ -1,0 +1,53 @@
+<ul class="workshop-sidebar-nav">
+  <li>
+    <a ui-sref="app.workshop.document.base.index"
+      bns-workshop-document-panel-toggle="true"
+      ng-class="{ active: ctrl.$state.includes('workshop.document.base.index'), disabled: ctrl.state.dirty }"
+      class="nav-general"
+    >
+      <i class="workshop-icon-general"></i>
+      <span translate>WORKSHOP.DOCUMENT.PROPERTIES</span>
+    </a>
+  </li>
+  <li ng-if="::!ctrl.document.is_questionnaire">
+    <a ui-sref="app.workshop.document.base.pages"
+      bns-workshop-document-panel-toggle="true"
+      ng-class="{ active: ctrl.$state.includes('workshop.document.base.pages'), disabled: ctrl.state.dirty }"
+      class="nav-pages"
+    >
+      <i class="workshop-icon-pages"></i>
+      <span translate>WORKSHOP.DOCUMENT.PAGES</span>
+    </a>
+  </li>
+  <li ng-if="::!ctrl.document.is_questionnaire">
+    <a ui-sref="app.workshop.document.base.layout"
+      bns-workshop-document-panel-toggle="true"
+      ng-class="{ active: ctrl.$state.includes('workshop.document.base.layout'), disabled: ctrl.state.dirty }"
+      class="nav-layout"
+    >
+      <i class="workshop-icon-layout"></i>
+      <span translate>WORKSHOP.DOCUMENT.LAYOUT</span>
+    </a>
+  </li>
+  <li>
+    <a ui-sref="app.workshop.document.base.kit"
+      bns-workshop-document-panel-toggle="true"
+      ng-class="{ active: ctrl.$state.includes('app.workshop.document.base.kit'), disabled: !ctrl.state.page.layout_code }"
+      class="nav-kit"
+    >
+      <i class="workshop-icon-kit"></i>
+      <span translate>WORKSHOP.DOCUMENT.KIT</span>
+    </a>
+  </li>
+  <!--
+  <li>
+    <a ui-sref="app.workshop.document.base.theme"
+      bns-workshop-document-panel-toggle="true"
+      class="nav-theme disabled"
+    >
+      <i class="workshop-icon-theme"></i>
+      <span translate>WORKSHOP.DOCUMENT.THEME</span>
+    </a>
+  </li>
+  -->
+</ul>

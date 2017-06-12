@@ -1,0 +1,8 @@
+BNS\App\InfoBundle\Model\Sponsorship:
+    properties:
+        email:
+            - Email:
+                message: INVALID_EMAIL_INVALID
+                checkMX: true
+            - NotBlank:
+                message: INVALID_EMAIL_EMPTY

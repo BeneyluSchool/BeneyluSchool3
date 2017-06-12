@@ -1,0 +1,14 @@
+{% trans_default_domain "PORTAL" %}
+{% extends 'BNSAppPortalBundle:BackWidgets:base.html.twig' %}
+
+{% block title %}{{ 'TITLE_DIRECTORY_SCHOOL' |trans |desc('Annuaire des écoles') }}{% endblock %}
+
+{% block enable %}
+    {{ include('@BNSAppPortal/BackWidgets/enable.html.twig' , {'widget' : widget}) }}
+{% endblock %}
+
+{% block headerView %}{% endblock %}
+{% block editView %}
+    <input type="hidden" name="widget-{{ widget.id }}[school]" id="widget-{{ widget.id }}-school" value="{{ widget.id }}" />
+{% endblock %}
+

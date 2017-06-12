@@ -1,0 +1,13 @@
+{% extends 'BNSAppResourceBundle:Front:layout.html.twig' %}
+
+{% block tool_bar %}
+	{{ render(controller('BNSAppResourceBundle:FrontToolBar:show', {'canBeClosed': not insertDockBar} )) }}
+{% endblock %}
+
+{% block container_class %}
+	history-background
+{% endblock %}
+
+{% block content %}
+	{% include historyView %}
+{% endblock content %}

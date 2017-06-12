@@ -1,0 +1,13 @@
+<div class="item partner">
+    <div class="vertical-separator"></div>
+    <div class="header">
+        <p class="name">
+            {{ member.getLabel }}
+        </p>
+      {% if membersParentName[member.getId] is defined %}
+        <p class="informations">
+            {{ membersParentName[member.getId] }}
+        </p>
+      {% endif %}
+    </div>
+</div>

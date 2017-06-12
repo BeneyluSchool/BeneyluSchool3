@@ -1,0 +1,57 @@
+<md-dialog class="bns-dialog bns-dialog-primary user-directory-distribution-create-dialog" aria-label="{{'USER_DIRECTORY.TITLE_CREATE_DISTRIBUTION_LIST'|translate}}">
+  <form name="ctrl.form" ng-submit="ctrl.submit()">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h3>{{ ::(ctrl.model.id ? 'USER_DIRECTORY.TITLE_EDIT_DISTRIBUTION_LIST' : 'USER_DIRECTORY.TITLE_CREATE_DISTRIBUTION_LIST') |translate }}</h3>
+        <span class="flex"></span>
+        <md-button ng-click="ctrl.cancel()" class="md-icon-button" type="button">
+          <md-icon>close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content class="md-dialog-content layout-column">
+      <div class="flex flex-none">
+        <md-input-container>
+          <label translate>USER_DIRECTORY.LABEL_DISTRIBUTION_LIST_NAME</label>
+          <input type="text" name="name" ng-required="true" ng-model="ctrl.model.name">
+        </md-input-container>
+      </div>
+
+      <div class="flex layout-gt-md-row">
+        <div class="flex-gt-md-33">
+          <h3 class="md-subhead" translate>USER_DIRECTORY.LABEL_TARGET_USER_TYPES</h3>
+          <bns-checkbox-group ng-model="ctrl.model.roles" choices="ctrl.existingUserTypes"></bns-checkbox-group>
+        </div>
+        <div class="flex-gt-md-33">
+          <h3 class="md-subhead" translate>USER_DIRECTORY.LABEL_TARGET_SECTORS</h3>
+          <md-list>
+            <md-list-item ng-repeat="group in ctrl.groups" ng-init2="group.selected = false">
+              <md-checkbox ng-model="group.selected" ng-change="ctrl.selection.toggle(group)" class="md-primary" aria-label="{{::group.label}}"></md-checkbox>
+              <div>{{::group.label}}</div>
+            </md-list-item>
+          </md-list>
+        </div>
+        <div class="flex-gt-md-33">
+          <h3 class="md-subhead">&nbsp;<!-- empty title, for alignment --></h3>
+          <md-list>
+            <md-list-item ng-repeat="group in ctrl.selection.list">
+              <md-checkbox ng-model="group.selected" ng-change="ctrl.selection.toggle(group)" class="md-primary" aria-label="{{::group.label}}"></md-checkbox>
+              <div>{{::group.label}}</div>
+            </md-list-item>
+          </md-list>
+        </div>
+      </div>
+    </md-dialog-content>
+
+    <div class="md-actions">
+      <md-button href ng-click="ctrl.cancel()">
+        <span ng-bind-html="'USER_DIRECTORY.CANCEL'|translate|buttonize">cancel</span>
+      </md-button>
+      <md-button type="submit" ng-class="{'md-accent': !ctrl.model.id, 'md-primary': ctrl.model.id}" class="md-raised" ng-disabled="ctrl.form.$invalid">
+        <md-icon>{{ctrl.model.id?'edit':'add_circle'}}</md-icon>
+        <span ng-bind-html="('USER_DIRECTORY.BUTTON_'+(ctrl.model.id?'EDIT':'CREATE')+'_DISTRIBUTION_LIST')|translate|buttonize"></span>
+      </md-button>
+    </div>
+  </form>
+</md-dialog>

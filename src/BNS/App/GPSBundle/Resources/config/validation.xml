@@ -6,17 +6,17 @@
     <class name="BNS\App\GPSBundle\Model\GpsPlace">
         <property name="label">
             <constraint name="NotBlank">
-				<option name="message">Veuillez saisir un nom de lieu</option>
+				<option name="message">INVALID_CHOICE_PLACE</option>
 			</constraint>
         </property>
 		<property name="address">
             <constraint name="NotBlank">
-				<option name="message">Veuillez saisir une adresse</option>
+				<option name="message">INVALID_CHOICE_ADDRESS</option>
 			</constraint>
         </property>
 		<property name="gps_category_id">
             <constraint name="NotBlank">
-				<option name="message">Veuillez choisir une categorie</option>
+				<option name="message">INVALID_CHOICE_A_CATEGORY</option>
 			</constraint>
         </property>
     </class>
@@ -24,14 +24,14 @@
     <class name="BNS\App\GPSBundle\DataReset\ChangeYearGPSDataReset">
         <property name="choice">
 			<constraint name="NotBlank">
-				<option name="message">Vous devez sélectionner une des options</option>
+				<option name="message">INVALID_SELECT_OPTIONS</option>
 			</constraint>
             <constraint name="Choice">
                 <option name="choices">
                     <value>KEEP</value>
                     <value>DELETE</value>
                 </option>
-                <option name="message">Votre choix est invalide</option>
+                <option name="message">INVALID_CHOICE_INVALID</option>
             </constraint>
         </property>
     </class>

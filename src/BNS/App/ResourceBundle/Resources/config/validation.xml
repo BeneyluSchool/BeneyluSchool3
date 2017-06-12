@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
+
+    <class name="BNS\App\ResourceBundle\DataReset\ChangeYearResourceDataReset">
+        <property name="choice">
+			<constraint name="NotBlank">
+				<option name="message">Vous devez sélectionner une des options</option>
+			</constraint>
+            <constraint name="Choice">
+                <option name="choices">
+                    <value>KEEP</value>
+                    <value>DELETE</value>
+                </option>
+                <option name="message">Votre choix est invalide</option>
+            </constraint>
+        </property>
+    </class>
+</constraint-mapping>

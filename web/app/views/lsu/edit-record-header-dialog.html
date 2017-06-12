@@ -1,0 +1,41 @@
+<md-dialog class="bns-dialog bns-dialog-primary">
+  <md-dialog-header>
+      <div class="md-toolbar-tools">
+        <h3 class="flex" translate>LSU.TITLE_EDIT_USER</h3>
+        <bns-loader></bns-loader>
+      </div>
+  </md-dialog-header>
+  <md-dialog-content class="md-dialog-content">
+    <div class="layout-row">
+      <div class="flex">
+        <md-input-container>
+          <label translate>LSU.LABEL_FIRST_NAME</label>
+          <input type="text" ng-model="ctrl.model.user.first_name" required>
+        </md-input-container>
+      </div>
+      <div class="flex">
+        <md-input-container>
+          <label translate>LSU.LABEL_LAST_NAME</label>
+          <input type="text" ng-model="ctrl.model.user.last_name" required>
+        </md-input-container>
+      </div>
+    </div>
+    <md-input-container>
+      <label translate>LSU.LABEL_INE</label>
+      <input type="text" ng-model="ctrl.model.user.ine" required md-maxlength="11" minlength="11">
+    </md-input-container>
+    <md-input-container>
+      <label translate>LSU.LABEL_CLASSROOM_ONDE_ID</label>
+      <input type="number" min="1" ng-model="ctrl.model.classroom.onde_id" required ng-disabled="ctrl.classroom.onde_id && ctrl.classroom.aaf_id">
+    </md-input-container>
+    <md-input-container>
+      <label translate>LSU.LABEL_SCHOOL_UAI</label>
+      <input type="text" ng-model="ctrl.model.school.uai" required ng-disabled="ctrl.school.uai && ctrl.school.aaf_id">
+    </md-input-container>
+  </md-dialog-content>
+  <md-dialog-actions class="md-dialog-actions">
+    <md-button ng-click="ctrl.hide()">
+      <span translate>LSU.BUTTON_CLOSE</span>
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

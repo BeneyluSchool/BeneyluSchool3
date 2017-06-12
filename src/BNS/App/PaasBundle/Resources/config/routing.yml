@@ -1,0 +1,3 @@
+bns_app_paas_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: BNSAppPaasBundle:Default:index }

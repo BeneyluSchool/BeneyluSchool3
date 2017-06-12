@@ -1,0 +1,26 @@
+<md-dialog class="breakfast-tour-recipe-dialog border-dashed" aria-label="Recipe">
+  <md-button ng-click="ctrl.hideRecipe()" class="md-icon-button dialog-close">
+    <md-icon>close</md-icon>
+  </md-button>
+
+  <header class="layout layout-wrap md-padding">
+    <div class="layout layout-align-center-center pennant pennant-right">
+      <h2 class="heading md-display-1" style="padding-left: 30px;" translate>BREAKFAST_TOUR.TITLE_RECIPE</h2>
+    </div>
+
+    <div class="layout layout-wrap layou-align-center-center">
+      <bns-ingredient-visual tooltip="bottom" ng-repeat="ingredient in ctrl.breakfast.full_ingredients"></bns-ingredient-visual>
+    </div>
+  </header>
+
+  <md-dialog-content>
+    <div class="layout layout-wrap breakfast-tour-recipe-steps">
+      <div ng-repeat="recipe in ctrl.breakfast.recipe_steps" class="layout recipe-step">
+        <span class="list-number">{{ ::$index + 1 }}.</span>
+        <span class="flex list-text">{{ ::recipe }}</span>
+      </div>
+    </div>
+
+    <div class="md-headline text-center heading" style="margin-bottom: 20px;">{{ ::ctrl.breakfast.taste_description }}</div>
+  </md-dialog-content>
+</md-dialog>

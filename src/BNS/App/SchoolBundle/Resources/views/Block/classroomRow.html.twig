@@ -1,0 +1,38 @@
+{% trans_default_domain "SCHOOL" %}
+{% set isValidated = (parameter('check_group_validated') and classroom.isValidated) or (parameter('check_group_enabled') and classroom.isEnabled) or (not parameter('check_group_enabled') and not parameter('check_group_validated')) %}
+{% set nb_teachers = nb_users(classroom,'TEACHER') %}
+{% set nb_pupils = nb_users(classroom,'PUPIL') %}
+<div class="item">
+    <div class="vertical-separator {{ isValidated ? 'green' : 'red' }}"></div>
+    <div class="header">
+        <div class="buttons-container">
+            <a href="{{ path('BNSAppSchoolBundle_back_classroom' , {'groupSlug' : classroom.slug }) }}" class="btn bns-notice btn-16 small right btn-visualisation">
+                <span class="icons-16 arrow-right-icon right"></span>
+              <strong>{% trans %}LINK_SEE_CARD{% endtrans %}</strong>
+            </a>
+        </div>
+        <h3 class="classroom-label">{{ classroom.label }}</h3>
+        <div class="categories">
+            <ul>
+                <li>
+                    <img class="user-type" src="{{ asset('/medias/images/profile/avatar/24x24/enseignants.png') }}" />
+                    <span class="nb-users">{{ 'TITLE_NUMBER_TEACHER' |transchoice(nb_teachers) |desc('{0} Aucun enseignant | {1} Enseignant | ]1,Inf[ Enseignants') }}</span>
+                </li>
+                <li>
+                    <img class="user-type" src="{{ asset('/medias/images/profile/avatar/24x24/classe.png') }}" />
+                    <span class="nb-users">{{ 'TITLE_NUMBER_PUPIL' |transchoice(nb_pupils) |desc('{0} Aucun élève | {1} Élève | ]1,Inf[ Élèves') }}</span>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer">
+        {{ 'REGISTER_AT'|trans({'%date%': date_from_now(classroom.registrationDate, false, false,'full','short')}) |desc('Inscrite le <span class="date-now">%date%</span><br/>') |raw }}
+        {% set lastConnected = last_connected(classroom) %}
+        {% if lastConnected %}
+            {{ 'LAST_CONNECTION_AT'|trans({'%date%': date_from_now(lastConnected.lastConnection, false, false, 'full', 'short')}) |desc('Dernière connexion (élève ou enseignant) : %date%') |raw }}
+        {% else %}
+            {% trans %}NO_CONNECTION{% endtrans %}
+        {% endif %}
+    </div>
+</div>

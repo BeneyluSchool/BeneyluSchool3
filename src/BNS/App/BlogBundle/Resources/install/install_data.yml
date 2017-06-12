@@ -1,0 +1,136 @@
+module:
+  unique_name: BLOG
+  is_contextable: true
+  name:
+    fr: Blog
+    en: Blog
+  description:
+    fr: Lire et écrire des articles dans un journal en ligne
+    en: English blog
+  default_rank:
+    pupil: USE
+    parent: READ
+    teacher: MANAGE
+    other: READ
+
+permissions:
+  ACCESS:
+    label:
+      fr: Voir blog
+      en: Blog access
+    description:
+      fr: Donne l'accès au blog du groupe
+      en:
+
+  ACCESS_BACK:
+    label:
+      fr: Gérer blog
+      en: Blog management access
+    description:
+      fr: Donne l'accès à la gestion du blog pour ses données uniquement
+      en:
+
+  PUBLISH: ~
+
+  ACTIVATION:
+    label:
+      fr: Activer blog
+      en: Can activate / deasctivate the blog
+    description:
+      fr: Peut activer ou désactiver le blog dans le groupe
+      en:
+
+  ACTIVATION_PARTNERSHIP:
+    label:
+      fr: Activer blog dans le partenariat
+      en: Can activate / desactivate the blog in partnership
+    description:
+      fr: Peut activer ou désactiver le blog dans un partenariat
+      en:
+
+  ADMINISTRATION:
+    label:
+      fr: Administrater blog
+      en: Can administrate the blog
+    description:
+      fr: Peut administrer toutes les données du blog, ainsi que les états de publication
+      en:
+
+  YERBOOK_SEE: ~
+
+ranks:
+  READ:
+    label:
+      fr: Lire le blog
+      en: Use the blog
+    description:
+      fr:
+      en:
+    permissions: [ACCESS]
+
+  USE:
+    label:
+      fr: Utiliser le blog
+      en: Use the blog
+    description:
+      fr:
+      en:
+    permissions: [ACCESS, ACCESS_BACK]
+
+  USE_PARTNERSHIP_HIGH_SCHOOL:
+    permissions: [ACCESS, ACCESS_BACK, PUBLISH]
+
+  MANAGE:
+    label:
+      fr: Gérer le blog
+      en: Manage the blog
+    description:
+      fr:
+      en:
+    permissions: [ACCESS, ACCESS_BACK, PUBLISH, ACTIVATION, ADMINISTRATION]
+
+  MANAGE_PARTNERSHIP:
+    label:
+      fr: Gérer le blog dans partenariat
+      en: Manage the blog in partnership
+    description:
+      fr:
+      en:
+    permissions: [ACTIVATION_PARTNERSHIP]
+
+  ACTIVATION_TEAM:
+    label:
+      fr: Gérer le blog dans le groupe de travail
+      en: Manage the blog in team
+    description:
+      fr:
+      en:
+    permissions: [ACTIVATION]
+
+  YERBOOK_SEE:
+    permissions: [YERBOOK_SEE]
+
+notification_types:
+  BLOG_ARTICLES_FINISHED: { }
+  BLOG_ARTICLE_PUBLISHED: { }
+  BLOG_ARTICLE_TO_CORRECT: { }
+  BLOG_COMMENT_TO_MODERATE: { }
+  BLOG_COMMENT_VALIDATED: { }
+  BLOG_ARTICLE_PUBLISHED_AUTHOR: { }
+  BLOG_ARTICLE_PUBLISHED_EVERYONE: { }
+  BLOG_ARTICLE_PENDING_CORRECTION:
+    is_correction: true
+  BLOG_ARTICLE_PROGRAMMED: { }
+  BLOG_COMMENT_PUBLISHED: { }
+  BLOG_COMMENT_PUBLISHED_FOR_AUTHOR: { }
+  BLOG_COMMENT_PENDING_VALIDATION: { }
+
+markers:
+  BLOG_CREATE_ARTICLE:
+    description: Création d'un article sur un blog
+  BLOG_PUBLISH_ARTICLE:
+    description: Publication d'un article sur un blog
+  BLOG_CREATE_COMMENT-ARTICLE:
+    description: Création d'un commentaire sur un blog
+  BLOG_VISIT:
+    description: Visite sur le blog

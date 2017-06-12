@@ -1,99 +1,117 @@
+{% trans_default_domain "GPS" %}
 {% extends 'BNSAppGPSBundle:Front:layout.html.twig' %}
 
-{% block  main_javascripts %}
-	{{ parent() }}
 
-	<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
+{% block  main_javascripts %}
+  {{ parent() }}
+
+  <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
 {% endblock %}
 
 {% block  javascripts %}
-	{{ parent() }}
-	
-	{% javascripts
-		'medias/js/gps/front.js'
-		 filter='?yui_js' output='js/gps/front.js' %}
-		<script src="{{ asset_url }}"></script>
-	{% endjavascripts %}
+  {{ parent() }}
+
+  {% javascripts
+  'medias/js/gps/front.js'
+  filter='?yui_js' output='js/gps/front.js' %}
+  <script src="{{ asset_url }}"></script>
+  {% endjavascripts %}
 {% endblock %}
-	
+
 {% block css %}
-	{{ parent() }}
-		
-	{% stylesheets
-		'medias/css/gps/front.css'
-		filter="?yui_css" output='css/gps/front.css' %}
-		<link rel="stylesheet" href="{{ asset_url }}" />
-	{% endstylesheets %}
-		
-	<link href='https://fonts.googleapis.com/css?family=Didact+Gothic' rel='stylesheet' type='text/css'>
-	{{ vichgeo_include_css() }}
+  {{ parent() }}
+
+  {% stylesheets
+  'medias/css/gps/front.css'
+  filter="?yui_css" output='css/gps/front.css' %}
+  <link rel="stylesheet" href="{{ asset_url }}" />
+  {% endstylesheets %}
+
+  <link href='https://fonts.googleapis.com/css?family=Didact+Gothic' rel='stylesheet' type='text/css'>
+  {{ vichgeo_include_css() }}
 {% endblock %}
-	
+
 {% block content %}
-	<div class="background-gps"></div>
-	<div class="container-fluid">
-		<div class="header-search">
-			<p>Rechercher un lieu</p>
-			<input size="25" id="input-address" type="text" placeholder="Entrer un nom, une adresse, une coordonnée ..." />
-			<a href="#" id="search-submit" >Rechercher</a>
-			{#  <a href="#" id="search-cancel" >Annuler</a>   #}
-			<div class="flux"></div>
-			<div class="corner-right"></div>
-		</div>
-	</div>
-	<div class="container-fluid wrapper">
-		<div class="sidebar-menu">
-			{% if show_menu %}
-				<div class="menu-location">
-				   {% if group and has_geocoords %}
-						<ul class="parent">
-						   <li>
-							   <span class="category" id="group">Mes lieux</span>
-							   <ul class="child">
-								   <li>
-									   <span class="place" id="{{ group.getId }}">
-										   {{ group.getLabel }}
-									   </span>
-								   </li>
-							   </ul>
-						   </li>
-						</ul>
-				   {% endif %}
-				   {# ATTENTION : RESPECTER LE DOM sinon le JS ne fonctionnera plus #}
-				   {% if categories|length > 0 %}
-					   <ul class="parent">
-						   {% for category in categories %}
-							   <li>
-								   <span class="category" id="{{ category.getId }}">
-									   {{category.getLabel}}
-								   </span>
-								   <ul class="child">
-									   {% for place in category.getGpsPlaces %}
-										   <li>
-											   <span class="place" id="{{ place.getId }}">
-												   {{ place.getLabel }}
-											   </span>
-										   </li>
-									   {% endfor %}
-								   </ul>
-							   </li>
-						   {% endfor %}
-					   </ul>
-				   {% endif %}
-				   <div class="border-top-menu-location"></div>
-				</div>
-			{% endif %}
-			<div class="different-map">
-				<a href="#" id="ROADMAP" class="map_type_map map active"><span class="icon-map map"></span><span class="content-view "><span>Vue</span> routière</span> <span class="arrow right"></span><span class="arrow middle"></span><span class="arrow left"></span></a>
-				<a href="#" id="SATELLITE" class="map_type_map satellite"><span class="icon-map satellite"></span><span class="content-view "><span>Vue</span> Satellite</span> <span class="arrow right"></span><span class="arrow middle"></span><span class="arrow left"></span></a>
-				<a href="#" id="TERRAIN" class="map_type_map field"><span class="icon-map field"></span><span class="content-view "><span>Vue</span> Terrain</span><span class="arrow right"></span><span class="arrow middle"></span><span class="arrow left"></span></a>
-			</div>
-		</div>
-		<div class="container-map">
-			 <div class="content-map">
-				{{ vichgeo_map('front_map') }}
-			 </div>
-		</div>
-	</div>
-	<div class="thermo"></div>
+
+  <div class="gps">
+    <div class="background-gps"></div>
+    <div class="container-fluid">
+      <div class="header-search">
+        <header mode="front" bns-sidebar-header app="navbar.app"></header>
+        <div class="header-bar">
+          <bns-sidebar-toggle style="margin: -5px"></bns-sidebar-toggle>
+          <p>{% trans %}SEARCH_PLACE{% endtrans %}</p>
+
+          <input size="25" id="input-address" type="text" placeholder="{{"PLACEHOLDER_ENTER_NAME_ADDRESS_ETC"|trans}}" data="{{ 'PLACEHOLDER_NO_RESULT'|trans }}" />
+          <a href="#" id="search-submit" >{% trans %}LINK_SEARCH{% endtrans %}</a>
+          {#  <a href="#" id="search-cancel" >Annuler</a>   #}
+          <div class="flux"></div>
+          <div class="corner-right"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid wrapper">
+      <md-sidenav layout="column" class="md-sidenav-left bns-sidebar" md-component-id="left" md-is-locked-open="app.isSidebarLockedOpen()">
+      <div class="sidebar-menu">
+        {% if show_menu %}
+          <div class="menu-location">
+            {% if group and has_geocoords %}
+              <ul class="parent">
+                <li>
+                  <span class="category" id="group">{% trans %}MINE_PLACE{% endtrans %}</span>
+                  <ul class="child">
+                    <li>
+                       <span class="place" id="{{ group.getId }}">
+                         {{ group.getLabel }}
+                       </span>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            {% endif %}
+            {# ATTENTION : RESPECTER LE DOM sinon le JS ne fonctionnera plus #}
+            {% if categories|length > 0 %}
+              <ul class="parent">
+                {% for category in categories %}
+                  <li>
+                     <span class="category" id="{{ category.getId }}">
+                       {{category.getLabel}}
+                     </span>
+                    <ul class="child">
+                      {% for place in category.getGpsPlaces %}
+                        <li>
+                           <span class="place" id="{{ place.getId }}">
+                             {{ place.getLabel }}
+                           </span>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        {% endif %}
+        <div class="different-map">
+          <a href="#" id="ROADMAP" class="map_type_map map active"><span class="icon-map map"></span><span class="content-view ">{{ 'LINK_VIEW_ROAD'|trans |desc('<span>Vue</span> Route') |raw }}</span> <span class="arrow right"></span><span class="arrow middle"></span><span class="arrow left"></span></a>
+          <a href="#" id="SATELLITE" class="map_type_map satellite"><span class="icon-map satellite"></span><span class="content-view ">{{ 'LINK_VIEW_SATELLITE'|trans |desc('<span>Vue</span> Satellite') |raw }}</span> <span class="arrow right"></span><span class="arrow middle"></span><span class="arrow left"></span></a>
+          <a href="#" id="TERRAIN" class="map_type_map field"><span class="icon-map field"></span><span class="content-view ">{{ 'LINK_VIEW_TERRAIN'|trans |desc('<span>Vue</span> Terrain') |raw }}</span><span class="arrow right"></span><span class="arrow middle"></span><span class="arrow left"></span></a>
+        </div>
+      </div>
+        </md-sidenav>
+      <md-content id="content" class="bns-content flex layout-column">
+        <div class="bns-content-inner layout-column flex">
+      <div class="container-map">
+        <div class="content-map">
+          {{ vichgeo_map('front_map') }}
+        </div>
+      </div>
+    </div>
+
+        </md-content>
+
+      </div>
+    <div class="thermo"></div>
+  </div>
 {% endblock %}

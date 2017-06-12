@@ -1,0 +1,110 @@
+{% trans_default_domain "SCHOOL" %}
+{% extends 'BNSAppSchoolBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+  {% trans %}TITLE_SCHOOL_TEACHER_LIST{% endtrans %}
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+
+  <script type="text/javascript">
+    $(function ()
+    {
+      $('#generate-fiche-teachers .generate-button').click(function ()
+      {
+        $('#generate-fiche-teachers .loader').fadeIn('fast');
+        setTimeout(function ()
+        {
+          $('#generate-fiche-teachers').modal('hide');
+          $('#generate-fiche-teachers .loader').css('display', 'none');
+        }, 10000);
+      });
+    });
+  </script>
+{% endblock %}
+
+{% block top_bar %}{% endblock %}
+
+{% block sidebar %}
+    {% include "BNSAppSchoolBundle:Sidebar:sidebar.html.twig" with {"page" : "teachers"} %}
+{% endblock sidebar %}
+
+{% block header %}
+    {% if has_right('SCHOOL_ACCESS_BACK') %}
+        <div class="header-buttons">
+            <div class="inner-header">
+                <div class="container container-fluid">
+                    <div class="row-fluid">
+                        <div class="span12 header-classroom-details">
+                            <a href="#" class="btn bns-info btn-24 large create-article2" data-toggle="modal" data-target="#invite-teacher-modal">
+                                <span class="icons-24 add-icon"></span>
+                                {% trans %}LINK_INVITE_TEACHER{% endtrans %}
+                            </a>
+                            {% if teachers  | length != 0 %}
+                                <a href="#" class="btn bns-warning btn-24 medium-return dropdown-toggle generate-details" class="btn bns-warning btn-24 medium-return" data-toggle="modal" data-target="#generate-fiche-teachers">
+                                    <span class="icons-24 generate-icon"></span>
+                                    {{ 'LINK_GENERATE_NEW_NOTE'|trans |desc('<strong>Générer une fiche</strong><br /> pour les enseignants') |raw }}
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{ modal('invite-teacher-modal', {
+            'body_template': {'template': 'BNSAppSchoolBundle:Modal:inviteTeacherBody.html.twig' },
+            'title': 'LINK_INVITE_TEACHER'|trans,
+            'footer_template': {'template': 'BNSAppSchoolBundle:Modal:inviteTeacherFooter.html.twig' }
+        }) }}
+
+    {% endif %}
+{% endblock %}
+
+
+{% block content %}
+
+  {{ modal('generate-fiche-teachers', {
+    'title': 'TITLE_GENERATE_NOTE_FOR_TEACHERS'|trans,
+
+    'body_template': {'template': 'BNSAppSchoolBundle:Modal:generateFicheTeachersBody.html.twig' },
+    'type': 'success',
+    'footer_template': {'template': 'BNSAppSchoolBundle:Modal:generateFicheTeachersFooter.html.twig'}
+  }) }}
+
+    <div class="layer"></div>
+
+    <div id="invite-teacher-success" class="alert alert-success bns-alert pupil" style="display: none;">
+        {% trans %}TEACHER_INVITED{% endtrans %}
+        <div class="jim"></div>
+    </div>
+
+    <div class="container-classroom">
+
+        <div class="news-title">
+          <h1 class="dashboard">{% trans %}TEACHERS_LIST{% endtrans %}</h1>
+        </div>
+
+        <div class="item-list-container">
+            {% if teachers is empty and invited_teachers is empty %}
+                <div class="no-item">
+                    <div class="bnj-not-found"></div>
+                    {% if has_right('SCHOOL_CREATE_TEACHER') %}
+                      <p>{% trans %}NO_TEACHER_REGISTERED_CAN_REGISTERED_FROM_CLASS{% endtrans %}</p>
+                    {% else %}
+                      <p>{% trans %}NO_TEACHER_REGISTERED_YET{% endtrans %}</p>
+                    {% endif %}
+                    <div class="clearfix"></div>
+                </div>
+            {% else %}
+                {% for teacher in teachers %}
+                    {% include 'BNSAppSchoolBundle:Block:teacherRow.html.twig' %}
+                {% endfor %}
+            {% endif %}
+            {% for invited_teacher in invited_teachers %}
+                {% include 'BNSAppSchoolBundle:Block:teacherRow.html.twig' with { teacher: invited_teacher, invited: true } %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

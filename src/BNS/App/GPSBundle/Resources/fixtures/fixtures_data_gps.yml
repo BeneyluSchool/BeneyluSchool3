@@ -1,0 +1,90 @@
+---
+BNS\App\GPSBundle\Model\GpsCategory:
+  GpsCategory_1:
+    label: Géographie
+    is_active: 1
+    group_id: GROUP()
+    order: 1
+  GpsCategory_2:
+    label: Monuments
+    is_active: 1
+    group_id: GROUP()
+    order: 2
+BNS\App\GPSBundle\Model\GpsPlace:
+  GpsPlace_1:
+    label: Tour Eiffel
+    description: "La tour Eiffel est une tour de fer de 324 mètres de hauteur (avec antennes) située à Paris, à l’extrémité nord-ouest du parc du Champ-de-Mars."
+    gps_category_id: GpsCategory_2
+    latitude: 48.858
+    longitude: 2.2946
+    address: Tout Eiffel Paris
+    is_active: 1
+    slug: tour-eiffel
+    created_at: NOW
+    updated_at: NOW
+  GpsPlace_2:
+    label: Arc de Triomphe
+    description: Monument célèbre à Paris
+    gps_category_id: GpsCategory_2
+    latitude: 48.873781
+    longitude: 2.295026
+    address: Arc de Triomphe Paris
+    is_active: 1
+    slug: arc-de-triomphe
+    created_at: NOW
+    updated_at: NOW
+  GpsPlace_3:
+    label: Notre-Dame de la Garde
+    description: "Notre-Dame de la Garde, souvent surnommée « la Bonne Mère », est une des basiliques mineures de l'Église catholique romaine. Elle est située à Marseille, entre les quartiers du Roucas Blanc, d'Endoume et de Vauban."
+    gps_category_id: GpsCategory_2
+    latitude: 43.2842563
+    longitude: 5.3712628
+    address: Notre-Dame de la Garde Marseille
+    is_active: 1
+    slug: notre-dame-de-la-garde
+    created_at: NOW
+    updated_at: NOW
+  GpsPlace_4:
+    label: Bruxelles
+    description: Capitale de la Belgique
+    gps_category_id: GpsCategory_1
+    latitude: 50.8503396
+    longitude: 4.3517103
+    address: Bruxelles
+    is_active: 1
+    slug: bruxelles
+    created_at: NOW
+    updated_at: NOW
+  GpsPlace_5:
+    label: Madrid
+    description: "Capitale de l'Espagne"
+    gps_category_id: GpsCategory_1
+    latitude: 40.4167754
+    longitude: -3.7037902
+    address: Madrid
+    is_active: 1
+    slug: madrid
+    created_at: NOW
+    updated_at: NOW
+  GpsPlace_6:
+    label: Tokyo
+    description: Capitale du Japon
+    gps_category_id: GpsCategory_1
+    latitude: 35.6894875
+    longitude: 139.6917064
+    address: Tokyo
+    is_active: 1
+    slug: tokyo
+    created_at: NOW
+    updated_at: NOW
+  GpsPlace_7:
+    label: Rome
+    description: "Capitale de l'Italie"
+    gps_category_id: GpsCategory_1
+    latitude: 41.8929163
+    longitude: 12.4825199
+    address: Rome
+    is_active: 1
+    slug: rome
+    created_at: NOW
+    updated_at: NOW

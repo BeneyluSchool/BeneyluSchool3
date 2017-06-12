@@ -1,0 +1,38 @@
+<md-button ng-click="back()" class="btn-nav" href>
+  <md-icon>chevron_left</md-icon>
+  <span ng-bind-html="'HOMEWORK.BUTTON_BACK'|translate|buttonize"></span>
+</md-button>
+
+<span class="bns-separator"></span>
+
+<md-button ui-sref="^.edit({id: ctrl.occurrence._embedded.homework.id})" class="md-raised md-primary">
+  <md-icon>edit</md-icon>
+  <span ng-bind-html="'HOMEWORK.BUTTON_EDIT_HOMEWORK'|translate|buttonize"></span>
+</md-button>
+
+<md-button ng-click="ctrl.deleteAll()" class="md-raised md-warn" ng-if="ctrl.occurrence._embedded.homework.recurrence_type === 'ONCE'">
+  <md-icon>delete</md-icon>
+  <span ng-bind-html="'HOMEWORK.BUTTON_DELETE'|translate|buttonize"></span>
+</md-button>
+
+<md-menu ng-if="ctrl.occurrence._embedded.homework.recurrence_type !== 'ONCE'">
+  <md-button class="md-warn md-raised" ng-click="$mdOpenMenu()" href>
+    <md-icon>delete</md-icon>
+    <span ng-bind-html="'HOMEWORK.BUTTON_DELETE'|translate|buttonize">.</span>
+    <md-icon>arrow_drop_down</md-icon>
+  </md-button>
+  <md-menu-content>
+    <md-menu-item>
+      <md-button ng-click="ctrl.deleteAll()">
+        {{'HOMEWORK.BUTTON_DELETE_ALL_HOMEWORKS'|translate|buttonize}}
+      </md-button>
+    </md-menu-item>
+    <md-menu-item>
+      <md-button ng-click="ctrl.deleteOccurrence()">
+        {{'HOMEWORK.BUTTON_DELETE_HOMEWORK_FOR_DAY'|translate|buttonize}}
+      </md-button>
+    </md-menu-item>
+  </md-menu-content>
+</md-menu>
+
+<span class="flex"></span>

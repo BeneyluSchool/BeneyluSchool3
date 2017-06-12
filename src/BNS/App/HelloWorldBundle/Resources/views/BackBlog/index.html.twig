@@ -1,0 +1,99 @@
+{% extends 'BNSAppHelloWorldBundle:BackBlog:base.html.twig' %}
+
+{% block actionbar_content %}
+
+  {# use a dummy flex element to occupy as much space as possible => next nodes are pushed to the right #}
+  <span flex></span>
+
+  {{ components.button('Components', { href: path('hello_world_manager_blog_components'), icon: 'widgets' }) }}
+  {{ components.button('Create|an article', { intent: 'primary', href2: path('hello_world_manager_blog_create'), icon: 'add_circle', raised: true }) }}
+  {{ components.button('Create|an article', { intent: 'primary', href: path('hello_world_manager_blog_create'), icon: 'add_circle', raised: true }) }}
+
+{% endblock %}
+
+{% block content %}
+
+  <md-toolbar class="content-toolbar">
+    {{ form_start(filter_form) }}
+      <div class="md-toolbar-tools" layout-align="start center">
+        <bns-sidebar-toggle type="button"></bns-sidebar-toggle>
+
+        <h1 class="md-title text-primary text-left" flex flex-gt-sm="33">Articles list</h1>
+        <div flex>
+          {{ form_row(filter_form.search) }}
+        </div>
+      </div>
+    </form> {# do not use form_end, so that missing form fields are not yet printed #}
+  </md-toolbar>
+
+<md-content>
+  {{ form_start(filter_form) }} {# display the rest of the filter form #}
+    <div hide-gt-md layout="row" layout-padding>
+      <div flex>
+        {{ form_row(filter_form.status) }}
+      </div>
+      <div flex>
+        {{ form_row(filter_form.categories) }}
+      </div>
+      {{ form_rest(filter_form) }}
+    </div>
+  {{ form_end(filter_form) }}
+
+  {{ form_start(form) }}
+
+    <md-list class="articles has-item-selectors">
+      {% for article in articles %}
+
+        {% if loop.first %}
+          <md-divider hide-gt-md></md-divider>
+        {% else %}
+          <md-divider></md-divider>
+        {% endif %}
+
+        <md-list-item class="article disable-ink">
+          <bns-list-item-selector status="{{ article.status }}">
+            {% for childForm in form.selection.children %}
+              {% if childForm.vars.value == article.id %}{{ form_widget(childForm) }}{% endif %}
+            {% endfor %}
+          </bns-list-item-selector>
+
+          <div class="md-list-item-text">
+            <h2 class="md-headline">{{ article.title }}</h2>
+            <p class="md-body-1 text-muted">
+              Article written {{ date_from_now(article.date, false, true) }} by <strong>{{ article.author.fullname }}</strong>
+            </p>
+            <p class="md-body-1">{{ article.description|nl2br }}</p>
+
+            <div layout="row" layout-align="space-between center">
+              <bns-button-group layout="row" layout-sm="column" layout-align="end center">
+                {{ components.button('corr' == article.status ? 'Corrected' : 'To correct', {
+                  intent: 'primary',
+                  raised: true,
+                  size: 'sm',
+                  hover: 'corr' != article.status
+                }) }}
+                {{ components.button('pub' == article.status ? 'Published' : 'Publish', {
+                  intent: 'accent',
+                  raised: true,
+                  size: 'sm',
+                  hover: 'pub' != article.status
+                }) }}
+                {{ components.button('Delete', { intent: 'warn', raised: true, hover: true, size: 'sm' }) }}
+              </bns-button-group>
+
+              {{ components.button_nav('See article', {
+                href: path('hello_world_manager_blog_edit', {id: article.id}),
+                size: 'sm',
+              }) }}
+            </div>
+          </div>
+        </md-list-item>
+
+      {% endfor %}
+    </md-list>
+
+  {{ form_end(form) }}
+
+</md-content>
+
+{% endblock %}

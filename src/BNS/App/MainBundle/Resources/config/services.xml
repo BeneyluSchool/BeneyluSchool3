@@ -4,11 +4,70 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+    <parameters>
+        <parameter key="install_process_bns_app_main_bundle.class">BNS\App\MainBundle\Install\InstallProcess</parameter>
+        <parameter key="main_bundle_service_bns_app_statistics_bundle.class">BNS\App\MainBundle\Statistic\MainStatisticsService</parameter>
+    </parameters>
+
     <services>
-		<service id="twig.extension.bnsintl" class="BNS\App\MainBundle\DependencyInjection\TwigExtensions\BNSIntlExtension">
-			<argument type="service" id="service_container"></argument>
+        <service id="install_process_bns_app_main_bundle" class="%install_process_bns_app_main_bundle.class%">
+            <tag name="bns.install_process" />
+        </service>
+        <!-- starter kit -->
+        <service id="bns_main_starter_kit_provider" class="BNS\App\MainBundle\StarterKit\MainStarterKitProvider">
+            <tag name="bns.starter_kit_provider" />
+        </service>
+        <service id="twig.extension.bnsintl" class="BNS\App\MainBundle\DependencyInjection\TwigExtensions\BNSIntlExtension">
+            <argument type="service" id="service_container"></argument>
             <tag name="twig.extension" />
         </service>
+        <service id="bns.material_extension" class="BNS\App\MainBundle\Twig\MaterialExtension" public="false">
+            <tag name="twig.extension" />
+        </service>
+        <service id="bns.navbar_extension" class="BNS\App\MainBundle\Twig\NavbarExtension" public="false">
+            <argument type="service" id="service_container" />
+            <tag name="twig.extension" />
+        </service>
+        <service id="bns.cerise_extension" class="BNS\App\MainBundle\Twig\CeriseExtension" public="false">
+            <argument type="service" id="service_container" />
+            <tag name="twig.extension" />
+        </service>
+        <service id="bns.proxy_type_extension" class="BNS\App\MainBundle\Form\Extension\ProxyFormExtension">
+            <tag name="form.type_extension" alias="form" />
+        </service>
+        <service id="bns.fullwidth_type_extension" class="BNS\App\MainBundle\Form\Extension\FullwidthFormExtension">
+            <tag name="form.type_extension" alias="form" />
+        </service>
+        <service id="bns.row_attr_type_extension" class="BNS\App\MainBundle\Form\Extension\RowAttrFormExtension">
+            <tag name="form.type_extension" alias="form" />
+        </service>
+        <service id="stat.main" class="%main_bundle_service_bns_app_statistics_bundle.class%">
+            <argument type="service" id="service_container"></argument>
+        </service>
+
+        <service id="bns.oauth_authentication_failure_handler" class="BNS\App\CoreBundle\Security\Http\Authentication\OauthAuthenticationFailureHandler">
+            <argument type="service" id="security.http_utils" />
+            <argument type="service" id="hwi_oauth.security.oauth_utils" />
+            <argument type="service" id="router.default" />
+            <argument type="service" id="validator" />
+            <argument type="service" id="logger" />
+            <argument type="service" id="translator" />
+        </service>
+
+        <service id="bns_main.connection_statistic" class="BNS\App\MainBundle\Statistic\ConnectionStatistic">
+            <argument type="service" id="bns.group_manager" />
+            <argument type="service" id="translator" />
+            <!-- FIXME use right_manager instead of container Scope Request issue -->
+            <!--<argument type="service" id="bns.right_manager" />-->
+            <argument type="service" id="service_container" />
+            <tag name="bns_statistic.statistic_config_provider" />
+        </service>
+
+        <service id="bns_main.visit_statistic" class="BNS\App\MainBundle\Statistic\VisitStatistic">
+            <argument type="service" id="translator" />
+            <argument type="collection" /> <!-- options [indicators => [] ] -->
+            <tag name="bns_statistic.statistic_config_provider" />
+        </service>
     </services>
-    
+
 </container>

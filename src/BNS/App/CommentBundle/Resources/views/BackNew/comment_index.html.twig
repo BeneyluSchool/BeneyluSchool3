@@ -1,0 +1,180 @@
+{% trans_default_domain 'COMMENT' %}
+
+<script type="text/javascript">
+	$(function ()
+	{
+		var angularizer = new Angularizer();
+		// Filters process
+		$('.comment-sidebar-filter').click(function (e)
+		{
+			$('.comment-sidebar-filter').removeClass('md-primary');
+			var $this = $(e.currentTarget),
+				$layer = $('#comment-layer');
+
+			$this.addClass('md-primary');
+			$layer.fadeIn('fast');
+			$.ajax({
+				url: $this.attr('href'),
+				type: 'POST',
+				dataType: 'html',
+				data: {
+					'object_namespace': '{{ namespace }}',
+					'page': 1,
+					'object_status': $this.data('filter-status'),
+					'edit_route': '{{ editRoute }}',
+					'material' : true
+				},
+				success: function (data)
+				{
+          $('.comments-list').html(angularizer.process(data));
+          if ($this.data('filter-status') != 'PENDING_VALIDATION') {
+            $('.md-toolbar-tools .validate-all-comments').hide();
+          }
+          else {
+            $('.md-toolbar-tools .validate-all-comments').show();
+          }
+				}
+			}).done(function ()
+			{
+				$layer.fadeOut('fast');
+			});
+			return false;
+		});
+
+		// Buttons moderation process
+		$('button.moderation-button').live('click', function (e)
+		{
+			var $this = $(e.currentTarget),
+				id = this.id,
+				$row = $('#comment-' + id);
+
+
+			//id = id[1];
+			$row.css('opacity', '.4').addClass('disabled');
+			var page = $('.pagination').length > 0 ? $('.pagination').data('current-page') : 1;
+
+			$.ajax({
+				url: '{{ path('comment_manager_status_update') }}',
+				type: 'POST',
+				dataType: 'json',
+				data: {
+					'namespace': '{{ namespace }}',
+					'status': $this.data('filter-status'),
+					'id': id,
+					'page': page,
+                    'editRoute': '{{ editRoute }}'
+				},
+				success: function (data)
+				{
+					$data = $(angularizer.process(data.comment));
+					$data.css('display', 'none');
+
+//					if ($('.pagination').length > 0) {
+//						$('.pagination').before($data);
+//					}
+//					else {
+						$('.comments-list md-list').append($data);
+//					}
+
+					$data.slideDown('slow');
+
+					if (data.pager != '') {
+						$('.pagination').closest('md-toolbar').replaceWith(data.pager);
+					}
+					else {
+						$('.pagination').closest('md-toolbar').slideUp('slow');
+					}
+				}
+			}).done(function ()
+			{
+				$row.css({'min-height': 0}).slideUp('slow');
+			});
+
+			return false;
+		});
+
+		// Pagination process
+		$('body').on('click', '.pagination a', function (e)
+		{
+			e.preventDefault();
+			e.stopImmediatePropagation();
+
+			var $this = $(e.currentTarget),
+				$layer = $('#comment-layer');
+
+			$layer.fadeIn('fast');
+			setTimeout(function ()
+			{
+				$layer.find('.message').addClass('bottom');
+			}, 50);
+
+			$.ajax({
+				url: $this.attr('href'),
+				type: 'POST',
+				dataType: 'html',
+				data: {
+					'object_namespace': '{{ namespace }}',
+					'pageR': $this.data('page'),
+					'edit_route': '{{ editRoute }}',
+					'object_status': $this.parent().parent().parent().data('status')
+				},
+				success: function (data)
+				{
+					$('.comments-list').html(angularizer.process(data));
+				}
+			}).done(function ()
+			{
+				$layer.fadeOut('fast');
+				$layer.find('.message').removeClass('bottom');
+			});
+
+			return false;
+		});
+
+		// Validate all button process
+		$('.md-toolbar-tools .validate-all-comments').click(function (e)
+		{
+			var $this = $(e.currentTarget);
+
+			if ($this.hasClass('disabled')) {
+				return false;
+			}
+
+			$this.addClass('disabled').attr('disabled', 'disabled');
+			$.ajax({
+				url: '{{ path('comment_manager_validate_all') }}',
+				type: 'POST',
+				data: {'namespace': '{{ namespace }}'},
+				success: function ()
+				{
+					window.location.reload(true);
+				}
+			});
+
+			return false;
+		});
+
+		if ($('.comments-list-container .alert.alert-success').length > 0) {
+			setTimeout(function ()
+			{
+				$('.bns-alert div').slideUp('fast', function () { var $this = $(this); $this.parent().slideUp('fast', function () { $this.show() }) });
+			}, 8000); // 8 seconds
+		}
+	});
+</script>
+
+<md-toolbar class="content-toolbar">
+	<div class="md-toolbar-tools layout-align-start-center">
+		<bns-sidebar-toggle></bns-sidebar-toggle>
+		<h1 class="md-title text-primary text-left flex flex-gt-sm-33">{% trans %}FILTER_COMMENT{% endtrans %}</h1>
+	</div>
+</md-toolbar>
+<md-content class="comments-list-container comments-list layout-column flex">
+	{#<div id="comment-layer" class="layer span9 no-margin">#}
+		{#<div class="message">#}
+			{#{{ 'COMMENT_LOADING' | trans }}#}
+			{#<div><img src="{{ asset('/medias/images/icons/big-loader.gif') }}" alt=""></div>#}
+		{#</div>#}
+	{#</div>#}
+		{{ render(controller('BNSAppCommentBundle:BackComment:show', {'namespace': namespace, 'editRoute': editRoute, 'page': page, 'material' : true, 'diplay': 'blog'} )) }}
+</md-content>

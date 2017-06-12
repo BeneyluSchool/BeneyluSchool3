@@ -1,0 +1,83 @@
+{% trans_default_domain "USER" %}
+{% extends 'BNSAppUserBundle:Front:registrationStep.html.twig' %}
+{% set step = 4 %}
+
+{% block dialog_content %}
+  {{ form_start(form, { attr: { novalidate: true } }) }}
+
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      {% include 'BNSAppUserBundle:Front:registrationProgressBar.html.twig' %}
+    </div>
+  </md-toolbar>
+
+  <!-- render the actual form field first, hidden -->
+  <div style="display: none">
+    {{ form_widget(form.pupils) }}
+  </div>
+
+  <md-dialog-content class="md-dialog-content" ng-init="pupils = []; busy = false; valid = false">
+
+    <h2 class="title-modal">{% trans %}TITLE_MISSING_PUPILS{% endtrans %}</h2>
+    <p class="subtitle-modal">{% trans with { '%beneylu_brand_name%': parameter('beneylu_brand_name') } %}DESCRIPTION_ADD_PUPILS{% endtrans %}</p>
+
+    <bns-quick-add-pupils bns-pupils="pupils"
+                          bns-hide-actions="true"
+                          bns-busy="busy"
+                          bns-valid="valid"
+                          bns-name="{{ form.pupils.vars.full_name }}"
+                          bns-source="{{ form.pupils.vars.value }}"
+    ></bns-quick-add-pupils>
+
+    <p class="subtitle-modal">
+      {% if app.user.registrationStep %}
+        {% trans %}DESCRIPTION_ADD_PUPILS_HELP{% endtrans %}
+      {% else %}
+        {% trans %}DESCRIPTION_ADD_PUPILS_HELP_EDIT{% endtrans %}
+      {% endif %}
+    </p>
+
+  </md-dialog-content>
+
+  <div class="md-actions">
+    <div class="flex-order-2">
+      <md-button ng-show="!valid"
+                 ng-click="dialog.app.broadcast(dialog.scope, 'quickAddPupils.validate')"
+                 ng-disabled="busy"
+                 class="md-raised"
+      >
+        <md-icon>find_replace</md-icon>
+        <span ng-bind-html="'USER.BUTTON_VALIDATE_INPUT'|translate|buttonize">.</span>
+      </md-button>
+      <md-button ng-show="valid"
+                 type="submit"
+                 ng-click2="dialog.app.broadcast(dialog.scope, 'quickAddPupils.submit')"
+                 ng-disabled="busy || !pupils.length"
+                 class="md-accent md-raised"
+      >
+        <md-icon>check_circle</md-icon>
+        <span ng-bind-html="'USER.BUTTON_CONFIRM_ADD_PUPILS'|translate|buttonize">.</span>
+      </md-button>
+    </div>
+    <div class="flex-order-1">
+      {% form_theme form.skip 'BNSAppMainBundle:Form:material_fields.html.twig' %}
+      {# multiple skip buttons, for different displays #}
+      {{ form_widget(form.skip, {
+        label: 'BUTTON_REGISTER_MY_PUPILS_LATER',
+        attr: { class: 'md-primary hide-sm' }
+      }) }}
+      <md-button type="submit" class="md-primary hide-gt-sm" name="{{ form.skip.vars.full_name }}">
+        {{ 'BUTTON_LATER'|trans }}
+      </md-button>
+    </div>
+    <div class="flex">
+      {{ components.button(null, {
+        href: '',
+        icon: 'help',
+        attr: { id: 'intercom-widget-activator', class: 'hide-sm' }
+      }) }}
+    </div>
+  </div>
+
+  {{ form_end(form) }}
+{% endblock %}

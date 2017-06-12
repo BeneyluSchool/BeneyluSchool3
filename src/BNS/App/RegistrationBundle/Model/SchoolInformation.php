@@ -17,10 +17,10 @@ class SchoolInformation extends BaseSchoolInformation
 	 * 
 	 * @param \BNS\App\RegistrationBundle\Model\ExecutionContext $context
 	 */
-	public function isUaiValid(ExecutionContext $context)
+	public function isUaiValid($context)
     {
 		if ('FR' == $this->getCountry() && null == $this->getUai()) {
-			$context->addViolationAtSubPath('uai', 'Vous devez saisir votre code UAI', array(), null);
+			$context->addViolationAt('uai', 'Vous devez saisir votre code UAI', array(), null);
 		}
     }
 }

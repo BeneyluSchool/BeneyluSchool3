@@ -1,0 +1,7 @@
+BNS\App\CampaignBundle\Model\om\BaseCampaignRecipient:
+  exclusion_policy: All
+  properties:
+      user_id:
+        expose: true
+      is_sent:
+        expose: true

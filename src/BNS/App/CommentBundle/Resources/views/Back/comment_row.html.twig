@@ -1,12 +1,18 @@
-<div class="comment" id="comment-{{ comment.getId() }}">
+{% trans_default_domain "COMMENT" %}
+
+<div class="comment status-{{ comment.getStatus()|lower }}" id="comment-{{ comment.getId() }}">
 	<div class="vertical-separator {{ comment.getStatus()|lower }}"></div>
 	<div class="loader loader-h"></div>
 	<div class="comment-header">
-		<img src="{{ avatar(comment.getAuthor(), 'thumbnail') }}" />
-		<p class="subject">{{ comment.getAuthor().getFullName() }}</p>
-		<p class="date">Envoyé {{ date_from_now(comment.getDate(), false, true) }}</p>
 		<div class="comment-moderation">
 			{% include 'BNSAppCommentBundle:Back:comment_moderation.html.twig' %}
+		</div>
+		<div class="informations">
+			<img src="{{ avatar(comment.getAuthor(), 'thumbnail') }}" />
+			<p class="subject">{{ comment.getAuthor().getFullName() }}</p>
+			<p class="date">{{ 'SEND_DATE'|trans({'%date%': date_from_now(comment.getDate(), false, true)}) |desc('Envoyé %date%') |raw }}</p>
+			{% set commentRoute = comment.getObjectRoute() %}
+			<p class="object"><a href="{{ path(commentRoute[0], commentRoute[1]) }}">{{ comment.getObject() }}</a></p>
 		</div>
 		<div class="clearfix"></div>
 	</div>

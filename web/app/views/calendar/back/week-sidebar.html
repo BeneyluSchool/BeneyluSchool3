@@ -1,0 +1,15 @@
+
+    <section ui-sref-active="current">
+      <bns-calendar ng-if="shared.startDate" selection="{{shared.startDate.format('YYYY-MM-DD')}}" mode="week" sync-view></bns-calendar>
+      <md-divider></md-divider>
+
+      <bns-expander label="{{'CALENDAR.TITLE_MINE_CALENDAR'|translate}}" is-open="true">
+        <bns-checkbox-group choices="ctrl.agendas" ng-model="ctrl.visibleAgendas" bns-color="agenda.color">
+          <bns-choice-secondary ng-if="choice.agenda.manageable">
+            <bns-calendar-color-picker agenda="choice.agenda" on-pick="ctrl.reload()"></bns-calendar-color-picker>
+          </bns-choice-secondary>
+        </bns-checkbox-group>
+      </bns-expander>
+    </section>
+
+    <section bns-app-menu-toggle></section>

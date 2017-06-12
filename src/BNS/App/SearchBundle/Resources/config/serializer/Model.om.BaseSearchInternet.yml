@@ -1,0 +1,9 @@
+BNS\App\SearchBundle\Model\om\BaseSearchInternet:
+  exclusion_policy: All
+  properties:
+      id:
+        expose: true
+      label:
+        expose: true
+      created_at:
+        expose: true

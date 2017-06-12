@@ -1,0 +1,17 @@
+<bns-starter-kit-pointer step="1-2.2" pointer="actionbar"></bns-starter-kit-pointer>
+
+<md-button ng-if="shared.dateForCreate"
+  ui-sref="app.homework.back.create({day: shared.dateForCreate.format('YYYY-MM-DD')})"
+  class="md-primary md-raised"
+  bns-starter-kit-explanation
+  bns-starter-kit-validate="click"
+  step="1-3.1|3-4.1"
+>
+  <md-icon>add_circle</md-icon>
+  <span ng-bind-html="'HOMEWORK.BUTTON_ADD_HOMEWORK'|translate|buttonize"></span>
+</md-button>
+
+<md-button ng-if="shared.homeworks.length" ng-click="print()" class="md-raised" href>
+  <md-icon>print</md-icon>
+  <span ng-bind-html="'HOMEWORK.BUTTON_PRINT_HOMEWORKS'|translate|buttonize"></span>
+</md-button>

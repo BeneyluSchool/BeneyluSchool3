@@ -1,0 +1,56 @@
+<div container class="flex layout-gt-md-row main-container">
+
+  <bns-breakfast-tour-navigation></bns-breakfast-tour-navigation>
+
+  <div class="breakfast-tour-navigation-spacer hide-sm hide-md"></div>
+
+  <md-content class="flex-gt-md layout-column md-padding md-whiteframe-z2 border-dashed" ng-class="{ 'dashed-vertical': $mdMedia('gt-md'), 'dashed-horizontal': $mdMedia('sm') || $mdMedia('md') }">
+
+    <div shrink-none class="layout-md-row" style="margin-top: auto;">
+      <header class="flex-md-50 breakfast-header">
+        <div class="breakfast-flag flag-{{ ::ctrl.breakfast.code }}"></div>
+        <h1 class="md-display-2 heading breakfast-title">{{ ::ctrl.breakfast.name }}</h1>
+        <h3 class="md-headline heading breakfast-country">{{ ::ctrl.breakfast.country }}</h3>
+        <div class="md-body-1 breakfast-description">{{ ::ctrl.breakfast.game_incentive }}</div>
+      </header>
+
+      <div class="flex-md-50 ingredient-choices layout-column layout-align-center-center">
+        <div class="layout-row layout-align-center-center">
+          <div class="ingredient-placeholder">
+            <bns-ingredient-visual ng-if="ctrl.ordered[1]" ingredient="ctrl.ordered[1]" class="grow"></bns-ingredient-visual>
+          </div>
+        </div>
+        <div class="layout-row layout-align-space-around-center">
+          <span class="ingredient-combinator">+</span>
+          <span class="ingredient-combinator">+</span>
+        </div>
+        <div class="layout-row layout-align-space-around-center">
+          <div class="ingredient-placeholder">
+            <bns-ingredient-visual ng-if="ctrl.ordered[2]" ingredient="ctrl.ordered[2]" class="grow"></bns-ingredient-visual></bns-ingredient-visual>
+          </div>
+          <span class="ingredient-combinator">+</span>
+          <div class="ingredient-placeholder">
+            <bns-ingredient-visual ng-if="ctrl.ordered[3]" ingredient="ctrl.ordered[3]" class="grow"></bns-ingredient-visual>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div shrink-none class="text-center" style="margin-bottom: auto;">
+      <md-button href="" class="md-raised md-accent btn-lg" ng-disabled="3 !== ctrl.choices.length" ng-click="ctrl.unlock()" style="display: inline-block; margin-left: 0; margin-right: 0">
+        <div class="flex layout-row layout-align-center-center">
+          <span class="ingredients-flame"></span>
+          <span translate>BREAKFAST_TOUR.BUTTON_COOK_INGREDIENTS</span>
+        </div>
+      </md-button>
+    </div>
+    <div class="hide-sm hide-md breakfast-tour-navbar-spacer"></div>
+
+  </md-content>
+
+  <md-content class="flex-gt-md-60 md-padding transparent layout-column">
+    <bns-ingredients-selector style="margin: auto" ingredients="ctrl.ingredients" choices="ctrl.choices" ordered="ctrl.ordered"></bns-ingredients-selector>
+    <div class="breakfast-tour-navbar-spacer"></div>
+  </md-content>
+
+</div>

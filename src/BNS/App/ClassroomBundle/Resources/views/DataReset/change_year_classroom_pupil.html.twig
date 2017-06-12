@@ -1,0 +1,43 @@
+{% extends 'BNSAppClassroomBundle:DataReset:layout.html.twig' %}
+{% trans_default_domain "CLASSROOM" %}
+
+{% block thumbnail %}
+    <img src="{{ asset('/medias/images/profile/avatar/32x32/classe.png') }}" alt="" />
+{% endblock %}
+
+{% block title %}
+    {% trans %}IMAGE_PUPIL{% endtrans %}
+{% endblock %}
+
+{% set form = dataReset.getForm().createView() %}
+{% block inputs %}
+    {{ form_widget(form.choice) }}
+
+    <div id="pupil-transfer-container" class="pupil-transfer" data-placement="left" data-original-title="{{ 'FIND_CLASSROOM_CODE'|trans }}">
+        <label for="{{ form.uid.vars.id }}">{% trans %}CLASSROOM_CODE{% endtrans %}</label>
+        {{ form_widget(form.uid) }}
+    </div>
+    {{ form_rest(form) }}
+{% endblock inputs %}
+
+{% block form %}
+    {{ parent() }}
+
+    <a href="{{ path('classroom_manager_export_pupils_csv') }}" class="btn bns-notice">{% trans %}EXPORT_INFOS_CSV{% endtrans %}</a>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#pupil-transfer-container').tooltip();
+
+            $('#{{ form.choice.vars.id }}').change(function (e) {
+                var $this = $(e.currentTarget);
+                if ($this.val() == 'TRANSFER') {
+                    $('#pupil-transfer-container').slideDown('fast');
+                }
+                else {
+                    $('#pupil-transfer-container').slideUp('fast');
+                }
+            });
+        });
+    </script>
+{% endblock form %}

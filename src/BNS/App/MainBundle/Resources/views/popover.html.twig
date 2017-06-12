@@ -1,0 +1,14 @@
+{% spaceless %}
+    {% if noElement is not defined %}
+        <{{ element }}
+    {% endif %}
+        rel="popover"
+        data-title="<div class='dock-popover'><img src='{{ asset("/medias/images/icons/modules/" ~ module ~ "/big.png" ) }}' />{{ title }}</div>"
+        data-content="<div class='dock-popover {{ size is defined ? 'popover-' ~ size : 'popover-medium' }}' >{{ content }}</div>"
+        data-animation="true"
+        data-placement="{{ placement is defined ? placement : 'top' }}"
+        class="module-popover module-icon {{ class }}"
+    {% if noElement is not defined %}
+        ></{{ element }}>
+    {% endif %}
+{% endspaceless %}

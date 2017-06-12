@@ -1,59 +1,53 @@
+{% trans_default_domain "PROFILE" %}
 {% extends 'BNSAppProfileBundle:Layout:manager.html.twig' %}
 
 {% block title %}
-	Profil - Commentaires
+  {% trans %}TITLE_PROFILE_COMMENT{% endtrans %}
+
 {% endblock title %}
 
 {% block javascripts %}
-	{{ parent() }}
-	
-	<script type="text/javascript">
-		// Moderation comments
-		$('.container-sidebar .moderation-comment').click(function (e)
-		{
-			var $this = $(e.currentTarget);
-			if ($this.hasClass('loading')) {
-				return false;
-			}
+  {{ parent() }}
+  <script type="text/javascript">
+    // Moderation comments
+    $(function(){
+      $('.container-sidebar .moderation-comment').click(function (e)
+      {
+        var $this = $(e.currentTarget);
+        if ($this.hasClass('loading')) {
+          return false;
+        }
 
-			$this.addClass('loading');
+        $this.addClass('loading');
 
-			$.ajax({
-				url: $this.attr('href'),
-				type: 'POST',
-				data: {'state': $this.hasClass('off')},
-				success: function (data)
-				{
-					$this.removeClass('loading');
-					$this.toggleClass('off');
-				}
-			});
+        $.ajax({
+          url: $this.attr('href'),
+          type: 'POST',
+          data: {'state': !$this.hasClass('off')},
+          success: function (data)
+          {
+            $this.removeClass('loading');
+            $this.toggleClass('on').toggleClass('off');
+          }
+        });
 
-			return false;
-		});
-	</script>
+        return false;
+      });
+    });
+  </script>
 {% endblock javascripts %}
-	
-{% block sidebar %}
-	{% include 'BNSAppProfileBundle:Sidebar:sidebar.html.twig' with {'section': 'comments'} %}
+
+{% block sidebar_content %}
+  {% include 'BNSAppProfileBundle:Sidebar:sidebar.html.twig' with {'section': 'comments'} %}
 {% endblock %}
 
-{% block header %}
-	<div class="header-buttons">
-		<div class="inner-header">
-			<div class="container container-fluid">
-				<div class="row-fluid">
-					<div class="span12 align-right">
-						<a href="#" class="btn btn-validate bns-success validate-medium btn-24 medium">
-							<span class="icons-24 validate-icon"></span><strong>Valider tout les commentaires</strong>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-{% endblock header %}
+
+{% block actionbar_content %}
+  <span flex></span>
+  {{ components.button( 'LINK_VALIDATE_ALL_COMMENTS' | trans , { intent: 'accent', href: '#', icon: 'done', raised: true, attr : {'class':' bns-success validate-all-comments'} }) }}
+{% endblock actionbar_content %}
+
 
 {% block content %}
-	{% include 'BNSAppCommentBundle:Back:comment_index.html.twig' %}
+  {% include 'BNSAppCommentBundle:BackNew:comment_index.html.twig' %}
 {% endblock content %}

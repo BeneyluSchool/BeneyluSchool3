@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\InfoBundle\Model">
+  <table name="announcement">
+    <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
+    <column name="label" type="VARCHAR" required="true" size="255" />
+    <column name="description" type="LONGVARCHAR" required="false" />
+    <column name="type" type="ENUM" required="true" size="50" defaultValue="CUSTOM"  valueSet="CUSTOM, BLOG, UPDATE" />
+    <column name="participable" type="BOOLEAN" defaultValue="0" required="true" />
+    <column name="participation_label" type="VARCHAR" required="false" size="50" />
+    <column name="resource_id" type="INTEGER" required="false" />
+    <column name="image_url" type="VARCHAR" required="false" size="500" />
+    <column name="is_active" type="BOOLEAN" defaultValue="0" required="false" />
+    <column name="permission_unique_name" type="VARCHAR" size="255" required="false" />
+    <behavior name="timestampable" />
+    <behavior name="sluggable">
+        <parameter name="slug_column" value="slug" />
+        <parameter name="slug_pattern" value="{label}" />
+        <parameter name="replace_pattern" value="/[^\w]+/u" />
+        <parameter name="replacement" value="-" />
+        <parameter name="separator" value="-" />
+        <parameter name="permanent" value="true" />
+    </behavior>
+    <foreign-key foreignTable="media" phpName="Resource" name="FK_ANNOUNCEMENT_RESOURCE" onDelete="SETNULL" onUpdate="SETNULL">
+      <reference foreign="id" local="resource_id" />
+    </foreign-key>
+    <behavior name="i18n">
+      <parameter name="i18n_columns" value="label, description" />
+      <parameter name="default_locale" value="en" />
+    </behavior>
+  </table>
+  <table name="announcement_user">
+    <column name="announcement_id" type="INTEGER" required="true" primaryKey="true" />
+    <column name="user_id" type="INTEGER" required="true" primaryKey="true" />
+    <column name="participation" type="BOOLEAN" required="false" />
+    <foreign-key foreignTable="announcement" name="FK_ANNOUNCEMENT_USER_ANNOUNCEMENT" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="announcement_id" />
+    </foreign-key>
+    <foreign-key foreignTable="user" name="FK_ANNOUNCEMENT_USER_USER" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="user_id" />
+    </foreign-key>
+    <behavior name="timestampable" />
+  </table>
+  <table name="contact">
+    <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
+    <column name="user_id" type="INTEGER" required="true" primaryKey="true" />
+    <column name="group_id" type="INTEGER" required="true" primaryKey="true" />
+    <column name="description" type="VARCHAR" required="true" size="5000" />
+    <column name="done" type="BOOLEAN" required="true" defaultValue="0" />
+    <behavior name="timestampable" />
+    <foreign-key foreignTable="user" name="FK_CONTACT_USER" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="user_id" />
+    </foreign-key>
+    <foreign-key foreignTable="group" name="FK_CONTACT_GROUP" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="group_id" />
+    </foreign-key>
+  </table>
+    <table name="sponsorship">
+        <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
+        <column name="from_user_id" type="INTEGER" required="false" />
+        <column name="to_user_id" type="INTEGER" required="false" />
+        <column name="email" type="VARCHAR" required="false"  size="500" />
+        <column name="status" type="ENUM" required="true" size="50" defaultValue="PENDING"  valueSet="PENDING, REGISTERED, VALIDATED, REFUSED, WRONG_SCHOOL" />
+        <column name="school_id" type="INTEGER" required="true" />
+        <behavior name="timestampable" />
+        <foreign-key foreignTable="user" name="FK_SPONSORSHIP_FROM_USER_ID" onDelete="SETNULL" onUpdate="SETNULL">
+            <reference foreign="id" local="from_user_id" />
+        </foreign-key>
+        <foreign-key foreignTable="user" name="FK_SPONSORSHIP_FROM_TO_USER_ID" onDelete="SETNULL" onUpdate="SETNULL">
+            <reference foreign="id" local="to_user_id" />
+        </foreign-key>
+        <foreign-key foreignTable="group" name="FK_SPONSORSHIP_SCHOOL_ID" onDelete="NONE" onUpdate="NONE">
+            <reference foreign="id" local="school_id" />
+        </foreign-key>
+    </table>
+</database>

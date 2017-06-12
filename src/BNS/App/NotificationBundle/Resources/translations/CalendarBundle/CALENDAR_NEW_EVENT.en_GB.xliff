@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:44:36Z" source-language="en" target-language="en-GB" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="7812e4c9e48311ba7aa26a74d2efc4848c208254" resname="CALENDAR_NEW_EVENT.EMAIL.content">
+        <source>CALENDAR_NEW_EVENT.EMAIL.content</source>
+        <target><![CDATA[The event "<a href="%eventRoute%">%eventTitle%</a>" has been added to the calendar]]></target>
+        <note><![CDATA[%eventRoute% is a placeholder
+%eventTitle% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="8f6c4d44f7fb0e07d58c46e26f9a2e9b7994566a" resname="CALENDAR_NEW_EVENT.EMAIL.title">
+        <source>CALENDAR_NEW_EVENT.EMAIL.title</source>
+        <target>A new event has been added to the calendar</target>
+      </trans-unit>
+      <trans-unit id="83333b72b7ed7d47f6a2ed9c4ed9a13d1d2a5a93" resname="CALENDAR_NEW_EVENT.SYSTEM.content">
+        <source>CALENDAR_NEW_EVENT.SYSTEM.content</source>
+        <target><![CDATA[The event "<a href="%eventRoute%">%eventTitle%</a>" has been added to the calendar]]></target>
+        <note><![CDATA[%eventRoute% is a placeholder
+%eventTitle% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

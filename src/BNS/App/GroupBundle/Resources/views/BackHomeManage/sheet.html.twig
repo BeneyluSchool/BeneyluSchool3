@@ -1,0 +1,51 @@
+{% trans_default_domain "GROUP" %}
+{% extends 'BNSAppGroupBundle:Back:layout.html.twig' %}
+
+{% block header %}
+    <div class="header-buttons">
+        <div class="inner-header">
+            <div class="container container-fluid">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <a class="btn bns-notice btn-24 medium-return" href="{{ path('BNSAppGroupBundle_back_home_manage') }}">
+                            <span class="icons-24 back-icon"></span>
+                            {{ 'LINK_RETURN_TO_LIST'|trans |desc('<strong>Retourner</strong><br>à la liste') |raw }}
+                        </a>
+                        <a class="btn bns-info btn-24 medium-return button-return" href="{{ path('BNSAppGroupBundle_back_home_manage_edit' , {'slug' : homeNew.slug }) }}">
+                            <span class="icons-24 edit-icon"></span>
+                            {{ 'LINK_EDIT_NEWS'|trans |desc('<strong>Éditer</strong><br>l\'actualité') |raw }}
+                        </a>
+                        <a class="btn bns-danger btn-24 medium-return delete-item" href="{{ path('BNSAppGroupBundle_back_home_manage_delete' , {'slug' : homeNew.slug }) }}">
+                            <span class="icons-24 delete-icon"></span>
+                            {{ 'LINK_DELETE_NEWS'|trans |desc('<strong>Supprimer</strong><br>l\'actualité') |raw }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock header %}
+
+{% block sidebar %}
+    {{ render(controller('BNSAppGroupBundle:Back:sidebar', {'section' : 'logon_message'} )) }}
+{% endblock sidebar %}
+
+
+{% block content %}
+    <div class="item">
+        <div class="text">
+            <h3>{{ homeNew.title }}</h3>
+            {% if homeNew.resource != null %}
+                <div class="resource pull-left"><img src="{{ getResourceImageUrl(homeNew.resource, 'small') }}" alt="" /></div>
+            {% endif %}
+            {{ homeNew.description  | purify  }}
+            <div class="clearfix"></div>
+        </div>
+        <div class="footer">
+            {{ 'POST_AT' |trans({'%date%': date_from_now(homeNew.createdAt, false, true)}) }}
+        </div>
+    </div>
+{% endblock %}
+
+
+

@@ -1,0 +1,7 @@
+<div ng-class="ctrl.layoutClasses" class="workshop-page-layout layout-column">
+
+  <div ng-repeat="row in ctrl.rows" class="layout-row workshop-layout-row workshop-layout-row-{{::row.code}}">
+    <div ng-repeat="zone in row.zones" last="ctrl.last" bns-workshop-document-page-layout-zone="zone"></div>
+  </div>
+
+</div>

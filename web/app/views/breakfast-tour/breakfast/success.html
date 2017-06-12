@@ -1,0 +1,20 @@
+<div container class="flex layout-row main-container">
+
+  <md-content class="flex transparent layout-column layout-align-center-center">
+    <div class="breakfast-tour-navbar-spacer"></div>
+    <div class="md-padding md-whiteframe-z2 breakfast-tour-success border-dashed" style="margin: auto;">
+      <div class="breakfast-tour-success-dish dish-{{ ::ctrl.breakfast.code }}"></div>
+      <h3 class="md-display-1 heading" translate>BREAKFAST_TOUR.TITLE_CONGRATS_UNLOCK</h3>
+      <h1 class="md-display-3 heading" translate>{{ ::ctrl.breakfast.name }}</h1>
+      <div class="breakfast-tour-success-button pennant pennant-double">
+        <md-button ui-sref="^.details" class="btn-lg">
+          <span translate>BREAKFAST_TOUR.BUTTON_SEE_BREAKFAST</span>
+        </md-button>
+      </div>
+    </div>
+    <div class="breakfast-tour-navbar-spacer"></div>
+  </md-content>
+
+  <div class="hide-sm hide-md breakfast-tour-characters"></div>
+
+</div>

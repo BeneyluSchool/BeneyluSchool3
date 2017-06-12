@@ -1,0 +1,13 @@
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+
+    <bns-week-toolbar start="agenda.startDate" end="agenda.endDate" on-prev="agenda.prev()" on-next="agenda.next()" class="flex"></bns-week-toolbar>
+  </div>
+</md-toolbar>
+<div class="calendar-loader">
+  <md-progress-linear md-mode="indeterminate" ng-show="agenda.busy"></md-progress-linear>
+</div>
+<md-content class="flex">
+  <div ui-calendar="agenda.calendarConfig" ng-model="agenda.events" calendar="{{agenda.calendarName}}"></div>
+</md-content>

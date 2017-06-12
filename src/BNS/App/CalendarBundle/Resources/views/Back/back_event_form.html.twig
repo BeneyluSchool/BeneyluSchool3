@@ -1,0 +1,259 @@
+{% trans_default_domain "CALENDAR" %}
+{% extends 'BNSAppCalendarBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+    {% if isEdition %}
+        {{ 'TITLE_CALENDAR_EDIT_EVENT'|trans |desc('Calendrier - Modifier un évènement') }}
+    {% else %}
+        {{ 'TITLE_CALENDAR_AJOUTER_EVENT'|trans |desc('Calendrier - Ajouter un évènement') }}
+    {% endif %}
+
+
+{% endblock %}
+
+{% block css %}
+  {{ parent() }}
+
+  <link href="{{ asset('/medias/css/calendar/timePicker.css') }}" rel="stylesheet" type="text/css" />
+  <link type="text/css" href="{{ asset('/medias/css/ui-twitter-theme/jquery-ui-1.8.16.custom.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+
+  <script type="text/javascript" src="{{ asset('/medias/js/calendar/jquery.timePicker.min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('/medias/js/jquery-ui-1.8.19.custom.min.js') }}"></script>
+  <script type="text/javascript">
+    $(function() {
+      $('.header-buttons .finish').click(function()
+      {
+        $('#new-form').submit();
+        return false;
+      });
+
+      // Init process
+      var isRecurringCheckbox = $("#{{ form.isRecurring.vars.id }}");
+      toggleRecurringOptions(isRecurringCheckbox.is(':checked'));
+
+      var isAllDayCheckbox = $("#{{ form.isAllDay.vars.id }}");
+      toggleAllDayOption(isAllDayCheckbox.is(':checked'));
+
+      // Enable DatePicker
+      $.extend($.datepicker.regional["{{ app.request.locale }}"], { dateFormat: "dd/mm/yy"});
+      $.datepicker.setDefaults($.datepicker.regional[ "{{ app.request.locale }}" ]);
+      $("#{{ form.recurringEndDate.vars.id }}, #{{ form.dateStart.vars.id }}, #{{ form.dateEnd.vars.id }}").datepicker({ dateFormat: "dd/mm/yy"});
+
+      // Enable TimePicker
+      $("#{{ form.timeStart.vars.id }}, #{{ form.timeEnd.vars.id }}").timePicker({
+        startTime: new Date(0, 0, 0, 8, 0, 0), // Using string. Can take string or Date object.
+        endTime: new Date(0, 0, 0, 22, 00, 0), // Using Date object here.
+        show24Hours: {% if locale == 'fr' %}true{% else %}false{% endif %},
+        separator: {% if locale == 'fr' %}'h'{% else %}':'{% endif %},
+        step: 30});
+
+      // listener process
+      {% if locale == 'fr' %}
+      var timeStart = $("#{{ form.timeStart.vars.id }}");
+      timeStart.val(convertTimeToUserLocalFormat(timeStart.val()));
+      var timeEnd = $("#{{ form.timeEnd.vars.id }}");
+      timeEnd.val(convertTimeToUserLocalFormat(timeEnd.val()));
+
+      $("form").submit(function() {
+        timeStart.val(convertTimeToSF2Format(timeStart.val()));
+        timeEnd.val(convertTimeToSF2Format(timeEnd.val()));
+      });
+      {% endif %}
+
+      $('#calendar_event_form_dateStart').live("change", function(){
+          $('#calendar_event_form_dateEnd').val($('#calendar_event_form_dateStart').val());
+      });
+
+      isRecurringCheckbox.click(function() {
+        toggleRecurringOptions(isRecurringCheckbox.is(':checked'));
+      });
+
+      if (isRecurringCheckbox.is(':checked')) {
+        $('.container-sidebar .recursive').removeClass('hide');
+      }
+
+      isAllDayCheckbox.click(function()
+      {
+        toggleAllDayOption(isAllDayCheckbox.is(':checked'));
+      });
+
+      $(".recurring_count").blur(function()
+      {
+        if ($(this).val().replace(/ /g, '') != '') {
+          $(".recurring_until").val('');
+        }
+      });
+
+      $(".recurring_until").blur(function()
+      {
+        if ($(this).val().replace(/ /g, '') != '') {
+          $(".recurring_count").val('');
+        }
+      });
+
+      $(".errors-container").each(function()
+      {
+        if ($.trim( $(this).html() ).length) {
+          $(this).show();
+        }
+      });
+
+      // function
+      function toggleAllDayOption(state)
+      {
+        if (state) {
+          $(".time_field").fadeOut("slow");
+        }
+        else {
+          $(".time_field").fadeIn("slow");
+        }
+      }
+
+      function toggleRecurringOptions(state)
+      {
+        if (state) {
+          $(".recurring_options").fadeIn("fast");
+          $('.dstart').find('.date').html('{{ 'ARTICLE_TO'|trans |desc('le') }}');
+
+          $('.dend').hide('fast');
+        }
+        else {
+          $(".recurring_options").fadeOut("fast");
+          $('.dstart').find('.date').html('{{ 'ARTICLE_AT'|trans |desc('Du') }}');
+          $('.dend').show('fast');
+        }
+      }
+
+      function convertTimeToUserLocalFormat(time)
+      {
+        return time.replace(':', 'h');
+      }
+
+      function convertTimeToSF2Format(time)
+      {
+        return time.replace('h', ':');
+      }
+
+      if ($('#{{ form.isAllDay.vars.id }}').is(':checked')) {
+        $('.agenda-date .hours').hide();
+      }
+
+      $('#{{ form.isAllDay.vars.id }}').click(function (e)
+      {
+        var $this = $(e.currentTarget);
+        if ($this.is(':checked')) {
+          $('.agenda-date .hours').slideUp('fast');
+        }
+        else {
+          $('.agenda-date .hours').slideDown('fast');
+        }
+      });
+
+      $('#{{ form.isRecurring.vars.id }}').click(function (e)
+      {
+        var $this = $(e.currentTarget);
+        if ($this.is(':checked')) {
+          $('.agenda-recursive .recursive').slideDown('fast');
+        }
+        else {
+          $('.agenda-recursive .recursive').slideUp('fast');
+        }
+      });
+    });
+  </script>
+
+  {{ tinymce_init() }}
+{% endblock %}
+
+{% block header %}
+  <div class="header-buttons">
+    <div class="inner-header">
+      <div class="container container-fluid">
+        <div class="row-fluid">
+          <div class="span8">
+            <a href="{{ path('BNSAppCalendarBundle_back') }}" class="btn bns-notice btn-24 medium-return {% if not isEdition %}button-return{% endif %}">
+              <span class="icons-24 back-icon"></span>
+              {{ 'LINK_BACK_TO_CALENDAR' |trans |raw }}
+
+            </a>
+            {% if isEdition %}
+              <a href="{{ path('calendar_manager_event_visualisation', {'slug': event.getSlug()}) }}" class="btn bns-danger btn-24 medium-return button-return">
+                <span class="icons-24 cancel-icon"></span>
+                {% trans %}LINK_CANCEL_TO_EDIT{% endtrans %}
+
+              </a>
+            {% endif %}
+          </div>
+          <div class="span4 align-right">
+            <a href="#" class="btn finish bns-success validate-medium btn-24 medium">
+              <span class="icons-24 validate-icon"></span>
+              <strong>{% trans %}LINK_SAVE_EVENT{% endtrans %}</strong>
+
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock header %}
+
+{% block sidebar %}
+  {% include 'BNSAppCalendarBundle:Sidebar:back_sidebar.html.twig' with {'section': 'event_form', 'title': null} %}
+{% endblock sidebar %}
+
+{% block form_start %}
+	{% if isEdition %}
+<form id="new-form" action="{{ path('BNSAppCalendarBundle_back_edit_event', {'slug': event.getSlug()}) }}" method="POST" {{ form_enctype(form) }}>
+  {% else %}
+  <form id="new-form" action="{{ path('BNSAppCalendarBundle_back_add_event') }}" method="POST" {{ form_enctype(form) }}>
+    {% endif %}
+    {% endblock form_start %}
+
+    {% block form_end %}
+  </form>
+  {% endblock form_end %}
+
+  {% block content %}
+    <div class="item form">
+      {{ form_errors(form) }}
+
+      {% if form.isRecurring.vars.errors|length > 0 or form.recurringType.vars.errors|length > 0 or
+      form.recurringCount.vars.errors|length > 0 or form.recurringEndDate.vars.errors|length > 0 %}
+        <div class="alert alert-danger bns-alert">
+          {{ form_errors(form.isRecurring) }}
+          {{ form_errors(form.recurringType) }}
+          {{ form_errors(form.recurringCount) }}
+          {{ form_errors(form.recurringEndDate) }}
+          <div class="jim"></div>
+        </div>
+      {% endif %}
+
+      <div>
+        {{ form_widget(form.title , { 'attr': {'placeholder': "PLACEHOLDER_ENTER_EVENT_TITLE"|trans} }) }}
+        {% if form.title.vars.errors|length > 0 %}
+          <div class="alert alert-danger bns-alert">
+            {{ form_errors(form.title) }}
+            <div class="jim"></div>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="description tinyarea">
+        {{ form_widget(form.description, { 'attr': {'bns-tinymce': '', 'placeholder': "PLACEHOLDER_EVENT_DESCRIPTION" |trans} }) }}
+        <div class="errors-container span8 alert alert-error">
+          {{ form_errors(form.description) }}
+        </div>
+      </div>
+
+      <div class="resources">
+			{% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias' : event.getResourceAttachments(), 'editable': true, 'objectType': 'AgendaEvent', 'objectId': event.id } %}
+		</div>
+
+		{{ form_rest(form) }}
+	</div>
+{% endblock %}
+  

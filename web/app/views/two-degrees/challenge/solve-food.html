@@ -1,0 +1,22 @@
+<div class="layout-column layout-align-center-center">
+
+  <div class="challenge-sm">
+    <ul ng-init="letters = 'ABCD'; seasons = ['spring', 'summer', 'autumn', 'winter']"
+      class="layout-row layout-align-center-center layout-wrap two-degrees-challenge-choices"
+    >
+      <li ng-repeat="season in seasons" class="text-center">
+        <div class="flex layout-row layout-align-start-center choice-label">
+          <span class="challenge-letter pellet flex-none">{{::letters[$index]}}</span>
+        </div>
+        <div class="pellet pellet-lg item">{{'TWO_DEGREES.LABEL_'+season|tokenize|translate}}</div>
+      </li>
+    </ul>
+  </div>
+
+  <bns-two-degrees-challenge-solver letters="1234ABCD"
+    items="['menu-melon', 'menu-pineapple', 'menu-radish', 'menu-carrot']"
+    length="8"
+    class="challenge-sm"
+  ></bns-two-degrees-challenge-solver>
+
+</div>

@@ -1,0 +1,112 @@
+module:
+  unique_name: MINISITE
+  is_contextable: true
+  name:
+    fr: Minisite
+    en: Minisite
+  description:
+    fr: Lire toute l'actualité en ligne de votre école
+    en: The school or classroom news for the public via the minisite.
+  default_rank:
+    pupil: USE
+    parent: READ
+    teacher: MANAGE
+    other: READ
+
+permissions:
+  ACCESS:
+    label:
+      fr: Voir le minisite
+      en: Access minisite
+    description:
+      fr: Donne l'accès au minisite du groupe
+      en: Give access to the group minisite
+
+  ACCESS_BACK:
+    label:
+      fr: Accès à la gestion du minisite
+      en: Access to the minisite back
+    description:
+      fr: Donne l'accès à la gestion du minisite
+      en: Give access to the managment group minisite
+
+  ACTIVATION:
+    label:
+      fr: Peut activer le minisite
+      en: Can enable the minisite
+    description:
+      fr: Peut activer ou désactiver le minisite
+      en: Can enable or disable the minisite
+
+  ACTIVATION_PARTNERSHIP:
+    label:
+      fr: Peut activer le minisite dans le partenariat
+      en: Can enable the minisite in partnership
+    description:
+      fr: Peut activer ou désactiver le minisite dans le partenariat
+      en: Can enable or disable the minisite in partnership
+
+  ADMINISTRATION:
+    label:
+      fr: Administrer le minisite
+      en: Admin the minisite
+    description:
+      fr: Peut administrer toutes les données du minisite, gérer les publications
+      en: Can admin all minisite data
+
+ranks:
+  READ:
+    label:
+      fr: Accès en lecture au minisite
+      en: Minisite read access
+    description:
+      fr: Accès en lecture au minisite
+      en: Minisite read access
+    permissions: [ACCESS]
+
+  USE:
+    label:
+      fr: Utiliser le minisite
+      en: Minisite read and write access
+    description:
+      fr: Utiliser le minisite
+      en: Minisite read and write access
+    permissions: [ACCESS, ACCESS_BACK]
+
+  MANAGE:
+    label:
+      fr: Manager le minisite
+      en: Minisite manage
+    description:
+      fr: Manager le minisite
+      en: Minisite manage
+    permissions: [ACCESS, ACCESS_BACK, ACTIVATION, ADMINISTRATION]
+
+  MANAGE_PARTNERSHIP:
+    label:
+      fr: Manager le minisite dans partenariat
+      en: Minisite manage in partnership
+    description:
+      fr: Manager le minisite dans partenariat
+      en: Minisite manage in partnership
+    permissions: [ACTIVATION_PARTNERSHIP]
+
+  ACTIVATION_TEAM:
+    label:
+      fr: Manager le minisite dans le groupe de travail
+      en: Minisite manage in team
+    description:
+      fr: Manager le minisite dans le groupe de travail
+      en: Minisite manage in team
+    permissions: [ACTIVATION]
+
+
+markers:
+  MINISITE_CREATE_STATIC-PAGE:
+    description: Création d'une page statique sur le minisite
+  MINISITE_CREATE_DYNAMIC-PAGE:
+    description: Création d'une page d'informations sur le minisite
+  MINISITE_CREATE_DYNAMIC-PAGE-ARTICLE:
+    description: Création d'une information sur le minisite
+  MINISITE_UPDATE_STATIC-PAGE:
+    description: Mise à jour d'une page statique

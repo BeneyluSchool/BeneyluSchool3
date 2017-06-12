@@ -1,10 +1,10 @@
-{#<div id="section-article-statut">
-	{% for group in groups %}
-		{% include 'BNSAppMessagingBundle:Back/Light:block_moderation_action.html.twig' with {'status' : status[group.id], 'group' : group } %}
-	{% endfor %}
-</div>#}
 <div class="content-title">
 	{% for group in groups %}
+        {%  if groups|length > 1 %}
+            <div class="title active border-blue {%  if loop.index > 1 %}border-top{% endif %}">
+                {{ group.label }}
+            </div>
+        {%  endif %}
 		{% include 'BNSAppMessagingBundle:Back/Light:block_moderation_action.html.twig' with {'status' : status[group.id], 'group' : group } %}
 	{% endfor %}
 </div>

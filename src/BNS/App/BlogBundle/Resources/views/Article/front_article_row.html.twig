@@ -1,54 +1,35 @@
-<div class="container-article">
-    <div class="container-star">
+{% trans_default_domain "BLOG" %}
+<div class="container-article {% if article.isStar %}star{% endif %}">
         <div class="header-article">
 			{% if i > 0 %}
 				<div class="underline"></div>
 			{% endif %}
-            <h1>{{ article.getTitle() }}</h1>
-            <div class="underline"></div>
+            <h1 class="title">{{ article.getTitle() }}</h1>
+            <md-divider class="underline"></md-divider>
+            <md-divider></md-divider>
             <div class="container-description-article">
-                <div class="article-categories">
-                    {% for category in article.getSortedBlogCategories() %}
-                        <ul>
-                            {% if category.getIconClassname()|length > 0 %}<span class="sprite {{ category.getIconClassname() }}"></span>{% endif %} {{ category.getTitle() }}
-                            {% if (category.getChildren()|length > 0) %}
-                                {% for child in category.getChildren() %}
-                                    <li>
-                                        /{{ child.getTitle() }}
-                                    </li>
-                                {% endfor %}
-                            {% endif %}
-                        </ul>
-                    {% endfor %}
-                </div>
-
-                <div class="description-article">
-                    <p>Ecrit par <img class="#" src="{{ avatar(article.getAuthor(), 'thumbnail') }}" width="16" /> <strong>{{ article.getAuthor().getFullName() }}</strong>, {{ date_from_now(article.getPublishedAt()) }}</p>
+                {% include '@BNSAppBlog/Article/article_categories.html.twig' %}
+                <div class="author-infos">
+                    {{ 'ARTICLE_CREATE_FROM_PUBLISH_AT'|trans({'%image%':  '<img class="#" src=" ' ~ avatar(article.getAuthor(), 'thumbnail') ~ '" width="16" class="avatar"/>', '%userFullName%': article.getAuthor().getFullName() |escape, '%datePublish%': date_from_now(article.getPublishedAt(), false, true, 'medium', 'short', false, true)}) |desc('Ecrit par %image%<strong>%userFullName%</strong>, %datePublish%') |raw }}
                 </div>
             </div>
         </div>
         <div class="article">
             {% autoescape false %}
-                {{ article.getContent() }}
+                {{ parse_public_resources(article.getContent()|purify,true,'medium',true) }}
             {% endautoescape %}
         </div>
 		<div class="resources">
 			{# Pièces Jointes #}
-			{% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': article.getResourceAttachments(), 'editable': false} %}
+			{% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias': article.getResourceAttachments(), 'editable': false, 'objectType': 'BlogArticle', 'objectId': article.id, 'hideEmpty': true } %}
 		</div>
-        <div class="share">
-            {#<p>Partager cet article</p>
-            <a class="btn btn-share" href="{{ path('blog_article_permalink', {'slug': article.getSlug()}) }}"><span class="copy-link"></span>Copier le lien</a>#}
-            <div class="border-article"></div>
-        </div>
-        <div class="clearfix"></div>
-        {% render ('BNSAppCommentBundle:FrontComment:show') with {
-            'namespace':	'\\BNS\\App\\CoreBundle\\Model\\BlogArticleComment',
-            'objectId':		article.getId(),
-            'comments':		article.getBlogArticleCommentsPreviewInverse(),
-            'nbComments':	article.getNbComments(),
-            'ajaxLoading':	true,
-        } %}
-    </div>
+		{% if article.isCommentAllowed() %}
+			{% render controller('BNSAppCommentBundle:FrontComment:show', {
+				'namespace':	'\\BNS\\App\\CoreBundle\\Model\\BlogArticleComment',
+				'objectId':		article.getId(),
+				'comments':		article.getBlogArticleCommentsFiltered(10, blog.id, onlyValidated is defined ? onlyValidated : false, app.user.id, has_right('BLOG_ADMINISTRATION') ),
+				'ajaxLoading':	true
+			}) %}
+		{% endif %}
 </div>
-<div class="clearfix"></div>
+<md-divider></md-divider>

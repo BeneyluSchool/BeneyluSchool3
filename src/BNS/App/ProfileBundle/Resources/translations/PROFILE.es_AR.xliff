@@ -1,0 +1,686 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-06-21T10:07:12Z" source-language="en" target-language="es-AR" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="38ea954925104014e028b0a01f283a60a52ded73" resname="ACCOUNTS_MERGED">
+        <source>ACCOUNTS_MERGED</source>
+        <target>Las siguientes cuentas se juntaron correctamente: </target>
+      </trans-unit>
+      <trans-unit id="503e3e795264d4c36d9fc5f1d64dd25fb5466b23" resname="ADULT_CLICK_NO_STATUS_LINK">
+        <source>ADULT_CLICK_NO_STATUS_LINK</source>
+        <target>Es una lástima, todavía no tenés ningún estado. Podés crear uno pulsando %linkStart%aquí%linkEnd%.</target>
+        <note><![CDATA[%linkStart% is a placeholder
+%linkEnd% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="a26f3fc87431e2f3089c8a2337578e69b3d05a4e" resname="ADULT_NO_STATUS">
+        <source>ADULT_NO_STATUS</source>
+        <target>No tenés ningún estado. ¿Por qué no comunicás con tus alumnos u otros profesores a través de tu perfil?</target>
+      </trans-unit>
+      <trans-unit id="a4f4c42be9b9b0d9dfd55046c8c82cf8265bdfce" resname="ADULT_NO_STATUS_YET">
+        <source>ADULT_NO_STATUS_YET</source>
+        <target>Es una lástima, todavía no ténes ningún estado.</target>
+      </trans-unit>
+      <trans-unit id="9db851b9b449dab36358267af5e2beb0b13a39a3" resname="ADULT_PROFILE_UPDATED">
+        <source>ADULT_PROFILE_UPDATED</source>
+        <target>Tu perfil se actualizó correctamente </target>
+      </trans-unit>
+      <trans-unit id="99d4172f5fd54b18807a482a2cf59003359aa7c5" resname="ALLOWED_ADVISOR_TO_HELP_WITH_SAME_RIGHT">
+        <source>ALLOWED_ADVISOR_TO_HELP_WITH_SAME_RIGHT</source>
+        <target>Permito que mi especialista en TIC me ayude otorgándole mis derechos</target>
+      </trans-unit>
+      <trans-unit id="c2f934cb8cab6c1b3af0d4f2fdd824eabafb6bf4" resname="AND">
+        <source>AND</source>
+        <target>y</target>
+      </trans-unit>
+      <trans-unit id="5e9c3cff7b7a1d9027a988e25074647699c772e7" resname="BACK_TO_CLASSROOM">
+        <source>BACK_TO_CLASSROOM</source>
+        <target>Volver a la clase</target>
+      </trans-unit>
+      <trans-unit id="7f2b0de55d9ceaa6bd79bb39198a13f1ffaa7ab8" resname="BACK_TO_PUPIL_CARD">
+        <source>BACK_TO_PUPIL_CARD</source>
+        <target><![CDATA[Volver a | ficha alumno]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="152621f8e06e4b2e27eaba2e17e56906185a739a" resname="BORN_MAN">
+        <source>BORN_MAN</source>
+        <target>Nacido el:</target>
+      </trans-unit>
+      <trans-unit id="1dac4faeaf6bf70f1dbba42f866a4e5324bff1a5" resname="BORN_WOMAN">
+        <source>BORN_WOMAN</source>
+        <target>Nacido el:</target>
+      </trans-unit>
+      <trans-unit id="a1a600c4cade78fe05da60f2f031aa99eb02ce5f" resname="BUTTON_CHANGE_AVATAR">
+        <source>BUTTON_CHANGE_AVATAR</source>
+        <target>Cambiar mi avatar</target>
+      </trans-unit>
+      <trans-unit id="871c2c93acba622f0c1682fc4fe5d2ca34d51626" resname="BUTTON_CHOOSE_AVATAR">
+        <source>BUTTON_CHOOSE_AVATAR</source>
+        <target>Elegir mi avatar</target>
+      </trans-unit>
+      <trans-unit id="856f795e3609d03e3a5667fb77eff69426866d0d" resname="BUTTON_DELETE_AVATAR">
+        <source>BUTTON_DELETE_AVATAR</source>
+        <target>Eliminar mi avatar</target>
+      </trans-unit>
+      <trans-unit id="39233cc9769156c5fd64cf3a2c9333655116f096" resname="CHECK_IN_PROGRESS">
+        <source>CHECK_IN_PROGRESS</source>
+        <target>Verificación en curso...</target>
+      </trans-unit>
+      <trans-unit id="7869ea64cd3e171305d4443c00680927ee4a386a" resname="CHILD_CLICK_NO_STATUS_LINK">
+        <source>CHILD_CLICK_NO_STATUS_LINK</source>
+        <target>Es una lástima, todavía no tenés ningún estado. Podés crear uno pulsando %linkStart%aquí%linkEnd%.</target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="44d9850aa31719dca1417fa0c5e2140594cb899a" resname="CHILD_NO_STATUS">
+        <source>CHILD_NO_STATUS</source>
+        <target>Todavía no tenés ningún estado. Para crear uno, pulsá el siguiente botón.</target>
+      </trans-unit>
+      <trans-unit id="265bac357a4f63178abc5753b89d376462ffdc2c" resname="CHILD_PROFILE_UPDATED">
+        <source>CHILD_PROFILE_UPDATED</source>
+        <target>Tu perfil se ha actualizado correctamente</target>
+      </trans-unit>
+      <trans-unit id="841ba535bcafa68ae5d7acf129b764bc1440ed42" resname="COMBINATION_LOGIN_PASSWORD_INVALID">
+        <source>COMBINATION_LOGIN_PASSWORD_INVALID</source>
+        <target>La combinación nombre de usuario/contraseña no coincide con la de ningún usuario.</target>
+      </trans-unit>
+      <trans-unit id="045b3a7943d7be5090d215677e12a7c4715f3875" resname="COMMENT_MODERATION_CLOSED">
+        <source>COMMENT_MODERATION_CLOSED</source>
+        <target>Moderación de comentarios cerrada</target>
+      </trans-unit>
+      <trans-unit id="66fc6a3fa90c540f03263b8f9c623852d8dc2e9c" resname="COMMENT_MODERATION_OPENED">
+        <source>COMMENT_MODERATION_OPENED</source>
+        <target>Moderación de comentarios abierta</target>
+      </trans-unit>
+      <trans-unit id="f833dac54334ba755886c21b6ebc2c7f82139925" resname="COMMENT_UPDATED">
+        <source>COMMENT_UPDATED</source>
+        <target>El comentario se editó correctamente.</target>
+      </trans-unit>
+      <trans-unit id="a41dfa350ead335b022cf2fc6eaa359b6a988b91" resname="DATE_BIRTHDAY">
+        <source>DATE_BIRTHDAY</source>
+        <target>Fecha de nacimiento</target>
+      </trans-unit>
+      <trans-unit id="b441ca0c4099445094b141dd7eb1bfacc3faa1d8" resname="DATE_PLACEHOLDER">
+        <source>DATE_PLACEHOLDER</source>
+        <target state="new">fecha</target>
+      </trans-unit>
+      <trans-unit id="c8c8071da2cc684100f7c96eba094fab66a0b94d" resname="DESCRIPTION_MERGING_ACCOUNT">
+        <source>DESCRIPTION_MERGING_ACCOUNT</source>
+        <target><![CDATA[<p>Independientemente de la situación, la fusión de cuentas permite tener una sola cuenta en uso.</p><h3>¿Cómo fusionarlas?</h3><p>Solo necesitás tener el nombre de usuario y la contraseña de la cuenta que quieras fusionar e introducirlos a continuación.</p><p><b>Atención</b>: la cuenta que vas a introducir se desactivará al finalizar el proceso. La información vinculada a ella se transferirá a la cuenta que utilizás ahora:<i></i> %userFullName%</p> ]]></target>
+        <note><![CDATA[%userFullName% is a placeholder
+This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="c6e23059cc88aaa1ee0b035f78beafa27a9580d2" resname="DESCRIPTION_STATUS_LIGHT">
+        <source>DESCRIPTION_STATUS_LIGHT</source>
+        <target><![CDATA[La luz verde significa que el modo moderación está activado, y que los estados se deben validar antes de su publicación.<br />La luz roja significa que los estados se publican directamente.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="5ce783606e3f1c042d04740ac3a49a6751441164" resname="DISPLAY_WISH_ADD_KEYWORD">
+        <source>Pour afficher ton message de voeux sur l'accueil ajout le mot clé #%date% dedans.</source>
+        <target state="new">Para mostrar tus buenos deseos sobre la página de inicio, agregá la palabra clave #%date%.</target>
+        <note><![CDATA[%date% is a placeholder]]></note>
+      </trans-unit>
+      <trans-unit id="ace453219493b75b863f5545ba047c69fb4d2f81" resname="EDIT_COMMENT">
+        <source>EDIT_COMMENT</source>
+        <target>Editar un comentario</target>
+      </trans-unit>
+      <trans-unit id="2ef18bcfd26d61b3c8189843cd099835ab1b3c23" resname="EDIT_STATUS">
+        <source>EDIT_STATUS</source>
+        <target>Editar un estado</target>
+      </trans-unit>
+      <trans-unit id="564269323e6a7fccff1f236f3209e6b63492d40b" resname="EMAIL">
+        <source>EMAIL</source>
+        <target>Dirección de correo electrónico</target>
+      </trans-unit>
+      <trans-unit id="44dbca518a82801f0e3f4e753d1c4dbab9d22b3e" resname="EMAIL_ALREADY_USED">
+        <source>EMAIL_ALREADY_USED</source>
+        <target>La dirección de correo electrónico que introduciste ya está en uso, introducí otra.</target>
+      </trans-unit>
+      <trans-unit id="273371aa5f9a352ca8212b0a8f13b2a7bcc4d71f" resname="EMAIL_SECONDARY">
+        <source>EMAIL_SECONDARY</source>
+        <target>Dirección de correo electrónico secundaria</target>
+      </trans-unit>
+      <trans-unit id="2b017aa31fcb9d43b802661d74101c51c7bb8997" resname="EMAIL_USE_TO_SEND_NOTIFICATION">
+        <source>EMAIL_USE_TO_SEND_NOTIFICATION</source>
+        <target>Esta se utiliza para enviar las notificaciones</target>
+      </trans-unit>
+      <trans-unit id="951c94f0363318d7528869508a315111920b0d98" resname="ENTER_LOGIN_OF_MERGING_ACCOUNT">
+        <source>ENTER_LOGIN_OF_MERGING_ACCOUNT</source>
+        <target>Introducí el nombre de usuario de la cuenta que querés fusionar</target>
+      </trans-unit>
+      <trans-unit id="1dada387acdc8b02604458a7d16a97843a0e5ffe" resname="ENTER_PASSWORD">
+        <source>ENTER_PASSWORD</source>
+        <target>Introducí la contraseña</target>
+      </trans-unit>
+      <trans-unit id="149800edd9f1799af3ed10e69d305c8079160d55" resname="FILTER_BY_STATE">
+        <source>FILTER_BY_STATE</source>
+        <target>Filtro por estado</target>
+      </trans-unit>
+      <trans-unit id="0270ca97abe5bddc53ed95fb7179da4406621a18" resname="INTRODUCTION">
+        <source>INTRODUCTION</source>
+        <target>Introducción</target>
+      </trans-unit>
+      <trans-unit id="d19527ae11bf15896963cb8842a02b254748bec0" resname="LABEL_CHANGE_LANGUAGE">
+        <source>LABEL_CHANGE_LANGUAGE</source>
+        <target>Idioma:</target>
+      </trans-unit>
+      <trans-unit id="12f32269f45aed068f9e412e4630d8cc7793d4cb" resname="LABEL_CHANGE_TIMEZONE">
+        <source>LABEL_CHANGE_TIMEZONE</source>
+        <target state="new">Huso horario:</target>
+      </trans-unit>
+      <trans-unit id="83618844a6fc4e4851c341b32a27ca27de6cee58" resname="LABEL_DATE_BIRTHDAY">
+        <source>LABEL_DATE_BIRTHDAY</source>
+        <target>%date%</target>
+        <note><![CDATA[%date% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="da5d49d96150cc1ace0b11789756c6fa1f5d00f4" resname="LABEL_MAN">
+        <source>LABEL_MAN</source>
+        <target>Hombre</target>
+      </trans-unit>
+      <trans-unit id="b70d1b7014ac239409bfa6c4da13f3c9a6b43218" resname="LABEL_TYPE_CLASSROOM">
+        <source>LABEL_TYPE_CLASSROOM</source>
+        <target>en la clase</target>
+      </trans-unit>
+      <trans-unit id="26deaa6642a2771bf8e76ca2e458fb1a7370a4f0" resname="LABEL_TYPE_ENVIRONMENT">
+        <source>LABEL_TYPE_ENVIRONMENT</source>
+        <target>en el entorno</target>
+      </trans-unit>
+      <trans-unit id="081b32793d91c09a506a67c7cfc6979c68446430" resname="LABEL_TYPE_GROUP">
+        <source>LABEL_TYPE_GROUP</source>
+        <target>en el grupo</target>
+      </trans-unit>
+      <trans-unit id="d854ebd9a3c10d4e351c984f68da08308406a39e" resname="LABEL_TYPE_PARTNERSHIP">
+        <source>LABEL_TYPE_PARTNERSHIP</source>
+        <target>en la asociación</target>
+      </trans-unit>
+      <trans-unit id="ae478cc2e90fd824198f2a0e300bb6564940456b" resname="LABEL_TYPE_SCHOOL">
+        <source>LABEL_TYPE_SCHOOL</source>
+        <target>en la escuela</target>
+      </trans-unit>
+      <trans-unit id="4429ba5f7365ef0859f5e237c37cf1a9570640ba" resname="LABEL_TYPE_TEAM">
+        <source>LABEL_TYPE_TEAM</source>
+        <target>en el grupo de alumnos</target>
+      </trans-unit>
+      <trans-unit id="182554879bcba0a6667e93162adfca92dc40a4bc" resname="LABEL_WOMAN">
+        <source>LABEL_WOMAN</source>
+        <target>Mujer</target>
+      </trans-unit>
+      <trans-unit id="948652482bc596767cc2d3fdaabf83a22cb6d4eb" resname="LATER_BECOME_JOB">
+        <source><![CDATA[Plus tard je voudrais être <strong>%userJob%</strong>.]]></source>
+        <target state="new"><![CDATA[Cuando sea mayor, quiero ser <strong>%userJob%</strong>.]]></target>
+        <note><![CDATA[%userJob% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="981eb1dc4e4c035b307852eb529fa58f7d17d9ba" resname="LATER_WANT_BECOME">
+        <source>LATER_WANT_BECOME</source>
+        <target>Cuando sea mayor, quiero ser</target>
+      </trans-unit>
+      <trans-unit id="2b296c4c3161c9e0139fe8876fd182a62f08a9d0" resname="LINK_BACK_HOME">
+        <source>LINK_BACK_HOME</source>
+        <target><![CDATA[ <strong>Volver a la</strong><br />página de inicio]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="d8be7dd02f85a983a8d9ac68de97a3624ae6e657" resname="LINK_BACK_TO_LIST">
+        <source>LINK_BACK_TO_LIST</source>
+        <target><![CDATA[<strong>Volver</strong><br />a la lista]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="362e4d13cd082730c9e86071260ac4767d666ead" resname="LINK_BACK_TO_MODERATION">
+        <source>LINK_BACK_TO_MODERATION</source>
+        <target><![CDATA[Volver a la moderación]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="05a99e1d76fddc20d04fbcabc1f9fe92cecda2e0" resname="LINK_BACK_TO_STATUS">
+        <source>LINK_BACK_TO_STATUS</source>
+        <target><![CDATA[Volver a estatus]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="1f8524949b59bf473e5b31304582c62cb6d54e28" resname="LINK_CANCEL">
+        <source>LINK_CANCEL</source>
+        <target state="new">Cancelar</target>
+      </trans-unit>
+      <trans-unit id="f08cf428a9439eb004afd4d82cc4c3f96f552728" resname="LINK_CANCEL_MERGE">
+        <source>LINK_CANCEL_MERGE</source>
+        <target><![CDATA[Cancelar | fusión]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="2b8d3f6bcc98097f3c8e1e40e7f27930c6a4cbf3" resname="LINK_CANCEL_MODIFICATION">
+        <source>LINK_CANCEL_MODIFICATION</source>
+        <target><![CDATA[Omitir | cambios]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="c6bfec0e7fee508cb4426dcbd13842dd5c0cb157" resname="LINK_COMMENTS">
+        <source>LINK_COMMENTS</source>
+        <target>Comentarios</target>
+      </trans-unit>
+      <trans-unit id="b7d66f370eb9db2bffddba76b802d392e98064d5" resname="LINK_COMMENT_DENY">
+        <source>Commentaires refusés</source>
+        <target state="new">Rechazar comentarios</target>
+      </trans-unit>
+      <trans-unit id="a37fc6ff9b6bfb57e3ad2eb2432309b31ac783f8" resname="LINK_COMMENT_PUBLISH">
+        <source>Commentaires publiés</source>
+        <target state="new">Publicar comentarios</target>
+      </trans-unit>
+      <trans-unit id="50976b967932c149ed27a64d5839aa3adffad6d5" resname="LINK_CREATE_NEW_STATUS">
+        <source>LINK_CREATE_NEW_STATUS</source>
+        <target>Escribir un nuevo estado</target>
+      </trans-unit>
+      <trans-unit id="ac4a65abce2595ea1dfa3b45531d7d6639aaecf3" resname="LINK_DELETE_DEFINITIVELY">
+        <source>LINK_DELETE_DEFINITIVELY</source>
+        <target>Eliminar permanentemente</target>
+      </trans-unit>
+      <trans-unit id="fdbff0ddd23fcc9bb8cf573ec7c8e7128e3db904" resname="LINK_DELETE_STATUS">
+        <source>LINK_DELETE_STATUS</source>
+        <target state="new"><![CDATA[Eliminar | estatus]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="07935fdfa5a2208ed7a0ae00b8c81d21cd559ed0" resname="LINK_DENY">
+        <source>LINK_DENY</source>
+        <target>Rechazar</target>
+      </trans-unit>
+      <trans-unit id="7fd876d9af2ebe79e319f797fab2a1318389aab2" resname="LINK_DENY_DELETE">
+        <source>LINK_DENY_DELETE</source>
+        <target>Rechazar y eliminar permanentemente</target>
+      </trans-unit>
+      <trans-unit id="6d94a6313f29eb944ad073d3e7c2b55beb9182af" resname="LINK_EDIT_STATUS">
+        <source>LINK_EDIT_STATUS</source>
+        <target><![CDATA[Editar | estatus]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="92fd8850e8cd4be64d42c6399e60c3f9febc2da3" resname="LINK_GO_TO_MODERATION">
+        <source>LINK_GO_TO_MODERATION</source>
+        <target>Cambiar a moderación</target>
+      </trans-unit>
+      <trans-unit id="7f95f9f37aefa352a53006ebd0ae720d864d5c79" resname="LINK_IM_SURE">
+        <source>LINK_IM_SURE</source>
+        <target>Sí, estoy seguro/a</target>
+      </trans-unit>
+      <trans-unit id="67f042435bfde2cad46cc1b5d5752f00697b92e5" resname="LINK_I_FINISHED">
+        <source>LINK_I_FINISHED</source>
+        <target state="new">Publicar mi estado</target>
+      </trans-unit>
+      <trans-unit id="f170e6a6a2a5a742ed951058c263cbb262da12f4" resname="LINK_MINE_INFORMATION">
+        <source>LINK_MINE_INFORMATION</source>
+        <target>Mi información</target>
+      </trans-unit>
+      <trans-unit id="d323b23f7b3b6b481c32edfcc7dfba84dbfb35fa" resname="LINK_MINE_STATUS">
+        <source>LINK_MINE_STATUS</source>
+        <target>Mis estados</target>
+      </trans-unit>
+      <trans-unit id="602623150ffced7316c249b2a5a436a795b56598" resname="LINK_MODERATION">
+        <source>LINK_MODERATION</source>
+        <target>Moderación</target>
+      </trans-unit>
+      <trans-unit id="3245be07c96ad1dac7543dc36a5f2a9d8d589f3d" resname="LINK_MODERATION_COMMENTS">
+        <source>LINK_MODERATION_COMMENTS</source>
+        <target>Moderación de los comentarios</target>
+      </trans-unit>
+      <trans-unit id="b175f8e5c22526155b36c4cc7e427b777a34bced" resname="LINK_MODERATION_STATUS">
+        <source>LINK_MODERATION_STATUS</source>
+        <target>Moderación de los estados</target>
+      </trans-unit>
+      <trans-unit id="bb6ad193e27769b05bdfe6c17eb48de419278745" resname="LINK_SAVE">
+        <source>LINK_SAVE</source>
+        <target>Guardar mi perfil</target>
+      </trans-unit>
+      <trans-unit id="81398657ca69eda5dc405bc9ba45de8c32099259" resname="LINK_SAVE_COMMENT">
+        <source>LINK_SAVE_COMMENT</source>
+        <target state="new">Guardar el comentario</target>
+      </trans-unit>
+      <trans-unit id="50e7b4faac0a299a379825d19ac21d6c093a4a33" resname="LINK_SEE_ALL_COMMENT">
+        <source>Commentaires en modération</source>
+        <target state="new">Comentarios en moderación</target>
+      </trans-unit>
+      <trans-unit id="139fa1009aaa56c3c5559c7432cf018a00ea0291" resname="LINK_SEE_FILE">
+        <source>LINK_SEE_FILE</source>
+        <target>Ver la ficha</target>
+      </trans-unit>
+      <trans-unit id="ac200477463a14d05bd9cf71649848a18df5cf3a" resname="LINK_SEE_STATUS">
+        <source>LINK_SEE_STATUS</source>
+        <target state="new"><![CDATA[Ver | estatus]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="a14278cb0829b68ef98a2a6f41a1fee8ccd337a1" resname="LINK_STATUS_DENY">
+        <source>LINK_STATUS_DENY</source>
+        <target>Estados rechazados</target>
+      </trans-unit>
+      <trans-unit id="7f6a16ba346b2175e7a71669e1ec75cdb3639520" resname="LINK_STATUS_IN_MODERATION">
+        <source>LINK_STATUS_IN_MODERATION</source>
+        <target>Estados en moderación</target>
+      </trans-unit>
+      <trans-unit id="d9218bf2e0a7efcb5574ba71c7b070d8d05991b6" resname="LINK_STATUS_PUBLISH">
+        <source>LINK_STATUS_PUBLISH</source>
+        <target>Estados publicados</target>
+      </trans-unit>
+      <trans-unit id="86c86376c121dcbe99661f06afa63f6a49b47038" resname="LINK_SUBSCRIPTION">
+        <source>LINK_SUBSCRIPTION</source>
+        <target>Suscripciones</target>
+      </trans-unit>
+      <trans-unit id="54504eee75ea968823540577901226cf2b9b19ea" resname="LINK_VALIDATE">
+        <source>LINK_VALIDATE</source>
+        <target>Validar</target>
+      </trans-unit>
+      <trans-unit id="b933d0f7c76d412c0c1cd565b0adeecb3e4e976f" resname="LINK_VALIDATE_ALL_COMMENTS">
+        <source>LINK_VALIDATE_ALL_COMMENTS</source>
+        <target state="new">Validar todos los comentarios</target>
+      </trans-unit>
+      <trans-unit id="d2c0f73f64db132774886b67e504182afc2ab5d7" resname="LINK_VALIDATE_ALL_STATUS">
+        <source>LINK_VALIDATE_ALL_STATUS</source>
+        <target state="new">Validar todos los estados</target>
+      </trans-unit>
+      <trans-unit id="27e87cee4eb6532ffcfdf1b70183d2e34db86d6f" resname="LOADING_STATUS">
+        <source>LOADING_STATUS</source>
+        <target>Cargando estados...</target>
+      </trans-unit>
+      <trans-unit id="ea0d13f37570abd57d245de4bcc8060cb1b2078e" resname="MERGE_ACCOUNT">
+        <source>MERGE_ACCOUNT</source>
+        <target>Fusión de cuentas</target>
+      </trans-unit>
+      <trans-unit id="83f95aecc8217a8a2fd39db9d21bb5351cef0d4d" resname="MERGE_IN_PROGRESS">
+        <source>MERGE_IN_PROGRESS</source>
+        <target>Fusión en curso...</target>
+      </trans-unit>
+      <trans-unit id="d85de8af6c949113a292cbaba5dd69a34fb21e00" resname="MY_AGE_AND_BIRTHDAY">
+        <source><![CDATA[J'ai <strong> %userAge% ans</strong> et mon anniversaire est le %userBirthday% </strong>.]]></source>
+        <target state="new"><![CDATA[Tengo <strong>%userAge% años</strong> y mi cumpleaños es el<strong> %userBirthday%</strong>.]]></target>
+        <note><![CDATA[%userAge% is a placeholder
+%userBirthday% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="d28da652ac6685f035666067864e5930276f1b34" resname="MY_CLASSROOM">
+        <source>MY_CLASSROOM</source>
+        <target state="new">{1} Mi clase|]1,Inf[ Mis clases</target>
+        <note>This text has plural translations based on %count% variable
+        http://symfony.com/doc/current/components/translation/usage.html#pluralization</note>
+      </trans-unit>
+      <trans-unit id="fc312ab58debc9d5553a85282431a240ab80b2b3" resname="MY_PROFILE">
+        <source>MY_PROFILE</source>
+        <target>Mi perfil</target>
+      </trans-unit>
+      <trans-unit id="f34e17e43b4e3760c9df63af28c3a383e7a4ba4c" resname="NEW_STATUS">
+        <source>NEW_STATUS</source>
+        <target>Nuevo estado</target>
+      </trans-unit>
+      <trans-unit id="414e82f421b6a4a59c93c980aaa7a7917089f708" resname="NO_CHOOSE_YET">
+        <source>NO_CHOOSE_YET</source>
+        <target>Aún sin elegir</target>
+      </trans-unit>
+      <trans-unit id="e6ca315637e4a87fc81d9540facdb8da3896dd26" resname="NO_PENDING_VALIDATION_STATUS_FIND">
+        <source>NO_PENDING_VALIDATION_STATUS_FIND</source>
+        <target>No encontramos ningún estado en moderación.</target>
+      </trans-unit>
+      <trans-unit id="f0714ac450424148fea7c160c916d44e708e399c" resname="NO_PRESENTATION_LINK_TO_DO_IT">
+        <source>Je ne n'ai pas encore fait ma présentation, je peux le faire en cliquant sur %linkStart% ce lien %linkEnd%.</source>
+        <target state="new">Todavía no escribí mi presentación. Puedo hacerlo pulsando %linkStart%aquí%linkEnd%.</target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="922c554e83bea231c3161dea3f8d54644e097506" resname="NO_REFUSED_STATUS_FIND">
+        <source>NO_REFUSED_STATUS_FIND</source>
+        <target>No encontramos estados rechazados.</target>
+      </trans-unit>
+      <trans-unit id="ddfa36fba5c8dced1a397c0342aee584e168e33a" resname="NO_STATUS">
+        <source>NO_STATUS</source>
+        <target>Es una lástima, todavía no tenés un estado.</target>
+      </trans-unit>
+      <trans-unit id="bab4b14fc9031bde73b35f66f14e0187c3b6c150" resname="NO_STATUS_TO_VALIDATE">
+        <source>NO_STATUS_TO_VALIDATE</source>
+        <target>No hay ningún estado que requiera validación.</target>
+      </trans-unit>
+      <trans-unit id="2d3299d52fe413e69dadb54b16c15d771379c706" resname="NO_TIME_FOR_PRESENTATION">
+        <source>NO_TIME_FOR_PRESENTATION</source>
+        <target>Todavía no tuve tiempo de presentarme.</target>
+      </trans-unit>
+      <trans-unit id="54f6a6cd062f0b2690436ffbbc6bbcb19fe69c16" resname="NO_VALIDATED_STATUS_FIND">
+        <source>NO_VALIDATED_STATUS_FIND</source>
+        <target>No encontramos ningún estado publicado.</target>
+      </trans-unit>
+      <trans-unit id="18b83d9186a08ad49ae184638c317133db26e6d3" resname="NO_WRITE_WHAT_I_DOESNT_LIKE_YET">
+        <source>NO_WRITE_WHAT_I_DOESNT_LIKE_YET</source>
+        <target>Todavía no escribí lo que no me gusta</target>
+      </trans-unit>
+      <trans-unit id="0664c15f490fda447a82966dbb34ded02172affb" resname="NO_WRITE_WHAT_I_LIKE_YET">
+        <source>NO_WRITE_WHAT_I_LIKE_YET</source>
+        <target>Todavía no escribí lo que me gusta</target>
+      </trans-unit>
+      <trans-unit id="0cf81c47abad8b8dc52569f7edcc1b5b2d3511f9" resname="OF">
+        <source>OF</source>
+        <target>de</target>
+      </trans-unit>
+      <trans-unit id="388f26bd2d0a5a1f16342d0b5f4c3691d3f76ea1" resname="PLACEHOLDER_ADD_I_DONT_LIKE">
+        <source>PLACEHOLDER_ADD_I_DONT_LIKE</source>
+        <target>Añadir un nuevo no me gusta</target>
+      </trans-unit>
+      <trans-unit id="d2b2305c63a451d4b83be544012bfc1e25949ca1" resname="PLACEHOLDER_ADD_LIKE">
+        <source>PLACEHOLDER_ADD_LIKE</source>
+        <target>Añadir un nuevo me gusta</target>
+      </trans-unit>
+      <trans-unit id="941bc46294a9292be5136fd55b9567fc1cc3ad21" resname="PLACEHOLDER_BUTTON_ADD">
+        <source>PLACEHOLDER_BUTTON_ADD</source>
+        <target>Añadir</target>
+      </trans-unit>
+      <trans-unit id="d11052a8573f0fe2fcfd90a8ceb7c7a991ab4ada" resname="PLEASE_WAIT">
+        <source>PLEASE_WAIT</source>
+        <target>Esperá...</target>
+      </trans-unit>
+      <trans-unit id="33f97ddeca53f4e0cd6996d7b335f7d72d3097a6" resname="POST_AT">
+        <source>Posté %datePost%</source>
+        <target state="new">Publicado %datePost%</target>
+        <note><![CDATA[%datePost% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="3a73add8cc824c05ffb1b7c0714a28b411fd0f9d" resname="SEND_AT">
+        <source>Envoyé %date%</source>
+        <target state="new">Enviado %date%</target>
+        <note><![CDATA[%date% is a placeholder]]></note>
+      </trans-unit>
+      <trans-unit id="522f7fd67c3e9b86180f8cf084bdb7c4aa49aa04" resname="STATUS_ADDED">
+        <source>STATUS_ADDED</source>
+        <target>El estado se añadió correctamente.</target>
+      </trans-unit>
+      <trans-unit id="3a723f7439b1396b703b1d8f47b22b38340b6de0" resname="STATUS_AWAITING_MODERATION">
+        <source>STATUS_AWAITING_MODERATION</source>
+        <target state="new">El estado se añadió y está esperando la moderación por parte de tu profesor.</target>
+      </trans-unit>
+      <trans-unit id="3d71e065d10cc738ee7b03adbf9d17bba1dfe1a2" resname="STATUS_DELETED">
+        <source>STATUS_DELETED</source>
+        <target>El estado se eliminó correctamente</target>
+      </trans-unit>
+      <trans-unit id="4f14b36821987faed24db9341a310fca72a304bd" resname="STATUS_INFORMATION">
+        <source><![CDATA[<strong> %userFullName% </strong> - %dateCreation%]]></source>
+        <target state="new"><![CDATA[<strong> %userFullName% </strong> - %dateCreation%]]></target>
+        <note><![CDATA[%userFullName% is a placeholder
+This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="d37d1718f48692e427bcd415b1802ff140e72f3f" resname="STATUS_INFORMATION_STATUS_IN_MODERATION">
+        <source><![CDATA[<strong> %userFullName% </strong> - %dateCreation% - <span>en attente de modération </span>]]></source>
+        <target state="new"><![CDATA[<strong> %userFullName% </strong> - %dateCreation% - <span>esperando moderación </span>]]></target>
+        <note><![CDATA[%userFullName% is a placeholder
+This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="a35f854ab15dc34661634841c9a662aae269e468" resname="STATUS_UPDATED">
+        <source>STATUS_UPDATED</source>
+        <target state="new">El estado se modificó correctamente.</target>
+      </trans-unit>
+      <trans-unit id="c81f79b46a90a0bb274a57a20914a2e8b396099b" resname="STATUS_WAIT_TO_MODERATE">
+        <source>STATUS_WAIT_TO_MODERATE</source>
+        <target>Tu estado está esperando la moderación por parte de tu profesor. Por lo tanto, aún no es accesible a tus compañeros de clase.</target>
+      </trans-unit>
+      <trans-unit id="9a92ff3d839eb5858c38a6e19098d7dc26ee7641" resname="SURNAME_NAME">
+        <source>SURNAME_NAME</source>
+        <target>Nombre - Apellido</target>
+      </trans-unit>
+      <trans-unit id="867b124dfd662097ad1afe84e5b9bbcaa925ce91" resname="THIS_OPERATION_IS_IRREVERSIBLE">
+        <source>THIS_OPERATION_IS_IRREVERSIBLE</source>
+        <target>La operación que estás a punto de hacer es irreversible.</target>
+      </trans-unit>
+      <trans-unit id="6ddf744ad5e592f3dfadb6edde82797b13857975" resname="THIS_USER_IS">
+        <source>THIS_USER_IS</source>
+        <target>Este usuario es:</target>
+      </trans-unit>
+      <trans-unit id="6970954feba0d8e1d201231bd19fa17daec57e6d" resname="TITLE_ADD_PICTURE">
+        <source>TITLE_ADD_PICTURE</source>
+        <target>Añadir una imagen</target>
+      </trans-unit>
+      <trans-unit id="042d254ad01bb3b3a7cd8242865ef6897f69086f" resname="TITLE_ADULT_DELETE_SURE_DELETE_STATUS_CONSEQUENCE">
+        <source><![CDATA[<h2>Êtes-vous sûr de vouloir supprimer le statut de votre profil ?</h2>
+			<h3>Vous perdrez la totalité du contenu du statut.<br />A noter que si vous avez ajouté un document à votre statut, il ne sera pas supprimé de la médiathèque.</h3>]]></source>
+        <target state="new"><![CDATA[<h2>¿Seguro que querés eliminar el estado de tu perfil?</ h2>
+<h3>Perderás todo el contenido del estado.<br />Tené en cuenta que si habías adjuntado un documento a tu estado, este no se eliminará de la biblioteca multimedia.</ h3>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="e646cdd624ca4c8433faa521568e5ae725f65ad9" resname="TITLE_CHILD_DELETE_SURE_DELETE_STATUS_CONSEQUENCE">
+        <source><![CDATA[<h2>Es-tu sûr de vouloir supprimer le statut de ton profil ?</h2>
+			<h3>Tu perdra la totalité du contenu de ton statut.<br />A noter que si tu as ajouté un document à ton statut, il ne sera pas supprimé de la médiathèque.</h3>]]></source>
+        <target state="new"><![CDATA[<h2>¿Seguro que querés eliminar el estado de tu perfil?</ h2>
+<h3>Perderás todo el contenido del estado.<br />Tené en cuenta que si habías adjuntado un documento a tu estado, este no se eliminará de la biblioteca multimedia.</ h3>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="f32f3054f744fde5a112621efd70eea7e3d2e319" resname="TITLE_COMMENT_EDIT">
+        <source>Edition du commentaire</source>
+        <target state="new">Edición del comentario</target>
+      </trans-unit>
+      <trans-unit id="d5e46f565d742fd1df122cb30bd66bf5f5993415" resname="TITLE_DELETE_STATUS">
+        <source>TITLE_DELETE_STATUS</source>
+        <target><![CDATA[Eliminar un estado]]></target>
+      </trans-unit>
+      <trans-unit id="efcc33b225cdc35cbcd9ea9bef3385a9d0ecf1ec" resname="TITLE_EDIT_PROFILE">
+        <source>TITLE_EDIT_PROFILE</source>
+        <target>Modificación del perfil</target>
+      </trans-unit>
+      <trans-unit id="6aad7382b004294c37ab79d4a85c46c59c737d6e" resname="TITLE_I_DONT_LIKE">
+        <source>TITLE_I_DONT_LIKE</source>
+        <target>No me gusta</target>
+      </trans-unit>
+      <trans-unit id="4ff6b7c6a2aa0ffea716b796df6a7075fe204877" resname="TITLE_I_LIKE">
+        <source>TITLE_I_LIKE</source>
+        <target>Me gusta</target>
+      </trans-unit>
+      <trans-unit id="f99642681c3e3a545ebbf760c098c74c410c41bc" resname="TITLE_LIKE">
+        <source>TITLE_LIKE</source>
+        <target>Me gusta</target>
+      </trans-unit>
+      <trans-unit id="90e290424a2613a94e6d7aa9e304be759d2619ad" resname="TITLE_MERGE_ACCOUNT">
+        <source>TITLE_MERGE_ACCOUNT</source>
+        <target>Fusión de cuentas</target>
+      </trans-unit>
+      <trans-unit id="e2a9db3b00fbf5f5679ff8f80a4ece2537f6bfb1" resname="TITLE_MINE_STATUS">
+        <source>TITLE_MINE_STATUS</source>
+        <target>Mis estados</target>
+      </trans-unit>
+      <trans-unit id="c117e8584ad38e1c2391ef9066ff009bdb90b634" resname="TITLE_MORE_ABOUT_ME">
+        <source>TITLE_MORE_ABOUT_ME</source>
+        <target>Un poco sobre mí</target>
+      </trans-unit>
+      <trans-unit id="616dddac6d6980593c921453de176e0978bc6c92" resname="TITLE_MY_PROFILE">
+        <source>TITLE_MY_PROFILE</source>
+        <target>Mi perfil</target>
+      </trans-unit>
+      <trans-unit id="bb7e806b2bdc76a54586e4ccb05d3344bb282523" resname="TITLE_MY_STATUS">
+        <source>TITLE_MY_STATUS</source>
+        <target>Mi estado</target>
+      </trans-unit>
+      <trans-unit id="a12646591b7c8fbd90a101d3e01e524dab9e998a" resname="TITLE_NOT_LIKE">
+        <source>TITLE_NOT_LIKE</source>
+        <target state="new">No me gusta</target>
+      </trans-unit>
+      <trans-unit id="5f0e26c75ea32193f0355e66362bf6cbce2fc3c1" resname="TITLE_PROFILE">
+        <source>TITLE_PROFILE</source>
+        <target state="new">Perfil</target>
+      </trans-unit>
+      <trans-unit id="23ce2dfb02a8d136502e469b2a319c1e89c06afa" resname="TITLE_PROFILE_BACK">
+        <source>TITLE_PROFILE_BACK</source>
+        <target state="new">%beneylu_brand_name% - Perfil - gestión</target>
+      </trans-unit>
+      <trans-unit id="3906cbf715acc07f95bcd742c9b9b546e0b7f5bf" resname="TITLE_PROFILE_COMMENT">
+        <source>TITLE_PROFILE_COMMENT</source>
+        <target>Perfil - Comentarios</target>
+      </trans-unit>
+      <trans-unit id="ddfbc8ad6cd42ce8e97568964021fe3dfe95a71b" resname="TITLE_PROFILE_CREATE_STATUS">
+        <source>TITLE_PROFILE_CREATE_STATUS</source>
+        <target>Perfil - Crear un nuevo estado</target>
+      </trans-unit>
+      <trans-unit id="51da8545c4d934853c38d7f258edfab074b021d9" resname="TITLE_PROFILE_EDIT_COMMENT">
+        <source>TITLE_PROFILE_EDIT_COMMENT</source>
+        <target state="new">Perfil - Editar el comentario</target>
+      </trans-unit>
+      <trans-unit id="c9bd79cf75966516b30289c9d2f4b60a946e86c0" resname="TITLE_PROFILE_EDIT_STATUS">
+        <source>TITLE_PROFILE_EDIT_STATUS</source>
+        <target>Perfil - Editar estado</target>
+      </trans-unit>
+      <trans-unit id="dcb7428a86e5dd44d8e8b11eddaab52b84354ad2" resname="TITLE_PROFILE_MODERATION">
+        <source>TITLE_PROFILE_MODERATION</source>
+        <target>Perfil - Moderación</target>
+      </trans-unit>
+      <trans-unit id="854ff9cd0598b8d3f06d826d2d726809e226d28a" resname="TITLE_PROFILE_OF_SOMENONE">
+        <source>Profil de %userFullName%</source>
+        <target state="new">Perfil de %userFullName%</target>
+        <note><![CDATA[%userFullName% is a placeholder]]></note>
+      </trans-unit>
+      <trans-unit id="fc601474a267adcd9cdef50fd34d5f07b2d4677d" resname="TITLE_PROFILE_OF_USER">
+        <source>Profile de %userFullName%</source>
+        <target state="new">Perfil de %userFullName%</target>
+        <note><![CDATA[%userFullName% is a placeholder]]></note>
+      </trans-unit>
+      <trans-unit id="0676035d4b5187851440e04907e800b0afce886f" resname="TITLE_PROFIL_MANAGEMENT">
+        <source>TITLE_PROFIL_MANAGEMENT</source>
+        <target>Perfil - Gestión</target>
+      </trans-unit>
+      <trans-unit id="b954647d5a8972fbc311dd5c3c7631c6000e6c0b" resname="TITLE_STATUS">
+        <source>TITLE_STATUS</source>
+        <target>Estados</target>
+      </trans-unit>
+      <trans-unit id="7c1c9e503ab309d543191ce3bad61a330bc04816" resname="TITLE_STATUS_CONTENT">
+        <source>TITLE_STATUS_CONTENT</source>
+        <target>Contenido del estado</target>
+      </trans-unit>
+      <trans-unit id="5685f9f44a80570fb351e60573f85158d598cc51" resname="TITLE_WAIT_STATUS_PREVIOUS_STATUS">
+        <source>TITLE_WAIT_STATUS_PREVIOUS_STATUS</source>
+        <target>Espera, los estados anteriores se están cargando.</target>
+      </trans-unit>
+      <trans-unit id="40632fa7cce7a040a18827a0cce6edd70d45326d" resname="TITLE_WANT_DELETE_STATUS">
+        <source><![CDATA[<h2>Êtes-vous sûr de vouloir supprimer ce statut "<span class="title"></span> ?</h2>
+
+		<p class="sub-category-warning">
+			Attention, la suppression de cette catégorie entraînera également la suppression de toutes ses sous-catégories !
+		</p>]]></source>
+        <target state="new"><![CDATA[<h2>Estas seguro de querer eliminar este estatus? "<span class="title"></span> ?</h2>
+
+		<p class="sub-category-warning">
+			Atención, la eliminación de esta categoría causa de la misma manera la eliminación de todas sus sub categorías.
+		</p>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="5af0ab49b6002cfae6a11adb4a26b12c63b6c07b" resname="TO_MERGE_ACCOUNTS">
+        <source>TO_MERGE_ACCOUNTS</source>
+        <target>Fusionar cuentas</target>
+      </trans-unit>
+      <trans-unit id="b1b41cdce72b4aec6d6dca70213c526cd4b1c0b5" resname="UNIQUE_ACCOUNT_USE">
+        <source>UNIQUE_ACCOUNT_USE</source>
+        <target>Ahora podés utilizar una sola cuenta</target>
+      </trans-unit>
+      <trans-unit id="34443661d453c36426cbe934ffd36a764790f107" resname="WANT_BECOME">
+        <source>WANT_BECOME</source>
+        <target>Le gustaría ser</target>
+      </trans-unit>
+      <trans-unit id="4408295fa5dd7b7482ba1ccbfe05a2b9eabf9526" resname="WRITING_INTRODUCTION">
+        <source>WRITING_INTRODUCTION</source>
+        <target>Me presento</target>
+      </trans-unit>
+      <trans-unit id="40d8b6b1d3f180fab86e2e4b40d605ea0789ddcb" resname="WRITING_INTRODUCTION_NOW">
+        <source>WRITING_INTRODUCTION_NOW</source>
+        <target>Me presento</target>
+      </trans-unit>
+      <trans-unit id="f5835254c62d847177d637c50f3da2a31563992d" resname="YET_NO_STATUS">
+        <source>YET_NO_STATUS</source>
+        <target>Lo siento, amigos, todavía no tuve tiempo de escribir un mensaje. Les invito a regresar un poco más tarde.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

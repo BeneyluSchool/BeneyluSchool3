@@ -4,17 +4,51 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <!--
     <parameters>
-        <parameter key="bns_app_classroom.example.class">BNS\App\ClassroomBundle\Example</parameter>
+        <parameter key="install_process_bns_app_classroom_bundle.class">BNS\App\ClassroomBundle\Install\InstallProcess</parameter>
+        <parameter key="classroom_service_bns_app_statistics_bundle.class">BNS\App\ClassroomBundle\Statistic\ClassroomStatisticsService</parameter>
+        <parameter key="bns.data_reset.manager.class">BNS\App\ClassroomBundle\DataReset\DataResetManager</parameter>
+        <parameter key="bns.data_reset.change_year_classroom_pupil.class">BNS\App\ClassroomBundle\DataReset\ChangeYearClassroomPupilDataReset</parameter>
+        <parameter key="show_evaluent">false</parameter>
     </parameters>
 
     <services>
-        <service id="bns_app_classroom.example" class="%bns_app_classroom.example.class%">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
+        <service id="install_process_bns_app_classroom_bundle" class="%install_process_bns_app_classroom_bundle.class%">
+            <tag name="bns.install_process" />
         </service>
+
+        <service id="stat.classroom" class="%classroom_service_bns_app_statistics_bundle.class%">
+            <argument type="service" id="service_container"></argument>
+        </service>
+        <service id="bns.data_reset.manager" class="%bns.data_reset.manager.class%">
+            <argument type="service" id="form.factory" />
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="bns.data_reset.change_year_classroom_pupil" class="%bns.data_reset.change_year_classroom_pupil.class%">
+            <argument type="service" id="service_container" />
+            <argument>%symfony_secret%</argument>
+            <tag name="bns.data_reset" type="change_year" hasOptions="true" />
+        </service>
+
+        <service id="bns.classroom.level_type" class="BNS\App\ClassroomBundle\Form\Type\ClassroomLevelType">
+            <tag name="form.type" alias="classroom_level" />
+        </service>
+
+        <service class="BNS\App\ClassroomBundle\Twig\EvaluentExtension" id="bns_app_classroom.twig.evaluent_extension">
+            <argument id="security.token_storage" type="service"/>
+            <argument>%show_evaluent%</argument>
+
+            <tag name="twig.extension" alias="evaluent_extension"/>
+        </service>
+
+        <service id="bns_app_classroom.newspaper_manager" class="BNS\App\ClassroomBundle\Manager\NewspaperManager">
+            <argument type="service" id="router.default" />
+            <argument type="service" id="buzz" />
+            <argument type="service" id="bns.media.creator" />
+            <argument>%public_version_url%</argument>
+        </service>
+
+
     </services>
-    -->
 </container>

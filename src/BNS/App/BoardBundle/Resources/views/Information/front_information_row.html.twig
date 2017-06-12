@@ -1,0 +1,22 @@
+<div class="container-information{{ information.isAlert?' board-alert':'' }}">
+    <div class="container-star">
+        <div class="header-information">
+        {% if i > 0 %}
+            <div class="underline"></div>
+        {% endif %}
+            <h1>{{ information.getTitle() }}</h1>
+            <div class="underline"></div>
+            <div class="container-description-information">
+                <div class="description-information">
+                    <p>Ecrit par <img class="#" src="{{ avatar(information.user, 'thumbnail') }}" width="16" /> <strong>{{ information.user.fullName() }}</strong>, {{ date_from_now(information.getPublishedAt()) }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="information">
+            {% autoescape false %}
+                {{ information.getContent() }}
+            {% endautoescape %}
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>

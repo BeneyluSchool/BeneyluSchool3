@@ -1,22 +1,19 @@
+{% trans_default_domain "MAIN" %}
 {% extends '::base.html.twig' %}
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
 
 {% block javascripts %}
-	{{ parent() }}
+  {{ parent() }}
 
-	<script type="text/javascript">
-		var $redirectUrl = '{{ redirect }}';
-	</script>
-	<script type="text/javascript" src="{{ asset('/medias/js/main/invitation.js') }}"></script>
+  <script type="text/javascript">
+    var $redirectUrl = '{{ redirect }}';
+  </script>
+  <script type="text/javascript" src="{{ asset('/medias/js/main/invitation.js') }}"></script>
 {% endblock %}
 
 {% block body %}
-	<div class="container-fluid">
-		<h1>Mes invitations</h1>
-		<br /><br />
-		<div class="invitation-container">
-			{% include 'BNSAppMainBundle:Invitation:invitation_list.html.twig' with {'invitations': invitations} %}
-		</div>
-		
-		<button class="btn btn-large btn-success pull-right skip-invitation"><span class="skip-button-label">Passer cette étape</span></button>
-	</div>
+  <div class="office"></div>
+  <div ng-cloak="" layout-container layout="row" layout-align="center center" layout-wrap="center">
+      {% include 'BNSAppMainBundle:Invitation:invitation_list.html.twig' with {'invitations': invitations} %}
+  </div>
 {% endblock %}

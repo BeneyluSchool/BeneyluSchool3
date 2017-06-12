@@ -1,0 +1,12 @@
+{% trans_default_domain "MINISITE" %}
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+<div class="modal-footer">
+	<div class="content-btn-footer">
+
+    {{ components.button( 'LINK_ADD' | trans , {intent:'accent', href: '#', icon: 'check', raised: true, attr:{'class': 'submit-create-category pull-right', 'data-dismiss':'modal'} }) }}
+    {{ components.button( 'LINK_ADD_AND_CONTINUE' | trans , {intent:'accent', href: '#', icon: 'check', raised: true, attr:{'class': 'submit-create-category pull-right'} }) }}
+    {{ components.button( 'LINK_CANCEL' | trans , { href: '#', icon: 'close', raised: true, attr:{'class':'pull-right', 'data-dismiss': 'modal'} }) }}
+
+
+  </div>
+</div>

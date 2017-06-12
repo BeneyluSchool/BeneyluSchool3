@@ -1,0 +1,46 @@
+<div container class="flex layout-column main-container">
+
+  <div class="search-toolbar md-whiteframe-z2">
+    <div class="md-padding">
+      <span class="picto"></span><h1 class="md-headline" translate>SEARCH.TITLE_SEARCH_ENGINE</h1>
+      <form ng-submit="ctrl.doSearch()" class="flex layout-row layout-align-start-center">
+        <div class="flex">
+          <md-input-container md-no-float>
+            <input type="search"
+                   ng-model="ctrl.query"
+                   autocapitalize="off"
+                   autocomplete="off"
+                   autocorrect="off"
+                   spellcheck="false"
+                   ng-disabled="!ctrl.searchControl"
+                   placeholder="{{'SEARCH.PLACEHOLDER_INPUT_SEARCH'|translate}}">
+          </md-input-container>
+        </div>
+        <md-button type="submit" class="md-raised md-accent" ng-disabled="!ctrl.searchControl || !ctrl.query">
+          <div class="layout-row">
+            <span class="picto picto-btn layout-margin"></span>
+            <span class="hide-sm" ng-bind-html="'SEARCH.BUTTON_SEARCH'|translate|buttonize">.</span>
+          </div>
+        </md-button>
+      </form>
+    </div>
+      <div ng-if="ctrl.hasUai || ctrl.hasMediaLandes" class="md-padding flex layout-row layout-align-center-center">
+        <a href="{{ ctrl.uaiUrl }}" target="_blank" ng-if="ctrl.hasUai">
+          <img ng-src="{{ ctrl.images.universalisImage }}" />
+        </a>
+
+        <a href="http://crdp.ac-bordeaux.fr/cddp40/canope40/" target="_blank"  ng-if="ctrl.hasMediaLandes">
+          <img ng-src="{{ ctrl.images.canopeImage }}" />
+        </a>
+
+        <a href="{{ ctrl.medialandesUrl }}" target="_blank" ng-if="ctrl.hasMediaLandes">
+          <img ng-src="{{ ctrl.images.medialandesImage }}" />
+        </a>
+      </div>
+
+  </div>
+  <md-content id="search-results">
+    <gcse:searchresults-only gname="searchbox"></gcse:searchresults-only>
+  </md-content>
+
+</div>

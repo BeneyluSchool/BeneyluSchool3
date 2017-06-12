@@ -1,0 +1,60 @@
+<div class="md-padding">
+  <h1 class="md-headline" translate>ACCOUNT.TITLE_DATA_RECOVERY</h1>
+  <div ng-if="ctrl.pupilsMap.new.length" class="md-padding md-body-2" translate>ACCOUNT.DESCRIPTION_PUPIL_LINK</div>
+</div>
+
+<div ng-if="ctrl.pupilsMap.new.length" class="layout-row layout-margin">
+
+  <div class="flex flex-66">
+    <div class="layout-row layout-align-center-center">
+      <div class="flex md-subhead pupil-list-head" translate>ACCOUNT.TITLE_NEW_PUPILS</div>
+      <md-icon></md-icon>
+      <div class="flex md-subhead pupil-list-head" translate>ACCOUNT.TITLE_PUPILS_LINK_WITH_OLD</div>
+    </div>
+    <div class="pupil-list new-pupils">
+      <div ng-repeat="newUser in ctrl.pupilsMap.new" ng-class="{'has-match': ctrl.pupilMatches[newUser.id].length}" class="pupil-row layout-row layout-align-center-center">
+        <div class="pupil new-pupil layout-row layout-align-start-center">
+          <img ng-src="{{::newUser.avatar_url}}" alt="{{::newUser.full_name}}" class="bns-avatar size-36">
+          <div class="flex layout-column">
+            <span class="text-ellipsis">{{::newUser.full_name}}</span>
+            <span class="last-connection">{{:: newUser.last_connection ? moment(newUser.last_connection).fromNow() : ''}}</span>
+          </div>
+        </div>
+
+        <md-icon>link</md-icon>
+
+        <div ng-sortable="ctrl.pupilMatchesSortableConfig" class="pupil-placeholder">
+          <div ng-repeat="user in ctrl.pupilMatches[newUser.id]" class="pupil layout-row layout-align-start-center" md-ink-ripple="#AAAAAA">
+            <img ng-src="{{::user.avatar_url}}" alt="{{::user.full_name}}" class="bns-avatar size-36">
+            <div class="flex layout-column">
+              <span class="text-ellipsis">{{::user.full_name}}</span>
+              <span class="last-connection">{{:: user.last_connection ? moment(user.last_connection).fromNow() : ''}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pupil-list-separator"></div>
+
+  <div class="flex flex-33 layout-column">
+    <div class="layout-row">
+      <div class="flex md-subhead text-center" translate>ACCOUNT.TITLE_OLD_PUPILS</div>
+    </div>
+    <div class="flex pupil-list old-pupils layout-column layout-align-start-center" ng-sortable="ctrl.oldPupilsSortableConfig">
+      <div ng-repeat="user in ctrl.pupilsMap.old" class="pupil-row layout-row layout-align-center-center">
+        <div class="pupil layout-row layout-align-start-center" md-ink-ripple="#AAAAAA">
+          <img ng-src="{{::user.avatar_url}}" alt="{{::user.full_name}}" class="bns-avatar size-36">
+          <div class="flex layout-column">
+            <span class="text-ellipsis">{{::user.full_name}}</span>
+            <span class="last-connection">{{:: user.last_connection ? moment(user.last_connection).fromNow() : ''}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div ng-if="!ctrl.pupilsMap.new.length && !ctrl.busy" class="md-padding md-body-2" translate>ACCOUNT.DESCRIPTION_NO_PUPIL_TO_RECOVER</div>

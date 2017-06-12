@@ -1,0 +1,15 @@
+BNS\App\WorkshopBundle\Model\om\BaseWorkshopWidgetGroup:
+  exclusion_policy: All
+  properties:
+    id:
+      expose: true
+    page_id:
+      expose: true
+    zone:
+      expose: true
+    position:
+      expose: true
+
+  virtual_properties:
+    getType:
+      expose: true

@@ -1,19 +1,51 @@
-<div class="page-news">
-	<div class="news-informations">
-        <div class="news-title">
-            <span class="title">{% trans %}MiniSite.Back.General.Page{% endtrans %} : {{ text.getMiniSitePage().getTitle() }}</span>
-        </div>
-        <div class="news-author">
-            <p>{{ date_from_now(text.getCreatedAt()) }} <a href="#"><img src="{{ avatar(text.getAuthor(), 'thumbnail') }}" alt="" width="16" /> {{ text.getAuthor().getFullName() }}</a></p>
-        </div>
-		{% include 'BNSAppMiniSiteBundle:ActionBar:back_text_action_bar_admin.html.twig' %}
+{% trans_default_domain "MINISITE" %}
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+
+<md-list-item id="item-text-{{ text.getPageId() }}" class="status-{{ text.getStatus()|lower }} " href="{{ path('minisite_manager_page', {'slug': text.getMiniSitePage().getSlug()}) }}">
+
+		<div class="md-list-item-text">
+			<h3>
+				<span class="md-title">
+					{% if text.isPublished() %}
+						{{ text.getPublishedTitle() }}
+					{% else %}
+						{% if text.getDraftTitle() == null %}
+							{% trans %}TITLE_FUTUR_PAGE{% endtrans %}
+						{% else %}
+							{{ text.getDraftTitle() }}
+						{% endif %}
+					{% endif %}
+				</span>
+			</h3>
+			<h4>
+				<span class="md-body-2 text-muted">
+					{{ 'EDIT_AT_BY_USER'|trans({
+						'%date%': date_from_now(text.getUpdatedAt(), false, true, 'medium', 'short', false, true),
+						'%image%': components.avatar(text.getLastModificationAuthor(), { size: 20 }),
+						'%user%': text.getLastModificationAuthor().getFullName() |escape
+					}) |desc('Modifiée %date% par %image% %user%') |raw }}
+				</span>
+			</h4>
+			<p>
+				<div class="md-body-2">
+					{% autoescape false %}
+						{% if text.isPublished() %}
+							{{ text.getShortPublishedContent()|purify }}
+						{% else %}
+							{% if text.getDraftContent() == null %}
+			          {% trans %}FUTUR_PAGE_CONTENT{% endtrans %}
+							{% else %}
+								{{ text.getShortDraftContent()|purify }}
+							{% endif %}
+						{% endif %}
+					{% endautoescape %}
+				</div>
+			</p>
+		</div>
+	<div class="md-secondary">
+		{% include 'BNSAppMiniSiteBundle:ActionBar:back_text_action_bar.html.twig' %}
 	</div>
-	<div class="clearfix"></div>
-	<div class="news-content">
-		<p>
-			{% autoescape false %}
-				{{ text.getDraftContent() }}
-			{% endautoescape %}
-		</p>
-	</div>
-</div>
+
+</md-list-item>
+
+<md-divider></md-divider>

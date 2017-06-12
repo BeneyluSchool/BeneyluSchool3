@@ -1,0 +1,25 @@
+{% if widget.data('link') != null %}
+    <div class="links">
+        <div class="title background-{{ portal.color }} {{ portal.font }} {{ zone == 'side' ? portal.color : '' }}">
+            {{ widget.data('title') }}
+        </div>
+
+        {% set link = widget.data('link') %}
+        {% for i in 0..4 %}
+            {% if link[i] is defined and link[i]['url'] is not empty %}
+                {% set linkImage = link[i]['image'] is defined and link[i]['image'] is not empty ? link[i]['image'] : null %}
+
+                <a href="{{ link[i]['url'] }}" target="_blank" class="external-link {{ portal.font }}">
+                    {% if linkImage is not null %}
+                        <img class="micro thumb" src="{{ getResourceImageUrlFromId(linkImage,'small') }}" />
+                    {% endif %}
+
+                    <span class='url'>{{ link[i]['url'] }}</span>
+                </a>
+
+                <br clear='all' />
+
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endif %}

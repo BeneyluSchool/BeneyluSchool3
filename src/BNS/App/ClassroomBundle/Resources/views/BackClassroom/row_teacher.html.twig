@@ -1,23 +1,22 @@
-<div class="row-fluid teacher-row list-content{% if teacher_count > 1 and app.user.getId() == teacher.getId() %} allow-leave-classroom{% endif %}">
-    <div class="span6">
-        <img src="{{ avatar(teacher, 'thumbnail') }}" alt="avatar" class="classroom-user-avatar"  />
-		<p>{{ teacher.getFirstName() }} {{ teacher.getLastName() }}</p>
-    </div>
-    <div class="span4 info-teach">
-        <p class="info-pupil">{{ teacher.getEmail() }}</p>
-    </div>
-    <div class="span2">
-		{% if teacher_count > 0 and app.user.getId() == teacher.getId() %}
-			{% autoescape false %}
-			{{ modal('leave-classroom-modal', {
-				'title': 'Quitter la classe ' ~ classroom.getLabel(),
-				'body': 'Êtes-vous sûr de vouloir quitter la classe ' ~ classroom.getLabel() ~ ' ? (Si vous quittez la classe, vous serez redirigé à la page d\'accueil)',
-				'type': 'error',
-				'footer_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:leave_classroom_modal_footer.html.twig', 
-					'values': { 'leave_classroom_path': path('back_classroom_teacher_leave_classroom', {'teacherLogin': teacher.getUsername()}) } 
-				},
-			}) }}
-			{% endautoescape %}
-		{% endif %}
-    </div>
+{% trans_default_domain "CLASSROOM" %}
+<div class="item">
+  {% if teacher.isEnabled() %}
+    <div class="vertical-separator green"></div>
+  {% else %}
+    <div class="vertical-separator disabled"></div>
+  {% endif %}
+  <div class="buttons-container">
+    <a href="{{ path('BNSAppClassroomBundle_back_pupil_detail', {'userSlug': teacher.getSlug()}) }}" class="btn bns-notice btn-16 small right btn-visualisation">
+      <span class="icons-16 arrow-right-icon right"></span>
+      <strong>{% trans %}LINK_SEE_CARD{% endtrans %}</strong>
+
+    </a>
+  </div>
+  <div class="header">
+    <img class="avatar" src="{{ avatar(teacher, 'thumbnail') }}" alt="" />
+    <p class="name">{{ teacher.getFullName() }}</p>
+    <p class="informations">
+      {{ teacher.getEmail() }}
+    </p>
+  </div>
 </div>

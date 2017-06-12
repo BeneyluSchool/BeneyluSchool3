@@ -1,0 +1,53 @@
+{% extends '::base_manager.html.twig' %}
+
+{% block title %}
+	Médiathèque
+{% endblock %}
+
+{% block css %}
+    {{ parent() }}
+	<link type="text/css" href="{{ asset('medias/css/ui-twitter-theme/jquery-ui-1.8.16.custom.css') }}" rel="stylesheet" />
+	<link href="{{ asset("medias/css/jquery-ui/ui.all.css") }}" type="text/css"  media="screen" rel="stylesheet" />
+	<link href="{{ asset("medias/css/fg.menu.css") }}" type="text/css" media="screen" rel="stylesheet" />
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	{{ tinymce_init() }}
+
+	<script type="text/javascript" src="{{ asset('medias/js/fg.menu.js') }}"></script>
+	<script type="text/javascript">
+		$(function ()
+		{
+			if ($('.alert-flash').length > 0) {
+				setTimeout(function ()
+				{
+					$('.alert-flash div').slideUp('fast', function () { $(this).parent().slideUp('fast', function () { $('.bns-alert div').show() }) });
+				}, 8000);
+			}
+		});
+	</script>
+{% endblock %}
+
+{% block body %}
+	{% block header %}{% endblock header %}
+	<div class="office media-library"></div>
+    <div class="container container-fluid media-library-container">
+		{% block form_start %}{% endblock %}
+		<div class="row-fluid container-manager">
+			{% block sidebar %}{% endblock %}
+			<div class="span9 container-content no-margin">
+                {% block content %}Add your content here!{% endblock %}
+            </div>
+			<div class="container-manager-bottom">
+				<div class="content-manager-bottom"></div>
+			</div>
+		</div>
+		{% block form_end %}{% endblock %}
+	</div>
+{% endblock %}
+
+{% block dock_bar %}
+	{{ render(controller('BNSAppMainBundle:DockBar:index', {'module_unique_name' : "MEDIA_LIBRARY" , 'is_in_front' : is_in_front is defined ? is_in_front : true } )) }}
+{% endblock %}

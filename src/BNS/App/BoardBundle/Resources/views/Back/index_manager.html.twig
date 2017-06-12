@@ -1,0 +1,70 @@
+{% extends 'BNSAppBoardBundle:Layout:manager.html.twig' %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script type="text/javascript" src="{{ asset('/medias/js/datepicker_i18n/jquery.ui.datepicker-fr.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/board/informations.js') }}"></script>
+	<script type="text/javascript">
+		$(function ()
+		{
+			$('body').on('click', '.item-list-container .item', function (e)
+			{
+				window.location = $(e.currentTarget).find('.btn-visualisation').attr('href');
+			});
+		});
+	</script>
+{% endblock %}
+
+{% block header %}
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span12">
+						<a href="{{ path('board_manager_new_information') }}" class="btn bns-info btn-24 large create-information">
+							<span class="icons-24 add-icon"></span>
+							Ecrire une information
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock header %}
+
+{% block sidebar %}
+	<div class="container-sidebar list">
+		<div class="section active">
+			{% trans %}Board.Back.Sidebar.Informations{% endtrans %}
+			<span class="shadow-section"></span>
+		</div>
+		{% include 'BNSAppBoardBundle:Block:back_block_filters.html.twig' %}
+
+		<div class="container-section">
+			<div class="section">
+				<a href="{{ path('board_manager_rss') }}">Flux externes</a>
+			</div>
+		</div>
+	</div>
+{% endblock sidebar %}
+
+{% block content %}
+	{% for message in app.session.flashbag.get('success') %}
+		<div class="alert alert-success alert-flash bns-alert">
+			{{ message }}
+			<div class="jim"></div>
+		</div>
+	{% endfor %}
+	<div class="relative-container">
+		<div class="layer">
+			<div class="message">
+				{% trans %}Board.Back.InformationLoading{% endtrans %}
+				<div><img src="{{ asset('/medias/images/icons/big-loader.gif') }}" alt="" /></div>
+			</div>
+		</div>
+		<div class="item-list-container">
+			{{ render(controller('BNSAppBoardBundle:BackInformation:getInformations', {'board': board} )) }}
+		</div>
+	</div>
+{% endblock content %}

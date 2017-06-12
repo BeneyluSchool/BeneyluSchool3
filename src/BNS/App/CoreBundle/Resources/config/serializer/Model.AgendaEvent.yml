@@ -1,0 +1,43 @@
+BNS\App\CoreBundle\Model\AgendaEvent:
+  exclusion_policy: All
+
+  properties:
+    description:
+      expose: true
+      groups: [detail, agenda_event_detail]
+    location:
+      expose: true
+      groups: [detail, agenda_event_detail]
+    author:
+      expose: true
+      groups: [detail, agenda_event_detail]
+    recurringType:
+      expose: true
+      groups: [detail, agenda_event_detail]
+    recurringCount:
+      expose: true
+      groups: [detail, agenda_event_detail]
+
+  virtual_properties:
+    getStart:
+      expose: true
+      groups: [list, agenda_event_list, detail, agenda_event_detail]
+    getEnd:
+      expose: true
+      groups: [list, agenda_event_list, detail, agenda_event_detail]
+    getRecurringEnd:
+      expose: true
+      groups: [detail, agenda_event_detail]
+      serialized_name: recurring_end_date
+
+  relations:
+    - rel: agenda
+      embedded:
+        content: expr(object.getAgenda())
+        exclusion:
+          groups: [ detail, agenda_event_detail ]
+    - rel: attachments
+      embedded:
+        content: expr(object.getResourceAttachments())
+        exclusion:
+          groups: [ detail, agenda_event_detail ]

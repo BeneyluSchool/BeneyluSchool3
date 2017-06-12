@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\MiniSiteBundle\Model">
+  <table name="mini_site">
+    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+    <column name="group_id" required="true" type="INTEGER" />
+    <column name="banner_resource_id" required="false" type="INTEGER" />
+    <column name="description" type="LONGVARCHAR" />
+    <column defaultValue="'Mini Site'" name="title" required="true" size="255" type="VARCHAR" />
+	<foreign-key foreignTable="media" phpName="Resource" name="FK_MINISITE_RESOURCE" onDelete="SETNULL" onUpdate="CASCADE">
+      <reference foreign="id" local="banner_resource_id" />
+    </foreign-key>
+    <foreign-key foreignTable="group" name="FK_MINISITE_GROUP" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="group_id" />
+    </foreign-key>
+    <behavior name="sluggable">
+      <parameter name="slug_column" value="slug" />
+      <parameter name="slug_pattern" value="{title}" />
+      <parameter name="replace_pattern" value="/[^\w]+/u" />
+      <parameter name="replacement" value="-" />
+      <parameter name="separator" value="-" />
+      <parameter name="permanent" value="false" />
+    </behavior>
+  </table>
+  <table name="mini_site_page">
+    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+    <column name="mini_site_id" required="true" type="INTEGER" />
+    <column defaultValue="false" name="is_public" required="true" type="BOOLEAN" />
+    <column defaultValue="false" name="is_activated" required="true" type="BOOLEAN" />
+    <column defaultValue="false" name="is_home" required="true" type="BOOLEAN" />
+    <column name="title" required="true" size="255" type="VARCHAR" />
+    <column defaultValue="TEXT" name="type" required="true" type="ENUM" valueSet="TEXT, NEWS" />
+    <column name="views" required="true" size="8" type="INTEGER" defaultValue="0" />
+    <foreign-key foreignTable="mini_site" name="FK_MINISITEPAGE_MINISITE" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="mini_site_id" />
+    </foreign-key>
+    <index name="FK_MINISITEPAGE_MINISITE">
+      <index-column name="mini_site_id" />
+    </index>
+    <behavior name="sortable">
+	  <parameter name="rank_column" value="rank" />
+	  <parameter name="use_scope" value="true" />
+	  <parameter name="scope_column" value="mini_site_id" />
+	</behavior>
+    <behavior name="sluggable">
+      <parameter name="slug_column" value="slug" />
+      <parameter name="slug_pattern" value="{title}" />
+      <parameter name="replace_pattern" value="/[^\w]+/u" />
+      <parameter name="replacement" value="-" />
+      <parameter name="separator" value="-" />
+      <parameter name="permanent" value="false" />
+    </behavior>
+  </table>
+  <table name="mini_site_page_text">
+    <column name="page_id" primaryKey="true" required="true" type="INTEGER" />
+    <column name="author_id" required="true" type="INTEGER" />
+    <column name="last_modification_author_id" required="true" type="INTEGER" />
+	<column name="status" defaultValue="DRAFT" required="true" type="ENUM" valueSet="DRAFT, PUBLISHED, FINISHED, WAITING_FOR_CORRECTION" />
+	<column name="published_at" type="TIMESTAMP" />
+    <column name="draft_content" type="CLOB" />
+    <column name="draft_title" size="255" type="VARCHAR" />
+    <column name="published_content" type="CLOB" />
+    <column name="published_title" size="255" type="VARCHAR" />
+    <foreign-key foreignTable="mini_site_page" name="FK_MINISITEPAGETEXT_MINISITEPAGE" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="page_id" />
+    </foreign-key>
+    <foreign-key foreignTable="user" name="FK_MINISITEPAGETEXT_USER_AUTHOR" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="author_id" />
+    </foreign-key>
+	<foreign-key foreignTable="user" name="FK_MINISITEPAGETEXT_USER_LASTMODIFICATION" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="last_modification_author_id" />
+    </foreign-key>
+    <index name="FK_MINISITEPAGETEXT_MINISITEPAGE">
+      <index-column name="page_id" />
+    </index>
+    <index name="FK_MINISITEPAGETEXT_USER">
+      <index-column name="author_id" />
+    </index>
+    <behavior name="timestampable">
+      <parameter name="create_column" value="created_at" />
+      <parameter name="update_column" value="updated_at" />
+    </behavior>
+	<behavior name="bns_media_attachmentable" />
+  </table>
+  <table name="mini_site_page_news">
+    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+    <column name="page_id" required="true" type="INTEGER" />
+    <column name="author_id" required="true" type="INTEGER" />
+    <column name="title" required="true" size="255" type="VARCHAR" />
+    <column name="content" required="true" type="CLOB" />
+    <column defaultValue="DRAFT" name="status" required="true" type="ENUM" valueSet="DRAFT, PUBLISHED, FINISHED, WAITING_FOR_CORRECTION" />
+    <column name="published_at" type="TIMESTAMP" />
+    <column name="has_notified" defaultValue="false" required="true" type="BOOLEAN" />
+    <foreign-key foreignTable="mini_site_page" name="FK_MINISITEPAGENEWS_MINISITEPAGE" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="page_id" />
+    </foreign-key>
+    <foreign-key foreignTable="user" name="FK_MINISITEPAGENEWS_USER" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="author_id" />
+    </foreign-key>
+    <index name="FK_MINISITEPAGENEWS_MINISITEPAGE">
+      <index-column name="page_id" />
+    </index>
+    <index name="FK_MINISITEPAGENEWS_USER">
+      <index-column name="author_id" />
+    </index>
+    <behavior name="timestampable">
+      <parameter name="create_column" value="created_at" />
+      <parameter name="update_column" value="updated_at" />
+    </behavior>
+	<behavior name="sluggable">
+      <parameter name="slug_column" value="slug" />
+      <parameter name="slug_pattern" value="{title}" />
+      <parameter name="replace_pattern" value="/[^\w]+/u" />
+      <parameter name="replacement" value="-" />
+      <parameter name="separator" value="-" />
+      <parameter name="permanent" value="false" />
+    </behavior>
+	<behavior name="bns_media_attachmentable" />
+  </table>
+  <table name="mini_site_widget_template">
+    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+    <column name="type" required="true" size="255" type="VARCHAR" />
+  </table>
+  <table name="mini_site_widget">
+    <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+    <column name="mini_site_id" required="true" type="INTEGER" />
+    <column name="widget_template_id" required="true" type="INTEGER" />
+	<column name="title" required="true" size="100" type="VARCHAR" />
+    <foreign-key foreignTable="mini_site" name="FK_MINISITEWIDGET_MINISITE" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="mini_site_id" />
+    </foreign-key>
+    <foreign-key foreignTable="mini_site_widget_template" name="FK_MINISITEWIDGET_MINISITEWIDGETTEMPLATE" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="widget_template_id" />
+    </foreign-key>
+    <index name="FK_MINISITEWIDGET_MINISITE">
+      <index-column name="mini_site_id" />
+    </index>
+    <index name="FK_MINISITEWIDGET_MINISITEWIDGETTEMPLATE">
+      <index-column name="widget_template_id" />
+    </index>
+	<behavior name="extra_properties" /> <!-- NOT GENERATED BY PROPEL UTILITY, DO NOT DELETE ! -->
+	<behavior name="sortable">
+	  <parameter name="rank_column" value="rank" />
+	  <parameter name="use_scope" value="true" />
+	  <parameter name="scope_column" value="mini_site_id" />
+	</behavior>
+  </table>
+  <table name="mini_site_page_editor">
+    <column name="page_id" required="true" primaryKey="true" type="INTEGER" />
+    <column name="user_id" required="true" primaryKey="true" type="INTEGER" />
+    <foreign-key foreignTable="mini_site_page" name="FK_MINISITEPAGEEDITOR_MINISITEPAGE" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="page_id" />
+    </foreign-key>
+	<foreign-key foreignTable="user" name="FK_MINISITEPAGEEDITOR_USER" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="user_id" />
+    </foreign-key>
+  </table>
+</database>

@@ -1,0 +1,5 @@
+<md-content ng-if="ctrl.message" class="md-whiteframe-z2 md-padding" ng-repeat="message in [ctrl.message]">
+  <h3 class="md-title heading" translate>BUILDERS.TITLE_BUILDERS_MESSAGE</h3>
+  <p class="md-body-1" ng-bind-html="ctrl.message.content|nl2br"></p>
+  <div class="text-right text-muted md-caption">{{::ctrl.message.author}}</div>
+</md-content>

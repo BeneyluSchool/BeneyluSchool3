@@ -4,11 +4,53 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+    <parameters>
+        <parameter key="install_process_bns_app_homework_bundle.class">BNS\App\HomeworkBundle\Install\InstallProcess</parameter>
+        <parameter key="homework_service_bns_app_statistics_bundle.class">BNS\App\HomeworkBundle\Statistic\HomeworkStatisticsService</parameter>
+        <parameter key="bns.data_reset.change_year_homework.class">BNS\App\HomeworkBundle\DataReset\ChangeYearHomeworkDataReset</parameter>
+    </parameters>
+
     <services>
+        <!-- install -->
+        <service id="install_process_bns_app_homework_bundle" class="%install_process_bns_app_homework_bundle.class%">
+            <tag name="bns.install_process" />
+        </service>
+
+        <!-- starter kit -->
+        <service id="bns_homework_starter_kit_provider" class="BNS\App\HomeworkBundle\StarterKit\HomeworkStarterKitProvider">
+            <argument type="service" id="service_container"/>
+            <tag name="bns.starter_kit_provider" />
+        </service>
+
+        <!-- achievement -->
+        <service id="bns_homework_achievement_provider" class="BNS\App\HomeworkBundle\Achievement\HomeworkAchievementProvider">
+            <tag name="bns.achievement_provider" />
+        </service>
+
+        <service id="bns.data_reset.change_year_homework" class="%bns.data_reset.change_year_homework.class%">
+            <tag name="bns.data_reset" type="change_year" hasOptions="false" />
+        </service>
+
         <service id="bns.homework_manager" class="BNS\App\HomeworkBundle\Homework\BNSHomeworkManager">
             <argument type="service" id="bns.api" />
             <argument type="service" id="logger" />
             <argument type="service" id="bns.group_manager" />
+        </service>
+        <service id="bns.homework_due_manager" class="BNS\App\HomeworkBundle\Homework\BNSHomeworkDueManager">
+            <argument type="service" id="bns.user_manager" />
+        </service>
+        <service id="stat.homework" class="%homework_service_bns_app_statistics_bundle.class%">
+            <argument type="service" id="service_container"></argument>
+        </service>
+
+        <!-- Event listeners -->
+        <service id="bns.homework.homework_serialize_listener" class="BNS\App\HomeworkBundle\EventListener\HomeworkSerializeSubscriber">
+            <argument type="service" id="service_container" />
+            <tag name="jms_serializer.event_subscriber" />
+        </service>
+        <service id="bns.homework.homework_due_serialize_listener" class="BNS\App\HomeworkBundle\EventListener\HomeworkDueSerializeSubscriber">
+            <argument type="service" id="service_container" />
+            <tag name="jms_serializer.event_subscriber" />
         </service>
     </services>
 </container>

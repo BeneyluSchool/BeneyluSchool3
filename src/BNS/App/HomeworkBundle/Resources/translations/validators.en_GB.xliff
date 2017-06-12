@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-08-25T16:49:35Z" source-language="en" target-language="en-GB" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="40b58bca6355fe7451037c367424d451a847dde3" resname="HOMEWORK_INVALID_CHOOSE_RECURRENCE">
+        <source>HOMEWORK_INVALID_CHOOSE_RECURRENCE</source>
+        <target>The type of recurrence has to be selected</target>
+      </trans-unit>
+      <trans-unit id="aa6095d5b02b89b03fcf2207d7933623d15c9088" resname="INVALID_DATE_EMPTY">
+        <source>INVALID_DATE_EMPTY</source>
+        <target>Please enter a date</target>
+      </trans-unit>
+      <trans-unit id="2008cc7209cbffbaa01cfa3abf3357137927d842" resname="INVALID_NAME_EMPTY">
+        <source>INVALID_NAME_EMPTY</source>
+        <target>Please enter a title</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

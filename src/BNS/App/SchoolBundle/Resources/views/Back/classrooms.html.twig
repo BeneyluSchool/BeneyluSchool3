@@ -1,0 +1,57 @@
+{% trans_default_domain "SCHOOL" %}
+{% extends 'BNSAppSchoolBundle:Layout:manager.html.twig' %}
+
+{% block title %}
+  {% trans %}TITLE_SCHOOL_LIST_CLASS{% endtrans %}
+{% endblock %}
+
+{% block top_bar %}{% endblock %}
+
+{% block sidebar %}
+    {% include "BNSAppSchoolBundle:Sidebar:sidebar.html.twig" with {"page" : "classrooms", "section" : "list" } %}
+{% endblock sidebar %}
+
+{% block header %}
+    {% if has_right('SCHOOL_CREATE_CLASSROOM') %}
+        <div class="header-buttons">
+            <div class="inner-header">
+                <div class="container container-fluid">
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <a href="#" class="btn bns-info btn-24 large create-article" data-toggle="modal" data-target="#add-classroom-modal">
+                                <span class="icons-24 add-icon"></span>
+                              {% trans %}LINK_CREATE_CLASS{% endtrans %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{ modal('add-classroom-modal', {
+            'body_template': {'template': 'BNSAppSchoolBundle:Modal:addClassroomBody.html.twig' },
+          'title': 'LINK_ADD_NEW_CLASS'|trans,
+            'footer_template': {'template': 'BNSAppSchoolBundle:Modal:addClassroomFooter.html.twig' }
+        }) }}
+
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="layer"></div>
+
+    <div id="add-classroom-success" class="alert alert-success bns-alert pupil" style="display: none;">
+      {% trans %}CLASS_CREATED{% endtrans %}
+        <div class="jim"></div>
+    </div>
+
+    {% include 'BNSAppMainBundle::notice.html.twig' %}
+
+    <div class="item-list-container">
+        {% for classroom in classrooms %}
+            {% include "BNSAppSchoolBundle:Block:classroomRow.html.twig" with {"classroom" : classroom } %}
+        {% endfor %}
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,25 @@
+<md-list class="master-list">
+
+  <md-list-item class="current">
+    <div class="flex md-list-item-text">
+    <div class="calendar-container">
+      <div class="blur"></div>
+      <bns-calendar ng-if="shared.startDate" selection="{{shared.startDate.format('YYYY-MM-DD')}}" mode="week" sync-view></bns-calendar>
+    </div>
+
+      <bns-expander label="{{'CALENDAR.TITLE_MINE_CALENDAR'|translate}}" is-open="true">
+        <md-list>
+          <md-list-item ng-repeat="agenda in ctrl.agendas" layout="row" layout-align="space-between center" class="calendar-item selected" ng-style="{'border-left-color': agenda.color}" ng-class="{'selected': !ctrl.isHidden(agenda)}">
+              <div flex="90"><span class="flex">{{::agenda.title}}</span></div>
+              <div flex="10">
+                <md-button ng-click="ctrl.toggleVisibility(agenda)" aria-label="calendar-check" class="flex">
+                  <div class="check"></div>
+                </md-button>
+              </div>
+          </md-list-item>
+        </md-list>
+      </bns-expander>
+    </div>
+  </md-list-item>
+
+</md-list>

@@ -1,0 +1,25 @@
+<div ng-if="!ctrl.success" class="md-padding">
+  <h3 class="md-title text-center" translate>ACCOUNT.TITLE_CONFIRM_IDENTITY</h3>
+  <div class="layout-column layout-gt-sm-row layout-wrap layout-align-center-stretch classroom-list">
+    <div ng-repeat="parent in ctrl.parents" ng-click="ctrl.selectParent(parent)" md-ink-ripple="#039BE5" class="classroom layout-column layout-padding layout-align-center-center">
+      <img ng-src="{{::parent.avatar_url}}" alt="{{::parent.full_name}}" class="bns-avatar size-64">
+      <h3 class="text-center md-title">{{::parent.full_name}}</h3>
+      <div class="pupil-list">
+        <div ng-repeat="child in ::parent._embedded.children" class="layout-row layout-align-start-center layout-margin pupil">
+          <img ng-src="{{::child.avatar_url}}" alt="{{::child.full_name}}" class="bns-avatar size-36">
+          <span class="text-ellipsis">{{::child.full_name}}</span>
+        </div>
+        <p ng-if="::!parent._embedded.children.length" class="text-muted text-center pupil-empty" translate>ACCOUNT.DESCRIPTION_NO_CHILDREN</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div ng-if="ctrl.success" class="md-padding text-center">
+  <p class="md-body-2" translate>ACCOUNT.DESCRIPTION_ACCOUNT_LINKED</p>
+  <p>
+    <md-button ng-href="{{ ctrl.success }}" class="md-raised md-primary">
+      <span ng-bind-html="'ACCOUNT.BUTTON_GOTO_CLASSROOM'|translate|buttonize">.</span>
+    </md-button>
+  </p>
+</div>

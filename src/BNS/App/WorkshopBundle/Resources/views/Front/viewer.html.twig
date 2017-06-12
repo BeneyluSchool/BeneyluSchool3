@@ -1,0 +1,34 @@
+{# On étend forcément base.html.twig #}
+{% extends '::base.html.twig' %}
+
+{# Si CSS spécifique au module et en front incorporer ici #}
+{% block css %}
+    {{ parent() }}
+    <link rel="stylesheet" href="/angular/assets/styles/main.css"/>
+    <link rel="stylesheet" href="/angular/assets/styles/viewer.css"/>
+{% endblock %}
+
+{% block main_javascripts %}
+    {{ parent() }}
+    <!--[if lte IE 8]>
+      <script type="text/javascript" src="/js/vendors-ie8.js"></script>
+      <script type="text/javascript" src="/angular/assets/scripts/ie8.js"></script>
+    <![endif]-->
+{% endblock %}
+
+{# Si Javascripts spécifique au module et en front, incorporer ici #}
+{% block javascripts %}
+    {# load ckeditor manually @todo move into gruntfile #}
+    <script type="text/javascript" src="/bower_components/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="/angular/assets/scripts/vendors.js"></script>
+    <script type="text/javascript" src="/angular/assets/scripts/scripts.js"></script>
+{% endblock %}
+
+{# Body = layout du module en front, page => block content #}
+{% block body %}{% verbatim %}
+    <div id="ng-app" ng-app="beneyluSchoolViewerApp">
+
+        <div ui-view></div>
+
+    </div>
+{% endverbatim %}{% endblock %}

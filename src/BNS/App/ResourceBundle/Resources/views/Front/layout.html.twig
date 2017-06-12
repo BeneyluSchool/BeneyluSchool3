@@ -1,43 +1,145 @@
 {% extends '::base.html.twig' %}
 
-{% block title %}Médiathèque{% endblock %}
+{% block title %}
+	Médiathèque
+{% endblock %}
 
 {% block css %}
 	{{ parent() }}
+
 	<link href="https://fonts.googleapis.com/css?family=Ubuntu:400,700" rel="stylesheet" type="text/css">
 	<link href="{{ asset('medias/css/resource/front.css') }}" rel='stylesheet' type='text/css'>
 	<link href="{{ asset("medias/css/jquery-ui/ui.all.css") }}" type="text/css"  media="screen" rel="stylesheet" />
 	<link href="{{ asset("medias/css/fg.menu.css") }}" type="text/css" media="screen" rel="stylesheet" />
+    
 	{# manager pour les modals #}
 	<link href="{{ asset("medias/css/manager.css") }}" type="text/css" media="screen" rel="stylesheet" />
+     
+    <!--[if lt IE 9]>
+        <link href="{{ asset('medias/css/resource/front-ie-inf9.css') }}" type="text/css" media="screen" rel="stylesheet">
+    <![endif]-->
 {% endblock %}
-	
+
+{% block main_javascripts %}
+	 {{ parent() }}
+	 
+	 <script type="text/javascript" src="{{ asset('medias/js/resource/resource_toolbar.js') }}"></script>
+{% endblock %}
 
 {% block javascripts %}
 	{{ parent() }}
 
 	<script type="text/javascript">
-		$('#close-resource-iframe-button').click(function(){
+		$('#close-resource-iframe-button').click(function (e) 		{
 			$(window.parent.document).find('#resource-iframe').remove();
 		});
 	</script>
+
+	<script type="text/javascript" src="{{ asset('medias/js/manager-menu.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('medias/js/history.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('medias/js/resource/front_navigation.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('medias/js/resource/resource_navigation.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('medias/js/resource/resource_sidebar_search.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('medias/js/resource/resource_sidebar_folders.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('medias/js/resource/resource_context.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('medias/js/resource/resource_selection.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('medias/js/resource/resource_gallery.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('medias/js/resource/resource_file.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('medias/js/resource/main.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('medias/js/jquery.ae.image.resize.min.js') }}" ></script>
 	<script type="text/javascript" src="{{ asset('medias/js/jquery.form.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('/medias/js/fg.menu.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('medias/js/fg.menu.js') }}"></script>
+	<script src="https://www.google.com/jsapi"></script>
+	<script type="text/javascript" src="{{ asset('medias/js/resource/custom_search.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/resource/fileupload/jquery.fileupload.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/resource/fileupload/jquery.postmessage-transport.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/resource/fileupload/jquery.xdr-transport.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/resource/fileupload/tmpl.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/resource/fileupload/load-image.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/resource/fileupload/canvas-to-blob.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/resource/fileupload/jquery.iframe-transport.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/resource/fileupload/jquery.fileupload-fp.js') }}"></script>
 
+	<script type="text/javascript" src="{{ asset('/medias/js/resource/fileupload/locale.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('/medias/js/resource/fileupload/custom.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/medias/js/resource/fileupload/jquery.fileupload-ui.js') }}"></script>
+	{# ToolBar settings #}
+	{% include 'BNSAppResourceBundle:ToolBar:toolbar_settings.html.twig' with {
+		'update': true,
+		'canAddResource': has_right_somewhere('RESOURCE_MY_RESOURCES'),
+		'objectiveContext': objectiveContext
+	} %}
 {% endblock %}
-	
+
 {% block body %}
-	<div class="container-fluid">
-		<div class="row-fluid">
-			<div class="span12">
-				{% block tool_bar %}{% endblock %}
-			</div>
-		</div>
-		<div id="layout" class="row-fluid content-background main-content">
-			{% block content %}{% endblock %}
-		</div>
-	</div>
+    <div class="{% if insertDockBar %}resource-from-dock {{ current_group_type() not in ['CLASSROOM' , 'TEAM'] ? "school" : "" }}{% endif %}">
+        <div class="container-fluid container">
+            <div class="row-fluid">
+                <div class="span12">
+                    {% block tool_bar %}{% endblock %}
+                </div>
+            </div>
+            <div id="layout" class="row-fluid main-content resource-container">
+                {% block modals %}
+                    {# Placement des modal pour éviter les problèmes de z-index #}
+                    {{ modal('resourceAddLabel', {
+                        'title': 'Créer un nouveau dossier',
+                        'body_template': {'template': 'BNSAppResourceBundle:FrontNavigation:modalAddLabelBody.html.twig'},
+                        'footer_template': {'template': 'BNSAppResourceBundle:FrontNavigation:modalAddLabelFooter.html.twig'},
+                        'type': ''
+                    }) }}
+                {% endblock modals %}
+                {% block sidebar %}
+                    <div class="container-sidebar-resource">
+                        <div class="resource-content-left">
+                            <div class="resource-content-left-top"></div>
+                        </div>
+
+                        <div id="resource-sidebar" class="resource-sidebar">
+                            {{ render(controller('BNSAppResourceBundle:FrontNavigation:sidebar')) }}
+                        </div>
+                        <div class="resource-bottom"></div>
+                    </div>
+                {% endblock sidebar %}
+                <div class="container-block {% block container_class %}{% endblock %}">
+                    <div class="left-zone">
+                        <div class="resource-content" id="resource-content">
+                            <div class="container-current-file hide">
+                                <div id="resource-current" class="content-current-file"></div>
+                            </div>
+                            <div class="loader loader-sb">
+                                <div class="message copy hide">
+                                    Copie en cours...
+                                </div>
+                                <div class="message move hide">
+                                    Déplacement en cours...
+                                </div>
+                            </div>
+                            <div id="resource-navigation-loading" class="row hide layer-deconect">
+                                <div class="message">
+                                    <div>Chargement en cours...</div>
+                                    <div>
+                                        <img src="{{ asset('/medias/images/icons/big-loader.gif') }}" alt="" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="resource-navigation" class="content-resources">
+                                {% block content %}Hey did you forget the content ?{% endblock %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="resource-content-right" id="index">
+                        <div class="resource-content-right-top"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block dock_bar %}
+	{% if insertDockBar %}
+		{{ render(controller('BNSAppMainBundle:DockBar:index', {'module_unique_name' : "RESOURCE" , 'is_in_front' : true } )) }}
+	{% endif %}
 {% endblock %}

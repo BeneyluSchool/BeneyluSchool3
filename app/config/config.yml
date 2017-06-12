@@ -1,38 +1,45 @@
 
-# Full doc, @see: http://symfony.com/doc/2.7/reference/configuration/framework.html
+# Full doc, @see: http://symfony.com/doc/2.0/reference/configuration/framework.html
 
 framework:
     #esi:             ~
-    translator:      { fallback: fr }
-    secret:          %secret_symfony_secret%
+    translator:      { fallback: en }
+    secret:          %symfony_secret%
     router:          { resource: "%kernel.root_dir%/config/routing.yml" }
     form:            true
     csrf_protection: true
     validation:      true
     templating:
         engines: ['twig']
-        assets_version: v154
-    default_locale:  fr
-    session:		 ~
+    assets:
+        version: v217
+        version_format: '%%s?version=%%s'
+        base_path: ~
+        base_urls: [%cdn_url%]
+    default_locale:  en
+    session:
+        handler_id: snc_redis.session.handler
+        cookie_httponly:  true
 
 # Twig Configuration
 twig:
-    debug:            true
+    debug:            %kernel.debug%
     strict_variables: %kernel.debug%
 
 services:
-   twig.extension.text:
-       class: Twig_Extensions_Extension_Text
-       tags:
-           - { name: twig.extension }
-   twig.extension.debug:
-       class: Twig_Extensions_Extension_Debug
-       tags:
-           - { name: twig.extension }
-   twig.extension.intl:
-       class: Twig_Extensions_Extension_Intl
-       tags:
-           - { name: twig.extension }
+    twig.extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - { name: twig.extension }
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }
+
+    jms_serializer.propel_collection_handler:
+        class: %jms_serializer.propel_collection_handler.class%
+        tags:
+            - { name: jms_serializer.subscribing_handler }
 
 # Assetic Configuration
 assetic:
@@ -49,58 +56,61 @@ propel:
     path:       "%kernel.root_dir%/../vendor/propel/propel1"
     phing_path: "%kernel.root_dir%/../vendor/pear-phing"
 
-jms_security_extra:
-    # Whether you want to secure all services (true), or only secure specific
-    # services (false); see also below
-    secure_all_services: false
-
-    # Enabling this setting will add an additional special attribute "IS_IDDQD".
-    # Anybody with this attribute will effectively bypass all security checks.
-    enable_iddqd_attribute: false
-
-    # Enables expression language
-    expressions: true
-
-#    # Allows you to disable some, or all built-in voters
-#    voters:
-#        disable_authenticated: true
-#        disable_role:          true
-#        disable_acl:           true
-
-    # Allows you to specify access control rules for specific methods, such
-    # as controller actions
-    method_access_control: { }
+#jms_security_extra:
+#    # Whether you want to secure all services (true), or only secure specific
+#    # services (false); see also below
+#    secure_all_services: false
+#
+#    # Enabling this setting will add an additional special attribute "IS_IDDQD".
+#    # Anybody with this attribute will effectively bypass all security checks.
+#    enable_iddqd_attribute: false
+#
+#    # Enables expression language
+#    expressions: true
+#
+##    # Allows you to disable some, or all built-in voters
+##    voters:
+##        disable_authenticated: true
+##        disable_role:          true
+##        disable_acl:           true
+#
+#    # Allows you to specify access control rules for specific methods, such
+#    # as controller actions
+#    method_access_control: { }
 
 jms_serializer:
     handlers:
-        object_based: false
+        #object_based: false
         datetime:
-            format: Y-m-dTH:i:s
+            default_format: Y-m-dTH:i:s
             default_timezone: UTC
-        array_collection: true
-        form_error: true
-        constraint_violation: true
+#        array_collection: true
+#        form_error: true
+#        constraint_violation: true
 
     property_naming:
         separator:  _
         lower_case: true
 
     metadata:
+        directories:
+            baseobject:
+              path: "%kernel.root_dir%/Resources/serializer/BaseObject"
         cache: file
         debug: %kernel.debug%
         file_cache:
             dir: %kernel.cache_dir%/serializer
         auto_detection: true
-        
+
 sensio_framework_extra:
     router:  { annotations: true }
     request: { converters: true }
-    view:    { annotations: true }
+    view:    { annotations: false }
     cache:   { annotations: true }
 
 knp_menu:
     twig: true
-    
+
 #admingenerator_generator:
 #    base_admin_template: AdmingeneratorGeneratorBundle::base_admin_assetic_less.html.twig
 #    use_doctrine_orm: false
@@ -108,30 +118,71 @@ knp_menu:
 #    use_propel: true
 
 fos_js_routing:
-    routes_to_expose: [ BNSAppTeamBundle_admin_add_user, BNSAppTeamBundle_admin_delete_user ]  
-    
+    routes_to_expose: [ BNSAppTeamBundle_admin_add_user, BNSAppTeamBundle_admin_delete_user ]
+
 #Redis, @see: https://github.com/snc/SncRedisBundle
 snc_redis:
+    class:
+        client: "BNS\\CommonBundle\\Redis\\PredisClient"
     clients:
         default:
             type: predis
             alias: default
-            dsn: %redis_host%
             logging: %kernel.debug%
-    session:
-        client: default
-        prefix: session
-        use_as_default: true
-    
+            dsn: %redis_hosts%
+            options:
+                replication: %redis_replication%
+        session:
+            type: predis
+            alias: session
+            logging: %kernel.debug%
+            dsn: %redis_hosts%
+            options:
+                replication: %redis_replication%
+        transfer:
+            type: predis
+            alias: transfer
+            logging: %kernel.debug%
+            dsn: %redis_transfer_hosts%
+
 parameters:
     # Do NOT edit this secret key !
-    security.logout.username.secret_key: %secret_security.logout.username.secret_key%
-    
+    security.logout.username.secret_key: %security.logout.username.secret_key%
+
     # Emails
     beneyluschool_email:      %beneyluschool_email%
-    email_default_from_email: 
-    email_default_from_name:  
-    
+    email_default_from_email: support@beneylu.com
+    email_default_from_name:  Beneylu School
+    email_default_reply_to_email: support@beneylu.com
+
     # Registration
     classroom_pending_time_missing_school_email:   1209600 # 14 days, seconds
     classroom_pending_time_confirmation_by_school: 1209600 # 14 days, seconds
+
+    # User archives in secunds (1 year)
+    user_archive_duration: 31536000
+    # User archives in secunds (1 year)
+    group_archive_duration: 31536000
+
+    redis_replication: false
+    database_port: 3306
+    fos_js_routing_url: %application_base_url%
+
+    jms_serializer.propel_collection_handler.class: JMS\Serializer\Handler\PropelCollectionHandler
+
+    disable_password_wheel: true
+
+    hwi_oauth.authentication.entry_point.oauth.class: BNS\App\CoreBundle\Security\Http\EntryPoint\ApiAuthenticationEntryPoint
+
+    redis_transfer_hosts: redis://127.0.0.1/2
+
+    # keep in sync with those in the Gruntfile.js
+    # keep in sync with those in the LogonController
+    # shared App / Auth
+    available_languages:
+        - fr
+        - en
+        - en_GB
+        - en_US
+        - es
+        - es_AR

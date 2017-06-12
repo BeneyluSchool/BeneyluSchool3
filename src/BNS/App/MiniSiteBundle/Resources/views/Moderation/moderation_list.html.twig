@@ -1,12 +1,101 @@
-{% if newsArray|length > 0 or textsArray|length > 0 %}
-	{% for news in newsArray %}
-		{% include 'BNSAppMiniSiteBundle:Moderation:moderation_news_row.html.twig' %}
-	{% endfor %}
-	{% for text in textsArray %}
-		{% include 'BNSAppMiniSiteBundle:Moderation:moderation_text_row.html.twig' %}
-	{% endfor %}
-{% else %}
-	<div class="no-moderation">
-		{% trans %}MiniSite.Back.Moderation.NoModeration{% endtrans %}
+{% trans_default_domain "MINISITE" %}
+{% if newsArray|length > 0 %}
+	<div id="type-news" style="position: relative">
+		<div class="loader loader-h" style="height: auto; bottom: 0">
+			<div class="message">{% trans %}LOADING_NEWS{% endtrans %}</div>
+		</div>
+
+		<div class="items-container">
+      <md-subheader>{% trans %}TITLE_NEWS{% endtrans %}</md-subheader>
+
+			<bns-inset class="hide md-padding text-center">
+				{% trans %}NO_WAITING_FOR_MODERATION_NEWS{% endtrans %}
+			</bns-inset>
+
+		<md-list class="bns-list">
+			{% for news in newsArray %}
+				{% include 'BNSAppMiniSiteBundle:Moderation:moderation_news_row.html.twig' %}
+			{% endfor %}
+		</md-list>
+
+			{% if newsArray.getLastPage() > 1 %}
+		<md-toolbar class="content-toolbar">
+			<div class="md-toolbar-tools layout-align-center-center">
+				<div class="pagination text-center" data-type="news">
+					<ul>
+						{% if (newsArray.getPage() > newsArray.getFirstPage()) %}
+							<li><a class="article-pager" href="{{ path('minisite_manager_moderation_list_page_news', {'numberPage': newsArray.getPreviousPage()}) }}">←</a></li>
+						{% else %}
+							<li class="disabled"><a href="#" onclick="return false;">←</a></li>
+						{% endif %}
+
+						{% for i in range(newsArray.getFirstPage(), newsArray.getLastPage()) %}
+							<li{% if (newsArray.getPage() == i) %} class="active"{% endif %}><a class="article-pager" href="{{ path('minisite_manager_moderation_list_page_news', {'numberPage': i}) }}">{{ i }}</a></li>
+						{% endfor %}
+
+						{% if (newsArray.getPage() < newsArray.getLastPage()) %}
+							<li><a class="article-pager" href="{{ path('minisite_manager_moderation_list_page_news', {'numberPage': newsArray.getNextPage()}) }}">→</a></li>
+						{% else %}
+							<li class="disabled"><a href="#" onclick="return false;">→</a></li>
+						{% endif %}
+					</ul>
+				</div>
+	    </div>
+	  </md-toolbar>
+			{% endif %}
+		</div>
 	</div>
+{% endif %}
+{% if textsArray|length > 0 %}
+	<div id="type-text" style="position: relative">
+		<div class="loader loader-h" style="height: auto; bottom: 0">
+			<div class="message">{% trans %}LOADING_NEWS{% endtrans %}</div>
+		</div>
+
+		<div class="items-container">
+      <md-subheader>{% trans %}TITLE_STATIC_PAGE{% endtrans %}</md-subheader>
+
+			<bns-inset class="hide md-padding text-center">
+				{% trans %}NO_WAITING_FOR_MODERATION_PAGES{% endtrans %}.
+			</bns-inset>
+
+		<md-list class="bns-list">
+			{% for text in textsArray %}
+				{% include 'BNSAppMiniSiteBundle:Moderation:moderation_text_row.html.twig' %}
+			{% endfor %}
+		</md-list>
+
+			{% if textsArray.getLastPage() > 1 %}
+		<md-toolbar class="content-toolbar">
+			<div class="md-toolbar-tools layout-align-center-center">
+				<div class="pagination text-center" data-type="text">
+					<ul>
+						{% if (textsArray.getPage() > textsArray.getFirstPage()) %}
+							<li><a class="article-pager" href="{{ path('minisite_manager_moderation_list_page_text', {'numberPage': textsArray.getPreviousPage()}) }}">←</a></li>
+						{% else %}
+							<li class="disabled"><a href="#" onclick="return false;">←</a></li>
+						{% endif %}
+
+						{% for i in range(textsArray.getFirstPage(), textsArray.getLastPage()) %}
+							<li{% if (textsArray.getPage() == i) %} class="active"{% endif %}><a class="article-pager" href="{{ path('minisite_manager_moderation_list_page_text', {'numberPage': i}) }}">{{ i }}</a></li>
+						{% endfor %}
+
+						{% if (textsArray.getPage() < textsArray.getLastPage()) %}
+							<li><a class="article-pager" href="{{ path('minisite_manager_moderation_list_page_text', {'numberPage': textsArray.getNextPage()}) }}">→</a></li>
+						{% else %}
+							<li class="disabled"><a href="#" onclick="return false;">→</a></li>
+						{% endif %}
+					</ul>
+				</div>
+			</div>
+		</md-toolbar>
+			{% endif %}
+		</div>
+	</div>
+{% endif %}
+
+{% if newsArray|length == 0 and textsArray|length == 0 %}
+	<bns-inset class="md-padding text-center">
+    <p>{% trans %}NO_NEWS_PAGE_TO_MODERATE{% endtrans %}</p>
+	</bns-inset>
 {% endif %}

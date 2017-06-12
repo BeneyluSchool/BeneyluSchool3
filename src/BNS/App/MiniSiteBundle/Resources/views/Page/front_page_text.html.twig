@@ -1,17 +1,43 @@
+{% trans_default_domain "MINISITE" %}
 {% if null != page.getMiniSitePageText() %}
 <div class="content-article">
-	<h1>{{ page.getMiniSitePageText().getPublishedTitle() }}</h1>
+	<h1>
+		{% if isPreview %}
+			{{ page.getMiniSitePageText().getDraftTitle() }}
+		{% else %}
+			{% if page.getMiniSitePageText().getPublishedTitle() == null %}
+        {% trans %}TITLE_OUR_FUTUR_PAGE{% endtrans %}
+			{% else %}
+				{{ page.getMiniSitePageText().getPublishedTitle() }}
+			{% endif %}
+		{% endif %}
+	</h1>
 	<p class="article">
-		{% autoescape false %}
-			{{ page.getMiniSitePageText().getPublishedContent() }}
-		{% endautoescape %}
+		{% if isPreview %}
+			{% autoescape false %}
+				{{ parse_public_resources(page.getMiniSitePageText().getDraftContent()|purify, false) }}
+			{% endautoescape %}
+		{% else %}
+			{% if page.getMiniSitePageText().getPublishedContent() == null %}
+        {% trans %}WILL_DISCOVER_FUTUR_PAGE_HERE{% endtrans %}
+			{% else %}
+				{% autoescape false %}
+					{{ parse_public_resources(page.getMiniSitePageText().getPublishedContent()|purify, false) }}
+				{% endautoescape %}
+			{% endif %}
+		{% endif %}
 	</p>
 </div>
+
+<br clear="all" />
+
+{% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias': page.getMiniSitePageText().getResourceAttachments,"editable": false, 'objectType': 'MiniSitePageText', 'objectId': page.miniSitePageText.pageId} %}
+
 {% else %}
 <div class="content-article">
-	<h1>Créez votre page !</h1>
+  <h1>{% trans %}TITLE_CREATE_YOUR_PAGE{% endtrans %}</h1>
 	<p class="article">
-		Bienvenue sur votre minisite ! Vous n'avez actuellement pas configuré le texte de votre page, rendez-vous dans l'administration pour ajouter du contenu à votre page.
+    {% trans %}WELCOME_TO_YOUR_MINISITE{% endtrans %}
 	</p>
 </div>
 {% endif %}

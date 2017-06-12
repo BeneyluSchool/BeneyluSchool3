@@ -17,5 +17,4 @@ use BNS\App\CoreBundle\Model\om\BaseGroupTypeData;
  */
 class GroupTypeData extends BaseGroupTypeData {
 
-	
 } // GroupTypeData

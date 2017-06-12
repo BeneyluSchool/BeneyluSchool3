@@ -1,0 +1,31 @@
+<md-dialog class="calendar-event-dialog">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h3 class="md-tilte flex" ng-bind-html="('CALENDAR.TITLE_'+dialog.title.token)|translate:dialog.title.values|trustHtml"></h3>
+      <md-button class="md-icon-button" ng-click="dialog.close()">
+        <md-icon>close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content class="md-dialog-content">
+    <div class="layout-row layout-align-start-center">
+      <h1 class="event-title md-headline flex">{{::dialog.event.title}}</h1>
+      <div ng-if="dialog.event.location" class="md-body-1">
+        <md-icon>location_on</md-icon> {{::dialog.event.location}}
+      </div>
+    </div>
+      <div class="event-infos layout-row">
+        <md-chips>
+          <md-chip ng-style="{'background-color': dialog.event._embedded.agenda.color}">{{ ::dialog.event._embedded.agenda.title }}</md-chip>
+        </md-chips>
+        <p ng-if="dialog.event.author" translate translate-values="{'author': dialog.event.author}">CALENDAR.ADD_BY_AUTHOR</p>
+      </div>
+
+      <div ng-bind-html="dialog.event.description|trustHtml" class="md-body-1 event-description"></div>
+      <bns-attachments ng-if="dialog.event._embedded.attachments.length"
+        source="dialog.event._embedded.attachments"
+        data-object-type=""
+        data-object-id=""
+      ></bns-attachments>
+  </md-dialog-content>
+</md-dialog>

@@ -1,0 +1,6 @@
+{% trans_default_domain "MEDIA_LIBRARY" %}
+{% if media == null %}
+	<img src="{{ asset('/medias/images/resource/deleted/document.jpg') }}" alt="{{ 'DOCUMENT_DELETED'|trans |desc('Ce document a été supprimé') }}" />
+{% else %}
+	<img src="{{ asset('/medias/images/resource/deleted/' ~ media.getTypeUniqueName()|lower ~ '.jpg') }}" alt="{{ 'DOCUMENT_DELETED'|trans }}" />
+{% endif %}

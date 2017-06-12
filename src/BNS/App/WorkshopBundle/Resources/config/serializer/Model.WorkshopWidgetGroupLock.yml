@@ -1,0 +1,8 @@
+BNS\App\WorkshopBundle\Model\WorkshopWidgetGroupLock:
+  exclusion_policy: All
+  relations:
+    - rel: user
+      embedded:
+        content: expr(object.getUser())
+      exclusion:
+        groups: [detail]

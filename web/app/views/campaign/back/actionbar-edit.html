@@ -1,0 +1,21 @@
+    <md-button ng-click="app.go('app.campaign.back.list')" class="btn-nav" href>
+      <md-icon>chevron_left</md-icon>
+      <span ng-bind-html="'CAMPAIGN.BUTTON_BACK'|translate|buttonize"></span>
+    </md-button>
+    <span class="bns-separator"></span>
+
+    <md-button class="md-raised" ng-click="ctrl.saveInDraft()" ng-disabled="ctrl.busy" ng-if="ctrl.shared.campaign.campaign.status=='DRAFT' || ctrl.shared.campaign.campaign.status=='SCHEDULED'" href>
+      <md-icon>save</md-icon>
+      <span ng-bind-html="'CAMPAIGN.SAVE_AS_DRAFT'| translate | buttonize"></span>
+    </md-button>
+    <md-button class="md-raised md-warn btn-hover" ng-click="ctrl.deleteCampaign()" ng-disabled="ctrl.busy" ng-if="ctrl.shared.campaign.campaign.status=='DRAFT'" href>
+      <md-icon>delete</md-icon>
+      <span ng-bind-html="'CAMPAIGN.BUTTON_DELETE' | translate | buttonize"></span>
+    </md-button>
+
+    <span class="flex"></span>
+
+    <md-button class="md-raised md-accent send" ng-click="ctrl.showSubmitDialog()" ng-disabled="ctrl.busy || (ctrl.shared.campaign.campaign.type_name === 'SMS' && !ctrl.shared.remainingCredit) || (ctrl.shared.campaign.campaign && !ctrl.shared.campaign.campaign.nb_recipient)" ng-if="ctrl.shared.campaign.campaign.status=='DRAFT'" href>
+      <md-icon>mail</md-icon>
+      <span ng-bind-html="('CAMPAIGN.BUTTON_'+(ctrl.shared.campaign.campaign.scheduled_at?'SCHEDULE':'SEND')) | translate | buttonize"></span>
+    </md-button>

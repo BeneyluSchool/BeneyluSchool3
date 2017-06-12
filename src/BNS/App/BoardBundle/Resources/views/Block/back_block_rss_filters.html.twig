@@ -1,0 +1,24 @@
+<div class="title-container rss-status-filter">
+	<div class="title active border-blue">Filtrer les flux externes<span class="square icon-arrow"></span></div>
+	<div class="content-title">
+		<div class="loader loader-h"></div>
+		<ul>
+			<li class="rss-enable" data-filter="enable">
+				<div>
+					<span class="vertical-separator green"></span>
+					<span>Activé</span>
+					<span class="indicator">({{ rssEnable|default('0') }})</span>
+					<span class="select"></span>
+				</div>
+			</li>
+			<li class="rss-disable" data-filter="disable">
+				<div>
+					<span class="vertical-separator orange"></span>
+					<span>Désactivé</span>
+					<span class="indicator">({{ rssDisable|default('0') }})</span>
+					<span class="select"></span>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>

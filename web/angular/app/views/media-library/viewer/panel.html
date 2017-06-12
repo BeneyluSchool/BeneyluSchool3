@@ -1,0 +1,107 @@
+<div bns-media-library-viewer-panel-toggle duration="400"></div>
+
+<scrollable>
+  <div ng-if="media" class="media-library-viewer-panel">
+
+    <form ng-submit="save()">
+
+      <h1 class="media-label" ng-hide="form.edit">
+        <md-icon ng-show="media.is_favorite">star</md-icon>
+        {{ media.label }}
+      </h1>
+
+      <bns-starter-kit-stepper step="1-2.5.1" require="media.label">
+        <input type="text" ng-model="media.label" ng-disabled="form.busy" ng-show="form.edit" class="media-label">
+      </bns-starter-kit-stepper>
+      <section>
+        <h4 translate>VIEWER.DESCRIPTION</h4>
+        <p ng-show="!media.description && !form.edit" class="text-muted" translate>VIEWER.MEDIA_HAS_NO_DESCRIPTION</p>
+        <p ng-if="media.description && !form.edit" class="media-description" ng-bind-html="media.description | nl2br"></p>
+        <bns-starter-kit-stepper step="1-2.5.2" require="media.description">
+        <textarea ng-model="media.description" ng-disabled="form.busy" ng-show="form.edit" rows="10" class="media-description"></textarea>
+        </bns-starter-kit-stepper>
+      </section>
+
+      <div ng-if="media.manageable" class="text-center">
+        <bns-starter-kit-pointer step="1-2.4" pointer="edit"></bns-starter-kit-pointer>
+        <button type="button" ng-click="edit()" ng-hide="form.edit" class="btn btn-info btn-sm" bns-starter-kit-explanation
+                bns-starter-kit-validate="click"
+                step="1-2.5">
+          <strong translate>MEDIA_LIBRARY.EDIT_INFORMATION</strong>
+        </button>
+        <button type="button" ng-click="rollback()" ng-show="form.edit" class="btn btn-text btn-sm">
+          <md-icon>undo</md-icon>
+        </button>
+        &nbsp;
+        <button type="submit" ng-show="form.edit" class="btn btn-success btn-sm" bns-starter-kit-explanation
+                bns-starter-kit-validate="click"
+                step="1-2.5.3">
+          <strong translate>MEDIA_LIBRARY.SAVE_INFORMATION</strong>
+        </button>
+      </div>
+
+      <section>
+        <h4 translate>VIEWER.GENERAL_INFO</h4>
+
+        <ul class="media-info">
+          <li>
+            <strong translate>VIEWER.VISIBILITY</strong> :
+            <span ng-show="media.is_private" translate>VIEWER.PRIVATE</span>
+            <span ng-hide="media.is_private" translate>VIEWER.PUBLIC</span>
+          </li>
+          <li ng-if="media | isMediaImage">
+            <strong translate>VIEWER.SIZE</strong> :
+            <span ng-show="media.dimensions">{{ media.dimensions }}</span>
+            <span ng-show="!media.dimensions" class="text-muted">n.a.</span>
+          </li>
+          <li ng-if="media.size">
+            <strong translate>VIEWER.WEIGHT</strong> :
+            <span>{{ media.size | octet }}</span>
+          </li>
+          <li>
+            <strong translate>VIEWER.UPLOADED_AT</strong> :
+            <span>{{ media.created_at.replace(' ', 'T') | date:'dd/MM/yyyy' }}</span>
+          </li>
+          <li ng-if="media._embedded.sharer">
+            <strong translate>VIEWER.SHARED_BY</strong> :
+            <span class="media-sharer">
+              <span bns-media-preview media="media._embedded.sharer.avatar" class="user-avatar"></span>
+              <span class="user-name">{{ media._embedded.sharer.full_name }}</span>
+            </span>
+          </li>
+        </ul>
+      </section>
+
+      <section ng-if="media._embedded.contributions.length">
+        <h4 translate>VIEWER.CONTRIBUTORS</h4>
+        <ul class="media-info">
+          <li ng-repeat="contribution in media._embedded.contributions" ng-init="user = contribution._embedded.user" class="media-contribution">
+            <div bns-media-preview media="user.avatar" class="user-avatar"></div>
+            <span class="user-name">{{ user.full_name }}</span>
+          </li>
+        </ul>
+      </section>
+
+      <section ng-if="!media._embedded.contributions.length && (media._embedded.contributor_user_ids.length || media._embedded.contributor_group_ids.length)">
+        <h4 translate>VIEWER.CONTRIBUTORS</h4>
+        <div ng-if="media._embedded.contributor_group_ids.length" bns-user-directory-editable-list ids="media._embedded.contributor_group_ids" store="'userDirectoryGroups'" editable="false">
+        </div>
+        <div ng-if="media._embedded.contributor_user_ids.length" bns-user-directory-editable-list ids="media._embedded.contributor_user_ids" store="'userDirectoryUsers'" editable="false">
+        </div>
+      </section>
+
+      <section ng-if="!isSelectionMode && media.rights.workshop_document_edit">
+        <div class="text-center">
+          <a ui-sref="app.workshop.document.base.index({ documentId: media.workshop_document_id, pagePosition: 1 })" class="btn btn-default btn-sm" translate>VIEWER.EDIT_IN_WORKSHOP</a>
+        </div>
+      </section>
+
+      <!--
+      <section>
+        <h4 translate>VIEWER.DOCUMENT_LOCATION</h4>
+      </section>
+      -->
+
+    </form>
+  </div>
+</scrollable>

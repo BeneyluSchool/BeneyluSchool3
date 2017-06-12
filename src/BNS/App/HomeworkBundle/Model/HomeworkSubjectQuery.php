@@ -23,8 +23,8 @@ class HomeworkSubjectQuery extends BaseHomeworkSubjectQuery
      * pour eliminer la matiere "racine"
      * (qui sert uniquement a contenir les matieres de ce groupe) 
      * 
-     * @param type $groupId
-     * @return type array de HomeworkSubject
+     * @param int $groupId
+     * @return array|HomeworkSubject[] array de HomeworkSubject
      */
     public function fetchAndFilterByGroupId($groupId)
     {
@@ -34,9 +34,10 @@ class HomeworkSubjectQuery extends BaseHomeworkSubjectQuery
 
         $sortedSubjects = array();
         // Récupération des parents en cachant le sujet principal (Root subject), puis des enfants
+        /** @var HomeworkSubject $subject */
         foreach ($subjects as $subject) {
             if ($subject->getLevel() == 1 && !$subject->isRoot()) {
-                $sortedSubjects[] = $subject;
+                $sortedSubjects[$subject->getId()] = $subject;
             }
         }
 

@@ -1,0 +1,33 @@
+{% set noFilter = type in ['garbage', 'favorites', 'search'] ? 'no-filter' : '' %}
+
+{% block selection %}
+	{% if resources|length > 0 or results['PROVIDER_RESOURCES'] is defined and results['PROVIDER_RESOURCES']|length > 0 %}
+		{{ render(controller('BNSAppResourceBundle:FrontSelection:selection', {'navigationContext': type} )) }}
+	{% endif %}
+{% endblock selection %}
+
+{% block list_container %}
+	<div id="resources" class="list-resources {% block extra_container_classes %}{% endblock %}">
+		{% block list %}Hey, did you forget your list ?{% endblock list %}
+		{% block pagination %}
+			{% set nb_page = resources.getLastPage() %}
+			{% if nb_page > 1 %}
+				<div class="pagination">
+					<ul>
+						{% for i in 1..nb_page %}
+							<li class="{% if i == page %}active{% endif %}">
+								<a href="{{ path('resource_navigate_page', {'slug': slug, 'page': i}) }}" rel="history" class="resource-pagination" id="page-{{ type }}-{{i}}">
+									{{ i }}
+								</a>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+			{% endif %}
+		{% endblock pagination %}
+        
+        {% block provider_resources %}{% endblock provider_resources %}
+	</div>
+	<div class="clearfix"></div>
+	{% block search %}{% endblock search %}
+{% endblock list_container %}

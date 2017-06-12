@@ -1,0 +1,99 @@
+module:
+  unique_name: MAIN
+  is_contextable: false
+  name:
+    fr: Module principal
+    en: Main module
+  description:
+    fr: Module principal
+    en: main module
+  default_rank:
+    teacher: MANAGE
+
+permissions:
+  ACCESS:
+    label:
+      fr: Accès au module principal
+      en: Main access
+    description:
+      fr: Donne l'accès au module principal
+      en: Give access to main
+  SPOT_ACCESS:
+    label:
+      fr: Accès à l'attente du SPOT
+      en: Spot access
+    description:
+      fr:
+      en:
+  ACTIVITY_ACCESS:
+    label:
+      fr: Accès aux activités
+      en: Activities access
+    description:
+      fr:
+      en:
+
+  ACTIVITY_ACTIVATION:
+    label:
+      fr: Droit d'ouvrir / fermer des activités
+      en: Allow to switch on / off activities
+    description:
+      fr:
+      en:
+
+  BETA_SWITCH: ~
+  BETA_SWITCH_GROUP: ~
+  UPDATE_CREDENTIAL: ~
+
+ranks:
+  MANAGE:
+    label:
+      fr: Gérer le module principal
+      en: Manage the main
+    description:
+      fr:
+      en:
+    permissions: [ACCESS]
+  SPOT_USE:
+      label:
+        fr: Accéder au SPOT
+        en: SPOT Access
+      description:
+        fr:
+        en:
+      permissions: [SPOT_ACCESS]
+
+  ACTIVITY_USE:
+      label:
+        fr: Utiliser les activités
+        en: Use Activities
+      description:
+        fr:
+        en:
+      permissions: [ACTIVITY_ACCESS]
+
+  ACTIVITY_MANAGE:
+      label:
+        fr: Gérer des activités
+        en: Manage activities
+      description:
+        fr:
+        en:
+      permissions: [ACTIVITY_ACCESS, ACTIVITY_ACTIVATION]
+
+  BETA_SWITCH:
+      permissions: [BETA_SWITCH]
+
+  BETA_SWITCH_GROUP:
+      permissions: [BETA_SWITCH, BETA_SWITCH_GROUP]
+
+  UPDATE_CREDENTIAL:
+      permissions: [UPDATE_CREDENTIAL]
+
+markers:
+  MAIN_CONNECT_PLATFORM:
+    description: Connection sur la plateforme
+  MAIN_REGENERATE_PASSWORD:
+    description: Régénération du mot de passe
+  MAIN_REGISTER_CLASS:
+    description: Enregistrement d'une classe (compte gratuit)

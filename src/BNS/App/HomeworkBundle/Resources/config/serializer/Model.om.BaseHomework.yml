@@ -1,0 +1,21 @@
+BNS\App\HomeworkBundle\Model\om\BaseHomework:
+  exclusion_policy: All
+
+  properties:
+    id:
+      expose: true
+    date:
+      expose: true
+    name:
+      expose: true
+    helptext:
+      expose: true
+      groups: [ detail, homework_detail ]
+    has_locker:
+      expose: true
+    recurrence_end_date:
+      expose: true
+
+  virtual_properties:
+    getRecurrenceDays:
+      expose: true

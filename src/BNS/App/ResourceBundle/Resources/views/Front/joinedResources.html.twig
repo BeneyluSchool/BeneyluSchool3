@@ -6,7 +6,7 @@
 		<h3>Pièce Jointe</h3>
 	{% endif %}
 
-	{% if editable == true %}
+	{% if editable == true and has_right_somewhere('RESOURCE_ACCESS') %}
 		<div class="content-btn-resource-join">
 			<a class="btn btn-large resource-join">Joindre des documents</a>
 		</div>

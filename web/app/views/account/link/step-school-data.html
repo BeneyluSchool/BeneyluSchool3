@@ -1,0 +1,22 @@
+<div class="md-padding">
+  <h1 class="md-headline" translate>ACCOUNT.TITLE_DATA_RECOVERY</h1>
+  <p class="md-body-2" translate translate-values="{label: ctrl.configuration.school.label}">ACCOUNT.DESCRIPTION_RECOVER_SCHOOL_DATA</p>
+  <p class="ng-body-2" translate>ACCOUNT.DESCRIPTION_RECOVER_CLASSROOM_NEXT</p>
+
+  <div>
+    <h4 class="md-subhead" translate translate-values="{label: ctrl.configuration.school.label}">ACCOUNT.TITLE_SCHOOL_DATA</h4>
+    <bns-checkbox-group ng-model="ctrl.configuration.school_data" choices="ctrl.recoverableSchoolData"></bns-checkbox-group>
+  </div>
+
+  <div class="layout-column layout-gt-sm-row layout-align-space-between-center">
+    <md-button ng-click="ctrl.stepRecoverPreviousSchool()" class="flex-none flex-order-sm-3">
+      <md-icon>chevron_left</md-icon>
+      <span ng-bind-html="'ACCOUNT.BUTTON_BACK_TO_PREVIOUS_STEP'|translate|buttonize">.</span>
+    </md-button>
+    <a href ng-click="ctrl.doNotRecoverSchoolData()" class="text-center flex-order-sm-2 layout-margin" ng-bind-html="'ACCOUNT.BUTTON_DO_NOT_RECOVER_SCHOOL_DATA'|translate"></a>
+    <md-button ng-click="ctrl.doRecoverSchoolData()" class="md-accent md-raised flex-none">
+      <md-icon>check</md-icon>
+      <span translate>ACCOUNT.BUTTON_SUBMIT</span>
+    </md-button>
+  </div>
+</div>

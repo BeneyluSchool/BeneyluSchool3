@@ -1,0 +1,13 @@
+{% trans_default_domain "MINISITE" %}
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+
+<bns-expander label="{{ 'LAST_MODIFICATIONS' | trans }}" is-open="true">
+	<div class="layout-row layout-align-start-center layout-padding">
+		<span class="flex flex-none">
+			{{ components.avatar(lastAuthor, { size: 32, whiteframe: 'z1' }) }}
+		</span>
+		<span class="flex text-ellipsis">
+			{{ lastAuthor.getFullName() }}
+		</span>
+	</div>
+</bns-expander>

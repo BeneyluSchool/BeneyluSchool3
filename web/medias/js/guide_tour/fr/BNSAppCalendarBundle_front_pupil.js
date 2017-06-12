@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	guiders.createGuider({
 		buttons: [{name: "Suivant", classString: "btn btn-info btn-small pull-right", onclick: guiders.next}],
-		description: "<p>Bienvenue sur le module de calendrier !</p> <p>Tu as accès à tous tes agendas et ses événements liés. Par exemple, tu peux consulter tous les événements planifiés par ton professeur.</p>",
+		description: "<p>Bienvenue sur le module de calendrier !</p> <p>Tu as accès à tous tes agendas et ses évènements liés. Par exemple, tu peux consulter tous les évènements planifiés par ton professeur.</p>",
 		id: "first",
 		next: "second",
 		title: "Le Calendrier",
@@ -33,7 +33,7 @@ $(document).ready(function() {
 	guiders.createGuider({
 		attachTo:".agenda-container",
 		buttons: [{name: "Suivant", classString: "btn btn-info btn-small pull-right", onclick: guiders.next}],
-		description: "<p>Un clic sur ce bouton permet d'afficher ou de masquer les événements liés à cet agenda.</p>",
+		description: "<p>Un clic sur ce bouton permet d'afficher ou de masquer les évènements liés à cet agenda.</p>",
 		id: "fourth",
 		next: "finally",
 		position: 3,
@@ -43,10 +43,10 @@ $(document).ready(function() {
 	
 	guiders.createGuider({
 		buttons: [{name: "Ne plus afficher pour cette page", classString: "btn btn-info btn-small pull-right btn-never-display-guide-tour", onclick: guiders.hideAll }],
-		description: "<p>Le clic sur un événement te ménera sur une nouvelle page avec des informations supplémentaires.</p>",
+		description: "<p>Le clic sur un évènement te ménera sur une nouvelle page avec des informations supplémentaires.</p>",
 		id: "finally",
 		position: 6,
-		title: "Détails d'un événement",
+		title: "Détails d'un évènement",
 		xButton: true
 	});
 });

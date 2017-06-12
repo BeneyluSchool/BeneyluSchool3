@@ -18,15 +18,16 @@ class PreferencesController extends Controller
 	/**
 	 * @param unknown_type $editable
 	 */
-    public function indexAction(User $user, $editable, $isMyPreferences = true)
+    public function indexAction(User $user, $editable, $isMyPreferences = true, $fullwidth = false)
     {
         return $this->render('BNSAppProfileBundle:Preferences:preference_block.html.twig', array(
             'user'      		=> $user,
             'editable'			=> $editable,
-            'is_my_preferences' => $isMyPreferences
+            'is_my_preferences' => $isMyPreferences,
+			'fullwidth' 		=> $fullwidth
         ));
     }
-	
+
 	/**
 	 * @Route("/supprimer/{preferenceId}", name="BNSAppProfileBundle_back_preferences_delete")
 	 * @RightsSomeWhere("PROFILE_ACCESS_BACK")
@@ -44,7 +45,7 @@ class PreferencesController extends Controller
 
 		return new Response('true');
 	}
-	
+
 	/**
 	 * @Route("/ajouter/{userSlug}", name="BNSAppProfileBundle_back_preferences_add")
 	 * @RightsSomeWhere("PROFILE_ACCESS_BACK")
@@ -57,15 +58,15 @@ class PreferencesController extends Controller
 		{
 			throw new NotFoundHttpException();
 		}
-		
+
 		$user = $this->get('bns.user_manager')->findUserBySlug($userSlug);
-                
+
 		$preference = new ProfilePreference();
 		$preference->setIsLike($this->getRequest()->get('preference_islike'));
 		$preference->setItem($this->getRequest()->get('preference_item'));
 		$preference->setProfileId($user->getProfileId());
 		$preference->save();
-		
+
 		return $this->render('BNSAppProfileBundle:Preferences:row_preference_item.html.twig', array(
             'preference' => $preference,
             'editable'   => true,

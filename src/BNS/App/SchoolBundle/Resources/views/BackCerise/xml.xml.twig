@@ -1,0 +1,142 @@
+<beneyluschool>
+    <ecoles>
+        <ecole id="{{ school.id }}">
+            <id>{{ school.id }}</id>
+            <rne>{{ school.attribute('UAI') }}</rne>
+            <type></type>
+            <nom>{{ school.label }}</nom>
+            <ville_nom>{{ gm.parent.label }}</ville_nom>
+        </ecole>
+    </ecoles>
+    <classes>
+        {% for classroom in classrooms %}
+            <classe id="{{ classroom.id }}">
+                <id>{{ classroom.id }}</id>
+                <nom>{{ classroom.label }}</nom>
+                <ecole>{{ school.id }}</ecole>
+            </classe>
+        {% endfor %}
+    </classes>
+    <enseignants>
+        {% for director in gm.getUsersByRoleUniqueName('DIRECTOR',true) %}
+            <enseignant>
+                <id>{{ director.ceriseId }}</id>
+                <nom>{{ director.lastName }}</nom>
+                <nom_jf/>
+                <prenom>{{ director.firstName }}</prenom>
+                {% if teacher.gender is not null %}
+                    <civilite>{{ director.gender == "F" ? "Madame" : "Monsieur" }}</civilite>
+                {% else %}
+                    <civilite/>
+                {% endif %}
+                <email>{{ director.email }}</email>
+                <user_id>{{ director.ceriseId }}</user_id>
+                <user_login>{{ director.login }}</user_login>
+            </enseignant>
+        {% endfor %}
+        {% for teacher in gm.getUsersByRoleUniqueName('TEACHER',true) %}
+            {% if teacher.id not in directorsIds %}
+                <enseignant>
+                    <id>{{ teacher.ceriseId }}</id>
+                    <nom>{{ teacher.lastName }}</nom>
+                    <nom_jf/>
+                    <prenom>{{ teacher.firstName }}</prenom>
+                    {% if teacher.gender is not null %}
+                        <civilite>{{ teacher.gender == "F" ? "Madame" : "Monsieur" }}</civilite>
+                    {% else %}
+                        <civilite/>
+                    {% endif %}
+                    <email>{{ teacher.email }}</email>
+                    <user_id>{{ teacher.ceriseId }}</user_id>
+                    <user_login>{{ teacher.login }}</user_login>
+                </enseignant>
+            {% endif %}
+        {% endfor %}
+    </enseignants>
+    <liens_classe_enseignant>
+        {% for classroom in classrooms %}
+            {% set gmc = gm.setGroup(classroom) %}
+            {% for classroom_teacher in gmc.getUsersByRoleUniqueName('TEACHER',true) %}
+                <lien_classe_enseignant>
+                    <id_enseignant>{{ classroom_teacher.ceriseId }}</id_enseignant>
+                    <id_classe>{{ classroom.id }}</id_classe>
+                </lien_classe_enseignant>
+            {% endfor %}
+        {% endfor %}
+    </liens_classe_enseignant>
+    <liens_ecole_enseignant>
+        {% set gm = gm.setGroup(school) %}
+
+        {% for school_teacher in gm.getUsersByRoleUniqueName('TEACHER',true) %}
+            <lien_ecole_enseignant>
+                <id_enseignant>{{ school_teacher.ceriseId }}</id_enseignant>
+                <id_ecole>{{ school.id }}</id_ecole>
+                <directeur>{{ school_teacher.id in directorsIds ? 1 : 0 }}</directeur>
+                <nom>{{ school_teacher.lastName }}</nom>
+                <nom_jf/>
+                <prenom>{{ school_teacher.firstName }}</prenom>
+                {% if school_teacher.gender is not null %}
+                    <civilite>{{ school_teacher.gender == "F" ? "Madame" : "Monsieur" }}</civilite>
+                {% else %}
+                    <civilite/>
+                {% endif %}
+                <email>{{ school_teacher.email }}</email>
+                <user_id>{{ school_teacher.ceriseId }}</user_id>
+                <user_login>{{ school_teacher.login }}</user_login>
+            </lien_ecole_enseignant>
+        {% endfor %}
+    </liens_ecole_enseignant>
+    <eleves>
+        {% for classroom in classrooms %}
+            {% set gmc = gm.setGroup(classroom) %}
+            {% for classroom_pupil in gmc.getUsersByRoleUniqueName('PUPIL',true) %}
+                <eleve id="{{ classroom_pupil.ceriseId }}">
+                    <id>{{ classroom_pupil.ceriseId }}</id>
+                    <nom>{{ classroom_pupil.lastName }}</nom>
+                    <prenom>{{ classroom_pupil.firstName }}</prenom>
+                    {% if classroom_pupil.gender is not null %}
+                        <id_sexe>{{ classroom_pupil.gender == "F" ? "2" : "1" }}</id_sexe>
+                    {% else %}
+                        <id_sexe/>
+                    {% endif %}
+                    <date_nais>{{ classroom_pupil.birthday('iso') }}</date_nais>
+                    <sexe>{{ classroom_pupil.gender == "F" ? "Féminin" : "Masculin" }}</sexe>
+                    <classe>{{ classroom.id }}</classe>
+                    <niveau_court>{{ classroom.attribute('LEVEL') | first }}</niveau_court>
+                    <niveau_long/>
+                    <user_id>{{ classroom_pupil.ceriseId }}</user_id>
+                    <user_login>{{ classroom_pupil.login }}</user_login>
+                </eleve>
+            {% endfor %}
+        {% endfor %}
+    </eleves>
+    <responsables>
+        {% for classroom in classrooms %}
+            {% set gmc = gm.setGroup(classroom) %}
+            {% for classroom_parent in gmc.getUsersByRoleUniqueName('PARENT',true) %}
+                <responsable id="{{ classroom_parent.id }}">
+                    <id>{{ classroom_parent.id }}</id>
+                    <nom>{{ classroom_parent.lastName }}</nom>
+                    <nom_jf/>
+                    <prenom>{{ classroom_parent.firstName }}</prenom>
+                    <email>{{ classroom_parent.email }}</email>
+                    <user_id>{{ classroom_parent.id }}</user_id>
+                    <user_login>{{ classroom_parent.login }}</user_login>
+                </responsable>
+            {% endfor %}
+        {% endfor %}
+    </responsables>
+    <liens_eleve_responsable>
+        {% for classroom in classrooms %}
+            {% set gmc = gm.setGroup(classroom) %}
+            {% for classroom_pupil in gmc.getUsersByRoleUniqueName('PUPIL',true) %}
+                {% for rel_parent in classroom_pupil.parents %}
+                    <lien_eleve_responsable>
+                        <id_eleve>{{ classroom_pupil.ceriseId }}</id_eleve>
+                        <id_responsable>{{ rel_parent.id }}</id_responsable>
+                    </lien_eleve_responsable>
+                {% endfor %}
+            {% endfor %}
+        {% endfor %}
+    </liens_eleve_responsable>
+</beneyluschool>

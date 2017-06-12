@@ -1,0 +1,21 @@
+<md-bottom-sheet md-theme="two-degrees" class="layout-row two-degrees-menu pixelized" ng-cloak>
+  <md-list class="flex layout-column layout-align-center-center">
+    <md-list-item>
+      <md-button ui-sref="app.twoDegrees.heroes" ng-click="menu.close()">
+        <span ng-bind-html="'TWO_DEGREES.LINK_DISCOVER_HEROES'|translate|buttonize">.</span>
+      </md-button>
+    </md-list-item>
+
+    <md-list-item>
+      <md-button href="" ng-click="menu.reset()">
+        <span ng-bind-html="'TWO_DEGREES.LINK_RESTART_ADVENTURE'|translate|buttonize">.</span>
+      </md-button>
+    </md-list-item>
+
+    <md-list-item>
+      <md-button ui-sref="classroom" ng-click="menu.close()">
+        <span ng-bind-html="'TWO_DEGREES.LINK_LEAVE_ACTIVITY'|translate|buttonize">.</span>
+      </md-button>
+    </md-list-item>
+  </md-list>
+</md-bottom-sheet>

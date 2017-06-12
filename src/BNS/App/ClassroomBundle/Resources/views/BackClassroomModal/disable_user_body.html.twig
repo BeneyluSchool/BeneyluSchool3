@@ -1,0 +1,15 @@
+{% trans_default_domain "CLASSROOM" %}
+<div class="loader loader-sb"></div>
+<div class="modal-body">
+	<div class="content-modal-body">
+        {{ 'TITLE_SURE_TO_DISABLE_USER'|trans({'%user%': user.getFullName |escape, '%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('
+        			<h2>Êtes-vous sûr de vouloir désactiver le compte de "%user%" ?</h2>
+		<h3>
+			Cet utilisateur ne pourra plus se connecter à %beneylu_brand_name%.<br />
+			<strong>A noter :</strong> <br />- Les données associées à l\'utilisateur seront conservées.
+        <br />- Vous pouvez à tout moment réactiver l\'utilisateur depuis cette même page.
+        </h3>
+        ') |raw }}
+	</div>
+</div>
+<div class="beneylu-jim"></div>

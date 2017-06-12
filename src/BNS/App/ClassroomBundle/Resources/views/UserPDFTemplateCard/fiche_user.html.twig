@@ -1,0 +1,83 @@
+{% trans_default_domain "CLASSROOM" %}
+
+{% extends '::base.html.twig' %}
+
+{% block alert %}{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{{ asset('/css/base.css') }}" type="text/css"/>
+  <link rel="stylesheet" href="{{ asset('/medias/css/classroom/card-user.css') }}" type="text/css"/>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Boogaloo" rel="stylesheet">
+{% endblock %}
+
+{% block respond_script %}{% endblock %}
+
+{% block body %}
+  {% block content %}
+    <div class="card-container">
+      <table class="families">
+
+
+        {% if parameter('graphic_chart') != false %}
+        <thead class="chart-banniere">
+        <tr>
+          <td width="195px" ></td>
+          <td width="600px" height="451px">
+            {% set chartValue = parameter('graphic_chart') %}
+            <img src="{{ asset('/medias/images/main/graphic_chart/'~ chartValue.name ~'/logo-large.png'  ) }}" width="600px" height="451px" />
+
+          </td>
+          <td width="195px" ></td>
+        </tr>
+        <tr>
+          <td colspan="3">
+          <p class="texte_fiche">{{ 'LOGIN_CARD'|trans }}</p>
+          <p class="nom"> {{ user.getFullName() }}</p>
+          </td>
+        </tr>
+        </thead>
+        <tbody class="chart-body">
+        {% else %}
+        <thead class="banniere">
+        <td>
+          <img src="{{ asset('/medias/images/classroom/pupil_parent_card/bns_logo.png') }}" width="75px" height="75px" class="header-logo" />
+          <p class="texte_fiche">{{ 'LOGIN_CARD'|trans }}</p>
+          <p class="nom"> {{ user.getFullName() }}</p>
+        </td>
+        </thead>
+        <tbody>
+        {% endif %}
+
+        <tr>
+          <td class="login">{{ 'LOGIN'|trans }}</td>
+          <td class="right"> {{ user.getUserName() }} </td>
+        </tr>
+        <tr >
+          <td class="password">{{ 'PASSWORD'|trans }}</td>
+          <td class="right"> {{ user.getPassword() }} </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr class="sub-title">
+          <th class="confidentiel">
+            {% if role.getType == 'PUPIL' %}
+              {{ 'CHILD_PASSWORD_PRIVATE'|trans }}
+            {% else %}
+              {{ 'ADULT_PASSWORD_PRIVATE'|trans }}
+
+            {% endif %}
+          </th>
+          <th class="link_site"> {{ parameter('application_base_url') }} </th>
+        </tr>
+        </tfoot>
+      </table>
+      {% if parameter('graphic_chart') != false %}
+        <div class="bottom-chart"></div>
+      {% else  %}
+        <div class="bottom_img"></div>
+      {% endif %}
+    </div>
+  {% endblock %}
+{% endblock %}
+{% block dock_bar %}
+{% endblock %}

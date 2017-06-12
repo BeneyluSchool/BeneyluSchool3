@@ -1,0 +1,70 @@
+<div class="md-padding">
+  <h2 translate>BUILDERS.TITLE_PROBLEMS_IDENTIFY</h2>
+  <p translate>BUILDERS.PRESENTATION_PROBLEMS_IDENTIFY</p>
+</div>
+
+<div class="layout-row md-padding" ng-if="ctrl.book.answers[ctrl.step]" ng-hide="ctrl.editing">
+  <div class="flex">
+    <p translate>BUILDERS.LABEL_WHAT</p>
+    <blockquote ng-bind-html="(ctrl.book.answers[ctrl.step].what||'-')|nl2br"></blockquote>
+    <p translate>BUILDERS.LABEL_WHY</p>
+    <blockquote ng-bind-html="(ctrl.book.answers[ctrl.step].why||'-')|nl2br"></blockquote>
+    <p translate>BUILDERS.LABEL_TOUCH</p>
+    <blockquote ng-bind-html="(ctrl.book.answers[ctrl.step].touch||'-')|nl2br"></blockquote>
+    <p translate>BUILDERS.LABEL_FEEL</p>
+    <blockquote ng-bind-html="(ctrl.book.answers[ctrl.step].feel||'-')|nl2br"></blockquote>
+    <p translate>BUILDERS.LABEL_NAME</p>
+    <blockquote ng-bind-html="(ctrl.book.answers[ctrl.step].name||'-')|nl2br"></blockquote>
+    <p translate>BUILDERS.LABEL_UNDERSTAND</p>
+    <blockquote ng-bind-html="(ctrl.book.answers[ctrl.step].understand||'-')|nl2br"></blockquote>
+  </div>
+  <md-button class="md-icon-button flex flex-none" ng-click="ctrl.setupEdit()">
+    <md-icon>edit</md-icon>
+  </md-button>
+</div>
+
+<form ng-show="!ctrl.book.answers[ctrl.step] || ctrl.editing" ng-submit="ctrl.submitAnswer(ctrl.step)" class="md-padding">
+  <div class="layout-row">
+    <div class="flex">
+      <md-input-container>
+        <label translate>BUILDERS.LABEL_WHAT</label>
+        <input type="text" ng-model="ctrl.answers[ctrl.step].what">
+      </md-input-container>
+      <md-input-container>
+        <label translate>BUILDERS.LABEL_WHY</label>
+        <input type="text" ng-model="ctrl.answers[ctrl.step].why">
+      </md-input-container>
+      <md-input-container>
+        <label translate>BUILDERS.LABEL_TOUCH</label>
+        <input type="text" ng-model="ctrl.answers[ctrl.step].touch">
+      </md-input-container>
+      <md-input-container>
+        <label translate>BUILDERS.LABEL_FEEL</label>
+        <input type="text" ng-model="ctrl.answers[ctrl.step].feel">
+      </md-input-container>
+      <md-input-container>
+        <label translate>BUILDERS.LABEL_NAME</label>
+        <input type="text" ng-model="ctrl.answers[ctrl.step].name">
+      </md-input-container>
+      <md-input-container>
+        <label translate>BUILDERS.LABEL_UNDERSTAND</label>
+        <input type="text" ng-model="ctrl.answers[ctrl.step].understand">
+      </md-input-container>
+    </div>
+    <md-button type="button" ng-if="ctrl.editing" class="md-icon-button flex flex-none" ng-click="ctrl.cancelEdit()">
+      <md-icon>undo</md-icon>
+    </md-button>
+  </div>
+
+  <div class="text-center">
+    <md-button type="submit" ng-disabled="ctrl.busy" class="md-primary md-raised">
+      <span translate>BUILDERS.BUTTON_SAVE_ANSWER</span>
+    </md-button>
+  </div>
+</form>
+
+<div bns-builders-step-next></div>
+
+<bns-builders-step-bubble class="bubble-jim" label-number="1"></bns-builders-step-bubble>
+<bns-builders-step-bubble class="bubble-brabrabra" label-number="2"></bns-builders-step-bubble>
+<bns-builders-step-bubble class="bubble-carla" label-number="3"></bns-builders-step-bubble>

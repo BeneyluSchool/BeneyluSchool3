@@ -1,0 +1,51 @@
+
+
+{% if design is defined and design == 'new' %}
+
+  {% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+  <!--new design -->
+    <bns-inset class="text-center {{ class is defined ? class : '' }}">
+      <p>{{ text | trans }}</p>
+      <p class="buttons-container">
+        {% if button.complete_dom is defined %}
+        {{ button.complete_dom|raw }}
+        {% else %}
+          {% if button.text is defined and button.link is defined and button.class is defined and button.target is defined and button.toggle is defined%}
+            {{ components.button( button.text | trans , { intent: 'primary', href: button.link, icon: 'add_circle', raised: true,
+            attr : {'class' : button.class, 'data-target' : button.target, 'data-toggle' : button.toggle}}) }}
+
+          {% elseif button.text is defined and button.link is defined %}
+            {{ components.button( button.text | trans , { intent: 'primary', href: button.link, icon: 'add_circle', raised: true }) }}
+          {% endif %}
+        {% endif %}
+      </p>
+    </bns-inset>
+
+  {% else %}
+
+    <div class="no-item {{ class is defined ? class : '' }}">
+      <div class="bnj-not-found"></div>
+      <p>
+        {% autoescape false %}
+          {{ text }}
+        {% endautoescape %}
+      </p>
+      {% if button.complete_dom is defined %}
+        {{ button.complete_dom|raw }}
+      {% else %}
+        {% if button.text is defined and button.link is defined %}
+          <p class="buttons-container">
+            <a href="{{ button.link }}"
+               class="{% if button.class is not defined %}btn bns-info btn-24 large add-icon{% else %}{{ button.class }}{% endif %}"
+              {% if button.data is defined %}{% autoescape false %}{{ button.data }}{% endautoescape %}{% endif %}
+            >
+              <span class="{% if button.span_class is not defined %}icons-24 add-icon{% else %}{{ button.span_class }}{% endif %}"></span>
+              {{ button.text }}
+            </a>
+          </p>
+        {% endif %}
+      {% endif %}
+      <div class="clearfix"></div>
+    </div>
+
+{% endif %}

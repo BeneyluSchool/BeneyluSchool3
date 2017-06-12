@@ -1,6 +1,10 @@
+{% trans_default_domain "HOMEWORK" %}
 {% extends '::base.html.twig' %}
 
-{% block title %}Cahier de texte{% endblock %}
+{% set app_unique_name = 'HOMEWORK' %}
+{% set app_mode = 'front' %}
+
+{% block title %}{% trans %}TITLE_HOMEWORK{% endtrans %}{% endblock %}
 
 {% block css %}
 	{{ parent() }}
@@ -10,10 +14,7 @@
 
 {% block body %}
     <div class="homework"> </div>
-        <div class="container-fluid container">
+        <div class="container-fluid container navbar-compatible-container">
         {% block homework_body %}{% endblock %}
-        {% block homework_dock %}
-                {% render "BNSAppMainBundle:DockBar:index" with {'module_unique_name' : "HOMEWORK" , 'is_in_front' : true } %}
-        {% endblock %}
         </div>
 {% endblock %}

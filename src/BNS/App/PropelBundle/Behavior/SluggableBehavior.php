@@ -289,15 +289,15 @@ protected static function limitSlugSize(\$slug, \$incrementReservedSpace = 3)
  * @return string						the unique slug
  */
 protected function makeSlugUnique(\$slug, \$separator = '" . $this->getParameter('separator') ."', \$alreadyExists = false)
-{
+{";
+	$getter = $this->getColumnGetter();
+	$script .= "
     if (!\$alreadyExists) {
         \$slug2 = \$slug;
-    }
-    else {
+    } else {
         \$slug2 = \$slug . \$separator;";
 		
 		if (null == $this->getParameter('slug_pattern')) {
-			$getter = $this->getColumnGetter();
 		    $script .= "
         
         \$count = " . $this->builder->getStubQueryBuilder()->getClassname() . "::create()
@@ -314,7 +314,7 @@ protected function makeSlugUnique(\$slug, \$separator = '" . $this->getParameter
     }
 	
     \$query = " . $this->builder->getStubQueryBuilder()->getClassname() . "::create('q')
-        ->where('q." . $this->getColumnForParameter('slug_column')->getPhpName() . " ' . (\$alreadyExists ? 'REGEXP' : '=') . ' ?', \$alreadyExists ?  \$slug2 . '[0-9+]$' : \$slug2)
+        ->where('q." . $this->getColumnForParameter('slug_column')->getPhpName() . " ' . (\$alreadyExists ? 'REGEXP' : '=') . ' ?', \$alreadyExists ?  \$slug2 . '[0-9]+$' : \$slug2)
         ->prune(\$this)";
 
         if ($this->getParameter('scope_column')) {
@@ -332,7 +332,6 @@ protected function makeSlugUnique(\$slug, \$separator = '" . $this->getParameter
 	
 	if (!\$alreadyExists) {
 		\$count = \$query->count();
-		
 		if (\$count > 0) {
 			return \$this->makeSlugUnique(\$slug, \$separator, true);
 		}
@@ -340,23 +339,18 @@ protected function makeSlugUnique(\$slug, \$separator = '" . $this->getParameter
 		return \$slug2;
 	}
 	
-	\$objects = \$query
-		->orderBy" . $this->getColumnForParameter('slug_column')->getPhpName() . "()
-	->find();
-	\$count = count(\$objects);
-	\$i = 0;
+	// Already exists
+	\$object = \$query
+		->addDescendingOrderByColumn('LENGTH(" . $this->getColumnForParameter('slug_column')->getName() . ")')
+		->addDescendingOrderByColumn('" . $this->getColumnForParameter('slug_column')->getName() . "')
+	->findOne();
 	
-	while (\$i < \$count) {
-		if (\$objects[\$i]->get" . $this->getColumnForParameter('slug_column')->getPhpName() . "() != \$slug2 . (\$i + 1)) {
-			break;
-		}
-		
-		\$i++;
+	// First duplicate slug
+	if (null == \$object) {
+		return \$slug2 . '1';
 	}
-	
-	\$i++;
-	
-    return \$slug2 . \$i;
+
+    return \$slug2 . (substr(\$object->" . $getter . "(), strlen(\$slug) + 1) + 1);
 }
 ";
     }

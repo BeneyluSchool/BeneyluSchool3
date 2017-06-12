@@ -1,0 +1,30 @@
+{% trans_default_domain "MINISITE" %}
+<div class="loader loader-sb"></div>
+<div class="modal-body">
+	<div class="category-editor">
+		{{ form_widget(form.title, {'attr': {'placeholder': 'PLACEHOLDER_NEW_PAGE_TITLE'|trans} }) }}
+
+		<div class="page-type">
+			<p>{% trans %}PAGE_TYPE{% endtrans %}</p>
+			{{ form_widget(form.type, {'attr': {'class': 'change-type'} }) }}
+			<p class="description type-text">
+        {% trans %}STATIC_PAGE_UNIQUE_CONTENT{% endtrans %}
+			</p>
+			<p class="description type-news hide">
+        {% trans %}NEWS_PAGE_CAN_HAVE_SEVERAL_NEWS{% endtrans %}
+			</p>
+		</div>
+	</div>
+
+	<div class="errors">
+		{{ form_errors(form) }}
+	</div>
+	<div>
+		{{ form_rest(form) }}
+	</div>
+
+	<div class="alert alert-danger bns-alert hide empty">
+		{% trans %}PLEASE_ENTER_TITLE{% endtrans %}
+		<div class="jim"></div>
+	</div>
+</div>

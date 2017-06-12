@@ -1,0 +1,59 @@
+{% extends '::base.html.twig' %}
+
+{% set app_unique_name = 'FORUM' %}
+{% set app_mode = 'front' %}
+
+{% block title %}
+    Forum {{ ' - ' ~ forum.title|default('') }}
+{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:400,700" rel="stylesheet" type="text/css">
+	<link href="{{ asset('/medias/css/forum/front.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ asset('/medias/js/bootstrap/bootstrap-alert.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/medias/js/forum/Front/forum.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+        {% include 'BNSAppMainBundle::notice.html.twig' %}
+        <div class="office forum"></div>
+        <div class="container-fluid container forum">
+            <div class="forum-container">
+
+            {% block container %}
+                {% block actionbar %}
+                {% endblock %}
+                <div class="row-fluid">
+                    <div class="span3">
+                        {% block sidebar %}
+                            {{ render(controller('BNSAppForumBundle:front:sidebar', {'forum' : forum} )) }}
+                        {% endblock %}
+                    </div>
+                    <div class="span9">
+                    {% block flashes %}
+                        {% for type, messages in app.session.flashbag.all %}
+                            {% for message in messages %}
+                                <div class="alert alert-success alert-{{ type }} bns-alert">
+                                    {{ message }}
+                                    <div class="jim"></div>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    {% endblock %}
+
+                    {% block content %}{% endblock %}
+
+                    </div>
+                </div>
+            {% endblock %}
+            </div>
+        </div>
+{% endblock %}
+

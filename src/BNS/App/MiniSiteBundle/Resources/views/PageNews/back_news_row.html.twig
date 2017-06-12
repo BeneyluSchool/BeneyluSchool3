@@ -1,25 +1,41 @@
-<div class="page-news" id="news-{{ news.getId() }}">
-	<div class="news-informations">
-        <div class="news-title">
-            <span class="title">{{ news.getTitle() }}</span>
-			<div class="news-author">
-				<p>{{ date_from_now(news.getCreatedAt()) }} <a href="#"><img src="{{ avatar(news.getAuthor(), 'thumbnail') }}" alt="" width="16" /> {{ news.getAuthor().getFullName() }}</a></p>
-			</div>
-			{% if has_right('MINISITE_ADMINISTRATION') %}
-				{% include 'BNSAppMiniSiteBundle:ActionBar:back_news_action_bar_admin.html.twig' %}
-			{% else %}
-				{% include 'BNSAppMiniSiteBundle:ActionBar:back_news_action_bar.html.twig' %}
-			{% endif %}
-        </div>
+{% trans_default_domain "MINISITE" %}
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
 
+<md-list-item class="md-3-line item-news" id="item-news-{{ news.getId() }}" href="{{ path('minisite_manager_page_news_visualisation', {'slug': news.getSlug()}) }}">
 
-	</div>
-	<div class="clearfix"></div>
-	<div class="news-content">
-		<p>
-			{% autoescape false %}
-				{{ news.getContent() }}
-			{% endautoescape %}
-		</p>
-	</div>
-</div>
+		<div class="md-list-item-text">
+			<h3>
+				<span class="md-title">
+					{% if isModeration is defined and isModeration == true %}
+						<span class="text-muted">{{ news.getMiniSitePage().getTitle() }} :</span>
+					{% endif %}
+					{{ news.getTitle() }}
+				</span>
+			</h3>
+			<h4>
+				<span class="md-body-2 text-muted">
+					{{ 'WRITE_AT_BY_USER'|trans({
+						'%date%': date_from_now(news.getCreatedAt(), false, true, 'medium', 'short', false, true),
+						'%image%': components.avatar(news.getAuthor(), { size: 20 }),
+						'%user%': news.getAuthor().getFullName() |escape
+					}) |desc('Écrit %date% par %image% %user%') |raw }}
+				</span>
+			</h4>
+			<p>
+				<div class="md-body-2">
+					{% autoescape false %}
+						{{ parse_public_resources(news.getShortContent()|purify) }}
+					{% endautoescape %}
+				</div>
+			</p>
+		</div>
+
+	{% if isModeration is defined and isModeration == true %}
+		<div class="md-secondary">
+			{% include 'BNSAppMiniSiteBundle:ActionBar:back_news_action_bar.html.twig' %}
+		</div>
+	{% endif %}
+
+</md-list-item>
+
+<md-divider></md-divider>

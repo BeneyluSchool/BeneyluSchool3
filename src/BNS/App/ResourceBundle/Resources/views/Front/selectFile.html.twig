@@ -1,0 +1,53 @@
+{#
+    Template Utilisé pour aller "piocher" des documents dans la médiathèque.
+    Variables à passer en paramètre :
+    - label :          Libellé du bouton
+    - input_id:        Id de l'input dans le formulaire
+    - name:            Name de l'input dans le formulaire
+    - callback:        Méthode a effectuer au retour de la sélection dans la médiathèque
+    - allowed_type:    Type de document à autoriser
+    - with_cancel:     Activer la suppression / annulation
+    - current_src :    Source de l'image actuelle
+    - default_src :    Source de l'image par défaut
+    - current_value :  Valeur (en BDD) actuelle
+#}
+
+{% if has_right_somewhere('RESOURCE_ACCESS') %}
+  <input type="hidden" class="{{ input_id }} select-image" name="{{ name }}" {% if current_value is defined %} value="{{ current_value }}" {% endif %} />
+  
+  <script type="text/javascript">
+    $('#{{ input_id }}').remove();
+  </script>
+
+  <a href="#" data-callback="{{ callback }}" data-final-id="{{ input_id }}" {% if allowed_type is defined %}data-allowed-type="{{ allowed_type }}"{% endif %} class="btn bns-info btn-16 small resource-selection" >
+    <span class="icons-16 edit-icon"></span>
+    <strong>{{ label }}</strong>
+  </a>
+
+  {% if with_cancel is defined %}
+    <a id="cancel-{{ input_id }}" href="#" class="btn bns-danger btn-16 small resource-selection-cancel hide"><span class="icons-16 cancel-icon"></span><strong>Annuler</strong></a>
+    <a id="delete-{{ input_id }}" href="#" class="btn bns-danger btn-16 small resource-selection-delete {% if default_src == current_src or current_src == null %}hide{% endif %}"><span class="icons-16 cancel-icon"></span><strong>Supprimer</strong></a>
+    <script type="text/javascript">
+      
+      $('#cancel-{{ input_id }}').click(function(){
+        $('.{{ input_id }}').val('{{ current_value }}');
+        $('#{{ input_id }}').val('{{ current_value }}');
+        $('#{{ callback }} > img').attr('src','{{ current_src }}');
+        $(this).hide();
+        {% if default_src != current_src %}
+          $('#delete-{{ input_id }}').show();
+        {% endif %}
+      });
+      $('#delete-{{ input_id }}').click(function(){
+        $('.{{ input_id }}').val('');
+        $('#{{ input_id }}').val('');
+        $('#{{ callback }} > img').attr('src','{{ default_src }}');
+        $(this).hide();
+        $('#cancel-{{ input_id }}').show();
+      });
+    </script>
+  {% endif %}
+{% else %}
+{# [bns-9542] Ajoustement de l'affichage pour combler l'absence d'un bouton #}
+<br /><br />
+{% endif %}

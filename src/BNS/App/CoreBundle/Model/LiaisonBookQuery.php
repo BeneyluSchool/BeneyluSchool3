@@ -24,8 +24,7 @@ class LiaisonBookQuery extends BaseLiaisonBookQuery {
         //Criteria dates and group_id
         $criterias = new Criteria();  
         $criterias->add(LiaisonBookPeer::GROUP_ID, $group_id, Criteria::EQUAL);
-        $criterias->add(LiaisonBookPeer::DATE,"YEAR(". LiaisonBookPeer::DATE .") = $year",Criteria::CUSTOM);
-        $criterias->add(LiaisonBookPeer::DATE,"MONTH(". LiaisonBookPeer::DATE .") = $month",Criteria::CUSTOM);
+	$criterias->add(LiaisonBookPeer::DATE,"YEAR(". LiaisonBookPeer::DATE .") = $year AND MONTH(". LiaisonBookPeer::DATE .") = $month" ,Criteria::CUSTOM);
         $criterias->addDescendingOrderByColumn(LiaisonBookPeer::DATE);
         
         //Select

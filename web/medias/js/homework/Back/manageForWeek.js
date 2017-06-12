@@ -12,6 +12,13 @@ $(document).ready(function ()
     $('.bns-user').live('click', function(){
         return false;
     });
+    
+    $('.hwdue-parent.content-work').live('click', function(){
+	
+	var homework_due_id = $(this).find('article').first().attr('data-hd-id');
+	var url = Routing.generate('BNSAppHomeworkBundle_backajax_homeworkdue_detail', {dueId: homework_due_id});
+	window.location.href = url;
+    });
 
     $('.btn.delete-homeworkdue').live('click', function(){
         
@@ -39,6 +46,13 @@ $(document).ready(function ()
 //        return false;
     });
     
+    if ($('.container-content .alert.alert-success').length > 0) {
+        setTimeout(function ()
+        {
+                $('.bns-alert div').slideUp('fast', function () { var $this = $(this); $this.parent().slideUp('fast', function () { $this.show() }) });
+        }, 8000); // 8 seconds
+    }
+    
     $('.valid-delete').live('click', function(){
         var id = $(this).siblings('.homework-id').val();
         $('[data-hd-id="'+id+'"]').parents('.hwdue-parent').hide('fast');
@@ -65,7 +79,8 @@ $(document).ready(function ()
     $('.btn-change-week').live('click', function()
     {
         var link = $(this).attr('href');
-        $('.manage-content').hide('fast');
+        
+        $('#loading-layer').show();
         
         $.ajax(
         {
@@ -73,12 +88,13 @@ $(document).ready(function ()
             success: function (data)
             {
                 $('.manage-content').html(data);
-                $('.manage-content').show('fast');
+				$('.manage-content').show();
+                $('#loading-layer').hide();
+				$('#weekdays .loader').fadeOut('fast');
             },
             error: function ()
             {
                 alert('Une erreur est survenue');
-                $('.manage-content').show('fast');
             }
         });
         

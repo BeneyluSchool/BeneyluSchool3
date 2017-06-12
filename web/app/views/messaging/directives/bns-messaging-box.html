@@ -1,0 +1,14 @@
+<md-progress-linear md-mode="indeterminate" ng-style="{ visibility: box.items.busy_ ? 'visible' : 'hidden' }"></md-progress-linear>
+
+<md-virtual-repeat-container ng-show="0 !== box.items.total" class="flex">
+  <div md-virtual-repeat="item in box.items"
+    md-on-demand=""
+    md-auto-shrink
+    md-auto-shrink-min="1"
+    class="layout-row"
+    bns-messaging-box-item
+  >
+  </div>
+</md-virtual-repeat-container>
+
+<div ng-if="0 === box.items.total" ng-transclude class="flex layout-row layout-align-center-center"></div>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-12-09T15:23:19Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="6765df6b89192e395f7ad17908d8ff4105b4a1b3" resname="BUTTON_CONFIRM_ADD_PUPILS">
+        <source>BUTTON_CONFIRM_ADD_PUPILS</source>
+        <target>Confirmar | tus alumnos</target>
+      </trans-unit>
+      <trans-unit id="e3bb731a388ef85ee708096604cc604a77aa8820" resname="BUTTON_VALIDATE_INPUT">
+        <source>BUTTON_VALIDATE_INPUT</source>
+        <target>Verificar | entrada</target>
+      </trans-unit>
+      <trans-unit id="40a81c7b6d40da49639d770cc0bb08354a9eece3" resname="DESCRIPTION_QUICK_ADD_FORMAT">
+        <source>DESCRIPTION_QUICK_ADD_FORMAT</source>
+        <target><![CDATA[Introduce los datos de tus alumnos, uno por línea, con el siguiente formato : <kbd>Apellido Nombre Género DD / MM / AAAA</kbd>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="f3bd3ea737fe060d1cefca451fc9ddd6f036875e" resname="LABEL_PUPILS">
+        <source>LABEL_PUPILS</source>
+        <target>Alumnos</target>
+      </trans-unit>
+      <trans-unit id="882f920908e776526e3052cfdf6d03ef550321d7" resname="LABEL_PUPIL_BIRTH_DATE">
+        <source>LABEL_PUPIL_BIRTH_DATE</source>
+        <target>Fecha de nacimiento</target>
+      </trans-unit>
+      <trans-unit id="a8964404db11444e77fef64b7b1b42fd5899da82" resname="LABEL_PUPIL_FIRST_NAME">
+        <source>LABEL_PUPIL_FIRST_NAME</source>
+        <target>Nombre</target>
+      </trans-unit>
+      <trans-unit id="b6cca0b169461cf44dc0a763a4c20cc1387107bb" resname="LABEL_PUPIL_GENDER">
+        <source>LABEL_PUPIL_GENDER</source>
+        <target>Género</target>
+      </trans-unit>
+      <trans-unit id="9a050155b2f314ebefd3565faad5c29d94008803" resname="LABEL_PUPIL_LAST_NAME">
+        <source>LABEL_PUPIL_LAST_NAME</source>
+        <target>Apellido</target>
+      </trans-unit>
+      <trans-unit id="a73e9bd4a5b96661f175070fa1c653916a8593a0" resname="PLACEHOLDER_PUPILS">
+        <source>PLACEHOLDER_PUPILS</source>
+        <target><![CDATA[Pérez Eva F 01/10/2010<br>Álvarez Juan M 27/01/2009]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

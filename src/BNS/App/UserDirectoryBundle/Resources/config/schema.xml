@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\UserDirectoryBundle\Model"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/propelorm/Propel/master/generator/resources/xsd/database.xsd">
+    <table name="distribution_list" description="">
+        <column name="id" primaryKey="true" autoIncrement="true" required="true" type="INTEGER"/>
+        <column name="name" type="varchar" required="true"/>
+        <column name="nb_users" type="INTEGER" defaultValue="0"/>
+        <column name="group_id" primaryKey="true" type="integer" required="true"/>
+
+        <foreign-key foreignTable="group" name="fk_distribution_list_group" onDelete="CASCADE">
+            <reference foreign="id" local="group_id"/>
+        </foreign-key>
+
+        <behavior name="timestampable"/>
+    </table>
+
+    <table name="distribution_list_group">
+        <column name="group_id" primaryKey="true" type="integer" required="true" description="link to group" />
+        <column name="distribution_list_id" primaryKey="true" type="integer" required="true"/>
+        <column name="role_id" primaryKey="true" type="integer" required="true" description="group type id" />
+
+        <foreign-key foreignTable="group" name="fk_distribution_list_group_group" onDelete="CASCADE">
+            <reference foreign="id" local="group_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="distribution_list" name="fk_distribution_list_group_distribution_list" onDelete="CASCADE">
+            <reference foreign="id" local="distribution_list_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="group_type" name="fk_distribution_list_group_group_type" onDelete="CASCADE">
+            <reference foreign="id" local="role_id"/>
+        </foreign-key>
+    </table>
+</database>
+

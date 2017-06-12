@@ -1,0 +1,7 @@
+{% if isNew is not defined %}
+
+    <a data-widget-id="{{ widget.id }}" class="enable-btn"><span class="switch-btn {{ widget.isEnabled ? 'on' : 'off' }}"></span></a>
+    
+    <input id="enabled-{{ widget.id }}" type="hidden" value="{{ widget.isEnabled }}" name="widget-{{ widget.id }}[enabled]"/>
+
+{% endif %}

@@ -1,0 +1,47 @@
+{% if errorItems|length > 0 %}
+	<div>
+		<h2>Ces documents ne peuvent pas être mis à la corbeille</h2>
+		<div class="documents-container">
+			{% for errorItem in errorItem %}
+				{% set resource = errorItem['resource'] %}
+				<div class="document" data-selection-item="#item-{{ resource.getId() }}" data-selection-box="#box-{{ resource.getId() }}">
+					<div class="left">
+						<img src="{{ asset('/medias/images/resource/filetype/icons/' ~ resource.getTypeUniqueName()|lower ~ '.png') }}" alt="" class="filetype" />
+						<span class="title">{{ resource.getLabel() }}</span>
+					</div>
+					<div class="right">
+						<span class="error">
+							{% if errorItem['message'] == 'RIGHT' %}
+								Droits non disponibles
+							{% endif %}
+						</span>
+						<span class="cross" title="Annuler la sélection">&times</span>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endif %}
+
+<div>
+	<h2>Ces documents seront mis à la corbeille</h2>
+	<div class="documents-container">
+		{% for deletableItem in deletableItems %}
+			{% set resource = deletableItem['resource'] %}
+			<div class="document" data-selection-item="#item-{{ resource.getId() }}" data-selection-box="#box-{{ resource.getId() }}">
+				<div class="left">
+					<img src="{{ asset('/medias/images/resource/filetype/icons/' ~ resource.getTypeUniqueName()|lower ~ '.png') }}" alt="" class="filetype" />
+					<span class="title">{{ resource.getLabel() }}</span>
+				</div>
+				<div class="right">
+					<span class="info">
+						{% if deletableItem['has_foreign_occurrence'] %}
+							Document utilisé par d'autres utilisateurs
+						{% endif %}
+					</span>
+					<span class="cross" title="Annuler la sélection">&times</span>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+</div>

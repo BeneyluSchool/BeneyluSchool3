@@ -1,0 +1,7 @@
+BNS\App\CoreBundle\Model\Agenda:
+  exclusion_policy: All
+
+  virtual_properties:
+    getColor:
+      expose: true
+      groups: [list, agenda_list, detail, agenda_detail]

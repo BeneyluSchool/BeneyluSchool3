@@ -5,83 +5,94 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use BNS\App\CoreBundle\Model\GroupTypeQuery;
 use BNS\App\CoreBundle\Model\RankQuery;
-use BNS\App\CoreBundle\Model\ModuleI18nPeer;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class RuleType extends AbstractType
 {
+
+	protected $not_authorised_ranks = null;
+
+	public function __construct($options = array()) {
+		if(isset($options['not_authorised_ranks'])){
+			$this->not_authorised_ranks = $options['not_authorised_ranks'];
+		}
+	}
+
 	public function buildForm(FormBuilderInterface $builder, array $options)
     {
-		$locale = \BNS\App\CoreBundle\Access\BNSAccess::getLocale();
-		
 		$ranks = RankQuery::create()
-				->joinWithI18n($locale)
+				->joinWith('Module')
+				->filterByUniqueName($this->not_authorised_ranks,  \Criteria::NOT_IN)
 				->orderByModuleId()
 				->find();
-		
+
 		foreach($ranks as $rank){
-			$formatedRank[$rank->getUniqueName()] = $rank->getLabel($locale);
+			$formatedRank[$rank->getModule()->getLabel()][$rank->getUniqueName()] = $rank->getLabel();
 		}
-		
+
 		$builder->add('rule_where_group_id','hidden', array('required' => true));
 		$builder->add('rank_unique_name', 'choice', array(
-			'empty_value' => 'Choisir un rang',
-             'choices' => $formatedRank,
-			'label' => "Rang"
+			'empty_value' => 'CHOOSE_RANK',
+            'choices' => $formatedRank,
+			'label' => "LABEL_RANK"
         ));
-		
-		$roles = GroupTypeQuery::create()->filterByRole()->joinWithi18n($locale)->find();
-	
+
+		$roles = GroupTypeQuery::create()->filterByRole()->find();
+
 		foreach($roles as $role){
-			$formatedRole[$role->getId()] = $role->getLabel($locale);
+			$formatedRole[$role->getId()] = $role->getLabel();
 		}
-		
-		$notRoles = GroupTypeQuery::create()->filterByNotRole()->joinWithi18n($locale)->find();
-	
+
+		$notRoles = GroupTypeQuery::create()->filterByNotRole()->find();
+
 		foreach($notRoles as $role){
-			$formatedNotRole[$role->getId()] = $role->getLabel($locale);
+			$formatedNotRole[$role->getId()] = $role->getLabel();
 		}
-		
+
 		$builder->add('who_group_id', 'choice', array(
-			'empty_value' => 'Choisir un type de groupe',
+			'empty_value' => 'CHOOSE_GROUP_TYPE',
             'choices' => $formatedRole,
-			'label' => "Pour qui ?",
+			'label' => "LABEL_FOR_WHO",
 			"required" => true
         ));
-		
+
 		$builder->add('rule_where_group_type_id', 'choice', array(
-			'empty_value' => 'Groupe lui même',
+			'empty_value' => 'GROUP_HIMSELF',
             'choices' => $formatedNotRole,
-			'label' => "Groupes cibles ?",
+			'label' => "LABEL_TARGET_GROUP",
 			"required" => false
         ));
-		
+
 		$builder->add(
 			'rule_where_belongs'
-			,'choice',
+			,'hidden',
 			array(
-				'label' => "Pour les membres des groupes ?",
-				'required' => false,
-				'choices'   => array(
-					true => 'Oui', false => 'Non'
-					),
-				'multiple'  => false,
-				'expanded' => true
+				'data' => true
 			)
 		);
-		
+
 		$builder->add(
 			'state'
 			,'choice',
 			array(
-				'label' => "Règle active",
-				'required' => false,
+				'label' => "LABEL_ACTIVE_RULE",
+				'required' => true,
 				'choices'   => array(
-					true => 'Oui', false => 'Non'
+					true => 'CHOICE_YES', false => 'CHOICE_NO'
 					),
 				'multiple'  => false,
-				'expanded' => true
+				'expanded' => false,
+				'empty_value' => false,
+				'preferred_choices' => array(1)
 			)
 		);
+    }
+
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'translation_domain' => 'CORE'
+        ));
     }
 
     public function getName()

@@ -1,0 +1,16 @@
+BNS\App\CampaignBundle\Model\Campaign:
+  exclusion_policy: All
+  virtual_properties:
+    getTypeName:
+      expose: true
+
+    getRichMessage:
+      expose: true
+      serialized_name: message
+
+  relations:
+    - rel: attachments
+      embedded:
+        content: expr(object.getResourceAttachments())
+        exclusion:
+          groups: [ campaign_attachment ]

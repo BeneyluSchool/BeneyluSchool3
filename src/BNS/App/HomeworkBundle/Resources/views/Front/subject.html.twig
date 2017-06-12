@@ -1,13 +1,26 @@
+{% trans_default_domain "HOMEWORK" %}
 <div class="school-subject">
     <h2><span class="icons-earth"></span>{{ homeworkdue.homework.name }}</h2>
-    <p>{{ homeworkdue.homework.homeworksubject.name }}</p>
+    <p>
+        {% if hasSeveralHomeworks is defined and hasSeveralHomeworks|length > 1 %}
+            {% for group in homeworkdue.homework.groups %}
+                {% if group.id in hasSeveralHomeworks %}
+                    {{ group.label }} -
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% if homeworkdue.homework.homeworksubject %}
+            {{ homeworkdue.homework.homeworksubject.name }}
+        {% endif %}
+    </p>
 </div>
 <div class="content-school-subject">
 	<div class="decoration-bottom"></div>
-    <div class="works">
-        <p>{{ homeworkdue.homework.description | raw }}</p>
+    <div class="works{{ homeworkdue.homework.hasLocker ? ' has-locker' }}">
+        {{ parse_public_resources(homeworkdue.homework.description|purify, true, 'medium', true) }}
     </div>
-    {% if admin != 1 %}
+    <div layout="row" layout-gt-lg="column" style="float: right">
+    {% if has_right('HOMEWORK_SIGN') %}
         {% if preferences.getActivateValidation() == 1 %}
             {% set validated = false %}
             {% for task in homeworkdue.homeworktasks %}
@@ -15,13 +28,31 @@
                     {% set validated = true %}
                 {% endif %}
             {% endfor %}
-            {% if validated %}
-                <a class="btn validate btn-large" data-task-id="{{ homeworkdue.id }}" data-task-done="1" href="#"><span class="icons-validated"></span>Travail validé</a>
-            {% else %}
-                <a class="btn not-validate btn-large" data-task-id="{{ homeworkdue.id }}" data-task-done="0" href="#"><span class="icons-not-validated"></span>Clique pour valider</a>
+            {% if locker is defined and locker %}
+                <a class="btn upload-document not-validate btn-large" href="" bns-uploader-control="{ multiple: true }">
+                    <span class="icons-join-document"></span>
+                    {{ 'LINK_HAND_BACK_MY_WORK'|trans |desc('Rendre mon travail') }}
+                </a>
             {% endif %}
+            {% if validated %}
+                <a class="btn validate btn-large sign" data-task-id="{{ homeworkdue.id }}" data-task-done="1" href="#"><span class="icons-validated"></span>{% trans %}LINK_WORK_VALIDATED{% endtrans %}</a>
+            {% else %}
+                <a class="btn not-validate btn-large sign" data-label-validate="{{ 'LINK_WORK_VALIDATED'|trans }}" data-task-id="{{ homeworkdue.id }}" data-task-done="0" href="#"><span class="icons-not-validated"></span>{% trans %}LINK_CLICK_FOR_VALIDATE{% endtrans %}</a>
+            {% endif %}
+
         {% endif %}
+    {% else %}
+        {% if children is defined %}{% for child in children %}
+            {% if homeworkdue.isDoneBy(child) %}
+                <a class="btn validate btn-large" data-task-id="{{ homeworkdue.id }}" data-task-done="0" href="#">
+                    <span class="icons-validated"></span>
+                    {{ 'LINK_VALIDATE_BY_USER'|trans({'%user%': child.fullName}) |desc('Validé par %user%') }}
+                </a>
+            {% endif %}
+        {% endfor %}{% endif %}
     {% endif %}
+    </div>
+
     {% if homeworkdue.homework.helptext is defined and homeworkdue.homework.helptext | trim != '' %}
         <p class="tips"><span class="icons-tips"></span>{{ homeworkdue.homework.helptext }}</p>
     {% endif %}
@@ -30,6 +61,6 @@
 <div class="content-attachment">
 	<div class="decoration-top"></div>
 	{#<div class="shadow top"></div>#}
-	{% include 'BNSAppResourceBundle:Front:joinedResources.html.twig' with {'resources': homeworkdue.homework.getResourceAttachments, "editable": false} %}
+	{% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias': homeworkdue.homework.getResourceAttachments, "editable": false, 'objectType': 'Homework', 'objectId': homeworkdue.homework.id} %}
 </div>
 <div class="clearfix"></div>

@@ -1,0 +1,97 @@
+module:
+  unique_name: CALENDAR
+  is_contextable: false
+  name:
+    fr: Calendrier
+    en: Calendar
+  description:
+    fr: Voir les évènements à venir
+    en: English calendar
+  default_rank:
+    pupil: USE
+    parent: USE
+    teacher: MANAGE
+    other: USE
+
+permissions:
+  ACCESS:
+    label:
+      fr: Voir calendrier
+      en: Calendar access
+    description:
+      fr: Donne l'accès au calendrier du groupe
+      en:
+
+  ACCESS_BACK:
+    label:
+      fr: Gérer calendrier
+      en: Calendar management access
+    description:
+      fr: Donne accès à la gestion du calendrier, création et modification d'évènements
+      en:
+
+  ACTIVATION:
+    label:
+      fr: Activer calendrier
+      en: Can activate / desactivate the calendar
+    description:
+      fr: Peut activer ou désactiver le calendrier
+      en:
+
+  ACTIVATION_PARTNERSHIP:
+    label:
+      fr: Activer calendrier dans le partenariat
+      en: Can activate / desactivate the calendar in partnership
+    description:
+      fr: Peut activer ou désactiver le calendrier dans un partenariat
+      en:
+
+ranks:
+  USE:
+    label:
+      fr: Utiliser le calendrier
+      en: Use the calendar
+    description:
+      fr:
+      en:
+    permissions: [ACCESS]
+
+  MANAGE:
+    label:
+      fr: Gérer le calendrier
+      en: Manage the calendar
+    description:
+      fr:
+      en:
+    permissions: [ACCESS, ACCESS_BACK, ACTIVATION]
+
+  MANAGE_PARTNERSHIP:
+    label:
+      fr: Gérer le calendrier dans partenariat
+      en: Manage the calendar in partnership
+    description:
+      fr:
+      en:
+    permissions: [ACTIVATION_PARTNERSHIP]
+
+  ACTIVATION_TEAM:
+    label:
+      fr: Gérer le calendrier dans groupe de travail
+      en: Manage the calendar in team
+    description:
+      fr:
+      en:
+    permissions: [ACTIVATION]
+
+notification_types:
+  CALENDAR_NEW_EVENT: { }
+  CALENDAR_NEW_EVENT_RECURRING: { }
+  CALENDAR_NEW_BIRTHDAY: { }
+  CALENDAR_HAPPY_BIRTHDAY: { }
+
+
+markers:
+  CALENDAR_CREATE_EVENT:
+    description: Création d'un évènement sur le calendrier
+  CALENDAR_VISIT:
+    description:  Visite sur le calendrier

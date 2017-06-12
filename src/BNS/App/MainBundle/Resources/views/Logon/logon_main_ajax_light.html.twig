@@ -1,0 +1,233 @@
+{% extends '::base.html.twig' %}
+{% trans_default_domain "MAIN" %}
+
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+
+{% set google_fonts = [
+  'Jockey One',
+  'Bree Serif',
+  'Boogaloo',
+  'Source Sans Pro',
+  'Cabin Sketch:700',
+] %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ asset('assets/styles/styles-light.css') }}"/>
+{% endblock %}
+
+{% block html_attr %}ng-app="beneyluSchoolAuthApp" class="auth-app"{% endblock %}
+
+{% block main_javascripts %}
+  <script type="text/javascript" src="{{ asset('js/scripts-light.js') }}"></script>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+  window.bns_locale = '{{ app.request.locale }}';
+</script>
+{% endblock %}
+
+{% block analytics %}
+    {{ parent() }}
+    {% if needAnalyticsLogout %}
+        <script type="text/javascript">
+            $(function(){
+                setTimeout(function(){
+                    analytics.user().traits({});
+                    analytics.group().traits({});
+                }, 1500);
+            });
+        </script>
+    {% endif %}
+{% endblock %}
+
+{% block title %}{% trans with {'%beneylu_brand_name%': parameter('beneylu_brand_name')} %}TITLE_CONNECTION{% endtrans %}{% endblock %}
+
+{% block meta_description %}{% trans with {'%beneylu_brand_name%': parameter('beneylu_brand_name')} %}DESCRIPTION_CONNECTION{% endtrans %}{% endblock %}
+
+{% block locales_link %}
+  <link rel="alternate" href="{{ url('home') }}" hreflang="x-default" />
+  {% for code,language in availableLanguages %}
+    <link rel="alternate" href="{{ url('home_locale', { _locale: code }) }}" hreflang="{{ code | replace('_','-') }}" />
+  {% endfor %}
+{% endblock %}
+
+{%  set iframeParams = '&fromTemplate=main' %}
+
+{% block body_class %}{{ parent() }} home{% endblock %}
+
+{% block body_attr %}ng-controller="LoginController as ctrl"{% endblock %}
+
+{% block body %}
+    {# splash page container #}
+    <div class="layout-row home-layout">
+
+        {# fullscreen #}
+        <div class="full-height-ruler"></div>
+        <div class="flex layout-column home-splash">
+
+            {# message row #}
+            {% if parameter('home_message') %}
+                <div class="inset">
+                    <div class="layout-column layout-gt-sm-row layout-align-center-center layout-padding md-whiteframe-z1 md-body-1 home-message-container">
+                        {{ parameter('home_message') | raw }}
+                    </div>
+                </div>
+            {% endif %}
+
+            {# login row #}
+            <div container class="layout-sm-column layout-md-column layout-gt-md-row layout-align-center-center layout-align-gt-md-end-center home-login-row">
+
+                {# login blocks #}
+                <div class="home-blocks ng-cloak">
+
+                    <div class="layout-column layout-gt-sm-row layout-align-center-center">
+                        <div class="home-logo-container">{# avoid img as direct child of flex container #}
+                            <img src="{{ asset('assets/images/main/logo.png') }}" alt="Beneylu School" class="home-logo"/>
+                        </div>
+                        <div class="home-title">
+                            <div class="md-display-1">{% trans %}TITLE_ENTER_IN{% endtrans %}</div>
+                            <h1 class="md-display-1 home-brand">Beneylu <span class="school">School</span></h1>
+                        </div>
+                    </div>
+
+                    <div class="home-boxes">
+                    <div class="box-transparent">
+                        <div class="inner box-transparent">
+
+                          <bns-auto-login-box url="'{{ redirectUrl }}'" saml-providers="{{ parameter('saml.providers')|default(null)|json_encode }}"></bns-auto-login-box>
+
+                        </div>
+                    </div>
+
+                    <div class="inset">
+                      {% if enable_register %}
+                        <md-content class="md-whiteframe-z2 inset">
+                            <div class="inscription">
+
+                                <div class="layout-row">
+                                    {{ components.button('BUTTON_TEACHER_REGISTER' | trans, {
+                                        icon: 'bns:classroom',
+                                        intent: 'primary',
+                                        raised: true,
+                                        click: 'ctrl.showRegisterDialog($event)',
+                                        attr: { class: 'flex' },
+                                    }) }}
+                                </div>
+
+                                <script type="text/ng-template" id="teacher-register-dialog.html">
+                                    <md-dialog class="bns-dialog bns-dialog-primary bns-dialog-sm">
+                                        <md-dialog-content class="md-dialog-content">
+                                            <div class="layout-row layout-align-start-center layout-margin">
+                                                <bns-icon class="flex flex-none">classroom</bns-icon>
+                                                <h3 class="md-headline flex">
+                                                    {% trans %}TITLE_REGISTRATION_DAY{% endtrans %}
+                                                </h3>
+                                                {{ components.button(null, {
+                                                    icon: 'close',
+                                                    click: 'ctrl.abort()'
+                                                }) }}
+                                            </div>
+                                            <form id="user_registration_form"
+                                                  method="post"
+                                                  action="{{ path('user_api_subscription', {version: '1.0'}) }}.json"
+                                                  ng-submit="ctrl.handleSubscription($event);"
+                                                  data-origin="ent {{ app.request.locale | replace('_','-') | lower }} home"
+                                            >
+                                                <p class="md-body-1">
+                                                    {% trans %}DESCRIPTION_REGISTRATION_EMAIL{% endtrans %}
+                                                </p>
+                                                <md-input-container md-no-float>
+                                                    <input id="user_registration_email"
+                                                           type="email"
+                                                           name="email"
+                                                           ng-model="ctrl.email"
+                                                           autocapitalize="off"
+                                                           autocomplete="off"
+                                                           autocorrect="off"
+                                                           spellcheck="false"
+                                                           class="input-lg"
+                                                           placeholder="{% trans %}USER_REGISTRATION_PLACEHOLDER{% endtrans %}">
+                                                </md-input-container>
+                                                <div class="layout-row layout-align-center-center">
+                                                    {{ components.button('BUTTON_REGISTER_CLASSROOM' | trans, {
+                                                        intent: 'primary',
+                                                        raised: true,
+                                                        attr: {type: 'submit'}
+                                                    }) }}
+                                                </div>
+                                            </form>
+                                        </md-dialog-content>
+                                        <div class="progress-overlay" ng-show="ctrl.busy">
+                                            <md-progress-circular class="register-progess" md-mode="indeterminate"></md-progress-circular>
+                                        </div>
+                                    </md-dialog>
+                                    <div class="bns-dialog-jim hide-sm hide-md"></div>
+                                </script>
+
+                            </div>
+
+                        </md-content>
+                      {% endif %}
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            {# cookies row #}
+            {% if not app.request.cookies.has('hide-cookies-alert') %}
+                <div class="home-cookies-container md-padding" ng-hide="ctrl.hasAcceptedCookies">
+                    <div container class="layout-row">
+                        <div class="flex flex-gt-md-80 flex-offset-gt-md-10 layout-row layout-align-space-between-start">
+                            <div class="flex flex-gt-md-80 md-body-1 text-center">
+                                {% trans with { '%cookies_more_info_url%': path('main_logon_cookies'), '%beneylu_brand_name%': parameter('beneylu_brand_name') } %}DESCRIPTION_COOKIES_POLICY{% endtrans %}
+                            </div>
+                            {{ components.button(null, {
+                                icon: 'clear',
+                                click: 'ctrl.acceptCookies()'
+                            }) }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if availableLanguages|length > 1 %}
+              <div class="language-switch" ng-cloak>
+                 <md-menu>
+                    <md-button aria-label="Open language menu" ng-click="$mdOpenMenu($event)" class="select-button">
+                      <img src="{{ asset('medias/images/icons/lang/' ~ app.request.locale ~ '.png') }}" />
+                      <md-icon>arrow_drop_down</md-icon>
+                    </md-button>
+                    <md-menu-content width="4">
+                    {% for code,language in availableLanguages %}
+                      <md-menu-item>
+                        <md-button aria-label="{{ language }}" href="{{ path('BNSAppMainBundle_change_culture', {'culture' : code}) }}">
+                          <span class="language-flag-icon"><img class="lang-flag" src="{{ asset('medias/images/icons/lang/' ~ code ~ '.png') }}" /></span>
+                          {{ language }}
+                        </md-button>
+                      </md-menu-item>
+                    {% endfor %}
+                    </md-menu-content>
+                  </md-menu>
+              </div>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <div class="md-padding md-caption text-center footer-legals">
+      {% trans with {
+      '%copyright_year%': 'now'|date('Y'),
+      '%eula_url%': path('main_logon_legals')
+      } %}FOOTER_LEGALS{% endtrans %}
+    </div>
+{% endblock body %}
+
+{% block angular_scripts %}
+
+  {# Load the material app #}
+  <script src="{{ asset('assets/scripts/vendors-light.js') }}"></script>
+  <script src="{{ asset('assets/scripts/scripts.js') }}"></script>
+  <script src="{{ asset('assets/scripts/views-light.js') }}"></script>
+
+{% endblock %}

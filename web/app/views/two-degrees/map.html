@@ -1,0 +1,38 @@
+<div id="two-degrees-map-container" container2 class="flex layout-column md-whiteframe-z2 main-container">
+  <div container>
+    <md-button class="md-fab md-fab-top-left over-menu" ng-click="ctrl.toggleMenu()">
+      <md-icon>{{ctrl.menuShown?'close':'menu'}}</md-icon>
+    </md-button>
+
+    <md-button class="md-fab md-fab-top-right over-menu has-counter btn-innovations" ui-sref="^.innovations" class="md-raised">
+      <bns-counter data-value="{{ctrl.state.unreadInnovations.length?ctrl.state.unreadInnovations.length:''}}"></bns-counter>
+      <md-tooltip md-direction="bottom">{{ 'TWO_DEGREES.LINK_INNOVATIONS'|translate }}</md-tooltip>
+    </md-button>
+
+    <md-button class="md-fab md-fab-top-right over-menu has-counter btn-words" ui-sref="^.words" class="md-raised">
+      <bns-counter data-value="{{ctrl.state.unreadWords.length?ctrl.state.unreadWords.length:''}}"></bns-counter>
+      <md-tooltip md-direction="bottom">{{ 'TWO_DEGREES.LINK_WORDS'|translate }}</md-tooltip>
+    </md-button>
+  </div>
+
+  <md-content class="flex layout-row layout-align-space-around transparent two-degrees-map-wrapper">
+    <div class="two-degrees-map-container">
+      <div class="two-degrees-map">
+        <div ng-repeat="challenge in ctrl.challenges | orderBy:'position'"
+          ng-click="ctrl.navigate(challenge)"
+          ng-disabled="!ctrl.canNavigate(challenge)"
+          class="animate-grow challenge {{::'position-'+($index+1)}}{{ challenge.completed?' completed':'' }}"
+        >
+          <md-tooltip md-direction="bottom">{{::challenge.title}}</md-tooltip>
+          <div ng-if="challenge.completed && challenge.activity" class="animate-grow activity activity-{{challenge.activity.code|assetize}}"></div>
+        </div>
+
+        <div ng-if="ctrl.getPlayerPosition()" class="player" ng-class="'position-'+ctrl.getPlayerPosition()"></div>
+      </div>
+    </div>
+  </md-content>
+
+  <bns-two-degrees-panel bns-direction="top" class="two-degrees-thermometer-container">
+    <bns-two-degrees-thermometer value="ctrl.getThermometerValue()"></bns-two-degrees-thermometer>
+  </bns-two-degrees-panel>
+</div>

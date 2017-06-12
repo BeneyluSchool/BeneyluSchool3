@@ -1,0 +1,19 @@
+{% trans_default_domain "SCHOOL" %}
+<div class="loader loader-sb">
+  <div class="message">
+    {% trans %}DOWNLOAD_START_IN_FEW_SECOND{% endtrans %}
+  </div>
+</div>
+<div class="modal-body">
+  <div class="content-modal-body">
+    {{ 'TITLE_SURE_TO_GENERATE_CARD_TEACHERS'|trans|desc('
+        			<h2>Êtes-vous sûr de vouloir générer une fiche pour tout les enseignants de votre école ?</h2>
+		<h3>
+			<strong>Attention</strong>, cette action va régénérer tous les mots de tout vos enseignants ! Leur ancien mot de passe sera perdu et vous devrez leur communiquer les nouveaux.<br />
+			Cette action est recommandée lors de la première génération de mot de passe, à la rentrée par exemple.
+		</h3>
+        ') |raw }}
+
+  </div>
+</div>
+<div class="beneylu-jim"></div>

@@ -1,0 +1,105 @@
+{% import 'BNSAppCoreBundle:Macros:forms.html.twig' as forms %}
+
+{% set labels = resource.getAllLabels() %}
+{# Manual configuration for extra data file #}
+<script type="text/javascript">
+	toolBar.isFavoriteFile	= {{ resource.isFavorite(app.user.id) == true ? 'true' : 'false' }};
+	toolBar.isEditing		= true;
+	toolBar.resource		= {
+		id: {{ resource.getid() }},
+		slug: '{{ resource.getSlug() }}',
+		label: '{{ resource.getLabel() }}',
+		type: '{{ resource.getTypeUniqueName() }}',
+		is_private: {{ resource.isPrivate() == true ? 'true' : 'false' }},
+		label_slug: '{{ label.getSlug() }}'
+	};
+</script>
+
+<script type="text/javascript">
+	$(function () {
+		$('#file-form').ajaxForm({
+			target: '.document-container',
+			beforeSubmit: function () {
+				$("#resource-current").empty();
+				$("#resource-navigation").hide();
+				$("#resource-navigation-loading").show();
+			},
+			success: function () {
+				$("#resource-navigation-loading").hide();
+				$("#resource-navigation").show();
+				toolBar.update();
+			}
+		});
+	});
+</script>
+
+<div class="document-container">
+	<form action="{{ path('resource_navigate_file_edit', {'labelSlug': label.getSlug(), 'resourceSlug': resource.getSlug()}) }}" method="POST" id="file-form">
+		<div class="header">
+			{{ form_widget(form.label) }}
+			{{ forms.errors(form.label) }}
+		</div>
+
+		<div class="document">
+			<div class="file">
+				{% if resource.typeUniqueName == "FILE" or resource.typeUniqueName == "DOCUMENT"%}
+					{% include 'BNSAppResourceBundle:ResourceBlock:'~ rm.getTemplateName ~'.html.twig' with {"resource" : resource , 'size' : "small", 'class' : '', 'with_title' : false, 'with_image': true} %}
+				{% else %}
+					{% include 'BNSAppResourceBundle:ResourceBlock:'~ rm.getTemplateName ~'.html.twig' with {"resource" : resource , 'size' : "medium", 'class' : '', 'with_link' : false} %}
+				{% endif %}
+			</div>
+
+			<div class="informations">
+				<div class="pull-right">
+					{% if resource.getSize(false) != null %}
+						<div>
+							<p>Poids :</p>
+							{{ resource.getSize() }}
+						</div>
+					{% endif %}
+				</div>
+					
+				<div>
+					<p>Type :</p>
+					<img src="{{ getFileTypeImageUrl(resource,"tiny") }}" alt="" />
+					{{ resource.printType }}
+				</div>
+
+				<div>
+					<p>Déposé par :</p>
+					<img src="{{ avatar(resource.getUser(), 'thumbnail') }}" alt="" class="avatar" /> {{ resource.getUser().getFullName() }}
+				</div>
+
+				<div>
+					<p>Modifié le :</p>
+					{{ date_from_now(resource.getUpdatedAt(), true, true) }}
+				</div>
+
+				{#<div>
+					<p>Auteur :</p>
+					TODO
+				</div>#}
+
+				{#<div>
+					<p>Nombre de téléchargements :</p>
+					TODO
+				</div>#}
+
+				{#<div>
+					<p>Lien permanent :</p>
+					TODO
+				</div>#}
+			</div>
+			<div class="clearfix"></div>
+		</div>
+
+		<div class="description">
+			<h2>Description</h2>
+			<p>
+				{{ form_widget(form.description) }}
+				{{ forms.errors(form.description) }}
+			</p>
+		</div>
+		{{ form_rest(form) }}
+	</form>
+</div>

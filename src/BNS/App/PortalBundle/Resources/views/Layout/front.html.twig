@@ -1,0 +1,69 @@
+{% trans_default_domain "PORTAL" %}
+{% extends '::base.html.twig' %}
+
+{% set app_unique_name = 'PORTAL' %}
+{% set app_mode = 'front' %}
+
+{% block title %}{{ portal.label }}{% endblock %}
+
+{% block css %}
+	{{ parent() }}
+    <link href='https://fonts.googleapis.com/css?family=Rambla|Chivo|Ubuntu|Josefin+Sans|Bree+Serif' rel='stylesheet' type='text/css'>
+    <link href='{{ asset('/medias/css/portal/front.css') }}' rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block body %}
+
+    <div class="background-portal {{ parameter('default_portal_class') }}"></div>
+    <div class="container">
+        <div class="row-fluid">
+
+
+
+            <div class="content-portal {{ parameter('default_portal_class') }}">
+                <div class="header {{ parameter('default_portal_class') }} {{ portal.font }}">
+                    <div class="logo-container">
+                        {% if portal.getMediaRelatedByLogoId is not null %}
+                            <img src="{{ create_visualisation_url_resource(portal.getMediaRelatedByLogoId, true) }}" class="logo" />
+                        {% endif %}
+                    </div>
+                    <h1 class="{{ portal.color }}">{{ portal.label }}</h1>
+                </div>
+                <div class="portal-content {{ parameter('default_portal_class') }}">
+
+                    <div class="row-fluid">
+                        <div class="span8">
+
+                            <div class="widget-container">
+                                {% include '@BNSAppPortal/Front/authentification.html.twig' %}
+                                {% set zone = 'main' %}
+
+                                {% for widget in portal.getWidgetsByZone('MAIN') %}
+                                    {% if(widget.isEnabled or isAuthenticated) %}
+                                        {% include '@BNSAppPortal/FrontWidgets/' ~ widget.type|lower ~ '.html.twig' %}
+                                    {% endif %}
+                                {% else %}
+                                    {% include '@BNSAppMain/NoInformation/index.html.twig' with {'text' : 'WILL_SEE_INFO_ABOUT_PORTAL'|trans |desc('Vous retrouverez bientôt ici les informations en lien avec ce portail.')} %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="span4">
+                            {% set zone = 'side' %}
+                            <div class="widget-container">
+                                {% include '@BNSAppPortal/Front/authentification.html.twig' %}
+                                {% for widget in portal.getWidgetsByZone('SIDE') %}
+                                    {% if(widget.isEnabled or (not widget.IsEnabled and isAuthenticated)) %}
+                                        {% include '@BNSAppPortal/FrontWidgets/' ~ widget.type|lower ~ '.html.twig' %}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                {% block content %}Add my content!{% endblock %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

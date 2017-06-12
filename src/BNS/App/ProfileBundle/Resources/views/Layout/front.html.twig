@@ -1,23 +1,62 @@
+{% trans_default_domain "PROFILE" %}
 {% extends '::base.html.twig' %}
 
-{% block css %}
-    {{ parent() }}
-	<link href='https://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
-    <link href="{{ asset('/medias/css/profile/front.css') }}" rel="stylesheet" type="text/css" />
-{% endblock %}
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
 
-{% block javascripts %}
-    {{ parent() }}
-    
-    <script type="text/javascript" src="/medias/js/profile/front.js"></script>
+{# form theme #}
+{% if form is defined %}{% form_theme form 'BNSAppMainBundle:Form:material_fields.html.twig' %}{% endif %}
+{% if filter_form is defined %}{% form_theme filter_form 'BNSAppMainBundle:Form:material_fields.html.twig' %}{% endif %}
+
+{# head #}
+{% block title %}
+    {% trans with {'%beneylu_brand_name%': parameter('beneylu_brand_name')} %}TITLE_PROFILE_BACK{% endtrans %}
 {% endblock %}
+{% set app_unique_name = 'PROFILE' %}
+{% set app_mode = 'front' %}
+{# body #}
+{% block body_class %}layout-column module-profile module-front front{% endblock %}
+{% block body_attr %}{{ parent() }} data-app="{{ app_unique_name }}" data-mode="{{ app_mode }}"{% endblock %}
+
+{% block alert %}{% endblock %}
 
 {% block body %}
-    <body>
-        {% block content %}{% endblock %}
-    </body>
+    <script type="text/javascript" src="{{ asset('/medias/js/bootstrap/bootstrap-alert.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/medias/js/profile/preferences.js') }}"></script>
+
+    {% block flash_container %}
+        {{ components.toasts(app.session.flashbag.all) }}
+    {% endblock flash_container %}
+
+    {% block actionbar_container %}
+    {% endblock actionbar_container %}
+
+    {% block main_container %}
+        <div container class="main-container layout-row flex">
+            {% block sidebar_container %}
+                <md-sidenav ng-cloak class="md-sidenav-left bns-sidebar layout-column" md-component-id="left" md-is-locked-open="app.isSidebarLockedOpen()">
+                    {% block sidebar %}
+
+                        {% block sidebar_header %}
+                            <header bns-sidebar-header app="navbar.app" mode="front"></header>
+                        {% endblock %}
+
+                        <md-content>
+                            {% block sidebar_content %}{% endblock %}
+                        </md-content>
+
+                    {% endblock sidebar%}
+                </md-sidenav>
+            {% endblock sidebar_container %}
+                <md-content ng-cloak id="content" class="bns-content layout-column flex">
+                    <div class="bns-content-inner layout-row">
+                        {% block content %}
+                            <md-content class="bns-content-inner" style="width: 100%">
+                                {{ block('content') }}
+                            </md-content>
+                        {% endblock %}
+                    </div>
+                </md-content>
+        </div>
+    {% endblock main_container %}
 {% endblock body %}
-	
-{% block dock_bar %}
-	{% render 'BNSAppMainBundle:DockBar:index' with {'module_unique_name' : 'PROFILE' , 'is_in_front' : true } %}
-{% endblock %}
+{% block respond_script %}{% endblock %}

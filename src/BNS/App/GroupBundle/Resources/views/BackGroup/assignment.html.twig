@@ -1,0 +1,193 @@
+{% trans_default_domain "GROUP" %}
+{% extends 'BNSAppGroupBundle:Back:layout.html.twig' %}
+
+{% block title %}{{ 'TITLE_SCHOOL_USER_ASSIGN'|trans |desc('Ecole - affectation d\'utilisateurs') }}{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+{% endblock %}
+
+{% block header %}
+	<div class="header-buttons">
+		<div class="inner-header">
+			<div class="container container-fluid">
+				<div class="row-fluid">
+					<div class="span3">
+						<a href="{{ path('BNSAppGroupBundle_back') }}" class="btn bns-notice btn-24 medium-return button-return">
+							<span class="icons-24 back-icon"></span>
+                                {{ 'LINK_CANCEL_AND_BACK'|trans |desc('<strong>Annuler</strong><br>et revenir')|raw }}
+						</a>
+					</div>
+					<div class="span9 align-right">
+						<a href="#add-user-modal" class="btn bns-success validate-medium btn-24 medium btn-confirm-import-pupil assignment-submit" data-form-type='link'>
+							<span class="icons-24 validate-icon"></span>{{ 'LINK_TIE_SCHOOL'|trans |desc('<strong>Lier à l\'école</strong>') |raw }}
+						</a>
+                        <a href="#create-new-classroom" data-toggle="modal" class="btn bns-success validate-medium btn-24 medium btn-confirm-import-pupil" >
+							<span class="icons-24 validate-icon"></span>{{ 'LINK_TIE_SCHOOL_IN_CLASS'|trans |desc('<strong>Lier à l\'école dans une classe</strong>')|raw }}
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock header %}
+
+{% block content %}
+	<div class="container-csv">
+        
+        <div class="news-title">
+			<h1 class="dashboard">{{ 'TITLE_ASSIGNATION_USER'|trans |desc('Affectation d\'utilisateurs') }}</h1>
+		</div>
+        
+		{% if error is defined %}
+			<div class="alert alert-danger bns-alert">
+				{{ error }}
+				<div class="jim"></div>
+			</div>
+		{% endif %}
+        
+        {% if message is defined and message is not null %}
+			<div class="alert alert-success bns-alert">
+				{{ message }}
+				<div class="jim"></div>
+			</div>
+		{% endif %}
+        
+        <form id="assignment-form" action="{{ path('BNSAppGroupBundle_group_user_assignment') }}" method="post" {{ form_enctype(formAssignment) }} class="form-inline">
+
+            <div class="hidden">
+                {{ form_widget(formAssignment.uai,{ 'attr': {'class': 'input-small','placeholder': 'PLACEHOLDER_SCHOOL_UAI' |trans |desc("Uai de l'école") }}) }}
+                {{ form_widget(formAssignment.uaiTarget,{ 'attr': {'class': 'input-small','placeholder': 'PLACEHOLDER_TARGET_SCHOOL_UAI' |trans |desc("Uai de l'école cible") }}) }}
+            </div>
+
+            <input type="hidden" value="" class="" name="newClassroomLabel" id="new-classroom-label" />
+            <input type="hidden" value="" class="" name="newClassroomId" id="new-classroom-id" />
+
+            {% if error is defined %}
+                <a href="{{ path('BNSAppGroupBundle_back') }}" class="btn bns-notice btn-24 medium-return">
+                    <span class="icons-24 back-icon"></span>{{ 'LINK_SEARCH_FROM_HOMEPAGE' |trans |desc('<strong>Rechercher</strong> <br> depuis la page d\'accueil') |raw }}
+                </a>
+            {% endif %}
+        
+            {% if error is not defined %}
+
+                <div class="alert alert-notice bns-alert">
+                    {% if school.id == schoolTarget.id %}
+                        {{ 'GET_READY_TO_MOVE_USER_IN_SCHOOL'|trans({'%school%': school.label|escape}) |desc('Vous vous apprétez à déplacer des utilisateurs dans l\'école :<br /> <b>%school%</b>.') |raw }}
+                    {% else %}
+                        {{ 'GET_READY_TO_ALLOCATE_USER_IN_SCHOOL'|trans({'%schoolOne%': school.label|escape, '%schoolTwo%': schoolTarget.label|escape}) |desc('Vous vous apprétez à affecter des utilisateurs depuis l\'école : <br /><b>%schoolOne%</b> <br />vers l\'école <br /><b>%schoolTwo%</b>.') |raw }}
+
+                    {% endif %}
+
+                    <div class="jim"></div>
+                </div>
+
+                <div class="news-title">
+                    <h1 class="dashboard">{{ 'TITLE_TEACHERS'|trans |desc('Enseignants') }}</h1>
+                </div>
+
+                <div style="padding: 2%;">
+                    {% for teacher in teachers %}
+                        <a href="#" class="bns-user small checkbox">
+                            <img src="{{ avatar(teacher, 'thumbnail') }}" alt="" class="avatar" />
+                            <span class="name">{{ teacher.fullName}}</span>
+                            <span class="action-icons"></span>
+                            <input class="form-checkbox hidden" type="checkbox" name="teachers[]" value="{{ teacher.id}}" />
+                        </a>
+                    {% else %}
+                        <div class="alert alert-notice bns-alert">
+                            {{ 'NO_TEACHER_IN_SCHOOL'|trans |desc('Il n\'y a pas d\'enseignant dans cette école.') }}
+                            <div class="jim"></div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="news-title">
+                    <h1 class="dashboard">{{ 'TITLE_CLASSES'|trans |desc('Classes') }}</h1>
+                </div>
+
+                <div style="padding: 2%;">
+
+                    {% if pupilWithClassroom|length > 0 %}
+                        <h1 class="header">{{ 'PUPIL_PLURAL_WIHTOUT_CLASS' |transchoice(pupilWithClassroom|length) |desc('[0,1]Élève sans classe | ]1,Inf[ Élèves sans classe') }}</h1>
+                        {% for pupil in pupilWithClassroom %}
+                            <a href="#" class="bns-user small checkbox">
+                                <img src="{{ avatar(pupil, 'thumbnail') }}" alt="" class="avatar" />
+                                <span class="name">{{ pupil.fullName}}</span>
+                                <span class="action-icons"></span>
+                                <input class="form-checkbox hidden" type="checkbox" name="pupils[]" value="{{ pupil.id}}"/>
+                            </a>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% for classroom in classrooms %}
+
+                        <h1 class="header">{{classroom.label}}</h1>
+                        {% set gm = gm.setGroup(classroom) %}
+                        {% for pupil in gm.getUsersByRoleUniqueName('PUPIL',true) %}
+                            <a href="#" class="bns-user small checkbox">
+                                <img src="{{ avatar(pupil, 'thumbnail') }}" alt="" class="avatar" />
+                                <span class="name">{{ pupil.fullName}}</span>
+                                <span class="action-icons"></span>
+                                <input class="form-checkbox hidden" type="checkbox" name="pupils[]" value="{{ pupil.id}}"/>
+                            </a>
+                        {% else %}
+                            <div class="alert alert-notice bns-alert">
+                                {{ 'NO_PUPIL_IN_CLASS'|trans |desc('Il n\'y a pas d\'élève dans cette classe.') }}
+                                <div class="jim"></div>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <input id="assignment-form-type" type="hidden" name="assignmentType" value="newClassroom" />
+        </form>
+	</div>
+    
+    <script type="text/javascript">
+        $(function(){
+            $('.bns-user').click(function(e){
+                e.preventDefault();
+                $(this).toggleClass('selected');
+                var $checkbox = $(this).children('.form-checkbox').first();
+                $checkbox.prop("checked", function( i, val ) {
+                    return !val;
+                  });
+            });
+            $('.assignment-submit').click(function(e){
+                e.preventDefault();
+                $('#new-classroom-label').val($('#new-classroom-label-temp').val());
+                $('#assignment-form-type').val($(this).attr('data-form-type'));
+                $('#assignment-form').submit();
+            });
+            $('#create-new-classroom').find('.toggle').click(function(){
+                var state = $(this).hasClass('selected');
+
+                $('#create-new-classroom').find('.toggle.selected').removeAttr('selected');
+                $('#create-new-classroom').find('.toggle.selected').removeClass('selected');
+
+                if(state)
+                {
+                    $(this).addClass('selected');
+                    $(this).attr('selected','selected');
+                    $('#new-classroom-id').val($(this).find('input').val());
+                }else{
+                    $(this).removeClass('selected');
+                    $(this).removeAttr('selected','selected');
+                    $('#new-classroom-id').val(false);
+                }
+
+
+            });
+        });
+    </script>
+    
+    {{ modal('create-new-classroom', {
+        'title': 'MODAL_CHOICE_CLASS'|trans |desc('Choisir une classe'),
+        'body_template': {'template': 'BNSAppGroupBundle:BackModal:assignement_new_classroom_body.html.twig' , 'values': {'classrooms': classroomTargets } },
+        'type': 'success',
+        'footer_template': {'template': 'BNSAppGroupBundle:BackModal:assignement_new_classroom_footer.html.twig'}
+        }) 
+    }}
+    
+{% endblock %}

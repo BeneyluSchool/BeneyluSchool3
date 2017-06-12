@@ -1,0 +1,6 @@
+<select class="workshop-widget-option-choice-list"
+  ng-model="choice"
+  ng-options="(v.value || v) as (v.label || v.value || v) for v in option.values"
+>
+  <option ng-if="option.allowEmpty" value="">-- Choisir --</option>
+</select>

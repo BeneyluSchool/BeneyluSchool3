@@ -1,0 +1,98 @@
+{% extends '::base.html.twig' %}
+
+{% block css %}
+    {{ parent() }}
+    <link href="{{ asset('/medias/css/logon/front.css') }}" rel="stylesheet" type="text/css" />
+    <link href='https://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('medias/js/main/logon.js') }}"></script>
+{% endblock %}
+{% block title %}Bienvenue sur Ecoles 47 !{% endblock %}
+
+{% block body %}
+    <div class="background-login"></div>
+    <div class="container-fluid container">
+        <div class="container-logon logon47">
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="header-login">
+                        <img class="logo" src="{{ asset('/medias/images/logon/logo-beneylu-school.png') }}" alt="BeneyluSchool" />
+                        <img class="logo" src="{{ asset('/medias/images/logon/47/cdg.png') }}" alt="CDG 47" />
+                        <img class="logo" src="{{ asset('/medias/images/logon/47/dsden47.jpg') }}" alt="DSDEN" />
+                        <img class="logo" src="{{ asset('/medias/images/logon/47/canope.jpg') }}" alt="CDDP" />
+                        <h1><span>Bienvenue sur </span><br /> Ecoles 47</h1>
+                        <img class="content-connection" src="{{ asset('/medias/images/logon/vignette.png') }}"/>
+                        <div class="fanion-text">Connecte-toi pour avoir accès à Ecoles 47</div>
+                        <div class="shadow"></div>
+                        <div class="rope left"></div>
+                        <div class="rope right"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span8">
+                    <div class="content-login">
+                        <div class="title-login">
+                            <h2>&nbsp</h2>
+                        </div>
+                        <div class="intro-login">
+                            <img src="{{ asset('/medias/images/logon/classroom.png') }}" alt="La classe de la Beneylu School" />
+                            <p>
+                                Ecoles 47 est un Espace Numérique de Travail (ENT) spécialement conçu pour le premier degré.
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="span4">
+
+                    <div class="content-logon">
+						<iframe id="logon-iframe" src="{{ redirectUrl }}" width="100%" scrolling="auto" marginheight="0" marginwidth="0" frameborder="0">
+							Votre navigateur ne semble pas compatible
+						</iframe>
+
+						<div class="browser-error" style="display: none">
+							<h3>Votre navigateur ne semble pas à jour</h3>
+							<h4>Vous pouvez le mettre à jour en cliquant sur les liens ci-dessous.</h4>
+							<div class="browser-list">
+								<a href="https://www.google.com/intl/fr/chrome/browser/" target="_blank">
+									<img class="browser" src="{{ asset('/medias/images/logon/chrome.png') }}" alt="Google Chrome" >
+								</a>
+								<a href="http://www.mozilla.org/fr/firefox/new/" target="_blank">
+									<img class="browser" src="{{ asset('/medias/images/logon/firefox.png') }}" alt="Mozilla Firefox" >
+								</a>
+								<a href="http://www.apple.com/fr/safari/" target="_blank">
+									<img class="browser" src="{{ asset('/medias/images/logon/safari.png') }}" alt="Apple Safari" >
+								</a>
+								<a href="http://windows.microsoft.com/fr-FR/internet-explorer/products/ie/home" target="_blank">
+									<img class="browser" src="{{ asset('/medias/images/logon/internet-explorer.png') }}" alt="Microsoft Internet Explorer" >
+								</a>
+							</div>
+						</div>
+
+                        {% if enable_register %}
+                            <div class="not-registered">
+                                <div class="shadow"></div>
+                                <h3>Vous n'êtes pas encore inscrit ?</h3>
+                                <p>
+                                    L'inscription à Beneylu School est rapide et gratuite, n'hésitez plus !
+                                </p>
+                                <a href="{{ path('registration_free') }}">Inscrire ma classe</a>
+                                <div class="clearfix"></div>
+                            </div>
+                        {% endif %}
+						<div class="password-forget">
+							<a href="{{ path('user_password_reset') }}">Mot de passe oublié ?</a>
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-logon">
+            {% include "BNSAppMainBundle:Logon:logon_47_footer_links.html.twig" %}
+        </div>
+    </div>
+{% endblock body %}

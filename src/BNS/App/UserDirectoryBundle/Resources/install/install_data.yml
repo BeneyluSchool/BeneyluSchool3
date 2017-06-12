@@ -1,0 +1,61 @@
+module:
+  unique_name: USER_DIRECTORY
+  is_contextable: false
+  name:
+    fr: Annuaire utilisateurs
+    en: User directory
+  description:
+    fr: Annuaire des utilisateurs
+    en: User directory
+  default_rank:
+    pupil: READ
+    parent: READ
+    teacher: READ
+    other: READ
+
+permissions:
+  ACCESS:
+    label:
+      fr: Voir l'annuaire utilisateurs
+      en: Access to user directory
+    description:
+      fr: Donne accès à l'annuaire dans le groupe
+      en: Grant access to user directory in group
+  ACCESS_BACK:
+    label:
+      fr: Voir l'annuaire utilisateurs en admin
+      en: Access to user directory in admin
+    description:
+      fr: Donne accès admin à l'annuaire dans le groupe
+      en: Grant admin access to user directory in group
+
+  ACTIVATION:
+    label:
+      fr: Activer l'annuaire utilisateurs
+      en: Activate the user directory
+    description:
+      fr: Peut activer ou désactiver l'accès à l'annuaire
+      en: Can enable / disabled the user directory
+
+ranks:
+  READ:
+    label:
+      fr: Accès en lecture à l'annuaire utilisateurs
+      en: Read access for the user directory
+    description:
+      fr:
+      en:
+    permissions: [ACCESS]
+
+  MANAGE:
+    label:
+      fr: Manager l'annuaire utilisateur
+      en: Manage the user directory
+    description:
+      fr:
+      en:
+    permissions: [ACCESS, ACCESS_BACK, ACTIVATION]
+
+markers:
+  USERDIRECTORY_VISIT:
+    description: Visit sur l'annuaire utilisateur

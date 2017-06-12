@@ -1,0 +1,15 @@
+<ul class="user-directory-user-list">
+  <li ng-repeat="user in ctrl.list"
+    ng-click="ctrl.handleClick(user) !== false ? ctrl.toggle(user) : ''"
+    ng-class="{ selected: ctrl.selection.has(user) }"
+    class="user-directory-user"
+  >
+    <span class="user-selector" ng-click="ctrl.toggle(user); $event.stopPropagation();">
+      <input type="checkbox" ng-checked="ctrl.selection.has(user)" ng-disabled="ctrl.isLocked(user)">
+    </span>
+    <span bns-user-avatar="user"></span>
+    <span class="user-name" ng-click="ctrl.toggle(user); $event.stopPropagation();">
+      {{ ::user.full_name }}
+    </span>
+  </li>
+</ul>

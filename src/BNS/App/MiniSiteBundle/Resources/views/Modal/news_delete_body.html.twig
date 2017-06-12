@@ -1,0 +1,17 @@
+{% trans_default_domain "MINISITE" %}
+<div class="modal-body">
+	<div class="content-modal-body">
+        <h2>
+            {% if is_adult() %}
+                {{ 'ADULT_SURE_TO_DELETE_NEWS'|trans({'%title%': title}) |desc('Êtes-vous sûr de vouloir supprimer l\'actualité "%title%" ?')  }}
+            {% else %}
+                {{ 'CHILD_SURE_TO_DELETE_NEWS'|trans({'%title%': title}) |desc('Es-tu sûr de vouloir supprimer l\'actualité "%title%" ?')  }}
+            {% endif %}
+        </h2>
+
+		<p>
+      {% trans %}WARNING_DELETING_NEWS{% endtrans %}
+		</p>
+	</div>
+</div>
+<div class="beneylu-jim"></div>

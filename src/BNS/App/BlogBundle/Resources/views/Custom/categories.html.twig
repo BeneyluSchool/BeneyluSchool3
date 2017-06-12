@@ -1,115 +1,157 @@
+{% trans_default_domain "BLOG" %}
 {% extends 'BNSAppBlogBundle:Layout:manager.html.twig' %}
 
 {% block title %}
-	{{ blog.getTitle() }} - Catégories
+    {{ 'TITLE_BLOG_TITLE_CATEGORY'|trans({'%blogTitle%': blog.getTitle()}) |desc('%blogTitle% - Catégories') }}
+
+{% endblock %}
+
+{% block css %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('medias/css/manager.css') }}">
 {% endblock %}
 
 {% block javascripts %}
-	{{ parent() }}
-	
-	<script type="text/javascript" src="{{ asset('/medias/js/manager-menu.js') }}"></script>
-	<script type="text/javascript">
-		var categoriesRoutes = {
-			sort: '{{ path('blog_manager_category_save') }}',
-			edit: '{{ path('blog_manager_category_edit') }}',
-			remove: '{{ path('blog_manager_category_delete') }}',
-			insert: '{{ path('blog_manager_category_add_management') }}',
-		};
-	</script>
-	<script type="text/javascript" src="{{ asset('/medias/js/category/category.js') }}"></script>
-{% endblock javascripts %}
-	
-{% block header %}
-	<div class="header-buttons">
-		<div class="inner-header">
-			<div class="container container-fluid">
-				<div class="row-fluid">
-					<div class="span6">
-						<a href="#" class="btn bns-info btn-24 large button-return add-category-button" data-target="#new-category-modal" data-toggle="modal">
-							<span class="icons-24 add-icon"></span>
-							Ajouter une catégorie
-						</a>
-					</div>
-					<div class="span6 align-right switchable-menu" id="default-header"></div>
-					<div class="span6 align-right switchable-menu hide" id="category-edit-mode" data-effect="drop">
-						<a href="#" data-toggle="menu" data-target="#default-header" class="btn bns-danger btn-24 medium-return cancel-button">
-							<span class="icons-24 cancel-icon"></span>
-							<strong>Annuler</strong><br />les modifications
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-{% endblock header %}
+  {{ parent() }}
 
-{% block sidebar %}
-	<div class="container-section">
-		<div class="section">
-			<a href="{{ path('BNSAppBlogBundle_back') }}">{% trans %}Blog.Back.Sidebar.Articles{% endtrans %}</a>
-		</div>
-		<div class="section">
-			<a href="{{ path('blog_manager_comment') }}">Commentaires</a>
-		</div>
-	</div>
-	<div class="section active">
-		{% trans %}Blog.Back.Sidebar.Customing{% endtrans %}
-		<span class="shadow-section"></span>
-	</div>
-	<div class="title-container article-statuses-filter">
-		<div class="content-title">
-			<ul>
-				<li>
-					<a href="{{ path('blog_manager_custom') }}">Personnalisation du blog</a>
-				</li>
-				<li>
-					<a href="{{ path('blog_manager_categories') }}" class="active">Gestion des catégories</a>
-				</li>
-			</ul>
-		</div>
-	</div>
-{% endblock sidebar %}
+  <script type="text/javascript" src="{{ asset('/medias/js/manager-menu.js') }}"></script>
+  <script type="text/javascript">
+    var categoriesRoutes = {
+      sort: '{{ path('blog_manager_category_save') }}',
+      edit: '{{ path('blog_manager_category_edit') }}',
+      remove: '{{ path('blog_manager_category_delete') }}',
+      insert: '{{ path('blog_manager_category_add_management') }}',
+    };
+  </script>
+  <script type="text/javascript" src="{{ asset('/medias/js/category/category.js') }}"></script>
+{% endblock javascripts %}
+
+{% block actionbar_content %}
+  {{ components.button('LINK_ADD_CATEGORY'|trans, {
+    href: '#',
+    intent: 'primary',
+    raised: true,
+    icon: 'add',
+    attr: {
+      'data-toggle': 'modal',
+      'data-target': '#new-category-modal',
+      class: 'add-category-button'
+    }
+  }) }}
+  <span class="flex"></span>
+
+  <div class="header-buttons layout-row layout-align-start-center" style="box-shadow: none; min-height: 0; padding: 0; border: none; background: none; position: relative; width: auto; z-index: initial;">
+    <div class="inner-header layout-row" style="min-height: 0; width: auto; background: none;">
+      <div class="switchable-menu" id="default-header"></div>
+      <div class="switchable-menu hide" id="category-edit-mode" data-effect="drop">
+        {{ components.button('BUTTON_CANCEL_EDIT'|trans, {
+          href: '#',
+          icon: 'undo',
+          raised: true,
+          intent: 'warn',
+          attr: {
+            'data-toggle': 'menu',
+            'data-target': '#default-header',
+            'class': 'cancel-button',
+          }
+        }) }}
+      </div>
+
+      {# required for a working menu. #}
+      <div class="container container-fluid" style="width: 0; min-width: 0;"></div>
+    </div>
+  </div>
+{% endblock actionbar_content %}
+
+{% block sidebar_content %}
+    <section>
+      {{ components.button( 'TITLE_ARTICLES' | trans , { href:   path('BNSAppBlogBundle_back'), icon: 'insert_drive_file' }) }}
+    </section>
+
+    <section>
+      {{ include('BNSAppBlogBundle:Sidebar:sidebar_comments.html.twig') }}
+    </section>
+
+    <section class="current">
+        {{ include('BNSAppBlogBundle:Sidebar:sidebar_customize.html.twig') }}
+
+        <div class="nav-list layout-column">
+          {{ components.button( 'PERSONNALIZATION_BLOG' | trans , {
+            href: path('blog_manager_custom'),
+            icon :'edit'
+          }) }}
+          {{ components.button( 'CATEGORY_MANAGEMENT' | trans , {
+            intent: 'primary',
+            href: path('blog_manager_categories'),
+            icon : 'list',
+          }) }}
+        </div>
+    </section>
+
+    {% if hasYerbook %}
+      <section>
+        {{ components.button( 'LINK_YERBOOK' | trans, { href: path('blog_manager_yerbook'), icon: 'book' }) }}
+      </section>
+    {% endif %}
+{% endblock sidebar_content %}
 
 {% block content %}
-	<div class="content-categories-management">
-		<h1>Gérer les catégories</h1>
-		
-		{# Attention à ne pas oublier de copier les templates des modals et à ne pas modifier l'ID de la modal, sinon le JS ne fonctionnera plus #}
-		{{ modal('new-category-modal', {
-			'title': 'Ajouter une catégorie',
-			'body_template': {'template': 'BNSAppHelloWorldBundle:Modal:category_management_add_body.html.twig'},
-			'footer_template': {'template': 'BNSAppHelloWorldBundle:Modal:category_management_add_footer.html.twig'},
-			'type': 'info'
-		}) }}
-		
-		{{ modal('delete-category-modal', {
-			'title': "Suppression d'une catégorie",
-			'body_template': {'template': 'BNSAppHelloWorldBundle:Modal:category_management_delete_body.html.twig'},
-			'footer_template': {'template': 'BNSAppHelloWorldBundle:Modal:category_management_delete_footer.html.twig'},
-			'type': 'error'
-		}) }}
-		
-		<div class="category-icons-list">
-			{% render 'BNSAppBlogBundle:Back:getCategoryIcons' %}
-			<a href="#" class="default">Aucune icône</a>
-		</div>
-		
-		<ol class="load-sortable">
-			{% if blog.getSortedBlogCategories()|length > 0 %}
-				{% for category in blog.getSortedBlogCategories() %}
-					{% include 'BNSAppBlogBundle:Category:back_categories_management_row.html.twig' with {'category': category['parent']} %}
+  <md-toolbar class="content-toolbar">
+    <div class="md-toolbar-tools">
+      <h3 class="heading">{% trans %}MANAGE_CATEGORY{% endtrans %}</h3>
+    </div>
+  </md-toolbar>
+  <md-content class="content-categories-management md-padding">
 
-					{% if (category['children']|length > 0) %}
-						<ol>
-							{% for subCategory in category['children'] %}
-								{% include 'BNSAppBlogBundle:Category:back_categories_management_row.html.twig' with {'category': subCategory} %}
-							{% endfor %}
-						</ol>
-					{% endif %}
-				{% endfor %}
-			{% else %}
-				<p>Il n'existe pas encore de catégorie. Pourquoi ne pas en créer une dès maintenant ?<br />C'est simple : cliquez sur le bouton "Ajouter une catégorie" en haut à gauche !</p>
-			{% endif %}
-		</ol>
-	</div>
+
+    {# Attention à ne pas oublier de copier les templates des modals et à ne pas modifier l'ID de la modal, sinon le JS ne fonctionnera plus #}
+    {{ modal('new-category-modal', {
+      'title': 'LINK_ADD_CATEGORY'|trans,
+
+      'body_template': {'template': 'BNSAppBlogBundle:Modal:category_management_add_body.html.twig'},
+      'footer_template': {'template': 'BNSAppBlogBundle:Modal:category_management_add_footer.html.twig'},
+      'type': 'info'
+    }) }}
+
+    {{ modal('delete-category-modal', {
+      'title': "DELETE_CATEGORY"|trans,
+
+      'body_template': {'template': 'BNSAppBlogBundle:Modal:category_management_delete_body.html.twig'},
+      'footer_template': {'template': 'BNSAppBlogBundle:Modal:category_management_delete_footer.html.twig'},
+      'type': 'error'
+    }) }}
+
+    <div class="category-icons-list">
+      {{ render(controller('BNSAppBlogBundle:Back:getCategoryIcons')) }}
+      <a href="#" class="default">{% trans %}LINK_NO_ICON{% endtrans %}</a>
+    </div>
+
+    <ol class="load-sortable">
+      {% if blog.getSortedBlogCategories()|length > 0 %}
+        {% for category in blog.getSortedBlogCategories() %}
+          {% include 'BNSAppBlogBundle:Category:back_categories_management_row.html.twig' with {'category': category['parent']} %}
+
+          {% if (category['children']|length > 0) %}
+            <ol>
+              {% for subCategory in category['children'] %}
+                {% include 'BNSAppBlogBundle:Category:back_categories_management_row.html.twig' with {'category': subCategory} %}
+              {% endfor %}
+            </ol>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        {% include 'BNSAppMainBundle:NoInformation:index.html.twig' with {
+        'text': "NO_CATEGORY_CAN_CREATE_ONE"|trans,
+
+        'button': {
+        'text':  'LINK_ADD_CATEGORY'|trans,
+
+        'link':  '#',
+        'class': 'btn bns-info btn-24 large add-icon add-category-button',
+        'data':  'data-target="#new-category-modal" data-toggle="modal"'
+        }
+        } %}
+      {% endif %}
+    </ol>
+  </md-content>
 {% endblock content %}

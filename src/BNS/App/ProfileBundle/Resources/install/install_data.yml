@@ -1,0 +1,163 @@
+module:
+  unique_name: PROFILE
+  is_contextable: false
+  name:
+    fr: Profil
+    en: Profile
+  description:
+    fr: 'Parcourir les informations de vos connaissances'
+    en: 'Your profile'
+  default_rank:
+    pupil: FULL_USE
+    parent: USE
+    teacher: MANAGE
+    other: READ
+permissions:
+  ACCESS:
+    label:
+      fr: 'Voir profil'
+      en: 'Profile access'
+    description:
+      fr: 'Donne l''accès au module profil pour le groupe'
+      en: null
+  ACCESS_BACK:
+    label:
+      fr: 'Gestion primaire du profil'
+      en: 'Profile management'
+    description:
+      fr: 'Donne accès à la gestion de son profil, seulement pour les données principales'
+      en: null
+  FULL_ACCESS_BACK:
+    label:
+      fr: 'Gestion complète du profil'
+      en: 'Profile full management'
+    description:
+      fr: 'Donne accès à la gestion totale de son profil'
+      en: null
+  ACTIVATION:
+    label:
+      fr: 'Activater profil'
+      en: 'Profile activation'
+    description:
+      fr: 'Peut activer ou désactiver le module profil'
+      en: null
+  ACTIVATION_PARTNERSHIP:
+    label:
+      fr: 'Activater profil dans le partenariat'
+      en: 'Profile activation in partnership'
+    description:
+      fr: 'Peut activer ou désactiver le module profil dans le partenariat'
+      en: null
+  NO_MODERATE_COMMENT:
+    label:
+      fr: 'Pas de modération des commentaires'
+      en: 'Disable the automatic comment moderation'
+    description:
+      fr: 'Désactive la modération automatique des commentaires'
+      en: null
+  NO_MODERATE_STATUS:
+    label:
+      fr: 'Pas de modération des statuts'
+      en: 'Disable the automatic statuses moderation'
+    description:
+      fr: 'Désactive la modération automatique des statuts'
+      en: null
+  ADMINISTRATION:
+    label:
+      fr: 'Administrer profil'
+      en: 'Manage group''s profile'
+    description:
+      fr: 'Donne accès à la gestion des profils du groupe et leur modération'
+      en: null
+ranks:
+  READ:
+    label:
+      fr: 'Lire les profils du groupe'
+      en: 'See the group''s profiles'
+    description:
+      fr: null
+      en: null
+    permissions:
+      - ACCESS
+  USE:
+    label:
+      fr: 'Utiliser le profil'
+      en: 'Use the profile'
+    description:
+      fr: null
+      en: null
+    permissions:
+      - ACCESS
+      - ACCESS_BACK
+  FULL_USE:
+    label:
+      fr: 'Utiliser le profil et pouvoir ajouter des statuts'
+      en: 'Use the profile and post new statuses'
+    description:
+      fr: null
+      en: null
+    permissions:
+      - ACCESS
+      - ACCESS_BACK
+      - FULL_ACCESS_BACK
+  NO_MODERATE_COMMENT:
+    label:
+      fr: 'Désactiver la modération automatique des commentaires'
+      en: 'Disable the automatic comment moderation'
+    description:
+      fr: null
+      en: null
+    permissions:
+      - NO_MODERATE_COMMENT
+  NO_MODERATE_STATUS:
+    label:
+      fr: 'Désactiver la modération automatique des statuts'
+      en: 'Disable the automatic statuses moderation'
+    description:
+      fr: null
+      en: null
+    permissions:
+      - NO_MODERATE_STATUS
+  MANAGE:
+    label:
+      fr: 'Gérer les profils'
+      en: 'Manage the profils'
+    description:
+      fr: null
+      en: null
+    permissions:
+      - ACCESS
+      - ACCESS_BACK
+      - FULL_ACCESS_BACK
+      - ADMINISTRATION
+      - ACTIVATION
+  MANAGE_PARTNERSHIP:
+    label:
+      fr: 'Gérer les profils dans partenariat'
+      en: 'Manage the profils in partnership'
+    description:
+      fr: null
+      en: null
+    permissions:
+      - ACTIVATION_PARTNERSHIP
+  ACTIVATION_TEAM:
+    label:
+      fr: 'Gérer les profils dans le groupe de travail'
+      en: 'Manage the profils in team'
+    description:
+      fr: null
+      en: null
+    permissions:
+      - ACTIVATION
+notification_types:
+  PROFILE_COMMENT_PENDING_VALIDATION: {  }
+  PROFILE_COMMENT_PUBLISHED_FOR_AUTHR: {  }
+  PROFILE_COMMENT_PUBLISHED: {  }
+  PROFILE_ASSISTANCE_STARTED: {  }
+markers:
+  PROFILE_CREATE_STATUS:
+    description: 'Création d''un statut sur le profil'
+  PROFILE_CREATE_COMMENT:
+    description: 'Création d''un commentaire sur le profil'
+  PROFILE_VISIT:
+    description: 'Visite sur le profil'

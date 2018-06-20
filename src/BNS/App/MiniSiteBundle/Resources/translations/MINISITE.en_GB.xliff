@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-06-21T10:39:27Z" source-language="en" target-language="en-GB" datatype="plaintext" original="not.available">
+  <file date="2017-02-15T11:15:33Z" source-language="en" target-language="en-GB" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -17,6 +17,10 @@
       <trans-unit id="1c91583b2a316c1ce22678ee26b93b81524077c0" resname="ADULT_CONTENT_PAGE">
         <source>ADULT_CONTENT_PAGE</source>
         <target>Here will be the content of your page</target>
+      </trans-unit>
+      <trans-unit id="72c0a0356adefde339a5a5d8fd4620b3559c959b" resname="ADULT_FINISH_CITY_NEWS">
+        <source>ADULT_FINISH_CITY_NEWS</source>
+        <target>Save | Municipal Information</target>
       </trans-unit>
       <trans-unit id="44016b5a4458eee682a61e0cf3333667a6cbfe7b" resname="ADULT_FINISH_NEWS">
         <source>ADULT_FINISH_NEWS</source>
@@ -37,6 +41,12 @@
       <trans-unit id="ac752d22deb96c0ac6c4ce8e5d869b72cba6e339" resname="ADULT_PAGE_SAVE_IN_DRAFT">
         <source>ADULT_PAGE_SAVE_IN_DRAFT</source>
         <target>The page has been saved in your drafts.</target>
+      </trans-unit>
+      <trans-unit id="b6272aaf32c9e3c3237c03e4c059556153b0af7c" resname="ADULT_SURE_TO_DELETE_CITY_NEWS">
+        <source>ADULT_SURE_TO_DELETE_CITY_NEWS</source>
+        <target state="new">Do you really want to delete the Municipal Information "%title%"?</target>
+        <note><![CDATA[%title% is a placeholder
+]]></note>
       </trans-unit>
       <trans-unit id="0b660235dfffcc338adf64e626cfbc49d883eb09" resname="ADULT_SURE_TO_DELETE_NEWS">
         <source>Êtes-vous sûr de vouloir supprimer l'actualité "%title%" ?</source>
@@ -104,6 +114,14 @@
         <source>BUTTON_MAKE_PUBLIC_PAGE</source>
         <target state="new">Make page|public</target>
       </trans-unit>
+      <trans-unit id="70568866efb54c86ba760d82543149dc4f584352" resname="BUTTON_MANAGE_LISTS">
+        <source>BUTTON_MANAGE_LISTS</source>
+        <target>Manage your mailing lists</target>
+      </trans-unit>
+      <trans-unit id="34f5558420e837545899f5fe2bc86014feb34afb" resname="BUTTON_VIEW_NEWS">
+        <source>BUTTON_VIEW_NEWS</source>
+        <target state="new">View your school news</target>
+      </trans-unit>
       <trans-unit id="4aad258e8da8f044abe44b56bf5505efa7a4f257" resname="CHILD_CONTENT_PAGE">
         <source>CHILD_CONTENT_PAGE</source>
         <target>Here will be the content of your page</target>
@@ -170,6 +188,30 @@
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
+      <trans-unit id="a788c4e17bd7871bc2359aca7730294cca939c38" resname="CITY_NEWS_FLASH_DELETED_SUCCESS">
+        <source>CITY_NEWS_FLASH_DELETED_SUCCESS</source>
+        <target>The Municipal Information was successfully deleted</target>
+      </trans-unit>
+      <trans-unit id="361152e92fbea39c75793d23d36ef400627888fe" resname="CITY_NEWS_FLASH_PINNED">
+        <source>CITY_NEWS_FLASH_PINNED</source>
+        <target>The Municipal Information was successfully pinned</target>
+      </trans-unit>
+      <trans-unit id="0bff810881180d062c12a8bd80afd3889cd1e7dd" resname="CITY_NEWS_FLASH_PUBLISHED_SUCCESS">
+        <source>CITY_NEWS_FLASH_PUBLISHED_SUCCESS</source>
+        <target>The Municipal Information was successfully published</target>
+      </trans-unit>
+      <trans-unit id="348159504c532a10755df6b817b529f2afce63d7" resname="CITY_NEWS_FLASH_SAVED_SUCCESS">
+        <source>CITY_NEWS_FLASH_SAVED_SUCCESS</source>
+        <target>The Municipal Information was successfully saved</target>
+      </trans-unit>
+      <trans-unit id="b5453ba2e1ca7153b73c5c7cef0bdb3fd5fff9cf" resname="CITY_NEWS_FLASH_UNPINNED">
+        <source>CITY_NEWS_FLASH_UNPINNED</source>
+        <target>The Municipal Information is not pinned anymore</target>
+      </trans-unit>
+      <trans-unit id="46e08d7d981deaf49dd1478e095e6e7cbae4a2e9" resname="CITY_NEWS_STATUS">
+        <source>CITY_NEWS_STATUS</source>
+        <target state="new">Information Status</target>
+      </trans-unit>
       <trans-unit id="c4758889f2d6b527dc07a9656d79de58dccd7552" resname="CONFIGURATION_SIDEBAR">
         <source>CONFIGURATION_SIDEBAR</source>
         <target state="new">Sidebar configuration</target>
@@ -185,6 +227,42 @@
       <trans-unit id="3926ea64c5d219e4b50239dc3685e419b930931d" resname="DATE_CREATION">
         <source>DATE_CREATION</source>
         <target state="new">Creation date</target>
+      </trans-unit>
+      <trans-unit id="146fd056c03fae31b8f3d071c610e54b2116125f" resname="DESCRIPTION_NO_CITY_INFORMATION">
+        <source>DESCRIPTION_NO_CITY_INFORMATION</source>
+        <target state="new">No Municipal Information yet</target>
+      </trans-unit>
+      <trans-unit id="0596049042dc01e36955799ff5db032f2ad472a2" resname="DESCRIPTION_PAGE_CITY_INFORMATION">
+        <source>DESCRIPTION_PAGE_CITY_INFORMATION</source>
+        <target state="new"><![CDATA[This is a specific page allowing you to send information to school websites within your district<br><br>You can&nbsp;:]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="a36e4adb274c17316e7832b3b6788652b23f8620" resname="DESCRIPTION_PUBLISHED_FROM_TO">
+        <source>DESCRIPTION_PUBLISHED_FROM_TO</source>
+        <target>Publish from %from% to %to% included</target>
+        <note><![CDATA[%from% is a placeholder
+%to% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="27ba301c2e913141456c04e5894554c02948e5f9" resname="DESCRIPTION_VISIBLE_IN_ALL_SCHOOLS">
+        <source>DESCRIPTION_VISIBLE_IN_ALL_SCHOOLS</source>
+        <target>Display in all schools</target>
+      </trans-unit>
+      <trans-unit id="404066dfddf325bc58ee07181f40d42d9522e065" resname="DESCRIPTION_VISIBLE_IN_SCHOOLS">
+        <source>DESCRIPTION_VISIBLE_IN_SCHOOLS</source>
+        <target>{0} Not displayed in any school | {1} Displayed in one school | ]1,Inf[ Displayed in %count% schools</target>
+        <note><![CDATA[%count% is a placeholder
+This text has plural translations based on %count% variable
+http://symfony.com/doc/current/components/translation/usage.html#pluralization]]></note>
+      </trans-unit>
+      <trans-unit id="2da6cd436a9f2faa4e6cb9018df365cc20238197" resname="DESCRIPTION_VISIBLE_IN_SCHOOLS_OF_LISTS">
+        <source>DESCRIPTION_VISIBLE_IN_SCHOOLS</source>
+        <target>{0} Not displayed in any school | {1} Displayed in one school on the mailing lists: %lists% | ]1,Inf[ Displayed in %count% schools on the mailing lists: %lists%</target>
+        <note><![CDATA[%lists% is a placeholder
+%count% is a placeholder
+This text has plural translations based on %count% variable
+http://symfony.com/doc/current/components/translation/usage.html#pluralization]]></note>
       </trans-unit>
       <trans-unit id="d0ed15c78c3522e4dec7ecd88f8f19ba8659786e" resname="DESCRIPTION_WIDGET_TEMPLATE_RICH_TEXT">
         <source>DESCRIPTION_WIDGET_TEMPLATE_RICH_TEXT</source>
@@ -242,13 +320,45 @@
         <source>INVALID_PAGE_TYPE</source>
         <target state="new">The type of page does not exist, please try again</target>
       </trans-unit>
+      <trans-unit id="201a41646360ee198453f43165c8ca841294330e" resname="LABEL_ALL_SCHOOLS">
+        <source>LABEL_ALL_SCHOOLS</source>
+        <target state="new">All schools</target>
+      </trans-unit>
+      <trans-unit id="1c6c2239d8e82b4a6a9544d66c929b466ddeca65" resname="LABEL_DISPLAY_IN_SITE">
+        <source>LABEL_DISPLAY_IN_SITE</source>
+        <target state="new">View on the website of</target>
+      </trans-unit>
       <trans-unit id="8aa6bece510c2655d6fa3f71527996c41fcc6bec" resname="LABEL_EDIT_SITE_BANNER">
         <source>LABEL_EDIT_SITE_BANNER</source>
         <target>Modify website banner</target>
       </trans-unit>
+      <trans-unit id="c372ad0d046f1b90a95e16794c51f86aa7046d77" resname="LABEL_FROM">
+        <source>LABEL_FROM</source>
+        <target state="new">From</target>
+      </trans-unit>
+      <trans-unit id="73e6cc0f73ecbb4e240570025cbb4c76a51a058e" resname="LABEL_PINNED">
+        <source>LABEL_PINNED</source>
+        <target>Pinned</target>
+      </trans-unit>
+      <trans-unit id="f9982cae233b200e31b564b4b3c5a98b7a7455e2" resname="LABEL_PIN_INFORMATION">
+        <source>LABEL_PIN_INFORMATION</source>
+        <target state="new">Pinned | Information</target>
+      </trans-unit>
+      <trans-unit id="fd8d765efba4ed957f3df2ccefba505e4b9c4f1f" resname="LABEL_PUBLICATION_DATE">
+        <source>LABEL_PUBLICATION_DATE</source>
+        <target state="new">Publication</target>
+      </trans-unit>
       <trans-unit id="3fb57a4ff147f265a3fa9f652075779ea7b4ebbb" resname="LABEL_SITE_BANNER">
         <source>LABEL_SITE_BANNER</source>
         <target>Website banner</target>
+      </trans-unit>
+      <trans-unit id="f004dddcbae19be0b3855776a15d6d40351f5a42" resname="LABEL_TO">
+        <source>LABEL_TO</source>
+        <target state="new">To</target>
+      </trans-unit>
+      <trans-unit id="a2d1505734b4f23402d96d0ad2ba52231a066951" resname="LABEL_UNPIN_INFORMATION">
+        <source>LABEL_UNPIN_INFORMATION</source>
+        <target state="new">Don't pin anymore | Information</target>
       </trans-unit>
       <trans-unit id="2235ec18546cbd6c61161942ad359fd0602947ba" resname="LABEL_WIDGET_TEMPLATE_RICH_TEXT">
         <source>LABEL_WIDGET_TEMPLATE_RICH_TEXT</source>
@@ -299,6 +409,10 @@ This text contains HTML tags, please try to keep those tags
         <source>LINK_ADD_PAGE</source>
         <target>Add a page</target>
       </trans-unit>
+      <trans-unit id="2069c44a64f6a7ded475b387d8c9167e0d272de5" resname="LINK_BACK_TO_CITY_NEWS">
+        <source>LINK_BACK_TO_CITY_NEWS</source>
+        <target>Return to the | Information List</target>
+      </trans-unit>
       <trans-unit id="f1469df257c643b79a5c5574848684351f2c6b67" resname="LINK_BACK_TO_NEWS">
         <source>LINK_BACK_TO_NEWS</source>
         <target><![CDATA[Go back|to news list]]></target>
@@ -337,6 +451,10 @@ This text contains HTML tags, please try to keep those tags
         <source>LINK_CUSTOMIZE</source>
         <target>Customisation</target>
       </trans-unit>
+      <trans-unit id="19ccdaae346113df44e31a4fd375984b0c042dd3" resname="LINK_DELETE_CITY_NEWS">
+        <source>LINK_DELETE_CITY_NEWS</source>
+        <target>Delete|Information</target>
+      </trans-unit>
       <trans-unit id="89b3551884ed21c348950ad2659a1a844d781097" resname="LINK_DELETE_NEWS">
         <source>LINK_DELETE_NEWS</source>
         <target><![CDATA[Delete|news]]></target>
@@ -353,6 +471,10 @@ This text contains HTML tags, please try to keep those tags
         <note><![CDATA[%class% is a placeholder
 This text contains HTML tags, please try to keep those tags
 ]]></note>
+      </trans-unit>
+      <trans-unit id="b6ed7b5b3cc2c1a518ef027786639f8f30b863ea" resname="LINK_EDIT_CITY_NEWS">
+        <source>LINK_EDIT_CITY_NEWS</source>
+        <target>Edit|Information</target>
       </trans-unit>
       <trans-unit id="4f101287be7d2f6f0e2d61750094d5a75ba857ee" resname="LINK_EDIT_NEWS">
         <source>LINK_EDIT_NEWS</source>
@@ -436,6 +558,10 @@ This text contains HTML tags, please try to keep those tags
         <source>LINK_WIDGETS</source>
         <target>Widgets</target>
       </trans-unit>
+      <trans-unit id="c26d7ef334d0d2a88b65dc9725d28dfe5abdcccb" resname="LINK_WRITE_CITY_INFORMATION">
+        <source>LINK_WRITE_CITY_INFORMATION</source>
+        <target state="new">Add|Municipal Information</target>
+      </trans-unit>
       <trans-unit id="516ee6664f501ea1d6d4e0fae16b5f7730377c42" resname="LINK_WRITE_NEWS">
         <source>LINK_WRITE_NEWS</source>
         <target>Write a news item</target>
@@ -499,6 +625,18 @@ This text contains HTML tags, please try to keep those tags
       <trans-unit id="593f9ef480946d05a9753b53c548b018d7a0a52e" resname="NEWS_FINISH_PLURAL">
         <source>NEWS_FINISH_PLURAL</source>
         <target>News completed</target>
+      </trans-unit>
+      <trans-unit id="c1a05344f8a1a0add059ca42f35fc4c5339e7d5b" resname="NEWS_FLASH_DELETED_SUCCESS">
+        <source>NEWS_FLASH_DELETED_SUCCESS</source>
+        <target>The news item has been successfully deleted</target>
+      </trans-unit>
+      <trans-unit id="847d33bd4efcf82ebb8ce93f9fd3f49336f11d58" resname="NEWS_FLASH_PUBLISHED_SUCCESS">
+        <source>NEWS_FLASH_PUBLISHED_SUCCESS</source>
+        <target>The news item has been successfully published</target>
+      </trans-unit>
+      <trans-unit id="e49820eb2dedf8009fa3e70218938a80ef9a72a4" resname="NEWS_FLASH_UPDATED_SUCCESS">
+        <source>NEWS_FLASH_UPDATED_SUCCESS</source>
+        <target>The news item has been successfully updated</target>
       </trans-unit>
       <trans-unit id="bdf1cc59afa674a97c7d70e01adb3b708c962110" resname="NEWS_PAGE">
         <source>NEWS_PAGE</source>
@@ -635,6 +773,10 @@ Click on the button at the top left to add your first widget!]]></target>
         <source>PLACEHOLDER_TITLE</source>
         <target>News title</target>
       </trans-unit>
+      <trans-unit id="1a2e372cc21620d6e3563e5054ed3c4e9aad7e18" resname="PLACEHOLDER_TITLE_CITY_INFO">
+        <source>PLACEHOLDER_TITLE_CITY_INFO</source>
+        <target state="new">Title of the Municipal information</target>
+      </trans-unit>
       <trans-unit id="4f34bd36e3cdc1f9761a18cc21ddee11baa907a8" resname="PLACEHOLDER_TITLE_WIDGET">
         <source>PLACEHOLDER_TITLE_WIDGET</source>
         <target state="new">Widget title</target>
@@ -654,6 +796,14 @@ Click on the button at the top left to add your first widget!]]></target>
       <trans-unit id="b07e6974b17d4f70ae8c374e3fa347e712c9b7d0" resname="PUBLISHED">
         <source>PUBLISHED</source>
         <target>Published</target>
+      </trans-unit>
+      <trans-unit id="2c7e2156707c73330d3e9f779b9791204e82243f" resname="PUBLISHED_FUTURE">
+        <source>PUBLISHED_FUTURE</source>
+        <target state="new">To Publish</target>
+      </trans-unit>
+      <trans-unit id="38f7a6f23370e35a74deb1971544560a50eefa46" resname="PUBLISHED_PAST">
+        <source>PUBLISHED_PAST</source>
+        <target state="new">Previous publication</target>
       </trans-unit>
       <trans-unit id="9b5e68af8e5d14482e18424e8f7a0c8d358c0f48" resname="PUBLISH_AT_BY">
         <source>Publié %date% par %image% %user%</source>
@@ -687,9 +837,21 @@ Click on the button at the top left to add your first widget!]]></target>
         <source>THIS_WIDGET_HAVENT_CONFIGURATION</source>
         <target>This widget does have any configuration</target>
       </trans-unit>
+      <trans-unit id="a1b2e65bbb9bcd56fe5d9fa83773dd99b1bf5ef1" resname="TITLE_CITY_INFORMATION">
+        <source>TITLE_CITY_INFORMATION</source>
+        <target state="new">Municipal Information</target>
+      </trans-unit>
+      <trans-unit id="96b250bfe50a049a2ef0edeb982195967aeecc09" resname="TITLE_CITY_INFORMATIONS">
+        <source>TITLE_CITY_INFORMATIONS</source>
+        <target state="new">Municipal Information</target>
+      </trans-unit>
       <trans-unit id="49dab9873f847696f43c30ada206da760f4ef9fb" resname="TITLE_CREATE_YOUR_PAGE">
         <source>TITLE_CREATE_YOUR_PAGE</source>
         <target>Create your page!</target>
+      </trans-unit>
+      <trans-unit id="5cdfa181272bff330f04d840caa5457f1eacb681" resname="TITLE_DELETE_CITY_NEWS">
+        <source>TITLE_DELETE_CITY_NEWS</source>
+        <target state="new">Delete Municipal Information</target>
       </trans-unit>
       <trans-unit id="eb531221645b35f3fb8232ddb84be44635cfedb4" resname="TITLE_DELETE_NEWS">
         <source>TITLE_DELETE_NEWS</source>
@@ -808,6 +970,10 @@ Click on the button at the top left to add your first widget!]]></target>
       <trans-unit id="c52ac61e77c368b38263e17951ede51fa116e95f" resname="WAITING_TO_MODERATION">
         <source>WAITING_TO_MODERATION</source>
         <target>Awaiting correction</target>
+      </trans-unit>
+      <trans-unit id="5e4673a8b85c07eae398deed062848e63c38a5bc" resname="WARNING_DELETING_CITY_NEWS">
+        <source>WARNING_DELETING_CITY_NEWS</source>
+        <target state="new">Warning, deleting this information cannot be undone. All content will be lost!</target>
       </trans-unit>
       <trans-unit id="6d2408ff9618a3b32e4f0eccd4bc20a40ec4f5ac" resname="WARNING_DELETING_NEWS">
         <source>WARNING_DELETING_NEWS</source>

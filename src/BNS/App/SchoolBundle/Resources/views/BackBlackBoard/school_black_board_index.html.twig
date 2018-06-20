@@ -23,7 +23,7 @@
                     <div class="span8">
                         <a href="{{ path('BNSAppSchoolBundle_back') }}" class="btn bns-notice btn-24 medium-return button-return">
                             <span class="icons-24 back-icon"></span>
-                            {{ 'LINK_BACK_TO_SCHOOL'|trans |desc("<strong>Retourner</strong><br />à l'école") |raw}}
+                            {{ 'LINK_BACK_TO_SCHOOL'|trans({}, 'SCHOOL') |desc("<strong>Retourner</strong><br />à l'école") |raw}}
                         </a>
                         <a href="{{ path('BNSAppSchoolBundle_back') }}" class="btn bns-danger btn-24 medium-return">
                             <span class="icons-24 cancel-icon"></span>

@@ -1,0 +1,20 @@
+module:
+  unique_name: ACCOUNT
+  is_contextable: true
+  default_rank:
+    pupil: VOID
+    parent: USE
+    teacher: USE
+    other: USE
+
+permissions:
+  # access to the front mode
+  ACCESS: ~
+
+ranks:
+
+  USE:
+    permissions: [ACCESS]
+
+  VOID:
+    permissions: []

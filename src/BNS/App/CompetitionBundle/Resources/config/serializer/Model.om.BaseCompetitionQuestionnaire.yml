@@ -1,0 +1,5 @@
+BNS\App\CompetitionBundle\Model\om\BaseCompetitionQuestionnaire:
+  exclusion_policy: All
+  properties:
+      created_at:
+        expose: true

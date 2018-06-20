@@ -26,10 +26,12 @@ angular.module('bns.components.toast', [])
  */
 function BNSToastFactory ($mdToast, $translate) {
 
+  var stack = [];
+
   var defaults = {
     // mdToast options
-    hideDelay: 3000,
-    position: 'bottom right',
+    hideDelay: 5000,
+    position: 'bottom left',
     templateUrl: 'views/components/toast/bns-toast.html',
     controller: function BNSToastController () {
       this.resolve = function () { $mdToast.hide(true); };
@@ -70,6 +72,19 @@ function BNSToastFactory ($mdToast, $translate) {
   }
 
   function show (config) {
+    stack.push(config);
+    if (stack.length === 1) {
+      return doShow();
+    }
+  }
+
+  function doShow () {
+    if (!stack.length) {
+      return;
+    }
+
+    var config = stack[0];
+
     if (config.content) {
       config.content = $translate.instant(config.content);
     }
@@ -80,7 +95,13 @@ function BNSToastFactory ($mdToast, $translate) {
     });
     config.locals = angular.extend(config.locals || {}, locals);
 
-    return $mdToast.show($mdToast.simple(config));
+    var promise = $mdToast.show($mdToast.simple(config));
+    promise.then(function showNext () {
+      stack.shift();
+      doShow();
+    });
+
+    return promise;
   }
 
   function extendConfig (preset, config) {

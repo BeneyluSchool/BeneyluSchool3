@@ -3,13 +3,16 @@ BNS\App\WorkshopBundle\Model\om\BaseWorkshopPage:
   properties:
     id:
       expose: true
+      groups: [Default, pages_moved]
     document_id:
       expose: true
+      groups: [Default, pages_moved]
     layout_code:
       expose: true
       groups: [detail]
     position:
       expose: true
+      groups: [Default, pages_moved]
 
   virtual_properties:
 

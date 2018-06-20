@@ -33,6 +33,7 @@ use Buzz\Browser;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\Util\StringUtils;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class PaasManager
@@ -77,10 +78,10 @@ class PaasManager
     /** @var  RouterInterface $router */
     protected $router;
 
-    protected static $cacheTypes = array('subscriptions', 'resources', 'resources_sync', 'resources_sync_ent');
+    protected static $cacheTypes = array('subscriptions', 'resources', 'resources_sync', 'resources_sync_ent', 'cur_sub');
 
     /**
-     * @var \Redis
+     * @var \Redis|\Predis\Client
      */
     protected $redis;
 
@@ -111,6 +112,11 @@ class PaasManager
     /** @var NathanResourceManager  */
     protected $nathanResourceManager;
 
+    protected $acceptedGroups;
+
+    /** @var  LicenceManager */
+    protected $licenceManager;
+
     public function __construct(
         $buzz,
         $userManager,
@@ -128,7 +134,8 @@ class PaasManager
         TranslatorInterface $translator,
         BNSAnalyticsManager $analyticsManager,
         $originId,
-        NathanResourceManager $nathanResourceManager
+        NathanResourceManager $nathanResourceManager,
+        LicenceManager $licenceManager
     ) {
         $this->secretKey = $secretKey;
         $this->paasUrl = $paasUrl;
@@ -156,6 +163,7 @@ class PaasManager
         $this->analyticsManager = $analyticsManager;
         $this->originId = $originId;
         $this->nathanResourceManager = $nathanResourceManager;
+        $this->licenceManager = $licenceManager;
     }
 
     public function getPaasUrl()
@@ -165,46 +173,26 @@ class PaasManager
 
     public function getClient($clientType, $clientIdentifier)
     {
-        $client = null;
-        switch (strtoupper($clientType)) {
-            case 'SCHOOL':
-                // TODO remove UAI try when not needed
-                // Try UAI first
+        if ("USER" === $clientType) {
+            if (is_numeric($clientIdentifier)) {
+                $client = UserQuery::create()->findPk($clientIdentifier);
+            } else {
+                $client = UserQuery::create()->filterByLogin($clientIdentifier, \Criteria::EQUAL)->findOne();
+            }
+        } else {
+            if (null === $this->acceptedGroups) {
+                $this->acceptedGroups = GroupTypeQuery::create()->filterBySimulateRole(false)->select('type')->find()->toArray();
+            }
+            if (!in_array($clientType, $this->acceptedGroups)) {
+                return null;
+            } else {
                 $client = GroupQuery::create()
                     ->useGroupTypeQuery()
-                        ->filterByType($clientType)
+                    ->filterByType($clientType)
                     ->endUse()
-                    ->filterBySingleAttribute('UAI', $clientIdentifier)
-                    ->findOne();
-                if (!$client && is_numeric($clientIdentifier)) {
-                    $client = GroupQuery::create()
-                        ->useGroupTypeQuery()
-                            ->filterByType($clientType)
-                        ->endUse()
-                        ->findPk($clientIdentifier)
-                    ;
-                }
-                break;
-            case 'CITY':
-            case 'CLASSROOM':
-                if (is_numeric($clientIdentifier)) {
-                    $client = GroupQuery::create()
-                        ->useGroupTypeQuery()
-                            ->filterByType($clientType)
-                        ->endUse()
-                        ->findPk($clientIdentifier)
-                    ;
-                }
-                break;
-            case 'USER':
-                if (is_numeric($clientIdentifier)) {
-                    $client = UserQuery::create()->findPk($clientIdentifier);
-                } else {
-                    $client = UserQuery::create()->filterByLogin($clientIdentifier, \Criteria::EQUAL)->findOne();
-                }
-            break;
+                    ->findPk($clientIdentifier);
+            }
         }
-
         return $client;
     }
 
@@ -226,10 +214,20 @@ class PaasManager
         return 'paas_' . $type . '_' . $this->getClientType($client) . '_' . $client->getId();
     }
 
-    public function resetClient($client)
+    public function resetClient($client, $cacheOnly = false)
     {
-        foreach (self::$cacheTypes as $type) {
-            $this->redis->del($this->getClientCacheKey($client, $type));
+        $this->redis->pipeline(function($pipe) use ($client) {
+            /** @var $pipe \Predis\Client */
+            foreach (self::$cacheTypes as $type) {
+                $pipe->del($this->getClientCacheKey($client, $type));
+            }
+        });
+        if ($client instanceof Group) {
+            $this->licenceManager->resetLicence($client->getId(), false);
+        }
+
+        if ($cacheOnly) {
+            return;
         }
 
         $subscriptions = $this->getSubscriptions($client);
@@ -238,7 +236,6 @@ class PaasManager
         }
 
         $subscriptions = $subscriptions['currentSubscriptions'];
-        $hasPremium = false;
 
         $subscriptionUniqueNames = array();
         $this->logger->debug('resetClient', array(
@@ -247,17 +244,7 @@ class PaasManager
         ));
 
         foreach ($subscriptions as $subscription) {
-            if ($subscription['offer']['unique_name'] == self::PREMIUM_SUBSCRIPTION) {
-                $hasPremium = true;
-
-                if ($subscription['delivered'] == false) {
-                    if ((isset($subscription['end']) && time() <= strtotime($subscription['end'])) ||
-                        (isset($subscription['life_time']) && true === $subscription['life_time'])
-                    ) {
-                        $this->handlePremiumSubscription($subscription, $client);
-                    }
-                }
-            } elseif (isset($subscription['offer']['type']) && in_array($subscription['offer']['type'], array('APPLICATION', 'FEATURE', 'ACTIVITY'))) {
+            if (isset($subscription['offer']['type']) && in_array($subscription['offer']['type'], array('APPLICATION', 'FEATURE', 'ACTIVITY', 'LICENCE'))) {
                 $this->handleApplicationFeatureSubscription($subscription, $client);
 
                 $subscriptionUniqueNames[$subscription['offer']['type']][] = $subscription['offer']['unique_name'];
@@ -267,16 +254,15 @@ class PaasManager
             }
         }
 
-        //Traitement ici des désabonnements ayant des conséquences dans l'ENT (uniquement premium pour l'instant)
-        if($client->isPremium() && !$hasPremium)
-        {
-            $this->handlePremiumUnsubscription($client);
-        }
-
         $this->handleAvailableApplicationsFeatures($subscriptionUniqueNames, $client);
-
     }
 
+    /**
+     * @deprecated prefer getCurrentSubscriptions
+     * @param $client
+     * @param bool $clearCache
+     * @return array|mixed
+     */
     public function getSubscriptions($client, $clearCache = false)
     {
         $key = $this->getClientCacheKey($client, 'subscriptions');
@@ -299,6 +285,16 @@ class PaasManager
             }
         }
         return json_decode($this->redis->get($key), true);
+    }
+
+    public function getCurrentSubscriptions($client, $clearCache = false)
+    {
+        $subscriptions = $this->getSubscriptions($client, $clearCache);
+        if ($subscriptions && isset($subscriptions['currentSubscriptions'])) {
+            return $subscriptions['currentSubscriptions'];
+        }
+
+        return [];
     }
 
     public function getUserSubscriptions(User $user, $clearCache = false)
@@ -450,29 +446,13 @@ class PaasManager
         }
     }
 
+    /**
+     * @deprecated
+     * @param $group
+     * @return bool|mixed
+     */
     public function getPremiumInformations($group)
     {
-        if($group->getGroupType()->getType() == 'CLASSROOM')
-        {
-            $this->groupManager->setGroup($group);
-            $group = $this->groupManager->getParent();
-        }
-
-        if($group->getGroupType()->getType() == 'SCHOOL')
-        {
-            $subscriptions = $this->getSubscriptions($group);
-            if(isset($subscriptions['currentSubscriptions']))
-            {
-                $subscriptions = $subscriptions['currentSubscriptions'];
-                foreach($subscriptions as $subscription)
-                {
-                    if(isset($subscription['offer']['unique_name']) && $subscription['offer']['unique_name'] == self::PREMIUM_SUBSCRIPTION)
-                    {
-                        return $subscription;
-                    }
-                }
-            }
-        }
         return false;
     }
 
@@ -588,14 +568,6 @@ class PaasManager
                     $hydratedResources[] = $media;
                 }
             }
-
-            // from nathan
-            $nathanResources = $this->nathanResourceManager->getResources($user, $group);
-            if ($nathanResources !== false) {
-                foreach ($nathanResources as $resource) {
-                    $hydratedResources[] = $resource;
-                }
-            }
         }
 
         return $hydratedResources;
@@ -620,6 +592,7 @@ class PaasManager
             $hasResources = false;
             if ($hydrateRessources) {
                 foreach ($this->getResources($group) as $resource) {
+                    $hasResources = true;
                     $resources[] = $this->hydrateResourceFromPaas($resource);
                 }
             } else {
@@ -992,7 +965,7 @@ class PaasManager
 
         $encodedKey = md5($str . $key);
 
-        if($encodedKey != $parameters->get('key'))
+        if (!StringUtils::equals($encodedKey, $parameters->get('key')))
         {
             $this->forwardDenied("La clé n'est pas bonne");
         }
@@ -1345,6 +1318,23 @@ class PaasManager
                 $this->processSubscription(self::PAAS_SUBSCRIPTION_REFUSE, $client, $subscription['id']);
 
                 return false;
+            case 'LICENCE':
+                if ($client instanceof Group) {
+                    $this->licenceManager->resetLicence($client->getId(), true);
+
+                    $this->sendValidationEmailsForClient($client);
+
+                    if ('SCHOOL' === $client->getType()) {
+                        $this->handlePremiumSubscription($subscription, $client);
+                    } else {
+                        $this->processSubscription(self::PAAS_SUBSCRIPTION_ACCEPT, $client, $subscription['id']);
+                    }
+
+                    return true;
+                }
+
+                $this->processSubscription(self::PAAS_SUBSCRIPTION_REFUSE, $client, $subscription['id']);
+                return false;
         }
 
         return false;
@@ -1424,6 +1414,23 @@ class PaasManager
             $this->analyticsManager->trackUser('INSTALLED_APPLICATION_USER', $user, $properties);
         }
 
+    }
+
+    protected function sendValidationEmailsForClient(Group $client)
+    {
+        $teacherIds = $this->groupManager->getUserIdsByRole('TEACHER', $client);
+        /** @var User[] $teachers */
+        $teachers = UserQuery::create()
+            ->filterByArchived(false)
+            ->filterById($teacherIds)
+            ->find();
+        foreach ($teachers as $teacher) {
+            if ($teacher->getEmailValidated()) {
+                continue;
+            }
+
+            $this->userManager->sendWelcomeEmail($teacher);
+        }
     }
 
 

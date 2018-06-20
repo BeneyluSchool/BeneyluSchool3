@@ -3,14 +3,20 @@
 namespace BNS\App\MiniSiteBundle\Controller;
 
 use \BNS\App\CoreBundle\Annotation\Rights;
+use BNS\App\CoreBundle\Model\UserQuery;
+use BNS\App\MiniSiteBundle\Form\Type\MiniSiteCityStatusType;
 use BNS\App\MiniSiteBundle\Form\Type\MiniSiteNewsStatusType;
 use \BNS\App\MiniSiteBundle\Form\Type\MiniSitePageNewsType;
 use \BNS\App\MiniSiteBundle\Model\MiniSite;
+use BNS\App\MiniSiteBundle\Model\MiniSitePage;
+use BNS\App\MiniSiteBundle\Model\MiniSitePageCityNews;
+use BNS\App\MiniSiteBundle\Model\MiniSitePageCityNewsQuery;
 use \BNS\App\MiniSiteBundle\Model\MiniSitePageNews;
 use \BNS\App\MiniSiteBundle\Model\MiniSitePageNewsPeer;
 use \BNS\App\MiniSiteBundle\Model\MiniSitePageNewsQuery;
 use \BNS\App\MiniSiteBundle\Model\MiniSiteQuery;
 
+use BNS\App\NotificationBundle\Notification\MinisiteBundle\MinisitePageNewsModifiedNotification;
 use BNS\App\NotificationBundle\Notification\MinisiteBundle\MinisitePageNewsPublishedNotification;
 use \Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,32 +64,49 @@ class BackPageNewsController extends AbstractMiniSiteController
             return $this->redirectHome();
         }
 
-        $filterQuery = null;
-
         $session = $this->get('session');
-        $filterForm = $this->createForm(new MiniSiteNewsStatusType(), $session->get('minisite_page_news_filter', array()));
+        if ($page->isCity()) {
+            $type = new MiniSiteCityStatusType();
+            $filterSessionKey = 'minisite_page_city_filter';
+            $filterQuery = MiniSitePageCityNewsQuery::create();
+        } else {
+            $type = new MiniSiteNewsStatusType();
+            $filterSessionKey = 'minisite_page_news_filter';
+            $filterQuery = MiniSitePageNewsQuery::create();
+        }
+        $filterForm = $this->createForm($type, $session->get($filterSessionKey, array()));
 
         $data = null;
         $filterForm->handleRequest($request);
         if ($filterForm->isValid()) {
             $data = $filterForm->getData();
-            $session->set('minisite_page_news_filter', $data);
+            $session->set($filterSessionKey, $data);
         }
 
-        $filterQuery = MiniSitePageNewsQuery::create();
-
-        $data = $session->get('minisite_page_news_filter', array());
+        $data = $session->get($filterSessionKey, array());
         if (isset($data['status']) && is_array($data['status']) && count($data['status']) > 0) {
-            $filterQuery->filterByStatus($data['status'], \Criteria::IN);
+            $filterQuery->buildStatusFilter($data['status']);
+        }
+
+        $pageId = $page->getId();
+        $canManage = true;
+        if ($page->isCity() && $miniSite->getGroup()->getType() !== 'CITY') {
+            $canManage = false;
         }
 
         // On récupère les actus
-        $query = MiniSitePageNewsQuery::create('mspn')
-            ->joinWith('mspn.User u') // Author
+        if ($page->isCity() && $miniSite->getGroup()->getType() !== 'CITY') {
+            $query = $this->get('bns.mini_site.city_news_manager')->getCityNewsQueryForPage($page);
+        } else {
+            $query = MiniSitePageNewsQuery::create('mspn')
+                ->where('mspn.PageId = ?', $pageId)
+                ->orderBy('mspn.CreatedAt', \Criteria::DESC)
+            ;
+        }
+
+        $query->joinWith('mspn.User u') // Author
             ->joinWith('u.Profile p')
             ->joinWith('p.Resource r', \Criteria::LEFT_JOIN)
-            ->where('mspn.PageId = ?', $page->getId())
-            ->orderBy('mspn.CreatedAt', \Criteria::DESC)
         ;
 
         // Si NON admin, on ne récupère que les siens
@@ -106,6 +129,7 @@ class BackPageNewsController extends AbstractMiniSiteController
 
 
         return $this->render('BNSAppMiniSiteBundle:PageNews:back_news_list.html.twig', array(
+            'can_manage' => $canManage,
             'page'		 => $page,
             'pager'		 => $pager,
             'isAjaxCall' => $this->getRequest()->isXmlHttpRequest(),
@@ -132,15 +156,38 @@ class BackPageNewsController extends AbstractMiniSiteController
 			return $this->redirectHome();
 		}
 
+        if ($news->getMiniSitePage()->isCity()) {
+            $type = 'BNS\\App\\MiniSiteBundle\\Form\\Type\\MiniSitePageCityNewsType';
+            $options = [
+                'group' => $news->getMiniSitePage()->getMiniSite()->getGroup()
+            ];
+        } else {
+            $type = 'BNS\\App\\MiniSiteBundle\\Form\\Type\\MiniSitePageNewsType';
+            $options = [];
+        }
+
 		$ext = $this->get('twig.extension.resource');
 		$news->setContent($ext->parsePublicResources($news->getContent()));
-		$form = $this->createForm(new MiniSitePageNewsType($this->get('bns.right_manager')->hasRight('MINISITE_ADMINISTRATION')), $news);
+		$form = $this->createForm(new $type($this->get('bns.right_manager')->hasRight('MINISITE_ADMINISTRATION')), $news, $options);
 		if ('POST' == $this->getRequest()->getMethod()) {
 			$response = $this->savePageNews($form);
 
 			if ($response !== false) {
-				return $response;
-			}
+			    if ($news->isCityNews()) {
+                    if ($news->getStatus() == 'PUBLISHED') {
+                        $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('CITY_NEWS_FLASH_PUBLISHED_SUCCESS', array(), 'MINISITE'));
+                    } else {
+                        $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('CITY_NEWS_FLASH_SAVED_SUCCESS', array(), 'MINISITE'));
+                    }
+                } else {
+                    if ($news->getStatus() == 'PUBLISHED') {
+                        $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('NEWS_FLASH_PUBLISHED_SUCCESS', array(), 'MINISITE'));
+                    } else {
+                        $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('NEWS_FLASH_UPDATED_SUCCESS', array(), 'MINISITE'));
+                    }
+                }
+                return $response;
+            }
 		}
 
 		return $this->render('BNSAppMiniSiteBundle:PageNews:back_news_form.html.twig', array(
@@ -187,6 +234,7 @@ class BackPageNewsController extends AbstractMiniSiteController
 	private function savePageNews(&$form)
 	{
 		$form->bind($this->getRequest());
+		$this->get('bns.media.manager')->bindAttachments($form->getData(), $this->getRequest());
 		if ($form->isValid()) {
 			/** @var MiniSitePageNews $news */
 			$news = $form->getData();
@@ -194,7 +242,7 @@ class BackPageNewsController extends AbstractMiniSiteController
 				$news->setStatus(MiniSitePageNewsPeer::STATUS_FINISHED);
 			}
 
-			if ($news->getStatus(MiniSitePageNewsPeer::STATUS_PUBLISHED)) {
+			if ($news->getStatus() === MiniSitePageNewsPeer::STATUS_PUBLISHED && !$news->isCityNews()) {
 				$news->setPublishedAt(time());
 			}
 
@@ -203,12 +251,36 @@ class BackPageNewsController extends AbstractMiniSiteController
             // Attachments save process
             $this->get('bns.media.manager')->saveAttachments($news, $this->getRequest());
 
-			// notify the page audience, on first publication only
-			if ($news->isPublished() && !$news->getHasNotified()) {
-				$news->setHasNotified(true);
-				$news->save();
-				$users = $this->getPageAudience($news->getMiniSitePage());
-				$this->get('notification_manager')->send($users, new MinisitePageNewsPublishedNotification($this->get('service_container'), $news->getId()));
+			// notify the page audience
+			if ($news->isPublished()) {
+				if ($news instanceof MiniSitePageCityNews) {
+					if ($news->getHasNotified()) {
+						$isFirstPublication = false;
+					} else {
+						$isFirstPublication = true;
+						$news->setHasNotified(true);
+						$news->save();
+					}
+					$schools = $news->getSchools();
+					foreach ($schools as $school) {
+						$allIds = $this->get('bns.group_manager')->setGroup($school)->getUsersIds();
+						$pupilIds = $this->get('bns.group_manager')->getUserIdsByRole('PUPIL', $school);
+						$adultIds = array_diff($allIds, $pupilIds);
+						$users = UserQuery::create()->findPks($adultIds);
+						if ($isFirstPublication) {
+							$notification = new MinisitePageNewsPublishedNotification($this->get('service_container'), $news->getId(), $school->getId());
+						} else {
+							$notification = new MinisitePageNewsModifiedNotification($this->get('service_container'), $news->getId(), $school->getId());
+						}
+						$this->get('notification_manager')->send($users, $notification);
+					}
+				} else if (!$news->getHasNotified()) {
+					// regular news, first publication only
+					$news->setHasNotified(true);
+					$news->save();
+					$users = $this->getPageAudience($news->getMiniSitePage());
+					$this->get('notification_manager')->send($users, new MinisitePageNewsPublishedNotification($this->get('service_container'), $news->getId()));
+				}
 			}
 
 			// Redirect, to avoid refresh
@@ -249,11 +321,25 @@ class BackPageNewsController extends AbstractMiniSiteController
 			return $this->redirectHome();
 		}
 
-		$news = new MiniSitePageNews();
+		if ($page->isCity()) {
+			// cannot create city news in non-city groups
+			if ($page->getMiniSite()->getGroup()->getType() !== 'CITY') {
+				return $this->redirectHome();
+			}
+			$news = new MiniSitePageCityNews();
+			$type = 'BNS\\App\\MiniSiteBundle\\Form\\Type\\MiniSitePageCityNewsType';
+			$options = [
+				'group' => $miniSite->getGroup()
+			];
+		} else {
+			$news = new MiniSitePageNews();
+			$type = 'BNS\\App\\MiniSiteBundle\\Form\\Type\\MiniSitePageNewsType';
+			$options = [];
+		}
 		$news->setAuthor($this->getUser());
 		$news->setMiniSitePage($page);
 
-		$form = $this->createForm(new MiniSitePageNewsType($this->get('bns.right_manager')->hasRight('MINISITE_ADMINISTRATION')), $news);
+		$form = $this->createForm(new $type($this->get('bns.right_manager')->hasRight('MINISITE_ADMINISTRATION')), $news, $options);
 		if ('POST' == $this->getRequest()->getMethod()) {
 			$response = $this->savePageNews($form);
 			if ($response !== false) {
@@ -316,12 +402,18 @@ class BackPageNewsController extends AbstractMiniSiteController
 		if (!$this->isEditorPage($this->getUser(), $page)) {
 			return $this->redirectHome();
 		}
+        if ($news->isCityNews()) {
+            $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('CITY_NEWS_FLASH_DELETED_SUCCESS', array(), 'MINISITE'));
+        } else {
+            $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('NEWS_FLASH_DELETED_SUCCESS', array(), 'MINISITE'));
+        }
 
-		// Finally
+        // Finally
 		$news->delete();
 
 		return $this->redirect($this->generateUrl('minisite_manager_page', array(
 			'slug' => $page->getSlug()
 		)));
 	}
+
 }

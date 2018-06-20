@@ -124,7 +124,7 @@
 							</td>
 						</tr>
 						{# MODULES #}
-						{% for module in group.getGroupType().getModules(true) %}
+						{% for module in group.getGroupType().getModules(true) if module.getNotificationTypes()|length %}
 							<tr class="tab-module">
 								<td>
 									{{ module.getLabel() }}

@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-08-17T09:13:31Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2017-07-21T14:45:23Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
     </header>
     <body>
+      <trans-unit id="b4c2fd8e35d7acb3b185070b5afa1c0097428d99" resname="ADD_RECIPIENT">
+        <source>ADD_RECIPIENT</source>
+        <target>Ajouter un destinataire</target>
+      </trans-unit>
       <trans-unit id="e31ee81cafca376c2bc5317eed312cab3a124bf6" resname="BUTTON_BACK">
         <source>BUTTON_BACK</source>
         <target>Revenir</target>
@@ -58,9 +62,17 @@
         <source>BUTTON_SAVE</source>
         <target>Sauvegarder</target>
       </trans-unit>
+      <trans-unit id="0f5d676c295b955268c1d9508568da06b81beef7" resname="BUTTON_SAVE_MODIFICATIONS">
+        <source>BUTTON_SAVE_MODIFICATIONS</source>
+        <target>Enregistrer les modifications</target>
+      </trans-unit>
       <trans-unit id="43ec614b34c2fb2de74b4b1e8e4842bfe2b8d943" resname="BUTTON_SEND_RESPONSE">
         <source>BUTTON_SEND_RESPONSE</source>
         <target>Envoyer la réponse</target>
+      </trans-unit>
+      <trans-unit id="ed3af6b0e1f56d086d16d599b8c0a23caab351c5" resname="BUTTON_SEND_RESPONSE_TO_ALL">
+        <source>BUTTON_SEND_RESPONSE_TO_ALL</source>
+        <target>Répondre à tous</target>
       </trans-unit>
       <trans-unit id="c99ee003274d154ff9962be3932e4a633c7eb4f4" resname="BUTTON_VALIDATE_ALL_MESSAGES">
         <source>BUTTON_VALIDATE_ALL_MESSAGES</source>
@@ -73,6 +85,14 @@
       <trans-unit id="ab0e51b879fdb26afa8bc69088cf48fc23d87246" resname="DESCRIPTION_INBOX_IS_EMPTY">
         <source>DESCRIPTION_INBOX_IS_EMPTY</source>
         <target>Aucun message reçu</target>
+      </trans-unit>
+      <trans-unit id="24a6e095f8b0e403ac0883d31caa99b869622259" resname="DESCRIPTION_MESSAGE_READ">
+        <source>DESCRIPTION_MESSAGE_READ</source>
+        <target>Lu</target>
+      </trans-unit>
+      <trans-unit id="29faa5bc8bee649649b627e7a3d0da05dfdf2a08" resname="DESCRIPTION_MESSAGE_UNREAD">
+        <source>DESCRIPTION_MESSAGE_UNREAD</source>
+        <target>Non-lu</target>
       </trans-unit>
       <trans-unit id="97d3c368363c63ff9db2767dc66c9fd9856142e3" resname="DESCRIPTION_NO_DRAFTS">
         <source>DESCRIPTION_NO_DRAFTS</source>
@@ -182,6 +202,10 @@
         <source>FLASH_GET_MESSAGE_ERROR</source>
         <target>Le message n'a pas pu être chargé</target>
       </trans-unit>
+      <trans-unit id="1d3f5c68d64d0008848490458258c890c85707df" resname="FLASH_GET_PREFERENCES_ERROR">
+        <source>FLASH_GET_PREFERENCES_ERROR</source>
+        <target>Les préférences n'ont pas pu être chargées</target>
+      </trans-unit>
       <trans-unit id="8dfe586d9b694b1327635bc89323107497fd647a" resname="FLASH_MESSAGE_SEND_ERROR">
         <source>FLASH_MESSAGE_SEND_ERROR</source>
         <target>Le message n'a pas pu être envoyé</target>
@@ -201,6 +225,14 @@
       <trans-unit id="5096fe2fc5d3cdebf01dcdc0674cbc9b4191a9cf" resname="FLASH_MODERATE_MESSAGES_SUCCESS">
         <source>FLASH_ACCEPT_MESSAGES_SUCCESS</source>
         <target>{COUNT, plural, 1{1 message passé en modération} other{# messages passés en modération}}</target>
+      </trans-unit>
+      <trans-unit id="0659d24d1eec9fc04383a99b980de720cd667456" resname="FLASH_PATCH_PREFERENCES_ERROR">
+        <source>FLASH_ACCEPT_MESSAGES_SUCCESS</source>
+        <target>Erreur lors de la modification des préférences</target>
+      </trans-unit>
+      <trans-unit id="aea6fc5e2f275a9a773246a4ba98115a0be2e3eb" resname="FLASH_PATCH_PREFERENCES_SUCCESS">
+        <source>FLASH_PATCH_PREFERENCES_SUCCESS</source>
+        <target>Préférences modifiées avec succès</target>
       </trans-unit>
       <trans-unit id="b8ba9d440937575a729b74f2bff24a72344807a9" resname="FLASH_READ_CONVERSATIONS_ERROR">
         <source>FLASH_READ_CONVERSATIONS_ERROR</source>
@@ -238,6 +270,34 @@
         <source>LABEL_SHOW_PREVIOUS_MESSAGES</source>
         <target>{COUNT, plural, 1{Afficher la réponse précédente} other{Afficher les # réponses précédentes}}</target>
       </trans-unit>
+      <trans-unit id="e4b0a44f39275ba40cd62f4aa6b4ec745edadc7b" resname="MESSAGE_ABSENCE_CONTENT">
+        <source>MESSAGE_ABSENCE_CONTENT</source>
+        <target>Message d'absence</target>
+      </trans-unit>
+      <trans-unit id="1e53d4933b5a5c2a004fe3e0e4b425ec4ac0f089" resname="MESSAGE_ABSENCE_SUBJECT">
+        <source>MESSAGE_ABSENCE_SUBJECT</source>
+        <target>Sujet du message d'absence</target>
+      </trans-unit>
+      <trans-unit id="4a9450ca03516bd6868bd5f1a5ebc9ff9fbfbd0d" resname="MESSAGE_DATE_ABSENT_FROM">
+        <source>MESSAGE_DATE_ABSENT_FROM</source>
+        <target>Du</target>
+      </trans-unit>
+      <trans-unit id="fd6f6ed616e755660bb0f8ee58b8624dc453ca2b" resname="MESSAGE_DATE_ABSENT_TO">
+        <source>MESSAGE_DATE_ABSENT_TO</source>
+        <target>Au</target>
+      </trans-unit>
+      <trans-unit id="1e5e998215cdc385a8c1a585845b5bf614e68f52" resname="MESSAGE_ALIAS">
+        <source>MESSAGE_ALIAS</source>
+        <target>Alias de messagerie</target>
+      </trans-unit>
+      <trans-unit id="8d18fdec609c842c5f70217bfa57fc31414dacf0" resname="MESSAGE_FORWARDED_TO">
+        <source>MESSAGE_FORWARDED_TO</source>
+        <target>Transférer mes messages de l'ENT vers une boite email externe</target>
+      </trans-unit>
+      <trans-unit id="e4b7e7fd387cfafb95279d04addf3ee50fb8fe01" resname="MESSAGE_IS_ABSENT">
+        <source>MESSAGE_IS_ABSENT</source>
+        <target>Activer message d'absence</target>
+      </trans-unit>
       <trans-unit id="144125cd9a0561cd95db4fb6f072cafb01615e9e" resname="MESSAGE_STATUS_1">
         <source>MESSAGE_STATUS_1</source>
         <target>Envoyé</target>
@@ -261,6 +321,10 @@
       <trans-unit id="5a9ca16bf16d93c20a11024e7e725e9e885d6729" resname="TITLE_MESSAGE_EDIT">
         <source>TITLE_MESSAGE_EDIT</source>
         <target>Édition d'un message</target>
+      </trans-unit>
+      <trans-unit id="376a0884e69a9a3aafbd5c4818a7d39e70ca8665" resname="TITLE_MESSAGE_PREFERENCES">
+        <source>TITLE_MESSAGE_PREFERENCES</source>
+        <target>Personnalisation</target>
       </trans-unit>
       <trans-unit id="4004c60d6757453935711719e12337ade01fb85c" resname="TITLE_META">
         <source>TITLE_META</source>

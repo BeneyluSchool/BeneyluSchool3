@@ -14,6 +14,7 @@ use BNS\App\WorkshopBundle\Model\WorkshopContentGroupContributor;
 use BNS\App\WorkshopBundle\Model\WorkshopContentInterface;
 use BNS\App\WorkshopBundle\Model\WorkshopContentPeer;
 use BNS\App\WorkshopBundle\Model\WorkshopDocument;
+use BNS\App\WorkshopBundle\Model\WorkshopQuestionnaire;
 
 /**
  * Class ContentManager
@@ -321,7 +322,7 @@ class ContentManager
      * @param Media $media
      * @return WorkshopContentInterface
      */
-    public function setup(WorkshopContentInterface $document, User $user = null, Media $media = null)
+    public function setup(WorkshopContentInterface $document, User $user = null, Media $media = null, $destination = null)
     {
         if ($document->getWorkshopContent()) {
             throw new \InvalidArgumentException("Cannot setup with existing WorkshopContent");
@@ -351,14 +352,21 @@ class ContentManager
 
         // create a new Media
         if (!$media) {
+            if(!$destination) {
+                $destination = $user->getMediaFolderRoot();
+            }
             $media = $this->mediaCreator->createModelDatas(array(
                 'label' => $date . ' - ' . $name,
-                'media_folder' => $user->getMediaFolderRoot(),
+                'media_folder' => $destination,
                 'user_id' => $user->getId(),
                 'mime_type' => 'NONE',
             ));
         }
-        $media->setTypeUniqueName('ATELIER_'.$document->getType());
+        $type = $document->getType();
+        if ($document instanceof WorkshopQuestionnaire) {
+            $type = 'QUESTIONNAIRE';
+        }
+        $media->setTypeUniqueName('ATELIER_'.$type);
 
         $document->getWorkshopContent()->setMedia($media);
         $document->getWorkshopContent()->setAuthor($user);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-06-21T10:27:13Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2016-10-28T13:09:41Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -147,8 +147,8 @@
         <target state="new">Messagerie dans toute l'école</target>
       </trans-unit>
       <trans-unit id="6fa4fa4ab7b5b30812345141b2eeb94208fdb339" resname="DATA_MINISITE">
-        <source>Minisite de l'école</source>
-        <target state="new">Minisite de l'école</target>
+        <source>Site web de l'école</source>
+        <target state="new">Site web de l'école</target>
       </trans-unit>
       <trans-unit id="197f58f8e7d46478728fd9ce03a4797e05aca906" resname="DATA_MULTIMEDIA">
         <source>Médiathèque de lécole</source>
@@ -181,6 +181,18 @@
       <trans-unit id="d6ef7e8baad99007f2d674209724e53a0c1dcb95" resname="DATA_SHARE_PROFIL_TO_SCHOOL">
         <source>Partagez vos profils au sein de toute l'école</source>
         <target state="new">Partagez vos profils au sein de toute l'école</target>
+      </trans-unit>
+      <trans-unit id="bd853c7aa517da61a9000f32abc12a2fff87f82e" resname="DATE_MUST_BE_IN">
+        <source>DATE_MUST_BE_IN</source>
+        <target><![CDATA[Personnaliser la période de restriction<br>Ces dates doivent se situer dans l'intervalle académique]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="fe8b640ebf893dfece3b25b184c011bea881357e" resname="DEFAULT_DATE">
+        <source>DEFAULT_DATE</source>
+        <target>Date par défaut : %date%.</target>
+        <note><![CDATA[%date% is a placeholder
+        ]]></note>
       </trans-unit>
       <trans-unit id="d6f5636098cd458ce9d22939f8e3e8deab0e9bd0" resname="DELETE">
         <source>DELETE</source>
@@ -382,6 +394,10 @@ This text contains HTML tags, please try to keep those tags
       <trans-unit id="31c25de772d9273b9e1354534c44f4c115d0fa9c" resname="LABEL_COUNTRY">
         <source>LABEL_COUNTRY</source>
         <target state="new">Pays</target>
+      </trans-unit>
+      <trans-unit id="4b3448f1cb121ac74b8bbf399acf7bac17baf5ad" resname="LABEL_ENABLE_RESTRICTED_ACCESS_SCHOOL">
+        <source>LABEL_ENABLE_RESTRICTED_ACCESS_SCHOOL</source>
+        <target>Restreindre les usages pour les élèves de notre école</target>
       </trans-unit>
       <trans-unit id="ce1c10fc63697676ae860527d71c366deb269a5a" resname="LABEL_NEW_CLASS">
         <source>LABEL_NEW_CLASS</source>
@@ -658,6 +674,10 @@ This text contains HTML tags, please try to keep those tags
         <target state="new"><![CDATA[<strong>Promouvoir</strong><br />référent ENT dans l'école]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
+      </trans-unit>
+      <trans-unit id="a4daa892a3639d905ecca917a053ca60c91b90ae" resname="LINK_RESTRICTED_SCHOOL">
+        <source>LINK_RESTRICTED_SCHOOL</source>
+        <target>Accès restreint</target>
       </trans-unit>
       <trans-unit id="47270ac2ead5d119d4d78e3a2ac7d77661a56786" resname="LINK_REVOKE_REFERAL">
         <source>LINK_REVOKE_REFERAL</source>
@@ -1327,6 +1347,14 @@ This text contains HTML tags, please try to keep those tags
         <source>[0,1] Élève sans classe | ]1,Inf[ Élèves sans classe</source>
         <target state="new">[0,1] Élève sans classe | ]1,Inf[ Élèves sans classe</target>
       </trans-unit>
+      <trans-unit id="976f352388292169a24c78e4b17c26dc3c40552c" resname="TITLE_RESTRICTED_ACCESS_FOR_CHILDREN">
+        <source>TITLE_RESTRICTED_ACCESS_FOR_CHILDREN</source>
+        <target>Accès restreint pour les élèves</target>
+      </trans-unit>
+      <trans-unit id="541819c72f25d21b7f924efea5d2a30f11705d68" resname="TITLE_RESTRICTED_PERIOD">
+        <source>TITLE_RESTRICTED_PERIOD</source>
+        <target>Période définie au niveau Académique.</target>
+      </trans-unit>
       <trans-unit id="76b541d15e999f135a4c68315d081a43891d2c05" resname="TITLE_REVOKE_REFERAL">
         <source><![CDATA[<h2>Êtes-vous sûr de vouloir révoquer %userFullName% de son statut de référent ENT dans l'école ?</h2><h3>Cet utilisateur ne pourra plus intéragir sur l'administration de l'école.<br />Vous pourrez à tout moment le promouvoir référent ENT à nouveau.</h3>]]></source>
         <target state="new"><![CDATA[<h2>Êtes-vous sûr de vouloir révoquer %userFullName% de son statut de référent ENT dans l'école ?</h2><h3>Cet utilisateur ne pourra plus intéragir sur l'administration de l'école.<br />Vous pourrez à tout moment le promouvoir référent ENT à nouveau.</h3>]]></target>
@@ -1372,6 +1400,10 @@ This text contains HTML tags, please try to keep those tags
         <source>TITLE_SCHOOL_MANAGEMENT</source>
         <target>École - Gestion</target>
       </trans-unit>
+      <trans-unit id="bb9d1a3581a6d488eccdb634f2e3644e937c380d" resname="TITLE_SCHOOL_RESTRICTED">
+        <source>TITLE_SCHOOL_RESTRICTED</source>
+        <target>Accès restreint</target>
+      </trans-unit>
       <trans-unit id="1633107b7b440e753c0e33e8d833ce744a042d97" resname="TITLE_SCHOOL_TEACHER_LIST">
         <source>TITLE_SCHOOL_TEACHER_LIST</source>
         <target>École - Liste des enseignants</target>
@@ -1397,7 +1429,7 @@ This text contains HTML tags, please try to keep those tags
 This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
-         <trans-unit id="710bef0129a30791250bf1ee53a7c264e80858f9" resname="TITLE_SURE_TO_GENERATE_CARD_CHILD">
+      <trans-unit id="710bef0129a30791250bf1ee53a7c264e80858f9" resname="TITLE_SURE_TO_GENERATE_CARD_CHILD">
         <source>TITLE_SURE_TO_GENERATE_CARD_CHILD</source>
         <target><![CDATA[<h2>Êtes-vous sûr de vouloir générer une fiche pour cet élève ?</h2><h3><strong>Attention</strong>, cette action va régénérer le mot de passe de cet élève ! Son ancien mot de passe sera perdu et vous devrez lui communiquer le nouveau.<br />
         Cette action est recommandée lors de la première génération de mot de passe, à la rentrée par exemple.</h3>
@@ -1549,6 +1581,13 @@ This text contains HTML tags, please try to keep those tags
                          			<strong>Attention</strong>, cette action est irréversible !]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
+      </trans-unit>
+      <trans-unit id="ced508757a079ba4375b685d7c6f7b7b8702c686" resname="YOU_CAN_RESTRICT">
+        <source>YOU_CAN_RESTRICT</source>
+        <target>Vous pouvez restreindre l'accès des élèves dans votre établissement entre le %start% et le %end%.</target>
+        <note><![CDATA[%start% is a placeholder
+        %end% is a placeholder
+        ]]></note>
       </trans-unit>
     </body>
   </file>

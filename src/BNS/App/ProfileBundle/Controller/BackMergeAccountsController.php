@@ -2,12 +2,20 @@
 
 namespace BNS\App\ProfileBundle\Controller;
 
+use BNS\App\AdminBundle\Exception\InvalidCredentialException;
+use BNS\App\AdminBundle\Exception\InvalidUsersForMergeException;
 use \BNS\App\CoreBundle\Annotation\Rights;
 use \BNS\App\CoreBundle\Annotation\RightsSomeWhere;
+use BNS\App\CoreBundle\Model\GroupTypeQuery;
+use BNS\App\CoreBundle\Model\UserQuery;
 use BNS\App\ProfileBundle\Form\Type\AuthenticationType;
+use BNS\App\UserBundle\AccountLink\Exception\InvalidDataException;
+use BNS\App\UserBundle\Model\UserMerge;
+use BNS\App\UserBundle\Model\UserMergePeer;
 use \Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use \Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use \Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,18 +51,38 @@ class BackMergeAccountsController extends Controller
         $this->checkIfAdult();
         //Vérification de la requete Ajax et des paramètres
         $this->checkAjaxRequests($request);
-        $targetUsername = $this->getParameterByName($request, 'target_user_login');
-        $targetPassword = $this->getParameterByName($request, 'target_user_password');
-        $targetUser = \BNS\App\CoreBundle\Model\UserQuery::create()
-            ->filterByLogin($targetUsername, \Criteria::EQUAL)
+        $login = $request->get('target_user_login');
+        $password = $request->get('target_user_password');
+
+        $userSource = UserQuery::create()
+            ->filterByLogin($login, \Criteria::EQUAL)
             ->findOne();
-        //check si l'utilisateur est adulte
-        $this->checkIfAdult();
-        //Récupération des rôles de l'utilisateur distant
-        $userManager = $this->get('bns.user_manager');
-        $targetUserRoles = $userManager->canMergeUser($this->getUser(), $targetUsername, $targetPassword);
-        $groupTypes = \BNS\App\CoreBundle\Model\GroupTypeQuery::create()
-            ->filterBySimulateRole(0)
+
+        $mergeAccountManager = $this->get('bns.user.account_merge_manager');
+
+        if (!$userSource || !$mergeAccountManager->isUserAuthenticated($login, $password)) {
+            return new JsonResponse([
+                'error' => Response::HTTP_BAD_REQUEST,
+                'message' => $this->get('translator')->trans('ERROR_INVALID_CREDENTIAL', [], 'PROFILE')
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        if ($userSource->getId() === $this->getUser()->getId()) {
+            return new JsonResponse([
+                'error' => Response::HTTP_BAD_REQUEST,
+                'message' => $this->get('translator')->trans('ERROR_SAME_USER_FOR_MERGE', [], 'PROFILE')
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        if (!$mergeAccountManager->canMergeUsers($userSource, $this->getUser())) {
+            return new JsonResponse([
+                'error' => Response::HTTP_BAD_REQUEST,
+                'message' => $this->get('translator')->trans('ERROR_INVALID_USER_FOR_MERGE', [], 'PROFILE')
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $groupTypes = GroupTypeQuery::create()
+            ->filterBySimulateRole(false)
             ->find();
         //Libellé des tpes de groupe
         $groupTypesLabel = array();
@@ -70,24 +98,26 @@ class BackMergeAccountsController extends Controller
             $groupTypesLabel[$groupType->getId()] = isset($labels[$groupType->getType()]) ? $labels[$groupType->getType()] : 'LABEL_TYPE_GROUP';
         }
 
+        $userManager = $this->get('bns.user_manager');
         //Enfants de l'utilisateur par groupe
-        $userChildrens = $userManager->getUserChildren($targetUser);
-        $userChildrenGroup = array();
+        $userChildren = $userSource->getActiveChildren();
 
-        if(null !=$targetUserRoles) {
-            foreach($targetUserRoles as $group) {
-                foreach($userChildrens as $children) {
-                    if($userManager->userIdAlreadeyBelongToGroupId($children->getId(), $group['group']['id'])) {
-                        $userChildrenGroup[$group['group']['id']][] = $children->getFullName();
-                    }
+        $userSourceGroupRoles = $mergeAccountManager->getUserSourceGroups($userSource);
+
+        $userChildrenGroup = [];
+        foreach($userSourceGroupRoles as $group) {
+            foreach($userChildren as $child) {
+                if ($userManager->userIdAlreadeyBelongToGroupId($child->getId(), $group['group']['id'])) {
+                    $userChildrenGroup[$group['group']['id']][] = $child->getFullName();
                 }
             }
         }
 
         return array(
-            'target_user_roles' => $targetUserRoles,
+            'target_user_roles' => $userSourceGroupRoles,
             'group_types_label' => $groupTypesLabel,
-            'user_children_group' => $userChildrenGroup
+            'user_children_group' => $userChildrenGroup,
+            'user_source_email' => $userSource->getEmail(),
         );
     }
 
@@ -101,28 +131,36 @@ class BackMergeAccountsController extends Controller
         $this->checkIfAdult();
         //Vérification de la requete Ajax et des paramètres
         $this->checkAjaxRequests($request);
-        $targetUsername = $this->getParameterByName($request, 'target_user_login');
-        $targetPassword = $this->getParameterByName($request, 'target_user_password');
-        $targetUser = \BNS\App\CoreBundle\Model\UserQuery::create()
-            ->filterByLogin($targetUsername, \Criteria::EQUAL)
+        $login = $request->get('target_user_login');
+        $password = $request->get('target_user_password');
+
+        $userSource = UserQuery::create()
+            ->filterByLogin($login, \Criteria::EQUAL)
             ->findOne();
-        $askerUser = $this->getUser();
-        //Récupération des rôles de l'utilisateur distant
-        $userManager = $this->get('bns.user_manager');
-        $targetUserRoles = $userManager->canMergeUser($askerUser, $targetUsername, $targetPassword);
-        $mergeResult=false;
 
-        if(null != $targetUserRoles) {
-            $mergeResult = $userManager->mergeUsers($askerUser->getLogin(), $targetUsername);
+        $mergeAccountManager = $this->get('bns.user.account_merge_manager');
+
+        if (!$userSource || !$mergeAccountManager->isUserAuthenticated($login, $password)) {
+            return new JsonResponse([
+                'error' => Response::HTTP_BAD_REQUEST,
+                'message' => $this->get('translator')->trans('ERROR_INVALID_CREDENTIAL', [], 'PROFILE')
+            ], Response::HTTP_BAD_REQUEST);
         }
 
-        if($mergeResult) {
-            $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('ACCOUNTS_MERGED', array(), 'PROFILE') .
-                $askerUser->getFirstName() . " " . $askerUser->getLastName() . " et "
-                . $targetUser->getFirstName() . " " . $targetUser->getLastName());
+        $mergeEmail = 'false' !== (string)$request->get('merge_account_mail');
+        $notify = 'false' !== (string)$request->get('merge_account_notification');
+
+        if ($this->get('bns.user.account_merge_manager')->createMergeRequest($userSource, $this->getUser(), $mergeEmail, $notify)) {
+            $this->get('session')->getFlashBag()->add('success',
+                $this->get('translator')->trans('MERGE_ACCOUNT_TO_TREAT', array(), 'PROFILE')
+            );
+        } else {
+            $this->get('session')->getFlashBag()->add('error',
+                $this->get('translator')->trans('MERGE_ACCOUNT_FAIL', array(), 'PROFILE')
+            );
         }
 
-        return array();
+        return [];
     }
 
     /**

@@ -1,7 +1,7 @@
 parameters:
     oauth_client_secret: devsecret
     oauth_security_client_id: 1_000001
-    application_base_url: http://beneylu.dev/ent
+    application_base_url: https://beneylu.dev/ent
     check_group_validated: true
     show_alert: false
     url_prefix: ent
@@ -32,7 +32,11 @@ parameters:
     bns_beta_domain: beta.beneylu.dev
     bns_normal_domain: beneylu.dev
     bns_api_cache_key: 123456
+    # enable this to allow admin access
+    bns.admin_security.allowed: false
     bns_spot_api_secret_key: validSpotSecretKey
+    bns.account.has_management: true
+    bns.account.has_plans: true
 
 bns_app_core:
     application_management:

@@ -18,7 +18,10 @@ class MessageType extends AbstractType
             'required' => !$options['draft'],
         ));
         $builder->add('to', 'hidden', array(
-            'required' => !$options['draft'],
+            'required' => false,
+        ));
+        $builder->add('groupTo', 'hidden', array(
+            'required' => false,
         ));
         $builder->add('draftId', 'hidden', array(
             'required' => false

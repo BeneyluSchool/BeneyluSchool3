@@ -1,0 +1,26 @@
+{% trans_default_domain "MINISITE" %}
+{% extends 'BNSAppMiniSiteBundle:Page:back_page_news.html.twig' %}
+
+{% block header_button_add %}
+  {% if has_right('MINISITE_ADMINISTRATION') and 'CITY' == minisite.getGroup().getType() %}
+    {{ components.button( 'LINK_WRITE_CITY_INFORMATION' | trans , { intent: 'primary', href: path('minisite_manager_page_news_new', {'slug': page.getSlug()}), icon: 'add_circle', raised: true }) }}
+  {% endif %}
+{% endblock %}
+
+{% block header_button_view %}
+  {% if 'SCHOOL' == minisite.getGroup().getType() %}
+    {{ parent() }}
+  {% endif %}
+{% endblock %}
+
+{% block header_button_activate %}
+  {% if 'CITY' == minisite.getGroup().getType() %}
+    {{ parent() }}
+  {% endif %}
+{% endblock %}
+
+{% block header_button_privatize %}{% endblock %}
+
+{% block content %}
+	{{ parent() }}
+{% endblock %}

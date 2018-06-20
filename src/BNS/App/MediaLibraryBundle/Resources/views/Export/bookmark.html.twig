@@ -1,0 +1,12 @@
+<!DOCTYPE NETSCAPE-Bookmark-file-1>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<TITLE>Bookmarks</TITLE>
+<H1>Bookmarks</H1>
+<DL><p>
+        <DT><H3 ADD_DATE="{{ now }}">Aucun libellé</H3>
+            <DL><p>
+        {% for link in links %}
+        <DT><A HREF="{{ link.value }}" ADD_DATE="{{ link.createdAt.getTimeStamp() }}">{{ link.label }}</A>
+    {% endfor %}
+</DL><p>
+    </DL><p>

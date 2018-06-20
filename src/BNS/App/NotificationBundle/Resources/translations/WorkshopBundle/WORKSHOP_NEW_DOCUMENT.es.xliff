@@ -8,13 +8,16 @@
     <body>
       <trans-unit id="c1d342f56158f22044d6dd562ff6c9107ad679ed" resname="WORKSHOP_NEW_DOCUMENT.EMAIL.content">
         <source>WORKSHOP_NEW_DOCUMENT.EMAIL.content</source>
-        <target><![CDATA[El documento <a href="%document_route%">%document_name%</a> ha sido creado por <strong>%user_fullname%</strong>]]></target>
+        <target><![CDATA[<b>%classLabel%</b>El documento <a href="%document_route%">%document_name%</a> ha sido creado por <strong>%user_fullname%</strong>]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
       <trans-unit id="0c5deb1a1ca01d5f982c5fd809472e11e8fc8f0c" resname="WORKSHOP_NEW_DOCUMENT.EMAIL.title">
         <source>WORKSHOP_NEW_DOCUMENT.EMAIL.title</source>
-        <target>Uno de tus alumnos ha creado un documento en el taller</target>
+        <target>%classLabel%Uno de tus alumnos ha creado un documento en el taller</target>
+        <note>%classLabel% is a placeholder
+               This text contains HTML tags, please try to keep those tags
+            </note>
       </trans-unit>
       <trans-unit id="9fa5b9657d72e02236e8afaa269f6c7e8a235f48" resname="WORKSHOP_NEW_DOCUMENT.SYSTEM.content">
         <source>WORKSHOP_NEW_DOCUMENT.SYSTEM.content</source>

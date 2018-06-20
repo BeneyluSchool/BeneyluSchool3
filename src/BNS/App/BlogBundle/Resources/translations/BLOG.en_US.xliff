@@ -183,6 +183,14 @@ This text contains HTML tags, please try to keep those tags
         <source>COMMENTS</source>
         <target>Comments</target>
       </trans-unit>
+      <trans-unit id="045b3a7943d7be5090d215677e12a7c4715f3875" resname="COMMENT_MODERATION_CLOSED">
+        <source>COMMENT_MODERATION_CLOSED</source>
+        <target>Comment moderation switched off</target>
+      </trans-unit>
+      <trans-unit id="66fc6a3fa90c540f03263b8f9c623852d8dc2e9c" resname="COMMENT_MODERATION_OPENED">
+        <source>COMMENT_MODERATION_OPENED</source>
+        <target>Comment moderation switched on</target>
+      </trans-unit>
       <trans-unit id="2458944270ee8a7ef5aaa03975d62b625192b65d" resname="COMMENT_UPDATE_SUCCESS">
         <source>COMMENT_UPDATE_SUCCESS</source>
         <target state="new">The comment has been successfully modified. </target>
@@ -238,6 +246,8 @@ This text contains HTML tags, please try to keep those tags
       <trans-unit id="57e95b8390d0942f41db76b4b766f2f3d5dc396c" resname="DESCRIPTION_CONFIRM_DELETE_ARTICLES">
         <source>DESCRIPTION_CONFIRM_DELETE_ARTICLES</source>
         <target state="new"><![CDATA[The whole content of the articles will be lost.<br />Please note that if you had documents attached to your articles, they will not be deleted from the media library.]]></target>
+        <note>This text contains HTML tags, please try to keep those tags
+</note>
       </trans-unit>
       <trans-unit id="b857b2a25952b71006d445a085b3415c261d8ee6" resname="DESCRIPTION_ENABLED_DISABLED_GREEN_LIGHT">
         <source>DESCRIPTION_ENABLED_DISABLED_GREEN_LIGHT</source>
@@ -337,6 +347,12 @@ This text contains HTML tags, please try to keep those tags
       <trans-unit id="0147649f0444df25e6ebb3a96de50ced80e6e544" resname="LAST_MODIFICATION_AT">
         <source>Dernière modification %dateCreation%</source>
         <target state="new">Last modification %dateCreation%</target>
+        <note><![CDATA[%dateCreation% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="a0cd816661c23af7c6b45d3f90f67b6750560ae0" resname="LAST_MODIFICATION_AT_BY">
+        <source>LAST_MODIFICATION_AT_BY</source>
+        <target state="new"><![CDATA[Latest modification on %dateCreation% by %image% <strong>%userFullName%</strong>]]></target>
         <note><![CDATA[%dateCreation% is a placeholder
 ]]></note>
       </trans-unit>
@@ -624,7 +640,7 @@ This text contains HTML tags, please try to keep those tags
          <div class="md-body-1">Vous perdrez la totalité du contenu de l'article.<br/>A noter que les documents joints/insérés ne seront pas supprimés.</div>
          ]]></source>
         <target state="new"><![CDATA[
-        <h3>Do you really want to delete the article "%articleTitle%" of your blog?</h3>
+        <h3>Do you really want to delete the article "%articleTitle%" from your blog?</h3>
          <div class="md-body-1">The whole content of the article will be lost.<br/>Please note that all attached/inserted documents will not be deleted.</div>
          ]]></target>
         <note><![CDATA[%articleTitle% is a placeholder
@@ -667,7 +683,7 @@ This text contains HTML tags, please try to keep those tags
          <div class="md-body-1">tu perdras la totalité du contenu de l'article.<br/>A noter que les documents joints/insérés ne seront pas supprimés.</div>
          ]]></source>
         <target state="new"><![CDATA[
-        <h3>Do you really want to delete the article "%articleTitle%" of your blog?</h3>
+        <h3>Do you really want to delete the article "%articleTitle%" from your blog?</h3>
          <div class="md-body-1">The whole content of the article will be lost.<br/>Please note that all attached/inserted documents will not be deleted.</div>
          ]]></target>
         <note><![CDATA[%articleTitle% is a placeholder
@@ -696,7 +712,7 @@ This text contains HTML tags, please try to keep those tags
          <h3>Si vous confirmez cette publication, le statut de l'article se transformera en publication programmée et celui-ci ne sera publié qu'à l'heure souhaitée.</h3>
          ]]></source>
         <target state="new"><![CDATA[
-        <h2>Warning, the publication date has been set to a couple of minutes/hours in the future...</h2>
+        <h2>Warning, the publication date has been scheduled in the future...</h2>
          <h3>If you confirm this publication, the article status will be set to publish at the specified time.</h3>
          ]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
@@ -772,7 +788,7 @@ This text contains HTML tags, please try to keep those tags
       </trans-unit>
       <trans-unit id="b78d853e5a299b41fd28f96a01a0c21616c225d4" resname="TITLE_SURE_DELETE_CATEGORY">
         <source>TITLE_SURE_DELETE_CATEGORY</source>
-        <target><![CDATA[<h2>Are you sure you want to delete this category "<span class="title"></span>" ?</h2> 		<p class="sub-category-warning"> Please note that the deletion of this category will also delete all its subcategories! 		</p>]]></target>
+        <target><![CDATA[<h2>Are you sure you want to delete this category "<span class="title"></span>" ?</h2> 		<p class="sub-category-warning"> Please note that the deleting this category will also delete all its subcategories! 		</p>]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
@@ -810,16 +826,8 @@ This text contains HTML tags, please try to keep those tags
       </trans-unit>
       <trans-unit id="2bbdad9087bf423ad6408df657d5bf5f216b6ac6" resname="YERBOOK_PRESENTATION">
         <source>YERBOOK_PRESENTATION</source>
-        <target state="new">Install the Yërbook application to select the blog articles that will make up the souvenir book of your classroom. Write a message for your pupils, add the class photo and even a facebook! You're the editor in chief.</target>
+        <target state="new">Install the Yërbook application to select the blog articles that you want to add to your class Yërbook. Write a message for your pupils, add a class photo! You're the editor in chief.</target>
       </trans-unit>
-      <trans-unit id="045b3a7943d7be5090d215677e12a7c4715f3875" resname="COMMENT_MODERATION_CLOSED">
-         <source>COMMENT_MODERATION_CLOSED</source>
-         <target>Comment moderation switched off</target>
-       </trans-unit>
-       <trans-unit id="66fc6a3fa90c540f03263b8f9c623852d8dc2e9c" resname="COMMENT_MODERATION_OPENED">
-         <source>COMMENT_MODERATION_OPENED</source>
-         <target>Comment moderation switched on</target>
-       </trans-unit>
     </body>
   </file>
 </xliff>

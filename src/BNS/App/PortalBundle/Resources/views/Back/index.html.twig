@@ -38,7 +38,7 @@
             </h1>
 
             {{ form_widget(form.label) }}
-
+            <div bns-feature-flag="'portal_logo'" bns-feature-push>
             <h1>
                 {{ 'TITLE_PORTAL_LOGO'|trans |desc('Logo du portail') }}
             </h1>
@@ -67,7 +67,7 @@
                 </div>
                 <br clear="all" />
             </div>
-
+            </div>
             {# Non utilisé pour l'instant
 
             <h1>Images de fond</h1>
@@ -154,7 +154,7 @@
             </div>
 
             #}
-
+          <div bns-feature-flag="'portal_text'" bns-feature-push>
             <h1>
             {{ 'TITLE_FONT'|trans |desc('Police d\'écriture') }}
             </h1>
@@ -182,6 +182,7 @@
             {{ form_widget(form.color) }}
 
             {{ form_rest(form) }}
+          </div>
         </form>
 
     </div>

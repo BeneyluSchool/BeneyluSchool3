@@ -15,7 +15,7 @@
         {% else %}
           {% for role in roles %}
                     {# On bloque le bouton pour la messagerie aux parents dans les partenariats #}
-                    {%  if not (groupType == "PARTNERSHIP" and module.uniqueName in ['MESSAGING', 'WORKSHOP'] and role.type == 'PARENT') %}
+                    {%  if not (groupType == "PARTNERSHIP" and module.uniqueName in ['MESSAGING', 'WORKSHOP', 'COMPETITION'] and role.type == 'PARENT') %}
                         <td {% if loop.index % 2 != 0 %} class="student"{% endif %}>
                             {% include "BNSAppMainBundle:Module:module_activation_block.html.twig" with {'module' : module , 'role' : role , 'groupId' : groupId, 'moduleStates': moduleStates } %}
                         </td>

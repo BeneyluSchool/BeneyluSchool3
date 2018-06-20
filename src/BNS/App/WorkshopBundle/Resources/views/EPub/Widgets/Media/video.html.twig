@@ -1,0 +1,11 @@
+<div class="workshop-widget-video">
+  <div class="media-video">
+    <div class="viewer-media-inner viewer-media-video">
+      <div class="bns-viewer-video">
+        <video controls="true" width="640" height="390">
+          <source src="{{ media.downloadUrl }}" type="{{ media.getHtml5VideoMimeType() }}" class="bns-insert-resources video" data-slug="{{ media.getSlug() }}" data-uid="{{ media.getUserId() }}" data-id="{{ media.getId() }}" />
+        </video>
+      </div>
+    </div>
+  </div>
+</div>

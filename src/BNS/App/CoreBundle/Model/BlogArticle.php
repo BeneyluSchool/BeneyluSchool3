@@ -6,6 +6,8 @@ use BNS\App\AutosaveBundle\Autosave\AutosaveInterface;
 use BNS\App\CoreBundle\Access\BNSAccess;
 use BNS\App\CoreBundle\Model\om\BaseBlogArticle;
 use BNS\App\CoreBundle\Utils\StringUtil;
+use BNS\App\CorrectionBundle\Model\CorrectionInterface;
+use BNS\App\CorrectionBundle\Model\CorrectionTrait;
 use BNS\App\NotificationBundle\Notification\BlogBundle\BlogArticleFinishedNotification;
 use BNS\App\NotificationBundle\Notification\BlogBundle\BlogArticlePendingCorrectionNotification;
 use BNS\App\NotificationBundle\Notification\BlogBundle\BlogArticleProgrammedNotification;
@@ -17,8 +19,10 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 /**
  * @package    propel.generator.src.BNS.App.CoreBundle.Model
  */
-class BlogArticle extends BaseBlogArticle implements AutosaveInterface
+class BlogArticle extends BaseBlogArticle implements AutosaveInterface, CorrectionInterface
 {
+    use CorrectionTrait;
+
 	/**
 	 * @var array<String, array<Integer>> ALLOWED_NEW_STATUSES Si le numéro du statut se trouve dans le tableau,
 	 * alors l'article est autorisé à changer de statut
@@ -398,6 +402,7 @@ class BlogArticle extends BaseBlogArticle implements AutosaveInterface
 			$this->setTitle($objects['title']);
 			$this->setContent($objects['content']);
 			$this->setAuthor(BNSAccess::getUser());
+			$this->setUpdater(BNSAccess::getUser());
 			$this->setUpdatedAt(time());
 			$this->setCreatedAt(time());
             $this->setBlogReferenceId($objects['blog_id']);
@@ -425,6 +430,7 @@ class BlogArticle extends BaseBlogArticle implements AutosaveInterface
 
 			$this->setTitle($objects['title']);
 			$this->setContent($objects['content']);
+			$this->setUpdater(BNSAccess::getUser());
 			$this->setUpdatedAt(time());
 			$this->setStatus(BlogArticlePeer::STATUS_DRAFT_INTEGER);
             $this->setBlogs(BlogQuery::create()->filterById($blogIds)->find());
@@ -481,8 +487,9 @@ class BlogArticle extends BaseBlogArticle implements AutosaveInterface
 	 *
 	 * @return int
 	 */
-	public function save(\PropelPDO $con = null, $skipNotification = false)
+	public function save(\PropelPDO $con = null, $skipNotification = false, $skipStats = false)
 	{
+        $isNew = $this->isNew();
 		$affectedRows = parent::save($con);
 
 		// Si l'article est nouveau, aucun ancien article enregistré, on le créer à la volée
@@ -494,6 +501,10 @@ class BlogArticle extends BaseBlogArticle implements AutosaveInterface
         $this->articleBeforeSave = clone $this;
 
 		$container = BNSAccess::getContainer();
+        if ($isNew && $container && !$skipStats) {
+            //Stat Action
+            $container->get('stat.blog')->newArticle();
+        }
 		if ($skipNotification || null == $container) {
 			// If $container == null, this method is called by CLI
 			return $affectedRows;
@@ -551,8 +562,7 @@ class BlogArticle extends BaseBlogArticle implements AutosaveInterface
 
                 }
 			}
-            //Stat Action
-            $container->get('stat.blog')->newArticle();
+
 		}
 		else {
 			// Article terminé PAR élève POUR enseignants
@@ -673,4 +683,24 @@ class BlogArticle extends BaseBlogArticle implements AutosaveInterface
             return parent::getResourceAttachments();
         }
     }
+
+    /**
+     * @inheritDoc
+     */
+    public static function getCorrectionRightName()
+    {
+        return 'BLOG_CORRECTION';
+    }
+
+    public function createSlug()
+    {
+        if (!$this->isNew()) {
+            $key = $this->getId();
+        } else {
+            $key = 'key-' . rand(999999999, min(9999999999, PHP_INT_MAX));
+        }
+
+        return 'blog-article-' . $key;
+    }
+
 }

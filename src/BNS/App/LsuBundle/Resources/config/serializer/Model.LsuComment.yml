@@ -1,0 +1,6 @@
+BNS\App\LsuBundle\Model\LsuComment:
+  exclusion_policy: All
+
+  virtual_properties:
+    getLsuDomain:
+      expose: true

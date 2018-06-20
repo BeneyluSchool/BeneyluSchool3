@@ -42,15 +42,33 @@
         <service id="stat.homework" class="%homework_service_bns_app_statistics_bundle.class%">
             <argument type="service" id="service_container"></argument>
         </service>
+        <service id="bns.homework.homework_search_provider" class="BNS\App\HomeworkBundle\Search\HomeworkSearchProvider">
+            <argument type="service" id="security.token_storage"/>
+            <argument type="service" id="bns.right_manager"/>
+            <argument type="service" id="router"/>
+            <tag name="bns.search_provide"/>
+        </service>
 
         <!-- Event listeners -->
         <service id="bns.homework.homework_serialize_listener" class="BNS\App\HomeworkBundle\EventListener\HomeworkSerializeSubscriber">
-            <argument type="service" id="service_container" />
+            <argument type="service" id="bns.media_folder.locker_manager" />
+            <argument type="service" id="bns_app_homework.homework.homework_right_manager" />
+            <argument type="service" id="security.token_storage" />
             <tag name="jms_serializer.event_subscriber" />
         </service>
+
         <service id="bns.homework.homework_due_serialize_listener" class="BNS\App\HomeworkBundle\EventListener\HomeworkDueSerializeSubscriber">
-            <argument type="service" id="service_container" />
+            <argument type="service" id="security.token_storage" />
+            <argument type="service" id="bns.user_manager" />
             <tag name="jms_serializer.event_subscriber" />
         </service>
+
+
+        <!-- Homework right manager -->
+        <service class="BNS\App\HomeworkBundle\Homework\HomeworkRightManager" id="bns_app_homework.homework.homework_right_manager">
+            <argument id="bns.user_manager" type="service"/>
+            <argument id="bns.team_manager" type="service"/>
+        </service>
+
     </services>
 </container>

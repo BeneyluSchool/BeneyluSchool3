@@ -4,11 +4,39 @@ BNS\App\MediaLibraryBundle\Model\Media:
     searchStatus:
       expose: true
       groups: [ media_search ]
+    allowAttempts:
+      expose: true
+      groups: [ competition_detail, book_detail, questionnaire_participation ]
+    required:
+      expose: true
+      groups: [ competition_detail, book_detail, questionnaire_participation ]
+    maxAttemptsNumber:
+      expose: true
+      groups: [ competition_detail, book_detail, questionnaire_participation ]
+    pagesCount:
+      expose: true
+      groups: [ competition_detail, book_detail, questionnaire_participation ]
+    questionsCount:
+      expose: true
+      groups: [ competition_detail, book_detail, questionnaire_participation ]
+    sender:
+      expose: true
+      groups: [ competition_detail, book_detail, competition_statistics ]
+    percent:
+      expose: true
+      groups: [competition_statistics]
+    score:
+      expose: true
+      groups: [competition_statistics]
 
   virtual_properties:
     getImageUrl:
       expose: true
       serialized_name: image_url
+    getImageThumbUrl:
+      expose: true
+      serialized_name: image_thumb_url
+      groups: [Default, media_list ]
     getImageThumbnailUrl:
       expose: true
       serialized_name: image_thumbnail_url
@@ -18,10 +46,14 @@ BNS\App\MediaLibraryBundle\Model\Media:
     getDownloadUrl:
       expose: true
       serialized_name: download_url
+    getDisplayUrl:
+      expose: true
+      serialized_name: display_url
+      groups: [ detail, media_detail ]
     getUniqueKey:
       expose: true
       serialized_name: unique_key
-      groups: [ detail, media_detail ]
+      groups: [ detail, media_detail, media_list ]
     isReadable:
       expose: true
       serialized_name: readable
@@ -29,11 +61,11 @@ BNS\App\MediaLibraryBundle\Model\Media:
     isWritable:
       expose: true
       serialized_name: writable
-      groups: [ detail, media_detail ]
+      groups: [ detail, media_detail, media_list ]
     isManageable:
       expose: true
       serialized_name: manageable
-      groups: [ detail, media_detail ]
+      groups: [ detail, media_detail, media_list ]
     getMediaValue:
       expose: true
       serialized_name: media_value
@@ -41,15 +73,15 @@ BNS\App\MediaLibraryBundle\Model\Media:
     isFavorite:
       expose: true
       serialized_name: is_favorite
-      groups: [ detail, media_detail ]
+      groups: [ detail, media_detail, media_list ]
     getFromPaas:
       expose: true
       serialized_name: from_paas
-      groups: [ detail, media_detail ]
+      groups: [ detail, media_detail, media_list ]
     getProvider:
       expose: true
       serialized_name: provider
-      groups: [ detail, media_detail ]
+      groups: [ detail, media_detail, media_list ]
     getIsSystem:
       expose: true
       serialized_name: is_system
@@ -57,6 +89,7 @@ BNS\App\MediaLibraryBundle\Model\Media:
     getId:
       expose: true
       serialized_name: id
+      groups: [Default, media_list]
     getHtmlBase:
       expose: true
       serialized_name: html_base
@@ -68,11 +101,39 @@ BNS\App\MediaLibraryBundle\Model\Media:
     getWorkshopDocumentId:
       expose: true
       serialized_name: workshop_document_id
-      groups: [ detail, media_detail ]
+      groups: [ detail, media_detail, media_list, competition_detail, book_detail ]
+    getWorkshopWidgetGroupsByMedia:
+      expose: true
+      serialized_name: workshop_widget_groups
+      groups: [competition_statistics]
+    getWorkshopDocumentScore:
+      serialized_name: score
+      expose: true
+      groups: [competition_detail, book_detail]
+    getWorkshopDocumentAttempts:
+      serialized_name: attempts_count
+      expose: true
+      groups: [competition_detail, book_detail, detail]
+    getWorkshopDocumentAnswered:
+      serialized_name: answered_count
+      expose: true
+      groups: [competition_detail, book_detail, questionnaire_participation, detail]
+    getWorkshopAuthor:
+      expose: true
+      groups: [competition_detail, book_detail, questionnaire_participation]
     getIsDownloadable:
       expose: true
       serialized_name: downloadable
       groups: [ detail, media_detail, media_basic ]
+    getIsQuestionnaire:
+      expose: true
+      serialized_name: is_questionnaire
+
+    getMediaFolderSlug:
+      expose: true
+      serialized_name: folder_slug
+      groups: [ media_with_folder ]
+
 
   relations:
     - rel: contributor_group_ids
@@ -91,9 +152,10 @@ BNS\App\MediaLibraryBundle\Model\Media:
       embedded:
         content: expr(object.getContributions())
       exclusion:
-        groups: [ detail, media_detail ]
+        groups: [ detail, media_detail, competition_detail, book_detail ]
     - rel: sharer
       embedded:
         content: expr(object.getUserRelatedBySharedBy())
       exclusion:
         groups: [ detail, media_detail ]
+

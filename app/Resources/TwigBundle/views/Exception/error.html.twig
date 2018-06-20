@@ -11,7 +11,9 @@
 		<ul>
 			<li><a href="{{ path('home') }}">{{ 'LINK_BACK_TO_HOMEPAGE'|trans |desc('Revenir à la page d\'accueil') }}</a></li>
 			<li><a href="{{ path('disconnect_user') }}">{{ 'LINK_DISCONNECT_USER'|trans |desc('Vous déconnecter puis vous reconnecter') }}</a></li>
+			{% if has_inline_support() %}
 			<li>{{ 'LINK_CALL_HELP'|trans({'%linkStart%': '<a href="mailto:support@beneylu.com">', '%linkEnd%':'</a>'}) |desc('%linkStart% Appeler à l\'aide ! %linkEnd% (en précisant le contexte de votre erreur)')|raw }}</li>
+			{% endif %}
 		</ul>
 	</div>
 {% endblock %}

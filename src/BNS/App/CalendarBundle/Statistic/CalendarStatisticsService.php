@@ -21,8 +21,6 @@ class CalendarStatisticsService extends StatisticsService
 
     public function visit()
     {
-        $this->disableCascadeParentGroup();
         $this->increment('CALENDAR_VISIT');
-        $this->enableCascadeParentGroup();
     }
 }

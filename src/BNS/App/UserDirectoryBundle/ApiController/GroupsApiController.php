@@ -9,6 +9,7 @@ use BNS\App\CoreBundle\Model\GroupTypeQuery;
 use BNS\App\CoreBundle\Model\Module;
 use BNS\App\CoreBundle\Model\UserQuery;
 use BNS\App\UserDirectoryBundle\Form\Api\ApiGroupType;
+use BNS\App\UserDirectoryBundle\Manager\UserDirectoryManager;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +24,55 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class GroupsApiController extends BaseUserDirectoryApiController
 {
+
+    /**
+     * @ApiDoc(
+     *  section = "Annuaire utilisateurs - Groupes",
+     *  resource = true,
+     *  description = "Récupère les info groupes correspondant aux IDs donnés",
+     *  statusCodes = {
+     *      200 = "Ok",
+     *      400 = "Erreur",
+     *      403 = "Pas accès à l'annuaire",
+     *      404 = "La page n'a pas été trouvée"
+     *  },
+     *  requirements = {
+     *      {
+     *          "name" = "ids",
+     *          "dataType" = "array",
+     *          "requirement" = "",
+     *          "description" = "Tableau d'ids des utilisateurs à récupérer"
+     *      }, {
+     *          "name" = "group_id",
+     *          "dataType" = "integer",
+     *          "description" = "ID du groupe dans lequel chercher les utilisateurs. Utilisé également pour les vérifications de droits"
+     *      }
+     *  },
+     * )
+     *
+     * @Rest\Get("/lookup")
+     * @Rest\View(serializerGroups={"Default","user_list", "detail"})
+     *
+     * @param Request $request
+     * @return array|Group[]
+     */
+    public function lookupAction(Request $request)
+    {
+        $view = $request->get('view');
+        $this->checkUserDirectoryAccess($view);
+
+        $groupIdsHaveRightToSee = array_keys($this->get('bns.user_directory.manager')->getGroupsWhereAccess($this->getUser(), $view));
+        $ids = $request->get('ids', array());
+        if (is_string($ids)) {
+            $ids = explode(',', $ids);
+        }
+        $groupIdsCanSee = array_intersect($ids,$groupIdsHaveRightToSee);
+        return GroupQuery::create()
+            ->filterByArchived(0)
+            ->orderByLabel()
+            ->findPks($groupIdsCanSee)
+            ;
+    }
 
     /**
      * @ApiDoc(
@@ -82,6 +132,13 @@ class GroupsApiController extends BaseUserDirectoryApiController
         $this->checkUserDirectoryAccess($view);
         $group = GroupQuery::create()->findPk($id);
         $this->checkGroupAccess($group, $view);
+
+        // special case for campaign: do not see individual users, but counts
+        if ($view === UserDirectoryManager::VIEW_CAMPAIGN_RECIPIENTS) {
+            if (!$this->get('bns.right_manager')->hasRight('CAMPAIGN_VIEW_INDIVIDUAL_USER', $this->get('bns.right_manager')->getCurrentGroupId())) {
+                $this->get('hateoas.expression.evaluator')->setContextVariable('count_users', true);
+            }
+        }
 
         return $group;
     }
@@ -464,6 +521,47 @@ class GroupsApiController extends BaseUserDirectoryApiController
         }
 
         return false;
+    }
+
+
+    /**
+     * @ApiDoc(
+     *  section = "Annuaire utilisateurs - Groupes",
+     *  resource = true,
+     *  description = "Recherche des utilisateurs par nom ou prénom",
+     *  statusCodes = {
+     *      200 = "Ok",
+     *      400 = "Erreur",
+     *      403 = "Pas accès à l'annuaire",
+     *      404 = "La page n'a pas été trouvée"
+     *  },
+     * )
+     *
+     * @Rest\Get("/search/{search}")
+     * @Rest\View(serializerGroups={"Default","user_list"})
+     *
+     * @param string $search
+     * @param Request $request
+     * @return array|Group[]
+     */
+    public function searchAction($search, Request $request)
+    {
+        $view = $request->get('view');
+        $this->checkUserDirectoryAccess($view);
+        $ids = $this->get('bns.right_manager')->getGroupIdsWherePermission('MESSAGING_ACCESS');
+
+        $excludeIds = $request->get('exclude_ids');
+        if (is_array($excludeIds)) {
+            $excludeIds = array_map(function($id) {
+                return (int) $id;
+            }, $excludeIds);
+            $ids = array_diff($ids, $excludeIds);
+        }
+
+        return GroupQuery::create()
+            ->filterById($ids)
+            ->filterByLabel("%$search%", \Criteria::LIKE)
+            ->find();
     }
 
 }

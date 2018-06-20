@@ -19,7 +19,7 @@ angular.module('bns.uploader', [
   'bns.core.apiCodes',
   'bns.core.translationInit',
   'bns.core.restangularInit',
-  'bns.mediaLibrary.restangular', // TODO: move it in a core module
+  'bns.core.mediaLibraryRestangular',
 
   // vendor libs
   'angularFileUpload',

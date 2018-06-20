@@ -6,9 +6,29 @@
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
     </header>
     <body>
+      <trans-unit id="6ca268108159fb9d4e8cc9cd3f352d29720a0e15" resname="INVALID_ACCEPT_CGU">
+         <source>Vous devez accepter les conditions générales d'utilisation</source>
+         <target state="new">You must accept the Terms of Use</target>
+      </trans-unit>
+      <trans-unit id="5fae5de95e6c40687e0ccc54cccff04c22885068" resname="ACCEPT_BENEYLU_READ_CGU">
+        <source>J'ai lu et j'accepte</source>
+        <target state="new">I have read and accept</target>
+      </trans-unit>
       <trans-unit id="6d764d789b50cef62be9574f0f19ca28b7b4e271" resname="ACCEPT_POLICY">
         <source>Accepter la charte d'utilisation</source>
         <target state="new">Accept our policy</target>
+      </trans-unit>
+      <trans-unit id="4959d559eb81ad3a93a1c994789fc3095363e9eb" resname="ACCESS_BENEYLU_CGU">
+      <source>les conditions générales d'utilisation.</source>
+      <target state="new">our conditions of use.</target>
+    </trans-unit>
+      <trans-unit id="5ba35cce1b15cf4785add86ccffb375654759add" resname="ACCESS_BENEYLU_READ_CGU">
+      <source>Pour accéder à %beneylu_brand_name%, vous devez lire et accepter</source>
+      <target state="new">To access %beneylu_brand_name%, please read and accept</target>
+    </trans-unit>
+    <trans-unit id="5fae5de95e6c40687e0ccc54cccff04c22885068" resname="ACCEPT_BENEYLU_READ_CGU">
+        <source>J'ai lu et j'accepte</source>
+        <target state="new">I have read and accept</target>
       </trans-unit>
       <trans-unit id="80b2a12dc43a7edabfba7b8cc126615c7fd62bae" resname="ACCOUNT_ACTIVATION_CONFIRMATION">
         <source>ACCOUNT_ACTIVATION_CONFIRMATION</source>
@@ -86,6 +106,20 @@
       <trans-unit id="a6eab0a3c6707b0fcbf7b8fb86d879d6e831d25c" resname="BUTTON_VALIDATE_MY_ACCOUNT">
         <source>BUTTON_VALIDATE_MY_ACCOUNT</source>
         <target>Create my account</target>
+      </trans-unit>
+      <trans-unit id="6dff019498e6669badd14a343b9ed205c2cf9a4f" resname="CGU">
+          <source>Conditions générales d'utilisation</source>
+          <target state="new">Conditions of use</target>
+        </trans-unit>
+        <trans-unit id="1e81aeccb7f560b00583e6e162db04850ef537b4" resname="CGU_IN_FRENCH">
+        <source>Français</source>
+        <target state="new">French</target>
+      </trans-unit>
+      <trans-unit id="fd15e919d68298caaec192092be394ab65794796" resname="CGU_VERSION">
+          <source>CGU_VERSION</source>
+          <target>Version %cgu_version%</target>
+          <note><![CDATA[%cgu_version% is a placeholder
+]]></note>
       </trans-unit>
       <trans-unit id="c4673249990241887fe4b5357a3e8a781edc9cc1" resname="CHILD_ACCESS_BENEYLU_READ_POLICY">
         <source>Pour accéder à %beneylu_brand_name%, tu dois lire et accepter la charte d'utilisation.</source>
@@ -294,6 +328,10 @@ You will be able to keep track of all the latest news of his/her classroom on a 
         <note><![CDATA[%brandName% is a placeholder
 ]]></note>
       </trans-unit>
+      <trans-unit id="a77be6582b34e395d5d8dd5b00f29321f9cddc3e" resname="LABEL_ACCEPT_CGU">
+          <source>LABEL_ACCEPT_CGU</source>
+          <target>I have read and accept the conditions of use</target>
+        </trans-unit>
       <trans-unit id="5e041612b0cccdd55c925cdfd4bfb495d3a280e0" resname="LABEL_ACCEPT_CHARTER">
         <source>LABEL_ACCEPT_CHARTER</source>
         <target>I have read and accept the policy</target>
@@ -499,6 +537,10 @@ You will be able to keep track of all the latest news of his/her classroom on a 
       <trans-unit id="a93a41b233128117fa04fd756d771b0e05b1a7e5" resname="TITLE_BENEYLU_ADD_EMAIL">
         <source>%beneylu_brand_name% - Modifier votre nom et ajouter une adresse email</source>
         <target state="new">%beneylu_brand_name% - Modify your surname and add an email address</target>
+      </trans-unit>
+      <trans-unit id="7bbaeee467a5a8d1da86e8d7d30099018478cddc" resname="TITLE_BENEYLU_CGU">
+        <source>%beneylu_brand_name% - Conditions générales d'utilisation</source>
+        <target state="new">%beneylu_brand_name% - Conditions of use</target>
       </trans-unit>
       <trans-unit id="f0364bf215742ce8238256f42257cb3928efb89a" resname="TITLE_BENEYLU_CREATE_PASSWORD">
         <source>%beneylu_brand_name% - Création d'un mot de passe</source>

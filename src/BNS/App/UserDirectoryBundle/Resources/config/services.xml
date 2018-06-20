@@ -34,11 +34,22 @@
         <service id="bns.user_directory.right_manager" class="BNS\App\UserDirectoryBundle\Manager\UserDirectoryRightManager">
             <argument type="service" id="service_container" />
         </service>
-        <service id="bns.user_directory.distribution_list_manager" class="BNS\App\UserDirectoryBundle\Manager\DistributionListManager"/>
+        <service id="bns.user_directory.distribution_list_manager" class="BNS\App\UserDirectoryBundle\Manager\DistributionListManager">
+        <argument type="service" id="bns.group_manager"/>
+        </service>
 
         <!-- Stats -->
         <service id="stat.user_directory" class="BNS\App\UserDirectoryBundle\Statistic\UserDirectoryStatisticsService">
             <argument type="service" id="service_container" />
+        </service>
+
+        <!-- Search -->
+        <service id="bns.user_directory.search" class="BNS\App\UserDirectoryBundle\Search\UserDirectorySearchProvider">
+            <argument type="service" id="security.token_storage" />
+            <argument type="service" id="bns.right_manager" />
+            <argument type="service" id="router" />
+            <argument type="service" id="bns.user_directory.manager" />
+            <tag name="bns.search_provide"/>
         </service>
     </services>
 </container>

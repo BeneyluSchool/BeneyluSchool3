@@ -1,0 +1,23 @@
+{% trans_default_domain "PORTAL" %}
+{% extends 'BNSAppPortalBundle:BackWidgets:base.html.twig' %}
+
+{% block title %}{{ 'TITLE_MINISITES'|trans |desc('Liste de mini-sites') }}{% endblock %}
+
+{% block enable %}
+  {{ include('@BNSAppPortal/BackWidgets/enable.html.twig' , {'widget' : widget}) }}
+{% endblock %}
+
+{% block widgetView %}
+  <div class="portal-minisite-widget back" bns-legacy ng-cloak>
+    <md-input-container>
+      <label>{{ 'TITLE_SITES_TITLE'|trans |desc('Titre') }}</label>
+      {% if widget.data('title') %}
+        <input name="widget-{{ widget.id }}[title]" type="text" value="{{ widget.data('title') }}"/>
+      {% else %}
+        <input name="widget-{{ widget.id }}[title]" type="text" value="{{ 'TITLE_SITES_LIST'|trans |desc('Liste de mini-sites') }}"/>
+      {% endif %}
+    </md-input-container>
+    <bns-portal-minisite-widget widget-id="{{ widget.id }}" group-id="{{portal.groupId}}"></bns-portal-minisite-widget>
+    {#<input type="hidden" name="widget-{{ widget.id }}[minisite]" id="widget-{{ widget.id }}-minisite" value="{{ widget.id }}" />#}
+  </div>
+{% endblock %}

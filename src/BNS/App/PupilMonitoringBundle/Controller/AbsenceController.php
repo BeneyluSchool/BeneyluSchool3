@@ -36,7 +36,8 @@ class AbsenceController extends CommonController
         {
             $date = date('Y-m-d');
         }
-        
+        $firstDay= date('Y-m-d',strtotime('first day of this month', strtotime($date)));
+        $lastDay= date('Y-m-d',strtotime('last day of this month', strtotime($date)));
         //Si dimanche on prend le lendemain
         if(date('N',strtotime($date)) == 7)
         {
@@ -81,7 +82,6 @@ class AbsenceController extends CommonController
             'canEdit' => $canEdit,
             'pupils' => $pupils,
             'orderedAbsences' => $orderedAbsences,
-            'canEdit' => $canEdit,
             'is_in_front' => $isInFront
         );
     }
@@ -138,6 +138,7 @@ class AbsenceController extends CommonController
      */
     public function commonPupilAction($login,$isInFront)
     {
+        $absenceAlert = false;
         $authorisedUsers = $this->checkUsers($isInFront);
         $continue = false;
         foreach($authorisedUsers as $authorisedUser)
@@ -149,13 +150,39 @@ class AbsenceController extends CommonController
         }
         $this->get('bns.right_manager')->forbidIf(!$continue);
         $user = $this->getPupil($login);
+        $date = date('Y-m-d');
+        $firstDay= date('Y-m-d',strtotime('first day of this month', strtotime($date)));
+        $lastDay= date('Y-m-d',strtotime('last day of this month', strtotime($date)));
+        $absencesTypes = PupilAbsenceQuery::create()
+            ->filterByUserId($user->getId())
+            ->filterByDate($firstDay, \Criteria::GREATER_EQUAL)
+            ->filterByDate($lastDay, \Criteria::LESS_EQUAL)
+            ->select('type')
+            ->find()
+            ->toArray();
+        if (count($absencesTypes) >= 10) {
+            $absenceAlert = true ;
+        } else {
+            $numberOfAbsence = 0;
+            foreach ($absencesTypes as $absencesType) {
+                if ( $absencesType == 2) {
+                    $numberOfAbsence = $numberOfAbsence + 2;
+                } else {
+                    $numberOfAbsence = $numberOfAbsence + 2;
+                }
+            }
+            if ( $numberOfAbsence >= 10) {
+                $absenceAlert = true ;
+            }
+        }
         $absences = PupilAbsenceQuery::getPupilAbsences($user,$this->get('bns.right_manager')->getCurrentGroupId());
         return array(
             'user' => $user,
             'absences' => $absences,
             'section' => 'user',
             'is_in_front' => $isInFront,
-            'backLink' => count($authorisedUsers) > 1
+            'backLink' => count($authorisedUsers) > 1,
+            'absenceAlert' => $absenceAlert
         );
     }
     

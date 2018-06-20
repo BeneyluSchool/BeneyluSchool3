@@ -29,9 +29,7 @@ class LiaisonBookStatisticsService extends StatisticsService
 
     public function visit()
     {
-        $this->disableCascadeParentGroup();
         $this->increment('LIAISONBOOK_VISIT');
-        $this->enableCascadeParentGroup();
     }
 
 }

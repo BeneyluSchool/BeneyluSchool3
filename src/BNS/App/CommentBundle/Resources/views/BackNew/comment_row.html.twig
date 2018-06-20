@@ -2,24 +2,34 @@
 {% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
 
 <md-list-item class="md-3-line _md-no-proxy comment status-{{ comment.getStatus()|lower }}" id="comment-{{ comment.getId() }}">
+	{% if with_multiselect|default(false) %}
+    <md-checkbox ng-change="check({{ comment.getId() }}, selected)"
+								 ng-model="dummy[{{ comment.getId() }}]"
+								 class="md-primary"
+								 value="{{ comment.getId() }}"
+								 role="checkbox"
+								 tabindex="0"
+		></md-checkbox>
+	{% endif %}
 	<div class="loader loader-h"></div>
-	<img class="md-avatar" src="{{ avatar(comment.getAuthor(), 'thumbnail') }}">
 	<div class="md-list-item-text">
-		<div class="layout-gt-sm-row">
-
-			<h3 class="md-headline flex">{{ comment.getAuthor().getFullName() }}
-				{% if display is defined and display == 'blog' %}
-				- {{ comment.object.getTitle() }}
-				{% else %}
-					- {{ comment.object }}
-				{% endif %}
-			</h3>
-			<p class="md-body-1">
-				{{ 'SEND_DATE'|trans({'%date%': date_from_now(comment.getDate(), false, true, 'medium', 'short', false, true)}) |desc('Envoyé %date%') |raw }}
-			</p>
+		<div class="flex layout-row layout-align-start-center">
+			<img class="md-avatar" src="{{ avatar(comment.getAuthor(), 'thumbnail') }}">
+			<div class="flex">
+				<h3 class="md-headline flex">{{ comment.getAuthor().getFullName() }}
+					{% if display is defined and display == 'blog' %}
+					- {{ comment.object.getTitle() }}
+					{% else %}
+						- {{ comment.object }}
+					{% endif %}
+				</h3>
+				<p class="md-body-1">
+					{{ 'SEND_DATE'|trans({'%date%': date_from_now(comment.getDate(), false, true, 'medium', 'short', false, true)}) |desc('Envoyé %date%') |raw }}
+				</p>
+			</div>
 		</div>
 		<div class="md-body-1">{{ comment.getContent()|nl2br }}</div>
-		<div class="comment-option" layout="row" layout-align="space-between center">
+		<div class="comment-option layout-row layout-align-end-center">
 			{% include 'BNSAppCommentBundle:BackNew:comment_moderation.html.twig' %}
 		</div>
 	</div>

@@ -45,21 +45,16 @@ class WorkshopNewDocumentNotification extends Notification implements Notificati
         // Faites les modifications nécessaires à la restitution des paramètres ci-dessous
         // Le container est accessible grâce à l'attribut statique "self::$container"
         $document = WorkshopDocumentQuery::create()->findOneById($objects['document_id']);
-        $finalObjects = array();
-
-        $group = GroupQuery::create()->findPk($objects['groupId']);
-        if (null == $group) {
-            $finalObjects['%classLabel%'] = null;
-        } else {
-            $finalObjects['%classLabel%'] = "[" . $group->getLabel() . "] ";
-        }
 
         if (!$document) {
             $notification->delete();
             return false;
         }
+        $finalObjects['%classLabel%'] =  self::getGroupLabel($objects);
         $finalObjects['%user_fullname%'] = $document->getAuthor()->getFullName();
         $finalObjects['%document_name%'] = $document->getMedia()->getLabel();
+        //$finalObjects['%document_route%'] = $notification->getBaseUrl() . self::$container->get('cli.router')->generate('ng_index', ['rest' => 'app/workshop/documents/' . $document->getId()]);
+        // TODO: remplacer les routes pour Angular 5
         $finalObjects['%document_route%'] = $notification->getBaseUrl() . self::$container->get('cli.router')->generate('BNSAppMainBundle_front') . '#/workshop/documents/' . $document->getId();
 
         /*

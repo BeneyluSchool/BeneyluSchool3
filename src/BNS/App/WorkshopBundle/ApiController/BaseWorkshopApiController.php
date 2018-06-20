@@ -3,6 +3,8 @@
 namespace BNS\App\WorkshopBundle\ApiController;
 use BNS\App\CoreBundle\Controller\BaseApiController;
 use BNS\App\CoreBundle\Annotation\RightsSomeWhere;
+use BNS\App\MediaLibraryBundle\Manager\MediaManager;
+use BNS\App\MediaLibraryBundle\Model\Media;
 use BNS\App\ResourceBundle\Model\Resource;
 use BNS\App\WorkshopBundle\Model\WorkshopContentInterface;
 use BNS\App\WorkshopBundle\Model\WorkshopPage;
@@ -46,6 +48,9 @@ class BaseWorkshopApiController extends BaseApiController
 
     protected function canViewWorkshopDocument(WorkshopDocument $workshopDocument)
     {
+        if (MediaManager::STATUS_QUESTIONNAIRE_COMPETITION === $workshopDocument->getMedia()->getStatusDeletion()) {
+            return true;
+        }
         try {
             $this->canManageWorkshopDocument($workshopDocument);
         } catch (AccessDeniedHttpException $ex) {
@@ -64,8 +69,13 @@ class BaseWorkshopApiController extends BaseApiController
 
     protected function canManageWorkshopDocument(WorkshopDocument $workshopDocument)
     {
+        if ($workshopDocument->getMedia()->getStatusDeletion() === MediaManager::STATUS_QUESTIONNAIRE_COMPETITION ) {
+            $competition = $workshopDocument->getCompetition();
+
+            return $this->get('bns.competition.competition.manager')->canManageCompetition($competition, $this->getUser());
+        }
         // related media is deleted: forbid access
-        if ($workshopDocument->getMedia()->getStatusDeletion() !== 1) {
+        if ($workshopDocument->getMedia()->getStatusDeletion() !== MediaManager::STATUS_ACTIVE_INT) {
             throw new AccessDeniedHttpException();
         }
 

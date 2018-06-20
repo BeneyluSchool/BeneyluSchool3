@@ -7,6 +7,44 @@ use BNS\App\WorkshopBundle\Model\om\BaseWorkshopWidgetGroup;
 
 class WorkshopWidgetGroup extends BaseWorkshopWidgetGroup
 {
+
+    protected $versioningDisabled = false;
+
+    /**
+     * @var float
+     */
+    public $percent;
+
+    /**
+     * @var int
+     */
+    public $score;
+
+    /**
+     * @inheritDoc
+     */
+    public function getVersionCreatedBy()
+    {
+        $value = parent::getVersionCreatedBy();
+
+        return $value ? (int)$value : null;
+    }
+
+    public function isVersioningNecessary($con = null)
+    {
+        return !$this->versioningDisabled && parent::isVersioningNecessary($con);
+    }
+
+    public function disableVersioning()
+    {
+        $this->versioningDisabled = true;
+    }
+
+    public function enableVersioning()
+    {
+        $this->versioningDisabled = false;
+    }
+
     /**
      * Ajoute un widget à un groupe de widgets
      * @param $position
@@ -19,9 +57,13 @@ class WorkshopWidgetGroup extends BaseWorkshopWidgetGroup
     {
         $widget = new WorkshopWidget();
         $widget->setWidgetGroupId($this->getId());
-        $widget->setPosition($position);
+        try {
+            $widget->insertAtRank($position);
+        } catch (\PropelException $e) {
+            $widget->insertAtBottom();
+        }
         $widget->setType($type);
-        if ($media != null) {
+        if ($media) {
             $widget->setMediaId($media->getId());
         } else {
             $widget->setMediaId(null);
@@ -49,5 +91,34 @@ class WorkshopWidgetGroup extends BaseWorkshopWidgetGroup
     {
         $this->fixOldScope();
         return true;
+    }
+
+    public function getPercent(){
+        if(isset($this->percent)){
+            return $this->percent;
+        }
+    }
+
+    /**
+     * special setter that prevent sortable automatique behavior
+     * @param $pageId
+     * @param $zone
+     * @param $position
+     */
+    public function setPageZonePosition($pageId, $zone, $position)
+    {
+        $this->setPageId($pageId);
+        $this->setZone($zone);
+        $this->setPosition($position);
+
+        if (!$this->isColumnModified(WorkshopWidgetGroupPeer::POSITION) &&
+            (
+                $this->isColumnModified(WorkshopWidgetGroupPeer::PAGE_ID) ||
+                $this->isColumnModified(WorkshopWidgetGroupPeer::ZONE)
+            )
+        ) {
+            // force modification to prevent sortable from moving object
+            $this->modifiedColumns[] = WorkshopWidgetGroupPeer::POSITION;
+        }
     }
 }

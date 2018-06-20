@@ -154,7 +154,14 @@
                         }
                         else if($this.hasClass('teacher'))
                         {
-                            $('.item-list-container.teacher').prepend($('.result.lastRegistedUser').html());
+                            if($('.result.isAssistant') != null && $('.result.isAssistant').html() != null)
+                            {
+                                $('.item-list-container.assistant').prepend($('.result.lastRegistedUser').html());
+                            }
+                            else
+                            {
+                                $('.item-list-container.teacher').prepend($('.result.lastRegistedUser').html());
+                            }
                         }
                     }
                     if (!$this.hasClass('and-new') && $(xhr.responseText).find('.alert-danger').length == 0) {
@@ -202,6 +209,11 @@
                 if($('.row_check input:checked').length != 0) {
                     $('.form_fiche_users').submit();
                 }
+            });
+
+            $('#bouton_import_submit').click(function () {
+                $('.form_import_teacher_vcard').submit();
+
             });
 
 
@@ -308,6 +320,11 @@
                       {{ 'LINK_GENERATE_NEW_NOTE'|trans |desc('<strong>Générer une</strong><br />  nouvelle fiche') |raw }}
               </a>
             {% endif %}
+              <a href="#" class="btn bns-warning btn-24 medium-return" data-toggle="modal" data-target="#import-teacher"
+                 bns-feature-flag="'profile_sdet_import_export'" bns-feature-push>
+                  <span class="icons-24 generate-icon"></span>
+                  {{ 'IMPORT_TEACHER_VCARD'|trans |desc('<strong>Importer un </strong><br />  enseignant') |raw }}
+              </a>
           </div>
         </div>
       </div>
@@ -329,6 +346,16 @@
     'type': 'success',
     'footer_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:generate_fiche_classroom_footer.html.twig'}
   }) }}
+
+    {{ modal('import-teacher', {
+        'title' : 'IMPORT_TEACHER_VCARD'|trans,
+        'body_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:import_teacher_vcard_classroom_body.html.twig', 'values': {
+            'form' : importForm
+        } },
+        'type': 'success',
+        'footer_template': {'template': 'BNSAppClassroomBundle:BackClassroomModal:import_teacher_vcard_classroom_footer.html.twig'}
+
+    }) }}
 
   <div class="container-classroom">
     {% if app.session.flashBag.has('success') %}
@@ -352,6 +379,18 @@
 
       <div class="jim"></div>
     </div>
+
+    {% if classroom.aafAcademy is not empty %}
+    <div class="alert alert-info bns-alert">
+        {{ 'AUTOMATE_ADD_PUPIL' |trans({
+            '%linkStart%': '<a target="_blank"
+            href="' ~ parameter('bns_aaf_academy_links')['info_link'][app.request.locale]|default(parameter('bns_aaf_academy_links')['info_link']['fr']) ~ '">',
+            '%linkEnd%': '</a>'
+        }) |desc("Vous bénéficiez de l'alimentation automatique des données depuis ONDE, les ajouts sont par conséquent bloqués.
+        %linkStart%Avoir plus de renseignements%linkEnd%") |raw }}
+        <div class="jim"></div>
+    </div>
+    {% endif %}
 
     <div class="news-title">
       <h1 class="dashboard">
@@ -401,7 +440,7 @@
         {{ 'TITLE_ASSISTANTS' |transchoice(assistants|length) }}
       </h1>
     </div>
-    <div class="item-list-container teacher">
+    <div class="item-list-container assistant">
       {% for assistant in assistants %}
         {% include 'BNSAppClassroomBundle:BackClassroom:row_teacher.html.twig' with {'teacher': assistant}  %}
       {% endfor %}

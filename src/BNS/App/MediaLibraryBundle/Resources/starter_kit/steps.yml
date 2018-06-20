@@ -32,10 +32,14 @@
   -
     step: 1-1.3
     type: explanation
+    target: '#media-library-create-menu > .md-button'
+    validate: click
     data: [ content, action ]
   -
     step: 1-1.4
     type: validate
+    target: '#media-library-add-file'
+    scope: '#media-library-create-menu' # mdMenu items are moved out of the app scope => validate in an element still in scope
     data: [ action ]
     validate: uploader.queue.length
   -
@@ -71,44 +75,39 @@
   -
     step: 1-2.5
     type: explanation
-    state: app.mediaLibrary.base.media
-    data: [ content, action ]
+    data: [ action ]
   -
     step: 1-2.5.1
     type: stepper
-    state: app.mediaLibrary.base.media
     data: [ title ]
   -
     step: 1-2.5.2
     type: stepper
-    state: app.mediaLibrary.base.media
     data: [ title ]
   -
     step: 1-2.5.3
     type: explanation
-    state: app.mediaLibrary.base.media
     data: [ content ]
   -
     step: 1-2.6
     type: achievement
-    state: app.mediaLibrary.base.media
     data: [ content ]
     achievement: EDIT_FIRST_DOCUMENT
   -
     step: 1-2.7
     type: explanation
-    state: app.mediaLibrary.base.media
     data: [ content, action ]
   -
     step: 1-2.8
     type: explanation
-    state: app.mediaLibrary.base.media
     data: [ content, action ]
   -
     step: 1-2.9
-    type: pointer
+    type: explanation
     state: app.mediaLibrary.base.folders.details
-    data: [ content ]
+    data: [ content, accept ]
+    target: '.media-library-scene-element.file:last-child .media-library-scene-element-visual'
+    frozen: true
   -
     step: 1-3.1
     type: achievement
@@ -135,26 +134,26 @@
   -
     step: 2-1.2
     type: explanation
-    target: '#media-library-create-menu'
+    target: '#media-library-create-menu > .md-button'
     validate: 'shared.context.medias.length >= 3'
     data: [ content, action ]
   -
     step: 2-1.3.1
     type: explanation
     data: [ content, action ]
-    target: '#media-library-create-menu'
+    target: '#media-library-create-menu > .md-button'
     validate: click
   -
     step: 2-1.3.2
     type: explanation
     data: [ action ]
-    target: '#media-library-create-menu > .dropdown-menu > li:first-child'
+    target: '#media-library-add-folder'
     validate: click
   -
     step: 2-1.3.3
     type: explanation
     data: [ content, action ]
-    target: '#media-library-add-folder-modal button[type="submit"]'
+    target: '#media-library-add-folder-modal .modal'
     parent: '#media-library-add-folder-modal'
     validate: folder.created
   -
@@ -191,13 +190,13 @@
     step: 2-3.1.1
     type: explanation
     data: [ content, action ]
-    target: '#media-library-arrangement-menu'
+    target: '#media-library-arrangement-menu > .md-button'
     validate: click
   -
     step: 2-3.1.2
     type: explanation
     data: [ content, action ]
-    target: '#media-library-move-menu-item'
+    target: '#media-library-move'
     validate: click
   -
     step: 2-3.2
@@ -248,13 +247,13 @@
     step: 3-1.2.1
     type: explanation
     data: [ content, action ]
-    target: '#media-library-create-menu'
+    target: '#media-library-create-menu > .md-button'
     validate: click
   -
     step: 3-1.2.2
     type: explanation
     data: [ action ]
-    target: '#media-library-create-menu > .dropdown-menu > li:first-child'
+    target: '#media-library-add-folder'
     validate: click
   -
     step: 3-1.2.3

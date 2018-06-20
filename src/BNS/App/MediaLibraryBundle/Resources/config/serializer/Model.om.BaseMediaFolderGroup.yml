@@ -5,6 +5,7 @@ BNS\App\MediaLibraryBundle\Model\om\BaseMediaFolderGroup:
       expose: true
     status_deletion:
       expose: true
+      groups: [media_folder_extra]
     is_private:
       expose: true
     is_locker:
@@ -13,5 +14,7 @@ BNS\App\MediaLibraryBundle\Model\om\BaseMediaFolderGroup:
       expose: true
     created_at:
       expose: true
+      groups: [media_folder_extra]
     updated_at:
       expose: true
+      groups: [media_folder_extra]

@@ -4,6 +4,7 @@ namespace BNS\App\CoreBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
@@ -59,6 +60,10 @@ class BNSAppCoreExtension extends Extension
                 $modules,
                 $permissions
             ));
+        }
+
+        if ('app_test' === $container->getParameter('kernel.environment')) {
+            $loader->load('test-services.xml');
         }
     }
 }

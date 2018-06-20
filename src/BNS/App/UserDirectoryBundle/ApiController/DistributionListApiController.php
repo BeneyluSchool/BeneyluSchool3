@@ -2,16 +2,20 @@
 namespace BNS\App\UserDirectoryBundle\ApiController;
 
 use BNS\App\CoreBundle\Controller\BaseApiController;
+use BNS\App\CoreBundle\Model\Group;
+use BNS\App\CoreBundle\Model\GroupQuery;
 use BNS\App\UserDirectoryBundle\Form\Type\DistributionListGroupType;
 use BNS\App\UserDirectoryBundle\Model\DistributionList;
 use BNS\App\UserDirectoryBundle\Model\DistributionListGroup;
 use BNS\App\UserDirectoryBundle\Model\DistributionListGroupQuery;
 use BNS\App\UserDirectoryBundle\Model\DistributionListQuery;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * @author Julie Boisnard <julie.boisnard@pixel-cookers.com>
@@ -26,22 +30,29 @@ class DistributionListApiController extends BaseApiController
      * )
      *
      * @Rest\Get("/groups/{groupId}/distribution-lists")
-     * @Rest\View(serializerGroups={"Default","list"})
+     * @Rest\View(serializerGroups={"Default","list","detail"})
+     *
+     * @Rest\QueryParam("type", requirements="STRUCT|USER", nullable=true)
      *
      *
      * @param Integer $groupId
      * @return array
      */
-    public function getDistributionListsAction($groupId)
+    public function getDistributionListsAction($groupId, ParamFetcherInterface $paramFetcher)
     {
-        if (!$this->get('bns.right_manager')->hasRight('CAMPAIGN_ACCESS', $groupId)) {
-            return $this->view(null, Codes::HTTP_FORBIDDEN);
+        if (!$this->canAccessGroup($groupId)) {
+            throw $this->createAccessDeniedException();
         }
 
-        return DistributionListQuery::create()
+        $query = DistributionListQuery::create()
             ->filterByGroupId($groupId)
-            ->find()
         ;
+
+        $type = $paramFetcher->get('type', true);
+        if ($type) {
+            $query->filterByType($type);
+        }
+        return $query->find();
     }
 
     /**
@@ -69,13 +80,84 @@ class DistributionListApiController extends BaseApiController
     {
         $ids = explode(',', $request->get('ids', ''));
 
-        // todo: check access to each list
         $lists = DistributionListQuery::create()
             ->filterById($ids)
             ->find()
         ;
 
-        return $lists;
+        $allowedGroupIds = [];
+        $groupIds = $lists->toKeyValue('GroupId', 'GroupId');
+        foreach ($groupIds as $groupId) {
+            if ($this->canAccessGroup($groupId)) {
+                $allowedGroupIds[$groupId] = $groupId;
+            }
+        }
+
+        $allowedLists = [];
+        foreach ($lists as $list) {
+            if (isset($allowedGroupIds[$list->getGroupId()])) {
+                $allowedLists[] = $list;
+            }
+        }
+
+        return $allowedLists;
+    }
+
+    /**
+     * @ApiDoc(
+     *  section="Annuaire utilisateurs - Listes de diffusion",
+     *  resource = true,
+     *  description="Get current group structures",
+     * )
+     *
+     * @Rest\Get("/distribution-lists/structures")
+     * @Rest\View(serializerGroups={"Default","list"})
+     *
+     * @return array
+     */
+    public function getStructuresAction()
+    {
+        $currentGroup = $this->get('bns.right_manager')->getCurrentGroup();
+        switch ($currentGroup->getType()) {
+            case 'CLASSROOM':
+            case 'SCHOOL':
+                $permission = $currentGroup->getType().'_ACCESS_BACK';
+                break;
+            default:
+                $permission = 'GROUP_ACCESS_BACK';
+        }
+
+        if (!$this->get('bns.right_manager')->hasRight($permission, $currentGroup->getId())) {
+            throw new AccessDeniedHttpException('Cannot view structures of current group');
+        }
+
+        // remove disabled groups
+        $structures = $this->get('bns.group_manager')->setGroup($currentGroup)->getAllSubgroups($currentGroup->getId());
+        if ($this->container->hasParameter('check_group_enabled') && $this->getParameter('check_group_enabled')) {
+            foreach ($structures as $key => $structure) {
+                /** @var Group $structure */
+                if (!$structure->isEnabled() || $structure->getType() === 'TEAM') {
+                    $structures->remove($key);
+                }
+
+                if (!$this->get('bns.right_manager')->hasRight('CAMPAIGN_VIEW_CLASSROOM', $currentGroup->getId()) && $structure->getType() === 'CLASSROOM') {
+                    $structures->remove($key);
+                }
+            }
+        } else {
+            foreach ($structures as $key => $structure) {
+                /** @var Group $structure */
+                if ($structure->getType() === 'TEAM') {
+                    $structures->remove($key);
+                }
+                if (!$this->get('bns.right_manager')->hasRight('CAMPAIGN_VIEW_CLASSROOM', $currentGroup->getId()) && $structure->getType() === 'CLASSROOM') {
+                    $structures->remove($key);
+                }
+            }
+        }
+
+        // array may now have holes due to removed groups, ensure it is continuous
+        return array_values($structures->getArrayCopy());
     }
 
     /**
@@ -171,9 +253,6 @@ class DistributionListApiController extends BaseApiController
             return $this->view(null, Codes::HTTP_BAD_REQUEST);
         }
         // todo: check that given roles are valid
-        if (!count($roles)) {
-            return $this->view(null, Codes::HTTP_BAD_REQUEST);
-        }
 
         $list = $this->get('bns.user_directory.distribution_list_manager')->create($groupId, $groupIds, $roles);
 
@@ -216,10 +295,20 @@ class DistributionListApiController extends BaseApiController
         $groupIds = $request->get('group_ids', []);
         $roles = $request->get('roles', []);
 
-        // todo: check access
+        if ($this->container->hasParameter('check_group_enabled') && $this->getParameter('check_group_enabled')) {
+            $groupIds = GroupQuery::create()
+                ->filterByEnabled(true)
+                ->filterById($groupIds)
+                ->select(['Id'])
+                ->find()->toArray();
+        }
+
         $list = DistributionListQuery::create()
             ->filterById($id)
             ->findOne();
+        if (!$this->canAccessGroup($list->getGroupId())) {
+            throw $this->createAccessDeniedException();
+        }
         //ToDo add nb of users
 
         if (!$list) {
@@ -236,5 +325,13 @@ class DistributionListApiController extends BaseApiController
         $this->get('bns.user_directory.distribution_list_manager')->edit($list, $groupIds, $roles);
 
         return $list;
+    }
+
+    protected function canAccessGroup($groupId)
+    {
+        return $this->get('bns.right_manager')->hasRight('CAMPAIGN_ACCESS', $groupId)
+            || $this->get('bns.right_manager')->hasRight('PORTAL_ACCESS_BACK', $groupId)
+            || $this->get('bns.right_manager')->hasRight('MINISITE_ACCESS_BACK', $groupId)
+        ;
     }
 }

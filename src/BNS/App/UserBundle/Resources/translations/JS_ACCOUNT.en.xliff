@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-09-09T12:53:20Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+  <file date="2018-02-26T12:11:28Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -13,6 +13,10 @@
       <trans-unit id="20dcb001a684d816442623a8cfdc2f4859f65d63" resname="BUTTON_CANCEL">
         <source>BUTTON_CANCEL</source>
         <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="b771d4535cb0026aab525ebf95992e86cbb85b92" resname="BUTTON_CHOOSE_PLAN">
+        <source>BUTTON_CHOOSE_PLAN</source>
+        <target>Choose a subscription</target>
       </trans-unit>
       <trans-unit id="a8412ca47306bd57318844a526eedb97f92c35d7" resname="BUTTON_CONFIRM">
         <source>BUTTON_CONFIRM</source>
@@ -34,6 +38,14 @@
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
+      <trans-unit id="dbf0581b48b34edeb8be22831637185afece2483" resname="BUTTON_EDIT">
+        <source>BUTTON_EDIT</source>
+        <target>Edit</target>
+      </trans-unit>
+      <trans-unit id="a91829a8c34e57eb2732d7f1e7e5c8eae11faf49" resname="BUTTON_EXTEND_PLAN">
+        <source>BUTTON_EXTEND_PLAN</source>
+        <target>Extend my subscription</target>
+      </trans-unit>
       <trans-unit id="388e33a655034cb5ca507939676daec2df96f15f" resname="BUTTON_GOTO_CLASSROOM">
         <source>BUTTON_GOTO_CLASSROOM</source>
         <target>Go to class</target>
@@ -50,6 +62,14 @@
         <source>BUTTON_SUBMIT</source>
         <target>Register</target>
       </trans-unit>
+      <trans-unit id="5eb15a6f9208b69b5d5efb278382cbb390ae393c" resname="BUTTON_SUBSCRIBE_PLAN">
+        <source>BUTTON_SUBSCRIBE_PLAN</source>
+        <target>Subscribe to a plan</target>
+      </trans-unit>
+      <trans-unit id="7b7018e5dbec8a00b247d4c8a9fd8e251ee02cc0" resname="BUTTON_UPGRADE_PLAN">
+        <source>BUTTON_UPGRADE_PLAN</source>
+        <target>Upgrade my subscription</target>
+      </trans-unit>
       <trans-unit id="4ca5204648c82664f193c17b2d6be5c51f133b50" resname="BUTTON_YES">
         <source>BUTTON_YES</source>
         <target>Yes</target>
@@ -57,6 +77,10 @@
       <trans-unit id="c06c7821874dba87890f6ab079d7b369e0d0d0f4" resname="DESCRIPTION_ACCOUNT_LINKED">
         <source>DESCRIPTION_ACCOUNT_LINKED</source>
         <target>PAS_A_TRADUIRE</target>
+      </trans-unit>
+      <trans-unit id="ed994a1395fbd5da1104a8bd5ce3c6119f76821c" resname="DESCRIPTION_EXPIRES_ON">
+        <source>DESCRIPTION_EXPIRES_ON</source>
+        <target>Expires on {{date}}</target>
       </trans-unit>
       <trans-unit id="1b3fffa8f5fa97827634dc7dc9b5cef7591ef32b" resname="DESCRIPTION_FROM_CLASSROOM">
         <source>DESCRIPTION_FROM_CLASSROOM</source>
@@ -74,6 +98,10 @@
         <source>DESCRIPTION_INPUT_OLD_EMAIL</source>
         <target>Can you tell us your old username or email so we can send your login information?</target>
       </trans-unit>
+      <trans-unit id="eacb077a33d4083f2cd4808c5e7b39fade5485cf" resname="DESCRIPTION_LIFE_TIME">
+        <source>DESCRIPTION_LIFE_TIME</source>
+        <target>No expiration</target>
+      </trans-unit>
       <trans-unit id="29bfe0bfc98ac17f456d5bdb32d17881352acf41" resname="DESCRIPTION_NO_CHILDREN">
         <source>DESCRIPTION_NO_CHILDREN</source>
         <target>No student account linked</target>
@@ -85,6 +113,10 @@
       <trans-unit id="e6c536475b388e5fbbefca987207dc595ae040f2" resname="DESCRIPTION_NO_CLASSROOM_FOUND">
         <source>DESCRIPTION_NO_CLASSROOM_FOUND</source>
         <target>PAS_A_TRADUIRE</target>
+      </trans-unit>
+      <trans-unit id="74d1f8268ff0cfe1127be242019dc4ebbb1d9f00" resname="DESCRIPTION_NO_PLAN">
+        <source>DESCRIPTION_NO_PLAN</source>
+        <target>No subscription found</target>
       </trans-unit>
       <trans-unit id="288e17b780d52703385919efcbf0f27e4f868ce4" resname="DESCRIPTION_NO_PROCESSING">
         <source>DESCRIPTION_NO_PROCESSING</source>
@@ -196,7 +228,7 @@
       </trans-unit>
       <trans-unit id="606f976d05d9558e84499e8414b319f4558ebdef" resname="FLASH_CHANGE_PASSWORD_SUCCESS">
         <source>FLASH_CHANGE_PASSWORD_SUCCESS</source>
-        <target>Update password</target>
+        <target>Updated password</target>
       </trans-unit>
       <trans-unit id="bc040e8202af125315b8e9541b18ebc83b3d8377" resname="FLASH_ERROR_ACCOUNT_NOT_FOUND">
         <source>FLASH_ERROR_ACCOUNT_NOT_FOUND</source>
@@ -209,6 +241,10 @@
       <trans-unit id="b548f3c3bd182c8d7fe44113c7409af361cd3c4f" resname="FLASH_LINK_PARENT_ACCOUNT_ERROR">
         <source>FLASH_LINK_PARENT_ACCOUNT_ERROR</source>
         <target>The parent account could not be created</target>
+      </trans-unit>
+      <trans-unit id="b0a9a0123f9db1ac9553f9515d96649939e4d018" resname="FLASH_LOAD_LICENCES_ERROR">
+        <source>FLASH_LOAD_LICENCES_ERROR</source>
+        <target>The subscriptions could not be loaded</target>
       </trans-unit>
       <trans-unit id="cf72b03e98438ab13df9f72fdb72688495e9421d" resname="FLASH_LOAD_PARENT_ACCOUNTS_ERROR">
         <source>FLASH_LOAD_PARENT_ACCOUNTS_ERROR</source>
@@ -241,6 +277,10 @@
       <trans-unit id="b25afdc802c6e22e4bb8058665a10dd7c915421e" resname="LABEL_CURRENT_PASSWORD">
         <source>LABEL_CURRENT_PASSWORD</source>
         <target>Your current password</target>
+      </trans-unit>
+      <trans-unit id="8acb1a27fa865147c288a8dfddb7a92c3ff1fa34" resname="LABEL_MY_CONTACT_DETAILS">
+        <source>LABEL_MY_CONTACT_DETAILS</source>
+        <target>My contact details :</target>
       </trans-unit>
       <trans-unit id="2737e0a40d9ba5f6fd87d24ed91a34b3ba0dbe98" resname="LABEL_NEW_PASSWORD">
         <source>LABEL_NEW_PASSWORD</source>
@@ -278,6 +318,14 @@
         <source>LINK_FORGOT_CREDENTIALS</source>
         <target>I forgot my old information</target>
       </trans-unit>
+      <trans-unit id="3fd33d20d0ef6ae1d3dedf13f9184d84edd4e4a8" resname="LINK_VIEW_PLANS">
+        <source>LINK_VIEW_PLANS</source>
+        <target>View all the Beneylu School subscriptions</target>
+      </trans-unit>
+      <trans-unit id="9d9e60aa9860dd9a54c0edb02dd971fbbad2d4b2" resname="MY_PLANS">
+        <source>MY_PLANS</source>
+        <target>My subscriptions</target>
+      </trans-unit>
       <trans-unit id="854fcd813f6eb8178adb81a770d7a89e79a7dcb1" resname="SUMMARY_PUPIL_RECOVERY">
         <source>SUMMARY_PUPIL_RECOVERY</source>
         <target><![CDATA[PAS_A_TRADUIRE]]></target>
@@ -304,6 +352,26 @@
         <source>TITLE_DATA_RECOVERY</source>
         <target>Recover your old data</target>
       </trans-unit>
+      <trans-unit id="5707e3af1bfd1f8b3f1f375a7ff96f3e138471ce" resname="TITLE_LICENCE_CLASSIC">
+        <source>TITLE_LICENCE_CLASSIC</source>
+        <target>Subscription to Beneylu School Classic</target>
+      </trans-unit>
+      <trans-unit id="48613ac14af5968523ad778de4b137a97517c12c" resname="TITLE_LICENCE_EXPRESS">
+        <source>TITLE_LICENCE_EXPRESS</source>
+        <target>Subscription to Beneylu School Express</target>
+      </trans-unit>
+      <trans-unit id="7543886792f0cf54cc98aaaba1a42c5d66678689" resname="TITLE_LICENCE_INFINITY">
+        <source>TITLE_LICENCE_INFINITY</source>
+        <target>Subscription to Beneylu School Infini</target>
+      </trans-unit>
+      <trans-unit id="74281cdda32e81124635c3cca9f5ad361e38a1f9" resname="TITLE_LICENCE_SCHOOL">
+        <source>TITLE_LICENCE_SCHOOL</source>
+        <target>Subscription to Beneylu School</target>
+      </trans-unit>
+      <trans-unit id="8857077ac9c4f9da38fd4a7cd98e9806ccd9af45" resname="TITLE_MY_INFO">
+        <source>TITLE_MY_INFO</source>
+        <target>My information</target>
+      </trans-unit>
       <trans-unit id="7b16f02e0e67d63de35dc6a81f86725b8f78bc56" resname="TITLE_NEW_PUPIL">
         <source>TITLE_NEW_PUPIL</source>
         <target>New student</target>
@@ -311,6 +379,10 @@
       <trans-unit id="4e66f0474572a8e09b3db035691b8b07672cbbfe" resname="TITLE_NEW_PUPILS">
         <source>TITLE_NEW_PUPILS</source>
         <target>New students</target>
+      </trans-unit>
+      <trans-unit id="72d6241d622c500383efa342214fc54a9750c572" resname="TITLE_NO_LICENCE">
+        <source>TITLE_NO_LICENCE</source>
+        <target>No active subscription</target>
       </trans-unit>
       <trans-unit id="2e4e4c0e36842405c1cda96f04b97f6fd529e1e4" resname="TITLE_OLD_PUPILS">
         <source>TITLE_OLD_PUPILS</source>

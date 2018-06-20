@@ -42,17 +42,12 @@ class MessagingNewAnswerReceivedNotification extends Notification implements Not
 
 		// Faites les modifications nécessaires à la restitution des paramètres ci-dessous
 		// Le container est accessible grâce à l'attribut statique "self::$container"
-        $group = GroupQuery::create()->findPk($objects['groupId']);
-        if (null == $group) {
-            $finalObjects['%classLabel%'] = null;
-        } else {
-            $finalObjects['%classLabel%'] = "[" . $group->getLabel() . "] ";
-        }
 		$sender = UserQuery::create()->findPk($objects['sender_id']);
 		if (null == $sender) {
 			throw new \InvalidArgumentException('The user with id : ' . $objects['sender_id'] . ' is NOT found !');
 		}
 
+        $finalObjects['%classLabel%'] =  self::getGroupLabel($objects);
 		$finalObjects['%sender_full_name%'] = $sender->getFullName();
 		$finalObjects['%message_route%']	= $notification->getBaseUrl() . self::$container->get('cli.router')->generate('BNSAppMessagingBundle_front', array());
 

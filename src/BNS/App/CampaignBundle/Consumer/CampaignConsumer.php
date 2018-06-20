@@ -48,7 +48,7 @@ class CampaignConsumer implements ConsumerInterface
             if (false === $message || !isset($message['campaign_id'])) {
                 $this->logger->error('CampaignConsumer invalid message', ['msg' => $msg]);
 
-                return;
+                return self::MSG_REJECT;
             }
 
             $campaign = CampaignQuery::create()->filterByStatus(CampaignPeer::STATUS_WAITING)->findPk($message['campaign_id']);
@@ -56,7 +56,7 @@ class CampaignConsumer implements ConsumerInterface
             if (!$campaign) {
                 $this->logger->error(sprintf('CampaignConsumer invalid campaign "%s"', $message['campaign_id']), ['msg' => $msg]);
 
-                return;
+                return self::MSG_REJECT;
             }
 
             // prepare recipients
@@ -84,14 +84,17 @@ class CampaignConsumer implements ConsumerInterface
 
             $this->lastSend = time();
 
-            return true;
+            return self::MSG_ACK;
         } catch(\PropelException $e) {
             $this->logger->error(sprintf('ERROR CampaignConsumer Propel error "%s", caused by "%s"', $e->getMessage(), $e->getCause()));
             \Propel::close();
 
-            return false;
+            return self::MSG_REJECT_REQUEUE;
         } catch (\Exception $e) {
             $this->logger->error('ERROR CampaignConsumer: ' . $e->getMessage());
         }
+
+        // reject message with error
+        return self::MSG_REJECT;
     }
 }

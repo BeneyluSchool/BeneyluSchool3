@@ -47,7 +47,11 @@ class BackTeamController extends Controller
         $groupManager = $this->get('bns.group_manager');
         $teams = $classroomManager->getTeams();
         // On boucle sur toutes les équipes de la classe pour injecter les utilisateurs dans chaque sous-groupe
-        foreach ($teams as $team) {
+        foreach ($teams as $key => $team) {
+            if ($team->getAttribute('EXPIRATION_DATE') !== null && $team->getAttribute('EXPIRATION_DATE') !== '' && \DateTime::createFromFormat('Y-m-d', $team->getAttribute('EXPIRATION_DATE')) < new \DateTime('now')) {
+                $this->deleteTeam($team->getSlug());
+                unset($teams[$key]);
+            }
             // On s'appuye sur le BNSGroupManager; on l'initialise avec l'équipe dont on souhaite récupérer les users
             $groupManager->setGroup($team);
             // Le paramètre $isLocale de la méthode getUsers() est setté à true pour récupérer des objets de type User (Propel)
@@ -90,6 +94,7 @@ class BackTeamController extends Controller
             'label' => $name,
             'attributes' => array(),
             'group_parent_id' => $classroom->getId(),
+            'lang' => $classroom->getLang()
         );
         $team = $this->get('bns.team_manager')->createTeam($params);
         $teamManager = $this->get('bns.team_manager');
@@ -326,6 +331,15 @@ class BackTeamController extends Controller
      */
     public function deleteTeamAction($teamSlug)
     {
+        $this->deleteTeam($teamSlug);
+
+        $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('GROUP_DELETE_SUCCESS', array(), 'CLASSROOM'));
+
+        return $this->redirect($this->generateUrl('BNSAppClassroomBundle_back_team'));
+
+    }
+
+    public function deleteTeam($teamSlug) {
 
         $gm = $this->get('bns.group_manager');
         $team = $gm->findGroupBySlug($teamSlug);
@@ -339,10 +353,6 @@ class BackTeamController extends Controller
         $currentGroupId = $this->get('bns.right_manager')->getCurrentGroup()->getId();
 
         $gm->deleteGroup($centralGroup['id'], $currentGroupId);
-
-        $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('GROUP_DELETE_SUCCESS', array(), 'CLASSROOM'));
-
-        return $this->redirect($this->generateUrl('BNSAppClassroomBundle_back_team'));
     }
 
 }

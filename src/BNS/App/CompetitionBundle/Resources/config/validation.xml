@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
+
+    <class name="BNS\App\CompetitionBundle\Model\ReadingChallenge">
+       <getter property="books">
+           <constraint name="Valid"/>
+       </getter>
+    </class>
+
+    <class name="BNS\App\CompetitionBundle\Model\Competition">
+        <property name="title">
+            <constraint name="NotBlank">
+                <option name="message">ENTER_TITLE</option>
+            </constraint>
+        </property>
+        <constraint name="Callback">hasParticipant</constraint>
+    </class>
+
+    <class name="BNS\App\CompetitionBundle\Model\Book">
+        <property name="title">
+            <constraint name="NotBlank">
+                <option name="message">ENTER_TITLE</option>
+            </constraint>
+        </property>
+        <property name="author">
+            <constraint name="NotBlank">
+                <option name="message">ENTER_AUTHOR</option>
+            </constraint>
+        </property>
+    </class>
+</constraint-mapping>

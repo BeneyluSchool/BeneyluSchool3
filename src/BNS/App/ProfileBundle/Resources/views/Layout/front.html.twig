@@ -17,8 +17,6 @@
 {% block body_class %}layout-column module-profile module-front front{% endblock %}
 {% block body_attr %}{{ parent() }} data-app="{{ app_unique_name }}" data-mode="{{ app_mode }}"{% endblock %}
 
-{% block alert %}{% endblock %}
-
 {% block body %}
     <script type="text/javascript" src="{{ asset('/medias/js/bootstrap/bootstrap-alert.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/medias/js/profile/preferences.js') }}"></script>

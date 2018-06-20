@@ -134,7 +134,7 @@ class ProfileFormModel implements IFormModel
      */
     public function isEmailBlankForAdult($context)
     {
-        if (BNSAccess::getContainer()->get('bns.user_manager')->setUser($this->user)->isAdult() && (null == $this->email || '' == $this->email)) {
+        if ($this->user->isAdult() && !$this->email) {
             $isParent = (0 == strcmp('parent', BNSAccess::getContainer()->get('bns.user_manager')->setUser($this->user)->getMainRole()));
 
             if (!$isParent) {
@@ -148,9 +148,9 @@ class ProfileFormModel implements IFormModel
 
     public function isEmailAlreadyUsed($context)
     {
-        if (BNSAccess::getContainer()->get('bns.user_manager')->setUser($this->user)->isAdult() && !(null == $this->email || '' == $this->email)) {
-            $emailUser = BNSAccess::getContainer()->get('bns.user_manager')->getUserByEmail(urlencode($this->email));
-            if (null != $emailUser && $emailUser->getId() != $this->user->getId()) {
+        if ($this->user->isAdult() && $this->email) {
+            $emailUser = BNSAccess::getContainer()->get('bns.user_manager')->getUserByEmail($this->email);
+            if ($emailUser && $emailUser->getId() != $this->user->getId()) {
                 $context->buildViolation('EMAIL_ALREADY_USED')
                     ->atPath('email')
                     ->setTranslationDomain('CLASSROOM')

@@ -19,10 +19,12 @@
 </div>
 #}
 
+{% set has_selectors = has_selectors|default(false) %}
+
 {% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
 {# add a dummy ng-click handler, for proper primary/secondary controls detection #}
-<md-list-item ng-click="" href="{{ path('blog_manager_article_visualisation', {'articleSlug': article.getSlug()}) }}" class="article item {% if (article.isStar()) %}favorite{% endif %}" id="article-{{ article.getId() }}">
-  {% if has_right('BLOG_ADMINISTRATION') and not is_child() %}
+<md-list-item ng-click="" href="{{ path('blog_manager_article_visualisation', {'articleSlug': article.getSlug()}) }}" class="article item {% if (article.isStar()) %}favorite{% endif %}" id="article-{{ article.getId() }}"{% if not has_selectors %} bns-status="{ value: '{{ article.status }}' }"{% endif %}>
+  {% if has_selectors %}
     {% if article.isProgrammed() %}
       <bns-list-item-selector status="sched">
         {# do not use ng-click on checkbox to avoid being wrapped inside a button #}

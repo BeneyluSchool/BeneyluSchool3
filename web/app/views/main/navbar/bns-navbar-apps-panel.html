@@ -1,21 +1,20 @@
-<md-content class="flex layout-column">
+<div class="flex layout-column bns-panel-content">
 
   <header>
     <div class="md-toolbar-tools">
-      <md-button ng-click="$mdSidenav('apps-left').toggle()" class="hide-gt-md md-icon-button">
-        <md-icon>menu</md-icon>
-      </md-button>
       <bns-navbar-group-favorite ng-if="panel.group.id !== 'me'" group="panel.group"></bns-navbar-group-favorite>
-      <h2 class="flex md-headline apps-dialog-title">
-        {{ panel.group.label + (panel.group.id !== 'me' ?  ' - ' + ('NAVBAR.OUR_'+panel.type | translate) : '' ) }}
-      </h2>
-      <md-button ng-if="panel.group.manageable" class="md-primary btn-sm" ng-click="panel.toggleMode()" tabindex="-1">
-        <span translate>{{ 'APPS.LINK_'+('mgmt' === panel.mode ? 'SHOW' : 'MANAGE')+'_OUR_'+panel.type | translate }}</span>
-      </md-button>
+      <div class="bns-panel-header-title flex layout-gt-sm-row layout-align-center-center">
+        <h2 class="flex md-headline apps-dialog-title">
+          {{ panel.group.label + (panel.group.id !== 'me' ?  ' - ' + ('NAVBAR.OUR_'+panel.type | translate) : '' ) }}
+        </h2>
+        <md-button id="apps-toggle-mode" ng-if="panel.group.manageable" class="md-primary btn-sm" ng-click="panel.toggleMode()" tabindex="-1">
+          <span translate>{{ 'APPS.LINK_'+('mgmt' === panel.mode ? 'SHOW' : 'MANAGE')+'_OUR_'+panel.type | translate }}</span>
+        </md-button>
+      </div>
     </div>
   </header>
 
-  <div class="flex layout-column md-padding">
+  <md-content class="flex layout-column md-padding bns-panel-main-content">
 
     <div flex layout="column" ng-if="panel.busy" layout-align="space-around center">
       <md-progress-circular md-mode="indeterminate"></md-progress-circular>
@@ -39,7 +38,18 @@
 
           <span class="flex apps-legend-separator"></span>
 
-          <div ng-if="panel.items.manageable.length" class="app-management-legend" translate>{{ ::'APPS.LABEL_'+panel.type+'_OPENING_TO_USERS' }}</div>
+          <div ng-if="panel.items.manageable.length && !panel.isGroupMode()" class="app-management-legend" translate>
+            {{ ::'APPS.LABEL_'+panel.type+'_OPENING_TO_USERS' }}
+          </div>
+
+          <div ng-if="panel.items.manageable.length && panel.isGroupMode()" class="app-management-legend-families" translate>
+            {{ ::'APPS.LABEL_APPS_OPENING_TO_FAMILIES' }}
+          </div>
+
+          <div ng-if="panel.items.manageable.length && panel.isGroupMode()" class="app-management-legend-teachers" translate>
+            {{ ::'APPS.LABEL_APPS_OPENING_TO_TEACHERS' }}
+          </div>
+
         </div>
       </md-list-item>
       <md-divider ></md-divider>
@@ -48,6 +58,7 @@
           bns-app-management
           app="app"
           group-id="panel.group.id"
+          is-group-mode="panel.isGroupMode()"
           notify="'error'"
           type="panel.type"
           with-favorites="panel.withFavorites"
@@ -65,16 +76,16 @@
       <div class="flex md-padding text-center" ng-show="!panel.items.all.length" translate>{{ ::'APPS.DESCRIPTION_NO_'+panel.type }}</div>
     </md-list>
 
-  </div>
+  </md-content>
 
-</md-content>
+</div>
 
 <footer ng-if="!panel.busy && 'list' === panel.mode" class="layout-row layout-align-end-center flex-none">
   <md-button ng-href="{{ panel.logoutUrl }}" class="show-md hide-gt-md flex-none md-raised" ng-if="panel.$mdMedia('md')">
     <md-icon>power_settings_new</md-icon>
     <span translate>NAVBAR.LOG_ME_OUT</span>
   </md-button>
-  <div class="flex layout-row layout-align-center-start" ng-if="panel.items.manageable.length">
+  <div class="flex layout-gt-sm-row layout-align-center-start" ng-if="panel.items.manageable.length">
     <div class="flex layout-column layout-align-center-start md-caption">
       <span class="layout-row layout-align-start-start">
         <span class="app-status opened"></span>
@@ -93,7 +104,8 @@
         <span translate>{{ ::'NAVBAR.'+panel.type+'_PRIVATE' }}</span>
       </span>
     </div>
-    <md-button ng-if="panel.items.newApp" ng-href="{{ panel.items.newApp._links.front.href }}" class="md-raised md-primary">
+    <md-button id="apps-add-app" ng-if="panel.items.newApp" ng-href="{{ panel.items.newApp._links.front.href }}" class="md-raised md-primary">
+      <bns-starter-kit-pointer app="MAIN" step="1-2.2" pointer="spot"></bns-starter-kit-pointer>
       <md-icon>add_circle</md-icon>
       <span translate>{{ ::'NAVBAR.LINK_ADD_AN_'+panel.typeSingle }}</span>
     </md-button>

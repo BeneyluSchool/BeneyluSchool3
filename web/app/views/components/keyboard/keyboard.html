@@ -1,0 +1,20 @@
+<div class="md-bottom-sheet-fullscreen">
+  <md-bottom-sheet bns-keyboard>
+    <div class="keyboard-container">
+      <div class="md-grid" layout="column">
+        <div ng-repeat="row in keyboard.keys" layout="row">
+          <div flex ng-repeat="key in row" ng-class="::keyboard.getKeyClass(key)">
+            <span ng-if="::key.spacer"></span>
+            <span ng-if="::!key.spacer">
+              <md-button class="md-raised" ng-disabled="::key.disabled" ng-mousedown="keyboard.pressed($event, key)" aria-label="{{::key.label}}">
+                <md-icon ng-if="::key.icon">{{::key.icon}}</md-icon>
+                <span ng-if="::!key.icon">{{::key.label}}</span>
+              </md-button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </md-bottom-sheet>
+</div>
+

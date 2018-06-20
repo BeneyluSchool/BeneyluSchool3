@@ -1,0 +1,31 @@
+  <div layout="row" layout-align="center center">
+    <div class="no-site-card expander btn bns-notice btn-16" ng-show="!widget.expanded" ng-click="widget.expand($event)">
+       <span translate>PORTAL.SHOW_LISTS</span>
+    </div>
+  </div>
+  <div ng-show="widget.expanded">
+    <div ng-show="widget.busy" layout="row" layout-align="center center" class="md-padding">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+
+    <div ng-show="!widget.busy">
+
+      <md-checkbox aria-label="{{ ::PORTAL.SELECT_ALL_SCHOOL|translate }}"
+                   ng-model="widget.all"
+                   class="md-primary">
+        <bns-navbar-icon item="{unique_name:'GROUP', group_type:'SCHOOL'}"></bns-navbar-icon>
+        <span translate>PORTAL.SELECT_ALL_SCHOOL</span>
+      </md-checkbox>
+      <input type="hidden" name="widget-{{ widget.widgetId }}[all]" ng-value="widget.all ? 1 : 0" />
+
+      <bns-checkbox-group choices="widget.choices" ng-model="widget.listIds" ng-show="!widget.all"></bns-checkbox-group>
+      <md-card class="no-site-card" ng-show="!widget.lists.length">
+        <p translate>PORTAL.NO_LIST</p>
+      </md-card>
+      <div layout="row" layout-align="center center">
+        <md-button bns-user-directory-invoke="portal-mailing-lists" view-type="distribution" distribution-type="STRUCT" selection-distribution="widget.listIds" class="md-raised md-primary"
+        > <bns-icon class="bns-icon-user-directory">user-directory</bns-icon><span translate>PORTAL.BUTTON_MANAGE_MAILING_LISTS</span></md-button>
+      </div>
+      <input type="hidden" name="widget-{{ widget.widgetId }}[lists]" ng-value="widget.listIds.join()" />
+    </div>
+  </div>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <!-- EMAIL Engine -->
+            <trans-unit id="1">
+                <source>LIAISON_BOOK_MODIFIED_MESSAGE.EMAIL.title</source>
+                <target><![CDATA[%classLabel%Un message a été modifié dans le carnet de liaison]]></target>
+                                         <note><![CDATA[%classLabel% is a placeholder
+                                               This text contains HTML tags, please try to keep those tags
+                                            ]]>
+                                        </note>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>LIAISON_BOOK_MODIFIED_MESSAGE.EMAIL.content</source>
+                <target><![CDATA[<b>%classLabel%</b>Un message a été modifié dans le carnet de liaison : <a href="%message_url%">%message_title%</a>.]]></target>
+                        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+                ]]></note>
+            </trans-unit>
+
+            <!-- SYSTEM Engine -->
+            <trans-unit id="14ef35f7a0be660a0b713bd04cbc60a41d00fa1b">
+                <source>LIAISON_BOOK_MODIFIED_MESSAGE.SYSTEM.content</source>
+                <target><![CDATA[Un message a été modifié dans le carnet de liaison : <a href="%message_url%">%message_title%</a>.]]></target>
+                        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+                ]]></note>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

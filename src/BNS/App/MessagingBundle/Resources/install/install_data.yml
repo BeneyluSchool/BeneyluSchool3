@@ -115,6 +115,14 @@ permissions:
       fr: Peut activer ou désactiver la messagerie dans le partenariat
       en:
 
+  SDET_PREFERENCES:
+    label:
+      fr: Avoir un alias et rapatrier les messages sur sa boite mail
+      en: have an alias and receive messages in mailbox
+    description:
+      fr:
+      en:
+
 ranks:
   USE:
     label:
@@ -205,6 +213,15 @@ ranks:
       fr:
       en:
     permissions: [ACTIVATION]
+
+  SDET_PREFERENCES:
+    label:
+     fr: Avoir un alias et rapatrier les messages sur sa boite mail
+     en: have an alias and receive messages in mailbox
+    description:
+      fr:
+      en:
+    permissions: [SDET_PREFERENCES]
 
 notification_types:
   MESSAGING_NEW_MESSAGE_RECEIVED: { }

@@ -13,12 +13,11 @@ function HttpAuthExceptionInterceptorConfig ($httpProvider, $provide) {
   $provide.factory('httpAuthExceptionInterceptor', function($q, $window, Routing) {
     return {
       'responseError': function(rejection) {
-        if (rejection.status === 401) {
+        if (rejection.status === 401 && !rejection.config.skipRedirect) {
           $window.location = Routing.generate('disconnect_user');
           return $q.reject(rejection);
         }
         // do something on error
-        console.debug('interceptor responseError', rejection);
         return $q.reject(rejection);
       }
     };

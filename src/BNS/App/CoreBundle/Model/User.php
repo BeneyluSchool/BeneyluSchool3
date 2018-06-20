@@ -7,6 +7,7 @@ use BNS\App\MediaLibraryBundle\Model\MediaFolderUser;
 use BNS\App\MediaLibraryBundle\Model\MediaFolderUserQuery;
 use BNS\App\MigrationBundle\Model\MigrationIconitoQuery;
 use BNS\App\PaasBundle\Client\PaasClientInterface;
+use BNS\App\PupilMonitoringBundle\Model\PupilAbsenceQuery;
 use Symfony\Component\Security\Core\User\UserInterface;
 use InvalidArgumentException;
 use Criteria;
@@ -100,6 +101,11 @@ class User extends BaseUser implements UserInterface, PaasClientInterface, \Seri
 	 * @var array<User>
 	 */
 	private $children;
+
+    /**
+     * @var User[]|\PropelObjectCollection
+     */
+	private $activeChildren;
 
 	/**
 	 * @var array<User>
@@ -664,6 +670,10 @@ class User extends BaseUser implements UserInterface, PaasClientInterface, \Seri
 
 	public function updateLastConnection()
 	{
+        $lastConnection = $this->getLastConnection();
+        if ($lastConnection) {
+            $this->setPreviousConnection($lastConnection);
+        }
 		$this->setLastConnection(time());
 		$this->save();
 	}
@@ -749,31 +759,42 @@ class User extends BaseUser implements UserInterface, PaasClientInterface, \Seri
 		$this->children = $children;
 	}
 
-	/**
-	 * @return array|User[]
-	 */
-	public function getChildren()
-	{
-		if(!isset($this->children)){
-			$userManager = BNSAccess::getContainer()->get('bns.user_manager');
-			$this->children = $userManager->getUserChildren($this);
-		}
-		return $this->children;
-	}
+    /**
+     * @deprecated use getActiveChildren() instead
+     * This return all children even archived @see getActiveChildren()
+     * @return array|User[]
+     */
+    public function getChildren()
+    {
+        if (null === $this->children) {
+            $this->children = UserQuery::create()
+                ->usePupilParentLinkRelatedByUserPupilIdQuery()
+                    ->filterByUserParentId($this->getId())
+                ->endUse()
+                ->find()
+                ->getArrayCopy()
+            ;
+        }
+
+        return $this->children;
+    }
 
     /**
-     * @return array|User[]
+     * @return \PropelObjectCollection|User[]
      */
     public function getActiveChildren()
     {
-        $children = [];
-        foreach ($this->getChildren() as $child) {
-            if (!$child->isArchived()) {
-                $children[] = $child;
-            }
+        if (null === $this->activeChildren) {
+            $this->activeChildren = UserQuery::create()
+                ->filterByArchived(false)
+                ->usePupilParentLinkRelatedByUserPupilIdQuery()
+                    ->filterByUserParentId($this->getId())
+                ->endUse()
+                ->find()
+            ;
         }
 
-        return $children;
+        return $this->activeChildren;
     }
 
     /**
@@ -928,6 +949,57 @@ class User extends BaseUser implements UserInterface, PaasClientInterface, \Seri
             ->find();
 
         return $assistants;
+    }
+
+    public function hasAbsenceAlert()
+    {
+        if (!$this->isChild()) {
+            return false;
+        } else {
+            $absenceAlert = false;
+            $date = date('Y-m-d');
+            $firstDay = date('Y-m-d', strtotime('first day of this month', strtotime($date)));
+            $lastDay = date('Y-m-d', strtotime('last day of this month', strtotime($date)));
+            $absencesTypes = PupilAbsenceQuery::create()
+                ->filterByUserId($this->getId())
+                ->filterByDate($firstDay, \Criteria::GREATER_EQUAL)
+                ->filterByDate($lastDay, \Criteria::LESS_EQUAL)
+                ->select('type')
+                ->find()
+                ->toArray();
+            if (count($absencesTypes) >= 10) {
+                $absenceAlert = true;
+            } else {
+                $numberOfAbsence = 0;
+                foreach ($absencesTypes as $absencesType) {
+                    if ($absencesType == 2) {
+                        $numberOfAbsence = $numberOfAbsence + 2;
+                    } else {
+                        $numberOfAbsence = $numberOfAbsence + 2;
+                    }
+                }
+                if ($numberOfAbsence >= 10) {
+                    $absenceAlert = true;
+                }
+            }
+            return $absenceAlert;
+        }
+    }
+
+    public function getAlias() {
+        $preferences = $this->getMessagingPreferences();
+        return $preferences? $preferences->getAlias() : null;
+    }
+
+    public function createSlug()
+    {
+        if (!$this->isNew()) {
+            $key = $this->getId();
+        } else {
+            $key = 'key-' . rand(999999999, min(9999999999, PHP_INT_MAX));
+        }
+
+        return 'utilisateur-' . $key;
     }
 
 }

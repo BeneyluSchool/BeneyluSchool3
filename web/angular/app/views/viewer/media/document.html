@@ -1,7 +1,7 @@
-<div ng-if="media.mime_type == 'application/pdf'" class="bns-viewer-document class2 {{ media.mime_type }}">
+<div ng-if="media.display_url != false " class="bns-viewer-document class2 {{ media.mime_type }}">
   <iframe ng-src="{{ getGdocUrl() }}" sandbox="allow-same-origin allow-scripts"></iframe>
 </div>
-<div ng-if="media.mime_type != 'application/pdf'" class="bns-viewer-file ">
+<div ng-if="media.display_url == false" class="bns-viewer-file ">
     <div translate>VIEWER.NO_PREVIEW_AVAILABLE_THIS</div>
     <div translate translate-values="{ url: media.download_url }">VIEWER.DOWNLOAD_POSSIBILITY_HTML</div>
 </div>

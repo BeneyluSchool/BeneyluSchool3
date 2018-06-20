@@ -7,6 +7,11 @@ framework:
     csrf_protection:
         enabled:              true
         field_name:           _token
+    session:
+        name: beneyluent
+twig:
+  globals:
+    cdn_url: @bns.parameter.cdn_url
 
 propel:
     dbal:
@@ -82,6 +87,14 @@ old_sound_rabbit_mq:
                 auto-delete: false
                 durable: true
                 internal: false
+        thumbnail:
+            connection: default
+            exchange_options:
+                name: '%rmq_exchange_thumbnail%'
+                type: direct
+                auto-delete: false
+                durable: true
+                internal: false
         import_user:
             connection: default
             exchange_options: {name: 'import-user', type: direct}
@@ -99,6 +112,14 @@ old_sound_rabbit_mq:
                 auto-delete: false
                 durable: true
                 internal: false
+        account_merge:
+            connection: default
+            exchange_options:
+                name: 'account_merge'
+                type: direct
+                auto-delete: false
+                durable: true
+                internal: false
     consumers:
         mailer:
             connection: default
@@ -111,6 +132,7 @@ old_sound_rabbit_mq:
             queue_options:
                 name: '%rmq_queue_mailer%'
             callback:         mailer_consumer
+            qos_options:      {prefetch_size: 0, prefetch_count: 50, global: false}
         notification:
             connection: default
             exchange_options:
@@ -122,6 +144,7 @@ old_sound_rabbit_mq:
             queue_options:
                 name: '%rmq_queue_notification%'
             callback:         notification_consumer
+            qos_options:      {prefetch_size: 0, prefetch_count: 50, global: false}
         campaign:
             connection: default
             exchange_options:
@@ -133,6 +156,7 @@ old_sound_rabbit_mq:
             queue_options:
                 name: '%rmq_queue_campaign%'
             callback: bns_app_campaign.campaign_consumer
+            qos_options:      {prefetch_size: 0, prefetch_count: 50, global: false}
         campaign_message:
             connection: default
             exchange_options:
@@ -144,6 +168,19 @@ old_sound_rabbit_mq:
             queue_options:
                 name: '%rmq_queue_campaign_message%'
             callback: bns_app_campaign.campaign_message_consumer
+            qos_options:      {prefetch_size: 0, prefetch_count: 50, global: false}
+        thumbnail:
+            connection: default
+            exchange_options:
+                name: '%rmq_exchange_thumbnail%'
+                type: direct
+                auto-delete: false
+                durable: true
+                internal: false
+            queue_options:
+                name: '%rmq_queue_thumbnail%'
+            callback: bns_app_media_library.consumer.thumb_consumer
+            qos_options:      {prefetch_size: 0, prefetch_count: 50, global: false}
         import_user:
             connection: default
             exchange_options: {name: 'import-user', type: direct}
@@ -170,6 +207,7 @@ old_sound_rabbit_mq:
             queue_options:
                 name: 'realtime'
             callback: bns.realtime.consumer
+            qos_options:      {prefetch_size: 0, prefetch_count: 50, global: false}
         account_link:
             connection: default
             exchange_options:
@@ -181,6 +219,19 @@ old_sound_rabbit_mq:
             queue_options:
                 name: 'account_link'
             callback: bns.user.account_link_consumer
+            qos_options:      {prefetch_size: 0, prefetch_count: 50, global: false}
+        account_merge:
+            connection: default
+            exchange_options:
+                name: 'account_merge'
+                type: direct
+                auto-delete: false
+                durable: true
+                internal: false
+            queue_options:
+                name: 'account_merge'
+            callback: bns.user.account_merge_consumer
+            qos_options:      {prefetch_size: 0, prefetch_count: 50, global: false}
 
 services:
     # Surcharge du UserProvider du KNPOAuthBundle
@@ -212,6 +263,19 @@ services:
         tags:
             - { name: form.type, alias: propel1_translation }
 
+    bns_cache.array:
+      class: Symfony\Component\Cache\Adapter\ArrayAdapter
+      public: false
+
+    bns_cache.redis:
+      class: Symfony\Component\Cache\Adapter\RedisAdapter
+      arguments: [@snc_redis.default_client, 'bs.cache.']
+      public: false
+
+    bns_cache.app:
+      class: Symfony\Component\Cache\Adapter\ChainAdapter
+      arguments:
+        [[@bns_cache.array, @bns_cache.redis]]
 
 # @see: https://github.com/stfalcon/TinymceBundle
 stfalcon_tinymce:
@@ -271,6 +335,73 @@ bns_app_autosave:
 bns_app_media_library:
     #Default Adapter for resources storage
     default_adapter: local
+
+    # The `thumb_mode` can be either `outbound` or `inset`. (default: outbound)
+    #   `inset` does a relative resize, where the height and the width not will exceed the values in the configuration.
+    #   `outbound` does a relative resize, but the image gets cropped if with and height are not the same.
+    # The `fill` is a boolean option (default: false)
+    #   if `true` a white (transparent if png) background will be added to fill the size of the desired image, (usefull for inset and/or small images with `upscale` false
+    # The `upscale` is a boolean option (default: true)
+    #   if `true` the image will be upscaled to fit the desired height/width
+    thumb_configs:
+      micro:
+        width: 30
+        height: 30
+      thumbnail:
+        width: 60
+        height: 60
+      board:
+        width: 100
+        height: 100
+      small:
+        width: 180
+        height: 180
+        options:
+          upscale: false
+          thumb_mode: outbound
+          fill: true
+      widget_contain:
+        width: 300
+        height: 200
+        options:
+          upscale: false
+          thumb_mode: inset
+          fill: true
+      favorite:
+        width: 300
+        height: 140
+      medium:
+        width: 600
+        height: 400
+        options:
+          upscale: false
+          thumb_mode: inset
+          fill: false
+      big:
+        width: 800
+        height: 600
+        options:
+          upscale: false
+          thumb_mode: inset
+          fill: true
+      large:
+        width: 1200
+        height: 800
+      banner_minisite_front:
+        width: 1150
+        height: 200
+      banner_minisite_back:
+        width: 1150
+        height: 200
+      portal_banner:
+        width: 770
+        height: 190
+      competition_portrait:
+        width: 150
+        height: 200
+      competition_landscape:
+        width: 200
+        height: 150
 
 bns_app_info:
     feeds:
@@ -360,7 +491,17 @@ opensky_runtime_config:
         enabled: true
         level:   debug
 
+dubture_f_fmpeg:
+    ffmpeg_binary:      %dubture_ffmpeg_binary%
+    ffprobe_binary:     %dubture_ffprobe_binary%
+    binary_timeout:     300 # Use 0 for infinite
+    threads_count:      4
+
+
 parameters:
+    chrome_binary: /usr/bin/google-chrome-stable
+    dubture_ffmpeg_binary: /usr/bin/ffmpeg
+    dubture_ffprobe_binary: /usr/bin/ffprobe
     exercise_html_purifier.class: BNS\App\CoreBundle\Purifier\BNSHTMLPurifier
     exercise_html_purifier.twig_extension.class: BNS\App\CoreBundle\Twig\Extension\HTMLPurifierExtension
     bns_cookie_settings :
@@ -417,6 +558,45 @@ parameters:
         app_panel_guide: https://beneylu.com/school/en/documentation/apps-board
         contact_link: https://beneylu.com/school/es/contacto/
 
+    bns_aaf_academy_links:
+      info_link:
+        fr: https://beneylu.com/school/fr/donnees-automatisees
+
+    bns_locale_links:
+      plans_url:
+        default: https://beneylu.com/school/us/pricing
+        fr: https://beneylu.com/school/fr/prix
+        en: https://beneylu.com/school/us/pricing
+        en_US: https://beneylu.com/school/us/pricing
+        en_GB: https://beneylu.com/school/uk/pricing
+      presentation_url:
+        default: https://beneylu.com/school/us/documentation/invitecolleagues
+        fr: https://beneylu.com/school/fr/documentation/presenter-aux-collegues
+        en: https://beneylu.com/school/us/documentation/invitecolleagues
+        en_US: https://beneylu.com/school/us/documentation/invitecolleagues
+        en_UK: https://beneylu.com/school/uk/documentation/invitecolleagues
+      legal_notice_url:
+        default: https://beneylu.com/school/fr/les-mentions-legales
+
+    bns_store_links:
+      pay_url:
+        default: https://beneylu.com/pay/en/us/login
+        fr_ent_fr: https://beneylu.com/pay/fr/fr/login
+        uk_ent_en: https://beneylu.com/pay/en/uk/login
+        us_ent_en: https://beneylu.com/pay/en/us/login
+      plans_url:
+        default: https://beneylu.com/school/us/pricing
+        fr_ent_fr: https://beneylu.com/school/fr/prix
+        uk_ent_en: https://beneylu.com/school/uk/pricing
+        us_ent_en: https://beneylu.com/school/us/pricing
+
+    bns_stores:
+      - fr_ent_fr
+      - uk_ent_en
+      - us_ent_en
+      - es_ent_es
+      - world_ent_en
+
     database_port: 3306
     preferred_countries:
         - FR
@@ -445,7 +625,27 @@ parameters:
 
     session_listener.class: BNS\App\CoreBundle\Listener\SessionListener
 
+    bns.app.login_path: /           # path or route name for firewall config
+
+    bns.app.remember_me_cookie: beneyluapp_remember
+    bns.app.remember_me_parameter: _remember_me
+
     router.options.generator_base_class: BNS\App\CoreBundle\Routing\HashtagDecodedUrlGenerator
+
+    listener_escape_routes:
+        - BNSAppMainBundle_front              # user password change
+        - bns_app_admin_certifier_password    # admin certification
+        - bns_app_admin_certifier_username    # admin certification
+        - bns_my_avatar
+        - disconnect_user
+        - home
+        - home_locale
+        - restricted_access                   # restricted school
+        - user_front_cgu_validate
+        - user_front_policy_validate
+        - user_front_registration_step        # deprecated
+        - _wdt
+        - _profiler
 
     # OAuth authentification
     auth_url:                           %oauth_host%
@@ -490,6 +690,9 @@ parameters:
     stripe_api_secret_key:               "none"
     stripe_api_public_key:               "none"
     paas_secret_key:                     "none"
+    paas_url:                            https://paas.beneylu.com
+    paas_order_url:                      %paas_url%/order/take
+    paas_check_url:                      %paas_url%/subscription/expose
     trusted_proxies:                     []
     knp_snappy.pdf.internal_generator.class:       BNS\App\CoreBundle\Snappy\BnsPdf
     stfalcon_tinymce.twig.extension.class: BNS\App\CoreBundle\Twig\Extension\BnsStfalconTinymceExtension
@@ -501,6 +704,11 @@ parameters:
     rmq_queue_campaign: campaign
     rmq_exchange_campaign_message: campaign_message
     rmq_queue_campaign_message: campaign_message
+    rmq_exchange_thumbnail: thumbnail
+    rmq_queue_thumbnail: thumbnail
+
+    #Exclude service stat if not montpellier
+    stats_exclusion: [ 'bns_group.activation_statistics' ]
 
     # List of embedded items, formatted as name: href, or name: { permission, href }
     bns_embed_items:
@@ -513,6 +721,25 @@ parameters:
                 default: https://beneylu.com/pssst/?utm_medium=referral&utm_source=beneylu+ent
                 en: https://beneylu.com/pssst/en/?utm_medium=referral&utm_source=beneylu+ent
                 es: https://beneylu.com/pssst/es/?utm_medium=referral&utm_source=beneylu+ent
+
+    # -------- Angular parameters START
+    auth_login_activate_account: false
+    auth_login_background_img: '/assets/images/main/home/yerbook-connexion.jpg'
+    auth_login_below: true
+    auth_login_below_component: ''
+    auth_login_footer_background: '#f2f4f5'
+    auth_login_footer_color: '#002642'
+    auth_login_footer_elevation: 0
+    auth_login_footer_logos: []
+    auth_login_forgot_password: true
+    auth_login_header_background: '#fff'
+    auth_login_header_color: 'rgba(0, 0, 0, .87)'
+    auth_login_header_elevation: 0
+    auth_login_header_logos: []
+    auth_login_header_title: ''
+    auth_login_logo: 'assets/images/logos/beneylu-school.svg'
+    auth_login_title: ''
+    # -------- Angular parameters END
 
 # config.yml
 jms_translation:
@@ -577,6 +804,16 @@ white_october_tcpdf:
     tcpdf:
       k_path_main: %kernel.cache_dir%/tcpdf/images/
 
+lopi_pusher:
+    scheme:           https
+    port:             443
+    cluster:          %pusher_cluster%
+    app_id:           %pusher_app_id%
+    key:              %pusher_key%
+    secret:           %pusher_secret%
+    host:             api-eu.pusher.com # cluster param is ignored by bundle...
+    auth_service_id:  bns_chat.pusher.channel_authenticator
+
 bns_app_core:
  #API limits, by hour
   api_limit:
@@ -593,6 +830,8 @@ bns_app_core:
       - TOUR
       - CIRCUS_BIRTHDAY
       - OLYMPICS
+      - OLYMPICS_TRAINING
+      - ACCOUNT
     system_applications:
       - ADMIN
       - SCHOOL
@@ -608,14 +847,17 @@ bns_app_core:
       - STATISTICS
       - PSSST
       - CAMPAIGN
-    restricted_applications:
+      - ACCOUNT
+    restricted_applications: # restriction is done with conditional toggle (lang do nothing)
       HERITAGE_DAYS: ['fr']
       TOUR: ['fr']
       YERBOOK: ['fr']
       BUILDERS: ['fr']
       CIRCUS_BIRTHDAY: ['fr']
       OLYMPICS: ['fr']
+      OLYMPICS_TRAINING: ['fr']
       SCIENCE_FEST: ['fr']
+      SPACE_OPS: ['fr']
   assistant_rights:
     modules:
       - TEAM
@@ -640,11 +882,13 @@ bns_app_main:
       - gps_visit
       - homework_visit
       - liaisonbook_visit
+      - lunch_visit
       - medialibrary_visit
       - messaging_visit
+      - portal_visit
       - profile_visit
       - search_visit
-#      - workshop_visit
+      - workshop_visit
 
 
 nelmio_cors:

@@ -51,7 +51,7 @@ angular.module('bns.viewer.bnsViewerMedia', [
     };
 
     $scope.getGdocUrl = function () {
-      return gdocViewer.getUrl($scope.media.download_url);
+      return gdocViewer.getUrl($scope.media.display_url);
     };
 
     /**

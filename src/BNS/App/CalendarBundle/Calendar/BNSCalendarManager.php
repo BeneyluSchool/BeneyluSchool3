@@ -3,7 +3,12 @@
 namespace BNS\App\CalendarBundle\Calendar;
 
 use BNS\App\CoreBundle\Model\Agenda;
+use BNS\App\CoreBundle\Model\AgendaObjectQuery;
+use BNS\App\CoreBundle\Model\AgendaSubjectQuery;
+use BNS\App\CoreBundle\Model\AgendaUser;
+use BNS\App\CoreBundle\Model\AgendaUserQuery;
 use BNS\App\CoreBundle\Model\User;
+use BNS\App\HomeworkBundle\Model\HomeworkQuery;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use \Exception;
@@ -79,7 +84,6 @@ class BNSCalendarManager
 
                 $event->setProperty($key, $value);
             }
-
             // l'objet vevent étant hydraté, on génère maintenant le code vevent selon la norme iCalendar
             $veventCode = $this->generateICalendarVeventCode($event);
 
@@ -96,6 +100,16 @@ class BNSCalendarManager
             $agendaEvent->setIsRecurring((false === $event->getProperty('RRULE')? false : true));
             $agendaEvent->setIsAllDay((array_key_exists('allday', $eventInfos) && $eventInfos['allday']? true : false));
             $agendaEvent->setAgendaId($agendaId);
+            $agendaEvent->setType(isset($eventInfos['type']) ? $eventInfos['type'] : AgendaEventPeer::TYPE_PUNCTUAL);
+            if (isset($eventInfos['subjectId'])) {
+                $subjectTitle = AgendaSubjectQuery::create()->select('title')->findPk($eventInfos['subjectId']);
+                $agendaEvent->setTitle($subjectTitle);
+            }elseif (isset($eventInfos['objectId'])) {
+                $objectTitle = AgendaObjectQuery::create()->select('title')->findPk($eventInfos['objectId']);
+                $agendaEvent->setTitle($objectTitle);
+            }
+            $agendaEvent->setSubjectId(isset($eventInfos['subjectId']) ? $eventInfos['subjectId']: null);
+            $agendaEvent->setObjectId(isset($eventInfos['objectId']) ? $eventInfos['objectId'] : null);
 
             // sauvegarde de l'objet AgendaEvent nouvellement créé
             $agendaEvent->save(null, $skipNotification);
@@ -217,7 +231,7 @@ class BNSCalendarManager
 	 * @param timestamp $dateStart date à partir de laquelle on souhaite récupérer tous les événements
 	 * @param timestamp $dateEnd date jusqu'à laquelle on souhaite récupérer tous les événements
 	 */
-	public function selectEventsByDates($dateStart, $dateEnd, $agendas, $isEditable = false, $fullcalendar = false)
+	public function selectEventsByDates($dateStart, $dateEnd, $agendas, $isEditable = false, $fullcalendar = false, $canSeeDisciplines = false, $canSeeReservation = false)
 	{
         $finalEvents = [];
 
@@ -255,9 +269,54 @@ class BNSCalendarManager
 		$wdCalendarEvents['error'] = null;
 
 		$ids = array();
+		$groupIds = array();
+
 		foreach ($agendas as $agenda) {
+		    /** @var Agenda $agenda */
 			$ids[] = $agenda->getId();
+			if ( $agenda->getType() === AgendaPeer::TYPE_GROUP) {
+                $groupIds[] = $agenda->getGroupId();
+            }
 		}
+
+        $subjectEventIds = array();
+        if ($canSeeDisciplines) {
+            $subjectEventIds = AgendaEventQuery::create('a')
+                ->condition('cond1', 'a.DateStart < ?', date('Y-m-d', $dateEnd + 24 * 60 * 60))
+                ->condition('cond2', 'a.DateEnd >= ?', date('Y-m-d', $dateStart))
+                ->combine(array('cond1', 'cond2'), 'and', 'cond-12')
+                ->condition('cond3', 'a.IsRecurring = ?', true)
+                ->where(array('cond-12', 'cond3'), 'or')
+                ->useAgendaSubjectQuery()
+                ->filterByGroupId($groupIds)
+                ->endUse()
+                ->select('id')
+                ->find()->toArray();
+        }
+        $objectEventIds = array();
+        if ($canSeeReservation) {
+            $objectEventIds = AgendaEventQuery::create('a')
+                ->condition('cond1', 'a.DateStart < ?', date('Y-m-d', $dateEnd + 24 * 60 * 60))
+                ->condition('cond2', 'a.DateEnd >= ?', date('Y-m-d', $dateStart))
+                ->combine(array('cond1', 'cond2'), 'and', 'cond-12')
+                ->condition('cond3', 'a.IsRecurring = ?', true)
+                ->where(array('cond-12', 'cond3'), 'or')
+                ->useAgendaObjectQuery()
+                    ->filterByGroupId($groupIds)
+                ->endUse()
+                ->select('id')
+                ->find()->toArray();
+        }
+        if ($canSeeReservation || $canSeeDisciplines) {
+            $homeworks =  HomeworkQuery::create()
+                ->filterByDate($dateStart, Criteria::GREATER_THAN)
+                ->filterByDate($dateEnd, Criteria::LESS_THAN)
+                ->useHomeworkGroupQuery()
+                ->filterByGroupId($groupIds, Criteria::IN)
+                ->endUse()
+                ->find();
+        }
+
 
         //Pour nöel on passe dans l'ENT les évènement sur le group id = 1
         if(date('m') == 12 && !$isEditable && $this->container->get('bns.right_manager')->isAdult())
@@ -271,7 +330,7 @@ class BNSCalendarManager
         }
 
         /** @var AgendaEvent[] $events */
-		$events = AgendaEventQuery::create('a')
+		$eventIds = AgendaEventQuery::create('a')
 			->joinWith('Agenda')
 			->add(AgendaPeer::ID, $ids, \Criteria::IN)
     		// Sélectionne les événements dont la date de début est > $dateStart et la date de fin est < $dateEnd + 1 jour
@@ -280,8 +339,9 @@ class BNSCalendarManager
     		->combine(array('cond1', 'cond2'), 'and', 'cond-12')
     			->condition('cond3', 'a.IsRecurring = ?', true)
     		->where(array('cond-12', 'cond3'), 'or')
-    	->find();
-
+            ->select('id')
+    	->find()->toArray();
+        $events = AgendaEventQuery::create()->filterById(array_unique(array_merge($subjectEventIds, $objectEventIds, $eventIds)))->find();
     	if (0 == count($events)) {
             return $fullcalendar ? $finalEvents : $wdCalendarEvents;
     	}
@@ -292,17 +352,37 @@ class BNSCalendarManager
 
     	// On boucle sur tous les AgendaEvent que l'on a récupéré depuis la base de données et créer les objets vevent
     	foreach ($events as $event) {
-    		$vevent = new \vevent();
-    		$vevent->parse($event->getIcalendarVevent());
-    		// on ajoute des paramètres custom à chaque vevent pour s'éviter de faire par la suite de nouvelle requête en base
+            $color = '';
+            switch ($event->getType()) {
+                case AgendaEventPeer::TYPE_RESERVATION:
+                    if($event->getTitle() !== $event->getAgendaObject()->getTitle()) {
+                        $event->setTitle($event->getAgendaObject()->getTitle())->save();
+                    }
+                    $color = $event->getAgendaObject()->getColorClass();
+                    break;
+                case AgendaEventPeer::TYPE_DISCIPLINE:
+                    if($event->getTitle() !== $event->getAgendaSubject()->getTitle()) {
+                        $event->setTitle($event->getAgendaSubject()->getTitle())->save();
+                    }
+                    $color = $event->getAgendaSubject()->getColorClass();
+                    break;
+                case AgendaEventPeer::TYPE_PUNCTUAL:
+                    $color = $event->getAgenda()->getColorClass();
+                    break;
+            }
+            $vevent = new \vevent();
+            $vevent->parse($event->getIcalendarVevent());
+            // on ajoute des paramètres custom à chaque vevent pour s'éviter de faire par la suite de nouvelle requête en base
     		$customParameters = array(
     			'ID' 			=> $event->getId(),
     			'SLUG' 			=> $event->getSlug(),
-    			'COLOR' 		=> $event->getAgenda()->getColorClass(),
+    			'COLOR' 		=> $color,
     			'ALL_DAY' 		=> $event->getIsAllDay(),
     			'SEVERAL_DAYS'	=> $this->isSeveralDaysEvent($vevent->getProperty('dtstart'), $vevent->getProperty('dtend')),
     			'IS_RECURRING'	=> $event->getIsRecurring(),
-    			'AGENDA_ID'		=> $event->getAgendaId(),
+    			'AGENDA_ID'		=> $event->getAgendaId() ? $event->getAgendaId() : null,
+                'SUBJECT_ID'    => $event->getSubjectId() ? $event->getSubjectId() : null,
+                'OBJECT_ID'    => $event->getObjectId() ? $event->getObjectId() : null,
                 'BEGIN_TIMESTAMP' => $event->getDateStart('U')
     		);
     		$vevent->setProperty('comment', $vevent->getProperty('comment'), $customParameters);
@@ -336,6 +416,8 @@ class BNSCalendarManager
     		$isAllDay = $customParameters['params']['ALL_DAY'];
     		$isSevaralDays = $customParameters['params']['SEVERAL_DAYS'];
     		$agendaId = $customParameters['params']['AGENDA_ID'];
+    		$subjectId = $customParameters['params']['SUBJECT_ID'];
+    		$objectId = $customParameters['params']['OBJECT_ID'];
     		$isRecurring = $customParameters['params']['IS_RECURRING'];
 
     		$start = $this->convertToStringDate($vevent->getProperty('dtstart'));
@@ -375,6 +457,9 @@ class BNSCalendarManager
                     'color' => isset(Agenda::$colorsClass[$color]) ? '#'.Agenda::$colorsClass[$color] : $color,
                     'allDay' => $isAllDay,
                     'agenda_id' => $agendaId,
+                    'subject_id' => $subjectId,
+                    'object_id' => $objectId,
+                    'editable' => !$isAllDay //empeche le drag and drop d'events allday qui pose probleme
                 ];
                 $wdCalendarEvents['events'][] = array(
                     $slug, // slug de l'événement; ici j'ai donné le slug de l'objet AgendaEvent correspondant
@@ -395,18 +480,43 @@ class BNSCalendarManager
                 $isFirstLoop = false;
             }
     	}
+        if ($canSeeDisciplines || $canSeeReservation) {
+            foreach ($homeworks as $homework) {
+                $finalEvents[] = [
+                    'id' => $homework->getId(),
+                    'title' => $homework->getName(),
+                    'start' => $homework->getDate()->format('c'),
+                    'end' => $homework->getDate()->format('c'),
+                    'color' => '#EC08DC',
+                    'allDay' => true,
+                    'editable' => false,
+                    'is_homework' => true,
+                ];
+            }
+        }
+
 
         return $fullcalendar ? $finalEvents : $wdCalendarEvents;
 	}
 
 
-    public function getAgendasFromGroupIds($ids)
+    public function getAgendasFromGroupIdsAndUser($ids, $userId = null)
     {
-        return AgendaQuery::create('a')
+        $agendaFromGroupIds =  AgendaQuery::create('a')
             ->useGroupQuery()
-                ->filterById($ids)
+            ->filterById($ids)
             ->endUse()
-            ->with('Group')
+            ->select('a.Id')
+            ->find()->toArray();
+
+        $personnalAgendaId = AgendaQuery::create()->filterByUserId($userId)->select('id')->findone();
+        $editableAgendas = AgendaUserQuery::create()->filterByUserId($userId)->select('agendaId')->find()->toArray();
+        $agendaIds = array_unique(array_merge($agendaFromGroupIds, $editableAgendas));
+        if ($personnalAgendaId !== null) {
+            $agendaIds [] = $personnalAgendaId;
+        }
+        return AgendaQuery::create('a')
+            ->filterById($agendaIds)
             ->orderBy('a.Id')
             ->find()
         ;
@@ -444,7 +554,6 @@ class BNSCalendarManager
 	public function getEventById($id)
 	{
 		$agendaEvent = AgendaEventQuery::create('ae')
-			->joinWith('Agenda a')
 		->findPk($id);
 
 		if (null == $agendaEvent) {
@@ -463,12 +572,14 @@ class BNSCalendarManager
 	 */
 	public function hydrateEvent(AgendaEvent $agendaEvent)
 	{
-		$vevent = new \vevent();
+        $mediaParser = $this->container->get('bns.media_library.public_media_parser');
+        $purifier = $this->container->get('exercise_html_purifier.default');
+        $vevent = new \vevent();
 		$vevent->parse($agendaEvent->getIcalendarVevent());
 		$description = $vevent->getProperty('description');
 		$author = $vevent->getProperty('organizer');
 		$location = $vevent->getProperty('location');
-		$agendaEvent->setDescription($description === false? '' : $description);
+        $agendaEvent->setDescription($description === false ? '' : $mediaParser->parse($purifier->purify($description), true));
 		$agendaEvent->setAuthor($author === false? '' : str_replace('MAILTO:', '', $author));
 		$agendaEvent->setLocation($location === false? '' : $location);
 		$dateStart = $vevent->getProperty('dtstart');
@@ -675,6 +786,7 @@ class BNSCalendarManager
         foreach ($agendas as $agenda) {
             // Tableau qui classe les utilisateurs par date de naissance
             $userBirthdays = array();
+            if ($agenda->getType() === AgendaPeer::TYPE_GROUP){
             if ($agenda->getGroup()->getGroupType()->getType() == "CLASSROOM") {
                 // Pour chaque groupe, on boucle sur tous les utilisateurs
                 /** @var User $user */
@@ -709,7 +821,7 @@ class BNSCalendarManager
                 }
             } else {
                 continue;
-            }
+            }}
 
             $vevents = array();
             foreach ($userBirthdays as $birthday => $users) {
@@ -765,5 +877,14 @@ class BNSCalendarManager
         }
 
         return $wdCalendarEvents;
+    }
+
+    public function findPersonalAgendaOrCreate (User $user) {
+        $personalAgenda = AgendaQuery::create()->filterByUserId($user->getId())->findOne();
+        if (!$personalAgenda) {
+            $personalAgenda = new Agenda();
+            $personalAgenda->setUserId($user->getId())->setColorClass('cal-grey')
+                ->setType(AgendaPeer::TYPE_USER)->setTitle($user->getFullName())->save();
+        }
     }
 }

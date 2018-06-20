@@ -1,18 +1,22 @@
 <?xml version="1.0" ?>
 
 <container xmlns="http://symfony.com/schema/dic/services"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="bns_common.session.max_idle_time">14400</parameter>
+    </parameters>
 
     <services>
         <service id="bns_core.assets_redis_version_strategy" class="BNS\CommonBundle\AssetVersionStrategy\RedisAssetVersionStrategy" abstract="true">
-            <argument /> <!-- version -->
-            <argument /> <!-- format -->
-            <argument type="service" id="snc_redis.default" />
+            <argument/> <!-- version -->
+            <argument/> <!-- format -->
+            <argument type="service" id="snc_redis.default"/>
         </service>
 
         <service class="BNS\CommonBundle\Manager\ProjectInfo" id="bns_common.manager.project_info">
-            <argument type="collection" /> <!-- project info data -->
+            <argument type="collection"/> <!-- project info data -->
         </service>
 
         <service id="bns.locale_manager" class="BNS\CommonBundle\Locale\LocaleManager">
@@ -21,9 +25,23 @@
             <argument>%kernel.default_locale%</argument>
         </service>
 
+        <service class="BNS\CommonBundle\Redis\RedisTokenProvider" id="bns_common.redis_token_provider">
+            <argument type="service" id="snc_redis.default_client"/>
+        </service>
+
+        <!-- session max idle handler -->
+        <service class="BNS\CommonBundle\Security\Session\SessionIdleListener" id="bns_common.listener.session_idle_listener">
+            <argument>%bns_common.session.max_idle_time%</argument>
+            <argument type="service" id="logger"/>
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="120"/>
+        </service>
+
+        <service class="BNS\CommonBundle\Security\Logout\Logout" id="bns_common.security_logout.logout">
+            <argument id="request_stack" type="service"/>
+            <argument id="security.token_storage" type="service"/>
+            <argument type="service" id="logger" />
+            <argument type="collection"/> <!-- options injected -->
+        </service>
+
     </services>
-
-
-
-
 </container>

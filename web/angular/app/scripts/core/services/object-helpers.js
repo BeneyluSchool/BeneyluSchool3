@@ -64,26 +64,53 @@ angular.module('bns.core.objectHelpers', [])
      * @param {Boolean} allowRemove Whether to allow removal of existing
      *                              properties (ie that are in dest but not in
      *                              src).
-     * @param {Boolean} recursive Whether to perform the same soft merge on
-     *                            embedded objects.
+     * @param {Boolean|Array} recursive Whether to perform the same soft merge
+     *                                  on embedded objects. If array of
+     *                                  property names, only those will be
+     *                                  recursively merged.
+     * @param {Boolean|Array} skipEmpty Whether to skip an empty array to prevent deletion on partial merge.
      */
-    function softMerge (dest, src, key, allowAdd, allowRemove, recursive) {
+    function softMerge (dest, src, key, allowAdd, allowRemove, recursive, skipEmpty) {
       key = key ? key : 'id';
       for (var prop in src) {
         if (src.hasOwnProperty(prop)) {
+          var isSkipEmpty = false;
+          if (!angular.isArray(skipEmpty) && angular.isObject(skipEmpty)) {
+            isSkipEmpty = true === skipEmpty[prop] || (angular.isString(skipEmpty[prop]) && true === src[skipEmpty[prop]]);
+          } else {
+            isSkipEmpty = !!skipEmpty;
+          }
+          if (isSkipEmpty && angular.isArray(src[prop]) && 0 === src[prop].length) {
+            continue;
+          }
+
           if (allowAdd || dest.hasOwnProperty(prop)) {
             // skip ng properties
             if (prop.indexOf('$$') === 0) {
               continue;
             }
 
+            var isRecursive = false;
+            if (angular.isArray(recursive)) {
+              isRecursive = recursive.indexOf(prop) > -1;
+            } else {
+              isRecursive = !!recursive;
+            }
+
             if (angular.isArray(src[prop]) && angular.isArray(dest[prop])) {
-              doArrayMerge(dest[prop], src[prop], key, allowAdd);
-            } else if (recursive && angular.isObject(src[prop]) && angular.isObject(dest[prop])) {
-              softMerge(dest[prop], src[prop], key, allowAdd, allowRemove, recursive);
+              doArrayMerge(dest[prop], src[prop], key, allowAdd, allowRemove, recursive, skipEmpty);
+            } else if (isRecursive && angular.isObject(src[prop]) && angular.isObject(dest[prop])) {
+              softMerge(dest[prop], src[prop], key, allowAdd, allowRemove, recursive, skipEmpty);
             } else {
               dest[prop] = src[prop];
             }
+          }
+        }
+      }
+      if (allowRemove) {
+        for (var propDest in dest) {
+          if (dest.hasOwnProperty(propDest) && !src.hasOwnProperty(propDest)) {
+            delete dest[propDest];
           }
         }
       }
@@ -156,7 +183,7 @@ angular.module('bns.core.objectHelpers', [])
     //  Implementation details
     // -------------------------------------------------------------------------
 
-    function doArrayMerge (dest, src, key, allowAdd) {
+    function doArrayMerge (dest, src, key, allowAdd, allowRemove, recursive, skipEmpty) {
       var srcMap = map(src, key);
       for (var i = dest.length; i--;) {
         var item = dest[i],
@@ -164,7 +191,7 @@ angular.module('bns.core.objectHelpers', [])
 
         if (itemSrc) {
           // item is also in src, update
-          softMerge(item, itemSrc, key, allowAdd);
+          softMerge(item, itemSrc, key, allowAdd, allowRemove, recursive, skipEmpty);
         } else {
           // item is no longer in src, remove
           dest.splice(i, 1);

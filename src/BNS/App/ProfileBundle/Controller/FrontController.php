@@ -2,7 +2,11 @@
 
 namespace BNS\App\ProfileBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use BNS\App\CoreBundle\Controller\BaseController;
+use BNS\App\CoreBundle\Model\GroupTypeQuery;
+use BNS\App\CoreBundle\Model\User;
+use BNS\App\CoreBundle\Model\UserQuery;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -19,7 +23,7 @@ use BNS\App\CoreBundle\Model\ProfileFeed;
  * @author Sylvain Lorinet	<sylvain.lorinet@pixel-cookers.com>
  * @author Eric Chau		<eric.chau@pixel-cookers.com>
  */
-class FrontController extends Controller
+class FrontController extends BaseController
 {
 	/**
 	 * @Route("/profil", name="BNSAppProfileBundle_front")
@@ -28,10 +32,25 @@ class FrontController extends Controller
     public function indexAction($userSlug = null)
     {
 		if (null == $userSlug && $this->get('bns.user_manager')->setUser($this->getUser())->getMainRole() == 'parent') {
-			// TODO what if parent more than one child ?
-			$children = $this->get('bns.user_manager')->getUserChildren();
+			$children = $this->getUser()->getActiveChildren()->getArrayCopy('Id');
+			// Find first child in the current group
+			$currentGroup = $this->get('bns.right_manager')->getCurrentGroup();
+			$pupilIds = $this->get('bns.group_manager')->getUserIdsByRole(GroupTypeQuery::create()->findOneByType('PUPIL'), $currentGroup);
+			$child = null;
+			foreach ($pupilIds as $pupilId) {
+				if (isset($children[$pupilId])) {
+					$child = $children[$pupilId];
+					break;
+				}
+			}
+
+			// Default to first child
+			if (!$child) {
+				$child = reset($children);
+			}
+
 			return $this->redirect($this->generateUrl('BNSAppProfileBundle_view_profile', array(
-				'userSlug' => $children[0]->getSlug()
+				'userSlug' => $child->getSlug()
 			)));
 		}
 
@@ -57,6 +76,11 @@ class FrontController extends Controller
 			'classrooms'		=> $this->get('bns.right_manager')->getClassroomsUserBelong($user),
             'user'				=> $user,
 			'nb_feeds_per_load'	=> ProfileFeed::PROFILE_FEED_LIMIT,
+            'flag_profile_comment' => $this->hasFeature('profile_comment'),
+            'flag_profile_status' => $this->hasFeature('profile_status'),
+            'flag_profile_status_push' => $this->hasFeature('profile_status_push'),
+            'flag_profile_sdet_informations' => $this->hasFeature('profile_sdet_informations'),
+            'flag_profile_sdet_import_export' => $this->hasFeature('profile_sdet_import_export'),
         ));
     }
 
@@ -193,10 +217,15 @@ class FrontController extends Controller
 			;
 		}
 
+		if (0 === count($feeds)) {
+		    return new Response('', Response::HTTP_NOT_FOUND);
+        }
+
 		$feeds->populateRelation('ProfileComment', $commentQuery);
 
 		return $this->render('BNSAppProfileBundle:Status:front_status_list.html.twig', array(
 			'feeds'	=> $feeds,
+            'flag_profile_comment' => $this->hasFeature('profile_comment')
 		));
 	}
 
@@ -235,9 +264,35 @@ class FrontController extends Controller
 		return $this->render('BNSAppProfileBundle:Front:front_profile_index.html.twig', array(
 			'feeds'				=> $feeds,
 			'user'				=> $user,
-			'classrooms'		=> $this->get('bns.right_manager')->getClassroomsUserBelong($user)
+			'classrooms'		=> $this->get('bns.right_manager')->getClassroomsUserBelong($user),
+            'flag_profile_comment' => $this->hasFeature('profile_comment'),
+            'flag_profile_status' => $this->hasFeature('profile_status'),
+            'flag_profile_status_push' => $this->hasFeature('profile_status_push'),
 		));
 	}
+
+
+    /**
+     * @Route("/profil/export/{id}", name="profile_export")
+     * @RightsSomeWhere("PROFILE_ACCESS")
+     */
+    public function exportAction($id)
+    {
+        if (!$this->hasFeature('profile_sdet_import_export')) {
+            throw $this->createAccessDeniedException();
+        }
+        $user = UserQuery::create()->findPk($id);
+        if (!$user) {
+            throw new NotFoundHttpException('User not found with Id: ' . $id);
+        }
+        $response = $this->render('BNSAppProfileBundle:Front:export_user.html.twig', ['user' => $user]);
+        $response->headers->set('Content-Type', 'text/vcf');
+        $response->headers->set('Content-Disposition', 'attachment; filename="' . $user->getFullName() . '.vcf"');
+        $response->setContent(str_replace("\n", "\r\n", $response->getContent()));
+
+        return $response;
+
+    }
 
 	/**
 	 * @param User $user

@@ -19,10 +19,9 @@ This text contains HTML tags, please try to keep those tags
       <trans-unit id="b49b58cd1da1de99c89b307cb9b90829a8c97908" resname="BLOG_ARTICLE_FINISHED.EMAIL.title">
         <source>BLOG_ARTICLE_FINISHED.EMAIL.title</source>
         <target><![CDATA[%classLabel%Un article vient d'être soumis à validation]]></target>
-         <note><![CDATA[%classLabel% is a placeholder
+        <note>%classLabel% is a placeholder
                This text contains HTML tags, please try to keep those tags
-            ]]>
-         </note>
+            </note>
       </trans-unit>
       <trans-unit id="233fef6f6e250d65a0512d274dc799e96e258cd3" resname="BLOG_ARTICLE_FINISHED.SYSTEM.content">
         <source>BLOG_ARTICLE_FINISHED.SYSTEM.content</source>

@@ -15,6 +15,14 @@
             "url": "https://github.com/pixel-cookers/Propel.git"
         },
         {
+            "type":"vcs",
+            "url": "https://github.com/pixel-cookers/PropelBundle.git"
+        },
+        {
+            "type":"vcs",
+            "url": "https://github.com/pixel-cookers/qandidate-toggle-bundle.git"
+        },
+        {
             "type": "vcs",
             "url": "https://github.com/pixel-cookers/SncRedisBundle.git"
         },
@@ -30,10 +38,10 @@
         "symfony/framework-standard-edition": "v2.7.15",
         "sensio/distribution-bundle": "v4.0.38",
         "monolog/monolog": "~1.22.0",
-        "twig/twig": "1.23.*",
-        "propel/propel-bundle": "1.4.5",
+        "twig/twig": "^1.23",
+        "propel/propel-bundle": "dev-fixtures-foreign-key",
         "propel/propel1": "dev-beneylu as 1.6.9",
-        "phing/phing": "2.7.0",
+        "phing/phing": "2.12.0",
         "willdurand/propel-typehintable-behavior": "1.0.4",
         "knplabs/knp-menu-bundle": "v1.1.2",
         "white-october/pagerfanta-bundle": "v1.0.0",
@@ -58,6 +66,7 @@
         "rackspace/php-opencloud" : "1.12.*",
         "vich/geographical-bundle": "dev-master#fc68b2c52e3b925fb31e51ee87fefe325491d266",
         "knplabs/knp-snappy-bundle": "v1.2",
+        "knplabs/knp-snappy": "~0.4.3",
         "predis/predis": "^1.0",
         "exercise/htmlpurifier-bundle": "~0.1.0",
         "opensky/runtime-config-bundle": "~1.0",
@@ -82,10 +91,20 @@
         "suncat/mobile-detect-bundle": "~1.0.5",
         "simplesamlphp/simplesamlphp": "~1.13",
         "beneylu-school/simplesamlphp-module-redis": "^0.1.1",
-        "ruudk/payment-stripe-bundle": "~2.0"
+        "ocramius/proxy-manager": "~1.0",
+        "grandt/phpepub": ">=4.0.3",
+        "ruudk/payment-stripe-bundle": "~2.0",
+        "league/csv": "^8.2",
+        "laupifrpar/pusher-bundle": "^2.0",
+        "qandidate/toggle-bundle": "dev-master",
+        "symfony/cache": "^3.2",
+        "sabre/vobject": "^4.0",
+        "shaarli/netscape-bookmark-parser": "^2.0"
     },
-
- "scripts": {
+    "require-dev": {
+        "phpunit/phpunit": "5.4.*"
+    },
+    "scripts": {
         "post-install-cmd": [
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",

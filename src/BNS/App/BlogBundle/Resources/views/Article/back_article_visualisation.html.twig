@@ -74,19 +74,13 @@
       <md-dialog-content class="md-dialog-content">
         <div class="md-body-1">
           {% if is_adult() %}
-            {{ 'TITLE_ADULT_CONFIRMATION_DELETE'|trans({'%articleTitle%': article.getTitle() |escape}) |desc('
-        <h3>Êtes-vous sûr de vouloir supprimer l\'article "%articleTitle%" de votre blog ?</h3>
-         <div class="md-body-1">>Vous perdrez la totalité du contenu de l\'article.<br/>A noter que les documents joints/insérés ne seront pas supprimés.</div>
-         ') |raw }}
+            {{ 'TITLE_ADULT_CONFIRMATION_DELETE'|trans({'%articleTitle%': article.getTitle() |escape}) |raw }}
           {% else %}
-            {{ 'TITLE_CHILD_CONFIRMATION_DELETE'|trans({'%articleTitle%': article.getTitle() |escape}) |desc('
-        <h3>Tu es sûr de vouloir supprimer l\'article "%articleTitle%" de ton blog ?</h3>
-         <div class="md-body-1">tu perdras la totalité du contenu de l\'article.<br/>A noter que les documents joints/insérés ne seront pas supprimés.</div>
-         ') |raw }}
+            {{ 'TITLE_CHILD_CONFIRMATION_DELETE'|trans({'%articleTitle%': article.getTitle() |escape}) |raw }}
           {% endif %}
         </div>
       </md-dialog-content>
-      <div class="md-actions">
+      <md-dialog-actions>
         {{ components.button('LINK_CLOSE'|trans, {
         href: '',
         icon: 'undo',
@@ -99,7 +93,7 @@
         href: path('blog_manager_article_delete', {'articleId': article.id}),
         attr: {'ng-click' : 'dialog.abort()'}
         }) }}
-      </div>
+      </md-dialog-actions>
     </md-dialog>
   </script>
 {% endblock javascripts %}
@@ -189,7 +183,15 @@
           {% endif %}
           {% if article.getUpdatedAt() %}
             <p class="md-body-1 text-muted">
+              {% if article.getUpdater() %}
+                {% trans with {
+                  '%dateCreation%': date_from_now(article.getUpdatedAt(), false, true, 'medium', 'short', false, true),
+                  '%image%': components.avatar(article.getUpdater(), { size: 24 }),
+                  '%userFullName%': article.getUpdater().getFullName() |escape,
+                } %}LAST_MODIFICATION_AT_BY{% endtrans %}
+              {% else %}
                 {{ 'LAST_MODIFICATION_AT'|trans({'%dateCreation%': date_from_now(article.getUpdatedAt(), false, true, 'medium', 'short', false, true)}) |desc('Dernière modification %dateCreation%') |raw}}
+              {% endif %}
             </p>
         {% endif %}
       </div>
@@ -204,7 +206,7 @@
             <div class="jim"></div>
           </div>
         {% elseif article.isWaitingForCorrection() %}
-          <div class="alert alert-error bns-alert large small-text">
+          <div class="alert alert-info bns-alert large small-text">
             {{ 'CHILD_ARTICLE_TOO_FAULT'|trans |desc('Ton enseignant trouve qu\'il y a trop de fautes dans ton article, tu devrais le corriger !<br/> Pour cela, clique sur le bouton "Éditer l\'article" en haut à gauche.') |raw }}
 
 

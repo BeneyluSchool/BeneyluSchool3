@@ -111,7 +111,7 @@
       });
 
       // Deleting category modal process
-      $('#delete-category-modal .delete-category-button').click(function (e)
+      $('body').on('click', '#delete-category-modal .delete-category-button', function (e)
       {
         var $this = $(e.currentTarget),
           $modal = $('#delete-category-modal'),
@@ -180,7 +180,7 @@
       });
 
       // Submit new category
-      $('#new-category-modal .submit-create-category').click(function (e)
+      $('body').on('click', '#new-category-modal .submit-create-category', function (e)
       {
         var $this = $(e.currentTarget),
           $modalBody = $('#new-category-modal .modal-body'),
@@ -192,6 +192,7 @@
         }
 
         $loader.fadeIn('fast');
+        var angularizer = new Angularizer();
 
         $.ajax({
           url: categoriesRoutes.insert,
@@ -200,7 +201,7 @@
           data: {'subject_title': $modalBody.find('input[type="text"]').val()},
           success: function (data)
           {
-            var $category = $(data);
+            var $category = angularizer.process($(data));
             $category.css('display', 'none').find('div').first().addClass('new-animation new');
             $('.content-categories-management ol.load-sortable').append($category);
 
@@ -241,9 +242,7 @@
 {% endblock %}
 
 {% block action_bar %}
-
-  {{ components.button( 'LINK_ADD_CATEGORY' | trans , { intent: 'primary', icon: 'add_circle', raised: true, attr: {'class': 'add-category-button', 'data-target': '#new-category-modal', 'data-toggle' :'modal'} }) }}
-
+  {{ components.button( 'LINK_ADD_CATEGORY' | trans , { intent: 'primary', icon: 'add_circle', raised: true, attr: {'class': 'add-category-button', 'data-target': '#new-category-modal', 'data-toggle' :'modal', 'bns-feature-flag': '"gps_categories"', 'bns-feature-push': ''} }) }}
 {% endblock %}
 
 {% block sidebar_content %}
@@ -269,7 +268,7 @@
     </div>
   </md-toolbar>
 
-  <md-content class="flex">
+  <md-content class="flex" bns-feature-flag="'gps_categories'" bns-feature-push="'incentive'">
     <div id="gps-categories-list" class="content-categories-management">
 
   <!-- Modal add and delete category -->
@@ -285,10 +284,10 @@
             </div>
           </div>
         </md-dialog-content>
-        <div class="md-actions">
+        <md-dialog-actions>
           {{ components.button( 'LINK_CANCEL' | trans , { href: '#', attr : {'data-dismiss':'modal'} }) }}
           {{ components.button( 'LINK_ADD' | trans , { href: '#', raised: true, intent: 'primary', attr: {'class': 'submit-create-category', 'data-dismiss': 'modal'} }) }}
-        </div>
+        </md-dialog-actions>
       </md-dialog>
 
 
@@ -309,18 +308,16 @@
             </div>
           </div>
         </md-dialog-content>
-        <div class="md-actions">
+        <md-dialog-actions>
           {{ components.button( 'LINK_CANCEL' | trans , { href : '#', attr : {'data-dismiss':'modal'} }) }}
           {{ components.button( 'LINK_DELETE' | trans , { href : "#", raised: true, intent: 'warn', attr: {'class': 'delete-category-button', 'data-dismiss': 'modal'} }) }}
-        </div>
+        </md-dialog-actions>
       </md-dialog>
 
 
       {% if categories|length == 0 %}
-
         {% include "BNSAppMainBundle:NoInformation:index.html.twig" with {'text' : "NO_PLACE_CATEGORY_IN_YOUR_GPS"|trans, design: 'new',
         button : { 'text' : 'LINK_ADD_CATEGORY'|trans, 'link' : '#', 'class' : 'add-category-button', 'target' : '#new-category-modal', 'toggle' : 'modal' }} %}
-
       {% else %}
 
         <ol class="load-sortable ui-sortable gps">

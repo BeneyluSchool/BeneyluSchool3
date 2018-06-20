@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
+
+    <class name="BNS\App\LsuBundle\Model\Lsu">
+        <property name="global_evaluation">
+            <constraint name="NotBlank">
+                <option name="groups">validating</option>
+            </constraint>
+            <constraint name="Length">
+                <option name="max">1500</option>
+                <option name="groups">validating</option>
+            </constraint>
+        </property>
+        <getter property="parCit">
+            <constraint name="Length">
+                <option name="max">600</option>
+                <option name="groups">validating</option>
+            </constraint>
+        </getter>
+        <getter property="parArt">
+            <constraint name="Length">
+                <option name="max">600</option>
+                <option name="groups">validating</option>
+            </constraint>
+        </getter>
+        <getter property="parSan">
+            <constraint name="Length">
+                <option name="max">600</option>
+                <option name="groups">validating</option>
+            </constraint>
+        </getter>
+    </class>
+
+    <class name="BNS\App\LsuBundle\Model\LsuConfig">
+        <constraint name="Callback">validateUniqueLevel</constraint>
+    </class>
+
+    <class name="BNS\App\LsuBundle\Model\LsuTemplateDomainDetail">
+        <property name="label">
+            <constraint name="NotBlank" />
+            <constraint name="Length">
+                <option name="max">300</option>
+            </constraint>
+        </property>
+    </class>
+
+</constraint-mapping>

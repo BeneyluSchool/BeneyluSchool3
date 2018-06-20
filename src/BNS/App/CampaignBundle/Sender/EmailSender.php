@@ -43,6 +43,8 @@ class EmailSender implements CampaignSenderInterface
      */
     protected $purifier;
 
+    protected $last_sent;
+
     /**
      * max duration for embedded link in email (default: 5 Years)
      * @var int
@@ -80,6 +82,14 @@ class EmailSender implements CampaignSenderInterface
 
         $count = 0;
         foreach ($users as $user) {
+            if (time() - $this->last_sent > 5) {
+                $this->mailer->getTransport()->stop();
+                $this->mailer->getTransport()->start();
+                if (time() - $this->last_sent > 50) {
+                    \Propel::close();
+                }
+            }
+            try {
             $emailAddress = $user->getNotificationEmail();
             if ($emailAddress) {
                 $swiftMessage->setTo(array($emailAddress));
@@ -89,6 +99,9 @@ class EmailSender implements CampaignSenderInterface
                 } else {
                     // TODO handle failure
                 }
+            }
+            } catch (\Exception $e) {
+                $this->logger->error('ERROR E-mail ' . $e->getMessage());
             }
         }
 

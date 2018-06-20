@@ -112,14 +112,14 @@ class DateFromNowExtension extends Twig_Extension
 		}
 
 		// Date il y a quelques secondes
-		if ($diffTimestamp < $minuteToSecond) {
+		if ($diffTimestamp < $minuteToSecond && !$isFullDate) {
 			$dateFromNowString =  $translator->trans('twig-extension.date-from-now.seconde');
             if ($withSince) {
                 $dateFromNowString = $translator->trans('twig-extension.date-from-now.since').' '.$dateFromNowString;
             }
 		}
 		// Date il y a quelques minutes
-		elseif ($diffTimestamp > $minuteToSecond && $diffTimestamp < $hourToSecond) {
+		elseif ($diffTimestamp > $minuteToSecond && $diffTimestamp < $hourToSecond && !$isFullDate) {
 			$count = (int) ($diffTimestamp / $minuteToSecond);
 			$dateFromNowString =  $translator->transChoice('twig-extension.date-from-now.minute', $count, array('%count%' => $count));
             if ($withSince) {
@@ -127,14 +127,14 @@ class DateFromNowExtension extends Twig_Extension
             }
 		}
 		// Date il y a quelques heures
-		elseif ($diffTimestamp > $hourToSecond && $diffTimestamp < $hourToSecond * 13) {
+		elseif ($diffTimestamp > $hourToSecond && $diffTimestamp < $hourToSecond * 13 && !$isFullDate) {
 			$count = (int) ($diffTimestamp / $hourToSecond);
 			$dateFromNowString =  $translator->transChoice('twig-extension.date-from-now.hour', $count, array('%count%' => $count));
             if ($withSince) {
                 $dateFromNowString = $translator->trans('twig-extension.date-from-now.since').' '.$dateFromNowString;
             }
 		}
-		elseif ($diffTimestamp > $hourToSecond * 13 && $diffTimestamp < $dayToSecond) {
+		elseif ($diffTimestamp > $hourToSecond * 13 && $diffTimestamp < $dayToSecond && !$isFullDate) {
 			$prefix = '';
 			if (date('d/m/Y') == date('d/m/Y', $timestamp)) {
 				$prefix .= $translator->trans('twig-extension.date-from-now.today');

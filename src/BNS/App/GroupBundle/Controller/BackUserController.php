@@ -385,10 +385,16 @@ class BackUserController extends CommonController
         $um->setUser($user);
         $um->resetUserPassword($user,false);
 
-        $html = $this->renderView('BNSAppClassroomBundle:UserPDFTemplateCard:user_card.html.twig', array(
+        if ($this->container->hasParameter('application_public_base_url')) {
+            $url = $this->container->getParameter('application_public_base_url');
+        } else {
+            $url = $this->container->getParameter('application_base_url');
+        }
+
+        $html = $this->renderView('BNSAppClassroomBundle:UserPDFTemplateCard:fiche_user.html.twig', array(
             'user'  => $user,
             'role'	=> $this->get('bns.role_manager')->getGroupTypeRoleFromId($user->getHighRoleId()),
-            'base_url' => $_SERVER['HTTP_HOST'] //On passe le domaine courant qui s'affichera dans la fiche
+            'base_url' => $url, //On passe le domaine courant qui s'affichera dans la fiche
         ));
 
         return new Response(

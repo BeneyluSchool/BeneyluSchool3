@@ -15,9 +15,6 @@
 
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('/medias/js/portal/holder.js') }}" ></script>
-    <script type="text/javascript" src="{{ parameter('application_base_url') ~ '/' ~ 'bundles/stfalcontinymce/vendor/tinymce/tinymce.min.js' }}"></script>
-    <script type="text/javascript" src="{{ parameter('application_base_url') ~ '/' ~ 'bundles/stfalcontinymce/js/ready.min.js' }}"></script>
-    <script type="text/javascript" src="{{ parameter('application_base_url') ~ '/' ~ 'bundles/stfalcontinymce/vendor/tinymce/jquery.tinymce.min.js' }}"></script>
     <script type="text/javascript">
         $(function(){
             $('#submit-form').live('click' , function(e){
@@ -38,7 +35,7 @@
 
 {% block body %}
 	{% block header %}{% endblock header %}
-    <div class="container container-fluid ">
+    <div class="container container-fluid " ng-cloak>
 		{% block form_start %}{% endblock %}
 		<div class="row-fluid container-manager">
 			{% block sidebar %}{% endblock %}

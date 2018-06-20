@@ -1,5 +1,6 @@
 {% trans_default_domain "CLASSROOM" %}
 {% extends '::base.html.twig' %}
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
 
 {% set app_unique_name = 'CLASSROOM' %}
 {% set app_mode = 'front' %}
@@ -82,12 +83,7 @@
 <div class="home-window" style="background-image: url('{{ asset('/medias/images/classroom/home_window/' ~ customWindow ~ '.png') }}');"></div>
 	<div class="office home">
 	</div>
-	{% for message in app.session.flashbag.get('success') %}
-		<div class="alert alert-success bns-alert">
-			{{ message }}
-			<div class="jim"></div>
-		</div>
-	{% endfor %}
+	{{ components.toasts(app.session.flashbag.all) }}
   <div class="board">
 
     {% set formatedDate = ("now" | date_bns('full', 'none')) %}
@@ -110,7 +106,6 @@
             {{ message|trans|nl2br }}
         </span>
       {% endif %}
-
   </div>
 
 
@@ -185,13 +180,13 @@
         </md-content>
     {% endif %}
 
-    {% if has_right('SPACE_OPS_ACCESS') or has_right('SPACE_OPS_ACTIVATION') %}
-        <div id="space-ops-hologram-container">
-            <md-button ng-cloak href="{{ path('space_ops_front') }}">
-                <div class="space-ops-hologram animate-levitate pause-hover"></div>
-                <md-tooltip>{% trans from 'MODULE' %}SPACE_OPS{% endtrans %}</md-tooltip>
-            </md-button>
-        </div>
+    {% if has_right('SPACE_OPS_ACCESS') or has_right('SPACE_OPS_ACTIVATION') or has_feature_flag('SPACE_OPS_push') %}
+      <div id="space-ops-hologram-container">
+        <md-button ng-cloak href="{{ path('space_ops_front') }}"  bns-feature-flag="'SPACE_OPS'" bns-feature-push>
+          <div class="space-ops-hologram animate-levitate pause-hover"></div>
+          <md-tooltip>{% trans from 'MODULE' %}SPACE_OPS{% endtrans %}</md-tooltip>
+        </md-button>
+      </div>
     {% endif %}
 
     {% if has_right('TOUR_ACCESS') or has_right('TOUR_ACTIVATION') %}
@@ -213,12 +208,21 @@
                 </md-button>
             </div>
         </div>
+
+        <div id="pssst-sheet-container-mobile">
+            <md-content ng-cloak class="md-whiteframe-z2 layout-row">
+                <md-button href="{{ path('pssst_front') }}" class="flex-container">
+                  <div class="pssst-sheet"></div>
+                  <div>{% trans %}READ_PSSST{% endtrans %}</div>
+                </md-button>
+              </md-content>
+        </div>
     {% endif %}
 
     {% if not hasAventCalendar and push and push.getModuleUniqueName() and isAllowedApplication(push.getModuleUniqueName(), current_group())%}
         {% set push_app = push.getApplication() %}
         {% set has_push_access = has_right(push.getModuleUniqueName()~'_ACCESS') %}
-        {% set push_app_image_style = "background-image: url('../assets/images/apps/"~push.getModuleUniqueName()|lower|replace('_', '-')~"/icon.png');" %}
+        {% set push_app_image_style = "background-image: url('assets/images/apps/"~push.getModuleUniqueName()|lower|replace('_', '-')~"/icon.png');" %}
         <div id="classroom-push-container" >
             <div bns-sparkle="{timeout: 8000, color: 'rainbow'}">
                 <md-button ng-cloak
@@ -275,9 +279,14 @@
         <a id="builders-feed-container" bns-builders-message-feed href="{{ path('builders_front') }}"></a>
     {% endif %}
 
+    {# check access here, to avoid trying to boot the starter kit for every user #}
+    {% if has_right('CLASSROOM_ACCESS_BACK') %}
+        <bns-starter-kit-boot bns-app="MAIN"></bns-starter-kit-boot>
+    {% endif %}
+
     {% if lang =='fr' %}
         <bns-classroom-newspaper bns-delay="3000"></bns-classroom-newspaper>
-    {% endif %}
+                                            {% endif %}
     {% if blackboard != null %}
         <a href="#" id="blackboard">
         </a>
@@ -363,7 +372,7 @@
 
         <div id="media-modal" class="modal fade bottom">
             <a id="media-close" data-dismiss="media-modal" href="#"></a>
-            {#<iframe style="background-color: transparent" allowtransparency="true" id="media-iframe" width="100%" height="95%" src="/ent/medias/js/pdfjs/web/viewer.html?file={{ create_visualisation_url_resource(newspaper.mediaRelatedByMediaId, true, false)  |url_encode }}"></iframe>#}
+            <iframe style="background-color: transparent" allowtransparency="true" id="media-iframe" width="100%" height="95%" src="/ent/medias/js/pdfjs/web/viewer.html?file={{ create_visualisation_url_resource(newspaper.mediaRelatedByMediaId, true, false)  |url_encode }}"></iframe>
         </div>
 
     <script type="text/javascript">
@@ -429,7 +438,7 @@
 
         $(function(){
             placeElements();
-        });
+            });
 
         function placeElements(){
             var haut = $( window ).height();

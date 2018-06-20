@@ -74,7 +74,7 @@ angular.module('bns.core.navigationTree.navigationTreeNode', [
     }
 
     function onClick () {
-      (ctrl.conf.onClick || angular.noop)(ctrl.node);
+      (ctrl.conf.onClick || angular.noop)(ctrl.node, ctrl);
       refresh();
     }
 

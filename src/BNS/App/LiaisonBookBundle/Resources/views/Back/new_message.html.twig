@@ -11,7 +11,7 @@
 
 {% block javascripts %}
   {{ parent() }}
-    <script>function callback_tinymce_init(editor) {}</script>
+  <script xmlns="http://www.w3.org/1999/html">function callback_tinymce_init(editor) {}</script>
   {{ tinymce_init() }}
 {% endblock %}
 {% block actionbar_content %}
@@ -22,6 +22,7 @@
 
 {% block sidebar_content %}
         <bns-form-proxy source="{{  form.vars.name }}" du-scroll-container="content"></bns-form-proxy>
+  <bns-transclude-dest class="hide-sm hide-md" name="liaison-book-form"></bns-transclude-dest>
 {% endblock sidebar_content %}
 
 
@@ -46,9 +47,54 @@
         <section class="md-padding">
             {{ form_errors(form.content) }}
             {{ form_widget(form.content, { 'attr': {'bns-tinymce': ''} }) }}
-          {{ form_rest(form) }}
 			{% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias': liaisonBook.getResourceAttachments,"editable": true, 'objectType': 'LiaisonBook', 'objectId': liaisonBook.id} %}
         </section>
+
+
+          <bns-transclude-src name="liaison-book-form" class="md-padding hide-gt-md">
+            {% if form.date is defined %}
+              <bns-expander label="{{'TITLE_DATE'|trans}}" is-open="true">
+                {{ form_row(form.date) }}
+              </bns-expander>
+            {% endif %}
+            {% if form.publicationDate is defined %}
+            <div bns-feature-flag="'liaison_book_schedule'" bns-feature-push>
+              <bns-expander label="{{'TITLE_PUBLICATION_DATE'|trans}}" is-open="true">
+                {{ form_row(form.publicationDate) }}
+              </bns-expander>
+            </div>
+            {% endif %}
+            {{ form_row(form.individualized) }}
+            <div ng-show="{{ getModelName(form.individualized) }}" class="text-center">
+
+              <div bns-legacy bns-lazyload="userDirectory">
+              <div bns-user-directory-editable-list
+                   material="true"
+                   ids="{{ getModelName(form.addresseds) }}"
+                   store="'userDirectoryUsers'"
+                   state="ctrl.userState"
+                   force-string="true"
+                   view="ctrl.USER_DIRECTORY_VIEW">
+              </div>
+              <div class="layout-row layout-align-center-center">
+                <md-button ng-show="{{ getModelName(form.individualized) }}" bns-user-directory-invoke="liaison-book-individualize"
+                           view-type="user"
+                           distribution-type="USER"
+                           selection="{{ getModelName(form.addresseds) }}"
+                           force-string="true"
+                           class="md-primary md-raised btn-sm"
+                           href
+                >
+                  <bns-icon>user-directory</bns-icon>
+                  <span>{{ 'BUTTON_INDIVIDUALIZE'|trans }}</span>
+                </md-button>
+            </div>
+              </div>
+            </div>
+          </bns-transclude-src>
+          <div ng-show="false">
+            {{ form_rest(form) }}
+          </div>
         </form>
       </md-content>
 {% endblock %}

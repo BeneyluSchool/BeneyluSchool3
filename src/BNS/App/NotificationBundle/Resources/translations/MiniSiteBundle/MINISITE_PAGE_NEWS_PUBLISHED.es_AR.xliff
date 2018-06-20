@@ -8,13 +8,13 @@
     <body>
       <trans-unit id="11a3bd98ee7f290869fdfa8f21aee11b9a3edd6b" resname="MINISITE_PAGE_NEWS_PUBLISHED.EMAIL.content">
         <source>MINISITE_PAGE_NEWS_PUBLISHED.EMAIL.content</source>
-        <target><![CDATA[Se publicó la noticia <a href="%page_url%">%page_title%</a>]]></target>
+        <target><![CDATA[<b>%classLabel%</b>Se publicó la noticia <a href="%page_url%">%page_title%</a>]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
       <trans-unit id="6a5463618b88582f780eb0d47958264d8c39a167" resname="MINISITE_PAGE_NEWS_PUBLISHED.EMAIL.title">
         <source>MINISITE_PAGE_NEWS_PUBLISHED.EMAIL.title</source>
-        <target>Se publicó una noticia en el sitio web</target>
+        <target>%classLabel%Se publicó una noticia en el sitio web</target>
       </trans-unit>
       <trans-unit id="024a21539d151e9fed413269cea2a56e5548ba54" resname="MINISITE_PAGE_NEWS_PUBLISHED.SYSTEM.content">
         <source>MINISITE_PAGE_NEWS_PUBLISHED.SYSTEM.content</source>

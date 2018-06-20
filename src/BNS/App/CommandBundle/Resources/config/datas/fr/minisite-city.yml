@@ -1,0 +1,112 @@
+minisite:
+  - 1:
+    banner: banner1.jpg
+    presentation: Notre école est fière de vous présenter son joli site internet ! Venez découvrir nos activités et la vie de notre école primaire. Nous vous souhaitons une bonne visite.
+    home:
+      title: Bienvenue
+      content: >
+        <p>Bonjour à tous et bienvenue sur le site Internet de la ville d'Isserteaux ! <br/>
+           Cet espace est pour vous. Vous y trouverez toutes les informations concernant la mairie et la ville : contacts, services, actualités, événements et documents. Bonne visite !</p>
+      images:
+        - isserteaux-panorama.jpg
+    actu:
+      - 1:
+        title: Bien manger, bien bouger
+        content:
+          - 1:
+            title: Le Service Santé Enfance
+            content: >
+              <p>Le Service Santé Enfance oeuvre pour la promotion de la santé des enfants sur le territoire de la ville. Il peut à ce titre participer à des actions d'éducation alimentaire ou assurer une coordination avec les professionnels de la ville dans les écoles élémentaires publiques autour de projet commun.<br/><br/>
+                 Il intervient dans les crèches municipales, les écoles maternelles, ainsi que dans les restaurants scolaires et les accueils des loisirs sans hébergement.</p>
+            images:
+              - journee-bien-etre.png
+      - 2:
+        title: Services
+        content:
+          - 1:
+            title: Vie associative
+            content: >
+              <p>Le service Vie Associative dépend de la direction de la Jeunesse et des Sports. <br/> 12 rue Marie-Louise <br/> <ul> <li>Lundi, mardi, mercredi et vendredi de 8h à 12h et de 14h à 17h15.</li><li> Jeudi de 13h à 20h (excepté en juillet et en août :de 13h à 19h).</li></ul>Tél. 01 30 14 82 51 <br/>vie-associative@ville-isserteaux.fr </p>
+            images:
+              - cinema.jpg
+          - 2:
+            title: Cinéma ABC
+            content: >
+              <p>Le service Vie Associative dépend de la direction de la Jeunesse et des Sports. <br/>12 rue Marie-Louise <br/> <ul><li>Lundi, mardi, mercredi et vendredi de 8h à 12h et de 14h à 17h15.</li><li> Jeudi de 13h à 20h (excepté en juillet et en août :de 13h à 19h).</li></ul>Tél. 01 30 14 82 51 <br/>vie-associative@ville-isserteaux.fr </p>
+            images:
+              - cinema.jpg
+          - 3:
+            title: Bibliothèque
+            content: >
+              <p><strong>Bibliothèque municipale Théodore Monod</strong><br/>
+              8 rue de la République<br/>
+              Tél. :01 30 14 82 98<br/>
+              bibliotheque@ville-isserteaux.fr <br/>
+              <a href="http://bibliotheque.issereaux.fr">http://bibliotheque.issereaux.fr</a><br/>
+              <strong>Horaires d'ouverture</strong><br/>Mardi :15h-18h <br/>
+              Mercredi :14h-19h <br/>
+              Jeudi :15h-18h <br/>
+              Vendredi :15h-18h <br/>
+              Samedi :10h-12h / 14h30-18h </p>
+            images:
+              - bibliotheque-municipale.jpg
+      - 3:
+        title: Périscolaire
+        content:
+          - 1:
+            title: Initiation au vélo
+            content: >
+              <p>Bonjour à tous, la mairie propose une initiation au vélo pour les enfants de 3 à 10 ans. Cette initiation aura lieu tous les matins pendants les vacances, de 10h à 11h30. <br/>Les animateurs veilleront à initier les élèves au code piéton et au code de la route. <br/>Rendez-vous sur le site de la mairie pour inscrire vos enfants !</p>
+            images:
+              - les-enfants-se-deplacent-a-velo-sur-le-circuit-permettant_2923486.jpg
+          - 2:
+            title: Ateliers sportifs au gymnase Maurice Baquet
+            content: >
+              <p>Les élèves ont appris à s'échauffer avec des entraîneurs sportifs. Nous sommes en train d'organiser les prochains ateliers ! </p>
+            images:
+              - echauffement_gym.jpg
+      - 4:
+        title: Conseil municipal
+        content:
+          - 1:
+            title: Le conseil municipal
+            content: >
+              <p>Pour chaque conseil municipal, un ordre du jour est publié environ 8 jours avant sa tenue. Le compte-rendu sera mis en ligne après validation lors d'un conseil ultérieur.<br/>          La séance du conseil municipal est ouverte à tous, n'hésitez pas à y assister pour vivre en direct les débats et les prises de décisions concernant la ville.<br/> Le prochain conseil municipal aura lieu d'ici 2 mois. Pour proposer un ordre du jour, vous pouvez contacter le secrétariat de la mairie.</p>
+            images:
+              - conseil-municipal.jpg
+    pages:
+      - 1:
+        title: Éducation et enfance
+        content: >
+          <p><strong>Vacances scolaires :</strong><br/>
+          Pour connaître le fonctionnement des centres de loisirs municipaux, rendez-vous sur le site de la mairie !
+          La réservation est obligatoire.<br/>
+          <strong>Prochaines vacances : </strong><br/>
+          Pour connaître le centre de loisirs municipal le plus proche de chez vous, rendez-vous sur le site de la mairie, dans la rubrique Informations pratiques / Centres de loisirs / Petites vacances scolaires.
+          Pensez à réserver les jours de présence de votre enfant au plus tard 8 jours avant la fréquentation.<br/>
+          La réservation est obligatoire.<br/>
+          <strong><u>	Inscriptions scolaires :</u>	</strong><br/>
+          La campagne d'inscription scolaire a commencé, découvrez les modalités à suivre sur le site de la mairie.
+          </p>
+        images:
+          - guide-activites-peri-extra-scolaires.png
+          - ecole-primaire-jules-ferry.jpg
+      - 2:
+        title: Infos pratiques
+        content: >
+          <h1 style="text-align: center;">Horaires d'ouverture de la mairie :</h1>  <p>&nbsp;</p>
+          <p><ul><li>LUNDI : 14h-17h</li>
+          <li>MARDI : 9h-12h / 14h-17h</li>
+          <li>MERCREDI : 9h-12h / 14h-17h</li>
+          <li>JEUDI : 9h-12h / 14h-17h</li>
+          <li>VENDREDI : 9h-12h / 14h-17h</li>
+          <li>SAMEDI : 10h-12h / 13h-16h</li></p>
+          <p><strong>Où nous trouver ?</strong><br/>Mairie d’Isserteaux<br/>
+          33, rue du Général Leclerc<br/>
+          63270 ISSERTEAUX<br/>
+          <strong>Nous contacter</strong><br/>
+          secretariat.mairie-isserteaux@ville-isserteaux.fr<br/>
+          01.56.46.40.57
+          </p>
+        images:
+          - ecole-primaire-jules-ferry.jpg

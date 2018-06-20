@@ -9,6 +9,7 @@ angular.module('bns.core.legacy', [
   .constant('LEGACY_APP_NAME', 'beneyluschoolApp')
   .config(LazyLoadConfig)
   .factory('legacyApp', LegacyAppFactory)
+  .directive('bnsLegacy', BNSLegacyDirective)
 
 ;
 
@@ -20,10 +21,10 @@ function LazyLoadConfig ($ocLazyLoadProvider, parametersProvider, LEGACY_APP_NAM
 
   var files = [
     // 'css!'+basePath+'/css/base.css',
-    'css!'+assetsPath+'/styles/main.css',
-    'css!'+assetsPath+'/styles/viewer.css',
-    'css!'+assetsPath+'/styles/media-library.css',
-    'css!'+assetsPath+'/styles/workshop.css',
+    assetsPath+'/styles/main.css',
+    assetsPath+'/styles/viewer.css',
+    assetsPath+'/styles/media-library.css',
+    assetsPath+'/styles/workshop.css',
     // basePath+'/js/scripts.js',
     assetsPath+'/scripts/vendors.js',
     assetsPath+'/scripts/scripts.js',
@@ -59,6 +60,25 @@ function LegacyAppFactory ($ocLazyLoad, LEGACY_APP_NAME) {
       ;
     }
   };
+
+}
+
+function BNSLegacyDirective ($compile, legacyApp) {
+
+  return {
+    priority: 1050,
+    terminal: true,
+    compile: compile,
+  };
+
+  function compile () {
+    return function (scope, element) {
+      legacyApp.load().then(function () {
+        element.removeAttr('bns-legacy');
+        $compile(element)(scope);
+      });
+    };
+  }
 
 }
 

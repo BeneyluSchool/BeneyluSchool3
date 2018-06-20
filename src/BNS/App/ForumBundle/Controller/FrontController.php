@@ -58,7 +58,7 @@ class FrontController extends Controller
                 ->filterBySlug($slug)
                 ->findOne();
 
-        if (!$forum) {
+        if (!$forum || $forum->isClosed()) {
             $forum = $this->getForums()->getFirst();
         }
 
@@ -189,11 +189,18 @@ class FrontController extends Controller
         $pager = new Pagerfanta(new PropelAdapter($query));
         $pager->setCurrentPage($page);
 
+        $MessagesPendingValidation = ForumMessageQuery::create()
+            ->filterByForumSubject($subject)
+            ->filterByStatus(ForumMessagePeer::STATUS_PENDING_VALIDATION)
+            ->orderByCreatedAt(\Criteria::ASC)
+            ->find()
+        ;
         return array(
                 'forum'    => $forum,
                 'subject'  => $subject,
                 'messages' => $pager,
                 'form'     => $form->createView(),
+                'messagesPending' => $MessagesPendingValidation,
                 );
     }
 
@@ -234,9 +241,9 @@ class FrontController extends Controller
 
                     if (ForumMessagePeer::STATUS_PENDING_VALIDATION == $message->getStatus()) {
                         if ($rightManager->isChild()) {
-                            $this->get('session')->getFlashBag()->set('success', 'Ton sujet doit être validé pour être visible sur le forum.');
+                            $this->get('session')->getFlashBag()->set('success', 'Ton message doit être validé pour être visible sur le forum.');
                         } else {
-                            $this->get('session')->getFlashBag()->set('success', 'Votre sujet doit être validé pour être visible sur le forum.');
+                            $this->get('session')->getFlashBag()->set('success', 'Votre message doit être validé pour être visible sur le forum.');
                         }
                     } else {
                         $this->sendNotification($message);
@@ -358,7 +365,24 @@ class FrontController extends Controller
                 ->select('Id')
                 ->find();
 
+            $now = new \DateTime();
+
+            $forumsClosed = ForumQuery::create()
+                ->filterByGroup($groups)
+                ->filterByClosedAt($now->format('Y-m-d H:i:s'), \Criteria::LESS_EQUAL)
+                ->select('Id')
+                ->find()->toArray();
+
+            $forumsReopened = ForumQuery::create()
+                ->filterByGroup($groups)
+                ->filterByClosedUntil($now->format('Y-m-d H:i:s'), \Criteria::LESS_EQUAL)
+                ->select('Id')
+                ->find()->toArray();
+
+            $forumsClosed = array_diff($forumsClosed, $forumsReopened);
+
             $this->forums = ForumQuery::create()
+                ->filterById($forumsClosed, \Criteria::NOT_IN)
                 ->useGroupQuery()->orderByLabel()->endUse()
                 ->joinWith('Group')
                 ->orderByTitle()
@@ -426,5 +450,50 @@ class FrontController extends Controller
             ->endUse()
             ->find();
         $this->get('notification_manager')->send($users, new ForumNewForumReplyNotification($this->container, $message->getForumSubjectId(), $forum->getGroupId()), $this->getUser());
+    }
+
+    /**
+     * @Route("/supprimer-message/{id}", name="BNSAppForumBundle_front_delete_message")
+     * @ParamConverter("message", options={"with"={"ForumSubject", "ForumSubject.Forum"}})
+     * @Template()
+     */
+    public function deleteMessageAction(ForumMessage $message, $page = 1)
+    {
+        $subject = $message->getForumSubject();
+        $forum =  $subject->getForum();
+        $rightManager = $this->get('bns.right_manager');
+    if (!$rightManager->hasRight('FORUM_ACCESS', $forum->getGroupId()) && !$forum->isModerator($this->getUser()->getId())) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $message->delete();
+
+
+        return $this->redirect($this->generateUrl('BNSAppForumBundle_front_view_subject', array('slug' => $subject->getSlug(), 'page' => $page)));
+    }
+
+    /**
+     * @Route("/valider-message/{id}", name="BNSAppForumBundle_front_validate_message")
+     * @ParamConverter("message", options={"with"={"ForumSubject", "ForumSubject.Forum"}})
+     * @Template()
+     */
+    public function validateMessageAction(ForumMessage $message, $page = 1)
+    {
+        $subject = $message->getForumSubject();
+        $forum =  $subject->getForum();
+        $rightManager = $this->get('bns.right_manager');
+        if (!$rightManager->hasRight('FORUM_ACCESS', $forum->getGroupId()) && !$forum->isModerator($this->getUser()->getId())) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $message->setStatus(ForumMessagePeer::STATUS_VALIDATED);
+        $message->save();
+
+        $this->sendNotification($message);
+
+        //statistic action
+        $this->get("stat.forum")->newMessage();
+
+        return $this->redirect($this->generateUrl('BNSAppForumBundle_front_view_subject', array('slug' => $subject->getSlug(), 'page' => $page)));
     }
 }

@@ -2,6 +2,7 @@
 
 namespace BNS\App\PortalBundle\Controller;
 
+use BNS\App\CoreBundle\Controller\BaseController;
 use BNS\App\PortalBundle\Model\Portal;
 use BNS\App\PortalBundle\Model\PortalPeer;
 use BNS\App\PortalBundle\Model\PortalQuery;
@@ -9,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class CommonController extends Controller
+class CommonController extends BaseController
 {
     /**
      * @var Portal $currentPortal

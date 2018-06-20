@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-06-21T10:07:12Z" source-language="en" target-language="es-AR" datatype="plaintext" original="not.available">
+  <file date="2016-09-29T13:28:14Z" source-language="en" target-language="es-AR" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -397,8 +397,8 @@ This text contains HTML tags, please try to keep those tags
       <trans-unit id="d28da652ac6685f035666067864e5930276f1b34" resname="MY_CLASSROOM">
         <source>MY_CLASSROOM</source>
         <target state="new">{1} Mi clase|]1,Inf[ Mis clases</target>
-        <note>This text has plural translations based on %count% variable
-        http://symfony.com/doc/current/components/translation/usage.html#pluralization</note>
+        <note><![CDATA[This text has plural translations based on %count% variable
+http://symfony.com/doc/current/components/translation/usage.html#pluralization]]></note>
       </trans-unit>
       <trans-unit id="fc312ab58debc9d5553a85282431a240ab80b2b3" resname="MY_PROFILE">
         <source>MY_PROFILE</source>
@@ -531,15 +531,15 @@ This text contains HTML tags, please try to keep those tags]]></note>
       <trans-unit id="042d254ad01bb3b3a7cd8242865ef6897f69086f" resname="TITLE_ADULT_DELETE_SURE_DELETE_STATUS_CONSEQUENCE">
         <source><![CDATA[<h2>Êtes-vous sûr de vouloir supprimer le statut de votre profil ?</h2>
 			<h3>Vous perdrez la totalité du contenu du statut.<br />A noter que si vous avez ajouté un document à votre statut, il ne sera pas supprimé de la médiathèque.</h3>]]></source>
-        <target state="new"><![CDATA[<h2>¿Seguro que querés eliminar el estado de tu perfil?</ h2>
-<h3>Perderás todo el contenido del estado.<br />Tené en cuenta que si habías adjuntado un documento a tu estado, este no se eliminará de la biblioteca multimedia.</ h3>]]></target>
+        <target state="new"><![CDATA[<h2>¿Seguro que querés eliminar el estado de tu perfil?</h2>
+<h3>Perderás todo el contenido del estado.<br />Tené en cuenta que si habías adjuntado un documento a tu estado, este no se eliminará de la biblioteca multimedia.</h3>]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
       </trans-unit>
       <trans-unit id="e646cdd624ca4c8433faa521568e5ae725f65ad9" resname="TITLE_CHILD_DELETE_SURE_DELETE_STATUS_CONSEQUENCE">
         <source><![CDATA[<h2>Es-tu sûr de vouloir supprimer le statut de ton profil ?</h2>
 			<h3>Tu perdra la totalité du contenu de ton statut.<br />A noter que si tu as ajouté un document à ton statut, il ne sera pas supprimé de la médiathèque.</h3>]]></source>
-        <target state="new"><![CDATA[<h2>¿Seguro que querés eliminar el estado de tu perfil?</ h2>
-<h3>Perderás todo el contenido del estado.<br />Tené en cuenta que si habías adjuntado un documento a tu estado, este no se eliminará de la biblioteca multimedia.</ h3>]]></target>
+        <target state="new"><![CDATA[<h2>¿Seguro que querés eliminar el estado de tu perfil?</h2>
+<h3>Perderás todo el contenido del estado.<br />Tené en cuenta que si habías adjuntado un documento a tu estado, este no se eliminará de la biblioteca multimedia.</h3>]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
       </trans-unit>
       <trans-unit id="f32f3054f744fde5a112621efd70eea7e3d2e319" resname="TITLE_COMMENT_EDIT">

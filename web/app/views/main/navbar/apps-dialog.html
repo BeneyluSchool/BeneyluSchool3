@@ -2,6 +2,9 @@
 
   <md-toolbar>
     <div class="md-toolbar-tools">
+      <md-button ng-click="dialog.toggleNav('apps-left')" class="hide-gt-md md-icon-button">
+        <md-icon>menu</md-icon>
+      </md-button>
       <md-tabs md-selected="dialog.tabIndex" class="flex">
         <md-tab id="tab-apps" aria-controls="tab-apps-content">{{ 'NAVBAR.APPLICATIONS' | translate }}</md-tab>
         <md-tab id="tab-activities" aria-controls="tab-activities-content">{{ 'NAVBAR.ACTIVITIES' | translate }}</md-tab>
@@ -23,6 +26,7 @@
 
     <md-sidenav class="layout-column md-sidenav-left" md-component-id="apps-left" md-is-locked-open="$mdMedia('gt-md')">
       <md-content class="flex">
+        <bns-starter-kit-pointer app="MAIN" step="1-2.2" pointer="workspaces"></bns-starter-kit-pointer>
         <md-list>
           <md-list-item ng-repeat="group in dialog.groups" ng-class="{'selected' : (group.id && group.id === dialog.currentGroup.id) || (group.page && group.page === dialog.currentGroup.page), 'faded': !group.id }" ng-click="dialog.selectGroup(group)">
             <bns-navbar-icon item="group" flags="{ 'star': group.is_favorite }" class="md-avatar"></bns-navbar-icon>
@@ -31,12 +35,15 @@
         </md-list>
       </md-content>
       <md-button ng-href="{{ dialog.logoutUrl }}" class="hide-md md-raised">
+        <bns-starter-kit-pointer app="MAIN" step="1-2.2" pointer="logout"></bns-starter-kit-pointer>
         <md-icon>power_settings_new</md-icon>
         <span translate>NAVBAR.LOG_ME_OUT</span>
       </md-button>
     </md-sidenav>
 
-    <md-tabs class="flex md-primary no-tabs" md-selected="dialog.tabIndex" md-swipe-content="true">
+    <bns-starter-kit-pointer app="MAIN" step="1-2.2" pointer="apps"></bns-starter-kit-pointer>
+    <bns-starter-kit-pointer app="MAIN" step="1-2.2" pointer="activities"></bns-starter-kit-pointer>
+    <md-tabs class="flex md-primary no-tabs" md-selected="dialog.tabIndex">
 
       <md-tab label="{{ 'NAVBAR.APPS' | translate }}" id="tab-apps-content" aria-labelledby="tab-apps">
         <div ng-if="!dialog.currentGroup.page"

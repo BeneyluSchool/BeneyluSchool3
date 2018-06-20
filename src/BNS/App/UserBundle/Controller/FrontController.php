@@ -154,9 +154,10 @@ class FrontController extends Controller
 
         $form = $this->createForm(new PolicyType(), $user, array('is_child' => $userManager->isChild()));
         if ($request->isMethod('post')) {
-            $form->bind($request);
+            $form->handleRequest($request);
             if ($form->isValid()) {
                 $user->save();
+                $request->getSession()->remove('need_policy_validation');
 
                 if (!($url = $userManager->onLogon())) {
                     $url = $this->generateUrl('home');
@@ -173,9 +174,13 @@ class FrontController extends Controller
             $groupManager = $this->container->get('bns.group_manager');
             $groupManager->setGroup($group);
             if ('pupil' == $mainRole) {
-                $policyUrl = $groupManager->getAttribute('POLICY_URL_CHILD', false)? : $groupManager->getAttribute('POLICY_URL_OTHER', null);
+                $policyUrl = $groupManager->getAttribute('POLICY_URL_CHILD', false) ?: $groupManager->getAttribute('POLICY_URL_OTHER', null);
             } elseif ('parent' == $mainRole) {
-                $policyUrl = $groupManager->getAttribute('POLICY_URL_PARENT', false)? : $groupManager->getAttribute('POLICY_URL_OTHER', null);
+                $policyUrl = $groupManager->getAttribute('POLICY_URL_PARENT', false) ?: $groupManager->getAttribute('POLICY_URL_OTHER', null);
+            } elseif ('teacher' == $mainRole || 'director' == $mainRole){
+                $policyUrl = $groupManager->getAttribute('POLICY_URL_TEACHER', false) ?: $groupManager->getAttribute('POLICY_URL_OTHER', null);
+            } elseif ('city_referent' == $mainRole ){
+                $policyUrl = $groupManager->getAttribute('POLICY_URL_CITY_REFERENT', false) ?: $groupManager->getAttribute('POLICY_URL_OTHER', null);
             } else {
                 $policyUrl = $groupManager->getAttribute('POLICY_URL_OTHER', null);
             }
@@ -323,23 +328,25 @@ class FrontController extends Controller
         $cguVersion = null;
         $cguUrl = null;
         $cguEnabled = false;
-        foreach ($this->get('bns.user_manager')->getGroupsUserBelong() as $group) {
-            $groupManager = $this->container->get('bns.group_manager');
-            $groupManager->setGroup($group);
-            $cguEnabled = $groupManager->getAttribute('CGU_ENABLED', null);
-            $cguVersion = $groupManager->getAttribute('CGU_VERSION', null);
-            $cguUrl = $this->get('bns.group_manager')->getCguUrl($group, $user)['url'];
-
-            if (null !== $cguUrl) {
-                break;
-            }
-        }
+//        foreach ($this->get('bns.user_manager')->getGroupsUserBelong() as $group) {
+//            $groupManager = $this->container->get('bns.group_manager');
+//            $groupManager->setGroup($group);
+//            $cguEnabled = $groupManager->getAttribute('CGU_ENABLED', null);
+//            $cguVersion = $groupManager->getAttribute('CGU_VERSION', null);
+//            $cguUrl = $this->get('bns.group_manager')->getCguUrl($group, $user)['url'];
+//
+//            if (null !== $cguUrl) {
+//                break;
+//            }
+//        }
 
         $form = $this->createForm(new UserRegistrationStep1Type(), $data, ['cgu_enabled' => $cguEnabled]);
         $form->handleRequest($request);
         if ($form->isValid()) {
             $data = $form->getData();
+
             $classroom = $this->getRegistrationClassroom();
+            $this->get('bns.group_manager')->setGroup($classroom)->clearGroupCache();
             $school = $this->get('bns.group_manager')->setGroup($classroom)->getParent();
 
             $classroom->setCountry($data['country']);
@@ -364,7 +371,7 @@ class FrontController extends Controller
             $user->save();
             $this->get('bns.right_manager')->setLocale($user->getLang());
 
-            $this->get('bns.user_manager')->sendLoginEmail($user);
+//            $this->get('bns.user_manager')->sendLoginEmail($user);
             $this->get('session')->set('identify_instant', true);
 
             $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('STEP_ONE_SUCCESS', array(), 'USER'));
@@ -441,7 +448,6 @@ class FrontController extends Controller
             $data = $form->getData();
 
             /** @var Group $classroom */
-            $classroom = $this->get('bns.right_manager')->getUserManager()->getGroupsUserBelong('CLASSROOM')->getFirst();
             $classroom->setAttribute('SCHOOL_LABEL', $data['label']);
             $classroom->setAttribute('ZIPCODE', $data['zipcode']);
             $classroom->setAttribute('CITY', $data['city']);
@@ -561,6 +567,15 @@ class FrontController extends Controller
             foreach ($classrooms as $classroom) {
                 if ($classroom->getId() === $currentGroup->getId()) {
                     return $classroom;
+                }
+            }
+        }
+
+        if (!$classrooms->getFirst()) {
+            // bypass groups by right
+            foreach ($this->get('bns.user_manager')->getGroupsWhereRole('TEACHER') as $group) {
+                if ($group->getType() === 'CLASSROOM') {
+                    return $group;
                 }
             }
         }

@@ -7,21 +7,19 @@
 	{% if has_right('PROFILE_FULL_ACCESS_BACK') %}
 		<section {% if section == 'home' %}class="current"{% endif %}>{{ components.button( 'MY_PROFILE' | trans , { href:  path('profile_back_edit', {'userSlug': user.getSlug()}), icon: 'mode_edit' }) }}</section>
 	{% endif %}
-	<section {% if section == 'status' %}class="current"{% endif %}>{{ components.button( 'LINK_MINE_STATUS' | trans , { href:   path('BNSAppProfileBundle_back_status'), icon: 'rate_review' }) }}</section>
+	<section bns-feature-flag="'profile_status'" bns-feature-push {% if section == 'status' %}class="current"{% endif %}>{{ components.button( 'LINK_MINE_STATUS' | trans , { href:   path('BNSAppProfileBundle_back_status'), icon: 'rate_review' }) }}</section>
 {% else %}
 	<section {% if section == 'home' %}class="current"{% endif %}>{{ components.button( 'MY_PROFILE' | trans , { href:  path('profile_back_edit', {'userSlug': user.getSlug()}), icon: 'mode_edit' }) }}</section>
 	{% if has_right('PROFILE_FULL_ACCESS_BACK') %}
-		<section {% if section == 'status' %}class="current"{% endif %}>{{ components.button( 'LINK_MINE_STATUS' | trans , { href:   path('BNSAppProfileBundle_back_status'), icon: 'rate_review' }) }}</section>
+		<section bns-feature-flag="'profile_status'" bns-feature-push {% if section == 'status' %}class="current"{% endif %}>{{ components.button( 'LINK_MINE_STATUS' | trans , { href:   path('BNSAppProfileBundle_back_status'), icon: 'rate_review' }) }}</section>
 	{% endif %}
 {% endif %}
 {% if has_right('PROFILE_ADMINISTRATION') %}
-<section {% if section == 'moderation' %}class="current"{% endif %}>
+<section {% if section == 'moderation' %}class="current" {% endif %}>
 	{{ components.button( 'LINK_MODERATION' | trans , { href:   path('profile_manager_moderation'), icon: 'forum', attr : {'class' : 'moderation-switch'} }) }}
-	<div bns-profile-switch data-success="Modération des status ouverte" data-fail="Modération des status fermée" data-url="{{ path('profile_manager_moderation_switch') }}">
-		<md-switch ng-change="onChange()" aria-label=" " ng-model="active"  class="bns-switch ng-pristine ng-valid ng-scope md-checked ng-touched switch-list"></md-switch>
-	</div>
+	<md-switch bns-feature-flag="'profile_status'" bns-profile-switch data-success="{{ 'FLASH_STATUS_MODERATION_OPEN'|trans|desc('Modération des status ouverte') }}" data-fail="{{ 'FLASH_STATUS_MODERATION_CLOSE'|trans|desc('Modération des status fermée') }}" data-url="{{ path('profile_manager_moderation_switch') }}" aria-label=" " ng-model="activeModeration"  class="bns-switch switch-list"></md-switch>
 	{% if section == 'moderation' %}
-		<bns-expander label="{% trans %}FILTER_BY_STATE{% endtrans %}" is-open="true">
+		<bns-expander bns-feature-flag="'profile_status'" bns-feature-push label="{% trans %}FILTER_BY_STATE{% endtrans %}" is-open="true">
 			<div class="layout-column nav-list">
 				{{ components.button( 'LINK_STATUS_IN_MODERATION' | trans, { href: path('profile_manager_moderation_statuses_load'), icon :'warning', attr : {'data-filter-status':'PENDING_VALIDATION', 'class' : 'statuses-sidebar-filter md-primary'} }) }}
 				{{ components.button( 'LINK_STATUS_PUBLISH' | trans, { href: path('profile_manager_moderation_statuses_load'), icon : 'done', attr : {'data-filter-status':'VALIDATED', 'class' : 'statuses-sidebar-filter'} }) }}
@@ -30,11 +28,9 @@
 		</bns-expander>
 	{% endif %}
 </section>
-<section {% if section == 'comments' %}class="current"{% endif %}>
+<section bns-feature-flag="'profile_comment'" bns-feature-push  {% if section == 'comments' %}class="current"{% endif %}>
 	{{ components.button( 'LINK_COMMENTS' | trans , { href:   path('profile_manager_comment'), icon: 'comment' }) }}
-	<div bns-profile-switch data-success="{{ 'COMMENT_MODERATION_OPENED' | trans }}" data-fail="{{ 'COMMENT_MODERATION_CLOSED' | trans }}" data-url="{{ path('profile_manager_comment_moderation_switch') }}">
-		<md-switch ng-change="onChange()" aria-label=" " ng-model="active"  class="bns-switch ng-pristine ng-valid ng-scope md-checked ng-touched switch-list"></md-switch>
-	</div>
+	<md-switch aria-label=" " ng-model="activeComments"  class="bns-switch switch-list" bns-profile-switch data-success="{{ 'COMMENT_MODERATION_OPENED' | trans }}" data-fail="{{ 'COMMENT_MODERATION_CLOSED' | trans }}" data-url="{{ path('profile_manager_comment_moderation_switch') }}"></md-switch>
 	{% if section == 'comments' %}
 		<bns-expander label="{% trans %}FILTER_BY_STATE{% endtrans %}" is-open="true">
 			<div class="layout-column nav-list">
@@ -56,6 +52,12 @@
 {% if not is_child() %}
 	<section {% if section == 'merge-accounts' %}class="current"{% endif %}>{{ components.button( 'MERGE_ACCOUNT' | trans , { href:   path('BNSAppProfileBundle_back_merge_accounts'), icon: 'people_outline' }) }}</section>
 {% endif %}
-{% if has_right('PROFILE_ADMINISTRATION') %}
+{% if has_right('PROFILE_ACCESS_BACK') and has_assistance() %}
+<section {% if section == 'assistance' %}class="current"{% endif %}>
+	{{ components.button( 'LINK_ASSISTANCE' | trans , { href:   path('profile_manager_assistance'), icon: 'help' }) }}
+	<md-switch aria-label=" " ng-model="activeAssist"  class="bns-switch switch-list" bns-profile-switch data-success="{{ 'FLASH_SUPPORT_OPEN'|trans|desc('Assistance ouverte') }}" data-fail="{{ 'FLASH_SUPPORT_CLOSE'|trans|desc('Assistance fermée') }}" data-url="{{ path('profile_manager_assistance_switch') }}"></md-switch>
+</section>
+{% endif %}
+{% if has_right('PROFILE_ACTIVATION') %}
 <section bns-app-menu-toggle></section>
 {% endif %}

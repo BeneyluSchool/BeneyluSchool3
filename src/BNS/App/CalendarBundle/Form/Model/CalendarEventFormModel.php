@@ -5,6 +5,9 @@ namespace BNS\App\CalendarBundle\Form\Model;
 use BNS\App\CoreBundle\Access\BNSAccess;
 use BNS\App\CoreBundle\Model\AgendaEvent;
 use BNS\App\CoreBundle\Form\Model\IFormModel;
+use BNS\App\CoreBundle\Model\AgendaEventPeer;
+use BNS\App\CoreBundle\Model\AgendaObjectQuery;
+use BNS\App\CoreBundle\Model\AgendaSubjectQuery;
 use Symfony\Component\Validator\Context\ExecutionContext;
 
 class CalendarEventFormModel implements IFormModel
@@ -23,6 +26,18 @@ class CalendarEventFormModel implements IFormModel
         * @var Integer entier représentant l'id de l'agenda auquel l'événement va être associé
         */
     public $agendaId;
+
+    /**
+        * @var Integer entier représentant l'id de la discipline auquel l'événement va être associé
+        */
+    public $subjectId;
+
+    /**
+        * @var Integer entier représentant l'id de l'object à reserver auquel l'événement va être associé
+        */
+    public $objectId;
+
+    public $type;
 
     /**
         * @var String
@@ -92,6 +107,9 @@ class CalendarEventFormModel implements IFormModel
             $this->event = $agendaEvent;
             $this->title = $agendaEvent->getTitle();
             $this->agendaId = $agendaEvent->getAgendaId();
+            $this->subjectId = $agendaEvent->getSubjectId();
+            $this->objectId = $agendaEvent->getObjectId();
+            $this->type = $agendaEvent->getType();
             $this->description = $agendaEvent->getDescription();
             $this->location = $agendaEvent->getLocation();
             $this->isAllDay = $agendaEvent->getIsAllDay();
@@ -118,14 +136,26 @@ class CalendarEventFormModel implements IFormModel
 
     public function save()
     {
+        $summary = $this->title;
+        switch ($this->type){
+            case AgendaEventPeer::TYPE_DISCIPLINE:
+                $summary = AgendaSubjectQuery::create()->filterById($this->subjectId)->select('title')->findOne();
+                break;
+            case AgendaEventPeer::TYPE_RESERVATION:
+                $summary = AgendaObjectQuery::create()->filterById($this->objectId)->select('title')->findOne();
+                break;
+        }
         $eventInfos = array(
-            'summary'       => $this->title,
+            'summary'       => $summary,
             'description'   => str_replace(array('\n', CHR(13), CHR(10)), '', $this->description),
             'location'      => $this->location,
             'dtstart'       => $this->timestampStart,
             'dtend'         => $this->timestampEnd,
             'allday'        => $this->isAllDay,
             'rrule'         => '',
+            'type'          => $this->type,
+            'subjectId'     => $this->subjectId,
+            'objectId'     => $this->objectId,
         );
 
         if (true === $this->isRecurring) {
@@ -231,6 +261,50 @@ class CalendarEventFormModel implements IFormModel
                     ->atPath('timeEnd')
                     ->setTranslationDomain('CALENDAR')
                     ->setParameters(array('%min%' => AgendaEvent::$MIN_HOUR, '%max%' => AgendaEvent::$MAX_HOUR))
+                    ->addViolation();
+            }
+        }
+    }
+
+    public function isInformationsValid(ExecutionContext $context)
+    {
+        if ($this->type === 'DISCIPLINE') {
+            if (!isset($this->subjectId)) {
+                $context->buildViolation('SUBJECT_MUST_BE_NOT_BLANK')
+                    ->atPath('subjectId')
+                    ->setTranslationDomain('CALENDAR')
+                    ->addViolation();
+            }
+        } elseif ($this->type === 'RESERVATION') {
+            if (!isset($this->objectId)) {
+                $context->buildViolation('OBJECT_MUST_BE_NOT_BLANK')
+                    ->atPath('objectId')
+                    ->setTranslationDomain('CALENDAR')
+                    ->addViolation();
+            }
+        } else {
+            if(!isset($this->agendaId)) {
+                $context->buildViolation('INVALID_AGENDA_EMPTY')
+                    ->atPath('agendaId')
+                    ->setTranslationDomain('CALENDAR')
+                    ->addViolation();
+            }
+            if (!isset($this->title)) {
+                $context->buildViolation('INVALID_TITLE_EMPTY')
+                    ->atPath('title')
+                    ->setTranslationDomain('CALENDAR')
+                    ->addViolation();
+            }
+            if (strlen($this->title) < 3) {
+                $context->buildViolation('INVALID_TITLE_TOO_SHORT')
+                    ->atPath('title')
+                    ->setTranslationDomain('CALENDAR')
+                    ->addViolation();
+            }
+            if (strlen($this->title) > 50) {
+                $context->buildViolation('INVALID_TITLE_TOO_LONG')
+                    ->atPath('title')
+                    ->setTranslationDomain('CALENDAR')
                     ->addViolation();
             }
         }

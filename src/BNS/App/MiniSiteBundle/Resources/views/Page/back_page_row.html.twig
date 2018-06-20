@@ -6,14 +6,16 @@
 		<div class="loader loader-h"></div>
 		<span class="list-grip"></span>
         <div class="title">{{ page.getTitle() }}</div></span>
-        <span class="page-type {{ page.getType()|lower }}"></span>
+        <span class="page-type {{ page.getType()|lower }}">{% if page.isCity() %}<md-icon>location_city</md-icon>{% endif %}</span>
         <span class="confidentiality"></span>
-            {{ page.isHome() ? "" : "<span class=\"close-button\">&times</span>" }}
+            {{ page.isHome() or page.isCity() ? "" : "<span class=\"close-button\">&times</span>" }}
 
 
 	</div>
 	<div class="category-editor">
-    {{ form_widget(form.title) }}
+    {% if form.title is defined %}
+      {{ form_widget(form.title) }}
+    {% endif %}
     {{ components.button( 'LINK_VALIDATE' | trans , { intent: 'accent', href: '#', icon: { name: 'check', attr: { 'class': 'material-icons'} }, raised: true, attr:{'class': 'submit-category pull-right md-accent md-raised md-button md-ink-ripple', 'data-toggle':'menu', 'data-target': '#default-header'} }) }}
 
     <div class="alert title bns-alert alert-danger small hide">

@@ -2,6 +2,7 @@
 
 namespace BNS\App\NotificationBundle\Notification\BlogBundle;
 
+use BNS\App\CoreBundle\Model\BlogArticle;
 use BNS\App\CoreBundle\Model\GroupQuery;
 use BNS\App\NotificationBundle\Model\Notification;
 use BNS\App\NotificationBundle\Model\NotificationInterface;
@@ -39,6 +40,7 @@ class BlogArticleFinishedNotification extends Notification implements Notificati
 	 */
 	public static function translate(Notification $notification, $objects)
 	{
+		/** @var BlogArticle $article */
 		$article = BlogArticleQuery::create()
 			->joinWith('User')
 			->add(BlogArticlePeer::ID, $objects['articleId'])
@@ -46,13 +48,7 @@ class BlogArticleFinishedNotification extends Notification implements Notificati
 
         $finalObjects = array();
 
-
-        $group = GroupQuery::create()->findPk($objects['groupId']);
-        if (null == $group) {
-            $finalObjects['%classLabel%'] = null;
-        } else {
-            $finalObjects['%classLabel%'] = "[" . $group->getLabel() . "] ";
-        }
+        $finalObjects['%classLabel%'] =  self::getGroupLabel($objects);
 
 		if (null == $article) {
 			throw new NotFoundHttpException('The article with ID ' . $objects['articleId'] . ' is not found !');
@@ -62,6 +58,7 @@ class BlogArticleFinishedNotification extends Notification implements Notificati
 		$finalObjects['%articleTitle%']		= $article->getTitle();
 		$finalObjects['%articleAuthor%']	= $article->getAuthor()->getFullName();
 		$finalObjects['%articleUrl%']		= $notification->getBaseUrl() . self::$container->get('cli.router')->generate('blog_manager_edit_article', array(
+			'annotations' => $article->hasCorrection(),
 			'articleSlug' => $article->getSlug()
 		));
 

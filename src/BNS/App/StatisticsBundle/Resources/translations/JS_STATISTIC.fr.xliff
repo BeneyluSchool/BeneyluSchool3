@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-07-07T17:33:48Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2018-01-09T16:43:27Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -22,6 +22,18 @@
         <source>CLASSROOM_NUMBER</source>
         <target>Classes potentielles</target>
       </trans-unit>
+      <trans-unit id="8691ce64f604839f4e04ab46e5705a052714a1b4" resname="DESCRIPTION_ACTIVE_METRIC">
+        <source>DESCRIPTION_ACTIVE_METRIC</source>
+        <target>Une école ou une classe est considérée active à partir de 10 connexions élèves ou parents</target>
+      </trans-unit>
+      <trans-unit id="a485d9ae5617f415070ff5c223d673781d1c39e6" resname="DESCRIPTION_PREACTIVE_METRIC">
+        <source>DESCRIPTION_PREACTIVE_METRIC</source>
+        <target>Une école ou une classe est considérée en cours d’activation à partir d’1 connexion jusqu’à 10 connexions élèves ou parents</target>
+      </trans-unit>
+      <trans-unit id="59bf3b1c4530f707dc65962055cb91ba0d5058f5" resname="DESCRIPTION_REFRESH_DATA">
+        <source>DESCRIPTION_REFRESH_DATA</source>
+        <target>Les informations de cette page sont mises à jour toutes les deux heures.</target>
+      </trans-unit>
       <trans-unit id="26476fef6e13d29497de0ccba10b62dac1cbca00" resname="DIRECTORS">
         <source>DIRECTORS</source>
         <target>Directeurs</target>
@@ -41,6 +53,38 @@
       <trans-unit id="8e7f00cffd27676bd86f7a41b4fecf304cf6d5a6" resname="FROM">
         <source>FROM</source>
         <target>Du</target>
+      </trans-unit>
+      <trans-unit id="061c2b53502396f4137caf46047639b58fb8c6a1" resname="LABEL_ACTIVE_CLASSROOMS_PLURAL">
+        <source>LABEL_ACTIVE_CLASSROOMS_PLURAL</source>
+        <target>{count, plural, one{Classe active} other{Classes actives} }</target>
+      </trans-unit>
+      <trans-unit id="9154b4fab2c94c53337e937c93e9741e1a1ec82c" resname="LABEL_ACTIVE_SCHOOLS_PLURAL">
+        <source>LABEL_ACTIVE_SCHOOLS_PLURAL</source>
+        <target>{count, plural, one{École active} other{Écoles actives} }</target>
+      </trans-unit>
+      <trans-unit id="e6527334eb9a4c518cd0c88e5bab0f56c04f1d9e" resname="LABEL_INACTIVE_CLASSROOMS_PLURAL">
+        <source>LABEL_INACTIVE_CLASSROOMS_PLURAL</source>
+        <target>{count, plural, one{Classe jamais connectée} other{Classes jamais connectées} }</target>
+      </trans-unit>
+      <trans-unit id="5b78b55fc439c00394464b1db1d0c9997b43ec07" resname="LABEL_INACTIVE_SCHOOLS_PLURAL">
+        <source>LABEL_INACTIVE_SCHOOLS_PLURAL</source>
+        <target>{count, plural, one{École jamais connectée} other{Écoles jamais connectées} }</target>
+      </trans-unit>
+      <trans-unit id="c5f8812becb0868a736bf9f78157019a85050f20" resname="LABEL_PREACTIVE_CLASSROOMS_PLURAL">
+        <source>LABEL_PREACTIVE_CLASSROOMS_PLURAL</source>
+        <target>{count, plural, one{Classe} other{Classes} } en cours d'activation</target>
+      </trans-unit>
+      <trans-unit id="54198ffd3350b6ae0f2a4cd4e4fbc84e2ecfc868" resname="LABEL_PREACTIVE_SCHOOLS_PLURAL">
+        <source>LABEL_PREACTIVE_SCHOOLS_PLURAL</source>
+        <target>{count, plural, one{École} other{Écoles} } en cours d'activation</target>
+      </trans-unit>
+      <trans-unit id="d90945f940d19ebe60e0e3774783975dced5e176" resname="LABEL_REGISTERED_CLASSROOMS_PLURAL">
+        <source>LABEL_REGISTERED_CLASSROOMS_PLURAL</source>
+        <target>{count, plural, one{Classe inscrite} other{Classes inscrites} }</target>
+      </trans-unit>
+      <trans-unit id="63687966368d5405c45773b8c7e47114b3e7274b" resname="LABEL_REGISTERED_SCHOOLS_PLURAL">
+        <source>LABEL_REGISTERED_SCHOOLS_PLURAL</source>
+        <target>{count, plural, one{École inscrite} other{Écoles inscrites} }</target>
       </trans-unit>
       <trans-unit id="bb8af24286119c4b6249ce3b15c0548befe27f76" resname="LOADING">
         <source>LOADING</source>
@@ -110,13 +154,33 @@
         <source>TEACHERS</source>
         <target>Enseignants</target>
       </trans-unit>
+      <trans-unit id="966afd005f2a3a06a6676227caec758f06b2d569" resname="TITLE_CLASSROOM_INFO">
+        <source>TITLE_CLASSROOM_INFO</source>
+        <target>Informations classes</target>
+      </trans-unit>
+      <trans-unit id="4cd43d796181f54467d7a2177357bb445f491ea5" resname="TITLE_FOLLOW_ACTIVITY">
+        <source>TITLE_FOLLOW_ACTIVITY</source>
+        <target>Suivi de l'activité</target>
+      </trans-unit>
       <trans-unit id="4004c60d6757453935711719e12337ade01fb85c" resname="TITLE_META">
         <source>TITLE_META</source>
-        <target>Statistiques</target>
+        <target>Tableau de bord</target>
+      </trans-unit>
+      <trans-unit id="9db591bf557c57a0e611cdfd4dfd55694a7d5c95" resname="TITLE_SCHOOL_INFO">
+        <source>TITLE_SCHOOL_INFO</source>
+        <target>Informations écoles</target>
+      </trans-unit>
+      <trans-unit id="ce915111b9aa886375bf676c8917c63d0defcf4b" resname="TITLE_TAB">
+        <source>TITLE_TAB</source>
+        <target>Tableau résumé des données</target>
       </trans-unit>
       <trans-unit id="15f51444be75bc88e935c57ef2ee7477dc73a64e" resname="TO">
         <source>TO</source>
         <target>Au</target>
+      </trans-unit>
+      <trans-unit id="b3cba55338b3625665f9ea5a7e33ff9db26da1af" resname="VALUES">
+        <source>VALUES</source>
+        <target>Valeurs</target>
       </trans-unit>
       <trans-unit id="0fa2ff5785952199b4086a34e015d691fb6f638e" resname="VIEW">
         <source>VIEW</source>

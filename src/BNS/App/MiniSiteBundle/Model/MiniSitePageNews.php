@@ -41,6 +41,34 @@ class MiniSitePageNews extends BaseMiniSitePageNews implements \BNS\App\Autosave
 		)
 	);
 
+	public function isCityNews()
+	{
+		return $this instanceof MiniSitePageCityNews;
+	}
+
+	public function isFuture()
+	{
+		return $this->getPublishedAt() && $this->getPublishedAt('Ymd') > (new \DateTime())->format('Ymd');
+	}
+
+	public function isPast()
+	{
+		return $this->getPublishedEndAt() && $this->getPublishedEndAt('Ymd') < (new \DateTime())->format('Ymd');
+	}
+
+	public function getLogicalStatus()
+	{
+		if ($this->isCityNews()) {
+			if ($this->isFuture()) {
+				return 'FINISHED';
+			} else if ($this->isPast()) {
+				return 'SCHEDULED';
+			}
+		}
+
+		return $this->getStatus();
+	}
+
 	public function getRichContent()
 	{
 		return $this->parse($this->getContent());
@@ -138,4 +166,24 @@ class MiniSitePageNews extends BaseMiniSitePageNews implements \BNS\App\Autosave
 
 		return $this->getPrimaryKey();
 	}
+
+    public function switchPin()
+    {
+        if ($this->getIsPinned()) {
+            $this->setIsPinned(false);
+        }
+        else {
+            $this->setIsPinned(true);
+        }
+    }
+
+    public function getResourceAttachments()
+    {
+        if($this->isNew() && isset($this->attachments))
+        {
+            return $this->attachments;
+        }else{
+            return parent::getResourceAttachments();
+        }
+    }
 }

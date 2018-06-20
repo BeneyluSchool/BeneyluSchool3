@@ -1,0 +1,34 @@
+<div ng-repeat="choice in group.choices | orderBy:group.order:group.reverse" class="layout-row">
+<div
+  class="bns-choice-wrap layout-row"
+  ng-attr-bns-feature-flag="choice.attr['bns-feature-flag']"
+  ng-attr-bns-feature-push="!!choice.attr['bns-feature-flag']"
+>
+  <md-checkbox
+    ng-value="choice.value"
+    name="{{choice.name}}"
+    ng-checked="group.has(choice.value)"
+    ng-click="group.toggle(choice.value)"
+    ng-class="{ 'checkbox-right': (group.right || choice.icon) }"
+    class="md-primary flex {{group.getExtraClass(choice)}}"
+    ng-attr-ng-style="{{group.style || ''}}"
+    aria-label="{{(choice.label ? (choice.label|translate) : choice.htmlLabel)}}"
+  >
+    <div bns-transclude-eval="group.choiceLabelTemplate">
+      <bns-navbar-icon ng-if="choice.icon" item="choice.icon"></bns-navbar-icon>
+      <span ng-if="choice.htmlLabel" ng-bind-html="choice.htmlLabel"></span>
+      <span ng-if="choice.label">{{choice.label|translate}}</span>
+    </div>
+  </md-checkbox>
+
+  <div ng-if="group.choiceSecondaryTemplate" bns-transclude-eval="group.choiceSecondaryTemplate" class="bns-choice-secondary-container"></div>
+
+  <input ng-if="group.hasVanillaInput"
+    type="checkbox"
+    value="{{choice.value}}"
+    style="display: none;"
+    name="{{choice.name}}"
+    id="{{choice.id}}"
+    ng-checked="group.has(choice.value)">
+</div>
+</div>

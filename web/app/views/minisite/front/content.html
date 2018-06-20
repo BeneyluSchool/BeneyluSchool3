@@ -14,6 +14,7 @@
     <div ng-if="!ctrl.busy" class="md-body-1">
       <div class="page-content">
         <div ng-if="ctrl.page.page.type === 'TEXT'">
+          <h3 ng-bind-html="ctrl.page.content.published_title"></h3>
           <div ng-if="!ctrl.page.content.published_content"></div>
           <div ng-bind-html="ctrl.page.content.published_content|trustHtml" bns-bind-medias></div>
           <bns-attachments ng-if="ctrl.page.content._embedded.attachments.length"
@@ -22,13 +23,14 @@
             data-object-id="{{::ctrl.page.page.id}}"
           ></bns-attachments>
         </div>
-        <div ng-if="ctrl.page.page.type === 'NEWS'">
+        <div ng-if="ctrl.page.page.type === 'NEWS' || ctrl.page.page.type === 'CITY'">
           <bns-inset class="md-padding text-center" ng-if="!ctrl.page.news._embedded.items.length">
             <p translate>MINISITE.NO_NEWS</p>
           </bns-inset>
           <div class="news" ng-repeat="news in ctrl.page.news._embedded.items">
+            <div id="news-{{::news.slug}}" class="minisite-news-anchor"></div>
             <h3>{{ ::news.title }}</h3>
-            <p class="article-infos" translate translate-values="{ date: moment(news.published_at).format('LLL'), author: news.author.full_name  }">MINISITE.NEWS_INFOS</p>
+            <p class="article-infos" translate translate-values="{ date: moment(news.published_at).format('LL'), author: news.author.full_name  }">MINISITE.NEWS_INFOS</p>
             <div ng-bind-html="news.content|trustHtml"></div>
             <bns-attachments ng-if="news._embedded.attachments.length"
               source="news._embedded.attachments"

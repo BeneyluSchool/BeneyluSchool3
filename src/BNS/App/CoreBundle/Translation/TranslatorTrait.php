@@ -39,14 +39,16 @@ trait TranslatorTrait
     }
 
     /**
-     * translate a text by calling translator if unavailable fallback to the $id
-     * @param string $id translation token / text
-     * @param array $parameters
-     * @param string|null $domain
-     * @param string|null $locale
-     * @return string
+     * Translates the given message by calling translator if unavailable fallback to the $id.
+     *
+     * @param string      $id         The message id (may also be an object that can be cast to string)
+     * @param array       $parameters An array of parameters for the message
+     * @param string|null $domain     The domain for the message or null to use the default
+     * @param string|null $locale     The locale or null to use the default
+     *
+     * @return string The translated string or $id if translator is not available
      */
-    public function translate($id, array $parameters = array(), $domain = null, $locale = null)
+    public function trans($id, array $parameters = array(), $domain = null, $locale = null)
     {
         if ($translator = $this->getTranslator()) {
             /** @Ignore */return $translator->trans($id, $parameters, $domain, $locale);

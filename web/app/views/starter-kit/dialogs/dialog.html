@@ -1,0 +1,10 @@
+<div class="dialog-content md-whiteframe-z4 md-padding">
+  <div class="dialog-description" ng-bind-html="ctrl.step.data.content|trustHtml"></div>
+  <div ng-if="ctrl.step.data.action" class="md-body-2 text-primary dialog-action" ng-bind-html="ctrl.step.data.action|trustHtml"></div>
+  <div ng-if="ctrl.step.data.accept" class="layout-row layout-align-end-center">
+    <md-button ng-click="ctrl.accept()" class="md-primary">
+      <span ng-bind-html="'STARTER_KIT.BUTTON_CONTINUE'|translate|buttonize"></span>
+      <md-icon>chevron_right</md-icon>
+    </md-button>
+  </div>
+</div>

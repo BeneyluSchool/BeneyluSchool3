@@ -32,7 +32,7 @@ class BNSAppCampaignExtension extends Extension
             foreach ($container->findTaggedServiceIds('bns_campaign_sender') as $id => $definition) {
                 $services[] = new Reference($id);
             }
-            $messageConsumerDefinition->replaceArgument(1, $services);
+            $messageConsumerDefinition->replaceArgument(2, $services);
         }
     }
 }

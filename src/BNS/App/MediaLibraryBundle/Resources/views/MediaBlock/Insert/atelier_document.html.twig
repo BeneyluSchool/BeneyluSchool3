@@ -1,5 +1,4 @@
-{% extends 'BNSAppResourceBundle:ResourceBlock:file.html.twig' %}
-
-{% block content %}
-	<a href="{{ path('workshop_visualisation', {'slug': resource.getSlug()}) }}" class="btn look-image btn-warning" target='_blank'><span class="look-image"></span>{{ resource.label }}</a>
-{% endblock %}
+<a href="#" class="btn look-image btn-warning bns-insert-resources bns-viewer-invoker" data-slug="{{ media.getSlug() }}" data-uid="{{ media.getUserId() }}" data-id="{{ media.getId() }}">
+  <span class="look-image"></span>
+  {{ media.label }}
+</a>

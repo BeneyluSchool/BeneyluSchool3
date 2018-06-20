@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 use BNS\App\CoreBundle\Utils\Crypt;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Sylvain Lorinet <sylvain.lorinet@pixel-cookers.com>
@@ -47,9 +48,8 @@ class LogoutController extends Controller
 
             //On vide le cache Redis à la déconnexion
             $this->get('bns.user_manager')->setUser($user)->resetRights();
-            // invalidate the session
-            $this->get('security.token_storage')->setToken(null);
-            $this->get('session')->invalidate();
+            // logout user
+            $this->get('bns_common.security_logout.logout')->logout();
         }
 
         if ($redirect) {

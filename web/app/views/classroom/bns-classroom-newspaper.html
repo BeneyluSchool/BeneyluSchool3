@@ -1,0 +1,13 @@
+<div ng-if="::ctrl.newspaper">
+    <md-button id="newspaper-container" md-no-ink class="classroom-newspaper-opener animate-wiggle" ng-click="ctrl.openNewspaper($event)" bns-ga-event="{category: 'Newspaper', action: 'open', label: ctrl.newspaper.title}">
+        <md-tooltip>{{::'CLASSROOM.TITLE_NEWSPAPER'|translate}}</md-tooltip>
+    </md-button>
+
+    <md-content id="newspaper-container-mobile" ng-cloak class="md-whiteframe-z2 layout-row">
+        <md-button md-no-ink class="flex-container" ng-click="ctrl.openNewspaper($event)" bns-ga-event="{category: 'Newspaper', action: 'open', label: ctrl.newspaper.title}">
+            <div class="classroom-newspaper-opener"></div>
+            <div>{{::'CLASSROOM.READ_NEWSPAPER'|translate}}</div>
+        </md-button>
+    </md-content>
+</div>
+

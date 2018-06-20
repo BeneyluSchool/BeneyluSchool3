@@ -68,10 +68,10 @@
               {{ 'TITLE_SURE_TO_DELETE_PLACE'|trans({'%place%': place.label |escape}) |desc('Êtes-vous sûr de vouloir supprimer le lieu <strong>"%place%"</strong>  ?') |raw}}
             </p>
       </md-dialog-content>
-      <div class="md-actions">
+      <md-dialog-actions>
         {{ components.button( 'LINK_CANCEL' | trans , { href : '#', click: 'dialog.abort()' }) }}
         {{ components.button( 'LINK_PLACE_DELETE' | trans , { href : path('BNSAppGPSBundle_back_delete_place', { 'slug' : place.getSlug() }), raised : true, intent: 'warn'}) }}
-      </div>
+      </md-dialog-actions>
     </md-dialog>
   </script>
 

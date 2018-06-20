@@ -2,12 +2,12 @@
 
 <bns-expander label="{{ (section == 'edition' ? 'NAME_PAGE' : 'NAME_PAGES') | trans }}" is-open="true">
 
-  <div class="nav-list layout-column">
+  <div id="minisite-page-list" class="nav-list layout-column">
     {% for pageRow in minisite.getMiniSitePages() %}
       {% if (has_right('MINISITE_ADMINISTRATION') or pageRow.isEditor(app.user)) and (section == 'visualisation' or section == 'edition' and pageRow.getId() == page.getId()) %}
         {{ components.button(pageRow.getTitle(), {
           href: section == 'visualisation' ? path('minisite_manager_page', {'slug': pageRow.getSlug()}) : false,
-          icon: pageRow.getType() == 'TEXT' ? 'book' : 'list',
+          icon: pageRow.getType() == 'TEXT' ? 'book' : (pageRow.getType() == 'CITY' ? 'location_city' : 'list'),
           intent: pageRow.getId() == page.getId() ? 'primary'
         }) }}
       {% endif %}

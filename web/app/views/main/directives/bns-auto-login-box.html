@@ -36,15 +36,31 @@
     <div class="layout-column" bns-input-group>
       <md-input-container md-no-float>
         <input type="text" name="_username" id="_username" class="input-lg"
+               autocapitalize="off"
+               autocorrect="off"
+               spellcheck="false"
                ng-model="ctrl.form._username"
                placeholder="{{ ctrl.form.login === 'username' ? ('MAIN.PLACEHOLDER_WRITE_YOUR_USERNAME'|translate) : ('MAIN.PLACEHOLDER_WRITE_YOUR_FIRSTNAME'|translate ) }}"
+               bns-use-keyboard="{{ ctrl.form.login === 'username' ? 'beneylu' : 'beneylu_num_disabled' }}"
+               bns-keyboard-open="true"
+               bns-keyboard-input="true"
+               bns-keyboard-label="{{ ctrl.form.login === 'username' ? ('MAIN.LABEL_KEYBOARD_MY_USERNAME'|translate) : ('MAIN.LABEL_KEYBOARD_MY_FIRSTNAME'|translate ) }}"
+               bns-keyboard-validation="{{ ctrl.form.login === 'username' ? 'username' : 'name' }}"
                bns-autofocus />
       </md-input-container>
 
-      <md-input-container md-no-float ng-show="'fullname' === ctrl.form.login" id="_lastname_container">
+      <md-input-container md-no-float ng-if="'fullname' === ctrl.form.login" id="_lastname_container">
         <input type="text" name="_lastname" id="_lastname" class="input-lg"
+               autocapitalize="off"
+               autocorrect="off"
+               spellcheck="false"
                ng-model="ctrl.form._lastname"
-               placeholder="{{ 'MAIN.PLACEHOLDER_WRITE_YOUR_LASTNAME' | translate }}" />
+               placeholder="{{ 'MAIN.PLACEHOLDER_WRITE_YOUR_LASTNAME' | translate }}"
+               bns-use-keyboard="beneylu_num_disabled"
+               bns-keyboard-input="true"
+               bns-keyboard-label="{{ 'MAIN.LABEL_KEYBOARD_MY_LASTNAME' | translate }}"
+               bns-keyboard-validation="name"
+               bns-keyboard-position="1" />
       </md-input-container>
     </div>
 
@@ -57,8 +73,15 @@
              placeholder="{{ 'MAIN.PLACEHOLDER_WRITE_YOUR_PASSWORD' | translate }}"
              ng-model="ctrl.form._password"
              class="input-lg"
-             bns-password-toggle
-      />
+             bns-use-keyboard="beneylu_password"
+             bns-keyboard-input="true"
+             bns-keyboard-label="{{ 'MAIN.LABEL_KEYBOARD_MY_PASSWORD' | translate }}"
+             bns-keyboard-validation="password"
+             bns-password-toggle />
+    </md-input-container>
+
+    <md-input-container class="remember-me-input" ng-if="ctrl.isMobile">
+      <md-checkbox name="rememberme" ng-model="ctrl.form._remember_me" required>{{ 'MAIN.REMEMBER_ME'|translate }}</md-checkbox>
     </md-input-container>
 
     <input type="hidden" name="_csrf_token" value="" />
@@ -70,24 +93,13 @@
     </div>
 
     <div ng-if="ctrl.forgotPasswordUrl" class="text-center md-caption">
-      <a ng-href="{{ ctrl.forgotPasswordUrl }}" href>
-        <span class="password-lost" translate>MAIN.FORGOTTEN_PASSWORD</span>
-      </a>
+      <md-button ng-href="{{ ctrl.forgotPasswordUrl }}" href class="md-raised btn-sm" ng-class="{'md-primary animate-pulse-shadow-primary': ctrl.forgotPasswordIncentive}">
+        <span ng-bind-html="'MAIN.FORGOTTEN_PASSWORD' | translate | buttonize"></span>
+      </md-button>
     </div>
 
   </md-content>
   </form>
-</div>
-
-<div ng-show="ctrl.showLoginForm === true" ng-if="ctrl.samlProviders" class="layout-column login-saml inset">
-  <md-content class="inset md-whiteframe-z2">
-    <div class="layout-row login-saml-row" ng-repeat="saml in ctrl.samlProviders">
-        <md-button href aria-label="{{ ::saml.label }}" ng-click="ctrl.samlAuth(saml.idp)" class="flex md-raised">
-          <md-icon ng-if="::saml.icon">{{::saml.icon}}</md-icon>
-          <span>{{::saml.label}}</span>
-        </md-button>
-    </div>
-  </md-content>
 </div>
 
 <div class="login-no-cookie" ng-show="ctrl.showNoCookieLogin === true">
@@ -103,6 +115,17 @@
           <span class="password-lost" translate>MAIN.FORGOTTEN_PASSWORD</span>
         </a>
       </div>
+    </div>
+  </md-content>
+</div>
+
+<div ng-show="(ctrl.showLoginForm || ctrl.showNoCookieLogin) && !ctrl.busy" ng-if="ctrl.samlProviders" class="layout-column login-saml inset">
+  <md-content class="inset md-whiteframe-z2">
+    <div class="layout-row login-saml-row" ng-repeat="saml in ctrl.samlProviders">
+      <md-button href aria-label="{{ ::saml.label }}" ng-click="ctrl.samlAuth(saml.idp)" class="flex md-raised">
+        <md-icon ng-if="::saml.icon">{{::saml.icon}}</md-icon>
+        <span>{{::saml.label}}</span>
+      </md-button>
     </div>
   </md-content>
 </div>

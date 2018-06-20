@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-07-07T12:33:20Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2018-02-08T12:39:08Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -22,21 +22,75 @@
         <source>BUTTON_DELETE_LINK</source>
         <target>Supprimer</target>
       </trans-unit>
+      <trans-unit id="477a37abaf29f691f4f88b01ed4bf3218283d0f5" resname="BUTTON_DELETE_SEARCH">
+        <source>BUTTON_DELETE_SEARCH</source>
+        <target>Supprimer la recherche</target>
+      </trans-unit>
       <trans-unit id="1c3c85e440a172417537a5ec2a136d5dd3d07ed4" resname="BUTTON_EDIT_LINK">
         <source>BUTTON_EDIT_LINK</source>
         <target>Valider</target>
+      </trans-unit>
+      <trans-unit id="8be9e8a4bfc89fe529c0f59d0e4b27a2be6eb3ab" resname="BUTTON_SAVED_SEARCHES">
+        <source>BUTTON_SAVED_SEARCHES</source>
+        <target>Recherches sauvegardées</target>
       </trans-unit>
       <trans-unit id="cc64f35d044f3c8be7b46ded0b495c36ab2c18c8" resname="BUTTON_SEARCH">
         <source>BUTTON_SEARCH</source>
         <target>Rechercher</target>
       </trans-unit>
+      <trans-unit id="64000ca0c2abb7478793cbf3cc86273ff6ce93de" resname="BUTTON_SEARCH_LOCAL">
+        <source>BUTTON_SEARCH_LOCAL</source>
+        <target>Dans mes contenus</target>
+      </trans-unit>
+      <trans-unit id="e9257c79f7adecd88b6cd009f4ea90fbfde6a99b" resname="BUTTON_SEARCH_WEB">
+        <source>BUTTON_SEARCH_WEB</source>
+        <target>Sur internet</target>
+      </trans-unit>
       <trans-unit id="51ae7da76322140e38d4a952727661ccba266d88" resname="DESCRIPTION_CONFIRM_DELETE_LINK">
         <source>DESCRIPTION_CONFIRM_DELETE_LINK</source>
         <target>Etes vous sur de vouloir supprimer ce lien ? </target>
       </trans-unit>
+      <trans-unit id="6dcd3d6a957345f7a885216f86db80cd17a5a701" resname="DESCRIPTION_CONFIRM_DELETE_SEARCH">
+        <source>DESCRIPTION_CONFIRM_DELETE_SEARCH</source>
+        <target><![CDATA[Cette recherche et ses résultats associés seront supprimés <strong>définitivement</strong>.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="8a27fcdfb5c3a002b92e82ba33c8f0bfada94640" resname="DESCRIPTION_NO_SAVED_SEARCH">
+        <source>DESCRIPTION_NO_SAVED_SEARCH</source>
+        <target>Aucune recherche sauvegardée</target>
+      </trans-unit>
+      <trans-unit id="ae8899f0185db04777a5590d15075444d6b5b594" resname="DESCRIPTION_SAVED_SEARCHES">
+        <source>DESCRIPTION_SAVED_SEARCHES</source>
+        <target>Ici sont listées toutes les recherches sauvegardées</target>
+      </trans-unit>
       <trans-unit id="95712a76df79cc6855da71287622784c4453f018" resname="EDIT_LINK">
         <source>EDIT_LINK</source>
         <target>Modifier</target>
+      </trans-unit>
+      <trans-unit id="60034b0081d4ebc4359e7b115fd53b9d3adf5870" resname="FLASH_DELETE_SEARCH_ERROR">
+        <source>FLASH_DELETE_SEARCH_ERROR</source>
+        <target>La recherche n'a pas pu être supprimée</target>
+      </trans-unit>
+      <trans-unit id="925cd1f4d61a1a08e4993ecaa5eff86f825eb460" resname="FLASH_DELETE_SEARCH_SUCCESS">
+        <source>FLASH_DELETE_SEARCH_SUCCESS</source>
+        <target>Recherche supprimée</target>
+      </trans-unit>
+      <trans-unit id="e2bc50ade286c41d3e35f503133b551b024d465b" resname="FLASH_LOAD_SAVED_SEARCH_ERROR">
+        <source>FLASH_LOAD_SAVED_SEARCH_ERROR</source>
+        <target>Les recherches n'ont pas pu être chargées</target>
+      </trans-unit>
+      <trans-unit id="c7c7fa10113eb97981254f74609278392a9d091a" resname="FLASH_SAVE_RESULTS_ERROR">
+        <source>FLASH_SAVE_RESULTS_ERROR</source>
+        <target>Les résultats de recherche n'ont pas pu être sauvegardés</target>
+      </trans-unit>
+      <trans-unit id="6f73663e428e18db133a523bbaff692e05b64225" resname="FLASH_SAVE_RESULTS_SUCCESS">
+        <source>FLASH_SAVE_RESULTS_SUCCESS</source>
+        <target>Résultats de recherche sauvegardés</target>
+      </trans-unit>
+      <trans-unit id="7b4cc60d0a3f7fe4ba76b75a22ef8a2dcefb3245" resname="FLASH_SEARCH_ERROR">
+        <source>FLASH_SEARCH_ERROR</source>
+        <target>Erreur lors de la recherche</target>
       </trans-unit>
       <trans-unit id="f889b37cb8ab01956de0609a1a25169c348d97fd" resname="GENERAL_WHITE_LIST_ACTIVATION">
         <source>GENERAL_WHITE_LIST_ACTIVATION</source>
@@ -45,6 +99,18 @@
       <trans-unit id="e3666814d78c11d1d1637d1f1b17c11629d94ae2" resname="GET_WHITE_LIST_ERROR">
         <source>GET_WHITE_LIST_ERROR</source>
         <target>La liste blanche n'a pas pu être chargée</target>
+      </trans-unit>
+      <trans-unit id="ee7e100e17ba052191f95768e70293ccc5377414" resname="LABEL_FILTER_BY_APP">
+        <source>LABEL_FILTER_BY_APP</source>
+        <target>Filtrer par application</target>
+      </trans-unit>
+      <trans-unit id="17a39af46f58c8091f9894a1ba42382863ab3dba" resname="LABEL_NB_RESULTS">
+        <source>LABEL_NB_RESULTS</source>
+        <target>{COUNT, plural, 0{Aucun résultat} 1{1 résultat} other{# résultats}}</target>
+      </trans-unit>
+      <trans-unit id="c72527da0a028c18157ef38ae48a8b296f01a53b" resname="LABEL_SAVE_RESULTS">
+        <source>LABEL_SAVE_RESULTS</source>
+        <target>Sauvegarder les résultats</target>
       </trans-unit>
       <trans-unit id="61892fd0bd0712200b42d2a7fc250ce1815f9afe" resname="LAST_SEARCH_AT">
         <source>LAST_SEARCH_AT</source>
@@ -74,9 +140,17 @@
         <source>TITLE_CONFIRM_DELETE_LINK</source>
         <target>Confirmer la suppresion du lien</target>
       </trans-unit>
+      <trans-unit id="310c0fa406530fbf40b2acc87106158b31c872ad" resname="TITLE_CONFIRM_DELETE_SEARCH">
+        <source>TITLE_CONFIRM_DELETE_SEARCH</source>
+        <target>Supprimer une recherche sauvegardée</target>
+      </trans-unit>
       <trans-unit id="7d3a205c4ed427d48c6cc5b33edec6b804a29d99" resname="TITLE_SEARCH_ENGINE">
         <source>TITLE_SEARCH_ENGINE</source>
         <target>Moteur de recherche</target>
+      </trans-unit>
+      <trans-unit id="f9167b28633ed788af86b5131f994097ad17a697" resname="TITLE_SEARCH_ENGINE_LOCAL">
+        <source>TITLE_SEARCH_ENGINE_LOCAL</source>
+        <target>Rechercher dans mes contenus</target>
       </trans-unit>
     </body>
   </file>

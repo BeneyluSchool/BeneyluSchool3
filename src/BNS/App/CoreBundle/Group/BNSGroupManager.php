@@ -4,6 +4,7 @@ namespace BNS\App\CoreBundle\Group;
 
 use BNS\App\CoreBundle\Access\BNSAccess;
 use BNS\App\CoreBundle\Api\BNSApi;
+use BNS\App\CoreBundle\Model\GroupDataQuery;
 use BNS\App\CoreBundle\Model\RankDefaultQuery;
 use BNS\App\CoreBundle\Model\RankQuery;
 use BNS\App\CoreBundle\Module\BNSModuleManager;
@@ -11,6 +12,7 @@ use BNS\App\CoreBundle\Role\BNSRoleManager;
 use BNS\App\CoreBundle\User\BNSUserManager;
 use BNS\App\RegistrationBundle\Model\SchoolInformationQuery;
 use BNS\App\MediaLibraryBundle\Model\MediaFolderGroupPeer;
+use Doctrine\Common\Collections\Criteria;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Exception;
@@ -82,6 +84,16 @@ class BNSGroupManager
     protected $modeBeta = false;
 
     /**
+     * @var boolean
+     */
+    protected $unlimitedAllowed;
+
+    /**
+     * @var boolean|null
+     */
+    protected $unlimitedResources;
+
+    /**
      * @param ContainerInterface $container
      * @param BNSRoleManager $roleManager
      * @param BNSUserManager $userManager
@@ -104,6 +116,7 @@ class BNSGroupManager
         if ($container->hasParameter('bns_beta_enabled')) {
             $this->modeBeta = $container->getParameter('bns_beta_enabled');
         }
+        $this->unlimitedAllowed = $container->getParameter('bns.storage.unlimited_allowed');
     }
 
 	///////////   FONCTIONS LIEES AUX GROUPES DIRECTEMENT  \\\\\\\\\\\
@@ -181,9 +194,10 @@ class BNSGroupManager
     public function getProjectInfo($info = null)
     {
         $projectInfo = $this->container->get('bns_common.manager.project_info');
-        foreach ($this->getAncestors() as $ancestor) {
-            $groupId = $ancestor->getId();
-
+        $groupId = $this->getGroup()->getId();
+        $groupIds = $this->getUniqueAncestorIds($groupId);
+        $groupIds[] = $groupId;
+        foreach ($groupIds as $groupId) {
             if ($projectInfo->hasProjectInfoForGroup($groupId)) {
                 if (null === $info) {
                     return $projectInfo->getProjectInfo($groupId, $info);
@@ -197,21 +211,6 @@ class BNSGroupManager
 
                 return $value;
             }
-        }
-
-        $groupId = $this->getGroup()->getId();
-        if ($projectInfo->hasProjectInfoForGroup($groupId)) {
-            if (null === $info) {
-                return $projectInfo->getProjectInfo($groupId, $info);
-            }
-
-            $value = $projectInfo->getProjectInfo($groupId, $info);
-
-            if (null === $value) {
-                return false;
-            }
-
-            return $value;
         }
 
         return false;
@@ -336,6 +335,14 @@ class BNSGroupManager
 				'domain_id'     => $params['domain_id']
 			);
 
+            if (isset($params['id'])) {
+                $values['id'] = $params['id'];
+                $values['force_create'] = true;
+            }
+            if (isset($params['group_parent_id'])) {
+                $values['group_parent_id'] = $params['group_parent_id'];
+            }
+
 			$response = $this->api->send('group_create',array('values' => $values));
             if(isset($this->container))
             {
@@ -366,6 +373,10 @@ class BNSGroupManager
             if (!isset($values['country'])) {
                 $countries = $this->container->getParameter('preferred_countries');
                 $values['country'] = isset($countries[0]) ? $countries[0] : 'FR';
+            }
+
+            if (!isset($values['lang']) || ! $values['lang']) {
+                $values['lang'] = 'fr';
             }
 
 			// Création des données indispensables aux groupes, quelqu'ils soient
@@ -531,6 +542,44 @@ class BNSGroupManager
         }
     }
 
+    public function updateLabel(Group $group, $label)
+    {
+        $group->setLabel($label);
+        if ($group->hasAttribute('NAME')) {
+            $group->setAttribute('NAME', $label);
+        }
+        $group->save();
+
+        if ('CITY' === $group->getType()) {
+            // 1. find group types that have a 'CITY' attribute
+            $groupTypesWithCityIds = GroupTypeQuery::create()
+                ->useGroupTypeDataQuery()
+                    ->useGroupTypeDataTemplateQuery()
+                        ->filterByUniqueName('CITY')
+                    ->endUse()
+                ->endUse()
+                ->select(['Id'])
+                ->find()
+                ->toArray()
+            ;
+
+            // 2. find subgroups of these types
+            $subgroupsWithCityIds = $this->getOptimisedSubGroupIdsByType($group->getId(), $groupTypesWithCityIds);
+
+            // 3. update subgroup datas, in 2 queries because propel does not handle updates with join
+            $groupDataIdsToUpdate = GroupDataQuery::create()
+                ->filterByGroupId($subgroupsWithCityIds)
+                ->useGroupTypeDataQuery()
+                    ->filterByGroupTypeDataTemplateUniqueName('CITY')
+                ->endUse()
+                ->select(['Id'])
+                ->find()
+                ->toArray()
+            ;
+            GroupDataQuery::create()->filterById($groupDataIdsToUpdate)->update(['Value' => $label]);
+        }
+    }
+
 	//TODO AME
 	public function updateParents($parentIds)
 	{
@@ -571,6 +620,10 @@ class BNSGroupManager
 				'group_type_id' => $environmentGroupTypeId,
 				'domain_id'     => $this->domainId,
 			);
+			if (isset($params['id'])) {
+				$values['id'] = $params['id'];
+				$values['force_create'] = true;
+			}
 
 			$response = $this->api->send('group_create',array('values' => $values));
 
@@ -586,10 +639,13 @@ class BNSGroupManager
 		}
 	}
 
+    /**
+     * @return bool|Group
+     */
     public function getEnvironment($group = null)
     {
         /** @var Group $parent */
-        foreach ($this->getAncestors($group) as $parent) {
+        foreach ($this->getUniqueAncestors($group) as $parent) {
             if ($parent->getType() == "ENVIRONMENT") {
                 return $parent;
             }
@@ -598,6 +654,18 @@ class BNSGroupManager
         return false;
     }
 
+    /**
+     * @return bool|Group
+     */
+    public function getSchool()
+    {
+        foreach ($this->getUniqueAncestors() as $group) {
+            if ($group->getGroupType()->getType() == "SCHOOL") {
+                return $group;
+            }
+        }
+        return false;
+    }
 
 
         public function getGroupeType($groupId)
@@ -671,7 +739,7 @@ class BNSGroupManager
 				//rooted = celles récupérées d'autres groupes (parents) = pour tous les parents où rule_where.group_type_id != thid.groupTypeId
 				$returnedRules = array();
 				$myGroupTypeId = $this->getGroup()->getGroupTypeId();
-				foreach($this->getAncestors() as $parentGroup){
+				foreach($this->getUniqueAncestors() as $parentGroup){
 					$this->setGroup($parentGroup);
 					$parentRules = $this->getRules();
 					foreach($parentRules as $parentRule){
@@ -866,7 +934,7 @@ class BNSGroupManager
 	 * Retourne la liste des groupes fils du groupe courant ($this->group)
 	 * /!\ L'attribut $this->group doit être impérativement défini sinon une exception sera levée
 	 *
-	 * @return array|Group[]
+	 * @return array|Group[]|\PropelObjectCollection
 	 */
 	public function getSubgroups($returnObject = true, $returnSimulateRoleGroup = true, $groupTypeId = false)
 	{
@@ -944,23 +1012,17 @@ class BNSGroupManager
 	 */
     public function getAllSubgroups($id, $groupTypes = null, $returnObjects = true)
 	{
-        $subgroupIds = $this->getOptimisedAllSubGroupIds($id);
-
-        $responseQuery = GroupQuery::create()
-            ->filterById($subgroupIds, \Criteria::IN)
-            ->orderByLabel();
-
         if ($groupTypes) {
-            $responseQuery
-                ->useGroupTypeQuery()
-                    ->filterByType($groupTypes)
-                ->endUse();
+            $groupTypeIds = GroupTypeQuery::create()->filterByType($groupTypes)->select('Id')->find()->getArrayCopy();
+            $subgroupIds = $this->getOptimisedSubGroupIdsByType($id, $groupTypeIds);
+        } else {
+            $subgroupIds = $this->getOptimisedAllSubGroupIds($id);
         }
 
         if (!$returnObjects) {
-            return $responseQuery->select('Id')->find()->getArrayCopy();
+            return $subgroupIds;
         } else {
-            return $responseQuery->find();
+            return GroupQuery::create()->filterById($subgroupIds)->orderByLabel()->find();
         }
     }
 
@@ -969,31 +1031,34 @@ class BNSGroupManager
      * @param $id
      * @return array
      */
-    public function getAllSubgroupIds($id)
+    public function getAllSubgroupIds($id, $legacy = false)
     {
-        return $this->getOptimisedAllSubGroupIds($id);
+        if (!$legacy) {
+            return $this->getOptimisedAllSubGroupIds($id);
+        }
+
         // On set les paramètres à fournir à la route dans un tableau
-//        $route = array(
-//            'id' => (int)$id,
-//        );
-//
-//        $response = $this->api->send(
-//            'group_allsubgroups',
-//            array(
-//                'route' => $route
-//            )
-//        );
-//
-//        $subgroupIds = array();
-//        if (is_array($response)) {
-//            //Pour chaque groupe en réponse
-//            foreach ($response as $r) {
-//                // Le groupe a un/des sous-groupe(s), on construit les objets de type Group à partir des informations reçues
-//                $subgroupIds[] = $r['Id'];
-//            }
-//        }
-//
-//        return $subgroupIds;
+        $route = array(
+            'id' => (int)$id,
+        );
+
+        $response = $this->api->send(
+            'group_allsubgroups',
+            array(
+                'route' => $route
+            )
+        );
+
+        $subgroupIds = array();
+        if (is_array($response)) {
+            //Pour chaque groupe en réponse
+            foreach ($response as $r) {
+                // Le groupe a un/des sous-groupe(s), on construit les objets de type Group à partir des informations reçues
+                $subgroupIds[] = $r['Id'];
+            }
+        }
+
+        return $subgroupIds;
             }
 
     public function getOptimisedAllSubGroupIds($id)
@@ -1003,6 +1068,31 @@ class BNSGroupManager
             'id' => (int)$id,
         );
 
+        try {
+            $response = $this->api->send(
+                'group_allsubgroupids',
+                array(
+                    'route' => $route
+                )
+            );
+
+            if ($response && is_array($response)) {
+                return $response;
+            }
+        } catch (\Exception $e) {}
+
+        return [];
+    }
+
+    public function getOptimisedSubGroupIdsByType($id, $groupTypeId = null)
+    {
+        // On set les paramètres à fournir à la route dans un tableau
+        $route = ['id' => (int)$id];
+        if ($groupTypeId && is_array($groupTypeId)) {
+            $route['groupTypeId'] = implode(',', $groupTypeId);
+        } else {
+            $route['groupTypeId'] = $groupTypeId;
+        }
         try {
             $response = $this->api->send(
                 'group_allsubgroupids',
@@ -1059,9 +1149,10 @@ class BNSGroupManager
 	}
 
 	/**
+     * @deprecated use getParentIds()
 	 * Retourne les groupes parents du groupe $this->group
 	 *
-	 * @return Group le groupe parent recherché
+	 * @return Group[]|array le groupe parent recherché
 	 */
 	public function getParents($group = null)
 	{
@@ -1088,6 +1179,12 @@ class BNSGroupManager
             return $parents;
 	}
 
+
+    /**
+     * @deprecated use getParentIds
+     * @param null $groupOrGroupId
+     * @return mixed
+     */
     public function getParentsId($group = null)
     {
         if ($group === null) {
@@ -1101,6 +1198,31 @@ class BNSGroupManager
         return $this->api->send('group_parent', array(
             'route'	=> $route
         ));
+    }
+
+    /**
+     * return direct parent group's Ids (1 level)
+     * @param $groupId
+     * @return array
+     */
+    public function getParentIds($groupId)
+    {
+        $parentDatas =  $this->api->send('group_parent', array(
+            'route' => [
+                'id' => (int)$groupId,
+            ]
+        ));
+        $parentIds = [];
+        if (is_array($parentDatas)) {
+            foreach ($parentDatas as $parentData) {
+                if (isset($parentData['id'])) {
+                    $id = (int)$parentData['id'];
+                    $parentIds[$id] = $id;
+                }
+            }
+        }
+
+        return $parentIds;
     }
 
     public function getPartnersIds()
@@ -1149,23 +1271,71 @@ class BNSGroupManager
 
 
     /**
-	 * Récupère la liste de tous les parents (le parent du groupe courant, le parent du groupe parent du groupe courant, etc.)
-	 * du groupe courant ($this->group)
-	 *
-	 * @return Array<Group> Liste des parents du groupe parent
-	 */
-	public function getAncestors($group = null)
-	{
-            if ($group === null) {
-                $group = $this->getGroup();
-            }
-            $parents = $this->getParents($group);
-            $result = $parents;
-            foreach ($parents as $parent) {
-                $result = array_merge($result, $this->getAncestors($parent));
-            }
-            return $result;
-	}
+     * @deprecated use getAncestorIds()
+     * Récupère la liste de tous les parents (le parent du groupe courant, le parent du groupe parent du groupe courant, etc.)
+     * du groupe courant ($this->group)
+     *
+     * @return Group[] Liste des parents du groupe parent
+     */
+    public function getAncestors($group = null)
+    {
+        if ($group === null) {
+            $group = $this->getGroup();
+        }
+        $parents = $this->getParents($group);
+        $result = $parents;
+        foreach ($parents as $parent) {
+            $result = array_merge($result, $this->getAncestors($parent));
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param Group $group
+     * @return Group[]
+     */
+    public function getUniqueAncestors(Group $group = null)
+    {
+        if (!$group) {
+            $group = $this->getGroup();
+        }
+
+        return GroupQuery::create()
+            ->filterById($this->getUniqueAncestorIds($group->getId()))
+            ->orderById(\Criteria::DESC)
+            ->joinWith('GroupType')
+            ->find()
+            ->getArrayCopy()
+        ;
+    }
+
+    /**
+     * @deprecated Use getUniqueAncestorIds() to avoid duplicate ids, in cases where a group has multiple parents.
+     * @see getUniqueAncestorIds()
+     *
+     * @param $groupId
+     * @return array
+     */
+    public function getAncestorIds($groupId)
+    {
+        $parentIds = $this->getParentIds($groupId);
+        $result = $parentIds;
+        foreach ($parentIds as $parentId) {
+            $result = array_merge($result, $this->getAncestorIds($parentId));
+        }
+
+        return $result;
+    }
+
+    public function getUniqueAncestorIds($groupId = null)
+    {
+        if (!$groupId) {
+            $groupId = $this->getGroup()->getId();
+        }
+
+        return array_unique($this->getAncestorIds($groupId));
+    }
 
 	/**
 	 * Vérifie que le groupe fourni en paramètre est bien un sous-groupe du groupe $this->group
@@ -1249,7 +1419,7 @@ class BNSGroupManager
 	 *
 	 * @param boolean $deprecatedArgument n'est plus d'actualité mais laisser pour ne pas casser la signature
 	 * la méthode retourne directement la réponse donnée par la centrale
-	 * @return Array<Users> Liste des utilisateurs du groupe courant
+	 * @return User[] Liste des utilisateurs du groupe courant
 	 */
 	public function getUsers($deprecatedArgument = true)
 	{
@@ -1318,6 +1488,8 @@ class BNSGroupManager
 
 
 	/**
+     * @deprecated use getUserIdsByRole optimized and better error handling
+     *
 	 * Retourne la liste des utilisateurs du groupe courant selon leur rôle (équivalent au GroupType avec le champ simulate_role = true)
 	 *
 	 * @param string $roleUniqueName chaîne de caractère correspondant au rôle avec lequel on souhaite trier les utilisateurs (TEACHER/PUPIL/PARENT/DIRECTOR/etc.)
@@ -1357,6 +1529,77 @@ class BNSGroupManager
 		return $usersResponse != null ? $usersResponse : array();
 	}
 
+    /**
+     * return a list of user ids that have the role $role in the group $group
+     *
+     * @param GroupType|int|string $role the role object or roleId or roleUniqueName
+     * @param Group|int $group a groupId or a Group object
+     *
+     * @return array|int[] list of user id in the $group that have the $role
+     */
+    public function getUserIdsByRole($role, $group)
+    {
+        // Todo move checks / hybrid variable in a dedicated method
+        $roleId = null;
+        if (is_integer($role)) {
+            $roleId = $role;
+        } elseif (is_string($role)) {
+            $roleId = (int)GroupTypeQuery::create()
+                ->filterByType($role)
+                ->filterBySimulateRole(true)
+                ->select(['Id'])
+                ->findOne()
+            ;
+        } elseif ($role instanceof GroupType) {
+            if (!$role->isSimultateRole()) {
+                throw new \InvalidArgumentException('getUserIdsByRole: Given GroupType should be a role (simulate_role = true)');
+            }
+            $roleId = $role->getId();
+        }
+
+        if (!$roleId) {
+            throw new \InvalidArgumentException('getUserIdsByRole: You should provide a valid role argument (roleId, roleUniqueName or GroupType.');
+        }
+
+        $groupId = null;
+        if (is_integer($group)) {
+            $groupId = $group;
+        } else if ($group instanceof Group) {
+            $groupId = $group->getId();
+        }
+
+        if (!$groupId) {
+            throw new \InvalidArgumentException('getUserIdsByRole: You should provide a valid groupId or Group object.');
+        }
+
+        $response = [];
+        try {
+            $userDatas = $this->api->send('group_get_users_by_roles', ['route' => [
+                'group_id'  => $groupId,
+                'role_id'   => $roleId,
+            ]], true);
+
+            if (is_array($userDatas)) {
+                foreach ($userDatas as $userData) {
+                    if (isset($userData['id'])) {
+                        $response[] = (int) $userData['id'];
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            $this->container->get('logger')->error(sprintf('getUserIdsByRole call api error %s', $e->getMessage()));
+        }
+
+        return $response;
+    }
+
+    /**
+     * @deprecated use getUserIdsByRole optimized and better error handling
+     *
+     * @param $roleUniqueName
+     * @param null $searchParams
+     * @return array
+     */
     public function getUsersByRoleUniqueNameIds($roleUniqueName,$searchParams = null)
     {
         $results = $this->getUsersByRoleUniqueName($roleUniqueName,false, $searchParams);
@@ -1378,7 +1621,7 @@ class BNSGroupManager
         {
             return count($this->getUsersIds());
         }else{
-            return count($this->getUsersByRoleUniqueNameIds($roleUniqueName));
+            return count($this->getUserIdsByRole($roleUniqueName, $this->getGroup()));
         }
     }
 
@@ -1447,6 +1690,8 @@ class BNSGroupManager
 	}
 
 	/**
+     * @deprecated use getUserWithPermission or getUserIdsWithPermission
+     *
 	 * @param string $permissionUniqueName
 	 * @param boolean $returnObject
 	 *
@@ -1461,6 +1706,49 @@ class BNSGroupManager
 
 		return $usersResponse;
 	}
+
+    /**
+     * get list of users with $permission in $group (or current group if $group is null)
+     * @param $permission
+     * @param Group|null $group
+     * @return array|mixed|\PropelObjectCollection
+     */
+    public function getUserWithPermission($permission, Group $group = null)
+    {
+        $userIds = $this->getUserIdsWithPermission($permission, $group);
+
+        return UserQuery::create()
+            ->filterById($userIds, \Criteria::IN)
+            ->find()
+        ;
+    }
+
+
+    /**
+     * get list of userIds with $permission in $group (or current group if $group is null)
+     * @param $permission
+     * @param Group|null $group
+     * @return array|\int[]
+     */
+    public function getUserIdsWithPermission($permission, Group $group = null)
+    {
+        if (!$group) {
+            $group = $this->getGroup();
+        }
+
+        try {
+            $userIds = $this->container->get('bns.right_manager')->getUserIdsWithPermissionInGroup($permission, $group->getId());
+            if ($userIds) {
+                return $userIds;
+            }
+
+        } catch (\Exception $e) {
+            $this->container->get('logger')->error(sprintf('getUserIdsWithPermission enable to get user : %s', $e->getMessage()));
+        }
+
+        return [];
+    }
+
 
 	/**
 	 * @param string $permissionUniqueName
@@ -1718,13 +2006,13 @@ class BNSGroupManager
      * @param int $groupId
      * @return bool
      */
-    public function activationModuleRequest(Module $module, $groupTypeRole, $state, $groupType = null, $groupId = null)
+    public function activationModuleRequest(Module $module, $groupTypeRole, $state, $groupType = null, $groupId = null, $isForDemo = false)
     {
         $permissionToCheck = '_ACTIVATION';
         if ($groupType != null) {
             $permissionToCheck = $permissionToCheck . '_' . $groupType;
         }
-        if ($this->container->get('bns.right_manager')->hasRight(strtoupper($module->getUniqueName()) . $permissionToCheck, $groupId)) {
+        if ($this->container->get('bns.right_manager')->hasRight(strtoupper($module->getUniqueName()) . $permissionToCheck, $groupId) || $isForDemo) {
             $defaultRank = RankDefaultQuery::create()
                 ->_if(!$this->modeBeta)
                     // exclude beta rank if not in beta
@@ -1807,13 +2095,13 @@ class BNSGroupManager
                     $pipe->hdel('group_' . $groupId, 'group_get_ranks_permissions_for_role_7');
                     $pipe->hdel('group_' . $groupId, 'group_get_ranks_permissions_for_role_6');
                     $pipe->hdel('group_' . $groupId, 'group_get_ranks_permissions_for_role_8');
-                    $pipe->hdel('group_' . $groupId, 'group_get_users_with_permission_new_' . strtoupper($module->getUniqueName()) . '_ACCESS');
+                    $pipe->hdel('group_' . $groupId, 'group_get_users_with_permission_new_' . strtoupper($module->getUniqueName()) . ($module->getUniqueName() === 'MEDIA_LIBRARY' ? '_MY_MEDIAS' :'_ACCESS'));
                 });
             } else {
                 $redis->pipeline(function($pipe) use ($groupId, $groupTypeRole, $module) {
                     $pipe->hdel('group_' . $groupId, 'group_get_permissions_for_role_' . $groupTypeRole->getId() . '_' . $groupId);
                     $pipe->hdel('group_' . $groupId, 'group_get_ranks_permissions_for_role_' . $groupTypeRole->getId());
-                    $pipe->hdel('group_' . $groupId, 'group_get_users_with_permission_new_' . strtoupper($module->getUniqueName()) . '_ACCESS');
+                    $pipe->hdel('group_' . $groupId, 'group_get_users_with_permission_new_' . strtoupper($module->getUniqueName()) . ($module->getUniqueName() === 'MEDIA_LIBRARY' ? '_MY_MEDIAS' :'_ACCESS'));
                 });
             }
             $this->api->resetGroupUsers($groupId, true, false);
@@ -1931,71 +2219,99 @@ class BNSGroupManager
 
 	/* Fonctions liées aux ressources */
 
-	/*
-	 * Renvoie le ratio d'utilisation des ressources, en %, sans virgule
-	 */
-	public function getResourceUsageRatio()
-	{
-		if ($this->getResourceAllowedSize() == 0) {
-			return 0.00;
-		}
+    public function hasUnlimitedResources()
+    {
+        if (!$this->unlimitedAllowed) {
+            return false;
+        }
 
-		return round($this->getResourceUsedSize() / $this->getResourceAllowedSize(), 2) * 100;
-	}
-	/**
-	 * Renvoie la place disponible
-	 * @return integer
-	 */
-	public function getAvailableSize()
-	{
-		return $this->getResourceAllowedSize() - $this->getResourceUsedSize();
-	}
-	/**
-	 * Renvoie la place utilisée
-	 * @return integer
-	 */
-	public function getResourceUsedSize()
-	{
-		return $this->getAttribute('RESOURCE_USED_SIZE');
-	}
-	/**
-	 * Renvoie la place autorisée
-	 * @return integer
-	 */
-	public function getResourceAllowedSize()
-	{
+        if (null === $this->unlimitedResources) {
+            $context = $this->container->get('bns_app_core.context.context_group_factory')->createContextGroup($this->getGroup());
+
+            $this->unlimitedResources = $this->container->get('qandidate.toggle.manager')->active('storage_unlimited', $context);
+        }
+
+        return $this->unlimitedResources;
+    }
+
+    /*
+     * Renvoie le ratio d'utilisation des ressources, en %, sans virgule
+     */
+    public function getResourceUsageRatio()
+    {
+        if ($this->hasUnlimitedResources() || $this->getResourceAllowedSize() == 0) {
+            return 0.00;
+        }
+
+        return round($this->getResourceUsedSize() / $this->getResourceAllowedSize(), 2) * 100;
+    }
+
+    /**
+     * Renvoie la place disponible
+     * @return integer
+     */
+    public function getAvailableSize()
+    {
+        if ($this->hasUnlimitedResources()) {
+            // unlimited == 1 Po 1000 To
+            return 1000000000000000.00;
+        }
+
+        return $this->getResourceAllowedSize() - $this->getResourceUsedSize();
+    }
+
+    /**
+     * Renvoie la place utilisée
+     * @return integer
+     */
+    public function getResourceUsedSize()
+    {
+        return $this->getAttribute('RESOURCE_USED_SIZE');
+    }
+
+    /**
+     * Renvoie la place autorisée
+     * @return integer
+     */
+    public function getResourceAllowedSize()
+    {
+        if ($this->hasUnlimitedResources()) {
+            // unlimited == 1 Po 1000 To
+            return 1000000000000000.00;
+        }
+
         return $this->getAttribute('RESOURCE_QUOTA_GROUP');
-	}
+    }
 
 	/* GESTION DES ATTRIBUTS */
 
-    /**
+	/**
      * @deprecated use the strict version @see getAttributeStrict()
-     * @param string $uniqueName
+	 * @param string $uniqueName
      * @param mixed $defaultValue never used the default is "false"
-     *
-     * @return mixed
-     */
-    public function getAttribute($uniqueName, $defaultValue = null)
-    {
-        //On clone le this pour permettre la récursivité
-        $current = clone($this);
-        $group = $this->getGroup();
-        $attr = $group->getAttribute($uniqueName);
-        if ($attr != null) {
-            return $attr;
-        }
-
-        $parents = $this->getParents();
-        foreach ($parents as $parent) {
-            $current->setGroup($parent);
-            if ($parent) {
-                return $current->getAttribute($uniqueName);
+	 *
+	 * @return mixed
+	 */
+	public function getAttribute($uniqueName, $defaultValue = null)
+	{
+            //On clone le this pour permettre la récursivité
+            $current = clone($this);
+            $group = $this->getGroup();
+            $attr = $group->getAttribute($uniqueName);
+            if ($attr != null) {
+                    return $attr;
             }
+
+                $parents = $this->getParents();
+                foreach ($parents as $parent) {
+                    $current->setGroup($parent);
+            if ($parent) {
+                        return $current->getAttribute($uniqueName);
+                }
         }
 
-        return false;
-    }
+                return false;
+            }
 
 
     /**
@@ -2452,22 +2768,27 @@ class BNSGroupManager
             $miniNbPages = 0;
             $miniSiteNbViews = 0;
         }
+        // Licence data
+        $licenceManager = $this->container->get('bns_app_paas.manager.licence_manager');
+        list($licence, $licenceEnd) = array_values($licenceManager->getLicenceAnalyticsData($group));
 
         return array(
             'ecoleCity'              => $group->getAttribute('CITY'),
             'ecoleCountry'           => $this->getCountry(),
+            'ecoleSpotCountry'       => $group->getSpotCountry(),
             'EcolePostalCode'        => $group->getAttribute('ZIPCODE'),
             'EcoleStreet'            => $group->getAttribute('ADDRESS'),
-            'createdAt'             => $group->getRegistrationDate('U'),
+            'created_at'             => (int)$group->getRegistrationDate('U'),
             'industry'              => $this->getProjectInfo('name'),
             'name'                  => $group->getLabel(),
             'plan'                  => $plan,
-            'revenue'               => $plan == 'School' ? 4.90 : 0,
             'Nombre classes'        => $status['all'],
             'Nombre classes confirmées' => $status['validated'],
             'Nombre utilisateurs'       => $status['users'],
             'miniSiteNbPages'           => $miniNbPages,
-            'miniSiteNbViews'       => $miniSiteNbViews
+            'miniSiteNbViews'       => $miniSiteNbViews,
+            'ECOLEOFFER'            => $licence,
+            'ECOLEOFFERENDDATE_at' =>  $licenceEnd
         );
     }
 
@@ -2486,7 +2807,7 @@ class BNSGroupManager
      * @param Group $group
      * @return array of activated modules (key) for default type with value true or 'partial'
      */
-    public function getActivatedModuleUniqueNames(Group $group)
+    public function getActivatedModuleUniqueNames(Group $group, $withDetail = false)
     {
         switch ($group->getType()) {
             case 'CLASSROOM':
@@ -2502,29 +2823,34 @@ class BNSGroupManager
         $roles = GroupTypeQuery::create()
             ->filterBySimulateRole(true)
             ->filterByType($openRoles)
-            ->find()
-        ;
+            ->find();
 
         $activatedModules = array();
         foreach ($roles as $role) {
             // TODO Optimize me
             foreach ($this->setGroup($group)->getActivatedModules($role) as $activatedModule) {
-                if (!isset($activatedModules[$activatedModule->getUniqueName()])) {
-                    $activatedModules[$activatedModule->getUniqueName()] = 1;
+                if ($withDetail) {
+                    $activatedModules[$activatedModule->getUniqueName()][$role->getType()] = true;
+                    continue;
                 } else {
-                    $activatedModules[$activatedModule->getUniqueName()] += 1;
+                    if (!isset($activatedModules[$activatedModule->getUniqueName()])) {
+                        $activatedModules[$activatedModule->getUniqueName()] = 1;
+                    } else {
+                        $activatedModules[$activatedModule->getUniqueName()] += 1;
+                    }
                 }
             }
         }
-        $nbRoles = count($roles);
-        foreach ($activatedModules as $key => $count) {
-            if ($nbRoles > $count) {
-                $activatedModules[$key] = 'partial';
-            } else {
-                $activatedModules[$key] = true;
+        if (!$withDetail) {
+            $nbRoles = count($roles);
+            foreach ($activatedModules as $key => $count) {
+                if ($nbRoles > $count) {
+                    $activatedModules[$key] = 'partial';
+                } else {
+                    $activatedModules[$key] = true;
+                }
             }
         }
-
         return $activatedModules;
     }
 
@@ -2548,6 +2874,7 @@ class BNSGroupManager
                 );
                 $newSchool = $this->createGroup($values);
                 $newSchool->setCountry($classroom->getCountry());
+                $newSchool->setSpotCountry($classroom->getSpotCountry());
                 $this->deleteParent($classroom->getId(), $parent->getId());
                 $this->addParent($newSchool->getId(), $parent->getId());
                 $this->addParent($classroom->getId(), $newSchool->getId());
@@ -2559,6 +2886,75 @@ class BNSGroupManager
         throw new \InvalidArgumentException("Paramater `classroom` must be a Group of type `Classroom`");
     }
 
+    protected function getSpotMappingParameter(Group $group = null, $parameter, $defaultParameter)
+    {
+        if (!$group && !$this->hasGroup()) {
+            if (!$this->container->get('bns.right_manager')->isAuthenticated()) {
+                return false;
+            }
+            $group = $this->container->get('bns.right_manager')->getCurrentGroup();
+        }
+        $group = $group ? : ($this->hasGroup() ? $this->getGroup() : null);
+        if (!$group) {
+            return false;
+        }
+        $redis = $this->container->get('snc_redis.default');
+        $key = 'g_'. $group->getId() . ':spot:' . $parameter;
+        $value = $redis->get($key);
+        if (!$value) {
+            // get attibute data
+            $data = $this->getAttributeStrict($group, 'SPOT_AUTOCONNECT_URL');
+            if (!$data) {
+                $redis->set($key, false);
+                $redis->expire($key, 86400);
+                return false;
+            }
+            $decoded = null;
+            try {
+                // try to decode data if we have a json
+                $decoded = @json_decode($data, true);
+                if (JSON_ERROR_NONE !== json_last_error()) {
+                    $decoded = null;
+                }
+            } catch (\Exception $e) {
+                $decoded = null;
+            }
+
+            $mapValue = null;
+            if ((!$decoded || !is_array($decoded)) && 'spot_url' === $parameter) {
+                // we don't have a json we bet for a url
+                $mapValue = $data;
+            } else {
+                $country = $group->getSpotCountry() ?: $group->getCountry();
+                if (!$country && 'CLASSROOM' === $group->getType()) {
+                    // fallback to school country
+                    $school = $this->setGroup($group)->getParent();
+                    if ($school) {
+                        $country = $group->getSpotCountry() ?: $group->getCountry();
+                    }
+                }
+                if (!$country || !isset($decoded['mapping'])) {
+                    $mapValue = null;
+                } else {
+                    foreach ($decoded['mapping'] as $mapping) {
+                        if (isset($mapping['country']) && $country === $mapping['country'] && isset($mapping[$parameter])) {
+                            $mapValue = $mapping[$parameter];
+                            break;
+                        }
+                    }
+                }
+                if (!$mapValue) {
+                    $mapValue = isset($decoded[$defaultParameter]) ? $decoded[$defaultParameter] : false;
+                }
+            }
+            $value = $mapValue;
+            $redis->set($key, $value);
+            $redis->expire($key, 86400);
+        }
+
+        return $value;
+    }
+
     /**
      * this try to find the right spot url for $group
      * @param Group|null $group
@@ -2566,54 +2962,7 @@ class BNSGroupManager
      */
     public function getSpotAutoConnectUrl(Group $group = null)
     {
-        $group = $group ? : $this->getGroup();
-        if (!$group) {
-            return false;
-        }
-
-        // get attibute data
-        $data = $this->setGroup($group)->getAttribute('SPOT_AUTOCONNECT_URL');
-        if (!$data) {
-            return false;
-        }
-        $decoded = null;
-        try {
-            // try to decode data if we have a json
-            $decoded = @json_decode($data, true);
-            if (JSON_ERROR_NONE !== json_last_error()) {
-                $decoded = null;
-            }
-        } catch (\Exception $e) {
-            $decoded = null;
-        }
-
-        $url = null;
-        if (!$decoded || !is_array($decoded)) {
-            // we don't have a json we bet for a url
-            $url = $data;
-        } else {
-            $country = $group->getCountry();
-            if (!$country && 'CLASSROOM' === $group->getType()) {
-                // fallback to school country
-                $school = $this->setGroup($group)->getParent();
-                if ($school) {
-                    $country = $school->getCountry();
-                }
-            }
-            if (!$country || ! isset($decoded['mapping'])) {
-                $url = null;
-            } else {
-                foreach ($decoded['mapping'] as $mapping) {
-                    if (isset($mapping['country']) && $country === $mapping['country']) {
-                        $url = $mapping['spot_url'];
-                        break;
-                    }
-                }
-            }
-            if (!$url) {
-                $url = isset($decoded['default_spot_url']) ? $decoded['default_spot_url'] : false;
-            }
-        }
+        $url = $this->getSpotMappingParameter($group, 'spot_url', 'default_spot_url');
 
         if ($url) {
             // we check that the url is valid
@@ -2625,12 +2974,18 @@ class BNSGroupManager
             if (count($errors)) {
                 $this->container->get('logger')->error('GroupManager - getSpotAutoConnectUrl invalid spot url', [
                     'spot_url' => $url,
-                    'data' => $data,
                 ]);
             }
         }
 
         return $url ? : false;
+    }
+
+    public function getSpotStore(Group $group = null)
+    {
+        $store = $this->getSpotMappingParameter($group, 'store', 'default_store');
+
+        return $store ?: false;
     }
 
     public function getCguUrl(Group $group, User $user)
@@ -2682,5 +3037,63 @@ class BNSGroupManager
         }
 
         return ['url' => $url, 'default' => $default] ? : false;
+    }
+
+    public function getNbUsersActivated ($groupIds, $roleUniqueName = false)
+    {
+        $groupTypeRole = GroupTypeQuery::create()->findOneByType($roleUniqueName);
+
+        $groupNumbers = GroupQuery::create()->filterById($groupIds,  \Criteria::IN)->count();
+        if ($groupNumbers !== count($groupIds)) {
+            throw new \InvalidArgumentException('One or more group Ids given is NOT valid !');
+        }
+
+        if (null == $groupTypeRole) {
+            throw new \InvalidArgumentException('Role unique name given (' . $roleUniqueName . ') is NOT valid !');
+        }
+        $route = array(
+            'role_id'	=> $groupTypeRole->getId(),
+        );
+        try{
+            $usersResponse = $this->api->send('group_get_users_activated_by_roles', array('route' => $route, 'values' => ['group_ids' => $groupIds]), true);
+
+        } catch (\Exception $e) {
+            $usersResponse = null;
+        }
+
+        return count($usersResponse);
+    }
+
+    public function getUsersConnectionByRole($groupId, $roleIds = '')
+    {
+        $ttl = 7200; // 2h
+        $groupId = (int)$groupId;
+        if ($roleIds && is_array($roleIds)) {
+            $roleIds = implode('_', $roleIds);
+        }
+        $key = 'group_'.$groupId.'_connections_by_role_'.$roleIds;
+        $redis = $this->api->getRedisConnection();
+        $data = json_decode($redis->get($key), true);
+        if (!$data) {
+            $route = [
+                'group_id' => $groupId,
+                'roleIds' => $roleIds,
+            ];
+            try {
+                $data = $this->api->send('group_get_users_connection_by_roles', [
+                    'route' => $route,
+                ], false);
+
+                if (!($data && is_array($data))) {
+                    $data = [];
+                }
+            } catch (\Exception $e) {
+                $data = [];
+                $this->container->get('logger')->error(sprintf('getUsersConnectionByRole call api error %s', $e->getMessage()));
+            }
+            $redis->set($key, json_encode($data), 'EX', $ttl);
+        }
+
+        return $data;
     }
 }

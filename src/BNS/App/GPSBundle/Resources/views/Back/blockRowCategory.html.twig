@@ -2,7 +2,7 @@
 
 {% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
 
-<li id="list_{{ category.id }}" data-toggle="menu" data-target="#category-edit-mode" class="category-edition">
+<li id="list_{{ category.id }}" bns-feature-flag="'gps_categories'" bns-feature-push data-toggle="menu" data-target="#category-edit-mode" class="category-edition">
 	<div>
 		<div class="loader loader">
     </div>
@@ -30,3 +30,4 @@
 
 
 	</div>
+</li>

@@ -1,5 +1,7 @@
 {% extends '::base.html.twig' %}
 
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+
 {% set isEmbed = isEmbed is defined ? isEmbed : false %}
 
 {% set app_mode = app_mode | default('front') %}
@@ -7,6 +9,8 @@
 {% if not hasApplicationManagement() and app_unique_name is not defined %}{% set app_unique_name = 'MEDIA_LIBRARY' %}{% endif %}
 
 {% block title %}App{% endblock %}
+
+{% block base %}<base href="/ent/app/">{% endblock %}
 
 {% block css %}
   {{ parent() }}
@@ -18,7 +22,7 @@
 {% block javascripts %}
   {# Track hash changes as actual page views, for the angular app #}
   {# google analytics has already been configured in the base template #}
-  {% if app.environment == 'app_prod' and parameter('google_analytics_id') %}
+  {% if app.environment == 'app_prod' and parameter('google_analytics_id') and not isEmbed %}
     <script type="text/javascript">
         var _gaq = _gaq || [];
         window.onhashchange = trackHashChange;
@@ -32,11 +36,17 @@
 
 {% endblock %}
 
+{% block analytics_gaq %}{% if not isEmbed %}{{ parent() }}{% endif %}{% endblock %}
+
 {% block analytics_identify %}{% if not isEmbed %}{{ parent() }}{% endif %}{% endblock %}
 
 {% block body_class %}{{ parent() }} {{ isEmbed ? 'embedded' }}{% endblock %}
 
 {% block body %}
+
+  {% block flash_container %}
+    {{ components.toasts(app.session.flashbag.all) }}
+  {% endblock flash_container %}
 
   {% if not isEmbed %}
     {#<div class="office"></div>#}

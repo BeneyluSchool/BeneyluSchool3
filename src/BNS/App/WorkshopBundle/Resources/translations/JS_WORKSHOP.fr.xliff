@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2017-03-10T10:43:50Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2017-06-27T19:57:44Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
     </header>
     <body>
+      <trans-unit id="6dc315cf0021950d3d5867ff00b1ef9fdcf06a33" resname="ANSWER_LABEL_REQUIRED">
+        <source>ANSWER_LABEL_REQUIRED</source>
+        <target>Veuillez saisir la réponse</target>
+      </trans-unit>
       <trans-unit id="1ab8ed4b67a52bd69ba9f8d9a0636162c48cf8dc" resname="AUDIO">
         <source>AUDIO</source>
         <target>Audio</target>
@@ -272,6 +276,10 @@
         <source>DOCUMENT.CREATE_WIDGET_SUCCESS</source>
         <target>Widget créé</target>
       </trans-unit>
+      <trans-unit id="6a0f8032971449ece641940f9f4e9eaa67da1223" resname="DOCUMENT.DELETE">
+        <source>DOCUMENT.DELETE</source>
+        <target>Supprimer</target>
+      </trans-unit>
       <trans-unit id="3977e3c5207f81d44b2df91c789fd57a90e33e33" resname="DOCUMENT.DELETE_PAGE">
         <source>DOCUMENT.DELETE_PAGE</source>
         <target>Suppression d'une page</target>
@@ -336,6 +344,10 @@
         <source>DOCUMENT.DROP_WIDGET_HERE</source>
         <target>Glisse un widget ici</target>
       </trans-unit>
+      <trans-unit id="aee532dcffdc52c5adcfd4a9539bfe38f7a27d58" resname="DOCUMENT.DUPLICATE">
+        <source>DOCUMENT.DUPLICATE</source>
+        <target>Dupliquer</target>
+      </trans-unit>
       <trans-unit id="093a1888a55c90439930f48bb7313f8269d27c62" resname="DOCUMENT.EDITED_BY">
         <source>DOCUMENT.EDITED_BY</source>
         <target><![CDATA[Edité&nbsp;par&nbsp;:]]></target>
@@ -350,7 +362,7 @@
         <source>DOCUMENT.EDIT_WIDGET_SUCCESS</source>
         <target>Widget mis à jour</target>
       </trans-unit>
-       <trans-unit id="f9ccd22f6c0a920e4e7afe5eda99f2e3e0519b00" resname="DOCUMENT.EXPORT">
+      <trans-unit id="f9ccd22f6c0a920e4e7afe5eda99f2e3e0519b00" resname="DOCUMENT.EXPORT">
         <source>DOCUMENT.EXPORT</source>
         <target><![CDATA[<strong>Exporter</strong><br>le document]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
@@ -510,6 +522,10 @@
         <source>DOCUMENT.LAYOUT_HALF_HEADER_FOOTER</source>
         <target>En-tête et pied-de-page</target>
       </trans-unit>
+      <trans-unit id="1a9a17f3a73f798bbfc49b0e27ff27416c98082f" resname="DOCUMENT.LAYOUT_THIRD">
+        <source>DOCUMENT.LAYOUT_THIRD</source>
+        <target>Pleine page</target>
+      </trans-unit>
       <trans-unit id="36eb32c59bd05950781592b37e74da20ba4e03e7" resname="DOCUMENT.LAYOUT_THIRDL">
         <source>DOCUMENT.LAYOUT_THIRDL</source>
         <target>Pleine page</target>
@@ -542,6 +558,18 @@
         <source>DOCUMENT.LAYOUT_THIRDR_HEADER_FOOTER</source>
         <target>En-tête et pied-de-page</target>
       </trans-unit>
+      <trans-unit id="a49f0411f0f6b954df1e086a7610490c3ccc3b06" resname="DOCUMENT.LAYOUT_THIRD_FOOTER">
+        <source>DOCUMENT.LAYOUT_THIRD_FOOTER</source>
+        <target>Pied-de-page</target>
+      </trans-unit>
+      <trans-unit id="b828e9ee0c10a5ffe40ededd5755beb08468601d" resname="DOCUMENT.LAYOUT_THIRD_HEADER">
+        <source>DOCUMENT.LAYOUT_THIRD_HEADER</source>
+        <target>En-tête</target>
+      </trans-unit>
+      <trans-unit id="b194775d51e6a7e8397a0eb0c933a1fcb624f001" resname="DOCUMENT.LAYOUT_THIRD_HEADER_FOOTER">
+        <source>DOCUMENT.LAYOUT_THIRD_HEADER_FOOTER</source>
+        <target>En-tête et pied-de-page</target>
+      </trans-unit>
       <trans-unit id="4120b8ddcf8a654735cb5652cc51e4ed260e5c07" resname="DOCUMENT.LAYOUT_TYPE_FULL">
         <source>DOCUMENT.LAYOUT_TYPE_FULL</source>
         <target>Une colonne</target>
@@ -558,6 +586,10 @@
         <source>DOCUMENT.LAYOUT_TYPE_THIRDR</source>
         <target>Deux colonnes droite</target>
       </trans-unit>
+      <trans-unit id="1bc4042e23653ca5f6e2c149c99e1ef6980fe19e" resname="DOCUMENT.LAYOUT_TYPE_THREE">
+        <source>DOCUMENT.LAYOUT_TYPE_THREE</source>
+        <target>Trois colonnes</target>
+      </trans-unit>
       <trans-unit id="c586157240b915ff07b7c27f62fdaa59118f6030" resname="DOCUMENT.LOCKED_CANNOT_EDIT">
         <source>DOCUMENT.LOCKED_CANNOT_EDIT</source>
         <target>Ce document est vérouillé et ne peut plus être édité</target>
@@ -569,6 +601,10 @@
       <trans-unit id="ca35107a30505ecc782eb16777c6c7a99fe73797" resname="DOCUMENT.MEDIA">
         <source>DOCUMENT.MEDIA</source>
         <target>Média</target>
+      </trans-unit>
+      <trans-unit id="0ef7d9cc7978da1148a7f989535c30c59ad904ef" resname="DOCUMENT.MOVE">
+        <source>DOCUMENT.MOVE</source>
+        <target>Déplacer</target>
       </trans-unit>
       <trans-unit id="56ba9e720a0caa8d8787b46d5be91560a0fc9d6f" resname="DOCUMENT.MOVE_PAGE_ERROR">
         <source>DOCUMENT.MOVE_PAGE_ERROR</source>
@@ -700,6 +736,10 @@
         <source>EDIT</source>
         <target>Editer</target>
       </trans-unit>
+      <trans-unit id="7e14726e3716327a5099e5b1267bb62549595135" resname="ERROR_THIS_FIELD_AT_LEAST_10">
+        <source>ERROR_THIS_FIELD_AT_LEAST_10</source>
+        <target>Ne peut pas être inférieur à 10</target>
+      </trans-unit>
       <trans-unit id="db9700c04ef4f10aa1c61f5c7a97a5d68e701a31" resname="ERROR_THIS_FIELD_IS_REQUIRED">
         <source>ERROR_THIS_FIELD_IS_REQUIRED</source>
         <target>Obligatoire</target>
@@ -718,62 +758,62 @@
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
-        <trans-unit id="797a356666e7618f2d868f814faa1b09b2c5e4a6" resname="LABEL_CHOICES_BLACK_ROUND">
-          <source>LABEL_CHOICES_BLACK_ROUND</source>
-          <target>Noir arrondi</target>
-        </trans-unit>
-        <trans-unit id="4d13f5393e0e20b19453a5d7c1f520fc6c00fbe1" resname="LABEL_CHOICES_NONE">
-          <source>LABEL_CHOICES_NONE</source>
-          <target>Aucun</target>
-        </trans-unit>
-        <trans-unit id="d4ef40435f106a275c61743cbb97f4b51df12c6e" resname="LABEL_CHOICES_POLAROID">
-          <source>LABEL_CHOICES_POLAROID</source>
-          <target>Polaroïd</target>
-        </trans-unit>
-        <trans-unit id="179a4c5d8113200d5bb122bfdd5c5bb1251f236e" resname="LABEL_CHOICES_WHITE">
-          <source>LABEL_CHOICES_WHITE</source>
-          <target>Blanc</target>
-        </trans-unit>
-        <trans-unit id="7072b741ede9eb6b32f37f6e9424620d2d608f5d" resname="LABEL_CHOICES_WHITE_ROUND">
-          <source>LABEL_CHOICES_WHITE_ROUND</source>
-          <target>Blanc arrondi</target>
-        </trans-unit>
+      <trans-unit id="797a356666e7618f2d868f814faa1b09b2c5e4a6" resname="LABEL_CHOICES_BLACK_ROUND">
+        <source>LABEL_CHOICES_BLACK_ROUND</source>
+        <target>Noir arrondi</target>
+      </trans-unit>
+      <trans-unit id="4d13f5393e0e20b19453a5d7c1f520fc6c00fbe1" resname="LABEL_CHOICES_NONE">
+        <source>LABEL_CHOICES_NONE</source>
+        <target>Aucun</target>
+      </trans-unit>
       <trans-unit id="c69bdda49b8338cbece5039138529091e39e0f31" resname="LABEL_CHOICES_ONE_COLUMN">
         <source>LABEL_CHOICES_ONE_COLUMN</source>
         <target>Une colonne</target>
+      </trans-unit>
+      <trans-unit id="d4ef40435f106a275c61743cbb97f4b51df12c6e" resname="LABEL_CHOICES_POLAROID">
+        <source>LABEL_CHOICES_POLAROID</source>
+        <target>Polaroïd</target>
       </trans-unit>
       <trans-unit id="5ed9b9154743b82f19ad72c9b4bc72c9d30c2684" resname="LABEL_CHOICES_TWO_COLUMNS">
         <source>LABEL_CHOICES_TWO_COLUMNS</source>
         <target>Deux colonnes</target>
       </trans-unit>
-      <trans-unit id="4628db8a30997219d10587bfb844b095d28e144a" resname="LABEL_FRONT_SIZE_VERY_SMALL">
-        <source>LABEL_FRONT_SIZE_VERY_SMALL</source>
-        <target>Très petit</target>
+      <trans-unit id="179a4c5d8113200d5bb122bfdd5c5bb1251f236e" resname="LABEL_CHOICES_WHITE">
+        <source>LABEL_CHOICES_WHITE</source>
+        <target>Blanc</target>
       </trans-unit>
-      <trans-unit id="92db19b0fea904da8b9967ddb76ad80afc755dd1" resname="LABEL_FRONT_SIZE_SMALL">
-        <source>LABEL_FRONT_SIZE_SMALL</source>
-        <target>Petit</target>
-      </trans-unit>
-      <trans-unit id="77ed73b2fbf0f6467aed1c7b2212e52e1a910949" resname="LABEL_FRONT_SIZE_NORMAL">
-        <source>LABEL_FRONT_SIZE_NORMAL</source>
-        <target>Normale</target>
+      <trans-unit id="7072b741ede9eb6b32f37f6e9424620d2d608f5d" resname="LABEL_CHOICES_WHITE_ROUND">
+        <source>LABEL_CHOICES_WHITE_ROUND</source>
+        <target>Blanc arrondi</target>
       </trans-unit>
       <trans-unit id="4f34a3f719be0ec54e6436175b1aa2948b7a3e9c" resname="LABEL_FRONT_SIZE_BIG">
         <source>LABEL_FRONT_SIZE_BIG</source>
         <target>Grand</target>
       </trans-unit>
-      <trans-unit id="f2ecbcf50ecbfef93f5ea021cf6d490c353b8362" resname="LABEL_FRONT_SIZE_VERY_BIG">
-        <source>LABEL_FRONT_SIZE_VERY_BIG</source>
-        <target>Très grand</target>
-      </trans-unit>
       <trans-unit id="d3c013f5a51f3ca58be71f5bb51a646d8a895720" resname="LABEL_FRONT_SIZE_ENORMOUS">
         <source>LABEL_FRONT_SIZE_ENORMOUS</source>
         <target>Énorme</target>
       </trans-unit>
-       <trans-unit id="25c12cb13d2d4a825ce7b732f6a92d27cffcc642" resname="MINIMIZE_COLUMN">
-         <source>MINIMIZE_COLUMN</source>
-         <target><![CDATA[Réduire<br>la colonne]]></target>
-         <note><![CDATA[This text contains HTML tags, please try to keep those tags
+      <trans-unit id="77ed73b2fbf0f6467aed1c7b2212e52e1a910949" resname="LABEL_FRONT_SIZE_NORMAL">
+        <source>LABEL_FRONT_SIZE_NORMAL</source>
+        <target>Normale</target>
+      </trans-unit>
+      <trans-unit id="92db19b0fea904da8b9967ddb76ad80afc755dd1" resname="LABEL_FRONT_SIZE_SMALL">
+        <source>LABEL_FRONT_SIZE_SMALL</source>
+        <target>Petit</target>
+      </trans-unit>
+      <trans-unit id="f2ecbcf50ecbfef93f5ea021cf6d490c353b8362" resname="LABEL_FRONT_SIZE_VERY_BIG">
+        <source>LABEL_FRONT_SIZE_VERY_BIG</source>
+        <target>Très grand</target>
+      </trans-unit>
+      <trans-unit id="4628db8a30997219d10587bfb844b095d28e144a" resname="LABEL_FRONT_SIZE_VERY_SMALL">
+        <source>LABEL_FRONT_SIZE_VERY_SMALL</source>
+        <target>Très petit</target>
+      </trans-unit>
+      <trans-unit id="25c12cb13d2d4a825ce7b732f6a92d27cffcc642" resname="MINIMIZE_COLUMN">
+        <source>MINIMIZE_COLUMN</source>
+        <target><![CDATA[Réduire<br>la colonne]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
       ]]></note>
       </trans-unit>
       <trans-unit id="7e8f937e9d684c9302d8453a8919cc66735a600f" resname="MY_LAST_CREATIONS">
@@ -783,6 +823,10 @@
       <trans-unit id="38952fa9cddd8bebe969337cea26107e96026747" resname="NO_DOCUMENTS">
         <source>NO_DOCUMENTS</source>
         <target>Aucun document</target>
+      </trans-unit>
+      <trans-unit id="f9a3ca2af749664478677c6ea1c161e1f812cd62" resname="ONE_GAP_REQUIRED">
+        <source>ONE_GAP_REQUIRED</source>
+        <target>Veuillez saisir au moins une réponse</target>
       </trans-unit>
       <trans-unit id="de4b1837fb229bb98a46d2b8b5773436edfa9d48" resname="QUESTIONNAIRE">
         <source>QUESTIONNAIRE</source>
@@ -794,7 +838,7 @@
       </trans-unit>
       <trans-unit id="7b50bb5cf07a25ebe8a9e3912d67f535aaa33169" resname="QUESTIONNAIRE.ADD_GAP_TEXT">
         <source>QUESTIONNAIRE.ADD_GAP_TEXT</source>
-        <target>Sélectionnez un mot et cliquez sur le bouton ci-contre pour le faire disparaître dans le texte.</target>
+        <target>Sélectionnez un mot et cliquez sur le bouton ci-dessous pour le faire disparaître dans le texte.</target>
       </trans-unit>
       <trans-unit id="e7a4f40e21c4f436d23c54019b20e4960bf93b70" resname="QUESTIONNAIRE.ADD_GAP_TOOLTIP">
         <source>QUESTIONNAIRE.ADD_GAP_TOOLTIP</source>
@@ -816,6 +860,10 @@
         <source>QUESTIONNAIRE.ANSWERS</source>
         <target>Réponses</target>
       </trans-unit>
+      <trans-unit id="0b0d1ffcde013b5ffbd60b885712b29f29bf61bb" resname="QUESTIONNAIRE.ANSWER_WRITE_AN_ANSWER">
+        <source>QUESTIONNAIRE.ANSWER_WRITE_AN_ANSWER</source>
+        <target>Ecris ta réponse</target>
+      </trans-unit>
       <trans-unit id="1c42b09762b9764d559232bdbc219e83eaef8569" resname="QUESTIONNAIRE.ATTEMPTS_NUMBER">
         <source>QUESTIONNAIRE.ATTEMPTS_NUMBER</source>
         <target>Nombre de tentatives</target>
@@ -823,6 +871,14 @@
       <trans-unit id="e8b57df79df675d4c1ec3cadc296d1bba1fa221e" resname="QUESTIONNAIRE.AUDIO">
         <source>QUESTIONNAIRE.AUDIO</source>
         <target>Audio</target>
+      </trans-unit>
+      <trans-unit id="84124ee47ab4f2a34d0021f322ca7c8bc710dded" resname="QUESTIONNAIRE.CHOOSE_ANSWER">
+        <source>QUESTIONNAIRE.CHOOSE_ANSWER</source>
+        <target>Choisis ta réponse :</target>
+      </trans-unit>
+      <trans-unit id="079cba522321243adb2dfad8c829b9aafd4ae71b" resname="QUESTIONNAIRE.CHOOSE_ANSWERS">
+        <source>QUESTIONNAIRE.CHOOSE_ANSWERS</source>
+        <target>Choisis tes réponses :</target>
       </trans-unit>
       <trans-unit id="a6412ed0255357ccf1336cedb524497b89b46df0" resname="QUESTIONNAIRE.CHOOSE_AUDIO">
         <source>QUESTIONNAIRE.CHOOSE_AUDIO</source>
@@ -852,17 +908,25 @@
         <source>QUESTIONNAIRE.CONGRATS</source>
         <target>C'est la bonne réponse</target>
       </trans-unit>
+      <trans-unit id="104f8b9a2824557a9c4accd54c6184da5669b199" resname="QUESTIONNAIRE.FINISH">
+        <source>QUESTIONNAIRE.FINISH</source>
+        <target>Fin du questionnaire</target>
+      </trans-unit>
       <trans-unit id="874aa084a5964da5c1d249ef9b1643e9b6972a86" resname="QUESTIONNAIRE.FINISHED">
         <source>QUESTIONNAIRE.FINISHED</source>
-        <target>Le questionnaire est fini !</target>
+        <target>Le questionnaire est terminé !</target>
       </trans-unit>
       <trans-unit id="1e04cc003897cea7f652f257d03f131fd15ea071" resname="QUESTIONNAIRE.FOUND_COUNT">
         <source>QUESTIONNAIRE.FOUND_COUNT</source>
-        <target>Tu as trouvé {{count}} bonnes réponses sur {{total}}</target>
+        <target>Tu as trouvé {COUNT, plural, 0{0 bonne réponse} 1{1 bonne réponse} other{# bonne réponses}} sur {TOTAL, plural, other{#}} </target>
       </trans-unit>
       <trans-unit id="194310b7d995d5879f664717d9430f5bae015b5a" resname="QUESTIONNAIRE.GAP_FILL_TEXT_QUESTION">
         <source>QUESTIONNAIRE.GAP_FILL_TEXT_QUESTION</source>
         <target>Texte à trous</target>
+      </trans-unit>
+      <trans-unit id="9c36ddefe5f56f6f38a27b43f6ba8557d9755489" resname="QUESTIONNAIRE.GOOD_ANSWER_TOO">
+        <source>QUESTIONNAIRE.GOOD_ANSWER_TOO</source>
+        <target>C'est également une bonne réponse</target>
       </trans-unit>
       <trans-unit id="386ba53b612e2f4c8a9a868892746e1dd27439c4" resname="QUESTIONNAIRE.HELP">
         <source>QUESTIONNAIRE.HELP</source>
@@ -878,7 +942,15 @@
       </trans-unit>
       <trans-unit id="39879c2eb59b1dca2333798321265321f7a2c347" resname="QUESTIONNAIRE.LIMITED_TIME">
         <source>QUESTIONNAIRE.LIMITED_TIME</source>
-        <target>Tu disposes d'un temps limité à {{minutes}} minutes et {{seconds}} secondes pour répondre à cette question</target>
+        <target>Tu disposes d'un temps limité à {MINUTES, plural, 0{} 1{1 minute} other{# minutes}} {SECONDS, plural, 0{} 1{ et 1 seconde} other{# secondes}} pour répondre à cette question</target>
+        <note><![CDATA[This text has plural translations based on %count% variable
+http://symfony.com/doc/current/components/translation/usage.html#pluralization]]></note>
+      </trans-unit>
+      <trans-unit id="c37c13ee114d3ad3962599dafb169563d9820290" resname="QUESTIONNAIRE.LIMITED_TIME_MINUTES_SECONDS">
+        <source>QUESTIONNAIRE.LIMITED_TIME_MINUTES_SECONDS</source>
+        <target>Tu disposes d'un temps limité à {MINUTES, plural, 1{1 minute et} other{# minutes et}} {SECONDS, plural, 1{1 seconde} other{# secondes}} pour répondre à cette question</target>
+        <note><![CDATA[This text has plural translations based on %count% variable
+http://symfony.com/doc/current/components/translation/usage.html#pluralization]]></note>
       </trans-unit>
       <trans-unit id="2602f29343171d0a7ed08af1fc769cbfd98b8b25" resname="QUESTIONNAIRE.MINUTES">
         <source>QUESTIONNAIRE.MINUTES</source>
@@ -903,6 +975,10 @@
       <trans-unit id="749f9ad77091ee53d552aeffe5c92f1fe5dac7e7" resname="QUESTIONNAIRE.PICTURE">
         <source>QUESTIONNAIRE.PICTURE</source>
         <target>Image</target>
+      </trans-unit>
+      <trans-unit id="df31488ff94f28eddb2bb6db6662f24621b51e45" resname="QUESTIONNAIRE.PLUR_CONGRATS">
+        <source>QUESTIONNAIRE.PLUR_CONGRATS</source>
+        <target>C'est une bonne réponse</target>
       </trans-unit>
       <trans-unit id="9afcfedd7d74ae2d93d9a1013877e45000ca50a5" resname="QUESTIONNAIRE.RESET">
         <source>QUESTIONNAIRE.RESET</source>
@@ -984,6 +1060,10 @@
         <source>QUESTIONNAIRE.WRONG</source>
         <target>Ce n'est pas la bonne réponse</target>
       </trans-unit>
+      <trans-unit id="5cbaf77f0e0dbe0822112327963e6cfc2f0fd71d" resname="QUESTIONNAIRE_ONE_ANSWER_AT_LEAST">
+        <source>QUESTIONNAIRE_ONE_ANSWER_AT_LEAST</source>
+        <target>Vous devez choisir au moins une réponse</target>
+      </trans-unit>
       <trans-unit id="540a681e8a3366c386408500bcdaf7884ac5588a" resname="SOON">
         <source>SOON</source>
         <target>Bientôt</target>
@@ -991,6 +1071,10 @@
       <trans-unit id="0fa2ff5785952199b4086a34e015d691fb6f638e" resname="VIEW">
         <source>VIEW</source>
         <target>Voir</target>
+      </trans-unit>
+      <trans-unit id="e584c50da621cdf05cb826def6f24c2299110514" resname="WORDING_REQUIRED">
+        <source>WORDING_REQUIRED</source>
+        <target>Veuillez saisir l'énoncé</target>
       </trans-unit>
       <trans-unit id="35f42f512ca906a023e07f0965f0265336500741" resname="WORKSHOP">
         <source>WORKSHOP</source>

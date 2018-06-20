@@ -1,30 +1,35 @@
 <?xml version="1.0" ?>
 <container xmlns="http://symfony.com/schema/dic/services"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-	<parameters>
+    <parameters>
         <parameter key="install_process_bns_app_notification_bundle.class">BNS\App\NotificationBundle\Install\InstallProcess</parameter>
         <parameter key="bns.data_reset.change_year_notification.class">BNS\App\NotificationBundle\DataReset\ChangeYearNotificationDataReset</parameter>
     </parameters>
 
     <services>
         <service id="install_process_bns_app_notification_bundle" class="%install_process_bns_app_notification_bundle.class%">
-            <tag name="bns.install_process" />
+            <tag name="bns.install_process"/>
         </service>
 
         <service id="bns.data_reset.change_year_notification" class="%bns.data_reset.change_year_notification.class%">
-            <argument type="service" id="service_container" />
-            <tag name="bns.data_reset" type="change_year" hasOptions="false" />
+            <argument type="service" id="service_container"/>
+            <tag name="bns.data_reset" type="change_year" hasOptions="false"/>
         </service>
 
         <service id="notification_manager" class="BNS\App\NotificationBundle\Manager\NotificationManager">
-            <argument type="service" id="old_sound_rabbit_mq.notification_producer" />
-            <argument type="service" id="request_stack" />
+            <argument type="service" id="old_sound_rabbit_mq.notification_producer"/>
+            <argument type="service" id="request_stack"/>
+            <argument type="service" id="bns.right_manager" />
+            <argument type="service" id="bns.announcement_manager" />
+            <argument type="service" id="snc_redis.default" />
+            <argument>%application_base_url%</argument>
         </service>
-    	<service id="notification_consumer" class="BNS\App\NotificationBundle\Consumer\NotificationConsumer">
-			 <argument type="service" id="service_container" />
-			 <argument type="service" id="logger" />
+
+        <service id="notification_consumer" class="BNS\App\NotificationBundle\Consumer\NotificationConsumer">
+            <argument type="service" id="service_container"/>
+            <argument type="service" id="logger"/>
         </service>
     </services>
 

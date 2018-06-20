@@ -1,0 +1,16 @@
+BNS\App\PortalBundle\Model\PortalWidget:
+  exclusion_policy: All
+
+  virtual_properties:
+    getDatas:
+      expose: true
+
+  relations:
+    - rel: minisites
+      embedded:
+        content: expr(object.getMiniSites())
+        exclusion:
+          exclude_if: expr(object.getType() !== 'MINISITE')
+
+
+

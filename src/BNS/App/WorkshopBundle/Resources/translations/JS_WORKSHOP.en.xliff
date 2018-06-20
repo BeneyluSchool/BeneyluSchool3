@@ -86,7 +86,7 @@
       </trans-unit>
       <trans-unit id="76f87eb05d9b2a051e9ee095ea9ef96adbb64ff2" resname="AUDIO.RECORD_UPLOAD_SUCCESS">
         <source>AUDIO.RECORD_UPLOAD_SUCCESS</source>
-        <target>Audio recording uploaded in the media library. The resulting audio file is no longer editable.</target>
+        <target>Audio recording uploaded in the media library. The audio file is no longer editable.</target>
       </trans-unit>
       <trans-unit id="d8cc49b9b39d2030f61ff11348b527481200ba49" resname="AUDIO.RELOAD_PAGE">
         <source>AUDIO.RELOAD_PAGE</source>
@@ -216,7 +216,7 @@
       </trans-unit>
       <trans-unit id="e086fcb415f86552757363928357a723466fb4eb" resname="DOCUMENT.CANNOT_BE_EDITED_BY_PUPILS">
         <source>DOCUMENT.CANNOT_BE_EDITED_BY_PUPILS</source>
-        <target>Students won't be able to edit it anymore</target>
+        <target>Students won't be able to edit the document anymore</target>
       </trans-unit>
       <trans-unit id="ed91cbacee0ae792b6b6f8015967f052c5ad8daf" resname="DOCUMENT.CANNOT_REMOVE_LOCKED_PAGE">
         <source>DOCUMENT.CANNOT_REMOVE_LOCKED_PAGE</source>
@@ -330,12 +330,16 @@
       </trans-unit>
       <trans-unit id="9f314855458881673fc70d9bde194789f157cf28" resname="DOCUMENT.DRAFT_WIDGET_ERROR">
         <source>DOCUMENT.DRAFT_WIDGET_ERROR</source>
-        <target>Error while saving the draft in this widget</target>
+        <target>Error while saving the widget draft</target>
       </trans-unit>
       <trans-unit id="f1315f2cbbba85946577a40a2de6fa6c6b2a4ce6" resname="DOCUMENT.DROP_WIDGET_HERE">
         <source>DOCUMENT.DROP_WIDGET_HERE</source>
         <target>Drop a widget here</target>
       </trans-unit>
+        <trans-unit id="aee532dcffdc52c5adcfd4a9539bfe38f7a27d58" resname="DOCUMENT.DUPLICATE">
+            <source>DOCUMENT.DUPLICATE</source>
+            <target>Duplicate</target>
+        </trans-unit>
       <trans-unit id="093a1888a55c90439930f48bb7313f8269d27c62" resname="DOCUMENT.EDITED_BY">
         <source>DOCUMENT.EDITED_BY</source>
         <target><![CDATA[Edited&nbsp;by:]]></target>
@@ -350,6 +354,10 @@
         <source>DOCUMENT.EDIT_WIDGET_SUCCESS</source>
         <target>Widget updated</target>
       </trans-unit>
+        <trans-unit id="6a0f8032971449ece641940f9f4e9eaa67da1223" resname="DOCUMENT.DELETE">
+            <source>DOCUMENT.DELETE</source>
+            <target>Delete</target>
+        </trans-unit>
        <trans-unit id="f9ccd22f6c0a920e4e7afe5eda99f2e3e0519b00" resname="DOCUMENT.EXPORT">
         <source>DOCUMENT.EXPORT</source>
         <target><![CDATA[<strong>Export</strong><br>the document]]></target>
@@ -570,6 +578,10 @@
         <source>DOCUMENT.MEDIA</source>
         <target>Media</target>
       </trans-unit>
+        <trans-unit id="0ef7d9cc7978da1148a7f989535c30c59ad904ef" resname="DOCUMENT.MOVE">
+            <source>DOCUMENT.MOVE</source>
+            <target>Move</target>
+        </trans-unit>
       <trans-unit id="56ba9e720a0caa8d8787b46d5be91560a0fc9d6f" resname="DOCUMENT.MOVE_PAGE_ERROR">
         <source>DOCUMENT.MOVE_PAGE_ERROR</source>
         <target>Error while moving the page</target>
@@ -798,7 +810,7 @@
       </trans-unit>
       <trans-unit id="e7a4f40e21c4f436d23c54019b20e4960bf93b70" resname="QUESTIONNAIRE.ADD_GAP_TOOLTIP">
         <source>QUESTIONNAIRE.ADD_GAP_TOOLTIP</source>
-        <target>Add a gap</target>
+        <target>Add a word for your students to find</target>
       </trans-unit>
       <trans-unit id="f3be6f12c6b7b6d335e56fb2c1500588a59f228d" resname="QUESTIONNAIRE.ADVANCED_SETTINGS">
         <source>QUESTIONNAIRE.ADVANCED_SETTINGS</source>
@@ -954,11 +966,11 @@
       </trans-unit>
       <trans-unit id="62bbd8967f24d38224ce030971021ac6b522dfde" resname="QUESTIONNAIRE.TIMES_UP">
         <source>QUESTIONNAIRE.TIMES_UP</source>
-        <target>Time's up ! You can't answer the question.</target>
+        <target>Time's up! You can't answer the question.</target>
       </trans-unit>
       <trans-unit id="9893a3f5e89c4877aee4ddd6b66a61a23d0b3c0d" resname="QUESTIONNAIRE.TIMES_UP_ANSWER">
         <source>QUESTIONNAIRE.TIMES_UP_ANSWER</source>
-        <target>Time's up ! You can submit your answer.</target>
+        <target>Time's up! You can submit your answer.</target>
       </trans-unit>
       <trans-unit id="57cdf1f7b5da3b0740211945652c056dbe0bd859" resname="QUESTIONNAIRE.VALIDATE">
         <source>QUESTIONNAIRE.VALIDATE</source>
@@ -978,7 +990,7 @@
       </trans-unit>
       <trans-unit id="0bc7411ac216c9b7c66981a8b026cf8abdb15279" resname="QUESTIONNAIRE.WRITE_HELP">
         <source>QUESTIONNAIRE.WRITE_HELP</source>
-        <target>Write something to help</target>
+        <target>Give a clue</target>
       </trans-unit>
       <trans-unit id="a62be2065acb95baad07b8d9be37cd8852813839" resname="QUESTIONNAIRE.WRONG">
         <source>QUESTIONNAIRE.WRONG</source>

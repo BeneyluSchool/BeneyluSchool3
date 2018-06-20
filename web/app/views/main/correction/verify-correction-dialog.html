@@ -1,0 +1,19 @@
+<md-dialog class="bns-dialog bns-dialog-primary" style="width: 100%">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <div class="text-center flex layout-row layout-margin">
+        <h3 class="flex text-ellipsis" translate>ANNOTATIONS.TITLE_MY_ORIGINAL_TEXT</h3>
+        <h3 class="flex text-ellipsis" translate>ANNOTATIONS.TITLE_MY_MODIFIED_TEXT</h3>
+      </div>
+      <md-button class="md-icon-button" ng-click="dialog.hide()">
+        <md-icon>clear</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content>
+    <div class="layout-row layout-margin layout-padding">
+      <div class="flex md-whiteframe-z1 md-body-2 bns-correction-preview bns-annotation-display" ng-bind-html="dialog.previous|trustHtml"></div>
+      <div class="flex md-whiteframe-z1 md-body-2 bns-correction-preview" ng-bind-html="dialog.current|trustHtml"></div>
+    </div>
+  </md-dialog-content>
+</md-dialog>

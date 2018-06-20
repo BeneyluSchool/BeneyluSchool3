@@ -34,7 +34,7 @@ function AppsManagerFactory (Groups) {
    * @param {String} type
    * @returns {Object} A promise of the API call
    */
-  function toggle (app, groupId, type) {
+  function toggle (app, groupId, type, userRole) {
     type = normalizeType(type);
 
     var status;
@@ -44,7 +44,7 @@ function AppsManagerFactory (Groups) {
       status = 'open';
     }
 
-    return Groups.one(groupId).one(type, app.unique_name).all(status).patch()
+    return Groups.one(groupId).one(type, app.unique_name).all(status).patch({userRole: userRole})
       .then(success)
       .catch(error)
     ;

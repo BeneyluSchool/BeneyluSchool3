@@ -1,0 +1,6 @@
+BNS\App\LsuBundle\Model\LsuDomain:
+  exclusion_policy: All
+
+  virtual_properties:
+    getCycle:
+      expose: true

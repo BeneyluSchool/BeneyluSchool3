@@ -11,7 +11,6 @@
 {% set app_mode = 'front' %}
 {% block body_class %}layout-column module-blog module-front front{% endblock %}
 {% block body_attr %}{{ parent() }} data-app="{{ app_unique_name }}" data-mode="{{ app_mode }}"{% endblock %}
-{% block alert %}{% endblock %}
 {% block body %}
 	{# Support IE8 #}
 	<script type="text/javascript">
@@ -83,12 +82,12 @@
 						</md-content>
 					{% endblock sidebar%}
 				</md-sidenav>
-			{% endblock sidebar_container %}
-			<div class="nav-mobile" ng-hide="app.isSidebarLockedOpen()"><bns-sidebar-toggle></bns-sidebar-toggle></div>
+      {% endblock sidebar_container %}
+			<div class="nav-mobile" ng-hide="app.isSidebarLockedOpen()"><bns-sidebar-toggle class="md-fab md-fab-top-left md-primary md-hue-2"></bns-sidebar-toggle></div>
 			<md-content  id="content" class="bns-content layout-column flex" ng-cloak>
 				<div class="bns-content-inner layout-column flex md-whiteframe-z1">
 					{% block content %}
-						<md-content ng-cloak class="layout-padding">
+						<md-content ng-cloak class="layout-padding" du-scroll-container>
 							{% include 'BNSAppBlogBundle:Article:front_article_list.html.twig' %}
 						</md-content>
 					{% endblock %}

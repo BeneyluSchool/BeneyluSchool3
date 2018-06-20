@@ -1,7 +1,11 @@
 {% if isNew is not defined %}
 
-    <a data-widget-id="{{ widget.id }}" class="enable-btn"><span class="switch-btn {{ widget.isEnabled ? 'on' : 'off' }}"></span></a>
-    
+    {% if widget.type == 'MINISITE' and ((not widget.data('lists')|length) and (not widget.data('all'))) %}
+        <a class="enable-btn"><span class="switch-btn off"></span></a>
+    {% else %}
+        <a data-widget-id="{{ widget.id }}" class="enable-btn"><span class="switch-btn {{ widget.isEnabled ? 'on' : 'off' }}"></span></a>
+    {% endif %}
+
     <input id="enabled-{{ widget.id }}" type="hidden" value="{{ widget.isEnabled }}" name="widget-{{ widget.id }}[enabled]"/>
 
 {% endif %}

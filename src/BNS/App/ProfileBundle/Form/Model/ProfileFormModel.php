@@ -47,10 +47,29 @@ class ProfileFormModel implements IFormModel
     public $email_private;
 
     /**
+     * @var string phone
+     */
+    public $phone;
+
+    /**
+     * @var string $address
+     */
+    public $address;
+
+    /**
      * @var string
      */
     public $job;
 
+    /**
+     * @var string
+     */
+    public $organization;
+
+    /**
+     * @var boolean
+     */
+    public $publicData;
     /**
      * @var string
      */
@@ -60,11 +79,6 @@ class ProfileFormModel implements IFormModel
      * @var int
      */
     public $avatarId;
-
-    /**
-     * @var bool
-     */
-    public $assistance_enabled;
 
     /**
      * @var User
@@ -102,9 +116,12 @@ class ProfileFormModel implements IFormModel
         $this->job = $profile->getJob();
         $this->email = $this->user->getEmail();
         $this->email_private = $this->user->getEmailPrivate();
+        $this->phone = $this->user->getPhone();
+        $this->organization = $profile->getOrganization();
+        $this->publicData = $profile->getPublicData();
+        $this->address = $profile->getAddress();
         $this->description = $profile->getDescription();
         $this->avatarId = $profile->getAvatarId();
-        $this->assistance_enabled = $profile->getAssistanceEnabled();
         $this->gender = $this->user->getGender();
         $this->lang = $this->user->getLang();
     }
@@ -117,7 +134,6 @@ class ProfileFormModel implements IFormModel
         $profile = $this->user->getProfile();
         $profile->setJob($this->job);
         $profile->setDescription($this->description);
-        $profile->setAssistanceEnabled($this->assistance_enabled);
         if (null != $this->avatarId && '0' != $this->avatarId) {
             $profile->setAvatarId($this->avatarId);
         } else {
@@ -131,12 +147,16 @@ class ProfileFormModel implements IFormModel
         }
 
         $this->user->setEmailPrivate($this->email_private);
+        $this->user->setPhone($this->phone);
+        $profile->setAddress($this->address)->setOrganization($this->organization)->setPublicData($this->publicData);
 
         if (null != $this->firstName && null != $this->lastName && null != $this->gender) {
 
             $this->user->setFirstName($this->firstName);
             $this->user->setLastName($this->lastName);
             $this->user->setGender($this->gender);
+            $this->user->setPhone($this->phone);
+
 
             // Mise à jour de l'email côté central
             BNSAccess::getContainer()->get('bns.user_manager')->updateUser($this->user);

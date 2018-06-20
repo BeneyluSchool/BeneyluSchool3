@@ -8,16 +8,20 @@
     <body>
       <trans-unit id="6a9b1dcc8e5813b117d98cb0329ac42680800869" resname="BLOG_ARTICLE_FINISHED.EMAIL.content">
         <source>BLOG_ARTICLE_FINISHED.EMAIL.content</source>
-        <target><![CDATA[<b>%articleAuthor%</b> ha enviado el artículo "<a href="%articleUrl%" title="See the section and validate it"><b>%articleTitle%</b></a>"  para validación ]]></target>
+        <target><![CDATA[<b>%classLabel%</b><b>%articleAuthor%</b> ha enviado el artículo "<a href="%articleUrl%" title="See the section and validate it"><b>%articleTitle%</b></a>"  para validación ]]></target>
         <note><![CDATA[%articleUrl% is a placeholder
 %articleTitle% is a placeholder
 %articleAuthor% is a placeholder
+%classLabel% is a placeholder
 This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
       <trans-unit id="b49b58cd1da1de99c89b307cb9b90829a8c97908" resname="BLOG_ARTICLE_FINISHED.EMAIL.title">
         <source>BLOG_ARTICLE_FINISHED.EMAIL.title</source>
-        <target>Se ha enviado un artículo para validación</target>
+        <target><![CDATA[%classLabel%Se ha enviado un artículo para validación]]></target>
+        <note>%classLabel% is a placeholder
+               This text contains HTML tags, please try to keep those tags
+            </note>
       </trans-unit>
       <trans-unit id="233fef6f6e250d65a0512d274dc799e96e258cd3" resname="BLOG_ARTICLE_FINISHED.SYSTEM.content">
         <source>BLOG_ARTICLE_FINISHED.SYSTEM.content</source>

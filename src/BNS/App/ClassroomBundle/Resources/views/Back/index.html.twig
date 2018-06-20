@@ -32,11 +32,11 @@
                   <h1 class="dashboard modules">{% trans %}TITLE_MY_CLASS_MODULE{% endtrans%}</h1>
                 </td>
                 <td class="userType">
-                  <img src="{{ asset('/medias/images/profile/avatar/thumbnail/pupil_M.png') }}" alt="ALTERNATIVE_AVATAR" />
+                  <img src="{{ asset('/medias/images/profile/avatar/thumbnail/pupil_M.png') }}" alt="" />
                   <p>{% trans %}IMAGE_PUPIL{% endtrans%}</p>
                 </td>
                 <td class="userType">
-                  <img src="{{ asset('/medias/images/profile/avatar/thumbnail/parent.png') }}" alt="ALTERNATIVE_AVATAR" />
+                  <img src="{{ asset('/medias/images/profile/avatar/thumbnail/parent.png') }}" alt="" />
                   <p>{% trans %}IMAGE_PARENT{% endtrans%}</p>
                 </td>
               </tr>
@@ -57,7 +57,7 @@
           <div class="last-connexion">
             {% for user in last_users_connected %}
               <div class="content-last-connexion">
-                <p><img src="{{ avatar(user, 'thumbnail') }}" alt="ALTERNATIVE_AVATAR" /> {{ user.getFullName() }}</p>
+                <p><img src="{{ avatar(user, 'thumbnail') }}" alt="" /> {{ user.getFullName() }}</p>
                 <p class="date">{{ date_from_now(user.getLastConnection(),false,true) }}</p>
               </div>
             {% endfor %}

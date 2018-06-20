@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-12-09T15:23:19Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2017-11-24T15:35:03Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
     </header>
     <body>
-      <trans-unit id="6ca268108159fb9d4e8cc9cd3f352d29720a0e15" resname="INVALID_ACCEPT_CGU">
-         <source>Vous devez accepter les conditions générales d'utilisation</source>
-         <target state="new">Vous devez accepter les conditions générales d'utilisation</target>
-      </trans-unit>
       <trans-unit id="5fae5de95e6c40687e0ccc54cccff04c22885068" resname="ACCEPT_BENEYLU_READ_CGU">
         <source>J'ai lu et j'accepte</source>
         <target state="new">J'ai lu et j'accepte</target>
@@ -115,17 +111,17 @@
         <target>Créer mon compte</target>
       </trans-unit>
       <trans-unit id="6dff019498e6669badd14a343b9ed205c2cf9a4f" resname="CGU">
-          <source>Conditions générales d'utilisation</source>
-          <target state="new">Conditions générales d'utilisation</target>
+        <source>Conditions générales d'utilisation</source>
+        <target state="new">Conditions générales d'utilisation</target>
       </trans-unit>
       <trans-unit id="1e81aeccb7f560b00583e6e162db04850ef537b4" resname="CGU_IN_FRENCH">
         <source>Français</source>
         <target state="new">Français</target>
       </trans-unit>
       <trans-unit id="fd15e919d68298caaec192092be394ab65794796" resname="CGU_VERSION">
-          <source>CGU_VERSION</source>
-          <target>Version %cgu_version%</target>
-          <note><![CDATA[%cgu_version% is a placeholder
+        <source>CGU_VERSION</source>
+        <target>Version %cgu_version%</target>
+        <note><![CDATA[%cgu_version% is a placeholder
 ]]></note>
       </trans-unit>
       <trans-unit id="c4673249990241887fe4b5357a3e8a781edc9cc1" resname="CHILD_ACCESS_BENEYLU_READ_POLICY">
@@ -335,10 +331,14 @@
         <note><![CDATA[%brandName% is a placeholder
 ]]></note>
       </trans-unit>
+      <trans-unit id="6ca268108159fb9d4e8cc9cd3f352d29720a0e15" resname="INVALID_ACCEPT_CGU">
+        <source>Vous devez accepter les conditions générales d'utilisation</source>
+        <target state="new">Vous devez accepter les conditions générales d'utilisation</target>
+      </trans-unit>
       <trans-unit id="a77be6582b34e395d5d8dd5b00f29321f9cddc3e" resname="LABEL_ACCEPT_CGU">
-          <source>LABEL_ACCEPT_CGU</source>
-          <target>J'ai lu et j'accepte les conditions générales d'utilisation</target>
-        </trans-unit>
+        <source>LABEL_ACCEPT_CGU</source>
+        <target>J'ai lu et j'accepte les conditions générales d'utilisation</target>
+      </trans-unit>
       <trans-unit id="5e041612b0cccdd55c925cdfd4bfb495d3a280e0" resname="LABEL_ACCEPT_CHARTER">
         <source>LABEL_ACCEPT_CHARTER</source>
         <target>J'ai lu et j'accepte la charte d'utilisation</target>

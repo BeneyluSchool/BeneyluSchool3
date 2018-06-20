@@ -57,12 +57,21 @@
 
 {% block content %}
 	<div class="container-csv">
-		{% for message in app.session.flashbag.get('error') %}
-			<div class="alert alert-danger bns-alert">
-				{{ message }}
-				<div class="jim"></div>
-			</div>
-		{% endfor %}
+    {% if app.session.flashBag.has('success') %}
+      {% for message in app.session.flashbag.get('success') %}
+        <div class="alert alert-success bns-alert">
+          {{ message }}
+          <div class="jim"></div>
+        </div>
+      {% endfor %}
+    {% elseif app.session.flashBag.has('error') %}
+      {% for message in app.session.flashbag.get('error') %}
+        <div class="alert alert-danger bns-alert">
+          {{ message }}
+          <div class="jim"></div>
+        </div>
+      {% endfor %}
+    {% endif %}
 
 		<div class="news-title">
 			<h1 class="dashboard">{% trans %}TITLE_IMPORT_PUPIL_FROM_CSV_FILE{% endtrans %}</h1>

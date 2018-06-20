@@ -66,7 +66,12 @@ function BNSCookiesFactory ($cookies, $q, $timeout, $window, moment, BNS_3RD_PAR
     angular.element($window).on('message', handleMessage);
 
     function handleMessage (event) {
-      setHasThirdPartyCookies(event.originalEvent.data === 'BNS:3PC:YES', true);
+      // be careful  with PostMessage only trust message we expect
+      if (event.originalEvent.data === 'BNS:3PC:YES') {
+        setHasThirdPartyCookies(true, true);
+      } else if (event.originalEvent.data === 'BNS:3PC:NO') {
+        setHasThirdPartyCookies(false, true);
+      }
     }
 
     function setHasThirdPartyCookies (value, persist) {

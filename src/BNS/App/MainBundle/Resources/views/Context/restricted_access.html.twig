@@ -1,0 +1,23 @@
+{% trans_default_domain "MAIN" %}
+{% extends '::base.html.twig' %}
+
+{% block analytics_identify %}{% endblock %}
+
+{% block body %}
+  <div class="background-error"></div>
+  <div class="container content-error">
+    <h2>{{ 'YOUR_ACCESS_IS_RESTRICTED'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) }}</h2>
+
+    <p>{{ 'YOU_CAN_CONNECT_THE'|trans({'%date%': app.session.get('restricted_access') | date_bns('long', 'none') })|raw }}</p>
+    <p><a href="{{ path('disconnect_user') }}">{{ 'LINK_LOGMEOUT'|trans |desc('Me déconnecter') }}</a></p>
+  </div>
+{% endblock body %}
+
+{% block dock_bar %}{% endblock %}
+
+{% block main_javascripts %}
+{% endblock %}
+{% block angular_app %}
+{% endblock %}
+{% block angular_scripts %}
+{% endblock %}

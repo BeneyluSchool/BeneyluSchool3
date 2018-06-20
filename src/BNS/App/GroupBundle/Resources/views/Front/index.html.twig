@@ -4,6 +4,8 @@
 {% set app_unique_name = 'GROUP' %}
 {% set app_mode = 'front' %}
 
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+
 {% block title %}{{ 'TITLE_GROUP'|trans |desc('Groupe') }}{% endblock %}
 
 {% block css %}
@@ -14,6 +16,7 @@
 
 {% block body %}
 	{% block content %}
+		{{ components.toasts(app.session.flashbag.all) }}
 		{% if noClassroomForTeacher %}
 			{% include 'BNSAppMainBundle:Logon:no_classroom_for_teacher.html.twig' with {school: mySchool} %}
 		{% endif %}

@@ -3,6 +3,7 @@
 namespace BNS\App\MediaLibraryBundle\Manager;
 use BNS\App\CoreBundle\Group\BNSGroupManager;
 use BNS\App\CoreBundle\Model\GroupQuery;
+use BNS\App\CoreBundle\Model\GroupTypeQuery;
 use BNS\App\CoreBundle\Model\User;
 use BNS\App\CoreBundle\Right\BNSRightManager;
 use BNS\App\CoreBundle\User\BNSUserManager;
@@ -42,6 +43,16 @@ class MediaLibraryRightManager
 
     protected $canReadFolderContentCache = array();
 
+    /**
+     * @var array can Manage FolderUser cache
+     */
+    protected $canManagerUser = [];
+
+    /**
+     * @var array can Manage Folder cache
+     */
+    protected $canManageFolder = [];
+
     public function __construct(BNSRightManager $rightManager)
     {
         $this->rightManager = $rightManager;
@@ -80,22 +91,26 @@ class MediaLibraryRightManager
 
     ////////////////   FONCTION LIEES AUX DOSSIERS   \\\\\\\\\\\\\\\\\\\\\\\
 
+    /**
+     * @param MediaFolderUser|MediaFolderGroup $mediaFolder
+     * @return mixed
+     */
     public function canManageFolder($mediaFolder)
     {
-        if(!isset($this->canManageFolder[$mediaFolder->getMarker()]))
-        {
-            if ($mediaFolder->getType() == 'USER') {
-                $this->canManageFolder[$mediaFolder->getMarker()] =  $this->canManageUser($mediaFolder->getUserId());
+        $marker = $mediaFolder->getMarker();
+        if (!isset($this->canManageFolder[$marker])) {
+            // default
+            $this->canManageFolder[$marker] = false;
+            if ('USER' === $mediaFolder->getType()) {
+                $this->canManageFolder[$marker] =  $this->canManageUser($mediaFolder->getUserId());
+            } elseif ('GROUP' === $mediaFolder->getType()) {
+                $this->canManageFolder[$marker] = $this->canManageGroup($mediaFolder->getGroupId());
             }
-            elseif ($mediaFolder->getType() == 'GROUP') {
-                $this->canManageFolder[$mediaFolder->getMarker()] = $this->canManageGroup($mediaFolder->getGroupId());
-            }
-            if(!isset($this->canManageFolder[$mediaFolder->getMarker()]))
-            {
-                $this->canManageFolder[$mediaFolder->getMarker()] = false;
+            if (!$this->canManageFolder[$marker]) {
+                $this->canManageFolder[$marker] = $this->isDeletedBy($mediaFolder);
             }
         }
-        return $this->canManageFolder[$mediaFolder->getMarker()];
+        return $this->canManageFolder[$marker];
     }
 
     public function canReadFolder($mediaFolder)
@@ -202,7 +217,24 @@ class MediaLibraryRightManager
      */
     public function isAuthor(Media $media)
     {
-        return $media->getUserId() == $this->getUser()->getId();
+        $user = $this->getUser();
+        return $user && $media->getUserId() === $user->getId();
+    }
+
+    /**
+     * Droit suppression du media
+     * @param $mediaFolder media
+     * @return boolean
+     */
+    public function isDeletedBy($mediaFolder)
+    {
+        if (in_array($mediaFolder->getStatusDeletion(), [MediaManager::STATUS_GARBAGED_INT, MediaManager::STATUS_GARBAGED_PARENT_INT])) {
+            $user = $this->getUser();
+
+            return $user && $mediaFolder->getDeletedBy() === $user->getId();
+        }
+
+        return false;
     }
 
     /**
@@ -234,6 +266,11 @@ class MediaLibraryRightManager
                 }
             }
             $currentUser = $this->getUser();
+
+            if (!$currentUser) {
+                $this->canReadMedia[$media->getId()] = false;
+                return false;
+            }
 
             if($light == true)
             {
@@ -305,7 +342,8 @@ class MediaLibraryRightManager
                                 if ($this->userManager->isAdult()) {
                                     $this->canReadMedia[$media->getId()] = false;
                                 } else {
-                                    $this->canReadMedia[$media->getId()] = $this->canManageUser($mediaFolder->getUserId());
+                                    $this->canReadMedia[$media->getId()] = $this->canManageUser($mediaFolder->getUserId()) || $this->userManager->getUser()->isParentOf($mediaFolder->getUser());
+
                                 }
                             }
                         }
@@ -401,28 +439,34 @@ class MediaLibraryRightManager
      */
     public function canManageUser($userId)
     {
-        if(!isset($this->canManagerUser[$userId]))
-        {
-            $currentUser = $this->rightManager->getUserSession();
+        $userId = (int)$userId;
+        if (!isset($this->canManagerUser[$userId])) {
+            // default to no
+            $this->canManagerUser[$userId] = false;
 
-            if ($currentUser != null && $currentUser->getId() == $userId) {
+            $currentUser = $this->rightManager->getUserSession();
+            if (!$currentUser) {
+                return false;
+            }
+            if ($currentUser->getId() === $userId) {
+                // User can manage it's own folder
                 $this->canManagerUser[$userId] = true;
-            }else{
-                $this->userManager->setUser($this->rightManager->getUserSession());
-                $adminUsersGroups = $this->userManager->getGroupsWherePermission('MEDIA_LIBRARY_USERS_ADMINISTRATION');
-                foreach ($adminUsersGroups as $group)
-                {
-                    $this->getGroupManager()->setGroup($group);
-                    if (in_array($userId, $this->getGroupManager()->getUsersIds())) {
+            } else {
+                $this->userManager->setUser($currentUser);
+                // check if current user has admin right on some
+                $adminUsersGroupIds = $this->userManager->getGroupIdsWherePermission('MEDIA_LIBRARY_USERS_ADMINISTRATION');
+                $groupManager = $this->getGroupManager();
+                $pupilRoleId = (int)GroupTypeQuery::create()->filterByType('PUPIL')->filterBySimulateRole(true)->select(['Id'])->findOne();
+                // Administrator can manage pupils folders
+                foreach ($adminUsersGroupIds as $groupId) {
+                    if (in_array($userId, $groupManager->getUserIdsByRole($pupilRoleId, $groupId))) {
                         $this->canManagerUser[$userId] = true;
+                        break;
                     }
                 }
             }
-            if(!isset($this->canManagerUser[$userId]))
-            {
-                $this->canManagerUser[$userId] = false;
-            }
         }
+
         return $this->canManagerUser[$userId];
     }
 
@@ -534,6 +578,10 @@ class MediaLibraryRightManager
         return $this->cache['read'][$user->getId()][$object->getUniqueKey()];
     }
 
+    /**
+     * @param Media|MediaFolderGroup|MediaFolderUser $object
+     * @return bool
+     */
     public function isManageable($object)
     {
         // virtual folder
@@ -569,10 +617,18 @@ class MediaLibraryRightManager
                         $value = false;
                         break;
                     }
-                    if ($object->getIsLocker() && $this->canReadFolder($object))
-                    {
-                        $value = true;
-                        break;
+                    if ($object->getIsLocker()) {
+                        if ($this->canReadFolder($object)) {
+                            $value = true;
+                            break;
+                        } else {
+                            // locker allow for individual
+                            $homework = $object->getHomework();
+                            if ($homework && in_array($user->getId(), $homework->getUserIds())) {
+                                $value = true;
+                                break;
+                            }
+                        }
                     }
                     $value = $this->canManageFolder($object);
                     break;
@@ -627,7 +683,13 @@ class MediaLibraryRightManager
                         $value = false;
                         break;
                     }
+                    /** @var MediaFolderUser $object */
                     if ($object->getType() == 'USER' && $object->getIsShareDestination()) {
+                        $value = false;
+                        break;
+                    }
+                    /** @var MediaFolderUser $object */
+                    if ($object->getType() == 'USER' && $object->getIsWorkshopFolder()) {
                         $value = false;
                         break;
                     }

@@ -10,6 +10,18 @@
       <bns-inset class="md-padding text-center">
         {% if isAjaxCall %} {# In case of AJAX calling like filters, etc #}
         <p>{% trans %}NO_NEWS_FIND_IN_SEARCH{% endtrans %}</p>
+        {% elseif page.isCity() %}
+          <p>{% trans %}DESCRIPTION_NO_CITY_INFORMATION{% endtrans %}</p>
+
+          {% if has_right('MINISITE_ADMINISTRATION') and page.miniSite.group.type == 'CITY' %}
+            <p class="md-body-1">{% trans %}DESCRIPTION_PAGE_CITY_INFORMATION{% endtrans %}</p>
+            {{ components.button('LINK_WRITE_CITY_INFORMATION'|trans, {
+              href: path('minisite_manager_page_news_new', {'slug': page.getSlug()}),
+              icon: 'add_circle',
+              intent: 'primary',
+              raised: true,
+            }) }}
+          {% endif %}
         {% else %}
           <p>
             {% if is_adult() %}

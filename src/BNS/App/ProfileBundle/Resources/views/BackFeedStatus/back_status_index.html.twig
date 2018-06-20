@@ -27,7 +27,9 @@
 {% endblock javascripts %}
 
 {% block actionbar_content %}
-	{{ components.button( 'LINK_CREATE_NEW_STATUS' | trans , { intent: 'primary', href: path('profile_manager_feed_new'), icon: 'add_circle', raised: true }) }}
+	{{ components.button( 'LINK_CREATE_NEW_STATUS' | trans , { intent: 'primary', href: path('profile_manager_feed_new'), icon: 'add_circle', raised: true, attr: {
+    'bns-feature-flag': "'profile_status'", 'bns-feature-push': null
+  } }) }}
 {% endblock actionbar_content %}
 
 {% block sidebar_content %}

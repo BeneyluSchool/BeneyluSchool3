@@ -1,6 +1,7 @@
 {% trans_default_domain "PROFILE" %}
 <md-content>
-	<md-list>
+  <div bns-feature-flag="'profile_status'" bns-feature-push="'incentive'">
+	<md-list >
 	{% for feed in feeds %}
 		{% include 'BNSAppProfileBundle:Status:back_status_row.html.twig' with {'feed': feed} %}
 	{% else %}
@@ -18,4 +19,5 @@
 		</bns-inset>
 	{% endfor %}
 	</md-list>
+  </div>
 </md-content>

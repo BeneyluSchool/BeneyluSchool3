@@ -172,13 +172,11 @@ function BNSStarterKitPointerDirective ($compile, $log, starterKit) {
         return $log.warn('Missing content for pointer', attrs.pointer, step);
       }
 
-      var tpl = angular.element('<div class="starter-kit-pointer-tooltip-container">'+
-        '<md-tooltip class="starter-kit-pointer-tooltip" md-direction="bottom">'+
-          step.data.pointers[attrs.pointer]+
-        '</md-tooltip>'+
-      '</div>');
-      tooltip = $compile(tpl)(scope);
-      element.append(tooltip);
+      // register this element in the list of pointers
+      if (!step.data._pointerElements) {
+        step.data._pointerElements = {};
+      }
+      step.data._pointerElements[attrs.pointer] = element;
     }
 
     function exit () {
@@ -206,7 +204,7 @@ function BNSStarterKitPointerDirective ($compile, $log, starterKit) {
  * @requires $mdUtil
  * @requires starterKit
  */
-function BNSStarterKitStepperDirective ($mdUtil, starterKit) {
+function BNSStarterKitStepperDirective ($mdUtil, $mdPanel, starterKit) {
 
   return {
     templateUrl: 'views/starter-kit/directives/bns-starter-kit-stepper.html',
@@ -228,6 +226,7 @@ function BNSStarterKitStepperDirective ($mdUtil, starterKit) {
 
     function enter (step) {
       var source = element;
+      var position = null;
       if (!source[0].offsetHeight) {
         // TODO: element is somehow not visible, try to find a substitute
         if (element.closest('bns-transclude-dest').length) {
@@ -237,6 +236,12 @@ function BNSStarterKitStepperDirective ($mdUtil, starterKit) {
         }
         console.warn('Stepper source is not visible', source);
         source = false;
+      } else {
+        position = $mdPanel.newPanelPosition()
+          .relativeTo(source)
+          .addPanelPosition($mdPanel.xPosition.ALIGN_START, $mdPanel.yPosition.ALIGN_TOPS)
+        ;
+
       }
       starterKit.showDialog({
         templateUrl: 'views/starter-kit/dialogs/stepper.html',
@@ -245,11 +250,14 @@ function BNSStarterKitStepperDirective ($mdUtil, starterKit) {
         bindToController: true,
         escapeToClose: false,
         locals: {
+          target: source,
           source: source,
           require: attrs.require || step.validate,
         },
         scope: scope,
         preserveScope: true,
+        position: position,
+        panelClass: 'starter-kit-stepper-dialog',
         // fake event, $mdDialog only needs the target for positioning animation
         targetEvent: source ? { target: source } : null,
       });

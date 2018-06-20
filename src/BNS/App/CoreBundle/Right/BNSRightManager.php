@@ -9,15 +9,18 @@ use BNS\App\CoreBundle\Model\BlogArticle;
 use BNS\App\CoreBundle\Model\GroupType;
 use BNS\App\CoreBundle\Model\LiaisonBookQuery;
 use BNS\App\CoreBundle\Model\Module;
-use BNS\App\HomeworkBundle\Model\HomeworkGroup;
-use BNS\App\HomeworkBundle\Model\HomeworkGroupQuery;
+use BNS\App\CoreBundle\User\BNSUserManager;
+use BNS\App\CorrectionBundle\Model\CorrectionQuery;
+use BNS\App\HomeworkBundle\Model\Homework;
+use BNS\App\HomeworkBundle\Model\HomeworkQuery;
 use BNS\App\InfoBundle\Model\AnnouncementQuery;
 use BNS\App\CoreBundle\Model\BlogQuery;
+use BNS\App\MediaLibraryBundle\Manager\MediaManager;
 use BNS\App\MessagingBundle\Model\MessagingMessageQuery;
 use BNS\App\MiniSiteBundle\Model\MiniSitePageQuery;
 use BNS\App\NoteBookBundle\Model\NoteBookQuery;
+use BNS\App\WorkshopBundle\Model\WorkshopDocumentQuery;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -27,19 +30,18 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use BNS\App\CoreBundle\Model\Group;
 use BNS\App\CoreBundle\Model\User;
 use BNS\App\CoreBundle\Model\ModuleQuery;
-use BNS\App\CoreBundle\Model\ModulePeer;
 use BNS\App\CoreBundle\Model\GroupQuery;
 use BNS\App\CoreBundle\Model\GroupPeer;
 use BNS\App\CoreBundle\Model\GroupTypeQuery;
-use BNS\App\CoreBundle\Access\BNSAccess;
 use BNS\App\InfoBundle\Model\AnnouncementUserQuery;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * @author Eymeric Taelman
  *
- * ATTENTION : Scope Request
  * Classe permettant de connaître les droits sur un utilisateur connecté
  */
 class BNSRightManager
@@ -64,16 +66,18 @@ class BNSRightManager
      */
     protected $session;
 
-    /**
-     * @var \Symfony\Component\Security\Core\SecurityContext
-     */
-    protected $security_context;
     protected $group_manager;
     protected $classroom_manager;
     protected $school_manager;
     protected $team_manager;
     protected $current_group;
     protected $in_front;
+
+    /** @var  TokenStorageInterface */
+    protected $tokenStorage;
+
+    /** @var  AuthorizationCheckerInterface */
+    protected $authorisationChecker;
 
     /**
      * @var LoggerInterface
@@ -87,28 +91,41 @@ class BNSRightManager
     protected static $dock_special_modules = array('PROFILE', 'NOTIFICATION', 'HELP', 'MAIN');
 
     /**
-     * @param \BNS\App\CoreBundle\User\BNSUserManager			$user_manager
-     * @param \BNS\App\CoreBundle\API\BNSApi					$api
-     * @param \Symfony\Component\HttpFoundation\Request			$request
-     * @param \Symfony\Component\Security\Core\SecurityContext	$security_context
-     * @param \BNS\App\CoreBundle\Group\BNSGroupManager			$group_manager
-     * @param \BNS\App\CoreBundle\Classroom\BNSClassroomManager	$classroom_manager
-     * @param \BNS\App\CoreBundle\Team\BNSTeamManager			$team_manager
+     * @param \BNS\App\CoreBundle\User\BNSUserManager $user_manager
+     * @param \BNS\App\CoreBundle\API\BNSApi $api
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param null $old
+     * @param \BNS\App\CoreBundle\Group\BNSGroupManager $group_manager
+     * @param \BNS\App\CoreBundle\Classroom\BNSClassroomManager $classroom_manager
+     * @param \BNS\App\CoreBundle\Team\BNSTeamManager $team_manager
      */
-    public function __construct($container, $user_manager, $api, RequestStack $requestStack, SessionInterface $session, $security_context, $group_manager,
-        $classroom_manager, $team_manager, LoggerInterface $logger)
-    {
+    public function __construct(
+        $container,
+        $user_manager,
+        $api,
+        RequestStack $requestStack,
+        SessionInterface $session,
+        $old,
+        $group_manager,
+        $classroom_manager,
+        $team_manager,
+        LoggerInterface $logger,
+        TokenStorageInterface $tokenStorage,
+        AuthorizationCheckerInterface $authorizationChecker
+    ) {
         $this->container = $container;
         $this->api = $api;
         $this->requestStack = $requestStack;
         $this->session = $session;
         $this->user_manager = $user_manager;
-        $this->security_context = $security_context;
         $this->group_manager = $group_manager;
         $this->classroom_manager = $classroom_manager;
-        //$this->school_manager = $school_manager;
         $this->team_manager = $team_manager;
         $this->logger = $logger;
+
+        $this->tokenStorage = $tokenStorage;
+        $this->authorisationChecker = $authorizationChecker;
+
         $this->initModelUserManager(true);
     }
 
@@ -121,10 +138,13 @@ class BNSRightManager
      * L'utilisateur est il connecté ?
      * @return boolean
      */
-
     public function isAuthenticated()
     {
-        return null != $this->security_context->getToken() && $this->security_context->isGranted('IS_AUTHENTICATED_FULLY');
+        if ($token = $this->tokenStorage->getToken()) {
+            return $this->authorisationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED');
+        }
+
+        return false;
     }
 
     /*
@@ -146,13 +166,16 @@ class BNSRightManager
      * Retourne le User Session
      * @return ProxyUser
      *
-     * @deprecated
+     * @deprecated do not use this
      */
     public function getUserSession()
     {
-        $token = $this->security_context->getToken();
+        $token = $this->tokenStorage->getToken();
         if ($token) {
-            return $token->getUser();
+            $user = $token->getUser();
+            if ($user && $user instanceof User) {
+                return $user;
+            }
         }
 
         return null;
@@ -167,7 +190,7 @@ class BNSRightManager
     public function getUserSessionId()
     {
         $user = $this->getUserSession();
-        if ($user) {
+        if ($user && $user instanceof User) {
             return $user->getId();
         }
 
@@ -177,8 +200,9 @@ class BNSRightManager
     /*
      * Retourne l'utilisateur tel que modélisé en BDD
      * @return User
+     *
+     * @deprecated
      */
-
     public function getModelUser()
     {
         return $this->getUserSession();
@@ -188,20 +212,19 @@ class BNSRightManager
      *
      * Initialisation du UserManager avec l'utilisateur en cours
      * @param boolean $withRights Veux-t-on également initialiser les droits ?
-     * @return UserManager
+     * @return BNSUserManager
      */
     public function initModelUserManager($withRights = false)
     {
         if ($this->isAuthenticated()) {
             $user = $this->getUserSession();
-            $userManager = $this->user_manager;
-            $userManager->setUser($user);
+            $this->user_manager->setUser($user);
 
             if ($withRights) {
-                $userManager->setRights($this->getRights());
+                $this->user_manager->setRights($this->getRights());
             }
 
-            return $userManager;
+            return $this->user_manager;
         }
 
         return null;
@@ -209,6 +232,7 @@ class BNSRightManager
 
     /**
      * @return \BNS\App\CoreBundle\User\BNSUserManager
+     * @deprecated inject userManager service
      */
     public function getUserManager()
     {
@@ -221,6 +245,7 @@ class BNSRightManager
 
     /**
      * @return BNSGroupManager
+     * @deprecated inject groupManager
      */
     public function getGroupManager()
     {
@@ -243,15 +268,17 @@ class BNSRightManager
      * Initialisation des droits à la connexion
      * Ne renvoie rien, set en session les droits
      */
-
     public function initRights()
     {
-
-
         $um = $this->initModelUserManager(false);
-        $this->rights = $um->getRights();
+        if ($um) {
+            $this->rights = $um->getRights();
+        }
     }
 
+    /**
+     * @deprecated
+     */
     public function getUserType()
     {
         return $this->getUserManager()->getUserType();
@@ -260,6 +287,8 @@ class BNSRightManager
     /**
      * L'utilisateur en cours est-il un enfant
      * @return boolean
+     *
+     * @deprecated use User methods
      */
     public function isChild()
     {
@@ -269,6 +298,8 @@ class BNSRightManager
     /**
      * L'utilisateur en cours est-il un adulte ,
      * @return boolean
+     *
+     * @deprecated use User methods
      */
     public function isAdult()
     {
@@ -714,6 +745,14 @@ class BNSRightManager
 
         $rights = $this->getRights();
 
+        // rescue mode: try to add an EXPRESS licence for fr users
+        if (!count($rights)) {
+            if ($this->user_manager->tryAddExpressLicence()) {
+                $this->reloadRights();
+                $rights = $this->getRights();
+            }
+        }
+
         // L'utilisateur n'a plus ou pas de groupe lié, on le déconnecte
         if (count($rights) == 0) {
             throw new NoContextException('No group');
@@ -741,6 +780,10 @@ class BNSRightManager
 
     public function getCurrentGroupId()
     {
+        if (!$this->getSession()->has('bns_context')) {
+            $this->initContext();
+        }
+
         return $this->getSession()->get('bns_context');
     }
 
@@ -1048,6 +1091,7 @@ class BNSRightManager
     }
 
     /**
+     * @deprecated don't use this : bad code
      * @param string $permission
      * @param int $groupId
      *
@@ -1085,6 +1129,7 @@ class BNSRightManager
     }
 
     /**
+     * @deprecated do not use this
      * @param string $permission
      * @param int $groupId
      *
@@ -1125,9 +1170,11 @@ class BNSRightManager
         return $activatedModules;
     }
 
-    /*
+    /**
+     * @deprecated use @see getModulesReachableUniqueNames()
+     *
      * Renvoie la liste des modules accessibles, quelque soit le contexte
-     * return array<Module>
+     * @return array<Module>
      */
     public function getModulesReachable()
     {
@@ -1145,16 +1192,24 @@ class BNSRightManager
 
     public function getModulesReachableUniqueNames()
     {
-        $result = array();
-        foreach($this->getModulesReachable() as $module)
-        {
-            $result[] = $module->getUniqueName();
+        $allModules = ModuleQuery::create()
+            ->filterByIsEnabled(true)
+            ->select('UniqueName')
+            ->find()
+        ;
+        $commonModules = array();
+        foreach ($allModules as $moduleUniqueName) {
+            if ($this->hasRightSomeWhere($moduleUniqueName . '_ACCESS')) {
+                $commonModules[] = $moduleUniqueName;
+            }
         }
-        return $result;
+
+        return $commonModules;
     }
 
 
     /**
+     * @deprecated do not use this
      * @param int $groupId
      *
      * @return array<Module>
@@ -1363,7 +1418,45 @@ class BNSRightManager
     {
         // TODO split this check to dedicated tagged services
         switch ($objectType) {
+            case 'CorrectionAnnotation';
+            case 'BNS\\App\\CorrectionBundle\\Model\\CorrectionAnnotation':
+                $correction = CorrectionQuery::create()
+                    ->useCorrectionAnnotationQuery()
+                        ->filterById($objectId)
+                    ->endUse()
+                    ->findOne();
+
+                return $correction && $this->canReadObject($correction->getObjectClass(), $correction->getObjectId());
+            case 'WorkshopWidget':
+            case 'BNS\App\WorkshopBundle\Model\WorkshopWidget':
+            case '\\BNS\\App\\WorkshopBundle\\Model\\WorkshopWidget':
+                $document = WorkshopDocumentQuery::create()
+                    ->useWorkshopPageQuery()
+                        ->useWorkshopWidgetGroupQuery()
+                            ->useWorkshopWidgetQuery()
+                                ->filterById($objectId)
+                            ->endUse()
+                        ->endUse()
+                    ->endUse()
+                    ->findOne();
+                if (!$document) {
+                    return false;
+                }
+                $canView = false;
+                $canManage = false;
+                if ($user = $this->getUserSession()) {
+                    $canManage = $this->container->get('bns.workshop.content.manager')->canManage($document->getWorkshopContent(), $user);
+                }
+                if (!$canManage) {
+                    $canView = $this->container->get('bns.media_library_right.manager')->canReadMedia($document->getMedia());
+                    if (!$canView && MediaManager::STATUS_QUESTIONNAIRE_COMPETITION == $document->getMedia()->getStatusDeletion()) {
+                        $competition = $document->getMedia()->getCompetition();
+                        $canView = $this->container->get('bns.competition.competition.manager')->canViewCompetition($competition, $user);
+                    }
+                }
+                return $canManage || $canView;
             case 'AgendaEvent':
+            case 'BNS\App\CoreBundle\Model\AgendaEvent':
             case '\\BNS\\App\\CoreBundle\\Model\\AgendaEvent':
                 $group = GroupQuery::create()
                     ->useAgendaQuery()
@@ -1376,30 +1469,57 @@ class BNSRightManager
                 return $group && $this->hasRight('CALENDAR_ACCESS', $group->getId());
 
             case 'BlogArticle':
+            case 'BNS\App\CoreBundle\Model\BlogArticle':
             case '\\BNS\\App\\CoreBundle\\Model\\BlogArticle':
                 /** @var Blog $blog */
-                $blog = BlogQuery::create()
+                $blogs = BlogQuery::create()
                         ->useBlogArticleBlogQuery()
                             ->useBlogRelQuery()
                                 ->filterById($objectId)
                             ->endUse()
                         ->endUse()
-                    ->findOne();
-
-                return $blog && $this->hasRight('BLOG_ACCESS', $blog->getGroupId());
+                    ->find();
+                foreach ($blogs as $blog) {
+                    if ($this->hasRight('BLOG_ACCESS', $blog->getGroupId())) {
+                        return true;
+                    }
+                }
+                return false;
 
             case 'Homework':
+            case 'BNS\App\HomeworkBundle\Model\Homework':
             case '\\BNS\\App\\HomeworkBundle\\Model\\Homework':
-                /** @var HomeworkGroup $group */
-                $homeworkGroup = HomeworkGroupQuery::create()
-                    ->useHomeworkQuery()
-                        ->filterById($objectId)
-                    ->endUse()
-                    ->findOne();
+                /** @var Homework $homework */
+                $homework = HomeworkQuery::create()->findPk($objectId);
+                if ($homework) {
+                    /** @var User $user */
+                    $user = $this->getUserSession();
+                    if ($user) {
+                        $assignedIds = $homework->getUsers()->getPrimaryKeys(false);
+                        $userIds = [];
+                        if ($user->isChild()) {
+                            $userIds[] = $user->getId();
+                        } else {
+                            $userIds = $user->getActiveChildren()->getPrimaryKeys(false);
+                        }
 
-                return $homeworkGroup && $this->hasRight('HOMEWORK_ACCESS', $homeworkGroup->getGroupId());
+                        if (count(array_intersect($assignedIds, $userIds)) > 0) {
+                            // user is assigned to the homework or children of the user are assigned to the homework
+                            return true;
+                        }
+                    }
+                    foreach ($homework->getGroups()->getPrimaryKeys(false) as $groupId) {
+                        if ($this->hasRight('HOMEWORK_ACCESS', $groupId)) {
+                            // User has HOMEWORK_ACCESS in a group assigned to the homework
+                            return true;
+                        }
+                    }
+                }
+
+                return false;
 
             case 'LiaisonBook':
+            case 'BNS\App\CoreBundle\Model\LiaisonBook':
             case '\\BNS\\App\\CoreBundle\\Model\\LiaisonBook':
                 $liaison = LiaisonBookQuery::create()
                     ->findOneById($objectId);
@@ -1407,6 +1527,7 @@ class BNSRightManager
                 return $liaison && $this->hasRight('LIAISONBOOK_ACCESS', $liaison->getGroupId());
 
             case 'MessagingMessage':
+            case 'BNS\App\MessagingBundle\Model\MessagingMessage':
             case '\\BNS\\App\\MessagingBundle\\Model\\MessagingMessage':
                 $message = MessagingMessageQuery::create()
                     ->findPk($objectId);
@@ -1414,6 +1535,7 @@ class BNSRightManager
                 return $message && $this->container->get('bns.message_manager')->canRead($message);
 
             case 'MiniSitePageNews':
+            case 'BNS\App\MiniSiteBundle\Model\MiniSitePageNews':
             case '\\BNS\\App\\MiniSiteBundle\\Model\\MiniSitePageNews':
                 $page = MiniSitePageQuery::create()
                     ->useMiniSitePageNewsQuery()
@@ -1424,6 +1546,7 @@ class BNSRightManager
                 return $this->canReadMiniSitePage($page);
 
             case 'MiniSitePageText':
+            case 'BNS\App\MiniSiteBundle\Model\MiniSitePageText':
             case '\\BNS\\App\\MiniSiteBundle\\Model\\MiniSitePageText':
                 $page = MiniSitePageQuery::create()
                     ->useMiniSitePageTextQuery()
@@ -1434,12 +1557,14 @@ class BNSRightManager
                 return $this->canReadMiniSitePage($page);
 
             case 'NoteBook':
+            case 'BNS\App\NoteBookBundle\Model\NoteBook':
             case '\\BNS\\App\\NoteBookBundle\\Model\\NoteBook':
                 $notebook = NoteBookQuery::create()->findPk($objectId);
 
                 return $notebook && $this->hasRight('NOTEBOOK_ACCESS', $notebook->getGroupId());
 
             case 'ForumMessage':
+            case 'BNS\App\CoreBundle\Model\ForumMessage':
             case '\\BNS\\App\\CoreBundle\\Model\\ForumMessage':
 
                 $group = GroupQuery::create()
@@ -1455,12 +1580,29 @@ class BNSRightManager
                 return $group && $this->hasRight('FORUM_ACCESS', $group->getId());
 
             case 'Profile':
+            case 'BNS\App\CoreBundle\Model\Profile':
             case '\\BNS\\App\\CoreBundle\\Model\\Profile':
             break;
 
         }
 
         return false;
+    }
+
+    /**
+     * @param User $user
+     * @param Group|null $group
+     * @return boolean
+     */
+    public function canActivateAssistance(User $user, Group $group = null)
+    {
+        $mainRole = $this->user_manager->setUser($user)->getMainRole();
+        if (!in_array($mainRole, array('teacher', 'director'))) {
+            return false;
+        }
+        $group = $group ?: $this->getCurrentGroup();
+
+        return (boolean)$this->group_manager->setGroup($group)->getProjectInfo('has_assistance');
     }
 
     protected function canReadMiniSitePage($page)
@@ -1482,10 +1624,20 @@ class BNSRightManager
     //Function to change context to see a blog article (back and front) if you have the right in a group you belong
     public function changeContextToSeeBlogArticle(Request $request, BlogArticle $article, $route, $param)
     {
-        // build a sub request to handle context switch
-        $target = $article->getBlogs()->getFirst()->getGroup();
+        $groupWithPermissionIds = $this->getGroupIdsWherePermission('BLOG_ACCESS');
 
-        $this->changeContextTo($request, $target);
+        $groupTargetId = BlogQuery::create()->filterByGroupId($groupWithPermissionIds, \Criteria::IN)
+            ->useBlogArticleBlogQuery()
+            ->filterByArticleId($article->getId())
+            ->endUse()
+            ->select('group_id')
+            ->findOne();
+        $groupTarget = GroupQuery::create()->findPk($groupTargetId);
+        if (!$groupTarget) {
+            throw new NotFoundHttpException();
+        }
+
+        $this->changeContextTo($request, $groupTarget);
 
         // try again
         return new RedirectResponse($this->container->get('router')->generate($route, $param));

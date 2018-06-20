@@ -3,6 +3,9 @@
 namespace BNS\App\CommentBundle\Controller;
 
 use BNS\App\CommentBundle\Form\Model\CommentForm;
+use BNS\App\CoreBundle\Model\BlogArticleCategoryPeer;
+use BNS\App\CoreBundle\Model\BlogArticleCommentPeer;
+use BNS\App\CoreBundle\Model\BlogArticleCommentQuery;
 use BNS\App\CoreBundle\Utils\Crypt;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -64,6 +67,7 @@ class BackCommentController extends Controller
 				'comments'	=> $pager->getResults(),
 				'pager'		=> $pager,
 				'status'	=> $status,
+				'with_multiselect' => true,
 				'editRoute'	=> $editRoute,
 				'display' => $display
 			));
@@ -109,7 +113,7 @@ class BackCommentController extends Controller
 	}
 
 	/**
-	 * @Route("/status", name="comment_manager_status_update")
+	 * @Route("/status", name="comment_manager_status_update", options={"expose"=true})
 	 */
 	public function updateStatusAction($isVisualisation = false)
 	{
@@ -217,6 +221,7 @@ class BackCommentController extends Controller
 		)));
 	}
 
+
 	/**
 	 * @Route("/status/visualisation", name="comment_manager_status_update_visualisation")
 	 */
@@ -290,4 +295,35 @@ class BackCommentController extends Controller
 			'isModeration' => $isModeration
 		)));
 	}
+
+    /**
+     * @Route("/tout-supprimer", name="comment_manager_delete_all")
+     */
+    public function deleteAllAction()
+    {
+        if (!$this->getRequest()->isMethod('POST') || !$this->getRequest()->isXmlHttpRequest()) {
+            throw new NotFoundHttpException('The page excepts POST & AJAX header !');
+        }
+
+        $namespace	= $this->getRequest()->get('namespace', null);
+
+        // Check parameters
+        if (null == $namespace) {
+            throw new \InvalidArgumentException('There is some missing mandatory inputs !');
+        }
+
+        if (!$this->get('bns.right_manager')->hasRightSomeWhere('BLOG_ADMINISTRATION')) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $namespace	= Crypt::decrypt($namespace);
+        $queryClass	= $namespace . 'Query';
+        $peerClass	= $namespace . 'Peer';
+
+        $comments = $queryClass::getBackComments($this->get('bns.right_manager')->getContext())
+            ->where('c.Status = ?', 'REFUSED')
+            ->find()->delete();
+
+        return new Response();
+    }
 }

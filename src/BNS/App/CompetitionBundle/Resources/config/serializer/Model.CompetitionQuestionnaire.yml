@@ -1,0 +1,14 @@
+BNS\App\CompetitionBundle\Model\CompetitionQuestionnaire:
+  exclusion_policy: All
+  properties:
+    created_at:
+      expose: true
+      groups: [competition_detail]
+
+  virtual_properties:
+    getQuestionnaire:
+      expose: true
+      groups: [competition_detail]
+    getUser:
+      expose: true
+      groups: [competition_detail]

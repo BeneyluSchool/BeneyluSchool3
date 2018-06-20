@@ -1,0 +1,14 @@
+{% trans_default_domain "CLASSROOM" %}
+<div class="loader loader-sb">
+</div>
+<div class="modal-body">
+    <div class="content-modal-body">
+
+        {{ form_start(form, {'attr' : {'class' : 'form_import_teacher_vcard'} }) }}
+        {{ form_row(form.vcard) }}
+        {{ form_errors(form.vcard) }}
+        {{ form_end(form) }}
+
+    </div>
+</div>
+<div class="beneylu-jim"></div>

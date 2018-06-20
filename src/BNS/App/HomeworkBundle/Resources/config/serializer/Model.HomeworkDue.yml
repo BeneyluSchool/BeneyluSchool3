@@ -9,7 +9,7 @@ BNS\App\HomeworkBundle\Model\HomeworkDue:
   relations:
     - rel: users_done
       embedded:
-        content: expr(object.getUsersDone())
+        content: expr(service('bns.homework_manager').getUsersDone(object))
         exclusion:
           groups: [ detail, homework_due_detail ]
           exclude_if: expr(!service('bns.right_manager').hasRight('HOMEWORK_ACCESS_BACK'))

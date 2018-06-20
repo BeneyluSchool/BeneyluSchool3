@@ -127,6 +127,14 @@
             }
             else {
               items.splice(newIndex, 0, items.splice(oldIndex, 1)[0]);
+
+              // move ng-repeat comment node to right position
+              /* globals Node */
+              if (nextSibling.nodeType === Node.COMMENT_NODE) {
+                evt.from.insertBefore(nextSibling, evt.item.nextSibling);
+              }
+
+              // custom
               removed = null; // clean data from previous event
             }
 

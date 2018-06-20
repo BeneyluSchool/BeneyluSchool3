@@ -2,6 +2,9 @@ imports:
     - { resource: config_app.yml }
     - { resource: parameters_prod.yml }
 
+# /!\ Settings here CAN'T BE OVERRIDDEN
+# DO NOT ADD settings here unless you have a very good reason
+
 assetic:
     use_controller: false
     java: "java"
@@ -67,15 +70,8 @@ knp_snappy:
     image:
         binary:     'LANG=fr_FR.UTF-8 /usr/local/bin/wkhtmltoimage'
 
-dubture_f_fmpeg:
-    ffmpeg_binary:      /usr/bin/ffmpeg
-    ffprobe_binary:     /usr/bin/ffprobe
-    binary_timeout:     300 # Use 0 for infinite
-    threads_count:      4
-
+# /!\ THIS CAN'T BE OVERRIDDEN
+# DO NOT ADD parameters here unless you have a very good reason
 parameters:
-    paas_order_url:                      
-    paas_check_url:                      
     public_version_url:                  https://beneylu.com
-    bns_app.session.max_idle_time:       14400
     bns_breakfast_item_id: 2

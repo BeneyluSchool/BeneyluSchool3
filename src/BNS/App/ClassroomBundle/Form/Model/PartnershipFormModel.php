@@ -11,17 +11,17 @@ use BNS\App\CoreBundle\Partnership\BNSPartnershipManager;
  */
 class PartnershipFormModel
 {
-    
+
     public $partnership;
 
     public $name;
-    
+
     public $description;
-    
+
     public $home_message;
-    
+
     public $currentGroupId;
-    
+
     public $isEditionMode;
 
     /**
@@ -42,7 +42,7 @@ class PartnershipFormModel
         $this->currentGroupId = $groupId;
         $this->isEditionMode = $isEditionMode;
         $this->partnershipManager = $partnershipManager;
-        
+
         //Si on est en mode edition on alimente le formulaire
         if($isEditionMode && $partnership != null)
         {
@@ -61,8 +61,11 @@ class PartnershipFormModel
         $params['attributes']['DESCRIPTION'] = $this->description;
         $params['attributes']['HOME_MESSAGE'] = $this->home_message;
 
-        if(! $this->isEditionMode)
-        {
+        if (! $this->isEditionMode) {
+            if (count($this->classrooms)) {
+                $params['lang'] = $this->classrooms[0]->getLang();
+            }
+
             $partnership = $this->partnershipManager->createPartnership($params);
             // if classrooms have been selected, add them to partnership
             if (count($this->classrooms)) {
@@ -79,11 +82,11 @@ class PartnershipFormModel
             //update des attributes du partenariat
             $this->partnership->setAttribute('DESCRIPTION', $this->description);
             $this->partnership->setAttribute('HOME_MESSAGE', $this->home_message);
-                
+
             //update côté centrale
             $this->partnershipManager->setPartnership($this->partnership);
             $this->partnershipManager->updatePartnership($params);
         }
     }
-    
+
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <!-- Allowed attributes name : competitionId,  -->
+
+            <!-- EMAIL Engine -->
+            <trans-unit id="1">
+                <source>COMPETITION_SIMPLE_COMPETITION_REFUSED_QUESTIONNAIRE.EMAIL.title</source>
+                <target>Ton questionnaire est à revoir.</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>COMPETITION_SIMPLE_COMPETITION_REFUSED_QUESTIONNAIRE.EMAIL.content</source>
+                <target><![CDATA[Ton questionnaire %questionnaireLabel% a été refusé dans le concours <a href="%competitionUrl%"><strong>%competitionLabel%</strong></a>. %secondSentence%]]></target>
+            </trans-unit>
+
+            <!-- SYSTEM Engine -->
+            <trans-unit id="100">
+                <source>COMPETITION_SIMPLE_COMPETITION_REFUSED_QUESTIONNAIRE.SYSTEM.content</source>
+                <target><![CDATA[Ton questionnaire %questionnaireLabel% a été refusé dans le concours <a href="%competitionUrl%"><strong>%competitionLabel%</strong></a>. %secondSentence%]]></target>
+            </trans-unit>
+
+        <!-- deuxieme phrase de notification a ajouter après la phrase précédente si la participation est toujours ouverte -->
+            <trans-unit id="2718d44ed38b25589fc4c495f9dc2f99aa285535">
+            <source>COMPETITION_SIMPLE_COMPETITION_REFUSED_QUESTIONNAIRE.COMPETITION_REPROPOSE</source>
+            <target>Tu peux travailler et le proposer à nouveau.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

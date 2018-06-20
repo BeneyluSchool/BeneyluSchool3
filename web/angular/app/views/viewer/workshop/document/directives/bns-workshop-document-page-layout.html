@@ -1,7 +1,25 @@
-<div ng-class="ctrl.layoutClasses" class="workshop-page-layout layout-column">
+<div id="workshop-page-layout" ng-class="ctrl.layoutClasses" class="workshop-page-layout workshop-scrollable layout-column">
 
-  <div ng-repeat="row in ctrl.rows" class="layout-row workshop-layout-row workshop-layout-row-{{::row.code}}">
-    <div ng-repeat="zone in row.zones" last="ctrl.last" bns-workshop-document-page-layout-zone="zone"></div>
+  <div ng-repeat="row in ctrl.rows"
+    class="layout-row workshop-layout-row workshop-layout-row-{{::row.code}} bns-resizable"
+    bns-resizable
+    bns-directions="$first ? ['bottom'] : ['top']"
+    bns-disabled="!('workshop_resize'|featureFlag)"
+    bns-use-flex="true"
+    bns-relative-to="#workshop-page-layout"
+    bns-on-resize-data="{row: row}"
+    ng-style="{'min-height': ctrl.page.sizes[row.code]}"
+  >
+    <div ng-repeat="zone in row.zones"
+      last="ctrl.last"
+      bns-workshop-document-page-layout-zone="zone"
+      bns-resizable bns-directions="$first&&row.zones.length>1?['right']:$last&&row.zones.length===3?['left']:[]"
+      bns-disabled="!('workshop_resize'|featureFlag)"
+      bns-use-flex="true"
+      bns-relative-to="#workshop-page-layout"
+      bns-on-resize-data="{zone: zone}"
+      ng-style="{'min-width': ctrl.page.sizes[zone.code]}"
+    ></div>
   </div>
 
 </div>

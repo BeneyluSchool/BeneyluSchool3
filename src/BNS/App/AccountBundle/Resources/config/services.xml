@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="bns.account.has_management">false</parameter>
+        <parameter key="bns.account.has_plans">false</parameter>
+    </parameters>
+
+    <services>
+
+        <service id="install_process_bns_app_account_bundle" class="BNS\App\AccountBundle\Install\InstallProcess">
+            <tag name="bns.install_process" />
+        </service>
+
+    </services>
+</container>

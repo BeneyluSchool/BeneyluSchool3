@@ -31,7 +31,7 @@ class MessageFolderApiController extends BaseMessagingApiController
      * @Rest\QueryParam(name="limit", requirements="\d+", description="number of elements per page", default="10")
      * @Rest\QueryParam(name="search", requirements="\w+", description="a search query")
      * @Rest\Get("/{folder}", requirements={ "folder": "inbox|sent|drafts|trash" })
-     * @Rest\View(serializerGroups={"Default", "conversation_list", "message_list", "user_list", "media_list"})
+     * @Rest\View(serializerGroups={"Default", "conversation_list", "message_list", "user_list", "media_list", "user_messages"})
      *
      * @RightsSomeWhere("MESSAGING_ACCESS")
      *
@@ -47,7 +47,7 @@ class MessageFolderApiController extends BaseMessagingApiController
 
         switch ($folder) {
             case 'inbox':
-                $query = $messageManager->getMessagesConversationsByStatus(['NONE_READ', 'READ', 'CAMPAIGN']);
+                $query = $messageManager->getMessagesConversationsByStatus(['NONE_READ', 'READ', 'CAMPAIGN', 'CAMPAIGN_READ']);
                 break;
             case 'sent':
                 $query = $messageManager->getSentMessages();
@@ -58,7 +58,7 @@ class MessageFolderApiController extends BaseMessagingApiController
                 $isConversation = false;
                 break;
             case 'trash':
-                $query = $messageManager->getMessagesConversationsByStatus('DELETED');
+                $query = $messageManager->getMessagesConversationsByStatus(['DELETED', 'DELETED_CAMPAIGN']);
                 break;
             default:
                 return $this->view('', Codes::HTTP_BAD_REQUEST);
@@ -107,6 +107,10 @@ class MessageFolderApiController extends BaseMessagingApiController
         $status = $paramFetcher->get('status') ?: 'IN_MODERATION';
         if (!isset(BNSMessageManager::$messagesStatus[$status])) {
             return $this->view('Invalid status', Codes::HTTP_BAD_REQUEST);
+        }
+
+        if ($this->hasFeature('messaging_read_indicator')) {
+            $this->get('hateoas.expression.evaluator')->setContextVariable('message_read_indicator', true);
         }
 
         $messagesQuery = MessagingMessageQuery::create()

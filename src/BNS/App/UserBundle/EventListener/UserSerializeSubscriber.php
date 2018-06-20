@@ -72,6 +72,7 @@ class UserSerializeSubscriber implements EventSubscriberInterface
             'workshop_questionnaire_widgets_use' => $this->container->get('bns.right_manager')->hasRight('WORKSHOP_QUESTIONNAIRE_WIDGETS_USE'),
             'workshop_questionnaire_create' => $this->container->get('bns.right_manager')->hasRight('WORKSHOP_QUESTIONNAIRE_CREATE'),
             'school_competition_manage' => $this->container->get('bns.right_manager')->hasRight('SCHOOL_COMPETITION_MANAGE'),
+            'olympics_training_activation' => $this->container->get('bns.right_manager')->hasRight('OLYMPICS_TRAINING_ACTIVATION'),
         );
 
         $highRoleId = $object->getHighRoleId();

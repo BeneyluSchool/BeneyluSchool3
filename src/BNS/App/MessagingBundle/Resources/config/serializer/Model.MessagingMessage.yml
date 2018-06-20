@@ -22,7 +22,12 @@ BNS\App\MessagingBundle\Model\MessagingMessage:
       embedded:
         content: expr(object.showTos())
         exclusion:
-          groups: [ detail, message_detail ]
+          groups: [ message_list, detail, message_detail ]
+    - rel: groupTos
+      embedded:
+        content: expr(object.showGroupTos())
+        exclusion:
+          groups: [ message_list, detail, message_detail ]
     - rel: attachments
       embedded:
         content: expr(object.getResourceAttachments())
@@ -33,3 +38,9 @@ BNS\App\MessagingBundle\Model\MessagingMessage:
         content: expr(object.getGroup())
         exclusion:
           groups: [ list, message_list, detail, message_detail ]
+    - rel: last_reads
+      embedded:
+        content: expr(service('bns.message_manager').getLastReads(object))
+        exclusion:
+          groups: [ detail, message_detail ]
+          exclude_if: expr(!isset('message_read_indicator'))

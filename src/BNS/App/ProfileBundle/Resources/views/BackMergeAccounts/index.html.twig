@@ -42,8 +42,7 @@
             'target_user_login': $login.val(),
             'target_user_password': $password.val()
           },
-          success: function (data)
-          {
+          success: function (data) {
             $data = $row.find('.verify-result');
 
             if ($data.length == 0) {
@@ -62,6 +61,23 @@
               $validateCheckButton.hide('blink');
               $login.prop('disabled', true);
               $password.prop('disabled', true);
+            }
+          },
+          error: function (jqXHR) {
+            $loader.fadeOut('fast');
+
+            if (jqXHR.status === 400) {
+              try {
+                var data = JSON.parse(jqXHR.responseText);
+
+                var toast = angularizer.get('toast');
+                if (toast) {
+                  toast.error(data.message);
+                }
+                console.error(data);
+              } catch (e) {
+                console.error(e);
+              }
             }
           }
         });
@@ -94,7 +110,9 @@
           dataType: 'html',
           data: {
             'target_user_login': $login.val(),
-            'target_user_password': $password.val()
+            'target_user_password': $password.val(),
+            'merge_account_mail': jQuery('#merge_account_mail:checked').length > 0,
+            'merge_account_notification': jQuery('#merge_account_notification:checked').length > 0,
           },
           success: function (data)
           {

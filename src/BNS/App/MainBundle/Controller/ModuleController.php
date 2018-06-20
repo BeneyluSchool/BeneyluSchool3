@@ -24,20 +24,6 @@ class ModuleController extends Controller
             case 'PARTNERSHIP' :
                 $activableModules = $rightManager->getActivablePartnershipModules();
                 // only those 3 modules are available in high school partnerships
-                if ($group->getAttribute('IS_HIGH_SCHOOL')) {
-                    $toRemove = [];
-                    /** @var Module $module */
-                    foreach ($activableModules as $key => $module) {
-                        if (!in_array($module->getUniqueName(), ['BLOG', 'MEDIA_LIBRARY', 'WORKSHOP'])) {
-                            $toRemove[] = $key;
-                        }
-                    }
-
-                    // with php7, do not remove items from collection in same foreach loop
-                    foreach ($toRemove as $key) {
-                        $activableModules->remove($key);
-                    }
-                }
                 break;
             case 'TEAM' :
                 $activableModules = $rightManager->getActivableModules($group->getId(), 'TEAM');

@@ -4,6 +4,8 @@ namespace BNS\App\MiniSiteBundle\Controller;
 
 use \BNS\App\CoreBundle\Access\BNSAccess;
 use \BNS\App\CoreBundle\Annotation\Rights;
+use BNS\App\CoreBundle\Events\BnsEvents;
+use BNS\App\CoreBundle\Events\ThumbnailRefreshEvent;
 use \BNS\App\MiniSiteBundle\Form\Type\MiniSitePageType;
 use \BNS\App\MiniSiteBundle\Form\Type\MiniSiteType;
 use \BNS\App\MiniSiteBundle\Model\MiniSitePage;
@@ -16,14 +18,14 @@ use \Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Sylvain Lorinet <sylvain.lorinet@pixel-cookers.com>
- * 
+ *
  * @Route("/gestion/personnalisation")
  */
 class BackCustomController extends AbstractMiniSiteController
 {
 	/**
 	 * @Route("/", name="minisite_manager_custom")
-	 * 
+	 *
 	 * @Rights("MINISITE_ADMINISTRATION")
 	 */
 	public function indexAction()
@@ -32,7 +34,7 @@ class BackCustomController extends AbstractMiniSiteController
 		$page = new MiniSitePage();
 		$page->setType('TEXT');
 		$newPageForm = $this->createForm(new MiniSitePageType(), $page);
-		
+
 		return $this->render('BNSAppMiniSiteBundle:Custom:index.html.twig', array(
 			'minisite'	  => $miniSite,
 			'newPageForm' => $newPageForm->createView()
@@ -47,6 +49,7 @@ class BackCustomController extends AbstractMiniSiteController
 	public function renderPageAction(MiniSitePage $page)
 	{
 		$form = $this->createForm(new MiniSitePageType(), $page, array(
+			'page' => $page,
 			'is_edition' => true
 		));
 
@@ -72,11 +75,14 @@ class BackCustomController extends AbstractMiniSiteController
 
 	/**
 	 * @Route("/widgets", name="minisite_manager_custom_widgets")
-	 * 
+	 *
 	 * @Rights("MINISITE_ADMINISTRATION")
 	 */
 	public function widgetsAction()
 	{
+	    if (!$this->hasFeature('minisite_widgets')) {
+	        throw $this->createAccessDeniedException();
+        }
 		$context = $this->get('bns.right_manager')->getContext();
 		$miniSite = $this->getMiniSite(MiniSiteQuery::create('ms')
 			->joinWith('ms.MiniSitePage msp')
@@ -87,7 +93,7 @@ class BackCustomController extends AbstractMiniSiteController
 			->orderBy('msp.Rank')
 			->orderBy('msw.Rank')
 		);
-		
+
 		// Convert widget into class
 		$widgets = array();
 		$usedTemplates = array();
@@ -97,10 +103,10 @@ class BackCustomController extends AbstractMiniSiteController
 			$widgets[] = $className::create($widget);
 			$usedTemplates[] = $widget->getWidgetTemplateId();
 		}
-		
+
 		$widgetTemplates = MiniSiteWidgetTemplateQuery::create('mswt')
 		->find();
-		
+
 		return $this->render('BNSAppMiniSiteBundle:Custom:widgets.html.twig', array(
 			'minisite'		=> $miniSite,
 			'widgets'		=> $widgets,
@@ -109,40 +115,42 @@ class BackCustomController extends AbstractMiniSiteController
 			'csrf_token'	=> $this->container->get('form.csrf_provider')->generateCsrfToken('unknown')
 		));
 	}
-	
+
 	/**
 	 * @Route("/informations", name="minisite_manager_custom_informations")
-	 * 
+	 *
 	 * @Rights("MINISITE_ADMINISTRATION")
 	 */
 	public function informationsAction()
 	{
 		$context = $this->get('bns.right_manager')->getContext();
 		$miniSite = $this->getMiniSite();
-		
+
 		$form = $this->createForm(new MiniSiteType(), $miniSite);
 		if ('POST' == $this->getRequest()->getMethod()) {
 			$form->bind($this->getRequest());
 			if ($form->isValid()) {
 				$miniSite = $form->getData();
 				$miniSite->save();
-				
+
+                $dispatcher = $this->get('event_dispatcher');
+                $dispatcher->dispatch(BnsEvents::THUMB_REFRESH, new ThumbnailRefreshEvent($miniSite, 'small'));
 				// Redirect to avoid refresh
 				return $this->redirect($this->generateUrl('minisite_manager_custom_informations'));
 			}
 		}
-		
+
 		return $this->render('BNSAppMiniSiteBundle:Custom:informations.html.twig', array(
 			'minisite'	=> $miniSite,
 			'form'		=> $form->createView()
 		));
 	}
-	
+
 	/**
 	 * @param MiniSiteWidget $widget
 	 * @param string $view
-	 * 
-	 * @return Response 
+	 *
+	 * @return Response
 	 */
 	public function renderWidgetAction($widget, $view)
 	{
@@ -151,7 +159,7 @@ class BackCustomController extends AbstractMiniSiteController
 			'form'			=> $this->createForm($widget->getFormType(), $widget)->createView()
 		));
 	}
-	
+
 	/**
 	 * @param string $view
 	 * @param array $parameters
@@ -161,7 +169,7 @@ class BackCustomController extends AbstractMiniSiteController
 	{
 		// Inject parameter for sidebar custom block
 		$parameters['isCustomRoute'] = true;
-		
+
 		return parent::render($view, $parameters, $response);
 	}
 }

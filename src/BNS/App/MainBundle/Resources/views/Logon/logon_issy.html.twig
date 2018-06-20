@@ -1,0 +1,17 @@
+{% extends '@BNSAppMain/Logon/logon_client.html.twig' %}
+
+{% block hom_splash_classes %} issy {% endblock %}
+
+{% block home_top_title %}
+  <h1 class="home-top-title"><span class="small">L'espace numérique de travail</span><br/>des écoles d'Issy-les-Moulineaux</h1>
+{% endblock %}
+
+{% block home_photo_credit %}Photo François Launay FLny{% endblock %}
+
+{% block home_bottom_logos %}
+  <div class="home-bottom-logos">
+    <img src="{{ asset('assets/images/main/beneylu-school-100.png') }}" alt="Beneylu School" class="h-50">
+    <img src="{{ asset('medias/images/logon/issy/logo-ac-versailles.jpg') }}" class="h-50">
+    <img src="{{ asset('medias/images/logon/issy/logo-issy.png') }}" class="h-50">
+  </div>
+{% endblock %}

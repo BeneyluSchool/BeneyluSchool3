@@ -1,0 +1,23 @@
+<div class="keyboard-input md-whiteframe-z2">
+  <div>
+    <md-button tabindex="-1"
+               class="md-fab md-mini md-primary"
+               ng-if="::keyboardInput.hasPrevious"
+               ng-click="keyboardInput.previous($event)"><md-icon>navigate_before</md-icon></md-button>
+  </div>
+  <div class="bns-keyboard-input-label">
+    {{ ::keyboardInput.label }}
+  </div>
+  <div>
+    <md-button tabindex="-1"
+               class="md-fab md-mini md-primary"
+               ng-if="::keyboardInput.hasNext"
+               ng-click="keyboardInput.next($event)"
+               ng-disabled="!keyboardInput.currentModel.$dirty || keyboardInput.currentModel.$invalid"><md-icon>navigate_next</md-icon></md-button>
+    <md-button tabindex="-1"
+               class="md-fab md-mini md-accent"
+               ng-if="::keyboardInput.hasSubmit"
+               ng-click="keyboardInput.submit($event)"
+               ng-disabled="!keyboardInput.currentModel.$dirty || keyboardInput.currentModel.$invalid"><md-icon>done</md-icon></md-button>
+  </div>
+</div>

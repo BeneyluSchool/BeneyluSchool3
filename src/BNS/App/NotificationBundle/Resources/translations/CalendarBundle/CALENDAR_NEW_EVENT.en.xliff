@@ -8,7 +8,7 @@
     <body>
       <trans-unit id="7812e4c9e48311ba7aa26a74d2efc4848c208254" resname="CALENDAR_NEW_EVENT.EMAIL.content">
         <source>CALENDAR_NEW_EVENT.EMAIL.content</source>
-        <target><![CDATA[The event "<a href="%eventRoute%">%eventTitle%</a>" has been added to the calendar]]></target>
+        <target><![CDATA[<b>%classLabel%</b>The event "<a href="%eventRoute%">%eventTitle%</a>" has been added to the calendar]]></target>
         <note><![CDATA[%eventRoute% is a placeholder
 %eventTitle% is a placeholder
 This text contains HTML tags, please try to keep those tags
@@ -16,7 +16,10 @@ This text contains HTML tags, please try to keep those tags
       </trans-unit>
       <trans-unit id="8f6c4d44f7fb0e07d58c46e26f9a2e9b7994566a" resname="CALENDAR_NEW_EVENT.EMAIL.title">
         <source>CALENDAR_NEW_EVENT.EMAIL.title</source>
-        <target>A new event has been added to the calendar</target>
+        <target>%classLabel%A new event has been added to the calendar</target>
+        <note>%classLabel% is a placeholder
+               This text contains HTML tags, please try to keep those tags
+            </note>
       </trans-unit>
       <trans-unit id="83333b72b7ed7d47f6a2ed9c4ed9a13d1d2a5a93" resname="CALENDAR_NEW_EVENT.SYSTEM.content">
         <source>CALENDAR_NEW_EVENT.SYSTEM.content</source>

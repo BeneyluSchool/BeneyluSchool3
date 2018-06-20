@@ -1,0 +1,29 @@
+BNS\App\CompetitionBundle\Model\QuestionnaireParticipation:
+  exclusion_policy: All
+
+  virtual_properties:
+    getId:
+      expose: true
+      groups: [Default, participation_finished]
+    getPage:
+      expose: true
+      groups: [Default, participation_finished]
+    getTryNumber:
+      expose: true
+      groups: [Default, participation_finished]
+    getScore:
+      expose: true
+      groups: [Default, participation_finished]
+    getGlobalLike:
+      expose: true
+      groups: [Default, participation_finished]
+      serialized_name: like
+    getFinished:
+      expose: true
+      groups: [Default, participation_finished]
+
+  relations:
+    - rel: questionnaire
+      embedded:
+        content: expr(object.showQuestionnaire())
+        groups: [Default]

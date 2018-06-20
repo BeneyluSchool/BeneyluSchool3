@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2017-04-20T15:15:43Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2017-09-21T10:36:09Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
     </header>
     <body>
+      <trans-unit id="6b92b41659d977e9d21fb53a911532c75f3d57ff" resname="READ_NEWSPAPER">
+        <source>READ_NEWSPAPER</source>
+        <target>Lire le journal</target>
+      </trans-unit>
       <trans-unit id="9f54d855ab46451b392a0258ab5d04885dec7d41" resname="TITLE_DAY_READ">
         <source>TITLE_DAY_READ</source>
         <target>La lecture du jour</target>

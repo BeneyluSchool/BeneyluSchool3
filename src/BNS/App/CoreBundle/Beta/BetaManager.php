@@ -27,6 +27,11 @@ class BetaManager
     /**
      * @var boolean
      */
+    protected $betaModeAllowedByStatus;
+
+    /**
+     * @var boolean
+     */
     protected $betaModeEnabled;
 
     /**
@@ -41,12 +46,13 @@ class BetaManager
 
     protected $defaultScheme = 'https';
 
-    public function __construct(RouterInterface $router, RequestStack $requestStack, $betaModeAllowed, $betaModeEnabled, $betaDomain, $normalDomain)
+    public function __construct(RouterInterface $router, RequestStack $requestStack, $betaModeAllowed, $betaModeAllowedByStatus, $betaModeEnabled, $betaDomain, $normalDomain)
     {
         $this->router = $router;
         $this->requestStack = $requestStack;
 
         $this->betaModeAllowed = $betaModeAllowed;
+        $this->betaModeAllowedByStatus = $betaModeAllowedByStatus;
         $this->betaModeEnabled = $betaModeEnabled;
         $this->betaDomain = $betaDomain;
         $this->normalDomain = $normalDomain;
@@ -64,6 +70,14 @@ class BetaManager
     public function isBetaModeAllowed()
     {
         return $this->betaModeAllowed;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isBetaModeAllowedByStatus()
+    {
+        return $this->betaModeAllowedByStatus;
     }
 
     /**

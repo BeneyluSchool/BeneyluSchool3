@@ -4,23 +4,24 @@ namespace BNS\App\ProfileBundle\Controller;
 
 use BNS\App\CommentBundle\Form\Type\CommentType;
 use BNS\App\CoreBundle\Annotation\Rights;
-use BNS\App\CoreBundle\Annotation\RightsSomeWhere;
+use BNS\App\CoreBundle\Controller\BaseController;
 use BNS\App\CoreBundle\Model\GroupTypeQuery;
 use BNS\App\CoreBundle\Model\User;
 use BNS\App\CoreBundle\Model\UserQuery;
 use BNS\App\CoreBundle\Utils\Crypt;
+use BNS\App\NotificationBundle\Notification\ProfileBundle\ProfileModifiedNotification;
 use BNS\App\ProfileBundle\Form\Model\ProfileFormModel;
 use BNS\App\ProfileBundle\Form\Type\ProfileType;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class BackController extends Controller
+class BackController extends BaseController
 {
     /**
      * @Route("/", name="BNSAppProfileBundle_back")
@@ -37,7 +38,7 @@ class BackController extends Controller
             //Les adultes ont forcément accès à l'édition de leur profil
             $rm->forbidIf(!$rm->hasRight('PROFILE_ACCESS_BACK'));
         }
-        if ($user->getProfile()->isFilled()) {
+        if ($user->getProfile()->isFilled() && $this->hasFeature('profile_status')) {
             return $this->redirect($this->generateUrl('BNSAppProfileBundle_back_status'));
         }
 
@@ -65,7 +66,7 @@ class BackController extends Controller
             'namespace'        => Crypt::encrypt('BNS\\App\\CoreBundle\\Model\\ProfileComment'),
             'page'            => $page,
             'user'            => $this->getUser(),
-            'editRoute'        => 'profile_manager_comment_moderation_edit'
+            'editRoute'        => 'profile_manager_comment_moderation_edit',
         ));
     }
 
@@ -88,8 +89,58 @@ class BackController extends Controller
         return $this->render('BNSAppProfileBundle:Moderation:index.html.twig', array(
             'is_moderate'    => !in_array('PROFILE_NO_MODERATE_STATUS', $groupManager->getPermissionsForRole($groupManager->getGroup(), $pupilRole)),
             'page'           => $page,
-            'user'           => $this->getUser()
+            'user'           => $this->getUser(),
         ));
+    }
+
+    /**
+     * @Route("/assistance", name="profile_manager_assistance")
+     * @Rights("PROFILE_ACCESS_BACK")
+     */
+    public function assistanceAction()
+    {
+        $rightManager = $this->get('bns.right_manager');
+
+        // Check des droits d'accès
+        $rightManager->forbidIf(!$rightManager->canActivateAssistance($this->getUser()));
+
+        $groupManager = $this->get('bns.group_manager');
+        $groupManager->setGroup($rightManager->getCurrentGroup());
+
+        $assistantIds = [];
+        foreach ($groupManager->getUniqueAncestors() as $parent) {
+            $userIds = $groupManager->getUserIdsWithPermission('GROUP_GIVE_ASSISTANCE', $parent);
+
+            $assistantIds = array_merge($assistantIds, $userIds);
+        }
+        $assistants = UserQuery::create()->findPks($assistantIds);
+
+        return $this->render('BNSAppProfileBundle:Assistance:index.html.twig', array(
+            'user'  => $this->getUser(),
+            'assistants' => $assistants,
+        ));
+    }
+
+    /**
+     * @Route("/assistance/switch", name="profile_manager_assistance_switch")
+     * @Rights("PROFILE_ACCESS_BACK")
+     */
+    public function switchAssistanceAction(Request $request)
+    {
+        if (!$this->get('bns.right_manager')->canActivateAssistance($this->getUser())) {
+            throw $this->createAccessDeniedException();
+        }
+        /** @var User $user */
+        $user = $this->getUser();
+        $profile = $user->getProfile();
+        $state = json_decode($request->getContent());
+        if ($state) {
+            $profile->setAssistanceEnabled(!$state->state);
+            $profile->save();
+        }
+        $assistanceEnabled = $profile->getAssistanceEnabled();
+
+        return new JsonResponse(array('moderate' => $assistanceEnabled));
     }
 
     /**
@@ -127,12 +178,15 @@ class BackController extends Controller
 
 
     /**
+     * @Route("/editer/{id}", name="profile_back_edit_id", options={"expose": true}, requirements={"id": "[0-9]+"})
      * @Route("/editer/{userSlug}", name="profile_back_edit")
      */
-    public function editProfileAction($userSlug, User $user = null)
+    public function editProfileAction($userSlug = null, User $user = null, $id = null)
     {
         if (null == $user) {
-            if ('null' != $userSlug) {
+            if ($id) {
+                $user = $this->get('bns.user_manager')->findUserById($userSlug);
+            } elseif ('null' != $userSlug) {
                 $user = $this->get('bns.user_manager')->findUserBySlug($userSlug);
             } else {
                 $user = $this->getUser();
@@ -151,7 +205,7 @@ class BackController extends Controller
         return $this->render('BNSAppProfileBundle:Back:back_profile_index.html.twig', array(
             'user'    => $user,
             'form'    => $form->createView(),
-            'isChild' => $isChild
+            'isChild' => $isChild,
         ));
     }
 
@@ -167,6 +221,7 @@ class BackController extends Controller
         }
 
         $this->canViewProfile($user);
+        $oldEmail = $user->getEmail();
 
         if ($isChild = $this->get('bns.user_manager')->isChild()) {
             //Les adultes ont forcément accès à l'édition de leur profil
@@ -185,10 +240,11 @@ class BackController extends Controller
                     if ($form->getData()->timezone != null) {
                         $this->get('bns.right_manager')->setTimezone($form->getData()->timezone);
                     }
-                    if ($form->getData()->email != null) {
-                        $emailUser = $this->get('bns.user_manager')->getUserByEmail(urlencode($form->getData()->email));
+                    $email = $form->getData()->email;
+                    if ($email && $oldEmail !== $email && /* Temporary allow parent to reuse email */ 9 !== (int)$user->getHighRoleId()) {
+                        $emailUser = $this->get('bns.user_manager')->getUserByEmail($form->getData()->email);
 
-                        if (null != $emailUser && $emailUser->getId() != $user->getId()) {
+                        if ($emailUser && $emailUser->getId() != $user->getId()) {
                             $form->get('email')->addError(new FormError($this->get('translator')->trans('EMAIL_ALREADY_USED', array(), 'PROFILE')));
 
                             return $this->render('BNSAppProfileBundle:Back:back_profile_index.html.twig', array(
@@ -207,6 +263,11 @@ class BackController extends Controller
                         $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('CHILD_PROFILE_UPDATED', array(), 'PROFILE'));
                     }
 
+                    if ($isChild = $this->get('bns.user_manager')->isChild()) {
+                        $currentGroupId = $this->get('bns.right_manager')->getCurrentGroupId();
+                        $managerIds = $this->get('bns.group_manager')->getUserWithPermission('CLASSROOM_ACCESS_BACK');
+                        $this->get('notification_manager')->send($managerIds, new ProfileModifiedNotification($this->get('service_container'), $user->getId(), $currentGroupId));
+                    }
 
                     return new RedirectResponse($this->generateUrl('profile_back_edit', array('userSlug' => $user->getSlug())));
                 }
@@ -309,7 +370,7 @@ class BackController extends Controller
 
     /**
      * @Route("/commentaires/moderation/{id}/editer", name="profile_manager_comment_moderation_edit")
-     * @Rights("BLOG_ADMINISTRATION")
+     * @Rights("PROFILE_ADMINISTRATION")
      */
     public function editModerationComment($id)
     {
@@ -340,4 +401,5 @@ class BackController extends Controller
 
         $this->get('bns.right_manager')->forbidIf(true);
     }
+
 }

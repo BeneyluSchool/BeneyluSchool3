@@ -1,0 +1,21 @@
+BNS\App\LsuBundle\Model\Lsu:
+  exclusion_policy: All
+
+  virtual_properties:
+    getUser:
+      expose: true
+
+    getLsuTemplate:
+      expose: true
+
+    getLsuComments:
+      expose: true
+
+    getLsuPositions:
+      expose: true
+
+    getProjects:
+      expose: true
+
+    getAccompanyingCondition:
+      expose: true

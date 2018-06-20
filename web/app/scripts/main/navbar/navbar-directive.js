@@ -34,12 +34,13 @@ function BNSNavbarDirective () {
 
 }
 
-function BNSNavbarController ($scope, $state, $element, $window, $timeout, storage, dialog, NAVBAR, navbar, navbarHelp, Beta) {
+function BNSNavbarController ($rootScope, $scope, $state, $element, $window, $location, $timeout, $ocLazyLoad, LEGACY_APP_NAME, storage, dialog, NAVBAR, navbar, navbarHelp, Beta) {
 
   var ctrl = this;
 
   ctrl.navbar = navbar;
   ctrl.showHelp = showHelp;
+  ctrl.isAppsDialogShown = false;
   ctrl.showAppsDialog = showAppsDialog;
   ctrl.goTo = goTo;
   ctrl.switchMode = switchMode;
@@ -48,7 +49,7 @@ function BNSNavbarController ($scope, $state, $element, $window, $timeout, stora
 
   function init () {
     navbar.enabled = true;
-    navbar.mode = ctrl.mode || NAVBAR.DEFAULT_MODE;
+    navbar.mode = navbar.mode || ctrl.mode || NAVBAR.DEFAULT_MODE;
     navbar.hasHelp = ctrl.hasHelp;
 
     // Sync our model variable with local storage
@@ -57,7 +58,8 @@ function BNSNavbarController ($scope, $state, $element, $window, $timeout, stora
       storeName: 'bns/navbar/shown',
     });
 
-    $scope.$watch('ctrl.navbar.shown', function () {
+    $scope.$watch('ctrl.navbar.shown', function (isShown) {
+      angular.element('body').toggleClass('navbar-shown', isShown && !$rootScope.hideDockBar);
       $timeout(function () {
         angular.element($window).trigger('resize');
       }, 410, false);
@@ -90,6 +92,18 @@ function BNSNavbarController ($scope, $state, $element, $window, $timeout, stora
     $timeout(function () {
       $element.find('md-toolbar').removeClass('no-transition');
     });
+
+    var unlistenStarterKit = $rootScope.$on('starterKit.MAIN.step', function (event, step) {
+      if (['1-2.1', '1-2.2', '1-2.3', '1-3.1', '1-4.1', '1-5.1', '1-5.2', '1-6.1', '1-7.1', '1-8.1'].indexOf(step.step) > -1) {
+        if (ctrl.isAppsDialogShown) {
+          return;
+        }
+        showAppsDialog();
+      }
+    });
+    $scope.$on('$destroy', function cleanup () {
+      unlistenStarterKit();
+    });
   }
 
   /**
@@ -99,6 +113,10 @@ function BNSNavbarController ($scope, $state, $element, $window, $timeout, stora
    * @returns {String}
    */
   function getAppLink (app) {
+    if ('CERISE' === app.unique_name) {
+      return app.link;
+    }
+
     var link;
 
     // check access
@@ -118,6 +136,11 @@ function BNSNavbarController ($scope, $state, $element, $window, $timeout, stora
       link = app._links[NAVBAR.DEFAULT_MODE];
     }
 
+    // slugify locale
+    if (link.href) {
+      link.href = link.href.toLowerCase().replace('_', '-');
+    }
+
     if (link.href && app.unique_name === 'SPOT') {
       var origin = app.spot_origin || 'spot';
       if (-1 !== link.href.indexOf('?')) {
@@ -135,6 +158,7 @@ function BNSNavbarController ($scope, $state, $element, $window, $timeout, stora
    * chosen.
    */
   function showAppsDialog ($event) {
+    ctrl.isAppsDialogShown = true;
     dialog.custom({
       clickOutsideToClose: true,
       templateUrl: 'views/main/navbar/apps-dialog.html',
@@ -166,32 +190,41 @@ function BNSNavbarController ($scope, $state, $element, $window, $timeout, stora
   }
 
   function goTo (app) {
+    if (angular.isString(app)) {
+      return navbar.getOrRefreshGroup().then(function (group) {
+        return group.all('applications').one(app).get()
+          .then(goTo)
+        ;
+      });
+    }
+
     // let legacy js handle this
     if ('DIRECTORY' === app.unique_name) {
       return angular.element('body').trigger('bns.directory_invoke');
     }
 
-    var href = '';
-
     // TODO: make this a parameter
     if ('USER_DIRECTORY' === app.unique_name) {
-      href = getAppLink(app);
-      var hash = href.split('#')[1];
-      $window.location.hash = hash;
+      // 1. Make sure that the user directory app and its dependencies are loaded
+      // 2. Navigate via router, to correctly trigger sticky state
+      return $ocLazyLoad.load(LEGACY_APP_NAME).then(function () {
+        return $ocLazyLoad.load('userDirectory').then(function () {
+          return $state.go('userDirectory');
+        });
+      });
     } else {
-      if ('CERISE' === app.unique_name) {
-        href = app.link;
-      } else {
-        href = getAppLink(app);
+      var href = getAppLink(app);
+      var matchedState = navbar.getStateFromUrl(href);
+
+      navbar.setApp(app);
+
+      // known router state, let the router handle this
+      if (matchedState) {
+        return $location.url(matchedState.url);
       }
-      if (navbar.app && app.unique_name === navbar.app.unique_name && -1 !== href.indexOf('#')) {
-        navbar.setApp(app);
-        $window.location.href = href;
-        $state.go($state.current, $state.params, {reload: true});
-      } else {
-        navbar.setApp(app);
-        $window.location.href = href;
-      }
+
+      // all else failed, make a hard navigation
+      $window.location.href = href;
     }
   }
 

@@ -1,0 +1,8 @@
+<md-content class="md-whiteframe-z2 md-padding" ng-show="ctrl.data.news.length">
+  <div class="md-title" translate>MINISITE.TITLE_CITIES_INFORMATIONS</div>
+  <md-list>
+    <md-list-item ng-repeat="news in ctrl.data.news" ng-href="/ent/app/#/minisite/{{::ctrl.data.site.slug}}/{{::ctrl.data.page.slug}}#news-{{::news.slug}}">
+      <h3 class="md-subhead text-ellipsis">{{::news.title}}</h3>
+    </md-list-item>
+  </md-list>
+</md-content>

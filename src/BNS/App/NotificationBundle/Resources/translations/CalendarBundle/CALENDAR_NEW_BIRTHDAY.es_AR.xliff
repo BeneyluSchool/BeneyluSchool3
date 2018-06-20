@@ -8,14 +8,17 @@
     <body>
       <trans-unit id="5617d652949f88674d5db89e47fcc28b8b5da1ab" resname="CALENDAR_NEW_BIRTHDAY.EMAIL.content">
         <source>CALENDAR_NEW_BIRTHDAY.EMAIL.content</source>
-        <target><![CDATA[<strong>¡Hoy es el cumpleaños de %userFullName%</strong>! ¿Por qué no lo/a felicitas?]]></target>
+        <target><![CDATA[<b>%classLabel%</b><strong>¡Hoy es el cumpleaños de %userFullName%</strong>! ¿Por qué no lo/a felicitas?]]></target>
         <note><![CDATA[%userFullName% is a placeholder
 This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
       <trans-unit id="b962cf12ed1c32f03b08598786510da7e1fab875" resname="CALENDAR_NEW_BIRTHDAY.EMAIL.title">
         <source>CALENDAR_NEW_BIRTHDAY.EMAIL.title</source>
-        <target>Hay un cumpleaños en la clase</target>
+        <target><![CDATA[%classLabel%Hay un cumpleaños en la clase]]></target>
+        <note>%classLabel% is a placeholder
+               This text contains HTML tags, please try to keep those tags
+            </note>
       </trans-unit>
       <trans-unit id="a8ae4d58ff81e1deba25bd162643429b3eb4c843" resname="CALENDAR_NEW_BIRTHDAY.SYSTEM.content">
         <source>CALENDAR_NEW_BIRTHDAY.SYSTEM.content</source>

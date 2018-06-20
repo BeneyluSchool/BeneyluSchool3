@@ -16,6 +16,10 @@ class Forum extends BaseForum
 
     protected $pendingValidationUsers;
 
+    protected $moderators;
+
+    protected $notModerators;
+
     public function isCloseUntilValid($context)
     {
         if (null !== $this->getClosedUntil() && null !== $this->getClosedAt()) {
@@ -55,6 +59,25 @@ class Forum extends BaseForum
         }
 
         return $this->validatedUsers;
+    }
+
+    public function addValidatedUser($user)
+    {
+        $forumUser = ForumUserQuery::create()->filterByForum($this)->filterByUser($user)->findOne();
+        if (!$forumUser) {
+            $forumUser = new ForumUser();
+            $forumUser->setForum($this)->setUser($user)->setStatus(ForumUserPeer::STATUS_VALIDATED)->save();
+        } elseif ($forumUser->getStatus() === ForumUserPeer::STATUS_PENDING_VALIDATION) {
+            $forumUser->setStatus(ForumUserPeer::STATUS_VALIDATED)->save();
+        }
+
+    }
+
+    public function removeValidatedUser($user) {
+        $forumUser = ForumUserQuery::create()->filterByUser($user)->filterByForum($this)->findOne();
+        if( $forumUser) {
+            $forumUser->delete();
+        }
     }
 
     public function getPendingValidationUsers()
@@ -106,5 +129,38 @@ class Forum extends BaseForum
 
         ForumMessageQuery::create()->filterById($messageIds)->update(array('AuthorId' => null));
         ForumSubjectQuery::create()->filterByForum($this)->update(array('AuthorId' => null));
+    }
+
+    public function isModerator($userId) {
+        return ForumUserQuery::create()->filterByForumId($this->getId())->filterByUserId($userId)->select('isModerator')->findOne();
+    }
+
+     public function getModerators()
+     {
+         if (null === $this->moderators) {
+             $this->moderators = UserQuery::create()
+                 ->useForumUserQuery()
+                 ->filterByForum($this)
+                 ->filterByStatus(ForumUserPeer::STATUS_VALIDATED)
+                 ->filterByIsModerator(true)
+                 ->endUse()
+                 ->find();
+         }
+
+         return $this->moderators;
+     }
+
+    public function getNotModerators()
+    {
+        if (null === $this->notModerators) {
+            $this->notModerators = UserQuery::create()
+                ->useForumUserQuery()
+                ->filterByForum($this)
+                ->filterByStatus(ForumUserPeer::STATUS_VALIDATED)
+                ->filterByIsModerator(false)
+                ->endUse()
+                ->find();
+        }
+        return $this->notModerators;
     }
 }

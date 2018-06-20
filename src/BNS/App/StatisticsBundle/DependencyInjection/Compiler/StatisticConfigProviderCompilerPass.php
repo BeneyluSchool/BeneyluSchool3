@@ -23,13 +23,20 @@ class StatisticConfigProviderCompilerPass implements CompilerPassInterface
             return;
         }
 
+        $exclusion = [];
+        if ($container->hasParameter('stats_exclusion')) {
+            $exclusion = $container->getParameter('stats_exclusion');
+        }
+
         $definition = $container->findDefinition('bns.statistic_manager');
         $taggedServices = $container->findTaggedServiceIds('bns_statistic.statistic_config_provider');
 
         foreach ($taggedServices as $id => $tag) {
             // We add all services tagged with "bns_statistic.statistic_config_provider"
             // to "bns.statistic_manager"
-            $definition->addMethodCall('addStatistic', array(new Reference($id)));
+            if (!in_array($id, $exclusion)) {
+                $definition->addMethodCall('addStatistic', array(new Reference($id)));
+            }
         }
     }
 

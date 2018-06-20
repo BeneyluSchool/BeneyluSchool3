@@ -30,4 +30,23 @@
         </index>
         <behavior name="timestampable" />
     </table>
+    <table name="search_historic">
+        <column name="id" autoIncrement="true" primaryKey="true" type="INTEGER" required="true"/>
+        <column name="user_id" required="true" type="INTEGER"/>
+        <column name="search" type="VARCHAR" size="255" required="true"/>
+        <foreign-key foreignTable="user" onDelete="CASCADE">
+          <reference local="user_id" foreign="id"/>
+        </foreign-key>
+        <behavior name="timestampable"/>
+    </table>
+    <table name="search_saved">
+      <column name="id" autoIncrement="true" primaryKey="true" type="INTEGER" required="true"/>
+      <column name="user_id" required="true" type="INTEGER"/>
+      <column name="search" type="VARCHAR" size="255" required="true"/>
+      <column name="results" type="object" required="false"/>
+      <foreign-key foreignTable="user" onDelete="CASCADE">
+        <reference foreign="id" local="user_id"/>
+      </foreign-key>
+      <behavior name="timestampable"/>
+    </table>
 </database>

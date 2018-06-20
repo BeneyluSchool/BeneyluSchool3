@@ -2,6 +2,8 @@ BNS\App\UserDirectoryBundle\Model\DistributionList:
   exclusion_policy: All
 
   virtual_properties:
+    getType:
+      expose: true
     getRoleTypes:
       expose: true
       groups: [ detail ]

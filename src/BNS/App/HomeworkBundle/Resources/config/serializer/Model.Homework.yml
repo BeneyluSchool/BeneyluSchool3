@@ -14,12 +14,8 @@ BNS\App\HomeworkBundle\Model\Homework:
       groups: [ list, homework_list ]
     getRecurrenceType:
       expose: true
-    getGroupsIds:
+    getStatus:
       expose: true
-      groups: [ detail, homework_detail ]
-    getGroups:
-      expose: true
-      groups: [ homework_due_detail, homework_detail ]
 
   relations:
     - rel: attachments

@@ -1,9 +1,18 @@
-<md-button ng-click="panel.selectApp(app)" ng-disabled="!navbar.canAccess(app)" class="app-button" aria-label="{{::app.label}}">
-  <bns-navbar-icon item="app" flags="{ 'settings': navbar.mode === 'back' && app.has_access_back, 'shield': app.is_private }"></bns-navbar-icon>
-  <bns-counter data-value="{{ ::app.counter }}"></bns-counter>
+<md-button ng-click="panel.selectApp(app)" ng-disabled="!navbar.canAccess(app)" class="app-button" aria-label="{{::app.label}}" data-app="{{::app.unique_name}}">
+  <bns-navbar-icon item="app" flags="{ 'settings': navbar.mode === 'back' && app.has_access_back, 'shield': app.is_private }" bottom="app.bottom"></bns-navbar-icon>
+  <bns-counter data-value="{{ ::app.counter || 0 }}"></bns-counter>
   <div class="layout-row layout-align-center-center">
-    <span ng-if="app.can_open" class="app-status" ng-class="{ opened: app.is_open, maybe: app.is_partially_open }"></span>
-    <span class="app-label" ng-bind-html="::app.label|trustHtml"></span>
+    <span class="app-label">
+        <span ng-if="app.can_open" class="app-status" ng-class="{ opened: app.is_open, maybe: app.is_partially_open }"></span>
+        <span class="app-label-text" ng-bind-html="::app.label|trustHtml"></span>
+    </span>
   </div>
   <md-tooltip md-direction="top"><span ng-bind-html="::app.label|trustHtml"></span></md-tooltip>
+
+  <bns-starter-kit-pointer ng-if="::'CLASSROOM' === app.unique_name" step="1-2.3" app="MAIN" pointer="classroom"></bns-starter-kit-pointer>
+  <bns-starter-kit-pointer ng-if="::'PROFILE' === app.unique_name" step="1-2.3" app="MAIN" pointer="profile"></bns-starter-kit-pointer>
+  <bns-starter-kit-pointer ng-if="::'MESSAGING' === app.unique_name" step="1-2.3" app="MAIN" pointer="messaging"></bns-starter-kit-pointer>
+  <bns-starter-kit-pointer ng-if="::'MEDIA_LIBRARY' === app.unique_name" step="1-2.3" app="MAIN" pointer="media_library"></bns-starter-kit-pointer>
+  <bns-starter-kit-pointer ng-if="::'USER_DIRECTORY' === app.unique_name" step="1-2.3" app="MAIN" pointer="user_directory"></bns-starter-kit-pointer>
+  <bns-starter-kit-pointer ng-if="::'NOTIFICATIONS' === app.unique_name" step="1-2.3" app="MAIN" pointer="notifications"></bns-starter-kit-pointer>
 </md-button>

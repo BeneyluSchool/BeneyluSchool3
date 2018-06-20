@@ -10,8 +10,6 @@ class SearchStatisticsService extends StatisticsService
 {
     public function visit()
     {
-        $this->disableCascadeParentGroup();
         $this->increment('SEARCH_VISIT');
-        $this->enableCascadeParentGroup();
     }
 }

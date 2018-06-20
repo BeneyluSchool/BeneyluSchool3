@@ -2,6 +2,9 @@
 
 namespace BNS\App\HomeworkBundle\Homework;
 
+use BNS\App\HomeworkBundle\Model\Homework;
+use BNS\App\HomeworkBundle\Model\HomeworkDue;
+use BNS\App\HomeworkBundle\Model\HomeworkTask;
 use BNS\App\HomeworkBundle\When\When;
 use BNS\App\HomeworkBundle\Model\HomeworkTaskQuery;
 use BNS\App\HomeworkBundle\Model\HomeworkPeer;
@@ -37,12 +40,19 @@ class BNSHomeworkManager
 
     /**
      * Calcule les occurences d'un devoir
-     * @param type $homework un devoir
+     * @param Homework $homework un devoir
      */
     public function processHomework($homework)
     {
+        if (!$homework->getRecurrenceType()) {
+            $homework->setRecurrenceType(HomeworkPeer::RECURRENCE_TYPE_ONCE);
+        }
+        if (!($homework->getRecurrenceDays() && count($homework->getRecurrenceDays()))) {
+            $homework->setRecurrenceDays([strtoupper(substr($homework->getDate()->format("D"), 0, 2))]);
+        }
 
         $due_dates = $this->computeDueDates($homework);
+        $homeworkUserIds = $this->getAllHomeworkUserIds($homework);
 
         foreach ($due_dates as $date) {
 
@@ -58,40 +68,75 @@ class BNSHomeworkManager
                 $hd->setNumberOfTasksDone(0);
                 $hd->setHomework($homework);
                 $hd->save();
-
-                // calcul des tâches
-                $task_count = 0;
-                foreach ($homework->getGroups() as $group) {
-                    $task_count += $this->generateHomeworkTasksForGroup($hd, $group);
-                }
-
-                $hd->setNumberOfTasksTotal($task_count);
-                $hd->save();
-            } else {
-                $task_count = 0;
-                foreach ($homework->getGroups() as $group) {
-                    $task_count += $this->generateHomeworkTasksForGroup($hd, $group);
-                }
-
-                $hd->setNumberOfTasksTotal($task_count);
-                $hd->save();
             }
+
+            // calcul des tâches
+            $hd->setNumberOfTasksTotal(count($homeworkUserIds));
+
+            if (!$hd->isNew()) {
+                $tasks = $this->getTasksDone($hd, $homeworkUserIds);
+                $hd->setNumberOfTasksDone($tasks->count());
+            }
+            $hd->save();
         }
     }
 
     /**
-     * Calcule les taches affectees aux membres d'un groupe
-     * concerne par une occurence d'un devoir
-     * @param type $homeworkdue une occurence de devoir
-     * @param type $group un groupe concerne par ce devoir
-     * @return int nombre de taches creees pour ce groupe
+     * @param HomeworkDue $homeworkDue
+     * @param array $userIds
+     * @param bool $withUsers
+     * @return HomeworkTask[]|\PropelObjectCollection
      */
-    protected function generateHomeworkTasksForGroup($homeworkdue, $group)
+    public function getTasksDone(HomeworkDue $homeworkDue, array $userIds = [], $withUsers = false)
     {
-        $users = $this->findMembersOfGroup($group);
-        $task_count = count($users);
+        if (!count($userIds)) {
+            $userIds = $this->getAllHomeworkUserIds($homeworkDue->getHomework());
+        }
 
-        return $task_count;
+        $tasks = HomeworkTaskQuery::create()
+            ->filterByHomeworkDue($homeworkDue)
+            ->filterByUserId($userIds, \Criteria::IN)
+            ->filterByDone(true)
+            ->_if($withUsers)
+                ->joinWith('User')
+            ->_endIf()
+            ->find();
+
+        return $tasks;
+    }
+
+    public function getUsersDone(HomeworkDue $homeworkDue, array $userIds = [])
+    {
+        $users = [];
+        foreach ($this->getTasksDone($homeworkDue, $userIds, true) as $task) {
+            $users[] = $task->getUser();
+        }
+
+        return $users;
+    }
+
+    /**
+     * Gets all user ids related to the given homework, either by being in a group of the homework, or by being
+     * assigned directly to the homework.
+     *
+     * @param Homework $homework
+     * @return array
+     */
+    protected function getAllHomeworkUserIds(Homework $homework)
+    {
+        $ids = [];
+
+        // pupils related by group
+        foreach ($homework->getGroups() as $group) {
+            foreach ($this->findMembersOfGroup($group) as $user) {
+                $ids[] = $user['id'];
+            }
+        }
+
+        // pupils assigned directly
+        $ids = array_merge($ids, $homework->getUserIds());
+
+        return array_unique($ids);
     }
 
     /*

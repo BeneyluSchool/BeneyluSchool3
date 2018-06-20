@@ -11,6 +11,7 @@ class AnswerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('answer', 'textarea');
+        $builder->add('toAll', 'checkbox', array('required' => false));
         $builder->add('resource-joined', 'hidden', array(
             'required' => false,
         ));

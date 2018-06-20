@@ -9,30 +9,71 @@ use BNS\App\MediaLibraryBundle\Model\om\BaseMediaFolderUser;
 
 class MediaFolderUser extends BaseMediaFolderUser
 {
+    public static $hydrateChildrenFolder = true;
+
+    protected $isEmpty;
+
+    protected $medias;
 
     public function getChildren($criteria = null, \PropelPDO $con = null)
     {
         $container = BNSAccess::getContainer();
         $withPrivate = $container->get('bns.media_library_right.manager')->canManageFolder($this);
 
-        $criteria = new \Criteria();
-        $criteria->add(MediaFolderUserPeer::STATUS_DELETION,MediaFolderManager::STATUS_ACTIVE);
-        if(!$withPrivate)
-        {
-            $criteria->add(MediaFolderUserPeer::IS_PRIVATE,false);
+        $criteria = new MediaFolderUserQuery();
+        $criteria->add(MediaFolderUserPeer::STATUS_DELETION, MediaFolderManager::STATUS_ACTIVE);
+        if (!$withPrivate) {
+            $criteria->add(MediaFolderUserPeer::IS_PRIVATE, false);
         }
 
         // can't see content => add an impossible condition, to have an empty collection
         if (!$container->get('bns.media_library_right.manager')->canReadFolderContent($this)) {
-            $criteria->add(MediaFolderUserPeer::ID, 0);
+            $criteria->where('1 <> 1');
         }
 
-        $res = parent::getChildren($criteria, $con);
-        foreach($res as $r)
-        {
-            $r->realParent = $this;
+        return parent::getChildren($criteria, $con);
+    }
+
+    public function getChildrenWithPartial($criteria = null, \PropelPDO $con = null)
+    {
+        if ($this->getIsChildrenPartial()) {
+            return [];
         }
-        return $res;
+        $children = $this->getChildren($criteria, $con);
+        // optimize isEmpty calculation
+        $folderIds = [];
+        /** @var self $folder */
+        foreach ($children as $folder) {
+            if ($folder->hasChildren()) {
+                continue;
+            } elseif ($this->getType() === $folder->getType()) {
+                $folderIds[$folder->getId()] = $folder->getId();
+            }
+        }
+
+        $mediaManager = new MediaFolderManager();
+        $query = $mediaManager->getChildrenMediaQuery($this, $folderIds);
+        $folderWithMediaIds = $query
+            ->groupByMediaFolderId()
+            ->select(['MediaFolderId'])
+            ->find()->getArrayCopy()
+        ;
+
+        foreach ($children as $folder) {
+            if (in_array((string)$folder->getId(), $folderWithMediaIds)) {
+                $folder->isEmpty = false;
+            } elseif (isset($folderIds[$folder->getId()])) {
+                $folder->isEmpty = true;
+            }
+        }
+
+        return $children;
+    }
+
+    public function getIsChildrenPartial()
+    {
+        // return null to optimize json output
+        return (!self::$hydrateChildrenFolder || (true !== self::$hydrateChildrenFolder && self::$hydrateChildrenFolder !== $this->getId())) ? : null;
     }
 
     /**
@@ -55,9 +96,13 @@ class MediaFolderUser extends BaseMediaFolderUser
      */
     public function getMedias()
     {
-        $mediaManager = new MediaFolderManager();
-        $mediaManager->setMediaFolderObject($this);
-        return $mediaManager->getMedias();
+        if (null === $this->medias) {
+            $mediaManager = new MediaFolderManager();
+            $mediaManager->setMediaFolderObject($this);
+            $this->medias = $mediaManager->getMedias();
+        }
+
+        return $this->medias;
     }
 
     /**
@@ -72,6 +117,11 @@ class MediaFolderUser extends BaseMediaFolderUser
     public function getUser()
     {
         return $this->getUserRelatedByUserId();
+    }
+
+    public function getIsWorkshopFolder()
+    {
+        return $this->getIsWorkshop();
     }
 
     public function getUsageRatio()
@@ -172,4 +222,34 @@ class MediaFolderUser extends BaseMediaFolderUser
         return $this->isRoot() || $this->getIsShareDestination();
     }
 
+    /**
+     * @return true when no subFolder and no active media
+     */
+    public function getIsEmpty()
+    {
+        if (null === $this->isEmpty) {
+            if ($this->hasChildren()) {
+                $this->isEmpty = false;
+            } elseif (isset($this->medias)) {
+                $this->isEmpty = 0 === count($this->getMedias());
+            } else {
+                $mediaManager = new MediaFolderManager();
+                $query = $mediaManager->getMediaQuery($this);
+                $this->isEmpty = 0 === $query->count();
+            }
+        }
+
+        return $this->isEmpty;
+    }
+
+    public function createSlug()
+    {
+        if (!$this->isNew()) {
+            $key = $this->getId();
+        } else {
+            $key = 'key-' . rand(999999999, min(9999999999, PHP_INT_MAX));
+        }
+
+        return 'mediafolder-user-' . $key;
+    }
 }

@@ -6,10 +6,9 @@
 			<a href="{{ path('notification_render') }}">
 				<img src="{{ asset('/medias/images/icons/group_context/environment/medium.png') }}" alt="">
 				{{ 'LINK_SEE_ALL'|trans |desc('Voir tout') }}
-				{% set totalCount = unreadNotifications.getTotalCount() %}
-				{% if totalCount > 0 %}
+				{% if totalUnreadNotifications > 0 %}
 					<div class="count-notification all">
-						{{ totalCount }}
+						{{ totalUnreadNotifications }}
 					</div>
 				{% endif %}
 			</a>
@@ -32,12 +31,6 @@
 			<a href="{{ path('notification_render_correction') }}">
 				<img src="{{ asset('/medias/images/icons/group_context/environment/medium.png') }}" alt="">
 				{{ 'LINK_MY_CORRECTION'|trans |desc('Mes corrections') }}
-				{% set correctionCount = unreadNotifications.getCorrectionCount() %}
-				{% if correctionCount> 0 %}
-					<div class="count-notification correction">
-						{{ correctionCount }}
-					</div>
-				{% endif %}
 			</a>
 			<div class="border-sidebar"></div>
 		</li>
@@ -46,12 +39,6 @@
 				<a href="{{ path('notification_render_group', {'contextGroupId': 'personnal'}) }}">
 					<img src="{{ asset('/medias/images/icons/group_context/environment/medium.png') }}" alt="">
 					{{ 'LINK_MINE_MODULE'|trans |desc('Mes modules') }}
-					{% set personnalCount = unreadNotifications.getCount('personnal') %}
-					{% if personnalCount > 0 %}
-						<div class="count-notification only-group-personnal">
-							{{ personnalCount }}
-						</div>
-					{% endif %}
 				</a>
 				<ul>
 					{% for module in personnalModules %}
@@ -60,13 +47,6 @@
 								<a class="module-row" href="{{ path('notification_render_group_module', {'contextGroupId': 'personnal', 'moduleUniqueName': module.getUniqueName()|lower}) }}">
 									<img src="{{ asset ('/medias/images/icons/modules/' ~ module.getUniqueName()|lower ~ '/medium.png') }}" alt="" />
 									{{ module.getLabel() }}
-
-									{% set moduleCount = unreadNotifications.getCount('personnal', module.getUniqueName()) %}
-									{% if moduleCount > 0 %}
-										<div class="count-notification group-personnal module-{{ module.getUniqueName()|lower }}">
-											{{ moduleCount }}
-										</div>
-									{% endif %}
 								</a>
 							</li>
 						{% endif %}
@@ -81,12 +61,6 @@
 					<a href="{{ path('notification_render_group', {'contextGroupId': group.getId()}) }}">
 						<img src="{{ asset('/medias/images/icons/group_context/' ~ group.getGroupType.getType|lower ~ '/medium.png') }}" alt="">
 						{{ group.getLabel() }}
-						{% set groupCount = unreadNotifications.getCount(group.getId()) %}
-						{% if groupCount > 0 %}
-							<div class="count-notification only-group-{{ group.getId() }}">
-								{{ groupCount }}
-							</div>
-						{% endif %}
 					</a>
 					<ul>
 						{% for module in group.getGroupType().getModules(true) %}
@@ -95,13 +69,6 @@
 									<a class="module-row" href="{{ path('notification_render_group_module', {'contextGroupId': group.getId(), 'moduleUniqueName': module.getUniqueName()|lower}) }}">
 										<img src="{{ asset ('/medias/images/icons/modules/' ~ module.getUniqueName()|lower ~ '/medium.png') }}" alt="" />
 										{{ module.getLabel() }}
-
-										{% set moduleCount = unreadNotifications.getCount(group.getId(), module.getUniqueName()) %}
-										{% if moduleCount > 0 %}
-											<div class="count-notification group-{{ group.getId() }} module-{{ module.getUniqueName()|lower }}">
-												{{ moduleCount }}
-											</div>
-										{% endif %}
 									</a>
 								</li>
 							{% endif %}

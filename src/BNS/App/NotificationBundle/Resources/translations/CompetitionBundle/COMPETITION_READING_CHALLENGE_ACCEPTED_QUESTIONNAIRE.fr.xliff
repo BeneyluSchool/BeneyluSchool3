@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <!-- Allowed attributes name : bookId,  -->
+
+            <!-- EMAIL Engine -->
+            <trans-unit id="1">
+                <source>COMPETITION_READING_CHALLENGE_ACCEPTED_QUESTIONNAIRE.EMAIL.title</source>
+                <target>Ton questionnaire a été accepté </target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>COMPETITION_READING_CHALLENGE_ACCEPTED_QUESTIONNAIRE.EMAIL.content</source>
+                <target><![CDATA[Ton questionnaire <a href="%bookUrl%"><strong>%questionnaireLabel%</strong></a> a été accepté dans le concours <a href="%competitionUrl%"><strong>%competitionLabel%</strong></a>.]]></target>
+            </trans-unit>
+
+            <!-- SYSTEM Engine -->
+            <trans-unit id="100">
+                <source>COMPETITION_READING_CHALLENGE_ACCEPTED_QUESTIONNAIRE.SYSTEM.content</source>
+                <target><![CDATA[Ton questionnaire <a href="%bookUrl%"><strong>%questionnaireLabel%</strong></a> a été accepté dans le concours <a href="%competitionUrl%"><strong>%competitionLabel%</strong></a>.]]></target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

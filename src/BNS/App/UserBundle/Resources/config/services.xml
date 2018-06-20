@@ -18,6 +18,7 @@
             <argument type="service" id="security.token_storage" />
             <argument type="service" id="hwi_oauth.resource_owner.bns_auth_provider" />
             <argument type="service" id="translator" />
+            <argument type="service" id="logger" />
         </service>
 
         <service id="bns.user.account_link_manager" class="BNS\App\UserBundle\AccountLink\AccountLinkManager">
@@ -36,27 +37,59 @@
             <argument type="service" id="bns.user.account_link_manager" />
         </service>
 
+        <service id="bns.user.account_merge_manager" class="BNS\App\UserBundle\Manager\AccountMergeManager">
+            <argument type="service" id="bns.api"/>
+            <argument type="service" id="bns.user_manager"/>
+            <argument type="service" id="notification_manager"/>
+            <argument type="service" id="old_sound_rabbit_mq.account_merge_producer" />
+            <argument type="service" id="logger" />
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="bns.user.account_merge_consumer" class="BNS\App\UserBundle\Consumer\AccountMergeConsumer">
+            <argument type="service" id="logger" />
+            <argument type="service" id="bns.user.account_merge_manager" />
+            <argument type="service" id="notification_manager"/>
+            <argument type="service" id="service_container" />
+        </service>
+
         <!-- Event listeners -->
         <service id="bns.user.user_serialize_listener" class="BNS\App\UserBundle\EventListener\UserSerializeSubscriber">
             <argument type="service" id="service_container" />
             <tag name="jms_serializer.event_subscriber" />
         </service>
+        <service id="bns.user.policy_listener" class="BNS\App\UserBundle\Listener\PolicyListener">
+            <argument type="service" id="router.default" />
+            <argument type="service" id="bns.user_manager" />
+            <argument type="service" id="bns.group_manager" />
+            <argument>%listener_escape_routes%</argument>
+            <tag name="kernel.event_listener" event="security.interactive_login" method="onInteractiveLogin" />
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="10" />
+        </service>
         <service id="bns.user.aaf_user_listener" class="BNS\App\UserBundle\Listener\AAFUserListener">
             <argument type="service" id="router.default" />
+            <argument>%listener_escape_routes%</argument>
             <tag name="kernel.event_listener" event="security.interactive_login" method="onInteractiveLogin" />
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
         </service>
         <service id="bns.user.credentials_listener" class="BNS\App\UserBundle\Listener\UserCredentialsListener">
             <argument type="service" id="bns.user.credentials_manager" />
-            <argument type="service" id="service_container" />
             <argument type="service" id="router.default" />
+            <argument type="service" id="bns.user_manager" />
+            <argument>%listener_escape_routes%</argument>
             <tag name="kernel.event_listener" event="security.interactive_login" method="onInteractiveLogin" />
-            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="5" />
+        </service>
+        <service id="bns.user.last_connection_listener" class="BNS\App\UserBundle\Listener\LastConnectionListener">
+            <argument type="service" id="translator" />
+            <argument type="service" id="date_i18n" />
+            <tag name="kernel.event_listener" event="security.interactive_login" method="onInteractiveLogin" priority="250" />
         </service>
         <service id="bns.user.cgu_listener" class="BNS\App\UserBundle\Listener\CGUListener">
             <argument type="service" id="router.default" />
             <argument type="service" id="bns.user_manager" />
             <argument type="service" id="bns.group_manager" />
+            <argument>%listener_escape_routes%</argument>
             <tag name="kernel.event_listener" event="security.interactive_login" method="onInteractiveLogin" />
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="10" />
         </service>

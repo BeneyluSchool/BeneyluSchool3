@@ -12,15 +12,8 @@
         <div class="sidebar-shadow"></div>
     {%  endif %}
     <div class="container-section">
-        {% if section != "lpc" %}
-            <div class="section">
-                <a href="{{ path('BNSAppPupilMonitoringBundle_lpc_' ~ view ~ '_index') }}">Livrets personnels</a>
-            </div>
-        {% endif %}
-        {% if section != "absences" %}
             <div class="section">
                 <a href="{{ path('BNSAppPupilMonitoringBundle_absence_' ~ view ~ '_index') }}">Absences</a>
             </div>
-        {% endif %}
     </div>
 </div>

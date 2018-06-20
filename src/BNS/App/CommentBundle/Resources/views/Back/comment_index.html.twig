@@ -32,6 +32,12 @@
 					else {
 						$('.header-buttons .validate-all-comments').fadeIn('fast');
 					}
+					if ($this.data('filter-status') != 'REFUSED') {
+						$('.header-buttons .delete-all-comments').fadeOut('fast');
+					}
+					else {
+						$('.header-buttons .delete-all-comments').fadeIn('fast');
+					}
 				}
 			}).done(function ()
 			{
@@ -139,6 +145,28 @@
 			$this.addClass('disabled').attr('disabled', 'disabled');
 			$.ajax({
 				url: '{{ path('comment_manager_validate_all') }}',
+				type: 'POST',
+				data: {'namespace': '{{ namespace }}'},
+				success: function ()
+				{
+					window.location.reload(true);
+				}
+			});
+
+			return false;
+		});
+		// Delete all button process
+		$('div.header-buttons .delete-all-comments').click(function (e)
+		{
+			var $this = $(e.currentTarget);
+
+			if ($this.hasClass('disabled')) {
+				return false;
+			}
+
+			$this.addClass('disabled').attr('disabled', 'disabled');
+			$.ajax({
+				url: '{{ path('comment_manager_delete_all') }}',
 				type: 'POST',
 				data: {'namespace': '{{ namespace }}'},
 				success: function ()

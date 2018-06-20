@@ -4,10 +4,10 @@
 	{
 		var angularizer = new Angularizer();
 		// Filters process
-		$('.statuses-sidebar-filter').click(function (e)
-		{
+		$('body').on('click', '.statuses-sidebar-filter', function (e) {
+		  e.preventDefault();
 			$('.statuses-sidebar-filter').removeClass('md-primary');
-			var $this = $(e.currentTarget),
+			var $this = $(e.currentTarget).first(),
 				$layer = $('#layer');
 
 			$this.addClass('md-primary');
@@ -21,10 +21,9 @@
 					'page': 1,
 					'object_status': $this.data('filter-status')
 				},
-				success: function (data)
-				{
+				success: function (data) {
           $('.feeds-list').html(angularizer.process(data));
-          if ($this.data('filter-status') != 'PENDING_VALIDATION' || $('.feeds-list').children().length < 2 ) {
+          if ($this.data('filter-status') != 'PENDING_VALIDATION' || $('.feeds-list md-list-item').children().length < 2 ) {
             $('.md-toolbar-tools .validate-all-statuses').hide();
           }
           else {
@@ -38,9 +37,9 @@
 
 			return false;
 		});
+
 		// Buttons moderation process
-		$('.feed-moderation').live('click', function (e)
-		{
+		$('body').on('click', '.feed-moderation', function (e) {
 			var $this = $(e.currentTarget),
 				id = this.id,
 				// $row = $('#status-' + id).parent();
@@ -95,8 +94,7 @@
 		});
 
 		// Pagination process
-		$('.pagination a').live('click', function (e)
-		{
+		$('body').on('click', '.pagination a', function (e) {
 			var $this = $(e.currentTarget),
 				$layer = $('#layer');
 
@@ -128,8 +126,7 @@
 		});
 
 		// Validate all button process
-		$('div.md-toolbar-tools .validate-all-statuses').click(function (e)
-		{
+		$('body').on('click', 'div.md-toolbar-tools .validate-all-statuses', function (e) {
 			var $this = $(e.currentTarget);
 
 			if ($this.hasClass('disabled')) {
@@ -149,8 +146,7 @@
 			return false;
 		});
 
-		$('.container-sidebar .moderation-statuses').click(function (e)
-		{
+		$('body').on('click', '.container-sidebar .moderation-statuses', function (e) {
 			var $this = $(e.currentTarget);
 			if ($this.hasClass('loading')) {
 				return false;
@@ -174,6 +170,6 @@
 	});
 </script>
 
-<div class="feeds-list-container feeds-list flex layout-column">
+<div class="feeds-list-container feeds-list flex layout-column" bns-feature-flag="'profile_status'" bns-feature-push="'incentive'">
 		{{ render(controller('BNSAppProfileBundle:BackModeration:show', {'page': page} )) }}
 </div>

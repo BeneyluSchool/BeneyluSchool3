@@ -114,7 +114,7 @@ $(function ()
 		if (!$icon.hasClass($target.attr('class'))) {
 			$icon.fadeOut('fast', function ()
 			{
-				$icon.removeClass();
+				$icon.removeClass($icon.attr('class'));
 				if ($target[0].tagName == 'IMG') {
 					$icon.addClass($target.attr('class'));
 				}
@@ -151,7 +151,7 @@ $(function ()
 		}*/
 
 		$('#delete-category-modal').modal('show');
-		
+
 		return false;
 	});
 
@@ -197,7 +197,7 @@ $(function ()
 		closeCategory();
 		$this.find('div').first().addClass('loading');
 		$loader.fadeIn('fast');
-		
+
 		$.ajax({
 			url: categoriesRoutes.edit,
 			type: 'POST',
@@ -210,13 +210,15 @@ $(function ()
 			success: function (data)
 			{
 				$this.find('div.title').first().text($input.val());
-				
+
+        var displayIcon = $this.find('.category-icon');
+
 				// If user choose an icon
 				if ($icon.attr('class') != 'default') {
-					$this.find('.category-icon').removeClass().addClass('category-icon sprite').addClass($icon.attr('class'));
+          displayIcon.attr('class', 'category-icon sprite ' + $icon.attr('class'));
 				}
 				else {
-					$this.find('.category-icon').removeClass();
+          displayIcon.attr('class', 'category-icon ' + $icon.attr('class'));
 				}
 			}
 		}).done(function ()
@@ -232,7 +234,7 @@ $(function ()
 		var $this = $(e.currentTarget),
 			$modalBody = $('#new-category-modal'),
 			$loader = $modalBody.find('.loader');
-			
+
 		if ($modalBody.find('.category-editor input[type="text"]').val().length == 0) {
 			$modalBody.find('.bns-alert.empty').slideDown('fast');
 
@@ -252,9 +254,9 @@ $(function ()
 			success: function (data) {
 				var $category = $(data);
 				$category.css('display', 'none').find('div').first().addClass('new-animation new');
-				
+
 				var $categoryList = $('.content-categories-management ol.load-sortable');
-				
+
 				// Hide empty message
 				$categoryList.find('.no-item').slideUp('fast');
 				$categoryList.prepend($category);

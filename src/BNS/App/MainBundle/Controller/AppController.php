@@ -5,6 +5,7 @@ namespace BNS\App\MainBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -15,28 +16,32 @@ use Symfony\Component\Validator\Constraints\Regex;
  *
  * @package BNS\App\MainBundle\Controller
  *
+ * TODO: ng5 update apps urls
  * @Route("/app")
  */
 class AppController extends Controller
 {
 
     /**
-     * Base of the frontend app, that bridges between Symfony and Angular routers.
+     * Bridge between Symfony and angularjs routers. It only serves as a hook to declare and generate routes for angularjs apps.
      *
-     * @Route("/{mode}/", name="BNSAppMainBundle_front", requirements={"mode"="|front|back"}, defaults={"mode": ""})
+     * @see NgController
+     *
+     * @Route("/{rest}/", name="BNSAppMainBundle_front", requirements={"rest"="|.+"}, defaults={"rest": ""})
      * @Route("/#/media-library/boot", name="BNSAppMediaLibraryBundle_front")
      * @Route("/#/media-library/dossiers/{slug}", name="BNSAppMediaLibraryBundle_user_folder")
+     * @Route("/#/media-library/medias/{mediaId}", name="BNSAppMediaLibraryBundle_front_media")
      * @Route("/#/media-library/medias/{groupId}-{activityName}", name="bns_activity_front")
      * @Route("/#/media-library/dossiers/external-{groupId}", name="bns_medialibrary_resource_spot_folder")
-     * @Route("/back/#/media-library/boot", name="BNSAppMediaLibraryBundle_back")
+     * @Route("/#/media-library/boot", name="BNSAppMediaLibraryBundle_back")
      * @Route("/#/user-directory", name="BNSAppUserDirectoryBundle_front")
      * @Route("/#/user-directory", name="BNSAppUserDirectoryBundle_back")
      * @Route("/#/workshop", name="BNSAppWorkshopBundle_front")
-     * @Route("/#/statistic", name="BNSAppStatisticsBundle_front")
+     * @Route("/#/statistics", name="BNSAppStatisticsBundle_front")
      * @Route("/#/calendar", name="BNSAppCalendarBundle_front")
      * @Route("/#/calendar/manage", name="BNSAppCalendarBundle_back")
      * @Route("/#/homework", name="BNSAppHomeworkBundle_front")
-     * @Route("/#/homework/manage", name="BNSAppHomeworkBundle_back", defaults={"mode":"back"})
+     * @Route("/#/homework/manage", name="BNSAppHomeworkBundle_back")
      * @Route("/#/lunch/", name="BNSAppLunchBundle_front")
      * @Route("/#/lunch/manage/", name="BNSAppLunchBundle_back")
      * @Route("/#/messaging", name="BNSAppMessagingBundle_front")
@@ -48,30 +53,53 @@ class AppController extends Controller
      * @Route("/#/embed/pssst", name="pssst_front")
      * @Route("/#/search", name="BNSAppSearchBundle_front")
      * @Route("/#/search/manage", name="BNSAppSearchBundle_back")
-     * @Route("/#/campaign/manage", name="BNSAppCampaignBundle_front")
+     * @Route("/#/campaign", name="BNSAppCampaignBundle_front")
      * @Route("/#/two-degrees", name="two_degrees_front")
      * @Route("/#/minisite/{slug}", name="BNSAppMiniSiteBundle_front", defaults={"slug":null})
+     * @Route("/#/minisite/{slug}/{page}", name="BNSAppMiniSiteBundle_front_page")
      * @Route("/#/space-ops", name="space_ops_front")
+     * @Route("/#/account", name="BNSAppAccountBundle_front")
      * @Route("/#/account/link", name="account_link")
      * @Route("/#/account/link-parent", name="account_link_parent")
      * @Route("/#/account/password/change", name="account_password_change")
      * @Route("/#/circus-birthday", name="circus_birthday_front")
+     * @Route("/#/archeology", name="archeology_front")
      * @Route("/#/olympics", name="olympics_front")
+     * @Route("/#/olympics-training", name="olympics_training_front")
      * @Route("/#/lsu", name="BNSAppLsuBundle_front")
      * @Route("/#/lsu/manage", name="BNSAppLsuBundle_back")
+     * @Route("/#/competition/competition", name="competition_front")
+     * @Route("/#/competition/course", name="course_front")
+     * @Route("/#/competition/competition/manage", name="competition_back")
+     * @Route("/#/competition/course/manage", name="course_back")
+     * @Route("/#/competition/show/{id}", name="BNSAppCompetitionBundle_details")
+     * @Route("/#/competition/show/{id}/book/{bookId}", name="BNSAppCompetitionBundle_bookDetails")
      *
      * @Template("BNSAppMainBundle:App:index.html.twig")
      *
      * @param Request $request
-     * @param string $mode
-     * @return array
+     * @param string $rest
+     * @return RedirectResponse
      */
-    public function indexAction(Request $request, $mode = null)
+    public function indexAction(Request $request, $rest = null)
     {
-        return array(
+        // TODO: ng5 remove this
+        return [
             'isEmbed' => $request->get('embed', false),
-            'app_mode' => $mode,
-        );
+        ];
+
+        if ($rest) {
+            $rest = 'app/'.$rest;
+        } else {
+            // router matched an app-specific url, without populating rest param of default route
+            $rest = str_replace('/ng/'.$request->getLocale().'/', '', $request->getPathInfo());
+        }
+
+        // redirect from old app to new app
+        return $this->redirect($this->generateUrl('ng_index', [
+            '_locale' => $this->get('bns.locale_manager')->slugify($request->getLocale()),
+            'rest' => $rest,
+        ]));
     }
 
     /**

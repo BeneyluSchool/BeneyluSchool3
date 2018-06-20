@@ -12,6 +12,10 @@
     <script type="text/javascript" src="{{ asset('medias/js/main/logon.js') }}"></script>
 {% endblock %}
 
+{% block title %}ENT Alienor{% endblock %}
+
+{% block meta_description %}Bienvenue sur L'ENT ALIENOR. ALIENOR est un environnement numérique de travail à destination des écoles de l'académie de Bordeaux.{% endblock %}
+
 {% block body %}
     {%  set iframeParams = '&fromTemplate=alienor' %}
     <div class="background-login"></div>
@@ -50,6 +54,14 @@
                         <p>
                             <img class="" src="{{ asset('/medias/images/logon/ac-bordeaux/ue.png') }}" alt="Union Européenne" />
                         </p>
+                      {# message row #}
+                      {% if parameter('home_message') %}
+                        <div class="home-message inset">
+                          <div class="layout-column layout-gt-sm-row layout-align-center-center layout-padding md-whiteframe-z1 md-body-1 home-message-container">
+                            {{ parameter('home_message') | raw }}
+                          </div>
+                        </div>
+                      {% endif %}
 
                         <div class="discover-beneylu span8">
                             <div class="line-left"></div>
@@ -57,8 +69,12 @@
                                 Pour tout renseignement, rendez-vous sur le site support d'Alienor en cliquant ici</a>
                             <div class="line-right"></div>
                         </div>
+
+
                     </div>
+
                 </div>
+              {% if not parameter('disable_login') %}
                 <div class="span4">
                     <div class="content-logon">
                         {%  if authoriseIframe %}
@@ -112,6 +128,7 @@
                         </div>
                     </div>
                 </div>
+              {% endif %}
             </div>
         </div>
         <div class="footer-logon">

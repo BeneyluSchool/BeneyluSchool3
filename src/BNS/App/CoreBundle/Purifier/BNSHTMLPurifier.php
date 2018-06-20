@@ -16,9 +16,11 @@ class BNSHTMLPurifier extends \HTMLPurifier
 
         $mediaElements = ['img', 'source', 'a'];
         $mediaAttrs = ['data-slug', 'data-uid', 'data-id'];
+        $correctionAttrs = ['data-bns-annotation', 'data-bns-annotation-guid'];
 
         $tags = [
             "*[style],*[id]",
+            "span[".implode('|', $correctionAttrs)."]",
             "h1,h2,h3,h4,h5,h6,b,i,u,s,ul,ol,li,strong,em,br,p,div,span",
             "a[href|target|class|".implode('|', $mediaAttrs)."]",
             "img[src|height|width|".implode('|', $mediaAttrs)."]",
@@ -36,6 +38,7 @@ class BNSHTMLPurifier extends \HTMLPurifier
         $this->config->set('HTML.DefinitionRev', 1);
         $this->config->set('HTML.Allowed', implode(',', $tags));
         $this->config->set('Attr.AllowedFrameTargets', array('_blank'));
+        $this->config->set('CSS.Trusted', 1); // allow css positioning, for embedded responsive iframes
 
         if ($def = $this->config->maybeGetRawHTMLDefinition()) {
             // http://developers.whatwg.org/sections.html
@@ -105,7 +108,9 @@ class BNSHTMLPurifier extends \HTMLPurifier
                     $def->addAttribute($tag, $attr, 'Text');
                 }
             }
-
+            foreach ($correctionAttrs as $attr) {
+                $def->addAttribute('span', $attr, 'Text');
+            }
         }
     }
 

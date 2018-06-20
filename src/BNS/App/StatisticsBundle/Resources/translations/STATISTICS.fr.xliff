@@ -131,16 +131,16 @@
         <target>Envoi d'un message sur la messagerie</target>
       </trans-unit>
       <trans-unit id="3caa5ae454c8e41ac9b93acd1c9bef8e890e3c82" resname="DESCRIPTION_MINISITE_CREATE_DYNAMIC-PAGE">
-        <source>Création d'une page d'informations sur le minisite</source>
-        <target>Création d'une page d'actualité sur le minisite</target>
+        <source>Création d'une page d'informations sur le site web</source>
+        <target>Création d'une page d'actualité sur le site web</target>
       </trans-unit>
       <trans-unit id="597b8278a8459fd990f5415eed822ac5666d2f81" resname="DESCRIPTION_MINISITE_CREATE_DYNAMIC-PAGE-ARTICLE">
-        <source>Création d'une information sur le minisite</source>
-        <target>Création d'une actualité sur le minisite</target>
+        <source>Création d'une information sur le site web</source>
+        <target>Création d'une actualité sur le site web</target>
       </trans-unit>
       <trans-unit id="9797df3791f5b6b8f010d5628c2a1efab9a71bbf" resname="DESCRIPTION_MINISITE_CREATE_STATIC-PAGE">
-        <source>Création d'une page statique sur le minisite</source>
-        <target>Création d'une page statique sur le minisite</target>
+        <source>Création d'une page statique sur le site web</source>
+        <target>Création d'une page statique sur le site web</target>
       </trans-unit>
       <trans-unit id="7c338b2522f84ec471366f6b7a0a001c4447463a" resname="DESCRIPTION_MINISITE_UPDATE_STATIC-PAGE">
         <source>Mise à jour d'une page statique</source>
@@ -216,13 +216,17 @@
       </trans-unit>
       <trans-unit id="b5f7376f573c573728b4b488fdee2c24c7bc6382" resname="TITLE_MAIN_VISIT">
         <source>TITLE_MAIN_VISIT</source>
-        <target>Visite de module</target>
+        <target>Visite d'application</target>
       </trans-unit>
       <trans-unit id="9f88861964f672abbc72b7037046e4e4f3256ba1" resname="TITLE_STATISTIC_GROUP">
         <source>Statistiques : %groupName%</source>
         <target>Statistiques : %groupName%</target>
         <note><![CDATA[%groupName% is a placeholder
 ]]></note>
+      </trans-unit>
+      <trans-unit id="b3cba55338b3625665f9ea5a7e33ff9db26da1af" resname="VALUES">
+        <source>VALUES</source>
+        <target>Valeurs</target>
       </trans-unit>
     </body>
   </file>

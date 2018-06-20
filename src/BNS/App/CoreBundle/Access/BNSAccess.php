@@ -2,11 +2,9 @@
 
 namespace BNS\App\CoreBundle\Access;
 
-use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use BNS\App\CoreBundle\Model\User;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * @author Sylvain Lorinet
@@ -16,62 +14,26 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class BNSAccess
 {
     /**
-     * @var Request
-     */
-    private static $request;
-
-    /**
-     * @var Container
+     * @var ContainerInterface
      */
     private static $container;
 
     /**
-     * @param Request $request
+     * @param ContainerInterface $container
      * @deprecated
      */
-    public static function setRequest(Request $request)
-    {
-        self::$request = $request;
-    }
-
-    /**
-     * @param Container $container
-     * @deprecated
-     */
-    public static function setContainer(Container $container)
+    public static function setContainer(ContainerInterface $container)
     {
         self::$container = $container;
     }
 
     /**
-     * @return Request
-     * @deprecated
-     */
-    public static function getRequest()
-    {
-        return self::$request;
-    }
-
-    /**
-     * @return null|Container
+     * @return null|ContainerInterface
      * @deprecated
      */
     public static function getContainer()
     {
-        if (isset(self::$container)) {
-            return self::$container;
-        }
-
-        return null;
-    }
-
-    /**
-     * @return Session
-     * @deprecated
-     */
-    public static function getSession()
-    {
-        return self::$request->getSession();
+        return self::$container ? : null;
     }
 
     /**
@@ -90,22 +52,25 @@ class BNSAccess
             return $locale;
         }
 
-        if (self::$request) {
-            // Locale has been set by the user
-            return self::$request->getLocale();
-        }
-
         return 'en_US';
     }
 
     /**
-     * @return \BNS\App\CoreBundle\Model\UserProxy The connected user proxy
+     * @return \BNS\App\CoreBundle\Model\User The connected user proxy
      * @deprecated
      */
     public static function getUser()
     {
-        return null != self::getContainer()->get('security.context')->getToken() ? self::getContainer()->get('security.context')->getToken()->getUser(
-        ) : null;
+        if (self::$container) {
+            if ($token = self::$container->get('security.token_storage')->getToken()) {
+                $user = $token->getUser();
+                if ($user && $user instanceof User) {
+                    return $user;
+                }
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -114,11 +79,7 @@ class BNSAccess
      */
     public static function isConnectedUser()
     {
-        if (isset(self::$container)) {
-            return self::getUser() instanceof User ? true : false;
-        }
-
-        return false;
+        return self::getUser() ? true : false;
     }
 
     /**
@@ -127,6 +88,6 @@ class BNSAccess
      */
     public static function getCurrentUrl()
     {
-        return self::getContainer()->getParameter('application_base_url');
+        return self::getContainer() ? self::getContainer()->getParameter('application_base_url') : null;
     }
 }

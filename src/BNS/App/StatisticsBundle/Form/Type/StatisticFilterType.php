@@ -3,6 +3,7 @@
 namespace BNS\App\StatisticsBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\ChoiceList\ArrayChoiceList;
 use Symfony\Component\Form\Extension\Core\ChoiceList\ObjectChoiceList;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -21,11 +22,11 @@ class StatisticFilterType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('groups', 'choice', array(
+        $builder->add('groupIds', 'choice', array(
             'required'  => false,
-            'choice_list'   => new ObjectChoiceList($options['groups'], 'label', array(), null, 'id'),
+            'choices'   => $options['groupIds'],
+            'choices_as_values' => true,
             'multiple'  => true,
-            'expanded'  => true,
         ));
 
         $builder->add('start', 'date', array(
@@ -45,7 +46,7 @@ class StatisticFilterType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'groups' => array()
+            'groupIds' => array()
         ));
     }
 

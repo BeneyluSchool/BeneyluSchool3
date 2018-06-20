@@ -31,7 +31,7 @@ angular.module('bns.components.expander', [
  * ** Attributes **
  *  - `label`: label, displayed inside the button
  *  - `isOpen` (bool): whether the component starts open. Defaults to false
- *  - `model` (expression): if given, the expander state is sync'ed with this
+  *  - `model` (expression): if given, the expander state is sync'ed with this
  *                          value, and a checkbox or a switch is displayed as the toggle
  *                          control.
  *  - `showToggle` (bool) : Show a control to toggle the expander (button, checkbox, switch) (default: true)

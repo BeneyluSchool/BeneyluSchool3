@@ -1,0 +1,17 @@
+{% extends '@BNSAppMain/Logon/logon_client.html.twig' %}
+
+{% block hom_splash_classes %} vienne {% endblock %}
+
+{% block home_top_title %}
+  <h1 class="home-top-title"><span class="small">L'espace numérique de travail des écoles</span><br/>de la Vienne</h1>
+{% endblock %}
+
+{% block home_photo_credit %}Sébastien Laval ©ATV{% endblock %}
+
+{% block home_bottom_logos %}
+  <div class="home-bottom-logos">
+    <img src="{{ asset('assets/images/main/beneylu-school-100.png') }}" alt="Beneylu School" class="h-50">
+    <img src="{{ asset('medias/images/logon/vienne/logo-ac-poitiers.png') }}" class="h-50">
+    <img src="{{ asset('medias/images/logon/vienne/logo-vienne.jpg') }}" class="h-50">
+  </div>
+{% endblock %}

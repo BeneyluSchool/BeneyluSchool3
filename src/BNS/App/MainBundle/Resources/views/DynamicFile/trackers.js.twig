@@ -1,0 +1,57 @@
+function onWindowLoad (callback) {
+  if (window.addEventListener)
+    window.addEventListener('load', callback, false);
+  else if (window.attachEvent)
+    window.attachEvent('onload', callback);
+  else window.onload = callback;
+}
+
+{% if parameter('newrelic_licence') and parameter('newrelic_app_id') %}
+  {% include "::newrelic.js.twig" %}
+{% endif %}
+
+{% if parameter('analytics_enabled') != false and is_authenticated() %}
+  {% block analytics %}
+    onWindowLoad(function () {
+      setTimeout(function () {
+        analytics.user().traits({});
+        analytics.group().traits({});
+      }, 1500);
+    });
+  {% endblock %}
+{% endif %}
+
+{% if app.environment == 'app_prod' %}
+  {% if(not is_authenticated() or (is_authenticated() and app.user.login != 'test')) %}
+    {% if parameter('google_analytics_id') %}
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', '{{ parameter('google_analytics_id') }}']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www' ) + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    {% endif %}
+    {% if parameter('piwik_site_id') and parameter('piwik_url') %}
+      var _paq = _paq || [];
+      _paq.push(["trackPageView"]);
+      _paq.push(["enableLinkTracking"]);
+
+      (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http") + "://{{ parameter('piwik_url') }}/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "{{ parameter('piwik_site_id') }}"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+      })();
+    {% endif %}
+  {% endif %}
+{% endif %}
+
+{% block analytics_identify %}
+  {% if is_authenticated() and parameter('analytics_enabled') %}
+    {{ analyticsIdentify(app.user.getUser(), app.session, false)|raw }}
+  {% endif %}
+{% endblock analytics_identify %}

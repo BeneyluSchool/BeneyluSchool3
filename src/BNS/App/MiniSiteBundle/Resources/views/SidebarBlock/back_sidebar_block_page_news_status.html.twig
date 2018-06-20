@@ -1,20 +1,24 @@
 {% trans_default_domain "MINISITE" %}
 <bns-expander label="{{ 'NEWS_STATUS' | trans }}" class="ng-scope ng-isolate-scope" is-open="true">
-	<div class="content-title">
-		<ul>
+	<div class="md-padding">
 
-			{% if news.isDraft() %}
-        <li class="text-row"><div><span class="vertical-separator separator-one draft"></span><p class="text-status"> <span>{% trans %}NEWS_DRAFT{% endtrans %} </span></p></div></li>
-			{% elseif news.isFinished() %}
-        <li class="text-row"><div><span class="vertical-separator separator-one finished"></span> <p class="text-status"><span>{% trans %}NEWS_FINISH{% endtrans %}</span></p></div></li>
-			{% elseif news.isWaitingForCorrection() %}
-        <li class="text-row"><div><span class="vertical-separator separator-one waiting_for_correction"></span> <p class="text-status"><span>{% trans %}NEWS_TO_CORRECT{% endtrans %}</span></p></div></li>
-			{% elseif news.isPublished() %}
-        <li class="text-row"><div><span class="vertical-separator separator-one published"></span> <p class="text-status"><span>{% trans %}NEWS_PUBLISH{% endtrans %}</span></p></div></li>
-			{% else %}
-      <p class="text-status">Unkwown news status !</p>
-			{% endif %}
+      {% set status_token = 'NEWS_'~news.getLogicalStatus() %}
 
-    </ul>
+      {% if news.isCityNews() and news.isFuture() %}
+        {% set status_token = 'PUBLISHED_FUTURE' %}
+      {% elseif news.isCityNews() and news.isPast() %}
+        {% set status_token = 'PUBLISHED_PAST' %}
+      {% elseif news.isFinished() %}
+        {% set status_token = 'NEWS_FINISH' %}
+      {% elseif news.isWaitingForCorrection() %}
+        {% set status_token = 'NEWS_TO_CORRECT' %}
+      {% elseif news.isPublished() %}
+        {% set status_token = 'NEWS_PUBLISH' %}
+      {% endif %}
+
+      <div class="md-body-2 bns-status-text" bns-status="{ value: '{{ news.getLogicalStatus() }}' }">
+        {{ status_token|trans }}
+      </div>
+
 	</div>
 </bns-expander>

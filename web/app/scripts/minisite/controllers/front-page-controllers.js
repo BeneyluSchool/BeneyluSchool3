@@ -9,7 +9,7 @@
   .controller('MinisiteFrontPageContentController', MinisiteFrontPageContentController)
 ;
 
-  function MinisiteFrontPageContentController ($scope, $stateParams, Restangular, toast) {
+  function MinisiteFrontPageContentController ($scope, $stateParams, $timeout, $window, Restangular, toast) {
     var ctrl = this;
     var limit = 5;
     var slug = $stateParams.slug;
@@ -71,6 +71,8 @@
       .then(function success (page) {
              ctrl.page = page;
              $scope.root.title = page.page.title;
+
+
              addViews(page);
          })
       .catch(function error (response) {
@@ -79,6 +81,10 @@
             })
       .finally(function end () {
               ctrl.busy = false;
+
+              $timeout(function () {
+                $window.status = 'done';
+              }, 2000);
             });
     }
 

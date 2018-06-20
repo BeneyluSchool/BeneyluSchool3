@@ -1,6 +1,7 @@
 <?php
 namespace BNS\App\MainBundle\Statistic;
 
+use BNS\App\CoreBundle\Model\GroupQuery;
 use BNS\App\CoreBundle\Model\GroupType;
 use BNS\App\CoreBundle\Model\GroupTypeQuery;
 use BNS\App\StatisticsBundle\Model\MarkerQuery;
@@ -35,8 +36,10 @@ class VisitStatistic extends BaseStatistics
             new Indicator('gps_visit', 'GPS_VISIT'),
             new Indicator('homework_visit', 'HOMEWORK_VISIT'),
             new Indicator('liaisonbook_visit', 'LIAISONBOOK_VISIT'),
+            new Indicator('lunch_visit', 'LUNCH_VISIT'),
             new Indicator('medialibrary_visit', 'MEDIALIBRARY_VISIT'),
             new Indicator('messaging_visit', 'MESSAGING_VISIT'),
+            new Indicator('portal_visit', 'PORTAL_VISIT'),
             new Indicator('profile_visit', 'PROFILE_VISIT'),
             new Indicator('search_visit', 'SEARCH_VISIT'),
             new Indicator('workshop_visit', 'WORKSHOP_VISIT'),
@@ -69,6 +72,7 @@ class VisitStatistic extends BaseStatistics
             'categories' => $categories
         ));
         $graph->setYAxis(array(
+            'title' => ['text' => $this->translator->trans('VALUES', [], 'STATISTICS')],
             'stackLabels' => array(
                 'enabled' => true
             )
@@ -89,7 +93,7 @@ class VisitStatistic extends BaseStatistics
     {
         $indicators = $graph->getIndicators();
 
-        $groups = $filters['groups'];
+        $groups = $filters['groupIds'];
         $childGroups = array();
 
         $roles = GroupTypeQuery::create()
@@ -164,38 +168,65 @@ class VisitStatistic extends BaseStatistics
         $roles = GroupTypeQuery::create()
             ->filterByRole()
             ->filterByType(array('TEACHER', 'PUPIL'))
-            ->find()
-        ;
+            ->find();
 
         $data = array();
         /** @var Indicator $indicator */
-        foreach ($filters['groups'] as $group) {
-            $datas = array();
+        foreach ($filters['groupIds'] as $group) {
+            $datas = [];
+            $options = ['columnDefs' => [
+                [
+                    'field' => 'role_id',
+                    'displayName' => $this->translator->trans('statistic.column.role'),
+                    'headerTooltip' => true
+                ]
+            ]];
             foreach ($indicators as $indicator) {
                 $code = $indicator->getCode();
                 $query = $this->getStatQuery($code, $filters, false);
-                $query->filterByGroupId($group->getId());
+                $query->filterByGroupId($group);
                 $query->filterByRoleId($roles->getPrimaryKeys(false));
                 $query->groupByRoleId();
 
-                $rows =  $query
+
+                $rows = $query
                     ->select(array('RoleId', 'count'))
                     ->find();
-
-                foreach ($rows as $row) {
-                    if (!isset($datas[$row['RoleId']])) {
-                        $datas[$row['RoleId']] = array(
-                            'role_id' => /** @Ignore */ $this->translator->trans('statistic.indicator.by_role.' . $this->getRoleType($row['RoleId']))
-                        );
+                if (count($rows)) {
+                    foreach ($rows as $row) {
+                        if (!isset($datas[$row['RoleId']])) {
+                            $datas[$row['RoleId']] = array(
+                                'role_id' => /** @Ignore */
+                                    $this->translator->trans('statistic.indicator.by_role.' . $this->getRoleType($row['RoleId']))
+                            );
+                        }
+                        $datas[$row['RoleId']][$indicator->getCode()] = (int)$row['count'];
                     }
-                    $datas[$row['RoleId']][$indicator->getCode()] = $row['count'];
-                }
+                    foreach ($roles as $role) {
+                        if (!isset($datas[$role->getId()])) {
+                            $datas[$role->getId()] = array(
+                                'role_id' => /** @Ignore */
+                                    $this->translator->trans('statistic.indicator.by_role.' . $role->getType())
+                            );
+                        }
+                        if (!isset($datas[$role->getId()][$indicator->getCode()])) {
+                            $datas[$role->getId()][$indicator->getCode()] = 0;
+                        }
+                    }
 
+                    $options['columnDefs'][] = [
+                        'field' => $code,
+
+                        'displayName' => /** @Ignore */
+                            $this->translator->trans('statistic.indicator.' . $code),
+                        'headerTooltip' => true
+                    ];
+                }
             }
             $data[] = array_merge($this->getTableOptions(), array(
-                    'data' => array_values($datas),
-                    'group' => $group
-                )
+                'data' => array_values($datas),
+                'group' => $group
+            ), $options
             );
         }
 
@@ -223,13 +254,9 @@ class VisitStatistic extends BaseStatistics
             'min' => $filters['start'],
             'max' => $filters['end']
         ));
-        $groupIds = array();
-        foreach ($filters['groups'] as $group) {
-            $groupIds[] = $group->getId();
-        }
 
 
-        $query->filterByGroupId($groupIds);
+        $query->filterByGroupId($filters['groupIds']);
 //        $query->orderByDate();
         $query->withColumn("SUM(value)", 'count');
 

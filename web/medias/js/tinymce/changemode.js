@@ -21,11 +21,12 @@ tinymce.PluginManager.add('changemode', function (editor, url) {
     var boutons=[ 'alignleft', 'alignright', 'bullist', 'alignjustify', 'aligncenter', 'numlist', 'outdent', 'indent', 'link'];
 
     for (var i=0; i<boutons.length;i++){
-      $('.mce-i-'+boutons[i]).parent().parent().toggle();
+      $('.mce-i-'+boutons[i]).parent().parent().toggleClass('hide');
     }
 
-    $('.mce-menubar').toggle();
-    $("[aria-label='Font Family']").toggle();
+    $('.mce-menubar').toggleClass('hide');
+    $("[aria-label='Font Family']").toggleClass('hide');
+    $('.mce-bns-annotation-btn-verify').toggleClass('minified');
 
     setTinyCookie($('.mce-i-indent').parent().parent().css('display')=='none');
   }

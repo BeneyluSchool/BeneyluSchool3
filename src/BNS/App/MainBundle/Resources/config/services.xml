@@ -17,6 +17,10 @@
         <service id="bns_main_starter_kit_provider" class="BNS\App\MainBundle\StarterKit\MainStarterKitProvider">
             <tag name="bns.starter_kit_provider" />
         </service>
+        <!-- achievement -->
+        <service id="bns_main_achievement_provider" class="BNS\App\MainBundle\Achievement\MainAchievementProvider">
+            <tag name="bns.achievement_provider" />
+        </service>
         <service id="twig.extension.bnsintl" class="BNS\App\MainBundle\DependencyInjection\TwigExtensions\BNSIntlExtension">
             <argument type="service" id="service_container"></argument>
             <tag name="twig.extension" />
@@ -28,7 +32,15 @@
             <argument type="service" id="service_container" />
             <tag name="twig.extension" />
         </service>
-        <service id="bns.cerise_extension" class="BNS\App\MainBundle\Twig\CeriseExtension" public="false">
+        <service id="bns.cerise_extension" class="BNS\App\MainBundle\Twig\CeriseExtension">
+            <argument type="service" id="service_container" />
+            <tag name="twig.extension" />
+        </service>
+        <service id="bns.restricted_environment_extension" class="BNS\App\MainBundle\Twig\RestrictedEnvironmentExtension" public="false">
+            <argument type="service" id="service_container" />
+            <tag name="twig.extension" />
+        </service>
+        <service id="bns.feature_flags_extension" class="BNS\App\MainBundle\Twig\FeatureFlagsExtension" public="false">
             <argument type="service" id="service_container" />
             <tag name="twig.extension" />
         </service>
@@ -68,6 +80,14 @@
             <argument type="collection" /> <!-- options [indicators => [] ] -->
             <tag name="bns_statistic.statistic_config_provider" />
         </service>
+
+
+      <service class="BNS\App\MainBundle\Controller\RacvisionController" id="bns_app_main.controller.racvision_controller">
+        <call method="setContainer">
+          <argument id="service_container" type="service"/>
+        </call>
+      </service>
+
     </services>
 
 </container>

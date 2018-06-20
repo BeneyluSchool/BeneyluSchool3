@@ -3,6 +3,7 @@
 namespace BNS\App\ProfileBundle\DataReset;
 
 use BNS\App\ClassroomBundle\DataReset\User\DataResetUserInterface;
+use BNS\App\CoreBundle\Model\ProfileCommentQuery;
 use BNS\App\CoreBundle\Model\ProfileFeedQuery;
 use BNS\App\CoreBundle\Model\ProfileQuery;
 
@@ -36,5 +37,17 @@ class ChangeYearProfileDataReset implements DataResetUserInterface
         ProfileFeedQuery::create('pf')
             ->where('pf.ProfileId IN ?', $profileFeedsId)
         ->delete();*/
+        $profileFeedIds = ProfileFeedQuery::create('p')
+            ->useProfileQuery()
+            ->useUserQuery()
+            ->filterById($usersId)
+            ->endUse()
+            ->endUse()
+            ->select('id')
+            ->find()->toArray();
+       ProfileCommentQuery::create()
+            ->filterByObjectId($profileFeedIds)->delete();
+
+        ProfileFeedQuery::create()->filterById($profileFeedIds)->delete();
     }
 }

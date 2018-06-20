@@ -71,11 +71,11 @@ class BackCeriseController extends CommonController
 
         $group = $this->get('bns.right_manager')->getCurrentGroupManager();
 
-        $this->get('bns.right_manager')->forbidIf(!$this->get('bns.right_manager')->hasCerise($group,true));
+        $this->get('bns.right_manager')->forbidIf(!$this->get('bns.right_manager')->hasCerise($group, true));
 
         $date = date('U');
 
-        return $this->redirect('https://www.cerise-prim.fr/'. $group->getAttribute('UAI') .'/?id=' . $this->get('bns.right_manager')->getUserSession()->getCeriseId() . '&key=' . md5($this->container->getParameter('cerise_secret_key') . $this->get('bns.right_manager')->getUserSession()->getCeriseId() . $date) . '&time=' . $date);
+        return $this->redirect('https://www.cerise-prim.fr/' . $this->get('bns.group_manager')->getAttributeStrict($group, 'UAI') . '/?email=' . $this->get('bns.right_manager')->getUserSession()->getEmail() . '&key=' . md5($this->container->getParameter('cerise_secret_key') . $this->get('bns.right_manager')->getUserSession()->getEmail() . $date) . '&time=' . $date);
 
     }
 
@@ -143,56 +143,56 @@ class BackCeriseController extends CommonController
      * @Route("/{uai}", name="BNSAppGroupBundle_back_cerise_xml")
      * @Template("BNSAppGroupBundle:BackCerise:xml.xml.twig")
      */
-    public function xmlAction($uai,Request $request)
-    {
-        $school = GroupQuery::create()->filterBySingleAttribute('UAI',$uai)->findOne();
-
-        if(!$school)
-        {
-            throw new NotFoundHttpException("Cet UAI n'existe pas.");
-        }
-
-        $gm = $this->get('bns.group_manager');
-        $gm->setGroup($school);
-
-
-
-        //vérification du droit de lecture
-        if(!($this->hasCerise($school) && $this->checkKey($request->get('key'),$request->get('time'),$uai)))
-        {
-            if(!$this->get('bns.right_manager')->hasCerise($school))
-            {
-                throw new NotFoundHttpException("Cet environnement n'a pas accès à Cerise");
-            }else{
-                throw new NotFoundHttpException("La clé n'est pas acceptée");
-            }
-        }
-
-        $gm->setGroup($school);
-
-        $directors = $gm->getUsersByRoleUniqueName('DIRECTOR',true);
-        $directorsIds = array();
-        foreach($directors as $director)
-        {
-            $directorsIds[] = $director->getId();
-        }
-
-        $classrooms = $gm->getSubgroups(true,false,GroupTypeQuery::create()->findOneByType('CLASSROOM')->getId());
-        $thisYearClassrooms = array();
-        foreach($classrooms as $classroom)
-        {
-            if($classroom->getAttribute('CURRENT_YEAR') == $this->container->getParameter('registration.current_year'))
-            {
-                $thisYearClassrooms[] = $classroom;
-            }
-        }
-
-        //Toutes les vérifications sont faites on attaque le traitement
-        return array(
-            'school' => $school,
-            'gm' => $gm,
-            'classrooms' => $thisYearClassrooms,
-            'directorsIds' => $directorsIds
-        );
-    }
+//    public function xmlAction($uai,Request $request)
+//    {
+//        $school = GroupQuery::create()->filterBySingleAttribute('UAI',$uai)->findOne();
+//
+//        if(!$school)
+//        {
+//            throw new NotFoundHttpException("Cet UAI n'existe pas.");
+//        }
+//
+//        $gm = $this->get('bns.group_manager');
+//        $gm->setGroup($school);
+//
+//
+//
+//        //vérification du droit de lecture
+//        if(!($this->hasCerise($school) && $this->checkKey($request->get('key'),$request->get('time'),$uai)))
+//        {
+//            if(!$this->get('bns.right_manager')->hasCerise($school))
+//            {
+//                throw new NotFoundHttpException("Cet environnement n'a pas accès à Cerise");
+//            }else{
+//                throw new NotFoundHttpException("La clé n'est pas acceptée");
+//            }
+//        }
+//
+//        $gm->setGroup($school);
+//
+//        $directors = $gm->getUsersByRoleUniqueName('DIRECTOR',true);
+//        $directorsIds = array();
+//        foreach($directors as $director)
+//        {
+//            $directorsIds[] = $director->getId();
+//        }
+//
+//        $classrooms = $gm->getSubgroups(true,false,GroupTypeQuery::create()->findOneByType('CLASSROOM')->getId());
+//        $thisYearClassrooms = array();
+//        foreach($classrooms as $classroom)
+//        {
+//            if($classroom->getAttribute('CURRENT_YEAR') == $this->container->getParameter('registration.current_year'))
+//            {
+//                $thisYearClassrooms[] = $classroom;
+//            }
+//        }
+//
+//        //Toutes les vérifications sont faites on attaque le traitement
+//        return array(
+//            'school' => $school,
+//            'gm' => $gm,
+//            'classrooms' => $thisYearClassrooms,
+//            'directorsIds' => $directorsIds
+//        );
+//    }
 }

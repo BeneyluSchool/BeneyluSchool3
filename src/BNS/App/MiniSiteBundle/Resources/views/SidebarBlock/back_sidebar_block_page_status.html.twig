@@ -1,31 +1,19 @@
 {% trans_default_domain "MINISITE" %}
-<bns-expander label=
 
-		"{% if isNews is defined %}
-      {% trans %}NEWS_STATUS{% endtrans %}
-		{% else %}
-      {% trans %}PAGE_STATUS{% endtrans %}
-		{% endif %}"
+{% if status == 'FINISHED' %}
+  {% set status_token = 'FINISH' %}
+{% elseif status == 'PUBLISHED' %}
+  {% set status_token = 'PUBLISH' %}
+{% elseif status == 'DRAFT' %}
+  {% set status_token = 'NEWS_DRAFT' %}
+{% else %}
+  {% set status_token = 'WAITING_TO_MODERATION' %}
+{% endif %}
 
-              class="ng-scope ng-isolate-scope" is-open="true">
-
-		<ul>
-			<li class="text-row">
-				<div>
-					<span class="vertical-separator separator-one {{ status|lower }}"></span>
-					<span>
-            <p class="text-status">
-						{% if status == 'FINISHED' %}
-              {% trans %}FINISH{% endtrans %}
-						{% elseif status == 'PUBLISHED' %}
-              {% trans %}PUBLISH{% endtrans %}
-						{% elseif status == 'DRAFT' %}
-              {% trans %}NEWS_DRAFT{% endtrans %}
-						{% else %}
-              {% trans %}WAITING_TO_MODERATION{% endtrans %}
-						{% endif %}</p>
-					</span>
-				</div>
-			</li>
-		</ul>
+<bns-expander label="{{ (isNews is defined ? 'NEWS_STATUS' : 'PAGE_STATUS') | trans }}" is-open="true">
+  <div class="md-padding">
+    <div class="md-body-2 bns-status-text" bns-status="{ value: '{{ status }}' }">
+      {{ status_token|trans }}
+    </div>
+  </div>
 </bns-expander>

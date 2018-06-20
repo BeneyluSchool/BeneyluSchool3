@@ -46,19 +46,11 @@ class MediaLibraryNewShareNotification extends Notification implements Notificat
         // Faites les modifications nécessaires à la restitution des paramètres ci-dessous
         // Le container est accessible grâce à l'attribut statique "self::$container"
         $media = MediaQuery::create()->findOneById($objects['media_id']);
-
-        $group = GroupQuery::create()->findPk($objects['groupId']);
-        if (null == $group) {
-            $finalObjects['%classLabel%'] = null;
-        } else {
-            $finalObjects['%classLabel%'] = "[" . $group->getLabel() . "] ";
-        }
-
-        if(!$media)
-        {
+        if (!$media) {
             $notification->delete();
             return false;
         }
+        $finalObjects['%classLabel%'] =  self::getGroupLabel($objects);
         $finalObjects['%file_name%'] = $media->getFilename();
         $finalObjects['%media_folder_route%'] = $notification->getBaseUrl() . self::$container->get('cli.router')->generate('BNSAppMainBundle_front') . '#/media-library/dossiers/' . $media->getMediaFolder()->getSlug();
 

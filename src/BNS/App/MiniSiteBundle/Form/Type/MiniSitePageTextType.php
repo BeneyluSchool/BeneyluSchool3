@@ -41,6 +41,7 @@ class MiniSitePageTextType extends AbstractType
 				'choices'	=> array_combine($statuses, $statuses),
 				'expanded'	=> true,
                 'label' => 'PAGE_STATUS',
+                'attr' => [ 'bns-status' => '' ],
                 'proxy' => true
                 //'choices_as_values' => true,
 

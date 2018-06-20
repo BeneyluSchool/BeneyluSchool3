@@ -75,6 +75,75 @@ class HomeworkDueQuery extends BaseHomeworkDueQuery
         return $query->find();
     }
 
+    public function filterByRangeAndSubject($startDay, $endDay, $subjectIds = null, $dayIds = null)
+    {
+        $this->filterByDueDate([
+            'min' => $startDay,
+            'max' => $endDay
+        ]);
+
+        if ($dayIds) {
+            $this->filterByDayOfWeek($dayIds, Criteria::IN);
+        }
+
+        if ($subjectIds) {
+            $this
+                ->useHomeworkQuery()
+                    ->filterBySubjectId($subjectIds, Criteria::IN)
+                ->endUse()
+            ;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param array $userIds
+     * @return $this
+     */
+    public function filterByUserIds(array $userIds)
+    {
+        $this
+            ->useHomeworkQuery()
+                ->useHomeworkUserQuery()
+                    ->filterByUserId($userIds, \Criteria::IN)
+                ->endUse()
+            ->endUse()
+        ;
+
+        return $this;
+    }
+
+    /**
+     * @param array $groupIds
+     * @return $this
+     */
+    public function filterByGroupIds(array $groupIds)
+    {
+        $this
+            ->useHomeworkQuery()
+                ->useHomeworkGroupQuery()
+                    ->filterByGroupId($groupIds, \Criteria::IN)
+                ->endUse()
+            ->endUse()
+        ;
+
+        return $this;
+    }
+
+    /**
+     * @param $status
+     * @return \ModelCriteria|$this
+     */
+    public function filterByPublicationStatus($status)
+    {
+        return $this
+            ->useHomeworkQuery()
+                ->filterByPublicationStatus($status)
+            ->endUse()
+        ;
+    }
+
 
     /**
      * Trouve les HomeworkDues pour une date donnée

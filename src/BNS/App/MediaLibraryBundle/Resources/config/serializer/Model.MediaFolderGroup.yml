@@ -11,8 +11,7 @@ BNS\App\MediaLibraryBundle\Model\MediaFolderGroup:
       getChildrenWithSpot:
         expose: true
         serialized_name: children
-      getMedias:
-        expose: true
+        max_depth: 2
       getMarker:
         expose: true
       getUsageRatio:
@@ -41,6 +40,14 @@ BNS\App\MediaLibraryBundle\Model\MediaFolderGroup:
       getParentKey:
         expose: true
         serialized_name: parent_key
+        groups: [media_folder_detail]
       getNiceUsage:
         expose: true
         serialized_name: usage
+      getIsEmpty:
+        expose: true
+        serialized_name: is_empty
+        groups: [media_folder_detail]
+      getIsChildrenPartial:
+        expose: true
+        serialized_name: is_children_partial

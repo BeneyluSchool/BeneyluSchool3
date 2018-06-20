@@ -1,0 +1,53 @@
+<div ng-if="::!ctrl.participation" class="layout-column layout-align-center-center">
+  <md-button ng-if="!ctrl.isLast" ng-click="ctrl.next()" class="md-primary md-raised">
+    <md-icon>exit_to_app</md-icon>
+    <span ng-bind-html="::'WORKSHOP.QUESTIONNAIRE.NEXT_PAGE'|translate|buttonize"></span>
+  </md-button>
+  <p ng-if="ctrl.isLast" class="text-primary" translate>WORKSHOP.QUESTIONNAIRE.FINISHED</p>
+  <md-button ng-if="ctrl.isLast" ng-click="ctrl.reset()" class="md-primary md-raised">
+    <md-icon>loop</md-icon>
+    <span ng-bind-html="::'WORKSHOP.QUESTIONNAIRE.RESET_QUESTIONNAIRE'|translate|buttonize"></span>
+  </md-button>
+</div>
+
+<div ng-if="::ctrl.participation" ng-show="!(ctrl.showFinish || ctrl.participation.finished)" class="layout-row layout-align-center-center">
+  <md-button ng-click="ctrl.isLast ? ctrl.finish() : ctrl.next()" class="md-primary md-raised">
+    <md-icon>exit_to_app</md-icon>
+    <span ng-if="ctrl.isLast" ng-bind-html="::'WORKSHOP.QUESTIONNAIRE.FINISH'|translate|buttonize"></span>
+    <span ng-if="!ctrl.isLast" ng-bind-html="::'WORKSHOP.QUESTIONNAIRE.NEXT_PAGE'|translate|buttonize"></span>
+  </md-button>
+</div>
+
+<div ng-if="::ctrl.participation" ng-show="ctrl.showFinish || ctrl.participation.finished">
+  <div class="layout-column">
+    <bns-inset bns-inset-icon="false" class="flex bns-primary text-center">
+      <h3 class="md-headline"
+        translate
+        translate-values="{SCORE: ctrl.score || ctrl.participation.score}"
+        translate-interpolation="messageformat"
+      >COMPETITION.QUESTIONNAIRE_FINISHED_POINTS</h3>
+      <p>
+        <md-button ng-if="!ctrl.participation.like && ctrl.competition.type !== 'PEDAGOGIC_COURSE'" ng-click="ctrl.like()" class="md-primary md-raised">
+          <md-icon>thumb_up</md-icon>
+          <span ng-bind-html="::('COMPETITION.BUTTON_LIKE_'+(ctrl.book?'BOOK':'COMPETITION'))|translate|buttonize"></span>
+        </md-button>
+        <span ng-if="ctrl.participation.like" class="competition-liked-banner">
+          <md-icon>favorite</md-icon>
+          <span>{{::('COMPETITION.DESCRIPTION_LIKED_'+(ctrl.book?'BOOK':'COMPETITION'))|translate|buttonize}}</span>
+        </span>
+      </p>
+    </bns-inset>
+    <div class="layout-margin"></div>
+    <div class="layout-row layout-align-space-between-center layout-margin">
+      <md-button ng-click="ctrl.reset()" class="md-primary md-raised" ng-disabled="ctrl.participation.try_number >= ctrl.questionnaire.max_attempts_number">
+        <md-icon>loop</md-icon>
+        <span ng-bind-html="::'WORKSHOP.QUESTIONNAIRE.RESET_QUESTIONNAIRE'|translate|buttonize"></span>
+      </md-button>
+      <md-button ng-click="ctrl.back()" class="md-raised md-primary">
+        <md-icon>undo</md-icon>
+        <span ng-if=" ctrl.competition.type !== 'PEDAGOGIC_COURSE'" ng-bind-html="::('COMPETITION.BUTTON_BACK_'+(ctrl.book?'BOOK':'COMPETITION'))|translate|buttonize"></span>
+        <span ng-if=" ctrl.competition.type == 'PEDAGOGIC_COURSE'" ng-bind-html="::('COMPETITION.BUTTON_BACK_TO_MODULE')|translate|buttonize"></span>
+      </md-button>
+    </div>
+  </div>
+</div>

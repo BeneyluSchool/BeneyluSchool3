@@ -49,7 +49,8 @@ class BNSTeamManager extends BNSGroupManager implements IBundleActivation
             'group_type_id' => $teamGroupTypeRole->getId(),
             'type' => $teamGroupTypeRole->getType(),
             'domain_id' => $this->domainId,
-            'label' => $params['label']
+            'label' => $params['label'],
+            'lang' => $params['lang'] ?? 'fr'
         );
         $this->team = $this->createSubgroupForGroup($newTeamParams, $params['group_parent_id']);
         $this->setTeam($this->team);
@@ -87,16 +88,22 @@ class BNSTeamManager extends BNSGroupManager implements IBundleActivation
         $this->setGroup($team);
     }
 
+    public function assignParent($parent)
+    {
+        $this->addUser($parent);
+        $this->roleManager->setGroupTypeRoleFromType('PARENT')->assignRole($parent, $this->team->getId());
+    }
+
     public function assignPupil($pupil)
     {
         $this->addUser($pupil);
-        $this->roleManager->setRole('pupil', $pupil, $this->team);
+        $this->roleManager->setGroupTypeRoleFromType('PUPIL')->assignRole($pupil, $this->team->getId());
     }
 
     public function assignTeacher($teacher)
     {
         $this->addUser($teacher);
-        $this->roleManager->setRole('teacher', $teacher, $this->team);
+        $this->roleManager->setGroupTypeRoleFromType('TEACHER')->assignRole($teacher, $this->team->getId());
     }
 
     public function getPupils($returnObject = true)

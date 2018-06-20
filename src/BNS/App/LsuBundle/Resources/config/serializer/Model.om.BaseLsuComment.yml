@@ -1,0 +1,8 @@
+BNS\App\LsuBundle\Model\om\BaseLsuComment:
+  exclusion_policy: All
+
+  properties:
+    id:
+      expose: true
+    comment:
+      expose: true

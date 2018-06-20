@@ -47,7 +47,8 @@ class MessagingSender implements CampaignSenderInterface
                 $messagingConversation = new MessagingConversation();
                 $messagingConversation->setMessageParentId($messagingMessage->getId());
                 $messagingConversation->setUserId($user->getId());
-                $messagingConversation->setStatus(5);
+                $messagingConversation->setUserWithId($user->getId());
+                $messagingConversation->setStatus(BNSMessageManager::$messagesConversationStatus['CAMPAIGN']);
                 $messagingConversation->save($con);
 
                 $messagingMessageConversation = new MessagingMessageConversation();

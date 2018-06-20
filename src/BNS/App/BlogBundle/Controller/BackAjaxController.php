@@ -2,8 +2,11 @@
 
 namespace BNS\App\BlogBundle\Controller;
 
+use BNS\App\BlogBundle\Form\Model\BlogArticleFormModel;
+use BNS\App\CoreBundle\Controller\BaseController;
 use BNS\App\CoreBundle\Model\Blog;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use BNS\App\CoreBundle\Model\GroupQuery;
+use FOS\RestBundle\Util\Codes;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,85 +29,134 @@ use BNS\App\BlogBundle\Form\Type\BlogArticleType;
 /**
  * @Route("/gestion")
  */
-class BackAjaxController extends Controller
+class BackAjaxController extends BaseController
 {
-	/**
-	 * @Route("/brouillon/sauvegarder", name="blog_manager_draft_save")
-	 * @Rights("BLOG_ACCESS_BACK")
-	 */
-	public function saveDraftAction(Request $request)
-	{
-		if ($request->isMethod('POST') && $request->isXmlHttpRequest()) {
-			$context = $this->get('bns.right_manager')->getContext();
-			$params = $request->get('blog_article_form');
+    /**
+     * @Route("/brouillon/sauvegarder/{slug}", name="blog_manager_draft_save", options={"expose"=true})
+     * @Rights("BLOG_ACCESS_BACK")
+     */
+    public function saveDraftAction(Request $request, $slug = null)
+    {
+        if (!$request->isMethod('PATCH')) {
+            return $this->redirect($this->generateUrl('BNSAppBlogBundle_back'));
+        }
 
-			if (isset($params['id']) && null != $params['id']) {
-				$article = BlogArticleQuery::create()
-					->filterByBlog(($this->getCurrentBlog()))
-				->findPk($params['id']);
+        $article = BlogArticleQuery::create()
+            ->filterBySlug($slug, \Criteria::EQUAL)
+            ->findOne();
 
-				if (null == $article) {
-					$article = new BlogArticle();
-				}
-			} else {
-				$article = new BlogArticle();
-			}
+        if ($slug && !$article) {
+            throw $this->createNotFoundException();
+        } elseif (!$article) {
+            $article = new BlogArticle();
+            $article->setStatus(BlogArticlePeer::STATUS_DRAFT);
+            $article->setAuthor($this->getUser());
+        }
+        $blogManager = $this->get('bns_app_blog.blog_manager');
+        $blog = $blogManager->getCurrentBlog();
+        $categories = $blog->getRootCategory()->getDescendants();
+        $linkedGroupIds = [];
+        $linkedCategories = [];
+        if (!$article->isNew()) {
+            if (!$blogManager->canEditArticle($article)) {
+                throw $this->createAccessDeniedException();
+            }
+            $linkedGroupIds = BlogQuery::create()
+                ->useBlogArticleBlogQuery()
+                    ->filterByArticleId($article->getId())
+                ->endUse()
+                ->select(['GroupId'])
+                ->find()
+                ->getArrayCopy()
+            ;
+            $linkedGroupIds = array_map('intval', $linkedGroupIds);
 
-			$form = $this->createForm(new BlogArticleType($this->get('bns.right_manager')->hasRight('BLOG_ADMINISTRATION')), $article);
-			$form->handleRequest($request);
-			if ($form->isValid()) {
-				$article = $form->getData();
-				$article->setUpdatedAt(time());
-				$article->setStatus(BlogArticlePeer::STATUS_DRAFT);
-				$article->setIsStar(false); // always false when is draft
+            $linkedCategories = BlogCategoryQuery::create()
+                ->filterByBlogId($blog->getId(), \Criteria::NOT_EQUAL)
+                ->useBlogArticleCategoryQuery()
+                    ->filterByArticleId($article->getId())
+                ->endUse()
+                ->find()
+            ;
 
-				// Is new ?
-				if (null == $article->getCreatedAt()) {
-					$article->setCreatedAt(time());
-					$article->setBlogId($context['id']);
-					$article->setAuthorId($this->getUser()->getId());
-				}
+        }
+        $rightManager = $this->get('bns.right_manager');
 
-                if (!$this->get('bns_app_blog.blog_manager')->canManageArticle($article)) {
-                    throw $this->createAccessDeniedException();
+        $allowedGroupIds = $rightManager->getGroupIdsWherePermission('BLOG_ACCESS_BACK');
+        $notAllowedGroupIds = array_diff($linkedGroupIds, $allowedGroupIds);
+        $allowedGroups = GroupQuery::create()->filterById($allowedGroupIds)->find();
+
+        $canSchedule = $this->hasFeature('blog_schedule');
+
+        $form = $this->createForm(
+            new BlogArticleType(
+                $rightManager->hasRight('BLOG_ADMINISTRATION'),
+                true,
+                !$article->isNew(),
+                $allowedGroups,
+                $categories,
+                $this->generateUrl('blog_category_api_post_category', ['id' => $blog->getId(), 'version' => '1.0']),
+                $blog->getId(),
+                $canSchedule
+            ),
+            new BlogArticleFormModel($this->get("stat.blog"), $this->get('bns.media_library.public_media_parser'), $article, $blog),
+            [
+                'validation_groups' => ['fu'],
+                'method' => 'PATCH',
+            ]
+        );
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            /** @var BlogArticleFormModel $model */
+            $model = $form->getData();
+
+            if (!$this->get('bns_app_blog.blog_manager')->canManageArticle($article)) {
+                throw $this->createAccessDeniedException();
+            }
+
+            // Finally
+            $model->save($rightManager, $this->getUser(), $this->get('bns.media.manager'), $request, $blog, true);
+
+            $article = $model->getArticle();
+            if (count($notAllowedGroupIds) > 0) {
+                // set back excluded blog id
+                foreach (BlogQuery::create()->filterByGroupId($notAllowedGroupIds)->find() as $notAllowedBlog) {
+                    $article->addBlog($notAllowedBlog);
                 }
+            }
+            if (count($linkedCategories) > 0) {
+                foreach ($linkedCategories as $linkedCategory) {
+                    $article->addBlogCategory($linkedCategory);
+                }
+            }
+            $article->save();
 
-				// Finally
-				$article->save();
+            return new JsonResponse([
+                'success' => true,
+                'slug' => $article->getSlug(),
+                'attributes' => [
+                    [
+                        'node' => '#form_new_article',
+                        'attr' => 'action',
+                        'value' => $this->generateUrl('blog_manager_edit_article', [
+                            'articleSlug' => $article->getSlug()
+                        ]),
+                    ]
+                ]
+            ]);
+        } else {
+            $errors = array();
+            /** @var \Symfony\Component\Form\Form $children */
+            foreach ($form->getErrors(true, true) as $error) {
+                $errors[] = $error->getMessage();
+            }
 
-				return new Response(json_encode(array(
-					'response'	=> true,
-					'articleId'	=> $article->getId()
-				)));
-			} else {
-				$errorsArray = array();
-				foreach ($form->getChildren() as $children) {
-					if (count($children->getErrors()) > 0) {
-						foreach ($children->getErrors() as $error) {
-							$errorsArray[] = $error->getMessage();
-						}
-					}
-				}
-
-				if (count($errorsArray) > 1) {
-					$errors = '<ul>';
-					foreach ($errorsArray as $error) {
-						$errors .= '<li>' . $error . '</li>';
-					}
-					$errors = '</ul>';
-				}
-				else {
-					$errors = $errorsArray[0];
-				}
-
-				return new Response(json_encode(array(
-					'errors' => $errors
-				)));
-			}
-		}
-
-		return $this->redirect($this->generateUrl('BNSAppBlogBundle_back'));
-	}
+            return new JsonResponse([
+                'errors' => $errors
+            ], Codes::HTTP_BAD_REQUEST);
+        }
+    }
 
     /**
      * @Route("/article/{articleSlug}/epingler", name="blog_manager_article_pin")
@@ -134,6 +186,10 @@ class BackAjaxController extends Controller
 	public function addCategoryAction($isManage = false, Request $request)
 	{
 		if ($request->isMethod('POST') && $request->isXmlHttpRequest()) {
+			if (!$this->hasFeature('blog_categories')) {
+				throw $this->createAccessDeniedException();
+			}
+
 			if (!$request->get('title', false)) {
 				throw new InvalidArgumentException('There is one missing mandatory field !');
 			}
@@ -194,6 +250,10 @@ class BackAjaxController extends Controller
 	public function saveCategoriesAction(Request $request)
 	{
 		if ($request->isMethod('POST') && $request->isXmlHttpRequest()) {
+			if (!$this->hasFeature('blog_categories')) {
+				throw $this->createAccessDeniedException();
+			}
+
 			if ($request->get('categories', false) === false) {
 				throw new InvalidArgumentException('There is one missing mandatory field !');
 			}
@@ -248,6 +308,10 @@ class BackAjaxController extends Controller
 	public function editCategoryAction(Request $request)
 	{
 		if ($request->isMethod('POST') && $request->isXmlHttpRequest()) {
+			if (!$this->hasFeature('blog_categories')) {
+				throw $this->createAccessDeniedException();
+			}
+
 			if (!$request->get('title', false) || !$request->get('id', false)) {
 				throw new InvalidArgumentException('There is one missing mandatory field !');
 			}
@@ -283,6 +347,10 @@ class BackAjaxController extends Controller
 	public function deleteCategoryAction(Request $request)
 	{
 		if ($request->isXmlHttpRequest()) {
+			if (!$this->hasFeature('blog_categories')) {
+				throw $this->createAccessDeniedException();
+			}
+
 			if (!$request->get('id', false)) {
 				throw new InvalidArgumentException('There is one missing mandatory field !');
 			}
@@ -354,6 +422,9 @@ class BackAjaxController extends Controller
 	public function deleteArticleAction($articleId)
 	{
         $article = BlogArticleQuery::create()->findOneById($articleId);
+        if (!$article) {
+            throw $this->createNotFoundException();
+        }
         $this->get('bns_app_blog.blog_manager')->canEditArticle($article);
 		// Only teachers can delete articles
 		$canManage = $this->get('bns.right_manager')->hasRight('BLOG_ADMINISTRATION')

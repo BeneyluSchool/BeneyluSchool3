@@ -35,11 +35,12 @@ angular.module('bns.core.dragdrop')
    *   bns-droppable-enabled="myBooleanValueThatCanChangeOverTime"
    * ></any>
    *
+   * @requires _
    * @requires dragdropHelper
    *
    * @returns {Object} The bnsDroppable directive
    */
-  .directive('bnsDroppable', function (dragdropHelper) {
+  .directive('bnsDroppable', function (_, dragdropHelper) {
     return {
       link: function (scope, element, attrs) {
         var
@@ -48,32 +49,31 @@ angular.module('bns.core.dragdrop')
             activeClass: 'bns-droppable-valid',   // can receive current draggable
             hoverClass: 'bns-droppable-hover',    // draggable hovers element
           },
-          options = scope.$eval(attrs.bnsDroppable),
+          options,
           model;
 
         angular.extend(uiOptions, scope.$eval(attrs.bnsDroppableUiOptions));
 
-        if (!(options && options.model)) {
-          console.warn('No model set');
-        }
-
-        model = options.model;
-
         element.droppable(uiOptions);
 
         element.on('drop', function (e) {
+          // get fresh options from scope
+          options = scope.$eval(attrs.bnsDroppable);
+          if (!(options && options.model)) {
+            return console.warn('No droppable model found');
+          }
+
+          model = options.model;
+
           // get info stored in helper
           var fromModel = dragdropHelper.dragged.model,
-            fromIndex = dragdropHelper.dragged.index,
+            item = dragdropHelper.dragged.item,
             fromScope = dragdropHelper.dragged.scope;
-          if (fromModel !== undefined && fromIndex !== undefined) {
-            var item = fromModel[fromIndex];
-
+          if (fromModel !== undefined && item !== undefined) {
             if (options.onDrop !== undefined) {
               // execute custom callback
               var from = {
                 model: fromModel,
-                index: fromIndex,
                 scope: fromScope
               };
               var to = {
@@ -91,13 +91,13 @@ angular.module('bns.core.dragdrop')
               // default callback with arrays: remove from old, add to new
               if (angular.isArray(model)) {
                 fromScope.$apply(function () {
-                  fromModel.splice(fromIndex, 1);
+                  _.remove(fromModel, item);
                 });
                 model.push(item);
               }
             }
           } else {
-            console.warn('Cannot handle drop', fromModel, fromIndex);
+            console.warn('Cannot handle drop', fromModel, item);
           }
         });
 

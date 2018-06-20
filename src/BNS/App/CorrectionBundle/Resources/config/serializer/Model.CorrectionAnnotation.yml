@@ -1,0 +1,20 @@
+BNS\App\CorrectionBundle\Model\CorrectionAnnotation:
+  exclusion_policy: All
+
+  virtual_properties:
+    getId:
+      expose: true
+    getGuid:
+      expose: true
+    getLabel:
+      expose: true
+    getType:
+      expose: true
+    getComment:
+      expose: true
+    getUserId:
+      expose: true
+    getSortableRank:
+      expose: true
+    getAttachments:
+      expose: true

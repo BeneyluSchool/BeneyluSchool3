@@ -115,4 +115,10 @@ class MiniSitePage extends BaseMiniSitePage
 			}
 		}
 	}
+
+	public function isCity()
+	{
+		return MiniSitePagePeer::TYPE_CITY === $this->getType();
+	}
+
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-06-22T16:37:33Z" source-language="en" target-language="en-GB" datatype="plaintext" original="not.available">
+  <file date="2018-02-20T11:28:55Z" source-language="en" target-language="en-GB" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -87,7 +87,7 @@
         <target>Delete mailing lists</target>
       </trans-unit>
       <trans-unit id="eb3e434583a36d58f5b26d70af901acd56c86035" resname="BUTTON_EDIT_DISTRIBUTION_LIST">
-        <source>BUTTON_EDIT_DISTRIBUTION_LIST</source>
+        <source>Editer la liste</source>
         <target>Edit list</target>
       </trans-unit>
       <trans-unit id="1507c40f043249fe6b5e25ba0cc97010cefa6d12" resname="CANCEL">
@@ -161,6 +161,10 @@
       <trans-unit id="a8080adf6ecc68d2e9e380377e46708fc976bc6d" resname="EDIT_WORKSPACE_SUCCESS">
         <source>EDIT_WORKSPACE_SUCCESS</source>
         <target>Workspace edited</target>
+      </trans-unit>
+      <trans-unit id="87768974dff2fd318882385abc96a40ea2aad9a2" resname="EDUCATIONAL_ADVISERS">
+        <source>EDUCATIONAL_ADVISERS</source>
+        <target>Educational advisers</target>
       </trans-unit>
       <trans-unit id="82fc8b98a383fcc64504eeb49a6149ecda9a61b2" resname="ENT_REFERENTS">
         <source>ENT_REFERENTS</source>
@@ -339,7 +343,7 @@
         <target>Yërbook</target>
       </trans-unit>
       <trans-unit id="b69c3ccfe55954f7fbf622662dfd908f130577cb" resname="LABEL_DISTRIBUTION_LIST_NAME">
-        <source>LABEL_DISTRIBUTION_LIST_NAME</source>
+        <source>Nom de la liste de diffusion</source>
         <target>Mailing list name</target>
       </trans-unit>
       <trans-unit id="29f5226318a36c2ed03dd77b92fefa25d9e290b1" resname="LABEL_MY_DISTRIBUTION_LISTS">

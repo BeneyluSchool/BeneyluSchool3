@@ -1,0 +1,26 @@
+<title>{{ forum.title }} </title>
+
+{% for subject in subjects %}
+    <div class="post">
+        <h3></h3>
+        <div class="date"> Sujet publié: <strong>{{ subject.CreatedAt|date('d-m-Y') }}</strong></div>
+        <div class="author">par <strong>{% if subject.getUser() is not null  %}{{ subject.getUser().login }} {% else %} Anonyme {% endif %}</strong></div>
+        <div class="content"><span style="font-size: 150%; line-height: 116%;"><span style="font-weight: bold">{{ subject.Title }}</span></span>
+            <br />
+            <br />
+            {% for message in subject.messages %}
+            <div class="agenda-recursive">
+                <div class="date">Message publié: <strong>{{ message.CreatedAt|date('d-m-Y') }}</strong></div>
+                <div class="author">par <strong>{% if message.getUser() is not null  %}{{ message.getUser().login }} {% else %} Anonyme {% endif %}</strong></div>
+                <div class="content"><span style="font-size: 100%; line-height: 116%;"><span style="font-weight: bold">{{ message.Content|purify }}</span></span>
+
+                </div>
+                <br />
+                <br />
+                <br /><hr/>
+            </div>
+            {% endfor %}
+    </div>
+
+    <hr align=center size=8 width="100%">
+{% endfor %}

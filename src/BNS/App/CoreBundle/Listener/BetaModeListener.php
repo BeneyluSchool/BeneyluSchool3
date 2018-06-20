@@ -5,12 +5,12 @@ namespace BNS\App\CoreBundle\Listener;
 use BNS\App\CoreBundle\Beta\BetaManager;
 use BNS\App\CoreBundle\Exception\WrongBetaModeException;
 use BNS\App\CoreBundle\Model\User;
+use BNS\CommonBundle\Security\Logout\Logout;
 use FOS\RestBundle\Util\Codes;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\RememberMeToken;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Templating\EngineInterface;
 
@@ -29,22 +29,14 @@ class BetaModeListener
      */
     protected $templateEngine;
 
-    /**
-     * @var SessionInterface
-     */
-    protected $session;
+    /** @var Logout  */
+    protected $logout;
 
-    /**
-     * @var TokenStorageInterface
-     */
-    protected $tokenStorage;
-
-    public function __construct(BetaManager $betaManager, EngineInterface $templateEngine, SessionInterface $session, TokenStorageInterface $tokenStorage)
+    public function __construct(BetaManager $betaManager, EngineInterface $templateEngine, Logout $logout)
     {
         $this->betaManager = $betaManager;
         $this->templateEngine = $templateEngine;
-        $this->session = $session;
-        $this->tokenStorage = $tokenStorage;
+        $this->logout = $logout;
     }
 
     /**
@@ -52,12 +44,21 @@ class BetaModeListener
      */
     public function onInteractiveLogin(InteractiveLoginEvent $event)
     {
-        if (!$this->betaManager->isBetaModeAllowed()) {
+        if (!$this->betaManager->isBetaModeAllowed() && !$this->betaManager->isBetaModeAllowedByStatus() && !$this->betaManager->isBetaModeEnabled()) {
+            return;
+        }
+
+        $token = $event->getAuthenticationToken();
+        if ($token instanceof RememberMeToken) {
+            // do not redirect user when remember Me login occurred
             return;
         }
 
         /** @var User $user */
-        $user = $event->getAuthenticationToken()->getUser();
+        $user = $token->getUser();
+        if (!$user || !$user instanceof User) {
+            return;
+        }
 
         if ($user->getBeta() && !$this->betaManager->isBetaModeEnabled()) {
             // redirect to beta mode
@@ -70,10 +71,6 @@ class BetaModeListener
 
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
-        if (!$this->betaManager->isBetaModeAllowed()) {
-            return;
-        }
-
         $exception = $event->getException();
         if ($exception instanceof WrongBetaModeException) {
             if ($exception->getBetaMode()) {
@@ -82,12 +79,12 @@ class BetaModeListener
                 $url = $this->betaManager->generateNormalRoute('home', ['user_id' => $exception->getUser()->getId()]);
             }
             // prevent user from keeping connected
-            $this->tokenStorage->setToken(null);
-            $this->session->invalidate();
+            $this->logout->logout();
 
             $request = $event->getRequest();
             if ($request->isXmlHttpRequest() || $request->get('_xhr_call', false)) {
                 $response =  new JsonResponse([
+                    'navigate' => true,
                     'redirect_url' => $url
                 ], Codes::HTTP_OK);
             } else {

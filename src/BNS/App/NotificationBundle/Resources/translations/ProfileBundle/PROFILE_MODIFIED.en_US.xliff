@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:45:27Z" source-language="en" target-language="en-US" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="d8e3183c598f6e242828ff1fc05f7a7421c21fbe" resname="PROFILE_MODIFIED.EMAIL.content">
+        <source>PROFILE_MODIFIED.EMAIL.content</source>
+        <target><![CDATA[<strong>%user_fullname%</strong> just modifier their <a href="%user_route%">profile</a>.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="af837e77cf722cb35386c3971f6da27a9635a99a" resname="PROFILE_MODIFIED.EMAIL.title">
+        <source>PROFILE_MODIFIED.EMAIL.title</source>
+        <target>%user_fullname% modified their profile</target>
+      </trans-unit>
+      <trans-unit id="e8999243db75ff6b69eed17e1690eec02e407eaa" resname="PROFILE_MODIFIED.SYSTEM.content">
+        <source>PROFILE_MODIFIED.SYSTEM.content</source>
+        <target><![CDATA[<strong>%user_fullname%</strong> just modifier their <a href="%user_route%">profile</a>.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

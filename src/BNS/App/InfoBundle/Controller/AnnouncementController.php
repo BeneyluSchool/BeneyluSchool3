@@ -66,7 +66,7 @@ class AnnouncementController extends CommonController
     /**
      * @Route("/participer/{slug}", name="BNSAppInfoBundle_announcement_participate" , options={"expose"=true})
      * @ParamConverter("announcement")
-     * @RightsSomeWhere("INFO_ACCESS")
+     * @RightsSomeWhere("NOTIFICATION_ACCESS")
      */
     public function participateAction(Announcement $announcement)
     {

@@ -97,16 +97,19 @@
 {% endblock %}
 
 {% block header %}
+  {% block header_button_add %}
 						{% if has_right('MINISITE_ADMINISTRATION') or page.isEditor(app.user) %}
             {{ components.button( 'LINK_WRITE_NEWS' | trans , { intent: 'primary', href: path('minisite_manager_page_news_new', {'slug': page.getSlug()}), icon: 'add_circle', raised: true }) }}
 
               {% endif %}
+  {% endblock %}
 
+  {% block header_button_view %}
     {{ components.button( 'LINK_SEE_PAGE' | trans , { href: path('minisite_page_preview', {'miniSiteSlug': minisite.getSlug(), 'pageSlug': page.getSlug()}) , icon: 'remove_red_eye', raised: true, hover: true}) }}
+  {% endblock %}
 
-
-						{% if has_right('MINISITE_ADMINISTRATION') %}
-							{% if not page.isHome() %}
+          {% block header_button_activate %}
+              {% if has_right('MINISITE_ADMINISTRATION') and not page.isHome() %}
                   <span id="disable-page" data-href="{{ path('minisite_manager_switch_activation_page') }}"  data-id="{{ page.getId() }}">
                     {{ components.button( 'BUTTON_DESACTIVATE_PAGE' | trans , {
                       href:'#',
@@ -128,6 +131,9 @@
                     }) }}
                   </span>
               {% endif %}
+          {% endblock %}
+          {% block header_button_privatize %}
+            {% if has_right('MINISITE_ADMINISTRATION') %}
               <span id="confidentiality-page" data-href="{{ path('minisite_manager_page_confidentiality') }}"  data-id="{{ page.getId() }}">
                 {{ components.button( 'BUTTON_MAKE_PRIVATE_PAGE' | trans , {
                   href:'#',
@@ -149,6 +155,7 @@
                 }) }}
               </span>
                         {% endif %}
+          {% endblock %}
 {% endblock header %}
 
 {% block sidebar %}

@@ -24,6 +24,9 @@ class MiniSiteNewsStatusType extends AbstractType
                 'expanded'	=> true,
                 'label' => ' ',
                 'multiple' => true,
+                'attr' => [
+                    'bns-status' => '',
+                ],
             ));
 
     }

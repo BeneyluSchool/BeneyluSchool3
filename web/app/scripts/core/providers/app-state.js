@@ -33,12 +33,13 @@ function AppStateProvider () {
    * Creates a root state for an application with the given name (dash-cased)
    *
    * @param {String} name
-   * @param {Boolean} useTheme Whether to also set the related md theme
+   * @param {Boolean|String} useTheme Whether to also set the related md theme
    * @returns {Object} A router state configuration object
    */
   function createRootState (name, useTheme) {
+    var theme = useTheme ? ('string' === typeof useTheme ? useTheme : '%name%') : '';
     var tokenizedName = name.toUpperCase().replace(new RegExp('[ -]', 'g'), '_');
-    var template = '<ui-view id="app-%name%" class="layout-column flex app-%name%"'+(useTheme?' md-theme="%name%"':'')+'></ui-view>';
+    var template = '<ui-view id="app-%name%" class="layout-column flex app-%name%"'+(useTheme?' md-theme="'+theme+'"':'')+'></ui-view>';
 
     return {
       url: '/'+name,
@@ -51,6 +52,7 @@ function AppStateProvider () {
         angular.element('body').removeAttr('data-app');
       },
       template: template.replace(new RegExp('%name%', 'g'), name),
+      resolvePolicy: { when: 'EAGER' }, // default behavior of ui-router 0.2.x
     };
   }
 

@@ -38,7 +38,7 @@ class CountersApiController extends BaseMessagingApiController
 
         return [
             'drafts' => $messageManager->getDraftMessages(0, true),
-            'unread' => $messageManager->getMessagesConversationsByStatus('NONE_READ', 0, true),
+            'unread' => $messageManager->getMessagesConversationsByStatus(['NONE_READ', 'CAMPAIGN'], 0, true),
         ];
     }
 

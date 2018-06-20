@@ -4,6 +4,7 @@ namespace BNS\App\HomeworkBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Count;
 
 /**
@@ -13,27 +14,34 @@ use Symfony\Component\Validator\Constraints\Count;
  */
 class ApiHomeworkCreateType extends AbstractType
 {
-
-    protected $groups;
-
-    protected $subjects;
-
-    public function __construct($groups, $subjects = [])
-    {
-        $this->groups = $groups;
-        $this->subjects = $subjects;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('homeworks', 'collection', [
-            'type' => new ApiHomeworkType($this->groups, $this->subjects),
+            'type' => new ApiHomeworkType(),
             'allow_add' => true,
             'allow_delete' => true,
             'constraints' => [
                 new Count(['min' => 1]),
             ],
+            'options' => [
+                'userIds' => $options['userIds'],
+                'groupIds' => $options['groupIds'],
+                'subjectIds' => $options['subjectIds'],
+
+            ]
         ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+       $resolver->setDefaults([
+           'userIds' => [],
+           'groupIds' => [],
+           'subjectIds' => [],
+       ]);
     }
 
     /**

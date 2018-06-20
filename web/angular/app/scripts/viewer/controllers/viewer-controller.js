@@ -3,7 +3,7 @@
 angular.module('bns.viewer.controller', [
   'bns.core.message',
   'bns.core.stringHelpers',
-  'bns.mediaLibrary.restangular',
+  'bns.core.mediaLibraryRestangular',
 ])
 
   /**

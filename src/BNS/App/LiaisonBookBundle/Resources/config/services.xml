@@ -22,5 +22,12 @@
         <service id="stat.liaisonbook" class="%liaisonbook_service_bns_app_statistics_bundle.class%">
             <argument type="service" id="service_container"></argument>
         </service>
+
+        <service id="bns.liaisonbook.search" class="BNS\App\LiaisonBookBundle\Search\LiaisonBookSearchProvider">
+            <argument type="service" id="security.token_storage"/>
+            <argument type="service" id="bns.right_manager"/>
+            <argument type="service" id="router"/>
+            <tag name="bns.search_provide"/>
+        </service>
     </services>
 </container>

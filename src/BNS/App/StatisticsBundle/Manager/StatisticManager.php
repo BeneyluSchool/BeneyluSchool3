@@ -1,13 +1,11 @@
 <?php
 namespace BNS\App\StatisticsBundle\Manager;
 
+use BNS\App\CoreBundle\Api\BNSApi;
 use BNS\App\CoreBundle\Group\BNSGroupManager;
 use BNS\App\CoreBundle\Model\GroupQuery;
 use BNS\App\CoreBundle\Model\User;
 use BNS\App\CoreBundle\User\BNSUserManager;
-use BNS\App\MainBundle\Statistic\ConnectionStatistic;
-use BNS\App\MainBundle\Statistic\VisitStatistic;
-use BNS\App\StatisticsBundle\Exception\InvalidArgumentException;
 use BNS\App\StatisticsBundle\Exception\InvalidGraphException;
 use BNS\App\StatisticsBundle\Exception\InvalidStatisticException;
 use BNS\App\StatisticsBundle\Model\BlogQuery;
@@ -31,9 +29,18 @@ class StatisticManager
 
     protected $userManager;
 
-    protected $groups = array();
-
     protected $translator;
+
+
+    /** @var array cache for groups */
+    protected $groups = [];
+    /** @var array cache for current groups */
+    protected $currentGroups = [];
+
+    /** @var array cache for group Ids */
+    protected $groupIds = [];
+    /** @var array cache for current group ids */
+    protected $currentGroupIds = [];
 
     public function __construct(BNSGroupManager $groupManager, BNSUserManager $userManager, TranslatorInterface $translator)
     {
@@ -41,11 +48,6 @@ class StatisticManager
         $this->userManager = $userManager;
         $this->translator = $translator;
 
-        // TODO : inject tagged services
-        $this->statistics = array(
-//            new VisitStatistic(),
-//            new ConnectionStatistic(),
-        );
     }
 
     public function getStatistics()
@@ -65,37 +67,28 @@ class StatisticManager
      *
      * @return \PropelObjectCollection|mixed|array
      */
-    public function getGroups(User $user)
+    public function getGroups(User $user, $groupId = null)
     {
         $userId = $user->getId();
-        if (!isset($this->groups[$userId])) {
-            $groupIds = $this->userManager->setUser($user)->getGroupIdsWherePermission('STATISTICS_ACCESS');
-
-            $schoolIds = array();
-            $classroomIds = array();
-            foreach ($groupIds as $groupId) {
-                if ($this->userManager->hasRight('STATISTICS_SCHOOL', $groupId)) {
-                    $schoolGroupIds = $this->groupManager->getAllSubgroups($groupId, 'SCHOOL', false);
-                    $schoolIds = array_merge($schoolIds, $schoolGroupIds);
-                }
-//                if ($this->userManager->hasRight('STATISTICS_CLASSROOM', $groupId)) {
-//                    $classroomGroupIds = $this->groupManager->getAllSubgroups($groupId, 'CLASSROOM', false);
-//                    $classroomIds = array_merge($classroomIds, $classroomGroupIds);
-//                }
-            }
-
-            $groupIds = array_merge($groupIds, $schoolIds, $classroomIds);
-
-            $this->groups[$userId] = GroupQuery::create()
-                ->filterByEnabledOnly($this->groupManager->getCheckGroupValidated(), $this->groupManager->getCheckGroupEnabled())
-                ->filterById($groupIds)
-                ->orderByGroupTypeId(\Criteria::ASC)
-                ->orderByLabel(\Criteria::ASC)
-                ->find()
-            ;
+        if (!$groupId && isset($this->groups[$userId])) {
+            return $this->groups[$userId];
+        } elseif ($groupId && isset($this->currentGroups[$userId][$groupId])) {
+            return $this->currentGroups[$userId][$groupId];
         }
 
-        return $this->groups[$userId];
+        $groups = GroupQuery::create()
+            ->filterById($this->getGroupIds($user, $groupId))
+            ->filterByEnabledOnlyForStatistics($this->groupManager->getCheckGroupEnabled())
+            ->orderByGroupTypeId(\Criteria::ASC)
+            ->orderByLabel(\Criteria::ASC)
+            ->find()
+        ;
+
+        if ($groupId) {
+            return $this->currentGroups[$userId][$groupId] = $groups;
+        }
+
+        return $this->groups[$userId] = $groups;
     }
 
     public function getGraphData($statisticName, $graphName, $filters)
@@ -114,11 +107,11 @@ class StatisticManager
 
         $indicators = $graph->getIndicators();
 
-        $groups = $filters['groups'];
+        $groups = $filters['groupIds'];
         $childGroups = array();
         if ($graph->isUnDuplicateGroup()) {
-            $unDuplicateGroups = $this->unDublipcateGroups($filters['groups']);
-            $filters['groups'] = $unDuplicateGroups['groups'];
+            $unDuplicateGroups = $this->unDublipcateGroups($filters['groupIds']);
+            $filters['groupIds'] = $unDuplicateGroups['groupIds'];
             $childGroups = $unDuplicateGroups['childGroups'];
         }
 
@@ -162,7 +155,7 @@ class StatisticManager
                 'yAxis'   => $graph->getYAxis($filters),
                 'xAxis'   => $graph->getXAxis($filters),
             ),
-            'groups'      => $groups,
+            'groupIds'      => $groups,
             'childGroups' => $childGroups,
             /** @Ignore */
             'title'   => $this->translator->trans('statistic.graph.title.' . $graph->getTitle()),
@@ -216,25 +209,25 @@ class StatisticManager
         $childGroups = array();
 
         foreach ($groups as $group) {
-            $groupWithSubGroups[$group->getId()] = $this->groupManager->getAllSubgroupIds($group->getId());
+            $groupWithSubGroups[$group] = $this->groupManager->getOptimisedAllSubGroupIds((int)$group);
         }
 
         foreach ($groups as $group) {
             foreach ($groupWithSubGroups as $groupId => $subGroupIds) {
-                if ($group->getId() === $groupId) {
+                if ($group === $groupId) {
                     continue;
                 }
-                if (in_array($group->getId(), $subGroupIds)) {
+                if (in_array($group, $subGroupIds)) {
                     // we have a child group
-                    $childGroups[$group->getId()] = $group;
+                    $childGroups[$group] = $group;
                     continue 2;
                 }
             }
-            $mainGroups[$group->getId()] = $group;
+            $mainGroups[$group] = $group;
         }
 
         return array(
-            'groups' => $mainGroups,
+            'groupIds' => $mainGroups,
             'childGroups' => $childGroups,
         );
     }
@@ -304,8 +297,8 @@ class StatisticManager
             'max' => $filters['end']
         ));
         $groupIds = array();
-        foreach ($filters['groups'] as $group) {
-            $groupIds[] = $group->getId();
+        foreach ($filters['groupIds'] as $group) {
+            $groupIds[] = $group;
         }
 
 
@@ -336,4 +329,54 @@ class StatisticManager
         return $query;
     }
 
+
+    public function getGroupIds(User $user, $currentGroupId = null)
+    {
+        $userId = $user->getId();
+        $this->userManager->setUser($user);
+
+        if ($currentGroupId) {
+            if (!$this->userManager->hasRight('STATISTICS_ACCESS', $currentGroupId)) {
+                return [];
+            }
+            if (isset($this->currentGroupIds[$userId][$currentGroupId])) {
+                return $this->currentGroupIds[$userId][$currentGroupId];
+            }
+            $groupIds[] = $currentGroupId;
+        } else {
+            if (isset($this->groupIds[$userId])) {
+                return $this->groupIds[$userId];
+            }
+            $groupIds = $this->userManager->getGroupIdsWherePermission('STATISTICS_ACCESS');
+        }
+        $subGroupsIds = [];
+        foreach ($groupIds as $key => $groupId) {
+            $schoolIds = [];
+            $classroomIds = [];
+            $cityIds = [];
+            if ($this->userManager->hasRight('STATISTICS_SCHOOL', $groupId)) {
+                $schoolGroupIds = $this->groupManager->getAllSubgroups($groupId, 'SCHOOL', false);
+                $schoolIds = array_merge($schoolIds, $schoolGroupIds);
+            }
+            if ($this->userManager->hasRight('STATISTICS_CITY', $groupId)) {
+                $cityGroupIds = $this->groupManager->getAllSubgroups($groupId, 'CITY', false);
+                $cityIds = array_merge($cityIds, $cityGroupIds);
+            }
+            if ($this->userManager->hasRight('STATISTICS_CLASSROOM', $groupId)) {
+                $classroomGroupIds = $this->groupManager->getAllSubgroups($groupId, 'CLASSROOM', false);
+                $classroomIds = array_merge($classroomIds, $classroomGroupIds);
+            }
+            $subGroupsIds = array_merge($subGroupsIds, $schoolIds, $classroomIds, $cityIds);
+        }
+        $groupIdsToRender = [];
+        foreach (array_merge($groupIds, $subGroupsIds) as $groupId) {
+            $groupIdsToRender[(int)$groupId] = (int)$groupId;
+        }
+
+        if ($currentGroupId) {
+            return $this->currentGroupIds[$userId][$currentGroupId] = $groupIdsToRender;
+        }
+
+        return $this->groupIds[$userId] = $groupIdsToRender;
+    }
 }

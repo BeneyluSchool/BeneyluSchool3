@@ -1,5 +1,23 @@
 BNS\App\WorkshopBundle\Model\WorkshopWidgetGroup:
   exclusion_policy: All
+
+  properties:
+    percent:
+      expose: true
+      groups: [competition_statistics]
+    score:
+      expose: true
+      groups: [competition_statistics]
+
+  virtual_properties:
+    getWorkshopWidgets:
+      expose: true
+      groups: [competition_statistics]
+    getVersionCreatedBy:
+      expose: true
+      serialized_name: user_id
+      groups: [competition_statistics]
+
   relations:
     - rel: self
       href:

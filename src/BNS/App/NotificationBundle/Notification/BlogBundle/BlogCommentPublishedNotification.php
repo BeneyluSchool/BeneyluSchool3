@@ -50,12 +50,7 @@ class BlogCommentPublishedNotification extends Notification implements Notificat
 			->where('c.Id = ?', $objects['comment_id'])
 		->findOne();
 
-        $group = GroupQuery::create()->findPk($objects['groupId']);
-        if (null == $group) {
-            $finalObjects['%classLabel%'] = null;
-        } else {
-            $finalObjects['%classLabel%'] = "[" . $group->getLabel() . "] ";
-        }
+        $finalObjects['%classLabel%'] =  self::getGroupLabel($objects);
 		if (null == $comment) {
 			throw new \RuntimeException('The comment with id : ' . $objects['comment_id'] . ' is NOT found !');
 		}

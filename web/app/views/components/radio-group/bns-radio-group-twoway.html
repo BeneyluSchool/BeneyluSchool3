@@ -1,0 +1,31 @@
+<div ng-repeat="choice in group.choices" class="layout-row">
+<div
+  class="bns-choice-wrap layout-row"
+  ng-attr-bns-feature-flag="choice.attr['bns-feature-flag']"
+  ng-attr-bns-feature-push="!!choice.attr['bns-feature-flag']"
+>
+  <md-radio-button
+    ng-value="choice.value"
+    name="{{choice.name}}"
+    class="md-primary flex {{group.getExtraClass(choice)}}"
+    ng-attr-ng-style="{{group.style || ''}}"
+    aria-label="{{(choice.label ? (choice.label|translate) : choice.htmlLabel)}}"
+  >
+    <div bns-transclude-eval="group.choiceLabelTemplate">
+      <bns-navbar-icon ng-if="choice.icon" item="choice.icon"></bns-navbar-icon>
+      <span ng-if="choice.htmlLabel" ng-bind-html="choice.htmlLabel"></span>
+      <span ng-if="choice.label">{{choice.label|translate}}</span>
+    </div>
+  </md-radio-button>
+
+  <div ng-if="group.choiceSecondaryTemplate" bns-transclude-eval="group.choiceSecondaryTemplate"></div>
+
+  <input ng-if="group.hasVanillaInput"
+    type="radio"
+    value="{{choice.value}}"
+    style="display: none;"
+    name="{{choice.name}}"
+    id="{{choice.id}}"
+    ng-checked="group.is(choice.value)">
+</div>
+</div>

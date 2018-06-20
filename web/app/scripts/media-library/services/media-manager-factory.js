@@ -24,6 +24,7 @@ function MediaManagerFactory () {
       HTML: 'html',
       HTML_BASE: 'html_base',
       ATELIER_AUDIO: 'workshop_audio',
+      ATELIER_QUESTIONNAIRE: 'workshop_questionnaire',
     },
 
     isFile: function (obj) {
@@ -31,6 +32,9 @@ function MediaManagerFactory () {
     },
 
     getMediaType: function (obj) {
+      if (!obj) {
+        return null;
+      }
       return this.types[obj.type_unique_name];
     },
 
@@ -82,6 +86,10 @@ function MediaManagerFactory () {
       return 'workshop_audio' === this.getMediaType(obj);
     },
 
+    isMediaWorkshopQuestionnaire: function (obj) {
+      return 'workshop_questionnaire' === this.getMediaType(obj);
+    },
+
     isFolder: function (obj) {
       return obj && obj.type;
     },
@@ -108,6 +116,14 @@ function MediaManagerFactory () {
 
     isPartnershipFolder: function (obj) {
       return this.isFolder(obj) && 'PARTNERSHIP' === obj.group_type;
+    },
+
+    isEnvironmentFolder: function (obj) {
+      return this.isFolder(obj) && 'ENVIRONMENT' === obj.group_type;
+    },
+
+    isCityFolder: function (obj) {
+      return this.isFolder(obj) && 'CITY' === obj.group_type;
     },
 
     isLockerFolder: function (obj) {
@@ -140,6 +156,10 @@ function MediaManagerFactory () {
 
     isDownloadable: function (obj) {
       return false !== obj.downloadable;
+    },
+
+    isQuestionnaire: function (obj) {
+      return obj.is_questionnaire;
     }
 
   };

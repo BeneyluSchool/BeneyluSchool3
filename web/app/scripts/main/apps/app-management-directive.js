@@ -36,6 +36,7 @@ function BNSAppManagementDirective () {
       app: '=*',
       group: '=*',
       groupId: '=',
+      isGroupMode: '=',
       notify: '=',
       type: '=',
       withFavorites: '=',

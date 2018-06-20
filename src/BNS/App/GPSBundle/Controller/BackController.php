@@ -1,5 +1,6 @@
 <?php
 namespace BNS\App\GPSBundle\Controller;
+use BNS\App\CoreBundle\Controller\BaseController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -17,7 +18,7 @@ use Symfony\Component\Form\FormError;
  * @Route("/gestion")
  */
 
-class BackController extends Controller
+class BackController extends BaseController
 {
 
     protected function checkRights($gpsPlace = null,$gpsCategory = null)
@@ -124,6 +125,9 @@ class BackController extends Controller
      */
     public function editPlaceAction($slug)
     {
+        if (!$this->hasFeature('gps_place')) {
+            throw $this->createAccessDeniedException();
+        }
         $gpsPlace = GpsPlaceQuery::create()->findOneBySlug($slug);
         $this->checkRights($gpsPlace);
         return $this->processPlaceForm($gpsPlace, $this->getRequest());
@@ -137,6 +141,10 @@ class BackController extends Controller
      */
     public function submitEditPlaceAction()
     {
+
+        if (!$this->hasFeature('gps_place')) {
+            throw $this->createAccessDeniedException();
+        }
         $request =  $this->getRequest();
         $datas = $request->get('gps_place_form');
 
@@ -330,6 +338,9 @@ class BackController extends Controller
      */
     public function categoryCreateAction($from = '')
     {
+        if (!$this->hasFeature('gps_categories')){
+            throw $this->createAccessDeniedException();
+        }
         $request = $this->getRequest();
         $rm = $this->get('bns.right_manager');
         $groupId = $rm->getCurrentGroupId();
@@ -378,6 +389,9 @@ class BackController extends Controller
      */
     public function categoryEditAction()
     {
+        if(!$this->hasFeature('gps_categories')) {
+            throw $this->createAccessDeniedException();
+        }
         $request = $this->getRequest();
         $rm = $this->get('bns.right_manager');
         $groupId = $rm->getCurrentGroupId();

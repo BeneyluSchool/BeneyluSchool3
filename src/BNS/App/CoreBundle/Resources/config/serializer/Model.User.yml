@@ -3,26 +3,26 @@ BNS\App\CoreBundle\Model\User:
   virtual_properties:
     getFullName:
       expose: true
-      groups: [Default, list, user_list, detail, user_detail ]
+      groups: [Default, list, user_list, detail, user_detail, user_basic ]
     getAvatarUrl:
       expose: true
-      groups: [ list, user_list, detail, user_detail, media_search, lsu_avatar ]
+      groups: [ list, user_list, detail, user_detail, media_search, lsu_avatar, user_avatar ]
     getAvatarResource:
       expose: true
       serialized_name: avatar
       groups: [ list, detail, user_detail ]
     getGender:
       expose: true
-      groups: [ detail, user_detail ]
+      groups: [ detail, user_detail, lsu_gender ]
     isAdult:
       expose: true
       groups: [ detail, user_detail ]
     isChild:
       expose: true
-      groups: [ detail, user_detail ]
+      groups: [ detail, user_detail, competition_statistics ]
     getFavoriteGroupId:
       expose: true
-      groups: [Default,me]
+      groups: [me]
     getBeta:
       expose: true
       groups: [me]
@@ -30,6 +30,12 @@ BNS\App\CoreBundle\Model\User:
       expose: true
       groups: [lsu_birthday]
       serialized_name: birthday
+    getLastName:
+      expose: true
+      groups: [ olympics_training_user_detail ]
+    getAlias:
+      expose: true
+      groups: [ user_messages ]
 
   relations:
     - rel: profile

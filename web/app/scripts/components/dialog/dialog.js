@@ -14,7 +14,7 @@ function BNSDialogFactory ($mdDialog) {
     templateUrl: 'views/components/dialog/bns-dialog.html',
     controller: ['$scope', function mdDialogCtrl($scope) {
       this.scope = $scope;
-      this.hide = function () { $mdDialog.hide(true); };
+      this.hide = function (value) { $mdDialog.hide(undefined !== value ? value : true); };
       this.abort = function (){ $mdDialog.cancel(); };
     }],
     controllerAs: 'dialog',
@@ -26,6 +26,7 @@ function BNSDialogFactory ($mdDialog) {
     cancel: 'Cancel',
     intent: 'primary',
     picture: 'jim-tool', // aside character image. Set to false to disable it
+    size: false,  // max size of the dialog (as a breakpoint).
   };
 
   return {
@@ -69,7 +70,11 @@ function BNSDialogFactory ($mdDialog) {
     return $mdDialog.show(config);
   }
 
-  function custom (config) {
+  function custom (config, useDefaults) {
+    if (useDefaults) {
+      config = angular.extend({}, defaults, config);
+    }
+
     return $mdDialog.show(config);
   }
 

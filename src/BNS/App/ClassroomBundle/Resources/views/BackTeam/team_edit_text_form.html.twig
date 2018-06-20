@@ -131,6 +131,20 @@
           </div>
         {% endif %}
       </div>
+      <div>
+        <label class="description">{% trans %}LABEL_HOME_MESSAGE{% endtrans %}</label>
+        {{ form_widget(form.welcomeMessage, { 'attr': {'placeholder': 'PLACEHOLDER_ENTER_WORKING_GROUP_HOME_MESSAGE'|trans |desc('Saisissez un message de bienvenue pour le groupe de travail'), 'class': "team_home_message"} }) }}
+        {% if form.welcomeMessage.vars.errors|length > 0 %}
+          <div class="alert alert-danger bns-alert">
+            {{ form_errors(form.welcomeMessage) }}
+            <div class="jim"></div>
+          </div>
+        {% endif %}
+      </div>
+
+      <div bns-feature-flag="'team_sdet_expiration'">
+        <label class="name">{% trans %}LABEL_DATE_EXPIRATION{% endtrans %}</label> {{ form_widget(form.expirationDate, {'attr': {'class': "date"}}) }}
+      </div>
       {{ form_rest(form) }}
     </form>
   </div>

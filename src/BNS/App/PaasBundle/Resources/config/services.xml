@@ -12,6 +12,7 @@
         <parameter key="cas_client_id">123456</parameter>
         <parameter key="cas_client_secret">123456</parameter>
         <parameter key="nathan_ressource.clients" type="collection" />
+        <parameter key="bns_global_licence" /> <!-- default null -->
         <!--
         <argument type="collection" key="nathan">
             <argument type="string" key="url">%bns_paas.nathan_url%</argument>
@@ -41,6 +42,7 @@
             <argument type="service" id="bns.analytics.manager" />
             <argument>%paas_origin_id%</argument>
             <argument type="service" id="bns_app_paas.manager.nathan_resource_manager" />
+            <argument type="service" id="bns_app_paas.manager.licence_manager" />
 
             <tag name="kernel.event_listener" event="bns_event.application_uninstall" method="onApplicationUninstallEvent" />
             <tag name="kernel.event_listener" event="bns_event.activity_uninstall" method="onActivityUninstallEvent" />
@@ -81,7 +83,24 @@
             <argument>%kernel.debug%</argument>
             <argument type="service" id="snc_redis.default" />
             <argument type="service" id="mobile_detect.mobile_detector" />
+            <argument type="service" id="bns.user_manager" />
         </service>
+
+        <service class="BNS\App\PaasBundle\Manager\LicenceManager" id="bns_app_paas.manager.licence_manager">
+            <argument id="bns.api" type="service"/>
+            <argument id="bns_app_paas.manager.paas_subscription_manager" type="service"/>
+            <argument type="service" id="bns_cache.app" />
+            <argument>%bns_global_licence%</argument>
+        </service>
+
+        <service class="BNS\App\PaasBundle\Manager\PaasSubscriptionManager" id="bns_app_paas.manager.paas_subscription_manager">
+            <argument id="bns.paas.security_manager" type="service"/>
+            <argument id="buzz" type="service"/>
+            <argument id="snc_redis.default" type="service"/>
+            <argument>%paas_url%</argument>
+        </service>
+
+
 
     </services>
 

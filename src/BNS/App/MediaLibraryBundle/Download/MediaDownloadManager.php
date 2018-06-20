@@ -6,6 +6,7 @@ use BNS\App\MediaLibraryBundle\Adapter\RemoteAdapter;
 use BNS\App\MediaLibraryBundle\FileSystem\BNSFileSystemManager;
 use BNS\App\MediaLibraryBundle\Manager\MediaManager;
 use BNS\App\MediaLibraryBundle\Model\Media;
+use BNS\App\MediaLibraryBundle\Thumb\ThumbCreatorManager;
 use BNS\App\PaasBundle\Manager\PaasManager;
 use Gaufrette\Adapter;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -43,7 +44,10 @@ class MediaDownloadManager
      */
     protected $container;
 
-    public function __construct(BNSFileSystemManager $fileSystemManager, MediaManager $mediaManager, ContainerInterface $container, $secret, $options = array())
+    /** @var  ThumbCreatorManager */
+    protected $thumbCreatorManager;
+
+    public function __construct(BNSFileSystemManager $fileSystemManager, MediaManager $mediaManager, ContainerInterface $container, $secret, $options = array(), ThumbCreatorManager $thumbCreatorManager)
     {
         $this->secret = $secret;
         $this->mediaManager = $mediaManager;
@@ -65,6 +69,7 @@ class MediaDownloadManager
             $this->isRemote = true;
             $this->remoteAdapter = $fileSystemManager->getAdapter();
         }
+        $this->thumbCreatorManager = $thumbCreatorManager;
     }
 
     /**
@@ -87,7 +92,12 @@ class MediaDownloadManager
 
     public function getExpiry()
     {
-        return time() + $this->expires;
+        // this optimize generated url to use at least expires incremented by half of expires
+        $number = time() + $this->expires;
+        $increment = round($this->expires / 2);
+        $offset = $this->expires;
+
+        return ceil(($number - $offset) / $increment ) * $increment + $offset;
     }
 
     public function getDownloadUrl(Media $media)
@@ -171,11 +181,40 @@ class MediaDownloadManager
 
     public function generateLocalTemporaryUrl(Media $media, $size = null)
     {
+        $path = $media->getFilePathPattern();
+        $filename = $media->getFilename();
+        $mimeType = $media->getFileMimeType();
+
+        if (null !== $size && 'original' !== $size) {
+            if ($fullPath = $this->generateThumbTemporaryUrl($media, $size)) {
+                return $fullPath;
+            }
+        }
+
+        return $this->generateUrl($path, $filename, $mimeType, $size);
+    }
+
+    public function generateThumbTemporaryUrl($object, $size)
+    {
+        if ($fullPath = $this->thumbCreatorManager->getPath($object, $size)) {
+            $path = dirname($fullPath) . '/';
+            $filename = basename($fullPath);
+            $mimeType = 'images/' . pathinfo($fullPath, PATHINFO_EXTENSION);
+
+            return $this->generateUrl($path, $filename, $mimeType, $size);
+        }
+
+        return false;
+    }
+
+    public function generateUrl($path, $filename, $mimeType, $size)
+    {
         $params = array(
-            'pattern' => $media->getFilePathPattern(),
-            'filename' => $media->getFilename(),
-            'mime_type' => $media->getFileMimeType(),
+            'pattern' => $path,
+            'filename' => $filename,
+            'mime_type' => $mimeType,
         );
+
         ksort($params);
 
         $expiry = $this->getExpiry();
@@ -190,7 +229,7 @@ class MediaDownloadManager
             $params['size'] = $size;
         }
 
-        return $this->baseUrl . '/media_download.php?' .http_build_query($params);
+        return $this->baseUrl . '/media_download.php?' . http_build_query($params);
     }
 
     /**

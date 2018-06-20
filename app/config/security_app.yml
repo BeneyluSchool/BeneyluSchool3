@@ -10,6 +10,7 @@ security:
     providers:
         bns_provider:
             id: bns.security.oauth.user_provider
+
     firewalls:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
@@ -20,13 +21,22 @@ security:
             oauth:
                 resource_owners:
                     bns_auth_provider: /login_check
-                login_path:        /
+                login_path:        %bns.app.login_path%
                 check_path:        /login_check
 #                failure_path:      %oauth_host%/login
                 success_handler: security.authentication.success_handler.logging
                 failure_handler: bns.oauth_authentication_failure_handler
                 oauth_user_provider:
                     service: bns.security.oauth.user_provider
+
+            remember_me:
+                key:                    '%symfony_secret%'
+                name:                   '%bns.app.remember_me_cookie%'
+                lifetime:               7776000 # 3 months in seconds
+                secure:                 '%bns.remember_me.prod%'
+                remember_me_parameter:  '%bns.app.remember_me_parameter%'
+                token_provider:         'bns_common.redis_token_provider'
+
             anonymous:             ~
             logout:
                 path:              /logout
@@ -36,21 +46,21 @@ security:
                 #success_handler:   bns.security.logout.success_handler
 
     access_control:
-        - { path: ^/enter$, roles: [IS_AUTHENTICATED_ANONYMOUSLY, IS_AUTHENTICATED_FULLY] }
-        - { path: ^/goto/([a-zA-Z0-9-_]+)(/(.+))?$, roles: [IS_AUTHENTICATED_ANONYMOUSLY, IS_AUTHENTICATED_FULLY] }
+        - { path: ^/enter$, roles: [IS_AUTHENTICATED_ANONYMOUSLY, IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/goto/([a-zA-Z0-9-_]+)(/(.+))?$, roles: [IS_AUTHENTICATED_ANONYMOUSLY, IS_AUTHENTICATED_REMEMBERED] }
         - { path: ^/inscription$, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/inscription(/|$), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/mentions-legales(/|$), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/cookies(/|$), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/gestion/mot-de-passe/reinitialisation(/|$), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
-        - { path: ^/gestion(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/gestion(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
         - { path: ^/recherche/white-list/, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
-        - { path: ^/site/gestion/, roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/site/(.+), roles: [IS_AUTHENTICATED_ANONYMOUSLY, IS_AUTHENTICATED_FULLY] }
+        - { path: ^/site/gestion/, roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/site/(.+), roles: [IS_AUTHENTICATED_ANONYMOUSLY, IS_AUTHENTICATED_REMEMBERED] }
         - { path: ^/mediatheque/telecharger-temporaire/, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/mediatheque/visualiser/(.+)/(.+), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/groupe/gestion/cerise/(.+), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
-        - { path: ^/paas/nathan(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/paas/nathan(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
         - { path: ^/paas(/|$), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/monitoring$, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/classe/newsPaper/expose/(.+), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
@@ -58,52 +68,58 @@ security:
         - { path: ^/yerbook/commande/valider/retour(/|$), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/yerbook/commande/valider/ipn(/|$), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/switch-language/(.+), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/api/1.0/chat/webhooks/(.+), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/api/1.0/minisite/(.+), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/api/1.0/parameters.json, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/api/1.0/users/subscription.json, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/api/1.0/users/spot-create-account.json, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/api/1.0/users/create-account.json, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/api/1.0/users/create-groups.json, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/api/1.0/two-degrees/participation/total.json$, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/api/1.0/portal/[0-9]+/minisites/[0-9]+\.json$, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/api/1.0/cache/, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/api/1.0/statistics/visits/MINISITE.json, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/my-avatar$, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
-        - { path: ^/mes-invitations(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/groupe(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/classe(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/equipe(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/ecole(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/mes-invitations(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/groupe(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/classe(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/equipe(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/ecole(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
         - { path: ^/administration(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/profil(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/hello-world(/|$), roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: ^/profil(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/hello-world(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
         - { path: ^/app(/|$), roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
-        - { path: ^/cahier-de-texte(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/calendrier(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/blog(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/gps(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/mediatheque-2(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/suivi-eleves(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/carnet-de-liaison(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/autosave(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/messagerie(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/commentaire(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/theme(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/notification(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/annuaire(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/visite-guidee(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/recherche(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/forum(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/tableau-information(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/reservation(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/informations(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/cahier-journal(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/spot-integre(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/spot(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/paas(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/statistiques(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/evenement(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/portail(/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/api(/|-documentation/|$), roles: [IS_AUTHENTICATED_FULLY] }
-        - { path: ^/, roles: [IS_AUTHENTICATED_ANONYMOUSLY, IS_AUTHENTICATED_FULLY] }
-        - { path: ^/yerbook/?$, roles: [IS_AUTHENTICATED_ANONYMOUSLY, IS_AUTHENTICATED_FULLY] }
+        - { path: ^/cahier-de-texte(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/calendrier(/|$), roles: [IS_AUTHENTICATED_ANONYMOUSLY, IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/blog(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/gps(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/mediatheque-2(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/suivi-eleves(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/carnet-de-liaison(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/autosave(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/messagerie(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/commentaire(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/theme(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/notification(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/annuaire(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/visite-guidee(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/recherche(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/forum(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/tableau-information(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/reservation(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/informations(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/cahier-journal(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/spot-integre(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/spot(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/paas(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/statistiques(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/evenement(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/portail(/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/api(/|-documentation/|$), roles: [IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/, roles: [IS_AUTHENTICATED_ANONYMOUSLY, IS_AUTHENTICATED_REMEMBERED] }
+        - { path: ^/yerbook/?$, roles: [IS_AUTHENTICATED_ANONYMOUSLY, IS_AUTHENTICATED_REMEMBERED] }
         - { path: ^/yerbook/se-connecter/?$, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/calendrier/export/?$, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
 
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         #- { path: ^/_internal, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }

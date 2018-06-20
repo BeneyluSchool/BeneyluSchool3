@@ -46,21 +46,15 @@ class MediaLibraryNewMediaNotification extends Notification implements Notificat
         // Le container est accessible grâce à l'attribut statique "self::$container"
         $media = MediaQuery::create()->findOneById($objects['media_id']);
 
-        $group = GroupQuery::create()->findPk($objects['groupId']);
-        if (null == $group) {
-            $finalObjects['%classLabel%'] = null;
-        } else {
-            $finalObjects['%classLabel%'] = "[" . $group->getLabel() . "] ";
-        }
-        if(!$media)
-        {
+        if (!$media) {
             $notification->delete();
             return false;
         }
 
 
 
-        $user = $media->getUserRelatedByUserId();;
+        $user = $media->getUserRelatedByUserId();
+        $finalObjects['%classLabel%'] =  self::getGroupLabel($objects);
         $finalObjects['%user_fullname%'] = $user ? $user->getFullName(): '';
         $finalObjects['%file_name%'] = $media->getFilename();
         $finalObjects['%media_folder_route%'] = $notification->getBaseUrl() . self::$container->get('cli.router')->generate('BNSAppMediaLibraryBundle_user_folder', array (

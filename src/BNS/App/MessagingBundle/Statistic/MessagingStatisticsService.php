@@ -29,9 +29,7 @@ class MessagingStatisticsService extends StatisticsService
 
     public function visit()
     {
-        $this->disableCascadeParentGroup();
         $this->increment('MESSAGING_VISIT');
-        $this->enableCascadeParentGroup();
     }
 
 }

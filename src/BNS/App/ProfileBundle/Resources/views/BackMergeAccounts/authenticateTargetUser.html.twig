@@ -1,6 +1,7 @@
 {% trans_default_domain "PROFILE" %}
 <div class="verify-result">
-    {% if target_user_roles != null %}
+    {% if target_user_roles is defined %}
+
         <div class="roles-found">
             <p>{% trans %}THIS_USER_IS{% endtrans %}
             {% for group in target_user_roles %}
@@ -26,6 +27,17 @@
                 {% endfor %}
             {% endfor %}
         </div>
+        {% if user_source_email is defined and user_source_email %}
+        <md-checkbox class="md-primary select" ng-init="merge_account_mail = true" ng-checked="merge_account_mail" ng-click="merge_account_mail = !merge_account_mail" >
+            <div>{{ 'LABEL_MERGE_EMAIL_OPTION'|trans({'%email%': user_source_email}) }}</div>
+            <input style="display: none" type="checkbox" name="merge_account_mail" id="merge_account_mail" ng-checked="merge_account_mail" />
+        </md-checkbox>
+
+        {% endif %}
+        <md-checkbox class="md-primary select" ng-init="merge_account_notification = true" ng-checked="merge_account_notification" ng-click="merge_account_notification = !merge_account_notification">
+            <div>{{ 'LABEL_MERGE_END_NOTIFICATION'|trans }}</div>
+          <input style="display: none" type="checkbox" name="merge_account_notification" id="merge_account_notification" ng-checked="merge_account_notification" />
+        </md-checkbox>
     {% else %}
         <bns-inset class="bns-warn bns-small">
           {% trans %}COMBINATION_LOGIN_PASSWORD_INVALID{% endtrans %}

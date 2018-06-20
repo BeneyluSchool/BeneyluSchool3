@@ -2,52 +2,156 @@
 'use strict';
 
 angular.module('bns.core.futureStates', [
-  'ct.ui.router.extras.future',
+  'ui.router',
+  'oc.lazyLoad',
   'bns.core.legacy',
+  'bns.core.parameters',
+  'bns.core.global',
+  'bns.core.baseStates'
 ])
 
   .config(FutureStatesConfig)
 
 ;
 
-function FutureStatesConfig ($futureStateProvider, LEGACY_APP_NAME) {
-  // define injectable factory inline: we're in a config block :(
-  var lazyLoadState = ['$q', '$ocLazyLoad', 'futureState', LazyLoadStateFactory];
+function FutureStatesConfig ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, parametersProvider, globalProvider, LEGACY_APP_NAME, BASE_STATE_URL) {
 
-  // register our custom state loader
-  $futureStateProvider.stateFactory('lazyLoad', lazyLoadState);
+  var basePath = parametersProvider.get('app_base_path');
+  var version = parametersProvider.get('version');
+  var locale = globalProvider.get('locale');
 
-  // register module placeholders with 2 required parameters:
-  //  - state: the base state of the module
-  //  - url:   the base url
-  var futureModules = [
-    { state: 'workshop', url: '/workshop' },
-    { state: 'mediaLibrary', url: '/media-library' },
-    { state: 'userDirectory', url: '/user-directory' },
-  ];
-  futureModules.forEach(function (module) {
-    $futureStateProvider.futureState({
-      stateName: module.state,
-      url: module.url,
-      type: 'lazyLoad',
-      app: LEGACY_APP_NAME,
+
+  // redirects do not work when declared in a future module lazyloaded by angularjs router lazy loaded by Angular Upgrade, so we have to move redirect configs here :(
+
+  configureLazyLoadedModule('account');
+
+  configureLazyLoadedModule('archeology');
+
+  configureLazyLoadedModule('breakfastTour');
+
+  configureLazyLoadedModule('builders');
+
+  configureLazyLoadedModule('calendar', { dependencies : [LEGACY_APP_NAME, 'userDirectory'], vendors: true, vendorsLocale: true });
+
+  configureLazyLoadedModule('campaign', { dependencies : [LEGACY_APP_NAME, 'userDirectory'] });
+
+  configureLazyLoadedModule('circusBirthday');
+
+  configureLazyLoadedModule('competition', { dependencies : [LEGACY_APP_NAME, 'userDirectory'] });
+
+  configureLazyLoadedModule('embed');
+
+  configureLazyLoadedModule('homework', { dependencies : [LEGACY_APP_NAME, 'userDirectory'] });
+  $urlRouterProvider.when(BASE_STATE_URL + '/homework', BASE_STATE_URL + '/homework/');
+  $urlRouterProvider.when(BASE_STATE_URL + '/homework/manage', BASE_STATE_URL + '/homework/manage/week');
+  $urlRouterProvider.when(BASE_STATE_URL + '/homework/manage/week', BASE_STATE_URL + '/homework/manage/week/');
+
+  configureLazyLoadedModule('lsu');
+
+  configureLazyLoadedModule('lunch');
+  $urlRouterProvider.when(BASE_STATE_URL + '/lunch', BASE_STATE_URL + '/lunch/');
+  $urlRouterProvider.when(BASE_STATE_URL + '/lunch/manage', BASE_STATE_URL + '/lunch/manage/');
+
+  configureLazyLoadedModule('messaging', { dependencies : [LEGACY_APP_NAME, 'userDirectory'] });
+  $urlRouterProvider.when(BASE_STATE_URL + '/messaging', BASE_STATE_URL + '/messaging/inbox');
+  $urlRouterProvider.when(BASE_STATE_URL + '/messaging/compose', BASE_STATE_URL + '/messaging/compose/');
+
+  //configureLazyLoadedModule('minisite');
+
+  configureLazyLoadedModule('olympics');
+
+  configureLazyLoadedModule('olympicsTraining');
+
+  configureLazyLoadedModule('search');
+
+  configureLazyLoadedModule('spaceOps');
+
+  configureLazyLoadedModule('statistic', { vendors: true });
+  $urlRouterProvider.when(BASE_STATE_URL + '/statistics', BASE_STATE_URL + '/statistics/base/');
+  $urlRouterProvider.when(BASE_STATE_URL + '/statistics/', BASE_STATE_URL + '/statistics/base/');
+  $urlRouterProvider.when(BASE_STATE_URL + '/statistics/base', BASE_STATE_URL + '/statistics/base/');
+
+  configureLazyLoadedModule('twoDegrees', { dependencies : ['breakfastTour'] });
+
+  configureLazyLoadedModule('mediaLibrary', { dependencies : [LEGACY_APP_NAME, 'userDirectory'] });
+
+  configureLazyLoadedModule('userDirectory', { dependencies : [LEGACY_APP_NAME] });
+
+  // also configure dependencies in the bns.mediaLibrary.viewerInvoker module
+  configureLazyLoadedModule('workshop', { dependencies : [LEGACY_APP_NAME,  'userDirectory', 'mediaLibrary'] });
+
+  // camelCase to dash-case
+  function camelToDash (str) {
+    return str.replace(/([A-Z])/g, function (match) {
+      return '-' + match.toLowerCase();
     });
-  });
-
-  function LazyLoadStateFactory ($q, $ocLazyLoad, futureState) {
-    var deferred = $q.defer();
-    $ocLazyLoad.load(futureState.app).then(
-      function success () {
-        deferred.resolve();
-      },
-      function error (response) {
-        console.error('$ocLazyLoad error', response);
-        deferred.reject();
-      }
-    );
-
-    return deferred.promise;
   }
+
+  function configureLazyLoadedModule (name, config) {
+    var assetsPath = basePath + '/assets/modules';
+
+    config = angular.extend({
+        dependencies : [],
+        vendors: false,
+        vendorsLocale: false,
+      }, config);
+
+    var files = [
+      assetsPath + '/' + camelToDash(name) + '.scripts.js',
+      assetsPath + '/' + camelToDash(name) + '.views.js',
+    ];
+
+    if (config.vendorsLocale) {
+      files.unshift(assetsPath + '/' + camelToDash(name) + '.vendors-' + locale + '.js');
+    }
+
+    if (config.vendors) {
+      files.unshift(assetsPath + '/' + camelToDash(name) + '.vendors.js');
+    }
+
+    // these calls are not intercepted by $http: manually add cache buster param
+    for (var i = 0; i < files.length; i++) {
+      files[i] += '?v=' + version;
+    }
+
+    $ocLazyLoadProvider.config({
+      modules: [
+        {
+          debug: true,
+          name: name,
+          files: files,
+          serie: true,
+        }
+      ],
+    });
+
+    $stateProvider.state('app.' + name + '.**', {
+      url: '/' + camelToDash(name),
+      lazyLoad: function ($transition$) {
+        var $lazyLoad = $transition$.injector().get('$ocLazyLoad');
+        // TODO: make sure the material core app is loaded before loading the module
+        var modules = angular.copy(config.dependencies);
+        modules.push(name);
+        var promise;
+        angular.forEach(modules, function (module) {
+          if (!promise) {
+            promise = $lazyLoad.load(module);
+          } else {
+            promise = promise.then(function () {
+              return $lazyLoad.load(module);
+            });
+          }
+        });
+
+        return promise.catch(function error (response) {
+          console.error(response);
+          throw response;
+        });
+
+      },
+    });
+  }
+
 }
 
 }) (angular);

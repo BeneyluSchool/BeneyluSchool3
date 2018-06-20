@@ -4,6 +4,9 @@ namespace BNS\App\WorkshopBundle\ApiController;
 
 use BNS\App\CoreBundle\Annotation\RightsSomeWhere;
 use BNS\App\CoreBundle\Model\User;
+use BNS\App\CoreBundle\Model\UserQuery;
+use BNS\App\NotificationBundle\Notification\WorkshopBundle\WorkshopWidgetNewCorrectionNotification;
+use BNS\App\NotificationBundle\Notification\WorkshopBundle\WorkshopWidgetWasCorrectedNotification;
 use BNS\App\WorkshopBundle\ApiController\BaseWorkshopApiController;
 use BNS\App\WorkshopBundle\Form\Api\ApiWorkshopWidgetGroupType;
 use BNS\App\WorkshopBundle\Model\WorkshopDocument;
@@ -80,6 +83,8 @@ class WorkshopWidgetGroupApiController extends BaseWorkshopApiController
 
         $workshopWidgetGroup->delete();
 
+        $this->get('bns.workshop.widget_group.manager')->updateBreakPage($workshopWidgetGroup->getWorkshopPage()->getWorkshopDocument());
+
         $this->publish('WorkshopDocument('.$workshopWidgetGroup->getWorkshopPage()->getDocumentId().'):widget_groups:remove', $workshopWidgetGroup);
 
         return $this->view(null, Codes::HTTP_NO_CONTENT);
@@ -110,10 +115,9 @@ class WorkshopWidgetGroupApiController extends BaseWorkshopApiController
      * @Rest\View(serializerGroups={"Default", "detail"})
      * @ParamConverter("workshopWidgetGroup")
      */
-    public function patchAction(WorkshopWidgetGroup $workshopWidgetGroup)
+    public function patchAction(Request $request, WorkshopWidgetGroup $workshopWidgetGroup)
     {
         $this->canManageWorkshopWidgetGroup($workshopWidgetGroup);
-        $request = $this->getRequest();
         $ctrl = $this;
         $oldScope = array(
             'pageId' => $workshopWidgetGroup->getPageId(),
@@ -122,10 +126,70 @@ class WorkshopWidgetGroupApiController extends BaseWorkshopApiController
         );
 
         $saveHandler = function ($data, $form) use ($workshopWidgetGroup, $request, $ctrl, $oldScope) {
+            if ($oldScope['pageId'] !== $workshopWidgetGroup->getPageId()) {
+                // Check if page was on the same document
+                $documentIds = WorkshopPageQuery::create()
+                    ->filterById([
+                        $workshopWidgetGroup->getPageId(),
+                        $oldScope['pageId']
+                    ])
+                    ->select('DocumentId')
+                    ->find();
+
+                if (count($documentIds) !== 2 || $documentIds[0] !== $documentIds[1]) {
+                    return View::create($form, Codes::HTTP_BAD_REQUEST);
+                }
+
+            }
             if ($position = $request->get('position', 0)) {
+                $position = $workshopWidgetGroup->getPosition();
+                if ($position === $oldScope['position']) {
+                    $workshopWidgetGroup->setPosition(-1);
+                    $workshopWidgetGroup->setPosition($position);
+                }
                 $ctrl->get('bns.workshop.widget_group.manager')->applyOrderInPage($workshopWidgetGroup, $oldScope);
             }
             $ctrl->get('bns.workshop.widget_group.manager')->save($workshopWidgetGroup, $ctrl->getUser(), true);
+
+            // update page break
+            $this->get('bns.workshop.widget_group.manager')->updateBreakPage($workshopWidgetGroup->getWorkshopPage()->getWorkshopDocument(), true);
+
+            // send notification if widget has a correction
+            foreach ($workshopWidgetGroup->getWorkshopWidgets() as $workshopWidget) {
+                if ($workshopWidget->hasCorrection()) {
+                    $user = $ctrl->getUser();
+
+                    if ($ctrl->get('bns.right_manager')->hasRight('WORKSHOP_CORRECTION_EDIT')) {
+                        // get contributor users, directs and from contributor groups
+                        $contentManager = $ctrl->get('bns.workshop.content.manager');
+                        $content = $workshopWidgetGroup->getWorkshopPage()->getWorkshopDocument()->getWorkshopContent();
+                        $contributorUserIds = $contentManager->getContributorUserIds($content);
+                        $contributorGroups = $contentManager->getContributorGroups($content);
+                        foreach ($contributorGroups as $group) {
+                            $groupUserIds = $ctrl->get('bns.group_manager')->setGroup($group)->getUserIdsWithPermission('WORKSHOP_ACCESS');
+                            $contributorUserIds = array_merge($contributorUserIds, $groupUserIds);
+                        }
+                        $contributorUserIds = array_unique($contributorUserIds);
+
+                        // notify all contributors except teachers
+                        $notifiedUsers = UserQuery::create()
+                            ->filterById(array_unique($contributorUserIds))
+                            ->filterByHighRoleId(7, \Criteria::GREATER_THAN)
+                            ->find()
+                        ;
+                        $ctrl->get('notification_manager')->send($notifiedUsers, new WorkshopWidgetNewCorrectionNotification($ctrl->get('service_container'), $workshopWidget->getId()));
+                    } else {
+                        // notify teacher that made the correction
+                        $notifiedUserIds = [$workshopWidget->getCorrection()->getLastCorrectionBy()];
+                        $notifiedUsers = UserQuery::create()
+                            ->filterById(array_unique($notifiedUserIds))
+                            ->find()
+                        ;
+                        $ctrl->get('notification_manager')->send($notifiedUsers, new WorkshopWidgetWasCorrectedNotification($ctrl->get('service_container'), $workshopWidget->getId(), $user->getId()));
+                    }
+                    break;
+                }
+            }
         };
         return $this->restForm(new ApiWorkshopWidgetGroupType(), $workshopWidgetGroup, array(
             // @TODO do this the right way
@@ -287,56 +351,6 @@ class WorkshopWidgetGroupApiController extends BaseWorkshopApiController
     /**
      * @ApiDoc(
      *  section="Atelier - Groupes de widgets",
-     *  description="Move a widget group to another page",
-     *  resource=true,
-     *  requirements={
-     *      {
-     *          "name"="id",
-     *          "dataType"="integer",
-     *          "requirement"="\d+",
-     *          "description"="L'id de l'objet"
-     *      }
-     *  }
-     * )
-     *
-     * @Rest\Patch("/{id}/move")
-     * @Rest\View(serializerGroups={"Default","detail"})
-     * @ParamConverter("workshopWidgetGroup")
-     *
-     * @return Response
-     */
-    public function moveAction ($id)
-    {
-        $widgetGroup = WorkshopWidgetGroupQuery::create()
-            ->findOneById($id);
-
-        $this->canManageWorkshopWidgetGroup($widgetGroup);
-
-        $request = $this->getRequest();
-        $pageId = $request->get('page_id', 0);
-
-        if (!$pageId) {
-            return new Response('', Codes::HTTP_NOT_FOUND);
-        }
-
-        $page = WorkshopPageQuery::create()
-        ->findOneById($pageId);
-
-        if (!$page) {
-            return new Response('', Codes::HTTP_NOT_FOUND);
-        }
-
-        $widgetGroup->setPageId($pageId);
-        $widgetGroup->setZone(1);
-        $widgetGroup->save();
-
-        return new Response('', Codes::HTTP_OK);
-    }
-
-
-    /**
-     * @ApiDoc(
-     *  section="Atelier - Groupes de widgets",
      *  description="Duplique un groupe de widget",
      *  resource=true,
      *  requirements={
@@ -350,7 +364,7 @@ class WorkshopWidgetGroupApiController extends BaseWorkshopApiController
      * )
      *
      * @Rest\Post("/{id}/duplicate")
-     * @Rest\View(serializerGroups={"Default","detail"})
+     * @Rest\View(serializerGroups={"Default","detail", "document_detail"})
      * @ParamConverter("workshopWidgetGroup")
      *
      * @param WorkshopWidgetGroup $widgetGroup
@@ -362,6 +376,8 @@ class WorkshopWidgetGroupApiController extends BaseWorkshopApiController
         $widgetGroupManager =  $this->get('bns.workshop.widget_group.manager');
         $newWidgetGroup = $widgetGroupManager->duplicate($widgetGroup);
         $newWidgetGroup->save();
+
+        $widgetGroupManager->updateBreakPage($widgetGroup->getWorkshopPage()->getWorkshopDocument(), true);
 
         return $newWidgetGroup;
     }

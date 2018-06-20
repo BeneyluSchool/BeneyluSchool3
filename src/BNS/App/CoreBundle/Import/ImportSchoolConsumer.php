@@ -173,7 +173,7 @@ class ImportSchoolConsumer extends AbstractImportConsumer
             $this->groupManager->setGroup($exists);
             $change = false;
 
-            foreach($this->groupManager->getAncestors() as $ancestor)
+            foreach($this->groupManager->getUniqueAncestors() as $ancestor)
             {
                 if($ancestor->getGroupType()->getType() == 'CIRCONSCRIPTION')
                 {

@@ -8,6 +8,16 @@ BNS\App\CampaignBundle\Model\Campaign:
       expose: true
       serialized_name: message
 
+    getNumberOfSentMessages:
+      expose: true
+      groups: [campaign_detail]
+      serialized_name: nb_sent
+
+    getNotSentMessages:
+      expose: true
+      groups: [campaign_detail]
+      serialized_name: not_sent
+
   relations:
     - rel: attachments
       embedded:

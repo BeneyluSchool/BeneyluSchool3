@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xml-stylesheet href="/ent/medias/css/racvision.css" title="Racvision" type="text/css"?>
+<!DOCTYPE apptest SYSTEM "http://racvision.orion.education.fr/page-de-test/apptest-1.7.dtd">
+<apptest>
+  <date>{{ "now"|date("Y-m-d h:i:s") }}</date>
+  <application id="{{ name|lower|replace({' ':''}) }}">
+    <name>{{ name }}</name>
+    <version>1.0.0</version>
+    <description>Espace Numérique de Travail</description>
+    <test id="database">
+      <description>
+        Connexion à la base de données
+      </description>
+      <state val="{{ dbState }}"/>
+    </test>
+    <test id="redisclient">
+      <description>
+        Connexion au serveur Redis
+      </description>
+      <state val="{{ redisState }}">
+      </state>
+    </test>
+    <test id="rabbitMQ">
+      <description>
+        Connexion au rabbit MQ.
+      </description>
+      <state val="{{ rabbitMQState }}">
+      </state>
+    </test>
+    <test id="Oauth">
+      <description>
+        Test de connexion à l'annuaire.
+      </description>
+      <state val="{{ authState }}">
+      </state>
+    </test>
+    <test id="Paas">
+      <description>
+        Test de l'api du PAAS.
+      </description>
+      <state val="{{ paasState }}">
+      </state>
+    </test>
+  </application>
+</apptest>

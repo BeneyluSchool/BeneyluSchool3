@@ -8,12 +8,12 @@ namespace BNS\App\NotificationBundle\Model;
 class NotificationCollection
 {
 	/**
-	 * @var array<Notification> 
+	 * @var array<Notification>
 	 */
 	private $collection;
 
 	private $announcementsCount = 0;
-	
+
 	/**
 	 * @param array<Notification> $collection
 	 * @param NotificationSettingsCollection $settings
@@ -22,7 +22,7 @@ class NotificationCollection
 	public function __construct($collection, NotificationSettingsCollection $settings, $announcementsCount = 0)
 	{
 		$this->collection = array();
-		
+
 		foreach ($collection as $item) {
 			if ($settings->isEnabled($item)) {
 				if ($item->getNotificationType()->getModuleUniqueName() == 'NOTIFICATION') {
@@ -41,13 +41,13 @@ class NotificationCollection
 
 		$this->announcementsCount = $announcementsCount;
 	}
-	
+
 	/**
 	 * Get count notification, read & unread
-	 * 
+	 *
 	 * @param int $groupId
 	 * @param string $moduleUniqueName
-	 * 
+	 *
 	 * @return int
 	 */
 	public function getCount($groupId = null, $moduleUniqueName = null)
@@ -59,15 +59,15 @@ class NotificationCollection
 			return count($this->collection[$groupId][$moduleUniqueName]);
 		}
 		elseif (null == $groupId && null == $moduleUniqueName) {
-			return $this->getTotalCount($this->collection);
+			return $this->getTotalCount();
 		}
-		
+
 		return 0;
 	}
-	
+
 	/**
 	 * @param array $group
-	 * 
+	 *
 	 * @return int
 	 */
 	private function countModule($group)
@@ -78,14 +78,14 @@ class NotificationCollection
 				$count++;
 			}
 		}
-		
+
 		return $count;
 	}
-	
+
 	/**
 	 * Get all correction notification count, read & unread
-	 * 
-	 * @return int 
+	 *
+	 * @return int
 	 */
 	public function getCorrectionCount()
 	{
@@ -99,7 +99,7 @@ class NotificationCollection
 				}
 			}
 		}
-		
+
 		return $count;
 	}
 
@@ -107,11 +107,11 @@ class NotificationCollection
 	{
 		return $this->announcementsCount;
 	}
-	
+
 	/**
 	 * Get all notification count, only unread
-	 * 
-	 * @return int 
+	 *
+	 * @return int
 	 */
 	public function getTotalCount()
 	{
@@ -125,7 +125,7 @@ class NotificationCollection
 		}
 
 		$count += $this->getAnnouncementCount();
-		
+
 		return $count;
 	}
 }

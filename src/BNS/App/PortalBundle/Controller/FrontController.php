@@ -25,6 +25,7 @@ class FrontController extends CommonController
      */
     public function indexAction()
     {
+        $this->get('stat.portal')->visit();
         return array(
             'isAuthenticated' => true,
             'portal' => $this->getCurrentPortal(),

@@ -40,6 +40,7 @@ function ButtonizeFilter ($sce) {
     if (!text) {
       text = '';
     }
+    text = '' + text; // make sure we have a valid string
 
     var splitterIndex = text.indexOf('|');
     if (splitterIndex > -1) {

@@ -37,6 +37,7 @@ function BNSAppToggleDirective () {
       appName: '@',
       group: '=*',
       groupId: '=',
+      userRole: '=',
       notify: '=',
       type: '=',
     },
@@ -45,7 +46,7 @@ function BNSAppToggleDirective () {
       'ng-model="ctrl.status" '+
       'ng-change="ctrl.toggle()" '+
       'class="bns-switch" '+
-      'ng-class="{maybe: ctrl.app.is_partially_open}" '+
+      'ng-class="{maybe: ctrl.app.is_partially_open && !ctrl.userRole}" '+
       'aria-label="Application status"><span ng-transclude></span></md-switch>',
     controller: 'BNSAppToggleController',
     controllerAs: 'ctrl',
@@ -75,7 +76,15 @@ function BNSAppToggleController ($scope, toast, appsManager) {
     }
     $scope.$watch('ctrl.app', function () {
       if (ctrl.app) {
-        ctrl.status = ctrl.app.is_open;
+        if (ctrl.userRole) {
+          if (ctrl.userRole === 'family') {
+            ctrl.status = ctrl.app.is_open_family;
+          } else if (ctrl.userRole === 'teacher') {
+            ctrl.status = ctrl.app.is_open_teacher;
+          }
+        } else {
+          ctrl.status = ctrl.app.is_open;
+        }
       }
     });
   }
@@ -83,17 +92,33 @@ function BNSAppToggleController ($scope, toast, appsManager) {
   function toggle () {
     var currentStatus = ctrl.app.is_open;
     var groupId = ctrl.group ? ctrl.group.id : ctrl.groupId;
+    var userRole = ctrl.userRole;
 
     ctrl.busy = true;
-    appsManager.toggle(ctrl.app, groupId, ctrl.type)
+    appsManager.toggle(ctrl.app, groupId, ctrl.type, userRole)
       .then(success)
       .catch(error)
       .finally(end)
     ;
 
     function success () {
-      ctrl.app.is_open = !ctrl.app.is_open;
-      ctrl.app.is_partially_open = false;
+      if (ctrl.userRole) {
+        if (ctrl.userRole === 'family') {
+          ctrl.app.is_open_family = !ctrl.app.is_open_family;
+        } else if (ctrl.userRole === 'teacher') {
+          ctrl.app.is_open_teacher = !ctrl.app.is_open_teacher;
+        }
+        if (ctrl.app.is_open_family === ctrl.app.is_open_teacher) {
+          ctrl.app.is_partially_open = false;
+          ctrl.app.is_open = ctrl.app.is_open_family;
+        } else {
+          ctrl.app.is_partially_open = true;
+        }
+      } else {
+        ctrl.app.is_open = !ctrl.app.is_open;
+        ctrl.app.is_partially_open = false;
+      }
+
       if (true === ctrl.notify || 'success' === ctrl.notify) {
         toast.success('APPS.FLASH_'+(ctrl.type||'APP').toUpperCase()+'_'+(ctrl.app.is_open ? 'OPEN' : 'CLOSE')+'_SUCCESS');
       }

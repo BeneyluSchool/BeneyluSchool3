@@ -17,14 +17,14 @@
             {% elseif page.getType() == 'TEXT' %}
               {% include 'BNSAppMiniSiteBundle:SidebarBlock:back_sidebar_block_page_status.html.twig' with {'status': page.getMiniSitePageText().getStatus()} %}
 
-            {% elseif page.getType() == 'NEWS' %}
-              {% if filter_form is defined %}
+            {% elseif page.getType() in ['NEWS', 'CITY'] %}
+              {% if filter_form is defined and (page.getType() == 'NEWS' or minisite.getGroup().getType() == 'CITY') %}
                 {% include 'BNSAppMiniSiteBundle:SidebarBlock:back_sidebar_block_filters.html.twig' %}
               {% endif %}
               {% if news is defined %}
                 {% include 'BNSAppMiniSiteBundle:SidebarBlock:back_sidebar_block_page_news_status.html.twig' %}
                 <bns-expander label="{{ 'DATE_CREATION' | trans }}" is-open="true">
-                  <div><p class="text-status">{{ date_from_now(news.getCreatedAt(), true, true, 'medium', 'short', false, true) }}</p></div>
+                  <div class="md-padding"><div class="md-body-2">{{ date_from_now(news.getCreatedAt(), true, true, 'medium', 'short', false, true) }}</div></div>
                 </bns-expander>
               {% endif %}
             {% endif %}
@@ -32,12 +32,15 @@
             {% if section == 'edition' %}
 
                 {# Displays fields of the main form here, if they are proxied #}
-                {% if form is defined %}<bns-form-proxy source="{{ form.vars.name }}" du-scroll-container="content"></bns-form-proxy>{% endif %}
+                {% if form is defined %}
+                  <bns-form-proxy source="{{ form.vars.name }}" du-scroll-container="content"></bns-form-proxy>
+                  <bns-transclude-dest name="minisite-page-city-news-form" class="hide-sm hide-md"></bns-transclude-dest>
+                {% endif %}
 
               {% if page.getType() == 'TEXT' %}
                 {% include 'BNSAppMiniSiteBundle:SidebarBlock:back_sidebar_block_page_author.html.twig' with {'author': page.getMiniSitePageText().getAuthor()} %}
                 {% include 'BNSAppMiniSiteBundle:SidebarBlock:back_sidebar_block_page_last_author_modification.html.twig' with {'lastAuthor': page.getMiniSitePageText().getLastModificationAuthor()} %}
-              {% else %}
+              {% elseif page.getType() == 'NEWS' %}
                 {% include 'BNSAppMiniSiteBundle:SidebarBlock:back_sidebar_block_page_author.html.twig' with {'author': news.getAuthor()} %}
               {% endif %}
             {% endif %}
@@ -49,7 +52,8 @@
     {% if has_right('MINISITE_ADMINISTRATION') and section|default(null) != 'edition' %}
 
       {# Widgets / sidebar #}
-      <section{% if index == 'widgets' %} class="current"{% endif %}>
+
+      <section{% if index == 'widgets' %} class="current"{% endif %} bns-feature-flag="'minisite_widgets'" bns-feature-push>
           {{ components.button( 'TITLE_SIDEBAR' | trans , { href:   path('minisite_manager_custom_widgets'), icon: 'web' }) }}
       </section>
 
@@ -84,7 +88,7 @@
 
   {% if (has_right('MINISITE_ADMINISTRATION') or minisite.isEditor(app.user)) and section|default(null) != 'edition' %}
     {# Statistics #}
-    <section{% if index == 'stats' %} class="current"{% endif %}>
+    <section{% if index == 'stats' %} class="current"{% endif %} bns-feature-flag="'minisite_statistics'" bns-feature-push>
         {{ components.button( 'LINK_STATS' | trans , { href:   path('BNSAppMiniSiteBundle_back_stats'), icon: 'assessment' }) }}
     </section>
   {% endif %}

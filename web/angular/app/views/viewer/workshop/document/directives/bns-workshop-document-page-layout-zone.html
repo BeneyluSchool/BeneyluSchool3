@@ -7,23 +7,8 @@
       <span class="incentive" translate>WORKSHOP.DOCUMENT.DROP_WIDGET_HERE</span>
     </a>
 
-    <div ng-if="!ctrl.document.is_questionnaire || (!ctrl.isWrite && ctrl.document.is_questionnaire)" bns-workshop-document-page-layout-zone-write class="workshop-widget-group-container">
+    <div bns-workshop-document-page-layout-zone-write ng-class="{'workshop-questionnaire-container': ctrl.document.is_questionnaire }" class="workshop-widget-group-container">
       <div ng-repeat="widgetGroup in ctrl.zone.widgetGroups" bns-workshop-document-widget-group="widgetGroup"></div>
-      <div ng-if="ctrl.last && ctrl.document.is_questionnaire">
-        <br>
-        <md-divider></md-divider>
-        <div class="layout-column layout-align-center-center finish-block">
-          <p translate>WORKSHOP.QUESTIONNAIRE.FINISHED</p>
-          <md-button class="md-primary md-raised" ng-click="ctrl.resetQuestionnaire()">
-            <md-icon>undo</md-icon>
-            <span translate>WORKSHOP.QUESTIONNAIRE.RESET_QUESTIONNAIRE</span>
-          </md-button>
-        </div>
-      </div>
-    </div>
-
-    <div ng-if="ctrl.isWrite && ctrl.document.is_questionnaire" bns-workshop-document-page-layout-zone-write class="workshop-widget-group-container">
-      <div ng-repeat="widgetGroup in ctrl.document._embedded.widget_groups" bns-workshop-document-widget-group="widgetGroup"></div>
     </div>
 
 </div>

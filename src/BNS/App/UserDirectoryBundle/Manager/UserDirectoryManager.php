@@ -19,11 +19,21 @@ class UserDirectoryManager
 
     const PERMISSION = 'DIRECTORY_ACCESS';
 
+    const CURRENT_GROUP = '__CURRENT__';
+
     const VIEW_MEDIA_LIBRARY_SHARE = 'media-library-share';
     const VIEW_WORKSHOP_CONTRIBUTORS = 'workshop-contributors';
     const VIEW_MESSAGING_RECIPIENTS = 'messaging-recipients';
     const VIEW_MINISITE_EDITORS = 'minisite-editors';
     const VIEW_CAMPAIGN_RECIPIENTS = 'campaign-recipients';
+    const VIEW_HOMEWORK_ASSIGN = 'homework-assign';
+    const VIEW_PORTAL_MAILING_LISTS = 'portal-mailing-lists';
+    const VIEW_MINISITE_CITY_NEWS = 'minisite-city-news';
+    const VIEW_COMPETITION_INVITATIONS = 'competition-invitations';
+    const VIEW_LIAISONBOOK_INDIVIDUALIZE = 'liaison-book-individualize';
+    const VIEW_FORUM_INVITE = 'forum-invite';
+    const VIEW_SEARCH = 'search';
+    const VIEW_CALENDAR_EDITORS= 'calendar-editors';
 
     public $DIRECTORY_GROUP_TYPES = array(
         'SCHOOL',
@@ -50,6 +60,22 @@ class UserDirectoryManager
         self::VIEW_MINISITE_EDITORS => 'MINISITE_ACCESS_BACK',
 
         self::VIEW_CAMPAIGN_RECIPIENTS => 'CAMPAIGN_ACCESS',
+
+        self::VIEW_HOMEWORK_ASSIGN => 'HOMEWORK_ACCESS_BACK',
+
+        self::VIEW_PORTAL_MAILING_LISTS => 'PORTAL_ACCESS_BACK',
+
+        self::VIEW_MINISITE_CITY_NEWS => 'MINISITE_ACCESS_BACK',
+
+        self::VIEW_COMPETITION_INVITATIONS => 'COMPETITION_ACCESS_BACK',
+
+        self::VIEW_LIAISONBOOK_INDIVIDUALIZE => 'LIAISONBOOK_ACCESS_BACK',
+
+        self::VIEW_FORUM_INVITE => 'FORUM_ACCESS_BACK',
+
+        self::VIEW_SEARCH => 'SEARCH_SDET_SEARCH_ENT',
+
+        self::VIEW_CALENDAR_EDITORS => 'CALENDAR_ACCESS_BACK',
     ];
 
     /**
@@ -93,6 +119,10 @@ class UserDirectoryManager
             return !in_array($group->getType(), ['TEAM', 'PARTNERSHIP']);
         }
 
+        if (in_array($view, [ self::VIEW_PORTAL_MAILING_LISTS, self::VIEW_MINISITE_CITY_NEWS])) {
+            return 'CITY' === $group->getType();
+        }
+
         return in_array($group->getType(), $this->DIRECTORY_GROUP_TYPES);
     }
 
@@ -108,6 +138,13 @@ class UserDirectoryManager
 
         $permissions = $this->getGroupPermissionsForView($view);
 
+        // special case where only current group must be visible
+        if (self::CURRENT_GROUP === $permissions) {
+            $currentGroup = $this->rightManager->getCurrentGroup();
+
+            return [$currentGroup->getId() => $currentGroup];
+        }
+
         // no permission found => no access
         if (!is_array($permissions)) {
             return [];
@@ -118,6 +155,18 @@ class UserDirectoryManager
         foreach ($directGroups as $group) {
             // keep only meaningful/visible groups
             if (!$this->isVisibleUserDirectoryGroup($group, $view)) {
+                continue;
+            }
+
+            // special case: keep only current group and partnerships
+            if (self::VIEW_COMPETITION_INVITATIONS === $view
+                && !$group->isPartnerShip()
+                && $group->getId() !== $this->rightManager->getCurrentGroupId()
+            ) {
+                continue;
+            }
+
+            if (self::VIEW_CAMPAIGN_RECIPIENTS === $view && $group !== $this->rightManager->getCurrentGroup()) {
                 continue;
             }
 
@@ -167,7 +216,7 @@ class UserDirectoryManager
 
         // get child groups if user has permission
         foreach ($permissions as $permission) {
-            if ($this->userManager->setUser($user)->hasRight($permission, $group->getId())) {
+            if ((self::VIEW_CAMPAIGN_RECIPIENTS === $view && in_array($this->rightManager->getCurrentGroupId(), $this->groupManager->setGroup($group)->getUniqueAncestorIds())) || $this->userManager->setUser($user)->hasRight($permission, $group->getId())) {
                 foreach ($this->groupManager->setGroup($group)->getSubgroups() as $subgroup) {
                     // keep only meaningful/visible groups
                     if ($subgroup->getGroupType()->getSimulateRole()) {
@@ -220,6 +269,10 @@ class UserDirectoryManager
      */
     public function getUserIdsByRoles(Group $group, $view = null)
     {
+        if (in_array($view, [self::VIEW_PORTAL_MAILING_LISTS, self::VIEW_MINISITE_CITY_NEWS])) {
+            return [];
+        }
+
         $directAccess = !!count($this->rightManager->getRightsInGroup($group->getId()));
         $partnershipAccess = false;
 
@@ -241,6 +294,7 @@ class UserDirectoryManager
 
         $hideParents = false;
         $hideChildren = false;
+        $hideOhter = false;
         $permission = null;
         if (self::VIEW_MEDIA_LIBRARY_SHARE === $view) {
             // when browsing directory to select users to share: are visible only the users who have their own
@@ -264,11 +318,34 @@ class UserDirectoryManager
         } else if (self::VIEW_CAMPAIGN_RECIPIENTS === $view) {
             // when browsing to select campaign recipients: are visible all users except children
             $hideChildren = true;
-        } else {
+        } else if (self::VIEW_HOMEWORK_ASSIGN === $view) {
+            // when browsing to assign homework: are visible only children
+            $hideParents = true;
+            $hideOhter = true;
+        } else if (self::VIEW_COMPETITION_INVITATIONS === $view) {
+            // when browsing directory to select competition invitations: are visible only the pupils
+            $hideParents = true;
+        } elseif (self::VIEW_LIAISONBOOK_INDIVIDUALIZE === $view) {
+            $hideParents = true;
+            $hideOhter = true;
+        } elseif (self::VIEW_FORUM_INVITE === $view) {
+            $permission = 'FORUM_ACCESS';
+        } elseif (self::VIEW_SEARCH === $view) {
+            $permission = 'PROFILE_ACCESS_BACK';
+            $hideParents = true;
+        } else if (self::VIEW_CALENDAR_EDITORS === $view) {
+            // when browsing to select calendar editors: are visible only children
+            $hideParents = true;
+            $hideOhter = true;
+        }
+        else {
             // in default view, parents are not visible
             $hideParents = true;
         }
-
+        $redis = $this->container->get('snc_redis.default');
+        if (self::VIEW_CAMPAIGN_RECIPIENTS === $view && $redis->get('user_directory:' . $view . ':group_' . $group->getId()) !== null) {
+            return unserialize($redis->get('user_directory:' . $view . ':group_' . $group->getId()));
+        }
         if ($permission) {
             if ($partnershipAccess) {
                 // get partnership subgroups (roles) that have the needed permission
@@ -293,7 +370,7 @@ class UserDirectoryManager
             $userIds = array_keys(array_flip($userIds)); // convert string to int...
         }
 
-        if (count($userIds)) {
+        if (count($userIds) && count($userIds) <= 1000) {
             $userIds = $this->ensureAccessibleUserIds($userIds);
         }
 
@@ -307,7 +384,7 @@ class UserDirectoryManager
         // iterate over each role subgroup, to group user ids by role
         foreach ($subgroups as $subgroup) {
             if ($subgroup->getGroupType()->getSimulateRole() || !$subgroup->getGroupType()->getIsRecursive()) {
-                $roleUserIds = $this->groupManager->setGroup($group)->getUsersByRoleUniqueNameIds($subgroup->getType());
+                $roleUserIds = $this->groupManager->getUserIdsByRole($subgroup->getType(), $group);
 
                 // hide parents if necessary
                 if ($hideParents && 'PARENT' === $subgroup->getType()) {
@@ -316,6 +393,11 @@ class UserDirectoryManager
 
                 // hide children if necessary
                 if ($hideChildren && 'PUPIL' === $subgroup->getType()) {
+                    $roleUserIds = array();
+                }
+
+                // hide other roles if necessary
+                if ($hideOhter && !in_array($subgroup->getType(), ['PUPIL', 'PARENT'])) {
                     $roleUserIds = array();
                 }
 
@@ -351,10 +433,28 @@ class UserDirectoryManager
         }
 
         foreach ($userIdsByRole as $role => $ids) {
-            if (!count($ids)) {
+            if (!count($ids) || count($ids) > 1000) {
                 continue;
             }
             $userIdsByRole[$role] = $this->ensureAccessibleUserIds($ids);
+        }
+        if (self::VIEW_CAMPAIGN_RECIPIENTS === $view) {
+            $redis->set('user_directory:' . $view . ':group_' . $group->getId(), serialize($userIdsByRole));
+            $redis->expire('user_directory:' . $view . ':group_' . $group->getId(), 86400);
+        }
+        return $userIdsByRole;
+    }
+
+    /**
+     * @param Group $group
+     * @param string $view
+     * @return array
+     */
+    public function countUserIdsByRoles(Group $group, $view = null)
+    {
+        $userIdsByRole = $this->getUserIdsByRoles($group, $view);
+        foreach ($userIdsByRole as $role => $ids) {
+            $userIdsByRole[$role] = count($ids);
         }
 
         return $userIdsByRole;
@@ -503,6 +603,9 @@ class UserDirectoryManager
             case self::VIEW_MEDIA_LIBRARY_SHARE:
                 return $subgroup ? false : [$permission];
 
+            case self::VIEW_COMPETITION_INVITATIONS:
+                return [$permission];
+
             // when selecting contributor users: are visible only the groups where user has access, with their subgroups
             // if user can manage the workshop
             case self::VIEW_WORKSHOP_CONTRIBUTORS:
@@ -516,6 +619,19 @@ class UserDirectoryManager
 
             case self::VIEW_CAMPAIGN_RECIPIENTS:
                 return [$permission];
+
+            case self::VIEW_HOMEWORK_ASSIGN:
+                return [$permission];
+            case self::VIEW_SEARCH:
+                return [$permission];
+
+            case self::VIEW_CALENDAR_EDITORS:
+                return [$permission];
+
+            case self::VIEW_PORTAL_MAILING_LISTS:
+            case self::VIEW_MINISITE_CITY_NEWS:
+            case self::VIEW_LIAISONBOOK_INDIVIDUALIZE:
+                return self::CURRENT_GROUP;
 
             // when using the directory in consultation: are visible all groups where user has access, with their
             // subgroups if user can manage them

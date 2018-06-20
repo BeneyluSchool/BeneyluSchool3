@@ -2,6 +2,7 @@
 
 namespace BNS\App\MediaLibraryBundle\Manager;
 
+use BNS\App\CoreBundle\Antivirus\Clamav;
 use BNS\App\MediaLibraryBundle\FileSystem\BNSFileSystemManager;
 use BNS\App\MediaLibraryBundle\Model\Media;
 use BNS\App\MediaLibraryBundle\Model\MediaFolderGroup;
@@ -25,12 +26,20 @@ use Imagine\Image\Point;
 use Imagine\Filter\Basic\Autorotate;
 use Sensio\Bundle\BuzzBundle\SensioBuzzBundle;
 use Psr\Log\LoggerInterface;
+use Shaarli\NetscapeBookmarkParser\NetscapeBookmarkParser;
 use stdClass;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
+use Symfony\Component\Validator\Constraints\Ip;
 use Symfony\Component\Validator\Constraints\Url;
 use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\ValidatorBuilder;
 
 /**
  * @author Eymeric Taelman
@@ -66,6 +75,7 @@ class MediaCreator
     const ERROR_NO_ALLOWED_SPACE = "ERROR_NO_ALLOWED_SPACE";
 
 	protected $resource_storage;
+	protected $resourceDirectory;
     /** @var  MediaManager $mediaManager */
 	protected $mediaManager;
     protected $imageGenerator;
@@ -76,18 +86,30 @@ class MediaCreator
     protected $uploadedFileTempPath;
 
     protected $logger;
+    protected $clamavAntivirus;
 
     /** @var FFMpeg */
     protected $ffmpeg;
+    protected $libreofficeDirectory;
 
-	public function __construct($mediaManager, LoggerInterface $logger, $imageGenerator, $buzz, $cacheDir, FFMpeg $ffmpeg)
+    /** @var $mediaFolderManager */
+    protected $mediaFolderManager;
+
+    protected $logDirectory;
+
+	public function __construct($mediaManager, LoggerInterface $logger, $imageGenerator, $buzz, $cacheDir, $resourceDirectory, FFMpeg $ffmpeg, MediaFolderManager $mediaFolderManager, Clamav $clamavAntivirus, $libreofficeDirectory, $logDirectory)
 	{
 		$this->mediaManager = $mediaManager;
 		$this->image_generator = $imageGenerator;
         $this->buzz = $buzz;
 		$this->uploaded_file_dir = $cacheDir;
         $this->logger = $logger;
+        $this->resourceDirectory = $resourceDirectory;
         $this->ffmpeg = $ffmpeg;
+        $this->mediaFolderManager = $mediaFolderManager;
+        $this->clamavAntivirus = $clamavAntivirus;
+        $this->libreofficeDirectory = $libreofficeDirectory;
+        $this->logDirectory = $logDirectory;
 	}
 
     public function getUploadFileDir()
@@ -166,11 +188,16 @@ class MediaCreator
             if (!$uploadedFile->isValid()) {
                 throw new FileException($this->getErrorMessage($uploadedFile->getError()));
             }
-
             // Check uploaded file is really there
             $realPath = $uploadedFile->getRealPath();
             if (!is_file($realPath)) {
                 throw new FileException(self::ERROR_DURING_WRITE);
+            }
+            // give right so the file can be analyzed by clamav
+            chmod($realPath, 0644);
+            $clamav = $this->clamavAntivirus->isFileSafe($realPath, true);
+            if (!$clamav) {
+                throw new BadRequestHttpException();
             }
 
             $size = $uploadedFile->getSize();
@@ -192,7 +219,18 @@ class MediaCreator
                 'exstension' => $extension,
                 'mimeType' => $mimeType
             ]);
-
+            if ($extension === 'html' && strpos(file_get_contents($realPath), 'NETSCAPE')) {
+                $parser = new NetscapeBookmarkParser(true, [], '0', $this->logDirectory);
+                $bookmarks = $parser->parseFile($realPath);
+                if (count($bookmarks)) {
+                    $folder = $this->mediaFolderManager->create('Dossier de signets ' . date('d-m-Y', strtotime('now')), $mediaFolder->getId(), $mediaFolder->getType());
+                    foreach ($bookmarks as $bookmark) {
+                        $link = $this->createFromUrl($folder, $userId, $bookmark['uri']);
+                        $return[] = $link;
+                    }
+                }
+                continue;
+            }
             // convert ogg files to mp3
             if ($convert && 'ogg' === $extension) {
                 $src = $realPath;
@@ -226,8 +264,7 @@ class MediaCreator
 
             $media = $this->createModelDatas($informations);
 
-            if($media->isImage())
-            {
+            if ($media->isImage() && !in_array($extension, ['png', 'gif'])) {
                 //On applique une rotation avec Imagine pour cadrer toujours dans le bon sens
                 $transformation = new Autorotate();
                 $imagine = new Imagine();
@@ -239,6 +276,11 @@ class MediaCreator
             }
 
             $this->writeFile($media->getFilePath(), file_get_contents($realPath));
+            if ($media->isDocument() && $media->getFileMimeType() !== 'application/pdf') {
+                $this->convertToPDF($realPath, $media->getFilePathPattern(), $media->getFilename(), true);
+            }
+            // remove tmp file
+            @unlink($realPath);
 
             // notify teachers + stats
             if ($notify) {
@@ -272,6 +314,27 @@ class MediaCreator
         return $return;
     }
 
+    public function convertToPDF($pathToCopy, $directory, $filename, $rename = true)
+    {
+        $process = new Process($this->libreofficeDirectory . ' --headless --convert-to pdf "' . $pathToCopy . '" -env:UserInstallation=file:///tmp/test --outdir /tmp/');
+        $process->setTimeout(10);
+        $process->run();
+        if ($process->isSuccessful()) {
+            if ($rename) {
+                $extension = pathinfo($filename, PATHINFO_EXTENSION);
+                $file = $pathToCopy . '.pdf';
+            } else {
+                $extension = pathinfo($pathToCopy, PATHINFO_EXTENSION);
+                $file = '/tmp/' . str_replace( $extension, 'pdf', $filename);
+            }
+            $this->writeFile( $directory . str_replace( $extension, 'pdf', $filename), file_get_contents($file));
+            @unlink($file);
+        }
+        if (!$process->isSuccessful()) {
+            return false;
+        }
+    }
+
     public function getRealMimeType(UploadedFile $uploadedFile)
     {
         $filename = $uploadedFile->getClientOriginalName();
@@ -287,6 +350,10 @@ class MediaCreator
             if (in_array(pathinfo($filename, PATHINFO_EXTENSION), ['ogg', 'mp3'])) {
                 $mimeType = 'audio/mp3';
             }
+        }
+        if ($mimeTypeModel === 'AUDIO' && in_array(pathinfo($filename, PATHINFO_EXTENSION), ['mp4', 'MP4'])) {
+            $mimeType = 'video/mp4';
+            $mimeTypeModel = 'VIDEO';
         }
 
         return $mimeType;
@@ -309,7 +376,7 @@ class MediaCreator
         }
 
         if (!$this->isValidURL($url)) {
-            throw new Exception('Url invalide');
+            throw new HttpException(\Symfony\Component\HttpFoundation\Response::HTTP_BAD_REQUEST, 'Url invalide');
         }
 
         //On détermine le type depuis l'Url
@@ -320,10 +387,9 @@ class MediaCreator
         ]);
         $contentTypeHeader = $return->getHeader('Content-Type');
         //Prise en compte des content_type avec ';'
-        if(strpos($contentTypeHeader,';'))
-        {
+        if (strpos($contentTypeHeader, ';')) {
             $contentType = strstr($contentTypeHeader, ';', true);
-        }else{
+        } else {
             $contentType = $contentTypeHeader;
         }
 
@@ -334,8 +400,7 @@ class MediaCreator
         $value = null;
 
 
-        if($contentType == 'text/html')
-        {
+        if (in_array($contentType, ['text/html', 'application/xhtml+xml'])) {
             $type = 'LINK';
             $is_video = false;
             $filename = null;
@@ -406,11 +471,10 @@ class MediaCreator
                 }
             }
 
-        }else{
+        } else {
             //C'est un fichier
             $description = null;
-            if(!$forcedFilename)
-            {
+            if (!$forcedFilename) {
                 $filename = substr(strrchr($url, '/'),1);
                 $parts = explode('?', $filename);
                 $filename = $parts[0];
@@ -424,7 +488,7 @@ class MediaCreator
                     $ext = $ext[1];
                     $filename .= '.'.$ext;
                 }
-            }else{
+            } else {
                 $filename = $forcedFilename;
             }
 
@@ -665,10 +729,12 @@ class MediaCreator
             'application/vnd.ms-powerpoint',
             'application/vnd.oasis.opendocument.presentation',
             'application/vnd.oasis.opendocument.text',
+            'application/vnd.oasis.opendocument.spreadsheet',
             'application/vnd.openxmlformats-officedocument.presentationml.presentation',
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'application/msword'
+            'application/msword',
+            'application/vnd.ms-excel',
         ))) {
             $type = "DOCUMENT";
         }
@@ -878,7 +944,31 @@ class MediaCreator
             new Url(['checkDNS' => true]),
         ]);
 
-        return 0 === count($violations);
+        if (0 !== count($violations)) {
+            // invalid url
+            return false;
+        }
+
+        // Check ip of the domaine
+        $ips = gethostbynamel(parse_url($url, PHP_URL_HOST));
+        if (false === $ips) {
+            // can't resolve dns
+            return false;
+        }
+
+        foreach ($ips as $ip) {
+            if (0 !== count($validator->validate($ip, [new Ip(['version' => Ip::ALL_NO_RES])]))) {
+                // ip not in the good range
+                return false;
+            }
+        }
+        $port = parse_url($url, PHP_URL_PORT);
+        if (!in_array($port, [null, 80, 443], true)) {
+            // port not default one
+            return false;
+        }
+
+        return true;
     }
 
 

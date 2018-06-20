@@ -70,9 +70,11 @@ class PublicMediaParser
                     } catch (\Exception $e) {
                         $publicLink = "/medias/images/media-library/image.jpg";
                     }
-
+                    if ($resource && ($resource->isWorkshopDocument() || $resource->getIsQuestionnaire())) {
+                        $resourceLink->attr['href'] = "#"; //on laisse angular s'occuper d'afficher la visionneuse pour les docs de l'atelier
+                    }
                     // File
-                    if ($resourceLink->tag == 'a') {
+                    elseif ($resourceLink->tag == 'a') {
                         $resourceLink->attr['href'] = $publicLink;
                     }
                     // Image || Sound & video

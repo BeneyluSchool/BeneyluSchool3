@@ -35,6 +35,8 @@
     attr: {
       'data-toggle': 'modal',
       'data-target': '#new-category-modal',
+      'bns-feature-flag': '"blog_categories"',
+      'bns-feature-push': '',
       class: 'add-category-button'
     }
   }) }}
@@ -96,8 +98,10 @@
 {% endblock sidebar_content %}
 
 {% block content %}
+  <div bns-feature-flag="'blog_categories'" bns-feature-push="'incentive'" class="flex layout-column">
   <md-toolbar class="content-toolbar">
     <div class="md-toolbar-tools">
+      <bns-sidebar-toggle></bns-sidebar-toggle>
       <h3 class="heading">{% trans %}MANAGE_CATEGORY{% endtrans %}</h3>
     </div>
   </md-toolbar>
@@ -154,4 +158,5 @@
       {% endif %}
     </ol>
   </md-content>
+  </div>
 {% endblock content %}

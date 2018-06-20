@@ -1,0 +1,7 @@
+BNS\App\CompetitionBundle\Model\om\BaseAnswer:
+  exclusion_policy: All
+  properties:
+    created_at:
+      expose: true
+      groups: [answer_list]
+

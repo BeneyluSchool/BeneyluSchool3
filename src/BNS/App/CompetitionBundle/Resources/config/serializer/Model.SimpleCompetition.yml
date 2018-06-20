@@ -1,0 +1,16 @@
+BNS\App\CompetitionBundle\Model\SimpleCompetition:
+  exclusion_policy: All
+
+  virtual_properties:
+    getAuthorizeAnswers:
+      expose: true
+      groups: [competition_detail]
+    getAuthorizeQuestionnaires:
+      expose: true
+      groups: [competition_detail]
+
+  relations:
+    - rel: questionnaires
+      embedded:
+        content: expr(object.getQuestionnaires())
+        groups: [ competition_detail, competition_statistics ]

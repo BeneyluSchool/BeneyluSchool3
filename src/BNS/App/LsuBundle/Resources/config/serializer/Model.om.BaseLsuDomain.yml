@@ -1,0 +1,18 @@
+BNS\App\LsuBundle\Model\om\BaseLsuDomain:
+  exclusion_policy: All
+
+  properties:
+    id:
+      expose: true
+    label:
+      expose: true
+    code:
+      expose: true
+    version:
+      expose: true
+    tree_level:
+      expose: true
+    tree_left:
+      expose: true
+    tree_right:
+      expose: true

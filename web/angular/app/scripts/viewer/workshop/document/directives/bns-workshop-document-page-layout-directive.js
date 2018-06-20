@@ -24,6 +24,7 @@ angular.module('bns.viewer.workshop.document.pageLayout', [
       scope: {
         last: '=',
         layout: '=bnsWorkshopDocumentPageLayout',
+        page: '=',
       },
       templateUrl: url.view('/viewer/workshop/document/directives/bns-workshop-document-page-layout.html'),
       controller: 'WorkshopDocumentPageLayoutController',

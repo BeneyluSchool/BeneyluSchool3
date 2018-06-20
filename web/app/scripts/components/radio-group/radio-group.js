@@ -53,6 +53,10 @@ angular.module('bns.components.radioGroup', [
  *                         setting their `disabled` property.
  * - `bnsGroupByIcon` (string|object): An optional icon to use in group by
  *                                      labels.
+ * - `bnsChoiceWatch`: if attribute is present, the choices objects will be
+ *                     two-way data-bound in templates, allowing to change their
+ *                     properties. Note that the choice collection itself is
+ *                     always watched (to be able to add/remove choices).
  *
  * ** Classes **
  * - `bns-choice-right`: Radio controls and label are swapped, ie. label to the
@@ -92,6 +96,9 @@ function BNSRadioGroupDirective (choiceGroupDecorator) {
     link: postLink,
     templateUrl: function (element, attrs) {
       choiceGroupDecorator.decorateTemplate(element, attrs);
+      if (angular.isDefined(attrs.bnsChoiceWatch)) {
+        return 'views/components/radio-group/bns-radio-group-twoway.html';
+      }
 
       return 'views/components/radio-group/bns-radio-group.html';
     },

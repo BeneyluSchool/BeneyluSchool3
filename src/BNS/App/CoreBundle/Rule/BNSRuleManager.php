@@ -1,6 +1,7 @@
 <?php
 
 namespace BNS\App\CoreBundle\Rule;
+use BNS\App\CoreBundle\Group\BNSGroupManager;
 use BNS\App\StatisticsBundle\Model\GroupQuery;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -12,6 +13,10 @@ class BNSRuleManager
 {	
 	protected $api;
 	protected $domainId;
+
+    /**
+     * @var BNSGroupManager
+     */
     protected $groupManager;
 
 	public function __construct($groupManager, $api, $domainId)
@@ -83,7 +88,7 @@ class BNSRuleManager
                 //rooted = celles récupérées d'autres groupes (parents) = pour tous les parents où rule_where.group_type_id != thid.groupTypeId
                 $returnedRules = array();
                 $myGroupTypeId = $group->getGroupTypeId();
-                foreach($this->groupManager->getAncestors() as $parentGroup){
+                foreach($this->groupManager->getUniqueAncestors() as $parentGroup){
                     $this->groupManager->setGroup($parentGroup);
                     $parentRules = $this->getRules($parentGroup->getId());
                     foreach($parentRules as $parentRule){

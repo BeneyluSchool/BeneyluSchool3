@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\UserBundle\Model">
+    <table name="user_merge">
+        <column name="id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
+        <column name="user_source_id" type="integer" required="true"/>
+        <column name="user_destination_id" type="integer" required="true"/>
+        <column name="status" type="ENUM" valueSet="NEW, CURRENT, FINISHED, CANCELED, ERROR"/>
+        <column name="merge_email" type="BOOLEAN" defaultValue="false"/>
+        <column name="send_notification" type="BOOLEAN" defaultValue="false"/>
+        <column name="log" type="object"/>
+
+        <foreign-key foreignTable="user" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="user_source_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="user" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="user_destination_id"/>
+        </foreign-key>
+
+        <behavior name="timestampable"/>
+    </table>
+</database>

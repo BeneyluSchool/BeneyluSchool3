@@ -1,30 +1,96 @@
 {% trans_default_domain "MINISITE" %}
 {% extends 'BNSAppMiniSiteBundle:Layout:manager.html.twig' %}
 
+{% set is_city = page.isCity() %}
+
 {% block title %}
     {{ 'TITLE_TITLE_MANAGEMENT'|trans({'%title%': news.getTitle() |escape}) |desc('%title% - Gestion') }}
 {% endblock title %}
 
+{% block javascripts %}
+  <script type="text/javascript">
+    $(function () {
+      {% if has_right('MINISITE_ADMINISTRATION') and 'CITY' == minisite.getGroup().getType() and page.city() %}
+
+      // Switch activation process
+      $('.bns-actionbar #pin-news').click(function (e) {
+        var $this = $(e.currentTarget);
+        $.ajax({
+          url: $this.attr('data-href'),
+          type: 'POST',
+          dataType: 'json',
+          data: {'news_id': $this.data('id')},
+          success: function (data) {
+            $('.news-unpin').toggleClass('hide');
+            $('.news-pin').toggleClass('hide');
+            $('.pin-info').toggleClass('hide');
+            if (!$('body').hasClass('md-toast-open-bottom')) {
+              $('.toast').click();
+            }
+            $('.md-toast-content span').text(data);
+          }
+        });
+        return false;
+      });
+
+      {% endif %}
+    });
+  </script>
+{% endblock %}
+
 {% block header %}
-            {{ components.button_nav('LINK_BACK_TO_NEWS' | trans, { href: path('minisite_manager_page', {'slug': page.getSlug()}), back: true } ) }}
+            {{ components.button_nav(('LINK_BACK_TO_'~(is_city?'CITY_')~'NEWS') | trans, { href: path('minisite_manager_page', {'slug': page.getSlug()}), back: true } ) }}
 
             <span class="bns-separator"></span>
 
             {% if has_right('MINISITE_ADMINISTRATION') or news.isDraft() or news.isWaitingForCorrection %}
 
 
-              {{ components.button( 'LINK_EDIT_NEWS' | trans , { intent: 'primary', href: path('minisite_manager_page_news_edit', {'slug': news.getSlug()}), icon: 'edit', raised: true }) }}
+              {{ components.button( ('LINK_EDIT_'~(is_city?'CITY_')~'NEWS') | trans , { intent: 'primary', href: path('minisite_manager_page_news_edit', {'slug': news.getSlug()}), icon: 'edit', raised: true }) }}
 
             {% endif %}
 
 						{% if has_right('MINISITE_ADMINISTRATION') or news.isDraft() %}
 							<a href="#" class="delete-article" data-toggle="modal" data-target="#news-delete-modal">
 
-                {{ components.button( 'LINK_DELETE_NEWS' | trans , { href: '#', icon: 'delete', raised: true }) }}
+                {{ components.button( ('LINK_DELETE_'~(is_city?'CITY_')~'NEWS') | trans , {
+                  href: '#',
+                  icon: 'delete',
+                  intent: 'warn',
+                  raised: true
+                }) }}
 
               </a>
 
 						{% endif %}
+            {% if has_right('MINISITE_ADMINISTRATION') and 'CITY' == minisite.getGroup().getType() and page.city %}
+              {{ components.button('Success', {
+                click: "toast.success()",
+                attr : {
+                  class: 'toast hide'
+                }
+              }) }}
+                <span id="pin-news" data-href="{{ path('minisite_manager_switch_pin_page') }}"  data-id="{{ news.getId() }}">
+                    {{ components.button( 'LABEL_UNPIN_INFORMATION' | trans , {
+                        href:'#',
+                        icon: 'close',
+                        raised: true,
+                        hover: true,
+                        attr: {
+                            class: 'news-unpin' ~ (news.isPinned() ? '' : ' hide')
+                        }
+                    }) }}
+                    {{ components.button( 'LABEL_PIN_INFORMATION' | trans , {
+                        href:'#',
+                        icon: 'priority_high',
+                        raised: true,
+                        hover: true,
+                        attr: {
+                            class: 'news-pin' ~ (news.isPinned() ? ' hide' : '')
+                        }
+                    }) }}
+                </span>
+            {% endif %}
 {% endblock header %}
 
 {% block sidebar %}
@@ -40,19 +106,36 @@
     <h1 class="md-title text-primary">{{ page.getTitle() }}</h1>
     <div class="flex md-body-1 text-right">
       <div class="text-ellipsis">
-        {% if news.isPublished() %}
-          {{ 'PUBLISH_AT_BY'|trans({
-            '%date%': date_from_now(news.getPublishedAt(), false, true, 'medium', 'short', false, true),
-            '%image%':components.avatar(news.getAuthor(), { size: 20 }),
-            '%user%': news.getAuthor().getFullName() |escape
-          }) |desc('Publié %date% par %image% %user%') |raw }}
+        {% if page.city %}
+          {% if news.isPublished() %}
+            {{ 'PUBLISH_AT_BY'|trans({
+              '%date%': date_from_now(news.getPublishedAt(), false, true, 'medium', 'none', false, true),
+              '%image%':components.avatar(news.getAuthor(), { size: 20 }),
+              '%user%': news.getAuthor().getFullName() |escape
+            }) |desc('Publié %date% par %image% %user%') |raw }}
+          {% else %}
+            {{ 'CREATE_AT_BY_USER'|trans({
+              '%date%': date_from_now(news.getCreatedAt(), false, true, 'medium', 'none', false, true),
+              '%image%': components.avatar(news.getAuthor(), { size: 20 }),
+              '%user%': news.getAuthor().getFullName() |escape
+            }) |raw }}
+          {% endif %}
         {% else %}
-          {{ 'CREATE_AT_BY_USER'|trans({
-            '%date%': date_from_now(news.getCreatedAt(), false, true, 'medium', 'short', false, true),
-            '%image%': components.avatar(news.getAuthor(), { size: 20 }),
-            '%user%': news.getAuthor().getFullName() |escape
-          }) |raw }}
+          {% if news.isPublished() %}
+            {{ 'PUBLISH_AT_BY'|trans({
+              '%date%': date_from_now(news.getPublishedAt(), false, true, 'medium', 'short', false, true),
+              '%image%':components.avatar(news.getAuthor(), { size: 20 }),
+              '%user%': news.getAuthor().getFullName() |escape
+            }) |desc('Publié %date% par %image% %user%') |raw }}
+          {% else %}
+            {{ 'CREATE_AT_BY_USER'|trans({
+              '%date%': date_from_now(news.getCreatedAt(), false, true, 'medium', 'short', false, true),
+              '%image%': components.avatar(news.getAuthor(), { size: 20 }),
+              '%user%': news.getAuthor().getFullName() |escape
+            }) |raw }}
+          {% endif %}
         {% endif %}
+
       </div>
       <div class="text-ellipsis">
         {{ 'LAST_MODIFICATION_AT'|trans({
@@ -68,7 +151,7 @@
 		<md-toolbar class="md-warn">
 			<div class="md-toolbar-tools">
 				<div class="md-headline">
-					<h2>{% trans %}TITLE_DELETE_NEWS{% endtrans %}</h2>
+					<h2>{{ ('TITLE_DELETE_'~(is_city?'CITY_')~'NEWS')|trans }}</h2>
 				</div>
 				<span class="flex"></span>
 				<button class="md-icon-button md-button md-ink-ripple close" data-dismiss="modal">
@@ -81,22 +164,22 @@
 				<div class="md-body-1 content-modal-body">
 					<h2>
 						{% if is_adult() %}
-							{{ 'ADULT_SURE_TO_DELETE_NEWS'|trans({'%title%': news.getTitle()}) |desc('Êtes-vous sûr de vouloir supprimer l\'actualité "%title%" ?')  }}
+							{{ ('ADULT_SURE_TO_DELETE_'~(is_city?'CITY_')~'NEWS')|trans({'%title%': news.getTitle()}) |desc('Êtes-vous sûr de vouloir supprimer l\'actualité "%title%" ?')  }}
 						{% else %}
 							{{ 'CHILD_SURE_TO_DELETE_NEWS'|trans({'%title%': news.getTitle()}) |desc('Es-tu sûr de vouloir supprimer l\'actualité "%title%" ?')  }}
 						{% endif %}
 					</h2>
 
 					<p>
-						{% trans %}WARNING_DELETING_NEWS{% endtrans %}
+						{{ ('WARNING_DELETING_'~(is_city?'CITY_')~'NEWS')|trans }}
 					</p>
 				</div>
 			</div>
 		</md-dialog-content>
-		<div class="md-actions">
+		<md-dialog-actions>
 			{{ components.button( 'LINK_CANCEL' | trans , {href: '#', raised: true, attr:{'class': 'pull-right', 'data-dismiss':'modal'} }) }}
-			{{ components.button( 'MODAL_LINK_CONFIRM_DELETE'|trans() | trans , { href: path('minisite_manager_page_news_delete', {'slug': news.getSlug()}), raised: true, attr:{'class':'pull-right md-warn'} }) }}
-		</div>
+			{{ components.button( (is_city?'LINK_DELETE_CITY_NEWS':'MODAL_LINK_CONFIRM_DELETE')|trans() | trans , { href: path('minisite_manager_page_news_delete', {'slug': news.getSlug()}), raised: true, attr:{'class':'pull-right md-warn'} }) }}
+		</md-dialog-actions>
       <span class="dialog-icon-container text-warn" style="">
         <md-icon>warning</md-icon>
       </span>
@@ -104,12 +187,44 @@
 	<div class="md-padding">
 
 		<div class="header">
-			<h2 class="md-headline">{{ news.getTitle() }}</h2>
+			<h2 class="md-headline layout-row layout-align-start-start">
+        <span class="pin-info no-flex {% if not news.isPinned %}hide{% endif %}">
+              <md-tooltip>{% trans %}LABEL_PINNED{% endtrans %}</md-tooltip>
+              <md-icon>priority_high</md-icon>
+        </span>
+				<span class="flex">{{ news.getTitle() }}</span>
+			</h2>
 		</div>
-		<div class="footer">
+    {% if news.getPublishedAt() and news.getPublishedEndAt() %}
+			<p class="md-body-2 text-muted">
+        {% trans with {
+        '%from%': news.getPublishedAt()|date_bns('medium', 'none'),
+        '%to%': news.getPublishedEndAt()|date_bns('medium', 'none')
+        } %}DESCRIPTION_PUBLISHED_FROM_TO{% endtrans %}
+			</p>
+    {% endif %}
+    {% if news.isCityNews() %}
+			<p class="md-body-2 text-muted">
+        {% if news.getIsAllSchools() %}
+          {% trans %}DESCRIPTION_VISIBLE_IN_ALL_SCHOOLS{% endtrans %}
+        {% else %}
+          {% set schools = news.getSchools() %}
+					{% set list_names = [] %}
+          {% for list in news.getDistributionLists() %}
+            {% set list_names = list_names|merge([list.getName()]) %}
+          {% endfor %}
+          {{ 'DESCRIPTION_VISIBLE_IN_SCHOOLS_OF_LISTS'|transchoice(schools|length, {
+						'%lists%': list_names|join(', ')
+					}) }}
+        {% endif %}
+			</p>
+    {% endif %}
 
-		</div>
-		<div class="text">
+	</div>
+	<md-divider></md-divider>
+	<div class="md-padding">
+
+		<div class="text md-body-2">
 			{% if not has_right('MINISITE_ADMINISTRATION') and is_child() %}
 				{% if news.isFinished() %}
 					<div class="alert alert-info bns-alert large small-text">

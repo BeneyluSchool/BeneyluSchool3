@@ -6,6 +6,7 @@ use BNS\App\CoreBundle\Model\GroupQuery;
 use BNS\App\CoreBundle\Model\User;
 use BNS\App\CoreBundle\Model\UserQuery;
 use BNS\App\CoreBundle\Right\BNSRightManager;
+use BNS\App\ForumBundle\Form\Type\ForumInviteType;
 use BNS\App\ForumBundle\Form\Type\ForumType;
 use BNS\App\ForumBundle\Model\Forum;
 use BNS\App\ForumBundle\Model\ForumMessage;
@@ -13,6 +14,7 @@ use BNS\App\ForumBundle\Model\ForumMessagePeer;
 use BNS\App\ForumBundle\Model\ForumMessageQuery;
 use BNS\App\ForumBundle\Model\ForumQuery;
 use BNS\App\ForumBundle\Model\ForumSubject;
+use BNS\App\ForumBundle\Model\ForumSubjectPeer;
 use BNS\App\ForumBundle\Model\ForumSubjectQuery;
 use BNS\App\ForumBundle\Model\ForumUser;
 use BNS\App\ForumBundle\Model\ForumUserPeer;
@@ -94,8 +96,15 @@ class BackController extends Controller
         $groups = $rightManager->getGroupsWherePermission('FORUM_ACCESS_BACK');
 
         $forum = new Forum();
+        $forum->setGroup($rightManager->getCurrentGroup());
+        $userIds = [];
+        $groupIds = array();
+        foreach ($groups as $group) {
+            $groupIds[] = $group->getId();
+            $userIds = array_unique(array_merge($userIds, $this->get('bns.group_manager')->getUserIdsByRole('PUPIL', $group)));
+        }
 
-        $form = $this->createForm(new ForumType(), $forum, array('groups' => $groups, 'validation_groups' => array('Default', 'New')));
+        $form = $this->createForm(new ForumType($userIds), $forum, array('groups' => $groupIds, 'validation_groups' => array('Default', 'New')));
 
         if ($request->isMethod('post')) {
             $form->bind($request);
@@ -125,8 +134,12 @@ class BackController extends Controller
         if (!$rightManager->hasRight('FORUM_ACCESS_BACK', $forum->getGroupId())) {
             throw $this->createNotFoundException('Forum not found with slug : ' . $forum->getSlug());
         }
-
-        $form = $this->createForm(new ForumType(), $forum, array('is_edit' => true, 'validation_groups' => array('Default', 'Edit')));
+        $groups = $rightManager->getGroupsWherePermission('FORUM_ACCESS_BACK');
+        $userIds = [];
+        foreach ($groups as $group) {
+           $userIds =  array_unique(array_merge($userIds, $this->get('bns.group_manager')->setGroup($group)->getUsersIds()));
+        }
+        $form = $this->createForm(new ForumType($userIds), $forum, array('is_edit' => true, 'validation_groups' => array('Default', 'Edit')));
 
         if ($request->isMethod('post')) {
             $form->bind($request);
@@ -326,6 +339,32 @@ class BackController extends Controller
     }
 
     /**
+     * @Route("/moderer-utilisateur/{forumId}/{id}/{moderator}", name="BNSAppForumBundle_back_moderator_user", requirements={"moderator"="0|1"})
+     */
+    public function moderatorUserAction(Request $request, $forumId, $id, $moderator = 0)
+    {
+        $forum = ForumQuery::create()->findOneById($forumId);
+        $user = UserQuery::create()->findOneById($id);
+        $rightManager = $this->get('bns.right_manager');
+        if (!$rightManager->hasRight('FORUM_ACCESS_BACK', $forum->getGroupId())) {
+            throw $this->createNotFoundException('Forum not found with slug : ' . $forum->getSlug());
+        }
+
+        $forumUser = ForumUserQuery::create()
+            ->filterByForum($forum)
+            ->filterByUser($user)
+            ->findOne();
+        ;
+        if ($forumUser) {
+            $forumUser->setIsModerator($moderator)->save();
+        } else {
+            throw $this->createNotFoundException('User : ' . $user->getFullName() . 'not subscriber in forum ' . $forum->getSlug());
+        }
+
+        return $this->redirect($this->generateUrl('BNSAppForumBundle_back_slug', array('slug' => $forum->getSlug())));
+    }
+
+    /**
      * @Template()
      */
     public function getSubjectsAction(Forum $forum, $page = 1)
@@ -491,6 +530,43 @@ class BackController extends Controller
             ->find();
         $this->get('notification_manager')->send($users, new ForumNewForumReplyNotification($this->container, $message->getForumSubjectId(), $forum->getGroupId()), $this->getUser());
 
+    }
+
+    /**
+     * @Route("/exporter-forum/{id}", name="BNSAppForumBundle_back_export")
+     * @Template()
+     */
+    public function exportAction ($id)
+    {
+        $forum = ForumQuery::create()->findPk($id);
+        $rightManager = $this->get('bns.right_manager');
+        if (!$rightManager->hasRight('FORUM_ACCESS_BACK', $forum->getGroupId())) {
+            throw $this->createNotFoundException('Forum not found');
+        }
+        $subjects = ForumSubjectQuery::create()->filterByForumId($id)
+            ->find();
+
+        $result = array();
+
+        foreach ($subjects as $subject) {
+            /** @var ForumSubject $subject */
+            $messages =  ForumMessageQuery::create('a')
+                ->filterByForumSubjectId($subject->getId())
+                ->filterByStatus(ForumMessagePeer::STATUS_VALIDATED)
+                ->orderByCreatedAt(\Criteria::ASC)
+                ->find();
+            $subject->messages = $messages;
+            $result [] = $subject;
+        }
+        $response = $this->render('BNSAppForumBundle:Back:export.html.twig', array(
+            'forum' =>$forum,
+            'subjects' => $result
+        ));
+        $response->headers->set('Content-Type', 'text/html');
+        $response->headers->set('Content-Disposition', 'attachment; filename="forum_' . $forum->getTitle() .'.html"');
+        $response->setContent(str_replace("\n", "\r\n", $response->getContent()));
+
+        return $response;
     }
 
 }

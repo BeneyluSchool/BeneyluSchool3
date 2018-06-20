@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:45:34Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="cebe5addd810ececa6880eb0e7499f58dfe48a43" resname="WORKSHOP_WIDGET_WAS_CORRECTED.EMAIL.content">
+        <source>WORKSHOP_WIDGET_WAS_CORRECTED.EMAIL.content</source>
+        <target><![CDATA[Le <a href="%document_route%">document %document_name%</a> vient d'être corrigé par %author_name%]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="9fee20e777f6fb2fed81a4305ca6137438d2e6c8" resname="WORKSHOP_WIDGET_WAS_CORRECTED.EMAIL.title">
+        <source>WORKSHOP_WIDGET_WAS_CORRECTED.EMAIL.title</source>
+        <target>Un document de l'atelier a été corrigé</target>
+      </trans-unit>
+      <trans-unit id="6422358d467154717ae37479ab284ff1f91a841d" resname="WORKSHOP_WIDGET_WAS_CORRECTED.SYSTEM.content">
+        <source>WORKSHOP_WIDGET_WAS_CORRECTED.SYSTEM.content</source>
+        <target><![CDATA[Le <a href="%document_route%">document %document_name%</a> vient d'être corrigé par %author_name%]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

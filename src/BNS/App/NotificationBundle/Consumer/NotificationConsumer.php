@@ -152,5 +152,8 @@ class NotificationConsumer implements ConsumerInterface
 		$notification->setTargetUserId($target->getId());
 		$notification->setUser($target);
 		$notification->send();
+
+		// reset notification counter cache
+		$this->container->get('notification_manager')->clearNotificationCache($target);
 	}
 }

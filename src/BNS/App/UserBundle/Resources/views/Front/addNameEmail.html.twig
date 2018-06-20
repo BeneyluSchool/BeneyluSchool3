@@ -70,6 +70,7 @@
     {% endfor %}
     </div>
 
+
     <div class="row-fluid">
         <div class="alert alert-info bns-alert">
             {{ 'LINK_MERGE_ACCOUNTS'|trans({'%start_link%': path("BNSAppProfileBundle_back_merge_accounts"), '%beneylu_brand_name%': parameter('beneylu_brand_name')}) |raw }}
@@ -96,3 +97,4 @@
     </div>
 {% endblock %}
 
+{% block angular_app %}{% endblock %}

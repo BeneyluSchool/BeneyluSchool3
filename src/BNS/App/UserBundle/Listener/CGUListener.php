@@ -28,11 +28,14 @@ class CGUListener
      */
     private $groupManager;
 
-    public function __construct(RouterInterface $router, BNSUserManager $userManager, BNSGroupManager $groupManager)
+    private $listenerEscapeRoutes;
+
+    public function __construct(RouterInterface $router, BNSUserManager $userManager, BNSGroupManager $groupManager, $listenerEscapeRoutes)
     {
         $this->router = $router;
         $this->userManager = $userManager;
         $this->groupManager = $groupManager;
+        $this->listenerEscapeRoutes = $listenerEscapeRoutes;
     }
 
     /**
@@ -82,19 +85,7 @@ class CGUListener
 
         $request = $event->getRequest();
         $session = $request->getSession();
-        if ($request->get('_format') !== 'json' && !in_array($request->get('_route'), [
-                'bns_app_admin_certifier_password',
-                'bns_app_admin_certifier_username',
-                'disconnect_user',
-                'home',
-                'home_locale',
-                'bns_my_avatar',
-                'restricted_access',
-                'user_front_cgu_validate',
-                '_wdt',
-                '_profiler',
-            ]) && 0 !== strpos($request->get('_route'), '_profiler'))
-        {
+        if ($request->get('_format') !== 'json' && !in_array($request->get('_route'), $this->listenerEscapeRoutes)) {
             if ($session->get('need_cgu_validation')) {
                 $event->setResponse(new RedirectResponse($this->router->generate('user_front_cgu_validate')));
             }

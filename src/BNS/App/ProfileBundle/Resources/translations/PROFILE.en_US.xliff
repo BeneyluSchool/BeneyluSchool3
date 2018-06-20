@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-06-21T10:07:12Z" source-language="en" target-language="en-US" datatype="plaintext" original="not.available">
+  <file date="2016-09-29T13:28:14Z" source-language="en" target-language="en-US" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -16,6 +16,10 @@
         <note><![CDATA[%linkStart% is a placeholder
 %linkEnd% is a placeholder
 ]]></note>
+      </trans-unit>
+      <trans-unit id="55b590ad9dcdb44c0c952a39011000fcb688e53c" resname="ADULT_FIRST_CONNECTION">
+        <source>ADULT_FIRST_CONNECTION</source>
+        <target>This is your first connection.</target>
       </trans-unit>
       <trans-unit id="a26f3fc87431e2f3089c8a2337578e69b3d05a4e" resname="ADULT_NO_STATUS">
         <source>ADULT_NO_STATUS</source>
@@ -75,6 +79,10 @@
         <target>It's too bad, you don't have a status yet. You can create one by clicking %linkStart%here%linkEnd%.</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
+      </trans-unit>
+      <trans-unit id="15102b4b95c40a9601ee6340b46487883bdd766d" resname="CHILD_FIRST_CONNECTION">
+        <source>CHILD_FIRST_CONNECTION</source>
+        <target>This is your first connection.</target>
       </trans-unit>
       <trans-unit id="44d9850aa31719dca1417fa0c5e2140594cb899a" resname="CHILD_NO_STATUS">
         <source>CHILD_NO_STATUS</source>
@@ -160,6 +168,22 @@ This text contains HTML tags, please try to keep those tags]]></note>
         <source>FILTER_BY_STATE</source>
         <target>Filter by status</target>
       </trans-unit>
+      <trans-unit id="ed1a468c718f5a770a275bd5eb985b759821a775" resname="FLASH_STATUS_MODERATION_CLOSE">
+        <source>Modération des status fermée</source>
+        <target state="new">Moderation switched off</target>
+      </trans-unit>
+      <trans-unit id="e9404264b3083739972cc7070c6457e27de53f43" resname="FLASH_STATUS_MODERATION_OPEN">
+        <source>Modération des status ouverte</source>
+        <target state="new">Moderation switched on</target>
+      </trans-unit>
+      <trans-unit id="20834d116d8993a46a178f70edab21a4c86b582d" resname="FLASH_SUPPORT_CLOSE">
+        <source>L'assistance a bien été désactivée.</source>
+        <target state="new">Help has been disabled.</target>
+      </trans-unit>
+      <trans-unit id="c26ceb5ad17bcbbdb4b97a6e8d9734085f954fbc" resname="FLASH_SUPPORT_OPEN">
+        <source>L'assistance a bien été activée.</source>
+        <target state="new">Help has been enabled.</target>
+      </trans-unit>
       <trans-unit id="0270ca97abe5bddc53ed95fb7179da4406621a18" resname="INTRODUCTION">
         <source>INTRODUCTION</source>
         <target>Introduction</target>
@@ -220,6 +244,10 @@ This text contains HTML tags, please try to keep those tags
       <trans-unit id="981eb1dc4e4c035b307852eb529fa58f7d17d9ba" resname="LATER_WANT_BECOME">
         <source>LATER_WANT_BECOME</source>
         <target>When I'm grown-up, I want to be</target>
+      </trans-unit>
+      <trans-unit id="04fe717f33599293472292a5bdebb953c4d7ab15" resname="LINK_ASSISTANCE">
+        <source>LINK_ASSISTANCE</source>
+        <target>Help Management</target>
       </trans-unit>
       <trans-unit id="2b296c4c3161c9e0139fe8876fd182a62f08a9d0" resname="LINK_BACK_HOME">
         <source>LINK_BACK_HOME</source>
@@ -397,8 +425,8 @@ This text contains HTML tags, please try to keep those tags
       <trans-unit id="d28da652ac6685f035666067864e5930276f1b34" resname="MY_CLASSROOM">
         <source>MY_CLASSROOM</source>
         <target state="new">{1} My class|]1,Inf[ My classes</target>
-        <note>This text has plural translations based on %count% variable
-        http://symfony.com/doc/current/components/translation/usage.html#pluralization</note>
+        <note><![CDATA[This text has plural translations based on %count% variable
+http://symfony.com/doc/current/components/translation/usage.html#pluralization]]></note>
       </trans-unit>
       <trans-unit id="fc312ab58debc9d5553a85282431a240ab80b2b3" resname="MY_PROFILE">
         <source>MY_PROFILE</source>
@@ -475,6 +503,28 @@ This text contains HTML tags, please try to keep those tags
         <note><![CDATA[%datePost% is a placeholder
 ]]></note>
       </trans-unit>
+      <trans-unit id="794638b4c8be5513ab3342b8207759d914fab17e" resname="PREVIOUS_CONNECTION">
+        <source>PREVIOUS_CONNECTION</source>
+        <target>Last connection was on %date% at %time%</target>
+        <note><![CDATA[%date% is a placeholder
+%time% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="cb915dd89ecc580d10186acffea1fa5f4ae15e93" resname="PROFILE_ASSISTANCE_AUTH">
+        <source>PROFILE_ASSISTANCE_AUTH</source>
+        <target>I allow my School Manager to help me</target>
+      </trans-unit>
+      <trans-unit id="b637ad556c5df1b96082ea1651553ea1e6ea8662" resname="PROFILE_ASSISTANCE_PARAGRAPH">
+        <source>PROFILE_ASSISTANCE_PARAGRAPH</source>
+        <target>You're about to authorize your School Manager to take the lead on your account. Once you allow the specialist to take over, he/she will have the same rights as you do on your class space. You can revoke this authorization at any time by changing the button color to red.
+        </target>
+      </trans-unit>
+      <trans-unit id="03409490aaf7307d83c5acaae5a935dca01b72d5" resname="PROFILE_ASSISTANCE_YOUR_ASSISTANTS">
+        <source>PROFILE_ASSISTANCE_YOUR_ASSISTANTS</source>
+        <target>{0} You don't have a School Manager |{1} My School Manager is:|]1,Inf[My School Managers are:</target>
+        <note><![CDATA[This text has plural translations based on %count% variable
+http://symfony.com/doc/current/components/translation/usage.html#pluralization]]></note>
+      </trans-unit>
       <trans-unit id="3a73add8cc824c05ffb1b7c0714a28b411fd0f9d" resname="SEND_AT">
         <source>Envoyé %date%</source>
         <target state="new">Sent %date%</target>
@@ -531,15 +581,15 @@ This text contains HTML tags, please try to keep those tags]]></note>
       <trans-unit id="042d254ad01bb3b3a7cd8242865ef6897f69086f" resname="TITLE_ADULT_DELETE_SURE_DELETE_STATUS_CONSEQUENCE">
         <source><![CDATA[<h2>Êtes-vous sûr de vouloir supprimer le statut de votre profil ?</h2>
 			<h3>Vous perdrez la totalité du contenu du statut.<br />A noter que si vous avez ajouté un document à votre statut, il ne sera pas supprimé de la médiathèque.</h3>]]></source>
-        <target state="new"><![CDATA[<h2>Are you sure you want to delete the status from your profile?</ h2>
-<h3>The whole content of the status will be lost.<br />Please note that if you had a document attached to your status, it will not be deleted from the media library.</ h3>]]></target>
+        <target state="new"><![CDATA[<h2>Are you sure you want to delete the status from your profile?</h2>
+<h3>The whole content of the status will be lost.<br />Please note that if you had a document attached to your status, it will not be deleted from the media library.</h3>]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
       </trans-unit>
       <trans-unit id="e646cdd624ca4c8433faa521568e5ae725f65ad9" resname="TITLE_CHILD_DELETE_SURE_DELETE_STATUS_CONSEQUENCE">
         <source><![CDATA[<h2>Es-tu sûr de vouloir supprimer le statut de ton profil ?</h2>
 			<h3>Tu perdra la totalité du contenu de ton statut.<br />A noter que si tu as ajouté un document à ton statut, il ne sera pas supprimé de la médiathèque.</h3>]]></source>
-        <target state="new"><![CDATA[<h2>Do you really want to delete the status from your profile?</ h2>
-<h3>The whole content of the status will be lost.<br />Please note: if you had a document attached to your status, it will not be deleted from the media library.</ h3>]]></target>
+        <target state="new"><![CDATA[<h2>Do you really want to delete the status from your profile?</h2>
+<h3>The whole content of the status will be lost.<br />Please note: if you had a document attached to your status, it will not be deleted from the media library.</h3>]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
       </trans-unit>
       <trans-unit id="f32f3054f744fde5a112621efd70eea7e3d2e319" resname="TITLE_COMMENT_EDIT">
@@ -593,6 +643,10 @@ This text contains HTML tags, please try to keep those tags]]></note>
       <trans-unit id="5f0e26c75ea32193f0355e66362bf6cbce2fc3c1" resname="TITLE_PROFILE">
         <source>TITLE_PROFILE</source>
         <target state="new">Profile</target>
+      </trans-unit>
+      <trans-unit id="0e697620ca529ee03ab3f78c664c15c82d881648" resname="TITLE_PROFILE_ASSISTANCE">
+        <source>TITLE_PROFILE_ASSISTANCE</source>
+        <target>Profile - Assistance</target>
       </trans-unit>
       <trans-unit id="23ce2dfb02a8d136502e469b2a319c1e89c06afa" resname="TITLE_PROFILE_BACK">
         <source>TITLE_PROFILE_BACK</source>
@@ -671,11 +725,11 @@ Please note that the deletion of this category will also delete all its subcateg
       </trans-unit>
       <trans-unit id="4408295fa5dd7b7482ba1ccbfe05a2b9eabf9526" resname="WRITING_INTRODUCTION">
         <source>WRITING_INTRODUCTION</source>
-        <target>I introduce myself</target>
+        <target>About me</target>
       </trans-unit>
       <trans-unit id="40d8b6b1d3f180fab86e2e4b40d605ea0789ddcb" resname="WRITING_INTRODUCTION_NOW">
         <source>WRITING_INTRODUCTION_NOW</source>
-        <target>I introduce myself</target>
+        <target>About me</target>
       </trans-unit>
       <trans-unit id="f5835254c62d847177d637c50f3da2a31563992d" resname="YET_NO_STATUS">
         <source>YET_NO_STATUS</source>

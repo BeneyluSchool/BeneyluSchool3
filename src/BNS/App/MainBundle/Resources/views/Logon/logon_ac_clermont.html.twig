@@ -83,21 +83,16 @@
 
         {# login blocks #}
         <div class="flex home-blocks ng-cloak">
-          <div class="layout-column layout-gt-sm-row layout-align-center-center">
-            <div class="home-logo-container">{# avoid img as direct child of flex container #}
-              <img src="{{ asset('assets/images/main/logo.png') }}" alt="Beneylu School" class="home-logo"/>
-            </div>
-            <div class="home-title">
-              <div class="md-display-1">{% trans %}TITLE_ENTER_IN{% endtrans %}</div>
-              <h1 class="md-display-1 home-brand">Beneylu <span class="school">School</span></h1>
-            </div>
-          </div>
+          <h1 class="md-display-1 home-brand">
+            <img src="{{ asset('assets/images/main/beneylu-school.svg') }}" alt="Beneylu School" class="home-logo-title"/>
+            <span class="hidden-">Beneylu School</span>
+          </h1>
 
           <div class="home-boxes">
             <div class="box-transparent">
               <div class="inner box-transparent">
 
-                <bns-auto-login-box url="'{{ redirectUrl }}'" saml-providers="{{ parameter('saml.providers')|default(null)|json_encode }}"></bns-auto-login-box>
+                <bns-auto-login-box url="'{{ redirectUrl }}'" saml-providers="{{ parameter('saml.providers')|default(null)|json_encode }}" is-mobile="{{ is_mobile_view() |json_encode }}"></bns-auto-login-box>
                 <div class="layout-row">
                   <md-button class="flex md-accent md-raised"  href="{{ path('bns_app_main_logon_activate')}}">{% trans %}ACTIVATE{% endtrans %}</md-button>
                 </div>

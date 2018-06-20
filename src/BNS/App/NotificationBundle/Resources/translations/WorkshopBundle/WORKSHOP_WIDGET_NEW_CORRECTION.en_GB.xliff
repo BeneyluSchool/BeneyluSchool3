@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:45:34Z" source-language="en" target-language="en-GB" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="d39eb46a03fcf345062b269afd7859e19f3c34d3" resname="WORKSHOP_WIDGET_NEW_CORRECTION.EMAIL.content">
+        <source>WORKSHOP_WIDGET_NEW_CORRECTION.EMAIL.content</source>
+        <target><![CDATA[<a href="%document_route%">The widget from %document_name%</a> must be corrected]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="4a0df0d270ecc6caf6dcd7c968718a25a3ddfafc" resname="WORKSHOP_WIDGET_NEW_CORRECTION.EMAIL.title">
+        <source>WORKSHOP_WIDGET_NEW_CORRECTION.EMAIL.title</source>
+        <target>A workshop document must be corrected</target>
+      </trans-unit>
+      <trans-unit id="5c5be5039f950a1cf3f4ab1e4497729e831a38d8" resname="WORKSHOP_WIDGET_NEW_CORRECTION.SYSTEM.content">
+        <source>WORKSHOP_WIDGET_NEW_CORRECTION.SYSTEM.content</source>
+        <target><![CDATA[<a href="%document_route%">The widget from %document_name%</a> must be corrected]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

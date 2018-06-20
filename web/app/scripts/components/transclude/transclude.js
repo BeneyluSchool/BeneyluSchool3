@@ -146,6 +146,10 @@ function BNSTranscludeDestDirective ($timeout, bnsTranscludeStore) {
         element.empty();
         element.append(clone);
       });
+
+      // after transcluded content is present, remove ids as them being
+      // duplicated breaks stuff
+      element.find('[id]').removeAttr('id');
     }
   }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-07-07T17:49:32Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2017-09-27T18:46:11Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -82,6 +82,10 @@
         <source>statistic.column.group</source>
         <target>Périmètre</target>
       </trans-unit>
+      <trans-unit id="bf90811244f37fc672346f86c7343c1f4852c091" resname="statistic.column.role">
+        <source>statistic.column.role</source>
+        <target>Rôle</target>
+      </trans-unit>
       <trans-unit id="c5eb4f83096619046f469bc69f57c1efd1e390da" resname="statistic.graph.title.graph_connect">
         <source>statistic.graph.title.graph_connect</source>
         <target>Statistique de connexion par profil</target>
@@ -92,7 +96,7 @@
       </trans-unit>
       <trans-unit id="3244103a05de9955f328bb5c0ab3551aa31a8d56" resname="statistic.graph.title.statistic.visit_by_module">
         <source>statistic.graph.title.statistic.visit_by_module</source>
-        <target>Fréquentation des modules</target>
+        <target>Fréquentation des applications</target>
       </trans-unit>
       <trans-unit id="b7fd3c7f01b2585606862faa73b7f0566d11cafa" resname="statistic.indicator.BLOG_VISIT">
         <source>statistic.indicator.BLOG_VISIT</source>
@@ -118,6 +122,10 @@
         <source>statistic.indicator.LIAISONBOOK_VISIT</source>
         <target>Carnet de liaison</target>
       </trans-unit>
+      <trans-unit id="47693dffcc30f417ab39b74f699d789dbd1e17c4" resname="statistic.indicator.LUNCH_VISIT">
+        <source>statistic.indicator.LUNCH_VISIT</source>
+        <target>Cantine</target>
+      </trans-unit>
       <trans-unit id="2709c5ebd84c8a5e4431a57a5ffb7f9a66c54d8a" resname="statistic.indicator.MEDIALIBRARY_VISIT">
         <source>statistic.indicator.MEDIALIBRARY_VISIT</source>
         <target>Médiathèque</target>
@@ -125,6 +133,10 @@
       <trans-unit id="06b58249b0663b41304cff76ff9683b2fe531774" resname="statistic.indicator.MESSAGING_VISIT">
         <source>statistic.indicator.MESSAGING_VISIT</source>
         <target>Messagerie</target>
+      </trans-unit>
+      <trans-unit id="3f963fb4e68613aa8a841f61a362a852a4585078" resname="statistic.indicator.PORTAL_VISIT">
+        <source>statistic.indicator.PORTAL_VISIT</source>
+        <target>Portail</target>
       </trans-unit>
       <trans-unit id="a0910f04ba019e72bf5d34bbf44b1cd5edf50f08" resname="statistic.indicator.PROFILE_VISIT">
         <source>statistic.indicator.PROFILE_VISIT</source>

@@ -17,8 +17,8 @@
         ng-click="ctrl.goTo(app)"
       >
         <div class="app-button">
-          <bns-navbar-icon item="app" flags="{ 'settings': ctrl.navbar.mode === 'back' && app.has_access_back, 'shield': app.is_private }"></bns-navbar-icon>
-          <bns-counter data-value="{{ ::app.counter }}"></bns-counter>
+          <bns-navbar-icon item="app" flags="{ 'settings': ctrl.navbar.mode === 'back' && app.has_access_back, 'shield': app.is_private }" bottom="app.bottom"></bns-navbar-icon>
+          <bns-counter data-value="{{ ::app.counter || 0 }}"></bns-counter>
           <span class="app-label">{{ ::app.custom_label || app.label }}</span>
           <md-tooltip md-direction="top">{{ ::app.custom_label || app.label }}</md-tooltip>
         </div>
@@ -33,7 +33,7 @@
       <span translate>NAVBAR.HELP</span>
     </md-button>
 
-    <md-button ng-click="ctrl.showAppsDialog($event)" class="app-button">
+    <md-button id="apps-panel-button" ng-click="ctrl.showAppsDialog($event)" class="app-button">
       <bns-navbar-icon item="'apps'"></bns-navbar-icon>
       <span translate>NAVBAR.APPS</span>
     </md-button>

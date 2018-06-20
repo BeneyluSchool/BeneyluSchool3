@@ -10,8 +10,6 @@ class WorkshopStatisticsService extends StatisticsService
 {
     public function visit()
     {
-        $this->disableCascadeParentGroup();
         $this->increment('WORKSHOP_VISIT');
-        $this->enableCascadeParentGroup();
     }
 }

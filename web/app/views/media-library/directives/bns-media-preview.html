@@ -1,5 +1,5 @@
-<img ng-if="url && !viewMode" ng-src="{{ url }}" bns-fallback-src="{{ defaultUrl }}">
-<i ng-if="type" ng-class="'bns-icon-' + type"></i>
+<img ng-if="url && !viewMode" ng-src="{{ url }}" bns-fallback-src="{{ defaultUrl }}" alt="">
+<md-icon ng-if="icon">{{icon}}</md-icon>
 <div ng-if="cssClasses.length" ng-class="cssClasses" class="media-library-preview"></div>
 <div ng-if="viewMode == 'text'">{{label}}</div>
 <div ng-if="error" translate>{{error}}</div>

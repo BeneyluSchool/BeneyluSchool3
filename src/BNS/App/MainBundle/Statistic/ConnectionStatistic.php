@@ -2,6 +2,7 @@
 namespace BNS\App\MainBundle\Statistic;
 
 use BNS\App\CoreBundle\Group\BNSGroupManager;
+use BNS\App\CoreBundle\Model\Group;
 use BNS\App\CoreBundle\Model\GroupQuery;
 use BNS\App\CoreBundle\Model\GroupTypeQuery;
 use BNS\App\CoreBundle\Right\BNSRightManager;
@@ -51,7 +52,7 @@ class ConnectionStatistic extends BaseStatistics
             new Indicator('main_connect', 'MAIN_CONNECT_PLATFORM'),
         );
 
-        $graph = new Graph('graph_connect', $this->indicators, array('TEACHER', 'PUPIL', 'PARENT'), Graph::ROLE_MODE_DISTINCT);
+        $graph = new Graph('graph_connect', $this->indicators, array('TEACHER', 'PUPIL', 'PARENT'), Graph::ROLE_MODE_DISTINCT, true, Graph::GRAPH_TYPE_SPLINE, ['yAxisTitle' => $this->translator->trans('VALUES', [], 'STATISTICS')]);
         $graph->setUnDuplicateGroup(true);
         $this->graphs = array(
             $graph,
@@ -86,9 +87,9 @@ class ConnectionStatistic extends BaseStatistics
         $roles = $this->getRoles(array('TEACHER', 'PUPIL', 'PARENT'));
 
 //        $groupIds = array();
-        foreach ($filters['groups'] as $group) {
+        foreach ($filters['groupIds'] as $group) {
             $groupIds = array();
-
+            $group = GroupQuery::create()->findPk($group);
             if (!in_array($group->getType(), array('TEAM', 'SCHOOL', 'CLASSROOM'))) {
                 // find child groups
                 if ($this->getRightManager()->hasRight('STATISTICS_SCHOOL', $group->getId())) {
@@ -120,10 +121,14 @@ class ConnectionStatistic extends BaseStatistics
                 ->select(array_merge(array('GroupId'), $select))
                 ->find();
             array_walk($rows, function(&$item, $key){
+                foreach ($item as $key => $value) {
+                    $item[$key] = (int) $value;
+                }
                 $group = GroupQuery::create()->findPk($item['GroupId']);
                 $item['Group'] = $group->getLabel();
                 if ($group->getType() === 'SCHOOL') {
                     $item['City'] = $group->getAttribute('CITY') ?: '';
+                    $item['UAI'] = $group->getAttribute('UAI') ?: '';
                 }
             });
 
@@ -141,6 +146,7 @@ class ConnectionStatistic extends BaseStatistics
         $options = parent::getTableOptions();
 
         $options['columnDefs'] = array(
+            array('field' => 'UAI', 'displayName' =>'UAI', 'width' => '10%', 'sort' => array('direction' => 'asc', 'priority' => 0), 'headerTooltip' => true),
             array('field' => 'City', 'displayName' => $this->translator->trans('statistic.column.city'), 'width' => '25%', 'sort' => array('direction' => 'asc', 'priority' => 0), 'headerTooltip' => true),
             array('field' => 'Group', 'displayName' => $this->translator->trans('statistic.column.group'), 'width' => '25%', 'sort' => array('direction' => 'asc', 'priority' => 1), 'headerTooltip' => true),
             array('field' => 'count_teacher', 'displayName' => $this->translator->trans('statistic.column.connexion_count_teacher'), 'aggregationType' => self::AGGREGATION_TYPES_SUM, 'headerTooltip' => true),

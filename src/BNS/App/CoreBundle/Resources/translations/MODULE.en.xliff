@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2017-02-12T20:08:41Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+  <file date="2017-04-26T12:29:56Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
     </header>
     <body>
+      <trans-unit id="1" resname="ACCOUNT">
+        <source>ACCOUNT</source>
+        <target state="new">My account</target>
+        <note><![CDATA[Application: ACCOUNT]]></note>
+      </trans-unit>
       <trans-unit id="b521caa6e1db82e5a01c924a419870cb72b81635" resname="ADMIN">
         <source>ADMIN</source>
         <target state="new">Super admin</target>
@@ -41,10 +46,25 @@
         <target state="new">Flash messages</target>
         <note><![CDATA[Application: CAMPAIGN]]></note>
       </trans-unit>
+      <trans-unit id="e9fdd5ee6c4f5dc7edf188d44ec046617b09211b" resname="CIRCUS_BIRTHDAY">
+        <source>CIRCUS_BIRTHDAY</source>
+        <target>Drawing workshop: The Circus</target>
+        <note><![CDATA[Application: CIRCUS_BIRTHDAY]]></note>
+      </trans-unit>
       <trans-unit id="1149ce30214267244352109eed4c50905d4c8850" resname="CLASSROOM">
         <source>CLASSROOM</source>
         <target state="new">Classroom</target>
         <note><![CDATA[Application: CLASSROOM]]></note>
+      </trans-unit>
+      <trans-unit id="0f7041d680ece7c9e0037673155a77a11e00fe37" resname="COMPETITION">
+        <source>COMPETITION</source>
+        <target state="new">Competition</target>
+        <note><![CDATA[Application: COMPETITION]]></note>
+      </trans-unit>
+      <trans-unit id="2" resname="DESCRIPTION_ACCOUNT">
+        <source>DESCRIPTION_ACCOUNT</source>
+        <target state="new">Account and subscription management</target>
+        <note><![CDATA[Description pour l'application ACCOUNT]]></note>
       </trans-unit>
       <trans-unit id="17b75f6e23552734f46fd8581fe87c5fbdb63a4e" resname="DESCRIPTION_ADMIN">
         <source>DESCRIPTION_ADMIN</source>
@@ -76,10 +96,20 @@
         <target state="new">See the upcoming events</target>
         <note><![CDATA[Description pour l'application CALENDAR]]></note>
       </trans-unit>
+      <trans-unit id="573e4aed601e5d6907b7c4eef728c63fbc98eb58" resname="DESCRIPTION_CIRCUS_BIRTHDAY">
+        <source>DESCRIPTION_CIRCUS_BIRTHDAY</source>
+        <target>Event: My birthday at The Circus</target>
+        <note><![CDATA[Description pour l'application DESCRIPTION_CIRCUS_BIRTHDAY]]></note>
+      </trans-unit>
       <trans-unit id="35901cdd4c6a986ef31f023a24e5b977932ae2bd" resname="DESCRIPTION_CLASSROOM">
         <source>DESCRIPTION_CLASSROOM</source>
         <target state="new">Welcome page</target>
         <note><![CDATA[Description pour l'application CLASSROOM]]></note>
+      </trans-unit>
+      <trans-unit id="adf0beee54d735228f455d2382176f8b86cefe63" resname="DESCRIPTION_COMPETITION">
+        <source>DESCRIPTION_COMPETITION</source>
+        <target state="new">Participate in the competition</target>
+        <note><![CDATA[Description pour l'application COMPETITION]]></note>
       </trans-unit>
       <trans-unit id="6b36c4ede408799ba1ae692d5083ef513ef8ffa2" resname="DESCRIPTION_DIRECTORY">
         <source>DESCRIPTION_DIRECTORY</source>
@@ -125,6 +155,11 @@
         <target state="new">Read about what is happening in the classroom</target>
         <note><![CDATA[Description pour l'application LIAISONBOOK]]></note>
       </trans-unit>
+      <trans-unit id="c999e4d376a8c3962b90289c4235208ee25c4d10" resname="DESCRIPTION_LSU">
+        <source>DESCRIPTION_LSU</source>
+        <target state="new">Gradebook</target>
+        <note><![CDATA[Description pour l'application LSU]]></note>
+      </trans-unit>
       <trans-unit id="2534b2bb2aed6b0c894ac32619245ab356193ffb" resname="DESCRIPTION_LUNCH">
         <source>DESCRIPTION_LUNCH</source>
         <target state="new">Learn about the upcoming meals</target>
@@ -159,6 +194,11 @@
         <source>DESCRIPTION_NOTIFICATION</source>
         <target state="new">Notifications</target>
         <note><![CDATA[Description pour l'application NOTIFICATION]]></note>
+      </trans-unit>
+      <trans-unit id="a5022efb26cc0b5a219e78345499d64183a4c2b9" resname="DESCRIPTION_OLYMPICS">
+        <source>DESCRIPTION_OLYMPICS</source>
+        <target state="new">Read and write articles in your class journal</target>
+        <note><![CDATA[Événement : Beneylu à fond derrière les Jeux]]></note>
       </trans-unit>
       <trans-unit id="36e48e49f5415eb7905181cc265ab03d59df3738" resname="DESCRIPTION_PORTAL">
         <source>DESCRIPTION_PORTAL</source>
@@ -283,6 +323,11 @@
         <target state="new">Parent-teacher contact book</target>
         <note><![CDATA[Application: LIAISONBOOK]]></note>
       </trans-unit>
+      <trans-unit id="bc510e8cba90a05df9e454e58887c12dbb92c14a" resname="LSU">
+        <source>LSU</source>
+        <target state="new">Gradebook</target>
+        <note><![CDATA[Application: LSU]]></note>
+      </trans-unit>
       <trans-unit id="57937266a30679bb9fadc07259b4fa55fdf3475d" resname="LUNCH">
         <source>LUNCH</source>
         <target state="new">Canteen</target>
@@ -321,6 +366,11 @@
         <source>NOTIFICATION</source>
         <target state="new">Notifications</target>
         <note><![CDATA[Application: NOTIFICATION]]></note>
+      </trans-unit>
+      <trans-unit id="0791f6ca479396db0f1a3d2acb79b5eb5b88ac52" resname="OLYMPICS">
+        <source>OLYMPICS</source>
+        <target state="new">Beneylu behind the games</target>
+        <note><![CDATA[Application: OLYMPICS]]></note>
       </trans-unit>
       <trans-unit id="8e0b708da85fffbaec9eb3c9a9f797e86a9bc8df" resname="PORTAL">
         <source>PORTAL</source>
@@ -374,7 +424,7 @@
       </trans-unit>
       <trans-unit id="7fd3d9654f0f8eb784281a08397b393df1ace6d2" resname="STATISTICS">
         <source>STATISTICS</source>
-        <target state="new">Statistics</target>
+        <target state="new">Dashboard</target>
         <note><![CDATA[Application: STATISTICS]]></note>
       </trans-unit>
       <trans-unit id="74cccf45fd12253fb34d8046ea63143d314d82a2" resname="TEAM">

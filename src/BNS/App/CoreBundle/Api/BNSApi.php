@@ -54,9 +54,14 @@ class BNSApi
             'reference' => 'user',
             'reference_name' => 'username'
         ),
+        // @deprecated do not use issue with encoding
         'user_read_by_email' => array(
-            'type'	=> 'GET',
-            'route'	=> '/users/%email%/email'
+            'type'  => 'GET',
+            'route' => '/users/%email%/email'
+        ),
+        'user_by_email' => array(
+            'type'  => 'POST',
+            'route' => '/users/by-email'
         ),
         'user_rights' => array(
             'type' => 'GET',
@@ -140,9 +145,21 @@ class BNSApi
             'type' => 'PUT',
             'route' => "/users/%username%/flag/change/password"
         ),
+        'user_update_login' => [
+            'type' => 'PATCH',
+            'route' => '/users/%id%/login'
+        ],
         'user_delete' => array(
             'type' => 'DELETE',
             'route' => "/users/%id%"
+        ),
+        'user_remember' => array(
+            'type' => 'POST',
+            'route' => "/users/%id%/rememberme"
+        ),
+        'user_delete_archived' => array(
+            'type' => 'DELETE',
+            'route' => "/users/%id%/delete"
         ),
         'user_delete_in_group' => array(
             'type' => 'DELETE',
@@ -151,6 +168,22 @@ class BNSApi
         'user_merge' => array(
             'type' => 'POST',
             'route' => "/users/merges"
+        ),
+        'user_move_belong' => [
+          'type' => 'POST',
+          'route' => '/users/move/belong'
+        ],
+        'user_merge_delete' => [
+            'type' => 'DELETE',
+            'route' => '/users/merges'
+        ],
+        'get_account_merges' => array(
+            'type' => 'GET',
+            'route' => "/users/account/merges"
+        ),
+        'get_user_account_merges' => array(
+            'type' => 'GET',
+            'route' => "/users/account/%sourceId%/%destinationId%/merges"
         ),
         'user_merges' => array(
             'type' => 'GET',
@@ -289,6 +322,17 @@ class BNSApi
         'group_get_users_by_roles' => array(
             'type' => 'GET',
             'route' => "/groups/%group_id%/roles/%role_id%/members",
+            'reference' => 'group',
+            'reference_name' => 'id',
+            'map' => 'group_id'
+        ),
+        'group_get_users_activated_by_roles' => array(
+            'type' => 'GET',
+            'route' => "/groups/roles/%role_id%/membersActivated",
+        ),
+        'group_get_users_connection_by_roles' => array(
+            'type' => 'GET',
+            'route' => "/groups/%group_id%/connection/members",
             'reference' => 'group',
             'reference_name' => 'id',
             'map' => 'group_id'
@@ -660,7 +704,7 @@ class BNSApi
         * @param array $params Paramètres données lors de l'appel (route, valeur etc ...)
         * @return array Reponse
         */
-    public function send($unique_name,$params,$useCache = true)
+    public function send($unique_name,$params, $useCache = true, $cacheResponse = true)
     {
         $this->unique_name	= $unique_name;
         $this->token = $this->tokens[$unique_name];
@@ -729,25 +773,18 @@ class BNSApi
             }
         }
 
-        if ($this->getType() == "GET" && in_array($status_code, array(200, 201, 202))) {
-
-            if($this->useHash())
-            {
-                $this->redis_connection->hset($this->getHashKey($params_route), $this->getHashField($params_route), $response->getContent());
-                if($this->useTTL())
-                {
-                    $this->redis_connection->expire($this->getHashKey($params_route),$this->token['TTL']);
-                }else{
-                    $this->redis_connection->expire($this->getHashKey($params_route),self::$defaultTTL);
-                }
-            }else{
-                $this->redis_connection->set($route, $response->getContent());
-                if($this->useTTL())
-                {
-                    $this->redis_connection->expire($route,$this->token['TTL']);
-                }else{
-                    $this->redis_connection->expire($route,self::$defaultTTL);
-                }
+        if ($this->getType() == "GET" && in_array($status_code, array(200, 201, 202)) && $cacheResponse) {
+            $expires = $this->useTTL() ? $this->token['TTL'] : self::$defaultTTL;
+            if ($this->useHash()) {
+                $data = $response->getContent();
+                $hfield = $this->getHashField($params_route);
+                $hkey = $this->getHashKey($params_route);
+                $this->redis_connection->pipeline(function($pipe) use ($hkey, $hfield, $data, $expires) {
+                    $pipe->hset($hkey, $hfield, $data);
+                    $pipe->expire($hkey, $expires);
+                });
+            } else {
+                $this->redis_connection->set($route, $response->getContent(), 'EX', $expires);
             }
         }
         /**
@@ -917,7 +954,16 @@ class BNSApi
                     $uniqueName .= '_' . $value;
                 }
             }
-            $this->redis_connection->hdel($token['reference'] . '_' . $referenceValue,$uniqueName);
+            if ($uniqueName === 'group_allsubgroupids') {
+                $hkeys = ($this->redis_connection->hkeys($token['reference'] . '_' . $referenceValue));
+                foreach ($hkeys as $hkey) {
+                    if (strpos($hkey, $uniqueName) === 0) {
+                        $this->redis_connection->hdel($token['reference'] . '_' . $referenceValue, $hkey);
+                    }
+                }
+            } else {
+                $this->redis_connection->hdel($token['reference'] . '_' . $referenceValue, $uniqueName);
+            }
         }
     }
 
@@ -928,13 +974,26 @@ class BNSApi
         $this->resetLinkedEnvCache('cache_api_post_reset_cache_user', ['username' => $username]);
     }
 
+    /**
+     * @param array|int[] $groupIds
+     */
+    public function resetGroups(array $groupIds)
+    {
+        $keys = array_map(function($item) { return 'group_' . $item; }, $groupIds);
+        $this->redis_connection->del($keys);
+
+        $this->resetLinkedEnvCache('cache_api_post_reset_cache_groups', [], [
+            'groupIds' => $groupIds,
+        ]);
+    }
+
     public function resetGroup($groupId, $withParent = true)
     {
         $this->redis_connection->del('group_' . $groupId);
         if (BNSAccess::getContainer() && $withParent) {
-            $gm = BNSAccess::getContainer()->get('bns.group_manager')->setGroupById($groupId);
-            foreach ($gm->getAncestors() as $parent) {
-                $this->resetHashField('group_allsubgroupids',$parent->getId());
+            $gm = BNSAccess::getContainer()->get('bns.group_manager');
+            foreach ($gm->getUniqueAncestorIds($groupId) as $parentId) {
+               $this->resetHashField('group_allsubgroupids', $parentId);
             }
         }
 
@@ -952,8 +1011,18 @@ class BNSApi
         $this->resetLinkedEnvCache('cache_api_post_reset_cache_partnership', ['uid' => $partnershipId]);
     }
 
-    public function resetGroupUsers($groupId,$withRights = false, $withSubGroups = false)
+    /**
+     * @param $groupId
+     * @param bool $withRights
+     * @param bool $withSubGroups
+     */
+    public function resetGroupUsers($groupId, $withRights = false, $withSubGroups = false)
     {
+        if (!$withRights && !$withSubGroups) {
+            @trigger_error('resetGroupUsers with no parameters set to true has no impact', E_USER_DEPRECATED);
+            return;
+        }
+
         $oldClearExternalCache = $this->isClearExternalCache();
         $this->setClearExternalCache(false);
 
@@ -970,9 +1039,16 @@ class BNSApi
 
             //GroupManager innaccessible ici, on refait en quelque sorte la méthode
             $userIds = $this->send('group_get_users',array('route' => array('group_id' => $groupId)));
-            $usernames = UserQuery::create()->select(['login'])->findPks($userIds);
-            foreach ($usernames as $username) {
-                $this->resetUser($username);
+            $usernames = UserQuery::create()
+                ->filterById($userIds)
+                ->select(['login'])
+                ->find()
+                ->getArrayCopy();
+            if (is_array($usernames) && count($usernames) > 0) {
+                $keys = array_map(function($username) {
+                    return 'user_' . $username;
+                }, $usernames);
+                $this->redis_connection->del($keys);
             }
         }
         //Opti : distinguer le clear pour subgroups role set subgroups non roles
@@ -1047,6 +1123,11 @@ class BNSApi
     public function resetAll()
     {
         $this->redis_connection->flushall();
+    }
+
+    public function resetDB()
+    {
+        $this->redis_connection->flushdb();
     }
 
 
@@ -1146,7 +1227,7 @@ class BNSApi
      * @param $routeName
      * @param array $params
      */
-    protected function resetLinkedEnvCache($routeName, $params = [])
+    protected function resetLinkedEnvCache($routeName, $params = [], $body = null)
     {
         if (!$this->betaManager->isBetaModeAllowed() || !$this->clearExternalCache) {
             return;
@@ -1161,11 +1242,14 @@ class BNSApi
         } else {
             $url = $this->betaManager->generateBetaRoute($routeName, $params);
         }
+        if ($body !== null) {
+            $body = json_encode($body);
+        }
 
         try {
             // clear external cache
             $url = $this->signUrlForCacheCall('POST', $url);
-            $this->buzz->post($url);
+            $this->buzz->post($url, [], $body);
         } catch (\Exception $e) {
             // TODO log me
         }

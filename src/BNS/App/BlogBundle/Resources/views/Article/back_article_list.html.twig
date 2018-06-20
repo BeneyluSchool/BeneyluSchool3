@@ -1,6 +1,8 @@
 {% trans_default_domain "BLOG" %}
 {% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
 
+{% set has_selectors = has_right('BLOG_ADMINISTRATION') and not is_child() %}
+
 <div style="display: none">
   <div id="content-edit">
     {% verbatim %}
@@ -12,7 +14,7 @@
 </div>
 
 <md-content class="flex">
-  <md-list class="articles has-item-selectors" bns-blog-check template="dialog-edit-status.html">
+  <md-list class="articles{% if has_selectors %} has-item-selectors{% endif %}" bns-blog-check template="dialog-edit-status.html">
 {% for article in blog.getBlogArticles() %}
   {% include 'BNSAppBlogBundle:Article:back_article_row.html.twig' %}
 {% else %}

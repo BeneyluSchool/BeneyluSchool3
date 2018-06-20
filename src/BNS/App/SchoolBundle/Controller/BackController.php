@@ -8,6 +8,7 @@ use BNS\App\ClassroomBundle\Form\Type\NewUserInClassroomType;
 use BNS\App\ClassroomBundle\Form\Model\NewUserInClassroomFormModel;
 use BNS\App\CoreBundle\Annotation\Rights;
 use BNS\App\CoreBundle\Annotation\RightsSomeWhere;
+use BNS\App\CoreBundle\Form\Type\RestrictedAccessType;
 use BNS\App\CoreBundle\Model\GroupQuery;
 use BNS\App\SchoolBundle\Form\Type\EditSchoolType;
 use BNS\App\SchoolBundle\Form\Model\EditSchoolFormModel;
@@ -20,7 +21,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use BNS\App\CoreBundle\Model\GroupTypeQuery;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * @Route("/gestion")
@@ -65,9 +68,11 @@ class BackController extends CommonController
     {
         $currentGroup = $this->get('bns.right_manager')->getCurrentGroup();
         $hasGroupBoard = $this->get('bns.group_manager')->setGroup($currentGroup)->getProjectInfo('has_group_blackboard');
+
         return array(
             'classrooms' => $this->get('bns.right_manager')->getCurrentGroupManager()->getSubgroupsByGroupType('CLASSROOM',true),
-            'hasGroupBoard'        => $hasGroupBoard
+            'hasGroupBoard'        => $hasGroupBoard,
+            'aafAcademy' => $currentGroup->getAafAcademy()
         );
     }
 
@@ -114,13 +119,28 @@ class BackController extends CommonController
         }else{
             /* @var $gm \BNS\App\CoreBundle\Group\BNSGroupManager */
             $gm = $this->get('bns.right_manager')->getCurrentGroupManager();
-            $schoolId = $gm->getGroup()->getId();
+            $group = $gm->getGroup();
+            $schoolId = $group->getId();
+            $country = $group->getCountry();
             $classroom = $gm->createGroup(array(
                 'type' => 'CLASSROOM',
-                'country' => $gm->getGroup()->getCountry(),
-                'label' => $label
+                'country' => $country,
+                'label' => $label,
+                'lang' => $group->getLang()
             ));
             $gm->addParent($gm->getGroup()->getId(),$schoolId);
+
+            // add a default subscription
+            $subscription = null;
+            if ('CLASSIC' === $this->get('bns_app_paas.manager.licence_manager')->getLicence($schoolId)) {
+                $subscription = 'CLASSIC';
+            } elseif ('FR' === $country) {
+                $subscription = 'EXPRESS';
+            }
+            if ($subscription) {
+                $this->get('bns.paas_manager')->generateSubscription($classroom, $subscription, null);
+            }
+
             return array(
                 'continue' => $this->getRequest()->get('continue'),
                 'classroom' => $classroom
@@ -673,7 +693,7 @@ class BackController extends CommonController
         if($um->hasRoleInGroup($groupId,'TEACHER'))
         {
             $this->get('bns.role_manager')->unassignRole($user->getId(), $groupId, 'TEACHER');
-        }else{
+        }elseif ($um->hasRoleInGroup($groupId,'PUPIL')){
             $this->get('bns.role_manager')->unassignRole($user->getId(), $groupId, 'PUPIL');
             //On désactive les élèves
             $um->changeStatus($user,false,false);
@@ -681,6 +701,8 @@ class BackController extends CommonController
             {
                 $this->get('bns.role_manager')->unassignRole($parent->getId(), $groupId, 'PARENT');
             }
+        } else {
+            $this->get('bns.role_manager')->unassignRole($user->getId(), $groupId, 'ASSISTANT');
         }
         $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('FLASH_USER_REMOVED', array(), 'SCHOOL'));
         if(isset($classroomSlug))
@@ -747,7 +769,8 @@ class BackController extends CommonController
         return array(
             'teachers' => $this->get('bns.right_manager')->getCurrentGroupManager()->getUsersByRoleUniqueName('TEACHER',true),
             'invited_teachers' => $invitedTeachers,
-            'hasGroupBoard' => $hasGroupBoard
+            'hasGroupBoard' => $hasGroupBoard,
+            'aafAcademy' => $school->getAafAcademy()
         );
     }
 
@@ -843,6 +866,57 @@ class BackController extends CommonController
             'form'    => $form->createView(),
             'hasGroupBoard' => $hasGroupBoard
         );
+    }
+
+    /**
+     * @Route("/restricted-school", name="BNSAppSchoolBundle_back_restricted_school")
+     * @Template()
+     * @Rights("SCHOOL_ACCESS_BACK")
+     */
+    public function restrictedSchoolAction(Request $request)
+    {
+        $school = $this->get('bns.right_manager')->getCurrentGroup();
+        $restrictedManager = $this->get('bns.restricted_access.manager');
+        $environment = $restrictedManager->getEnvironmentSettings($school);
+
+        if (!$environment['enabled']) {
+            return $this->redirect($this->generateUrl('BNSAppSchoolBundle_back'));
+        }
+
+        $data = $restrictedManager->getData($school);
+        if (null === $data['enabled']) {
+            $data['enabled'] = true;
+        }
+
+        $form = $this->createForm(new RestrictedAccessType($environment), $data);
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $data = $form->getData();
+            $restrictedManager->setData($school, $data);
+//            L’accès restreint Académique a bien été enregistré
+            $this->get('session')->getFlashBag()->add('toast-success', $this->get('translator')->trans('FLASH_INFORMATIONS_SAVED', array(), 'SCHOOL'));
+
+            return $this->redirect($this->generateUrl('BNSAppSchoolBundle_back_restricted_school'));
+        }
+
+
+        return [
+            'environment' => $environment,
+            'data' => $data,
+            'form' => $form->createView(),
+            'reset_form' => $this->getResetForm()->createView(),
+        ];
+    }
+
+    protected function getResetForm()
+    {
+        return $this->container->get('form.factory')->createNamedBuilder('reset_form')
+            ->add('confirm', 'checkbox', [
+                'label' => 'Confirmer la réinitialisation',
+                'constraints' => new NotBlank(),
+            ])
+            ->getForm()
+            ;
     }
 
 

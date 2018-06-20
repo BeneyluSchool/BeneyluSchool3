@@ -2,10 +2,12 @@
 
 namespace BNS\App\HomeworkBundle\EventListener;
 
+use BNS\App\CoreBundle\Model\User;
+use BNS\App\CoreBundle\User\BNSUserManager;
 use BNS\App\HomeworkBundle\Model\HomeworkDue;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * Class HomeworkDueSerializeSubscriber
@@ -14,13 +16,19 @@ class HomeworkDueSerializeSubscriber implements EventSubscriberInterface
 {
 
     /**
-     * @var ContainerInterface
+     * @var TokenStorageInterface
      */
-    private $container;
+    protected $tokenStorage;
 
-    public function __construct(ContainerInterface $container)
+    /**
+     * @var BNSUserManager
+     */
+    protected $userManager;
+
+    public function __construct(TokenStorageInterface $tokenStorage, BNSUserManager $userManager)
     {
-        $this->container = $container;
+        $this->tokenStorage = $tokenStorage;
+        $this->userManager = $userManager;
     }
 
     /**
@@ -59,10 +67,28 @@ class HomeworkDueSerializeSubscriber implements EventSubscriberInterface
         /** @var HomeworkDue $object */
         $object = $event->getObject();
         $visitor = $event->getVisitor();
-        $rightManager = $this->container->get('bns.right_manager');
 
-        if ($rightManager->hasRight('HOMEWORK_SIGN')) {
-            $visitor->addData('done', $object->isDoneBy($rightManager->getUserSession()));
+        if ($user = $this->getUser()) {
+            $oldUser = $this->userManager->getUser();
+            $this->userManager->setUser($user);
+            if ($this->userManager->hasRightSomeWhere('HOMEWORK_SIGN')) {
+                $visitor->addData('done', $object->isDoneBy($user));
+            }
+            if ($oldUser) {
+                $this->userManager->setUser($oldUser);
+            }
         }
+    }
+
+    protected function getUser()
+    {
+        if ($token = $this->tokenStorage->getToken()) {
+            $user = $token->getUser();
+            if ($user && $user instanceof User) {
+                return $user;
+            }
+        }
+
+        return null;
     }
 }

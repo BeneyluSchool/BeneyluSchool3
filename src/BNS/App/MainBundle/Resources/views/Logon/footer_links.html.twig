@@ -2,7 +2,7 @@
 <div class="footer-logon">
     <p>
         <a class="footer-link" href="{{ path('home') }}">{{ 'LINK_HOMEPAGE'|trans |desc('Accueil') }}</a>
-        {% if enable_legals %}- <a class="footer-link" href="{{ path('main_logon_legals') }}">{{ 'LINK_DISCLAIMER'|trans |desc('Mentions légales') }}</a>{% endif %}
+        {% if enable_legals %}- <a class="footer-link" href="{{ bnsLocaleLink('legal_notice_url') }}">{{ 'LINK_DISCLAIMER'|trans |desc('Mentions légales') }}</a>{% endif %}
        {{ 'SAVED_CNIL_ARTICLE'|trans |desc('- Enregistrement CNIL N°1321978') }}
     </p>
 </div>    

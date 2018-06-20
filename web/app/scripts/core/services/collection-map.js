@@ -103,6 +103,20 @@ function CollectionMapFactory ($rootScope, _) {
   };
 
   /**
+   * Checks whether all the given items are in the map
+   *
+   * @param  {Array} items
+   * @return {Boolean}
+   */
+  CollectionMap.prototype.hasc = function (items) {
+    var self = this;
+
+    return _.every(items, function (item) {
+      return self.has(item);
+    });
+  };
+
+  /**
    * Adds given item to the collection, if not already here
    *
    * @param {Object} item

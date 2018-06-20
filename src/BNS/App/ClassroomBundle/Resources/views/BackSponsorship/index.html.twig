@@ -30,13 +30,13 @@
     <div class="contact-form sponsorship">
 
         {% include 'BNSAppMainBundle::notice.html.twig' %}
-
+{#
         <div class="alert alert-warning bns-alert">
         {{ 'CAN_WIN_TWO_MONTH_OF_BENEYLU_WITH_REFERAL'|trans({'%beneylu_brand%': parameter('beneylu_brand_name')}) |desc('Vous pouvez gagner jusqu\'à deux mois de version école de %beneylu_brand% en parrainant un enseignant.
 ') }}
             <div class="jim"></div>
         </div>
-
+#}
         {{ form_errors(form.email) }}
 
         <form id="sponsorship-form" action="" method="post" {{ form_enctype(form) }} class="form-horizontal">

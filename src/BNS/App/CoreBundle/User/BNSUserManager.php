@@ -25,12 +25,16 @@ use \BNS\App\MessagingBundle\Model\MessagingMessageQuery;
 use \BNS\App\MessagingBundle\Model\MessagingConversationQuery;
 use BNS\App\MediaLibraryBundle\FileSystem\BNSFileSystemManager;
 
+use Sabre\VObject\Reader;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\HttpFoundation\File\Exception\UploadException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Util\SecureRandomInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
 
@@ -61,6 +65,24 @@ class BNSUserManager
     /** @var  SecureRandomInterface */
     protected $secureRandomGenerator;
 
+    protected $adminAllowed;
+
+    protected $certifierManager;
+
+    /**
+     * @var \BNS\App\PaasBundle\Manager\LicenceManager
+     */
+    protected $licenceManager;
+
+    /**
+     * @var boolean
+     */
+    protected $unlimitedAllowed;
+    /*
+     * @var boolean
+     */
+    protected $unlimitedResources = null;
+
     /**
      * @param ContainerInterface $container
      * @param BNSFileSystemManager $fileSystemManager
@@ -68,17 +90,22 @@ class BNSUserManager
      * @param $domainId
      * @param $tmpDir
      */
-    public function __construct(ContainerInterface $container, BNSFileSystemManager $fileSystemManager, SecureRandomInterface $secureRandom, $domainId, $tmpDir)
+    public function __construct(ContainerInterface $container, BNSFileSystemManager $fileSystemManager, SecureRandomInterface $secureRandom, $domainId, $tmpDir, $adminAllowed, $unlimitedAllowed = false)
     {
         $this->container = $container;
         $this->filesystemManager = $fileSystemManager;
         $this->secureRandomGenerator = $secureRandom;
         $this->domain_id = $domainId;
         $this->tmpDir = $tmpDir;
+        $this->adminAllowed = $adminAllowed;
         // todo inject me
         $this->api = $container->get('bns.api');
         $this->roleManager = $container->get('bns.role_manager');
         $this->bns_mailer = $container->get('bns.mailer');
+        $this->certifierManager = $container->get('bns.admin_certifier.manager');
+        $this->licenceManager = $container->get('bns_app_paas.manager.licence_manager');
+
+        $this->unlimitedAllowed = $unlimitedAllowed;
     }
 
 	/*
@@ -93,6 +120,7 @@ class BNSUserManager
 	{
 		if (null != $this->user && $this->user->getId() != $user->getId()) {
 			$this->rights = null;
+			$this->unlimitedResources = null;
 			unset($this->groups);
             unset($this->groupsByType);
 		}
@@ -109,17 +137,17 @@ class BNSUserManager
         return $this->setUser($this->findUserById($userId));
     }
 
-	/**
-	 * @return User
-	 * @throws \Exception
-	 */
-	public function getUser()
-	{
-		if (isset($this->user)) {
-			return $this->user;
-		}
-		return false;
-	}
+    /**
+     * @return User|boolean
+     */
+    public function getUser()
+    {
+        if (isset($this->user)) {
+            return $this->user;
+        }
+
+        return false;
+    }
 
 
 
@@ -153,121 +181,115 @@ class BNSUserManager
                 $stopwatch->stop('get_rights_from_auth');
 				$sortedRights = array();
 				//manipulation du tableau de droits
+
+                // preload groups / Licence
+                $groupIds = [];
                 foreach ($rights as $group) {
-					$currentGroupId = $group['group']['id'];
-                    $groupObject = GroupQuery::create()
-                        ->filterByArchived(false)
-                        ->findPk($currentGroupId)
-                    ;
+                    $groupIds[] = (int)$group['group']['id'];
+                }
+                $groupCaches = GroupQuery::create()
+                    ->filterByArchived(false)
+                    ->joinWith('GroupType')
+                    ->findPks($groupIds)
+                    ->getArrayCopy('Id')
+                ;
+                $this->licenceManager->warmCache($groupIds);
 
+                foreach ($rights as $group) {
                     //On ne prend pas en compte les comptes archivés
-                    if ($groupObject) {
-                        $currentGroupGroupType = GroupTypeQuery::create()
-                            ->findOneById($group['group']['group_type_id']);
+                    if (!isset($groupCaches[(int)$group['group']['id']])) {
+                        continue;
+                    }
+                    $currentGroupId = $group['group']['id'];
+                    /** @var Group $groupObject */
+                    $groupObject = $groupCaches[(int)$group['group']['id']];
 
-                        $parentId = isset($group['group']['group_parent_id']) ? $group['group']['group_parent_id'] : null;
+                    // TODO remove unused data
+                    $currentGroupInfos = array(
+                        'id'				=> $currentGroupId,
+                        'group_name'		=> $group['group']['label'],
+                        'group_type'		=> $groupObject->getType(),
+                        'group_type_id'		=> $group['group']['group_type_id'],
+                        'domain_id'			=> $group['group']['domain_id'],
+                        'roles'				=> array()
 
-                        $currentGroupInfos = array(
-                            'id'				=> $currentGroupId,
-                            'group_name'		=> $group['group']['label'],
-                            'group_type'		=> $currentGroupGroupType ? $currentGroupGroupType->getType() : null,
-                            'group_type_id'		=> $group['group']['group_type_id'],
-                            'group_parent_id'	=> $parentId,
-                            'domain_id'			=> $group['group']['domain_id'],
-                            'roles'				=> array()
+                    );
 
-                        );
-
-                        if (isset($group['permissions'])) {
-                            $currentGroupInfos['permissions'] = $group['permissions'];
-                        } else {
-                            $currentGroupInfos['permissions'] = array();
-                            foreach ($group['finals_permissions'] as $permissionInfo) {
-                                $currentGroupInfos['permissions'][] = $permissionInfo['unique_name'];
-                            }
+                    if (isset($group['permissions'])) {
+                        $currentGroupInfos['permissions'] = $group['permissions'];
+                    } else {
+                        $currentGroupInfos['permissions'] = array();
+                        foreach ($group['finals_permissions'] as $permissionInfo) {
+                            $currentGroupInfos['permissions'][] = $permissionInfo['unique_name'];
                         }
+                    }
 
-                        foreach ($group['roles'] as $role) {
-                            $currentGroupInfos['roles'][] = $role['id'];
+                    $currentGroupInfos['assistant'] = false;
+                    foreach ($group['roles'] as $role) {
+                        $currentGroupInfos['roles'][] = $role['id'];
+                        if ('ASSISTANT' === $role['type']) {
+                            $currentGroupInfos['assistant'] = true;
                         }
-                        //Nous n'ajoutons le tableau de droits que si il y a des permissions
-                        if (count($currentGroupInfos['permissions']) > 0) {
-                            $sortedRights[$currentGroupId] = $currentGroupInfos;
-                        }
+                    }
+                    //Nous n'ajoutons le tableau de droits que si il y a des permissions
+                    if (count($currentGroupInfos['permissions']) > 0) {
+                        $sortedRights[$currentGroupId] = $currentGroupInfos;
+                    } else {
+                        continue;
+                    }
 
-                        //Ouverture des droits dans les installations nécessitant une validation des classes par les écoles, NE CONCERNE QUE LE .NET !
-                        if ($this->container->hasParameter('check_group_validated') && (null != $this->container->getParameter('check_group_validated') && $this->container->getParameter('check_group_validated') == true)) {
-                            $group = GroupQuery::create()->findOneById($currentGroupId);
+                    if (in_array($groupObject->getType(), ['SCHOOL', 'CLASSROOM', 'TEAM']) && !$this->licenceManager->getLicence($groupObject)) {
+                        // no licence no right
+                        unset($sortedRights[$currentGroupId]);
+                        continue;
+                    }
+
+                    //Ouverture des droits dans les installations nécessitant une validation des classes par les écoles, NE CONCERNE QUE LE .NET !
+                    if ($this->container->hasParameter('check_group_validated') && $this->container->getParameter('check_group_validated')) {
+                        $gm = $this->container->get('bns.group_manager');
+                        if (GroupPeer::VALIDATION_STATUS_REFUSED === $groupObject->getValidationStatus()
+                            && 'CLASSROOM' === $groupObject->getType()
+                            && $gm->setGroup($groupObject)->isOnPublicVersion()
+                        ) {
+                            //On coupe l'accès aux classes refusées
+                            //Si le groupe est refusé nous n'attribuons plus les droits
+                            unset($sortedRights[$currentGroupId]);
+                        }
+                    }
+
+                    //Ouverture des droits dans les installation nécessitant des activations d'écoles / classes
+                    if ($this->container->hasParameter('check_group_enabled') && $this->container->getParameter('check_group_enabled')) {
+                        //Vérification si on a le droit
+                        if (in_array($groupObject->getType(), array("CLASSROOM", "SCHOOL"))) {
+                            $delete = false;
                             $gm = $this->container->get('bns.group_manager');
-
-                            if ($group && $gm->setGroup($group)->isOnPublicVersion()) {
-                                //On coupe l'accès aux classes refusées
-                                if ($currentGroupGroupType && in_array($currentGroupGroupType->getType(), array("CLASSROOM"))) {
-                                    //Si le groupe est refusé nous n'attribuons plus les droits
-                                    if ($group && $group->isRefused()) {
-                                        unset($sortedRights[$currentGroupId]);
-                                    }
-                                } elseif ($currentGroupGroupType && in_array(
-                                        $currentGroupGroupType->getType(),
-                                        array("SCHOOL")
-                                    )
-                                ) {
-                                    //On coupe l'accès à l'école si elle n'est pas premium
-                                    if (!$group->isPremium()) {
-                                        unset($sortedRights[$currentGroupId]);
-                                    }
-                                }
+                            $gm->setGroup($groupObject);
+                            switch ($groupObject->getType()) {
+                                case "CLASSROOM":
+                                    $parent = $gm->getParent();
+                                    $delete = !$parent || !$parent->getEnabled();
+                                    break;
+                                case "SCHOOL":
+                                    $delete = !$groupObject->getEnabled();
+                                    break;
                             }
-                        }
-
-                        //Ouverture des droits dans les installation nécessitant des activations d'écoles / classes
-                        if ($this->container->hasParameter('check_group_enabled') && ($this->container->getParameter('check_group_enabled') != null && $this->container->getParameter('check_group_enabled') == true)) {
-                            //Vérification si on a le droit
-                            if ($currentGroupGroupType && in_array($currentGroupGroupType->getType(), array("CLASSROOM", "SCHOOL"))) {
-                                $delete = false;
-                                $gm = $this->container->get('bns.group_manager');
-                                $group = GroupQuery::create()->findOneById($currentGroupId);
-                                if ($group) {
-                                    $gm->setGroupById($currentGroupId);
-                                    switch ($currentGroupGroupType->getType()) {
-                                        case "CLASSROOM":
-                                            $parent = $gm->getParent();
-                                            if ($parent->getEnabled() != true) {
-                                                $delete = true;
-                                            }
-                                            break;
-                                        case "SCHOOL":
-                                            if ($gm->getGroup()->getEnabled() != true) {
-                                                $delete = true;
-                                            }
-                                            break;
-                                    }
-                                    if ($delete == true) {
-                                        unset($sortedRights[$currentGroupId]);
-                                    }
-                                }
+                            if ($delete == true) {
+                                unset($sortedRights[$currentGroupId]);
                             }
                         }
                     }
-				}
+
+                }
+
+                $sortedRights = $this->filterAdminRights($sortedRights);
 
                 $sortedRights = $this->filterByInstalledApplications($sortedRights);
-
-
-                // Assistant permissions
-                $assistantRoleId = GroupTypeQuery::create()
-                    ->filterByRole()
-                    ->filterByType('ASSISTANT', \Criteria::EQUAL)
-                    ->select('Id')
-                    ->findOne();
-
-                $assistantRoleId = $assistantRoleId ? (int) $assistantRoleId : null;
 
                 $autoJoins = array();
                 $assistantGroupIds = array();
                 foreach ($sortedRights as $group) {
                     // Detect if need assistant rights
-                    if (in_array($group['group_type'], array('SCHOOL', 'CLASSROOM')) && $assistantRoleId && in_array($assistantRoleId, $group['roles'])) {
+                    if (in_array($group['group_type'], array('SCHOOL', 'CLASSROOM')) && $group['assistant']) {
                         $assistantGroupIds[] = $group['id'];
                     }
 
@@ -317,6 +339,35 @@ class BNSUserManager
 
 		return $this->rights;
 	}
+
+    protected function filterAdminRights($sortedRights)
+    {
+        $result = [];
+        foreach ($sortedRights as $groupId => $sortedRight) {
+            $permissions = array();
+            foreach ($sortedRight['permissions'] as $permission) {
+                if (preg_match('/ADMIN_/i', $permission)) {
+                    if ('ADMIN_PRETENDED' === $permission) {
+                        // leave this permission wich only identify admin/support member but give no right
+                        $permissions[] = $permission;
+                    } elseif ($this->adminAllowed) {
+                        if ($this->certifierManager->isCertified() || 'ADMIN_UPDATE_CREDENTIAL' === $permission) {
+                            $permissions[] = $permission;
+                        }
+                    }
+                } else {
+                    $permissions[] = $permission;
+                }
+            }
+            if (count($permissions) > 0) {
+                $sortedRight['permissions'] = $permissions;
+                $result[$groupId] = $sortedRight;
+            }
+
+        }
+
+        return $result;
+    }
 
     protected function filterByInstalledApplications($sortedRights)
     {
@@ -402,17 +453,24 @@ class BNSUserManager
 
                 $type = $matches['type'];
                 $group = $groupManager->findGroupById($autoJoin['group_id']);
-                if (!$group || !$role || !$type) {
+                if (!$group || !$role || !$type || $group->isArchived()) {
                     $this->container->get('logger')->error(sprintf('UserManager Auto Join invalid group (%s) or role or type %s', $autoJoin['group_id'], $autoJoin['permission']));
                     continue;
                 }
 
                 $subGroups = $groupManager->getSubgroupsByGroupType($type, false);
-                foreach ($subGroups as $subGroup) {
-                    $subGroupId = $subGroup['id'];
+                $subGroupIds = GroupQuery::create()
+                    ->filterById(array_map(function($item){
+                        return $item['id'];
+                    }, $subGroups))
+                    ->filterByArchived(false)
+                    ->select('Id')
+                    ->find()
+                ;
+                foreach ($subGroupIds as $subGroupId) {
                     if (!$this->hasRoleInGroup($subGroupId, $role->getType())) {
                         $this->roleManager->setGroupTypeRole($role)->assignRole($this->getUser(), $subGroupId);
-                        $this->container->get('logger')->info(sprintf('UserManager Auto Join user %s with role %s in group %s', $this->getUser()->getUsername(), $role, $subGroupId));
+                        $this->container->get('logger')->warning(sprintf('UserManager Auto Join user %s with role %s in group %s', $this->getUser()->getUsername(), $role, $subGroupId));
                         $joined = true;
                     }
                 }
@@ -534,14 +592,14 @@ class BNSUserManager
 		$this->api->getRedisConnection()->hset('user_' . $this->getUser()->getUsername(),'rights',json_encode($sortedRights));
 	}
 
-	/**
-	 * Permet de réinitialiser les droits, utile lors d'un reloadRights() (BNSRightManager)
-	 */
-	public function resetRights()
-	{
-		$this->rights = null;
-		$this->api->resetUser($this->getUser()->getUsername());
-	}
+    /**
+     * Permet de réinitialiser les droits, utile lors d'un reloadRights() (BNSRightManager)
+     */
+    public function resetRights()
+    {
+        $this->rights = null;
+        $this->api->getRedisConnection()->del('user_' . $this->getUser()->getUsername());
+    }
 
 	/*
 	 * Renvoie tous les droits / groupes de l'utilisateur à partir de la centrale et donc de l'API
@@ -564,9 +622,8 @@ class BNSUserManager
 	 */
 	public function hasRight($permission_unique_name = null, $group_id)
 	{
-		$rights = $this->getRights();
-        if($permission_unique_name == null)
-        {
+		$rights = $this->rights ? : $this->getRights();
+        if ($permission_unique_name == null) {
             return isset($rights[$group_id]['permissions']);
         }elseif (isset($rights[$group_id]['permissions'])) {
 			return in_array($permission_unique_name,$rights[$group_id]['permissions']);
@@ -608,15 +665,29 @@ class BNSUserManager
 
     /**
      * Renvoie un booléèn si l'utilisateur est autorisé (cad fait parti d'une école autorisée MTP)
+     *
+     * @deprecated
+     * @see hasEnabledSchool()
      */
     public function isAuthorised()
     {
+        return $this->hasEnabledSchool();
+    }
+
+    public function hasEnabledSchool()
+    {
         $schoolType = GroupTypeQuery::create()->findOneByType('SCHOOL');
+        if ($this->container->hasParameter('check_group_enabled') && $this->container->getParameter('check_group_enabled')) {
+            $allGroupIds = array_keys($this->getFullRightsAndGroups());
+        } else {
+            $allGroupIds = array_keys($this->getGroupsAndRolesUserBelongs());
+        }
+
         return GroupQuery::create()
-            ->filterByEnabled(true)
-            ->filterByGroupTypeId($schoolType->getId())
-            ->filterById($this->getGroupsIdsUserBelong())
-            ->count() > 0;
+                ->filterByEnabled(true)
+                ->filterByGroupTypeId($schoolType->getId())
+                ->filterById($allGroupIds, \Criteria::IN)
+                ->count() > 0;
     }
 
     /**
@@ -677,7 +748,7 @@ class BNSUserManager
 		return $newUser;
 	}
 
-    public function sendWelcomeEmail(User $user, $plainPassword)
+    public function sendWelcomeEmail(User $user, $plainPassword = null)
     {
         $base = array(
             'first_name' => $user->getFirstName(),
@@ -687,7 +758,11 @@ class BNSUserManager
         );
 
         if (!$user->getEmailValidated()) {
-            $emailName = 'WELCOME_AND_CHECK_EMAIL';
+            if ($plainPassword) {
+                $emailName = 'WELCOME_AND_CHECK_EMAIL';
+            } else {
+                $emailName = 'WELCOME_AND_CHECK_EMAIL_NOPASS';
+            }
             $emailToken = $this->generateEmailConfirmationToken($user);
             $base['confirm_link'] = $this->container->get('router')->generate('main_emailConfirmation_emailCheck',array('token' => $emailToken),true);
         } else {
@@ -757,11 +832,16 @@ class BNSUserManager
             {
                 $user['high_role_id'] = $askedUser['high_role_id'];
             }
+            if (isset($askedUser['phone'])) {
+                $user['phone'] = $askedUser['phone'];
+            }
+            if (isset($askedUser['ine'])) {
+                $user['ine'] = $askedUser['ine'];
+            }
 
             $newUser = UserPeer::createUser($user);
             $newUser->setPassword($user['plain_password']);
-
-            if (($autoSendMail && $createAuth) || isset($user['autosend_email'])) {
+            if (($autoSendMail && $createAuth) || (isset($askedUser['autosend_email']) && $askedUser['autosend_email'])) {
                 $this->sendWelcomeEmail($newUser, $response['plain_password']);
             }
             if(isset($askedUser['is_parent']) && $askedUser['is_parent'] == true)
@@ -811,6 +891,21 @@ class BNSUserManager
                 'values' => array('affectations' => $affectations)
             )
         );
+
+        // get username of the affected users, and clear their cache
+        $userIds = array_map(function ($affectation) {
+            return $affectation['userId'] ?? 0;
+        }, $affectations);
+        $usernames = UserQuery::create()
+            ->filterById($userIds)
+            ->select(['Login'])
+            ->find()
+            ->toArray();
+        $this->api->getRedisConnection()->pipeline(function ($pipe) use ($usernames) {
+            foreach ($usernames as $username) {
+                $pipe->del('user_' . $username);
+            }
+        });
     }
 
 	/**
@@ -859,6 +954,38 @@ class BNSUserManager
             $user->save();
         }
 	}
+
+    /**
+     * Use to update user login and/or certify status
+     * @param User $user
+     * @param $oldLogin
+     * @param null $certify
+     * @throws \Exception
+     */
+    public function updateUserLogin(User $user, $oldLogin, $certify = null)
+    {
+        if (!preg_match('/^[a-zA-Z0-9]*$/', $user->getLogin())) {
+            throw new \Exception('Invlid user login');
+        }
+
+        $data = [
+            'username' => $user->getLogin(),
+            'domain_id' => $this->domain_id,
+        ];
+        if (null !== $certify) {
+            $data['certify'] = (boolean) $certify;
+        }
+
+        $this->api->send('user_update_login', [
+            'route' => [
+                'id' => $user->getId()
+            ],
+            'values' => $data,
+        ]);
+
+        $this->api->resetUser($oldLogin);
+        $this->api->resetUser($user->getLogin());
+    }
 
     /**
      * Updates the given users, merged with optional additional data. Returns an array with these keys:
@@ -1536,6 +1663,9 @@ class BNSUserManager
                     'username' => $this->getUser()->getLogin()
             ), false
         ));
+        if (!$response) {
+            return [];
+        }
         //Renvoie un tableau du type : [GroupId] => array(ROLE_1,ROLE_2)
         //on balaie tout le tableau pour récupérer les groupTypes Potentiels
         $groupIds = array();
@@ -1844,6 +1974,7 @@ class BNSUserManager
     }
 
 	/**
+     * @deprecated use native user method @see User::getChildren() or @see User::getActiveChildren()
 	 * @param User $user
 	 *
 	 * @return array|User[]
@@ -2126,43 +2257,74 @@ class BNSUserManager
 
 	//////////////    FONCTIONS LIEES AUX RESSOURCES     \\\\\\\\\\\\\\\\\
 
-	/*
-	 * Renvoie le stockage autorisé pour l'utilisateur
-	 */
-	public function getRessourceAllowedSize()
-	{
-		$authorisedValue = 0;
+    public function hasUnlimitedResources()
+    {
+        if (!$this->unlimitedAllowed) {
+            return false;
+        }
+
+        if (null === $this->unlimitedResources) {
+            $contextFactory = $this->container->get('bns_app_core.context.context_group_factory');
+            $toggleManager = $this->container->get('qandidate.toggle.manager');
+            foreach ($this->getGroupsWherePermission('MEDIA_LIBRARY_MY_MEDIAS') as $group) {
+                $context = $contextFactory->createContextGroup($group);
+
+                if ($toggleManager->active('storage_unlimited', $context)) {
+                    return $this->unlimitedResources = true;
+                }
+            }
+            $this->unlimitedResources = false;
+        }
+
+        return $this->unlimitedResources;
+    }
+
+    /*
+     * Renvoie le stockage autorisé pour l'utilisateur
+     */
+    public function getRessourceAllowedSize()
+    {
+        if ($this->hasUnlimitedResources()) {
+            // unlimited == 1 Po 1000 To
+            return 1000000000000000.00;
+        }
+        $authorisedValue = 0;
         $attribute = $this->isAdult() ? 'RESOURCE_QUOTA_USER' : 'RESOURCE_QUOTA_CHILD';
-		foreach($this->getGroupsWherePermission('MEDIA_LIBRARY_MY_MEDIAS') as $group){
+        foreach ($this->getGroupsWherePermission('MEDIA_LIBRARY_MY_MEDIAS') as $group) {
             $value = $group->getAttribute($attribute);
-            if($value > $authorisedValue)
-            {
+            if ($value > $authorisedValue) {
                 $authorisedValue = $value;
             }
-		}
-		return $authorisedValue;
-	}
+        }
 
-	/**
-	 * @return float
-	 */
-	public function getResourceUsageRatio()
-	{
-		if ($this->getRessourceAllowedSize() == 0) {
-			return 0.00;
-		}
-		$quota = round($this->getUser()->getResourceUsedSize() / $this->getRessourceAllowedSize(), 2) * 100;
-		if ($quota > 100) {
-			return 100.00;
-		}
+        return $authorisedValue;
+    }
 
-		return $quota;
-	}
+    /**
+     * @return float
+     */
+    public function getResourceUsageRatio()
+    {
+        if ($this->hasUnlimitedResources() || $this->getRessourceAllowedSize() == 0) {
+            return 0.00;
+        }
+        $quota = round($this->getUser()->getResourceUsedSize() / $this->getRessourceAllowedSize(), 2) * 100;
+        if ($quota > 100) {
+            return 100.00;
+        }
 
-	public function getAvailableSize()
-	{
-		return $this->getRessourceAllowedSize() - $this->getUser()->getResourceUsedSize();
-	}
+        return $quota;
+    }
+
+    public function getAvailableSize()
+    {
+        if ($this->hasUnlimitedResources()) {
+            // unlimited == 1 Po 1000 To
+            return 1000000000000000.00;
+        }
+
+        return $this->getRessourceAllowedSize() - $this->getUser()->getResourceUsedSize();
+    }
 
     /**
      * Ajout de contenu pour un utilisateur
@@ -2184,12 +2346,17 @@ class BNSUserManager
 	 *
 	 * @return User
 	 */
-	public function resetUserPassword(User $user, $sendEmail = true)
+	public function resetUserPassword(User $user, $sendEmail = true, $baseUrl = null, $expireCredential = true )
 	{
+        // We can't change Admin password
+        if ($this->setUser($user)->hasRightSomeWhere('ADMIN_PRETENDED') || $this->setUser($user)->hasRightSomeWhere('ADMIN_ACCESS')) {
+            throw new AccessDeniedException();
+        }
+
 		$response = $this->api->send('reset_user_password', array(
 			'route' => array(
 				'username' => $user->getLogin(),
-			)
+			), 'values' => array('expire' => $expireCredential)
 		));
 
 		$user->setPassword($response['plain_password']);
@@ -2200,7 +2367,7 @@ class BNSUserManager
                 'first_name'		=> $user->getFirstName(),
                 'login'				=> $user->getLogin(),
                 'plain_password'	=> $user->getPassword()
-            ), $user);
+            ), $user, [], $baseUrl);
         }
 		return $user;
 	}
@@ -2214,7 +2381,11 @@ class BNSUserManager
 	{
 		$userIds = array();
 		foreach ($users as $user) {
-			$userIds[] = $user->getId();
+            if ($this->setUser($user)->hasRightSomeWhere('ADMIN_PRETENDED') || $this->setUser($user)->hasRightSomeWhere('ADMIN_ACCESS')) {
+                // prevent change password for admin
+                continue;
+            }
+            $userIds[] = $user->getId();
 		}
 
 		$responses = $this->api->send('reset_user_password', array(
@@ -2252,6 +2423,11 @@ class BNSUserManager
             // @deprecated user parameter should be mandatory
             $user = $this->getUser();
         }
+        $this->setUser($user);
+        if ($this->hasRightSomeWhere('ADMIN_PRETENDED') || $this->hasRightSomeWhere('ADMIN_ACCESS')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $confirmationToken = sha1($this->secureRandomGenerator->nextBytes(32));
 
         $this->api->send(
@@ -2600,7 +2776,9 @@ class BNSUserManager
 					    $lastname = mb_convert_encoding(trim($data[0]), 'UTF-8', 'ASCII, UTF-8, ISO-8859-1, CP1252');
 					    $firstname = mb_convert_encoding(trim($data[1]), 'UTF-8', 'ASCII, UTF-8, ISO-8859-1, CP1252');
 					    $birthday = StringUtil::convertDateFormat($data[2]);
-
+                        if ($lastname == "" || $firstname== "" ) {
+                            continue;
+                        }
 					    $userIds = UserQuery::create()
 					        ->filterByFirstName($firstname)
 					        ->filterByLastName($lastname)
@@ -2668,6 +2846,80 @@ class BNSUserManager
 		    'skiped_count' => $skipedCount,
 		);
 	}
+
+    public function importTeacherFromVcardFile(UploadedFile $file)
+    {
+        $extension = $file->guessExtension();
+
+        if (strtolower($extension) != 'vcf') {
+            throw new UploadException('The file extension is NOT correct, waiting for .VCF file !', 1);
+        }
+
+        $fileTmpName = rand(1, 99999) . '.' . $extension;
+        $tmpDir = $this->tmpDir;
+        $file->move($tmpDir, $fileTmpName);
+         if (!$this->verifyVCard($tmpDir, $fileTmpName)) {
+             throw new BadRequestHttpException(' il faut renseigner au moins un nom, un prénom et un email pour ajouter un enseignant');
+         }
+        if (($handle = fopen($tmpDir . $fileTmpName, 'r')) !== false) {
+
+            try {
+                $vcard = Reader::read(fopen($tmpDir . $fileTmpName, 'r'));
+                $datas = array();
+                $name = $vcard->N->getJsonValue();
+                $datas['last_name'] = $name[0][0];
+                $datas['first_name'] = $name[0][1];
+                $datas['lang'] = BNSAccess::getLocale();
+                $datas['email'] = $vcard->EMAIL->getValue();
+                $datas['phone'] = isset($vcard->TEL) ?  $vcard->TEL->getValue() : null;
+                $user = UserQuery::create()->filterByEmail($vcard->EMAIL->getValue())->findOne();
+                if (!$user) {
+                    $newUser = $this->createUser($datas);
+                    $profile = $newUser->getProfile();
+                    $profile->setOrganization($vcard->ORG->getValue())->setPublicData(false)->setAddress($vcard->ADR->getValue())->setJob($vcard->TITLE->getValue())->save();
+                    $this->container->get('bns.classroom_manager')->assignTeacher($newUser);
+                } else {
+                    throw new BadRequestHttpException('un enseignant avec le mail : ' . $user->getEmail() . ' existe déjà');
+                }
+
+
+            } catch (\Exception $e) {
+                fclose($handle);
+                unlink($tmpDir . $fileTmpName);
+
+                throw $e;
+            }
+
+            // Finally
+            fclose($handle);
+        }
+        unlink($tmpDir . $fileTmpName);
+
+    }
+
+    /**
+     * @return boolean
+     */
+    public function verifyVCard($tmpDir, $fileTmpName)
+    {
+
+        if (($handle = fopen($tmpDir . $fileTmpName, 'r')) !== false) {
+
+            try {
+                $vcard = Reader::read(fopen($tmpDir . $fileTmpName, 'r'));
+                if (isset($vcard->N) && isset($vcard->EMAIL)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (\Exception $e) {
+                fclose($handle);
+                unlink($tmpDir . $fileTmpName);
+
+                throw $e;
+            }
+        }
+    }
 
 
 	public function linkUserWithGroup(User $user, Group $group, GroupType $role = null)
@@ -2781,25 +3033,24 @@ class BNSUserManager
         }
     }
 
-	/**
-	 * @params string $email
-	 *
-	 * @return User
-	 */
-	public function getUserByEmail($email)
-	{
-		// FIXME Trouver un moyen de clear le cache redis correctement.
-		$userData = $this->api->send('user_read_by_email',
-			array(
-				'route' =>  array(
-					'email' => $email
-				),
-			),
-			false
-		);
+    /**
+     * @params string $email
+     *
+     * @return User
+     */
+    public function getUserByEmail($email, $useCache = true)
+    {
+        // TODO handle multiple user case
+        try {
+            $userData = $this->api->send('user_by_email', [
+                'values' => ['email' => $email]
+            ], $useCache);
+        } catch (\Exception $e) {
+            return null;
+        }
 
-		return $this->hydrateUser($userData);
-	}
+        return $this->hydrateUser($userData);
+    }
 
 
 
@@ -2850,24 +3101,22 @@ class BNSUserManager
         // TODO refactor this to use only event listener and make them mandatory
         $this->setUser(BNSAccess::getUser());
 
-        // Update last connection to now
-        $this->getUser()->updateLastConnection();
-
-        // cleanup session
-        $session = $this->container->get('session');
-        foreach ($session->all() as $key => $value) {
-            if (0 === strpos($key, 'has_cerise')) {
-                $session->remove($key);
-            }
-        }
+        $this->container->get('session')->remove('has_cerise');
 
         /*
          * Vérification des offres from PAAS
          */
         $this->container->get('bns.paas_manager')->initSubscriptionForSession();
 
-        // Has one or more group ?
+        // rescue mode: try to add an EXPRESS licence for fr users
         $userGroups = $this->getGroupsUserBelong();
+        if (!count($userGroups)) {
+            if ($this->tryAddExpressLicence()) {
+                $userGroups = $this->getGroupsUserBelong();
+            }
+        }
+
+        // Has one or more group ?
         if (count($userGroups) == 0) {
             return $this->container->get('router')->generate('context_no_group');
         }
@@ -2875,20 +3124,6 @@ class BNSUserManager
         switch ($skip) {
 
             default:
-            // Policy Validation
-            if (!$this->getUser()->getPolicy()) {
-                foreach ($userGroups as $group) {
-                    $groupManager = $this->container->get('bns.group_manager');
-                    $groupManager->setGroup($group);
-                    $policyVal = $groupManager->getAttribute('POLICY', null);
-
-                    if ($policyVal) {
-                        return $this->container->get('router')->generate('user_front_policy_validate');
-                    } elseif (null !== $policyVal) {
-                        break;
-                    }
-                }
-            }
 
             // Vérification des invitations
             $invitations = $this->getInvitations();
@@ -2922,6 +3157,7 @@ class BNSUserManager
 
 
 
+
 		/*
 		 * Do NOT add context process AFTER this line !
 		 */
@@ -2948,9 +3184,6 @@ class BNSUserManager
 		//$this->updateUser($this->getUser());
 		/* Fin bns-9661 */
 
-        //statistic action
-        $this->container->get('stat.main')->connect();
-
         //Si il est enseignant dans une classe non validée
 
         /*
@@ -2973,7 +3206,7 @@ class BNSUserManager
         if ($redirect = $session->get('_bns.target_path')) {
             $session->remove('_bns.target_path');
 
-            if (preg_match('#^(https?://[a-zA-Z0-9.-_]*)?/ent/api/.*#', $redirect)) {
+            if (preg_match('#^(https?://[a-zA-Z0-9._-]*)?/ent/api/.*#', $redirect)) {
                 // prevent redirect to an api route
                 // add additional restriction to route that we shouldn't redirect to
 
@@ -3233,6 +3466,41 @@ class BNSUserManager
                 'year' => (int)$year,
             ],
         ]);
+    }
+
+    /**
+     * Adds an EXPRESS licence to the first FR classroom the user belongs to.
+     * To be used on logon for users with no group.
+     */
+    public function tryAddExpressLicence()
+    {
+        /**
+         * Find the first FR classroom
+         * @var Group $targetGroup
+         */
+        $targetGroup = null;
+        $groupsAndRoles = $this->getGroupsAndRolesUserBelongs();
+        foreach ($groupsAndRoles as $groupAndRole) {
+            $targetGroup = $groupAndRole['group'];
+            if ($targetGroup->getCountry() === 'FR' && $targetGroup->getType() === 'CLASSROOM') {
+                break;
+            }
+            $targetGroup = null;
+        }
+
+        // if found add an express licence
+        if ($targetGroup) {
+            $this->container->get('bns.paas_manager')->generateSubscription(
+                $targetGroup,
+                'EXPRESS',
+                'unlimited'
+            );
+            $this->resetRights();
+
+            return true;
+        }
+
+        return false;
     }
 
     /**

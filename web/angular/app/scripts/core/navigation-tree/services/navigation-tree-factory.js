@@ -43,6 +43,7 @@ angular.module('bns.core.navigationTree.service', [
      */
     NavigationTree.prototype.init = function (prop, childrenAcessor) {
       this.prop = prop;
+      this.parentProp = 'parent_key';
       this.childrenAcessor = childrenAcessor;
       this.roots = [];
       this.expandedNodesMap = {};
@@ -127,6 +128,16 @@ angular.module('bns.core.navigationTree.service', [
     };
 
     /**
+     * Collapses all currently expanded nodes
+     */
+    NavigationTree.prototype.collapseAll = function () {
+      var self = this;
+      angular.forEach(this.expandedNodesMap, function (node) {
+        self.collapse(node);
+      });
+    };
+
+    /**
      * Expands all ancestors of the given node (but not itself)
      *
      * @param {Object} node
@@ -158,7 +169,15 @@ angular.module('bns.core.navigationTree.service', [
      * @returns {Object}
      */
     NavigationTree.prototype.getParent = function (node) {
-      return this.parentsMap[node[this.prop]];
+      var parent = this.parentsMap[node[this.prop]];
+      if (parent) {
+        return parent;
+      }
+      if (node[this.parentProp]) {
+        return this.nodesMap[node[this.parentProp]];
+      }
+
+      return null;
     };
 
     /**

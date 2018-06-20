@@ -1,0 +1,13 @@
+BNS\App\SearchBundle\Model\SearchSaved:
+  exclusion_policy: All
+
+  virtual_properties:
+    getId:
+      expose: true
+    getSearch:
+      expose: true
+    getResults:
+      expose: true
+    printCreatedAt:
+      expose: true
+      serialized_name: created_at

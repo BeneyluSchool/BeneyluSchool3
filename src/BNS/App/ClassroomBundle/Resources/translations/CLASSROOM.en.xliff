@@ -34,6 +34,20 @@
         <note><![CDATA[%date% is a placeholder
 ]]></note>
       </trans-unit>
+      <trans-unit id="ad516e191ad6d53f27e94734abba2f6eaaed8b7c" resname="ADULT_WELCOME_FIRST_CONNECTION">
+        <source>ADULT_WELCOME_FIRST_CONNECTION</source>
+        <target>Hello %firstname%, it’s your first connection.</target>
+        <note><![CDATA[%firstname% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="03c74a9940976f8ab3b202290d0ecfefa16e24d3" resname="ADULT_WELCOME_PREVIOUS_CONNECTION">
+        <source>ADULT_WELCOME_PREVIOUS_CONNECTION</source>
+        <target>Hello %firstname%, your last connection was on %date% at %time%.</target>
+        <note><![CDATA[%firstname% is a placeholder
+%date% is a placeholder
+%time% is a placeholder
+]]></note>
+      </trans-unit>
       <trans-unit id="392aeeabda9308ad32ca1e5c93cdcf990d8d7aa7" resname="ALREADY_PARTNERSHIP_MEMBER">
         <source>ALREADY_PARTNERSHIP_MEMBER</source>
         <target>You are already a member of the partnership</target>
@@ -45,6 +59,14 @@
       <trans-unit id="56acfed7eda5682029d07f8e9078663b0491bd74" resname="ASSISTANT_CREATED_SUCCESS">
         <source>ASSISTANT_CREATED_SUCCESS</source>
         <target state="new">The assistant has been successfully created</target>
+      </trans-unit>
+      <trans-unit id="9a9afbc3b7a3f2de91b584b7dae3113b71ea3cd2" resname="AUTOMATE_ADD_PUPIL">
+        <source>AUTOMATE_ADD_PUPIL</source>
+        <target>Vous bénéficiez de l'alimentation automatique des données depuis ONDE, les ajouts sont par conséquent bloqués.
+        %linkStart%Avoir plus de renseignements%linkEnd%</target>
+        <note><![CDATA[%linkStart% is a placeholder
+%linkEnd% is a placeholder
+]]></note>
       </trans-unit>
       <trans-unit id="345830cf130774473e6e05b34394a9cf4e3cf251" resname="BACKBOARD_FLUX_LABEL_1">
         <source>BACKBOARD_FLUX_LABEL_1</source>
@@ -190,6 +212,20 @@ http://symfony.com/doc/current/components/translation/usage.html#pluralizationTh
         <source>CHILD_PUBLISH_MESSAGE</source>
         <target>Put #%date% in your message to publish it</target>
         <note><![CDATA[%date% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="1b1a1bca4a78a2d3c6cb3535977602a4250dcb64" resname="CHILD_WELCOME_FIRST_CONNECTION">
+        <source>CHILD_WELCOME_FIRST_CONNECTION</source>
+        <target>Hello %firstname%, it’s your first connection.</target>
+        <note><![CDATA[%firstname% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="c7eb5b9a24d68c1bd04d0692d514e33e2ebd7bd3" resname="CHILD_WELCOME_PREVIOUS_CONNECTION">
+        <source>CHILD_WELCOME_PREVIOUS_CONNECTION</source>
+        <target>Hello %firstname%, your last connection was on %date% at %time%.</target>
+        <note><![CDATA[%firstname% is a placeholder
+%date% is a placeholder
+%time% is a placeholder
 ]]></note>
       </trans-unit>
       <trans-unit id="69d4a3344c2a6a97da1c61f07520decc77e29338" resname="CHOICES_FEMALE">

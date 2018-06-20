@@ -24,11 +24,51 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class MediaManager
 {
 
+    /**
+     * @var int Media dubliqué utilisé pour les concours
+     */
+    const STATUS_QUESTIONNAIRE_COMPETITION = 3;
+    /**
+     * @var int Média actif et visible
+     */
+    const STATUS_ACTIVE_INT = 1;
+    /**
+     * @var int Média mis à la corbeille
+     */
+    const STATUS_GARBAGED_INT = 0;
+    /**
+     * @var int Média supprimé définitivement
+     */
+    const STATUS_DELETED_INT = -1;
+    /**
+     * @var int Média dont le parent est à la corbeille
+     */
+    const STATUS_GARBAGED_PARENT_INT = -2;
 
-    const STATUS_ACTIVE = '1';              // Média actif et visible
-    const STATUS_GARBAGED = '0';            // Média mis à la corbeille
-    const STATUS_DELETED = '-1';            // Média supprimé définitivement
-    const STATUS_GARBAGED_PARENT = '-2';    // Média dont le parent est à la corbeille
+
+    /**
+     * @var string Média actif et visible
+     * @deprecated use self::STATUS_ACTIVE_INT
+     */
+    const STATUS_ACTIVE = '1';
+
+    /**
+     * @var string Média mis à la corbeille
+     * @deprecated use self::STATUS_GARBAGED_INT
+     */
+    const STATUS_GARBAGED = '0';
+
+    /**
+     * @var string Média supprimé définitivement
+     * @deprecated use self::STATUS_DELETED_INT
+     */
+    const STATUS_DELETED = '-1';
+
+    /**
+     * @var string Média dont le parent est à la corbeille
+     * @deprecated use self::STATUS_GARBAGED_PARENT_INT
+     */
+    const STATUS_GARBAGED_PARENT = '-2';
 
     // Durée en secondes de l'accessibilité temporaire
     const TEMP_DOWNLOADABLE_DURATION = '120';
@@ -72,7 +112,7 @@ class MediaManager
         ),
         'ATELIER_DOCUMENT' => array(
             'template'		=> 'atelier_document',
-            'thumbnailable' => false,
+            'thumbnailable' => true,
             'sizeable'		=> false
         ),
         'PROVIDER_RESOURCE' => array(
@@ -93,6 +133,11 @@ class MediaManager
         'ATELIER_AUDIO' => array(
             'template'		=> 'atelier_audio',
             'thumbnailable' => false,
+            'sizeable'		=> false
+        ),
+        'ATELIER_QUESTIONNAIRE' => array(
+            'template'		=> 'atelier_document',
+            'thumbnailable' => true,
             'sizeable'		=> false
         ),
     );
@@ -191,7 +236,7 @@ class MediaManager
     }
 
     /**
-     * @param $id Id du media
+     * @param int $id Id du media
      * @return Media|bool
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
@@ -309,17 +354,21 @@ class MediaManager
             ->find();
     }
 
+    public function getFavoritesMediasQuery($userId)
+    {
+        return MediaQuery::create()
+            ->filterByStatusDeletion(self::STATUS_ACTIVE)
+            ->useMediaFavoritesQuery()
+            ->filterByUserId($userId)
+            ->endUse();
+    }
+
     /**
      * Renvoie les documents supprimés pour l'utilisateur donné en paramètre
      */
     public function getFavoritesMedias($userId)
     {
-        return MediaQuery::create()
-            ->filterByStatusDeletion(self::STATUS_ACTIVE)
-            ->useMediaFavoritesQuery()
-                ->filterByUserId($userId)
-            ->endUse()
-            ->find();
+        return $this->getFavoritesMediasQuery($userId)->find();
     }
 
     public function isFavorite($userId)
@@ -393,6 +442,7 @@ class MediaManager
             ->filterByIsPrivate(false)
             ->filterByMediaFolderType('GROUP')
             ->filterByMediaFolderId($groupsFoldersIds)
+            ->orderByCreatedAt(\Criteria::DESC)
             ->limit(30)
             ->find();
 
@@ -488,6 +538,7 @@ class MediaManager
         $copied->setMediaFolderId($mediaFolder->getId());
         $copied->setMediaFolderType($mediaFolder->getType());
         $copied->setSize( $this->getMediaObject()->getSize(false));
+        $copied->setSlug($copied->createSlug());
         if ($userId) {
             $copied->setUserId($userId);
         }

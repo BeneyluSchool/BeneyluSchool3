@@ -12,66 +12,33 @@
 {% endblock %}
 
 {% block sidebar_content %}
-  {# Description #}
-  <div class="sidebar-element" flex>
-        <h2 class="heading">{% trans %}TITLE_MORE_ABOUT_ME{% endtrans %} </h2>
-          {% if user.getProfile().getDescription() != null or false %}
-            <p class="md-body-1">{{ user.getProfile().getDescription() }}</p>
-          {% else %}
-            <p class="md-body-1">
-                {% if user.getId() == app.user.id and has_right('PROFILE_ACCESS_BACK') %}
-                  {{ 'NO_PRESENTATION_LINK_TO_DO_IT' |trans({
-                    '%linkStart%': '<a href="' ~ path('BNSAppProfileBundle_back') ~ '">',
-                    '%linkEnd%': '</a>'
-                  }) |desc('Je n\'ai pas encore fait ma présentation, je peux le faire en cliquant sur %linkStart% ce lien%linkEnd%.') |raw }}
-                {% else %}
-                  {% trans %}NO_TIME_FOR_PRESENTATION{% endtrans %}
 
-                {% endif %}
-            </p>
-          {% endif %}
-  </div>
-  {# Les items J'aime/Je n'aime pas #}
+  {% if flag_profile_sdet_import_export %}
+    {{ components.button( 'EXPORT_CARD' | trans , { intent: 'primary', href: path('profile_export', {'id': user.getId()}), icon: 'get_app', raised: true, attr : {'class':'button'} }) }}
+  {% endif %}
+  {% if flag_profile_status or flag_profile_status_push %}
+  {% include "@BNSAppProfile/Front/front_description_like.html.twig" %}
+  {% endif %}
+
+  {% if flag_profile_sdet_informations and user.isAdult and user.profile.publicData %}
   <div class="sidebar-element">
-    <div class="like">
-        <div class="profile-sidebar-title">
-          <img src="{{ asset('/medias/images/profile/like.png') }}" alt="" />
-          <h2 class="heading">{% trans %}TITLE_I_LIKE{% endtrans %}</h2>
-        </div>
-        <ul class="md-body-2">
-          <li class="no-content hide">
-            <p><i>{% trans %}NO_WRITE_WHAT_I_LIKE_YET{% endtrans %}</i></p>
-          </li>
-          {% for preference in user.getProfile().getProfilePreferences() %}
-            {% if preference.isLike() %}
-              {% include 'BNSAppProfileBundle:Preferences:row_preference_item.html.twig' with {'preference': preference, 'editable': false} %}
-            {% endif %}
-          {% endfor %}
-          <script type="text/javascript">
-            showNoItemLabel('like');
-          </script>
-        </ul>
-    </div>
-    <div class="dislike" flex="100">
-        <div class="profile-sidebar-title">
-          <img src="{{ asset('/medias/images/profile/dislike.png') }}" alt="" />
-          <h2 class="heading">{% trans %}TITLE_I_DONT_LIKE{% endtrans %}</h2>
-        </div>
-        <ul>
-          <li class="no-content hide">
-              <p><i>{% trans %}NO_WRITE_WHAT_I_DOESNT_LIKE_YET{% endtrans %}</i></p>
-          </li>
-          {% for preference in user.getProfile().getProfilePreferences() %}
-            {% if (preference.isLike() == false) %}
-              {% include 'BNSAppProfileBundle:Preferences:row_preference_item.html.twig' with {'preference': preference, 'editable': false} %}
-            {% endif %}
-          {% endfor %}
-          <script type="text/javascript">
-            showNoItemLabel('dislike');
-          </script>
-        </ul>
-    </div>
+    <h2 class="heading">{{ 'MORE_INFORMATIONS'|trans }}</h2>
+    <p class="intro">
+      {% if user.phone %}
+          {{ 'PHONE'|trans }} : {{ user.phone }} <br/>
+      {% endif %}
+      {% if user.profile.address %}
+          {{ 'ADDRESS'|trans }} : {{ user.profile.address }} <br/>
+      {% endif %}
+      {% if user.profile.organization %}
+          {{ 'ORGANIZATION'|trans }} : {{ user.profile.organization }} <br/>
+      {% endif %}
+      {% if user.email %}
+          {{ 'EMAIL'|trans }} : {{ user.email }} <br/>
+      {% endif %}
+    </p>
   </div>
+  {% endif %}
 
   {% if classrooms|length %}
     <div class="sidebar-element">
@@ -107,7 +74,13 @@
     </div>
   </md-toolbar>
 
-  <md-content class="md-whiteframe-z1 flex">
+  {% if not flag_profile_status and not flag_profile_status_push %}
+    <div class="bns-sidebar-main-content">
+      {% include "@BNSAppProfile/Front/front_description_like.html.twig" %}
+    </div>
+  {% endif %}
+
+  <md-content class="md-whiteframe-z1 flex" bns-feature-flag="'profile_status'" bns-feature-push="'incentive'">
     <div class="md-padding md-subhead heading subtitle">{% if feeds is defined %}{% trans %}TITLE_MY_STATUS{% endtrans %}{% else %}{% trans %}TITLE_MINE_STATUS{% endtrans %}{% endif %}</div>
     <md-divider></md-divider>
       <div class="status-container">
@@ -118,8 +91,7 @@
           {% include 'BNSAppProfileBundle:Status:front_status_list.html.twig' with {'feeds': user.getProfile().getProfileFeeds()} %}
         {% endif %}
       </div>
-      {% if nb_feeds_per_load is defined and user.getProfile().getNbFeeds > nb_feeds_per_load %}
-        <div class="status-loader">
+        <div class="status-loader" style="display: none">
           <p style="text-align: center"><img src="{{ asset('/medias/images/icons/medium-loader.gif') }}" alt="Gif de chargement" /> {% trans %}TITLE_WAIT_STATUS_PREVIOUS_STATUS{% endtrans %}</p>
         </div>
         <script type="text/javascript">
@@ -129,13 +101,9 @@
             $nbLoadTime = 0;
             $statusScroller = $('#content md-content');
             angularizer = new Angularizer();
-            $statusScroller.scroll(function ()
-            {
-              var $diffWindowDocumentHeight = $(document).height() - $statusScroller.height();
-
-
-              if (!$isLoadingProfileFeedStatus && $statusScroller.scrollTop())
-              {
+            $statusScroller.scroll(function () {
+              {# TODO call only when content is needed and not on each scroll event #}
+              if (!$isLoadingProfileFeedStatus && $statusScroller.scrollTop()) {
                 $isLoadingProfileFeedStatus = true;
                 var $statusDivLoader = $('.status-loader');
                 $statusDivLoader.slideDown('fast');
@@ -148,27 +116,23 @@
                     'nb_load': $nbLoadTime + 1
                   },
                   dataType: 'html',
-                  success: function (data)
-                  {
+                  success: function (data) {
                     $div = $('<div />').html(angularizer.process(data)).css('display', 'none');
                     $('.status-container').append($div);
-                    $div.slideDown('fast', function ()
-                    {
-                      $statusDivLoader.slideUp('fast');
-                      $nbLoadTime++;
-                      if (($nbLoadTime + 1) * {{ nb_feeds_per_load }} < {{ user.getProfile().getNbFeeds() }})
-                      {
-                        $isLoadingProfileFeedStatus = false;
-                      }
-                    });
+                    $nbLoadTime++;
+                    $div.slideDown('fast');
+                    // reset status only on success
+                    $isLoadingProfileFeedStatus = false;
+                  },
+                  complete: function () {
+                    // hide loader after
+                    $statusDivLoader.slideUp('fast');
                   }
                 });
-
               }
             });
           });
         </script>
-      {% endif %}
   </md-content>
 </div>
 {% endblock %}

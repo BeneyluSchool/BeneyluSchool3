@@ -8,10 +8,10 @@ module:
     fr: Lire le Cahier journal
     en: Note book
   default_rank:
-    pupil: null
-    parent: null
-    teacher: null
-    other: null
+    pupil: USE
+    parent: USE
+    teacher: MANAGE
+    other: USE
 
 permissions:
   ACCESS:
@@ -30,21 +30,11 @@ permissions:
       fr: Donne l'accès au cahier journal
       en: Give access to note book
 
+  ACTIVATION: ~
+
 ranks:
-  READ:
-    label:
-      fr: Accès en lecture au cahier journal
-      en: Note book read access
-    description:
-      fr: Accès en lecture au cahier journal
-      en: Note book read access
+  USE:
     permissions: [ACCESS]
 
-  USE:
-    label:
-      fr: Utiliser le cahier journal
-      en: Note book use
-    description:
-      fr: Utiliser le cahier journal
-      en: Note book use
-    permissions: [ACCESS, ACCESS_BACK]
+  MANAGE:
+    permissions: [ACCESS, ACCESS_BACK, ACTIVATION]

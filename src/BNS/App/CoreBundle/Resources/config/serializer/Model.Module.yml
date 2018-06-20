@@ -5,6 +5,12 @@ BNS\App\CoreBundle\Model\Module:
     isOpen:
       expose: true
       groups: [details]
+    isOpenFamily:
+      expose: true
+      groups: [details]
+    isOpenTeacher:
+      expose: true
+      groups: [details]
     isPrivate:
       expose: true
       groups: [details]
@@ -36,6 +42,10 @@ BNS\App\CoreBundle\Model\Module:
       expose: true
       groups: [details]
     metaTitle:
+      expose: true
+    icon:
+      expose: true
+    bottom:
       expose: true
 
   relations:

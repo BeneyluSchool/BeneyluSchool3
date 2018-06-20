@@ -33,6 +33,10 @@ class BlogCategoryApiController extends BaseApiController
      */
     public function postCategoryAction(Request $request, $id)
     {
+        if (!$this->hasFeature('blog_categories')) {
+            throw $this->createAccessDeniedException();
+        }
+
         $blog = BlogQuery::create()->findPk($id);
         if (!$blog) {
             return  View::create('', Codes::HTTP_NOT_FOUND);

@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2017-02-12T20:08:41Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2018-06-05T13:08:28Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
     </header>
     <body>
+      <trans-unit id="f967543b866f9b8c13ac8593e9f2c45719b4c670" resname="ACCOUNT">
+        <source>ACCOUNT</source>
+        <target state="new">Mon compte</target>
+        <note><![CDATA[Application: ACCOUNT]]></note>
+      </trans-unit>
       <trans-unit id="b521caa6e1db82e5a01c924a419870cb72b81635" resname="ADMIN">
         <source>ADMIN</source>
         <target state="new">Super admin</target>
         <note><![CDATA[Application: ADMIN]]></note>
+      </trans-unit>
+      <trans-unit id="178b8f93c662dc1a4c810bc0877b7e9c36d0f963" resname="ARCHEOLOGY">
+        <source>ARCHEOLOGY</source>
+        <target state="new">Enquête archéologique à Lavau</target>
+        <note><![CDATA[Application: ARCHEOLOGY]]></note>
       </trans-unit>
       <trans-unit id="00e97c0abf8a977f17aba4cf885f47eb40996598" resname="BLOG">
         <source>BLOG</source>
@@ -38,8 +48,13 @@
       </trans-unit>
       <trans-unit id="9e28fcfc80e06e6f0645098b6e89135566c33f68" resname="CAMPAIGN">
         <source>CAMPAIGN</source>
-        <target state="new">Message Flash</target>
+        <target state="new">Messages flash</target>
         <note><![CDATA[Application: CAMPAIGN]]></note>
+      </trans-unit>
+      <trans-unit id="26bc51b8c24e969082271b782f467f409b70cfb2" resname="CHAT">
+        <source>CHAT</source>
+        <target state="new">Chat</target>
+        <note><![CDATA[Application: CHAT]]></note>
       </trans-unit>
       <trans-unit id="e9fdd5ee6c4f5dc7edf188d44ec046617b09211b" resname="CIRCUS_BIRTHDAY">
         <source>CIRCUS_BIRTHDAY</source>
@@ -51,10 +66,30 @@
         <target state="new">Classe</target>
         <note><![CDATA[Application: CLASSROOM]]></note>
       </trans-unit>
+      <trans-unit id="0f7041d680ece7c9e0037673155a77a11e00fe37" resname="COMPETITION">
+        <source>COMPETITION</source>
+        <target state="new">Concours</target>
+        <note><![CDATA[Application: COMPETITION]]></note>
+      </trans-unit>
+      <trans-unit id="2f65c965f56b1e73d941349d873f0da38c6a7a70" resname="COURSE">
+        <source>COURSE</source>
+        <target state="new">Parcours Pédagogique</target>
+        <note><![CDATA[Application: COURSE]]></note>
+      </trans-unit>
+      <trans-unit id="dab847f0a810089b35dfc381c7e234d85b5f2d99" resname="DESCRIPTION_ACCOUNT">
+        <source>DESCRIPTION_ACCOUNT</source>
+        <target state="new">Gestion du compte et des abonnements</target>
+        <note><![CDATA[Description pour l'application ACCOUNT]]></note>
+      </trans-unit>
       <trans-unit id="17b75f6e23552734f46fd8581fe87c5fbdb63a4e" resname="DESCRIPTION_ADMIN">
         <source>DESCRIPTION_ADMIN</source>
         <target state="new">Super admin</target>
         <note><![CDATA[Description pour l'application ADMIN]]></note>
+      </trans-unit>
+      <trans-unit id="3a64cb8a5ce316203cde8505377ac6587a354f49" resname="DESCRIPTION_ARCHEOLOGY">
+        <source>DESCRIPTION_ARCHEOLOGY</source>
+        <target state="new">Enquête archéologique à Lavau</target>
+        <note><![CDATA[Description pour l'application ARCHEOLOGY]]></note>
       </trans-unit>
       <trans-unit id="130f101907a718fa2e326008d78edca22c8da607" resname="DESCRIPTION_BLOG">
         <source>DESCRIPTION_BLOG</source>
@@ -81,6 +116,11 @@
         <target state="new">Voir les évènements à venir</target>
         <note><![CDATA[Description pour l'application CALENDAR]]></note>
       </trans-unit>
+      <trans-unit id="fdaf431cd8fd6dcd628fcb3aa2de94461c522690" resname="DESCRIPTION_CHAT">
+        <source>DESCRIPTION_CHAT</source>
+        <target state="new">Messagerie instantanée et audio/vidéo</target>
+        <note><![CDATA[Description pour l'application CHAT]]></note>
+      </trans-unit>
       <trans-unit id="573e4aed601e5d6907b7c4eef728c63fbc98eb58" resname="DESCRIPTION_CIRCUS_BIRTHDAY">
         <source>DESCRIPTION_CIRCUS_BIRTHDAY</source>
         <target>Événement : Mon anniversaire au Cirque</target>
@@ -90,6 +130,15 @@
         <source>DESCRIPTION_CLASSROOM</source>
         <target state="new">Page d'accueil</target>
         <note><![CDATA[Description pour l'application CLASSROOM]]></note>
+      </trans-unit>
+      <trans-unit id="adf0beee54d735228f455d2382176f8b86cefe63" resname="DESCRIPTION_COMPETITION">
+        <source>DESCRIPTION_COMPETITION</source>
+        <target state="new">Participer aux concours</target>
+        <note><![CDATA[Description pour l'application COMPETITION]]></note>
+      </trans-unit>
+      <trans-unit id="13b8322a4bb9cd6340385f3d26221c2820b847fc" resname="DESCRIPTION_COURSE">
+        <source>DESCRIPTION_COURSE</source>
+        <target state="new">Participer à des parcours pédagogiques</target>
       </trans-unit>
       <trans-unit id="6b36c4ede408799ba1ae692d5083ef513ef8ffa2" resname="DESCRIPTION_DIRECTORY">
         <source>DESCRIPTION_DIRECTORY</source>
@@ -163,7 +212,7 @@
       <trans-unit id="9180ab5c64da7b868e2c34dbcdbf57bdb79bf1a2" resname="DESCRIPTION_MINISITE">
         <source>DESCRIPTION_MINISITE</source>
         <target state="new">Lire toute l'actualité en ligne de votre école</target>
-        <note><![CDATA[Description pour l'application MINISITE]]></note>
+        <note><![CDATA[Description pour l'application Site web]]></note>
       </trans-unit>
       <trans-unit id="e3c8ce80e25cca6b220259be03e8fbefac2e3148" resname="DESCRIPTION_NOTEBOOK">
         <source>DESCRIPTION_NOTEBOOK</source>
@@ -179,6 +228,11 @@
         <source>DESCRIPTION_OLYMPICS</source>
         <target state="new">Lire et écrire des articles dans un journal en ligne</target>
         <note><![CDATA[Événement : Beneylu à fond derrière les Jeux]]></note>
+      </trans-unit>
+      <trans-unit id="9c25648dcf480fef05363248758886a230dddf9b" resname="DESCRIPTION_OLYMPICS_TRAINING">
+        <source>DESCRIPTION_OLYMPICS_TRAINING</source>
+        <target state="new">Beneylu s'entraîne pour 2024</target>
+        <note><![CDATA[Événement : Beneylu s'entraîne pour 2024]]></note>
       </trans-unit>
       <trans-unit id="36e48e49f5415eb7905181cc265ab03d59df3738" resname="DESCRIPTION_PORTAL">
         <source>DESCRIPTION_PORTAL</source>
@@ -334,8 +388,8 @@
       </trans-unit>
       <trans-unit id="549c8ca1fc9356031c6e4aeda09b5f03f8e1f231" resname="MINISITE">
         <source>MINISITE</source>
-        <target state="new">Minisite</target>
-        <note><![CDATA[Application: MINISITE]]></note>
+        <target state="new">Site web</target>
+        <note><![CDATA[Application: Site web]]></note>
       </trans-unit>
       <trans-unit id="55f87819f5642038ddb4971c07dd56f4f829bcab" resname="NOTEBOOK">
         <source>NOTEBOOK</source>
@@ -351,6 +405,11 @@
         <source>OLYMPICS</source>
         <target state="new">Beneylu à fond derrière les Jeux</target>
         <note><![CDATA[Application: OLYMPICS]]></note>
+      </trans-unit>
+      <trans-unit id="c578583ba9c00b536471a42dc09b57f66eea25b3" resname="OLYMPICS_TRAINING">
+        <source>OLYMPICS_TRAINING</source>
+        <target state="new">Beneylu s'entraîne pour 2024</target>
+        <note><![CDATA[Application: OLYMPICS_TRAINING]]></note>
       </trans-unit>
       <trans-unit id="8e0b708da85fffbaec9eb3c9a9f797e86a9bc8df" resname="PORTAL">
         <source>PORTAL</source>
@@ -404,7 +463,7 @@
       </trans-unit>
       <trans-unit id="7fd3d9654f0f8eb784281a08397b393df1ace6d2" resname="STATISTICS">
         <source>STATISTICS</source>
-        <target state="new">Statistiques</target>
+        <target state="new">Tableau de bord</target>
         <note><![CDATA[Application: STATISTICS]]></note>
       </trans-unit>
       <trans-unit id="74cccf45fd12253fb34d8046ea63143d314d82a2" resname="TEAM">

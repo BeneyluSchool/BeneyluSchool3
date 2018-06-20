@@ -87,6 +87,7 @@
     <column name="layout_code" type="VARCHAR" size="100" />
     <column name="position" required="true" type="INTEGER" />
     <column name="orientation" required="true" type="VARCHAR" size="100" /> <!-- portrait (p), landscape (l). Default: p -->
+    <column name="sizes" required="false" type="LONGVARCHAR" /> <!-- json -->
 
     <behavior name="sortable">
       <parameter name="rank_column" value="position" />
@@ -106,6 +107,7 @@
     <column name="type" required="true" type="VARCHAR" size="100" /> <!-- full, half. Default: full -->
     <column name="zone" required="true" type="INTEGER" />
     <column name="position" required="true" type="INTEGER" />
+
 
     <behavior name="sortable">
       <parameter name="rank_column" value="position" />

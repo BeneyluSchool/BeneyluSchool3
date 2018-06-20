@@ -2,6 +2,7 @@
 
 namespace BNS\App\LiaisonBookBundle\Form;
 
+use BNS\App\CoreBundle\Model\UserQuery;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -14,12 +15,17 @@ class LiaisonBookType extends AbstractType
 	 */
 	private $editionMode;
 
+    /**
+     * @var array
+     */
+    private $userIds;
 	/**
 	 * @param type $editionMode
 	 */
-	public function __construct($editionMode = false)
+	public function __construct($editionMode = false, $userIds = array())
 	{
 		$this->editionMode = $editionMode;
+		$this->userIds = $userIds;
 	}
 
 
@@ -35,13 +41,27 @@ class LiaisonBookType extends AbstractType
 		$builder->add('date', 'date', array(
 		    'input' => 'datetime',
 		    'widget' => 'single_text',
-			'proxy' => true,
 		    'attr' => array('class' => 'jq-date', 'placeholder' => 'DATE_PLACEHOLDER'),
 		    'required' => true,
 		));
+        $builder->add('publicationDate', 'date', array(
+            'label' => 'TITLE_PUBLICATION_DATE',
+            'input' => 'datetime',
+            'widget' => 'single_text',
+            'attr' => array('class' => 'jq-date', 'placeholder' => 'DATE_PLACEHOLDER' ,'bns-feature-flag' => '"liaison_book_schedule"'),
+            'required' => false,
+        ));
 		$builder->add('content', 'textarea', array(
 			'parse_media' => true,
 		));
+
+		$builder->add('addresseds', 'model', [
+            'class' => 'BNS\\App\\CoreBundle\\Model\\User',
+            'multiple' => true,
+            'expanded' => true,
+            'query' => UserQuery::create()->filterById($this->userIds, \Criteria::IN)
+           ]);
+		$builder->add('individualized', 'checkbox', array('label'=>'CHECKBOX_INDIVIDUALIZE',));
 	}
 
 	/**

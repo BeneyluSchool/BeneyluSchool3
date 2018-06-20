@@ -2,14 +2,14 @@
 
 namespace BNS\App\MediaLibraryBundle\ApiController;
 
-use BNS\App\CoreBundle\Model\ActivityQuery;
 use BNS\App\CoreBundle\Model\GroupQuery;
+use BNS\App\MediaLibraryBundle\Manager\MediaManager;
 use BNS\App\MediaLibraryBundle\Model\Media;
+use BNS\App\MediaLibraryBundle\Model\MediaFolderGroupQuery;
 use BNS\App\MediaLibraryBundle\Model\MediaQuery;
 use BNS\App\PaasBundle\Manager\PaasManager;
 use FOS\RestBundle\Util\Codes;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -78,7 +78,7 @@ class MediaApiController extends BaseMediaLibraryApiController
      * )
      *
      * @Rest\Get("/{id}")
-     * @Rest\View(serializerGroups={"Default","detail"})
+     * @Rest\View(serializerGroups={"Default","detail", "media_with_folder"})
      */
     public function getAction(Request $request, $id)
     {
@@ -90,7 +90,7 @@ class MediaApiController extends BaseMediaLibraryApiController
                 // TODO identify paas ressource
             }
         } else {
-            list($groupId, $activityUniqueName, $mediaSource) = explode('-', $id);
+            @list($groupId, $activityUniqueName, $mediaSource) = explode('-', $id);
             $group = GroupQuery::create()->findPk($groupId);
 
             if (!$mediaSource) {
@@ -100,7 +100,19 @@ class MediaApiController extends BaseMediaLibraryApiController
                 }
                 $activity = $groupActivity->getActivity();
                 $resource = $this->get('bns.paas_manager')->getResourceFromActivity($activity, $group);
-                $media = $this->get('bns.paas_manager')->hydrateResourceFromPaas($resource);
+                if ($resource) {
+                    $media = $this->get('bns.paas_manager')->hydrateResourceFromPaas($resource);
+                    if ($media) {
+                        // find spot folder
+                        $spotFolderId = (int)MediaFolderGroupQuery::create()
+                            ->filterByGroupId($group->getId())
+                            ->filterByIsExternalFolder(true)
+                            ->select('Id')
+                            ->findOne();
+                        $media->setMediaFolderId($spotFolderId);
+                        $media->setMediaFolderType('GROUP');
+                    }
+                }
             } elseif ('nr' == $mediaSource) {
                 $resources = $this->get('bns_app_paas.manager.nathan_resource_manager')->getResources($this->getUser(), $group, 'nathan', $activityUniqueName);
                 if (count($resources)) {
@@ -135,7 +147,7 @@ class MediaApiController extends BaseMediaLibraryApiController
                 $this->canReadMedia($media);
             }
         }
-        if ($media->isActive()) {
+        if ($media->isActive() || $media->isQuestionnaireInCompetition()) {
             return $media;
         }
 
@@ -349,6 +361,10 @@ class MediaApiController extends BaseMediaLibraryApiController
      */
     public function toggleFavoriteAction(Media $media)
     {
+        if (!$this->hasFeature('media_library_favorite')) {
+            throw $this->createAccessDeniedException();
+        }
+
         $mediaManager = $this->getMediaManager($media->getId());
         $this->canReadMedia($media);
         $mediaManager->toggleFavorite($this->get('bns.right_manager')->getUserSessionId());

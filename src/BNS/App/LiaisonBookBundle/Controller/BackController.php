@@ -2,6 +2,9 @@
 
 namespace BNS\App\LiaisonBookBundle\Controller;
 
+use BNS\App\CoreBundle\Model\LiaisonBookUserQuery;
+use BNS\App\CoreBundle\Model\PupilParentLinkQuery;
+use BNS\App\CoreBundle\Model\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -46,7 +49,7 @@ class BackController extends Controller
         $date = mktime(0, 0, 0, $sessionMonth, 1, $sessionYear);
 
         $liaison_book_manager = $this->get('bns.liaison_book_manager');
-        $liaisonBooks = $liaison_book_manager->getLiaisonBooksByGroupIdAndDate($context['id'], $sessionMonth, $sessionYear);
+        $liaisonBooks = $liaison_book_manager->getLiaisonBooksByGroupIdAndDate($context['id'], $sessionMonth, $sessionYear, false);
 
         //Récupération nombre total de signatures attendu (parents dans le groupe)
         $group_manager = $this->get('bns.group_manager');
@@ -103,8 +106,10 @@ class BackController extends Controller
         $liaisonBook = new LiaisonBook();
         $liaisonBook->setDate(new \DateTime());
 
+        $pupils = $this->get('bns.group_manager')->getUserIdsByRole('PUPIL', $this->get('bns.right_manager')->getCurrentGroupId());
+
         return $this->render('BNSAppLiaisonBookBundle:Back:new_message.html.twig', array(
-            'form' => $this->createForm(new LiaisonBookType(), $liaisonBook)->createView(),
+            'form' => $this->createForm(new LiaisonBookType(false, $pupils), $liaisonBook)->createView(),
             'isEditionMode' => false,
             'newsDate' => $date
         ));
@@ -133,7 +138,13 @@ class BackController extends Controller
         }
 
         $group_manager->setGroup($right_manager->getCurrentGroup());
-        $users = $right_manager->getUsersThatHaveThePermissionInGroup('LIAISONBOOK_ACCESS_SIGN', $right_manager->getCurrentGroupId());//$group_manager->getUsersByRoleUniqueName('PARENT', true, null); //
+        if ($new->getIndividualized()) {
+            $children = $new->getaddresseds()->toArray('id');
+            $users = PupilParentLinkQuery::create()->filterByUserPupilId(array_keys($children))->find()->toArray('UserParentId');
+        } else {
+            $userIds = $right_manager->getUserIdsWithPermissionInGroup('LIAISONBOOK_ACCESS_SIGN', $right_manager->getCurrentGroupId());
+            $users = UserQuery::create()->filterById($userIds)->filterByArchived(false)->find()->getArrayCopy('Id');
+        }
         //Nombre total de signatures attendues
         $totalSignatures = count($users);
 
@@ -148,10 +159,10 @@ class BackController extends Controller
         }
 
         //Déduction des personnes n'ayant pas signé
-        foreach ($users as $u) {
-            if(!in_array($u['id'], $usersSign))
+        foreach ($users as $key => $u) {
+            if(!in_array($key, $usersSign))
             {
-                $usersNotSignIds[] = $u['id'];
+                $usersNotSignIds[] = $key;
             }
         }
 
@@ -180,7 +191,8 @@ class BackController extends Controller
         if ('POST' == $this->getRequest()->getMethod()) {
             $context = $this->get('bns.right_manager')->getContext();
             $liaisonBook = new LiaisonBook();
-            $form = $this->createForm(new LiaisonBookType(),$liaisonBook);
+            $pupils = $this->get('bns.group_manager')->getUserIdsByRole('PUPIL', $this->get('bns.right_manager')->getCurrentGroupId());
+            $form = $this->createForm(new LiaisonBookType(false, $pupils),$liaisonBook);
             $form->bind($this->getRequest());
             $this->get('bns.media.manager')->bindAttachments($liaisonBook,$this->getRequest());
 
@@ -233,9 +245,9 @@ class BackController extends Controller
             throw new NotFoundHttpException("Mmmmh, ça c'est de la triche petit malin !");
 
         }
-
+        $pupils = $this->get('bns.group_manager')->getUserIdsByRole('PUPIL',$liaisonBook->getGroupId());
         $isEditionMode = true;
-        $form = $this->createForm(new LiaisonBookType($isEditionMode), $liaisonBook);
+        $form = $this->createForm(new LiaisonBookType($isEditionMode, $pupils), $liaisonBook);
 
         $this->initDateSessionIfNotSet();
         $sessionMonth = $this->getRequest()->getSession()->get("liaisonbook-archive-date-month");
@@ -249,6 +261,14 @@ class BackController extends Controller
                 $liaisonBook = $form->getData();
 
                 // Finally
+                LiaisonBookUserQuery::create()->filterByLiaisonBookId($liaisonBook->getId())->delete();
+                /** @var  LiaisonBook $liaisonBook */
+                $users = $liaisonBook->getAddresseds();
+                $liaisonBook->clearaddresseds();
+                $liaisonBook->clearLiaisonBookUsers();
+                if ( count($users)) {
+                    $liaisonBook->setAddresseds($users);
+                }
                 $liaisonBook->save();
                 //Gestion des PJ
                 $this->get('bns.media.manager')->saveAttachments($liaisonBook, $this->getRequest());

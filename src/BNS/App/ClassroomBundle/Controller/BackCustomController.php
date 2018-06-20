@@ -36,7 +36,7 @@ class BackCustomController extends Controller
         if ($classroomManager->isOnPublicVersion()) {
             $school = $classroomManager->getParent();
             if ($school->getType() === 'SCHOOL') {
-                $withCountry = !$school->isPremium();
+                $withCountry = !$this->get('bns_app_paas.manager.licence_manager')->getLicence($school);
             } else {
                 $withCountry = true;
             }

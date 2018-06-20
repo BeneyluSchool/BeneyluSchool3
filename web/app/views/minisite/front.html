@@ -9,7 +9,7 @@
       <div class="md-toolbar-tools" md-header-title>
         <div class="left-col layout-row layout-align-space-between-center hide show-gt-sm">
           <bns-sidebar-toggle></bns-sidebar-toggle>
-          <div class="school-logo" ng-style="{'background-image': ctrl.minisite.minisite?('url('+(ctrl.minisite.minisite.logo_url||'/ent/medias/images/mini-site/front/bns-logo.png')+')'):''}"></div>
+          <div class="school-logo" ng-style="{'background-image': ctrl.minisite.minisite?('url('+(ctrl.minisite.minisite.logo_url||'/ent/medias/images/mini-site/front/bns-logo-new.png')+')'):''}"></div>
           <h2 flex>{{ ::ctrl.minisite.minisite.title }}</h2>
         </div>
         <bns-sidebar-toggle class="hide-gt-sm"></bns-sidebar-toggle>
@@ -33,7 +33,7 @@
             </md-toolbar> -->
 
             <div class="layout-row layout-align-start-center layout-margin hide-gt-sm">
-              <div class="school-logo flex flex-none" ng-style="{'background-image': ctrl.minisite.minisite?('url('+(ctrl.minisite.minisite.logo_url||'/ent/medias/images/mini-site/front/bns-logo.png')+')'):''}"></div>
+              <div class="school-logo flex flex-none" ng-style="{'background-image': ctrl.minisite.minisite?('url('+(ctrl.minisite.minisite.logo_url||'/ent/medias/images/mini-site/front/bns-logo-new.png')+')'):''}"></div>
               <h2 class="flex md-title">{{ ::ctrl.minisite.minisite.title }}</h2>
             </div>
 
@@ -53,6 +53,14 @@
               >
                 {{ ::link.title }}
               </md-button>
+            </section>
+            <section class="widget-section" ng-if="ctrl.minisite.minisite.description">
+            <div class="text-widget">
+              <div class="widget-content">
+                <h4 class="widget-title" translate>MINISITE.PRESENTATION</h4>
+                <p ng-bind-html="ctrl.minisite.minisite.description"></p>
+              </div>
+            </div>
             </section>
 
             <div bns-minisite-widgets widgets="ctrl.minisite.widgets" hide-md hide-sm></div>

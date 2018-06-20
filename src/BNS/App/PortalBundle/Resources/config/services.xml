@@ -14,5 +14,8 @@
         <service id="bns.portal_manager" class="%bns.portal_managger.class%">
             <argument type="service" id="translator" />
         </service>
+        <service id="stat.portal" class="BNS\App\PortalBundle\Statistic\PortalStatisticsService">
+            <argument type="service" id="service_container"></argument>
+        </service>
     </services>
 </container>

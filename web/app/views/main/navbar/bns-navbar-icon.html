@@ -2,3 +2,5 @@
 <img ng-if="img" ng-src="{{ img }}" alt="" class="md-avatar">
 <span ng-if="sprite" ng-class="sprite" class="sprite"></span>
 <img ng-repeat="(flag, url) in visibleFlags" ng-src="{{ url }}" class="flag flag-{{::flag}}">
+<img ng-if="bottomUrl" ng-src="{{ bottomUrl }}" class="navbar-icon-bottom">
+<md-icon ng-if="icon" class="icon">{{icon}}</md-icon>

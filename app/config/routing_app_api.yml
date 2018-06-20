@@ -94,6 +94,16 @@ BNSAppMessagingBundleApi_counters:
       _format: json
       version: 1.0
 
+
+BNSAppMessagingBundleApi_preferences:
+    type:     rest
+    resource: "@BNSAppMessagingBundle/ApiController/MessagingPreferencesApiController.php"
+    name_prefix:  messaging_preferences_api_
+    prefix:   /api/{version}/messaging/preferences
+    defaults:
+      _format: json
+      version: 1.0
+
 # USER
 BNSAppUserBundleApi_user:
     type:     rest
@@ -326,6 +336,22 @@ BNSAppHomeworkBundleApi_calendar_event:
     defaults:
       _format: json
       version: 1.0
+BNSAppCalendarBundleApi_calendar_subject:
+    type:     rest
+    resource: "@BNSAppCalendarBundle/ApiController/SubjectApiController.php"
+    name_prefix:  calendar_subject_api_
+    prefix:   /api/{version}/calendar/subject
+    defaults:
+      _format: json
+      version: 1.0
+BNSAppCalendarBundleApi_calendar_object:
+    type:     rest
+    resource: "@BNSAppCalendarBundle/ApiController/ObjectApiController.php"
+    name_prefix:  calendar_object_api_
+    prefix:   /api/{version}/calendar/object
+    defaults:
+      _format: json
+      version: 1.0
 
 BNSAppLunchBundleApi_lunch_week:
     type:      rest
@@ -372,6 +398,24 @@ BNSAppEventBundleApi_embed:
       _format: json
       version: 1.0
 
+BNSAppEventBundleApi_olympics_training:
+    type:      rest
+    resource: "@BNSAppEventBundle/ApiController/OlympicsTrainingApiController.php"
+    name_prefix:  olympics_training_api_
+    prefix:   /api/{version}/olympics-training
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppEventBundleApi_archeology:
+    type:      rest
+    resource: "@BNSAppEventBundle/ApiController/ArcheologyApiController.php"
+    name_prefix:  archeology_api_
+    prefix:   /api/{version}/archeology
+    defaults:
+      _format: json
+      version: 1.0
+
 BNSAppCoreBundleApi_cache:
     type:      rest
     resource: "@BNSAppCoreBundle/ApiController/CacheApiController.php"
@@ -390,11 +434,47 @@ BNSAppBlogBundleApi_blog_category:
       _format: json
       version: 1.0
 
+BNSAppBlogBundleApi_blog:
+    type:      rest
+    resource: "@BNSAppBlogBundle/ApiController/BlogApiController.php"
+    name_prefix:  blog_api_
+    prefix:   /api/{version}/blog
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppBlogBundleApi_blog_article:
+    type:      rest
+    resource: "@BNSAppBlogBundle/ApiController/BlogArticleApiController.php"
+    name_prefix:  blog_api_
+    prefix:   /api/{version}/blog/article
+    defaults:
+      _format: json
+      version: 1.0
+
 BNSAppMainBundleApi_wysiwyg:
     type:      rest
     resource: "@BNSAppMainBundle/ApiController/WysiwygApiController.php"
     name_prefix:  wysiwyg_api_
     prefix:   /api/{version}/wysiwyg
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppMainBundleApi_featureflags:
+    type:      rest
+    resource: "@BNSAppMainBundle/ApiController/FeatureFlagsApiController.php"
+    name_prefix:  featureflags_api_
+    prefix:   /api/{version}/feature-flags
+    defaults:
+      _format: json
+      version: 1.0
+
+BNSAppMainBundleApi_parameters:
+    type:      rest
+    resource: "@BNSAppMainBundle/ApiController/ParametersApiController.php"
+    name_prefix:  parameters_api_
+    prefix:   /api/{version}/parameters
     defaults:
       _format: json
       version: 1.0
@@ -428,6 +508,15 @@ BNSAppSearchBundleApi_search_white_list:
       format: json
       version: 1.0
 
+BNSAppSearchBundleApi_search_save:
+    type:      rest
+    resource: "@BNSAppSearchBundle/ApiController/SearchSaveApiController.php"
+    name_prefix: search_save_api_
+    prefix:   /api/{version}
+    defaults:
+      format: json
+      version: 1.0
+
 #Campaign
 BNSAppCampaignBundleApi_campaign:
     type:      rest
@@ -456,6 +545,16 @@ BNSAppCampaignBundleApi_user_fast_edit:
     prefix:   /api/{version}
     defaults:
       _format: json
+      version: 1.0
+
+# Portal
+BNSAppPortalBundleApi_portal:
+    type:      rest
+    resource: "@BNSAppPortalBundle/ApiController/PortalApiController.php"
+    name_prefix: portal_api_
+    prefix:   /api/{version}
+    defaults:
+      format: json
       version: 1.0
 
 # Lsu
@@ -493,6 +592,115 @@ BNSAppClassroomBundleApi_newspaper:
     prefix:   /api/{version}/classroom/newspaper
     defaults:
       _format: json
+      version: 1.0
+
+BNSAppCompetitionBundleApi_competition:
+    type:      rest
+    resource: "@BNSAppCompetitionBundle/ApiController/CompetitionApiController.php"
+    name_prefix: competition_api_
+    prefix:   /api/{version}/competitions
+    defaults:
+      format: json
+      version: 1.0
+
+BNSAppCompetitionBundleApi_answer:
+    type:      rest
+    resource: "@BNSAppCompetitionBundle/ApiController/AnswerApiController.php"
+    name_prefix: answer_api_
+    prefix:   /api/{version}/answers
+    defaults:
+      format: json
+      version: 1.0
+BNSAppCompetitionBundleApi_book:
+    type:      rest
+    resource: "@BNSAppCompetitionBundle/ApiController/BookApiController.php"
+    name_prefix: book_api_
+    prefix:   /api/{version}/books
+    defaults:
+      format: json
+      version: 1.0
+BNSAppCompetitionBundleApi_questionnaire_participation:
+    type:      rest
+    resource: "@BNSAppCompetitionBundle/ApiController/QuestionnaireParticipationApiController.php"
+    name_prefix: questionnaire_participation_api_
+    prefix:   /api/{version}/questionnaire-participation
+    defaults:
+      format: json
+      version: 1.0
+BNSAppCompetitionBundleApi_competition_participation:
+    type:      rest
+    resource: "@BNSAppCompetitionBundle/ApiController/CompetitionParticipationApiController.php"
+    name_prefix: competition_participation_api_
+    prefix:   /api/{version}/competition-participation
+    defaults:
+      format: json
+      version: 1.0
+BNSAppCompetitionBundleApi_competition_questionnaire:
+    type:      rest
+    resource: "@BNSAppCompetitionBundle/ApiController/CompetitionQuestionnaireApiController.php"
+    name_prefix: competition_questionnaire_api_
+    prefix:   /api/{version}/competition-questionnaire
+    defaults:
+      format: json
+      version: 1.0
+BNSAppCompetitionBundleApi_competition_book_questionnaire:
+    type:      rest
+    resource: "@BNSAppCompetitionBundle/ApiController/CompetitionBookQuestionnaireApiController.php"
+    name_prefix: competition_book_questionnaire_api_
+    prefix:   /api/{version}/competition-book-questionnaire
+    defaults:
+      format: json
+      version: 1.0
+BNSAppCompetitionBundleApi_competition_book_notice:
+    type:      rest
+    resource: "@BNSAppCompetitionBundle/ApiController/BookNoticeApiController.php"
+    name_prefix: competition_book_notice_api_
+    prefix:   /api/{version}/competition-book-notice
+    defaults:
+      format: json
+      version: 1.0
+BNSAppCompetitionBundleApi_competition_book_participation:
+    type:      rest
+    resource: "@BNSAppCompetitionBundle/ApiController/BookParticipationApiController.php"
+    name_prefix: competition_book_participation_api_
+    prefix:   /api/{version}/competition-book-participation
+    defaults:
+      format: json
+      version: 1.0
+
+BNSAppAccountBundleApi_account:
+    type:      rest
+    resource: "@BNSAppAccountBundle/ApiController/AccountApiController.php"
+    name_prefix: account_api_
+    prefix:   /api/{version}/account
+    defaults:
+      format: json
+      version: 1.0
+
+# Chat
+BNSAppChatBundleApi_room:
+    type:      rest
+    resource: "@BNSAppChatBundle/ApiController/RoomApiController.php"
+    name_prefix: chat_room_api_
+    prefix:   /api/{version}/chat/rooms
+    defaults:
+      format: json
+      version: 1.0
+BNSAppChatBundleApi_status:
+    type:      rest
+    resource: "@BNSAppChatBundle/ApiController/StatusApiController.php"
+    name_prefix: chat_room_api_
+    prefix:   /api/{version}/chat/status
+    defaults:
+      format: json
+      version: 1.0
+BNSAppChatBundleApi_webhook:
+    type:      rest
+    resource: "@BNSAppChatBundle/ApiController/WebhookApiController.php"
+    name_prefix: chat_webhook_api_
+    prefix:   /api/{version}/chat/webhooks
+    defaults:
+      format: json
       version: 1.0
 
 # Resource - DEPRACATED

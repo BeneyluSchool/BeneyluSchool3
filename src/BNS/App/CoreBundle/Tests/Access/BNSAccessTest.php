@@ -2,17 +2,16 @@
 namespace BNS\App\CoreBundle\Tests\Access;
 
 use BNS\App\CoreBundle\Access\BNSAccess;
-use BNS\App\CoreBundle\Tests\TestCase;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\DependencyInjection\Container;
 
-class BNSAccessTest extends TestCase
+class BNSAccessTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testSetRequest()
+    public function testSetContainer()
     {
-        $request = new Request();
-        BNSAccess::setRequest($request);
+        $container = new Container();
+        BNSAccess::setContainer($container);
 
-        $this->assertEquals($request, BNSAccess::getRequest());
+        $this->assertEquals($container, BNSAccess::getContainer());
     }
 }

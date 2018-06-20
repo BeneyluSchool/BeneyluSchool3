@@ -17,7 +17,7 @@ angular.module('bns.viewer.directive', [
     };
   })
 
-  .controller('ViewerDirectiveController', function ($scope, $element, bnsViewer) {
+  .controller('ViewerDirectiveController', function ($scope, $element, $attrs, bnsViewer) {
     var ctrl = this;
     ctrl.viewer = bnsViewer();
 
@@ -41,6 +41,8 @@ angular.module('bns.viewer.directive', [
       } else {
         locals.mediaId= ctrl.mediaId;
       }
-      ctrl.viewer.activate(locals);
+      if (!$attrs.disabled) {
+        ctrl.viewer.activate(locals);
+      }
     }
   });

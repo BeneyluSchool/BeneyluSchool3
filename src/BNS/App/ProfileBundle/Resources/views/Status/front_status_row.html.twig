@@ -23,6 +23,7 @@
 				{{ 'STATUS_INFORMATION'|trans({'%dateCreation%': date_from_now(feed.getDate().getTimestamp(), true, true), '%userFullName%': feed.getAuthor().getFullName() |escape}) |desc('<strong> %userFullName% </strong> - %dateCreation%') |raw }}
 			{% endif %}
 	</div>
+  {% if flag_profile_comment %}
 	<div class="feed-{{ feed.getId() }}-comment-container">
 		{% render controller('BNSAppCommentBundle:FrontComment:show', {
 		'namespace': '\\BNS\\App\\CoreBundle\\Model\\ProfileComment',
@@ -33,5 +34,6 @@
 		'material' : true,
 		}) %}
 	</div>
+  {% endif %}
 	<md-divider></md-divider>
 </div>

@@ -10,7 +10,6 @@ angular.module('bns.core', [
   'bns.core.modal',
   'bns.core.bindValue',
   'bns.core.focusRequest',
-  'bns.core.flash',
   'bns.core.stringHelpers',
   'bns.core.objectHelpers',
   'bns.core.collectionHelpers',

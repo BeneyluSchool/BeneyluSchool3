@@ -20,6 +20,7 @@
         <service id="bns_group.activation_statistics" class="BNS\App\GroupBundle\Statistic\ActivationStatistics">
             <argument type="service" id="bns.group_manager" />
             <argument type="service" id="translator" />
+            <argument type="service" id="bns.api"/>
             <tag name="bns_statistic.statistic_config_provider" />
         </service>
 

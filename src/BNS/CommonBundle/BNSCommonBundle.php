@@ -3,6 +3,7 @@
 namespace BNS\CommonBundle;
 
 use BNS\CommonBundle\DependencyInjection\Compiler\AssetVersionStrategyCompilerPass;
+use BNS\CommonBundle\DependencyInjection\Compiler\LogoutCompilerPass;
 use BNS\CommonBundle\DependencyInjection\Compiler\PropelParamConverterCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -13,5 +14,6 @@ class BNSCommonBundle extends Bundle
     {
         $container->addCompilerPass(new AssetVersionStrategyCompilerPass());
         $container->addCompilerPass(new PropelParamConverterCompilerPass());
+        $container->addCompilerPass(new LogoutCompilerPass());
     }
 }

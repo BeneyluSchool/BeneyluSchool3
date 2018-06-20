@@ -14,42 +14,56 @@ function BNSProfileSwitchDirective () {
 
   return {
     controller : 'BNSProfileSwitch',
-    scope : true
+    require: 'ngModel'
   };
 
 }
 
-function BNSProfileSwitchController ($scope, $attrs, $http, toast) {
+function BNSProfileSwitchController ($scope, $attrs, $http, toast, $timeout) {
 
   var link = $attrs.url;
+  var hasInit = false;
+  var method = angular.isDefined($attrs.method) ? $attrs.method : 'POST';
+
+  $scope.$watch($attrs.ngModel, function (newValue) {
+    if (undefined === newValue) {
+      return;
+    }
+    if (!hasInit) {
+      return;
+    }
+    onChange();
+  });
 
   $http({
-    method: 'POST',
+    method: method,
     url: link,
   }).then(function successCallback (response) {
-    $scope.active = response.data.moderate;
+    $scope[$attrs.ngModel] = response.data.moderate;
+    $timeout(function () {
+      hasInit = true;
+    });
   }, function errorCallback () {
     $scope.isSigning = false;
   });
 
-  $scope.onChange = onChange;
 
   function onChange () {
     var link = $attrs.url;
+
     $http({
-      method: 'POST',
+      method: method,
       url: link,
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      data : {state : !$scope.active}
+      data : {state : !$scope[$attrs.ngModel]}
     }).then(function successCallback() {
-      if ($scope.active) {
+      if ($scope[$attrs.ngModel]) {
         toast.success($attrs.success);
       } else {
         toast.success($attrs.fail);
       }
     });
   }
-
 }
 
 function BNSProfileCommentDirective (){

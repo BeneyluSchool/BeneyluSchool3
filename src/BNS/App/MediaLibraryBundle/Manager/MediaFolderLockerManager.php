@@ -35,10 +35,17 @@ class MediaFolderLockerManager
 
     /**
      * @param Homework $homework
+     * @param Group $contextGroup
      */
-    public function createForHomework(Homework $homework)
+    public function createForHomework(Homework $homework, Group $contextGroup = null)
     {
-        foreach ($homework->getGroups() as $group) {
+        $groups = $homework->getGroups();
+        $isIndividual = false;
+        if (!$groups->count() && $contextGroup) {
+            $groups = [$contextGroup];
+            $isIndividual = true;
+        }
+        foreach ($groups as $group) {
             $folder = MediaFolderGroupQuery::create()
                 ->filterByGroup($group)
                 ->filterByHomework($homework)
@@ -73,6 +80,7 @@ class MediaFolderLockerManager
                 $parent = $this->mediaFolderManager->getGroupFolder($group);
                 $folder = $this->mediaFolderManager->create(implode(' - ', $label), $parent->getId(), $parent->getType());
                 $folder->setIsLocker(true);
+                $folder->setHomeworkIndividual($isIndividual);
                 $folder->setHomework($homework);
                 $folder->save();
             }
@@ -129,7 +137,10 @@ class MediaFolderLockerManager
         return MediaFolderGroupQuery::create()
             ->filterByIsLocker(true)
             ->filterByHomework($homework)
-            ->filterByGroupId($groupId)
+            // do not filter if no groupId found: it's an individual homework
+            ->_if($groupId)
+                ->filterByGroupId($groupId)
+            ->_endif()
             ->filterByStatusDeletion(MediaManager::STATUS_ACTIVE)
             ->findOne()
         ;

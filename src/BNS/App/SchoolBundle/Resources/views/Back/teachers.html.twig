@@ -81,6 +81,18 @@
     </div>
 
     <div class="container-classroom">
+        
+        {% if aafAcademy is not empty %}  
+        <div class="alert alert-info bns-alert">
+            {{ 'AUTOMATE_ADD_PUPIL' |trans({
+                '%linkStart%': '<a target="_blank"
+                href="' ~ parameter('bns_aaf_academy_links')['info_link'][app.request.locale]|default(parameter('bns_aaf_academy_links')['info_link']['fr']) ~ '">',
+                '%linkEnd%': '</a>'
+            }, 'CLASSROOM') |desc("Vous bénéficiez de l'alimentation automatique des données depuis ONDE, les ajouts sont par conséquent bloqués.
+            %linkStart%Avoir plus de renseignements%linkEnd%") |raw }}
+            <div class="jim"></div>
+        </div>
+        {% endif %}
 
         <div class="news-title">
           <h1 class="dashboard">{% trans %}TEACHERS_LIST{% endtrans %}</h1>

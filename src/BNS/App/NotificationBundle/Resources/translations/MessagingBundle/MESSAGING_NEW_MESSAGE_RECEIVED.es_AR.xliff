@@ -8,13 +8,16 @@
     <body>
       <trans-unit id="bea856712fc1b149437902c435948c98e2a4cd2f" resname="MESSAGING_NEW_MESSAGE_RECEIVED.EMAIL.content">
         <source>MESSAGING_NEW_MESSAGE_RECEIVED.EMAIL.content</source>
-        <target><![CDATA[¡<strong>%sender_full_name%</strong> te envió un mensaje en Beneylu School! ¿Qué te parece leer el mensaje <a href="%message_route%">pulsando aquí</a>?]]></target>
+        <target><![CDATA[<b>%classLabel%</b>¡<strong>%sender_full_name%</strong> te envió un mensaje en Beneylu School! ¿Qué te parece leer el mensaje <a href="%message_route%">pulsando aquí</a>?]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
       <trans-unit id="2bcc8dda27674ab874de1bdc765e22b69d408b5f" resname="MESSAGING_NEW_MESSAGE_RECEIVED.EMAIL.title">
         <source>MESSAGING_NEW_MESSAGE_RECEIVED.EMAIL.title</source>
-        <target>Recibiste un mensaje de %sender_full_name%</target>
+        <target><![CDATA[%classLabel%Recibiste un mensaje de %sender_full_name%]]></target>
+        <note>%classLabel% is a placeholder
+               This text contains HTML tags, please try to keep those tags
+            </note>
       </trans-unit>
       <trans-unit id="2a3def8f346e4210977d2acc0f97c18357674621" resname="MESSAGING_NEW_MESSAGE_RECEIVED.SYSTEM.content">
         <source>MESSAGING_NEW_MESSAGE_RECEIVED.SYSTEM.content</source>

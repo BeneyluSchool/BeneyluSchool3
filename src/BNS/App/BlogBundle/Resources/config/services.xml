@@ -27,6 +27,12 @@
             <argument id="bns.right_manager" type="service"/>
             <argument id="bns.user_manager" type="service"/>
         </service>
+        <service class="BNS\App\BlogBundle\Search\BlogSearchProvider" id="bns.blog.blog_search">
+            <argument id="security.token_storage" type="service"/>
+            <argument id="bns.right_manager" type="service"/>
+            <argument id="router" type="service"/>
+            <tag name="bns.search_provide"/>
+        </service>
 
     </services>
 </container>

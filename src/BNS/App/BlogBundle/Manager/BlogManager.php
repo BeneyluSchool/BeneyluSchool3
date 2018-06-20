@@ -1,6 +1,7 @@
 <?php
 namespace BNS\App\BlogBundle\Manager;
 
+use BNS\App\CoreBundle\Model\Blog;
 use BNS\App\CoreBundle\Model\BlogArticle;
 use BNS\App\CoreBundle\Model\GroupQuery;
 use BNS\App\CoreBundle\Model\om\BaseBlogArticlePeer;
@@ -18,6 +19,9 @@ class BlogManager
 
     /** @var BNSUserManager */
     protected $userManager;
+
+    /** @var  Blog|null */
+    protected $currentBlog;
 
     public function __construct(BNSRightManager $rightManager, BNSUserManager $userManager)
     {
@@ -40,7 +44,18 @@ class BlogManager
         }
 
         if ($article->isNew()) {
-            $blogGroupIds = $article->getBlogs()->getPrimaryKeys(false);
+            $blogIds = $article->getBlogs()->getPrimaryKeys(false);
+            if (!count($blogIds)) {
+                return true;
+            }
+            $blogGroupIds = GroupQuery::create()
+                ->useBlogQuery()
+                    ->filterById($blogIds)
+                ->endUse()
+                ->select(['Id'])
+                ->find()
+                ->getArrayCopy()
+            ;
         } else {
             $blogGroupIds = GroupQuery::create()
                 ->useBlogQuery()
@@ -118,4 +133,15 @@ class BlogManager
         return $isAllowed;
     }
 
+    public function getCurrentBlog()
+    {
+        if (null === $this->currentBlog) {
+            $group = $this->rightManager->getCurrentGroup();
+            if ($group) {
+                $this->currentBlog = $group->getBlog();
+            }
+        }
+
+        return $this->currentBlog;
+    }
 }

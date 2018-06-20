@@ -40,7 +40,7 @@
         {% else %}
         <thead class="banniere">
         <td>
-          <img src="{{ asset('/medias/images/classroom/pupil_parent_card/bns_logo.png') }}" width="75px" height="75px" class="header-logo" />
+          <img src="{{ asset('/medias/images/classroom/pupil_parent_card/bns-logo-new.png') }}" width="75px" height="75px" class="header-logo" />
           <p class="texte_fiche">{{ 'LOGIN_CARD'|trans }}</p>
           <p class="nom"> {{ user.getFullName() }}</p>
         </td>
@@ -67,7 +67,7 @@
 
             {% endif %}
           </th>
-          <th class="link_site"> {{ parameter('application_base_url') }} </th>
+          <th class="link_site"> {{ base_url|default(parameter('application_base_url')) }} </th>
         </tr>
         </tfoot>
       </table>

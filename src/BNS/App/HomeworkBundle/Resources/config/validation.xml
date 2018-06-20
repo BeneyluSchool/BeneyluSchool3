@@ -24,6 +24,15 @@
                 <option name="message">HOMEWORK_INVALID_CHOOSE_RECURRENCE</option>
             </constraint>
         </property>
+
+        <constraint name="Expression">
+            <option name="expression">
+                this.countUsers() > 0 or this.countGroups() > 0
+            </option>
+            <option name="message">INVALID_HOMEWORK_REQUIRE_GROUP_OR_USER</option>
+        </constraint>
+
+        <constraint name="Callback">validatePublicationDate</constraint>
     </class>
     <class name="BNS\App\HomeworkBundle\Model\HomeworkSubject">
         <property name="name">

@@ -1,5 +1,6 @@
 environments:
   - www.beneyluschool.net
+  - EntEcole
 
 
 group_type_data_templates:
@@ -169,6 +170,17 @@ group_type_data_templates:
       en:
         label: Description
         description: En DESCRIPTION
+
+  EXPIRATION_DATE:
+    unique_name: EXPIRATION_DATE
+    type: TEXT
+    i18n:
+      fr:
+        label: date d'expiration
+        description: Fr EXPIRATION_DATE
+      en:
+        label: date d'expiration
+        description: En EXPIRATION_DATE
 
   LANGUAGE:
     unique_name: LANGUAGE
@@ -565,17 +577,42 @@ group_type_data_templates:
          label: End User Policy URL for parents
          description:
 
+  POLICY_URL_TEACHER:
+     unique_name: POLICY_URL_TEACHER
+     type: TEXT
+     default_value:
+     i18n:
+       fr:
+         label: URL du PDF de la charte utilisateur destiné aux directeurs et enseignants
+         description:
+       en:
+         label: End User Policy URL for directors and teachers
+         description:
+
+  POLICY_URL_CITY_REFERENT:
+     unique_name: POLICY_URL_CITY_REFERENT
+     type: TEXT
+     default_value:
+     i18n:
+       fr:
+         label: URL du PDF de la charte utilisateur destiné aux réferents de ville
+         description:
+       en:
+         label: End User Policy URL for city referents
+         description:
+
   POLICY_URL_OTHER:
      unique_name: POLICY_URL_OTHER
      type: TEXT
      default_value:
      i18n:
        fr:
-         label: URL du PDF de la charte utilisateur
+         label: URL du PDF de la charte utilisateur adulte
          description:
        en:
-         label: End User Policy URL
+         label: End User Policy URL for adults
          description:
+
   BOARD_FEED:
     unique_name: BOARD_FEED
     type: SINGLE
@@ -692,10 +729,21 @@ group_type_data_templates:
 
 
 
+  # Restricted access
+  RESTRICTED_ACCESS_ENABLED:
+    unique_name: RESTRICTED_ACCESS_ENABLED
+    type: SINGLE
+  RESTRICTED_ACCESS_START:
+    unique_name: RESTRICTED_ACCESS_START
+    type: SINGLE
+  RESTRICTED_ACCESS_END:
+    unique_name: RESTRICTED_ACCESS_END
+    type: SINGLE
+
 group_types:
   Environment:
     centralize: false
-    data: [NAME, DESCRIPTION, LANGUAGE, MINISITE_ALLOW_PUBLIC, WHITE_LIST, POLICY, POLICY_URL_CHILD, POLICY_URL_PARENT, POLICY_URL_OTHER, INSEE_ID, SPOT_AUTOCONNECT_URL, CGU_ENABLED, CGU_ENABLED, CGU_URL, CGU_VERSION, CGU_DATE]
+    data: [NAME, DESCRIPTION, LANGUAGE, MINISITE_ALLOW_PUBLIC, WHITE_LIST, POLICY, POLICY_URL_CHILD, POLICY_URL_PARENT, POLICY_URL_TEACHER, POLICY_URL_CITY_REFERENT, POLICY_URL_OTHER, INSEE_ID, SPOT_AUTOCONNECT_URL, RESTRICTED_ACCESS_ENABLED, RESTRICTED_ACCESS_START, RESTRICTED_ACCESS_END, CGU_ENABLED, CGU_URL, CGU_VERSION, CGU_DATE]
     type: ENVIRONMENT
     simulate_role: false
     i18n:
@@ -719,7 +767,7 @@ group_types:
         description: This is a classroom
   School:
     centralize: false
-    data: [NAME, UAI, ADDRESS, ZIPCODE, CITY, EMAIL, GEOCOORDS, HOME_MESSAGE]
+    data: [NAME, UAI, ADDRESS, ZIPCODE, CITY, EMAIL, GEOCOORDS, HOME_MESSAGE, LANGUAGE, RESTRICTED_ACCESS_ENABLED, RESTRICTED_ACCESS_START, RESTRICTED_ACCESS_END]
     type: SCHOOL
     simulate_role: false
     i18n:
@@ -825,6 +873,36 @@ group_types:
       en:
         label: City
         description: This is a city
+  Department:
+    centralize: false
+    data: [HOME_MESSAGE]
+    type: DEPARTMENT
+    simulate_role: false
+  Circonscription:
+    centralize: false
+    data: [HOME_MESSAGE]
+    type: CIRCONSCRIPTION
+    simulate_role: false
+  Suport:
+    centralize: false
+    data: []
+    type: SUPORT
+    simulate_role: true
+  CDC:
+    centralize: false
+    data: []
+    type: CDC
+    simulate_role: true
+  CDN:
+    centralize: false
+    data: []
+    type: CDN
+    simulate_role: true
+  CITY_REFERENT:
+    centralize: false
+    data: []
+    type: CITY_REFERENT
+    simulate_role: true
 
 email_templates:
   WELCOME:
@@ -941,7 +1019,7 @@ rules:
     who:
       group_type: DIRECTOR
     rank_unique_name:
-      value: [DIRECTORY_READ, GROUP_MANAGE, GROUP_USE, ENVIRONMENT_TYPE_MANAGE, GROUP_IMPORT_GROUPS_MANAGE, GROUP_IMPORT_USER_MANAGE]
+      value: [MINISITE_MANAGE, DIRECTORY_READ, GROUP_MANAGE, GROUP_USE, ENVIRONMENT_TYPE_MANAGE, GROUP_IMPORT_GROUPS_MANAGE, GROUP_IMPORT_USER_MANAGE, COMPETITION_MANAGE, WORKSHOP_QUESTIONNAIRE]
     where:
       group_type: SCHOOL
       belong: true
@@ -951,7 +1029,7 @@ rules:
     who:
       group_type: TEACHER
     rank_unique_name:
-      value: [CLASSROOM_MANAGE, PROFILE_MANAGE, HELLOWORLD_MANAGE, CALENDAR_MANAGE, RESOURCE_ADMINISTRATION, BLOG_MANAGE, MESSAGING_MANAGE, LIAISONBOOK_MANAGE, HOMEWORK_MANAGE, GPS_MANAGE, MINISITE_MANAGE, DIRECTORY_MANAGE, BOARD_MANAGE, FORUM_MANAGE, NOTEBOOK_USE, CALENDAR_MANAGE_PARTNERSHIP, RESOURCE_MANAGE_PARTNERSHIP, BLOG_MANAGE_PARTNERSHIP, MAIN_MANAGE]
+      value: [CLASSROOM_MANAGE, PROFILE_MANAGE, HELLOWORLD_MANAGE, CALENDAR_MANAGE, RESOURCE_ADMINISTRATION, BLOG_MANAGE, MESSAGING_MANAGE, LIAISONBOOK_MANAGE, HOMEWORK_MANAGE, GPS_MANAGE, MINISITE_MANAGE, DIRECTORY_MANAGE, BOARD_MANAGE, FORUM_MANAGE, NOTEBOOK_USE, CALENDAR_MANAGE_PARTNERSHIP, RESOURCE_MANAGE_PARTNERSHIP, BLOG_MANAGE_PARTNERSHIP, MAIN_MANAGE, WORKSHOP_MANAGE, COMPETITION_MANAGE, WORKSHOP_QUESTIONNAIRE]
     where:
       group_type: CLASSROOM
       belong: true
@@ -960,7 +1038,7 @@ rules:
     who:
       group_type: DIRECTOR
     rank_unique_name:
-      value: [CLASSROOM_MANAGE, PROFILE_MANAGE, HELLOWORLD_MANAGE, CALENDAR_MANAGE, RESOURCE_ADMINISTRATION, BLOG_MANAGE, MESSAGING_MANAGE, LIAISONBOOK_MANAGE, HOMEWORK_MANAGE, GPS_MANAGE, MINISITE_MANAGE, DIRECTORY_MANAGE, BOARD_MANAGE, FORUM_MANAGE, NOTEBOOK_USE, CALENDAR_MANAGE_PARTNERSHIP, RESOURCE_MANAGE_PARTNERSHIP, BLOG_MANAGE_PARTNERSHIP]
+      value: [CLASSROOM_MANAGE, PROFILE_MANAGE, HELLOWORLD_MANAGE, CALENDAR_MANAGE, RESOURCE_ADMINISTRATION, BLOG_MANAGE, MESSAGING_MANAGE, LIAISONBOOK_MANAGE, HOMEWORK_MANAGE, GPS_MANAGE, MINISITE_MANAGE, DIRECTORY_MANAGE, BOARD_MANAGE, FORUM_MANAGE, NOTEBOOK_USE, CALENDAR_MANAGE_PARTNERSHIP, RESOURCE_MANAGE_PARTNERSHIP, BLOG_MANAGE_PARTNERSHIP, WORKSHOP_MANAGE, WORKSHOP_QUESTIONNAIRE]
     where:
       group_type: CLASSROOM
       belong: true
@@ -969,7 +1047,7 @@ rules:
     who:
       group_type: PUPIL
     rank_unique_name:
-      value: [CLASSROOM_USE]
+      value: [CLASSROOM_USE, COMPETITION_USE]
     where:
       group_type: CLASSROOM
       belong: true
@@ -990,7 +1068,7 @@ rules:
     who:
       group_type: TEACHER
     rank_unique_name:
-      value: [TEAM_READ, CALENDAR_ACTIVATION_TEAM, RESOURCE_ACTIVATION_TEAM, BLOG_ACTIVATION_TEAM, HOMEWORK_ACTIVATION_TEAM]
+      value: [TEAM_READ, HOMEWORK_MANAGE, CALENDAR_ACTIVATION_TEAM, RESOURCE_ACTIVATION_TEAM, BLOG_ACTIVATION_TEAM, HOMEWORK_ACTIVATION_TEAM]
     where:
       group_type: TEAM
       belong: true
@@ -1021,9 +1099,47 @@ rules:
     who:
       group_type: ADMIN
     rank_unique_name:
-      value: [ADMIN_ADMINISTRATION]
+      value: [ADMIN_ADMINISTRATION_STRONG]
     where:
       group_type: ENVIRONMENT
+      belong: true
+    state: true
+
+  # Specific rules
+  SUPORT_IN_ENV:
+    who:
+      group_type: SUPORT
+    rank_unique_name:
+      value: [ALL_ASSIGNMENT, GROUP_MANAGE]
+    where:
+      group_type: ENVIRONMENT
+      belong: true
+    state: true
+  CDN_IN_DEPARTMENT:
+    who:
+      group_type: CDN
+    rank_unique_name:
+      value: [DEPARTMENT_TYPE_VISIT, GROUP_MANAGE, CIRCONSCRIPTION_TYPE_VISIT, SCHOOL_TYPE_VISIT, CLASSROOM_TYPE_VISIT, DIRECTOR_TYPE_VISIT, TEACHER_TYPE_VISIT, CDC_TYPE_VISIT, PUPIL_TYPE_AFFECTATION, ALL_ASSIGNMENT, CLASSROOM_TYPE_MANAGE, PUPIL_TYPE_MANAGE, TEACHER_TYPE_ASSISTn DIRECTOR_TYPE_ASSIST, STATISTICS_USE, STATISTICS_SCHOOL]
+    where:
+      group_type: DEPARTMENT
+      belong: true
+    state: true
+  CDC_IN_CIRCONSCRIPTION:
+    who:
+      group_type: CDC
+    rank_unique_name:
+      value: [GROUP_MANAGE, CIRCONSCRIPTION_TYPE_VISIT, CLASSROOM_TYPE_VISIT, SCHOOL_TYPE_VISIT, TEACHER_TYPE_EDIT, DIRECTOR_TYPE_EDIT, ALL_ASSIGNMENT, CLASSROOM_TYPE_EDIT, PUPIL_TYPE_VISIT, TEACHER_TYPE_ASSIST, DIRECTOR_TYPE_ASSIST, STATISTICS_USE, STATISTICS_CLASSROOM, STATISTICS_SCHOOL]
+    where:
+      group_type: CIRCONSCRIPTION
+      belong: true
+    state: true
+  CITY_REFERENT_IN_CITY:
+    who:
+      group_type: CITY_REFERENT
+    rank_unique_name:
+      value: [PORTAL_MANAGE, GROUP_USE, MEDIA_LIBRARY_MANAGE, MINISITE_MANAGE, AUTO_JOIN_STRUCTURE_ACCUEIL_AS_CITY_REFERENT, GROUP_MANAGE, CALENDAR_MANAGE, STRUCTURE_ACCUEIL_DIRECTOR_TYPE_MANAGE, STRUCTURE_ACCUEIL_TYPE_MANAGE, CITY_TYPE_VISIT, CONTRIBUTOR_TYPE_MANAGE, STATISTICS_USE, STATISTICS_SCHOOL]
+    where:
+      group_type: CITY
       belong: true
     state: true
 
@@ -1086,3 +1202,51 @@ groups:
       - CE1
       - CE2
     lang: fr
+
+groups_auto:
+  -
+    id: 137842              # same as an actual group in config/projects.yml
+    type: DEPARTMENT
+    parent: 2
+  -
+    id: 138001
+    type: CIRCONSCRIPTION
+    parent: 137842
+  -
+    id: 138002
+    type: CITY
+    parent: 137842
+  -
+    id: 138003
+    type: SCHOOL
+    parent: [ 138001, 138002 ]
+    lang: fr
+  -
+    id: 138004
+    type: CLASSROOM
+    parent: 138003
+    lang: fr
+  -
+    id: 138005
+    type: TEAM
+    parent: 138004
+    lang: fr
+
+# apps and where should they be installed
+applications:
+  HOMEWORK: [ CLASSROOM, TEAM ]
+  MINISITE: [ CITY, SCHOOL ]
+  WORKSHOP: [ CLASSROOM ]
+  COMPETITION: [ CLASSROOM ]
+
+homeworks:
+  -
+    name: Normal homework this week
+    date: monday this week              # fed to php DateTime constructor
+    groups: [138004]
+  -
+    name: Homework recurring every week
+    date: tuesday this week
+    recurrence_type: EVERY_WEEK
+    recurrence_end_date: +5 weeks       # fed to php DateTime constructor
+    groups: [138004]

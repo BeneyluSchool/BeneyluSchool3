@@ -29,8 +29,6 @@ class GPSStatisticsService extends StatisticsService
 
     public function visit()
     {
-        $this->disableCascadeParentGroup();
         $this->increment('GPS_VISIT');
-        $this->enableCascadeParentGroup();
     }
 }

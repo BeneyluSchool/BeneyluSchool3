@@ -1,11 +1,4 @@
 BNS\App\CalendarBundle\Form\Model\CalendarEventFormModel:
-  properties:
-    agendaId:
-      - NotBlank: { message: INVALID_AGENDA_EMPTY }
-    title:
-      - NotBlank: { message: INVALID_TITLE_EMPTY }
-      - Length: { min: 3, minMessage: INVALID_TITLE_TOO_SHORT }
-      - Length: { max: 50, maxMessage: INVALID_TITLE_TOO_LONG }
   constraints:
     - Callback:
-        methods:  [isValidRecurringOptions, isValidDateTimeStartAndEnd]
+        methods:  [isValidRecurringOptions, isValidDateTimeStartAndEnd, isInformationsValid]

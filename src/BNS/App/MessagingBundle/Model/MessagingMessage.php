@@ -2,6 +2,7 @@
 
 namespace BNS\App\MessagingBundle\Model;
 
+use BNS\App\CoreBundle\Model\GroupQuery;
 use BNS\App\CoreBundle\RichText\RichTextParser;
 use BNS\App\MessagingBundle\Model\om\BaseMessagingMessage;
 use BNS\App\MessagingBundle\Messaging\BNSMessageManager;
@@ -50,14 +51,18 @@ class MessagingMessage extends BaseMessagingMessage implements AutosaveInterface
 	 */
 	public function showTos()
 	{
-		return UserQuery::create()
-			->useMessagingConversationRelatedByUserWithIdQuery()
-				->filterByUserId($this->getAuthorId())
-				->useMessagingMessageConversationQuery()
-					->filterByMessageId($this->getId())
-				->endUse()
-			->endUse()
-		->find();
+	    if (count($this->getGroupTos()) === 0) {
+            return UserQuery::create()
+                ->useMessagingConversationRelatedByUserWithIdQuery()
+                ->filterByUserId($this->getAuthorId())
+                ->useMessagingMessageConversationQuery()
+                ->filterByMessageId($this->getId())
+                ->endUse()
+                ->endUse()
+                ->find();
+        } else {
+	        return UserQuery::create()->filterById(unserialize($this->getTosTempList()))->find();
+        }
 	}
 
 	/**
@@ -86,7 +91,7 @@ class MessagingMessage extends BaseMessagingMessage implements AutosaveInterface
 	public function isDraft()
 	{
 		$availableStatus = BNSMessageManager::$messagesStatus;
-		return $this->getStatus() == $availableStatus['DRAFT'];;
+		return $this->getStatus() == $availableStatus['DRAFT'];
 	}
 
 	/**
@@ -115,4 +120,10 @@ class MessagingMessage extends BaseMessagingMessage implements AutosaveInterface
 		return $this->getId();
 	}
 
+	public function showGroupTos()
+    {
+        return GroupQuery::create()
+            ->filterById($this->getGroupTos())
+            ->find();
+    }
 }

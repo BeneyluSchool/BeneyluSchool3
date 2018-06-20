@@ -1,0 +1,21 @@
+BNS\App\LsuBundle\Model\LsuConfig:
+  exclusion_policy: All
+
+  virtual_properties:
+    getUsers:
+      expose: true
+      serialised_name: users
+      groups: [lsu_users]
+
+    getLsuLevel:
+      expose: true
+
+    countLsuTemplates:
+      expose: true
+      groups: [lsu_detail]
+
+    getTeacherInfo:
+      expose: true
+
+    getSchoolInfo:
+      expose: true

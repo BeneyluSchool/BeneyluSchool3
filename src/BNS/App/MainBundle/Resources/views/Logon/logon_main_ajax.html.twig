@@ -12,7 +12,7 @@
 ] %}
 
 {% block css %}
-    <link rel="stylesheet" href="{{ asset('assets/styles/styles-light.css') }}"/>
+  <link rel="stylesheet" href="{{ asset('assets/styles/styles-light.css') }}"/>
 {% endblock %}
 
 {% block html_attr %}ng-app="beneyluSchoolAuthApp" class="auth-app"{% endblock %}
@@ -68,10 +68,31 @@
 
             {# message row #}
             {% if parameter('home_message') %}
-                <div class="inset">
+                <div class="inset" container>
                     <div class="layout-column layout-gt-sm-row layout-align-center-center layout-padding md-whiteframe-z1 md-body-1 home-message-container">
                         {{ parameter('home_message') | raw }}
                     </div>
+                </div>
+            {% endif %}
+
+            {# Home push #}
+            {% if announcements|length %}
+                <div container ng-cloak md-theme="nof" class="home-announcement-list">
+                    {% for announcement in announcements if (announcement.label or announcement.description) %}
+                    <div class="inset">
+                        <div class="layout-column layout-gt-sm-row layout-align-center-center layout-padding md-whiteframe-z1 md-body-1 frame-primary home-announcement">
+                            {% if announcement.resourceId %}
+                            <img src="{{ announcement.resource.getImageThumbUrl('thumbnail') }}" alt="{{ announcement.label }}" class="home-announcement-image">
+                            {% endif %}
+                            <div class="flex-grow">
+                                <h4>{{ announcement.label }}</h4>
+                                {% if announcement.description %}
+                                <div class="md-caption flex">{{ announcement.description|raw }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
             {% endif %}
 
@@ -81,94 +102,39 @@
                 {# login blocks #}
                 <div class="home-blocks ng-cloak">
 
-                    <div class="layout-column layout-gt-sm-row layout-align-center-center">
-                        <div class="home-logo-container">{# avoid img as direct child of flex container #}
-                            <img src="{{ asset('assets/images/main/logo.png') }}" alt="Beneylu School" class="home-logo"/>
-                        </div>
-                        <div class="home-title">
-                            <div class="md-display-1">{% trans %}TITLE_ENTER_IN{% endtrans %}</div>
-                            <h1 class="md-display-1 home-brand">Beneylu <span class="school">School</span></h1>
-                        </div>
-                    </div>
+                    <h1 class="md-display-1 home-brand">
+                        <img src="{{ asset('assets/images/main/beneylu-school.svg') }}" alt="Beneylu School" class="home-logo-title"/>
+                        <span>Beneylu School</span>
+                    </h1>
 
                     <div class="home-boxes">
                     <div class="box-transparent">
                         <div class="inner box-transparent">
 
-                          <bns-auto-login-box url="'{{ redirectUrl }}'" saml-providers="{{ parameter('saml.providers')|default(null)|json_encode }}"></bns-auto-login-box>
+                          <bns-auto-login-box url="'{{ redirectUrl }}'" saml-providers="{{ parameter('saml.providers')|default(null)|json_encode }}" is-mobile="{{ is_mobile_view() |json_encode }}"></bns-auto-login-box>
 
                         </div>
                     </div>
 
                     <div class="inset">
-                      {% if enable_register %}
-                        <md-content class="md-whiteframe-z2 inset">
-                            <div class="inscription">
+                        {% set plans_url = bnsLocaleLink('plans_url') %}
+                        {% if enable_register and plans_url %}
+                            <md-content class="md-whiteframe-z2 layout-column md-padding has-edging is-warn" md-theme="nof">
+                                <h4>{% trans %}RESERVED_FOR_TEACHERS{% endtrans %}</h4>
+                                <md-button href="{{ plans_url }}" class="md-raised md-warn is-fullwidth">
+                                    {% trans %}SUBSCRIBE_MY_CLASSROOM{% endtrans %}
+                                </md-button>
 
-                                <div class="layout-row">
-                                    {{ components.button('BUTTON_TEACHER_REGISTER' | trans, {
-                                        icon: 'bns:classroom',
-                                        intent: 'primary',
-                                        raised: true,
-                                        click: 'ctrl.showRegisterDialog($event)',
-                                        attr: { class: 'flex' },
-                                    }) }}
+                                <div class="layout-row layout-align-start-center">
+                                    <bns-icon>sub-express-on</bns-icon>
+                                    <bns-icon>sub-school-on</bns-icon>
+                                    <bns-icon>sub-infinity-on</bns-icon>
+                                    <span class="layout-padding"></span>
+                                    <div class="md-caption flex">{% trans %}COMES_IN_3_SUBSCRIPTIONS{% endtrans %}</div>
                                 </div>
 
-                                <script type="text/ng-template" id="teacher-register-dialog.html">
-                                    <md-dialog class="bns-dialog bns-dialog-primary bns-dialog-sm">
-                                        <md-dialog-content class="md-dialog-content">
-                                            <div class="layout-row layout-align-start-center layout-margin">
-                                                <bns-icon class="flex flex-none">classroom</bns-icon>
-                                                <h3 class="md-headline flex">
-                                                    {% trans %}TITLE_REGISTRATION_DAY{% endtrans %}
-                                                </h3>
-                                                {{ components.button(null, {
-                                                    icon: 'close',
-                                                    click: 'ctrl.abort()'
-                                                }) }}
-                                            </div>
-                                            <form id="user_registration_form"
-                                                  method="post"
-                                                  action="{{ path('user_api_subscription', {version: '1.0'}) }}.json"
-                                                  ng-submit="ctrl.handleSubscription($event);"
-                                                  data-origin="ent {{ app.request.locale | replace('_','-') | lower }} home"
-                                            >
-                                                <p class="md-body-1">
-                                                    {% trans %}DESCRIPTION_REGISTRATION_EMAIL{% endtrans %}
-                                                </p>
-                                                <md-input-container md-no-float>
-                                                    <input id="user_registration_email"
-                                                           type="email"
-                                                           name="email"
-                                                           ng-model="ctrl.email"
-                                                           autocapitalize="off"
-                                                           autocomplete="off"
-                                                           autocorrect="off"
-                                                           spellcheck="false"
-                                                           class="input-lg"
-                                                           placeholder="{% trans %}USER_REGISTRATION_PLACEHOLDER{% endtrans %}">
-                                                </md-input-container>
-                                                <div class="layout-row layout-align-center-center">
-                                                    {{ components.button('BUTTON_REGISTER_CLASSROOM' | trans, {
-                                                        intent: 'primary',
-                                                        raised: true,
-                                                        attr: {type: 'submit'}
-                                                    }) }}
-                                                </div>
-                                            </form>
-                                        </md-dialog-content>
-                                        <div class="progress-overlay" ng-show="ctrl.busy">
-                                            <md-progress-circular class="register-progess" md-mode="indeterminate"></md-progress-circular>
-                                        </div>
-                                    </md-dialog>
-                                    <div class="bns-dialog-jim hide-sm hide-md"></div>
-                                </script>
-
-                            </div>
-
-                        </md-content>
-                      {% endif %}
+                            </md-content>
+                        {% endif %}
                     </div>
                     </div>
                 </div>
@@ -290,7 +256,7 @@
               'bordeaux'          : {'image' : 'bordeaux.png', 'name' : 'Tic Educ - Bordeaux', 'link' : 'https://bordeaux.ticeduc.fr' , 'keywords' : "bordeaux tic educ"},
               'aveyron'           : {'image' : 'aveyron.png', 'name' : 'ENT Aveyronnais', 'link' : 'https://smica.beneylu.com' , 'keywords' : "aveyron smica rodez millau"},
               'corse'             : {'image' : 'corse.png', 'name' : 'Primaleia - Académie de Corse', 'link' : 'https://primaleia.ac-corse.fr' , 'keywords' : "corse bastia ajaccio"},
-              'cantal'            : {'image' : 'cantaldep.png', 'name' : 'Département du Cantal', 'link' : 'https://ent-ecole.cantal.fr/ent/' , 'keywords' : "cantal"},
+              'cantal'            : {'image' : 'departement-cantal.png', 'name' : 'Département du Cantal', 'link' : 'https://ent-ecole.cantal.fr/ent/' , 'keywords' : "cantal"},
               'saint etienne'     : {'image' : 'lenumeriquealecole.png', 'name' : 'Saint-Etienne Métropole', 'link' : 'https://lenumeriquealecole.fr/ent/' , 'keywords' : "saint etienne"}
           } %}
           <div class="layout-row layout-wrap layout-padding">
@@ -313,7 +279,7 @@
     <div class="md-padding md-caption text-center footer-legals">
       {% trans with {
       '%copyright_year%': 'now'|date('Y'),
-      '%eula_url%': path('main_logon_legals')
+      '%eula_url%': bnsLocaleLink('legal_notice_url')
       } %}FOOTER_LEGALS{% endtrans %}
     </div>
 

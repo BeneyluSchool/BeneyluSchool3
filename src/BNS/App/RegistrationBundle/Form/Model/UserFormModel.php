@@ -15,33 +15,33 @@ class UserFormModel
 	/*
 	 * Used by form type
 	 */
-	
+
 	/**
-	 * @var string 
+	 * @var string
 	 */
 	public $first_name;
-	
+
 	/**
-	 * @var string 
+	 * @var string
 	 */
 	public $last_name;
-	
+
 	/**
-	 * @var string 
+	 * @var string
 	 */
 	public $email;
-	
+
 	/*
 	 * Attributes
 	 */
 	private $user;
-	
-	
+
+
 	/**
 	 * NB: parameters are injected by the controller from the container
-	 * 
+	 *
 	 * @param \BNS\App\CoreBundle\User\BNSUserManager $userManager
-	 * 
+	 *
 	 * @return \BNS\App\CoreBundle\Model\User
 	 */
 	public function save(BNSUserManager $userManager)
@@ -52,18 +52,18 @@ class UserFormModel
 			'email'			=> $this->email,
 			'lang'			=> 'fr'
 		),true);
-		
+
 		$userManager->flagChangePassword($this->user);
-		
+
 		return $this->user;
 	}
-	
+
 	/**
 	 * Constraint validation
 	 */
 	public function isEmailUnique($context)
 	{
-		if (null != $this->email && '' != $this->email && null != BNSAccess::getContainer()->get('bns.user_manager')->getUserByEmail($this->email)) {
+		if ($this->email && null != BNSAccess::getContainer()->get('bns.user_manager')->getUserByEmail($this->email)) {
 			$context->addViolationAt('email', "L'adresse e-mail renseignée est déjà utilisée. Veuillez en saisir une autre", array(), null);
 		}
 	}

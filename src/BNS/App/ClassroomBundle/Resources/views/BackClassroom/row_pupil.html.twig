@@ -1,10 +1,5 @@
 {% trans_default_domain "CLASSROOM" %}
 <div class="item">
-  {% if pupil.isEnabled() %}
-    <div class="vertical-separator {% if pupil.getGender() == 'F' %}female{% endif %}"></div>
-  {% else %}
-    <div class="vertical-separator disabled"></div>
-  {% endif %}
   <div class="buttons-container">
     <a href="{{ path('BNSAppClassroomBundle_back_pupil_detail', {'userSlug': pupil.getSlug()}) }}" class="btn bns-notice btn-16 small right btn-visualisation">
       <span class="icons-16 arrow-right-icon right"></span>

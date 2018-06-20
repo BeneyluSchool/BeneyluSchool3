@@ -5,7 +5,6 @@ use FOS\RestBundle\Request\ParamFetcherInterface;
 use Hateoas\Representation\Factory\PagerfantaFactory;
 use Pagerfanta\Adapter\PropelAdapter;
 use Pagerfanta\Pagerfanta;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Hateoas\Configuration\Route;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +18,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * @package BNS\App\CoreBundle\Controller
  * Classe parent de tous les controllers d'API de chaque Bundle
  */
-class BaseApiController extends Controller
+class BaseApiController extends BaseController
 {
     public static $apiVersion = "1.0";
 
@@ -47,12 +46,17 @@ class BaseApiController extends Controller
         return $this->getCurrentUser()->getId();
     }
 
-    protected function getPaginator(\ModelCriteria $query, Route $route, ParamFetcherInterface $paramFetcher, \Closure $objectCallback = null, \Closure $collectionCallback = null, $pageParameterName = 'page', $limitParameterName = 'limit')
-    {
+    protected function getPaginator(
+        \ModelCriteria $query,
+        Route $route,
+        ParamFetcherInterface $paramFetcher,
+        $pageParameterName = 'page',
+        $limitParameterName = 'limit'
+    ) {
         $page = $paramFetcher->get($pageParameterName);
         $limit = $paramFetcher->get($limitParameterName);
 
-        $pager = new Pagerfanta(new PropelAdapter($query, $objectCallback, $collectionCallback));
+        $pager = new Pagerfanta(new PropelAdapter($query));
         $pager->setMaxPerPage($limit);
         $pager->setCurrentPage($page);
 

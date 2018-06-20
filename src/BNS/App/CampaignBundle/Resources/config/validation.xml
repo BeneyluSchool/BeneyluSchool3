@@ -7,16 +7,27 @@
         <property name="name">
             <constraint name="NotBlank">
                 <option name="message">INVALID_NAME_EMPTY</option>
+                <option name="groups">
+                    <value>Default</value>
+                    <value>SMS</value>
+                </option>
             </constraint>
         </property>
         <property name="title">
             <constraint name="NotBlank">
-                <option name="message">INVALID_TITLE_EMPTY</option>
+                <option name="message">INVALID_SUBJECT_EMPTY</option>
+                <option name="groups">
+                    <value>Default</value>
+                </option>
             </constraint>
         </property>
         <property name="message">
             <constraint name="NotBlank">
                 <option name="message">INVALID_MESSAGE_EMPTY</option>
+                <option name="groups">
+                    <value>Default</value>
+                    <value>SMS</value>
+                </option>
             </constraint>
         </property>
     </class>

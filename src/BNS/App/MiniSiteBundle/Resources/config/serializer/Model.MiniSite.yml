@@ -9,3 +9,26 @@ BNS\App\MiniSiteBundle\Model\MiniSite:
     getBannerUrl:
       expose: true
 
+    getGroupLabel:
+      expose: true
+      groups: [portal_widget]
+
+    getPublic:
+      expose: true
+      serialized_name: public
+      groups: [portal_widget]
+
+  relations:
+    - rel: self
+      href:
+        route: minisite_by_slug
+        parameters:
+            slug: expr(object.getSlug())
+        absolute: true
+
+    - rel: thumb
+      embedded:
+        content: expr(service('bns.media.download_manager').generateThumbTemporaryUrl(object, 'small'))
+        groups: [portal_widget]
+
+

@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-10-04T13:06:45Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2017-10-05T19:52:33Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
     </header>
     <body>
+      <trans-unit id="c790e874ad8fcaa67ccd0e8d09ab39d77e7bed99" resname="BUTTON_DISCOVER_SUBSCRIPTIONS">
+        <source>BUTTON_DISCOVER_SUBSCRIPTIONS</source>
+        <target>Découvrir les 3 abonnements pour l’école</target>
+      </trans-unit>
+      <trans-unit id="bc0af0dc5b5e8dd6a728a7b90a0c02020bfb0dfd" resname="BUTTON_PRESENT_COLLEAGUES">
+        <source>BUTTON_PRESENT_COLLEAGUES</source>
+        <target>Présenter Beneylu School à mes collègues →</target>
+      </trans-unit>
       <trans-unit id="adb85e60f05335b3149ba2b1a9538e2f844e0db0" resname="BUTTON_UNINSTALL">
         <source>BUTTON_UNINSTALL</source>
         <target>Désinstaller</target>
@@ -17,6 +25,30 @@
       <trans-unit id="03592a48c0a0534a8a05b305cf543dcb9dca9051" resname="BUTTON_UNINSTALL_CONFIRM">
         <source>BUTTON_UNINSTALL_CONFIRM</source>
         <target>Confirmer | la désinstallation</target>
+      </trans-unit>
+      <trans-unit id="5cc706c6b1d4c95fdfb8a3ac6f2fe1f28fe51a17" resname="DESCRIPTION_3_SUBSCRIPTIONS">
+        <source>DESCRIPTION_3_SUBSCRIPTIONS</source>
+        <target><![CDATA[{{beneylu_brand_name}} se décline en <strong>3 abonnements pour l’école</strong> pour accompagner votre progression et celle de vos collègues.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="ec09d847196a6d33bbcba437c59bb9a69dadfec4" resname="DESCRIPTION_APPS">
+        <source>DESCRIPTION_APPS</source>
+        <target>Équipe votre école avec les meilleures applis pour bien travailler.</target>
+      </trans-unit>
+      <trans-unit id="1205a45a30445f65b79246fc2d05d3ba2c3f8fa7" resname="DESCRIPTION_CONFIGS">
+        <source>DESCRIPTION_CONFIGS</source>
+        <target>S’adapte à toutes les configurations d’écoles primaires.</target>
+      </trans-unit>
+      <trans-unit id="9f704db25ec1e2692919f32118972df5e950f51d" resname="DESCRIPTION_EVERY_CLASSROOM">
+        <source>DESCRIPTION_EVERY_CLASSROOM</source>
+        <target><![CDATA[Les abonnements <strong class="text-care">Beneylu School Express</strong>, <strong class="text-warn">Beneylu School</strong> et <strong class="text-info">Beneylu School Infini</strong> pour l’école sont valables pour toutes les classes de votre école.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="c14adc2a98780453455068802fda8f1aef5bd30f" resname="DESCRIPTION_MANAGE">
+        <source>DESCRIPTION_MANAGE</source>
+        <target>Donne accès au panneau d’administration de l’école.</target>
       </trans-unit>
       <trans-unit id="33561df151a950acd9b34b2e37eeb717c46f7895" resname="DESCRIPTION_NO_ACTIVITIES">
         <source>DESCRIPTION_NO_ACTIVITIES</source>
@@ -45,6 +77,10 @@
       <trans-unit id="746f03c81a21a0fadc87ae0f8865e93dc7dc0a3e" resname="DESCRIPTION_UNINSTALL_CONFIRM">
         <source>DESCRIPTION_UNINSTALL_CONFIRM</source>
         <target>Vous pourrez réinstaller l'application à tout moment depuis Beneylu Spot</target>
+      </trans-unit>
+      <trans-unit id="126137571c6ff53d56d33b341d5d41950f57d83d" resname="DESCRIPTION_WORKSPACES">
+        <source>DESCRIPTION_WORKSPACES</source>
+        <target>Ouvre un espace de travail pour toute l’école primaire.</target>
       </trans-unit>
       <trans-unit id="80b9144b698dc0d8dc6ae4e695e52dca40cae5f6" resname="FLASH_ACTIVITIES_CLOSE_ERROR">
         <source>FLASH_ACTIVITIES_CLOSE_ERROR</source>
@@ -104,15 +140,23 @@
       </trans-unit>
       <trans-unit id="51a285f2e41f0fd85f8809e2c4eb4b157a4a4d74" resname="LABEL_ACTIVITIES_OPENING_TO_USERS">
         <source>LABEL_ACTIVITIES_OPENING_TO_USERS</source>
-        <target>Ouverture des activités aux utilisateurs</target>
+        <target>Ouvrir aux utilisateurs</target>
       </trans-unit>
       <trans-unit id="f0c4d59ef7fc304e618db78b5f3eb9e4c9cad1f1" resname="LABEL_APPLICATIONS_OPENING_TO_USERS">
         <source>LABEL_APPLICATIONS_OPENING_TO_USERS</source>
-        <target>Ouverture des applications aux utilisateurs</target>
+        <target>Ouvrir aux utilisateurs</target>
+      </trans-unit>
+      <trans-unit id="8ae5d8ab462bd26a87c71f84c74769252e029718" resname="LABEL_APPS_OPENING_TO_FAMILIES">
+        <source>LABEL_APPS_OPENING_TO_FAMILIES</source>
+        <target>Ouvrir aux familles</target>
+      </trans-unit>
+      <trans-unit id="6fed04ff949f3225d358160ee552cd391ae383e1" resname="LABEL_APPS_OPENING_TO_TEACHERS">
+        <source>LABEL_APPS_OPENING_TO_TEACHERS</source>
+        <target>Ouvrir aux enseignants</target>
       </trans-unit>
       <trans-unit id="17b94e494671c502f18d85bff55bc693a449d8b1" resname="LABEL_APPS_TO_FAVORITES">
         <source>LABEL_APPS_TO_FAVORITES</source>
-        <target>Mettre des applications en favoris</target>
+        <target>Mettre en favoris</target>
       </trans-unit>
       <trans-unit id="6d0b31298f6d272c29bd67d2911e15455464b895" resname="LABEL_APP_CLOSE">
         <source>LABEL_APP_CLOSE</source>
@@ -162,6 +206,30 @@
         <source>LINK_SHOW_OUR_APPLICATIONS</source>
         <target>Voir nos applications</target>
       </trans-unit>
+      <trans-unit id="9de49d6f65aa605b77e79e4c28f6285c91eb348c" resname="LIST_APPS">
+        <source>LIST_APPS</source>
+        <target><![CDATA[<li>Communication dans l’école</li><li>Organisation de l’équipe</li><li>Travail collaboratif</li>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="12560618e1cca75e7ecee2137eb601ae14b74ca7" resname="LIST_CONFIGS">
+        <source>LIST_CONFIGS</source>
+        <target><![CDATA[<li>Nombre illimité de classes</li><li>Choix des référents ENT</li><li>Sélection des applis</li>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="0d46c00dbc0b8f2a52512d0356290178d8ce8a28" resname="LIST_MANAGE">
+        <source>LIST_MANAGE</source>
+        <target><![CDATA[<li>Création de toutes les classes</li><li>Ajout des prof. et des élèves</li><li>Vue d’ensemble de l’école</li>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="f79914c0ba5f1c6fc08691662c36350696c7e30b" resname="LIST_WORKSPACES">
+        <source>LIST_WORKSPACES</source>
+        <target><![CDATA[<li>Accès pour les collègues</li><li>Accès pour les élèves</li><li>Accès pour les parents</li>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
       <trans-unit id="2f443578a8f96e1b5d499c31773fb37f1265d7c9" resname="SCHOOL.BUTTON_REGISTER">
         <source>SCHOOL.BUTTON_REGISTER</source>
         <target>Passez en version école|pour {{price}} par mois par école</target>
@@ -176,7 +244,7 @@
       </trans-unit>
       <trans-unit id="1215842281018c3649ae56816783820d46d00b2b" resname="SCHOOL.DESCRIPTION_SCHOOL_LIFE">
         <source>SCHOOL.DESCRIPTION_SCHOOL_LIFE</source>
-        <target>Communiquez avec tous les parents, les enseignants et les élèves. Diffusez les informations grâce à des applications exclusives comme le minisite web qui présente votre actualité.</target>
+        <target>Communiquez avec tous les parents, les enseignants et les élèves. Diffusez les informations grâce à des applications exclusives comme le Site web qui présente votre actualité.</target>
       </trans-unit>
       <trans-unit id="99707ae113e8bbcd9bae188f959dec217e9f7a77" resname="SCHOOL.DESCRIPTION_SECURED_SOFTWARE">
         <source>SCHOOL.DESCRIPTION_SECURED_SOFTWARE</source>
@@ -215,6 +283,12 @@
       <trans-unit id="952f2ed3c76addf47c0d0e7617b4065c9ebf967c" resname="TITLE_CUSTOMIZATION">
         <source>TITLE_CUSTOMIZATION</source>
         <target>Personnalisation</target>
+      </trans-unit>
+      <trans-unit id="7e0d5133895677d22c918b6f1085d730ceba31f7" resname="TITLE_SUBSCRIBE_SCHOOL">
+        <source>TITLE_SUBSCRIBE_SCHOOL</source>
+        <target><![CDATA[Abonnez votre école à <span class="text-warn">{{beneylu_brand_name}}</span> pour propager le goût de <span class="text-warn">bien travailler</span>.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
       </trans-unit>
       <trans-unit id="5dd34c9b323c95c2b706f41abbcb6ae031dd0c64" resname="TITLE_UNINSTALL_CONFIRM">
         <source>TITLE_UNINSTALL_CONFIRM</source>

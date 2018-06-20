@@ -2,18 +2,15 @@
 
 namespace BNS\App\MediaLibraryBundle\Twig;
 
-use BNS\App\CoreBundle\Access\BNSAccess;
 use \BNS\App\CoreBundle\Model\Group;
 use \BNS\App\CoreBundle\Model\User;
 
-use BNS\App\MediaLibraryBundle\Manager\MediaManager;
 use BNS\App\MediaLibraryBundle\Model\Media;
 use BNS\App\MediaLibraryBundle\Model\MediaPeer;
 use BNS\App\MediaLibraryBundle\Model\MediaQuery;
 use BNS\App\MediaLibraryBundle\Parser\PublicMediaParser;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use \Symfony\Component\DependencyInjection\ContainerInterface;
-use \Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use \Twig_Extension;
 use \Twig_Function_Method;
 
@@ -203,7 +200,7 @@ class MediaExtension extends Twig_Extension
 
 				switch ($mainRole) {
 					case 'pupil':
-						$mainRole .= '_' . $user->getGender();
+                        $mainRole .= '_' . $user->getGender() . '_' . (($user->getId() % 3) + 1);
 						break;
 					case 'parent':
 					case 'teacher':
@@ -298,13 +295,11 @@ class MediaExtension extends Twig_Extension
             }
         }
 
-        /* @var Session $session */
-        $session = BNSAccess::getSession();
-        if($session->has('tiny_mce_plugins'))
-        {
+        /* @var SessionInterface $session */
+        $session = $this->container->get('session');
+        if ($session && $session->has('tiny_mce_plugins')) {
             $plugins = $session->get('tiny_mce_plugins');
-            foreach($plugins as $plugin)
-            {
+            foreach ($plugins as $plugin) {
                 $config['theme']['simple']['toolbar1'] .= ' ' . $plugin;
             }
         }

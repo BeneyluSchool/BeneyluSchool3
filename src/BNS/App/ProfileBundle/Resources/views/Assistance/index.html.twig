@@ -1,0 +1,56 @@
+{% trans_default_domain "PROFILE" %}
+{% extends 'BNSAppProfileBundle:Layout:manager.html.twig' %}
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+
+{% block title %}
+  {% trans %}TITLE_PROFILE_ASSISTANCE{% endtrans %}
+
+{% endblock title %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script type="text/javascript">
+
+  </script>
+{% endblock javascripts %}
+
+{% block sidebar_content %}
+  {% include 'BNSAppProfileBundle:Sidebar:sidebar.html.twig' with {'section': 'assistance'} %}
+{% endblock %}
+
+
+{% block actionbar_content %}
+
+{% endblock actionbar_content %}
+
+
+{% block content %}
+<md-toolbar class="content-toolbar">
+  <div class="md-toolbar-tools layout-align-start-center">
+    <bns-sidebar-toggle></bns-sidebar-toggle>
+    <h1 class="md-title text-primary text-left flex flex-gt-sm-33">{% trans %}TITLE_PROFILE_ASSISTANCE{% endtrans %}</h1>
+  </div>
+</md-toolbar>
+<md-content class="md-padding assistance-content">
+  <div class="container-profile-description">
+    <div class="layout-row">
+      <h3 class="md-title">{% trans %}PROFILE_ASSISTANCE_AUTH{% endtrans %}</h3>
+    </div>
+    {% if assistants | length > 0 %}
+      <p class="assistance-cdn">
+        <span>{{ 'PROFILE_ASSISTANCE_YOUR_ASSISTANTS'|transchoice(assistants | length) }}</span>
+        <md-chips class="message-recipients md-contact-chips" readonly>
+          {% for ref in assistants %}
+            <md-chip>
+              {{ components.avatar(ref, {size: 32, attr: {class: 'bns-avatar'}}) }}
+              {{ ref.firstName }} {{ ref.lastName }}
+            </md-chip>
+          {% endfor %}
+        </md-chips>
+      </p>
+    {% endif %}
+
+    <p>{% trans %}PROFILE_ASSISTANCE_PARAGRAPH{% endtrans %}</p>
+  </div>
+</md-content>
+{% endblock content %}

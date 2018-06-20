@@ -14,8 +14,6 @@
 {% block body_attr %} layout="column" ng-cloak {{ parent() }} {% endblock %}
 {% block body_class %}{% endblock %}
 
-{% block alert %}{% endblock %}
-
 {% block body %}
 
 {% block flash_container %}
@@ -24,7 +22,7 @@
 
 {% block actionbar_container %}
   <md-toolbar layout="row" class="bns-actionbar">
-    <div container class="md-toolbar-tools">
+    <div container class="md-toolbar-tools main-container">
       {% block actionbar_content %}{% endblock %}
     </div>
   </md-toolbar>

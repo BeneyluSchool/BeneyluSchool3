@@ -45,12 +45,7 @@ class BlogArticleProgrammedNotification extends Notification implements Notifica
 
         $finalObjects = array();
 
-        $group = GroupQuery::create()->findPk($objects['groupId']);
-        if (null == $group) {
-            $finalObjects['%classLabel%'] = null;
-        } else {
-            $finalObjects['%classLabel%'] = "[" . $group->getLabel() . "] ";
-        }
+        $finalObjects['%classLabel%'] =  self::getGroupLabel($objects);
 
 		if (null == $article) {
 			throw new NotFoundHttpException('The article with ID ' . $objects['articleId'] . ' is not found !');

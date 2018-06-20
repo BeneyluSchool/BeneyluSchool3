@@ -1,5 +1,14 @@
 BNS\App\WorkshopBundle\Model\WorkshopPage:
   exclusion_policy: All
+
+  virtual_properties:
+      getSizes:
+        expose: true
+        groups: [detail]
+      countPastWidgets:
+        expose: true
+        groups: [detail]
+
   relations:
     - rel: self
       href:
@@ -8,11 +17,12 @@ BNS\App\WorkshopBundle\Model\WorkshopPage:
             id: expr(object.getId())
             version: "1.0"
         absolute: true
+        # TODO remove this
     - rel: widgetGroups
       embedded:
         content: expr(object.getWorkshopWidgetGroups())
       exclusion:
-        groups: [detail]
+        groups: [detail_not_used]
     - rel: layout
       embedded:
         content: expr(service('bns.workshop.layout.manager').getForObject(object))

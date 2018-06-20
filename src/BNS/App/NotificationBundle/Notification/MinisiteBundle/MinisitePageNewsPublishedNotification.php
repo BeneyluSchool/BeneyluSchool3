@@ -4,6 +4,7 @@ namespace BNS\App\NotificationBundle\Notification\MinisiteBundle;
 
 use BNS\App\CoreBundle\Model\GroupQuery;
 use BNS\App\MiniSiteBundle\Model\MiniSitePageNewsQuery;
+use BNS\App\MiniSiteBundle\Model\MiniSiteQuery;
 use BNS\App\NotificationBundle\Model\Notification;
 use BNS\App\NotificationBundle\Model\NotificationInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -28,7 +29,7 @@ class MinisitePageNewsPublishedNotification extends Notification implements Noti
         parent::__construct();
         $this->init($container, $groupId, self::NOTIFICATION_TYPE, array(
             'page_news_id' => $pageNewsId,
-            'groupId' => $groupId
+            'group_id' => $groupId,
         ));
     }
 
@@ -43,13 +44,6 @@ class MinisitePageNewsPublishedNotification extends Notification implements Noti
 
         $finalObjects = array();
 
-        $group = GroupQuery::create()->findPk($objects['groupId']);
-        if (null == $group) {
-            $finalObjects['%classLabel%'] = null;
-        } else {
-            $finalObjects['%classLabel%'] = "[" . $group->getLabel() . "] ";
-        }
-        // Faites les modifications nécessaires à la restitution des paramètres ci-dessous
         // Le container est accessible grâce à l'attribut statique "self::$container"
         $pageNews = MiniSitePageNewsQuery::create()->findOneById($objects['page_news_id']);
 
@@ -58,10 +52,31 @@ class MinisitePageNewsPublishedNotification extends Notification implements Noti
             return false;
         }
 
+        // use the minisite of the given group
+        $minisite = null;
+        if (isset($objects['group_id']) && $objects['group_id']) {
+            $minisite = MiniSiteQuery::create()->filterByGroupId($objects['group_id'])->findOne();
+        }
+        if (!$minisite) {
+            $minisite = $pageNews->getMiniSitePage()->getMiniSite();
+        }
+        // if city news, use the city page of the group's minisite
+        if ($pageNews->isCityNews()) {
+            $page = $minisite->getCityPage();
+        } else {
+            $page = $pageNews->getMiniSitePage();
+        }
+
+        if (!$page) {
+            $notification->delete();
+            return false;
+        }
+
+        $finalObjects['%classLabel%'] =  self::getGroupLabel($objects);
         $finalObjects['%page_title%'] = $pageNews->getTitle();
         $finalObjects['%page_url%'] = $notification->getBaseUrl() . self::$container->get('cli.router')->generate('minisite_page', array(
-            'miniSiteSlug' => $pageNews->getMiniSitePage()->getMiniSite()->getSlug(),
-            'pageSlug' => $pageNews->getMiniSitePage()->getSlug(),
+            'miniSiteSlug' => $minisite->getSlug(),
+            'pageSlug' => $page->getSlug(),
         ));
 
         /*

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:45:20Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="52d09be1aa6d183841dcea21d5ebb5542600f2c8" resname="MINISITE_PAGE_NEWS_MODIFIED.EMAIL.content">
+        <source>MINISITE_PAGE_NEWS_MODIFIED.EMAIL.content</source>
+        <target><![CDATA[Se han modificado las noticias <a href="%page_url%">%page_title%</a>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="7309e8df6f7ef7e3c9ae45e771def62fe0f51396" resname="MINISITE_PAGE_NEWS_MODIFIED.EMAIL.title">
+        <source>MINISITE_PAGE_NEWS_MODIFIED.EMAIL.title</source>
+        <target>Se ha modificado una noticia en el sitio web</target>
+      </trans-unit>
+      <trans-unit id="68ca1c3a2ef4b46c0e114f1d8a296529685e0acd" resname="MINISITE_PAGE_NEWS_MODIFIED.SYSTEM.content">
+        <source>MINISITE_PAGE_NEWS_MODIFIED.SYSTEM.content</source>
+        <target><![CDATA[Se han modificado las noticias <a href="%page_url%">%page_title%</a>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

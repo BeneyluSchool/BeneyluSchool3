@@ -1,10 +1,5 @@
 {% trans_default_domain "CLASSROOM" %}
 <div class="team-item">
-	{% if user.isEnabled() %}
-		<div class="vertical-separator {% if user.getGender() == 'F' %}female{% endif %}"></div>
-	{% else %}
-		<div class="vertical-separator disabled"></div>
-	{% endif %}
 	<div class="header">
 		<img class="avatar" src="{{ avatar(user, 'thumbnail') }}" alt="" />
 		<p class="name">{{ user.getFullName() }}</p>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-06-22T13:34:34Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+  <file date="2018-03-26T12:42:28Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -23,6 +23,10 @@
             ]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
+      </trans-unit>
+      <trans-unit id="0fdceaaeba5cce5fe37e7c7fcd800b66034d683e" resname="ACTIVATE">
+        <source>ACTIVATE</source>
+        <target>Activar mi cuenta</target>
       </trans-unit>
       <trans-unit id="cfc2ff74fcb9e05e3f5965261b3ba3952edbefa7" resname="ALERT_OK">
         <source>ALERT_OK</source>
@@ -84,9 +88,13 @@ Una cookie es un pequeño archivo de texto que se puede almacenar en el disco du
       </trans-unit>
       <trans-unit id="63d7df2e4336b8563b84a50b2d192b589ec6ccf8" resname="DESCRIPTION_COOKIES_POLICY">
         <source>DESCRIPTION_COOKIES_POLICY</source>
-        <target><![CDATA[Al continuar navegando por %beneylu_brand_name%, aceptas el uso de las cookies. Las cookies son imprescindibles para ofrecer una navegación acorde con tu perfil (profesor, estudiante...).
+        <target><![CDATA[Al continuar navegando por %beneylu_brand_name%, aceptas el uso de las cookies. Las cookies son imprescindibles<br> para ofrecer una navegación acorde con tu perfil (profesor, estudiante...).
 <a href="%cookies_more_info_url%">Más información.</a>]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="bd96d20208fd5a58a6f47a1f098b750d3f843be7" resname="DESCRIPTION_FOR_ANONYMOUS_STATS">
+        <source>pour la production de statistiques anonymes</source>
+        <target state="new">para la producción de estadísticas anónimas</target>
       </trans-unit>
       <trans-unit id="bc3db09a24967c05c1f3f061b6d078bc66d0b796" resname="DESCRIPTION_GUIDE">
         <source>DESCRIPTION_GUIDE</source>
@@ -131,7 +139,7 @@ Una cookie es un pequeño archivo de texto que se puede almacenar en el disco du
         <target><![CDATA[© Beneylu School %copyright_year% Todos los derechos reservados.
 - Beneylu es una marca registrada.
 - Registro 1321978 de la CNIL
-- <a href="%eula_url%" class="contact">Condiciones de uso</a>
+- <a href="%eula_url%" class="contact">Avisos legales</a>
         ]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
       </trans-unit>
@@ -178,7 +186,7 @@ Una cookie es un pequeño archivo de texto que se puede almacenar en el disco du
       </trans-unit>
       <trans-unit id="4030f4fe36434302b691c2ef59d1ea47ef394b26" resname="INVALID_DATE">
         <source>INVALID_DATE</source>
-        <target state="new">Este fecha no es válida</target>
+        <target state="new">Esta fecha no es válida</target>
       </trans-unit>
       <trans-unit id="d0a27efc751a47562cc013fb2d6453e50b6f28a6" resname="INVALID_EMAIL">
         <source>INVALID_EMAIL</source>
@@ -255,6 +263,10 @@ Una cookie es un pequeño archivo de texto que se puede almacenar en el disco du
       <trans-unit id="0a0e8a3d3b9c7c20d90f2aa918712dc8c355e763" resname="LINK_KNOW_MORE">
         <source>En savoir plus</source>
         <target state="new">Leer más</target>
+      </trans-unit>
+      <trans-unit id="20fef00057f79475087eef72fea9e53def3f7a0e" resname="LINK_LOGMEOUT">
+        <source>LINK_LOGMEOUT</source>
+        <target state="new">Cerrar sesión</target>
       </trans-unit>
       <trans-unit id="a853dac50877f416de95627a313073f7f81b7857" resname="LINK_LOGOUT">
         <source>Se déconnecter</source>
@@ -504,6 +516,16 @@ Estas cookies nos permiten saber la tasa de uso y el rendimiento de nuestra plat
 <p>A continuación, se muestran las cookies para terceros en %beneylu_brand_name%</p>
                         ]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="57717805dbb42241129734ec35c82266ec4d8266" resname="YOUR_ACCESS_IS_RESTRICTED">
+        <source>YOUR_ACCESS_IS_RESTRICTED</source>
+        <target>Mensaje para los alumnos: %beneylu_brand_name% estará cerrado durante las vacaciones.</target>
+      </trans-unit>
+      <trans-unit id="0462124cfa5054abb5f9d15a3bc9301fa604368e" resname="YOU_CAN_CONNECT_THE">
+        <source>YOU_CAN_CONNECT_THE</source>
+        <target><![CDATA[Podréis volver a acceder el %date%.<br><br>Hasta pronto.]]></target>
+        <note><![CDATA[%date% is a placeholder
 ]]></note>
       </trans-unit>
       <trans-unit id="83182692181e31a9c73443dc26b7b87a2d8aac6f" resname="main.oauth.error.go_to_your_class">

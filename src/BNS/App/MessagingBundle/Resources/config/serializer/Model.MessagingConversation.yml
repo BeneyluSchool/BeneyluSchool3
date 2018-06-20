@@ -33,3 +33,9 @@ BNS\App\MessagingBundle\Model\MessagingConversation:
         content: expr(object.getVisibleChildren())
         exclusion:
           groups: [ detail, conversation_detail ]
+    - rel: last_reads
+      embedded:
+        content: expr(service('bns.message_manager').getLastReads(object))
+        exclusion:
+          groups: [ detail, conversation_detail ]
+          exclude_if: expr(!isset('conversation_read_indicator'))

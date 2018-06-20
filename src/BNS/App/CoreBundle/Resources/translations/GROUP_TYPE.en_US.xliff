@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2017-05-30T15:20:26Z" source-language="en" target-language="en_US" datatype="plaintext" original="not.available">
+  <file date="2017-04-19T12:20:12Z" source-language="en" target-language="en-US" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -169,6 +169,10 @@
         <target state="new">Grade 12</target>
         <note><![CDATA[Libellé du choix : LEVEL_TERM]]></note>
       </trans-unit>
+      <trans-unit id="eac0678628d4a9e1b8e500f20559016425c4aefa" resname="LABEL_DATA_CHOICE_LEVEL_ULIS">
+          <source>LABEL_DATA_CHOICE_LEVEL_ULIS</source>
+          <target>Elementary</target>
+        </trans-unit>
       <trans-unit id="4624d09d9279f06c3708de9f56d32faf24ea776c" resname="LABEL_DATA_CHOICE_MESSAGING_TYPE_light">
         <source>LABEL_DATA_CHOICE_MESSAGING_TYPE_light</source>
         <target state="new">Light</target>
@@ -329,15 +333,15 @@
         <target state="new">Tableau d'UAI ayant accès à Cerise Prim</target>
         <note><![CDATA[Libellé de l'attribut CERISE_LIST]]></note>
       </trans-unit>
-      <trans-unit id="46ba0fe7c6eb1eddff99502e9f3bf216b1454751" resname="LABEL_DATA_TEMPLATE_CGU_URL">
-        <source>LABEL_DATA_TEMPLATE_CGU_URL</source>
-        <target>Policies's URL</target>
-        <note><![CDATA[Libellé de l'attribut CGU_URL]]></note>
-      </trans-unit>
       <trans-unit id="6084da7257354235050b1c094388e5a4e4779b08" resname="LABEL_DATA_TEMPLATE_CGU_ENABLED">
         <source>LABEL_DATA_TEMPLATE_CGU_ENABLED</source>
         <target>Enable Policies</target>
         <note><![CDATA[Libellé de l'attribut CGU_ENABLED]]></note>
+      </trans-unit>
+      <trans-unit id="46ba0fe7c6eb1eddff99502e9f3bf216b1454751" resname="LABEL_DATA_TEMPLATE_CGU_URL">
+        <source>LABEL_DATA_TEMPLATE_CGU_URL</source>
+        <target>Policies's URL</target>
+        <note><![CDATA[Libellé de l'attribut CGU_URL]]></note>
       </trans-unit>
       <trans-unit id="cbcce380ae821744861e75e9bac0328e7b59d51d" resname="LABEL_DATA_TEMPLATE_CGU_VERSION">
         <source>LABEL_DATA_TEMPLATE_CGU_VERSION</source>

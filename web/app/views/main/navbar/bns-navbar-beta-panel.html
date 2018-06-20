@@ -1,43 +1,31 @@
-<md-content ng-if="::panel.hasInit" class="flex">
+<md-content ng-if="::panel.hasInit" class="flex md-padding" md-theme="nof" style="background-color: #fff">
 
-  <header ng-if="::panel.canChange">
-    <div class="md-toolbar-tools">
-      <md-button ng-click="$mdSidenav('apps-left').toggle()" class="hide-gt-md md-icon-button">
-        <md-icon>menu</md-icon>
-      </md-button>
-      <h2 class="flex md-headline apps-dialog-title">
-        <span class="flag flag-shield"></span>
-        {{::'NAVBAR.BETA'|translate}}
-      </h2>
-    </div>
-  </header>
+  <h1 class="md-headline" translate>NAVBAR.TITLE_BETA_JOIN</h1>
+
+  <div translate>NAVBAR.DESCRIPTION_BETA_PROCESS</div>
+
+  <h2 class="md-title" translate>NAVBAR.TITLE_BETA_ACTIVATE</h2>
 
   <div ng-if="::panel.canChange">
-    <div class="md-padding md-body-1" translate>NAVBAR.DESCRIPTION_BETA_USER</div>
-    <bns-switch manager="panel.manager">{{('NAVBAR.LABEL_BETA_'+(panel.beta.beta_user?'EN':'DIS')+'ABLED_FOR_USER')|translate}}</bns-switch>
+    <h3>
+      <span class="flag flag-shield"></span>
+      <span translate>NAVBAR.TITLE_BETA_USER</span>
+    </h3>
+    <p translate>NAVBAR.DESCRIPTION_BETA_USER</p>
+    <bns-switch manager="panel.manager" md-theme="default">{{('NAVBAR.LABEL_BETA_'+(panel.beta.beta_user?'EN':'DIS')+'ABLED_FOR_USER')|translate}}</bns-switch>
     <div class="layout-row layout-align-start-center frame-primary layout-padding">
       <md-icon class="layout-margin">info</md-icon>
       <div class="md-body-1" translate>NAVBAR.DESCRIPTION_BETA_CHANGE_RELOAD</div>
     </div>
   </div>
 
-  <md-divider ng-if="panel.canChangeGroup"></md-divider>
-
-  <header ng-if="panel.canChangeGroup">
-    <div class="md-toolbar-tools">
-      <md-button ng-click="$mdSidenav('apps-left').toggle()" class="hide-gt-md md-icon-button">
-        <md-icon>menu</md-icon>
-      </md-button>
-      <h2 class="flex md-headline apps-dialog-title">
-        <span class="flag flag-shield"></span>
-        {{panel.group.label + ' - ' + ('NAVBAR.BETA' | translate)}}
-      </h2>
-    </div>
-  </header>
-
-  <div ng-if="panel.canChangeGroup">
-    <div class="md-padding md-body-1" translate>NAVBAR.DESCRIPTION_BETA_GROUP</div>
-    <bns-switch manager="panel.managerGroup">
+  <p ng-if="panel.canChangeGroup">
+    <h3>
+      <span class="flag flag-shield"></span>
+      <span translate>NAVBAR.TITLE_BETA_GROUP</span>
+    </h3>
+    <p translate>NAVBAR.DESCRIPTION_BETA_GROUP</p>
+    <bns-switch manager="panel.managerGroup" md-theme="default">
       <span ng-bind-html="('NAVBAR.LABEL_BETA_'+(true === panel.betaGroup.beta_group_mode?'EN':'DIS')+'ABLED_FOR_GROUP')|translate:{group: panel.group.label}"></span>
       </bns-switch>
     <div ng-show="'partial' === panel.betaGroup.beta_group_mode" class="layout-row layout-align-start-center frame-primary layout-padding">
@@ -45,5 +33,17 @@
       <div class="md-body-1" translate>NAVBAR.DESCRIPTION_BETA_GROUP_PARTIAL</div>
     </div>
   </div>
+
+  <h2 class="md-title" translate>NAVBAR.TITLE_BETA_LEAVE</h2>
+
+  <p translate>NAVBAR.DESCRIPTION_BETA_LEAVE</p>
+
+  <h2 class="md-title" translate>NAVBAR.TITLE_BETA_FEEDBACK</h2>
+
+  <p translate>NAVBAR.DESCRIPTION_BETA_FEEDBACK</p>
+
+  <h2 class="md-title" translate>NAVBAR.TITLE_BETA_CALENDAR</h2>
+
+  <div translate>NAVBAR.DESCRIPTION_BETA_CALENDAR</div>
 
 </md-content>

@@ -2,12 +2,13 @@
 namespace BNS\App\CoreBundle\ApiController;
 
 use BNS\App\CoreBundle\Controller\BaseApiController;
-use BNS\App\CoreBundle\Model\UserQuery;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Jérémie Augustin <jeremie.augustin@pixel-cookers.com>
@@ -49,6 +50,33 @@ class CacheApiController extends BaseApiController
         $this->get('bns.api')
             ->setClearExternalCache(false)
             ->resetGroup((int)$id, (boolean)$paramFetcher->get('with_parent', true))
+        ;
+
+        return View::create('', Codes::HTTP_OK);
+    }
+
+    /**
+     * @ApiDoc(
+     *  section="Cache",
+     *  resource = true,
+     *  description="Reset groups cache",
+     * )
+     *
+     *
+     * @Rest\Post("/reset/groups")
+     */
+    public function postResetCacheGroupsAction(Request $request)
+    {
+        $groupIds = $request->request->get('groupIds');
+        if (!is_array($groupIds)) {
+            return View::create('', Response::HTTP_BAD_REQUEST);
+        }
+
+        $this->get('bns.api')
+            ->setClearExternalCache(false)
+            ->resetGroups(array_map(function($item){
+                return (int) $item;
+            }, $groupIds));
         ;
 
         return View::create('', Codes::HTTP_OK);

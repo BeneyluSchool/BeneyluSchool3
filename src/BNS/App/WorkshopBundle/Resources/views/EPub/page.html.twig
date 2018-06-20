@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Test Book</title>
+    {% set google_fonts = google_fonts|default([
+    'Bubblegum Sans',
+    'Architects Daughter',
+    'Ubuntu',
+    'Boogaloo',
+    'Source Sans Pro',
+    'Open Sans',
+    'Jockey One',
+    'Bree Serif',
+    'Gravitas One',
+    'Amatic SC',
+    'Ranga',
+    'Dekko',
+    'Cabin Sketch:700',
+    'Margarine',
+    ]) %}
+    {% if google_fonts|length %}
+        <link href="https://fonts.googleapis.com/css?family={{ google_fonts|join('|')|replace(' ', '+') }}" rel="stylesheet" type="text/css" />
+    {% endif %}
+
+    {% set google_icons = google_icons|default([
+    'Material Icons'
+    ]) %}
+    {% if google_icons|length %}
+        <link href="https://fonts.googleapis.com/icon?family={{ google_icons|join('|')|replace(' ', '+') }}" rel="stylesheet" type="text/css" />
+    {% endif %}
+    {% block css %}
+        {#{% stylesheets#}
+        {#'medias/css/bootstrap.css'#}
+        {#'medias/css/guiders-1.2.8.css'#}
+        {#'medias/css/commons.css'#}
+        {#'medias/css/resource/player/mediaelementplayer.min.css' filter="?yui_css" output='css/base.css' %}#}
+        {#<link rel="stylesheet" type="text/css" href="{{ asset_url }}" />#}
+        {#{% endstylesheets %}#}
+        {#<link rel="stylesheet" type="text/css" href="{{ asset('angular/assets/styles/main.css') }}"/>#}
+        <link rel="stylesheet" type="text/css" href="{{ asset('angular/assets/styles/viewer.css') }}"/>
+        {#<link rel="stylesheet" type="text/css" href="{{ asset('angular/assets/styles/workshop.css') }}"/>#}
+
+        {# Material styles #}
+        {#<link rel="stylesheet" type="text/css" href="{{ asset('assets/styles/vendors.css') }}"/>#}
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/styles/styles.css') }}"/>
+
+    {% endblock %}
+    <style type="text/css">
+      .mode-html {
+        font-size: 1.5em;
+        width: 994px;
+        margin: 0 auto;
+      }
+      .media-image img {
+        -o-object-fit: cover;
+        object-fit: cover;
+        -o-object-position: center center;
+        object-position: center center;
+        width: 300px;
+        height: 200px;
+      }
+      audio {
+        pointer-events: all;
+      }
+      .workshop-widget-gap-fill-text span[data-bns-gap-guid]{
+        position: relative;
+        color: white!important;
+        display: inline-block;
+        min-width: 90px;
+        overflow: hidden;
+        border: 1px solid rgba(0,0,0,.5);
+      }
+        @media (orientation:portrait) {
+            .workshop-layout-zone {
+                width: 100%!important;
+                max-width: 100%!important;
+            }
+            .layout-row {
+                display: block!important;
+            }
+        }
+        @media only screen and (max-device-width: 768px) {
+            .workshop-layout-zone {
+                width: 100%!important;
+                max-width: 100%!important;
+            }
+            .layout-row {
+                display: block!important;
+            }
+        }
+    </style>
+</head>
+<body class="layout-column navbar-shown ng-app workshop">
+<div class="workshop-document-view">
+    <div class="page-read">
+        {% block content %}
+        {% endblock %}
+    </div>
+</div>
+</body>
+</html>

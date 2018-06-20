@@ -4,7 +4,10 @@ namespace BNS\App\UserBundle\Credentials;
 
 use Guzzle\Http\ClientInterface;
 use HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\GenericOAuth2ResourceOwner;
+use HWI\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
@@ -45,6 +48,11 @@ class UserCredentialsManager
     protected $translator;
 
     /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    /**
      * @param ClientInterface $client,
      * @param TokenStorageInterface $tokenStorage,
      * @param GenericOAuth2ResourceOwner $authProvider
@@ -54,12 +62,14 @@ class UserCredentialsManager
         ClientInterface $client,
         TokenStorageInterface $tokenStorage,
         GenericOAuth2ResourceOwner $authProvider,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        LoggerInterface $logger
     ) {
         $this->client = $client;
         $this->tokenStorage = $tokenStorage;
         $this->authProvider = $authProvider;
         $this->translator = $translator;
+        $this->logger = $logger;
     }
 
     /**
@@ -72,22 +82,6 @@ class UserCredentialsManager
         $user = $this->getUserInfo();
 
         return isset($user['credentials_expired']) && $user['credentials_expired'];
-    }
-
-    /**
-     * Gets the current user info from Auth. Results are cached and reused by
-     * later calls.
-     *
-     * @param bool $refresh Whether to refresh cached data
-     * @return array
-     */
-    public function getUserInfo($refresh = false)
-    {
-        if (!$this->userInfo || $refresh) {
-            $this->userInfo = $this->send('get', '/oauth/v2/users');
-        }
-
-        return $this->userInfo;
     }
 
     /**
@@ -108,6 +102,23 @@ class UserCredentialsManager
         ]);
     }
 
+
+    /**
+     * Gets the current user info from Auth. Results are cached and reused by
+     * later calls.
+     *
+     * @param bool $refresh Whether to refresh cached data
+     * @return array
+     */
+    protected function getUserInfo($refresh = false)
+    {
+        if (!$this->userInfo || $refresh) {
+            $this->userInfo = $this->send('get', '/oauth/v2/users');
+        }
+
+        return $this->userInfo;
+    }
+
     /**
      * Executes an API request
      *
@@ -126,14 +137,24 @@ class UserCredentialsManager
 
         // ensure we have a fresh token
         $token = $this->tokenStorage->getToken();
-        if ($token && $token->isExpired()) {
-            $rawToken = $this->authProvider->refreshAccessToken($token->getRefreshToken());
-            $token->setRawToken($rawToken);
-            $this->tokenStorage->setToken($token);
+        $accessToken = null;
+        if ($token && $token instanceof OAuthToken) {
+            if ($token->isExpired()) {
+                $rawToken = $this->authProvider->refreshAccessToken($token->getRefreshToken());
+                $token->setRawToken($rawToken);
+                $this->tokenStorage->setToken($token);
+            }
+            $accessToken = $token->getAccessToken();
+        }
+        if (!$accessToken) {
+            $this->logger->debug('UserCredentialsManager no Access Token available', [
+                'token' => $token
+            ]);
+            throw new AccessDeniedException();
         }
 
         $params = array_merge([
-            'access_token' => $this->tokenStorage->getToken() ? $this->tokenStorage->getToken()->getAccessToken() : null,
+            'access_token' => $accessToken,
             '_locale' => $this->translator->getLocale()
         ], $params);
 

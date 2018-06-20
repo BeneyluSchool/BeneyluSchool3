@@ -18,5 +18,9 @@ class AnnouncementQuery extends BaseAnnouncementQuery
         return $this->filterByType(AnnouncementPeer::TYPE_CUSTOM);
     }
 
+    public function filterByTypeHome()
+    {
+        return $this->filterByType(AnnouncementPeer::TYPE_HOME);
+    }
 
 }

@@ -60,7 +60,7 @@ class GroupActivityApiController extends BaseApiController
         $applicationManager = $this->get('bns_core.application_manager');
 
         // get all apps in the group, including those of the base stack, sorted by label
-        $modules = $applicationManager->getInstalledApplications($group, $rights[$groupId], ModulePeer::TYPE_EVENT, $this->getUser()->getLang());
+        $modules = $applicationManager->getInstalledApplications($group, $rights[$groupId], [ModulePeer::TYPE_EVENT], $this->getUser()->getLang());
 
         // add spot module
         if (in_array('SPOT_ACCESS', $rights[$groupId]['permissions'])) {

@@ -1,0 +1,6 @@
+BNS\App\CompetitionBundle\Model\om\BaseCompetition:
+  exclusion_policy: All
+  properties:
+    created_at:
+      expose: true
+      groups: [competition_list]

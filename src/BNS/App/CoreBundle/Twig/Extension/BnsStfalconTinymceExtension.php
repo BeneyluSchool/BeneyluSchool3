@@ -8,7 +8,8 @@ use Stfalcon\Bundle\TinymceBundle\Helper\LocaleHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-class BnsStfalconTinymceExtension extends StfalconTinymceExtension{
+class BnsStfalconTinymceExtension extends StfalconTinymceExtension
+{
 
 
     public function getFunctions()
@@ -63,12 +64,10 @@ class BnsStfalconTinymceExtension extends StfalconTinymceExtension{
          */
 
         /* @var Session $session */
-        $session = BNSAccess::getSession();
-        if($session->has('tiny_mce_plugins'))
-        {
+        $session = $this->container->get('session');
+        if ($session && $session->has('tiny_mce_plugins')) {
             $plugins = $session->get('tiny_mce_plugins');
-            foreach($plugins as $plugin)
-            {
+            foreach ($plugins as $plugin) {
                 $config['theme']['simple']['toolbar1'] .= ' ' . $plugin;
             }
         }

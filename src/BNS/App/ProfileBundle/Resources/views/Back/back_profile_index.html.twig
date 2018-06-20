@@ -47,11 +47,32 @@
 
 {% block content %}
   <md-toolbar class="content-toolbar">
-    <div class="md-toolbar-tools layout-align-start-center">
+    <div class="md-toolbar-tools layout-align-start-center text-left">
       <bns-sidebar-toggle></bns-sidebar-toggle>
-      <h1 class="md-title text-primary text-left flex flex-gt-sm-33">{{ user.firstName }} {{ user.lastName }}</h1>
+      <h1 class="md-title text-primary">{{ user.firstName }} {{ user.lastName }}</h1>
+      <span class="md-body-1">
+        {% if user.getPreviousConnection() %}
+          {{ 'PREVIOUS_CONNECTION'|trans({
+            '%date%': user.getPreviousConnection()|date_bns('none', 'none', 'd LLLL'),
+            '%time%': user.getPreviousConnection()|date_bns('none', 'short'),
+          }, 'PROFILE') }}
+        {% else %}
+          {{ ((is_adult()?'ADULT':'CHILD')~'_FIRST_CONNECTION')|trans({
+            '%firstname%': user.getFirstName(),
+          }, 'PROFILE') }}
+        {% endif %}
+      </span>
     </div>
   </md-toolbar>
+  {% if is_adult() %}
+    <div class="alert bns-alert alert-info layout-margin">
+        {{ 'NOTIFICATIONS_LINK' |trans({
+                  '%linkStart%': '<a href="'~ path('BNSAppNotificationBundle_back') ~'">',
+                  '%linkEnd%': '</a>'
+              }) |desc('<strong>Le saviez-vous:</strong> une fois votre e-mail renseigné, vous pouvez personnaliser les <strong>%linkStart% notifications%linkEnd%</strong>.') |raw }}
+        <div class="jim"></div>
+    </div>
+  {% endif %}
   <md-content class="layout-padding">
     <div class="container-profile-description">
       {{ form_start(form, {action: path('BNSAppProfileBundle_back_save', {'userSlug': user.getSlug()}), attr:{id:"save-profile" } }) }}
@@ -122,17 +143,11 @@
         {% endif %}
 
         <div class="clearfix"></div>
-        {% if form.assistance_enabled is defined %}
-          <div class="form-assistance">
-            <div class="checkbox">
-              {{ form_widget(form.assistance_enabled) }}
-            </div>
-          </div>
-        {% endif %}
-        </div>
+      </div>
 
       {% if form.email is defined %}
         {{ form_row(form.email) }}
+        <span class="email-private-notice">{% trans %}EMAIL_NOT_SEEN_BY_PUPILS{% endtrans %}</span>
       {% endif %}
 
       {% if form.email_private is defined %}
@@ -150,9 +165,40 @@
             required: false,
           }) }}
         {% endif %}
+      <section bns-feature-flag="'profile_sdet_informations'" bns-feature-push>
+          {% if form.organization is defined %}
+              {{ form_row(form.organization, {
+                  label: 'ORGANIZATION'|trans,
+                  row_attr: { class: 'md-input-has-placeholder' },
+                  required: false,
+              }) }}
+          {% endif %}
+      </section>
         {% if form.description is defined %}
           {{ form_row(form.description, { required: false }) }}
         {% endif %}
+         <section bns-feature-flag="'profile_sdet_informations'" bns-feature-push>
+          {% if form.phone is defined %}
+              {{ form_row(form.phone, {
+                  label: 'PHONE'|trans,
+                  row_attr: { class: 'md-input-has-placeholder' },
+                  required: false,
+                  attr: { countryCode: "FR", 'bns-libphone': ''}
+              }) }}
+          {% endif %}
+          {% if form.address is defined %}
+              {{ form_row(form.address, {
+                  label: 'ADDRESS'|trans,
+                  row_attr: { class: 'md-input-has-placeholder' },
+                  required: false,
+              }) }}
+          {% endif %}
+          {% if form.publicData is defined %}
+              {{ form_row(form.publicData, {
+                  label: 'PUBLIC_DATA'|trans
+              }) }}
+          {% endif %}
+         </section>
         {{ form_rest(form) }}
         {{ form_end(form) }}
 

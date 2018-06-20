@@ -44,8 +44,16 @@ class AnnouncementType extends AbstractType
                 ),
             ),
         ));
+        $enum = AnnouncementPeer::getValueSet(AnnouncementPeer::TYPE);
         $builder->add('type','choice', array(
-            'choices'   => AnnouncementPeer::getValueSet(AnnouncementPeer::TYPE),
+            'choices' => array_combine($enum, $enum),
+            'choice_label' => function ($value) {
+                $labels = [
+                    'CUSTOM' => 'Notification',
+                    'HOME' => 'Push home',
+                ];
+                return $labels[$value] ?? $value;
+            },
             'required'  => true,
             'expanded'  => false
         ));

@@ -15,13 +15,18 @@
         <parameter key="bns.api_limit.class">BNS\App\CoreBundle\ApiLimit\ApiLimit</parameter>
         <parameter key="user.locale.listener.class">BNS\App\CoreBundle\Listener\UserLocaleListener</parameter>
         <parameter key="translator.class">BNS\App\CoreBundle\Translation\Translator</parameter>
-        <parameter key="bns_app.session.max_idle_time">14400</parameter>
         <parameter key="bns_spot_api_secret_key" />
+        <!-- Whether beta mode is allowed for all users (users can switch) -->
         <parameter key="bns_beta_allowed">false</parameter>
+        <!-- Whether beta mode is allowed only for users with beta status (users cannot switch) -->
+        <parameter key="bns_beta_allowed_by_status">false</parameter>
+        <!-- Whether beta mode is active on this instance -->
         <parameter key="bns_beta_enabled">false</parameter>
         <parameter key="bns_normal_domain">beneylu.com</parameter>
         <parameter key="bns_beta_domain">beta.beneylu.com</parameter>
         <parameter key="bns_api_cache_key" />
+        <parameter key="guzzle_ssl_authority_path">true</parameter>
+        <parameter key="chrome_binary" />
     </parameters>
 
     <services>
@@ -47,15 +52,6 @@
             <argument type="service" id="bns.locale_manager" />
         </service>
 
-        <!-- session max idle handler -->
-        <service class="BNS\App\CoreBundle\Listener\SessionIdleListener" id="bns_app_core.listener.session_idle_listener">
-            <argument id="security.token_storage" type="service"/>
-            <argument id="session" type="service"/>
-            <argument id="router" type="service"/>
-            <argument>%bns_app.session.max_idle_time%</argument>
-            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
-        </service>
-
         <!-- Locale Process -->
         <service id="locale.listener" class="%locale.listener.class%">
             <argument type="service" id="bns.locale_manager"/>
@@ -69,7 +65,22 @@
         <service id="user.locale.listener" class="%user.locale.listener.class%">
             <argument type="service" id="session"/>
             <argument type="service" id="bns.locale_manager"/>
+            <argument type="service" id="translator"/>
             <tag name="kernel.event_listener" event="security.interactive_login" method="onInteractiveLogin" />
+        </service>
+
+        <service id="restricted.school.listener" class="BNS\App\CoreBundle\Listener\RestrictedSchoolListener">
+            <argument type="service" id="session"/>
+            <argument type="service" id="bns.user_manager"/>
+            <argument type="service" id="bns.group_manager"/>
+            <argument type="service" id="bns.restricted_access.manager"/>
+            <tag name="kernel.event_listener" event="security.interactive_login" method="restrictedOnLogin" />
+        </service>
+
+        <service id="restricted.access.listener" class="BNS\App\CoreBundle\Listener\RestrictedAccessListener">
+            <argument id="session" type="service"/>
+            <argument id="router" type="service"/>
+            <tag name="kernel.event_listener" event="kernel.request" method="onRestrictedAccess"/>
         </service>
 
         <service id="bns.available_country_type" class="BNS\App\CoreBundle\Form\Type\AvailableCountryType">
@@ -77,10 +88,22 @@
             <tag name="form.type" alias="available_country" />
         </service>
 
+        <service id="bns.store_type" class="BNS\App\CoreBundle\Form\Type\StoreType">
+            <argument>%bns_stores%</argument>
+            <tag name="form.type" alias="store" />
+        </service>
+
         <service class="BNS\App\CoreBundle\Listener\SecurityOnLoginListener" id="bns_app_core.listener.security_on_login_listener">
             <argument id="bns.user_manager" type="service"/>
             <argument id="security.token_storage" type="service"/>
 
+            <tag name="kernel.event_listener" event="security.interactive_login" method="onInteractiveLogin" priority="300" />
+        </service>
+
+        <service class="BNS\App\CoreBundle\Listener\StatConnectListener" id="bns_app_core.listener.stat_connect">
+            <argument id="stat.main" type="service"/>
+            <argument type="service" id="bns.api" />
+            <argument type="service" id="security.token_storage"/>
             <tag name="kernel.event_listener" event="security.interactive_login" method="onInteractiveLogin" />
         </service>
 
@@ -101,12 +124,19 @@
             <argument>%bns_api_cache_key%</argument>
         </service>
 
+        <service id="bns.signUrl" class="BNS\App\CoreBundle\Routing\SignUrl">
+            <argument>%symfony_secret%</argument>
+            <argument id="logger" type="service" />
+        </service>
+
         <service id="bns.user_manager" class="BNS\App\CoreBundle\User\BNSUserManager">
             <argument type="service" id="service_container" />
             <argument type="service" id="bns.file_system_manager" />
             <argument type="service" id="security.secure_random" />
             <argument>%domain_id%</argument>
             <argument>%csv_import_files_tmp_dir%</argument>
+            <argument>%bns.admin_security.allowed%</argument>
+            <argument>%bns.storage.unlimited_allowed%</argument>
         </service>
 
         <service id="bns.ip_localized" class="BNS\App\CoreBundle\IpLocalized\IpLocalized" />
@@ -148,16 +178,18 @@
             <argument type="service" id="bns.mailer" />
         </service>
         <service id="bns.right_manager" class="BNS\App\CoreBundle\Right\BNSRightManager">
-            <argument type="service" id="service_container" />
+            <argument type="service" id="service_container" /> <!-- todo remove me -->
             <argument type="service" id="bns.user_manager" />
             <argument type="service" id="bns.api" />
             <argument type="service" id="request_stack" />
             <argument type="service" id="session" />
-            <argument type="service" id="security.context" />
+            <argument /> <!-- old unused -->
             <argument type="service" id="bns.group_manager" />
             <argument type="service" id="bns.classroom_manager" />
             <argument type="service" id="bns.team_manager" />
             <argument type="service" id="logger" />
+            <argument type="service" id="security.token_storage" />
+            <argument type="service" id="security.authorization_checker" />
 
         </service>
 
@@ -191,6 +223,7 @@
 
         <service id="bns.liaison_book_manager" class="BNS\App\CoreBundle\LiaisonBook\BNSLiaisonBookManager">
             <argument type="service" id="bns.api" />
+            <argument type="service" id="bns.user_manager" />
         </service>
 
         <service id="bns.logging_listener" class="BNS\App\CoreBundle\Listener\LoggingListener">
@@ -225,8 +258,16 @@
             <tag name="form.type_extension" alias="textarea" />
         </service>
 
-        <service id="bns.form.extension.create_choice" class="BNS\App\CoreBundle\Form\Extension\CreateChoiceExtension">
+        <service id="bns.form.extension.custom_choice_options" class="BNS\App\CoreBundle\Form\Extension\CustomChoiceOptionsExtension">
             <tag name="form.type_extension" alias="choice" />
+        </service>
+
+        <service id="bns.form.extension.messages" class="BNS\App\CoreBundle\Form\Extension\MessagesExtension">
+            <tag name="form.type_extension" alias="form" />
+        </service>
+
+        <service id="bns.form.extension.switch" class="BNS\App\CoreBundle\Form\Extension\SwitchExtension">
+            <tag name="form.type_extension" alias="checkbox" />
         </service>
 
         <!-- Twig Extensions -->
@@ -267,6 +308,11 @@
         <service id="twig.extension.bns_application_management" class="BNS\App\CoreBundle\Twig\Extension\ApplicationManagementExtension">
             <argument type="service" id="bns_core.application_manager" />
             <tag name="twig.extension" alias="application_management_extension" />
+        </service>
+
+        <service id="twig.extension.bns_html_escape" class="BNS\App\CoreBundle\Twig\Extension\HtmlescaperExtension">
+            <argument type="service" id="bns_core.application_manager"/>
+            <tag name="twig.extension" alias="html_escape_extension"/>
         </service>
 
         <!-- Dynamic parameters service provider -->
@@ -348,6 +394,7 @@
             <argument type="service" id="bns.group_manager" />
             <argument>%kernel.cache_dir%</argument>
             <argument>%kernel.debug%</argument>
+            <argument type="service" id="bns_app_paas.manager.licence_manager" />
         </service>
         <service id="bns.api_limit_manager" class="%bns.api_limit.class%">
             <argument>%bns_api_limit%</argument>
@@ -356,6 +403,10 @@
             <argument>%analytics_mario_key%</argument>
             <argument type="service" id="service_container" /> <!-- TODO : remove this bad dependency -->
             <tag name="twig.extension" alias="analytics" />
+        </service>
+
+        <service id="bns.restricted_access.manager" class="BNS\App\CoreBundle\RestrictedAccess\RestrictedAccessManager">
+            <argument type="service" id="bns.group_manager" />
         </service>
 
         <!-- Expression Functions -->
@@ -388,19 +439,9 @@
             <argument type="service" id="translator" />
             <argument type="service" id="event_dispatcher" />
             <argument type="collection" /> <!-- restricted applications injected -->
+            <argument type="service" id="bns_app_core.context.context_group_factory" />
+            <argument type="service" id="qandidate.toggle.manager" />
         </service>
-
-        <!-- Service deprecated not needed anymore
-        <service id="bns_core.disable_application.listener" class="BNS\App\CoreBundle\Listener\DisableApplicationListener">
-            <argument type="service" id="session"/>
-            <argument type="service" id="bns_core.application_manager"/>
-            <argument type="service" id="bns.user_manager"/>
-            <argument type="service" id="bns.group_manager"/>
-
-            <tag name="kernel.event_listener" event="security.interactive_login" method="onInteractiveLogin" />
-            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
-        </service>
-        -->
 
         <!-- ClearCache listener -->
         <service id="bns_core.clear_cache_listener" class="BNS\App\CoreBundle\Listener\ApiClearCacheListener">
@@ -429,8 +470,7 @@
         <service class="BNS\App\CoreBundle\Listener\BetaModeListener" id="bns_app_core.listener.beta_mode_listener">
             <argument type="service" id="bns_app_core.beta_manager" />
             <argument type="service" id="templating" />
-            <argument type="service" id="session" />
-            <argument type="service" id="security.token_storage" />
+            <argument type="service" id="bns_common.security_logout.logout" />
 
             <tag name="kernel.event_listener" event="security.interactive_login" method="onInteractiveLogin" />
             <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" />
@@ -440,6 +480,7 @@
             <argument id="router.default" type="service"/>
             <argument id="request_stack" type="service"/>
             <argument>%bns_beta_allowed%</argument>
+            <argument>%bns_beta_allowed_by_status%</argument>
             <argument>%bns_beta_enabled%</argument>
             <argument>%bns_beta_domain%</argument>
             <argument>%bns_normal_domain%</argument>
@@ -456,6 +497,9 @@
             <call method="addSubscriber">
                 <argument type="service" id="bns_core.guzzle_logger" />
             </call>
+            <call method="setSslVerification">
+                <argument>%guzzle_ssl_authority_path%</argument>
+            </call>
         </service>
 
         <service id="bns_core.guzzle_logger" class="Guzzle\Plugin\Log\LogPlugin" public="false">
@@ -465,6 +509,39 @@
         <service id="bns_core.guzzle_logger_adapter" class="Guzzle\Log\PsrLogAdapter" public="false">
             <argument type="service" id="logger" />
         </service>
+
+        <service id="bns.exporter.pdf" class="BNS\App\CoreBundle\Export\PdfExporter">
+            <argument type="service" id="kernel" />
+            <argument>%chrome_binary%</argument>
+        </service>
+
+        <service id="bns.toggle.context_factory" class="BNS\App\CoreBundle\Context\BNSContextFactory" >
+            <argument type="service" id="security.token_storage" />
+            <argument type="service" id="bns.right_manager" />
+            <argument type="service" id="bns_app_paas.manager.licence_manager" />
+            <argument type="service" id="request_stack" />
+            <argument type="service" id="bns_app_core.context.context_group_factory" />
+        </service>
+
+        <service class="BNS\App\CoreBundle\Context\ContextGroupFactory" id="bns_app_core.context.context_group_factory">
+            <argument id="bns_app_paas.manager.licence_manager" type="service"/>
+            <argument id="request_stack" type="service"/>
+            <argument>%bns.storage.unlimited_allowed%</argument>
+        </service>
+
+      <service class="BNS\App\CoreBundle\Routing\BnsLocaleLinks" id="bns_app_core.routing.bns_locale_links">
+        <argument id="request_stack" type="service"/>
+        <argument>%bns_locale_links%</argument>
+      </service>
+
+      <service class="BNS\App\CoreBundle\Routing\BnsStoreLinks" id="bns_app_core.routing.bns_store_links">
+        <argument id="bns.group_manager" type="service"/>
+        <argument>%bns_store_links%</argument>
+      </service>
+
+
+      <service class="BNS\App\CoreBundle\Antivirus\Clamav" id="antivirus.clamav">
+      </service>
 
     </services>
 </container>

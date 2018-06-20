@@ -3,9 +3,11 @@
 namespace BNS\App\CalendarBundle\EventListener;
 
 use BNS\App\CoreBundle\Model\Agenda;
+use BNS\App\CoreBundle\Model\User;
 use BNS\App\CoreBundle\Right\BNSRightManager;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 /**
  * Class WorkshopDocumentSerializeSubscriber
@@ -14,12 +16,17 @@ class AgendaSerializeSubscriber implements EventSubscriberInterface
 {
 
     /**
+     * @var TokenStorage
+     */
+    private $tokenStorage;
+    /**
      * @var BNSRightManager
      */
     private $rightManager;
 
-    public function __construct(BNSRightManager $rightManager)
+    public function __construct(TokenStorage $tokenStorage, BNSRightManager $rightManager)
     {
+        $this->tokenStorage = $tokenStorage;
         $this->rightManager = $rightManager;
     }
 
@@ -62,17 +69,37 @@ class AgendaSerializeSubscriber implements EventSubscriberInterface
         if (!count(array_intersect($groups, ['with_manageable']))) {
             return;
         }
-
-        $rights = array();
+        $user = $this->getUser();
 
         /** @var Agenda $agenda */
         $agenda = $event->getObject();
-
-        if ($this->rightManager->hasRight('CALENDAR_ACCESS_BACK', $agenda->getGroupId())) {
+        if ($user->isChild()) {
+            if(in_array($user->getId(), $agenda->getEditors()->getPrimaryKeys()) || $agenda->getUserId() === $user->getId()) {
+                $visitor->addData('manageable', true);
+            } else {
+                $visitor->addData('manageable', false);
+            }
+        }
+        elseif ($this->rightManager->hasRight('CALENDAR_ADMINISTRATION', $agenda->getGroupId()) || $agenda->getUserId() === $user->getId() || in_array($user->getId(), $agenda->getEditors()->getPrimaryKeys())) {
             $visitor->addData('manageable', true);
         }
         else {
             $visitor->addData('manageable', false);
         }
+        // Add users editors
+        $visitor->addData('users', $agenda->getEditorsIds());
+    }
+
+
+    protected function getUser()
+    {
+        if ($token = $this->tokenStorage->getToken()) {
+            $user = $token->getUser();
+            if ($user && $user instanceof User) {
+                return $user;
+            }
+        }
+
+        return null;
     }
 }

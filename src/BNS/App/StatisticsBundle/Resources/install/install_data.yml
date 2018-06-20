@@ -35,6 +35,13 @@ permissions:
     description:
       fr: Donne l'accès aux statistiques des classes
       en: Give access to classroom's statistics
+  CITY:
+    label:
+      fr: Accès aux données des villes
+      en: Access city data
+    description:
+      fr: Donne l'accès aux statistiques des villes
+      en: Give access to city's statistics
 #  ACTIVATION:
 #    label:
 #      fr: Activer cahier de texte
@@ -69,3 +76,11 @@ ranks:
       fr: Utiliser les statistiques (avec accès aux données des classes)
       en: Use Statistics (with access to classroom data)
     permissions: [ACCESS, CLASSROOM]
+  CITY:
+    label:
+      fr: Utiliser les statistiques (avec accès aux données des villes)
+      en: Use Statistics (with access to city data)
+    description:
+      fr: Utiliser les statistiques (avec accès aux données des villes)
+      en: Use Statistics (with access to city data)
+    permissions: [ACCESS, CITY]

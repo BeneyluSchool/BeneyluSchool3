@@ -9,6 +9,11 @@ use BNS\App\UserDirectoryBundle\Model\om\BaseDistributionList;
 class DistributionList extends BaseDistributionList
 {
 
+    public function isTypeStructures()
+    {
+        return DistributionListPeer::TYPE_STRUCT === $this->getType();
+    }
+
     /**
      * Gets the related group ids
      *
@@ -44,6 +49,10 @@ class DistributionList extends BaseDistributionList
      */
     public function getRoleTypes()
     {
+        if ($this->isTypeStructures()) {
+            return null;
+        }
+
         $names = [];
         foreach ($this->getRoles() as $role) {
             $names[] = $role->getType();
@@ -60,6 +69,7 @@ class DistributionList extends BaseDistributionList
     public function getRoles()
     {
         $roles = [];
+        /** @var DistributionListGroup $listGroup */
         foreach ($this->getDistributionListGroupsJoinGroupType() as $listGroup) {
             if (isset($roles[$listGroup->getRoleId()])) {
                 continue;

@@ -48,7 +48,7 @@ class AppKernel extends Kernel
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new FOS\RestBundle\FOSRestBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
-            new JMS\SerializerBundle\JMSSerializerBundle($this),
+            new JMS\SerializerBundle\JMSSerializerBundle(),
             new Snc\RedisBundle\SncRedisBundle(),
             new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
             new JMS\TranslationBundle\JMSTranslationBundle(),
@@ -76,10 +76,13 @@ class AppKernel extends Kernel
             $bundles[] = new Fkr\SimplePieBundle\FkrSimplePieBundle();
             $bundles[] = new Dubture\FFmpegBundle\DubtureFFmpegBundle();
             $bundles[] = new SunCat\MobileDetectBundle\MobileDetectBundle();
+            $bundles[] = new Qandidate\Bundle\ToggleBundle\QandidateToggleBundle();
+            $bundles[] = new Lopi\Bundle\PusherBundle\LopiPusherBundle();
             // BNS
             $bundles[] = new BNS\App\AdminBundle\BNSAppAdminBundle();
             $bundles[] = new BNS\App\CommandBundle\BNSAppCommandBundle();
             $bundles[] = new BNS\App\CoreBundle\BNSAppCoreBundle();
+            $bundles[] = new BNS\App\CorrectionBundle\BNSAppCorrectionBundle();
             $bundles[] = new BNS\App\FixtureBundle\BNSAppFixtureBundle();
             $bundles[] = new BNS\App\ForumBundle\BNSAppForumBundle();
             $bundles[] = new BNS\App\InstallBundle\BNSAppInstallBundle();
@@ -135,6 +138,9 @@ class AppKernel extends Kernel
             $bundles[] = new BNS\App\StarterKitBundle\BNSAppStarterKitBundle();
             $bundles[] = new BNS\App\AchievementBundle\BNSAppAchievementBundle();
             $bundles[] = new BNS\App\LsuBundle\BNSAppLsuBundle();
+            $bundles[] = new BNS\App\CompetitionBundle\BNSAppCompetitionBundle();
+            $bundles[] = new BNS\App\AccountBundle\BNSAppAccountBundle();
+            $bundles[] = new BNS\App\ChatBundle\BNSAppChatBundle();
         }
 
         // Central Bundles
@@ -151,9 +157,9 @@ class AppKernel extends Kernel
         if (in_array(strstr($this->getEnvironment(), '_'), array('_dev', '_test'))) {
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new Elao\WebProfilerExtraBundle\WebProfilerExtraBundle();
+            $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
-            $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Nelmio\ApiDocBundle\NelmioApiDocBundle();
         }
 

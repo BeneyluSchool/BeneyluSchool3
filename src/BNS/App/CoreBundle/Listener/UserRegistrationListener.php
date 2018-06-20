@@ -37,6 +37,11 @@ class UserRegistrationListener
                     return;
                 }
 
+                // user has no right, let it redirect to "no classroom" screen
+                if (!count($this->container->get('bns.right_manager')->getRights())) {
+                    return;
+                }
+
                 $url = $this->container->get('router')->generate('user_front_registration_step', array('step' => $user->getRegistrationStep()));
                 if ($url != $event->getRequest()->getRequestUri()) {
                     $event->setResponse(new RedirectResponse($url));

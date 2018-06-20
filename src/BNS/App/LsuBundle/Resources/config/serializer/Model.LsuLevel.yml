@@ -1,0 +1,8 @@
+BNS\App\LsuBundle\Model\LsuLevel:
+  exclusion_policy: All
+
+  virtual_properties:
+    getLabel:
+      expose: true
+    getCycle:
+      expose: true

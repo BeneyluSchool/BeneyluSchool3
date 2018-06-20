@@ -14,12 +14,12 @@
 function Angularizer () {}
 
 Angularizer.prototype.init = function () {
-  var injector = window.angular.element(window.document).injector();
-  if (!injector) {
+  this.injector = window.angular.element(window.document).injector();
+  if (!this.injector) {
     return console.warn('Could not find angular injector');
   }
-  this.$compile = injector.get('$compile');
-  this.scope = injector.get('$rootScope').$new();
+  this.$compile = this.injector.get('$compile');
+  this.scope = this.injector.get('$rootScope').$new();
 };
 
 Angularizer.prototype.process = function (data) {
@@ -28,6 +28,14 @@ Angularizer.prototype.process = function (data) {
   }
 
   return this.$compile(data)(this.scope);
+};
+
+Angularizer.prototype.get = function (serviceName) {
+  if (!this.injector) {
+    this.init();
+  }
+
+  return this.injector.get(serviceName);
 };
 
 window.Angularizer = Angularizer;

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\LsuBundle\Model"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://xsd.propelorm.org/1.6/database.xsd">
+
+    <table name="lsu_level">
+        <column name="id" required="true" type="INTEGER" primaryKey="true" autoIncrement="true" />
+        <column name="code" required="true" type="VARCHAR" />
+        <column name="cycle" type="ENUM" valueSet="cycle1,cycle2,cycle3" required="true" />
+        <unique>
+            <unique-column name="code" />
+        </unique>
+        <behavior name="sortable" />
+    </table>
+
+    <table name="lsu_config">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+        <column name="group_id" required="true" type="INTEGER" />
+        <column name="level_id" required="true" type="INTEGER" />
+        <column name="user_ids" type="array" />
+
+        <foreign-key foreignTable="group" onDelete="cascade">
+            <reference foreign="id" local="group_id" />
+        </foreign-key>
+        <foreign-key foreignTable="lsu_level" onDelete="restrict">
+            <reference foreign="id" local="level_id" />
+        </foreign-key>
+
+        <behavior name="timestampable" />
+    </table>
+
+    <table name="lsu_domain">
+        <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER" />
+        <column name="code" type="VARCHAR" size="255" required="false" />
+        <column name="label" type="longvarchar" required="true" primaryString="true" />
+        <column name="cycle" type="ENUM" valueSet="cycle1,cycle2,cycle3,end1,end2,end3,socle" required="true" />
+        <column name="version" type="VARCHAR" size="255" required="true" defaultValue="v2016" />
+
+        <behavior name="nested_set">
+            <parameter name="use_scope" value="true" />
+            <parameter name="scope_column" value="version" />
+        </behavior>
+    </table>
+
+    <!--<table name="lsu_domain_detail">-->
+        <!--<column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER" />-->
+        <!--<column name="label" type="VARCHAR" size="255" required="true" primaryString="true" />-->
+        <!--<column name="domain_id" type="INTEGER" required="true" />-->
+
+        <!--<foreign-key foreignTable="lsu_domain">-->
+            <!--<reference local="domain_id" foreign="id" />-->
+        <!--</foreign-key>-->
+    <!--</table>-->
+
+    <table name="lsu_template">
+        <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER" />
+        <column name="period" type="VARCHAR"  required="true" />
+        <column name="config_id" type="INTEGER" required="true" />
+        <column name="validated" type="BOOLEAN" defaultValue="0" />
+        <column name="archived" type="BOOLEAN" defaultValue="0" />
+        <column name="is_open" type="BOOLEAN" defaultValue="0" />
+        <column name="is_cycle_end" type="BOOLEAN" defaultValue="0" />
+        <column name="started_at" type="timestamp" required="true" />
+        <column name="ended_at" type="timestamp" required="true" />
+        <column name="teacher" type="VARCHAR" size="255" />
+        <column name="year" type="integer" /> <!-- school year reference ex: 2016 -->
+        <column name="data" type="object" /> <!-- used to save linked data -->
+
+        <foreign-key foreignTable="lsu_config" onDelete="restrict">
+            <reference local="config_id" foreign="id" />
+        </foreign-key>
+
+        <behavior name="timestampable" />
+    </table>
+
+    <!-- elements du programme -->
+    <table name="lsu_template_domain_detail">
+        <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER" />
+        <column name="domain_id" type="INTEGER" required="true" />
+        <column name="template_id" type="INTEGER" required="true" />
+        <column name="label" type="longvarchar" primaryString="true" />
+        <column name="data" type="object" /> <!-- used to save linked data -->
+
+        <foreign-key foreignTable="lsu_domain">
+            <reference local="domain_id" foreign="id" />
+        </foreign-key>
+        <foreign-key foreignTable="lsu_template" onDelete="cascade">
+            <reference local="template_id" foreign="id" />
+        </foreign-key>
+    </table>
+
+    <table name="lsu_position">
+        <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER" />
+        <column name="lsu_id" required="true" type="INTEGER" />
+        <column name="domain_id" required="true" type="INTEGER" />
+        <column name="achievement" type="ENUM" valueSet="NOT,PARTIAL,SUCCESS,OVERSTEP"  />
+
+        <foreign-key foreignTable="lsu">
+            <reference local="lsu_id" foreign="id" />
+        </foreign-key>
+        <foreign-key foreignTable="lsu_domain">
+            <reference local="domain_id" foreign="id" />
+        </foreign-key>
+
+
+        <unique>
+            <unique-column name="lsu_id" />
+            <unique-column name="domain_id" />
+        </unique>
+
+        <behavior name="timestampable" />
+    </table>
+
+    <table name="lsu_comment">
+        <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER" />
+        <column name="lsu_id" type="INTEGER" required="true" />
+        <column name="domain_id" type="INTEGER" required="true" />
+        <column name="comment" type="longvarchar" required="true" />
+
+        <foreign-key foreignTable="lsu">
+            <reference local="lsu_id" foreign="id" />
+        </foreign-key>
+        <foreign-key foreignTable="lsu_domain">
+            <reference local="domain_id" foreign="id" />
+        </foreign-key>
+
+        <unique>
+            <unique-column name="lsu_id" />
+            <unique-column name="domain_id" />
+        </unique>
+
+        <behavior name="timestampable" />
+    </table>
+
+    <table name="lsu">
+        <column name="id" required="true" primaryKey="true" autoIncrement="true" type="INTEGER" />
+        <column name="user_id" type="INTEGER" required="true" />
+        <column name="template_id" type="INTEGER" required="true" />
+        <column name="validated" type="BOOLEAN" defaultValue="0" />
+        <column name="projects" type="array" />
+        <column name="global_evaluation" type="longvarchar" />
+        <column name="accompanying_condition" type="array" />
+        <column name="accompanying_condition_other" type="VARCHAR" size="255" />
+
+        <column name="data" type="object" /> <!-- used to save linked data -->
+
+        <foreign-key foreignTable="user">
+            <reference local="user_id" foreign="id" />
+        </foreign-key>
+        <foreign-key foreignTable="lsu_template">
+            <reference local="template_id" foreign="id" />
+        </foreign-key>
+
+        <behavior name="timestampable" />
+    </table>
+
+</database>

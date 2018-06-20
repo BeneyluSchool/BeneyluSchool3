@@ -86,83 +86,83 @@ function BNSAutofocusDirective ($timeout) {
 
 }
 
- /**
-  * @ngdoc directive
-  * @name bnsValidityIndicator
-  * @module bns.components.input
-  *
-  * @description
-  * Displays a validity indicator aside the input.
-  *
-  * @example
-  * <md-input-container>
-  *   <input ng-model="my.model" bns-validity-indicator>
-  * </md-input-container>
-  *
-  * @requires $compile
-  */
- function BNSValidityIndicatorDirective ($compile) {
+/**
+ * @ngdoc directive
+ * @name bnsValidityIndicator
+ * @module bns.components.input
+ *
+ * @description
+ * Displays a validity indicator aside the input.
+ *
+ * @example
+ * <md-input-container>
+ *   <input ng-model="my.model" bns-validity-indicator>
+ * </md-input-container>
+ *
+ * @requires $compile
+ */
+function BNSValidityIndicatorDirective ($compile) {
 
-   return {
-     restrict: 'A',
-     require: 'ngModel',
-     link: postLink,
-     scope: true,
-   };
+  return {
+    restrict: 'A',
+    require: 'ngModel',
+    link: postLink,
+    scope: true,
+  };
 
-   function postLink (scope, element, attrs, ngModelCtrl) {
-     scope.$watch(function () {
-       return ngModelCtrl.$valid;
-     }, function checkValidity (isValid) {
-       scope._valid = isValid;
-     });
+  function postLink (scope, element, attrs, ngModelCtrl) {
+    scope.$watch(function () {
+      return ngModelCtrl.$valid;
+    }, function checkValidity (isValid) {
+      scope._valid = isValid;
+    });
 
-     var $indicator = angular.element('<md-icon>{{_valid ? \'check\' : \'clear\'}}</md-icon>');
-     $indicator.attr({
-       'ng-class': '\'text-\' + (_valid ? \'accent\' : \'warn\')',
-     });
-     element.after($compile($indicator)(scope));
-     element.closest('md-input-container').addClass('md-icon-right');
-   }
+    var $indicator = angular.element('<md-icon>{{_valid ? \'check\' : \'clear\'}}</md-icon>');
+    $indicator.attr({
+      'ng-class': '\'text-\' + (_valid ? \'accent\' : \'warn\')',
+    });
+    element.after($compile($indicator)(scope));
+    element.closest('md-input-container').addClass('md-icon-right');
+  }
 
- }
+}
 
- /**
-  * @ngdoc directive
-  * @name bnsValidateRepeated
-  * @module bns.components.input
-  *
-  * @description
-  * Validates that the model on the input is equal to the given one. Useful for
-  * "repeat password" fields for example.
-  *
-  * @example
-  * <input ng-model="my.repeated_model" bns-validate-repeated="my.original_model">
-  */
- function BNSValidateRepeatedDirective () {
+/**
+ * @ngdoc directive
+ * @name bnsValidateRepeated
+ * @module bns.components.input
+ *
+ * @description
+ * Validates that the model on the input is equal to the given one. Useful for
+ * "repeat password" fields for example.
+ *
+ * @example
+ * <input ng-model="my.repeated_model" bns-validate-repeated="my.original_model">
+ */
+function BNSValidateRepeatedDirective () {
 
-   return {
-     restrict: 'A',
-     require: 'ngModel',
-     link: postLink,
-   };
+  return {
+    restrict: 'A',
+    require: 'ngModel',
+    link: postLink,
+  };
 
-   function postLink (scope, element, attrs, ngModelCtrl) {
-     // validate against OTHER when THIS value changes
-     ngModelCtrl.$validators.repeated = repeatedValidator;
+  function postLink (scope, element, attrs, ngModelCtrl) {
+    // validate against OTHER when THIS value changes
+    ngModelCtrl.$validators.repeated = repeatedValidator;
 
-     // watch OTHER value for changes and update THIS validity
-     scope.$watch(attrs.bnsValidateRepeated, function (baseValue) {
-       ngModelCtrl.$setValidity('repeated', ngModelCtrl.$modelValue === baseValue);
-     });
+    // watch OTHER value for changes and update THIS validity
+    scope.$watch(attrs.bnsValidateRepeated, function (baseValue) {
+      ngModelCtrl.$setValidity('repeated', ngModelCtrl.$modelValue === baseValue);
+    });
 
-     function repeatedValidator (modelValue, viewValue) {
-       var value = modelValue || viewValue;
+    function repeatedValidator (modelValue, viewValue) {
+      var value = modelValue || viewValue;
 
-       return value === scope.$eval(attrs.bnsValidateRepeated);
-     }
-   }
+      return value === scope.$eval(attrs.bnsValidateRepeated);
+    }
+  }
 
- }
+}
 
 })(angular);

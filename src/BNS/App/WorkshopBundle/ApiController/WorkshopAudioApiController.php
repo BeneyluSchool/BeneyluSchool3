@@ -34,10 +34,11 @@ class WorkshopAudioApiController extends BaseWorkshopApiController
     public function postAction(Request $request)
     {
         $this->checkWorkshopAccess();
+        $this->checkFeatureAccess('workshop_audio');
 
         $contentManager = $this->get('bns.workshop.content.manager');
         $user = $this->getUser();
-        $destination = $this->get('bns.media_folder.manager')->getUserFolder($user);
+        $destination = $this->get('bns.media_folder.manager')->getMyWorkshopFolder($user);
         $media = $this->get('bns.media.creator')->createFromRequest($destination, $user->getId(), $request, true, false)[0];
         $workshopAudio = $contentManager->setup(new WorkshopAudio(), $user, $media);
 
@@ -47,6 +48,7 @@ class WorkshopAudioApiController extends BaseWorkshopApiController
             'csrf_protection' => false,
         ), null, function () use ($request, $contentManager, $workshopAudio, $ctrl) {
             // force save of related parent object
+            $workshopAudio->getWorkshopContent()->getMedia()->setIsPrivate(true);
             $workshopAudio->save();
             $workshopAudio->getWorkshopContent()->save();
 

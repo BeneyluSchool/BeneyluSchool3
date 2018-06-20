@@ -9,7 +9,11 @@ class WorkshopContent extends BaseWorkshopContent
 
     public function getLabel()
     {
-        return $this->getMedia()->getLabel();
+        if ($media = $this->getMedia()) {
+            return $media->getLabel();
+        }
+
+        return '';
     }
 
     public function isDocument()

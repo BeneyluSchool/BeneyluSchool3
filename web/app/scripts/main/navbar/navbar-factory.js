@@ -31,10 +31,13 @@ angular.module('bns.main.navbar')
  * @requires $rootScope
  * @requires $q
  * @requires $log
+ * @requires $window
+ * @requires $state
  * @requires Users
  * @requires Groups
+ * @requires global
  */
-function NavbarFactory ($rootScope, $q, $log, Users, Groups) {
+function NavbarFactory ($rootScope, $q, $log, $window, $state, Users, Groups, global) {
 
   var navbar = {
     // Navbar service is disabled by default. Enabled by the navbar directive
@@ -50,6 +53,8 @@ function NavbarFactory ($rootScope, $q, $log, Users, Groups) {
     setGroup: setGroup,
     getApps: getApps,
     getOrRefreshGroup: getOrRefreshGroup,
+    getStateFromUrl: getStateFromUrl,
+    getStateUrl: getStateUrl,
     canAccess: canAccess,
     show: function () {
       this.shown = true;
@@ -71,8 +76,12 @@ function NavbarFactory ($rootScope, $q, $log, Users, Groups) {
   }
 
   function setApp (app) {
+    if (global('anonymous')) {
+      $log.warn('Cannot set app when logged out');
+      return $q.reject('anonymous');
+    }
     if (!navbar.enabled) {
-      return $log.warn('Cannot set app without navbar');
+      $log.warn('Setting app without navbar');
     }
 
     if (angular.isString(app)) {
@@ -118,8 +127,12 @@ function NavbarFactory ($rootScope, $q, $log, Users, Groups) {
   }
 
   function getOrRefreshGroup () {
+    if (global('anonymous')) {
+      $log.warn('Cannot get group when logged out');
+      return $q.reject('anonymous');
+    }
     if (!navbar.enabled) {
-      return $log.warn('Cannot get current group without navbar');
+      $log.warn('Getting current group without navbar');
     }
 
     return Groups.getCurrent()
@@ -132,6 +145,48 @@ function NavbarFactory ($rootScope, $q, $log, Users, Groups) {
   function canAccess (app) {
     // TODO: fix app.is_open
     return app.has_access_front || app.has_access_back;
+  }
+
+  /**
+   * Gets a state-friendly url from the given absolute url.
+   *
+   * @param {String} url
+   */
+  function getStateUrl (url) {
+    var basePath = $window.document.createElement('a').baseURI;
+
+    return url.replace(basePath, '/');
+  }
+
+  /**
+   * Gets the state corresponding to the given url
+   *
+   * @param {String} url Absolute or state-friendly url
+   * @returns {*}
+   */
+  function getStateFromUrl (url) {
+    if (/^https?:\/\//.test(url)) {
+      url = navbar.getStateUrl(url);
+    }
+    var states = $state.get();
+
+    for (var i = 0; i < states.length; i++) {
+      var state = states[i];
+      if (state.abstract || state.name === 'sink') {
+        continue;
+      }
+
+      var privatePortion = state.$$state();
+      var match = null;
+      if (privatePortion.url) {
+        match = privatePortion.url.exec(url);
+      }
+      if (match) {
+        return { state: state, stateParams: match, url: url };
+      }
+    }
+
+    return null;
   }
 
 }

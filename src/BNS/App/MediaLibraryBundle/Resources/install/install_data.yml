@@ -67,6 +67,14 @@ permissions:
     description:
       fr: Peut activer ou désactiver la médiathèque dans le partenariat
 
+  BOOKMARKS:
+    label:
+      fr: Gérer des signets
+      en: manage bookmarks
+    description:
+      fr: peut gérer des signets
+      en: can manage bookmarks
+
 ranks:
   READ:
     label:
@@ -124,6 +132,15 @@ ranks:
       fr:
       en:
     permissions: [ACCESS, ACCESS_BACK, ACTIVATION, MY_MEDIAS, ADMINISTRATION, USERS_ADMINISTRATION]
+
+  BOOKMARKS:
+    label:
+      fr: Gérer des signets
+      en: manage bookmarks
+    description:
+      fr: peut gérer des signets
+      en: can manage bookmarks
+    permissions: [BOOKMARKS]
 
 markers:
   MEDIALIBRARY_VISIT:

@@ -69,6 +69,20 @@ permissions:
     description:
       fr: 'Donne accès à la gestion des profils du groupe et leur modération'
       en: null
+  SDET_INFORMATIONS:
+    label:
+      fr: 'peut ajouter numéro de téléphone, adresse professionnelle '
+      en: 'can add phone number and address '
+    description:
+      fr: 'peut ajouter numéro de téléphone, adresse professionnelle'
+      en: null
+  SDET_IMPORT_EXPORT:
+    label:
+      fr: 'peut importer et exporter des fiches utilisateurs'
+      en: 'can import export users profile '
+    description:
+      fr: 'peut importer et exporter des fiches utilisateurs'
+      en: null
 ranks:
   READ:
     label:
@@ -149,11 +163,33 @@ ranks:
       en: null
     permissions:
       - ACTIVATION
+  SDET_INFORMATIONS:
+    label:
+      fr: 'peut ajouter numéro de téléphone, adresse professionnelle '
+      en: 'can add phone number and address '
+    description:
+      fr: null
+      en: null
+    permissions:
+      - SDET_INFORMATIONS
+  SDET_IMPORT_EXPORT:
+    label:
+      fr: 'peut importer et exporter des fiches utilisateurs'
+      en: 'can import export users profile '
+    description:
+      fr: null
+      en: null
+    permissions:
+      - SDET_IMPORT_EXPORT
 notification_types:
   PROFILE_COMMENT_PENDING_VALIDATION: {  }
-  PROFILE_COMMENT_PUBLISHED_FOR_AUTHR: {  }
+  PROFILE_COMMENT_PUBLISHED_FOR_AUTHOR: {  }
   PROFILE_COMMENT_PUBLISHED: {  }
   PROFILE_ASSISTANCE_STARTED: {  }
+  PROFILE_ACCOUNT_MERGED: {  }
+  PROFILE_MODIFIED: {  }
+  PROFILE_STATUS_CREATED: {  }
+  PROFILE_NEW_PROFILE_STATUS_TO_MODERATE: {  }
 markers:
   PROFILE_CREATE_STATUS:
     description: 'Création d''un statut sur le profil'

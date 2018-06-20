@@ -15,7 +15,7 @@
       <scrollable>
         <div id="workshop-document" class="workshop-document-view">
 
-          <div ng-repeat="page in ctrl.document._embedded.pages" bns-workshop-document-page="page" document="ctrl.document" font-size-reference-width="880"></div>
+          <div ng-repeat="page in ctrl.document._embedded.pages" bns-workshop-document-page="page" document="ctrl.document" bns-questionnaire="ctrl.questionnaire" bns-workshop-page-ratio font-size-reference-width="880" allow-growth="ctrl.document.is_questionnaire" ng-if="!ctrl.onePage || (ctrl.onePage && ctrl.position === page.position)"></div>
 
         </div>
       </scrollable>
@@ -23,7 +23,7 @@
 
     <div ng-if="ctrl.print" id="workshop-document" class="workshop-document-view">
 
-      <div ng-repeat="page in ctrl.document._embedded.pages" bns-workshop-document-page="page" document="ctrl.document" font-size-reference-width="880"></div>
+      <div ng-repeat="page in ctrl.document._embedded.pages" bns-workshop-document-page="page" document="ctrl.document" bns-workshop-page-ratio font-size-reference-width="880" allow-growth="ctrl.document.is_questionnaire"></div>
 
     </div>
   </div>

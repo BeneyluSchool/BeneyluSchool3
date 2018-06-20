@@ -1,0 +1,24 @@
+BNS\App\LsuBundle\Model\om\BaseLsuTemplate:
+  exclusion_policy: All
+
+  properties:
+    id:
+      expose: true
+    is_open:
+      expose: true
+    is_cycle_end:
+      expose: true
+    period:
+      expose: true
+    started_at:
+      expose: true
+    ended_at:
+      expose: true
+    teacher:
+      expose: true
+    year:
+      expose: true
+
+  virtual_properties:
+    getData:
+      expose: true

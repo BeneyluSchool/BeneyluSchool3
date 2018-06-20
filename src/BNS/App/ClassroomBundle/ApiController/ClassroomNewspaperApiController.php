@@ -27,7 +27,7 @@ class ClassroomNewspaperApiController extends BaseApiController
      *     }
      * )
      * @Rest\Get()
-     * @Rest\View(serializerGroups={"Default", "front", "media_basic"})
+     * @Rest\View(serializerGroups={"Default", "front", "media_basic", "media_detail"})
      *
      * @return \BNS\App\ClassroomBundle\Model\ClassroomNewspaper|View
      */

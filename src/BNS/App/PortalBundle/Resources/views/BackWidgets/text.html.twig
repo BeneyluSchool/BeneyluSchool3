@@ -20,13 +20,7 @@
     </div>
 {% endblock %}
 {% block editView %}
-    <textarea class="tiny-editor" name="widget-{{ widget.id }}[text]" id="widget-{{ widget.id }}-text" value="{{ widget.data('bannerId') }}">
-        {{ parse_public_resources(widget.data('text')|purify,true,'medium',true) }}
+    <textarea bns-tinymce name="widget-{{ widget.id }}[text]" id="widget-{{ widget.id }}-text" value="{{ widget.data('bannerId') }}">
+        {{ parse_public_resources(widgetText,true,'medium',true) }}
     </textarea>
-
-    <script type="text/javascript">
-        $(function() {
-            {{ ajaxTiny("widget-" ~ widget.id ~ "-text",parse_public_resources(widgetText,true,'medium',true)) }}
-        });
-    </script>
 {% endblock %}

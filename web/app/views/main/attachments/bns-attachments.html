@@ -1,33 +1,36 @@
-<div class="bns-attachments" ng-class="{'empty': !attachments.source.length}">
+<div class="bns-attachments" ng-class="{'empty': !attachments.source.length, 'compact': attachments.compact}">
 
-  <bns-expander label="{{'ATTACHMENTS.TITLE_ATTACHED_DOCUMENTS'|translate:{COUNT: attachments.source.length}:'messageformat'}}" start-open="attachments.startOpen">
+  <bns-expander ng-if="attachments.showMedias" label="{{(attachments.title || 'ATTACHMENTS.TITLE_ATTACHED_DOCUMENTS')|translate:{COUNT: attachments.source.length}:'messageformat'}}" start-open="attachments.startOpen" show-toggle="!attachments.compact">
 
-    <md-list class="files">
-      <md-list-item ng-repeat="media in attachments.source track by media.id" class="layout-row layout-padding">
+    <md-list class="files" ng-sortable="attachments.canDrag()">
+      <md-list-item ng-repeat="attachment in attachments.source track by attachment.id" ng-init="media = attachment" class="layout-row" ng-class="{'layout-padding': !attachments.compact}">
         <span class="flex flex-none attachment-preview">
-          <bns-media-preview media="media" class="md-whiteframe-1dp"></bns-media-preview>
+          <bns-media-preview media="media" with-icon class="md-whiteframe-1dp"></bns-media-preview>
         </span>
         <div class="flex">
-          <div class="attachment-label md-body-1 text-ellipsis" title="{{::media.label}}">{{::media.label}}</div>
-          <div class="attachment-details md-caption">
-            {{('ATTACHMENTS.TYPE_' + media.type_unique_name)|translate}}
-            {{::(media.size ? (' - ' + (media.size|octet)) : '')}}
+          <div class="md-subhead2 text-ellipsis attachment-label" title="{{::media.label}}">{{::media.label}}</div>
+          <div class="attachment-details" bns-transclude-eval="attachments.attachmentDetailsTemplate">
+            <span class="md-caption">{{('ATTACHMENTS.TYPE_' + media.type_unique_name)|translate}}</span>
+            <span class="md-caption">{{::(media.size ? (' - ' + (media.size|octet)) : '')}}</span>
           </div>
         </div>
 
         <md-button type="button" ng-if="attachments.editable" ng-click="attachments.remove(media)" class="md-icon-button">
           <md-icon>delete</md-icon>
+          <md-tooltip ng-if="::attachments.removeTooltip">{{attachments.removeTooltip|translate}}</md-tooltip>
         </md-button>
 
-        <input ng-if="attachments.editable" type="hidden" value="{{::media.id}}" name="resource-joined[]">
+        <input ng-if="attachments.editable" type="hidden" value="{{::media.id}}" name="{{attachments.formName}}">
 
+        <div bns-transclude-eval="attachments.attachmentLinkTemplate">
         <md-button href
           ng-if="!attachments.anonymous"
           data-media-id="{{media.id}}"
           class="btn-joined resource-open-joined media-view btn-nav"
+          ng-class="{'md-icon-button': attachments.compact}"
         >
-          <span ng-bind-html="'ATTACHMENTS.LINK_SEE_DOCUMENT'|translate|buttonize"></span>
-          <md-icon>chevron_right</md-icon>
+          <span ng-if="!attachments.compact" ng-bind-html="'ATTACHMENTS.LINK_SEE_DOCUMENT'|translate|buttonize"></span>
+          <md-icon>{{attachments.compact ? 'visibility' : 'chevron_right' }}</md-icon>
         </md-button>
 
         <md-button ng-if="::attachments.anonymous && media.download_url"
@@ -38,17 +41,27 @@
           <span ng-bind-html="'ATTACHMENTS.LINK_DOWNLOAD_DOCUMENT'|translate|buttonize"></span>
           <md-icon>file_download</md-icon>
         </md-button>
+        </div>
       </md-list-item>
     </md-list>
 
   </bns-expander>
 
-  <div ng-if="attachments.editable" class="layout-row layout-align-start-center layout-padding attachments-add">
+  <div ng-if="attachments.editable && attachments.showControl"
+    ng-hide="attachments.max <= attachments.source.length"
+    class="layout-row layout-align-start-center attachments-add"
+    ng-class="{'layout-padding': !attachments.compact}"
+  >
     <span class="flex"></span>
 
-    <md-button href="" class="media-join md-primary md-raised">
+    <md-button href=""
+      class="media-join"
+      ng-class="attachments.compact ? 'md-icon-button' : 'md-primary md-raised'"
+      ng-attr-data-allowed-type="{{ attachments.type }}"
+      ng-attr-data-max="{{attachments.max ? (attachments.max - attachments.source.length) : null}}"
+    >
       <bns-icon>media-library</bns-icon>
-      <span ng-bind-html="'ATTACHMENTS.BUTTON_JOIN_DOCUMENTS'|translate|buttonize"></span>
+      <span ng-if="!attachments.compact" ng-bind-html="(attachments.label || 'ATTACHMENTS.BUTTON_JOIN_DOCUMENTS')|translate|buttonize"></span>
     </md-button>
   </div>
 

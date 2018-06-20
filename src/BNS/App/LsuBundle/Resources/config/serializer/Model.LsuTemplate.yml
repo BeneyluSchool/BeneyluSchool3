@@ -1,0 +1,30 @@
+BNS\App\LsuBundle\Model\LsuTemplate:
+  exclusion_policy: All
+
+  properties:
+    completion:
+      expose: true
+
+    totalCompletion:
+      expose: true
+
+    userCompletions:
+      expose: true
+
+    completionDomains:
+      expose: true
+
+  virtual_properties:
+    getLsuConfig:
+      expose: true
+
+    getLsuTemplateDomainDetails:
+      expose: true
+      serialized_name: template_domain_details
+      groups: [lsu_template_domain_detail]
+
+    getPeriodIndex:
+      expose: true
+
+    hasDetails:
+      expose: true

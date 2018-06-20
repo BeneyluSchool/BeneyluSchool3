@@ -4,11 +4,13 @@ namespace BNS\App\MessagingBundle\ApiController;
 
 use BNS\App\CoreBundle\Annotation\RightsSomeWhere;
 use BNS\App\MessagingBundle\Form\Type\ConversationType;
+use BNS\App\MessagingBundle\Messaging\BNSMessageManager;
 use BNS\App\MessagingBundle\Model\MessagingConversationQuery;
 use BNS\App\MessagingBundle\Form\Type\AnswerType;
 use BNS\App\MessagingBundle\Model\MessagingConversation;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Util\Codes;
+use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -95,14 +97,32 @@ class ConversationApiController extends BaseMessagingApiController
         $rightManager = $this->get('bns.right_manager');
         $rightManager->forbidIf(!$messageManager->canRead($message));
 
-        if($messageManager->getStatus($conversation) == "NONE_READ"){
+        if (in_array($messageManager->getStatus($conversation), ['NONE_READ', 'CAMPAIGN'])) {
             $messageManager->setRead($conversation);
+        }
+
+        if ($this->hasFeature('messaging_read_indicator')) {
+            $this->get('hateoas.expression.evaluator')->setContextVariable('conversation_read_indicator', true);
         }
 
         return $conversation;
     }
 
     /**
+     * poster une des actions suivantes
+     *
+     * <ul>
+     * <li>restore</li>
+     * <li>read</li>
+     * <li>unread</li>
+     * </ul>
+     * exemple :
+     * <pre>
+     * {
+     *   "action": "restore"
+     * }
+     * </pre>
+     *
      * @ApiDoc(
      *  section="Messagerie - Conversations",
      *  resource=false,
@@ -128,21 +148,32 @@ class ConversationApiController extends BaseMessagingApiController
      * @RightsSomeWhere("MESSAGING_ACCESS")
      *
      * @param MessagingConversation $conversation
-     * @return Response
+     * @return Response|View
      */
-    public function patchConversationAction(MessagingConversation $conversation)
+    public function patchConversationAction(Request $request, MessagingConversation $conversation)
     {
+        $user = $this->getUser();
         // check that user can manage the conversation
-        $rightManager = $this->get('bns.right_manager');
-        $rightManager->forbidIf($conversation->getUserId() != $rightManager->getUserSession()->getId());
-
+        if ($conversation->getUserId() !== $user->getId()) {
+            throw $this->createAccessDeniedException();
+        }
         $messageManager = $this->get('bns.message_manager');
-        $validStatuses = array_values($messageManager->messagesConversationStatus);
 
-        return $this->restForm(new ConversationType(), $conversation, [
-            'statuses' => $validStatuses,
-            'csrf_protection' => false, // TODO
-        ]);
+        switch ($request->request->get('action')) {
+            case 'restore':
+                $messageManager->setRead($conversation);
+                break;
+            case 'read':
+                $messageManager->setRead($conversation);
+                break;
+            case 'unread':
+                $messageManager->setUnread($conversation);
+                break;
+            default:
+                return View::create(['error' => 'invalid_action'], Response::HTTP_BAD_REQUEST);
+        }
+
+        return View::create(null, Response::HTTP_NO_CONTENT);
     }
 
     /**

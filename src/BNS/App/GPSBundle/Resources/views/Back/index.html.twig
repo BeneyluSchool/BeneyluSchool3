@@ -16,7 +16,7 @@
 {% endblock javascripts %}
 
 {% block action_bar %}
- {{ components.button( 'LINK_ADD_PLACE' | trans , { intent: 'primary', href: path('BNSAppGPSBundle_back_new_place'), icon: 'add_circle', raised: true }) }}
+ {{ components.button( 'LINK_ADD_PLACE' | trans , { intent: 'primary', href: path('BNSAppGPSBundle_back_new_place'), icon: 'add_circle', raised: true, attr: {'bns-feature-flag': '"gps_place"', 'bns-feature-push': ''} }) }}
 {% endblock %}
 
 {% block sidebar_content %}
@@ -48,7 +48,7 @@
     </div>
   </md-toolbar>
 
-  <md-content class="item-list-container layout-column flex">
+  <md-content class="item-list-container layout-column flex" bns-feature-flag="'gps_place'" bns-feature-push="'incentive'">
     <div class="layer-places-loading">
       <div layout="row" layout-sm="column" layout-align="space-around">
         <md-progress-circular md-mode="indeterminate"></md-progress-circular>

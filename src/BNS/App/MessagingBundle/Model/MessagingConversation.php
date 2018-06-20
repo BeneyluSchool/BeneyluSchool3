@@ -11,8 +11,17 @@ use BNS\App\MessagingBundle\Model\om\BaseMessagingConversation;
 use Criteria;
 class MessagingConversation extends BaseMessagingConversation
 {
-	
-	/**
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setLastReadId(0);
+    }
+
+    /**
 	 * Raccourci vers le message associé en parent
 	 * @return MessagingMessage
 	 */

@@ -1,6 +1,7 @@
 <?php
 namespace BNS\App\CoreBundle\Application;
 
+use BNS\App\CoreBundle\Context\ContextGroupFactory;
 use BNS\App\CoreBundle\Events\ApplicationUninstallEvent;
 use BNS\App\CoreBundle\Events\BnsEvents;
 use BNS\App\CoreBundle\Events\ClearCacheEvent;
@@ -10,8 +11,11 @@ use BNS\App\CoreBundle\Exception\InvalidUninstallApplication;
 use BNS\App\CoreBundle\Model\Group;
 use BNS\App\CoreBundle\Model\GroupModuleQuery;
 use BNS\App\CoreBundle\Model\Module;
+use BNS\App\CoreBundle\Model\ModulePeer;
 use BNS\App\CoreBundle\Model\ModuleQuery;
+use BNS\App\CoreBundle\Model\PermissionPeer;
 use BNS\App\CoreBundle\Model\PermissionQuery;
+use Qandidate\Toggle\ToggleManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -41,7 +45,7 @@ class ApplicationManager
     /**
      * @var array applications cache
      */
-    protected $applications = array();
+    protected $applications;
 
     /**
      * List of base applications (string unique name)
@@ -83,12 +87,24 @@ class ApplicationManager
     protected $eventDispatcher;
 
     /**
+     * @var ContextGroupFactory
+     */
+    protected $contextGroupFactory;
+
+    /**
+     * @var ToggleManager
+     */
+    protected $toggleManager;
+
+    /**
      * List of Module with authorized local :
      *
      * [ SPACE_OPS: ['fr'], LUNCH: ['fr', 'es', 'en_US']]
      * @var  array
      */
     protected $restrictedApplications;
+
+    protected $applicationPermissionCache = [];
 
     public function __construct(
         $enabled,
@@ -99,7 +115,9 @@ class ApplicationManager
         array $privateApplications = array(),
         TranslatorInterface $translator,
         EventDispatcherInterface $eventDispatcher,
-        array $restrictedApplications = array()
+        array $restrictedApplications = array(),
+        ContextGroupFactory $contextGroupFactory,
+        ToggleManager $toggleManager
     )
     {
         $this->enabled = (bool) $enabled;
@@ -111,6 +129,8 @@ class ApplicationManager
         $this->translator = $translator;
         $this->eventDispatcher = $eventDispatcher;
         $this->restrictedApplications = $restrictedApplications;
+        $this->contextGroupFactory = $contextGroupFactory;
+        $this->toggleManager = $toggleManager;
     }
 
     /**
@@ -150,14 +170,14 @@ class ApplicationManager
     /**
      * @return array|\BNS\App\CoreBundle\Model\Module[]|mixed|\PropelObjectCollection
      */
-    public function getBaseApplications($type = null)
+    public function getBaseApplications($type = [])
     {
         // TODO optimize move this to configuration cache
         if (null === $this->baseModules || null !== $type) {
             $applications = $this->createModuleQuery()
                 ->filterByUniqueName($this->baseApplications)
                 ->_if($type)
-                    ->filterByType($type, \Criteria::EQUAL)
+                    ->filterByType($type, \Criteria::IN)
                 ->_endif()
                 ->find()
                 ;
@@ -197,14 +217,14 @@ class ApplicationManager
      * @param string $userLocale the locale of the user to restrict some apps
      * @return Module[]|\PropelObjectCollection
      */
-    public function getInstalledApplications(Group $group, $userGroupRights = null, $type = null, $userLocale = null)
+    public function getInstalledApplications(Group $group, $userGroupRights = null, $type = [], $userLocale = null)
     {
         $modules = $this->getUserInstalledApplications($group, $userGroupRights, $type);
         $baseModules = $this->getBaseApplications($type);
 
         foreach ($baseModules as $baseModule) {
             if (null !== $type) {
-                if ($baseModule->getType() !== $type) {
+                if (!in_array($baseModule->getType(), $type)) {
                     continue;
                 }
             }
@@ -226,11 +246,11 @@ class ApplicationManager
      * @return Module[]|array|mixed|\PropelObjectCollection
      * @throws \PropelException
      */
-    public function getUserInstalledApplications(Group $group, $userGroupRights = null, $type = null)
+    public function getUserInstalledApplications(Group $group, $userGroupRights = null, $type = [])
     {
         $userInstalledModules = $this->createModuleQuery()
             ->_if($type)
-                ->filterByType($type)
+                ->filterByType($type, \Criteria::IN)
             ->_endif()
             ->useGroupModuleQuery()
                 ->filterByGroup($group)
@@ -277,29 +297,29 @@ class ApplicationManager
      */
     public function getGroupSpecialModule(Group $group)
     {
-        $module = 'GROUP';
+        $applicationName = 'GROUP';
         switch ($group->getType()) {
             case 'CLASSROOM':
-                $module = 'CLASSROOM';
+                $applicationName = 'CLASSROOM';
                 break;
             case 'SCHOOL':
-                $module = 'SCHOOL';
+                $applicationName = 'SCHOOL';
                 break;
             case 'TEAM':
-                $module = 'TEAM';
+                $applicationName = 'TEAM';
                 break;
         }
 
-        $module = $this->createModuleQuery()->filterByUniqueName($module)->findOne();
-        if ($module) {
-            $module->setCustomLabel($group->getLabel());
-        }
-        // add type information to Module object
-        if ('GROUP' === $module->getUniqueName()) {
-            $module->groupType = $group->getType();
+        $application = $this->getApplication($applicationName);
+        if ($application) {
+            $application->setCustomLabel($group->getLabel());
+            // add type information to Module object
+            if ('GROUP' === $application->getUniqueName()) {
+                $application->groupType = $group->getType();
+            }
         }
 
-        return $module;
+        return $application;
     }
 
     /**
@@ -318,18 +338,29 @@ class ApplicationManager
             array_values($installedModules)
         ), $group, $userLocale);
 
+        $notCached = array_diff($allowedApplications, array_keys($this->applicationPermissionCache));
+        if (count($notCached) > 0) {
+            $permissions = PermissionQuery::create()
+                ->useModuleQuery('module', \Criteria::INNER_JOIN)
+                    // Module should be enabled
+                    ->filterByIsEnabled(true)
+                    //  allow system / base applications
+                    ->filterByUniqueName($notCached)
+                ->endUse()
+                ->select(array(PermissionPeer::UNIQUE_NAME, ModulePeer::UNIQUE_NAME))
+                ->find()
+                ->getArrayCopy()
+            ;
+            foreach ($permissions as $permission) {
+                $this->applicationPermissionCache[$permission[ModulePeer::UNIQUE_NAME]][] = $permission[PermissionPeer::UNIQUE_NAME];
+            }
+        }
+        $res = [];
+        foreach ($allowedApplications as $application) {
+            $res = array_merge($res, $this->applicationPermissionCache[$application] ?? []);
+        }
 
-        return PermissionQuery::create()
-            ->useModuleQuery()
-            // Module should be enabled
-                ->filterByIsEnabled(true)
-            //  allow system / base applications
-                ->filterByUniqueName($allowedApplications)
-            ->endUse()
-            ->select(array('UniqueName'))
-            ->find()
-            ->getArrayCopy()
-        ;
+        return $res;
     }
 
     /**
@@ -463,11 +494,12 @@ class ApplicationManager
      */
     public function getApplication($applicationName)
     {
+        if (null === $this->applications) {
+            $this->initCacheApplications();
+        }
+
         if (!isset($this->applications[$applicationName])) {
-            $this->applications[$applicationName] = $this->createModuleQuery()
-                ->filterByUniqueName($applicationName)
-                ->findOne()
-            ;
+            return null;
         }
 
         return $this->applications[$applicationName];
@@ -492,10 +524,33 @@ class ApplicationManager
             $module->canOpen = true;
             $module->isUninstallable = $this->canUninstall($uniqueName);
         }
-        if (isset($activatedModules[$uniqueName]) && null !== $activatedModules[$uniqueName]) {
-            $module->isOpen = true;
-            if (!$module->isPrivate && $module->canOpen && 'partial' === $activatedModules[$uniqueName]) {
+
+        // Check if $activatedModules is a self table
+        if ($this->isMultiArray($activatedModules)) {
+            if ((isset($activatedModules[$uniqueName]['PARENT']) && null !== $activatedModules[$uniqueName]['PARENT'])
+                || (isset($activatedModules[$uniqueName]['PUPIL']) && null !== $activatedModules[$uniqueName]['PUPIL'])) {
+                $module->isOpenFamily = true;
+            }
+            if (isset($activatedModules[$uniqueName]['TEACHER']) && null !== $activatedModules[$uniqueName]['TEACHER']) {
+                $module->isOpenTeacher = true;
+            }
+
+            if ($module->isOpenFamily !== $module->isOpenTeacher && $uniqueName !== 'SPOT') {
                 $module->isPartiallyOpen = true;
+            } else {
+                if ($module->isOpenFamily === false) {
+                    $module->isOpen = false;
+                } else {
+                    $module->isOpen = true;
+                }
+            }
+
+        } else {
+            if (isset($activatedModules[$uniqueName]) && null !== $activatedModules[$uniqueName]) {
+                $module->isOpen = true;
+                if (!$module->isPrivate && $module->canOpen && 'partial' === $activatedModules[$uniqueName]) {
+                    $module->isPartiallyOpen = true;
+                }
             }
         }
 
@@ -518,6 +573,21 @@ class ApplicationManager
         if ($titleTranslated !== $titleToken) {
             $module->metaTitle = $titleTranslated;
         }
+    }
+
+    /**
+     * Check if array is multidimensional
+     * @param $arr
+     * @return bool true if $arr is multidimensional
+     */
+    protected function isMultiArray($arr)
+    {
+        foreach ($arr as $val) {
+            if (is_array($val)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -555,11 +625,20 @@ class ApplicationManager
         if (!isset($this->restrictedApplications[$applicationName])) {
             return true;
         }
+        $context = $this->contextGroupFactory->createContextGroup($group);
 
-        // Get lang of group to restrict apps, or user lang or (current locale might not be the right user)
-        $lang = $group->getLang() ?: ($userLocale ?: $this->getLocale());
+        return $this->toggleManager->active($applicationName, $context);
+    }
 
-        return in_array($lang, $this->restrictedApplications[$applicationName], true);
+    /**
+     * initialize application cache with one query
+     */
+    protected function initCacheApplications()
+    {
+        $this->applications = $this->createModuleQuery()
+            ->find()
+            ->getArrayCopy('UniqueName')
+        ;
     }
 
     protected function createModuleQuery()

@@ -1,17 +1,18 @@
-<md-dialog class="starter-kit-introduction-dialog">
+<div class="dialog-content md-whiteframe-z4">
   <div class="starter-kit-introduction-level text-center">
     <bns-icon ng-repeat="l in ::ctrl.range(ctrl.starterKit.level)" size="64">star</bns-icon>
   </div>
-  <md-dialog-content class="md-dialog-content">
+
+  <div class="md-padding">
     <h3 class="md-headline text-center" ng-bind-html="ctrl.step.data.title|trustHtml"></h3>
     <p ng-if="::ctrl.step.data.duration" class="md-body-2 text-center" translate translate-values="{duration: ctrl.step.data.duration}">STARTER_KIT.LABEL_DURATION</p>
     <div class="md-body-2" ng-bind-html="ctrl.step.data.content|trustHtml"></div>
-  </md-dialog-content>
-  <div class="md-actions">
+  </div>
+
+  <div class="md-padding layout-row layout-align-end-center">
     <md-button ng-click="ctrl.accept()" class="md-raised md-primary">
       <span ng-bind-html="ctrl.step.data.accept||'STARTER_KIT.BUTTON_GO'|translate|buttonize"></span>
       <md-icon>chevron_right</md-icon>
     </md-button>
   </div>
-</md-dialog>
-<div class="bns-starter-kit-dialog-jim"></div>
+</div>

@@ -39,6 +39,7 @@ angular.module('bns.components.checkboxGroupFilter', [
  *  - `label` : allow to choose object property that will be used as label (default: "label")
  *  - `icon` : the property used for an icon (default: false) or a function(object) to build the icon property
  *  - `limit` : the number of element to show at start. If 0 (default) show all elements
+ *  - `filterAttribute` : allow to filer only on an attribute
  *
  * @example
  * <bns-checkbox-group-filter
@@ -60,7 +61,9 @@ function BNSCheckboxGroupFilterDirective () {
       value: '=',
       label: '=',
       icon: '=',
-      limit: '='
+      limit: '=',
+      filterAttribute: '@',
+      deselection: '='
     },
     controller: 'CheckboxGroupFilterController',
     controllerAs: 'groupFilter',
@@ -94,6 +97,10 @@ function CheckboxGroupFilterController ($scope, $attrs, _, arrayUtils, filterFil
     }, 0);
   };
 
+  groupFilter.deselect = function() {
+    groupFilter.selection = [];
+  };
+
   init();
 
   function init () {
@@ -114,9 +121,14 @@ function CheckboxGroupFilterController ($scope, $attrs, _, arrayUtils, filterFil
       return;
     }
 
-    // TODO add parameters to allow a custom filter
+    // allow custom filter
+    var filterBy = groupFilter.filterText;
+    if ($attrs.filterAttribute) {
+      filterBy = {};
+      filterBy[$attrs.filterAttribute] = groupFilter.filterText;
+    }
     // filter the collection
-    arrayUtils.merge(groupFilter.filters.choices, _.map(filterFilter(groupFilter.collection, groupFilter.filterText), buildItem));
+    arrayUtils.merge(groupFilter.filters.choices, _.map(filterFilter(groupFilter.collection, filterBy), buildItem));
 
   }
 

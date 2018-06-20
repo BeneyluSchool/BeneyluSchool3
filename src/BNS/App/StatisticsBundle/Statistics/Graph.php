@@ -90,6 +90,9 @@ class Graph
                 'text' => 'Date'
             )
         );
+        $this->yAxis = array(
+            'title' => ['text' => isset($options['yAxisTitle'])? $options['yAxisTitle'] : "" ],
+        );
     }
 
     /**
@@ -274,7 +277,10 @@ class Graph
     public function getOptions()
     {
         return array_merge(array(
-            'chart' => array('type' => $this->getGraphType())
+            'chart' => array('type' => $this->getGraphType()),
+            'tooltip' => array(
+                'xDateFormat' => '%A %e %B %Y',
+            )
         ), $this->options);
     }
 

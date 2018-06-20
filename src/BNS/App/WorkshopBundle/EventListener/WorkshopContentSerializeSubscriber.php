@@ -49,7 +49,7 @@ class WorkshopContentSerializeSubscriber implements EventSubscriberInterface
         /** @var WorkshopContent $content */
         $content = $event->getObject();
 
-        if ($content->isDocument()) {
+        if ($content && $content->isDocument()) {
             $isLocked = $content->getWorkshopDocument()->isLocked();
 
             $visitor = $event->getVisitor();

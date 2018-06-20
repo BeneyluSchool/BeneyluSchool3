@@ -57,5 +57,13 @@
             {% endfor %}
         </div>
     </div>
+    {% if absenceAlert %}
+        <div class="error">
+        <div class="text-warn text-center">
+            <span class="strong">{% if is_in_front %}Votre {% else %} Cet {% endif %} enfant s'est absenté plus de 10 demi journées durant ce mois.</span>
+        </div>
+        </div>
+
+    {% endif %}
 {% endblock %}
 

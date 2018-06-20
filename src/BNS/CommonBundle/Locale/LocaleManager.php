@@ -79,7 +79,13 @@ class LocaleManager
 
     public function localeOrDefault($locale)
     {
-        if (isset($locale, $this->availableLanguages)) {
+        $locale = $this->normalize($locale);
+
+        // try full locale, fallback to short language code, fallback to default
+        if (!in_array($locale, $this->availableLanguages)) {
+            $locale = locale_get_primary_language($locale);
+        }
+        if (in_array($locale, $this->availableLanguages)) {
             return $locale;
         }
 
@@ -137,6 +143,15 @@ class LocaleManager
     public function unflagUserDefinedLocale(SessionInterface $session)
     {
         return $session->remove(self::USER_DEFINED_LOCALE_FLAG);
+    }
+
+    public function normalize($locale)
+    {
+        return locale_canonicalize($locale);
+    }
+
+    public function slugify($locale) {
+        return str_replace('_', '-', strtolower($locale));
     }
 
 }

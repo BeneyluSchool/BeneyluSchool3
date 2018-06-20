@@ -8,6 +8,7 @@ use BNS\App\CampaignBundle\Model\CampaignRecipient;
 use BNS\App\CampaignBundle\Model\CampaignRecipientQuery;
 use BNS\App\CoreBundle\Group\BNSGroupManager;
 use BNS\App\CoreBundle\Model\UserQuery;
+use BNS\App\UserDirectoryBundle\Manager\DistributionListManager;
 use BNS\App\UserDirectoryBundle\Model\DistributionList;
 use BNS\App\UserDirectoryBundle\Model\DistributionListGroup;
 use BNS\App\UserDirectoryBundle\Model\DistributionListGroupQuery;
@@ -32,12 +33,16 @@ class CampaignManager
     /** @var LoggerInterface  */
     protected $logger;
 
-    public function __construct(Producer $campaignProducer, Producer $campaignMessageProducer, BNSGroupManager $groupManager, LoggerInterface $logger)
+    /** @var DistributionListManager  */
+    protected $distributionListManager;
+
+    public function __construct(Producer $campaignProducer, Producer $campaignMessageProducer, BNSGroupManager $groupManager, LoggerInterface $logger, DistributionListManager $distributionListManager)
     {
         $this->campaignProducer = $campaignProducer;
         $this->campaignMessageProducer = $campaignMessageProducer;
         $this->groupManager = $groupManager;
         $this->logger = $logger;
+        $this->distributionListManager = $distributionListManager;
     }
 
     public function send(Campaign $campaign)
@@ -96,9 +101,21 @@ class CampaignManager
                 }
             }
         }
-
-        // get users from list
-        // TODO get users from list
+        $distributionLists = DistributionListQuery::create()->useCampaignDistributionListQuery()->filterByCampaignId($campaign->getId())->endUse()->find();
+        foreach ($distributionLists as $distributionList) {
+                $userIds = $this->distributionListManager->getUserIds($distributionList);
+            foreach ($userIds as $userId) {
+                try {
+                    $recipient = new CampaignRecipient();
+                    $recipient->setCampaignId($campaign->getId());
+                    $recipient->setUserId($userId);
+                    $recipient->setIsDirect(false);
+                    $recipient->save();
+                } catch (\PropelException $e) {
+                    // duplicate
+                }
+            }
+        }
 
         // filter unique recipient base on campaign type
         $userIds = $this->getUniqueUserIds(
@@ -150,12 +167,12 @@ class CampaignManager
     }
 
     /**
-     * update the number of unique recipients of the campaign
+     * get the unique recipient's ids of the campaign
      * @param Campaign $campaign
-     * @return Campaign
+     * @return
      * @throws \PropelException
      */
-    public function updateUniqueRecipients(Campaign $campaign)
+    public function getUniqueRecipientIds(Campaign $campaign)
     {
         $userIds = [];
         $distributionRoleGroups = DistributionListGroupQuery::create()
@@ -183,11 +200,14 @@ class CampaignManager
         }
 
         // individual recipients
-        $userIds = array_merge($userIds, CampaignRecipientQuery::create()
-            ->filterByCampaignId($campaign->getId(), \Criteria::EQUAL)
-            ->select('UserId')
-            ->find()
-            ->getArrayCopy());
+        $userIds = array_merge(
+            $userIds,
+            CampaignRecipientQuery::create()
+                ->filterByCampaignId($campaign->getId(), \Criteria::EQUAL)
+                ->select('UserId')
+                ->find()
+                ->getArrayCopy()
+        );
 
         // filter unique recipient base on campaign type
         $userIds = $this->getUniqueUserIds(
@@ -195,10 +215,22 @@ class CampaignManager
             $userIds
         );
 
-        $campaign->setNbRecipient(count($userIds));
+        return $userIds;
+    }
+
+    /**
+     * update the number of unique recipients of the campaign
+     * @param Campaign $campaign
+     * @return
+     * @throws \PropelException
+     */
+    public function updateUniqueRecipients(Campaign $campaign)
+    {
+        $campaign->setNbRecipient(count($this->getUniqueRecipientIds($campaign)));
 
         return $campaign;
     }
+
 
     /**
      * @param int $type a campaign class key

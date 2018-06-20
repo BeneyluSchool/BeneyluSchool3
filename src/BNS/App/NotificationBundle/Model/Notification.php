@@ -2,6 +2,7 @@
 
 namespace BNS\App\NotificationBundle\Model;
 
+use BNS\App\CoreBundle\Model\GroupQuery;
 use BNS\App\NotificationBundle\TranslateFactory\NotificationTranslateFactory;
 use BNS\App\NotificationBundle\Model\om\BaseNotification;
 use BNS\App\CoreBundle\Access\BNSAccess;
@@ -191,6 +192,10 @@ class Notification extends BaseNotification
 	 */
 	private function sendEmailEngine()
 	{
+		// use target user locale for routes
+		if (!self::$container->get('router')->getContext()->getParameter('_locale')) {
+			self::$container->get('router')->getContext()->setParameter('_locale', $this->getUser()->getLang());
+		}
 		$translation = NotificationTranslateFactory::translate($this, self::ENGINE_EMAIL, self::$container->get('translator'), $this->getUser()->getLang());
 
 		$variables = array(
@@ -252,4 +257,16 @@ class Notification extends BaseNotification
         /** @Ignore */
 		return self::$container->get('translator')->trans($translationName, $finalObjects, $notification->getNotificationTypeUniqueName());
 	}
+
+    public static function getGroupLabel($objects)
+    {
+        if ($objects && isset($objects['groupId'])) {
+            $groupLabel = GroupQuery::create()->filterById($objects['groupId'])->select('Label')->findOne();
+            if ($groupLabel) {
+                return "[" . $groupLabel . "] ";
+            }
+        }
+
+        return null;
+    }
 }

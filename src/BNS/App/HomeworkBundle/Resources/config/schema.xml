@@ -12,15 +12,11 @@
         <column name="recurrence_type" type="ENUM" valueSet="ONCE,EVERY_WEEK,EVERY_TWO_WEEKS,EVERY_MONTH" required="true"/>
         <column name="recurrence_days" type="ARRAY"/>
         <column name="recurrence_end_date" type="DATE"/>
+        <column name="scheduled_publication" type="BOOLEAN" defaultValue="false" required="false" />
+        <column name="publication_date" type="DATE" required="false" />
         <column name="has_locker" type="BOOLEAN" default="false"/>
-	<behavior name="timestampable" />
+        <behavior name="timestampable" />
         <behavior name="sluggable">
-            <parameter name="slug_column" value="slug" />
-            <parameter name="slug_pattern" value="{shortDate}-{name}" />
-            <parameter name="replace_pattern" value="/[^\w]+/u" />
-            <parameter name="replacement" value="-" />
-            <parameter name="separator" value="-" />
-            <parameter name="permanent" value="true" />
         </behavior>
         <behavior name="bns_media_attachmentable" />
         <foreign-key foreignTable="homework_subject" onDelete="CASCADE" onUpdate="CASCADE">
@@ -29,7 +25,10 @@
         <index name="subject_id">
             <index-column name="subject_id"/>
         </index>
-    </table>    
+        <index name="has_locked_idx">
+            <index-column name="has_locker" />
+        </index>
+    </table>
     <table name="homework_due">
         <column name="id" type="INTEGER" primaryKey="true" required="true" autoIncrement="true"/>
         <column name="homework_id" type="INTEGER" required="true"/>
@@ -78,6 +77,16 @@
             <index-column name="group_id"/>
         </index>
     </table>
+    <table name="homework_user" isCrossRef="true">
+        <column name="homework_id" type="INTEGER" primaryKey="true" required="true"/>
+        <column name="user_id" type="INTEGER" primaryKey="true" required="true"/>
+        <foreign-key foreignTable="homework" onDelete="cascade" onUpdate="cascade">
+            <reference local="homework_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="user" onDelete="cascade" onUpdate="cascade">
+            <reference local="user_id" foreign="id"/>
+        </foreign-key>
+    </table>
     <table name="homework_subject">
         <column name="id" type="INTEGER" primaryKey="true" required="true" autoIncrement="true"/>
         <column name="name" type="VARCHAR" size="255" required="true"/>
@@ -86,7 +95,7 @@
             <parameter name="use_scope" value="true" />
             <parameter name="scope_column" value="group_id" />
         </behavior>
-	<behavior name="timestampable" />
+        <behavior name="timestampable" />
         <behavior name="sluggable">
             <parameter name="slug_column" value="slug" />
             <parameter name="slug_pattern" value="{groupId}-{name}" />
@@ -108,5 +117,5 @@
         <foreign-key foreignTable="group" onDelete="cascade">
             <reference local="group_id" foreign="id" />
         </foreign-key>
-    </table> 
+    </table>
 </database>

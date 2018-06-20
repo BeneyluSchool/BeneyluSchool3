@@ -87,10 +87,6 @@
                             <span class="icons-24 edit-icon"></span>
                             <strong>Editer</strong> <br />le forum
                         </a>
-                        <a id="btn-inscription-user" href="#" class="btn bns-info btn-24 medium-return">
-                            <span class="icons-24 add-icon"></span>
-                            <strong>Inscrire</strong> un<br />utilisateur
-                        </a>
                         {% if forum.pendingValidationUsers|length > 0 %}
                         <a id="btn-validate-user" href="#" class="btn bns-success btn-24 medium-return">
                             <span class="icons-24 validate-icon"></span>
@@ -102,6 +98,11 @@
                         </a>
                         {% endif %}
 
+                        <a href="{{ path('BNSAppForumBundle_back_export', {'id': forum.id}) }}" class="btn bns-danger btn-24 medium-return pull-right delete-item">
+                            <span class="icons-24 save-icon"></span>
+                            <strong>exporter</strong>
+                            <br /> le forum
+                        </a>
                         <a href="{{ path('BNSAppForumBundle_back_delete_forum', {'slug': forum.slug}) }}" class="btn bns-danger btn-24 medium-return pull-right delete-item"
                             data-target="#deleteModal" data-toggle="modal">
                             <span class="icons-24 delete-icon"></span>
@@ -165,7 +166,7 @@
                 {{ render(controller('BNSAppForumBundle:Back:getSubjects', {'forum': forum, 'page': page} )) }}
             </div>
             {% if forum.pendingValidationUsers|length > 0 %}
-                <h3>Inscrition en attente</h3>
+                <h3>Inscription en attente</h3>
                 <div class="pending-validation-users">
                     {% for user in forum.pendingValidationUsers %}
                         <a href="#" class="bns-user small checkbox pending-validation"
@@ -174,12 +175,20 @@
                     {% endfor %}
                 </div>
             {% endif %}
-
+          <h3>Modérateurs</h3>
+          <div class="validated-users">
+            {% for user in forum.moderators %}
+              <a href="{{ path('BNSAppForumBundle_back_moderator_user', {'forumId': forum.id, 'id': user.id, 'moderator' : 0}) }}"
+                 class="bns-user small" data-user-id="{{ user.id }}"><img src="{{ avatar(user, 'thumbnail') }}" />{{ user.fullName }} <span class="action-icons"></span></a>
+            {% else %}
+              {% include 'BNSAppMainBundle:BNSAlert:row.html.twig' with {'message' : "Il n'y a aucun élève modérateur" , 'type' : 'info' } %}
+            {% endfor %}
+          </div>
             <h3>Inscrits</h3>
             <div class="validated-users">
-                {% for user in forum.validatedUsers %}
-                    <a href="{{ path('BNSAppForumBundle_back_unsubscribe_user', {'slug': forum.slug, 'id': user.id}) }}"
-                        class="bns-user small cancel" data-user-id="{{ user.id }}"><img src="{{ avatar(user, 'thumbnail') }}" />{{ user.fullName }} <span class="action-icons"></span></a>
+                {% for user in forum.notModerators %}
+                    <a href="{{ path('BNSAppForumBundle_back_moderator_user', {'forumId': forum.id, 'id': user.id, 'moderator' : 1}) }}"
+                        class="bns-user small" data-user-id="{{ user.id }}"><img src="{{ avatar(user, 'thumbnail') }}" />{{ user.fullName }} <span class="action-icons"></span></a>
                 {% else %}
                     {% include 'BNSAppMainBundle:BNSAlert:row.html.twig' with {'message' : "Il n'y a aucun utilisateur inscrit" , 'type' : 'info' } %}
                 {% endfor %}
@@ -212,7 +221,6 @@
             'footer_template': {'template': 'BNSAppForumBundle:Back:modal_footer_archive_forum.html.twig' },
         }) }}
 
-        <form id="form-inscription" name="form-inscription" action="{{ path('BNSAppForumBundle_back_subscribe', {'slug':forum.slug}) }}" method="post">
 
             {# userPicker #}
             {% include 'BNSAppDirectoryBundle:UserPicker:activable_userpicker.html.twig' with {

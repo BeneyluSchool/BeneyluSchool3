@@ -63,7 +63,8 @@ class BNSPartnershipManager extends BNSGroupManager implements IBundleActivation
             'domain_id'	=> $this->domainId,
             'label'		=> $params['label'],
             'validated'	=> isset($params['validated']) && $params['validated'] ? true : false,
-            'attributes' => $params['attributes']
+            'attributes' => $params['attributes'],
+            'lang'       => $params['lang'] ?? 'fr'
         );
 
         $this->partnership = $this->createGroup($newPartnershipParams);
@@ -379,4 +380,24 @@ class BNSPartnershipManager extends BNSGroupManager implements IBundleActivation
         $this->api->resetPartnershipMembers($partnershipId);
     }
 
+    /*
+    * Retourne la liste des membre d'un partenariat identifié par $uid
+     *
+    * @param array $partnershipIds
+    *
+    * @return array $members
+    */
+    public function getPartnershipMemberIds($partnershipIds)
+    {
+        $groupsIds = array();
+        foreach ($partnershipIds as $partnershipId) {
+            $response = $this->api->send('partnership_members', array('route' => array('partnership_id' => $partnershipId)), true);
+
+
+            foreach ($response as $group) {
+                $groupsIds[] = $group['friend_id'];
+            }
+        }
+        return $groupsIds;
+    }
 }

@@ -12,6 +12,7 @@ use BNS\App\InfoBundle\Model\SponsorshipQuery;
 use BNS\App\MailerBundle\Mailer\BNSMailer;
 use BNS\App\PaasBundle\Manager\PaasManager;
 use \Criteria;
+use OpenCloud\ObjectStore\Exception\UploadException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -569,6 +570,12 @@ class BNSClassroomManager extends BNSGroupManager implements IBundleActivation
             $this->roleManager->findGroupTypeRoleByType('PUPIL'));
     }
 
+
+    public function importTeacherFromVcardFile(UploadedFile $file)
+    {
+        return $this->userManager->importTeacherFromVcardFile($file);
+    }
+
     /**
      * @param \BNS\App\CoreBundle\Model\User $teacher
      * @param \BNS\App\RegistrationBundle\Model\SchoolInformation $schoolInfo
@@ -659,6 +666,8 @@ class BNSClassroomManager extends BNSGroupManager implements IBundleActivation
         $classRoom->validateStatus();
 
         //Vérification de parrainages en cours sur version publique
+        // TODO handle sponsorship
+        /*
         if ($this->isOnPublicVersion()) {
             $teachers = $this->getUsersByRoleUniqueName('TEACHER', true);
             foreach ($teachers as $teacher) {
@@ -682,6 +691,7 @@ class BNSClassroomManager extends BNSGroupManager implements IBundleActivation
 
             }
         }
+        */
 
     }
 
@@ -788,6 +798,8 @@ class BNSClassroomManager extends BNSGroupManager implements IBundleActivation
      */
     public function handleSponsorship($sponsorship)
     {
+        // TODO handle sponsorship
+        /*
         $sponsorship->activate();
         if ($sponsorship->isValidated()) {
             $sponsorshipper = $sponsorship->getUserRelatedByFromUserId();
@@ -803,6 +815,7 @@ class BNSClassroomManager extends BNSGroupManager implements IBundleActivation
                 GroupTypeQuery::create()->findOneByType('ENT_REFERENT'));
             $this->userManager->resetRights();
         }
+        */
     }
 
 }

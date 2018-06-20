@@ -1,22 +1,32 @@
-<md-button type="button"
+<md-button href=""
   bns-user-directory-invoke="{{picker.view}}"
   selection="picker.ids"
+  selection-group="picker.groupIds"
   on-selection="picker.onSelection"
-  class="md-raised md-primary btn-xs"
+  class="md-raised md-primary btn-xs btn-addon"
 >
-  <span ng-bind-html="'USER_PICKER.BUTTON_USER_DIRECTORY'|translate|buttonize">.</span>
+  <span ng-bind-html="(picker.label||'USER_PICKER.BUTTON_USER_DIRECTORY')|translate|buttonize">.</span>
 </md-button>
 
-<md-contact-chips ng-model="picker.users"
-  md-contacts="picker.getContacts($query)"
-  md-contact-name="full_name"
-  md-contact-image="avatar_url"
-  md-highlight-flags="i"
-  md-require-match="true"
-  placeholder="{{picker.placeholder}}"
-  secondary-placeholder="{{picker.placeholderAlt}}"
-  filter-selected="true"
+<md-chips ng-model="picker.all" md-autocomplete-snap
+          md-transform-chip="picker.transformChip($chip)"
+          md-require-match="true"
+          md-on-remove = "picker.remove($chip)"
+          md-on-add = "picker.add($chip)"
 >
-</md-contact-chips>
-
-
+  <md-autocomplete
+    md-selected-item="picker.selectedItem"
+    md-search-text="$query"
+    md-items="item in picker.getContacts($query)"
+    md-item-text=""
+    placeholder="{{picker.placeholder}}">
+    <img ng-src="{{item.avatar_url}}"/>
+      <span >{{item.full_name || item.label}}</span>
+  </md-autocomplete>
+  <md-chip-template>
+      <img ng-src="{{$chip.avatar_url}}"/>
+    <div class="md-contact-name">
+      {{$chip.full_name || $chip.label}}
+    </div>
+  </md-chip-template>
+</md-chips>

@@ -21,6 +21,7 @@ class HomeworkDue extends BaseHomeworkDue
     /**
      * Mise a jour du nombre de taches realisees par les eleves
      * pour cette occurence de devoir.
+     * @deprecated
      */
     public function updateNumberOfTasksDone()
     {

@@ -1,8 +1,8 @@
-<div bns-workshop-gap-fill-text text="ctrl.widget._embedded.extended_settings.choices" response="ctrl.myResponse" can-answer="ctrl.gapRetry" answers="ctrl.correctAnswers" class="gap-fill-text-container"></div>
+<div bns-workshop-gap-fill-text text="ctrl.widget._embedded.extended_settings.choices" response="ctrl.myResponse" can-answer="ctrl.gapRetry" answers="ctrl.correctAnswers" class="gap-fill-text-container" time-stopped="ctrl.timeStopped"></div>
 <div class="good-block" ng-if="!ctrl.canAnswer && ctrl.isCorrect">
   <span translate>WORKSHOP.QUESTIONNAIRE.ALL_FOUND</span>
 </div>
 <div class="blue-block" ng-if="!ctrl.canAnswer && !ctrl.isCorrect">
-   <span translate translate-values="{count: ctrl.correctCount, total: ctrl.total}">WORKSHOP.QUESTIONNAIRE.FOUND_COUNT</span>
+   <span translate translate-values="{COUNT: ctrl.correctCount, TOTAL: ctrl.total}" translate-interpolation="messageformat">WORKSHOP.QUESTIONNAIRE.FOUND_COUNT</span>
 </div>
 <div class="good-block" ng-if="!ctrl.widget._embedded.extended_settings.advanced_settings.hide_solution && !ctrl.gapRetry && !ctrl.canRetry && !ctrl.isCorrect" ng-bind-html="ctrl.widget._embedded.extended_settings.choices | trustHtml"></div>

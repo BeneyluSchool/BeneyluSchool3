@@ -4,7 +4,7 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
 
     <class name="BNS\App\BlogBundle\Form\Model\BlogArticleFormModel">
-        <property name="title">
+        <property name="draftTitle">
             <constraint name="NotBlank">
 				<option name="message">INVALID_ENTER_TITLE</option>
 			</constraint>
@@ -20,7 +20,7 @@
                 <option name="message">INVALID_CHOOSE_ONE_BLOG</option>
             </constraint>
         </property>
-        <property name="content">
+        <property name="draftContent">
             <constraint name="NotBlank">
                 <option name="message">INVALID_ENTER_CONTENT</option>
             </constraint>

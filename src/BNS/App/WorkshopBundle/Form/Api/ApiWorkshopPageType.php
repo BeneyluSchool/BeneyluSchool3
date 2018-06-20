@@ -49,6 +49,10 @@ class ApiWorkshopPageType extends AbstractType
             ),
         ));
 
+        $builder->add('sizes', 'text', [
+            'required' => false,
+        ]);
+
         $builder->add('workshop_widget_groups', 'collection', array(
             'type' => new ApiWorkshopWidgetGroupType(),
         ));

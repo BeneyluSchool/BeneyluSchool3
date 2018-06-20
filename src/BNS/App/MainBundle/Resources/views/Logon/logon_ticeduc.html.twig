@@ -60,8 +60,9 @@
                     </div>
                 </div>
                 <div class="row-fluid">
-                    {% if viewParams.news is defined and viewParams.news|length > 0 %}
+
                         <div class="span8 news">
+                          {% if viewParams.news is defined and viewParams.news|length > 0 %}
                             <a href="#" id="news-group" class="news-button active">
                                 <img src="{{ asset('/medias/images/logon/ticeduc/group.png') }}" class="news-logo" />
                                 {{ cityLabel }}
@@ -85,8 +86,18 @@
                                 </div>
                             {% endif %}
                             <br clear='all' />
+                          {% endif %}
+                            {# message row #}
+                            {% if parameter('home_message') %}
+                              <div class="home-message inset">
+                                <div class="layout-column layout-gt-sm-row layout-align-center-center layout-padding md-whiteframe-z1 md-body-1 home-message-container">
+                                  {{ parameter('home_message') | raw }}
+                                </div>
+                              </div>
+                            {% endif %}
+
                         </div>
-                    {% endif %}
+                  {% if not parameter('disable_login') %}
                     <div class="span4 connexion" style="margin-top: -35px;">
                         <div class="content-logon">
                             <div class="iframe-container">
@@ -100,6 +111,7 @@
                             </div>
                         </div>
                     </div>
+                  {% endif %}
                 </div>
             </div>
         </div>

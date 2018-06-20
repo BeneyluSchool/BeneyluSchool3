@@ -54,7 +54,7 @@
         '%beneylu_brand_name%': parameter('beneylu_brand_name')
       })|raw }}</p>
   </md-dialog-content>
-  <div class="md-actions dialog-footer">
+  <md-dialog-actions class="dialog-footer">
     {{ components.button(null, {
       href: '',
       icon: 'help',
@@ -65,7 +65,7 @@
       href: path('BNSAppClassroomBundle_front'),
       icon: { name: 'chevron_right', pos: 'right' }
     }) }}
-  </div>
+  </md-dialog-actions>
 </md-dialog>
 
 {% endblock %}

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-10-27T20:48:34Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2018-05-29T11:50:52Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -26,9 +26,13 @@
         <source>BUTTON_DOWNLOAD_FOLDER_MEDIA_LIBRARY</source>
         <target>Télécharger le dossier|dans ma médiathèque</target>
       </trans-unit>
+      <trans-unit id="64da415054133be024811045bf15a5bb7db5f28d" resname="BUTTON_EDIT_PLAN">
+        <source>BUTTON_EDIT_PLAN</source>
+        <target>Faire évoluer mon abonnement</target>
+      </trans-unit>
       <trans-unit id="c6cba682d9028d5c7c4358af3a6e7648bd711234" resname="BUTTON_NEXT_WEEK">
         <source>BUTTON_NEXT_WEEK</source>
-        <target>Semaine | suivante</target>
+        <target>Suivant</target>
       </trans-unit>
       <trans-unit id="eef6a6274dd45b8bc348c398166ecf8b4d7650d4" resname="BUTTON_NOW">
         <source>BUTTON_NOW</source>
@@ -36,7 +40,7 @@
       </trans-unit>
       <trans-unit id="da387e1b85086ee64505e2c3963db56356396292" resname="BUTTON_PREVIOUS_WEEK">
         <source>BUTTON_PREVIOUS_WEEK</source>
-        <target>Semaine | précédente</target>
+        <target>Précédent</target>
       </trans-unit>
       <trans-unit id="07907fe8f3bd531821cde4fa73e20754c16a09ba" resname="BUTTON_SAVE">
         <source>BUTTON_SAVE</source>
@@ -57,6 +61,84 @@
       <trans-unit id="38317242012a6dc59410336f7ff36955cacd37d6" resname="DESCRIPTION_APP_MANAGEMENT">
         <source>DESCRIPTION_APP_MANAGEMENT</source>
         <target>Gestion de l'application</target>
+      </trans-unit>
+      <trans-unit id="d9c8a9287d8a048be86f34edab236094b7b17e2e" resname="DESCRIPTION_BETA_CORRECTION">
+        <source>DESCRIPTION_BETA_CORRECTION</source>
+        <target><![CDATA[Après la phase de bêta test, l'interface de correction rejoindra les abonnements Beneylu School <bns-icon>sub-school-on</bns-icon> et Beneylu School Infini <bns-icon>sub-infinity-on</bns-icon>. <a href="https://beneylu.com/spot/fr/mode-beta-beneylu-school" target="_blank">En savoir plus →</a>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="f4813af73b4396adfb878977cfb2abaa8318c55d" resname="DESCRIPTION_BETA_MINDMAP">
+        <source>DESCRIPTION_BETA_MINDMAP</source>
+        <target><![CDATA[Après la phase de bêta test, la carte mentale rejoindra les abonnements Beneylu School <bns-icon>sub-school-on</bns-icon> et Beneylu School Infini <bns-icon>sub-infinity-on</bns-icon>. <a href="https://beneylu.com/spot/fr/mode-beta-beneylu-school" target="_blank">En savoir plus →</a>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="ca299376055f4bebfc3cd01dff7366fbde00544b" resname="DESCRIPTION_EDIT_PLAN">
+        <source>DESCRIPTION_EDIT_PLAN</source>
+        <target>Faites évoluer votre abonnement pour déverrouiller cette fonctionnalité. Vous débloquerez par la même occasion la meilleure version de toutes les applications, avec leurs fonctionnalités au complet. L'idéal pour un usage régulier !</target>
+      </trans-unit>
+      <trans-unit id="0c74fdea2960245f9f97d803d89425edcb347eba" resname="DESCRIPTION_PUSH_PRO">
+        <source>DESCRIPTION_PUSH_PRO</source>
+        <target>Passez en pro pour bénéficier de cette fonctionnalité</target>
+      </trans-unit>
+      <trans-unit id="7b4c902756ead017172f805c0569e2b7febad821" resname="DESCRIPTION_UNLOCK_FEATURE_LONG">
+        <source>DESCRIPTION_UNLOCK_FEATURE_LONG</source>
+        <target><![CDATA[<p>Beneylu School se décline en 3 abonnements classe ou école pour <strong>accompagner votre progression</strong>.</p><p>Votre classe est abonnée à <strong>Beneylu School Express</strong>, vos applications vous sont donc proposées en <strong>version express</strong>.</p>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="3f5991c8b222dff213c8c3ba0bb01206794e4d59" resname="DESCRIPTION_UNLOCK_FEATURE_SHORT">
+        <source>DESCRIPTION_UNLOCK_FEATURE_SHORT</source>
+        <target>Votre abonnement est insuffisant pour accéder à cette fonctionnalité.</target>
+      </trans-unit>
+      <trans-unit id="9bb2544d0b122bd80dd13cd09bea8aa91ddaf21a" resname="DESELECT">
+        <source>DESELECT</source>
+        <target>Tout désélectionner</target>
+      </trans-unit>
+      <trans-unit id="2a3d43f0b35629f83572a8aa9f822402a31c3396" resname="ERROR_FORMAT_NOT_VALID">
+        <source>ERROR_FORMAT_NOT_VALID</source>
+        <target state="new">Ce n'est pas un format valide</target>
+      </trans-unit>
+      <trans-unit id="df10e20be18b944346d1df6dc9a171decd84cf7c" resname="ERROR_INVALID_DATE">
+        <source>ERROR_INVALID_DATE</source>
+        <target state="new">La date n’est pas au bon format</target>
+      </trans-unit>
+      <trans-unit id="6308db384c2b6a1a7ef4f3665d93b9beea0112c3" resname="ERROR_INVALID_EMAIL">
+        <source>ERROR_INVALID_EMAIL</source>
+        <target state="new">Ce n'est pas un email valide</target>
+      </trans-unit>
+      <trans-unit id="771cb905934409417a0ff00d058f8bbf01b9d7a3" resname="ERROR_INVALID_TIME">
+        <source>ERROR_INVALID_TIME</source>
+        <target state="new">Ce n'est pas une heure valide</target>
+      </trans-unit>
+      <trans-unit id="41af5c95c5518565ce66ef3c7d9bd9e758082887" resname="ERROR_INVALID_URL">
+        <source>ERROR_INVALID_URL</source>
+        <target state="new">Ce n'est pas un lien valide</target>
+      </trans-unit>
+      <trans-unit id="76b9895f79c239eebd22491449ebcf7714819078" resname="ERROR_MAX_DATE">
+        <source>ERROR_MAX_DATE</source>
+        <target state="new">La date est invalide</target>
+      </trans-unit>
+      <trans-unit id="e607adc908bc2e066d0c79bc4b424bf88dc5e8d2" resname="ERROR_MIN_DATE">
+        <source>ERROR_MIN_DATE</source>
+        <target state="new">La date est invalide</target>
+      </trans-unit>
+      <trans-unit id="24b66622500ab797e45af7a2841be64d5dd0c24c" resname="ERROR_NUMBER_NOT_VALID">
+        <source>ERROR_NUMBER_NOT_VALID</source>
+        <target state="new">Ce n'est pas un nombre valide</target>
+      </trans-unit>
+      <trans-unit id="a07d77ad0013a518a612f6407045771d2bcdbc43" resname="ERROR_REQUIRED_FIELD">
+        <source>ERROR_REQUIRED_FIELD</source>
+        <target state="new">Ce champ est requis</target>
+      </trans-unit>
+      <trans-unit id="8815f7a92f325b6afb97f4b7dda07fde5f470b1a" resname="ERROR_TOO_LARGE">
+        <source>ERROR_TOO_LARGE</source>
+        <target state="new">C'est trop grand</target>
+      </trans-unit>
+      <trans-unit id="d094cc84a92b3c889f45aaa015ae39da99a02ef1" resname="ERROR_TOO_SMALL">
+        <source>ERROR_TOO_SMALL</source>
+        <target state="new">C'est trop petit</target>
       </trans-unit>
       <trans-unit id="edc5934c34a6fd02ae10fbbb8d31675eb97581a4" resname="FILTER">
         <source>FILTER</source>
@@ -82,9 +164,37 @@
         <source>LABEL_CLICK_TO_CONNECT</source>
         <target>Cliquer pour se connecter</target>
       </trans-unit>
+      <trans-unit id="480b17dc8bb5d1f887f800e93108cc7db161abf8" resname="LABEL_KEYBOARD_MY_FIRSTNAME">
+        <source>LABEL_KEYBOARD_MY_FIRSTNAME</source>
+        <target>Mon prénom</target>
+      </trans-unit>
+      <trans-unit id="d65d5be555f0c250b82d95302e449df4b063a64a" resname="LABEL_KEYBOARD_MY_LASTNAME">
+        <source>LABEL_KEYBOARD_MY_LASTNAME</source>
+        <target>Mon nom</target>
+      </trans-unit>
+      <trans-unit id="bd9d5e6e1087955f27722ece632e31e2993e94c7" resname="LABEL_KEYBOARD_MY_PASSWORD">
+        <source>LABEL_KEYBOARD_MY_PASSWORD</source>
+        <target>Mon mot de passe</target>
+      </trans-unit>
+      <trans-unit id="3e98cd227670779600deddfb7fdce91a5e8dcac3" resname="LABEL_KEYBOARD_MY_USERNAME">
+        <source>LABEL_KEYBOARD_MY_USERNAME</source>
+        <target>Mon nom d'utilisateur</target>
+      </trans-unit>
+      <trans-unit id="43fd45181a67033c3ac1b679986f8432974eaeb3" resname="LINK_DISCOVER_PLANS">
+        <source>LINK_DISCOVER_PLANS</source>
+        <target>Découvrir les 3 abonnements</target>
+      </trans-unit>
       <trans-unit id="b2fd2f703b1dcb22c561f316dd79342dffa8c5bc" resname="LINK_DOWNLOAD_PREPARATION_SHEET">
         <source>LINK_DOWNLOAD_PREPARATION_SHEET</source>
         <target>Télécharger la fiche de préparation</target>
+      </trans-unit>
+      <trans-unit id="ea15d60636de1baebee0ed8b041ce86327149f9b" resname="LINK_PUSH_INCENTIVE">
+        <source>LINK_PUSH_INCENTIVE</source>
+        <target>Acheter la version pro !</target>
+      </trans-unit>
+      <trans-unit id="322f565ab49598c4b903fbae83298cc50599d54a" resname="LINK_SHOW_MORE">
+        <source>LINK_SHOW_MORE</source>
+        <target>Afficher plus</target>
       </trans-unit>
       <trans-unit id="5e5d36a7e1ca603c7d39fd662c02da8aa77009b6" resname="NO_COOKIE">
         <source>NO_COOKIE</source>
@@ -93,6 +203,10 @@
       <trans-unit id="61130eec594b1f307f328136443d7971d2755cd8" resname="NO_ITEM">
         <source>NO_ITEM</source>
         <target>Aucun élément</target>
+      </trans-unit>
+      <trans-unit id="c1ee330ade53101d30e0ca62a6d09dc773720bf4" resname="OPEN_MEDIA_LIBRARY">
+        <source>ouvrir la médiathèque</source>
+        <target>ouvrir la médiathèque</target>
       </trans-unit>
       <trans-unit id="4a7039da6dc406022f5e9f7006d8ae9dbd1ecca1" resname="PLACEHOLDER_NEW_ELEMENT">
         <source>PLACEHOLDER_NEW_ELEMENT</source>
@@ -114,13 +228,33 @@
         <source>PLACEHOLDER_WRITE_YOUR_USERNAME</source>
         <target>Écris ton identifiant</target>
       </trans-unit>
+      <trans-unit id="116e05234bb37672e5b4e885b1f3eeee872433a2" resname="REMEMBER_ME">
+        <source>REMEMBER_ME</source>
+        <target>Se souvenir de moi</target>
+      </trans-unit>
       <trans-unit id="de93265ce20f7b791719f1d76f12bda6dd1d2efe" resname="SHOW_MORE">
         <source>SHOW_MORE</source>
         <target>Voir plus</target>
       </trans-unit>
+      <trans-unit id="42ca7a3f9bed18520a1d65fdbb3195ccfb64d6f4" resname="STATUS_DRAFT">
+        <source>STATUS_DRAFT</source>
+        <target>Brouillon</target>
+      </trans-unit>
+      <trans-unit id="d89ae097ec46fb7a8d35e9162ab0cda5b5a807a2" resname="STATUS_FINISHED">
+        <source>STATUS_FINISHED</source>
+        <target>Terminé</target>
+      </trans-unit>
+      <trans-unit id="d6cb004d98e98df2d182327b7ab49c7abbb44467" resname="STATUS_PUBLISHED">
+        <source>STATUS_PUBLISHED</source>
+        <target>Publié</target>
+      </trans-unit>
+      <trans-unit id="2e00522145539a7af1fa091a1844e3b230e857d7" resname="TITLE_UNLOCK_FEATURE">
+        <source>TITLE_UNLOCK_FEATURE</source>
+        <target>Déverrouillez cette fonctionnalité</target>
+      </trans-unit>
       <trans-unit id="84cb4430bcd6485d7c046bbb9af119df200b2a04" resname="TITLE_WEEK_FROM_TO">
         <source>TITLE_WEEK_FROM_TO</source>
-        <target>Semaine du {{start}} au {{end}}</target>
+        <target>Du {{start}} au {{end}}</target>
         <note><![CDATA[Receives two date parameters: 'start' and 'end']]></note>
       </trans-unit>
     </body>

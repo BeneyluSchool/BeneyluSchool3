@@ -8,13 +8,13 @@
     <body>
       <trans-unit id="6bc4c4cf8469dc7b8810a7cbb7d5dd9cc268f641" resname="MESSAGING_NEW_ANSWER_RECEIVED.EMAIL.content">
         <source>MESSAGING_NEW_ANSWER_RECEIVED.EMAIL.content</source>
-        <target><![CDATA[Recibiste <a href="%message_route%">una respuesta</a> de <strong>%sender_full_name%</strong>]]></target>
+        <target><![CDATA[<b>%classLabel%</b>Recibiste <a href="%message_route%">una respuesta</a> de <strong>%sender_full_name%</strong>]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
       <trans-unit id="680a7b5333e4f453cbb1b61fafcb3706030cac12" resname="MESSAGING_NEW_ANSWER_RECEIVED.EMAIL.title">
         <source>MESSAGING_NEW_ANSWER_RECEIVED.EMAIL.title</source>
-        <target>Recibiste una respuesta de %sender_full_name%</target>
+        <target>%classLabel%Recibiste una respuesta de %sender_full_name%</target>
       </trans-unit>
       <trans-unit id="fa3f0b8b0c6138965403ec1d0feebc306994b42a" resname="MESSAGING_NEW_ANSWER_RECEIVED.SYSTEM.content">
         <source>MESSAGING_NEW_ANSWER_RECEIVED.SYSTEM.content</source>

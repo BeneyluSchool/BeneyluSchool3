@@ -9,7 +9,7 @@
 {% block actionbar_content %}
     {{ components.button_nav('LINK_BACK_TO_LIST' | trans, { href: path('BNSAppLiaisonBookBundle_back'), back: true } ) }}
     {{ components.button('LINK_EDIT_MESSAGE' |trans, { intent: 'primary', raised: true, icon:'mode_edit', href: path('BNSAppLiaisonBookBundle_back_edit', {slug: new.slug}) }) }}
-    {{ components.button('LINK_DELETE_MESSAGE' |trans, { intent: 'warn', raised: true, href : '',icon:'delete', hover: true,
+    {{ components.button('LINK_DELETE_MESSAGE' |trans, { intent: 'warn', raised: true, href : '',icon:'delete',
         click: "dialog.confirm({ templateUrl: 'dialog-delete.html', targetEvent: $event })"
 
     }) }}
@@ -23,12 +23,13 @@
             </md-toolbar>
             <md-dialog-content>
                 <div class="md-padding">{% trans %}TITLE_SURE_TO_DELETE_MESSAGE{% endtrans %}</div>
-            </md-dialog-content><div class="md-actions">
+            </md-dialog-content>
+            <md-dialog-actions>
                 <button class="md-button ng-scope md-ink-ripple" ng-click="dialog.abort()">
                     <span class="ng-binding ng-scope">{% trans %}LINK_CLOSE{% endtrans %}</span>
                 </button>
                 {{ components.button('LINK_DELETE_MESSAGE' |trans, { intent: 'warn', raised: true, icon:'delete', href: path('BNSAppLiaisonBookBundle_back_delete', {slug: new.slug}) }) }}
-            </div>
+            </md-dialog-actions>
         </md-dialog>
     </script>
 {% endblock %}

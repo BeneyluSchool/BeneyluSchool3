@@ -39,6 +39,13 @@ class LoggingAuthenticationSuccessHandler extends DefaultAuthenticationSuccessHa
         $successLogging->setAction('success');
         $successLogging->save();
 
+        if (null !== $this->providerKey && $targetUrl = $request->getSession()->get('_security.'.$this->providerKey.'.target_path')) {
+            if (preg_match('/\.json$/', $targetUrl)) {
+                $request->getSession()->remove('_security.'.$this->providerKey.'.target_path');
+                $request->getSession()->set('need_refresh', true);
+            }
+        }
+
         $response = parent::onAuthenticationSuccess($request, $token);
 
         if ($request->isXmlHttpRequest() || $request->get('_xhr_call', false)) {

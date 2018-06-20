@@ -21,8 +21,17 @@
         {{ block('widget_attributes') }}
         {% if value is not empty %}value="{{ value }}" {% endif %}
     />
-    <div ng-messages="{{ getRootName(form) }}['{{ form.vars.full_name }}'].$error">
-      <div ng-messages-include="form-error-messages"></div>
+    <div ng-messages="{{ getRootName(form) }}['{{ form.vars.full_name }}'].$error"{% if multiple_messages %} ng-messages-multiple{% endif %}>
+      {# use custom messages before generic ones #}
+      {% if messages is defined and messages|length %}
+        {% for key, message in messages %}
+          {% if 'invalid' == key %}
+            <div class="md-input-message-animation" ng-show="{{ getRootName(form) }}['{{ form.vars.full_name }}'].$invalid">{{ message|trans({}, form.vars.translation_domain) }}</div>
+          {% endif %}
+          <div ng-message="{{ key }}">{{ message|trans({}, form.vars.translation_domain) }}</div>
+        {% endfor %}
+      {% endif %}
+      <div ng-messages-include="views/main/form-error-messages.html"></div>
       {% if attr['minlength'] is defined %}
         <div ng-message="minlength">{{ attr['minlength'] }} characters minimum.</div>
       {% endif %}
@@ -37,9 +46,29 @@
   {% set form_model = getModelName(form) %}
   {# add custom id attr for compatibility with ui-tinymce (that overrides id...) and autosave #}
   {% set attr = { 'ng-model': form_model, 'bns-id': form.vars.id }|merge(attr) %}
+  {% set init = '' %}
   {% if value %}
+    {% set init = form_model ~ ' = ' ~ getBindValue(value) ~ ';' %}
+  {% endif %}
+  {% if correction_edit %}
+    {% set correction_model = getModelName(form.parent.children.correction) %}
+    {% set init = init ~ correction_model ~ ' = ' ~ form.parent.children.correction.vars.value|serialize ~ ' || {};' %}
     {% set attr = {
-      'ng-init': form_model ~ ' = ' ~ getBindValue(value)
+      'bns-correction': correction_model,
+      'bns-editable': 'true',
+    }|merge(attr) %}
+  {% endif %}
+  {% if correction %}
+    {% set correction_model = form.parent.vars.name ~ "['_correction']" %}
+    {% set init = init ~ correction_model ~ ' = ' ~ form.parent.vars.value.getCorrection()|serialize %}
+    {% set attr = {
+      'bns-correction': correction_model,
+      'bns-editable': 'false',
+    }|merge(attr) %}
+  {% endif %}
+  {% if init %}
+    {% set attr = {
+      'ng-init': init
     }|merge(attr) %}
   {% endif %}
   {{ parent() }}
@@ -62,7 +91,7 @@
     {% set choices = [] %}
     {% set initial_value = null %}
     {% for child in form.children %}
-      {% set choices = choices|merge([{
+      {% set choice = {
         id: child.vars.id,
         name: child.vars.full_name,
         label: translation_domain is sameas(false) or choice_translation_domain is sameas(false) ? child.vars.label : child.vars.label|trans({}, choice_translation_domain|default(translation_domain)),
@@ -72,7 +101,12 @@
         class: child.vars.attr.class is defined ? child.vars.attr.class : null,
         icon: child.vars.attr.icon is defined ? child.vars.attr.icon : null,
         group_by: group_by_value['_'~child.vars.value] is defined ? group_by_value['_'~child.vars.value] : null,
-      }]) %}
+      } %}
+      {% if 'status' == form.vars.name and choice.status is not defined and not (choice.attr is defined and choice.attr.status is defined) %}
+        {# duplicate the value in a "status" property for these special choices #}
+        {% set choice = choice|merge({ status: choice.value }) %}
+      {% endif %}
+      {% set choices = choices|merge([child.vars.attr|merge(choice)]) %}
       {% if child.vars.checked %}
         {# if value is a string representing a numer (typically an ID), add a layer of quotes to preserve string type in ng binding #}
         {% if ((child.vars.value ~ '') is same as (child.vars.value)) and (child.vars.value + 0 == child.vars.value)  %}
@@ -90,6 +124,8 @@
         bns-vanilla-input="true"
         choices="app._choices['{{ form.vars.full_name }}']"
         {% if create is defined and create %}bns-choice-create="{{ create }}"{% endif %}
+        {% if ng_order is defined and ng_order %}choices-order="{{ ng_order }}"{% endif %}
+        {% if ng_order_reverse is defined and ng_order_reverse %}choices-reverse="{{ ng_order_reverse }}"{% endif %}
       >
       </bns-checkbox-group>
     {% else %}
@@ -121,7 +157,7 @@
         {% if value is defined %}ng-init="{{ form_model }} = '{{ value|join(',') }}'"{% endif %}
     />
     <div ng-messages="form['{{ form.vars.full_name }}'].$error">
-      <div ng-messages-include="form-error-messages"></div>
+      <div ng-messages-include="views/main/form-error-messages.html"></div>
     </div>
   {% endspaceless %}
 {%- endblock choice_widget_collapsed -%}
@@ -130,15 +166,27 @@
   {% spaceless %}
     {% set form_model = getModelName(form) %}
     {% set bind_value = getBindValue(value) %}
-    {% set attr = attr|merge({ class: ('md-primary ' ~ attr.class|default(''))|trim }) %}
+    {% set classes = attr.class|default('') %}
+
+    {% if (switch is defined and switch) %}
+      {% set tag = 'md-switch' %}
+      {% set classes = 'bns-switch ' ~ classes %}
+    {% else %}
+      {% set tag = 'md-checkbox' %}
+      {% if 'md-accent' not in classes %}
+        {% set classes = 'md-primary ' ~ classes %}
+      {% endif %}
+    {% endif %}
+
+    {% set attr = attr|merge({ class: classes|trim }) %}
 
     {# material checkbox #}
-    <md-checkbox {{ block('widget_attributes') }}
+    <{{ tag }} {{ block('widget_attributes') }}
         ng-init="{{ form_model }} = !!{{ checked?1:0 }}"
         ng-model="{{ form_model }}"
     >
       {{ translation_domain is sameas(false) ? label : label|trans({}, translation_domain) }}
-    </md-checkbox>
+    </{{ tag }}>
 
     {# actual checkbox (hidden) #}
     {% set attr = { 'ng-checked': form_model, style: 'display: none' }|merge(attr) %}
@@ -291,7 +339,7 @@
     {% endif %}
 
     <{{ tag }}{% for attrname, attrvalue in row_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
-      {{ form_label(form) }}
+      {% if widget != 'checkbox' %}{{ form_label(form) }}{% endif %}
       {{ form_widget(form) }}
       {{ form_errors(form) }}
     </{{ tag }}>
@@ -312,33 +360,17 @@
   {%- set formName = form.vars.name|default('form') -%}
   {%- set attr = { name: formName, 'ng-init': getModelName(form) ~ ' = {}', 'bns-form-proxy-source': formName }|merge(attr) -%}
   {{- parent() -}}
-  <script type="text/ng-template" id="form-error-messages">
-    <div ng-message="required">{% trans %}REQUIRED_FIELD{% endtrans %}</div>
-    <div ng-message="pattern">{% trans %}FORMAT_NOT_VALID{% endtrans %}</div>
-    <div ng-message="format">{% trans %}FORMAT_NOT_VALID{% endtrans %}</div>
-    <div ng-message="number">{% trans %}NUMBER_NOT_VALID{% endtrans %}</div>
-    <div ng-message="min">{% trans %}TOO_SMALL{% endtrans %}</div>
-    <div ng-message="minlength">{% trans %}TOO_SMALL{% endtrans %}</div>
-    <div ng-message="max">{% trans %}TOO_LARGE{% endtrans %}</div>
-    <div ng-message="md-maxlength">{% trans %}TOO_LARGE{% endtrans %}</div>
-    <div ng-message="maxlength">{% trans %}TOO_LARGE{% endtrans %}</div>
-    <div ng-message="email">{% trans %}INVALID_EMAIL{% endtrans %}</div>
-    <div ng-message="url">{% trans %}INVALID_URL{% endtrans %}</div>
-    <div ng-message="date">{% trans %}INVALID_DATE{% endtrans %}</div>
-    <div ng-message="time">{% trans %}INVALID_TIME{% endtrans %}</div>
-    <div ng-message="datetimelocal">{% trans %}INVALID_DATE{% endtrans %}</div>
-  </script>
 {%- endblock form_start -%}
 
 {%- block form_errors -%}
   {% spaceless %}
     {%- if errors|length > 0 -%}
       {% if compound %}
-        <div class="md-padding md-whiteframe-z1">
+        <div class="inset md-warn md-whiteframe-z1">
         {# TODO: update to Sf 2.7 to display field info #}
       {% endif %}
 
-      <ul class="md-body-1 text-warn">
+      <ul class="md-body-1{% if not compound %} text-warn{% endif %}">
         {%- for error in errors -%}
           <li>{{ error.message }}</li>
         {%- endfor -%}
@@ -366,3 +398,11 @@
         {{ translation_domain is sameas(false) ? label : label|trans({}, translation_domain) }}
     {%- endif -%}
 {%- endblock form_label_text -%}
+
+{% block media_attachments_widget %}
+    <div class="resources">
+      {# Pièces Jointes #}
+      {% include 'BNSAppMediaLibraryBundle:Front:joined.html.twig' with {'medias': form.vars.medias|default([]), 'editable': true, 'objectType': form.vars.objectType|default(null), 'objectId': form.vars.objectId|default(null), formName: form.vars.full_name} %}
+    </div>
+
+{% endblock %}

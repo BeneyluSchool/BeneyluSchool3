@@ -73,6 +73,12 @@ class WysiwygApiController extends BaseApiController
             }
         }
 
+        if (!$this->hasFeature('wysiwyg_configuration')) {
+            $configToDelete = ['fullscreen', 'bullist', 'forecolor backcolor |'];
+            $baseConfiguration['toolbar1'] = str_replace($configToDelete, '', $baseConfiguration ['toolbar1']);
+            unset($baseConfiguration['menu']['table']);
+            unset($baseConfiguration['menu']['format']);
+        }
         // force changemode plugin conf if child
         if (!$request->cookies->has('tinymce_mode', array('path' => '/'))) {
             $isChild = $this->get('bns.right_manager')->getUserManager()->isChild();
@@ -94,7 +100,7 @@ class WysiwygApiController extends BaseApiController
 
 
         $configuration = [
-            'editor_script' => $assets->getUrl('bower_components/tinymce-dist/tinymce.js'),
+            'editor_script' => $assets->getUrl('bower_components/tinymce/tinymce.js'),
         ];
         if (false !== $language) {
             $configuration['language_url'] = $assets->getUrl('bundles/stfalcontinymce/vendor/tinymce/langs/'.$language.'.js');

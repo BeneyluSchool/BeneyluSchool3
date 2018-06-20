@@ -14,7 +14,10 @@
       </trans-unit>
       <trans-unit id="91999d17b7999ef5facf98dd24360b2407e24b7b" resname="BLOG_COMMENT_PUBLISHED_FOR_AUTHOR.EMAIL.title">
         <source>BLOG_COMMENT_PUBLISHED_FOR_AUTHOR.EMAIL.title</source>
-        <target>%sender_full_name% has commented on one of your articles</target>
+        <target>%classLabel%%sender_full_name% has commented on one of your articles</target>
+        <note>%classLabel% is a placeholder
+               This text contains HTML tags, please try to keep those tags
+            </note>
       </trans-unit>
       <trans-unit id="f4e6aa0c83099583f66c6f80663b23e63d4b4bb3" resname="BLOG_COMMENT_PUBLISHED_FOR_AUTHOR.SYSTEM.content">
         <source>BLOG_COMMENT_PUBLISHED_FOR_AUTHOR.SYSTEM.content</source>

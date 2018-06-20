@@ -1,0 +1,89 @@
+{% trans_default_domain "SCHOOL" %}
+{% extends 'BNSAppSchoolBundle:Layout:manager.html.twig' %}
+{% form_theme form 'BNSAppMainBundle:Form:material_fields.html.twig' %}
+{% form_theme reset_form.confirm 'BNSAppMainBundle:Form:material_fields.html.twig' %}
+
+{% block title %}
+  {% trans %}TITLE_SCHOOL_RESTRICTED{% endtrans %}
+{% endblock %}
+
+{% block sidebar %}
+  {% include "BNSAppSchoolBundle:Sidebar:sidebar.html.twig" with {"page" : "restricted" } %}
+{% endblock sidebar %}
+
+{% block header %}
+  {{ form_start(form) }}
+    <div class="header-buttons header-classroom-details">
+      <div class="inner-header">
+        <div class="container container-fluid">
+          <div class="row-fluid">
+            <div class="span12 align-right">
+              {{ components.button('LINK_SAVE_MODIFICATION' | trans, {
+                icon: 'check',
+                raised: true,
+                intent: 'accent',
+                attr: {
+                  type: 'submit',
+                  'ng-disabled': 'form.$invalid',
+                },
+              }) }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock header %}
+
+{% block content %}
+    <div class="container-classroom">
+      <div class="news-title">
+        <h1 class="dashboard">{% trans %}TITLE_RESTRICTED_ACCESS_FOR_CHILDREN{% endtrans %}</h1>
+      </div>
+
+      <div ng-cloak ng-controller="Dummy as ctrl" class="md-padding">
+
+        <h2>{% trans %}TITLE_RESTRICTED_PERIOD{% endtrans %}</h2>
+        <p class="md-body-1">
+    {{ 'YOU_CAN_RESTRICT'|trans({'%start%': environment['start'] | date_bns('short', 'none'), '%end%': environment['end'] | date_bns('short', 'none')}) }}
+        </p>
+
+        {# 'form' alias for easier ng bindings #}
+        <div ng-init="form = {{ form.vars.full_name }}; now = moment()">
+
+          {{ form_errors(form) }}
+
+          <div class="layout-row layout-align-start-center">
+            <h4>
+              {{ form_row(form.enabled, {
+                label: 'LABEL_ENABLE_RESTRICTED_ACCESS_SCHOOL'|trans
+              }) }}
+            </h4>
+            <div class="flex"></div>
+          </div>
+
+          <div ng-show="form.enabled">
+
+            <p class="md-body-1">{% trans %}DATE_MUST_BE_IN{% endtrans %}</p>
+
+            <div class="layout-gt-sm-row">
+              <div class="flex">
+                <div class="md-body-1 text-muted">
+                  {{ 'DEFAULT_DATE'|trans({'%date%': environment['start'] | date_bns('short', 'none')}) }}
+                </div>
+                {{ form_row(form.start) }}
+              </div>
+              <div class="flex">
+                <div class="md-body-1 text-muted">
+                  {{ 'DEFAULT_DATE'|trans({'%date%': environment['end'] | date_bns('short', 'none')}) }}
+                </div>
+                {{ form_row(form.end) }}
+              </div>
+            </div>
+          </div>
+
+          {{ form_rest(form) }}
+        </div>
+      </div>
+    </div>
+  {{ form_end(form) }}
+{% endblock content %}

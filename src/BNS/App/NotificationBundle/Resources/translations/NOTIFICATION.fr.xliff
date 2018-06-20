@@ -11,8 +11,8 @@
         <target state="new">Notifications e-mail</target>
       </trans-unit>
       <trans-unit id="5285ebf684d1fa5bdb6b3a2211613f4543798e40" resname="GET_NOTIFICATION_NEED_YOUR_EMAIL">
-        <source><![CDATA[<strong>Le saviez-vous :</strong> pour recevoir vos notifications par e-mail, vous devez renseigner votre adresse sur votre <strong> profil %linkEnd% </strong>.]]></source>
-        <target state="new"><![CDATA[<strong>Le saviez-vous :</strong> pour recevoir vos notifications par e-mail, vous devez renseigner votre adresse e-mail sur votre <strong> profil %linkEnd% </strong>.]]></target>
+        <source><![CDATA[<strong>Le saviez-vous :</strong> pour recevoir vos notifications par e-mail, vous devez renseigner votre adresse sur votre <strong> %linkStart% profil %linkEnd% </strong>.]]></source>
+        <target state="new"><![CDATA[<strong>Le saviez-vous :</strong> pour recevoir vos notifications par e-mail, vous devez renseigner votre adresse e-mail sur votre <strong> %linkStart% profil %linkEnd% </strong>.]]></target>
         <note><![CDATA[%linkEnd% is a placeholder
 This text contains HTML tags, please try to keep those tags
 ]]></note>

@@ -6,6 +6,10 @@
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
     </header>
     <body>
+    <trans-unit id="6ca268108159fb9d4e8cc9cd3f352d29720a0e15" resname="INVALID_ACCEPT_CGU">
+            <source>Vous devez accepter les conditions générales d'utilisation</source>
+            <target state="new">You must accept the Terms of Use</target>
+          </trans-unit>
       <trans-unit id="22b0ee090a2e264961066d7c4572a952bb1ad56a" resname="INVALID_ADULT_ACCEPT_CHARTER">
         <source>INVALID_ADULT_ACCEPT_CHARTER</source>
         <target state="new">Please accept our policy to use the app.</target>

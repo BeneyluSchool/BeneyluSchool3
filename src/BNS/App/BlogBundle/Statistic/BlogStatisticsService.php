@@ -38,8 +38,6 @@ class BlogStatisticsService extends StatisticsService
 
     public function visit()
     {
-        $this->disableCascadeParentGroup();
         $this->increment('BLOG_VISIT');
-        $this->enableCascadeParentGroup();
     }
 }

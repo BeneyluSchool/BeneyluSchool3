@@ -36,12 +36,12 @@
       {
         var $this = $(e.currentTarget).parent().parent(),
           categoryId = $this.attr('id').split('_'),
-          $input = $this.find('input').first(),
+          $input = $this.find('input[type="text"]').first(),
           $loader = $this.find('.loader').first(),
           categoryId = categoryId[1];
 
         // Show error title if needed
-        if ($input.val().length < 3) {
+        if ($input.length && $input.val().length < 3) {
           $this.find('.alert.title').slideDown('fast');
 
           return false;
@@ -99,6 +99,8 @@
           $title = $modalBody.find('.category-editor input[type="text"]'),
           $type = $modalBody.find('.category-editor .change-type');
 
+        $modalBody.find('.bns-alert.fail').slideUp('fast');
+
         if ($title.val().length == 0) {
           $modalBody.find('.bns-alert.empty').slideDown('fast');
 
@@ -150,6 +152,14 @@
           if ($this.data('dismiss') == 'modal') {
             $('#new-category-modal').modal('hide');
           }
+        }).fail(function() {
+          // Reset modal
+          $title.val('');
+          $type.val('TEXT');
+
+          $loader.fadeOut('fast');
+          $modalBody.find('.bns-alert.fail').slideDown('fast');
+
         });
 
         return false;
@@ -417,14 +427,17 @@
           <div class="alert alert-danger bns-alert hide empty">
             {% trans %}PLEASE_ENTER_TITLE{% endtrans %}
           </div>
+          <div class="alert alert-danger bns-alert hide fail">
+            {% trans %}REQUEST_ERROR_ADD_PAGE{% endtrans %}
+          </div>
         </div>
       </div>
     </md-dialog-content>
-    <div class="md-actions">
+    <md-dialog-actions>
       {{ components.button( 'LINK_CANCEL' | trans , { href: '#', attr:{'data-dismiss': 'modal'} }) }}
       {{ components.button( 'LINK_ADD_AND_CONTINUE' | trans , {href: '#', raised: true, attr:{'class': 'submit-create-category'} }) }}
       {{ components.button( 'LINK_ADD' | trans , {href: '#', raised: true, intent: 'primary', attr:{'class': 'submit-create-category', 'data-dismiss':'modal'}, icon: 'add_circle' }) }}
-    </div>
+    </md-dialog-actions>
   </md-dialog>
 
   <md-dialog id="delete-category-modal" class="bns-dialog bns-dialog-warn modal hide fade error" role="dialog" tabindex="-1">
@@ -461,14 +474,14 @@
         </div>
       </div>
     </md-dialog-content>
-    <div class="md-actions">
+    <md-dialog-actions>
       <button class="md-button md-ink-ripple" data-dismiss="modal">
         <span>{% trans %}LINK_CANCEL{% endtrans %}</span>
       </button>
       <button class="md-raised md-button md-ink-ripple md-warn delete-category-button" data-dismiss="modal">
         <span>{% trans %}LINK_YES_SURE{% endtrans %}</span>
       </button>
-    </div>
+    </md-dialog-actions>
       <span class="dialog-icon-container text-warn" style="">
         <md-icon>warning</md-icon>
       </span>

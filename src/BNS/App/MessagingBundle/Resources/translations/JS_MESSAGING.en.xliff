@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-08-17T09:13:31Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+  <file date="2017-07-21T14:45:28Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -73,6 +73,14 @@
       <trans-unit id="ab0e51b879fdb26afa8bc69088cf48fc23d87246" resname="DESCRIPTION_INBOX_IS_EMPTY">
         <source>DESCRIPTION_INBOX_IS_EMPTY</source>
         <target>No received messages</target>
+      </trans-unit>
+      <trans-unit id="24a6e095f8b0e403ac0883d31caa99b869622259" resname="DESCRIPTION_MESSAGE_READ">
+        <source>DESCRIPTION_MESSAGE_READ</source>
+        <target>Read</target>
+      </trans-unit>
+      <trans-unit id="29faa5bc8bee649649b627e7a3d0da05dfdf2a08" resname="DESCRIPTION_MESSAGE_UNREAD">
+        <source>DESCRIPTION_MESSAGE_UNREAD</source>
+        <target>Unread</target>
       </trans-unit>
       <trans-unit id="97d3c368363c63ff9db2767dc66c9fd9856142e3" resname="DESCRIPTION_NO_DRAFTS">
         <source>DESCRIPTION_NO_DRAFTS</source>

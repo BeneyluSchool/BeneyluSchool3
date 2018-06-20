@@ -4,53 +4,33 @@
 {% block title %}
   {% if (isEditionMode) %}
       {{ 'TITLE_EDIT_ARTICLE'|trans({'%blogTitle%': blog.getTitle()}) |desc('%blogTitle% - Éditer un article') }}
-
   {% else %}
       {{ 'TITLE_CREATE_ARTICLE'|trans({'%blogTitle%': blog.getTitle()}) |desc('%blogTitle% - Créer un nouvel article') }}
-
   {% endif %}
 {% endblock %}
 
 {% block javascripts %}
   {{ parent() }}
 
-
   {{ tinymce_init() }}
 
   <script type="text/javascript">
-    $(function ()
-    {
-
-
+    $(function () {
       if ($('#blog_article_form_status_4').is(':checked')) {
         $('.publish-date').addClass('hide');
         $('.publish-programmation').removeClass('hide');
       }
 
       // Draft save button
-      $('.md-toolbar-tools .save').click(function (e)
-      {
-        var $this = $(e.currentTarget);
-        if ($this.hasClass('disabled')) {
-          return false;
-        }
-
-        if (!doAutosave()) {
-          $('.save-error').slideDown('fast');
-
-          return false;
-        }
-
-        $('.save-error').slideUp('fast');
-        $this.addClass('disabled').attr('disabled', 'disabled').css('opacity', '.5');
+      $('.md-toolbar-tools .save').click(function () {
+        blogAutosave();
 
         return false;
       });
 
       // Finish button
-      $('.md-toolbar-tools .finish').click(function (e)
-      {
-        if ($(e.currentTarget).hasClass('disabled')) {
+      $('.md-toolbar-tools .finish').click(function (e) {
+        if ($(e.currentTarget).attr('disabled')) {
           return false;
         }
 
@@ -60,8 +40,7 @@
       });
 
       // Form submit, check publish date
-      $('#form_new_article').submit(function (e)
-      {
+      $('#form_new_article').submit(function (e) {
         // Is publish & publication date is set ?
         if ($('#blog_article_form_status_1').is(':checked') && $('#blog_article_form_publication_day').val().length > 0) {
           try {
@@ -88,8 +67,7 @@
       });
 
       // Published to programmed on confirm
-      $('#programmed-publication-warning .confirm').click(function (e)
-      {
+      $('#programmed-publication-warning .confirm').click(function (e) {
         // Populate programmed fields
         $('#blog_article_form_status_4').click();
         $('#blog_article_form_programmation_day').val($('#blog_article_form_publication_day').val());
@@ -101,100 +79,131 @@
 
         $('#form_new_article').submit();
       });
-      $('.container-sidebar .article-statuses-choice li').click(function (e)
-      {
+
+      $('.container-sidebar .article-statuses-choice li').click(function (e) {
         var $this = $(e.currentTarget);
         if ($this.hasClass('show-programmation-block')) {
           $('.container-sidebar .publish-date').slideUp('fast', function () {
             $('.container-sidebar .publish-programmation').slideDown('fast')
           });
-        }
-        else if ($this.hasClass('show-publish-block')) {
+        } else if ($this.hasClass('show-publish-block')) {
           $('.container-sidebar .publish-programmation').slideUp('fast', function () {
             $('.container-sidebar .publish-date').slideDown('fast');
           });
-        }
-        else {
+        } else {
           $('.container-sidebar .publish-date').slideUp('fast');
           $('.container-sidebar .publish-programmation').slideUp('fast');
         }
       });
+
     });
   </script>
   <script type="text/javascript">
-    function onStartSave()
-    {
-      $('.md-toolbar-tools .finish').addClass('disabled');
-    }
 
-    function onSuccessSave(object)
-    {
-      var $headerSaveButton = $('.md-toolbar-tools .save');
-      if ($headerSaveButton.hasClass('disabled')) {
-        $headerSaveButton.removeClass('disabled').removeAttr('disabled').css('opacity', '1');
+    var blogSlug = {%  if article and article.slug %}'{{ article.slug }}'{% else %}null{% endif %};
+    function blogAutosave() {
+      var saveBtn = $('.md-toolbar-tools .save');
+      if (saveBtn.attr('disabled')) {
+        return false;
       }
+      saveBtn.attr('disabled', 'disabled');
 
+      // disable finish button
+      var finishBtn = $('.md-toolbar-tools .finish');
+      finishBtn.attr('disabled', 'disabled');
+      // remove error/success
       $('.save-error').slideUp('fast');
 
-      if ($('.save-success').css('display') == 'none') {
-        $('.save-success').slideDown('fast');
-      }
-      else {
-        $('.save-success').removeClass('bns-primary');
-        $('.save-success').addClass('bns-accent');
+      var options = {};
+      if (blogSlug) {
+        options.slug = blogSlug;
       }
 
-      // Switch statuts to draft
-      $('#blog_article_form_status_0').click();
+      var url = Routing.generate('blog_manager_draft_save', options);
+      $.ajax({
+        url: url,
+        type: 'PATCH',
+        data: $('#form_new_article').not('[name*=status]').serialize(),
+        success: onBlogSaveSuccess,
+        error: function(xhr, textStatus) {
+          saveBtn.attr('disabled', null);
+          finishBtn.attr('disabled', null);
 
-      // Enable finish button
-      $('.md-toolbar-tools .finish').removeClass('disabled');
-
-      setTimeout(function ()
-      {
-        $('.save-success').removeClass('bns-accent');
-        $('.save-success').addClass('bns-primary');
-      }, 5000);
-
-      $('#form_new_article').attr('action', Routing.generate('blog_manager_edit_article', {'articleSlug': object.slug}));
-      if (null != window.history && typeof window.history.pushState == 'function') {
-        window.history.pushState(document.title, document.title, Routing.generate('blog_manager_edit_article', {'articleSlug': object.slug}));
-      }
-    }
-
-    function checkSave(){
-      if (primaryKey != null) {
-        if (countLetter == 0) {
-          waitingForKeypress();
+          $('.save-success').slideUp('fast');
+          $('.save-error').slideDown('fast');
+          // TODO show error in toast
         }
-
-        onAutosaveKeypress();
-      }
-      else {
-        doAutosave();
-      }
+      })
     }
+
+    function onBlogSaveSuccess(data) {
+      var angularizer = new Angularizer();
+      var toast = angularizer.get('toast');
+      var translate = angularizer.get('$translate');
+      if (data && data.slug) {
+        // update slug if needed
+        blogSlug = data.slug;
+      }
+      if (data && data.attributes) {
+        _.each(data.attributes, function(attribute){
+          var items = $(attribute.node);
+          if (items && items.length > 0) {
+            // update attrivute
+            items.attr(attribute.attr, attribute.value);
+          }
+        });
+      }
+
+      translate('BLOG.CONTENT_ARTICLE_SAVE_IN_DRAFT').then(function (message) {
+        toast.success(message);
+      })
+      var saveBtn = $('.md-toolbar-tools .save');
+      saveBtn.attr('disabled', null);
+      // Enable finish button
+      $('.md-toolbar-tools .finish').attr('disabled', null);
+
+      $('.save-error').slideUp('fast');
+      var successBlock = $('.save-success');
+
+      if (successBlock.css('display') === 'none') {
+        successBlock.slideDown('fast');
+      } else {
+        successBlock.removeClass('bns-primary');
+        successBlock.addClass('bns-accent');
+      }
+      setTimeout(function () {
+        successBlock.removeClass('bns-accent');
+        successBlock.addClass('bns-primary');
+      }, 5000);
+    }
+
   </script>
 {% endblock %}
 
 {% block actionbar_content %}
     {{ components.button_nav('LINK_BACK_TO_ARTICLES' | trans, { href: path('BNSAppBlogBundle_back'), back: true } ) }}
     {% if isEditionMode %}
-      {{ components.button( 'LINK_CANCEL_CREATION' | trans , { href: path('blog_manager_article_visualisation', {'articleSlug': article.getSlug()}), icon: 'close', raised: true }) }}
+      {{ components.button( 'LINK_CANCEL_CREATION' | trans , { href: path('blog_manager_article_cancel_edit', {'articleSlug': article.getSlug()}), icon: 'close', raised: true, attr : {'class' : 'hide-sm'} }) }}
     {% else %}
-      {{ components.button( 'LINK_CANCEL_CREATION' | trans , { href: path('BNSAppBlogBundle_back'), icon: 'close', raised: true }) }}
+      {{ components.button( 'LINK_CANCEL_CREATION' | trans , { href: path('BNSAppBlogBundle_back'), icon: 'close', raised: true, attr : {'class' : 'hide-sm'} }) }}
     {% endif %}
-    {{ components.button( 'LINK_SAVE_IN_DRAFT' | trans , { icon: 'save', raised: true, attr : {'class' : 'save'} }) }}
+    {{ components.button( 'LINK_SAVE_IN_DRAFT' | trans , { icon: 'save', raised: true, attr : {'class' : 'save hide-sm'} }) }}
     <span flex></span>
     {% if is_adult() %}
       {{ components.button( 'LINK_SAVE_ARTICLE' | trans , {intent: 'accent', href: '#', icon: 'done', raised: true, attr : {'class' : 'finish'} }) }}
     {% else %}
       {{ components.button( 'LINK_FINISH_ARTICLE' | trans , { intent: 'accent', href: '#', icon: 'done', raised: true, attr : {'class' : 'finish'} }) }}
     {% endif %}
+
+  <div ng-if="'blog_beta_correction_flash'|featureFlag" container>
+    <bns-flash bns-md-icon="info" bns-dismiss-persist="blog_beta_correction" class="is-fixed bns-primary" md-theme="nof">
+      <div translate="MAIN.DESCRIPTION_BETA_CORRECTION" translate-compile></div>
+    </bns-flash>
+  </div>
 {% endblock actionbar_content %}
 
 {% block sidebar_content %}
-    <section class="current">
+    <section class="current" du-scroll-container="scrollable-content">
 
       {% if form.status is defined %}
         <div class="layout-row hide-gt-md">
@@ -212,7 +221,7 @@
       {% endif %}
 
       {% if form.publication_day is defined %}
-        <div class="layout-row hide-gt-md">
+        <div class="layout-row hide-gt-md" {% if form.status is defined %}ng-show="{{ getModelName(form.status) ~ " === 'PUBLISHED'" }}"{% endif %}>
           {{ components.button('TITLE_PUBLISH'|trans, {
             href: '#container_' ~ form.publication_day.vars.id,
             click: 'app.toggleSidebar()',
@@ -227,7 +236,8 @@
       {% endif %}
 
       {% if form.programmation_day is defined %}
-        <div class="layout-row hide-gt-md">
+        <div bns-feature-flag="'blog_schedule'" bns-feature-push>
+        <div class="layout-row hide-gt-md" {% if form.status is defined %}ng-show="{{ getModelName(form.status) ~ " === 'PROGRAMMED'" }}"{% endif %}>
           {{ components.button('TITLE_PUBLISH_PROGRAM'|trans, {
             href: '#container_' ~ form.programmation_day.vars.id,
             click: 'app.toggleSidebar()',
@@ -239,22 +249,28 @@
           }) }}
         </div>
         <bns-transclude-dest class="hide-sm hide-md" name="blog-article-programmation"></bns-transclude-dest>
+        </div>
       {% endif %}
 
+      {% if form.categories is defined %}
+        <div bns-feature-flag="'blog_categories'" bns-feature-push class="layout-row hide-gt-md">
+          {{ components.button(form.categories.vars.label, {
+            href: '#container_' ~ form.categories.vars.id,
+            click: 'app.toggleSidebar()',
+            icon: { name: 'chevron_right', pos: 'right' },
+            attr: {
+              'du-smooth-scroll': 'true',
+              class: 'bns-form-proxy-anchor flex',
+            }
+          }) }}
+        </div>
+        <bns-transclude-dest class="hide-sm hide-md" name="blog-article-categories"></bns-transclude-dest>
+      {% endif %}
 
-      <bns-form-proxy source="{{ form.vars.name }}" du-scroll-container="content"></bns-form-proxy>
+      <bns-form-proxy source="{{ form.vars.name }}"></bns-form-proxy>
     </section>
 <section class="current">
 </section>
-    {#{% if has_right('BLOG_ADMINISTRATION') %}#}
-      {#{% include 'BNSAppBlogBundle:Block:back_block_status_choice.html.twig' %}#}
-    {#{% endif %}#}
-    {#{{ render(controller('BNSAppBlogBundle:Back:loadCategoriesBlock', {'blog': blog, 'article': article, 'form': form} )) }}#}
-    {#{% if has_right('BLOG_ADMINISTRATION') %}#}
-      {#{% include 'BNSAppBlogBundle:Block:back_block_allow_comment_choice.html.twig' %}#}
-    {#{% endif %}#}
-
-    {#{% include 'BNSAppBlogBundle:Block:back_block_change_blog.html.twig' %}#}
 
 {% endblock sidebar_content %}
 
@@ -263,6 +279,9 @@
   <div class="md-toolbar-tools layout-align-start-center">
     <bns-sidebar-toggle></bns-sidebar-toggle>
     <h1 class="md-title text-primary text-left flex flex-gt-sm-33">{% trans %}WRITE_ARTICLE{% endtrans %}</h1>
+    {% if form.correction is defined or (has_right('BLOG_CORRECTION') and article.hasCorrection()) %}
+      <bns-correction-annotations-toggle></bns-correction-annotations-toggle>
+    {% endif %}
   </div>
 </md-toolbar>
 
@@ -274,11 +293,7 @@
   {% endif %}
 </bns-inset>
 
-<bns-inset class="md-padding bns-small bns-accent save-success hide">
-  {% trans %}CONTENT_ARTICLE_SAVE_IN_DRAFT{% endtrans %}
-</bns-inset>
-
-<md-content class="md-padding">
+<md-content class="md-padding" id="scrollable-content">
   {{ form_start(form, {
     'action': isEditionMode ?  path('blog_manager_edit_article', {'articleSlug': article.getSlug()}) : path('blog_manager_new_article_finish'),
     'attr' : {
@@ -292,21 +307,15 @@
       'type': 'info'
     }) }}
     <div class="item form">
-      {{ autosave_init(article, {'title': 'blog_article_form_title', 'content': 'blog_article_form_content'}, {
-        'data': {'blog_id': blog.getId()},
-        'onStart': 'onStartSave',
-        'onSuccess': 'onSuccessSave',
-        'debug': false
-      }) }}
 
       {# Title #}
       <div>
-        {{ form_row(form.title, {label: "ARTICLE_TITLE"|trans}) }}
+        {{ form_row(form.draftTitle, {label: "ARTICLE_TITLE"|trans}) }}
       </div>
 
       {# Content #}
       <div class="tinyarea">
-        {{ form_row(form.content, { 'attr': {'bns-tinymce': ''} }) }}
+        {{ form_row(form.draftContent, { 'attr': {'bns-tinymce': ''} }) }}
       </div>
 
       {% if form.status is defined %}
@@ -339,6 +348,16 @@
       </bns-transclude-src>
       {% endif %}
 
+      {% if form.categories is defined %}
+        <bns-transclude-src name="blog-article-categories" class="hide-gt-md">
+          <bns-expander label="{{ form.categories.vars.label }}" is-open="true">
+            <div bns-feature-flag="'blog_categories'" bns-feature-push>
+              {{ form_row(form.categories, { label: false }) }}
+            </div>
+          </bns-expander>
+        </bns-transclude-src>
+      {% endif %}
+
       <div>{{ form_rest(form) }}</div>
 
       <div class="resources">
@@ -349,3 +368,29 @@
     {{ form_end(form) }}
 </md-content>
   {% endblock content %}
+
+{% block angular_scripts %}
+  {{ parent() }}
+  <script>
+    angularBootstrap().then(function ($injector) {
+      var formScope = angular.element('#form_new_article').scope();
+      $mdUtil = $injector.get('$mdUtil');
+      var debAuto = $mdUtil.debounce(blogAutosave, 5000);
+      formScope.$watch("blog_article_form['blog_article_form[draftTitle]'].$viewValue", function(newVal, oldVal) {
+        if (newVal !== oldVal) {
+          if (formScope.blog_article_form['blog_article_form[draftTitle]'].$valid) {
+            debAuto();
+          }
+        }
+      });
+      formScope.$watch("blog_article_form['blog_article_form[draftContent]'].$viewValue", function(newVal, oldVal) {
+        if (newVal !== oldVal) {
+          if (formScope.blog_article_form['blog_article_form[draftContent]'].$valid) {
+            debAuto();
+          }
+        }
+      });
+    });
+
+  </script>
+{% endblock %}

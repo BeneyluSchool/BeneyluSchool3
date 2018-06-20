@@ -2,6 +2,8 @@
 
 namespace BNS\App\WorkshopBundle\ApiController;
 
+use BNS\App\MediaLibraryBundle\Manager\MediaManager;
+use BNS\App\MediaLibraryBundle\Model\Media;
 use BNS\App\WorkshopBundle\ApiController\BaseWorkshopApiController;
 use BNS\App\WorkshopBundle\Model\WorkshopDocument;
 use BNS\App\WorkshopBundle\Model\WorkshopPage;
@@ -12,6 +14,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class WorkshopPageApiController extends BaseWorkshopApiController
 {
@@ -88,23 +91,48 @@ class WorkshopPageApiController extends BaseWorkshopApiController
      *
      * @Rest\Patch("/{id}")
      * @Rest\View(serializerGroups={"Default", "detail"})
+     *
+     * @param WorkshopPage $workshopPage
+     * @param Request $request
+     * @return WorkshopPage|mixed
      */
-    public function patchAction(WorkshopPage $workshopPage)
+    public function patchAction(WorkshopPage $workshopPage, Request $request)
     {
         $this->canManageWorkshopPage($workshopPage);
-        $request = $this->getRequest();
         $ctrl = $this;
 
         return $this->restForm('workshop_page', $workshopPage, array(
             // TODO: do this the right way
             'csrf_protection' => false,
         ), null, function ($data, $form) use ($workshopPage, $request, $ctrl) {
-            if ($position = $request->get('position', 0)) {
+            $positionChanged = false;
+            if ($position = (int)$request->get('position', 0)) {
+                $oldPosition = $workshopPage->getPosition();
                 $workshopPage->moveToRank($position);
+                $positionChanged = $oldPosition !== $workshopPage->getPosition();
             }
             $workshopPage->save();
 
-            $ctrl->publish('WorkshopDocument('.$workshopPage->getDocumentId().'):pages:save', $workshopPage);
+            // build a response only with the submitted data
+            if ($request->get('partial')) {
+                $publishedData = [
+                    'id' => $workshopPage->getId(),
+                ];
+                foreach ($request->request->all() as $prop => $value) {
+                    if ($form->get($prop)) {
+                        $publishedData[$prop] = $form->get($prop)->getData();
+                    }
+                }
+            } else {
+                $publishedData = $workshopPage;
+            }
+
+            $ctrl->publish('WorkshopDocument('.$workshopPage->getDocumentId().'):pages:save', $publishedData);
+            if ($positionChanged) {
+                $workshopDocument = $workshopPage->getWorkshopDocument();
+                $workshopDocument->reload(true);
+                $ctrl->publish('WorkshopDocument('.$workshopDocument->getId().'):reorder', $workshopDocument, ['pages_moved']);
+            }
 
             return $workshopPage;
         });
@@ -156,10 +184,11 @@ class WorkshopPageApiController extends BaseWorkshopApiController
 
         $widgetGroupManager =  $this->get('bns.workshop.widget_group.manager');
         $saveHandler = function ($data, $form) use ($workshopPage, $widgetGroupManager, $router, $ctrl) {
-            $widgetGroup = $widgetGroupManager->createFromConfiguration($data);
-            $widgetGroup->setWorkshopPage($workshopPage);
+            $widgetGroup = $widgetGroupManager->createFromConfiguration($data, $workshopPage);
 
             $ctrl->get('bns.workshop.widget_group.manager')->save($widgetGroup, $ctrl->getUser(), true);
+
+            $widgetGroupManager->updateBreakPage($widgetGroup->getWorkshopPage()->getWorkshopDocument());
 
             $url = $router->generate('workshop_widget_group_api_get', array (
                 'version' => '1.0',
@@ -204,10 +233,18 @@ class WorkshopPageApiController extends BaseWorkshopApiController
      */
     public function getFirstAction($id, $position)
     {
+        $rightManager = $this->get('bns.right_manager');
         $first = WorkshopPageQuery::create()
             ->filterByDocumentId($id)
             ->filterByPosition($position)
             ->findOne();
+        if (!$first) {
+            throw new NotFoundHttpException();
+        }
+        if ($rightManager->hasRight('COMPETITION_ACCESS')) {
+            if (MediaManager::STATUS_QUESTIONNAIRE_COMPETITION === $first->getWorkshopDocument()->getWorkshopContent()->getMedia()->getStatusDeletion())
+            return $first;
+        }
         $this->canManageWorkshopPage($first);
         return $first;
     }

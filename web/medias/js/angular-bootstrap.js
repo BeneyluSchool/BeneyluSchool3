@@ -15,9 +15,6 @@
 
   window.angularBootstrap = angularBootstrap;
 
-  $(setupDockbar);
-  $(bootFromHash);
-
   var deferred = $.Deferred();
 
   /**

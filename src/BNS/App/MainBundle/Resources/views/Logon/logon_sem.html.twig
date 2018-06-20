@@ -81,7 +81,7 @@
             <div class="box-transparent">
               <div class="inner box-transparent">
 
-                <bns-auto-login-box url="'{{ redirectUrl }}'" saml-providers="{{ parameter('saml.providers')|default(null)|json_encode }}"></bns-auto-login-box>
+                <bns-auto-login-box url="'{{ redirectUrl }}'" saml-providers="{{ parameter('saml.providers')|default(null)|json_encode }}" is-mobile="{{ is_mobile_view() |json_encode }}"></bns-auto-login-box>
                 <div class="layout-row">
                   <md-button class="flex md-accent md-raised"  href="{{ path('bns_app_main_logon_activate')}}">{% trans %}ACTIVATE{% endtrans %}</md-button>
                 </div>

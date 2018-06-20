@@ -19,6 +19,7 @@
 
 	{% endif %}
 
+<div bns-feature-flag="'gps_categories'" bns-feature-push>
 	{% if form is defined %}
 		<ul class="gps-category-form-list">
 	{% else %}
@@ -58,7 +59,7 @@
 	{% else %}
 		</div>
 	{% endif %}
-
+</div>
 <script type="text/javascript">
 
 	$(function ()

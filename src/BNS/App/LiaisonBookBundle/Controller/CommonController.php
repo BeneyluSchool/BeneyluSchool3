@@ -35,7 +35,7 @@ class CommonController extends Controller
 
 		//Récupération des messages pour lister les dates
 		$liaison_book_manager = $this->get('bns.liaison_book_manager');
-		$liaisonBooks = $liaison_book_manager->getLiaisonBooksByGroupIdAndLessOneYear($context['id']);
+		$liaisonBooks = $liaison_book_manager->getLiaisonBooksByGroupIdAndLessOneYear($context['id'], $this->getUser());
 
 		foreach ($liaisonBooks as $liaisonBook) {
 			$lbDate = $liaisonBook->getDate()->getTimestamp();
@@ -80,6 +80,7 @@ class CommonController extends Controller
 			$right_manager->forbidIfHasNotRight("LIAISONBOOK_ACCESS", $right_manager->getCurrentGroupId());
 
 			return $this->render('BNSAppLiaisonBookBundle:Front:block_archives.html.twig', array(
+				'groupName' => $context['group_name'],
 				'datesArchives' => $datesArchives,
 				'lbnumber' => $lbnumber,
 				'newsDate' => $newsDate,

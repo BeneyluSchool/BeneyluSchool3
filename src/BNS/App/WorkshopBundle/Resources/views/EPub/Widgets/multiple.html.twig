@@ -1,0 +1,19 @@
+{{ widget.content|raw }}
+  {% for choice in widget.extendedSetting.choices %}
+    <md-checkbox class="layout-row layout-align-start-center" role="checkbox">
+      <div class="md-container">
+        <div class="md-icon"></div>
+      </div>
+      <div ng-transclude="" class="md-label">
+        {% if choice.media_id is defined %}
+          {% set media = choice.media %}
+          {% if media.TypeUniqueName is defined %}
+            {% set widgetTemplate =  'BNSAppWorkshopBundle:EPub:Widgets/Media/' ~ (media.TypeUniqueName|lower) ~ '.html.twig'  %}
+            {% include  widgetTemplate ignore missing %}
+          {% endif %}
+        {% else %}
+          {{ choice.label }}
+        {% endif %}
+      </div>
+    </md-checkbox>
+  {% endfor %}

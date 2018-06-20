@@ -39,6 +39,12 @@ class LogonController extends Controller
                 }
             }
 
+            if ($this->container->hasParameter('bns_force_login_local')) {
+                $locale = $this->getParameter('bns_force_login_local');
+                $request->setLocale($locale);
+                $session->set('_locale', $locale);
+                $this->container->get('translator')->setLocale($locale);
+            }
 
             $session->set('need_refresh', true);
 
@@ -46,6 +52,10 @@ class LogonController extends Controller
             if ($session->has('_security.oauth_area.target_path')) {
                 $session->set('_bns.target_path', $session->get('_security.oauth_area.target_path'));
                 $session->remove('_security.oauth_area.target_path');
+            }
+
+            if ($this->container->hasParameter('bns.ng.enable_login') && $this->container->getParameter('bns.ng.enable_login')) {
+                return $this->redirect($this->generateUrl('ng_login'));
             }
 
             $logonView = 'BNSAppMainBundle:Logon:index.html.twig';
@@ -97,8 +107,13 @@ class LogonController extends Controller
             } else {
                 $homeLink = $this->getParameter('bns_homepage_links')['en'];
             }
-
             $locale = $this->container->hasParameter('bns_force_login_local') ? $this->getParameter('bns_force_login_local') : $request->getLocale();
+
+            if ($this->container->hasParameter('bns.home.has_announcements') && $this->getParameter('bns.home.has_announcements')) {
+                $announcements = $this->get('bns.announcement_manager')->getHomeAnnouncements();
+            } else {
+                $announcements = [];
+            }
 
             return $this->render($logonView, array(
                 'authoriseIframe' => $authoriseIframe,
@@ -108,10 +123,15 @@ class LogonController extends Controller
                 'viewParams' => $viewParams,
                 'needAnalyticsLogout' => $needAnalyticsLogout,
                 'availableLanguages' => $this->get('bns.locale_manager')->getNiceAvailableLanguages(),
+                'announcements' => $announcements,
                 'home_link'=> $homeLink
             ));
 
         } else {
+            if ($request->get('_need_refresh')) {
+                $session->set('need_refresh', true);
+            }
+
             // catch login Error from spot
             if ('spotOauthLoginFailure' === $request->get('error')) {
                 $session->getFlashBag()->add('toast-error', $this->get('translator')->trans('ERROR_APPEND_WHEN_LOGIN_TO_SPOT', [], 'MAIN'));
@@ -120,10 +140,10 @@ class LogonController extends Controller
             // catch beta login with wrong user
             $userId = (int)$request->get('user_id');
             if ($userId && ((int)$user->getId() !== $userId)) {
-                // logout local user and redirect to the same page
-                $this->get('security.token_storage')->setToken(null);
-                $this->get('session')->invalidate();
+                // logout user
+                $this->get('bns_common.security_logout.logout')->logout();
 
+                // redirect to home page
                 return $this->redirect($this->generateUrl('home'));
             }
 
@@ -295,7 +315,7 @@ class LogonController extends Controller
                 }
             }
 
-            if ($user) {
+            if ($user && $this->get('bns.user_manager')->setUser($user)->hasEnabledSchool()) {
                 if ($user->getAccountRequested()) {
                     $templateVars['already_requested'] = true;
                     $templateVars['reset_password_url'] = $this->generateUrl('user_password_reset', [], true);

@@ -81,4 +81,38 @@
     </div>
     {% endif %}
 </div>
+{% if forum.moderator(app.user.id) %}
+  <h1>Messages en attente de modération</h1>
+
+  <div class="item-list-container">
+    {% for message in messagesPending %}
+      <div class="item">
+        <div class="header">
+          <div class="buttons-container pull-right">
+            {% if 'VALIDATED' != message.status %}
+              <a class="btn bns-success btn-16 small right" href="{{ path('BNSAppForumBundle_front_validate_message', {'id':message.id}) }}">
+                <span class="icons-16 validate-icon"></span>
+                <strong>Valider</strong>
+              </a>
+            {% endif %}
+            <a class="btn bns-danger btn-16 small " href="{{ path('BNSAppForumBundle_front_delete_message', {'id': message.id}) }} ">
+              <span class="icons-16 cancel-icon"></span>
+              <strong>Supprimer</strong>
+            </a>
+          </div>
+        </div>
+        <div class="text">
+          <div class="vertical-separator orange"></div>
+         <h3> {{ message.content|purify }} </h3>
+        </div>
+        <div class="footer">
+          {{ date_from_now(message.createdAt, true) }} par {{ message.user.fullName|default('anonyme') }}
+        </div>
+        <div class="horizontal-separator green"></div>
+      </div>
+    {% else %}
+      {% include 'BNSAppMainBundle:BNSAlert:row.html.twig' with {'message' : "Il n'y a aucun message à modérer." , 'type' : 'info' } %}
+    {% endfor %}
+  </div>
+{% endif %}
 {% endblock %}

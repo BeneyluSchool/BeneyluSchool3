@@ -8,7 +8,7 @@
     <body>
       <trans-unit id="af691a856690131795ab0a9bc5bbf3e2ce714ea3" resname="CALENDAR_NEW_EVENT_RECURRING.EMAIL.content">
         <source>CALENDAR_NEW_EVENT_RECURRING.EMAIL.content</source>
-        <target><![CDATA[El evento repetitivo "<a href="%eventRoute%">%eventTitle%</a>" se ha añadido al calendario. %eventRecurrence%]]></target>
+        <target><![CDATA[<b>%classLabel%</b>El evento repetitivo "<a href="%eventRoute%">%eventTitle%</a>" se ha añadido al calendario. %eventRecurrence%]]></target>
         <note><![CDATA[%eventRoute% is a placeholder
 %eventTitle% is a placeholder
 %eventRecurrence% is a placeholder
@@ -17,7 +17,7 @@ This text contains HTML tags, please try to keep those tags
       </trans-unit>
       <trans-unit id="49ddc15571a9e7a50925292b238725a93715c51b" resname="CALENDAR_NEW_EVENT_RECURRING.EMAIL.title">
         <source>CALENDAR_NEW_EVENT_RECURRING.EMAIL.title</source>
-        <target>Se ha añadido al calendario un nuevo evento repetitivo</target>
+        <target>%classLabel%Se ha añadido al calendario un nuevo evento repetitivo</target>
       </trans-unit>
       <trans-unit id="ffcffbb98dcf6f2c8cb7412dd1a2f892bfd527f0" resname="CALENDAR_NEW_EVENT_RECURRING.SYSTEM.content">
         <source>CALENDAR_NEW_EVENT_RECURRING.SYSTEM.content</source>

@@ -10,19 +10,91 @@
         <source>ADD_BY_AUTHOR</source>
         <target>Ajouté par {{author}}</target>
       </trans-unit>
+      <trans-unit id="1853768dde8d8f0eafd8b8fe33a961e038ac8ef0" resname="ADD_OBJECT_ERROR">
+        <source>ADD_OBJECT_ERROR</source>
+        <target>Erreur lors de l'ajout du matériel</target>
+      </trans-unit>
+      <trans-unit id="1396a0c52d54f360963c9bc065c56b5676f4a178" resname="ADD_OBJECT_EVENT">
+        <source>ADD_OBJECT_EVENT</source>
+        <target>Réservation</target>
+      </trans-unit>
+      <trans-unit id="5fe1badb122c962f6499f9ece7d9137a31990656" resname="ADD_OBJECT_SUCCESS">
+        <source>ADD_OBJECT_SUCCESS</source>
+        <target>Matériel ajouté avec succès</target>
+      </trans-unit>
+      <trans-unit id="bb44923936b4b73a659356bab3064e7546f39b25" resname="ADD_PUNCTUAL_EVENT">
+        <source>ADD_PUNCTUAL_EVENT</source>
+        <target>Ponctuel</target>
+      </trans-unit>
+      <trans-unit id="8c7c880de300d735eb0007a2bf13ae708cb22a2a" resname="ADD_SUBJECT_EVENT">
+        <source>ADD_SUBJECT_EVENT</source>
+        <target>Discipline</target>
+      </trans-unit>
+      <trans-unit id="d26563853fd32554fbde132614b397848c9ba045" resname="ADD_SUBJECT_SUCCESS">
+        <source>ADD_SUBJECT_SUCCESS</source>
+        <target>Discipline ajoutée avec succès</target>
+      </trans-unit>
       <trans-unit id="324716d4caabe4c7821a52120a9b79c9a23c8e7b" resname="BEGIN_DATE_BEFORE_END_DATE">
         <source>BEGIN_DATE_BEFORE_END_DATE</source>
         <target>La date de début doit être antérieure à la date de fin.</target>
       </trans-unit>
+      <trans-unit id="1d45368d170d922568f4a66423616194e31defdf" resname="BUTTON_ASSIGN_EDITORS">
+        <source>BUTTON_ASSIGN_EDITORS</source>
+        <target>Ajouter des éditeurs</target>
+      </trans-unit>
       <trans-unit id="4d8ee2ba4dd114a6bf9a05af9161b3d1bbcb1c89" resname="BUTTON_BACK_TO_CALENDAR">
         <source>BUTTON_BACK_TO_CALENDAR</source>
         <target>Revenir au calendrier</target>
+      </trans-unit>
+      <trans-unit id="20dcb001a684d816442623a8cfdc2f4859f65d63" resname="BUTTON_CANCEL">
+        <source>BUTTON_CANCEL</source>
+        <target>Annuler</target>
+      </trans-unit>
+      <trans-unit id="07907fe8f3bd531821cde4fa73e20754c16a09ba" resname="BUTTON_SAVE">
+        <source>BUTTON_SAVE</source>
+        <target>Enregistrer</target>
+      </trans-unit>
+      <trans-unit id="5b7cd92d88451f1d845d9137b9f5aaca12ec736f" resname="DELETE_OBJECT_ERROR">
+        <source>DELETE_OBJECT_ERROR</source>
+        <target>Erreur lors de la suppression du matériel</target>
+      </trans-unit>
+      <trans-unit id="8e9e5205debec80a257b54800f3e9a337c190422" resname="DELETE_OBJECT_SUCCESS">
+        <source>DELETE_OBJECT_SUCCESS</source>
+        <target>Matériel supprimé avec succès</target>
+      </trans-unit>
+      <trans-unit id="5b7cd92d88451f1d845d9137b9f5aaca12ec736f" resname="DELETE_SUBJECT_ERROR">
+        <source>DELETE_SUJECT_ERROR</source>
+        <target>Erreur lors de la suppression de la discipline</target>
+      </trans-unit>
+      <trans-unit id="8e9e5205debec80a257b54800f3e9a337c190422" resname="DELETE_SUBJECT_SUCCESS">
+        <source>DELETE_SUJECT_SUCCESS</source>
+        <target>Discipline supprimée avec succès</target>
       </trans-unit>
       <trans-unit id="7b6795e2cbfedd6319be4d6469c97e330b7fd98f" resname="DESCRIPTION_DELETE_EVENT">
         <source>DESCRIPTION_DELETE_EVENT</source>
         <target><![CDATA[<h3>Êtes-vous sûr de vouloir supprimer cet évènement&nbsp;?</h3><p>Cet évènement sera définitivement effacé du calendrier.<br />Les documents joints ou insérés ne seront pas supprimés de la médiathèque.</p>]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
+      </trans-unit>
+      <trans-unit id="e7af2f2284b567fdbb55b271e1e4abada7e89825" resname="ERROR_ADD_SUBJECT">
+        <source>ERROR_ADD_SUBJECT</source>
+        <target>Erreur lors de l'ajout de la discipline</target>
+      </trans-unit>
+      <trans-unit id="9383daccc8aefaf27b357fccde2842c48ebaca69" resname="ERROR_DELETE_SUBJECT">
+        <source>ERROR_DELETE_SUBJECT</source>
+        <target>Erreur lors de la suppression de la discipline</target>
+      </trans-unit>
+      <trans-unit id="f79264a3edc061c3d6b981965e9a8fce0a25772d" resname="ERROR_GET_GROUP">
+        <source>ERROR_GET_GROUP</source>
+        <target>Erreur lors de la récupération des groupes</target>
+      </trans-unit>
+      <trans-unit id="d59dca7e5197edde15f8af92764417707a6d36b7" resname="ERROR_GET_OBJECT">
+        <source>ERROR_GET_OBJECT</source>
+        <target>Erreur lors de la récupération du matériel</target>
+      </trans-unit>
+      <trans-unit id="8c87f3ac157e8b2c9093ff71ba2b2fc09bf4b119" resname="ERROR_GET_SUBJECT">
+        <source>ERROR_GET_SUBJECT</source>
+        <target>Erreur lors de la récupération des disciplines</target>
       </trans-unit>
       <trans-unit id="db9700c04ef4f10aa1c61f5c7a97a5d68e701a31" resname="ERROR_THIS_FIELD_IS_REQUIRED">
         <source>ERROR_THIS_FIELD_IS_REQUIRED</source>
@@ -36,6 +108,10 @@
         <source>EVENT_SAVE_ERROR</source>
         <target>Erreur lors de la sauvegarde.</target>
       </trans-unit>
+      <trans-unit id="9cacaa9c174642394bcc21d070b8ae91a09ae14f" resname="EXPORT_AGENDA">
+        <source>EXPORT_AGENDA</source>
+        <target>Export du calendrier</target>
+      </trans-unit>
       <trans-unit id="8a8e8c287183f13379372fe8c9ea21955b744198" resname="FLASH_DELETE_EVENT_ERROR">
         <source>FLASH_DELETE_EVENT_ERROR</source>
         <target>L'évènement n'a pas pu être supprimé</target>
@@ -43,6 +119,18 @@
       <trans-unit id="104ff730100b7c434bb67e552472758574f96bd6" resname="FLASH_DELETE_EVENT_SUCCESS">
         <source>FLASH_DELETE_EVENT_SUCCESS</source>
         <target>Évènement supprimé</target>
+      </trans-unit>
+      <trans-unit id="bb426d13b98efea0057a7065c66857a8a800890e" resname="FLASH_EDIT_SUBJECT_SUCCESS">
+        <source>FLASH_EDIT_SUBJECT_SUCCESS</source>
+        <target>Discipline modifiée avec succès</target>
+      </trans-unit>
+      <trans-unit id="589670badea0e2d230f9b83497a34963af0d08dd" resname="FLASH_EDITORS_SAVE_ERROR">
+        <source>FLASH_EDITORS_SAVE_ERROR</source>
+        <target>Les éditeurs n'ont pas pu être enregistrés</target>
+      </trans-unit>
+      <trans-unit id="39a2d841e0175ad92c191e3f545cc06477fe617d" resname="FLASH_EDITORS_SAVE_SUCCESS">
+        <source>FLASH_EDITORS_SAVE_SUCCESS</source>
+        <target>Les éditeurs ont été enregistrés</target>
       </trans-unit>
       <trans-unit id="97505cb3eed4cc183a33c6682d88233b8dca038c" resname="FLASH_EVENT_SAVE_ERROR">
         <source>FLASH_EVENT_SAVE_ERROR</source>
@@ -68,6 +156,14 @@
         <source>LABEL_EVENT_LOCATION</source>
         <target>Choisir un lieu</target>
       </trans-unit>
+      <trans-unit id="fa86818094872a5687dec9c59150bbcb06a6d0a1" resname="LABEL_GROUP">
+        <source>LABEL_GROUP</source>
+        <target>Espaces de travail</target>
+      </trans-unit>
+      <trans-unit id="522f778ccd022d7759612df2d44ffa8b6dc27a41" resname="LABEL_OBJECTS">
+        <source>LABEL_OBJECTS</source>
+        <target>Gérer le matériel et les salles</target>
+      </trans-unit>
       <trans-unit id="fd21b0f43f2036392cb4e0a13d3dba3821f89101" resname="LABEL_OR">
         <source>LABEL_OR</source>
         <target>Ou</target>
@@ -79,6 +175,18 @@
       <trans-unit id="ae09979ca169cad0f77db2f43bb67923380ed3d6" resname="LABEL_RECURRING_END_DATE">
         <source>LABEL_RECURRING_END_DATE</source>
         <target>Jusqu'au</target>
+      </trans-unit>
+      <trans-unit id="9648f0402e416c4682ff501f9cfd07106743ec46" resname="LABEL_SUBJECTS">
+        <source>LABEL_SUBJECTS</source>
+        <target>Gérer les disciplines</target>
+      </trans-unit>
+      <trans-unit id="d0ba790a5ac2bf3b071700c40e1124bc1098d165" resname="LABEL_OBJECT_NAME">
+        <source>LABEL_OBJECT_NAME</source>
+        <target>Nom du matériel ou de la salle</target>
+      </trans-unit>
+      <trans-unit id="f4ab62200fa913e16e75c8199a91aa838fe0ee5c" resname="LABEL_SUBJECT_NAME">
+        <source>LABEL_SUBJECT_NAME</source>
+        <target>Nom de la discipline</target>
       </trans-unit>
       <trans-unit id="ac2a893fd552c2265d5d4b15ec91d0ad7dab7d17" resname="LABEL_TIME_END">
         <source>LABEL_TIME_END</source>
@@ -92,9 +200,65 @@
         <source>LINK_DELETE_EVENT</source>
         <target>Supprimer | cet évènement</target>
       </trans-unit>
+      <trans-unit id="60106998c6421bd609050a57082db0f95d8bfd82" resname="LINK_TO_EXPORT">
+        <source>LINK_TO_EXPORT</source>
+        <target>Ce lien permet d'importer le calendrier dans les logiciels de gestion d'agenda les plus répandus</target>
+      </trans-unit>
+      <trans-unit id="e485436fb0aa89e234becd47d4027516c6763e34" resname="LINK_SAVE_OBJECT">
+        <source>LINK_SAVE_OBJECT</source>
+        <target>Ajouter le matériel ou la salle</target>
+      </trans-unit>
+      <trans-unit id="fd29ba07afb6f32320e760006202b7eb8a9e2d42" resname="LINK_SAVE_SUBJECT">
+        <source>LINK_SAVE_SUBJECT</source>
+        <target>Ajouter la discipline</target>
+      </trans-unit>
+      <trans-unit id="3f2e91d8202687844b14d1cdfdcb64f053edd79d" resname="MANAGE_CALENDARS">
+        <source>MANAGE_CALENDARS</source>
+        <target>Gérer les calendriers</target>
+      </trans-unit>
+      <trans-unit id="505d45ba9be713df7aec587aa81065d40e617570" resname="MANAGE_OBJECTS">
+        <source>MANAGE_OBJECTS</source>
+        <target>Gérer le matériel et les salles</target>
+      </trans-unit>
+      <trans-unit id="69ffefb948a50f0c505af956da2cd58eb83f2729" resname="MANAGE_SUBJECTS">
+        <source>MANAGE_SUBJECTS</source>
+        <target>Gérer les disciplines</target>
+      </trans-unit>
+      <trans-unit id="a5ca957bd0fcde41e334fec0723edbcce1412148" resname="MANAGE_USERS">
+        <source>MANAGE_USERS</source>
+        <target>Gérer les utilisateurs</target>
+      </trans-unit>
+      <trans-unit id="d3bb0c3f4f7862d5277d4dbb96dd62758574154a" resname="MONTH">
+        <source>MONTH</source>
+        <target>Mois</target>
+      </trans-unit>
+      <trans-unit id="83ccf14b6fc5001c270b87a25f6dbd0dd2dbdb90" resname="OBJECTS">
+        <source>OBJECTS</source>
+        <target>Matériel et salles</target>
+      </trans-unit>
+      <trans-unit id="6791812b6154fc87658e204bed8fdfcc8c8f3259" resname="PLACEHOLDER_ENTER_OBJECT_TITLE">
+        <source>PLACEHOLDER_ENTER_OBJECT_TITLE</source>
+        <target>Entrez un nom de matériel ou de salle</target>
+      </trans-unit>
+      <trans-unit id="a5b1c291be2445f6d9ade2adc17762b9102fb3e0" resname="PLACEHOLDER_ENTER_SUBJECT_TITLE">
+        <source>PLACEHOLDER_ENTER_SUBJECT_TITLE</source>
+        <target>Entrez un nom de discipline</target>
+      </trans-unit>
+      <trans-unit id="04d7d69ba496cb1f11b7da805d2051767d4374bb" resname="SUBJECTS">
+        <source>SUBJECTS</source>
+        <target>Disciplines</target>
+      </trans-unit>
       <trans-unit id="00f4fbacba691d960b89b194436778f1b4361d3e" resname="TITLE_CALENDAR">
         <source>TITLE_CALENDAR</source>
         <target>Calendrier</target>
+      </trans-unit>
+      <trans-unit id="c04cc30f2b2bbc05996da0220904189f91931b40" resname="TITLE_EDIT_OBJECT">
+        <source>TITLE_EDIT_OBJECT</source>
+        <target>Editer le matériel ou la salle</target>
+      </trans-unit>
+      <trans-unit id="3e7e7b1240260bd3bb2cdec1a8ea13aa396d3fb4" resname="TITLE_EDIT_SUBJECT">
+        <source>TITLE_EDIT_SUBJECT</source>
+        <target>Editer la discipline</target>
       </trans-unit>
       <trans-unit id="4505c065ebc8711ffc91cc08d0413e2f3f5c3794" resname="TITLE_DELETE_EVENT">
         <source>TITLE_DELETE_EVENT</source>
@@ -119,6 +283,10 @@
       <trans-unit id="8de6a995c983a654b208449b53ee9b5b741d77c0" resname="TITLE_SINGLE_DATE_TIME">
         <source>TITLE_SINGLE_DATE_TIME</source>
         <target>Le {{date}} de {{timeStart}} à {{timeEnd}}</target>
+      </trans-unit>
+      <trans-unit id="3a79bc501d57def9496e5202d36e046c8802bccd" resname="WEEK">
+        <source>WEEK</source>
+        <target>Semaine</target>
       </trans-unit>
     </body>
   </file>

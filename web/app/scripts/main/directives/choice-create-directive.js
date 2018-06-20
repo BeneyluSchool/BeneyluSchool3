@@ -46,7 +46,7 @@ function BNSChoiceCreateDirective ($compile, $http, toast) {
   var inputTemplate = '<form ng-submit="createChoice($event)">'+
     '<md-input-container md-no-float>'+
       '<input type="text" ng-model="value" placeholder="{{createLabel|translate}}">'+
-      '<md-button type="submit" class="md-primary md-raised btn-xs">'+
+      '<md-button type="submit" class="md-primary md-raised btn-xs btn-addon">'+
         '<md-icon>add</md-icon>'+
         '<span ng-bind-html="\'MAIN.BUTTON_ADD\'|translate|buttonize"></span>'+
       '</md-button>'+

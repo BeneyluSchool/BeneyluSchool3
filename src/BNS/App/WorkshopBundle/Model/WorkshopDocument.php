@@ -2,6 +2,13 @@
 
 namespace BNS\App\WorkshopBundle\Model;
 
+use BNS\App\CompetitionBundle\Model\BookQuery;
+use BNS\App\CompetitionBundle\Model\CompetitionQuery;
+use BNS\App\CompetitionBundle\Model\CompetitionQuestionnaireQuery;
+use BNS\App\CompetitionBundle\Model\QuestionnaireParticipation;
+use BNS\App\CompetitionBundle\Model\QuestionnaireParticipationQuery;
+use BNS\App\CoreBundle\Access\BNSAccess;
+use BNS\App\MediaLibraryBundle\Manager\MediaManager;
 use BNS\App\MediaLibraryBundle\Model\Media;
 use BNS\App\WorkshopBundle\Model\om\BaseWorkshopDocument;
 use BNS\App\CoreBundle\Model\User;
@@ -39,6 +46,7 @@ class WorkshopDocument extends BaseWorkshopDocument implements WorkshopContentIn
     }
 
     /**
+     * @deprecated seems not used
      * Ajoute une page
      * @param $layout
      * @param $position
@@ -50,20 +58,15 @@ class WorkshopDocument extends BaseWorkshopDocument implements WorkshopContentIn
         $page = new WorkshopPage();
         $page->setDocumentId($this->getId());
         $page->setLayoutCode($layout);
-        $page->setPosition($position);
         $page->setOrientation($orientation);
-        $page->save();
-        return $page;
-    }
-
-    public function getWorkshopPagesArray()
-    {
-        $return = array();
-        foreach($this->getWorkshopPages() as $workshopPage)
-        {
-            $return[] = $workshopPage;
+        try {
+            $page->insertAtRank($position);
+        } catch (\PropelException $e) {
+            $page->insertAtBottom();
         }
-        return $return;
+        $page->save();
+
+        return $page;
     }
 
     public function getWidgetGroups()
@@ -88,12 +91,83 @@ class WorkshopDocument extends BaseWorkshopDocument implements WorkshopContentIn
 
     public function isQuestionnaire()
     {
-        $documentType = parent::getDocumentType();
+        return Media::WORKSHOP_DOCUMENT_QUESTIONNAIRE === $this->getDocumentType();
+    }
 
-        if ($documentType == 2) {
-            return true;
+    public function getCompetition()
+    {
+        if (MediaManager::STATUS_QUESTIONNAIRE_COMPETITION === $this->getMedia()->getStatusDeletion()) {
+            /** @var Media $media */
+            if ($media = $this->getMedia()) {
+                if ($competition = $media->getCompetition()) {
+                    return $competition;
+                }
+                if ($book = $media->getBook()) {
+                    return $book->getCompetition();
+                }
+            }
         }
 
-        return false;
+        return null;
     }
+
+    public function getBook()
+    {
+        return BookQuery::create()
+            ->useCompetitionBookQuestionnaireQuery()
+            ->filterByQuestionnaireId($this->getMedia()->getId())
+            ->endUse()
+            ->findOne();
+    }
+
+    public function getParticipation()
+    {
+        if ($this->isQuestionnaire()) {
+            return QuestionnaireParticipationQuery::create()
+                ->filterByQuestionnaireId($this->getId())
+                ->filterByUserId(BNSAccess::getContainer()->get('bns.right_manager')->getUserSessionId())
+                ->select(['score', 'like'])
+                ->findOne();
+        }
+
+        return null;
+    }
+
+    public function getWorkshopDocumentPagesCount()
+    {
+        return WorkshopPageQuery::create()
+            ->filterByDocumentId($this->getId())
+            ->count();
+    }
+
+    public function getWorkshopDocumentQuestionsCount()
+    {
+        if ($this->isQuestionnaire()) {
+            return WorkshopWidgetGroupQuery::create()
+                ->useWorkshopWidgetQuery()
+                    ->filterByType(['closed', 'multiple', 'simple', 'gap-fill-text'])
+                ->endUse()
+                ->useWorkshopPageQuery()
+                    ->filterByDocumentId($this->getId())
+                ->endUse()
+                ->count();
+        }
+
+        return null;
+    }
+
+
+    public function getWorkshopDocumentMaxAttempts()
+    {
+        $competitionQuestionnaire = CompetitionQuestionnaireQuery::create()
+            ->filterByQuestionnaireId($this->getMediaId())
+            ->findOne();
+
+        if ($competitionQuestionnaire) {
+            return $competitionQuestionnaire->getAttemptsNumber();
+        }
+
+        return null;
+    }
+
 }

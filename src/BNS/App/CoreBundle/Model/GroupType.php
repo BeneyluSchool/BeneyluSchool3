@@ -183,6 +183,7 @@ class GroupType extends BaseGroupType
 	}
 
 	/**
+     * @deprecated stop using this !!!
 	 * @return array<Module>
 	 */
 	public function getModules($isContextable = null)

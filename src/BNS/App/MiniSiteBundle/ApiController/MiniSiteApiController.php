@@ -9,10 +9,12 @@ use BNS\App\CoreBundle\Model\GroupQuery;
 use BNS\App\CoreBundle\Model\User;
 use BNS\App\MiniSiteBundle\Model\MiniSite;
 use BNS\App\MiniSiteBundle\Model\MiniSitePage;
+use BNS\App\MiniSiteBundle\Model\MiniSitePageCityNewsQuery;
 use BNS\App\MiniSiteBundle\Model\MiniSitePageNewsQuery;
 use BNS\App\MiniSiteBundle\Model\MiniSitePagePeer;
 use BNS\App\MiniSiteBundle\Model\MiniSitePageQuery;
 use BNS\App\MiniSiteBundle\Model\MiniSitePageTextQuery;
+use BNS\App\MiniSiteBundle\Model\MiniSitePeer;
 use BNS\App\MiniSiteBundle\Model\MiniSiteQuery;
 use BNS\App\MiniSiteBundle\Model\MiniSiteWidgetQuery;
 use BNS\App\CoreBundle\Rss\RssManager;
@@ -55,30 +57,17 @@ class MiniSiteApiController extends BaseApiController
 
         $rightManager = $this->get('bns.right_manager');
         if (!$miniSite && $rightManager->hasRight('MINISITE_ACCESS', $groupId)) {
-
-            $miniSite = new MiniSite();
-            $miniSite->setGroupId($groupId);
-            $miniSite->setTitle($this->get('translator')->trans('TITLE_SITE_NAME', array('%name%' => $group->getLabel()), 'MINISITE'));
-            $miniSite->save();
-
-            // Create the homepage, many queries are based on the homepage
-            $homePage = new MiniSitePage();
-            $homePage->setMiniSiteId($miniSite->getId());
-            $homePage->setTitle($this->get('translator')->trans('TITLE_WELCOME', array(), 'MINISITE'));
-            $homePage->setIsActivated(true);
-            $homePage->setType(MiniSitePagePeer::TYPE_TEXT);
-            $homePage->setIsHome(true);
-            $homePage->save();
+            $miniSite = MiniSitePeer::create([
+                    'group_id' => $groupId,
+                    'label' => $group->getLabel(),
+                ],
+                $this->get('translator'),
+                $this->get('bns.group_manager')
+            );
         }
 
         if (!$miniSite) {
             return View::create('', Codes::HTTP_NOT_FOUND);
-        }
-
-        //did this user has right to see the minisite?
-        $rightManager = $this->get('bns.right_manager');
-        if (!$rightManager->hasRight('MINISITE_ACCESS', $miniSite->getGroupId())) {
-            return View::create('', Codes::HTTP_FORBIDDEN);
         }
 
         //return the minisite
@@ -132,6 +121,11 @@ class MiniSiteApiController extends BaseApiController
             }
         }
 
+        if ('CITY' === $miniSite->getGroup()->getType()) {
+            $pagesQuery = $pagesQuery->filterByType(MiniSitePagePeer::TYPE_CITY, \Criteria::NOT_EQUAL);
+        }
+
+        /** @var MiniSitePage[]|\PropelObjectCollection $pages */
         $pages = $pagesQuery
             ->filterByIsActivated(true)
             ->orderByRank(\Criteria::ASC)
@@ -141,6 +135,17 @@ class MiniSiteApiController extends BaseApiController
         //if they doesn't exist: not found
         if (!$pages) {
             return View::create('', Codes::HTTP_NOT_FOUND);
+        }
+
+        // if there is a city news page, make sure it has content, otherwise hide it
+        foreach ($pages as $k => $page) {
+            if ($page->isCity() && 'CITY' !== $miniSite->getGroup()->getType()) {
+                $nbNews = $this->get('bns.mini_site.city_news_manager')->getCityNewsQueryForPage($page)->count();
+                if (!$nbNews) {
+                    $pages->remove($k);
+                }
+                break;
+            }
         }
 
         //get the minisite's widgets
@@ -160,11 +165,15 @@ class MiniSiteApiController extends BaseApiController
             $miniSite->logoUrl = $this->get('templating.helper.assets')->getUrl($path);
         }
 
+        if ($this->getUser()) {
+            $this->get('stat.site')->visit();
+        }
+
         //return the fix content of the minisite
         return array (
             'group' => $miniSite->getGroup(),
             'minisite' => $miniSite,
-            'pages' => $pages,
+            'pages' => array_values($pages->getArrayCopy()),
             'widgets' => $widgets
         );
     }
@@ -182,7 +191,7 @@ class MiniSiteApiController extends BaseApiController
      *
      * @Rest\View(serializerGroups={"Default","user_list","media_basic"})
      */
-    public function getPagesAction($siteSlug, $pageSlug, ParamFetcher $paramFetcher)
+    public function getPagesAction($siteSlug, $pageSlug, ParamFetcher $paramFetcher, Request $request)
     {
         $miniSite = MiniSiteQuery::create()
             ->filterBySlug($siteSlug, \Criteria::EQUAL)
@@ -216,6 +225,10 @@ class MiniSiteApiController extends BaseApiController
             }
         }
 
+        if ('CITY' === $miniSite->getGroup()->getType()) {
+            $pagesQuery = $pagesQuery->filterByType(MiniSitePagePeer::TYPE_CITY, \Criteria::NOT_EQUAL);
+        }
+
         $minisitePage = $pagesQuery
             ->findOne()
         ;
@@ -237,6 +250,22 @@ class MiniSiteApiController extends BaseApiController
                 ->joinWith('User') // Author
                 ->joinWith('User.Profile')
             ;
+
+            $articles = $this->getPaginator($query, new Route('minisite_api_get_pages', array(
+                'version' => $this->getVersion(),
+                'siteSlug' => $siteSlug,
+                'pageSlug' => $pageSlug
+            ), true), $paramFetcher);
+        } else if ($minisitePage->getType() === 'CITY') {
+            // if it's a city news's page
+            $content = null;
+            $query = $this->get('bns.mini_site.city_news_manager')->getCityNewsQueryForPage($minisitePage)
+                ->joinWith('User') // Author
+                ->joinWith('User.Profile')
+            ;
+
+            // override pager param for "no" limit
+            $request->query->set('limit', 8000);
 
             $articles = $this->getPaginator($query, new Route('minisite_api_get_pages', array(
                 'version' => $this->getVersion(),
@@ -367,4 +396,35 @@ class MiniSiteApiController extends BaseApiController
 
         return true;
     }
+
+    /**
+     * @ApiDoc(
+     *  section="Minisite",
+     *  resource = false,
+     *  description="Get latest city news of a minisite",
+     * )
+     *
+     * @Rest\Get("/groups/{groupId}/minisite/city-news")
+     * @Rest\View()
+     */
+    public function getLatestCityNewsAction($groupId)
+    {
+        /** @var MiniSite $miniSite */
+        //Get the minisite by group's id
+        $miniSite = MiniSiteQuery::create()
+            ->filterByGroupId($groupId)
+            ->findOne();
+
+        $page = $miniSite->getCityPage();
+        if (!$page) {
+            return $this->view('', Codes::HTTP_NOT_FOUND);
+        }
+
+        return [
+            'news' => $this->get('bns.mini_site.city_news_manager')->getCityNewsQueryForPage($page)->limit(3)->find(),
+            'page' => $page,
+            'site' => $miniSite,
+        ];
+    }
+
 }

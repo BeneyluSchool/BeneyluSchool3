@@ -8,16 +8,20 @@
     <body>
       <trans-unit id="75b9b0e08ac60e199a7ee56af8e434dbaea919c1" resname="BLOG_ARTICLE_PUBLISHED_EVERYONE.EMAIL.content">
         <source>BLOG_ARTICLE_PUBLISHED_EVERYONE.EMAIL.content</source>
-        <target><![CDATA[The article"<a href="%articleUrl%" title="See article"><strong>%articleTitle%</strong></a>" created by <strong>%articleAuthor%</strong> has just been posted on the blog. Now click the link to see it!]]></target>
+        <target><![CDATA[<b>%classLabel%</b>The article"<a href="%articleUrl%" title="See article"><strong>%articleTitle%</strong></a>" created by <strong>%articleAuthor%</strong> has just been posted on the blog. Now click the link to see it!]]></target>
         <note><![CDATA[%articleUrl% is a placeholder
 %articleTitle% is a placeholder
 %articleAuthor% is a placeholder
+%classLabel% is a placeholder
 This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
       <trans-unit id="e62f44e0231318f712e068b8bf484bef25d529dd" resname="BLOG_ARTICLE_PUBLISHED_EVERYONE.EMAIL.title">
         <source>BLOG_ARTICLE_PUBLISHED_EVERYONE.EMAIL.title</source>
-        <target>An article has been published on the blog</target>
+        <target>%classLabel%An article has been published on the blog</target>
+        <note>%classLabel% is a placeholder
+               This text contains HTML tags, please try to keep those tags
+            </note>
       </trans-unit>
       <trans-unit id="8603e868de16834292cdb3611dd8f3420d15f425" resname="BLOG_ARTICLE_PUBLISHED_EVERYONE.SYSTEM.content">
         <source>BLOG_ARTICLE_PUBLISHED_EVERYONE.SYSTEM.content</source>

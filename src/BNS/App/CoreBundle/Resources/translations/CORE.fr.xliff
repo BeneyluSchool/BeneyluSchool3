@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-06-22T17:24:01Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2016-10-13T12:38:54Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -155,6 +155,30 @@
         <note><![CDATA[%fullname% is a placeholder
 ]]></note>
       </trans-unit>
+      <trans-unit id="052b40ba578bc0dcc48f12d4216d9f758d3bdad8" resname="INVALID_END_DATE_IS_REQUIRED">
+        <source>INVALID_END_DATE_IS_REQUIRED</source>
+        <target state="new">La date de fin est obligatoire</target>
+      </trans-unit>
+      <trans-unit id="43420476d1578ff9f6e4a36db5c50c71ac62e83f" resname="INVALID_END_DATE_NOT_IN">
+        <source>INVALID_END_DATE_NOT_IN</source>
+        <target state="new">La date de fin de période doit être inférieure ou égale à la date de début Académique</target>
+      </trans-unit>
+      <trans-unit id="a8b1673c1f956986e706a189645651410cbd082f" resname="INVALID_START_DATE_AFTER_END_START">
+        <source>INVALID_START_DATE_AFTER_END_START</source>
+        <target state="new">La date de début doit être strictement inférieure à la date de fin</target>
+      </trans-unit>
+      <trans-unit id="de58e3feb1809212ac7622af799afefd41b99b87" resname="INVALID_START_DATE_IS_REQUIRED">
+        <source>INVALID_START_DATE_IS_REQUIRED</source>
+        <target state="new">La date de début est obligatoire</target>
+      </trans-unit>
+      <trans-unit id="6a4c921da37d1b58531794477a1f79179b2c5f43" resname="INVALID_START_DATE_NOT_IN">
+        <source>INVALID_START_DATE_NOT_IN</source>
+        <target state="new">La date de début de période doit être supérieure ou égale à la date de début Académique</target>
+      </trans-unit>
+      <trans-unit id="48c35c0cdd016b180d512b45965fceb086b12d8a" resname="LABEL_ACTIVE_RESTRICTION">
+        <source>LABEL_ACTIVE_RESTRICTION</source>
+        <target state="new">Activer l'accès restreint</target>
+      </trans-unit>
       <trans-unit id="48c95e7421062393c578c13a3c0f0e96c650a07a" resname="LABEL_ACTIVE_RULE">
         <source>LABEL_ACTIVE_RULE</source>
         <target>Règle active</target>
@@ -172,6 +196,10 @@
       <trans-unit id="f2d1f348f6f5ae22216696966811694fe2cc56ba" resname="LABEL_FOR_WHO">
         <source>LABEL_FOR_WHO</source>
         <target>Pour qui ?</target>
+      </trans-unit>
+      <trans-unit id="6e8876bf8c450483cf795da46eeb9e6573b5323f" resname="LABEL_FROM_INCLUDE">
+        <source>LABEL_FROM_INCLUDE</source>
+        <target state="new">Du (inclus)</target>
       </trans-unit>
       <trans-unit id="cae10029d6ed1181457ec981b66f0cda3c3d291c" resname="LABEL_GROUP_TYPE">
         <source>LABEL_GROUP_TYPE</source>
@@ -213,13 +241,17 @@
         <source>LABEL_TARGET_GROUP</source>
         <target>Groupes cibles ?</target>
       </trans-unit>
+      <trans-unit id="b83a0bb28c3e93f169847d02b8409b4b57d1ab74" resname="LABEL_TO_INCLUDE">
+        <source>LABEL_TO_INCLUDE</source>
+        <target state="new">Au (inclus)</target>
+      </trans-unit>
       <trans-unit id="77e39b14e8a22935794eaae924a3e502b4460745" resname="LABEL_UNIQUE_NAME">
         <source>LABEL_UNIQUE_NAME</source>
         <target state="new">Nom</target>
       </trans-unit>
       <trans-unit id="b6d73682ba84e02cf3b99efb202a98764f0c3f3a" resname="LINK_BACK_TO_HOMEPAGE">
         <source>Revenir à la page d'accueil</source>
-        <target>Revenir à la page d'accueil</target>
+        <target state="new">Revenir à la page d'accueil</target>
       </trans-unit>
       <trans-unit id="1a28b1bd44940826ffd835f6da61384bcfce613e" resname="LINK_CALL_HELP">
         <source>LINK_CALL_HELP</source>
@@ -246,9 +278,13 @@
         <source>Recevoir à nouveau le message</source>
         <target state="new">Recevoir à nouveau le message</target>
       </trans-unit>
+      <trans-unit id="9b1eba6f1424b141435910cc3ee1d41a52d0df86" resname="RESTRICTED_SCHOOL">
+        <source>RESTRICTED_SCHOOL</source>
+        <target state="new">Les élèves de votre école n'ont pas accès à l'ENT pendant la période estivale (réouverture le %date%).</target>
+      </trans-unit>
       <trans-unit id="61fbacff6793ffa03eb10b2caf9fd1ff94d4b564" resname="SINCE">
         <source>Il y a %time%</source>
-        <target>Il y a %time%</target>
+        <target state="new">Il y a %time%</target>
         <note><![CDATA[%time% is a placeholder
 ]]></note>
       </trans-unit>

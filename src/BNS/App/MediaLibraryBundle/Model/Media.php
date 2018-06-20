@@ -2,23 +2,59 @@
 
 namespace BNS\App\MediaLibraryBundle\Model;
 
+use BNS\App\CompetitionBundle\Model\AnswerQuery;
+use BNS\App\CompetitionBundle\Model\Book;
+use BNS\App\CompetitionBundle\Model\BookQuery;
+use BNS\App\CompetitionBundle\Model\CompetitionQuery;
+use BNS\App\CompetitionBundle\Model\QuestionnaireParticipationQuery;
 use BNS\App\MediaLibraryBundle\Manager\MediaManager;
 use BNS\App\MediaLibraryBundle\Model\om\BaseMedia;
 use BNS\App\CoreBundle\Access\BNSAccess;
 use BNS\App\WorkshopBundle\Model\WorkshopContent;
 use BNS\App\WorkshopBundle\Model\WorkshopDocumentContribution;
 use BNS\App\WorkshopBundle\Model\WorkshopDocumentContributionQuery;
+use BNS\App\WorkshopBundle\Model\WorkshopDocumentQuery;
+use BNS\App\WorkshopBundle\Model\WorkshopWidgetGroupQuery;
 use Doctrine\Common\Inflector\Inflector;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 class Media extends BaseMedia
 {
-
-
+    const  WORKSHOP_DOCUMENT_DOC = 1;
+    const  WORKSHOP_DOCUMENT_QUESTIONNAIRE = 2;
 
     public $imageThumbnailUrl;
     public $imageMediumUrl;
     public $provider;
     public $paasId;
+
+    /**
+     * Proxy for the value in the CompetitionQuestionnaire cross ref object.
+     * @var bool
+     */
+    public $allowAttempts;
+    public $required;
+    public $maxAttemptsNumber;
+    public $pagesCount;
+    public $questionsCount;
+    public $sender;
+
+    /**
+     * Proxy for the value in the CompetitionQuestionnaire cross ref object.
+     * @var bool
+     */
+    public $attemptsNumber;
+
+    /**
+     * @var float
+     */
+    public $percent;
+
+    /**
+     * @var int
+     */
+    public $score;
 
     public $searchStatus;
 
@@ -64,9 +100,14 @@ class Media extends BaseMedia
         return $this->getTypeUniqueName() == 'ATELIER_AUDIO';
     }
 
+    public function isWorkshopQuestionnaire()
+    {
+        return $this->getTypeUniqueName() === 'ATELIER_QUESTIONNAIRE';
+    }
+
     public function isFromWorkshop()
     {
-        return $this->isWorkshopDocument() || $this->isWorkshopAudio();
+        return $this->isWorkshopDocument() || $this->isWorkshopAudio() || $this->isWorkshopQuestionnaire();
     }
 
     public function getMediaFolder()
@@ -83,6 +124,15 @@ class Media extends BaseMedia
                 return null;
         }
         return $query->findOneById($this->getMediaFolderId());
+    }
+
+    public function getMediaFolderSlug()
+    {
+        if ($folder = $this->getMediaFolder()) {
+            return $folder->getSlug();
+        }
+
+        return null;
     }
 
     /**
@@ -254,6 +304,10 @@ class Media extends BaseMedia
     public function isGarbaged()
     {
         return $this->getStatusDeletion() == MediaManager::STATUS_GARBAGED || $this->getStatusDeletion() == MediaManager::STATUS_GARBAGED_PARENT;
+    }
+
+    public function isQuestionnaireInCompetition() {
+        return MediaManager::STATUS_QUESTIONNAIRE_COMPETITION === $this->getStatusDeletion();
     }
 
     /*
@@ -498,14 +552,43 @@ class Media extends BaseMedia
         return BNSAccess::getContainer()->get('bns.media.download_manager')->getDownloadUrl($this);
     }
 
+    public function getDisplayUrl()
+    {
+        if ($this->isDocument() && $this->getFileMimeType() !== 'application/pdf') {
+            // TODO: fix this
+            return false;
+
+            $extension = pathinfo($this->getFilename(), PATHINFO_EXTENSION);
+            if (!BNSAccess::getContainer()->get('bns.media.manager')->getFileSystem()->getAdapter()->exists(str_replace($extension, 'pdf', $this->getFilePath()))) {
+                BNSAccess::getContainer()->get('bns.media.creator')->convertToPDF(BNSAccess::getContainer()->getParameter('resource_files_dir') . '/' . $this->getFilePath(),
+                    $this->getFilePathPattern(),
+                    $this->getFilename(),
+                    false);
+            }
+            if (!BNSAccess::getContainer()->get('bns.media.manager')->getFileSystem()->getAdapter()->exists(str_replace($extension, 'pdf', $this->getFilePath()))) {
+                return false;
+            }
+                $this->setFilename(str_replace($extension, 'pdf', $this->getFilename()));
+            return BNSAccess::getContainer()->get('bns.media.download_manager')->getDownloadUrl($this);
+
+        } else {
+            return $this->getDownloadUrl();
+        }
+    }
+
     public function getImageUrl($size = null)
     {
         $original = $this->getOriginal();
-        if ($original && $original->getExternalSource()) {
+        if ($original) {
             return $original->getImageUrl($size);
         }
 
         return BNSAccess::getContainer()->get('bns.media.download_manager')->getImageDownloadUrl($this, $size);
+    }
+
+    public function getImageThumbUrl($size = 'small' )
+    {
+        return $this->getImageUrl($size);
     }
 
     public function getMediaValue()
@@ -630,7 +713,7 @@ class Media extends BaseMedia
 
     public function getWorkshopDocumentId()
     {
-        if ($this->isWorkshopDocument()) {
+        if ($this->isWorkshopDocument() || $this->isWorkshopQuestionnaire()) {
             $content = $this->getWorkshopContents()->getFirst();
             if ($content) {
                 return $content->getId();
@@ -640,12 +723,119 @@ class Media extends BaseMedia
         return null;
     }
 
+    public function getWorkshopDocumentScore()
+    {
+        $id = $this->getWorkshopDocumentId();
+
+        if ($id) {
+            $participation = QuestionnaireParticipationQuery::create()
+                ->filterByQuestionnaireId($id)
+                ->filterByUserId(BNSAccess::getContainer()->get('bns.right_manager')->getUserSessionId())
+                ->orderByLastTryStartedAt('DESC')
+                ->findOne();
+
+            if ($participation) {
+                return $participation->getScore();
+            }
+        }
+
+        return null;
+    }
+
+    public function getWorkshopDocumentAttempts()
+    {
+        $id = $this->getWorkshopDocumentId();
+
+        if ($id) {
+            $participation = QuestionnaireParticipationQuery::create()
+                ->filterByQuestionnaireId($id)
+                ->filterByUserId(BNSAccess::getContainer()->get('bns.right_manager')->getUserSessionId())
+                ->orderByLastTryStartedAt('DESC')
+                ->findOne();
+
+            if ($participation) {
+                return $participation->getTryNumber();
+            }
+        }
+
+        return null;
+    }
+
+    public function getWorkshopDocumentAnswered()
+    {
+        $id = $this->getWorkshopDocumentId();
+
+        if ($id) {
+            return AnswerQuery::create()
+                ->filterByAnswer(null, \Criteria::NOT_EQUAL)
+                ->useQuestionnaireParticipationQuery()
+                    ->filterByQuestionnaireId($id)
+                    ->filterByUserId(BNSAccess::getContainer()->get('bns.right_manager')->getUserSessionId())
+                    ->orderByLastTryStartedAt('DESC')
+                ->endUse()
+                ->count();
+        }
+
+        return null;
+    }
+
+    public function getAttemptsNumber()
+    {
+        if (isset($this->attemptsNumber)) {
+            return $this->attemptsNumber;
+        }
+    }
+
+    public function getCompetition()
+    {
+        if ($this->isQuestionnaireInCompetition()) {
+            $competition = CompetitionQuery::create()
+                ->useCompetitionQuestionnaireQuery()
+                    ->filterByQuestionnaireId($this->getId())
+                ->endUse()
+                ->findOne();
+            if (!$competition) {
+                $competition = CompetitionQuery::create()
+                    ->useBookQuery()
+                        ->useCompetitionBookQuestionnaireQuery()
+                            ->filterByQuestionnaireId($this->getId())
+                        ->endUse()
+                    ->endUse()
+                    ->findOne();
+            }
+            return $competition;
+        }
+        return null;
+    }
+
+    public function getIsQuestionnaire()
+    {
+        if ($this->isWorkshopQuestionnaire()) {
+            return true;
+        }
+
+        // TODO: remove this legacy code
+        if ($this->isWorkshopDocument()) {
+            $wd = WorkshopDocumentQuery::create()
+                ->filterByDocumentType(self::WORKSHOP_DOCUMENT_QUESTIONNAIRE)
+                ->useWorkshopContentQuery()
+                ->filterByMediaId($this->getId())
+                ->endUse()
+                ->findOne();
+
+            if ($wd) {
+                return true;
+            }
+        }
+
+        return false;
+    }
     /**
      * @return array|\PropelObjectCollection|WorkshopDocumentContribution[]
      */
     public function getContributions()
     {
-        if ($this->isWorkshopDocument()) {
+        if ($this->isWorkshopQuestionnaire()) {
             $content = $this->getWorkshopContent();
 
             // fail if for some reason the media has no associated content
@@ -678,6 +868,21 @@ class Media extends BaseMedia
         return null;
     }
 
+    /**
+     * @return \BNS\App\CoreBundle\Model\User|null
+     */
+    public function getWorkshopAuthor()
+    {
+        if ($this->isFromWorkshop()) {
+            $content = $this->getWorkshopContent();
+            if ($content) {
+                return $content->getAuthor();
+            }
+        }
+
+        return null;
+    }
+
     protected function doSetExternalData($path, $value)
     {
         $data = $this->getExternalData() ?: [];
@@ -697,6 +902,55 @@ class Media extends BaseMedia
         $camelPath = Inflector::camelize($path);
         if (isset($this->$camelPath)) {
             return $this->$camelPath;
+        }
+
+        return null;
+    }
+    public function getPercent()
+    {
+        if (isset($this->percent)) {
+            return $this->percent;
+        }
+    }
+
+    public function getScore()
+    {
+        if (isset($this->score)) {
+            return $this->score;
+        }
+    }
+
+    public function getWorkshopWidgetGroupsByMedia()
+    {
+        $types = ['simple', 'multiple', 'closed', 'gap-fill-text'];
+        $widgets = WorkshopWidgetGroupQuery::create()
+            ->useWorkshopWidgetQuery()
+                ->filterByType($types)
+            ->endUse()
+            ->useWorkshopPageQuery()
+                ->useWorkshopDocumentQuery()
+                    ->useWorkshopContentQuery()
+                        ->useMediaQuery()
+                            ->filterById($this->getId())
+                        ->endUse()
+                    ->endUse()
+                ->endUse()
+            ->endUse()
+            ->find();
+        return $widgets;
+    }
+
+    /**
+     * @return Book|null
+     */
+    public function getBook()
+    {
+        if ($this->isQuestionnaireInCompetition()) {
+            return BookQuery::create()
+                ->useCompetitionBookQuestionnaireQuery()
+                    ->filterByQuestionnaireId($this->getId())
+                ->endUse()
+                ->findOne();
         }
 
         return null;

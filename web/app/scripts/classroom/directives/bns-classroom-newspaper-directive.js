@@ -29,10 +29,7 @@ function BnsClassroomNewspaperDirective () {
     controller: 'BnsClassroomNewspaper',
     controllerAs: 'ctrl',
     bindToController: true,
-    template:
-    '<md-button md-no-ink ng-if="::ctrl.newspaper" class="classroom-newspaper-opener animate-wiggle" ng-click="ctrl.openNewspaper($event)" bns-ga-event="{category: \'Newspaper\', action: \'open\', label: ctrl.newspaper.title}">' +
-      '<md-tooltip>{{::\'CLASSROOM.TITLE_NEWSPAPER\'|translate}}</md-tooltip>' +
-    '</md-button>',
+    templateUrl: 'views/classroom/bns-classroom-newspaper.html',
   };
 
 }

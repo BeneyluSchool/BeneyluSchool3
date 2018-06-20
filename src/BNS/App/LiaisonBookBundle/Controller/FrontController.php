@@ -4,6 +4,7 @@ namespace BNS\App\LiaisonBookBundle\Controller;
 
 use BNS\App\CoreBundle\Model\LiaisonBook;
 use BNS\App\CoreBundle\Model\LiaisonBookQuery;
+use BNS\App\CoreBundle\Model\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,7 +41,24 @@ class FrontController extends Controller
         $date = mktime(0, 0, 0, $month, 1, $year);
         if ($slug) {
             $liaisonBook = LiaisonBookQuery::create()->filterBySlug($slug)->findOne();
-            if ($liaisonBook && $rightManager->hasRight('LIAISONBOOK_ACCESS', $liaisonBook->getGroupId())) {
+            if ($liaisonBook && $rightManager->hasRight('LIAISONBOOK_ACCESS', $liaisonBook->getGroupId()) && ($liaisonBook->getPublicationDate() <= new \DateTime('now'))) {
+                if ($liaisonBook->getIndividualized()) {
+                    // check individual access: teacher, addressed user or its parent
+                    $canView = $rightManager->hasRight('LIAISONBOOK_ACCESS_BACK', $liaisonBook->getGroupId());
+                    if (!$canView) {
+                        /** @var User $user */
+                        $user = $this->getUser();
+                        $children = $user->getActiveChildren();
+                        $children->append($user);
+                        $validIds = $children->toArray('Id');
+                        $addressedIds = $liaisonBook->getaddresseds()->toArray('Id');
+                        $canView = !!count(array_intersect_key($validIds, $addressedIds));
+                    }
+                    if (!$canView) {
+                        return $this->redirect($this->generateUrl('BNSAppLiaisonBookBundle_front'));
+                    }
+                }
+
                 if ($rightManager->getCurrentGroupId() !== $liaisonBook->getGroupId()) {
                     // change context
                     $rightManager->changeContextTo($request, $liaisonBook->getGroup());
@@ -67,8 +85,12 @@ class FrontController extends Controller
         }
 
         if (!$liaisonBooks) {
-            $liaison_book_manager = $this->get('bns.liaison_book_manager');
-            $liaisonBooks = $liaison_book_manager->getLiaisonBooksByGroupIdAndDate($context['id'], $month, $year);
+            $liaisonBookManager = $this->get('bns.liaison_book_manager');
+            if ($default) {
+                $liaisonBooks = $liaisonBookManager->getLastTenLiaisonBooks($context['id'], $this->getUser());
+            } else {
+                $liaisonBooks = $liaisonBookManager->getLiaisonBooksByGroupIdAndDate($context['id'], $month, $year, true, $this->getUser());
+            }
         }
 
         //L'utilisateur peut-il signer ?
@@ -106,10 +128,10 @@ class FrontController extends Controller
 	public function signAction($liaisonBookId)
 	{
 		$right_manager = $this->get('bns.right_manager');
-		$liaison_book_manager = $this->get('bns.liaison_book_manager');
+		$liaisonBookManager = $this->get('bns.liaison_book_manager');
 
 		//Recupération des éléments
-		$liaisonBook = $liaison_book_manager->getLiaisonBooksById($liaisonBookId);
+		$liaisonBook = $liaisonBookManager->getLiaisonBooksById($liaisonBookId);
 		$user = $right_manager->getModelUser();
 		$context = $right_manager->getContext();
 		$currentGroupId = $context['id'];
@@ -119,7 +141,7 @@ class FrontController extends Controller
 		}
 
 		//Signer
-		$liaison_book_manager->signLiaisonBook($user, $liaisonBook);
+		$liaisonBookManager->signLiaisonBook($user, $liaisonBook);
 
         //statistic action
         $this->get("stat.liaisonbook")->newSignature();

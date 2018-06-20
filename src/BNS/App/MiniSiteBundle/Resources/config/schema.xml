@@ -29,7 +29,7 @@
     <column defaultValue="false" name="is_activated" required="true" type="BOOLEAN" />
     <column defaultValue="false" name="is_home" required="true" type="BOOLEAN" />
     <column name="title" required="true" size="255" type="VARCHAR" />
-    <column defaultValue="TEXT" name="type" required="true" type="ENUM" valueSet="TEXT, NEWS" />
+    <column defaultValue="TEXT" name="type" required="true" type="ENUM" valueSet="TEXT, NEWS, CITY" />
     <column name="views" required="true" size="8" type="INTEGER" defaultValue="0" />
     <foreign-key foreignTable="mini_site" name="FK_MINISITEPAGE_MINISITE" onDelete="CASCADE" onUpdate="CASCADE">
       <reference foreign="id" local="mini_site_id" />
@@ -90,7 +90,14 @@
     <column name="content" required="true" type="CLOB" />
     <column defaultValue="DRAFT" name="status" required="true" type="ENUM" valueSet="DRAFT, PUBLISHED, FINISHED, WAITING_FOR_CORRECTION" />
     <column name="published_at" type="TIMESTAMP" />
+    <column name="published_end_at" type="TIMESTAMP" required="false" />
+    <column name="is_pinned" defaultValue="false" required="true" type="BOOLEAN" />
+    <column name="is_all_schools" defaultValue="false" required="true" type="BOOLEAN" />
     <column name="has_notified" defaultValue="false" required="true" type="BOOLEAN" />
+    <column name="class_key" type="INTEGER" inheritance="single" defaultValue="1">
+      <inheritance key="1" class="MiniSitePageNews"/>
+      <inheritance key="2" class="MiniSitePageCityNews" extends="MiniSitePageNews"/>
+    </column>
     <foreign-key foreignTable="mini_site_page" name="FK_MINISITEPAGENEWS_MINISITEPAGE" onDelete="CASCADE" onUpdate="CASCADE">
       <reference foreign="id" local="page_id" />
     </foreign-key>
@@ -116,6 +123,16 @@
       <parameter name="permanent" value="false" />
     </behavior>
 	<behavior name="bns_media_attachmentable" />
+  </table>
+  <table name="mini_site_page_news_distribution_list" isCrossRef="true">
+    <column name="news_id" required="true" primaryKey="true" type="INTEGER" />
+    <column name="list_id" required="true" primaryKey="true" type="INTEGER" />
+    <foreign-key foreignTable="mini_site_page_news" name="FK_MINISITEPAGENEWSDISTRIBUTIONLIST_MINISITEPAGENEWS" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="news_id" />
+    </foreign-key>
+    <foreign-key foreignTable="distribution_list" name="FK_MINISITEPAGENEWSDISTRIBUTIONLIST_DISTRIBUTIONLIST" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference foreign="id" local="list_id" />
+    </foreign-key>
   </table>
   <table name="mini_site_widget_template">
     <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />

@@ -40,6 +40,7 @@ function BNSPasswordToggleDirective ($compile) {
       $event.preventDefault();
       element.attr('type', scope.shown ? 'password' : 'text');
       refresh();
+      element.focus();
     }
 
     function refresh () {

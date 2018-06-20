@@ -12,6 +12,10 @@ use BNS\App\StatisticsBundle\Services\StatisticsService;
  */
 class MinisiteStatisticsService extends StatisticsService
 {
+    public function visit()
+    {
+        $this->increment('MINISITE_VISIT');
+    }
     /**
      * création d'une page statique
      */

@@ -1,16 +1,10 @@
-<md-dialog class="starter-kit-pointer-dialog speech-dialog right bottom">
-  <md-dialog-content class="md-dialog-content">
-    <div class="md-body-2" ng-bind-html="ctrl.step.data.content|trustHtml"></div>
-    <div ng-if="ctrl.step.data.action"
-      class="md-body-2 text-primary"
-      ng-bind-html="ctrl.step.data.action|trustHtml"
-    ></div>
-  </md-dialog-content>
-  <div class="md-actions">
+<div class="dialog-content md-whiteframe-z4 md-padding">
+  <div class="dialog-description" ng-bind-html="ctrl.step.data.content|trustHtml"></div>
+  <div ng-if="ctrl.step.data.action" class="md-body-2 text-primary dialog-action" ng-bind-html="ctrl.step.data.action|trustHtml"></div>
+  <div class="layout-row layout-align-end-center">
     <md-button ng-click="ctrl.accept()" class="md-primary">
       <span ng-bind-html="ctrl.step.data.accept || ('STARTER_KIT.BUTTON_CONTINUE'|translate|buttonize)"></span>
       <md-icon>chevron_right</md-icon>
     </md-button>
   </div>
-</md-dialog>
-<div class="bns-starter-kit-dialog-jim right"></div>
+</div>

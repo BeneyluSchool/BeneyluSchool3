@@ -2,7 +2,7 @@
 
 {% if comments|length > 0 %}
   <md-content class="flex">
-    <md-list>
+    <md-list bns-blog-check>
 	{% for comment in comments %}
 		{% include 'BNSAppCommentBundle:BackNew:comment_row.html.twig' %}
 	{% endfor %}

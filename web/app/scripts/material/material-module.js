@@ -12,6 +12,7 @@ angular.module('bns.material', [
 
   .config(themeConfig)
   .config(augmentMediaConfig)
+  .config(mdPanelCreateDecorator)
   .run(setBreakpointsRun)
 
 ;
@@ -62,6 +63,46 @@ function setBreakpointsRun ($mdConstant) {
   $mdConstant.MEDIA['gt-md'] = '(min-width: 1000px)';
   $mdConstant.MEDIA.lg = '(min-width: 1000px) and (max-width: 1400px)';
   $mdConstant.MEDIA['gt-lg'] = '(min-width: 1400px)';
+}
+
+function mdPanelCreateDecorator ($provide) {
+
+  $provide.decorator('$mdPanel', function ($delegate) {
+    var originalCreate = $delegate.create;
+    $delegate.create = bnsCreate;
+
+    return $delegate;
+
+    // override $mdPanel.create() to get a hold on the MdPanelRef
+    function bnsCreate () {
+      var panelRef = originalCreate.apply($delegate, arguments);
+      var originalUpdatePosition = panelRef._updatePosition;
+      panelRef._updatePosition = bnsUpdatePosition;
+
+      // override MdPanelRef._updatePosition() to add position classes
+      function bnsUpdatePosition () {
+        var position = panelRef.config.position;
+        if (position && position._relativeToEl) {
+          panelRef.panelEl.addClass('panel-position-relative');
+        }
+
+        var ret = originalUpdatePosition.apply(panelRef, arguments);
+        if (position && position._relativeToEl) {
+          panelRef.panelEl.addClass('panel-position-x-'+position._actualPosition.x);
+          panelRef.panelEl.addClass('panel-position-y-'+position._actualPosition.y);
+        } else {
+          panelRef.panelEl.removeClass(function (index, css) {
+            return (css.match(/(^|\s)panel-position-\S+/g) || []).join(' ');
+          });
+        }
+
+        return ret;
+      }
+
+      return panelRef;
+    }
+  });
+
 }
 
 }) (angular);

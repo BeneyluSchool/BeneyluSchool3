@@ -1,0 +1,19 @@
+<md-button ng-if="$mdMedia('gt-sm')" ng-click="pager.first()" ng-disabled="pager.disabled || pager.page === 1 || pager.rangeStart === 1" class="md-icon-button">
+  <md-icon>first_page</md-icon>
+</md-button>
+
+<md-button ng-click="pager.prev()" ng-disabled="pager.disabled || pager.page <= 1" class="md-icon-button">
+  <md-icon>chevron_left</md-icon>
+</md-button>
+
+<md-button ng-repeat="page in pager.visiblePages" ng-click="pager.go(page)" ng-disabled="pager.disabled" class="md-icon-button">
+  <span ng-class="{'text-primary': page === pager.page}">{{page}}</span>
+</md-button>
+
+<md-button ng-click="pager.next()" ng-disabled="pager.disabled || pager.page >= pager.pages" class="md-icon-button">
+  <md-icon>chevron_right</md-icon>
+</md-button>
+
+<md-button ng-if="$mdMedia('gt-sm')" ng-click="pager.last()" ng-disabled="pager.disabled || pager.page === pager.pages || pager.rangeEnd === pager.pages" class="md-icon-button">
+  <md-icon>last_page</md-icon>
+</md-button>

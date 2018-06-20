@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-10-27T20:48:34Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+  <file date="2017-10-03T18:21:01Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -58,6 +58,54 @@
         <source>DESCRIPTION_APP_MANAGEMENT</source>
         <target>Gestión de aplicaciones</target>
       </trans-unit>
+      <trans-unit id="9bb2544d0b122bd80dd13cd09bea8aa91ddaf21a" resname="DESELECT">
+        <source>DESELECT</source>
+        <target>Deseleccionar todo</target>
+      </trans-unit>
+      <trans-unit id="2a3d43f0b35629f83572a8aa9f822402a31c3396" resname="ERROR_FORMAT_NOT_VALID">
+        <source>ERROR_FORMAT_NOT_VALID</source>
+        <target state="new">El formato no es válido</target>
+      </trans-unit>
+      <trans-unit id="df10e20be18b944346d1df6dc9a171decd84cf7c" resname="ERROR_INVALID_DATE">
+        <source>ERROR_INVALID_DATE</source>
+        <target state="new">Esta fecha no es válida</target>
+      </trans-unit>
+      <trans-unit id="6308db384c2b6a1a7ef4f3665d93b9beea0112c3" resname="ERROR_INVALID_EMAIL">
+        <source>ERROR_INVALID_EMAIL</source>
+        <target state="new">Esta dirección de correo electrónico no es válida</target>
+      </trans-unit>
+      <trans-unit id="771cb905934409417a0ff00d058f8bbf01b9d7a3" resname="ERROR_INVALID_TIME">
+        <source>ERROR_INVALID_TIME</source>
+        <target state="new">Esta hora no es válida</target>
+      </trans-unit>
+      <trans-unit id="41af5c95c5518565ce66ef3c7d9bd9e758082887" resname="ERROR_INVALID_URL">
+        <source>ERROR_INVALID_URL</source>
+        <target state="new">Esta URL no es válida</target>
+      </trans-unit>
+      <trans-unit id="76b9895f79c239eebd22491449ebcf7714819078" resname="ERROR_MAX_DATE">
+        <source>ERROR_MAX_DATE</source>
+        <target state="new">Esta fecha no es válida</target>
+      </trans-unit>
+      <trans-unit id="e607adc908bc2e066d0c79bc4b424bf88dc5e8d2" resname="ERROR_MIN_DATE">
+        <source>ERROR_MIN_DATE</source>
+        <target state="new">Esta fecha no es válida</target>
+      </trans-unit>
+      <trans-unit id="24b66622500ab797e45af7a2841be64d5dd0c24c" resname="ERROR_NUMBER_NOT_VALID">
+        <source>ERROR_NUMBER_NOT_VALID</source>
+        <target state="new">Este número no es válido</target>
+      </trans-unit>
+      <trans-unit id="a07d77ad0013a518a612f6407045771d2bcdbc43" resname="ERROR_REQUIRED_FIELD">
+        <source>ERROR_REQUIRED_FIELD</source>
+        <target state="new">Este campo es obligatorio</target>
+      </trans-unit>
+      <trans-unit id="8815f7a92f325b6afb97f4b7dda07fde5f470b1a" resname="ERROR_TOO_LARGE">
+        <source>ERROR_TOO_LARGE</source>
+        <target state="new">Es demasiado largo</target>
+      </trans-unit>
+      <trans-unit id="d094cc84a92b3c889f45aaa015ae39da99a02ef1" resname="ERROR_TOO_SMALL">
+        <source>ERROR_TOO_SMALL</source>
+        <target state="new">Es demasiado corto</target>
+      </trans-unit>
       <trans-unit id="edc5934c34a6fd02ae10fbbb8d31675eb97581a4" resname="FILTER">
         <source>FILTER</source>
         <target>Filtro</target>
@@ -82,13 +130,37 @@
         <source>LABEL_CLICK_TO_CONNECT</source>
         <target>Para conectarse</target>
       </trans-unit>
+      <trans-unit id="480b17dc8bb5d1f887f800e93108cc7db161abf8" resname="LABEL_KEYBOARD_MY_FIRSTNAME">
+        <source>LABEL_KEYBOARD_MY_FIRSTNAME</source>
+        <target>Mi nombre</target>
+      </trans-unit>
+      <trans-unit id="d65d5be555f0c250b82d95302e449df4b063a64a" resname="LABEL_KEYBOARD_MY_LASTNAME">
+        <source>LABEL_KEYBOARD_MY_LASTNAME</source>
+        <target>Mi apellido</target>
+      </trans-unit>
+      <trans-unit id="bd9d5e6e1087955f27722ece632e31e2993e94c7" resname="LABEL_KEYBOARD_MY_PASSWORD">
+        <source>LABEL_KEYBOARD_MY_PASSWORD</source>
+        <target>Mi contraseña</target>
+      </trans-unit>
+      <trans-unit id="3e98cd227670779600deddfb7fdce91a5e8dcac3" resname="LABEL_KEYBOARD_MY_USERNAME">
+        <source>LABEL_KEYBOARD_MY_USERNAME</source>
+        <target>Mi nombre de usuario</target>
+      </trans-unit>
       <trans-unit id="b2fd2f703b1dcb22c561f316dd79342dffa8c5bc" resname="LINK_DOWNLOAD_PREPARATION_SHEET">
         <source>LINK_DOWNLOAD_PREPARATION_SHEET</source>
         <target>Descargar la hoja de trabajo</target>
       </trans-unit>
+      <trans-unit id="5e5d36a7e1ca603c7d39fd662c02da8aa77009b6" resname="NO_COOKIE">
+        <source>NO_COOKIE</source>
+        <target>Para poder conectarte, tienes que activar las cookies en tu navegador.</target>
+      </trans-unit>
       <trans-unit id="61130eec594b1f307f328136443d7971d2755cd8" resname="NO_ITEM">
         <source>NO_ITEM</source>
         <target>Ningún elemento</target>
+      </trans-unit>
+      <trans-unit id="c1ee330ade53101d30e0ca62a6d09dc773720bf4" resname="OPEN_MEDIA_LIBRARY">
+        <source>ouvrir la médiathèque</source>
+        <target>Abrir en la mediateca</target>
       </trans-unit>
       <trans-unit id="4a7039da6dc406022f5e9f7006d8ae9dbd1ecca1" resname="PLACEHOLDER_NEW_ELEMENT">
         <source>PLACEHOLDER_NEW_ELEMENT</source>
@@ -109,6 +181,10 @@
       <trans-unit id="9eb13b6cd48222f42f45c086b1821b0976309d08" resname="PLACEHOLDER_WRITE_YOUR_USERNAME">
         <source>PLACEHOLDER_WRITE_YOUR_USERNAME</source>
         <target>Escribe tu identificador</target>
+      </trans-unit>
+      <trans-unit id="116e05234bb37672e5b4e885b1f3eeee872433a2" resname="REMEMBER_ME">
+        <source>REMEMBER_ME</source>
+        <target>Recordar mis datos</target>
       </trans-unit>
       <trans-unit id="de93265ce20f7b791719f1d76f12bda6dd1d2efe" resname="SHOW_MORE">
         <source>SHOW_MORE</source>

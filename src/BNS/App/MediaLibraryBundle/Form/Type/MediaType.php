@@ -6,25 +6,29 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+/**
+ * @deprecated should be removed
+ * Class MediaType
+ */
 class MediaType extends AbstractType
 {
 	public function __construct($resource = null)
 	{
 		$this->resource = $resource;
 	}
-	
+
 	/**
 	 * @param FormBuilderInterface $builder
-	 * @param array $options 
+	 * @param array $options
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options)
-	{	
+	{
 		$builder->add('label', 'text');
 		$builder->add('description', 'textarea', array('required' => false));
 		$builder->add('id', 'hidden');
 		$builder->add('is_private', 'hidden');
 	}
-	
+
 	/**
 	 * @param \BNS\App\BlogBundle\Form\Type\OptionsResolverInterface $resolver
 	 */
@@ -37,7 +41,7 @@ class MediaType extends AbstractType
     }
 
 	/**
-	 * @return string 
+	 * @return string
 	 */
 	public function getName()
 	{

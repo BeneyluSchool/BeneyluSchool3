@@ -21,6 +21,8 @@
         <service id="stat.search" class="BNS\App\SearchBundle\Statistic\SearchStatisticsService">
             <argument type="service" id="service_container" />
         </service>
+        <service id="search.searcher" class="BNS\App\SearchBundle\Search\SearcherManager">
+        </service>
 
     </services>
 </container>

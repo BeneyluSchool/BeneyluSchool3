@@ -22,7 +22,7 @@
                     {% set chartValue = parameter('graphic_chart') %}
                     <img src="{{ asset('/medias/images/main/graphic_chart/' ~ chartValue.name ~ '/logoCard.jpg'  ) }}" class="header-logo" />
                 {% else %}
-                    <img src="{{ asset('/medias/images/classroom/pupil_parent_card/bns_logo.png') }}" class="header-logo" />
+                    <img src="{{ asset('/medias/images/classroom/pupil_parent_card/bns-logo-new.png') }}" class="header-logo" />
                 {% endif %}
 				<h1>{% trans %}TITLE_CLASS_CARD{% endtrans %}</h1>
 				<span class="username">{{ classroom.getLabel()|upper }}</span>

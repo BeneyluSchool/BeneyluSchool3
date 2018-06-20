@@ -14,6 +14,15 @@
 		<div class="container-fluid container">
 			<div class="row-fluid">
 				<div class="span12">
+					{% block header_logo %}
+						<a href="{{ path('home') }}">
+							{% if parameter('graphic_chart') != false %}
+								<img src="{{ asset('medias/images/main/graphic_chart/' ~ parameter('graphic_chart').name ~ '/logo.png') }}" style="height: 80px;" />
+							{% else %}
+								<img src="{{ asset('/medias/images/registration/beneyluschool.png') }}" />
+							{% endif %}
+						</a>
+					{% endblock header_logo %}
 					{% block header %}Add your confirmation title!{% endblock header %}
 					<div class="pattern"></div>
 				</div>

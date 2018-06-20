@@ -1,7 +1,7 @@
 {% trans_default_domain "LIAISONBOOK" %}
 {% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
 {% if otherLiaisonBooks|length > 0 %}
-    <h2 class="md-headline ng-binding"><span id="others-liaisonbook">{{ 'LINK_LIAISONBOOK'|trans |desc('Carnet de liaison') }}<span></h2>
+    <h3 class="md-title">{{ 'LINK_OTHER_LIAISONBOOKS'|trans |desc('Autres carnets de liaison') }}</h3>
 {% for otherLiaisonBook in otherLiaisonBooks %}
     <a class="md-button other-liaison-book" href="{{ path('BNSAppMainBundle_switch_context', {'slug': otherLiaisonBook.slug }) }}">
         <md-list-item>

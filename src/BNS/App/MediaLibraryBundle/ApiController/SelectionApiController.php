@@ -2,7 +2,9 @@
 
 namespace BNS\App\MediaLibraryBundle\ApiController;
 use BNS\App\MediaLibraryBundle\Model\Media;
+use BNS\App\MediaLibraryBundle\Model\MediaFolderGroup;
 use BNS\App\MediaLibraryBundle\Model\MediaFolderGroupQuery;
+use BNS\App\MediaLibraryBundle\Model\MediaFolderUser;
 use BNS\App\MediaLibraryBundle\Model\MediaFolderUserQuery;
 use BNS\App\MediaLibraryBundle\Model\MediaQuery;
 use BNS\App\PaasBundle\Manager\PaasManager;
@@ -15,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Acl\Exception\Exception;
 
 class SelectionApiController extends BaseMediaLibraryApiController
@@ -244,7 +247,7 @@ class SelectionApiController extends BaseMediaLibraryApiController
 
         //On vérifie les droits d'écriture dans la destination
         $this->canInsertMedia($destination);
-
+        /** @var Media $media */
         foreach($medias as $media)
         {
             try{
@@ -257,30 +260,33 @@ class SelectionApiController extends BaseMediaLibraryApiController
                 $nbErrors++;
             }
         }
-        foreach($mediaFolderGroups as $mediaFolder)
-        {
-            try{
-                if($this->canManageMediaFolder($mediaFolder))
-                {
-                    $this->get('bns.media_folder.manager')->setMediaFolderObject($mediaFolder);
-                    $this->get('bns.media_folder.manager')->move($destination);
+        if ("GROUP" === $destination->getType()) {
+            /** @var MediaFolderGroup $mediaFolder */
+            foreach ($mediaFolderGroups as $mediaFolder) {
+                try {
+                    if ($this->canManageMediaFolder($mediaFolder)) {
+                        $this->get('bns.media_folder.manager')->setMediaFolderObject($mediaFolder);
+                        $this->get('bns.media_folder.manager')->move($destination, false);
+                    }
+                } catch (\Exception $e) {
+                    $nbErrors++;
                 }
-            }catch(\Exception $e){
-                $nbErrors++;
+            }
+        } else {
+            /** @var MediaFolderUser $mediaFolder */
+            foreach ($mediaFolderUsers as $mediaFolder) {
+                try {
+                    if ($this->canManageMediaFolder($mediaFolder)) {
+                        $this->get('bns.media_folder.manager')->setMediaFolderObject($mediaFolder);
+                        $this->get('bns.media_folder.manager')->move($destination, false);
+                    }
+                } catch (\Exception $e) {
+                    $nbErrors++;
+                }
             }
         }
-        foreach($mediaFolderUsers as $mediaFolder)
-        {
-            try{
-                if($this->canManageMediaFolder($mediaFolder))
-                {
-                    $this->get('bns.media_folder.manager')->setMediaFolderObject($mediaFolder);
-                    $this->get('bns.media_folder.manager')->move($destination);
-                }
-            }catch(\Exception $e){
-                $nbErrors++;
-            }
-        }
+        $this->get('bns.media_folder.manager')->setMediaFolderObject($destination);
+        $this->get('bns.media_folder.manager')->alphaReoganize();
         return new Response($nbErrors,Codes::HTTP_OK);
     }
 
@@ -472,6 +478,10 @@ class SelectionApiController extends BaseMediaLibraryApiController
      */
     public function shareAction(Request $request)
     {
+        if (!$this->hasFeature('media_library_distribute')) {
+            throw $this->createAccessDeniedException();
+        }
+
         //Rangement du tableau
         list($medias, $mediaFolderUsers, $mediaFolderGroups) = $this->orderPostArray($request);
         $groupIds = $request->get('groups', array());
@@ -548,6 +558,10 @@ class SelectionApiController extends BaseMediaLibraryApiController
      */
     public function favoriteAction(Request $request)
     {
+        if (!$this->hasFeature('media_library_favorite')) {
+            throw $this->createAccessDeniedException();
+        }
+
         //Rangement du tableau
         list($medias, $mediaFolderUsers, $mediaFolderGroups) = $this->orderPostArray($request);
         $nbErrors = 0;
@@ -616,6 +630,10 @@ class SelectionApiController extends BaseMediaLibraryApiController
      */
     public function unfavoriteAction(Request $request)
     {
+        if (!$this->hasFeature('media_library_favorite')) {
+            throw $this->createAccessDeniedException();
+        }
+
         //Rangement du tableau
         list($medias, $mediaFolderUsers, $mediaFolderGroups) = $this->orderPostArray($request);
         $nbErrors = 0;
@@ -816,14 +834,25 @@ class SelectionApiController extends BaseMediaLibraryApiController
      */
     public function archiveAction(Request $request)
     {
+        if (!$this->hasFeature('media_library_archive')) {
+            throw $this->createAccessDeniedException();
+        }
+
         list($medias, $mediaFolderUsers, $mediaFolderGroups) = $this->orderPostArray($request);
+        $validTypes = [
+            'IMAGE',
+            'DOCUMENT',
+            'VIDEO',
+            'AUDIO',
+            'FILE',
+        ];
 
         $rightManager = $this->get('bns.media_library_right.manager');
         $archiveManager = $this->get('bns.media_archive.manager');
 
         $validMedias = array();
         foreach ($medias as $media) {
-            if ($rightManager->canReadMedia($media)) {
+            if ($rightManager->canReadMedia($media) && in_array($media->getTypeUniqueName(), $validTypes)) {
                 $validMedias[] = $media;
             }
         }
@@ -835,6 +864,48 @@ class SelectionApiController extends BaseMediaLibraryApiController
         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $filename);
         $response->headers->set('Content-Type', 'application/octet-stream');
         $response->headers->set('X-Filename', $filename);
+
+        return $response;
+    }
+
+ /**
+     * @ApiDoc(
+     *  section = "Médiathèque - Sélection",
+     *  resource = true,
+     *  description = "Téléchargement d'une archive de la sélection",
+     * )
+     *
+     * @Rest\Get("-bookmark")
+     * @param Request $request
+     */
+    public function bookmarkAction(Request $request)
+    {
+        if (!$this->hasFeature('media_library_bookmarks')) {
+            throw $this->createAccessDeniedException();
+        }
+
+        list($medias, $mediaFolderUsers, $mediaFolderGroups) = $this->orderPostArray($request);
+
+        $rightManager = $this->get('bns.media_library_right.manager');
+
+        $validMedias = array();
+        foreach ($medias as $media) {
+            if ($rightManager->canReadMedia($media) && $media->getTypeUniqueName() === 'LINK') {
+                $validMedias[] = $media;
+            }
+        }
+        if (!count($validMedias)) {
+            throw new BadRequestHttpException();
+        }
+        $now = new \DateTime();
+        $response = $this->render('BNSAppMediaLibraryBundle:Export:bookmark.html.twig', array(
+            'links' => $validMedias,
+            'now' => $now->getTimestamp()
+        ));
+        $response->headers->set('Content-Type', 'text/html');
+        $response->headers->set('X-Filename', 'bookmark_' . date('d-m-Y', strtotime('now')) . '.html');
+        $response->headers->set('Content-Disposition', 'attachment; filename="bookmark_' . date('d-m-Y', strtotime('now')) . '.html"');
+        $response->setContent( $response->getContent());
 
         return $response;
     }

@@ -6,6 +6,8 @@ framework:
     test: ~
     session:
         storage_id: session.storage.mock_file
+    profiler:
+        collect: false
 
 web_profiler:
     toolbar: false
@@ -14,37 +16,44 @@ web_profiler:
 swiftmailer:
     disable_delivery: true
 
+propel:
+    dbal:
+        default_connection: app
+        connections:
+            app:
+                driver:     %database_driver%
+                user:       %app_database_user%
+                password:   %app_database_password%
+                dsn:        %database_driver%:host=%database_host%;port=%database_port%;dbname=%app_database_name%;charset=UTF8
+            stat:
+                driver:     %database_driver%
+                user:       %stat_database_user%
+                password:   %stat_database_password%
+                dsn:        %database_driver%:host=%database_host%;port=%database_port%;dbname=%stat_database_name%;charset=UTF8
+            auth:
+                driver:     %database_driver%
+                user:       %auth_database_user%
+                password:   %auth_database_password%
+                dsn:        %database_driver%:host=%database_host%;port=%database_port%;dbname=%auth_database_name%;charset=UTF8
+
 monolog:
+    channels: [account_link]
     handlers:
-        main:
-            type:         fingers_crossed
-            action_level: error
-            handler:      nested
-        nested:
-            type:  stream
-            path:  %kernel.logs_dir%/%kernel.environment%.log
-            level: debug
-        mailer:
-            type:  stream
-            level: debug
-            path:  %kernel.logs_dir%/mailer_%kernel.environment%.log
-assetic:
-    use_controller: false
-    
+        account_link:
+            type: rotating_file
+            max_files: 10
+            level: info
+            path:  %kernel.logs_dir%/account_link_%kernel.environment%.log
+            channels: [account_link]
+
+bns_app_core:
+    application_management:
+        enabled: true
+        auto_install: false
+        uninstall_disabled: false
+
 knp_snappy:
     pdf:
-        binary:     %kernel.root_dir%/../bin/linux/wkhtml/wkhtmltopdf
+        binary:     %knp_snappy_pdf_binary%
     image:
-        binary:     %kernel.root_dir%/../bin/linux/wkhtml/wkhtmltoimage    
-    
-parameters:
-  #Paramètres pour le serveur d'email et son appel API
-  mail_api_host:                       
-  mail_api_baseurl:                    /webmail/xml
-  mail_api_downloadurl:                /webmail
-  mail_api_provi:                      
-  mail_domain:                         
-  mail_domain_id:                      125
-  mail_quota:                          10485760
-  mail_password:                       test
-    
+        binary:     %knp_snappy_image_binary%

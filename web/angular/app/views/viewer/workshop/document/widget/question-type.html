@@ -1,34 +1,35 @@
 <div class="questionnaire-widget">
-  <div ng-if="ctrl.widget._embedded.extended_settings.advanced_settings.show_chrono && !ctrl.chronoStarted" class="layout-column layout-align-center-center">
-    <md-icon class="chrono-icon">timer</md-icon>
-    <p class="chrono-description" translate translate-values="{minutes: ctrl.widget._embedded.extended_settings.advanced_settings.chrono.minutes, seconds: ctrl.widget._embedded.extended_settings.advanced_settings.chrono.seconds}">WORKSHOP.QUESTIONNAIRE.LIMITED_TIME</p>
+  <div ng-if="(ctrl.widget._embedded.extended_settings.advanced_settings.show_chrono && !ctrl.chronoStarted) && !ctrl.busyVerified" class="layout-column layout-align-center-center">
+    <div class="start-chrono-icon"></div>
+    <p class="chrono-description" ng-if="(ctrl.widget._embedded.extended_settings.advanced_settings.chrono.seconds == 0 && ctrl.widget._embedded.extended_settings.advanced_settings.chrono.minutes) || (!ctrl.widget._embedded.extended_settings.advanced_settings.chrono.minutes)" translate translate-values="{MINUTES: ctrl.widget._embedded.extended_settings.advanced_settings.chrono.minutes, SECONDS: ctrl.widget._embedded.extended_settings.advanced_settings.chrono.seconds}" translate-interpolation="messageformat">WORKSHOP.QUESTIONNAIRE.LIMITED_TIME</p>
+    <p class="chrono-description" ng-if="ctrl.widget._embedded.extended_settings.advanced_settings.chrono.seconds >= 1 && ctrl.widget._embedded.extended_settings.advanced_settings.chrono.minutes" translate translate-values="{MINUTES: ctrl.widget._embedded.extended_settings.advanced_settings.chrono.minutes, SECONDS: ctrl.widget._embedded.extended_settings.advanced_settings.chrono.seconds}" translate-interpolation="messageformat">WORKSHOP.QUESTIONNAIRE.LIMITED_TIME_MINUTES_SECONDS</p>
     <md-button class="md-primary md-raised" ng-click="ctrl.startChrono()">
       <md-icon>remove_red_eye</md-icon>
       <span translate>WORKSHOP.QUESTIONNAIRE.START_CHRONO</span>
     </md-button>
   </div>
-  <div ng-if="!ctrl.widget._embedded.extended_settings.advanced_settings.show_chrono || ctrl.chronoStarted" class="layout-row layout-align-center-start flex">
-    <div class="flex" ng-class="{'flex-60': ctrl.chronoStarted}">
-      <div class="layout-row layout-align-start-center">
-        <div class="workshop-widget-text flex" ng-bind-html="ctrl.widget.content | trustHtml"></div>
-          <div ng-if="!ctrl.widget._embedded.extended_settings.advanced_settings.show_chrono">
-            <div class="clue-block advanced-setting-block flex" ng-if="ctrl.widget._embedded.extended_settings.advanced_settings.show_clue && ctrl.widget._embedded.extended_settings.advanced_settings.clue && ctrl.attempts > 0 && !ctrl.isCorrect">
-              <md-icon>vpn_key</md-icon>
-              <span class="clue-title" translate>WORKSHOP.QUESTIONNAIRE.SHOW_CLUE</span> :
-              <span class="clue-text">{{::ctrl.widget._embedded.extended_settings.advanced_settings.clue}}</span>
-            </div>
-          </div>
+  <div class="workshop-widget-text question-wording" ng-bind-html="ctrl.widget.content | trustHtml" ng-if="!ctrl.widget._embedded.extended_settings.advanced_settings.show_chrono || ctrl.chronoStarted"></div>
+    <div class="layout-row layout-align-center-center clue-block advanced-setting-block-read" ng-if="ctrl.widget._embedded.extended_settings.advanced_settings.show_clue && ctrl.widget._embedded.extended_settings.advanced_settings.clue && ctrl.attempts > 0 && !ctrl.isCorrect">
+      <div class="flex-15 setting-block">
+        <p translate>WORKSHOP.QUESTIONNAIRE.SHOW_CLUE</p>
+        <div class="show-clue-icon"></div>
       </div>
-      <div ng-include="ctrl.templateQuestion" class="question-block"></div>
+      <div class="flex">
+        {{ctrl.widget._embedded.extended_settings.advanced_settings.clue}}
+      </div>
     </div>
-    <div class="flex-40 layout-column layout-align-center-center countdown-block" ng-if="ctrl.chronoStarted">
-        <div class="clue-block advanced-setting-block flex" ng-if="ctrl.widget._embedded.extended_settings.advanced_settings.show_clue && ctrl.widget._embedded.extended_settings.advanced_settings.clue && ctrl.attempts > 0 && !ctrl.isCorrect">
-          <md-icon>vpn_key</md-icon>
-          <span class="clue-title" translate>WORKSHOP.QUESTIONNAIRE.SHOW_CLUE</span> :
-          <span class="clue-text">{{::ctrl.widget._embedded.extended_settings.advanced_settings.clue}}</span>
-        </div>
+  <div ng-if="!ctrl.widget._embedded.extended_settings.advanced_settings.show_chrono || ctrl.chronoStarted" class="layout-row layout-align-center-start flex wording-block">
+    <div class="flex" ng-class="{'flex-80': ctrl.chronoStarted}">
+      <p translate ng-if="ctrl.widget.type !== 'closed' && ctrl.widget.type !== 'multiple' && ctrl.widget.type !== 'gap-fill-text'">WORKSHOP.QUESTIONNAIRE.CHOOSE_ANSWER</p>
+      <p translate ng-if="ctrl.widget.type === 'multiple'">WORKSHOP.QUESTIONNAIRE.CHOOSE_ANSWERS</p>
+      <p translate ng-if="ctrl.widget.type === 'closed'">WORKSHOP.QUESTIONNAIRE.ANSWER_WRITE_AN_ANSWER</p>
+      <div ng-show="ctrl.busyVerified" class="layout-row layout-align-center-center md-padding">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+      </div>
+      <div ng-include="ctrl.templateQuestion" class="question-block" ng-if="!ctrl.busyVerified"></div>
+    </div>
+    <div class="flex-20 layout-column layout-align-center-center countdown-block" ng-if="ctrl.chronoStarted">
       <div class="countdown-container">
-        <md-icon class="chrono-icon flex">timer</md-icon>
         <timer class="countdown flex" countdown="ctrl.countdownVal" max-time-unit="'minute'" interval="1000" finish-callback="ctrl.stoppedChrono()">{{mminutes}}:{{sseconds}}</timer>
       </div>
     </div>
@@ -37,22 +38,28 @@
   <div ng-if="!ctrl.widget._embedded.extended_settings.advanced_settings.show_chrono || ctrl.chronoStarted">
     <div class="help-block" ng-if="ctrl.widget._embedded.extended_settings.advanced_settings.show_help && ctrl.widget._embedded.extended_settings.advanced_settings.help && ctrl.canRetry">
       <div class="layout-row layout-align-space-between-center">
-        <md-button class="md-success md-raised" ng-click="ctrl.revealHelp()">
-          <md-icon>help</md-icon>
+        <md-button class="md-primary md-raised" ng-click="ctrl.revealHelp()">
+          <div class="show-help-icon"></div>
           <span translate>WORKSHOP.QUESTIONNAIRE.HELP</span>
         </md-button>
-        <div ng-if="ctrl.helpRevealed" class="flex">
+        <p ng-if="ctrl.helpRevealed" class="flex">
           {{::ctrl.widget._embedded.extended_settings.advanced_settings.help}}
-        </div>
+        </p>
       </div>
     </div>
-    <div class="help-block" ng-if="ctrl.widget._embedded.extended_settings.advanced_settings.show_comment && ctrl.widget._embedded.extended_settings.advanced_settings.comment && ctrl.attempts > 0 && !ctrl.canRetry && ctrl.isCorrect">
-      <span translate>WORKSHOP.QUESTIONNAIRE.COMMENT</span> : {{::ctrl.widget._embedded.extended_settings.advanced_settings.comment}}
+    <div class="layout-row layout-align-center-center advanced-setting-block-read" ng-if="ctrl.widget._embedded.extended_settings.advanced_settings.show_comment && ctrl.widget._embedded.extended_settings.advanced_settings.comment && ctrl.attempts > 0 && !ctrl.canRetry && ctrl.isCorrect">
+      <div class="flex-15 setting-block">
+        <p translate>WORKSHOP.QUESTIONNAIRE.COMMENT</p>
+        <div class="comment-icon"></div>
+      </div>
+      <div class="flex">
+        {{ctrl.widget._embedded.extended_settings.advanced_settings.comment}}
+      </div>
     </div>
 
     <div class="wrong-block centered-text" ng-if="ctrl.widget._embedded.extended_settings.advanced_settings.show_chrono && ctrl.timeStopped && ctrl.canAnswer">
-      <span ng-show="ctrl.myResponse.length == 0" translate>WORKSHOP.QUESTIONNAIRE.TIMES_UP</span>
-      <span ng-show="ctrl.myResponse.length != 0" translate>WORKSHOP.QUESTIONNAIRE.TIMES_UP_ANSWER</span>
+      <span class="answer-text" ng-show="!ctrl.myResponse || ctrl.myResponse.length === 0" translate>WORKSHOP.QUESTIONNAIRE.TIMES_UP</span>
+      <span class="answer-text" ng-show="ctrl.myResponse && ctrl.myResponse.length !== 0" translate>WORKSHOP.QUESTIONNAIRE.TIMES_UP_ANSWER</span>
     </div>
 
     <br>
@@ -61,7 +68,7 @@
         <md-icon>refresh</md-icon>
         <span translate>WORKSHOP.QUESTIONNAIRE.RESET</span>
       </md-button>
-      <md-button class="md-accent md-raised" ng-click="ctrl.verifyAnswer()" ng-if="(ctrl.canAnswer && ctrl.canRetry) || ctrl.gapRetry">
+      <md-button ng-disabled="ctrl.busy || !ctrl.myResponse || ctrl.myResponse.length === 0" class="md-accent md-raised" ng-click="ctrl.verifyAnswer()" ng-if="(ctrl.canAnswer && ctrl.canRetry)">
         <md-icon>check_circle</md-icon>
         <span translate>WORKSHOP.QUESTIONNAIRE.VALIDATE</span>
       </md-button>

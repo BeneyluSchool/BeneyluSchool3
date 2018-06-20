@@ -85,8 +85,13 @@ class WorkshopWidgetApiController extends BaseWorkshopApiController
      * @Rest\View(serializerGroups={"Default","detail"})
      * @ParamConverter("workshopWidget")
      */
-    public function getAction(WorkshopWidget $workshopWidget)
+    public function getAction($id)
     {
+        $workshopWidget = WorkshopWidgetQuery::create()->findPk($id);
+        if (!$workshopWidget) {
+            throw $this->createNotFoundException();
+        }
+
         $this->canManageWorkshopWidget($workshopWidget);
 
         return $workshopWidget;

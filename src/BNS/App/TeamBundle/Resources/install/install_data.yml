@@ -38,6 +38,14 @@ permissions:
       fr: Peut activer ou désactiver l'accès aux équipes dans le partenariat
       en: 
 
+  SDET_EXPIRATION:
+    label:
+      fr: Donner une date d'expiration à une équipe
+      en: Can give an expiration date to a workgroup
+    description:
+      fr: Peut donner une date d'expiration à une équipe
+      en:
+
 ranks:
   READ:
     label:
@@ -65,3 +73,12 @@ ranks:
       fr: 
       en: 
     permissions: [ACCESS, ACTIVATION, ACTIVATION_PARTNERSHIP]
+
+  SDET_EXPIRATION:
+    label:
+      fr: donne une date d'expiration à une équipe
+      en: Can give an expiration date to a workgroup
+    description:
+      fr:
+      en:
+    permissions: [SDET_EXPIRATION]

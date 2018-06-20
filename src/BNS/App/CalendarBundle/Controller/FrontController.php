@@ -2,6 +2,7 @@
 
 namespace BNS\App\CalendarBundle\Controller;
 
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,7 +27,7 @@ class FrontController extends Controller
         $this->get('stat.calendar')->visit();
 		// Init wdCalendar
     	$array = $this->get('bns.calendar_manager')->getWdCalendarInitParameters($request->getSession());
-    	$array['agendas'] = $this->get('bns.calendar_manager')->getAgendasFromGroupIds($this->get('bns.right_manager')->getGroupIdsWherePermission('CALENDAR_ACCESS'));
+    	$array['agendas'] = $this->get('bns.calendar_manager')->getAgendasFromGroupIdsAndUser($this->get('bns.right_manager')->getGroupIdsWherePermission('CALENDAR_ACCESS'));
 
         $date = new \DateTime('now',new \DateTimeZone($this->get('bns.user_manager')->getUser()->getTimezone()));
     	$array['currentHour'] = $hours = $date->format('H');
@@ -94,7 +95,7 @@ class FrontController extends Controller
     		throw new \Exception('Illegal viewtype given: '.$viewtype);
     	}
 
-    	$agendas = $this->get('bns.calendar_manager')->getAgendasFromGroupIds($this->get('bns.right_manager')->getGroupIdsWherePermission('CALENDAR_ACCESS'));
+    	$agendas = $this->get('bns.calendar_manager')->getAgendasFromGroupIdsAndUser($this->get('bns.right_manager')->getGroupIdsWherePermission('CALENDAR_ACCESS'));
     	// La date de début et de fin est obtenu; on peut maintenant faire appel au CalendarManager pour qu'il nous retourne
     	// tous les événements compris entre $dateStart et $dateEnd (bornes incluses);
    		$events = $this->get('bns.calendar_manager')->selectEventsByDates(strtotime($dateStart), strtotime($dateEnd), $agendas, $isAdmin);
@@ -187,5 +188,18 @@ class FrontController extends Controller
         $array['sundial'] = round(($hours * 60 + $minutes) / 4);
 
         return $this->render('BNSAppCalendarBundle:Front:event_detail.html.twig', $array);
+    }
+
+    /**
+     * @Route("/export/{agendaId}/{secretKey}", name="front_agenda_export", options={"expose"=true})
+     */
+    public function getExportAction ($agendaId, $secretKey)
+    {
+        if (md5('calendar-' . $agendaId) !== $secretKey) {
+            throw new BadRequestHttpException('Lien incorrect');
+        }
+
+        $agenda = AgendaQuery::create()->findPk($agendaId);
+        return $this->render('BNSAppCalendarBundle:Back:export.html.twig', array('events' => $agenda->getAgendaEvents()));
     }
 }

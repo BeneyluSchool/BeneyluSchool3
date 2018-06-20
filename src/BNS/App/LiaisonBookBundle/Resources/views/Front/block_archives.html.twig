@@ -1,4 +1,7 @@
 {% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+{% if groupName is defined %}
+  <h3 class="md-title">{{ groupName }}</h3>
+{% endif %}
 <md-list class="muppet-list">
     {% for dateArchive in datesArchives %}
     <md-item>

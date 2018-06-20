@@ -72,12 +72,12 @@ abstract class StatisticsService
         );
         if ($user && $this->cascadeParentGroup) {
             $gm = $this->container->get("bns.right_manager")->getCurrentGroupManager();
-            foreach ($gm->getAncestors() as $ancestor) {
+            foreach ($gm->getUniqueAncestorIds() as $ancestorId) {
                 $this->container->get("main_service_bns_app_statistics_bundle")->increment(
                     $indicateurId,
                     $this->dateFormat,
                     $this->hoursFormat,
-                    $ancestor->getId(),
+                    $ancestorId,
                     $roleId,
                     $info
                 );
@@ -107,12 +107,12 @@ abstract class StatisticsService
             $roleId
         );
         if ($this->cascadeParentGroup) {
-            foreach ($gm->getAncestors() as $ancestor) {
+            foreach ($gm->getUniqueAncestorIds() as $ancestorId) {
                 $this->container->get("main_service_bns_app_statistics_bundle")->decrement(
                     $indicateurId,
                     $this->dateFormat,
                     $this->hoursFormat,
-                    $ancestor->getId(),
+                    $ancestorId,
                     $roleId
                 );
             }

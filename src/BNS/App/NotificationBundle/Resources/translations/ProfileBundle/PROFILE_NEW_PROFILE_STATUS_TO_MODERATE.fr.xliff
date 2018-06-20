@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <!-- EMAIL Engine -->
+            <trans-unit id="b8b5781f2e6e76f1994b23a8099cce999adc3872">
+                <source>PROFILE_NEW_PROFILE_STATUS_TO_MODERATE.EMAIL.title</source>
+                <target>Un statut vient d'être soumis à validation sur un profil</target>
+            </trans-unit>
+            <trans-unit id="217d43477992f7bf763015fb15b2c4421f1cca02">
+                <source>PROFILE_NEW_PROFILE_STATUS_TO_MODERATE.EMAIL.content</source>
+                <target><![CDATA[Un statut vient d'être soumis à validation par <strong>%user_fullname%</strong> sur <a href="%status_route%">son profil</a>]]></target>
+            </trans-unit>
+
+            <!-- SYSTEM Engine -->
+            <trans-unit id="a68f8dc57269ce704fa9dbcb6d75524ea110caa4">
+                <source>PROFILE_NEW_PROFILE_STATUS_TO_MODERATE.SYSTEM.content</source>
+                <target><![CDATA[Un statut vient d'être soumis à validation par <strong>%user_fullname%</strong> sur <a href="%status_route%">son profil</a>]]></target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -1,0 +1,26 @@
+BNS\App\CompetitionBundle\Model\Answer:
+  exclusion_policy: All
+
+  virtual_properties:
+    getId:
+      expose: true
+    getAnswer:
+      expose: true
+    getParticipationId:
+      expose: true
+      groups: [answer_list]
+    getAnswer:
+      expose: true
+      groups: [answer_detail]
+    getScore:
+      expose: true
+      groups: [answer_list]
+    getWorkshopWidgetId:
+      expose: true
+      groups: [answer_list]
+    getWorkshopDocumentId:
+      expose: true
+      groups: [answer_list]
+    getPercent:
+      expose: true
+      groups: [answer_list]

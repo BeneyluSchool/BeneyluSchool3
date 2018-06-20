@@ -2,7 +2,7 @@
 
 namespace BNS\App\ProfileBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use BNS\App\CoreBundle\Controller\BaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +16,7 @@ use BNS\App\CoreBundle\Model\ProfileFeedPeer;
 /**
  * @author Sylvain Lorinet <sylvain.lorinet@pixel-cookers.com>
  */
-class BackModerationController extends Controller
+class BackModerationController extends BaseController
 {
     /**
      * @Route("/charger", name="profile_manager_moderation_statuses_load")
@@ -81,6 +81,10 @@ class BackModerationController extends Controller
 	 */
 	public function updateStatusAction()
 	{
+        if (!$this->hasFeature('profile_comment')) {
+            throw $this->createNotFoundException();
+        }
+
 		if (!$this->getRequest()->isMethod('POST') || !$this->getRequest()->isXmlHttpRequest()) {
 			throw new NotFoundHttpException('The page excepts POST & AJAX header !');
 		}
@@ -190,38 +194,42 @@ class BackModerationController extends Controller
 		)));
 	}
 
-	/**
-	 * @Route("/tout-valider", name="profile_manager_moderation_statuses_validate_all")
-	 * @RightsSomeWhere("PROFILE_ADMINISTRATION")
-	 */
-	public function validateAllAction()
-	{
-		if (!$this->getRequest()->isMethod('POST') || !$this->getRequest()->isXmlHttpRequest()) {
-			throw new NotFoundHttpException('The page excepts POST & AJAX header !');
-		}
+    /**
+     * @Route("/tout-valider", name="profile_manager_moderation_statuses_validate_all")
+     * @RightsSomeWhere("PROFILE_ADMINISTRATION")
+     */
+    public function validateAllAction()
+    {
+        if (!$this->hasFeature('profile_comment')) {
+            throw $this->createNotFoundException();
+        }
 
-		$context = $this->get('bns.right_manager')->getContext();
-		$groupManager = $this->get('bns.group_manager')->setGroupById($context['id']);
-		$users = $groupManager->getUsers(true);
-		$profileIds = array();
+        if (!$this->getRequest()->isMethod('POST') || !$this->getRequest()->isXmlHttpRequest()) {
+            throw new NotFoundHttpException('The page excepts POST & AJAX header !');
+        }
 
-		foreach ($users as $user) {
-			$profileIds[] = $user->getProfileId();
-		}
+        $context = $this->get('bns.right_manager')->getContext();
+        $groupManager = $this->get('bns.group_manager')->setGroupById($context['id']);
+        $users = $groupManager->getUsers(true);
+        $profileIds = array();
 
-		$feeds = ProfileFeedQuery::create('f')
-			->joinWith('Profile')
-			->where('Profile.Id IN ?', $profileIds)
-			->where('f.Status = ?', 'PENDING_VALIDATION')
-			->orderBy('f.Date', \Criteria::DESC)
-		->find();
+        foreach ($users as $user) {
+            $profileIds[] = $user->getProfileId();
+        }
 
-		foreach ($feeds as $feed) {
-			$feed->setStatus(ProfileFeedPeer::STATUS_VALIDATED);
-		}
+        $feeds = ProfileFeedQuery::create('f')
+            ->joinWith('Profile')
+            ->where('Profile.Id IN ?', $profileIds)
+            ->where('f.Status = ?', 'PENDING_VALIDATION')
+            ->orderBy('f.Date', \Criteria::DESC)
+            ->find();
 
-		$feeds->save();
+        foreach ($feeds as $feed) {
+            $feed->setStatus(ProfileFeedPeer::STATUS_VALIDATED);
+        }
 
-		return new Response();
-	}
+        $feeds->save();
+
+        return new Response();
+    }
 }

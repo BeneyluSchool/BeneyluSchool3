@@ -72,10 +72,26 @@ BNSAppMainBundle_spot:
     type:     annotation
     prefix:   /spot
 
+BNSAppMainBundle_dynamicfile:
+    resource: "@BNSAppMainBundle/Controller/DynamicFileController.php"
+    type:     annotation
+    prefix:   /
+
 BNSAppMainBundle_app:
     resource: "@BNSAppMainBundle/Controller/AppController.php"
     type:     annotation
     prefix:   /
+
+BNSAppMainBundle_ng:
+    resource: "@BNSAppMainBundle/Controller/NgController.php"
+    type:     annotation
+    prefix:   /
+
+# TODO: ng5 reenable
+#BNSAppMainBundle_angularjs:
+#    resource: "@BNSAppMainBundle/Controller/AngularjsController.php"
+#    type:     annotation
+#    prefix:   /
 
 BNSAppMainBundle_email_confirmation:
     resource: "@BNSAppMainBundle/Controller/EmailConfirmationController.php"
@@ -462,6 +478,11 @@ BNSAppLsuBundle:
     type:     annotation
     prefix:   /lsu
 
+# Competition
+BNSAppCompetitionBundle:
+    resource: "@BNSAppCompetitionBundle/Controller/"
+    type:     annotation
+    prefix:   /competition
 
 # Others
 fos_js_routing:
@@ -470,6 +491,10 @@ fos_js_routing:
 #hwi_oauth_redirect:
 #    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
 #    prefix:   /connect
+
+lopi_pusher:
+    resource: "@LopiPusherBundle/Resources/config/routing.xml"
+    prefix:   /pusher
 
 BNSAppPortalBundle_out:
     resource: "@BNSAppPortalBundle/Controller/OutController.php"

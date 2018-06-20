@@ -11,8 +11,11 @@
     {{ parent() }}
 {% endblock javascripts %}
 
+{% block body_attr %}{{ parent() }} style="padding-top:60px;padding-bottom:60px;box-sizing:border-box;"{% endblock %}
+
 {% block body %}
     <div class="office"></div>
+  <div class="navbar-compatible-container">
     <div class="container container-fluid content-prehome">
 
         {% block form_start %}
@@ -40,4 +43,5 @@
         {% endblock %}
 
     </div>
+  </div>
 {% endblock body %}

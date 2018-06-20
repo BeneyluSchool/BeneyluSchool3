@@ -81,27 +81,23 @@
                 {# login blocks #}
                 <div class="home-blocks ng-cloak">
 
-                    <div class="layout-column layout-gt-sm-row layout-align-center-center">
-                        <div class="home-logo-container">{# avoid img as direct child of flex container #}
-                            <img src="{{ asset('assets/images/main/logo.png') }}" alt="Beneylu School" class="home-logo"/>
-                        </div>
-                        <div class="home-title">
-                            <div class="md-display-1">{% trans %}TITLE_ENTER_IN{% endtrans %}</div>
-                            <h1 class="md-display-1 home-brand">Beneylu <span class="school">School</span></h1>
-                        </div>
-                    </div>
+                    <h1 class="md-display-1 home-brand">
+                        <img src="{{ asset('assets/images/main/beneylu-school.svg') }}" alt="Beneylu School" class="home-logo-title"/>
+                        <span>Beneylu School</span>
+                    </h1>
 
                     <div class="home-boxes">
                     <div class="box-transparent">
                         <div class="inner box-transparent">
 
-                          <bns-auto-login-box url="'{{ redirectUrl }}'" saml-providers="{{ parameter('saml.providers')|default(null)|json_encode }}"></bns-auto-login-box>
+                          <bns-auto-login-box url="'{{ redirectUrl }}'" saml-providers="{{ parameter('saml.providers')|default(null)|json_encode }}" is-mobile="{{ is_mobile_view() }}"></bns-auto-login-box>
 
                         </div>
                     </div>
 
                     <div class="inset">
-                      {% if enable_register %}
+                      {% set plans_url = bnsLocaleLink('plans_url') %}
+                      {% if enable_register and plans_url %}
                         <md-content class="md-whiteframe-z2 inset">
                             <div class="inscription">
 
@@ -110,60 +106,10 @@
                                         icon: 'bns:classroom',
                                         intent: 'primary',
                                         raised: true,
-                                        click: 'ctrl.showRegisterDialog($event)',
+                                        href: plans_url,
                                         attr: { class: 'flex' },
                                     }) }}
                                 </div>
-
-                                <script type="text/ng-template" id="teacher-register-dialog.html">
-                                    <md-dialog class="bns-dialog bns-dialog-primary bns-dialog-sm">
-                                        <md-dialog-content class="md-dialog-content">
-                                            <div class="layout-row layout-align-start-center layout-margin">
-                                                <bns-icon class="flex flex-none">classroom</bns-icon>
-                                                <h3 class="md-headline flex">
-                                                    {% trans %}TITLE_REGISTRATION_DAY{% endtrans %}
-                                                </h3>
-                                                {{ components.button(null, {
-                                                    icon: 'close',
-                                                    click: 'ctrl.abort()'
-                                                }) }}
-                                            </div>
-                                            <form id="user_registration_form"
-                                                  method="post"
-                                                  action="{{ path('user_api_subscription', {version: '1.0'}) }}.json"
-                                                  ng-submit="ctrl.handleSubscription($event);"
-                                                  data-origin="ent {{ app.request.locale | replace('_','-') | lower }} home"
-                                            >
-                                                <p class="md-body-1">
-                                                    {% trans %}DESCRIPTION_REGISTRATION_EMAIL{% endtrans %}
-                                                </p>
-                                                <md-input-container md-no-float>
-                                                    <input id="user_registration_email"
-                                                           type="email"
-                                                           name="email"
-                                                           ng-model="ctrl.email"
-                                                           autocapitalize="off"
-                                                           autocomplete="off"
-                                                           autocorrect="off"
-                                                           spellcheck="false"
-                                                           class="input-lg"
-                                                           placeholder="{% trans %}USER_REGISTRATION_PLACEHOLDER{% endtrans %}">
-                                                </md-input-container>
-                                                <div class="layout-row layout-align-center-center">
-                                                    {{ components.button('BUTTON_REGISTER_CLASSROOM' | trans, {
-                                                        intent: 'primary',
-                                                        raised: true,
-                                                        attr: {type: 'submit'}
-                                                    }) }}
-                                                </div>
-                                            </form>
-                                        </md-dialog-content>
-                                        <div class="progress-overlay" ng-show="ctrl.busy">
-                                            <md-progress-circular class="register-progess" md-mode="indeterminate"></md-progress-circular>
-                                        </div>
-                                    </md-dialog>
-                                    <div class="bns-dialog-jim hide-sm hide-md"></div>
-                                </script>
 
                             </div>
 
@@ -218,7 +164,7 @@
     <div class="md-padding md-caption text-center footer-legals">
       {% trans with {
       '%copyright_year%': 'now'|date('Y'),
-      '%eula_url%': path('main_logon_legals')
+      '%eula_url%': bnsLocaleLink('legal_notice_url')
       } %}FOOTER_LEGALS{% endtrans %}
     </div>
 {% endblock body %}

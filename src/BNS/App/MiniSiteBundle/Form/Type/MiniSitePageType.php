@@ -17,7 +17,9 @@ class MiniSitePageType extends AbstractType
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('title', 'text', array('required' => true));
+		if (!($options['page'] && $options['page']->isCity())) {
+			$builder->add('title', 'text', array('required' => true));
+		}
 
 		if ($options['is_edition']) {
 			$builder->add('id', 'hidden', array('required' => true));
@@ -43,6 +45,7 @@ class MiniSitePageType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'BNS\App\MiniSiteBundle\Model\MiniSitePage',
 			'is_edition' => false,
+			'page' => null,
             'translation_domain' => 'MINISITE'
         ));
     }

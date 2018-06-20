@@ -142,6 +142,14 @@
         <source>AUDIO.VOLUME</source>
         <target>Volume</target>
       </trans-unit>
+      <trans-unit id="04ab52aa0b9fb2678a4afc45bc90966864bf2b16" resname="CHECK_GOOD_ANSWER">
+        <source>CHECK_GOOD_ANSWER</source>
+        <target>Check the right answer</target>
+      </trans-unit>
+      <trans-unit id="96b6525c621e8117a35ba12822b56e18b5b4b713" resname="CHECK_GOOD_ANSWERS">
+        <source>CHECK_GOOD_ANSWERS</source>
+        <target>Check the right answers</target>
+      </trans-unit>
       <trans-unit id="dffc55825ce9f4cfa57322ed4da1c7d6f02632ee" resname="CONTENT.ADD_CONTRIBUTOR">
         <source>CONTENT.ADD_CONTRIBUTOR</source>
         <target>Add a contributor</target>
@@ -225,6 +233,10 @@
       <trans-unit id="bc9e29485569ae0d813381873eb0092ba8588eed" resname="DOCUMENT.CHOOSE_LAYOUT">
         <source>DOCUMENT.CHOOSE_LAYOUT</source>
         <target>Choose a layout</target>
+      </trans-unit>
+      <trans-unit id="eab4baf2db0bb81a30a8a2864358df9a7f6d1dba" resname="DOCUMENT.CLOSED">
+        <source>DOCUMENT.CLOSED</source>
+        <target>Closed question</target>
       </trans-unit>
       <trans-unit id="909718d08a6ff187580fe1c931a67c531b09900d" resname="DOCUMENT.CLOSE_HTML">
         <source>DOCUMENT.CLOSE_HTML</source>
@@ -338,6 +350,16 @@
         <source>DOCUMENT.EDIT_WIDGET_SUCCESS</source>
         <target>Widget updated</target>
       </trans-unit>
+       <trans-unit id="f9ccd22f6c0a920e4e7afe5eda99f2e3e0519b00" resname="DOCUMENT.EXPORT">
+        <source>DOCUMENT.EXPORT</source>
+        <target><![CDATA[<strong>Export</strong><br>the document]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
+      <trans-unit id="9e6cb83eacfc54c825d4fcd4a0c9cfd6cd1221c6" resname="DOCUMENT.EXPORT_EPUB">
+        <source>DOCUMENT.EXPORT_EPUB</source>
+        <target><![CDATA[<strong>Export as EPUB</strong><br>the document]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
       <trans-unit id="35c4fb52170a0d6f82b32eed7938bb7030b2273f" resname="DOCUMENT.EXPORT_PDF_HTML">
         <source>DOCUMENT.EXPORT_PDF_HTML</source>
         <target><![CDATA[<strong>Export as PDF</strong><br>the document]]></target>
@@ -351,6 +373,10 @@
       <trans-unit id="49949d713a2244348b5dcb50b5c1dcee3cfc7c6b" resname="DOCUMENT.FROM_MEDIA_LIBRARY">
         <source>DOCUMENT.FROM_MEDIA_LIBRARY</source>
         <target>From the media library</target>
+      </trans-unit>
+      <trans-unit id="86f1707e7b1e291e44f03968e9982a90afa1998d" resname="DOCUMENT.GAP-FILL-TEXT">
+        <source>DOCUMENT.GAP-FILL-TEXT</source>
+        <target>Gap fill text</target>
       </trans-unit>
       <trans-unit id="d6e8036b8ae2968bbeae2e3022ecf08753076edb" resname="DOCUMENT.GENERAL">
         <source>DOCUMENT.GENERAL</source>
@@ -396,9 +422,25 @@
         <source>DOCUMENT.KIT</source>
         <target>Toolkit</target>
       </trans-unit>
+      <trans-unit id="dfd839d2a59fbe808da8150bb991470c0664ce7a" resname="DOCUMENT.LABEL_WIDGET_CLOSED">
+        <source>DOCUMENT.LABEL_WIDGET_CLOSED</source>
+        <target>Closed question</target>
+      </trans-unit>
+      <trans-unit id="21e7299677116f1c279d3b0a6a48667759f4f303" resname="DOCUMENT.LABEL_WIDGET_GAP_FILL_TEXT">
+        <source>DOCUMENT.LABEL_WIDGET_GAP_FILL_TEXT</source>
+        <target>Gap fill text</target>
+      </trans-unit>
       <trans-unit id="eaf29fa2339432d105bf4549cac2ce5cd263c7bf" resname="DOCUMENT.LABEL_WIDGET_MEDIA">
         <source>DOCUMENT.LABEL_WIDGET_MEDIA</source>
         <target>Media</target>
+      </trans-unit>
+      <trans-unit id="d0de29a97fd53be7c04ef5ae263cdc0bc8aa5fa6" resname="DOCUMENT.LABEL_WIDGET_MULTIPLE">
+        <source>DOCUMENT.LABEL_WIDGET_MULTIPLE</source>
+        <target>Multiple choice question</target>
+      </trans-unit>
+      <trans-unit id="009de3cbb278aa487fbb5d492337c5b7344305d5" resname="DOCUMENT.LABEL_WIDGET_PAGE_BREAK">
+        <source>DOCUMENT.LABEL_WIDGET_PAGE_BREAK</source>
+        <target>Page break</target>
       </trans-unit>
       <trans-unit id="2d4e1b2ef9c973543beaff255bcbfb79d991a97f" resname="DOCUMENT.LABEL_WIDGET_PARAGRAPH">
         <source>DOCUMENT.LABEL_WIDGET_PARAGRAPH</source>
@@ -407,6 +449,10 @@
       <trans-unit id="a01deeaa135e15687dabc9433d3f5cc15b6813e7" resname="DOCUMENT.LABEL_WIDGET_PARAGRAPH_BOX">
         <source>DOCUMENT.LABEL_WIDGET_PARAGRAPH_BOX</source>
         <target>Boxed text</target>
+      </trans-unit>
+      <trans-unit id="c24070deec19022d0489c975e4f95c62f11f4a55" resname="DOCUMENT.LABEL_WIDGET_SIMPLE">
+        <source>DOCUMENT.LABEL_WIDGET_SIMPLE</source>
+        <target>Simple choice question</target>
       </trans-unit>
       <trans-unit id="a2f3ac106c7c72ae5e78e53dc317891b8fd6ef24" resname="DOCUMENT.LABEL_WIDGET_TEXT_IMAGE_LEFT">
         <source>DOCUMENT.LABEL_WIDGET_TEXT_IMAGE_LEFT</source>
@@ -532,6 +578,10 @@
         <source>DOCUMENT.MOVE_PAGE_SUCCESS</source>
         <target>Page moved</target>
       </trans-unit>
+      <trans-unit id="8fb5c8121507cab2b92f2522ffc7a929af69ce55" resname="DOCUMENT.MULTIPLE">
+        <source>DOCUMENT.MULTIPLE</source>
+        <target>Multiple choice question</target>
+      </trans-unit>
       <trans-unit id="567ae5104d0d8a5b531cb88e7c417fd168837d73" resname="DOCUMENT.NEW_PAGE">
         <source>DOCUMENT.NEW_PAGE</source>
         <target>New page</target>
@@ -555,6 +605,10 @@
       <trans-unit id="1d94072f5f31f075963dc5c4b2a5e503ed063e4f" resname="DOCUMENT.OPEN_MEDIA_LIBRARY">
         <source>DOCUMENT.OPEN_MEDIA_LIBRARY</source>
         <target>Open the media library</target>
+      </trans-unit>
+      <trans-unit id="73ca3eb9a0a5419622999f4a7283b2397763429b" resname="DOCUMENT.PAGE-BREAK">
+        <source>DOCUMENT.PAGE-BREAK</source>
+        <target>Page break</target>
       </trans-unit>
       <trans-unit id="5c14f23272945cc6b6f18927cf1647557b3e3449" resname="DOCUMENT.PAGES">
         <source>DOCUMENT.PAGES</source>
@@ -589,6 +643,10 @@
       <trans-unit id="3100eaa7a65cdc015ad7372a652525f7d5bbc34a" resname="DOCUMENT.SAVE_CONTENT">
         <source>DOCUMENT.SAVE_CONTENT</source>
         <target>Save the content</target>
+      </trans-unit>
+      <trans-unit id="bb7aaf476f1c9c8e3e3ebf1974be359a6e9d7534" resname="DOCUMENT.SIMPLE">
+        <source>DOCUMENT.SIMPLE</source>
+        <target>Simple choice question</target>
       </trans-unit>
       <trans-unit id="592cb2eb3d7b4fcdf641e011d9bc5fd055f3d76d" resname="DOCUMENT.TEXT">
         <source>DOCUMENT.TEXT</source>
@@ -626,6 +684,10 @@
         <source>DOCUMENT.WIDGET_CONTENT_WILL_BE_DELETED</source>
         <target>All content within this widget will be deleted, and cannot be restored later.</target>
       </trans-unit>
+      <trans-unit id="b8fb5483d2fd7a288e086462a6713b33ecc39d59" resname="DOCUMENT.WIDGET_DUPLICATED">
+        <source>DOCUMENT.WIDGET_DUPLICATED</source>
+        <target>Widget duplicated</target>
+      </trans-unit>
       <trans-unit id="18dc5b3eb0b92416926f89e671f17033b61e0d88" resname="DOCUMENT.WIDGET_LOAD_ERROR">
         <source>DOCUMENT.WIDGET_LOAD_ERROR</source>
         <target>Error while loading the widget</target>
@@ -637,6 +699,14 @@
       <trans-unit id="17865bdb9110d432d4f2295eb32ab17883d404dc" resname="EDIT">
         <source>EDIT</source>
         <target>Edit</target>
+      </trans-unit>
+      <trans-unit id="db9700c04ef4f10aa1c61f5c7a97a5d68e701a31" resname="ERROR_THIS_FIELD_IS_REQUIRED">
+        <source>ERROR_THIS_FIELD_IS_REQUIRED</source>
+        <target>This field is required</target>
+      </trans-unit>
+      <trans-unit id="c4a719e6093bf3f9cc90461dbdeec9abe478a866" resname="ERROR_THIS_FIELD_LESS_60">
+        <source>ERROR_THIS_FIELD_LESS_60</source>
+        <target>Cannot be greater than 60</target>
       </trans-unit>
       <trans-unit id="84be5b130c2468f4e5b07dd28e64bc643b8254b8" resname="GET_DOCUMENTS_ERROR">
         <source>GET_DOCUMENTS_ERROR</source>
@@ -680,6 +750,12 @@
         <source>LABEL_FRONT_SIZE_ENORMOUS</source>
         <target>Huge</target>
       </trans-unit>
+       <trans-unit id="25c12cb13d2d4a825ce7b732f6a92d27cffcc642" resname="MINIMIZE_COLUMN">
+         <source>MINIMIZE_COLUMN</source>
+         <target><![CDATA[Minimize<br>column]]></target>
+         <note><![CDATA[This text contains HTML tags, please try to keep those tags
+      ]]></note>
+      </trans-unit>
       <trans-unit id="7e8f937e9d684c9302d8453a8919cc66735a600f" resname="MY_LAST_CREATIONS">
         <source>MY_LAST_CREATIONS</source>
         <target>My last creations</target>
@@ -687,6 +763,206 @@
       <trans-unit id="38952fa9cddd8bebe969337cea26107e96026747" resname="NO_DOCUMENTS">
         <source>NO_DOCUMENTS</source>
         <target>No documents</target>
+      </trans-unit>
+      <trans-unit id="de4b1837fb229bb98a46d2b8b5773436edfa9d48" resname="QUESTIONNAIRE">
+        <source>QUESTIONNAIRE</source>
+        <target>Questionnaire</target>
+      </trans-unit>
+      <trans-unit id="0a23b235a8bacad1b11a18e7b25abf63a922cb10" resname="QUESTIONNAIRE.ADD_ANSWER">
+        <source>QUESTIONNAIRE.ADD_ANSWER</source>
+        <target>Add an answer</target>
+      </trans-unit>
+      <trans-unit id="7b50bb5cf07a25ebe8a9e3912d67f535aaa33169" resname="QUESTIONNAIRE.ADD_GAP_TEXT">
+        <source>QUESTIONNAIRE.ADD_GAP_TEXT</source>
+        <target>Select a word and click the button to blank it out in the text.</target>
+      </trans-unit>
+      <trans-unit id="e7a4f40e21c4f436d23c54019b20e4960bf93b70" resname="QUESTIONNAIRE.ADD_GAP_TOOLTIP">
+        <source>QUESTIONNAIRE.ADD_GAP_TOOLTIP</source>
+        <target>Add a word for your students to find</target>
+      </trans-unit>
+      <trans-unit id="f3be6f12c6b7b6d335e56fb2c1500588a59f228d" resname="QUESTIONNAIRE.ADVANCED_SETTINGS">
+        <source>QUESTIONNAIRE.ADVANCED_SETTINGS</source>
+        <target>Advanced settings</target>
+      </trans-unit>
+      <trans-unit id="99c9cd86d2295ded52ff6bbaaa9a74d3b30eee19" resname="QUESTIONNAIRE.ALL_FOUND">
+        <source>QUESTIONNAIRE.ALL_FOUND</source>
+        <target>You found all the right answers</target>
+      </trans-unit>
+      <trans-unit id="f0f83167d64f5e74260ce46d564532278297c067" resname="QUESTIONNAIRE.ANSWER">
+        <source>QUESTIONNAIRE.ANSWER</source>
+        <target>Answer</target>
+      </trans-unit>
+      <trans-unit id="174b6b4ef7b316bb52e896f3677e6565b12262b4" resname="QUESTIONNAIRE.ANSWERS">
+        <source>QUESTIONNAIRE.ANSWERS</source>
+        <target>Answers</target>
+      </trans-unit>
+      <trans-unit id="1c42b09762b9764d559232bdbc219e83eaef8569" resname="QUESTIONNAIRE.ATTEMPTS_NUMBER">
+        <source>QUESTIONNAIRE.ATTEMPTS_NUMBER</source>
+        <target>Number of attempts</target>
+      </trans-unit>
+      <trans-unit id="e8b57df79df675d4c1ec3cadc296d1bba1fa221e" resname="QUESTIONNAIRE.AUDIO">
+        <source>QUESTIONNAIRE.AUDIO</source>
+        <target>Audio</target>
+      </trans-unit>
+      <trans-unit id="a6412ed0255357ccf1336cedb524497b89b46df0" resname="QUESTIONNAIRE.CHOOSE_AUDIO">
+        <source>QUESTIONNAIRE.CHOOSE_AUDIO</source>
+        <target>Choose a sound</target>
+      </trans-unit>
+      <trans-unit id="a94f541daa490cbc3299f27a8ef15b47f5ac0056" resname="QUESTIONNAIRE.CHOOSE_IMAGE">
+        <source>QUESTIONNAIRE.CHOOSE_IMAGE</source>
+        <target>Choose a picture</target>
+      </trans-unit>
+      <trans-unit id="6945cd6814c5cd6104d92702c97ffb24e7eb2c4c" resname="QUESTIONNAIRE.CLOSED_QUESTION">
+        <source>QUESTIONNAIRE.CLOSED_QUESTION</source>
+        <target>Closed question</target>
+      </trans-unit>
+      <trans-unit id="d260a4d61213d48be5883bdce5fc1d5068b1a8d8" resname="QUESTIONNAIRE.CLUE">
+        <source>QUESTIONNAIRE.CLUE</source>
+        <target>Write a clue</target>
+      </trans-unit>
+      <trans-unit id="2a331cedbfd5b10cfe8fbc78993cf1b9189efa69" resname="QUESTIONNAIRE.COMMENT">
+        <source>QUESTIONNAIRE.COMMENT</source>
+        <target>Comment</target>
+      </trans-unit>
+      <trans-unit id="0d335b9e0918c5ee6f66c186f0722a4543ea2889" resname="QUESTIONNAIRE.COMPETITION_ONLY">
+        <source>QUESTIONNAIRE.COMPETITION_ONLY</source>
+        <target>School competition only</target>
+      </trans-unit>
+      <trans-unit id="d16f7d7b3510540956cd8c42eef992223ec91ddf" resname="QUESTIONNAIRE.CONGRATS">
+        <source>QUESTIONNAIRE.CONGRATS</source>
+        <target>This is the right answer</target>
+      </trans-unit>
+      <trans-unit id="874aa084a5964da5c1d249ef9b1643e9b6972a86" resname="QUESTIONNAIRE.FINISHED">
+        <source>QUESTIONNAIRE.FINISHED</source>
+        <target>The questionnaire is finished!</target>
+      </trans-unit>
+      <trans-unit id="1e04cc003897cea7f652f257d03f131fd15ea071" resname="QUESTIONNAIRE.FOUND_COUNT">
+        <source>QUESTIONNAIRE.FOUND_COUNT</source>
+        <target>You found {{count}} answers out of {{total}}</target>
+      </trans-unit>
+      <trans-unit id="194310b7d995d5879f664717d9430f5bae015b5a" resname="QUESTIONNAIRE.GAP_FILL_TEXT_QUESTION">
+        <source>QUESTIONNAIRE.GAP_FILL_TEXT_QUESTION</source>
+        <target>Gap fill text</target>
+      </trans-unit>
+      <trans-unit id="386ba53b612e2f4c8a9a868892746e1dd27439c4" resname="QUESTIONNAIRE.HELP">
+        <source>QUESTIONNAIRE.HELP</source>
+        <target>Help</target>
+      </trans-unit>
+      <trans-unit id="586ae3373b75e6fd848e3b1de8a4bb180f570f72" resname="QUESTIONNAIRE.HIDE_SOLUTION">
+        <source>QUESTIONNAIRE.HIDE_SOLUTION</source>
+        <target>Hide the solution at the end of the exercise</target>
+      </trans-unit>
+      <trans-unit id="030bfec1548193f3cee6267d78dbc204e3ee2b53" resname="QUESTIONNAIRE.LIMITED_ATTEMPTS">
+        <source>QUESTIONNAIRE.LIMITED_ATTEMPTS</source>
+        <target>Limit the number of attempts</target>
+      </trans-unit>
+      <trans-unit id="39879c2eb59b1dca2333798321265321f7a2c347" resname="QUESTIONNAIRE.LIMITED_TIME">
+        <source>QUESTIONNAIRE.LIMITED_TIME</source>
+        <target>You have {{minutes}} minutes and {{seconds}} seconds to answer the question</target>
+      </trans-unit>
+      <trans-unit id="2602f29343171d0a7ed08af1fc769cbfd98b8b25" resname="QUESTIONNAIRE.MINUTES">
+        <source>QUESTIONNAIRE.MINUTES</source>
+        <target>Minutes</target>
+      </trans-unit>
+      <trans-unit id="c47b18f1d3da587ae04323b69e4d6536fb6643b7" resname="QUESTIONNAIRE.MULTIPLE_QUESTION">
+        <source>QUESTIONNAIRE.MULTIPLE_QUESTION</source>
+        <target>Multiple choice question</target>
+      </trans-unit>
+      <trans-unit id="eab066c64ab010b7da981070ad6f4da5210c575b" resname="QUESTIONNAIRE.NEGATIVE_POINTS">
+        <source>QUESTIONNAIRE.NEGATIVE_POINTS</source>
+        <target>Negative points</target>
+      </trans-unit>
+      <trans-unit id="75524b22170207880df876a6756123b4cdb9ee65" resname="QUESTIONNAIRE.NEXT_PAGE">
+        <source>QUESTIONNAIRE.NEXT_PAGE</source>
+        <target>Go to the next page</target>
+      </trans-unit>
+      <trans-unit id="32cae7b2b12bd483ca8336061f060f50dd8ba4b8" resname="QUESTIONNAIRE.NOT_ANSWERED">
+        <source>QUESTIONNAIRE.NOT_ANSWERED</source>
+        <target>You didn't answer</target>
+      </trans-unit>
+      <trans-unit id="749f9ad77091ee53d552aeffe5c92f1fe5dac7e7" resname="QUESTIONNAIRE.PICTURE">
+        <source>QUESTIONNAIRE.PICTURE</source>
+        <target>Picture</target>
+      </trans-unit>
+      <trans-unit id="9afcfedd7d74ae2d93d9a1013877e45000ca50a5" resname="QUESTIONNAIRE.RESET">
+        <source>QUESTIONNAIRE.RESET</source>
+        <target>Retry</target>
+      </trans-unit>
+      <trans-unit id="b6c7ae80304df0c2cf53af281628824eca45b4c5" resname="QUESTIONNAIRE.RESET_QUESTIONNAIRE">
+        <source>QUESTIONNAIRE.RESET_QUESTIONNAIRE</source>
+        <target>Restart the questionnaire</target>
+      </trans-unit>
+      <trans-unit id="650636ec9a948b5b1d5315fcf066cdfd4540e428" resname="QUESTIONNAIRE.SECONDS">
+        <source>QUESTIONNAIRE.SECONDS</source>
+        <target>Seconds</target>
+      </trans-unit>
+      <trans-unit id="1092d71880d744c277dac6d5f8cb71baa1d89f4b" resname="QUESTIONNAIRE.SHOW_CHRONO">
+        <source>QUESTIONNAIRE.SHOW_CHRONO</source>
+        <target>Chronometer</target>
+      </trans-unit>
+      <trans-unit id="abb73781a7d26789ba41790c01663780b3827d74" resname="QUESTIONNAIRE.SHOW_CLUE">
+        <source>QUESTIONNAIRE.SHOW_CLUE</source>
+        <target>Clue</target>
+      </trans-unit>
+      <trans-unit id="b99b6d8fbd40299000315e43804cb46e4c445982" resname="QUESTIONNAIRE.SHOW_COMMENT">
+        <source>QUESTIONNAIRE.SHOW_COMMENT</source>
+        <target>Display comment at the end of the exercise</target>
+      </trans-unit>
+      <trans-unit id="b5520c5797774ea9c76af4b93605529c2f131563" resname="QUESTIONNAIRE.SHOW_HELP">
+        <source>QUESTIONNAIRE.SHOW_HELP</source>
+        <target>Help</target>
+      </trans-unit>
+      <trans-unit id="189a79f0d0c06a9c3c32493167d45324410094e4" resname="QUESTIONNAIRE.SIMPLE_QUESTION">
+        <source>QUESTIONNAIRE.SIMPLE_QUESTION</source>
+        <target>Simple choice question</target>
+      </trans-unit>
+      <trans-unit id="ad984c473274a18fa713ed8344db08e89c736cfc" resname="QUESTIONNAIRE.SOLUTION">
+        <source>QUESTIONNAIRE.SOLUTION</source>
+        <target>Solution</target>
+      </trans-unit>
+      <trans-unit id="3f2dad3818e89e6e9545c74fd3254ed785b39f64" resname="QUESTIONNAIRE.START_CHRONO">
+        <source>QUESTIONNAIRE.START_CHRONO</source>
+        <target>Show the question</target>
+      </trans-unit>
+      <trans-unit id="ae4ecea9d9def51055e785d35cc54e9e057da6aa" resname="QUESTIONNAIRE.STILL_GOOD_ANSWERS">
+        <source>QUESTIONNAIRE.STILL_GOOD_ANSWERS</source>
+        <target>There are still good answers to choose</target>
+      </trans-unit>
+      <trans-unit id="4fbdbfc7f98289780b0eb4ce72cd60bfc89f8de6" resname="QUESTIONNAIRE.TEXT">
+        <source>QUESTIONNAIRE.TEXT</source>
+        <target>Text</target>
+      </trans-unit>
+      <trans-unit id="62bbd8967f24d38224ce030971021ac6b522dfde" resname="QUESTIONNAIRE.TIMES_UP">
+        <source>QUESTIONNAIRE.TIMES_UP</source>
+        <target>Time's up! You can't answer the question.</target>
+      </trans-unit>
+      <trans-unit id="9893a3f5e89c4877aee4ddd6b66a61a23d0b3c0d" resname="QUESTIONNAIRE.TIMES_UP_ANSWER">
+        <source>QUESTIONNAIRE.TIMES_UP_ANSWER</source>
+        <target>Time's up! You can submit your answer.</target>
+      </trans-unit>
+      <trans-unit id="57cdf1f7b5da3b0740211945652c056dbe0bd859" resname="QUESTIONNAIRE.VALIDATE">
+        <source>QUESTIONNAIRE.VALIDATE</source>
+        <target>Validate</target>
+      </trans-unit>
+      <trans-unit id="b372db7aeda0a12c8a6831e5fd97a78cd5a4cd45" resname="QUESTIONNAIRE.WORDING">
+        <source>QUESTIONNAIRE.WORDING</source>
+        <target>Wording</target>
+      </trans-unit>
+      <trans-unit id="3068c026181f46652764e2dbaa0a568943b3431c" resname="QUESTIONNAIRE.WRITE_AN_ANSWER">
+        <source>QUESTIONNAIRE.WRITE_AN_ANSWER</source>
+        <target>Write an answer</target>
+      </trans-unit>
+      <trans-unit id="b9bb495629bfd19744168aa8789aad8afecc635a" resname="QUESTIONNAIRE.WRITE_COMMENT">
+        <source>QUESTIONNAIRE.WRITE_COMMENT</source>
+        <target>Write a comment</target>
+      </trans-unit>
+      <trans-unit id="0bc7411ac216c9b7c66981a8b026cf8abdb15279" resname="QUESTIONNAIRE.WRITE_HELP">
+        <source>QUESTIONNAIRE.WRITE_HELP</source>
+        <target>Give a clue</target>
+      </trans-unit>
+      <trans-unit id="a62be2065acb95baad07b8d9be37cd8852813839" resname="QUESTIONNAIRE.WRONG">
+        <source>QUESTIONNAIRE.WRONG</source>
+        <target>This is not the right answer</target>
       </trans-unit>
       <trans-unit id="540a681e8a3366c386408500bcdaf7884ac5588a" resname="SOON">
         <source>SOON</source>

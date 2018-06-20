@@ -1,0 +1,8 @@
+BNS\App\CompetitionBundle\Model\ReadingChallenge:
+  exclusion_policy: All
+
+  relations:
+    - rel: books
+      embedded:
+        content: expr(object.getBooks())
+        groups: [ competition_detail ]

@@ -10,7 +10,7 @@ angular.module('bns.viewer', [
   'bns.resource'
 ])
 
-  .config(function ($stateProvider) {
+  .config(function ($stateProvider, $compileProvider) {
     $stateProvider
       .state('viewer', {
         url: '/viewer/{resourceId:[0-9]+}',
@@ -19,4 +19,8 @@ angular.module('bns.viewer', [
       })
     ;
 
+    // authorise viascolaprimaire
+    // TODO made this configurable use parametersProvider
+    var regex = /^\s*(https?|ftp|mailto|tel|file|viascolaprimaire):/;
+    $compileProvider.aHrefSanitizationWhitelist(regex);
   });

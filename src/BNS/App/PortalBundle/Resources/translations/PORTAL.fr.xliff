@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2015-09-01T17:05:43Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2017-03-20T13:02:59Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -13,25 +13,22 @@
       <trans-unit id="df4b418d2180ee7a3f901e37074ded604baad397" resname="BROWSER_INCOMPATIBLE">
         <source>Votre navigateur ne semble pas compatible</source>
         <target>Votre navigateur ne semble pas compatible</target>
-        <jms:reference-file line="12">views/Front/authentification.html.twig</jms:reference-file>
-        <jms:reference-file line="24">views/Front/homepage.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="32615543e153cf82d8035cae039a0184b99db339" resname="FLASH_FLUX_NOT_SAVE">
         <source>FLASH_FLUX_NOT_SAVE</source>
         <target>Un flux RSS n'a pu être enregistré</target>
-        <jms:reference-file line="129">PortalBundle/Controller/BackController.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="b02a6ace8cf0f2a73628b40bf13c56c17055b872" resname="FLASH_PORTAL_UPDATE_ERROR_EMPTY_LIST">
+        <source>FLASH_PORTAL_UPDATE_ERROR_EMPTY_LIST</source>
+        <target>Le widget de mini-sites ne peut être vide</target>
       </trans-unit>
       <trans-unit id="d0100e0a31e57d55257b499953edd5453e267c7c" resname="FLASH_PORTAL_UPDATE_SUCCESS">
         <source>FLASH_PORTAL_UPDATE_SUCCESS</source>
         <target>Le portail a bien été mis à jour</target>
-        <jms:reference-file line="59">PortalBundle/Controller/BackController.php</jms:reference-file>
-        <jms:reference-file line="186">PortalBundle/Controller/BackController.php</jms:reference-file>
-        <jms:reference-file line="243">PortalBundle/Controller/BackController.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="48c3ff54e40ef489403b6c5bead8c64b7a43d9cc" resname="FLASH_SCHOOL_HAVENT_MINISITE">
         <source>FLASH_SCHOOL_HAVENT_MINISITE</source>
-        <target>Cette école n'a pas encore de minisite</target>
-        <jms:reference-file line="46">PortalBundle/Controller/FrontController.php</jms:reference-file>
+        <target>Cette école n'a pas encore de site web</target>
       </trans-unit>
       <trans-unit id="5becf070a51b514072cd4c270ed3e295210d6ccc" resname="GREEN">
         <source>GREEN</source>
@@ -40,150 +37,134 @@
       <trans-unit id="fd1d935473454191171c2ac3390470db5b134917" resname="HAVENT_CONTENT_ZONE">
         <source>Vous n'avez pas encore de zone de contenu.</source>
         <target>Vous n'avez pas encore de zone de contenu.</target>
-        <jms:reference-file line="136">views/Back/mainZone.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="913213cef50266ed26aa5359c6685d2a313c1ee8" resname="LABEL_EDIT">
         <source>Modifier</source>
         <target>Modifier</target>
-        <jms:reference-file line="57">views/Back/index.html.twig</jms:reference-file>
-        <jms:reference-file line="27">views/BackWidgets/banner.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="29018191d92b3501f83820eefd1779e87264d50a" resname="LABEL_PORTAL_OF">
         <source>LABEL_PORTAL_OF</source>
         <target>Portail de</target>
-        <jms:reference-file line="47">PortalBundle/Manager/PortalManager.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="9dde96dcd5e8607649f16d3976fa68e2ba2fdecc" resname="LINK_ADD_BANNER">
         <source>Ajouter une bannière</source>
         <target>Ajouter une bannière</target>
-        <jms:reference-file line="26">views/Back/mainZone.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="819b6b3f9a364ced560d67c22d72ba1c4ff55bdd" resname="LINK_ADD_CONTENT">
         <source>Ajouter du contenu</source>
         <target>Ajouter du contenu</target>
-        <jms:reference-file line="22">views/Back/mainZone.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a715617433ddd26a9aa01ba5e0d2af359d1f23fc" resname="LINK_ADD_LINK">
         <source>Ajouter des liens</source>
         <target>Ajouter des liens</target>
-        <jms:reference-file line="29">views/Back/mainZone.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="a4ae34b218c74665b9b5a3c2aa310317356b91b8" resname="LINK_ADD_MINISITES">
+        <source>LINK_ADD_MINISITES</source>
+        <target state="new">Ajouter des mini-sites</target>
       </trans-unit>
       <trans-unit id="edef06252248eb43967726bf5ef63901bc3e3601" resname="LINK_ADD_TEXT">
         <source>Ajouter un texte</source>
         <target>Ajouter un texte</target>
-        <jms:reference-file line="27">views/Back/mainZone.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d8be7dd02f85a983a8d9ac68de97a3624ae6e657" resname="LINK_BACK_TO_LIST">
         <source>Retourner à la liste</source>
         <target>Retourner à la liste</target>
-        <jms:reference-file line="119">views/Front/schoolWidget.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="1f8524949b59bf473e5b31304582c62cb6d54e28" resname="LINK_CANCEL">
         <source><![CDATA[<strong>Annuler</strong>]]></source>
         <target><![CDATA[<strong>Annuler</strong>]]></target>
-        <jms:reference-file line="10">views/Modal/no_save_warning_footer.html.twig</jms:reference-file>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
       </trans-unit>
       <trans-unit id="2b8d3f6bcc98097f3c8e1e40e7f27930c6a4cbf3" resname="LINK_CANCEL_MODIFICATION">
         <source><![CDATA[<strong>Annuler</strong><br>les modifications]]></source>
         <target><![CDATA[<strong>Annuler</strong><br>les modifications]]></target>
-        <jms:reference-file line="34">views/Back/mainZone.html.twig</jms:reference-file>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
       </trans-unit>
       <trans-unit id="f5c3f0588acf61ca1982007cf1e50edf4fb3cc40" resname="LINK_COLUMN_SIDE">
         <source>Colonne latérale</source>
         <target>Colonne latérale</target>
-        <jms:reference-file line="13">views/Back/sidebar.html.twig</jms:reference-file>
-        <jms:reference-file line="32">views/Back/sidebar.html.twig</jms:reference-file>
-        <jms:reference-file line="49">views/Back/sidebar.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b66042ce07d692ee9b65ffe31b2a1a770fb2bb18" resname="LINK_DELETE">
         <source><![CDATA[<strong>Supprimer</strong>]]></source>
         <target><![CDATA[<strong>Supprimer</strong>]]></target>
-        <jms:reference-file line="13">views/BackWidgets/base.html.twig</jms:reference-file>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
       </trans-unit>
       <trans-unit id="bf16a7288e6c2a96f4901ab84e9b406ad49e3f48" resname="LINK_MAIN_ZONE">
         <source>Zone principale</source>
         <target>Zone principale</target>
-        <jms:reference-file line="10">views/Back/sidebar.html.twig</jms:reference-file>
-        <jms:reference-file line="27">views/Back/sidebar.html.twig</jms:reference-file>
-        <jms:reference-file line="45">views/Back/sidebar.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d54bace9dd523615bca22492b915de950fa89994" resname="LINK_MOVE">
         <source><![CDATA[<strong>Déplacer</strong>]]></source>
         <target><![CDATA[<strong>Déplacer</strong>]]></target>
-        <jms:reference-file line="9">views/BackWidgets/base.html.twig</jms:reference-file>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
       </trans-unit>
       <trans-unit id="8b4662aa4f448b59fe4b88ea52bd56c275ca6e36" resname="LINK_PASSWORD_LOST">
         <source>Mot de passe oublié ?</source>
         <target>Mot de passe oublié ?</target>
-        <jms:reference-file line="15">views/Front/authentification.html.twig</jms:reference-file>
-        <jms:reference-file line="27">views/Front/homepage.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="3e92ff739b0071dd98a41e0f6e835d879d831117" resname="LINK_QUIT_PAGE">
         <source><![CDATA[<strong>Quitter</strong><br />La page]]></source>
         <target><![CDATA[<strong>Quitter</strong><br />la page]]></target>
-        <jms:reference-file line="6">views/Modal/no_save_warning_footer.html.twig</jms:reference-file>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
       </trans-unit>
       <trans-unit id="634eae74f3fa233bb935223bb075be02ab66b364" resname="LINK_RSS_FLUX">
         <source>Ajouter des flux RSS</source>
         <target>Ajouter des flux RSS</target>
-        <jms:reference-file line="28">views/Back/mainZone.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="bb6ad193e27769b05bdfe6c17eb48de419278745" resname="LINK_SAVE">
         <source><![CDATA[<strong>Enregistrer</strong>]]></source>
         <target><![CDATA[<strong>Enregistrer</strong>]]></target>
-        <jms:reference-file line="41">views/Back/mainZone.html.twig</jms:reference-file>
-        <jms:reference-file line="10">views/Block/saveButton.html.twig</jms:reference-file>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
       </trans-unit>
       <trans-unit id="f208c536c1955aa2fdcb5a9f6c6645af711f1982" resname="LINK_SCHOOL_DIRECTORY">
         <source>Ajouter l'annuaire des écoles</source>
         <target>Ajouter l'annuaire des écoles</target>
-        <jms:reference-file line="30">views/Back/mainZone.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="07e9999ae79d87a327caeafc062ccabc0b73cee9" resname="LINK_SEE_ALL_NEWS">
         <source>Voir toute l'actualité</source>
         <target>Voir toute l'actualité</target>
-        <jms:reference-file line="32">views/FrontWidgets/rss.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="9fad0a12966c8f9368b3be65a4262c64d4eaa692" resname="LINK_SEE_SCHOOL_MINISITE">
-        <source>Voir le minisite de l'école</source>
-        <target>Voir le minisite de l'école</target>
-        <jms:reference-file line="34">views/Front/schoolWidget.html.twig</jms:reference-file>
-        <jms:reference-file line="113">views/Front/schoolWidget.html.twig</jms:reference-file>
+        <source>Voir le site web de l'école</source>
+        <target>Voir le site web de l'école</target>
+      </trans-unit>
+      <trans-unit id="2c2d6bb537b9428387180bc59c1700d9c5d076d2" resname="LOGO">
+        <source>Logo</source>
+        <target state="new">Logo</target>
       </trans-unit>
       <trans-unit id="b4a33a76f971ae65f3e61a9685e86bda3ece5080" resname="MODAL_GOINGQUIT_PAGE">
         <source>Vous êtes sur le point de quitter cette page</source>
         <target>Vous êtes sur le point de quitter cette page</target>
-        <jms:reference-file line="200">views/Back/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="92366337fd59df63fb8f5432676a50c893234bba" resname="MODAL_GOING_TO_QUIT_PAGE">
         <source>Vous êtes sur le point de quitter cette page</source>
         <target>Vous êtes sur le point de quitter cette page</target>
-        <jms:reference-file line="143">views/Back/mainZone.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="803cfc9474dbeb99624ae90cd9649418fe8151e0" resname="NO_SCHOOL_FIND">
         <source>Aucune école retrouvée.</source>
         <target>Aucune école retrouvée.</target>
-        <jms:reference-file line="126">views/Front/schoolWidget.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="8967dc6e315eae6ce53a5a0b5bff32be8e381358" resname="PLACEHOLDER_FLUX_RSS">
         <source>Flux RSS</source>
         <target>Flux RSS</target>
-        <jms:reference-file line="80">views/BackWidgets/rss.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="5111302872237ca68bf42dba8fe2074a0a396f0e" resname="PLACEHOLDER_TITLE_FLUX_ZONE">
         <source>Titre de la zone de flux</source>
         <target>Titre de la zone de flux</target>
-        <jms:reference-file line="57">views/BackWidgets/rss.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="66fa88eacda91c76b324298d678addf26b5eac6a" resname="PLACEHOLDER_TITLE_ZONE_LINK">
         <source>Titre de la zone de liens</source>
         <target>Titre de la zone des liens</target>
-        <jms:reference-file line="44">views/BackWidgets/link.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="ca5efc3add60066fd2dc98842caf0981f826b12b" resname="PLACEHOLDER_WEB_LINK">
         <source>Lien Internet</source>
         <target>Lien Internet</target>
-        <jms:reference-file line="69">views/BackWidgets/link.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d41b9248b4915f0f4500771d5fd52ebca4752b0b" resname="PURPLE">
         <source>PURPLE</source>
@@ -196,39 +177,30 @@
       <trans-unit id="9f41b8dfc877fd9fe638ae12bf2400b16d1be04c" resname="TITLE_BANNER">
         <source>Bannière</source>
         <target>Bannière</target>
-        <jms:reference-file line="4">views/BackWidgets/banner.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="8a6cd983245095f8a239f5b6dc78f5a65a40bdc3" resname="TITLE_COLOR">
         <source>Couleur</source>
         <target>Couleur</target>
-        <jms:reference-file line="175">views/Back/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b6f1e01295b83ed705b7e66d926eb34ee2f4cd43" resname="TITLE_CONNECT_WITH">
         <source>Je me connecte avec ...</source>
         <target>Je me connecte avec ...</target>
-        <jms:reference-file line="9">views/Front/authentification.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d03c94e7eb326e23fdb8164fdcef2a1c520b69dd" resname="TITLE_DIRECTORY_SCHOOL">
         <source>Annuaire des écoles</source>
         <target>Annuaire des écoles</target>
-        <jms:reference-file line="4">views/BackWidgets/school.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="4fdf81365dc654c6bbfe9db0f067afb416db17e6" resname="TITLE_FONT">
         <source>Police d'écriture</source>
         <target>Police d'écriture</target>
-        <jms:reference-file line="159">views/Back/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="6d261ff41d96817c31544842a326cd0cf2ce0496" resname="TITLE_GENERAL">
         <source>Général</source>
         <target>Général</target>
-        <jms:reference-file line="5">views/Back/sidebar.html.twig</jms:reference-file>
-        <jms:reference-file line="23">views/Back/sidebar.html.twig</jms:reference-file>
-        <jms:reference-file line="42">views/Back/sidebar.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="cbdcb361f5ee4c1c8178b94759fc16de5e9af9de" resname="TITLE_LINK">
         <source>Liens</source>
         <target>Liens</target>
-        <jms:reference-file line="4">views/BackWidgets/link.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c1443a4f890114a004ad1460e0dc70c06400a64f" resname="TITLE_LOSE_MODIFICATION_TO_SAVE_CLICK_TOP_RIGHT">
         <source><![CDATA[		<h2>Vous allez perdre vos modifications</h2>
@@ -241,42 +213,56 @@
 			Pour les sauvegarder veuillez cliquer sur "Enregistrer" en haut à droite.
 		</h3>
 ]]></target>
-        <jms:reference-file line="5">views/Modal/no_save_warning_body.html.twig</jms:reference-file>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="88c5eeef68b61406d17b537d51d767c469c4291d" resname="TITLE_MINISITES">
+        <source>Liste de mini-sites</source>
+        <target state="new">Liste de mini-sites</target>
       </trans-unit>
       <trans-unit id="1ef6d8ce5fd7a6645bd2b0c69c34a276c55dadaf" resname="TITLE_MY_SCHOOL">
         <source>Mon école</source>
         <target>Mon école</target>
-        <jms:reference-file line="4">views/FrontWidgets/school.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="4060afc2b213faf02bed674a58c148624f1e70a3" resname="TITLE_PORTAL_ADDRESS">
         <source>Adresse de votre portail</source>
         <target>Adresse de votre portail</target>
-        <jms:reference-file line="31">views/Back/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="9232ab4eca453759debc7d8d6e0f477292df94d5" resname="TITLE_PORTAL_LOGO">
         <source>Logo du portail</source>
         <target>Logo du portail</target>
-        <jms:reference-file line="43">views/Back/index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="fd7c680ae665f1bb9f155b69e7747af1c9cc7219" resname="TITLE_PORTAL_MANAGEMENT">
+        <source>Portail - Gestion</source>
+        <target state="new">Portail - Gestion</target>
       </trans-unit>
       <trans-unit id="a827e377a2cb4387ecd48f1cbe895d50a1fb3022" resname="TITLE_PORTAL_NAME">
         <source>Nom du portail</source>
         <target>Nom du portail</target>
-        <jms:reference-file line="37">views/Back/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="00db2b3e13a03eecced252001683672f2e329bf5" resname="TITLE_RSS">
         <source>RSS</source>
         <target>RSS</target>
-        <jms:reference-file line="4">views/BackWidgets/rss.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="726ba4b5d5114751d8f42894c9ce9f15acc10fe6" resname="TITLE_SITES_LIST">
+        <source>Liste de mini-sites</source>
+        <target state="new">Liste de mini-sites</target>
+      </trans-unit>
+      <trans-unit id="9d751e44050840cdcccc0f2e94939bcb83317b71" resname="TITLE_SITES_TITLE">
+        <source>Titre</source>
+        <target state="new">Titre</target>
       </trans-unit>
       <trans-unit id="523efcaeb81269dcf3d06e55dca13f4a2c73b8ad" resname="TITLE_TEXT">
         <source>Texte</source>
         <target>Texte</target>
-        <jms:reference-file line="4">views/BackWidgets/text.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="258ddacfb96861ed5036532080dcc51b75f4cca6" resname="WILL_SEE_INFO_ABOUT_PORTAL">
         <source>Vous retrouverez bientôt ici les informations en lien avec ce portail.</source>
         <target>Vous retrouverez bientôt ici les informations en lien avec ce portail.</target>
-        <jms:reference-file line="46">views/Layout/front.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="d0b14cefa3c709f854dfb16b5f96877aa25da77b" resname="YOUR_BANNER_HERE">
+        <source>Votre bannière ici</source>
+        <target state="new">Votre bannière ici</target>
       </trans-unit>
     </body>
   </file>

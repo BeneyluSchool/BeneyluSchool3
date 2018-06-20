@@ -14,6 +14,14 @@
         <source>BUTTON_ADD_LINK</source>
         <target>Add</target>
       </trans-unit>
+      <trans-unit id="20dcb001a684d816442623a8cfdc2f4859f65d63" resname="BUTTON_CANCEL">
+        <source>BUTTON_CANCEL</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="e957bbdbb1555a7428697851cdaabc9261f14a35" resname="BUTTON_DELETE_LINK">
+        <source>BUTTON_DELETE_LINK</source>
+        <target>Delete</target>
+      </trans-unit>
       <trans-unit id="1c3c85e440a172417537a5ec2a136d5dd3d07ed4" resname="BUTTON_EDIT_LINK">
         <source>BUTTON_EDIT_LINK</source>
         <target>Validate</target>
@@ -21,6 +29,10 @@
       <trans-unit id="cc64f35d044f3c8be7b46ded0b495c36ab2c18c8" resname="BUTTON_SEARCH">
         <source>BUTTON_SEARCH</source>
         <target>Search</target>
+      </trans-unit>
+      <trans-unit id="51ae7da76322140e38d4a952727661ccba266d88" resname="DESCRIPTION_CONFIRM_DELETE_LINK">
+        <source>DESCRIPTION_CONFIRM_DELETE_LINK</source>
+        <target>Do you really want to delete this link ? </target>
       </trans-unit>
       <trans-unit id="95712a76df79cc6855da71287622784c4453f018" resname="EDIT_LINK">
         <source>EDIT_LINK</source>
@@ -53,6 +65,14 @@
       <trans-unit id="7648774bd2c6d89c2e3aafad75317d8039dc0a62" resname="PLACEHOLDER_INPUT_SEARCH">
         <source>PLACEHOLDER_INPUT_SEARCH</source>
         <target>Enter your search</target>
+      </trans-unit>
+      <trans-unit id="9acbcfd5b19ef5b33022657c2d1a1d9929b49e24" resname="SUCESS_DELETE">
+        <source>SUCESS_DELETE</source>
+        <target>link deleted</target>
+      </trans-unit>
+      <trans-unit id="0a53e1d49dc0a14c93c029f85d8f7a48b9203329" resname="TITLE_CONFIRM_DELETE_LINK">
+        <source>TITLE_CONFIRM_DELETE_LINK</source>
+        <target>Confirm the deletion of the link</target>
       </trans-unit>
       <trans-unit id="7d3a205c4ed427d48c6cc5b33edec6b804a29d99" resname="TITLE_SEARCH_ENGINE">
         <source>TITLE_SEARCH_ENGINE</source>

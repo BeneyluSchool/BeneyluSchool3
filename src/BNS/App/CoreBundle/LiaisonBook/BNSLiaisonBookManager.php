@@ -2,12 +2,17 @@
 
 namespace BNS\App\CoreBundle\LiaisonBook;
 
+use BNS\App\CoreBundle\Model\GroupTypeQuery;
 use BNS\App\CoreBundle\Model\LiaisonBook;
 use BNS\App\CoreBundle\Model\LiaisonBookQuery;
 use BNS\App\CoreBundle\Model\LiaisonBookSignature;
 use BNS\App\CoreBundle\Model\LiaisonBookSignatureQuery;
+use BNS\App\CoreBundle\Model\LiaisonBookUserQuery;
+use BNS\App\CoreBundle\Model\User;
 use BNS\App\CoreBundle\Model\UserQuery;
+use BNS\App\CoreBundle\User\BNSUserManager;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @author ROUAYS Pierre-Luc
@@ -18,9 +23,15 @@ class BNSLiaisonBookManager
 
         protected $api;
 
-	public function __construct($api)
+    /**
+     * @var BNSUserManager
+     */
+    protected $userManager;
+
+	public function __construct($api, BNSUserManager $userManager)
 	{
 		$this->api = $api;
+		$this->userManager = $userManager;
 	}
 
         /**
@@ -93,22 +104,114 @@ class BNSLiaisonBookManager
          * @param $month : mois du post
          * @param $year : année du post
 	 */
-	public function getLiaisonBooksByGroupIdAndDate($group_id, $month, $year)
+	public function getLiaisonBooksByGroupIdAndDate($groupId, $month, $year, $front = true, User $user = null)
 	{
-            $liaisonBooks = LiaisonBookQuery::create()->orderByDate()->findByGroupIdAndDate($group_id, $month, $year);
-            return $liaisonBooks;
+            if ($user) {
+                $hasBackAccess = $this->userManager->hasRight('LIAISONBOOK_ACCESS_BACK', $groupId);
+                if (!$hasBackAccess) {
+                    // user can see its own books and those of his children
+                    $children = $user->getActiveChildren();
+                    $children->append($user);
+                    $liaisonBookIds = LiaisonBookQuery::create()
+                        ->filterByIndividualized(false)
+                        ->filterByGroupIdAndDate($groupId, $month, $year, $front)
+                        ->select('Id')
+                        ->find()
+                        ->getArrayCopy();
+                    $individualizedLiaisonBookIds = LiaisonBookQuery::create()
+                        ->filterByIndividualized(true)
+                        ->useLiaisonBookUserQuery()
+                            ->filterByaddressed($children)
+                        ->endUse()
+                        ->filterByGroupIdAndDate($groupId, $month, $year, $front)
+                        ->select('Id')
+                        ->find()
+                        ->getArrayCopy();
+
+                    return LiaisonBookQuery::create()
+                        ->filterById(array_merge($liaisonBookIds, $individualizedLiaisonBookIds), \Criteria::IN)
+                        ->orderByDate(\Criteria::DESC)
+                        ->orderById(\Criteria::DESC)
+                        ->find()
+                        ;
+                }
+            }
+
+            return LiaisonBookQuery::create()->filterByGroupIdAndDate($groupId, $month, $year, $front)
+                ->orderByDate(\Criteria::DESC)
+                ->orderById(\Criteria::DESC)
+                ->find();
 	}
 
-        /**
-	 * @param $group_id : groupe en cours
-         * @param $month : mois du post
-         * @param $year : année du post
-	 */
-	public function getLiaisonBooksByGroupIdAndLessOneYear($group_id)
-	{
-            $liaisonBooks = LiaisonBookQuery::create()->orderByDate()->findByGroupIdAndLessOneYear($group_id);
-            return $liaisonBooks;
-	}
+    /**
+     * @param $group_id : groupe en cours
+     * @param $month : mois du post
+     * @param $year : année du post
+     */
+    public function getLiaisonBooksByGroupIdAndLessOneYear($groupId, User $user)
+    {
+        $hasBackAccess = $this->userManager->hasRight('LIAISONBOOK_ACCESS_BACK', $groupId);
+        if (!$hasBackAccess) {
+            // user can see its own books and those of his children
+            $children = $user->getActiveChildren();
+            $children->append($user);
+            $liaisonBookIds = LiaisonBookQuery::create()
+                ->filterByIndividualized(false)
+                ->filterByGroupIdAndLessOneYear($groupId)
+                ->select('Id')
+                ->find()
+                ->getArrayCopy();
+            $individualizedLiaisonBookIds = LiaisonBookQuery::create()
+                ->filterByIndividualized(true)
+                ->useLiaisonBookUserQuery()
+                ->filterByaddressed($children)
+                ->endUse()
+                ->filterByGroupIdAndLessOneYear($groupId)
+                ->select('Id')
+                ->find()
+                ->getArrayCopy();
+
+            return LiaisonBookQuery::create()
+                ->filterById(array_merge($liaisonBookIds, $individualizedLiaisonBookIds), \Criteria::IN)
+                ->orderByDate(\Criteria::DESC)
+                ->find();
+        }
+
+        return LiaisonBookQuery::create()->filterByGroupIdAndLessOneYear($groupId)->find();
+    }
+
+    public function getLastTenLiaisonBooks($groupId, User $user)
+    {
+        $hasBackAccess = $this->userManager->hasRight('LIAISONBOOK_ACCESS_BACK', $groupId);
+        if (!$hasBackAccess) {
+            // user can see its own books and those of his children
+            $children = $user->getActiveChildren();
+            $children->append($user);
+            $liaisonBookIds = LiaisonBookQuery::create()
+                ->filterByIndividualized(false)
+                ->filterByGroupId($groupId)
+                ->select('Id')
+                ->find()
+                ->getArrayCopy();
+            $individualizedLiaisonBookIds = LiaisonBookQuery::create()
+                ->filterByIndividualized(true)
+                ->useLiaisonBookUserQuery()
+                ->filterByaddressed($children)
+                ->endUse()
+                ->filterByGroupId($groupId)
+                ->select('Id')
+                ->find()
+                ->getArrayCopy();
+
+            return LiaisonBookQuery::create()
+                ->filterById(array_merge($liaisonBookIds, $individualizedLiaisonBookIds), \Criteria::IN)
+                ->orderByDate(\Criteria::DESC)
+                ->limit(10)
+                ->find();
+        }
+
+        return LiaisonBookQuery::create()->filterByGroupId($groupId)->orderByDate(\Criteria::DESC)->limit(10)->find();
+    }
 
 	public function getUsersThatHaveThePermissionInGroup($permission_unique_name, $group_id)
 	{

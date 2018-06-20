@@ -1,0 +1,52 @@
+BNS\App\CompetitionBundle\Model\Competition:
+  exclusion_policy: All
+
+  properties:
+    percent:
+      expose: true
+      groups: [competition_statistics]
+    score:
+      expose: true
+      groups: [competition_statistics]
+
+  virtual_properties:
+    getId:
+      expose: true
+      groups: [Default, competition_list_likes]
+    getStatus:
+      expose: true
+    getTitle:
+      expose: true
+      groups: [Default, competition_list_likes]
+    getDescription:
+      expose: true
+      groups: [Default, competition_list_likes]
+    getCompetitionType:
+      expose: true
+      serialized_name: type
+      groups: [Default, competition_list_likes]
+    getMedia:
+      expose: true
+      groups: [competition_edit]
+    getMediaUrl:
+      expose: true
+      groups: [competition_list, competition_list_likes]
+    getUser:
+      expose: true
+      groups: [competition_list]
+    getGroupId:
+      expose: true
+      groups: [competition_list]
+    getLike:
+      expose: true
+      groups: [competition_list, competition_list_likes]
+
+  relations:
+      - rel: users
+        embedded:
+          content: expr(object.getUsers())
+          groups: [ competition_detail ]
+      - rel: groups
+        embedded:
+          content: expr(object.getParticipatingGroups())
+          groups: [ competition_detail ]

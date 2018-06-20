@@ -1,0 +1,32 @@
+module:
+  unique_name: COURSE
+  is_contextable: false
+  default_rank:
+    pupil: USE
+    parent: NONE
+    teacher: MANAGE
+    other: NONE
+permissions:
+  ACCESS:           ~
+  ACCESS_BACK:      ~
+  VIEW_STATS:       ~
+  ACTIVATION:       ~
+  ACTIVATION_PARTNERSHIP: ~
+ranks:
+  NONE:
+    permissions: []
+  USE:
+    permissions:
+      - ACCESS
+  MANAGE:
+    permissions:
+      - ACCESS
+      - ACCESS_BACK
+      - ACTIVATION
+      - VIEW_STATS
+  MANAGE_PARTNERSHIP:
+    permissions:
+      - ACTIVATION_PARTNERSHIP
+  ACTIVATION_TEAM:
+    permissions:
+      - ACTIVATION

@@ -6,7 +6,7 @@
     <column name="label" required="true" size="255" type="VARCHAR" primaryString="true" />
     <column name="description" type="LONGVARCHAR" />
     <column name="lang" required="true" size="15" type="VARCHAR" />
-    <column name="type_unique_name" type="ENUM" valueSet="IMAGE, VIDEO, DOCUMENT, AUDIO, LINK, EMBEDDED_VIDEO, FILE, PROVIDER_RESOURCE, ATELIER_DOCUMENT, HTML, HTML_BASE, ATELIER_AUDIO"  />
+    <column name="type_unique_name" type="ENUM" valueSet="IMAGE, VIDEO, DOCUMENT, AUDIO, LINK, EMBEDDED_VIDEO, FILE, PROVIDER_RESOURCE, ATELIER_DOCUMENT, HTML, HTML_BASE, ATELIER_AUDIO, ATELIER_QUESTIONNAIRE"  />
 	<column name="value" type="LONGVARCHAR" />
 	<column name="filename" size="255" type="VARCHAR" />
 	<column name="file_mime_type" size="255" type="VARCHAR" />
@@ -85,6 +85,7 @@
     <column name="is_private" required="true" type="BOOLEAN" default="0" />
     <column name="is_locker" required="false" type="BOOLEAN" default="0" />
     <column name="homework_id" required="false" type="INTEGER" />
+    <column name="homework_individual" required="true" type="BOOLEAN" default="0" />
     <column name="deleted_by" required="false" type="INTEGER" />
 	<behavior name="nested_set">
 		<parameter name="use_scope" value="true" />
@@ -101,12 +102,6 @@
     </foreign-key>
 	<behavior name="timestampable" />
 	<behavior name="sluggable">
-      <parameter name="slug_column" value="slug" />
-      <parameter name="slug_pattern" value="groupe-{Label}" />
-      <parameter name="replace_pattern" value="/[^\w]+/u" />
-      <parameter name="replacement" value="-" />
-      <parameter name="separator" value="-" />
-      <parameter name="permanent" value="false" />
     </behavior>
   </table>
   <table name="media_folder_user">
@@ -115,6 +110,7 @@
 	<column name="user_id" required="true" type="INTEGER" />
     <column name="status_deletion" required="true" type="INTEGER" size="2" default="1" />
     <column name="is_private" required="true" type="BOOLEAN" default="0" />
+    <column name="is_workshop" required="true" type="BOOLEAN" default="0" />
     <column name="is_share_destination" required="true" type="BOOLEAN" default="0" />
     <column name="deleted_by" required="false" type="INTEGER" />
 	<behavior name="nested_set">
@@ -129,12 +125,6 @@
     </foreign-key>
 	<behavior name="timestampable" />
 	<behavior name="sluggable">
-      <parameter name="slug_column" value="slug" />
-      <parameter name="slug_pattern" value="utilisateur-{Label}" />
-      <parameter name="replace_pattern" value="/[^\w]+/u" />
-      <parameter name="replacement" value="-" />
-      <parameter name="separator" value="-" />
-      <parameter name="permanent" value="false" />
     </behavior>
   </table>
 

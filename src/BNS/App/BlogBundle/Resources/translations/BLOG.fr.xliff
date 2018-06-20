@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-08-17T11:55:18Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2018-04-11T12:06:48Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -63,6 +63,13 @@ This text contains HTML tags, please try to keep those tags
         <source>ARTICLE_LOADING</source>
         <target>Articles en cours de chargement</target>
       </trans-unit>
+      <trans-unit id="e45ac8b5a21dc3c0cc6d42f4024d2fadfd570809" resname="ARTICLE_NUMBER_OF_VIEWS">
+        <source>ARTICLE_NUMBER_OF_VIEWS</source>
+        <target>Article vu %count% fois</target>
+        <note><![CDATA[%count% is a placeholder
+              This text contains HTML tags, please try to keep those tags
+              ]]></note>
+      </trans-unit>
       <trans-unit id="c0ac8551b9f945a88c2e5770c69b3d6156fd1823" resname="ARTICLE_PIN_SUCCESS">
         <source>ARTICLE_PIN_SUCCESS</source>
         <target>L'article a été épinglé avec succès.</target>
@@ -116,6 +123,10 @@ This text contains HTML tags, please try to keep those tags
         <source>BLOG_UPDATE_SUCCESS</source>
         <target state="new">Votre blog a été modifié avec succès.</target>
       </trans-unit>
+      <trans-unit id="227fdc5d2f82f6fa20c915f349ffdb84b83d3af7" resname="BUTTON_ACCEPT_COMMENTS">
+        <source>BUTTON_ACCEPT_COMMENTS</source>
+        <target state="new">Accepter | les commentaires</target>
+      </trans-unit>
       <trans-unit id="ddcd87006c55da294fdbc15c17c6ac88020073b8" resname="BUTTON_ADD">
         <source>BUTTON_ADD</source>
         <target>Ajouter</target>
@@ -132,9 +143,17 @@ This text contains HTML tags, please try to keep those tags
         <source>BUTTON_INSTALL_APP</source>
         <target state="new">Installer l'application</target>
       </trans-unit>
+      <trans-unit id="b0ea79323667920d722fcc011f667b5dba055144" resname="BUTTON_REFUSE_COMMENTS">
+        <source>BUTTON_REFUSE_COMMENTS</source>
+        <target state="new">Refuser | les commentaires</target>
+      </trans-unit>
       <trans-unit id="ab16b95dc67cdcbc9f1c8b5d632cb09034834b40" resname="BUTTON_SEE_ARTICLE">
         <source>BUTTON_SEE_ARTICLE</source>
         <target>Voir l'article</target>
+      </trans-unit>
+      <trans-unit id="90ae7e0191577d5879c998af416cc01301aeac5c" resname="BUTTON_TO_MODERATION_COMMENTS">
+        <source>BUTTON_TO_MODERATION_COMMENTS</source>
+        <target>Passer en modération | les commentaires </target>
       </trans-unit>
       <trans-unit id="a5b78c7a0204c4ebb6fcd6b90b501b716969a16e" resname="CAN_CREATE_CATEGORY_AT_MANAGEMENT">
         <source>Vous pouvez en créer à la page de %linkStart% gestion des catégories %linkEnd% </source>
@@ -157,7 +176,7 @@ This text contains HTML tags, please try to keep those tags
       </trans-unit>
       <trans-unit id="a6f5ed2c2723411e8dffee848abc23964e8a3d43" resname="CHILD_ARTICLE_TOO_FAULT">
         <source>CHILD_ARTICLE_TOO_FAULT</source>
-        <target>Ton enseignant trouve qu'il y a trop de fautes dans ton article, tu devrais le corriger !</target>
+        <target>Ton article a été relu, tu peux maintenant le corriger.</target>
       </trans-unit>
       <trans-unit id="7792350a5e91ad429cbc8c1134bb23c349b12349" resname="CHILD_ARTICLE_WILL_BE_CORRECT">
         <source>CHILD_ARTICLE_WILL_BE_CORRECT</source>
@@ -183,13 +202,29 @@ This text contains HTML tags, please try to keep those tags
         <source>COMMENTS</source>
         <target>Commentaires</target>
       </trans-unit>
+      <trans-unit id="045b3a7943d7be5090d215677e12a7c4715f3875" resname="COMMENT_MODERATION_CLOSED">
+        <source>COMMENT_MODERATION_CLOSED</source>
+        <target>Modération des commentaires fermée</target>
+      </trans-unit>
+      <trans-unit id="66fc6a3fa90c540f03263b8f9c623852d8dc2e9c" resname="COMMENT_MODERATION_OPENED">
+        <source>COMMENT_MODERATION_OPENED</source>
+        <target>Modération des commentaires ouverte</target>
+      </trans-unit>
       <trans-unit id="2458944270ee8a7ef5aaa03975d62b625192b65d" resname="COMMENT_UPDATE_SUCCESS">
         <source>COMMENT_UPDATE_SUCCESS</source>
         <target state="new">Le commentaire a été modifié avec succès. </target>
       </trans-unit>
       <trans-unit id="b3a69ff6b70dd734f7099dd740e657d56c6d1ce5" resname="CONTENT_ARTICLE_SAVE_IN_DRAFT">
         <source>CONTENT_ARTICLE_SAVE_IN_DRAFT</source>
-        <target>le contenu de l'article a été sauvegardé automatiquement dans les brouillons.</target>
+        <target>Le contenu de l'article a été sauvegardé automatiquement dans les brouillons.</target>
+      </trans-unit>
+      <trans-unit id="47734af9ece50dfbf6207fa88258958158d18b0a" resname="COUNT_VIEW_CLOSED">
+        <source>COUNT_VIEW_CLOSED</source>
+        <target state="new">Compteur de vues désactivé</target>
+      </trans-unit>
+      <trans-unit id="45907f0da348994fff7805194bcaeb34de5842de" resname="COUNT_VIEW_OPENED">
+        <source>COUNT_VIEW_OPENED</source>
+        <target state="new">Compteur de vues activé</target>
       </trans-unit>
       <trans-unit id="fdf072cd28561451842615ade255a766ca8a26ca" resname="CREATE_AT_FROM">
         <source>Crée %dateCreation% par %image% %userFullName%</source>
@@ -238,6 +273,8 @@ This text contains HTML tags, please try to keep those tags
       <trans-unit id="57e95b8390d0942f41db76b4b766f2f3d5dc396c" resname="DESCRIPTION_CONFIRM_DELETE_ARTICLES">
         <source>DESCRIPTION_CONFIRM_DELETE_ARTICLES</source>
         <target state="new"><![CDATA[Vous perdrez la totalité des contenu des articles .<br />A noter que si vous avez ajouté des documents à vos articles, ils ne seront pas supprimés de la médiathèque.]]></target>
+        <note>This text contains HTML tags, please try to keep those tags
+</note>
       </trans-unit>
       <trans-unit id="b857b2a25952b71006d445a085b3415c261d8ee6" resname="DESCRIPTION_ENABLED_DISABLED_GREEN_LIGHT">
         <source>DESCRIPTION_ENABLED_DISABLED_GREEN_LIGHT</source>
@@ -340,6 +377,12 @@ This text contains HTML tags, please try to keep those tags
         <note><![CDATA[%dateCreation% is a placeholder
 ]]></note>
       </trans-unit>
+      <trans-unit id="a0cd816661c23af7c6b45d3f90f67b6750560ae0" resname="LAST_MODIFICATION_AT_BY">
+        <source>LAST_MODIFICATION_AT_BY</source>
+        <target state="new"><![CDATA[Dernière modification %dateCreation% par %image% <strong>%userFullName%</strong>]]></target>
+        <note><![CDATA[%dateCreation% is a placeholder
+]]></note>
+      </trans-unit>
       <trans-unit id="97fda04ca32a9685770ed51506712cbe1f6e53d0" resname="LEAVE_EMPTY_TO_PARAM_TODAY">
         <source>LEAVE_EMPTY_TO_PARAM_TODAY</source>
         <target>Laissez vide pour paramétrer la publication à la date et l'heure d'aujourd'hui</target>
@@ -418,6 +461,12 @@ This text contains HTML tags, please try to keep those tags
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
+      <trans-unit id="01e92d506ed1520d60c7223e6b8cea469a94dc27" resname="LINK_COUNT_VIEWS">
+        <source>LINK_COUNT_VIEWS</source>
+        <target state="new">Compter les vues des articles</target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
       <trans-unit id="a6226e5b696d208080e66cd1a50b68d935378806" resname="LINK_CREATE_ARTICLE">
         <source>LINK_CREATE_ARTICLE</source>
         <target>Écrire un article</target>
@@ -425,6 +474,10 @@ This text contains HTML tags, please try to keep those tags
       <trans-unit id="a14dd84cdd936625497432e4e1b6e2e4508865b3" resname="LINK_CUSTOMIZE">
         <source>LINK_CUSTOMIZE</source>
         <target>Personnalisation</target>
+      </trans-unit>
+      <trans-unit id="b85114057b26b7572587176b83c4664f2eb17431" resname="LINK_DELETE_ALL_COMMENT">
+        <source>LINK_DELETE_ALL_COMMENT</source>
+        <target>Supprimer|tous les commentaires</target>
       </trans-unit>
       <trans-unit id="d124790ade9ae978117e5f34abbe6c744695b673" resname="LINK_DELETE_ARTICLE">
         <source><![CDATA[<strong>Supprimer</strong><br /> l'article]]></source>
@@ -492,7 +545,7 @@ This text contains HTML tags, please try to keep those tags
       </trans-unit>
       <trans-unit id="8e85e03d9ea18ad3a2b2eafde3d01585937774dc" resname="LINK_VALIDATE_ALL_COMMENT">
         <source>LINK_VALIDATE_ALL_COMMENT</source>
-        <target>Valider tous les commentaires</target>
+        <target>Valider|tous les commentaires</target>
       </trans-unit>
       <trans-unit id="799ed4e32d2d217afcbf6b742f62becdb392db2a" resname="LINK_WRITE_ARTICLE">
         <source>LINK_WRITE_ARTICLE</source>
@@ -816,14 +869,6 @@ This text contains HTML tags, please try to keep those tags
         <source>YERBOOK_PRESENTATION</source>
         <target state="new">Installez l'application Yërbook pour sélectionner les articles du blog qui composeront le livre souvenir de votre classe. Rédigez un petit message pour vos élèves, ajoutez la photo de classe et même un trombinoscope ! Vous êtes le rédac' chef.</target>
       </trans-unit>
-      <trans-unit id="045b3a7943d7be5090d215677e12a7c4715f3875" resname="COMMENT_MODERATION_CLOSED">
-         <source>COMMENT_MODERATION_CLOSED</source>
-         <target>Modération des commentaires fermée</target>
-       </trans-unit>
-       <trans-unit id="66fc6a3fa90c540f03263b8f9c623852d8dc2e9c" resname="COMMENT_MODERATION_OPENED">
-         <source>COMMENT_MODERATION_OPENED</source>
-         <target>Modération des commentaires ouverte</target>
-       </trans-unit>
     </body>
   </file>
 </xliff>

@@ -14,7 +14,10 @@
       </trans-unit>
       <trans-unit id="6fd67cb09265b146c1c80d228350df15294e20ca" resname="LIAISON_BOOK_NEW_MESSAGE_TO_SIGN.EMAIL.title">
         <source>LIAISON_BOOK_NEW_MESSAGE_TO_SIGN.EMAIL.title</source>
-        <target>A message has been added to the parent-teacher contact book</target>
+        <target>%classLabel%A message has been added to the parent-teacher contact book</target>
+        <note>%classLabel% is a placeholder
+               This text contains HTML tags, please try to keep those tags
+            </note>
       </trans-unit>
       <trans-unit id="79cee2b72cfe6fe6aaeaac4d962599f7f45f0f96" resname="LIAISON_BOOK_NEW_MESSAGE_TO_SIGN.SYSTEM.content">
         <source>LIAISON_BOOK_NEW_MESSAGE_TO_SIGN.SYSTEM.content</source>

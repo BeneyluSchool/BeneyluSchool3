@@ -26,17 +26,16 @@
   </div>
     </md-toolbar>
     <md-content class="md-padding">
-    {% if news == false %}
-            <div class="layout-row layout-padding layout-align-center-center">
-                <div>
-        <div class="bnj-not-found"></div>
-        <p>{% trans  %}NO_MESSAGE_FOR_THIS_MONTH{% endtrans %}</p>
-        <p class="buttons-container">
-                        {{ components.button( 'LINK_WRITE_MESSAGE' | trans , { intent: 'primary', href: path('BNSAppLiaisonBookBundle_back_create'), icon: 'add_circle', raised: true }) }}
-        </p>
-        <div class="clearfix"></div>
-      </div>
-            </div>
+    {% if news is empty %}
+      <bns-inset class="md-padding text-center">
+          <div>
+              <p>{% trans  %}NO_MESSAGE_FOR_THIS_MONTH{% endtrans %}</p>
+              <p class="buttons-container">
+                              {{ components.button( 'LINK_WRITE_MESSAGE' | trans , { intent: 'primary', href: path('BNSAppLiaisonBookBundle_back_create'), icon: 'add_circle', raised: true }) }}
+              </p>
+              <div class="clearfix"></div>
+          </div>
+      </bns-inset>
     {% endif %}
         <md-list class="articles">
     {% for new in news %}
@@ -44,14 +43,14 @@
                 <div class="md-list-item-text" flex>
                     <h2 class="md-headline">{{ new.title }}</h2>
                     <p class="md-body-1 text-muted">
-                     {{ 'CREATE_AT_BY'|trans({'%date%': date_from_now ( new.getCreatedAt(), true, true, 'full', 'none'),'%imageLink%': '<img style="width:16px;" src="' ~ avatar(new.getUser(), 'thumbnail') ~ '" alt="" class="avatar" />' ,'%user%': new.getUser().getFullName() |escape }) |desc('%date% par %user%') |raw}}
+                     {{ 'CREATE_AT_BY'|trans({'%date%': date_from_now ( new.getCreatedAt(), true, true, 'full', 'none', null, true),'%imageLink%': '<img style="width:16px;" src="' ~ avatar(new.getUser(), 'thumbnail') ~ '" alt="" class="avatar" />' ,'%user%': new.getUser().getFullName() |escape }) |desc('%date% par %user%') |raw}}
                     </p>
                     <p class="md-body-1">
                         {{ new.getShortContent() | purify }}
                     </p>
 
                     <div class="layout-row layout-align-space-between">
-                        <span>{{ new.liaisonBookSignatures.count }} / {{ totalSignatures }} {% if new.liaisonBookSignatures.count > 1 %}{{ 'PLURAL_SIGNATURE'|trans }}{% else %}{{ 'SIGNATURE'|trans }}{% endif %}</span>
+                        <span>{{ new.liaisonBookSignatures.count }} /{% if new.individualized %} {{ new.getNumberOfAdressed() }} {% else %} {{ totalSignatures }} {% endif %} {% if new.liaisonBookSignatures.count > 1 %}{{ 'PLURAL_SIGNATURE'|trans }}{% else %}{{ 'SIGNATURE'|trans }}{% endif %}</span>
                         {{ components.button_nav('LINK_SEE_MESSAGE' | trans, {
                         href: path('BNSAppLiaisonBookBundle_back_detail', {slug: new.slug}),
                         size: 'sm',

@@ -1,5 +1,6 @@
 {% trans_default_domain "TEAM" %}
 {% extends '::base.html.twig' %}
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
 
 {% set app_unique_name = 'TEAM' %}
 {% set app_mode = 'front' %}
@@ -15,6 +16,7 @@
 {% endblock %}
 
 {% block body %}
+    {{ components.toasts(app.session.flashBag.all) }}
 
 
     <div class="background-group team">

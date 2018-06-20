@@ -41,10 +41,8 @@
   <script type="text/javascript">
     $(function () {
       angularBootstrap().then(function ($injector) {
-        var app = angular.module('beneyluSchoolMaterialApp');
-        app.loadLegacyApp().then(function () {
-          $injector.get('$location').path('/media-library/boot');
-        });
+        // TODO: ng5 add /app base path
+        $injector.get('$location').url('/media-library/boot?embed=1');
       })
     });
   </script>

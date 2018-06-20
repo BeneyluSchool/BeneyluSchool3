@@ -23,6 +23,7 @@
         data-object-id="{{ objectId|default('') }}"
         source="{{ medias|serialize }}"
         editable="{{ editable }}"
+        form-name="{{ formName|default('resource-joined[]') }}"
         {% if startOpen is defined and not startOpen %}start-open="false"{% endif %}
     ></bns-attachments>
 </div>

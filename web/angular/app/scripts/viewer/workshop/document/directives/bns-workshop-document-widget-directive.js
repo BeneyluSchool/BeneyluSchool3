@@ -42,6 +42,10 @@ angular.module('bns.viewer.workshop.document.widget', [
           element.attr('bns-workshop-document-widget-write', attrs.bnsWorkshopDocumentWidget);
         }
 
+        if (pageCtrl.isCompetition) {
+          element.attr('bns-workshop-document-widget-competition', true);
+        }
+
         element.removeAttr('bns-workshop-document-widget');
         $compile(element)(scope);
       };

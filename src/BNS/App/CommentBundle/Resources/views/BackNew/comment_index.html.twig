@@ -5,8 +5,7 @@
 	{
 		var angularizer = new Angularizer();
 		// Filters process
-		$('.comment-sidebar-filter').click(function (e)
-		{
+		$('body').on('click', '.comment-sidebar-filter', function (e) {
 			$('.comment-sidebar-filter').removeClass('md-primary');
 			var $this = $(e.currentTarget),
 				$layer = $('#comment-layer');
@@ -33,6 +32,12 @@
           else {
             $('.md-toolbar-tools .validate-all-comments').show();
           }
+          if ($this.data('filter-status') != 'REFUSED') {
+            $('.md-toolbar-tools .delete-all-comments').hide();
+          }
+          else {
+            $('.md-toolbar-tools .delete-all-comments').show();
+          }
 				}
 			}).done(function ()
 			{
@@ -42,8 +47,7 @@
 		});
 
 		// Buttons moderation process
-		$('button.moderation-button').live('click', function (e)
-		{
+		$('body').on('click', 'button.moderation-button', function (e) {
 			var $this = $(e.currentTarget),
 				id = this.id,
 				$row = $('#comment-' + id);
@@ -132,8 +136,7 @@
 		});
 
 		// Validate all button process
-		$('.md-toolbar-tools .validate-all-comments').click(function (e)
-		{
+		$('body').on('click', '.md-toolbar-tools .validate-all-comments', function (e) {
 			var $this = $(e.currentTarget);
 
 			if ($this.hasClass('disabled')) {
@@ -143,6 +146,28 @@
 			$this.addClass('disabled').attr('disabled', 'disabled');
 			$.ajax({
 				url: '{{ path('comment_manager_validate_all') }}',
+				type: 'POST',
+				data: {'namespace': '{{ namespace }}'},
+				success: function ()
+				{
+					window.location.reload(true);
+				}
+			});
+
+			return false;
+		});
+
+		// Delete all button process
+		$('body').on('click', '.md-toolbar-tools .delete-all-comments', function (e) {
+			var $this = $(e.currentTarget);
+
+			if ($this.hasClass('disabled')) {
+				return false;
+			}
+
+			$this.addClass('disabled').attr('disabled', 'disabled');
+			$.ajax({
+				url: '{{ path('comment_manager_delete_all') }}',
 				type: 'POST',
 				data: {'namespace': '{{ namespace }}'},
 				success: function ()
@@ -169,7 +194,7 @@
 		<h1 class="md-title text-primary text-left flex flex-gt-sm-33">{% trans %}FILTER_COMMENT{% endtrans %}</h1>
 	</div>
 </md-toolbar>
-<md-content class="comments-list-container comments-list layout-column flex">
+<md-content class="comments-list-container comments-list layout-column flex" {% if bnsFeatureFlagComment is defined and bnsFeatureFlagComment %}bns-feature-flag="'{{ bnsFeatureFlagComment }}'" bns-feature-push="'incentive'"{% endif %}>
 	{#<div id="comment-layer" class="layer span9 no-margin">#}
 		{#<div class="message">#}
 			{#{{ 'COMMENT_LOADING' | trans }}#}

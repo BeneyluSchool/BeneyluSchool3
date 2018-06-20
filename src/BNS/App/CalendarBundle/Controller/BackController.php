@@ -32,7 +32,7 @@ class BackController extends Controller
 
     	// On récupère les paramètres d'initialisation de wdCalendar grâce au CalendarManager
     	$array = $this->get('bns.calendar_manager')->getWdCalendarInitParameters($request->getSession(), true);
-    	$array['agendas'] = $this->get('bns.calendar_manager')->getAgendasFromGroupIds($rightManager->getGroupIdsWherePermission('CALENDAR_ACCESS_BACK'));
+    	$array['agendas'] = $this->get('bns.calendar_manager')->getAgendasFromGroupIdsAndUser($rightManager->getGroupIdsWherePermission('CALENDAR_ACCESS_BACK'));
     	$array['colors'] = Agenda::$colorsClass;
 
         if (array_key_exists($this->getUser()->getLang(), $this->getParameter('bns_date_calendar_patterns'))) {
@@ -63,7 +63,7 @@ class BackController extends Controller
 		$rm = $this->get('bns.right_manager');
 		$rm->forbidIf(!$rm->hasRight('CALENDAR_ACCESS_BACK',$event->getAgenda()->getGroupId()));
 
-    	$agendas = $calendarManager->getAgendasFromGroupIds($rightManager->getGroupIdsWherePermission('CALENDAR_ACCESS_BACK'));
+    	$agendas = $calendarManager->getAgendasFromGroupIdsAndUser($rightManager->getGroupIdsWherePermission('CALENDAR_ACCESS_BACK'));
 
     	// Création du formulaire avec tous les paramètres d'initialisation nécessaire
     	$form = $this->createForm(new CalendarEventType($agendas, $rightManager->getLocale()), new CalendarEventFormModel($event));
@@ -105,7 +105,7 @@ class BackController extends Controller
     public function newEventAction($start, $end, $allday)
     {
     	$rightManager = $this->get('bns.right_manager');
-    	$agendas = $this->get('bns.calendar_manager')->getAgendasFromGroupIds($rightManager->getGroupIdsWherePermission('CALENDAR_ACCESS_BACK'));
+    	$agendas = $this->get('bns.calendar_manager')->getAgendasFromGroupIdsAndUser($rightManager->getGroupIdsWherePermission('CALENDAR_ACCESS_BACK'));
 
         //[bns-9411] Préselectionner la classe courante
         // On récupère l'agenda lié au groupe courant de l'utilisateur.
@@ -256,7 +256,7 @@ class BackController extends Controller
         $minutes = $date->format('i');
     	$array['hoursdial'] = (($hours > 12? $hours - 12 : $hours) * 60 + $minutes) / 2;
     	$array['sundial'] = ($hours * 60 + $minutes) / 4;
-		$array['agendas'] = $this->get('bns.calendar_manager')->getAgendasFromGroupIds($this->get('bns.right_manager')->getGroupIdsWherePermission('CALENDAR_ACCESS_BACK'));
+		$array['agendas'] = $this->get('bns.calendar_manager')->getAgendasFromGroupIdsAndUser($this->get('bns.right_manager')->getGroupIdsWherePermission('CALENDAR_ACCESS_BACK'));
     	$array['colors'] = Agenda::$colorsClass;
 
     	return $this->render('BNSAppCalendarBundle:Back:back_event_visualisation.html.twig', $array);

@@ -78,7 +78,7 @@ class FrontController extends Controller
 
         //rendre le calendrier accessible seulement aux francais
         $user = $this->getUser();
-        $lang= $user->getLang();
+        $lang = $user->getLang();
 
         $lastFlux = array();
         $blackboard = null;
@@ -128,7 +128,7 @@ class FrontController extends Controller
                 $profileCompletion = $completed / count($values) * 100;
 
                 // hide if profile is complete
-                if ($profileCompletion === 100) {
+                if ($profileCompletion === 100 || $classroom->getAafId() !== null) {
                     $profileCompletion = false;
                 }
             }

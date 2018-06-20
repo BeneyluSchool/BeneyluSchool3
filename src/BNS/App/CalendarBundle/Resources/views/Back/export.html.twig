@@ -1,0 +1,7 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:4545
+{% for event in events %}
+{{ event.getIcalendarVevent() }}
+{% endfor %}
+END:VCALENDAR

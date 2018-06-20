@@ -55,36 +55,10 @@
   }
 
   video {
-    .mejs-container {
-      height: 0 !important;
-      padding-bottom: 56.25%; /* 16:9 */
-      position: relative;
-    }
-    .mejs-overlay.mejs-layer { height: 100% !important; }
     display: inline-block;
     max-width: 100%;
     max-height: 100% !important;
   }
-}
-
-.viewer-media-video {
-
-  .mejs-container {
-    width: 100% !important;
-    height: auto !important;
-    padding-top: 57%;
-  }
-  .mejs-overlay, .mejs-poster {
-    width: 100% !important;
-    height: 100% !important;
-  }
-  .mejs-mediaelement video {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    width: 100% !important;
-    height: 100% !important;
-  }
-
 }
 
 
@@ -214,16 +188,19 @@
  *    Workshop
 \******************************************************************************/
 
-// documents
+// documents and questionnaires
+.viewer-media-wrapper.media-atelier-questionnaire,
 .viewer-media-wrapper.media-atelier-document {
   .viewer-media,
   .viewer-media-inner,
+  .bns-viewer-workshop-questionnaire,
   .bns-viewer-workshop-document,
   [bns-viewer-workshop-document-media],
   [bns-workshop-document] {
     height: 100%;
   }
 
+  .bns-viewer-workshop-questionnaire,
   .bns-viewer-workshop-document {
     width: 100%;
   }

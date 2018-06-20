@@ -29,8 +29,6 @@ class ForumStatisticsService extends StatisticsService
 
     public function visit()
     {
-        $this->disableCascadeParentGroup();
         $this->increment('FORUM_VISIT');
-        $this->enableCascadeParentGroup();
     }
 }

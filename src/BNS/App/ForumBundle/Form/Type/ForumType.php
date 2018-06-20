@@ -3,12 +3,30 @@ namespace BNS\App\ForumBundle\Form\Type;
 
 use BNS\App\CoreBundle\Model\GroupQuery;
 
+use BNS\App\CoreBundle\Model\UserQuery;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ForumType extends AbstractType
 {
+    /**
+     * @var array
+     */
+    private $userIds;
+    /**
+     * @var array
+     */
+    private $groups;
+
+    /**
+     * ForumType constructor.
+     */
+    public function __construct($userIds = array(), $groups = array())
+    {
+        $this->userIds = $userIds;
+        $this->groups = $groups;
+    }
 
     /**
      * @param FormBuilderInterface $builder
@@ -38,6 +56,12 @@ class ForumType extends AbstractType
                 'choices' => array('0' => 'Non', '1' => 'Oui'),
                 'expanded' => true
                 ));
+        $builder->add('validatedUsers', 'model', [
+            'class' => 'BNS\\App\\CoreBundle\\Model\\User',
+            'multiple' => true,
+            'expanded' => true,
+            'query' => UserQuery::create()->filterById($this->userIds, \Criteria::IN)
+        ]);
 
         if ($options['is_edit']) {
             $builder->add('closed_at', 'date', array(
@@ -61,7 +85,7 @@ class ForumType extends AbstractType
             $builder->add('group', 'model', array(
                     'class' => 'BNS\App\CoreBundle\Model\Group',
                     'expanded' => true,
-                    'query' => GroupQuery::create()->orderByLabel()->filterById($options['groups']->getPrimaryKeys()),
+                    'query' => GroupQuery::create()->orderByLabel()->filterById($options['groups']),
             ));
         }
     }

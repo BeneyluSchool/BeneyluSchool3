@@ -45,25 +45,19 @@ class GroupQuery extends BaseGroupQuery
      * Filter group query to allow only valid group (not archived, not with refused status
      * it also filter group based on two options $validatedGroup and $enabledGroup
      *
-     * @param bool|false $validatedGroup use by Public version equals validation status VAIDATED
      * @param bool|false $enabledGroup use by Montpellier version equals
      * @return $this
      */
-    public function filterByEnabledOnly($validatedGroup = false, $enabledGroup = false)
+    public function filterByEnabledOnlyForStatistics($enabledGroup = false)
     {
         $groupTypeIds = GroupTypeQuery::create()
-            ->filterByType(array('SCHOOL', 'CLASSROOM'))
+            ->filterByType(array('CLASSROOM', 'SCHOOL'))
             ->select('Id')
             ->find()
         ;
 
         $this
             ->filterByArchived(false)
-            ->_if($validatedGroup)
-                ->filterByValidationStatus(GroupPeer::VALIDATION_STATUS_VALIDATED, \Criteria::EQUAL)
-                ->_or()
-                ->filterByGroupTypeId($groupTypeIds, \Criteria::NOT_IN)
-            ->_endif()
             ->_if($enabledGroup)
                 ->filterByEnabled(true, \Criteria::EQUAL)
                 ->_or()

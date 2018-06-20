@@ -9,6 +9,7 @@ use BNS\App\MediaLibraryBundle\Model\MediaFolderGroupPeer;
 use BNS\App\MediaLibraryBundle\Model\MediaFolderGroupQuery;
 use BNS\App\MediaLibraryBundle\Model\MediaQuery;
 use BNS\App\MediaLibraryBundle\Form\Type\ChangeYearResourceDataResetType;
+use BNS\App\PaasBundle\Manager\PaasManager;
 
 
 /**
@@ -19,18 +20,22 @@ class ChangeYearResourceDataReset extends AbstractDataReset
     /** @var  MediaManager $mediaManager */
     protected $mediaManager;
 
-    public function __construct(MediaManager $mediaManager)
+    /** @var PaasManager  */
+    protected $paasManager;
+
+    public function __construct(MediaManager $mediaManager, PaasManager $paasManager)
     {
         $this->mediaManager = $mediaManager;
+        $this->paasManager = $paasManager;
     }
 
     /**
-     * @var string 
+     * @var string
      */
     public $choice;
 
     /**
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -96,6 +101,9 @@ class ChangeYearResourceDataReset extends AbstractDataReset
 
         // Reset resource quota for groupe
         $group->setAttribute('RESOURCE_USED_SIZE', 0);
+
+        // reset Resource Spot cache
+        $this->paasManager->resetClient($group);
     }
 
     /**
@@ -115,7 +123,7 @@ class ChangeYearResourceDataReset extends AbstractDataReset
     }
 
     /**
-     * @return array<String, String> 
+     * @return array<String, String>
      */
     public static function getChoices()
     {

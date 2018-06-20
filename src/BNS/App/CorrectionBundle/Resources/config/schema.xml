@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app" namespace="BNS\App\CorrectionBundle\Model"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://xsd.propelorm.org/1.6/database.xsd">
+
+    <table name="correction">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="object_id" required="true" type="INTEGER"/>
+        <column name="object_class" required="true" size="255" type="VARCHAR"/>
+        <column name="comment" type="longvarchar" />
+        <column name="last_correction" type="longvarchar" />
+        <column name="last_correction_by" type="INTEGER" required="false" />
+
+        <foreign-key foreignTable="user" onDelete="setnull" onUpdate="CASCADE">
+            <reference local="last_correction_by" foreign="id" />
+        </foreign-key>
+
+        <behavior name="timestampable"/>
+      <index name="FK_OBJECT_ID">
+        <index-column name="object_id"/>
+      </index>
+      <index name="FK_OBJECT_CLASS">
+        <index-column name="object_class"/>
+      </index>
+      <index name="FK_OBJECT_ID_OBJECT_CLASS">
+        <index-column name="object_class"/>
+        <index-column name="object_id"/>
+      </index>
+    </table>
+
+    <table name="correction_annotation">
+        <column name="id" type="INTEGER" autoIncrement="true" primaryKey="true" required="true"/>
+        <column name="guid" type="VARCHAR" size="255" />
+        <column name="correction_id" type="INTEGER" required="true" />
+        <column name="label" type="VARCHAR" size="255" required="true" />
+        <column name="type" type="ENUM" valueSet="NONE,NOUN,VERB,HOMOPHONIC,VOCABULARY,PUNCTUATION" defaultValue="NONE" required="true" />
+        <column name="comment" type="longvarchar" />
+        <column name="user_id" type="INTEGER" required="false" />
+
+        <foreign-key foreignTable="correction" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference local="correction_id" foreign="id" />
+        </foreign-key>
+
+        <foreign-key foreignTable="user" onDelete="setnull" onUpdate="CASCADE">
+            <reference local="user_id" foreign="id" />
+        </foreign-key>
+
+        <behavior name="sortable">
+            <parameter name="use_scope" value="true" />
+            <parameter name="scope_column" value="correction_id" />
+        </behavior>
+        <behavior name="timestampable"/>
+        <behavior name="bns_media_attachmentable"/>
+    </table>
+
+</database>

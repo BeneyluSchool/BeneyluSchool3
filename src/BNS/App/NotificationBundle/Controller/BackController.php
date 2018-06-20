@@ -2,6 +2,7 @@
 
 namespace BNS\App\NotificationBundle\Controller;
 
+use BNS\App\CoreBundle\Model\ModuleQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -43,14 +44,14 @@ class BackController extends Controller
 			}
 		}*/
 		
-		$personnalModules = array();
-		foreach ($userGroups as $group) {
-			foreach ($group->getGroupType()->getModules() as $module) {
-				if (!$module->isContextable() && $module->getUniqueName() != 'NOTIFICATION') {
-					$personnalModules[$module->getUniqueName()] = $module;
-				}
-			}
-		}
+		$rmu = $this->get('bns.right_manager')->getModulesReachableUniqueNames();
+		$personnalModules = ModuleQuery::create()
+			->filterByUniqueName($rmu)
+			->filterByIsContextable(false)
+			->filterByUniqueName('NOTIFICATION', \Criteria::NOT_EQUAL)
+			->joinWith('NotificationType')
+			->find()
+			->getArrayCopy('UniqueName');
 		
 		return $this->render('BNSAppNotificationBundle:Back:index.html.twig', array(
 			'userGroups'		=> $userGroups,

@@ -20,6 +20,7 @@ framework:
     session:
         handler_id: snc_redis.session.handler
         cookie_httponly:  true
+        cookie_secure:    true
 
 # Twig Configuration
 twig:
@@ -174,7 +175,11 @@ parameters:
 
     hwi_oauth.authentication.entry_point.oauth.class: BNS\App\CoreBundle\Security\Http\EntryPoint\ApiAuthenticationEntryPoint
 
+    security.authentication.rememberme.services.persistent.class: BNS\CommonBundle\Security\RememberMe\PersistentTokenBasedRememberMeServices
+
     redis_transfer_hosts: redis://127.0.0.1/2
+
+    bns.remember_me.prod: true
 
     # keep in sync with those in the Gruntfile.js
     # keep in sync with those in the LogonController

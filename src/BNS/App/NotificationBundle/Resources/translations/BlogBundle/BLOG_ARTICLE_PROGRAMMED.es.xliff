@@ -13,12 +13,16 @@
 %articleAuthor% is a placeholder
 %articlePublishedAtHours% is a placeholder
 %articlePublishedAtMinutes% is a placeholder
+%classLabel% is a placeholder
 This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
       <trans-unit id="5bbc312616daf42d831b87097ca004e84085008b" resname="BLOG_ARTICLE_PROGRAMMED.EMAIL.title">
         <source>BLOG_ARTICLE_PROGRAMMED.EMAIL.title</source>
-        <target>Un artículo se publicará en el blog</target>
+        <target>%classLabel%Un artículo se publicará en el blog</target>
+        <note>%classLabel% is a placeholder
+                       This text contains HTML tags, please try to keep those tags
+                 </note>
       </trans-unit>
       <trans-unit id="aca74a5f82b039cf997d5ac7cb567017618bdc73" resname="BLOG_ARTICLE_PROGRAMMED.SYSTEM.content">
         <source>BLOG_ARTICLE_PROGRAMMED.SYSTEM.content</source>

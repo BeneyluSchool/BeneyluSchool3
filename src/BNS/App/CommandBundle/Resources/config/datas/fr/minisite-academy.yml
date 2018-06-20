@@ -1,0 +1,106 @@
+minisite:
+  - 1:
+    banner: banniere-site-web-academy.jpg
+    presentation: Site web de l’académie
+    home:
+          title: Accueil
+          content: >
+            <p>Bienvenue sur le site web de l’académie.
+            <br/>
+            Vous y trouvez les informations concernant la vie de l’académie : scolarité, formations, actions éducatives, actualités et contacts.</p>
+          images:
+            - carte-academies.png
+    actu:
+      - 1:
+        title: Scolarité
+        content:
+          - 1:
+            title: Trouver un établissement
+            content: >
+              <p>Rendez-vous sur l’annuaire de l’éducation nationale pour trouver un établissement dans l’académie.</p><p>L’annuaire vous donne des <strong>informations et outils pratiques</strong> (coordonnées, localisation, contacts) et un aperçu des services proposés aux élèves dans les différents établissements.</p>
+            images:
+              - ecole-primaire-jules-ferry.jpg
+          - 2:
+            title: Bourses et aides financières
+            content: >
+              <p>Des aides financières existent pour les familles aux revenus modestes. Certaines sont versées par la Caf (allocation de rentrée scolaire) et d’autres par les départements (bourses de fréquentation scolaire).</p><p>D’autres aides et bourses existent pour les élèves de collège et lycée. Pour plus d’informations, renseignez-vous auprès de l’établissement de votre enfant.</p>
+          - 3:
+            title: S’inscrire à l’école maternelle
+            content: >
+              <p>À l’école maternelle, les enfants sont accueillis <strong>à 3 ans</strong>. Certaines écoles acceptent les élèves dès 2 ans. Il faut s’adresser à votre mairie pour connaître votre école de secteur.<br/> L’inscription se fait avec le directeur de l’école sur présentation du livret de famille et du certificat d’inscription délivré par la mairie. </p>
+          - 4:
+            title: S’inscrire à l’école élémentaire
+            content: >
+              <p>Les enfants sont obligatoirement scolarisés à partir de 6 ans à l’école élémentaire. Vous pouvez vous renseigner auprès de votre mairie pour inscrire votre enfant dans l’école de votre secteur. <br/>Pour scolariser votre enfant dans une autre école que votre école de secteur, il faut demander une autorisation à la mairie. </p>
+            images:
+              - potager.jpg
+          - 5:
+            title: S’inscrire au collège
+            content: >
+              <p>Le collège s’inscrit dans la continuité de l’école primaire et permet à chaque élève d’acquérir un socle commun de connaissances, de compétences et de culture. </p><p>Le dossier d'inscription en sixième est remis à l’élève par son professeur avant les vacances de printemps. Dans l'enseignement public, votre enfant sera affecté par l’inspecteur d’académie dans le collège du secteur géographique de votre domicile. </p>
+          - 6:
+            title: S’inscrire au lycée
+            content: >
+              <p>À l'issue du collège et de l'avis favorable de passage du conseil de classe de 3e, l'élève peut poursuivre sa scolarité en intégrant un lycée. L’élève intègre son lycée de secteur. Les parents peuvent demander une dérogation pour que l’enfant intègre un autre lycée que celui de son secteur. </p>
+          - 7:
+            title: Santé
+            content: >
+              <p>L’éducation à la santé est intégrée dans les programmes de l’école primaire. Les collèges et lycées définissent également un programme d’éducation à la santé et à la citoyenneté.</p><p>L’éducation à l’alimentation intervient tout au long de la scolarité et permet aux élèves d’acquérir de bonnes habitudes alimentaires. Que ce soit en classe ou lors d’ateliers spécifiques, les élèves sont initiés aux effets de l’alimentation sur la santé et aux activités physiques. </p>
+            images:
+              - sante-eleves-men.jpg
+      - 2:
+        title: Formations et orientation
+        content:
+          - 1:
+            title: S’orienter
+            content: >
+             <p>Le socle commun de connaissances, de compétences et de culture présente ce que tout élève doit savoir et maîtriser à la fin de la période de scolarité obligatoire (de 6 à 16 ans). <br/>Les programmes scolaires contribuent à enrichir ce socle commun pour le développement des futurs citoyens. <br/>De nombreux organismes existent pour conseiller les collégiens, lycéens et étudiants dans leur orientation professionnelle.</p><p> Dans chaque académie se trouvent plusieurs CIO (Centres d’Information et d’Orientation) pour aider les élèves à s’orienter.</p>
+            images:
+              - cio-logo.jpg
+          - 2:
+            title: Inscriptions dans le supérieur
+            content: >
+              <p>Les inscriptions dans l’enseignement supérieur se font désormais via la plateforme ParcourSup.</p>
+            images:
+              - parcoursup-logo.png
+          - 3:
+            title: L’apprentissage
+            content: >
+              <p><strong>L'apprentissage, pour quoi faire ?</strong><br/>L’apprentissage permet aux élèves de bénéficier d’une formation théorique et d’une formation pratique en entreprise. Les apprentis ont à la fois le statut de l’élève et du salarié et sont formés dans un centre de formation d'apprentis (CFA).</p><p><strong>Qui peut devenir apprenti ?</strong><br/>Pour devenir apprenti, il faut être âgé de 16 à 25 ans au début du contrat d'apprentissage et être reconnu apte à l'exercice du métier lors de la visite médicale d'embauche.</p><p><strong>Quelles sont les démarches ?</strong><br/>Les futurs apprentis doivent chercher une entreprise d’accueil ainsi qu’un CFA.</p>
+      - 3:
+        title: Actions éducatives
+        content:
+          - 1:
+            title: L’éducation à l’alimentation
+            content: >
+             <p>L’éducation à l’alimentation est mise en place tout au long de la scolarité des élèves. Des ateliers spécifiques permettent aux enfants d’<strong>apprendre à bien se nourrir.</strong><br/>L’éducation à la nutrition, la connaissance des effets de l’alimentation sur la santé, l’activité physique sont abordés à l’école. Les enseignants peuvent mener des projets d’éducation à l’alimentation en lien avec les programmes scolaires, avec des intervenants ou encore le programme national nutrition santé (PNNS).</p><p>La restauration scolaire contribue à l’éducation à l’alimentation en maintenant la qualité nutritionnelle des repas et en informant les familles.<br/>Pour les écoles primaires, la restauration est gérée par la commune. La restauration des collèges et des lycées relèvent respectivement du département et de la région. Les menus doivent préserver l’équilibre alimentaire des enfants en proposant une alimentation variée.</p><p>L’académie met en place des partenariats avec plusieurs intervenants afin de promouvoir l’éducation à l’alimentation</p>
+            images:
+              - eles-goutent-eau-semaine-du-gout.png
+              - cantine.jpg
+          - 2:
+            title: La formation aux premiers secours
+            content: >
+              <p>La formation aux premiers secours est obligatoire. Durant leur scolarité, les élèves sont donc sensibilisés et formés aux gestes qui sauvent. Ce sont les formateurs académiques ou bien des intervenants extérieurs (Pompiers volontaires) qui réalisent les formations auprès des élèves.</p>
+            images:
+              - la-visite-chez-les-pompiers.png
+          - 3:
+            title: École et entreprise
+            content: >
+              <p>L'ouverture de l'école vers l'entreprise est un moteur de la motivation et de l'aide au choix d'orientation pour les élèves. L’académie propose un dispositif pour développer et organiser des partenariats entre les écoles et les entreprises.</p>
+          - 4:
+            title: Éducation aux médias
+            content: >
+              <p>L’académie est en collaboration avec le CLEMI (Centre de Liaison de l’Enseignement et des Médias d’Information), qui a pour mission d’<strong>éduquer aux médias</strong> et à l'information à l'heure du numérique. Il s’agit d’éveiller l’esprit critique des futurs citoyens.</p><p>Les élèves de l’école primaire Jules Ferry cherchent d’où viennent les informations</p>
+            images:
+              - travail-en-groupe-spme.jpg
+          - 5:
+            title: Le numérique à l’école
+            content: >
+              <p>L’école est le lieu privilégié pour développer et valoriser les ressources et les usages du numérique dans notre société d’information et de communication. Les élèves apprennent donc à utiliser un ordinateur et à naviguer sur Internet.</p>
+            images:
+              - ecole-numerique.png
+    pages:
+      - 1:
+        title: Contacts
+        content: >
+          <p>ACADÉMIE<br/>20 boulevard Jean Jaurès<br/>BP 72616 <br/>63000 Clermont-Ferrand<br/>Le rectorat est ouvert au public du lundi au vendredi de 8h30 à 12h30 et de 13h30 à 17h30.</p>

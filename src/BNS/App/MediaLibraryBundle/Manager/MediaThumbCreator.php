@@ -11,28 +11,33 @@ use Imagine\Image\Point;
 use Psr\Log\LoggerInterface;
 
 /**
- * @author Jérémie Augustin <jeremie.augustin@pixel-cookers.com>
+ * @author Jérémie Augustin <jeremie.augustin@pixel-cookers.com
+ *
+ * @deprecated use the new ThumbCreatorManager  @see BNS\App\MediaLibraryBundle\Thumb\ThumbCreatorManager
  */
 class MediaThumbCreator
 {
+    /** @var BNSFileSystemManager  */
     protected $fileSystemManager;
 
+    /** @var Adapter  */
     protected $localAdapter;
 
+    /** @var LoggerInterface  */
     protected $logger;
 
-    public static $thumbnails = array(
-        'micro'                  => array(30,30),
-        'thumbnail'              => array(60,60),
-        'board'                 => array(100, 100),
-        'small'                  => array(180,180),
-        'favorite'               => array(300,140),
-        'medium'                 => array(600,400),
-        'large'                  => array(1200,800),
-        'banner_minisite_front'  => array(1150, 200),
-        'banner_minisite_back'   => array(1150, 200),
-        'portal_banner'          => array(770, 190)
-    );
+    public static $thumbnails = [
+        'micro'                  => [30,30],
+        'thumbnail'              => [60,60],
+        'board'                  => [100, 100],
+        'small'                  => [180,180],
+        'favorite'               => [300,140],
+        'medium'                 => [600,400],
+        'large'                  => [1200,800],
+        'banner_minisite_front'  => [1150, 200],
+        'banner_minisite_back'   => [1150, 200],
+        'portal_banner'          => [770, 190],
+    ];
 
     public function __construct(BNSFileSystemManager $fileSystemManager, Adapter $localAdapter, LoggerInterface $logger)
     {

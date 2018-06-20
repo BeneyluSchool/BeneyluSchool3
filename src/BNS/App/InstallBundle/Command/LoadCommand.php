@@ -5,13 +5,17 @@ namespace BNS\App\InstallBundle\Command;
 use BNS\App\CoreBundle\Model\EmailTemplate;
 use BNS\App\CoreBundle\Model\EmailTemplateI18n;
 use BNS\App\CoreBundle\Model\GroupPeer;
+use BNS\App\CoreBundle\Model\GroupQuery;
 use BNS\App\CoreBundle\Model\GroupTypeData;
 use BNS\App\CoreBundle\Model\GroupTypeDataChoice;
 use BNS\App\CoreBundle\Model\GroupTypeDataTemplate;
 use BNS\App\CoreBundle\Model\GroupTypeDataTemplatePeer;
 use BNS\App\CoreBundle\Model\GroupTypeQuery;
-use BNS\App\CoreBundle\Model\GroupQuery;
+use BNS\App\CoreBundle\Model\ModuleQuery;
 use BNS\App\CoreBundle\Model\RankQuery;
+use BNS\App\HomeworkBundle\Model\Homework;
+use BNS\App\HomeworkBundle\Model\HomeworkGroup;
+use BNS\App\HomeworkBundle\Model\HomeworkPeer;
 use BNS\App\ScolomBundle\Model\ScolomDataTemplate;
 use BNS\App\ScolomBundle\Model\ScolomDataTemplateI18n;
 use BNS\App\ScolomBundle\Model\ScolomTemplate;
@@ -102,8 +106,10 @@ class LoadCommand extends AbstractCommand
 
     /**
      * Flush REDIS cache
+     *
+     * @param OutputInterface $output
      */
-    private function flush(OutputInterface $output)
+    protected function flush(OutputInterface $output)
     {
         $this->writeSection($output, '# Deleting REDIS cache');
         $this->getContainer()->get('bns.api')->resetAll();
@@ -116,7 +122,7 @@ class LoadCommand extends AbstractCommand
      * @param InputInterface $input
      * @param OutputInterface $output
      */
-    private function generateModules(InputInterface $input, OutputInterface $output)
+    protected function generateModules(InputInterface $input, OutputInterface $output)
     {
         $this->writeSection($output, '# Installing modules');
 
@@ -150,7 +156,7 @@ class LoadCommand extends AbstractCommand
      * @param InputInterface $input
      * @param OutputInterface $output
      */
-    private function generateGroupTypeDataTemplates(InputInterface $input, OutputInterface $output)
+    protected function generateGroupTypeDataTemplates(InputInterface $input, OutputInterface $output)
     {
         $groupTypeDataTemplates = $this->getFixturesData('group_type_data_templates');
         $count = count($groupTypeDataTemplates);
@@ -186,8 +192,11 @@ class LoadCommand extends AbstractCommand
 //            }
 
             // Choices process
-            if ($groupTypeDataTemplateInfo['type'] != GroupTypeDataTemplatePeer::TYPE_SINGLE
-                    && $groupTypeDataTemplateInfo['type'] != GroupTypeDataTemplatePeer::TYPE_TEXT) {
+            if (!in_array($groupTypeDataTemplateInfo['type'], [
+                GroupTypeDataTemplatePeer::TYPE_SINGLE,
+                GroupTypeDataTemplatePeer::TYPE_TEXT,
+                GroupTypeDataTemplatePeer::TYPE_BOOLEAN,
+            ])) {
                 foreach ($groupTypeDataTemplateInfo['choices'] as $groupTypeDataTemplateChoiceInfo) {
                     // Creating main class
                     $groupTypeDataTemplateChoice = new GroupTypeDataChoice();
@@ -235,7 +244,7 @@ class LoadCommand extends AbstractCommand
      * @param InputInterface $input
      * @param OutputInterface $output
      */
-    private function generateGroupTypes(InputInterface $input, OutputInterface $output)
+    protected function generateGroupTypes(InputInterface $input, OutputInterface $output)
     {
         $groupTypes = $this->getFixturesData('group_types');
         $count = count($groupTypes);
@@ -248,7 +257,7 @@ class LoadCommand extends AbstractCommand
             $groupTypeParams = array(
                 'type' => $groupTypeInfo['type'],
                 'centralize' => $groupTypeInfo['centralize'],
-                'label' => $groupTypeInfo['i18n']['fr']['label'],
+                'label' => isset($groupTypeInfo['i18n']['fr']['label']) ? $groupTypeInfo['i18n']['fr']['label'] : $groupTypeInfo['type'],
                 'simulate_role' => $groupTypeInfo['simulate_role']
             );
 
@@ -283,10 +292,10 @@ class LoadCommand extends AbstractCommand
     /**
      * Environment
      *
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param InputInterface $input
+     * @param OutputInterface $output
      */
-    private function generateEnvironments(InputInterface $input, OutputInterface $output)
+    protected function generateEnvironments(InputInterface $input, OutputInterface $output)
     {
         $environments = $this->getFixturesData('environments');
         $count = count($environments);
@@ -296,7 +305,7 @@ class LoadCommand extends AbstractCommand
 
         foreach ($environments as $environment) {
             $environment = $this->getContainer()->get('bns.group_manager')->createEnvironment(array(
-                'label' => $environment
+                'label' => $environment,
             ));
 
             // Saving into object to avoid db access
@@ -313,10 +322,10 @@ class LoadCommand extends AbstractCommand
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param InputInterface $input
+     * @param OutputInterface $output
      */
-    private function generateEnvironmentsFromAuth(InputInterface $input, OutputInterface $output)
+    protected function generateEnvironmentsFromAuth(InputInterface $input, OutputInterface $output)
     {
         $this->writeSection($output, '# Retrieving environment(s) from auth');
         $environments = array();
@@ -388,7 +397,7 @@ class LoadCommand extends AbstractCommand
      * @param InputInterface $input
      * @param OutputInterface $output
      */
-    private function generateEmailTemplates(InputInterface $input, OutputInterface $output)
+    protected function generateEmailTemplates(InputInterface $input, OutputInterface $output)
     {
         $emailTemplates = $this->getFixturesData('email_templates');
         $count = count($emailTemplates);
@@ -437,11 +446,10 @@ class LoadCommand extends AbstractCommand
 
     /**
      *
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @throws type
+     * @param InputInterface $input
+     * @param OutputInterface $output
      */
-    private function generateRules(InputInterface $input, OutputInterface $output)
+    protected function generateRules(InputInterface $input, OutputInterface $output)
     {
         $rules = $this->getFixturesData('rules');
         $i = 0;
@@ -511,10 +519,10 @@ class LoadCommand extends AbstractCommand
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param InputInterface $input
+     * @param OutputInterface $output
      */
-    private function generateLpc(InputInterface $input, OutputInterface $output)
+    protected function generateLpc(InputInterface $input, OutputInterface $output)
     {
         $lpcData = \Spyc::YAMLLoad(__DIR__ . '/../Resources/install/lpc/lpc_data.yml');
         $this->writeSection($output, '# Installing LPC data');
@@ -558,10 +566,10 @@ class LoadCommand extends AbstractCommand
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param InputInterface $input
+     * @param OutputInterface $output
      */
-    private function generateScolom(InputInterface $input, OutputInterface $output)
+    protected function generateScolom(InputInterface $input, OutputInterface $output)
     {
         $scolomData = \Spyc::YAMLLoad(__DIR__ . '/../Resources/install/scolom/scolom_data.yml');
         $count = count($scolomData);
@@ -622,10 +630,10 @@ class LoadCommand extends AbstractCommand
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param InputInterface $input
+     * @param OutputInterface $output
      */
-    private function generateUsers(InputInterface $input, OutputInterface $output)
+    protected function generateUsers(InputInterface $input, OutputInterface $output)
     {
         /* @var $userManager \BNS\App\CoreBundle\User\BNSUserManager */
         $userManager = $this->getContainer()->get('bns.user_manager');
@@ -691,6 +699,9 @@ class LoadCommand extends AbstractCommand
             ->setGroupTypeRole(GroupTypeQuery::create()->findOneByType('ADMIN'))
             ->assignRole($admin, $this->environments[0]->getId())
         ;
+
+        // certify admin
+        $userManager->updateUserLogin($admin, 'admin', true);
 
         if ($input->getOption('type') != 'fast') {
             $groupManager = $this->getContainer()->get('bns.group_manager');
@@ -787,7 +798,7 @@ class LoadCommand extends AbstractCommand
             } else {
                 $teacher = $userManager->createUser($users['TEACHER'] + array(
                     'first_name' => $firstName,
-                    'email' => $email,
+                    'email' => $this->customizeEmail($email, isset($users['TEACHER']['username'])? $users['TEACHER']['username'] : 'teacher'),
                     'birthday' => new \DateTime()
                 ), true);
             }
@@ -809,7 +820,7 @@ class LoadCommand extends AbstractCommand
             } else {
                 $director = $userManager->createUser($users['DIRECTOR'] + array(
                     'first_name' => $firstName,
-                    'email' => $email,
+                    'email' => $this->customizeEmail($email, isset($users['DIRECTOR']['username'])? $users['DIRECTOR']['username'] : 'director'),
                     'birthday' => new \DateTime()
                 ), true);
             }
@@ -835,7 +846,145 @@ class LoadCommand extends AbstractCommand
 
             $classroomManager->assignPupil($pupil);
             $output->write('Finished', true);
+
+            // second hierarchy + automatic users
+            if ($input->getOption('type') === 'full') {
+                $output->write(' - Creating second set of groups and users...		');
+                $city = null;
+                $school = null;
+                $classroom = null;
+                $teamManager = $this->getContainer()->get('bns.team_manager');
+                $groupsAutoInfo = $this->getFixturesData('groups_auto');
+                foreach ($groupsAutoInfo as $groupInfo) {
+                    $params = [
+                        'type' => $groupInfo['type'],
+                        'label' => 'Test - ' . ucfirst(strtolower($groupInfo['type'])),
+                    ];
+                    if (isset($groupInfo['id'])) {
+                        $params['id'] = $groupInfo['id'];
+                    }
+                    if (isset($groupInfo['lang']) && $groupInfo['type'] !== 'TEAM') {
+                        $params['attributes']['LANGUAGE'] = $groupInfo['lang'];
+                    }
+                    $group = $groupManager->createGroup($params);
+                    $parentIds = $groupInfo['parent'];
+                    if (!is_array($parentIds)) {
+                        $parentIds = [$parentIds];
+                    }
+                    foreach ($parentIds as $parentId) {
+                        $groupManager->linkGroupWithSubgroup($parentId, $group->getId());
+                    }
+
+                    if ('CITY' === $group->getType()) {
+                        $city = $group;
+                    } else if ('SCHOOL' === $group->getType()) {
+                        $group->togglePremium();
+                        $school = $group;
+                    } else if ('CLASSROOM' === $group->getType()) {
+                        $classroom = $group;
+                        $classroomManager->setClassroom($classroom);
+                    } else if ('TEAM' === $group->getType()) {
+                        $teamManager->setTeam($group);
+                    }
+                }
+
+                $defaultData = [
+                    'last_name' => 'Test',
+                    'lang' => 'fr',
+                ];
+
+
+                $cityRef = $userManager->createUser($defaultData + [
+                        'username' => 'referentville2',
+                        'first_name' => $firstName,
+                        'email' => $this->customizeEmail($email, 'referentville2'),
+                        'birthday' => new \DateTime()
+                    ], true);
+                $roleManager->setGroupTypeRoleFromType('CITY_REFERENT')
+                    ->assignRole($cityRef, $city->getId());
+
+                $director = $userManager->createUser($defaultData + [
+                    'username' => 'directeur2',
+                    'first_name' => $firstName,
+                    'email' => $this->customizeEmail($email, 'directeur2'),
+                    'birthday' => new \DateTime()
+                ], true);
+                $roleManager->setGroupTypeRoleFromType('DIRECTOR')
+                    ->assignRole($director, $school->getId());
+
+                $teacher = $userManager->createUser($defaultData + [
+                    'username' => 'enseignant2',
+                    'first_name' => $firstName,
+                    'email' => $this->customizeEmail($email, 'enseignant2'),
+                    'birthday' => new \DateTime()
+                ], true);
+                $classroomManager->assignTeacher($teacher);
+                $teamManager->assignTeacher($teacher);
+
+                for ($i = 1; $i <= 5; $i++) {
+                    $pupil = $userManager->createUser($defaultData + [
+                        'username' => 'eleve'.$i,
+                        'first_name' => 'Eleve '.$i,
+                        'birthday' => new \DateTime()
+                    ], true);
+                    $classroomManager->assignPupil($pupil);
+                    if ($i <= 3) {
+                        $teamManager->assignPupil($pupil);
+                        foreach ($pupil->getParents() as $parent) {
+                            $teamManager->assignParent($parent);
+                        }
+                    }
+                }
+
+                $output->write('Finished', true);
+            }
         }
+    }
+
+    protected function installApplications(InputInterface $input, OutputInterface $output)
+    {
+        $apps = $this->getFixturesData('applications');
+        $this->writeSection($output, '# Installing ' . count($apps) . ' applications');
+        foreach ($apps as $app => $groupTypes) {
+            $output->write(' - Installing ' . $app . '	');
+            $groups = GroupQuery::create()
+                ->useGroupTypeQuery()
+                    ->filterByType($groupTypes)
+                ->endUse()
+                ->find()
+            ;
+            $this->installAndOpenApplicationInGroups($app, $groups);
+            $output->write(' Finished', true);
+        }
+    }
+
+    protected function generateHomeworks(InputInterface $input, OutputInterface $output)
+    {
+        $homeworkManager = $this->getContainer()->get('bns.homework_manager');
+        $homeworkDatas = $this->getFixturesData('homeworks');
+        $count = count($homeworkDatas);
+        $this->writeSection($output, '# Installing ' . $count . ' homework' . ($count > 1 ? 's' : ''));
+        $i = 0;
+        $this->progress($output, $count);
+
+        foreach ($homeworkDatas as $data) {
+            $homework = new Homework();
+            $homework->fromArray($data, \BasePeer::TYPE_FIELDNAME);
+            if (isset($data['groups'])) {
+                foreach ($data['groups'] as $id) {
+                    $hg = new HomeworkGroup();
+                    $hg->setGroupId($id);
+                    $homework->addHomeworkGroup($hg);
+                }
+            }
+            $homeworkManager->processHomework($homework);
+            $homework->save();
+
+            // Update progress bar
+            $this->progress($output, $count, ++$i);
+        }
+
+        $this->progress($output, $count, $count, true);
     }
 
     /**
@@ -845,7 +994,7 @@ class LoadCommand extends AbstractCommand
      *
      * @throws \InvalidArgumentException
      */
-    private function getFixturesData($key = null)
+    protected function getFixturesData($key = null)
     {
         if (!isset($this->fixturesData)) {
             $this->fixturesData = Yaml::parse(__DIR__ . '/../Resources/install/fixtures_data.yml');
@@ -866,9 +1015,9 @@ class LoadCommand extends AbstractCommand
      * @param OutputInterface $output
      * @param int	  $size
      * @param int	  $progress
-     * @param boolean $newLine
+     * @param bool    $newLine
      */
-    private function progress(OutputInterface $output, $size, $progress = 0, $newLine = false)
+    protected function progress(OutputInterface $output, $size, $progress = 0, $newLine = false)
     {
         if (0 == $progress) {
             $output->write('	> ');
@@ -887,4 +1036,19 @@ class LoadCommand extends AbstractCommand
         $output->write($progressBar, $newLine);
     }
 
+    protected function customizeEmail($email, $custom)
+    {
+        if (false === strpos($email, '+')) {
+            $email = str_replace('@', '+' . $custom . '@', $email);
+        }
+
+        return $email;
+    }
+
+    protected function installAndOpenApplicationInGroups($name, $classrooms)
+    {
+        foreach ($classrooms as $classroom) {
+            $this->getContainer()->get('bns_core.application_manager')->installApplication($name, $classroom);
+        }
+    }
 }

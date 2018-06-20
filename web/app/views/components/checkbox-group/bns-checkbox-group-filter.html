@@ -1,9 +1,11 @@
-<md-input-container class="md-icon-float bns-input-filter">
+<md-input-container bns-no-message class="md-icon-float bns-input-filter">
   <label translate>MAIN.FILTER</label>
   <md-icon>search</md-icon>
   <input ng-model="groupFilter.filterText" type="text" />
 </md-input-container>
-
+<div class="layout-row layout-align-end-center">
+  <a class="deselection-link" ng-click="groupFilter.deselect()" ng-if="groupFilter.deselection && groupFilter.selection.length" translate href>MAIN.DESELECT</a>
+</div>
 <div ng-show="!(groupFilter.filters.choices.length)" class="no-item" translate>MAIN.NO_ITEM</div>
 <bns-checkbox-group choices="groupFilter.filters.choices" ng-model="groupFilter.selection"></bns-checkbox-group>
 

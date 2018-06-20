@@ -1,0 +1,30 @@
+<ng-form name="{{::ctrl.formName}}" ng-class="::{'bns-annotations-editable': ctrl.editable, 'bns-annotations-non-editable': !ctrl.editable}">
+  <md-input-container ng-if="::ctrl.editable" bns-no-message bns-no-float md-no-float>
+    <textarea ng-model="ctrl.correction.comment" name="{{::ctrl.formName+'[comment]'}}" rows="2" placeholder="{{'ANNOTATIONS.LABEL_MAIN_COMMENT'|translate}}"></textarea>
+  </md-input-container>
+  <p ng-if="::!ctrl.editable && ctrl.correction.comment" class="md-body-2">{{::ctrl.correction.comment}}</p>
+
+  <md-card ng-repeat="annotation in ctrl.correction.correction_annotations | orderBy:'sortable_rank':ctrl.editable" data-bns-annotation-guid="{{::annotation.guid}}" class="md-body-1" ng-class="{ 'active': annotation.guid === ctrl.activeGuid }">
+    <md-card-actions class="layout-row layout-align-start-center">
+      <span>{{annotation.sortable_rank + '. '}}</span>
+      <span class="flex">{{annotation.label|characters:25}}</span>
+      <span class="bns-annotation-type" bns-annotation-type="{{annotation.type}}">{{('ANNOTATIONS.TYPE_'+annotation.type)|translate}}</span>
+      <bns-attachments ng-if="::ctrl.editable" source="annotation.attachments" editable="true" show-medias="false" compact="true" form-name="{{ctrl.formName+'[correctionAnnotations]['+$index+'][attachments][]'}}"></bns-attachments>
+      <md-button ng-if="::ctrl.editable" class="md-icon-button" ng-click="ctrl.removeAnnotation(annotation)">
+        <md-icon>clear</md-icon>
+      </md-button>
+    </md-card-actions>
+    <md-card-content ng-if="::ctrl.editable || annotation.comment || annotation.attachments.length">
+      <md-input-container ng-if="::ctrl.editable" bns-no-float bns-no-message md-no-float>
+        <textarea ng-model="annotation.comment" name="{{ctrl.formName+'[correctionAnnotations]['+$index+'][comment]'}}" rows="2" placeholder="{{'ANNOTATIONS.LABEL_COMMENT'|translate}}"></textarea>
+      </md-input-container>
+      <p ng-if="::!ctrl.editable && annotation.comment"class="md-body-2">{{::annotation.comment}}</p>
+      <input ng-if="::ctrl.editable" type="hidden" ng-value="annotation.guid" name="{{ctrl.formName+'[correctionAnnotations]['+$index+'][guid]'}}">
+      <input ng-if="::ctrl.editable" type="hidden" ng-value="annotation.sortable_rank" name="{{ctrl.formName+'[correctionAnnotations]['+$index+'][sortableRank]'}}">
+      <input ng-if="::ctrl.editable" type="hidden" ng-value="annotation.label" name="{{ctrl.formName+'[correctionAnnotations]['+$index+'][label]'}}">
+      <input ng-if="::ctrl.editable" type="hidden" ng-value="annotation.type" name="{{ctrl.formName+'[correctionAnnotations]['+$index+'][type]'}}">
+      <bns-attachments source="annotation.attachments" editable="ctrl.editable" show-control="false" compact="true" form-name="{{ctrl.formName+'[correctionAnnotations]['+$index+'][attachments][]'}}" data-object-type="CorrectionAnnotation"
+      data-object-id="{{::annotation.id}}"></bns-attachments>
+    </md-card-content>
+  </md-card>
+</ng-form>

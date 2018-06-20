@@ -38,6 +38,7 @@
         <column name="content" type="LONGVARCHAR" required="true"/>
         <column name="status" type="INTEGER" required="true" default="0" />
 		<column name="tos_temp_list" type="LONGVARCHAR" required="false" />
+		<column name="group_tos" type="OBJECT" required="false" />
         <column name="group_id" type="INTEGER" required="false" /> <!-- group sender used for CEF -->
         <behavior name="bns_media_attachmentable" />
 		<behavior name="timestampable" />
@@ -58,6 +59,7 @@
         <column name="user_id" type="INTEGER" required="true" />
 		<column name="user_with_id" type="INTEGER" required="false" />
         <column name="status" type="INTEGER" required="true" default="0" />
+        <column name="last_read_id" type="INTEGER" required="false" />
         <column name="message_parent_id" type="INTEGER" required="true"/>
 		<behavior name="timestampable" />
         <foreign-key foreignTable="user" onDelete="cascade">
@@ -96,5 +98,17 @@
             <index-column name="message_id"/>
         </index>
     </table>
-
+  <table name="messaging_preferences">
+    <column name="user_id" type="INTEGER" required="true" primaryKey="true"/>
+    <column name="alias" type="VARCHAR" required="false"/>
+    <column name="mail_to" type="VARCHAR" required="false"/>
+    <column name="is_absent" type="BOOLEAN" default="false"/>
+    <column name="absent_from" type="DATE" required="false"/>
+    <column name="absent_to" type="DATE" required="false"/>
+    <column name="absence_subject" type="VARCHAR" required="false"/>
+    <column name="absence_content" type="LONGVARCHAR" required="false"/>
+    <foreign-key foreignTable="user" onDelete="CASCADE">
+      <reference local="user_id" foreign="id" />
+    </foreign-key>
+  </table>
 </database>

@@ -1,0 +1,12 @@
+BNS\App\CompetitionBundle\Model\BookNotice:
+  exclusion_policy: All
+
+  virtual_properties:
+    getId:
+      expose: true
+    getNoticeId:
+      expose: true
+    getUser:
+      expose: true
+    getNotice:
+      expose: true

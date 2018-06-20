@@ -15,6 +15,8 @@
         <parameter key="bns.workshop.layout.manager.class">BNS\App\WorkshopBundle\Manager\LayoutManager</parameter>
         <parameter key="bns.workshop.theme.manager.class">BNS\App\WorkshopBundle\Manager\ThemeManager</parameter>
         <parameter key="bns.workshop.widget_configuration.manager.class">BNS\App\WorkshopBundle\Manager\WidgetConfigurationManager</parameter>
+        <parameter key="bns.workshop.epub.manager.class">BNS\App\WorkshopBundle\Manager\EPubManager</parameter>
+        <parameter key="bns.workshop.questionnaire.manager.class">BNS\App\WorkshopBundle\Manager\QuestionnaireManager</parameter>
     </parameters>
 
     <services>
@@ -70,6 +72,12 @@
 
         <service id="bns.workshop.contribution.manager" class="%bns.workshop.contribution.manager.class%" />
 
+        <service id="bns.workshop.epub.manager" class="%bns.workshop.epub.manager.class%">
+            <argument id="bns.file_system_manager" type="service"/>
+        </service>
+
+        <service id="bns.workshop.questionnaire.manager" class="%bns.workshop.questionnaire.manager.class%" />
+
 
         <!-- Forms -->
 
@@ -99,6 +107,15 @@
 
         <service id="stat.workshop" class="BNS\App\WorkshopBundle\Statistic\WorkshopStatisticsService">
             <argument type="service" id="service_container" />
+        </service>
+
+        <!-- Search -->
+        <service id="bns.workshop.search" class="BNS\App\WorkshopBundle\Search\WorkshopSearchProvider">
+            <argument type="service" id="security.token_storage"/>
+            <argument type="service" id="bns.right_manager"/>
+            <argument type="service" id="router"/>
+            <argument type="service" id="bns.workshop.right_manager"/>
+            <tag name="bns.search_provide" />
         </service>
     </services>
 </container>

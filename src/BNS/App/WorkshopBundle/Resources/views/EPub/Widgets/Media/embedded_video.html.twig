@@ -1,0 +1,17 @@
+{% if media.valueForApi.type == 'youtube' %}
+    {% set url = 'https://www.youtube.com/embed/' ~ media.valueForApi.value %}
+{% elseif media.valueForApi.type == 'dailymotion' %}
+    {% set url = 'https://www.dailymotion.com/embed/video' ~ media.valueForApi.value %}
+{% else %}
+    {% set url = 'https://player.vimeo.com/video/' ~ media.valueForApi.value %}
+{% endif %}
+<div class="workshop-widget-document">
+    <div class="media-document">
+        <div class="viewer-media-inner viewer-media-document">
+            <a class="bns-viewer-link" href="{{ url }}" target="_blank">
+                <i class=" bns-icon-link"></i>
+                {{ media.label }}
+            </a>
+        </div>
+    </div>
+</div>

@@ -36,12 +36,13 @@ class GroupApiController extends BaseApiController
      *
      * @Rest\Get("")
      * @Rest\QueryParam(name="right", requirements="\w+", description="Name of a right to filter with")
+     * @Rest\QueryParam(name="users", description="Whether to include user ids")
      * @Rest\View(serializerGroups={"Default"})
      *
      * @param ParamFetcherInterface $paramFetcher
      * @return Response
      */
-    public function getGroupsCurrentAction(ParamFetcherInterface $paramFetcher)
+    public function getGroupsCurrentAction(ParamFetcherInterface $paramFetcher, Request $request)
     {
         $right = $paramFetcher->get('right');
         if ($right) {
@@ -52,11 +53,13 @@ class GroupApiController extends BaseApiController
 
         $rightManager = $this->get('bns.right_manager');
 
-        if ($favoriteGroupId = $this->getUser()->getFavoriteGroupId()) {
+        if (($favoriteGroupId = $this->getUser()->getFavoriteGroupId()) || $paramFetcher->get('users')) {
             foreach ($groups as $group) {
+                if ($paramFetcher->get('users')) {
+                    $group->userIds = $this->get('bns.group_manager')->setGroup($group)->getUsersIds();
+                }
                 if ($favoriteGroupId === $group->getId()) {
                     $group->isFavorite = true;
-                    break;
                 }
             }
         }
@@ -64,13 +67,13 @@ class GroupApiController extends BaseApiController
         if (!$right &&
             $rightManager->hasRightSomeWhere('CLASSROOM_ACCESS_BACK') &&
             $rightManager->getCurrentGroupManager()->isOnPublicVersion()) {
-
+            $licenceManager = $this->get('bns_app_paas.manager.licence_manager');
             $school = null;
-            $hasPremium = false;
+            $hasLicence = false;
             foreach ($groups as $group) {
                 if ('SCHOOL' === $group->getType()) {
-                    if ($group->isPremium()) {
-                        $hasPremium = true;
+                    if ($licenceManager->getLicence($group)) {
+                        $hasLicence = true;
                         break;
                     } else {
                         $school = $group;
@@ -78,7 +81,7 @@ class GroupApiController extends BaseApiController
                 }
             }
 
-            if (!$hasPremium) {
+            if (!$hasLicence) {
                 if (!$school) {
                     $classroom = $this->get('bns.right_manager')->getUserManager()->getGroupsUserBelong('CLASSROOM')->getFirst();
                     $parent = $this->get('bns.group_manager')->setGroup($classroom)->getParent();
@@ -89,7 +92,7 @@ class GroupApiController extends BaseApiController
                 $schools = $this->get('bns.right_manager')->getUserManager()->getGroupsUserBelong('CLASSROOM');
                 foreach($schools as $g) {
                     $parent = $this->get('bns.group_manager')->setGroup($g)->getParent();
-                    if($parent && $parent->isPremium()) {
+                    if ($parent && $licenceManager->getLicence($parent)) {
                         $groups->append($parent);
                         $school = null;
                     }
@@ -98,25 +101,19 @@ class GroupApiController extends BaseApiController
 
             // user has mgmt rights and no premium school: add a fake school group for push
             if ($school) {
-                $paasManager = $this->get('bns.paas_manager');
-
-                // TODO: remove this temporary stuff
-                $prices = $this->getParameter('premium_subscription_prices');
-                $price = isset($prices[$school->getCountry()]) ? $prices[$school->getCountry()] : $prices['default'];
-
+                $store = $this->get('bns.group_manager')->getSpotStore($school);
+                $locale = $request->getLocale();
                 $fakeSchool = [
                     'type' => 'SCHOOL',
                     'label' => $school->getLabel(),
-                    'page' => [
-                        'name' => 'school',
-                        'vars' => [
-                            'price' => $price,
-                            'brand' => $this->getParameter('beneylu_brand_name'),
-                            'link' => $this->generateUrl('BNSAppSpotBundle_front', [
-                                'code' => $paasManager::PREMIUM_SUBSCRIPTION,
-                                'origin' => 'push school'
-                            ]),
-                        ],
+                ];
+
+                $fakeSchool['page'] = [
+                    'name' => 'school',
+                    'vars' => [
+                        'brand' => $this->getParameter('beneylu_brand_name'),
+                        'plans_url' => $this->get('bns_app_core.routing.bns_store_links')->getLink('plans_url', $store),
+                        'presentation_url' => $this->get('bns_app_core.routing.bns_locale_links')->getLink('presentation_url', $locale),
                     ],
                 ];
 
@@ -174,7 +171,7 @@ class GroupApiController extends BaseApiController
         if (!$group) {
             throw $this->createNotFoundException();
         }
-        $ancestors = $this->get('bns.group_manager')->getAncestors($group);
+        $ancestors = $this->get('bns.group_manager')->getUniqueAncestors($group);
         foreach ($ancestors as $ancestor) {
             if ('SCHOOL' === $ancestor->getType()) {
                 return $ancestor;
@@ -202,7 +199,7 @@ class GroupApiController extends BaseApiController
         if (!$group) {
             throw $this->createNotFoundException();
         }
-        $ancestors = $this->get('bns.group_manager')->getAncestors($group);
+        $ancestors = $this->get('bns.group_manager')->getUniqueAncestors($group);
         foreach ($ancestors as $ancestor) {
             if ('SCHOOL' === $ancestor->getType()) {
                 $uai = $request->get('uai');
@@ -372,7 +369,9 @@ class GroupApiController extends BaseApiController
      */
     public function getGroupApplicationsAction($groupId)
     {
+        $user = $this->getUser();
         $rights = $this->get('bns.user_manager')->getRights();
+        $withDetail = false;
 
         /** @var Group $group */
         $group = GroupQuery::create()
@@ -386,7 +385,7 @@ class GroupApiController extends BaseApiController
         $applicationManager = $this->get('bns_core.application_manager');
 
         // get all apps in the group, including those of the base stack, sorted by label
-        $modules = $applicationManager->getInstalledApplications($group, $rights[$groupId], ModulePeer::TYPE_APP, $this->getUser()->getLang());
+        $modules = $applicationManager->getInstalledApplications($group, $rights[$groupId], [ModulePeer::TYPE_APP, ModulePeer::TYPE_SUBAPP], $user->getLang());
         // add group app
         $groupModule = $applicationManager->getGroupSpecialModule($group);
         $modules->prepend($groupModule);
@@ -400,7 +399,7 @@ class GroupApiController extends BaseApiController
         }
 
         // add custom ARGOS module
-        if ($this->container->hasParameter('argos_academy') && $this->container->getParameter('argos_academy') === $this->getUser()->getAafAcademy()) {
+        if ($this->container->hasParameter('argos_academy') && $this->container->getParameter('argos_academy') === $user->getAafAcademy()) {
             $argosModule = new Module();
             $argosModule->setCustomLabel('ARGOS<sup>2.0</sup>');
             $argosModule->setUniqueName('ARGOS');
@@ -411,7 +410,11 @@ class GroupApiController extends BaseApiController
 
         $groupManager = $this->get('bns.group_manager');
         $groupManager->setGroup($group);
-        $activatedModules = $groupManager->getActivatedModuleUniqueNames($group);
+
+        if ('ENVIRONMENT' === $group->getType() || 'CITY' === $group->getType() || 'CIRCONSCRIPTION' === $group->getType()) {
+            $withDetail = true;
+        }
+        $activatedModules = $groupManager->getActivatedModuleUniqueNames($group, $withDetail);
 
         if ('PARTNERSHIP' === $group->getType() && $group->getAttribute('IS_HIGH_SCHOOL')) {
             $forcePrivateApplications = [
@@ -446,23 +449,16 @@ class GroupApiController extends BaseApiController
                     }
                 }
             } elseif ('PROFILE' === $module->getUniqueName()) {
-                $user = $this->getUser();
                 $module->setCustomLabel($user->getFullname());
             } elseif ('NOTIFICATION' === $module->getUniqueName()) {
-                $rmu = $this->get('bns.right_manager')->getModulesReachableUniqueNames();
-
-                $counter = NotificationQuery::create('n')
-                    ->where('n.TargetUserId = ?', $this->getUser()->getId())
-                    ->where('n.IsNew = ?', true)
-                    ->joinWith('NotificationType')
-                    ->where('NotificationType.ModuleUniqueName IN ?', $rmu)
-                    ->count();
-                $counter += $this->get('bns.announcement_manager')->countUnreadAnnouncements($this->getUser());
-                $module->counter = $counter;
+                $module->counter = $this->get('notification_manager')->getUnreadNotificationNumber($user);
                 $module->hasAccessFront = true;
                 $module->hasAccessBack = true;
+
             } elseif ('INFO' === $module->getUniqueName()) {
                 $module->counter = $this->get('bns.right_manager')->getNbNotifInfo() ?: null;
+            } elseif ('ACCOUNT' === $module->getUniqueName()) {
+                $this->decorateAccountApp($module, $group);
             }
         }
         foreach ($removed as $key) {
@@ -553,6 +549,10 @@ class GroupApiController extends BaseApiController
                 continue;
             }
             $applicationManager->decorate($module, $rights[$groupId], $activatedModules, $group);
+
+            if ('ACCOUNT' === $module->getUniqueName()) {
+                $this->decorateAccountApp($module, $group);
+            }
 
             return $module;
         }
@@ -652,17 +652,20 @@ class GroupApiController extends BaseApiController
      * )
      *
      * @Rest\Patch("/{groupId}/applications/{applicationName}/{status}", requirements={"status"="open|close"})
+     * @Rest\RequestParam(name="userRole", requirements=" |teacher|family", default="", description="Role of user to restrict application access")
+     *
+     * @param ParamFetcherInterface $paramFetcher
      */
-    public function patchGroupApplicationOpenAction($groupId, $applicationName, $status)
+    public function patchGroupApplicationOpenAction(ParamFetcherInterface $paramFetcher, $groupId, $applicationName, $status)
     {
+        $userRole = $paramFetcher->get('userRole');
         $application = $this->get('bns_core.application_manager')->getApplication($applicationName);
         $group = GroupQuery::create()
             ->useGroupTypeQuery('GroupType')
-                ->filterBySimulateRole(false)
+            ->filterBySimulateRole(false)
             ->endUse()
             ->with('GroupType')
-            ->findPk($groupId)
-        ;
+            ->findPk($groupId);
         if (!$group || !$application) {
             return View::create('', Codes::HTTP_NOT_FOUND);
         }
@@ -672,14 +675,22 @@ class GroupApiController extends BaseApiController
         switch ($groupType) {
             default:
             case 'SCHOOL':
-                $roles[] = 'TEACHER';
+                if ($userRole === 'teacher' || empty($userRole)) {
+                    $roles[] = 'TEACHER';
+                    if ($userRole === 'teacher') {
+                        $groupType = null;
+                    }
+                }
             case 'CLASSROOM':
-                $roles[] = 'PUPIL';
-                $roles[] = 'PARENT';
-                $groupType = null;
+                if ($userRole === 'family' || empty($userRole)) {
+                    $roles[] = 'PUPIL';
+                    $roles[] = 'PARENT';
+                    $groupType = null;
+                }
                 break;
-            case 'PARTNERSHIP':
             case 'TEAM':
+                $groupType = null;
+            case 'PARTNERSHIP':
                 $roles = array(
                     'TEACHER',
                     'PUPIL',
@@ -850,6 +861,19 @@ class GroupApiController extends BaseApiController
     protected function canManage(Group $group)
     {
         return $this->get('bns.user_directory.right_manager')->isGroupManageable($group);
+    }
+
+    protected function decorateAccountApp($app, $groupId) {
+        $licence = $this->get('bns_app_paas.manager.licence_manager')->getLicence($groupId);
+        if ($licence && 'CLASSIC' !== $licence) {
+            $icon = 'sub-'.strtolower($licence).'-on';
+            $bottom = 'sub-bar-'.strtolower($licence);
+        } else {
+            $icon = 'sub-express-off';
+            $bottom = null;
+        }
+        $app->icon = $icon;
+        $app->bottom = $bottom;
     }
 
 }

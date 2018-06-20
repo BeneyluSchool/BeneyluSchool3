@@ -5,7 +5,7 @@ namespace BNS\App\MainBundle\Form\Extension;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class RowAttrFormExtension
@@ -27,10 +27,10 @@ class RowAttrFormExtension extends AbstractTypeExtension
         return 'form';
     }
 
-    // public function setDefaultOptions(OptionsResolverInterface $resolver)
-    // {
-    //     $resolver->setOptional(array(self::OPTION_NAME));
-    // }
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefined(self::OPTION_NAME);
+    }
 
     public function buildView(FormView $view, FormInterface $form, array $options)
     {

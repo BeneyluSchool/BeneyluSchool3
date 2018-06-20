@@ -46,6 +46,14 @@ class ContextController extends Controller
 		return $this->render('BNSAppMainBundle:Context:no_group.html.twig');
 	}
 
+    /**
+     * @Route("/restricted-access", name="restricted_access")
+     */
+    public function hasRestrictedAccessAction()
+    {
+        return $this->render('BNSAppMainBundle:Context:restricted_access.html.twig');
+    }
+
 
     /**
      * @Route("/my-avatar", name="bns_my_avatar", options={"expose":true})

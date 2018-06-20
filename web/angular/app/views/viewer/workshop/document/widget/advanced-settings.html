@@ -1,35 +1,8 @@
-<div class="layout-row layout-align-center-center advanced-setting-block" ng-if="ctrl.widget._embedded.extended_settings.advanced_settings.show_help && ctrl.widget._embedded.extended_settings.advanced_settings.help">
-  <md-whiteframe class="md-whiteframe-2dp layout-row layout-align-center-center widget-whiteframe flex-20">
-    <div>
-      <md-icon>help</md-icon>
-      <span translate>WORKSHOP.QUESTIONNAIRE.HELP</span>
-    </div>
-  </md-whiteframe>
-  <div class="flex">
-    {{ctrl.widget._embedded.extended_settings.advanced_settings.help}}
-  </div>
-</div>
-
-<div class="layout-row layout-align-center-center advanced-setting-block" ng-if="ctrl.widget._embedded.extended_settings.advanced_settings.show_clue && ctrl.widget._embedded.extended_settings.advanced_settings.clue">
-  <md-whiteframe class="md-whiteframe-2dp layout-row layout-align-center-center widget-whiteframe flex-20">
-    <div>
-      <md-icon>vpn_key</md-icon>
-      <span translate>WORKSHOP.QUESTIONNAIRE.SHOW_CLUE</span>
-    </div>
-
-  </md-whiteframe>
-  <div class="flex">
-    {{ctrl.widget._embedded.extended_settings.advanced_settings.clue}}
-  </div>
-</div>
-
 <div class="layout-row layout-align-center-center advanced-setting-block" ng-if="ctrl.widget._embedded.extended_settings.advanced_settings.show_comment && ctrl.widget._embedded.extended_settings.advanced_settings.comment">
-  <md-whiteframe class="md-whiteframe-2dp layout-row layout-align-center-center widget-whiteframe flex-20">
-    <div>
-      <md-icon>chat_bubble</md-icon>
-      <span translate>WORKSHOP.QUESTIONNAIRE.COMMENT</span>
-    </div>
-  </md-whiteframe>
+  <div class="flex-20 setting-block">
+    <p translate>WORKSHOP.QUESTIONNAIRE.COMMENT</p>
+    <div class="comment-icon"></div>
+  </div>
   <div class="flex">
     {{ctrl.widget._embedded.extended_settings.advanced_settings.comment}}
   </div>

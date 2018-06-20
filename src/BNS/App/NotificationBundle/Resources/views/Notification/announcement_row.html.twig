@@ -16,10 +16,17 @@
         <div class="notification">{{ parse_public_resources(announcement.description|purify) }}</div>
         {% if readBtn is defined and readBtn %}
           <p class="text-right">
+            {% if announcement.participable %}
+            <a href="{{ path('BNSAppInfoBundle_announcement_participate' , {'slug' : announcement.slug }) }}" class="btn read read-announcement bns-notice btn-16 small">
+              <span class="icons-16 preview-icon"></span>
+              {% trans from 'INFO' %}LINK_PARTICIPATE{% endtrans %}
+            </a>
+            {% else %}
             <a href="{{ path('BNSAppInfoBundle_announcement_read' , {'slug' : announcement.slug }) }}" class="btn read read-announcement bns-notice btn-16 small">
               <span class="icons-16 preview-icon"></span>
               {% trans from 'INFO' %}LINK_INDICATED_AS_READ{% endtrans %}
             </a>
+            {% endif %}
             &nbsp;
           </p>
         {% endif %}

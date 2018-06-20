@@ -52,7 +52,7 @@
 {% block body %}
   <div class="layout-row layout-xs-column alpi-logo">
     <div class="text-center">{# avoid img as direct child of flex container #}
-      <img src="{{ asset('assets/images/main/logo.png') }}" alt="Beneylu School" class="home-logo"/>
+      <img src="{{ asset('assets/images/main/beneylu-school.svg') }}" alt="Beneylu School" class="home-logo"/>
     </div>
     <div class="text-center"><img class="logo" src="{{ asset('/medias/images/logon/alpi/logo.png') }}" alt="Alpi"/></div>
     <div class="text-center"><img class="logo" id="logo_dsden" src="{{ asset('/medias/images/logon/alpi/logo_dsden.jpg') }}" alt="Dsden"/></div>
@@ -75,7 +75,7 @@
       {% endif %}
 
       {# login row #}
-      <div container class="flex layout-row layout-align-center-center layout-align-gt-md-end-center">
+      <div container class="flex layout-row layout-align-center-center {% if not parameter('disable_login') %}layout-align-gt-md-end-center{% else %}layout-align-gt-md-end-start{% endif %}">
 
         {# login blocks #}
         <div class="flex home-blocks">
@@ -90,7 +90,9 @@
             <div class="box-transparent">
               <div class="inner box-transparent">
 
-                <bns-auto-login-box url="'{{ redirectUrl }}'" saml-providers="{{ parameter('saml.providers')|default(null)|json_encode }}"></bns-auto-login-box>
+                {% if not parameter('disable_login') %}
+                <bns-auto-login-box url="'{{ redirectUrl }}'" saml-providers="{{ parameter('saml.providers')|default(null)|json_encode }}" is-mobile="{{ is_mobile_view() |json_encode }}"></bns-auto-login-box>
+                {% endif %}
 
               </div>
             </div>

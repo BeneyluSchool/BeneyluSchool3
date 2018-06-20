@@ -17,11 +17,13 @@
 
     </div>
 
-    <div class="view">
-        {% block headerView %}{% endblock %}
-    </div>
+    {% block widgetView %}
+        <div class="view">
+            {% block headerView %}{% endblock %}
+        </div>
 
-    <div class="edit" {{ isNew is defined ? 'style="display:block;"' : '' }}>
-        {% block editView %}{% endblock %}
-    </div>
+        <div class="edit" {{ isNew is defined ? 'style="display:block;"' : '' }}>
+            {% block editView %}{% endblock %}
+        </div>
+    {% endblock %}
 </div>

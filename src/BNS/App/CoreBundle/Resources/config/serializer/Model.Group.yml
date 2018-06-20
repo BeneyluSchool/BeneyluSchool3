@@ -4,6 +4,8 @@ BNS\App\CoreBundle\Model\Group:
   properties:
     isFavorite:
       expose: true
+    userIds:
+      expose: true
   virtual_properties:
     getType:
       expose: true
@@ -21,6 +23,9 @@ BNS\App\CoreBundle\Model\Group:
     getAvatarUrl:
       expose: true
       groups: [Default, list]
+    getStatisticLabel:
+      expose: true
+      groups: [statistic_group]
 
   relations:
     - rel: switch
@@ -38,14 +43,31 @@ BNS\App\CoreBundle\Model\Group:
       embedded:
         content: expr(service('bns.user_directory.manager').getUserIdsByRoles(object, view))
         exclusion:
-          exclude_if: expr(!isset("view"))
+          exclude_if: expr(!isset("view") || isset("count_users"))
           groups: [ detail ]
     - rel: users
       embedded:
         content: expr(service('bns.user_directory.manager').getUserIdsByRoles(object))
         exclusion:
-          exclude_if: expr(isset("view"))
+          exclude_if: expr(isset("view") || isset("count_users"))
           groups: [ detail ]
+    - rel: users
+      embedded:
+        content: expr(service('bns.user_directory.manager').countUserIdsByRoles(object, view))
+        exclusion:
+          exclude_if: expr(!isset("view") || !isset("count_users"))
+          groups: [ detail ]
+    - rel: users
+      embedded:
+        content: expr(service('bns.user_directory.manager').countUserIdsByRoles(object))
+        exclusion:
+          exclude_if: expr(isset("view") || !isset("count_users"))
+          groups: [ detail ]
+    - rel: user_ids
+      embedded:
+        content: expr(user_ids)
+        exclusion:
+          exclude_if: expr(!isset("user_ids"))
     - rel: pupils_preview
       embedded:
         content: expr(service('bns.user_directory.manager').getPupilsPreview(object, 3))

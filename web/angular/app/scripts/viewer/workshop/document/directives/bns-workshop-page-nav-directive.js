@@ -36,22 +36,14 @@ angular.module('bns.viewer.workshop.document.pageNav', [])
     };
   })
 
-  .controller('WorkshopPageNavCtrl', function ($scope, $window) {
+  .controller('WorkshopPageNavCtrl', function ($scope) {
 
     this.init = function (element) {
       $scope.offset = $scope.offset || 0;
       $scope.duration = $scope.duration || 0;
 
       element.on('click', function () {
-        var target = angular.element($window.document.getElementById('workshop-page-' + $scope.page.position));
-        var container = angular.element($window.document.getElementById('workshop-document')).closest('.nano-content');
-
-        if (target.length && container.length) {
-          // get the element's position relative to its parent (should stay
-          // constant...) and apply offset
-          var targetY = target.offset().top - target.parent().offset().top + $scope.offset;
-          container.scrollTo(0, targetY, $scope.duration);
-        }
+        $scope.$emit('workshop.page.focus', $scope.page.position, $scope.duration, $scope.offset);
       });
     };
 

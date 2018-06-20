@@ -2,9 +2,16 @@
 
 namespace BNS\App\WorkshopBundle\Manager;
 
+use BNS\App\CompetitionBundle\Model\QuestionnaireParticipationQuery;
 use BNS\App\CoreBundle\Model\User;
+use BNS\App\MediaLibraryBundle\Manager\MediaManager;
+use BNS\App\MediaLibraryBundle\Model\MediaQuery;
 use BNS\App\RealtimeBundle\Publisher\RealtimePublisher;
 use BNS\App\WorkshopBundle\Exception\InvalidConfigurationException;
+use BNS\App\WorkshopBundle\Model\WorkshopContent;
+use BNS\App\WorkshopBundle\Model\WorkshopDocument;
+use BNS\App\WorkshopBundle\Model\WorkshopPage;
+use BNS\App\WorkshopBundle\Model\WorkshopPageQuery;
 use BNS\App\WorkshopBundle\Model\WorkshopWidget;
 use BNS\App\WorkshopBundle\Model\WorkshopWidgetExtendedSetting;
 use BNS\App\WorkshopBundle\Model\WorkshopWidgetGroup;
@@ -55,7 +62,7 @@ class WidgetGroupManager
      * @return WorkshopWidgetGroup
      * @throws InvalidConfigurationException
      */
-    public function createFromConfiguration($data)
+    public function createFromConfiguration($data, WorkshopPage $workshopPage)
     {
         // fetch the WidgetConfiguration that will be used as a guide
         if (!isset($data['code'])) {
@@ -68,6 +75,7 @@ class WidgetGroupManager
 
         // create a new WidgetGroup based on the configuration
         $widgetGroup = new WorkshopWidgetGroup();
+        $widgetGroup->setWorkshopPage($workshopPage);
         $type = $configuration['widget_group_type'];
         $widgetGroup->setType($type);
 
@@ -77,7 +85,11 @@ class WidgetGroupManager
 
         // optionally, set its position within the zone
         $position = isset($data['position']) ? $data['position'] : null;
-        $widgetGroup->setPosition($position);
+        try {
+            $widgetGroup->insertAtRank($position);
+        } catch (\PropelException $e) {
+            $widgetGroup->insertAtBottom();
+        }
 
         // create each embedded widget, as per the configuration
         foreach ($configuration['widget_types'] as $widgetType) {
@@ -106,8 +118,16 @@ class WidgetGroupManager
         $pageId = $widgetGroup->getPageId();
         $zone = $widgetGroup->getZone();
         $position = $widgetGroup->getPosition();
+        $oldPageId = $oldValues['pageId'];
         $oldZone = $oldValues['zone'];
         $oldPosition = $oldValues['position'];
+
+        WorkshopWidgetPeer::disableVersioning();
+        WorkshopWidgetPeer::clearInstancePool();
+        WorkshopWidgetPeer::clearRelatedInstancePool();
+        WorkshopWidgetGroupPeer::disableVersioning();
+        WorkshopWidgetGroupPeer::clearInstancePool();
+        WorkshopWidgetGroupPeer::clearRelatedInstancePool();
 
         $con = \Propel::getConnection(WorkshopWidgetGroupPeer::DATABASE_NAME);
         $con->beginTransaction();
@@ -115,7 +135,7 @@ class WidgetGroupManager
             // reorder all widgetGroups in the old zone
             /** @var WorkshopWidgetGroup[] $oldZoneWidgetGroups */
             $oldZoneWidgetGroups = WorkshopWidgetGroupQuery::create()
-                ->filterByPageId($pageId)
+                ->filterByPageId($oldPageId)
                 ->filterByZone($oldZone)
                 ->find($con)
             ;
@@ -156,6 +176,9 @@ class WidgetGroupManager
             $con->rollBack();
             throw $e;
         }
+
+        WorkshopWidgetPeer::enableVersioning();
+        WorkshopWidgetGroupPeer::enableVersioning();
     }
 
     /**
@@ -181,6 +204,14 @@ class WidgetGroupManager
         // erase all old versions
         $this->cleanVersions($widgetGroup, $con, 0);
 
+        if ($user instanceof User) {
+            $userId = $user->getId();
+        } else {
+            $userId = $user;
+        }
+        if ($userId) {
+            $widgetGroup->setVersionCreatedBy($userId);
+        }
         $widgetGroup->save($con); // this should created a version n°1
 
         if ($user) {
@@ -287,20 +318,31 @@ class WidgetGroupManager
      *
      * @param WorkshopWidgetGroup $widgetGroup
      */
-    public function duplicate(WorkshopWidgetGroup $widgetGroup)
+    public function duplicate(WorkshopWidgetGroup $widgetGroup, $competition = false)
     {
         $newWidgetGroup = new WorkshopWidgetGroup();
         $newWidgetGroup->setPageId($widgetGroup->getPageId());
         $newWidgetGroup->setType($widgetGroup->getType());
         $newWidgetGroup->setZone($widgetGroup->getZone());
-        $newWidgetGroup->setPosition($widgetGroup->getPosition());
+        // insert the new widget after the previous
+        try {
+            $newWidgetGroup->insertAtRank($widgetGroup->getPosition() + 1);
+        } catch (\PropelException $e) {
+            $newWidgetGroup->insertAtBottom();
+        }
 
         $widgets = $widgetGroup->getWorkshopWidgets();
         foreach ($widgets as $widget) {
             $newWidget = new WorkshopWidget();
             $newWidget->setPosition($widget->getPosition());
             $newWidget->setType($widget->getType());
-            $newWidget->setMediaId($widget->getMediaId());
+            if ($competition && ($media = $widget->getMedia())) {
+                $mediaCopy = $media->copy();
+                $mediaCopy->setStatusDeletion(MediaManager::STATUS_QUESTIONNAIRE_COMPETITION)->save();
+                $newWidget->setMediaId($mediaCopy->getId());
+            } else {
+                $newWidget->setMediaId($widget->getMediaId());
+            }
             $newWidget->setContent($widget->getContent());
             $newWidget->setSettings($widget->getSettings());
             $newWidget->setVersion(1);
@@ -308,15 +350,35 @@ class WidgetGroupManager
             $extSettings = $widget->getWorkshopWidgetExtendedSetting();
             if ($extSettings) {
                 $newExtSettings = new WorkshopWidgetExtendedSetting();
-                $newExtSettings->setChoices($extSettings->getChoices());
+                if($competition) {
+                    $choices = $extSettings->getChoices();
+                    if ($choices) {
+                        if (is_array($choices)) {
+                            foreach ($choices as $id => $choice) {
+                                $type = key($choice);
+                                if ("media_id" == $type && "" !== $choice[$type]) {
+                                    $media = MediaQuery::create()->findPk($choice[$type]);
+                                    if ($media) {
+                                        $mediaCopy = $media->copy();
+                                        $mediaCopy->setStatusDeletion(MediaManager::STATUS_QUESTIONNAIRE_COMPETITION)->save();
+                                        $choices[$id] = [$type => $mediaCopy->getId()];
+                                    }
+                                }
+                            }
+                        }
+                        $newExtSettings->setChoices($choices);
+                    }
+                } else {
+                    $newExtSettings->setChoices($extSettings->getChoices());
+                }
                 $newExtSettings->setCorrectAnswers($extSettings->getCorrectAnswers());
                 $newExtSettings->setAdvancedSettings($extSettings->getAdvancedSettings());
 
                 $newWidget->setWorkshopWidgetExtendedSetting($newExtSettings);
             }
-
             $newWidget->setWorkshopWidgetGroup($newWidgetGroup);
         }
+
         return $newWidgetGroup;
     }
 
@@ -348,4 +410,149 @@ class WidgetGroupManager
         $widgetGroup->setVersion($minimumVersion);
     }
 
+    /**
+     * Duplicate the given WidgetGroup.
+     *
+     * @param WorkshopContent $widgetContent
+     */
+    public function duplicateContent(WorkshopContent $widgetContent)
+    {
+        $contCopy = $widgetContent->copy();
+        $contCopy->save();
+        $document = $widgetContent->getWorkshopDocument();
+        $contentContributors = $widgetContent->getWorkshopContentContributors();
+        $contentGroupContributors = $widgetContent->getWorkshopContentGroupContributors();
+        foreach ($contentContributors as $contentContributor){
+            $contentContributorCopy = $contentContributor->copy();
+            $contentContributorCopy->setContentId($contCopy->getId())->save();
+        }
+        foreach ($contentGroupContributors as $contentGroupContributor){
+            $contentGroupContributorCopy = $contentGroupContributor->copy();
+            $contentGroupContributorCopy->setContentId($contCopy->getId())->save();
+        }
+        $docCopy = $document->copy();
+        $docCopy->setId($contCopy->getId());
+        $docCopy->save();
+        foreach ($document->getWorkshopDocumentContributions() as $workshopDocumentContribution) {
+            $contributionCopy = $workshopDocumentContribution->copy();
+            $contributionCopy->setWorkshopDocumentId($docCopy->getId())->save();
+        }
+        $pages = $document->getWorkshopPages();
+        foreach ($pages as $page) {
+            $pageCopy = $page->copy();
+            $pageCopy->setDocumentId($docCopy->getId());
+            $pageCopy->save();
+            $widgetGroups = $page->getWorkshopWidgetGroups();
+            foreach ($widgetGroups as $widgetGroup) {
+                $newWidgetGroup = $this->duplicate($widgetGroup, true);
+                $newWidgetGroup->setPageId($pageCopy->getId());
+                $newWidgetGroup->save();
+            }
+        }
+
+        return $contCopy;
+    }
+
+    /**
+     * Update page position based on PageBreak widget
+     * @param WorkshopDocument $workshopDocument
+     */
+    public function updateBreakPage(WorkshopDocument $workshopDocument, $allDocument = false)
+    {
+        if ($workshopDocument->isNew() || (!$workshopDocument->isQuestionnaire() && !$allDocument)) {
+            return ;
+        }
+        if ($workshopDocument->isQuestionnaire()) {
+            // reorder all pages
+            $pages = WorkshopPageQuery::create()
+                ->filterByWorkshopDocument($workshopDocument)
+                ->orderByRank(\Criteria::ASC)
+                ->find()
+                ->getArrayCopy();
+            $oldPageNumber = count($pages);
+
+            $widgetGroups = WorkshopWidgetGroupQuery::create()
+                ->leftJoinWorkshopWidget()
+                ->addJoinCondition('WorkshopWidget', 'WorkshopWidget.type = ?', 'page-break')
+                ->useWorkshopPageQuery()
+                ->orderByRank(\Criteria::ASC)
+                ->filterByWorkshopDocument($workshopDocument)
+                ->endUse()
+                ->orderByZone(\Criteria::ASC)
+                ->orderByPosition(\Criteria::ASC)
+                ->withColumn('count(WorkshopWidget.Id)', 'nbPageBreak')
+                ->groupById()
+                ->find();
+
+            $page = 0;
+            $newWidgetGroupList = [];
+            /** @var WorkshopWidgetGroup $widgetGroup */
+            foreach ($widgetGroups as $widgetGroup) {
+                if (!isset($newWidgetGroupList[$page])) {
+                    $newWidgetGroupList[$page] = [];
+                }
+                $newWidgetGroupList[$page][] = $widgetGroup;
+                if ($widgetGroup->getVirtualColumn('nbPageBreak') > 0) {
+                    $page++;
+                }
+            }
+
+
+            $pageUsed = [];
+            foreach ($newWidgetGroupList as $page2 => $newWidgetGroups) {
+                $pageUsed[$page2] = $page2;
+                if (!isset($pages[$page2])) {
+                    // create a new page
+                    $workshopPage = new WorkshopPage();
+                    $workshopPage->setWorkshopDocument($workshopDocument);
+                    $workshopPage->setPosition($page2 + 1);// $page2 is 0 indexed
+                    $workshopPage->setOrientation('p');
+                    $workshopPage->setLayoutCode('full');
+                    $workshopPage->save();
+                    $pages[$page2] = $workshopPage;
+                }
+                /**
+                 * @var int $position
+                 * @var  WorkshopWidgetGroup $newWidgetGroup
+                 */
+                foreach ($newWidgetGroups as $position => $newWidgetGroup) {
+                    $newWidgetGroup->disableVersioning();
+                    // $position is 0 indexed
+                    $newWidgetGroup->setPageZonePosition($pages[$page2]->getId(), 1, $position + 1);
+                    $newWidgetGroup->save();
+                    // ensure version keep synched
+                    $newWidgetGroupVersion = $newWidgetGroup->getOneVersion($newWidgetGroup->getVersion());
+                    if ($newWidgetGroupVersion) {
+                        $newWidgetGroupVersion->setPageId($pages[$page2]->getId());
+                        $newWidgetGroupVersion->setZone(1);
+                        $newWidgetGroupVersion->setPosition($position + 1);
+                        $newWidgetGroupVersion->save();
+                    }
+                    $newWidgetGroup->enableVersioning();
+                }
+            }
+            $pageUnused = array_diff(array_keys($pages), $pageUsed);
+            if (count($pageUsed) < 1) {
+                // remove first page to keep at least one page
+                array_shift($pageUnused);
+            }
+            foreach ($pageUnused as $page3) {
+                $pages[$page3]->delete();
+            }
+
+            $newPageNumer = count($pageUsed);
+            // pages were deleted, reset participations to first page
+            if ($oldPageNumber > $newPageNumer) {
+                QuestionnaireParticipationQuery::create()
+                    ->filterByPage($newPageNumer, \Criteria::GREATER_THAN)
+                    ->filterByQuestionnaireId($workshopDocument->getMediaId())
+                    ->update(['Page' => 1])
+                ;
+            }
+        }
+        $workshopDocument->reload(true);
+
+        // TODO optimize to call only when needed
+        $this->publisher->publish('WorkshopDocument('.$workshopDocument->getId().'):reorder', $workshopDocument, array("Default", "detail", "document_detail"));
+    }
 }

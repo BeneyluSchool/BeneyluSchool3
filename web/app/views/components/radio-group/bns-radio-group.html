@@ -3,14 +3,18 @@
   <bns-navbar-icon ng-if="::group.groupByIcon" item="group.groupByIcon"></bns-navbar-icon>
   {{::choice.group_by|translate}}
 </div>
-<div class="bns-choice-wrap layout-row">
+<div
+  class="bns-choice-wrap layout-row"
+  ng-attr-bns-feature-flag="::choice.attr['bns-feature-flag']"
+  ng-attr-bns-feature-push="::!!choice.attr['bns-feature-flag']"
+>
   <md-radio-button
     ng-value="::choice.value"
     name="{{::choice.name}}"
-    ng-disabled="{{choice.disabled||group.disabled}}"
+    ng-disabled="choice.disabled||group.disabled"
     class="md-primary flex {{::group.getExtraClass(choice)}}"
     ng-attr-ng-style="{{::group.style || ''}}"
-    aria-label="{{::(choice.label|translate)||choice.name}}"
+    aria-label="{{::((choice.label||choice.name) ? ((choice.label|translate)||choice.name) : choice.htmlLabel)}}"
   >
     <div bns-transclude-eval="group.choiceLabelTemplate">
       <bns-navbar-icon ng-if="::choice.icon" item="choice.icon"></bns-navbar-icon>

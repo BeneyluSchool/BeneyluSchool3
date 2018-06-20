@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2017-03-27T18:49:47Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2017-09-21T10:36:09Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -34,6 +34,17 @@
         <note><![CDATA[%date% is a placeholder
 ]]></note>
       </trans-unit>
+      <trans-unit id="ad516e191ad6d53f27e94734abba2f6eaaed8b7c" resname="ADULT_WELCOME_FIRST_CONNECTION">
+        <source>ADULT_WELCOME_FIRST_CONNECTION</source>
+        <target>Il s’agit de votre première connexion.</target>
+      </trans-unit>
+      <trans-unit id="03c74a9940976f8ab3b202290d0ecfefa16e24d3" resname="ADULT_WELCOME_PREVIOUS_CONNECTION">
+        <source>ADULT_WELCOME_PREVIOUS_CONNECTION</source>
+        <target>Votre dernière connexion : le %date% à %time%.</target>
+        <note><![CDATA[%date% is a placeholder
+%time% is a placeholder
+]]></note>
+      </trans-unit>
       <trans-unit id="392aeeabda9308ad32ca1e5c93cdcf990d8d7aa7" resname="ALREADY_PARTNERSHIP_MEMBER">
         <source>ALREADY_PARTNERSHIP_MEMBER</source>
         <target>Vous êtes déjà membre du partenariat</target>
@@ -45,6 +56,14 @@
       <trans-unit id="56acfed7eda5682029d07f8e9078663b0491bd74" resname="ASSISTANT_CREATED_SUCCESS">
         <source>ASSISTANT_CREATED_SUCCESS</source>
         <target state="new">L'auxiliaire a été créé avec succès</target>
+      </trans-unit>
+      <trans-unit id="9a9afbc3b7a3f2de91b584b7dae3113b71ea3cd2" resname="AUTOMATE_ADD_PUPIL">
+        <source>AUTOMATE_ADD_PUPIL</source>
+        <target>Vous bénéficiez de l'alimentation automatique des données depuis ONDE, les ajouts sont par conséquent bloqués.
+        %linkStart%Avoir plus de renseignements%linkEnd%</target>
+        <note><![CDATA[%linkStart% is a placeholder
+%linkEnd% is a placeholder
+]]></note>
       </trans-unit>
       <trans-unit id="345830cf130774473e6e05b34394a9cf4e3cf251" resname="BACKBOARD_FLUX_LABEL_1">
         <source>BACKBOARD_FLUX_LABEL_1</source>
@@ -104,7 +123,7 @@
       </trans-unit>
       <trans-unit id="82561fce379d118bff44c52a440bc3402a33e1b6" resname="BLACKBOARD_NEW_MINISITE_NEWS">
         <source>BLACKBOARD_NEW_MINISITE_NEWS</source>
-        <target>Une nouvelle actualité a été ajoutée sur le minisite</target>
+        <target>Une nouvelle actualité a été ajoutée sur le site web</target>
       </trans-unit>
       <trans-unit id="2ff30d02bfeb3bb863649b6479f43dcb74298233" resname="BLACKBOARD_NOTICE">
         <source>BLACKBOARD_NOTICE</source>
@@ -192,6 +211,17 @@ http://symfony.com/doc/current/components/translation/usage.html#pluralizationTh
         <note><![CDATA[%date% is a placeholder
 ]]></note>
       </trans-unit>
+      <trans-unit id="1b1a1bca4a78a2d3c6cb3535977602a4250dcb64" resname="CHILD_WELCOME_FIRST_CONNECTION">
+        <source>CHILD_WELCOME_FIRST_CONNECTION</source>
+        <target>Il s’agit de ta première connexion.</target>
+      </trans-unit>
+      <trans-unit id="c7eb5b9a24d68c1bd04d0692d514e33e2ebd7bd3" resname="CHILD_WELCOME_PREVIOUS_CONNECTION">
+        <source>CHILD_WELCOME_PREVIOUS_CONNECTION</source>
+        <target>Ta dernière connexion : %date% à %time%.</target>
+        <note><![CDATA[%date% is a placeholder
+%time% is a placeholder
+]]></note>
+      </trans-unit>
       <trans-unit id="69d4a3344c2a6a97da1c61f07520decc77e29338" resname="CHOICES_FEMALE">
         <source>CHOICES_FEMALE</source>
         <target>Féminin</target>
@@ -246,7 +276,7 @@ http://symfony.com/doc/current/components/translation/usage.html#pluralizationTh
       </trans-unit>
       <trans-unit id="d72edad5bbac5e5cea64fad4b9ef9e752e0c4c18" resname="CLIS">
         <source>CLIS</source>
-        <target>CLIS</target>
+        <target>ULIS</target>
       </trans-unit>
       <trans-unit id="104666dbe54d80433499591a38ce3159c67e9efe" resname="CLOSE_DEADLINE">
         <source>CLOSE_DEADLINE</source>
@@ -467,6 +497,12 @@ This text contains HTML tags, please try to keep those tags
         <source>ENTER_NAME</source>
         <target>Veuillez saisir un nom</target>
       </trans-unit>
+      <trans-unit id="94baf8b9e925b211f8530bfcf5c94cd8a52db1e4" resname="EXPIRATION_DATE_TEAM">
+        <source><![CDATA[<strong>Date d'expiration : </strong> %expirationDate%]]></source>
+        <target><![CDATA[<strong>Date d'expiration : </strong> %expirationDate%]]></target>
+        <note><![CDATA[%expirationDate% is a placeholder
+This text contains HTML tags, please try to keep those tags]]></note>
+      </trans-unit>
       <trans-unit id="a9e56211040bc11c4528692d8bdb6c1a2328ed4b" resname="EXPORT_INFOS_CSV">
         <source>EXPORT_INFOS_CSV</source>
         <target>Exporter les informations en CSV</target>
@@ -574,7 +610,8 @@ This text contains HTML tags, please try to keep those tags
       </trans-unit>
       <trans-unit id="d92395873d027371ae2425429133b4e3c2dff3e2" resname="FLASH_RESET_PASSWORD_SUCCESS">
         <source>FLASH_RESET_PASSWORD_SUCCESS</source>
-        <target><![CDATA[La demande de régénération de mot de passe s'est déroulée avec succès !<br />L'utilisateur devra régénérer son mot de passe dès sa prochaine connexion.]]></target>
+        <target><![CDATA[La demande de régénération de mot de passe s'est déroulée avec succès !
+                         L'utilisateur vient de recevoir un email avec un nouveau mot de passe provisoire.<br />Assurez-vous d'avoir renseigné la bonne adresse.]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
@@ -623,6 +660,20 @@ This text contains HTML tags, please try to keep those tags
       <trans-unit id="3428158eccd96cdcf005eb0f1b4443ec588b71c3" resname="IMAGE_PUPIL">
         <source>IMAGE_PUPIL</source>
         <target>Élèves</target>
+      </trans-unit>
+      <trans-unit id="606b17c61088c85f47f57abec7fa9607f6cb8e26" resname="IMPORT_TEACHER_VCARD">
+        <source>IMPORT_TEACHER_VCARD</source>
+        <target><![CDATA[<strong>Importer un </strong><br/>enseignant]]></target>
+        <note><![CDATA[%job% is a placeholder
+        This text contains HTML tags, please try to keep those tags
+        ]]></note>
+      </trans-unit>
+      <trans-unit id="a8f7830b03d49459e25b18c48f57066189c11a0c" resname="IMPORT_VCARD_ERROR">
+        <source>IMPORT_VCARD_ERROR</source>
+        <target><![CDATA[Erreur lors de l'import du fichier VCard]]></target>
+        <note><![CDATA[%job% is a placeholder
+        This text contains HTML tags, please try to keep those tags
+        ]]></note>
       </trans-unit>
       <trans-unit id="6302e5cbd1c3189cbd824f2e1a0d30bba6e98ef2" resname="INFANT_SCHOOL">
         <source>INFANT_SCHOOL</source>
@@ -694,6 +745,10 @@ http://symfony.com/doc/current/components/translation/usage.html#pluralizationTh
         <source>LABEL_EMAIL</source>
         <target>Adresse e-mail :</target>
       </trans-unit>
+      <trans-unit id="b0aa27931a1a7a320368190ec4576b8f6c8749cc" resname="LABEL_DATE_EXPIRATION">
+        <source>LABEL_DATE_EXPIRATION</source>
+        <target>Date d'expiration de l'équipe :</target>
+      </trans-unit>
       <trans-unit id="49305445862aed0014cbf60aa12c77a0bb34611e" resname="LABEL_FILE_FORMAT">
         <source>LABEL_FILE_FORMAT</source>
         <target>Format du fichier</target>
@@ -713,6 +768,10 @@ http://symfony.com/doc/current/components/translation/usage.html#pluralizationTh
       <trans-unit id="c30d701a87cb892fbb5f2abd0a7314d211489284" resname="LABEL_GIRL">
         <source>LABEL_GIRL</source>
         <target>Fille</target>
+      </trans-unit>
+      <trans-unit id="6362e6e469a37d11de9eb2e8e2b5ea9ffc81aa6a" resname="LABEL_HOME_MESSAGE">
+        <source>LABEL_HOME_MESSAGE</source>
+        <target>Mot de bienvenue</target>
       </trans-unit>
       <trans-unit id="3764fc9ec22bc6e3db2e491563ac8a1a16d46a7c" resname="LABEL_HOUR">
         <source>LABEL_HOUR</source>
@@ -772,7 +831,7 @@ http://symfony.com/doc/current/components/translation/usage.html#pluralizationTh
       </trans-unit>
       <trans-unit id="f3bd3ea737fe060d1cefca451fc9ddd6f036875e" resname="LABEL_PUPILS">
         <source>LABEL_PUPILS</source>
-        <target>Elèves</target>
+        <target>Élèves</target>
       </trans-unit>
       <trans-unit id="9567ed98ca26ec0dc3d296673da37aa2cc424cb6" resname="LABEL_QUICK_TEXT_INPUT">
         <source>LABEL_QUICK_TEXT_INPUT</source>
@@ -1103,6 +1162,10 @@ This text contains HTML tags, please try to keep those tags
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
+      <trans-unit id="ed569f5083c260bdea41cc670a873765d5294a9a" resname="LINK_FIRST_STEPS">
+        <source>LINK_FIRST_STEPS</source>
+        <target>Premiers pas</target>
+      </trans-unit>
       <trans-unit id="8ae6db68867bab38f4447acdaf4c8f40979fa3bd" resname="LINK_GENERATE_CLASS_CARD">
         <source><![CDATA[<strong>Générer la fiche</strong><br />pour la sélection]]></source>
         <target state="new"><![CDATA[<strong>Générer la fiche</strong><br />pour la sélection]]></target>
@@ -1118,6 +1181,12 @@ This text contains HTML tags, please try to keep those tags
       <trans-unit id="2495bc330eeeb72d636e3a61dd0b6b54b444d60a" resname="LINK_GENERATE_NEW_PASSWORD">
         <source><![CDATA[<strong>Générer</strong><br />un nouveau mot de passe]]></source>
         <target state="new"><![CDATA[<strong>Générer</strong><br />un nouveau mot de passe]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="b6b4407718d2a9a31b29f4f9119d5ac32fd8615c" resname="LINK_IMPORT_CARD">
+        <source>LINK_IMPORT_CARD</source>
+        <target state="new"><![CDATA[<strong>Importer la fiche</strong>]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
@@ -1374,6 +1443,12 @@ This text contains HTML tags, please try to keep those tags
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
+      <trans-unit id="721c63410fcadcf4ef662ae2548a44f51e64af9e" resname="NO_EXPIRATION_DATE_TEAM">
+        <source><![CDATA[<strong>Date d'expiration : </strong> Ajoutez une date d'expiration à votre groupe de travail si vous le souhaitez!]]></source>
+        <target state="new"><![CDATA[<strong>Date d'expiration : </strong> Ajoutez une date d'expiration à votre groupe de travail si vous le souhaitez!]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
       <trans-unit id="7afc444da2a0baa57b67113e1f6b0a23a1876bb6" resname="NO_GROUP_HAS_JOIN_PARTNERSHIP_INVITE_THEM">
         <source><![CDATA[Aucun groupe n'a encore rejoint ce partenariat.<br /> Invitez de nouveaux partenaires en leur transmettant le code du partenariat : %code%]]></source>
         <target state="new"><![CDATA[Aucun groupe n'a encore rejoint ce partenariat.<br /> Invitez de nouveaux partenaires en leur transmettant le code du partenariat : %code%]]></target>
@@ -1499,6 +1574,10 @@ This text contains HTML tags, please try to keep those tags
         <source>Saisissez une description pour le groupe de travail</source>
         <target state="new">Saisissez une description pour le groupe de travail</target>
       </trans-unit>
+      <trans-unit id="ccf088f0f5f75906f2c01008980d89c36d0cb7a0" resname="PLACEHOLDER_ENTER_WORKING_GROUP_HOME_MESSAGE">
+        <source>Saisissez un messsage de bienvenue pour le groupe de travail</source>
+        <target state="new">Saisissez un messsage de bienvenue pour le groupe de travail</target>
+      </trans-unit>
       <trans-unit id="395b297565962c56eed30c5b184c6afeef425ed7" resname="PLACEHOLDER_ENTER_WORKING_GROUP_NAME">
         <source>Saisissez un nom pour le groupe de travail</source>
         <target state="new">Saisissez un nom pour le groupe de travail</target>
@@ -1526,6 +1605,10 @@ This text contains HTML tags, please try to keep those tags
       <trans-unit id="7fcfc4be4f28c2bd1d2e0450632d2a7033e4c8f0" resname="PUPIL_CREATED_SUCCESS">
         <source>PUPIL_CREATED_SUCCESS</source>
         <target>L'élève a été créé avec succès</target>
+      </trans-unit>
+      <trans-unit id="7671ddb83369f47a66165e774501f86c1079547a" resname="READ_PSSST">
+        <source>READ_PSSST</source>
+        <target>Lire Beneylu Pssst</target>
       </trans-unit>
       <trans-unit id="7816b83aefd132110c670b87fca93bcf4398fb17" resname="RESETTING_CLASSROOM_DESCRIPTION">
         <source>RESETTING_CLASSROOM_DESCRIPTION</source>

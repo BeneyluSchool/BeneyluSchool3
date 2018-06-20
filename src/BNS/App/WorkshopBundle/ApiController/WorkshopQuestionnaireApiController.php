@@ -36,76 +36,14 @@ class WorkshopQuestionnaireApiController extends BaseWorkshopApiController
      */
     public function verifyAction(Request $request, $id, $type)
     {
-        $data = $request->get('data');
-        $showSolution = $request->get('show_solution');
-        $isCorrect = false;
-        $count = 0;
-        $total = 0;
-        $rightAnswers = [];
-
         $widget = WorkshopWidgetQuery::create()
             ->findOneById($id);
 
         if (!$widget) {
-            $isCorrect = false;
+            return View::create('', Codes::HTTP_NOT_FOUND);
         }
-
-        $settings = WorkshopWidgetExtendedSettingQuery::create()
-            ->filterByWorkshopWidget($widget)
-            ->findOne();
-
-        if (!$settings) {
-            $isCorrect = false;
-        }
-
-        $correctAnswers = $settings->getCorrectAnswers();
-
-        switch ($type) {
-            case 'multiple':
-
-                if (count(array_diff(array_merge($data, $correctAnswers), array_intersect($data, $correctAnswers))) === 0) {
-                    $isCorrect = true;
-                }
-                foreach ($data as $item) {
-                    if (in_array ($item, $correctAnswers)) {
-                        $rightAnswers[] = $item;
-                    }
-                }
-                break;
-            case 'simple':
-                if ($correctAnswers == $data) {
-                    $isCorrect = true;
-                }
-                break;
-            case 'closed':
-                if (strtolower($data) == strtolower($correctAnswers)) {
-                    $isCorrect = true;
-                }
-                break;
-            case 'gap-fill-text':
-                $total = count($correctAnswers);
-                $array = [];
-                foreach ($correctAnswers as $item) {
-                    if ((array_key_exists($item['guid'], $data)) && (strtolower($item['label']) == strtolower($data[$item['guid']]))) {
-                        $count++;
-                        $array[] = $item['guid'];
-                    }
-                }
-                $correctAnswers = $array;
-                $showSolution = true;
-                if ($count == $total) {
-                    $isCorrect = true;
-                } else {
-                    $isCorrect = false;
-                }
-                break;
-        }
-
-        if ($showSolution) {
-            $response = ['is_correct' => $isCorrect, 'correct_count' => $count, 'total' => $total, 'right_answers' => $rightAnswers, 'correct_answers' => $correctAnswers];
-        } else {
-            $response =['is_correct' => $isCorrect, 'correct_count' => $count, 'total' => $total, 'right_answers' => $rightAnswers,];
-        }
+        $questionnaireManager = $this->get('bns.workshop.questionnaire.manager');
+        $response = $questionnaireManager->verifyAnswer($request->get('data'), $widget, $type, $request->get('show_solution'));
 
         return new JsonResponse($response);
     }

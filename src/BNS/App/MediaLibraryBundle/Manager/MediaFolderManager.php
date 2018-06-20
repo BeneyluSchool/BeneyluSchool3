@@ -15,6 +15,7 @@ use BNS\App\MediaLibraryBundle\Model\MediaFolderGroupQuery;
 use BNS\App\MediaLibraryBundle\Model\MediaFolderUser;
 use BNS\App\MediaLibraryBundle\Model\MediaFolderUserPeer;
 use BNS\App\MediaLibraryBundle\Model\MediaFolderUserQuery;
+use BNS\App\MediaLibraryBundle\Model\MediaPeer;
 use BNS\App\MediaLibraryBundle\Model\MediaQuery;
 use BNS\ApP\CoreBundle\Access\BNSAccess;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
@@ -34,6 +35,9 @@ class MediaFolderManager
 
     /** @var  MediaManager $mediaManager */
     protected $mediaManager;
+
+    /** @var array local cache for favorites */
+    protected $favoritesCache = [];
 
     const STATUS_ACTIVE = '1';                  // Dossier actif et visible
     const STATUS_GARBAGED = '0';                // Dossier mis en corbeille
@@ -77,7 +81,7 @@ class MediaFolderManager
 
     /**
      * Renvoie le media folder de la classe
-     * @return MediaFolderGroup
+     * @return MediaFolderGroup|MediaFolderUser
      */
     public function getMediaFolderObject()
     {
@@ -111,27 +115,28 @@ class MediaFolderManager
     }
 
     /**
-     * @param $id Id du dossier
-     * @param $type type du dossier (USER ou GROUP)
+     * @param $id int Id du dossier
+     * @param $type string type du dossier (USER ou GROUP)
      * @return MediaFolderGroup|\BNS\App\MediaLibraryBundle\Model\MediaFolderUser|bool
      */
     public function find($id, $type)
     {
-        if(!in_array($type, $this->authorisedTypes) || $id == null || !$id)
-        {
+        if (!in_array($type, $this->authorisedTypes) || $id == null || !$id) {
             return false;
         }
-        switch($type)
-        {
+        switch($type) {
             case 'USER':
                 $query = MediaFolderUserQuery::create();
                 break;
             case 'GROUP':
                 $query = MediaFolderGroupQuery::create();
                 break;
+            default :
+                return false;
         }
         $mediaFolder = $query->findOneById($id);
         $this->setMediaFolderObject($mediaFolder);
+
         return $mediaFolder;
     }
 
@@ -208,8 +213,6 @@ class MediaFolderManager
         {
             $status = $this->mediaFolder->getStatusDeletion();
         }
-
-        $logger = BNSAccess::getContainer()->get('logger');
 
         $base = $this->mediaFolder;
         switch($status)
@@ -349,26 +352,29 @@ class MediaFolderManager
 
     public function isFavorite($userId)
     {
-        if(!isset($this->favoritesCache[$userId]))
-        {
-            $cache = array('USER' => array(),'GROUP' => array());
-            $favorites = MediaFolderFavoritesQuery::create()->filterByUserId($userId)->find()->toArray();
+        if (!isset($this->favoritesCache[$userId])) {
+            $cache = ['USER' => [],'GROUP' => []];
+            $favorites = MediaFolderFavoritesQuery::create()
+                ->filterByUserId($userId)
+                ->select(['MediaFolderId', 'MediaFolderType'])
+                ->find()
+                ->getArrayCopy();
 
-            foreach($favorites as $favorite)
-            {
-                $cache[$favorite['MediaFolderType']][] = $favorite['MediaFolderId'];
+            foreach($favorites as $favorite) {
+                $cache[$favorite['MediaFolderType']][] = (int)$favorite['MediaFolderId'];
             }
 
             $this->favoritesCache[$userId] = $cache;
 
         }
-        return in_array($this->getMediaFolderObject()->getId(),$this->favoritesCache[$userId][$this->getMediaFolderObject()->getType()]);
+
+        return in_array( $this->getMediaFolderObject()->getId(), $this->favoritesCache[$userId][$this->getMediaFolderObject()->getType()]);
     }
 
     /**
      * Déplace dans le media folder destination
      */
-    public function move($mediaFolderDestination)
+    public function move($mediaFolderDestination, $reorganize = true)
     {
         /**
          * TODO pour multi arborescence (HORS SCOPE ACTUEL)
@@ -381,6 +387,9 @@ class MediaFolderManager
          * Puis insertion dans parent
          */
         $mediaFolder = $this->getMediaFolderObject();
+        // On reload pour avoir les bons noeuds et pas casser la hiérarchie
+        $mediaFolder->reload();
+        $mediaFolderDestination->reload();
 
         if($mediaFolder->getType() != $mediaFolderDestination->getType())
         {
@@ -392,24 +401,12 @@ class MediaFolderManager
             throw new BadRequestHttpException(self::ERROR_MOVE_NOT_AUTHORISED);
         }
 
-        $ancestorIds = array();
-
-        foreach($mediaFolderDestination->getAncestors() as $a)
-        {
-            $ancestorIds[] = $a->getId();
-        }
-
-        //On vérifie que l'on essaie pas d'envoyer dans un de ses fils
-        if(in_array($mediaFolder->getId(),$ancestorIds))
-        {
-            throw new BadRequestHttpException(self::ERROR_MOVE_NOT_AUTHORISED);
-        }
-
         $mediaFolder->moveToLastChildOf($mediaFolderDestination);
         $mediaFolder->save();
-
-        $this->setMediaFolderObject($mediaFolderDestination);
-        $this->alphaReoganize();
+        if ($reorganize) {
+            $this->setMediaFolderObject($mediaFolderDestination);
+            $this->alphaReoganize();
+        }
     }
 
     /**
@@ -439,6 +436,28 @@ class MediaFolderManager
         $mediaFolder = MediaFolderUserQuery::create()->findRoot($user->getId());
         $this->setMediaFolderObject($mediaFolder);
         return $mediaFolder;
+    }
+
+    public function getMyWorkshopFolder(User $user)
+    {
+
+        $destination = MediaFolderUserQuery::create()
+            ->filterByUserId($user->getId())
+            ->filterByStatusDeletion(self::STATUS_ACTIVE)
+            ->filterByIsWorkshop(true)
+            ->findOne();
+
+        if (!$destination) {
+            $parent = $this->getUserFolder($user);
+            $container = BNSAccess::getContainer();
+            $destination = new MediaFolderUser();
+            $destination->setLabel($container->get('translator')->trans('LABEL_WORKSHOP_FOLDER', [], 'MEDIA_LIBRARY'));
+            $destination->setIsPrivate(true);
+            $destination->setIsWorkshop(true);
+            $destination->insertAsFirstChildOf($parent);
+            $destination->save();
+        }
+        return $destination;
     }
 
     public function getGroupFolder(Group $group)
@@ -496,26 +515,87 @@ class MediaFolderManager
      * Renvoie les medias associés à un media folder, pour les deux type de
      *
      * @param string $status Un status sur lequel filter les médias. Médias actifs par défaut.
+     * @param User $user
      *
      * @return mixed
      */
-    public function getMedias($status = MediaManager::STATUS_ACTIVE)
+    public function getMedias($status = MediaManager::STATUS_ACTIVE, $user = null)
     {
 
         $container = BNSAccess::getContainer();
 
-        if($container->get('bns.media.manager')->getNoMediaChildren() == true)
-        {
+        if ($container->get('bns.media.manager')->getNoMediaChildren() == true) {
             return new \PropelCollection();
         }
 
         $mediaFolder = $this->getMediaFolderObject();
-
-        if (!$container->get('bns.media_library_right.manager')->canReadFolderContent($mediaFolder)) {
+        if (!$mediaFolder || !$container->get('bns.media_library_right.manager')->canReadFolderContent($mediaFolder)) {
             return new \PropelCollection();
         }
 
+        $query = $this->getMediaQuery($mediaFolder, $status, $user);
+
+        return $query->find();
+    }
+
+    /**
+     * @param MediaFolderGroup|MediaFolderUser $mediaFolder
+     * @param string $status
+     * @param User|null $user
+     * @return \ModelCriteria|MediaQuery
+     */
+    public function getMediaQuery($mediaFolder, $status = MediaManager::STATUS_ACTIVE, $user = null)
+    {
+        // TODO inject the service
+        $container = BNSAccess::getContainer();
         $withPrivate = $container->get('bns.media_library_right.manager')->canManageFolder($mediaFolder);
+        if (!$withPrivate && 'USER' === $mediaFolder->getType() && $user) {
+            // Allow parents to saw their children private medias
+            $childrenIds = $user->getActiveChildren()->getPrimaryKeys();
+            $withPrivate = in_array($mediaFolder->getUserId(), $childrenIds);
+        }
+
+        $query = MediaQuery::create()
+            ->filterByTypeUniqueName(MediaPeer::getValueSet(MediaPeer::TYPE_UNIQUE_NAME))
+            ->filterByExpiresAt(null, \Criteria::ISNULL)
+            ->_or()
+            ->filterByExpiresAt(time(), \Criteria::GREATER_EQUAL)
+            ->_if($status)
+                ->filterByStatusDeletion($status)
+            ->_endif()
+            ->filterByMediaFolder($mediaFolder)
+            ->_if(!$withPrivate)
+                ->filterByIsPrivate(false)
+            ->_endif()
+        ;
+
+        return $query;
+    }
+
+    /**
+     * @param MediaFolderGroup|MediaFolderUser $mediaFolder
+     * @param array $childrenIds
+     * @param string $status
+     * @param User|null $user
+     * @return \ModelCriteria|MediaQuery
+     */
+    public function getChildrenMediaQuery($mediaFolder, array $childrenIds, $status = MediaManager::STATUS_ACTIVE, $user = null)
+    {
+        // TODO inject the service
+        $container = BNSAccess::getContainer();
+        $withPrivate = $container->get('bns.media_library_right.manager')->canManageFolder($mediaFolder);
+        if (!$withPrivate && 'USER' === $mediaFolder->getType()) {
+            if (null === $user) {
+                if ($token = $container->get('security.token_storage')->getToken()) {
+                    $user = $token->getUser();
+                }
+            }
+            if ($user && $user instanceof User) {
+                // Allow parents to saw their children private medias
+                $childrenIds = $user->getActiveChildren()->getPrimaryKeys();
+                $withPrivate = in_array($mediaFolder->getUserId(), $childrenIds);
+            }
+        }
 
         $query = MediaQuery::create()
             ->filterByExpiresAt(null, \Criteria::ISNULL)
@@ -525,14 +605,13 @@ class MediaFolderManager
                 ->filterByStatusDeletion($status)
             ->_endif()
             ->filterByMediaFolderType($mediaFolder->getType())
-            ->filterByMediaFolderId($mediaFolder->getId());
+            ->filterByMediaFolderId($childrenIds)
+            ->_if(!$withPrivate)
+                ->filterByIsPrivate(false)
+            ->_endif()
+        ;
 
-        if(!$withPrivate)
-        {
-            $query->filterByIsPrivate(false);
-        }
-
-        return $query->find();
+        return $query;
     }
 
     /**

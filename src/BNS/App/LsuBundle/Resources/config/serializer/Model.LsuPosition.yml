@@ -1,0 +1,6 @@
+BNS\App\LsuBundle\Model\LsuPosition:
+  exclusion_policy: All
+
+  virtual_properties:
+    getLsuDomain:
+      expose: true

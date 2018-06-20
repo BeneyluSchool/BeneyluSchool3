@@ -31,14 +31,16 @@ class ParameterExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'parameter' => new \Twig_Function_Method($this, 'getParameter', array())
+            'parameter' => new \Twig_Function_Method($this, 'getParameter', array()),
+            'bnsStoreLink' => new \Twig_SimpleFunction('bnsStoreLink', [$this, 'getBnsStoreLinks'], ['is_safe' => ['html']]),
+            'bnsLocaleLink' => new \Twig_SimpleFunction('bnsLocaleLink', [$this, 'getBnsLocaleLinks'], ['is_safe' => ['html']])
         );
     }
 
     /**
 	 * @param string $parameterName
-	 * 
-	 * @return mixed 
+	 *
+	 * @return mixed
 	 */
     public function getParameter($parameterName)
     {
@@ -48,6 +50,16 @@ class ParameterExtension extends \Twig_Extension
         }else{
             return false;
         }
+    }
+
+    public function getBnsLocaleLinks($item, $locale = null)
+    {
+        return $this->container->get('bns_app_core.routing.bns_locale_links')->getLink($item, $locale);
+    }
+
+    public function getBnsStoreLinks($item, $store = null)
+    {
+        return $this->container->get('bns_app_core.routing.bns_store_links')->getLink($item, $store);
     }
 
     /**

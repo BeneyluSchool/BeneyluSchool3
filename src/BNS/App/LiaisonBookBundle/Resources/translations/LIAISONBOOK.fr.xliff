@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-06-20T20:04:29Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2017-11-13T19:15:49Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -12,6 +12,10 @@
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
+      <trans-unit id="f256607e76d15237c2707503ddc2a74980c74dcf" resname="BUTTON_INDIVIDUALIZE">
+        <source>BUTTON_INDIVIDUALIZE</source>
+        <target>Individualiser</target>
+      </trans-unit>
       <trans-unit id="75a70c82ff2b213180e5753f1671ca4dcf2aab48" resname="BUTTON_MESSAGE_SIGN">
         <source>BUTTON_MESSAGE_SIGN</source>
         <target>Signer le message</target>
@@ -19,6 +23,10 @@
       <trans-unit id="7d61b58aeb8e4ad9433c8f3ca113e967ffc30d72" resname="BUTTON_MESSAGE_SIGNED">
         <source>BUTTON_MESSAGE_SIGNED</source>
         <target state="new">Message signé</target>
+      </trans-unit>
+      <trans-unit id="13c9c474612d795d702101963bb00f6c0f0d6a52" resname="CHECKBOX_INDIVIDUALIZE">
+        <source>CHECKBOX_INDIVIDUALIZE</source>
+        <target>Individualiser le mot</target>
       </trans-unit>
       <trans-unit id="165de63b4e99b691c61b6d36a9b7d4a6f6059d0c" resname="CREATE_AT_BY">
         <source>%date% par %imageLink% %user%</source>
@@ -94,6 +102,10 @@
         <source>Carnet de liaison</source>
         <target state="new">Carnet de liaison</target>
       </trans-unit>
+      <trans-unit id="e49e3a9d827d129940f116cbffb04572222e2ca2" resname="LINK_OTHER_LIAISONBOOKS">
+        <source>Autres carnets de liaison</source>
+        <target state="new">Autres carnets de liaison</target>
+      </trans-unit>
       <trans-unit id="84f90b417c311f53185eb51d790a06490a567397" resname="LINK_PUBLISH_NOTE">
         <source>LINK_PUBLISH_NOTE</source>
         <target>Publier le mot</target>
@@ -122,9 +134,17 @@
         <source>MODAL_DELETE_MESSAGE</source>
         <target>Supprimer le message</target>
       </trans-unit>
+      <trans-unit id="36d17dca0d0d29f2fa2167dc952e88daa238a7a7" resname="NO_MESSAGES">
+        <source>NO_MESSAGES</source>
+        <target state="new"><![CDATA[Le carnet de liaison est vide.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
       <trans-unit id="36d17dca0d0d29f2fa2167dc952e88daa238a7a7" resname="NO_MESSAGE_FOR_THIS_MONTH">
-        <source>NO_MESSAGE_FOR_THIS_MONTH</source>
-        <target>Il n'y a aucun message pour ce mois-ci</target>
+        <source><![CDATA[Votre carnet de liaison est vide.<br /> Pourquoi ne pas écrire votre premier message ?]]></source>
+        <target state="new"><![CDATA[Votre carnet de liaison est vide.<br /> Pourquoi ne pas écrire votre premier message ?]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
       </trans-unit>
       <trans-unit id="51d3f88bd0cd62f91a0dea5325a83f63a10478f5" resname="ON_HOLD">
         <source>ON_HOLD</source>
@@ -167,6 +187,10 @@
         <target state="new">%beneylu_brand_name% - Carnet de liaison - Manager - %title%</target>
         <note><![CDATA[%title% is a placeholder
 ]]></note>
+      </trans-unit>
+      <trans-unit id="2e364bd074d47f67dfdfcf7526dd03f4c8e22a40" resname="TITLE_PUBLICATION_DATE">
+        <source>Date de publication</source>
+        <target state="new">Date de publication</target>
       </trans-unit>
       <trans-unit id="1448d424790100733b98cc11ab64c13eac7c739d" resname="TITLE_SURE_TO_DELETE_MESSAGE">
         <source><![CDATA[<h2>Êtes-vous sûr de vouloir supprimer le message ?</h2><h3>Vous perdrez la totalité du contenu du message.</h3><h3>A noter que les documents joints/insérés ne seront pas supprimés.</h3>]]></source>

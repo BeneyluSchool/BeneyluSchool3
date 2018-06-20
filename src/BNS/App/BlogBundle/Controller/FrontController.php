@@ -234,6 +234,9 @@ class FrontController extends Controller
 	public function permalinkActionPage($slug, Request $request)
 	{
 		$article = BlogArticleQuery::create()->findOneBySlug($slug);
+		if (!$article) {
+		    throw $this->createNotFoundException();
+        }
         $this->canReadArticle($article);
         $blog = $this->getBlog();
 

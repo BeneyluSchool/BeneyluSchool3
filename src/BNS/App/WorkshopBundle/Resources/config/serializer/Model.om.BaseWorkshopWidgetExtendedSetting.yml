@@ -5,6 +5,7 @@ BNS\App\WorkshopBundle\Model\om\BaseWorkshopWidgetExtendedSetting:
     getChoices:
       expose: true
     getCorrectAnswers:
-          expose: true
+      expose: true
+      groups: [document_detail]
     getAdvancedSettings:
           expose: true

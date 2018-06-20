@@ -1,0 +1,29 @@
+<md-dialog class="bns-dialog bns-dialog-primary bns-jim-tool unlock-feature-dialog">
+  <md-dialog-content class="md-dialog-content">
+    <div class="layout-row layout-align-space-between-center">
+      <h2 class="md-headline text-primary" translate>MAIN.TITLE_UNLOCK_FEATURE</h2>
+      <md-button class="md-icon-button" ng-click="unlock.abort()">
+        <md-icon>close</md-icon>
+      </md-button>
+    </div>
+    <p class="md-body-2">
+      {{'MAIN.DESCRIPTION_UNLOCK_FEATURE_SHORT'|translate}}
+      <a href="" ng-click="unlock.showMore = true" ng-hide="unlock.showMore">
+        <span translate>MAIN.LINK_SHOW_MORE</span>
+        [+]
+      </a>
+    </p>
+    <div ng-show="unlock.showMore" class="md-body-2" translate>MAIN.DESCRIPTION_UNLOCK_FEATURE_LONG</div>
+
+    <div class="md-body-1" translate>MAIN.DESCRIPTION_EDIT_PLAN</div>
+  </md-dialog-content>
+  <md-actions class="md-actions">
+    <md-button ng-href="{{unlock.plansUrl}}" target="_blank" class="btn-link">
+      <span ng-bind-html="'MAIN.LINK_DISCOVER_PLANS'|translate|buttonize"></span>
+      <md-icon>open_in_new</md-icon>
+    </md-button>
+    <md-button ng-href="{{unlock.payUrl}}" class="md-raised md-primary">
+      <span ng-bind-html="'MAIN.BUTTON_EDIT_PLAN'|translate|buttonize">.</span>
+    </md-button>
+  </md-actions>
+</md-dialog>

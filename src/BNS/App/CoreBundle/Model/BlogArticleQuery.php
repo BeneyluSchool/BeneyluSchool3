@@ -28,7 +28,7 @@ class BlogArticleQuery extends BaseBlogArticleQuery
 	 *
 	 * @return array[BlogArticle]
 	 */
-	public static function getArticlesFromBlog(Blog $blog, &$pager = null, $page = null, $filters = null, $limit = 5)
+	public static function getArticlesFromBlog(Blog $blog, &$pager = null, $page = null, $filters = null, $limit = 30)
 	{
 		$query = self::create()
             ->join('BlogArticleBlog')

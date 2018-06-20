@@ -2,11 +2,20 @@
 
 namespace BNS\App\MediaLibraryBundle\EventListener;
 
+use BNS\App\CompetitionBundle\Model\AnswerPeer;
+use BNS\App\CompetitionBundle\Model\AnswerQuery;
+use BNS\App\CompetitionBundle\Model\CompetitionBookQuestionnaireQuery;
+use BNS\App\CompetitionBundle\Model\CompetitionQuestionnaireQuery;
+use BNS\App\CompetitionBundle\Model\QuestionnaireParticipation;
+use BNS\App\CompetitionBundle\Model\QuestionnaireParticipationQuery;
+use BNS\App\CoreBundle\Model\User;
 use BNS\App\CoreBundle\Right\BNSRightManager;
 use BNS\App\MediaLibraryBundle\Model\Media;
+use BNS\App\WorkshopBundle\Manager\ContentManager;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 /**
  * Class WorkshopDocumentSerializeSubscriber
@@ -15,13 +24,19 @@ class MediaSerializeSubscriber implements EventSubscriberInterface
 {
 
     /**
-     * @var ContainerInterface
+     * @var TokenStorage
      */
-    private $container;
+    private $tokenStorage;
 
-    public function __construct(ContainerInterface $container)
+    /**
+     * @var ContentManager $contentManager
+     */
+    private $contentManager;
+
+    public function __construct(TokenStorage $tokenStorage, ContentManager $contentManager)
     {
-        $this->container = $container;
+        $this->tokenStorage = $tokenStorage;
+        $this->contentManager = $contentManager;
     }
 
     /**
@@ -59,7 +74,7 @@ class MediaSerializeSubscriber implements EventSubscriberInterface
     {
         // check that at least one of the serialization groups is present
         $groups = $event->getContext()->attributes->get('groups')->getOrElse([]);
-        if (!count(array_intersect($groups, ['detail', 'media_detail']))) {
+        if (!count(array_intersect($groups, ['detail', 'media_detail','competition_participation']))) {
             return;
         }
 
@@ -67,15 +82,70 @@ class MediaSerializeSubscriber implements EventSubscriberInterface
 
         /** @var Media $media */
         $media = $event->getObject();
-        if ($media->isWorkshopDocument()) {
+        if ($media->isWorkshopDocument() || $media->isWorkshopQuestionnaire()) {
             $content = $media->getWorkshopContents()->getFirst();
             if ($content) {
-                $user = $this->container->get('security.context')->getToken()->getUser();
-                $rights['workshop_document_edit'] = $this->container->get('bns.workshop.content.manager')->canManage($content, $user);
+                $user = $this->getUser();
+                $rights['workshop_document_edit'] = $this->contentManager->canManage($content, $user);
             }
         }
 
         $visitor = $event->getVisitor();
         $visitor->addData('rights', $rights);
+        if (in_array('competition_participation', $groups)) {
+            $participation = QuestionnaireParticipationQuery::create()
+                ->filterByUserId($this->getUser()->getId())
+                ->filterByQuestionnaireId($media->getId())
+                ->findOne();
+
+            if ($participation) {
+                $competitionQuestionnaire = CompetitionQuestionnaireQuery::create()
+                    ->filterByQuestionnaireId($media->getId())
+                    ->findOne();
+                $remainAttempts = null;
+                if ($competitionQuestionnaire) {
+                    if (!$competitionQuestionnaire->getAllowAttempts()) {
+                        $remainAttempts = -1;
+                    } else {
+                        $remainAttempts = $competitionQuestionnaire->getAttemptsNumber() - $participation->getTryNumber();
+                    }
+                } else {
+                    $competitionQuestionnaire = CompetitionBookQuestionnaireQuery::create()
+                        ->filterByQuestionnaireId($media->getId())
+                        ->findOne();
+                }
+                $percent = AnswerQuery::create()->filterByParticipationId($participation->getId())
+                    ->withColumn('SUM('. AnswerPeer::PERCENT .')', "sumpercent")
+                    ->select('sumpercent')
+                    ->findOne();
+                if ($competitionQuestionnaire && $competitionQuestionnaire->getQuestionnaire() && $competitionQuestionnaire->getQuestionnaire()->questionsCount > 0) {
+                    $percent = $percent / $competitionQuestionnaire->getQuestionnaire()->questionsCount;
+                } else {
+                    $percent = 0;
+                }
+                $participationArray = [
+                    "page" => $participation->getPage(),
+                    "like" => $participation->getLike(),
+                    "finished" => $participation->getFinished(),
+                    "try_number" => $participation->getTryNumber(),
+                    "score" => $participation->getScore(),
+                    "percent" => $percent,
+                    "remain_attempts" => $remainAttempts
+                ];
+                $visitor->addData('participation', $visitor->visitArray($participationArray, ['BNS\App\CompetitionBundle\QuestionnaireParticipation'], $event->getContext()));
+            }
+        }
+    }
+
+    protected function getUser()
+    {
+        if ($token = $this->tokenStorage->getToken()) {
+            $user = $token->getUser();
+            if ($user && $user instanceof User) {
+                return $user;
+            }
+        }
+
+        return null;
     }
 }

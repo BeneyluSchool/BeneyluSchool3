@@ -1,10 +1,10 @@
 <div ng-if="!error" class="viewer-audio-player" ng-class="{ 'playback-play': ctrl.ready && !ctrl.wavesurfer.backend.isPaused(), 'playback-pause': ctrl.ready && ctrl.wavesurfer.backend.isPaused(), 'playback-error': ctrl.fallback }">
   <section ng-hide="ctrl.noVisualization" class="volume-management">
-    <div bns-workshop-audio-volume value="ctrl.volume"></div>
+    <div bns-viewer-audio-volume value="ctrl.volume"></div>
   </section>
 
   <section ng-hide="ctrl.noVisualization" class="visualization">
-    <div bns-workshop-audio-visualization></div>
+    <div bns-viewer-audio-visualization></div>
 
     <div class="state-paused pause-overlay visualization-overlay">
       <i class="bns-icon-pause blink"></i>

@@ -1,0 +1,74 @@
+BNS\App\CompetitionBundle\Model\Book:
+  exclusion_policy: All
+
+  properties:
+    percent:
+      expose: true
+      groups: [competition_statistics]
+    score:
+      expose: true
+      groups: [competition_statistics]
+
+  virtual_properties:
+    getId:
+      expose: true
+      groups: [Default, competition_list_likes]
+    getTitle:
+      expose: true
+      groups: [Default, competition_list_likes]
+    getCompetitionId:
+      expose: true
+      groups: [Default, competition_list_likes]
+    getAuthor:
+      expose: true
+      groups: [book_list]
+    getDescription:
+      expose: true
+      groups: [book_list, competition_list_likes]
+    getAuthorizeNotices:
+      expose: true
+      groups: [book_detail]
+    getAuthorizeAnswers:
+      expose: true
+      groups: [book_detail]
+    getAuthorizeQuestionnaires:
+      expose: true
+      groups: [book_detail]
+    getMedia:
+      expose: true
+      groups: [book_edit]
+    getMediaUrl:
+      expose: true
+      groups: [book_list, competition_statistics, competition_list_likes]
+    getGroupId:
+      expose: true
+      groups: [book_detail]
+    getUserId:
+      expose: true
+      groups: [book_list, book_detail]
+    getLike:
+      expose: true
+      groups: [book_detail, competition_list_likes]
+    getCompetitionTitle:
+      expose: true
+      groups: [book_detail]
+    getCompetitionType:
+      expose: true
+      groups: [book_detail]
+
+    # hybrid book / competition
+    getCompetitionType:
+      expose: true
+      serialized_name: type
+      groups: [competition_list_likes]
+
+  relations:
+      - rel: notice
+        embedded:
+          content: expr(object.getNoticeDoc())
+          groups: [ book_detail ]
+
+      - rel: questionnaires
+        embedded:
+          content: expr(object.getQuestionnaires())
+          groups: [ book_detail ]

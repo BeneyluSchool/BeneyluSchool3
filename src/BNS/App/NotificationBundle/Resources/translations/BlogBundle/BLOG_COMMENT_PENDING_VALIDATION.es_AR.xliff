@@ -8,13 +8,16 @@
     <body>
       <trans-unit id="80cf7d793f3a43a67ab710b4b55733d6c96ce107" resname="BLOG_COMMENT_PENDING_VALIDATION.EMAIL.content">
         <source>BLOG_COMMENT_PENDING_VALIDATION.EMAIL.content</source>
-        <target><![CDATA[<strong>%sender_full_name%</strong> acaba de enviar un comentario a validación sobre el artículo "<a href="%comment_route%">%article_title%</a>"]]></target>
+        <target><![CDATA[<b>%classLabel%</b><strong>%sender_full_name%</strong> acaba de enviar un comentario a validación sobre el artículo "<a href="%comment_route%">%article_title%</a>"]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
       <trans-unit id="211e6b6bfed5bd69a5481cc7b696a8cda22128bd" resname="BLOG_COMMENT_PENDING_VALIDATION.EMAIL.title">
         <source>BLOG_COMMENT_PENDING_VALIDATION.EMAIL.title</source>
-        <target>Se acaba de enviar un comentario a validación</target>
+        <target>%classLabel%Se acaba de enviar un comentario a validación</target>
+        <note>%classLabel% is a placeholder
+               This text contains HTML tags, please try to keep those tags
+            </note>
       </trans-unit>
       <trans-unit id="50f7583b81b8673e61d2f6ff69c3ac68f1fc8416" resname="BLOG_COMMENT_PENDING_VALIDATION.SYSTEM.content">
         <source>BLOG_COMMENT_PENDING_VALIDATION.SYSTEM.content</source>

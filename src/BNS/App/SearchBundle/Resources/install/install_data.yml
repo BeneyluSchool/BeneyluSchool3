@@ -38,6 +38,22 @@ permissions:
         fr:
         en:
 
+  SDET_SAVE:
+      label:
+        fr: sauvegarde ses recherches
+        en: save searchs
+      description:
+        fr:
+        en:
+
+  SDET_SEARCH_ENT:
+      label:
+        fr: recherche dans l'ent
+        en: search in the site
+      description:
+        fr:
+        en:
+
 ranks:
   USE:
     label:
@@ -56,6 +72,24 @@ ranks:
       fr:
       en:
     permissions: [ACCESS, ACCESS_BACK, ACTIVATION]
+
+  SDET_SAVE:
+    label:
+      fr: sauvegarde ses recherches
+      en: save searchs
+    description:
+      fr:
+      en:
+    permissions: [SDET_SAVE]
+
+  SDET_SEARCH_ENT:
+    label:
+      fr: recherche dans l'ent
+      en: search in the site
+    description:
+      fr:
+      en:
+    permissions: [SDET_SEARCH_ENT]
 
 markers:
   SEARCH_VISIT:

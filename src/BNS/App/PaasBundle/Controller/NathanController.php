@@ -37,6 +37,7 @@ class NathanController extends Controller
         }
 
         return [
+            'uai' => $uai,
             'resources' => $resources
         ];
     }

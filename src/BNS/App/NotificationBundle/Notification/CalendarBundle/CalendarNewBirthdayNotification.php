@@ -46,12 +46,7 @@ class CalendarNewBirthdayNotification extends Notification implements Notificati
 
 		$user = UserQuery::create('u')->findPk($objects['userId']);
 
-        $group = GroupQuery::create()->findPk($objects['groupId']);
-        if (null == $group) {
-            $finalObjects['%classLabel%'] = null;
-        } else {
-            $finalObjects['%classLabel%'] = "[" . $group->getLabel() . "] ";
-        }
+        $finalObjects['%classLabel%'] =  self::getGroupLabel($objects);
 
 		if (null == $user) {
 			throw new \RuntimeException('The user with id : ' . $objects['userId'] . ' is NOT found !');

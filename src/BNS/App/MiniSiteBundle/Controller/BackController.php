@@ -3,6 +3,9 @@
 namespace BNS\App\MiniSiteBundle\Controller;
 
 use \BNS\App\CoreBundle\Annotation\Rights;
+use BNS\App\CoreBundle\Events\BnsEvents;
+use BNS\App\CoreBundle\Events\ThumbnailRefreshEvent;
+use BNS\App\MiniSiteBundle\Form\Type\MiniSiteCityStatusType;
 use \BNS\App\MiniSiteBundle\Form\Type\MiniSitePageTextType;
 use \BNS\App\MiniSiteBundle\Model\MiniSitePage;
 use \BNS\App\MiniSiteBundle\Model\MiniSitePageNewsPeer;
@@ -15,6 +18,8 @@ use BNS\App\NotificationBundle\Notification\MinisiteBundle\MinisitePageTextModif
 use BNS\App\NotificationBundle\Notification\MinisiteBundle\MinisiteStaticPageModifiedNotification;
 use \Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use BNS\App\MediaLibraryBundle\Twig\MediaExtension;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * @Route("/gestion")
@@ -144,6 +149,9 @@ class BackController extends AbstractMiniSiteController
 					$this->get('notification_manager')->send($users, new MinisitePageTextModifiedNotification($this->get('service_container'), $pageText->getPageId()));
 				}
 
+				$dispatcher = $this->get('event_dispatcher');
+				$dispatcher->dispatch(BnsEvents::THUMB_REFRESH, new ThumbnailRefreshEvent($page, 'small'));
+
 				// Redirect, to avoid refresh
 				return $this->redirect($this->generateUrl('minisite_manager_page', array(
 					'slug'	=> $page->getSlug()
@@ -215,6 +223,23 @@ class BackController extends AbstractMiniSiteController
 		));
 	}
 
+    public function renderPageCityAction(MiniSitePage $page)
+    {
+        if (!$this->get('bns.right_manager')->hasRight('MINISITE_ADMINISTRATION')) {
+            throw new AccessDeniedHttpException("Cannot view city information page");
+        }
+
+        $session = $this->get('session');
+        $session->remove('minisite_page_city_filter');
+        $form = $this->createForm(new MiniSiteCityStatusType(), $session->get('minisite_page_city_filter', array()));
+
+        return $this->render('BNSAppMiniSiteBundle:Page:back_page_city.html.twig', [
+            'minisite' => $this->getMiniSite(),
+            'page' => $page,
+            'filter_form'      => $form->createView()
+        ]);
+    }
+
     /**
      * @Route("/statistiques", name="BNSAppMiniSiteBundle_back_stats")
      * @Route("/statistiques/exporter", name="minisite_manager_stats_export", defaults={"isExport": true})
@@ -223,6 +248,9 @@ class BackController extends AbstractMiniSiteController
      */
     public function statsAction($isExport = false)
     {
+        if(!$this->hasFeature('minisite_statistics')) {
+            throw $this->createAccessDeniedException();
+        }
         $miniSite = $this->getMiniSite();
 
         $pagesStats = array(

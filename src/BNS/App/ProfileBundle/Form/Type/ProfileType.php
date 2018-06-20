@@ -2,6 +2,7 @@
 
 namespace BNS\App\ProfileBundle\Form\Type;
 
+use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -62,6 +63,10 @@ class ProfileType extends AbstractType
         $um = $container->get('bns.user_manager')->setUser($this->user);
         $groupManager = $rm->getCurrentGroupManager();
         $mainRole = $um->getMainRole();
+        $groupCountry = $rm->getCurrentGroup()->getCountry();
+        if (!$groupCountry) {
+            $groupCountry = 'FR';
+        }
 
         $translator = $this->getTranslator();
         if (!$um->isChild()) {
@@ -121,6 +126,18 @@ class ProfileType extends AbstractType
                     'label' => 'EMAIL'
                 )
             );
+            $builder->add('phone', 'text',  [
+                'constraints' => [
+                    new PhoneNumber([
+                        'type' => PhoneNumber::MOBILE,
+                        'defaultRegion' => $groupCountry,
+                        'groups' => 'sms'
+                    ])
+                ]
+            ]);
+            $builder->add('address', 'text', array('required' => false));
+            $builder->add('organization', 'text', array('required' => false));
+            $builder->add('publicData', 'checkbox', array('required' => false));
             if ($mainRole !== 'parent') {
                 $builder->add('email_private', 'email',
                     array(
@@ -135,15 +152,6 @@ class ProfileType extends AbstractType
         if ($mainRole !== 'parent') {
             $builder->add('job', 'text', array('label'=>' '));
             $builder->add('description', 'textarea', array('label' => 'WRITING_INTRODUCTION', 'attr' => array('placeholder' => '', 'rows' => '3')));
-        }
-
-        if (in_array($mainRole, array('teacher', 'director')) && $groupManager->getProjectInfo('has_assistance')) {
-            $builder->add('assistance_enabled', 'checkbox',
-                array(
-                    'required' => false,
-                    'label' => 'ALLOWED_ADVISOR_TO_HELP_WITH_SAME_RIGHT'
-                )
-            );
         }
     }
 

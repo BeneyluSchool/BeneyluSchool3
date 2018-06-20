@@ -84,7 +84,9 @@ class CampaignApiController extends BaseApiController
      *
      * @Rest\QueryParam(name="page", requirements="\d+", description="current page", default="1")
      * @Rest\QueryParam(name="limit", requirements="\d+", description="number of elements per page", default="10")
-     * @Rest\Get("/groups/{groupId}/campaigns/search/{search}/types/{types}/status/{status}")
+     * @Rest\QueryParam(name="status",  description="filter campaign by status")
+     * @Rest\QueryParam(name="types",  description="filter campaign by types")
+     * @Rest\Get("/groups/{groupId}/campaigns/search")
      * @Rest\View(serializerGroups={"Default","detail"})
      *
      *
@@ -92,31 +94,36 @@ class CampaignApiController extends BaseApiController
      * @param ParamFetcherInterface $paramFetcher
      * @param String $search
      * @param array $types
-     * @param array $status
      *
      * @return array
      */
-    public function searchCampaignsAction($groupId, $search, $types, $status, ParamFetcherInterface $paramFetcher)
+    public function searchCampaignsAction($groupId, ParamFetcherInterface $paramFetcher, Request $request)
     {
+        $status = $paramFetcher->get('status');
+        $types = $paramFetcher->get('types');
+        $search = $request->get('search');
         //did this user has right to access the campaign module?
         $rightManager = $this->get('bns.right_manager');
         if (!$rightManager->hasRight('CAMPAIGN_ACCESS', $groupId)) {
-            return View::create('', Codes::HTTP_FORBIDDEN);
+            return $this->view('Forbidden', Codes::HTTP_BAD_REQUEST);
         }
+
 
         /** @var CampaignQuery $query */
         $query = CampaignQuery::create()
+            ->_if($search)
             ->filterByName('%'.$search.'%')
             ->_or()
             ->filterByTitle('%'.$search.'%')
             ->_or()
             ->filterByMessage('%'.$search.'%')
+            ->_endif()
             ->filterByGroupId($groupId)
             ->filterByArchived(false)
 
         ;
 
-        if ($types != 'empty') {
+        if ($types) {
             $campaignType = explode(',', $types);
 
             $constant = [];
@@ -126,7 +133,7 @@ class CampaignApiController extends BaseApiController
             $query->filterByType($constant);
         }
 
-        if ($status != 'empty') {
+        if ($status) {
             $campaignStatus = explode(',', $status);
 
             $query->filterByStatus($campaignStatus);
@@ -135,9 +142,6 @@ class CampaignApiController extends BaseApiController
         return $this->getPaginator($query->orderById(Criteria::DESC),
             new Route('campaign_api_search_campaigns', [
                 'groupId' => $groupId,
-                'search' => $search,
-                'types' => $types,
-                'status' => $status,
                 'version' => $this->getVersion()
             ], true), $paramFetcher);
 
@@ -182,6 +186,12 @@ class CampaignApiController extends BaseApiController
         $constant = 'BNS\App\CampaignBundle\Model\CampaignPeer::CLASSKEY_CAMPAIGN'.strtoupper($type);
         if ($type && !defined($constant)) {
             return View::create('', Codes::HTTP_BAD_REQUEST);
+        }
+
+        if ('EMAIL' === $type && !$this->hasFeature('campaign_email')) {
+            throw $this->createAccessDeniedException();
+        } elseif ('SMS' === $type && !$this->hasFeature('campaign_sms')) {
+            throw $this->createAccessDeniedException();
         }
 
         $campaign = new Campaign();
@@ -275,11 +285,56 @@ class CampaignApiController extends BaseApiController
      * @ApiDoc(
      *  section="Campaigns",
      *  resource = true,
+     *  description="Get campaigns's credit cost",
+     * )
+     *
+     * @Rest\QueryParam(name="ids", requirements="\d+", description="users ids")
+     * @Rest\QueryParam(name="message", requirements="\w+", description="campaing message")
+     * @Rest\Post("/campaigns/{campaignId}/cost")
+     * @Rest\View(serializerGroups={"Default","detail"})
+     *
+     * @param Integer $campaignId
+     *
+     * @return array
+     */
+    public function getCampaignsCreditCostAction($campaignId, Request $request)
+    {
+        $campaign = CampaignQuery::create()->findPk($campaignId);
+        if (!$campaign) {
+            return View::create('', Codes::HTTP_NOT_FOUND);
+        }
+
+        $message = $request->get('message');
+        $campaign->setMessage($message);
+
+        $rightManager = $this->get('bns.right_manager');
+        if (!$rightManager->hasRight('CAMPAIGN_ACCESS', $campaign->getGroupId())) {
+            return View::create('', Codes::HTTP_FORBIDDEN);
+        }
+        $country = $this->get('bns.group_manager')->setGroup($campaign->getGroup())->getCountry();
+
+        // TODO use cache
+        $ids = $this->get('bns_app_campaign.campaign_manager')->getUniqueRecipientIds($campaign);
+
+        $res = $this->get('bns_app_campain.paas_sms_manager')->getSmsCost($campaign, $ids, $country);
+        if ($res) {
+            return (array) $res;
+        }
+
+        return View::create('', Codes::HTTP_BAD_REQUEST);
+    }
+
+
+
+    /**
+     * @ApiDoc(
+     *  section="Campaigns",
+     *  resource = true,
      *  description="Get one group's campaign",
      * )
      *
      * @Rest\Get("/campaigns/{campaignId}")
-     * @Rest\View(serializerGroups={"Default", "list", "campaign_attachment", "user_detail"})
+     * @Rest\View(serializerGroups={"Default", "list", "campaign_attachment", "user_detail", "campaign_detail"})
      *
      * @param Integer $campaignId
      *
@@ -305,6 +360,12 @@ class CampaignApiController extends BaseApiController
             return View::create('', Codes::HTTP_FORBIDDEN);
         }
 
+        if ('EMAIL' === $campaign->getTypeName() && !$this->hasFeature('campaign_email')) {
+            throw $this->createAccessDeniedException();
+        } elseif ('SMS' === $campaign->getTypeName() && !$this->hasFeature('campaign_sms')) {
+            throw $this->createAccessDeniedException();
+        }
+
         $recipients = UserQuery::create()
             ->useCampaignRecipientQuery()
                 ->filterByIsDirect(true)
@@ -312,6 +373,14 @@ class CampaignApiController extends BaseApiController
             ->endUse()
             ->find()
         ;
+
+        $messagingAccess = true;
+        foreach ($recipients as $user) {
+            if (!$this->get('bns.user_manager')->setUser($user)->hasRightSomeWhere('MESSAGING_ACCESS')) {
+                $messagingAccess = false;
+                break;
+            }
+        }
 
         $recipientGroups = CampaignRecipientGroupQuery::create()
             ->filterByCampaignId($campaign->getId())
@@ -337,7 +406,8 @@ class CampaignApiController extends BaseApiController
             'recipient_groups' => $recipientGroups,
             'recipient_lists' => CampaignDistributionListQuery::create()
                 ->filterByCampaignId($campaign->getId())
-                ->find()
+                ->find(),
+            'messaging_access' => $messagingAccess
         );
     }
 
@@ -363,7 +433,7 @@ class CampaignApiController extends BaseApiController
      *
      * @param Integer $campaignId
      *
-     * @return array
+     *
      */
     public function editCampaignAction(Request $request, $campaignId)
     {
@@ -381,6 +451,12 @@ class CampaignApiController extends BaseApiController
         $rightManager = $this->get('bns.right_manager');
         if (!$rightManager->hasRight('CAMPAIGN_ACCESS', $groupId)) {
             return View::create('', Codes::HTTP_FORBIDDEN);
+        }
+
+        if ('EMAIL' === $campaign->getTypeName() && !$this->hasFeature('campaign_email')) {
+            throw $this->createAccessDeniedException();
+        } elseif ('SMS' === $campaign->getTypeName() && !$this->hasFeature('campaign_sms')) {
+            throw $this->createAccessDeniedException();
         }
 
         $campaignStatus = $campaign->getStatus();
@@ -432,8 +508,15 @@ class CampaignApiController extends BaseApiController
             return View::create('', Codes::HTTP_FORBIDDEN);
         }
 
+        if ('EMAIL' === $campaign->getTypeName() && !$this->hasFeature('campaign_email')) {
+            throw $this->createAccessDeniedException();
+        } elseif ('SMS' === $campaign->getTypeName() && !$this->hasFeature('campaign_sms')) {
+            throw $this->createAccessDeniedException();
+        }
+
         $campaignRecipients = CampaignRecipientQuery::create()
             ->filterByCampaignId($campaignId)
+            ->filterByIsDirect(true)
             ->find();
 
         $campaignRecipientGroups = CampaignRecipientGroupQuery::create()
@@ -444,18 +527,22 @@ class CampaignApiController extends BaseApiController
             ->filterByCampaignId($campaignId)
             ->find();
 
-        $campaignCopy = new Campaign();
-        $campaignCopy->setMessage($campaign->getMessage())
-            ->setStatus(CampaignPeer::STATUS_DRAFT)
-            ->setType($campaign->getType())
-            ->setGroupId($campaign->getGroupId())
-            ->setName($campaign->getName());
+        $campaignCopy = $campaign->copy();
+        $campaignCopy->setStatus(CampaignPeer::STATUS_DRAFT)->save();
 
         if ($campaign->getType() != 'SMS') {
             $campaignCopy->setTitle($campaign->getTitle());
         }
 
         $campaignCopy->save();
+
+        if ($campaign->getType() != 'SMS') {
+            // add attachment after save, so our campaign copy has an id
+            foreach ($campaign->getResourceAttachments() as $media) {
+                $attachment = $campaignCopy->addResourceAttachment($media->getId());
+                $attachment->save();
+            }
+        }
 
         if ($campaignRecipients) {
             foreach ($campaignRecipients as $campaignRecipient) {
@@ -514,6 +601,12 @@ class CampaignApiController extends BaseApiController
         }
         if (!$this->get('bns.right_manager')->hasRight('CAMPAIGN_ACCESS', $campaign->getGroupId())) {
             return View::create(null, Codes::HTTP_FORBIDDEN);
+        }
+
+        if ('EMAIL' === $campaign->getTypeName() && !$this->hasFeature('campaign_email')) {
+            throw $this->createAccessDeniedException();
+        } elseif ('SMS' === $campaign->getTypeName() && !$this->hasFeature('campaign_sms')) {
+            throw $this->createAccessDeniedException();
         }
 
         $this->get('bns_app_campaign.campaign_manager')->send($campaign);
@@ -732,8 +825,8 @@ class CampaignApiController extends BaseApiController
                     // no valid role name
                     continue;
                 }
-                if (!in_array($group['group_id'], $subgroupIds, true)
-                    || in_array($group['role_id'], $excludedRoleIds, true)
+                if (!in_array($group['group_id'], $subgroupIds)
+                    || in_array($group['role_id'], $excludedRoleIds)
                     || GroupQuery::create()
                         ->filterById($group['group_id'])
                         ->useGroupTypeQuery()
@@ -1042,7 +1135,7 @@ class CampaignApiController extends BaseApiController
             foreach ($recipientGroups as $recipientGroup) {
                 $groupIds[$recipientGroup->getGroupId()]['group'] = $recipientGroup->getGroup();
             }
-
+            $messagingAccess = true;
             foreach ($groupIds as $key => $groupData) {
                 foreach ($groupIds[$key]['roles'] as $roleId) {
                     $role = GroupTypeQuery::create()
@@ -1063,9 +1156,17 @@ class CampaignApiController extends BaseApiController
                         'users' => $listUsers,
                         'nb_users' => $nbUsers
                     ];
+
+                    foreach ($listUsers as $user) {
+                        if (!$this->get('bns.user_manager')->setUser($user)->hasRightSomeWhere('MESSAGING_ACCESS')) {
+                            $messagingAccess = false;
+                        }
+                    }
                 }
             }
-
+            if ($groupIds) {
+                array_push($groupIds, ['messaging_access' => $messagingAccess]);
+            }
             return array_values($groupIds);
         }
 

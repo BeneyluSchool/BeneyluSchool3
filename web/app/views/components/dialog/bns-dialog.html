@@ -1,4 +1,4 @@
-<md-dialog aria-label="{{ dialog.ariaLabel | translate }}" class="bns-dialog" ng-class="'bns-dialog-'+dialog.intent+' '+(dialog.picture?'bns-'+dialog.picture:'')">
+<md-dialog aria-label="{{ dialog.ariaLabel | translate }}" class="bns-dialog" ng-class="'bns-dialog-'+dialog.intent+' '+(dialog.picture?'bns-dialog-picture bns-'+dialog.picture:'')+' '+(dialog.size?'bns-dialog-'+dialog.size:'')">
   <md-toolbar ng-if="::dialog.toolbar" ng-class="'md-'+dialog.intent" class="md-whiteframe-z1">
     <div class="md-toolbar-tools">
       <div class="md-headline"><h2>{{ dialog.title | translate }}</h2></div>
@@ -10,16 +10,16 @@
   </md-toolbar>
   <md-dialog-content class="md-dialog-content" role="document" tabIndex="-1">
     <h2 ng-if="::!dialog.toolbar" class="md-headline" ng-class="'text-'+dialog.intent">{{ dialog.title | translate }}</h2>
-    <div class="md-body-1" ng-bind-html="dialog.content | translate"></div>
+    <div class="md-body-1" bns-bind-compile="dialog.content | translate"></div>
   </md-dialog-content>
-  <div class="md-actions">
+  <md-dialog-actions>
     <md-button ng-if="dialog.type == 'confirm'" ng-click="dialog.abort()" class="">
       <span ng-bind-html="dialog.cancel | translate | buttonize">.</span>
     </md-button>
     <md-button ng-click="dialog.hide()" ng-class="'md-'+dialog.intent" class="md-raised">
       <span ng-bind-html="dialog.ok | translate | buttonize">.</span>
     </md-button>
-  </div>
+  </md-dialog-actions>
   <!-- <span ng-if="dialog.intent == 'warn'" ng-class="'text-'+dialog.intent" class="dialog-icon-container">
     <md-icon dialog-icon>warning</md-icon>
   </span> -->

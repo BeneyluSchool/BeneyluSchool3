@@ -1,0 +1,12 @@
+BNS\App\LsuBundle\Model\om\BaseLsuTemplateDomainDetail:
+  exclusion_policy: All
+
+  properties:
+    id:
+      expose: true
+    label:
+      expose: true
+    template_id:
+      expose: true
+    domain_id:
+      expose: true

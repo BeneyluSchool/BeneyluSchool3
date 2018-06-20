@@ -31,12 +31,17 @@ angular.module('bns.viewer.workshop.document.media', [
     };
   })
 
-  .controller('ViewerWorkshopDocumentMediaController', function (WorkshopRestangular, $scope, mediaLibraryConfig) {
+  .controller('ViewerWorkshopDocumentMediaController', function (Restangular, $scope, mediaLibraryConfig) {
     var ctrl = this;
 
-    this.init = function (resource) {
-      this.document = WorkshopRestangular.one('documents', resource.workshop_document_id);
-      this.loadDocument();
+    this.init = function () {
+      $scope.$watch('resource.workshop_document_id', function (id) {
+        if (!id) {
+          return;
+        }
+        ctrl.document = Restangular.all('workshop').one('documents', id);
+        ctrl.loadDocument();
+      });
     };
 
     this.loadDocument = function () {
@@ -52,6 +57,9 @@ angular.module('bns.viewer.workshop.document.media', [
 
     this.getDocumentSuccess = function (document) {
       $scope.document = document;
+      if (document.is_questionnaire) {
+        $scope.questionnaire = $scope.resource;
+      }
     };
 
     this.getDocumentError = function (result) {

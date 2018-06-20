@@ -14,6 +14,7 @@
             <argument id="old_sound_rabbit_mq.campaign_message_producer" type="service" />
             <argument id="bns.group_manager" type="service" />
             <argument id="logger" type="service"/>
+            <argument id="bns.user_directory.distribution_list_manager" type="service"/>
         </service>
 
         <service class="BNS\App\CampaignBundle\Consumer\CampaignConsumer" id="bns_app_campaign.campaign_consumer">
@@ -23,6 +24,7 @@
 
         <service class="BNS\App\CampaignBundle\Consumer\CampaignMessageConsumer" id="bns_app_campaign.campaign_message_consumer">
             <argument id="logger" type="service" />
+            <argument type="service" id="service_container" />
             <argument type="collection" /> <!-- injected senders -->
         </service>
 
@@ -58,6 +60,7 @@
             <argument>%paas_url%</argument>
             <argument type="service" id="buzz" />
             <argument type="service" id="bns.paas.security_manager" />
+            <argument id="bns.group_manager" type="service" />
         </service>
 
     </services>

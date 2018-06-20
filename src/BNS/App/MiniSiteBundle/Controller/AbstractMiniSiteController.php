@@ -3,6 +3,7 @@
 namespace BNS\App\MiniSiteBundle\Controller;
 
 use \BNS\App\CoreBundle\Access\BNSAccess;
+use BNS\App\CoreBundle\Controller\BaseController;
 use \BNS\App\CoreBundle\Group\BNSGroupManager;
 use BNS\App\CoreBundle\Model\User;
 use \BNS\App\MiniSiteBundle\Model\MiniSite;
@@ -17,7 +18,7 @@ use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * @author Sylvain Lorinet <sylvain.lorinet@pixel-cookers.com>
  */
-abstract class AbstractMiniSiteController extends Controller
+abstract class AbstractMiniSiteController extends BaseController
 {
 	/**
 	 * @var MiniSite
@@ -59,7 +60,9 @@ abstract class AbstractMiniSiteController extends Controller
 							'group_id' => $group->getId(),
 							'label'	   => $group->getLabel()
 						),
-                            $this->get('translator'));
+							$this->get('translator'),
+							$this->get('bns.group_manager')
+						);
 					}
 					else {
 						throw new NotFoundHttpException('No minisite found for this query parameters, please see logs.');

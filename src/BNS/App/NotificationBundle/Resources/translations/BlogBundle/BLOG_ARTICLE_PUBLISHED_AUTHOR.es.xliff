@@ -11,12 +11,16 @@
         <target><![CDATA[Tu artículo "<a href="%articleUrl%" title="See article"><strong>%articleTitle%</strong></a>" se ha publicado en el blog. ¡Pulsa sobre el enlace para leerlo!]]></target>
         <note><![CDATA[%articleUrl% is a placeholder
 %articleTitle% is a placeholder
+%classLabel% is a placeholder
 This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
       <trans-unit id="7392f24d0f921e63bbdd26cd068c59f00dc1b94a" resname="BLOG_ARTICLE_PUBLISHED_AUTHOR.EMAIL.title">
         <source>BLOG_ARTICLE_PUBLISHED_AUTHOR.EMAIL.title</source>
-        <target>¡Uno de tus artículos se ha publicado en el blog!</target>
+        <target>%classLabel%¡Uno de tus artículos se ha publicado en el blog!</target>
+        <note>%classLabel% is a placeholder
+               This text contains HTML tags, please try to keep those tags
+            </note>
       </trans-unit>
       <trans-unit id="847818a62fd8cad3a6bdee448553e2acd4b3e5b0" resname="BLOG_ARTICLE_PUBLISHED_AUTHOR.SYSTEM.content">
         <source>BLOG_ARTICLE_PUBLISHED_AUTHOR.SYSTEM.content</source>

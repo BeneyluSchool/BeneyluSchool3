@@ -163,6 +163,7 @@
 					var pageId = $btn.attr('data-page-id');
 					$btn.attr('bns-user-directory-invoke', 'minisite-editors').attr('selection', 'ctrl.pages['+pageId+']');
 				});
+				$root.removeAttr('ng-non-bindable');
 				$compile($root)($rootScope);
 			});
 		});
@@ -208,7 +209,8 @@
 
 
   <div class="minisite-container">
-    <div id="angularize-minisite-editors" class="container-editors item-list-container">
+    <div id="angularize-minisite-editors" ng-non-bindable class="container-editors item-list-container">
+		<div bns-lazyload="userDirectory" ng-cloak>
 		{% for page in minisite.getMiniSitePages() %}
 			<div class="page" id="page-{{ page.getId() }}" data-id="{{ page.getId() }}">
 				<div class="header">
@@ -241,6 +243,7 @@
       <hr class="separator">
 		{% endfor %}
     </div>
+		</div>
   </div>
   </md-content>
 {% endblock content %}

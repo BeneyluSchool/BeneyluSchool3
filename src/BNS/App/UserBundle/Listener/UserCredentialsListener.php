@@ -2,11 +2,14 @@
 
 namespace BNS\App\UserBundle\Listener;
 
+use BNS\App\CoreBundle\Right\BNSRightManager;
+use BNS\App\CoreBundle\User\BNSUserManager;
 use BNS\App\UserBundle\Credentials\UserCredentialsManager;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\Security\Core\Authentication\Token\RememberMeToken;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 /**
@@ -23,20 +26,23 @@ class UserCredentialsListener
     protected $manager;
 
     /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
-    /**
      * @var Router
      */
     protected $router;
 
-    public function __construct(UserCredentialsManager $manager, ContainerInterface $container, Router $router)
+    /**
+     * @var BNSUserManager
+     */
+    protected $rightManager;
+
+    private $listenerEscapeRoutes;
+
+    public function __construct(UserCredentialsManager $manager, Router $router, BNSUserManager $rightManager, $listenerEscapeRoutes)
     {
         $this->manager = $manager;
-        $this->container = $container;
         $this->router = $router;
+        $this->rightManager = $rightManager;
+        $this->listenerEscapeRoutes = $listenerEscapeRoutes;
     }
 
     /**
@@ -47,7 +53,14 @@ class UserCredentialsListener
         $session = $event->getRequest()->getSession();
         $session->remove(UserCredentialsManager::NEED_UPDATE_CREDENTIAL_SESSION_KEY);
 
-        if (!$this->container->get('bns.right_manager')->hasRightSomeWhere('MAIN_UPDATE_CREDENTIAL')) {
+        $token = $event->getAuthenticationToken();
+        if ($token instanceof RememberMeToken) {
+            // do not force update on remember me token
+            return;
+        }
+
+        if (!$this->rightManager->hasRightSomeWhere('MAIN_UPDATE_CREDENTIAL')
+            || $this->rightManager->hasRightSomeWhere('ADMIN_UPDATE_CREDENTIAL')) {
             // user is not able to change credentials, don't ask him to
             return;
         }
@@ -64,17 +77,7 @@ class UserCredentialsListener
         }
 
         $request = $event->getRequest();
-        if ($request->get('_format') !== 'json' && !in_array($request->get('_route'), [
-                'BNSAppMainBundle_front',
-                'disconnect_user',
-                'home',
-                'home_locale',
-                'bns_my_avatar',
-                'user_front_registration_step',
-                'user_front_cgu_validate',
-                '_wdt',
-                '_profiler',
-            ]))
+        if ($request->get('_format') !== 'json' && !in_array($request->get('_route'), $this->listenerEscapeRoutes))
         {
             $session = $request->getSession();
             if ($session->get(UserCredentialsManager::NEED_UPDATE_CREDENTIAL_SESSION_KEY)) {

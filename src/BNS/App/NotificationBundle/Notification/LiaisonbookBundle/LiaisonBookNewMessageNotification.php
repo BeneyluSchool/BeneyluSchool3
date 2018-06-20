@@ -47,17 +47,11 @@ class LiaisonBookNewMessageNotification extends Notification implements Notifica
 			->where('l.Id = ?', $objects['message_id'])
 		->findOne();
 
-        $group = GroupQuery::create()->findPk($objects['groupId']);
-        if (null == $group) {
-            $finalObjects['%classLabel%'] = null;
-        } else {
-            $finalObjects['%classLabel%'] = "[" . $group->getLabel() . "] ";
-        }
-
 		if (null == $message) {
 			throw new \RuntimeException('The liaison book message with id : ' . $objects['message_id'] . ' is NOT found !');
 		}
 
+        $finalObjects['%classLabel%'] =  self::getGroupLabel($objects);
 		$finalObjects['%message_title%'] = $message->getTitle();
 		$finalObjects['%message_url%']	 = $notification->getBaseUrl() . self::$container->get('cli.router')->generate('liaison_book_message', array(
 			'slug' => $message->getSlug()

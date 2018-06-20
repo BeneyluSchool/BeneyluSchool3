@@ -4,13 +4,14 @@
 angular.module('bns.starterKit.dialogControllers', [])
 
   // generic dialogs
+  .controller('StarterKitDialog', StarterKitDialogController)
   .controller('StarterKitStartDialog', StarterKitDialogController)
   .controller('StarterKitIntroductionDialog', StarterKitDialogController)
   .controller('StarterKitAchievementDialog', StarterKitDialogController)
   .controller('StarterKitPointerDialog', StarterKitDialogController)
+  .controller('StarterKitExplanationDialog', StarterKitDialogController)
 
   // specialized dialogs
-  .controller('StarterKitExplanationDialog', StarterKitExplanationDialogController)
   .controller('StarterKitStepperDialog', StarterKitStepperDialogController)
   .controller('StarterKitConclusionDialog', StarterKitConclusionDialogController)
 
@@ -31,8 +32,8 @@ function StarterKitDialogController (dialog, starterKit) {
     return starterKit.next();
   }
 
-  function decline (saveNextStep) {
-    return starterKit.suspend(saveNextStep);
+  function decline (saveNextStep, linkUrl) {
+    return starterKit.suspend(saveNextStep, linkUrl);
   }
 
   function prev () {
@@ -54,33 +55,13 @@ function StarterKitDialogController (dialog, starterKit) {
 
 }
 
-function StarterKitExplanationDialogController ($scope, dialog, starterKit, target) {
-
-  // extend base dialog
-  StarterKitDialogController.call(this, dialog, starterKit);
-
-  var ctrl = this;
-  ctrl.targetTemplate = target ? target[0].outerHTML : null;
-
-  init();
-
-  function init () {
-    if (!target) {
-      return;
-    }
-    starterKit.activate(target);
-  }
-
-}
-
-function StarterKitStepperDialogController ($rootScope, $scope, $window, dialog, starterKit) {
+function StarterKitStepperDialogController (mdPanelRef, $rootScope, $scope, $window, dialog, starterKit) {
 
   // extend base dialog
   StarterKitDialogController.call(this, dialog, starterKit);
 
   var skdialog = this;
-  var CONTENT_PADDING = 24;
-  var TOOLBAR_HEIGHT = 64;
+  var CONTENT_PADDING = 16;
 
   init();
 
@@ -98,6 +79,7 @@ function StarterKitStepperDialogController ($rootScope, $scope, $window, dialog,
       skdialog.valid = true;
     }
 
+    $scope.panelStyle = $scope.panelStyle || {};
     positionDialog();
 
     var unlisten = $rootScope.$on('starterkit.control.moved', positionDialog);
@@ -110,19 +92,10 @@ function StarterKitStepperDialogController ($rootScope, $scope, $window, dialog,
 
   function positionDialog () {
     if (!skdialog.source) {
-      skdialog.position = false;
       return;
     }
     var rect = skdialog.source[0].getBoundingClientRect();
-    if (!rect.width) {
-      skdialog.position = false;
-      return;
-    }
-    skdialog.position = {
-      top: Math.max(rect.top - CONTENT_PADDING - TOOLBAR_HEIGHT, 0),
-      left: Math.max(rect.left - CONTENT_PADDING, 0),
-      width: Math.max(rect.width + 2 * CONTENT_PADDING, 100),
-    };
+    $scope.panelStyle.width = Math.max(rect.width + 2 * CONTENT_PADDING, 100);
   }
 
 }

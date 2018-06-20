@@ -4,20 +4,22 @@ namespace BNS\App\ProfileBundle\Controller;
 
 use \BNS\App\CoreBundle\Annotation\Rights;
 use \BNS\App\CoreBundle\Annotation\RightsSomeWhere;
+use BNS\App\CoreBundle\Controller\BaseController;
 use \BNS\App\CoreBundle\Model\GroupTypeQuery;
 use \BNS\App\CoreBundle\Model\ProfileFeed;
 use \BNS\App\CoreBundle\Model\ProfileFeedPeer;
 use \BNS\App\CoreBundle\Model\ProfileFeedQuery;
 use \BNS\App\CoreBundle\Model\ProfileFeedStatusQuery;
+use BNS\App\NotificationBundle\Notification\ProfileBundle\ProfileNewProfileStatusToModerateNotification;
+use BNS\App\NotificationBundle\Notification\ProfileBundle\ProfileStatusCreatedNotification;
 use \BNS\App\ProfileBundle\Form\Model\ProfileFeedFormModel;
 use \BNS\App\ProfileBundle\Form\Type\ProfileFeedType;
 use \Criteria;
 use \Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use \Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 
-class BackFeedStatusController extends Controller
+class BackFeedStatusController extends BaseController
 {
 	/**
 	 * @param \BNS\App\CoreBundle\Model\ProfileFeed $feed
@@ -56,7 +58,11 @@ class BackFeedStatusController extends Controller
      */
     public function indexAction()
     {
-    	$user = $this->getUser();
+        if (!$this->hasFeature('profile_status_link')) {
+            throw $this->createNotFoundException();
+        }
+
+        $user = $this->getUser();
 
         // On récupère les 5 dernières publications
         $feeds = ProfileFeedQuery::create()
@@ -83,6 +89,10 @@ class BackFeedStatusController extends Controller
 	 */
 	public function deleteFeedAction($feedId)
 	{
+        if (!$this->hasFeature('profile_status')) {
+            throw $this->createNotFoundException();
+        }
+
 		$feeds = ProfileFeedQuery::create('f')
 			->join('Profile')
 			->join('Profile.User')
@@ -123,6 +133,10 @@ class BackFeedStatusController extends Controller
 	 */
 	public function visualisationAction($feedId)
 	{
+        if (!$this->hasFeature('profile_status')) {
+            throw $this->createNotFoundException();
+        }
+
 		$feeds = ProfileFeedQuery::create('f')
 			->joinWith('ProfileFeedStatus', \Criteria::LEFT_JOIN)
 			->join('Profile')
@@ -147,6 +161,9 @@ class BackFeedStatusController extends Controller
 	 */
 	public function newAction()
 	{
+        if (!$this->hasFeature('profile_status')) {
+            throw $this->createNotFoundException();
+        }
 
 		$form = $this->createForm(new ProfileFeedType(), new ProfileFeedFormModel());
 		if ($this->getRequest()->isMethod('POST')) {
@@ -164,6 +181,24 @@ class BackFeedStatusController extends Controller
 				else {
 					$this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('STATUS_ADDED', array(), 'PROFILE'));
 				}
+
+                if ($this->get('bns.user_manager')->isChild()) {
+                    $currentGroup = $this->get('bns.right_manager')->getCurrentGroup();
+                    $managers = $this->get('bns.group_manager')->getUserWithPermission('PROFILE_ADMINISTRATION', $currentGroup);
+                    if ($form->getData()->getFeed()->isPendingValidation()) {
+                        $this->get('notification_manager')->send($managers, new ProfileNewProfileStatusToModerateNotification(
+                            $this->get('service_container'),
+                            $form->getData()->getFeed()->getId(),
+                            $currentGroup->getId()
+                        ));
+                    } else {
+                        $this->get('notification_manager')->send($managers, new ProfileStatusCreatedNotification(
+                            $this->get('service_container'),
+                            $form->getData()->getFeed()->getId(),
+                            $currentGroup->getId()
+                        ));
+                    }
+                }
 
                 //statistic action
                 $this->get("stat.profile")->newStatus();
@@ -189,6 +224,10 @@ class BackFeedStatusController extends Controller
 	 */
 	public function editAction($id)
 	{
+        if (!$this->hasFeature('profile_status')) {
+            throw $this->createNotFoundException();
+        }
+
 		$feed = ProfileFeedStatusQuery::create('pfs')
 			->joinWith('ProfileFeed')
 			->joinWith('ProfileFeed.Profile')

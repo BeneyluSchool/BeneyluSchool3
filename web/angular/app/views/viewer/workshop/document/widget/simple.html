@@ -1,6 +1,6 @@
 <md-radio-group ng-model="ctrl.myResponse">
   <div ng-repeat="item in ctrl.widget._embedded.extended_settings.choices">
-    <div class="layout-row layout-align-start-center" ng-class="
+    <div class="layout-row layout-align-start-center answer-list" ng-class="
     {'good-answer': (ctrl.myResponse == $index + 1 && !ctrl.canAnswer && ctrl.isCorrect) || (!ctrl.canAnswer && $index + 1 == ctrl.correctAnswers && !ctrl.widget._embedded.extended_settings.advanced_settings.hide_solution && !ctrl.canRetry),
     'wrong-answer': ctrl.myResponse == $index + 1 && !ctrl.canAnswer && !ctrl.isCorrect}">
         <md-radio-button class="md-primary md-secondary flex layout-row layout-align-start-center" ng-value="$index + 1" aria-label="{{::item.label}}" ng-disabled="!ctrl.canAnswer || ctrl.timeStopped">
@@ -8,15 +8,30 @@
             <div ng-switch-when="text">
               {{item.label}}
             </div>
-            <div ng-switch-when="image" class="flex">
-              <div bns-media-preview media-id="item.media_id"></div>
+            <div ng-switch-when="image" class="flex image-container layout-column layout-align-center-center">
+              <div class="answer-text centered" ng-if="ctrl.myResponse == $index + 1 && !ctrl.canAnswer">
+                {{ ctrl.resultMessage | translate }}
+              </div>
+              <div class="answer-text centered" ng-if="ctrl.myResponse !== $index + 1 &&!ctrl.widget._embedded.extended_settings.advanced_settings.hide_solution && $index + 1 == ctrl.correctAnswers && !ctrl.canAnswer">
+                <span translate>WORKSHOP.QUESTIONNAIRE.CONGRATS</span>
+              </div>
+              <div bns-media-preview media-id="item.media_id" size="widget_contain" link-id="ctrl.widget.id" link-class="WorkshopWidget"></div>
             </div>
           </div>
+          <div class="bns-viewer-audio flex-80 layout-column" ng-if="ctrl.widget._embedded.extended_settings.advanced_settings.type == 'audio'">
+            <div class="answer-text centered" ng-if="ctrl.myResponse == $index + 1 && !ctrl.canAnswer">
+              {{ ctrl.resultMessage | translate }}
+            </div>
+            <div class="answer-text centered" ng-if="ctrl.myResponse !== $index + 1 &&!ctrl.widget._embedded.extended_settings.advanced_settings.hide_solution && $index + 1 == ctrl.correctAnswers && !ctrl.canAnswer">
+              <span translate>WORKSHOP.QUESTIONNAIRE.CONGRATS</span>
+            </div>
+            <div bns-viewer-audio-player media-id="item.media_id" link-id="ctrl.widget.id" link-class="WorkshopWidget" no-visualization="true" class="no-visualization questionnaire-audio" bns-eat-click-if="true"></div>
+          </div>
         </md-radio-button>
-        <div class="bns-viewer-audio flex-80" ng-if="ctrl.widget._embedded.extended_settings.advanced_settings.type == 'audio'">
-          <div bns-viewer-audio-player media-id="item.media_id" no-visualization="true" class="no-visualization questionnaire-audio" ></div>
-        </div>
-        <div ng-if="ctrl.widget._embedded.extended_settings.advanced_settings.type !== 'audio'">
+        <div ng-if="ctrl.widget._embedded.extended_settings.advanced_settings.type === 'text'">
+          <div class="answer-text" ng-if="ctrl.myResponse !== $index + 1 && !ctrl.widget._embedded.extended_settings.advanced_settings.hide_solution && $index + 1 == ctrl.correctAnswers && !ctrl.canAnswer">
+            <span translate>WORKSHOP.QUESTIONNAIRE.CONGRATS</span>
+          </div>
           <div class="flex-none answer-text" ng-if="ctrl.myResponse == $index + 1 && !ctrl.canAnswer">
             {{ ctrl.resultMessage | translate }}
           </div>

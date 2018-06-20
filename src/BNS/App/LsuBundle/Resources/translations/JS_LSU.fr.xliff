@@ -1,0 +1,647 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2018-04-17T19:52:26Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="c223831856dd1e4bb95ae4c9e613bc18d8810980" resname="BUTTON_BACK_TO_LIST">
+        <source>BUTTON_BACK_TO_LIST</source>
+        <target>Revenir|à la liste</target>
+      </trans-unit>
+      <trans-unit id="20dcb001a684d816442623a8cfdc2f4859f65d63" resname="BUTTON_CANCEL">
+        <source>BUTTON_CANCEL</source>
+        <target>Annuler</target>
+      </trans-unit>
+      <trans-unit id="dd323534f5b84af664a96a6eb3c4f4996bfe8791" resname="BUTTON_CLOSE">
+        <source>BUTTON_CLOSE</source>
+        <target>Fermer</target>
+      </trans-unit>
+      <trans-unit id="16b0989f6f35de85e16c6ecdac5101e3e64e719a" resname="BUTTON_CONFIGURE_LEVELS">
+        <source>BUTTON_CONFIGURE_LEVELS</source>
+        <target>Choisir les niveaux de la classe</target>
+      </trans-unit>
+      <trans-unit id="9799ac4d0f2fd3335228bdb5f666a2814fe148f9" resname="BUTTON_CONFIRM_DELETE_TEMPLATE">
+        <source>BUTTON_CONFIRM_DELETE_TEMPLATE</source>
+        <target>Confirmer|la suppression</target>
+      </trans-unit>
+      <trans-unit id="ea8e5a5e5f996da55424351280c1f6fba7da0630" resname="BUTTON_COPY">
+        <source>BUTTON_COPY</source>
+        <target>Dupliquer</target>
+      </trans-unit>
+      <trans-unit id="acb5a1e2c7f902aa06536dce927e107ac925bbb1" resname="BUTTON_CREATE_TEMPLATE">
+        <source>BUTTON_CREATE_TEMPLATE</source>
+        <target>Créer un Gabarit</target>
+      </trans-unit>
+      <trans-unit id="c9119c939f59b2db818befb9030abc57ec560b4d" resname="BUTTON_DELETE_TEMPLATE">
+        <source>BUTTON_DELETE_TEMPLATE</source>
+        <target>Supprimer|le gabarit</target>
+      </trans-unit>
+      <trans-unit id="dbf0581b48b34edeb8be22831637185afece2483" resname="BUTTON_EDIT">
+        <source>BUTTON_EDIT</source>
+        <target>Modifier</target>
+      </trans-unit>
+      <trans-unit id="fc69977210124d5e3dcfe2249b7021f7308ca445" resname="BUTTON_EXPORT">
+        <source>BUTTON_EXPORT</source>
+        <target>Exporter</target>
+      </trans-unit>
+      <trans-unit id="f4cbc51787280dd75a1ee576118780c3a9fe983b" resname="BUTTON_EXPORT_LSU">
+        <source>BUTTON_EXPORT_LSU</source>
+        <target>Exporter|un fichier LSU</target>
+      </trans-unit>
+      <trans-unit id="5d2510f238377460cdf85c9aba8349ea7fc9923c" resname="BUTTON_EXPORT_PDF">
+        <source>BUTTON_EXPORT_PDF</source>
+        <target>Exporter|un fichier PDF</target>
+      </trans-unit>
+      <trans-unit id="f72b8765f51b408cb2d54187d356274f3932d2ec" resname="BUTTON_INVALIDATE_RECORD">
+        <source>BUTTON_INVALIDATE_RECORD</source>
+        <target>Invalider le livret</target>
+      </trans-unit>
+      <trans-unit id="ef4179d7a72d6477ccc4d4382ff0ca9a06ed9a4a" resname="BUTTON_MENU_EXPORT_LSU">
+        <source>BUTTON_MENU_EXPORT_LSU</source>
+        <target>Exporter un fichier LSU</target>
+      </trans-unit>
+      <trans-unit id="1c5397b35f7ea716671ecdf9bd5eea7f8b609391" resname="BUTTON_MENU_EXPORT_PDF">
+        <source>BUTTON_MENU_EXPORT_PDF</source>
+        <target>Exporter un fichier PDF</target>
+      </trans-unit>
+      <trans-unit id="e4f27471f89240182a052f39aa40efbdc7811a78" resname="BUTTON_PRINT">
+        <source>BUTTON_PRINT</source>
+        <target>Imprimer</target>
+      </trans-unit>
+      <trans-unit id="b33394197a8d4aa9fb5706fb4ba1f9e5f4d358e6" resname="BUTTON_SELECT_PUPILS">
+        <source>BUTTON_SELECT_PUPILS</source>
+        <target>Choisir | les élèves</target>
+      </trans-unit>
+      <trans-unit id="e1fd90e0049bddd652abd206110a05c9a65a4d72" resname="BUTTON_VALIDATE_RECORD">
+        <source>BUTTON_VALIDATE_RECORD</source>
+        <target>Valider le livret</target>
+      </trans-unit>
+      <trans-unit id="3a271af8c799311180d3a8807c2a3447b0fcf50e" resname="BUTTON_VIEW_RECORD">
+        <source>BUTTON_VIEW_RECORD</source>
+        <target>Voir le livret</target>
+      </trans-unit>
+      <trans-unit id="7a7b483f57f82a8d3337dd5bc0cd132b99dc2ad3" resname="BUTTON_WRITE">
+        <source>BUTTON_WRITE</source>
+        <target>Saisir</target>
+      </trans-unit>
+      <trans-unit id="57bd375bb5cf36e783aa82f7febbcc99a1df0ab6" resname="CONTENT_CONFIRM_DELETE_TEMPLATE">
+        <source>CONTENT_CONFIRM_DELETE_TEMPLATE</source>
+        <target><![CDATA[<b>Attention :</b> Tous les livrets associés à ce gabarit seront également supprimés.<br>Cette action est irréversible.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="7a362c9cec627057990907361bc7419707a2997f" resname="DESCRIPTION_CHOOSE_CLASSROOM_LEVELS">
+        <source>DESCRIPTION_CHOOSE_CLASSROOM_LEVELS</source>
+        <target><![CDATA[<ol><li>Choissez les niveaux de votre classe</li><li>Glissez vos élèves dans la zone correspondant à leur niveau</li></ol>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="0d96f1e9ab06ff66a8ddff3d4ff7a6d8f3cfd1e1" resname="DESCRIPTION_COMMON_GROUNDS">
+        <source>DESCRIPTION_COMMON_GROUNDS</source>
+        <target>1. Connaître l’histoire et la géographie, savoir étudier les organisations et fonctionnements des sociétés • 2. Savoir pratiquer les démarches scientifiques et techniques, découvrir la nature et ses phénomènes, réaliser des observations et des expériences • 3. S’exprimer et communiquer par les pratiques artistiques, physiques et sportives • 4. Savoir formuler ses opinions et respecter celles d’autrui, avoir conscience de la justice et du droit, connaître les valeurs de la République • 5. Savoir organiser son travail, accéder à l’information, à la documentation et aux médias, utiliser les outils numériques, conduire des projets.</target>
+      </trans-unit>
+      <trans-unit id="c5447c068c7f68475abaff42eb32bef56aec7280" resname="DESCRIPTION_CONFIGURE_TEMPLATE">
+        <source>DESCRIPTION_CONFIGURE_TEMPLATE</source>
+        <target>Pour commencer à construire le livret, il faut choisir son niveau et sa période.</target>
+      </trans-unit>
+      <trans-unit id="c5c9a34460fe7ecc5846b92a52df25d1a4326574" resname="DESCRIPTION_CUSTOM_DETAIL">
+        <source>DESCRIPTION_CUSTOM_DETAIL</source>
+        <target>Saissez un élément de parcours personnalisé</target>
+      </trans-unit>
+      <trans-unit id="8117780294664267574185e19b0d1e03847afac2" resname="DESCRIPTION_LEVELS_NOT_CONFIGURED">
+        <source>DESCRIPTION_LEVELS_NOT_CONFIGURED</source>
+        <target><![CDATA[Les niveaux de votre classe ne sont pas configurés.<br>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="3e18661289b26ae04426bf68fba3b47965f0f503" resname="DESCRIPTION_LEVEL_IN_CONFIG">
+        <source>DESCRIPTION_LEVEL_IN_CONFIG</source>
+        <target><![CDATA[Vous ne trouvez pas le niveau de votre classe ? Rendez-vous dans <a href="{{href}}">sa personnalisation</a>.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="a2c79b1146cb116f4659054fa58435c247deec19" resname="DESCRIPTION_LOCKED_LEVELS">
+        <source>DESCRIPTION_LOCKED_LEVELS</source>
+        <target>Les niveaux ayant des gabarits de livret associés ne peuvent pas être désactivés</target>
+      </trans-unit>
+      <trans-unit id="cbd71708b8f3bc8f6fce9f14a868c6137bb0c43d" resname="DESCRIPTION_MOVE_PUPILS_HERE">
+        <source>DESCRIPTION_MOVE_PUPILS_HERE</source>
+        <target>Déplacez vos élèves ici</target>
+      </trans-unit>
+      <trans-unit id="e44be0bfcd7af456eda50178a11041a9f7c3a6b9" resname="DESCRIPTION_NO_LEVEL">
+        <source>DESCRIPTION_NO_LEVEL</source>
+        <target>Aucun niveau configuré</target>
+      </trans-unit>
+      <trans-unit id="e75f2fb27b1d36270786c8d52110e717eb8a236b" resname="DESCRIPTION_NO_PUPIL">
+        <source>DESCRIPTION_NO_PUPIL</source>
+        <target>Aucun élève</target>
+      </trans-unit>
+      <trans-unit id="87f75209e0dc4005b70ab30bbf266ed6c39c859f" resname="DESCRIPTION_NO_RECORD">
+        <source>DESCRIPTION_NO_RECORD</source>
+        <target>Il n'y a pas encore de livret.</target>
+      </trans-unit>
+      <trans-unit id="237fe7087997e41585925e6a0b8b972eebedd6b8" resname="DESCRIPTION_NO_TEMPLATE">
+        <source>DESCRIPTION_NO_TEMPLATE</source>
+        <target>Aucun gabarit</target>
+      </trans-unit>
+      <trans-unit id="08ae2094e950992d12bf9187230256f9c70a365f" resname="DESCRIPTION_NO_TEMPLATE_YET">
+        <source>DESCRIPTION_NO_TEMPLATE_YET</source>
+        <target><![CDATA[Il n'y a pas encore de gabarit.<br>Commencez-par créer votre premier gabarit de livret scolaire !]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="8e5ca220221cd186e277043f3d2344d716f689fa" resname="DESCRIPTION_PERIOD">
+        <source>DESCRIPTION_PERIOD</source>
+        <target>Période {{period}} du {{start}} au {{end}}</target>
+      </trans-unit>
+      <trans-unit id="b7f83a8fe4f7336bde17b9ec9fbfb1524726e66e" resname="DESCRIPTION_RECORDS_OF_GROUP">
+        <source>DESCRIPTION_RECORDS_OF_GROUP</source>
+        <target><![CDATA[Vous retrouvez ici les livrets scolaires saisis par l'enseignant pour la classe <strong>{{label}}</strong>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="dd0ea90009a7c31fb628eca53b24b0da9bc971c5" resname="DESCRIPTION_TEMPLATE_ADD_COURSES">
+        <source>DESCRIPTION_TEMPLATE_ADD_COURSES</source>
+        <target>Précisez les parcours éducatifs de la période.</target>
+      </trans-unit>
+      <trans-unit id="124f196f8fc3b247c36157924ece3b03d62bc259" resname="DESCRIPTION_TEMPLATE_ADD_DETAILS">
+        <source>DESCRIPTION_TEMPLATE_ADD_DETAILS</source>
+        <target><![CDATA[Ajoutez des éléments de parcours aux domaines étudiés pendant la période.<br>Les domaines sans éléments de parcours n'apparaîtront pas dans le livret.<br>Le livret doit contenir au minimum 3 domaines.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="789027bdf1f3086200907ef8e38cff9fef81ab67" resname="DESCRIPTION_TEMPLATE_CYCLE_END_COMPLETE">
+        <source>DESCRIPTION_TEMPLATE_CYCLE_END_COMPLETE</source>
+        <target>Ce livret de fin de cycle est prêt.</target>
+      </trans-unit>
+      <trans-unit id="bbc3961d1404fb69923986fb3e9347976915fdb9" resname="DESCRIPTION_TEMPLATE_SELECT_DOMAINS">
+        <source>DESCRIPTION_TEMPLATE_SELECT_DOMAINS</source>
+        <target><![CDATA[Sélectionnez les domaines et sous-domaines étudiés pendant la période.<br>Les domaines non sélectionnés n'apparaîtront pas dans le livret.<br>Le livret doit contenir au minimum 3 domaines.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="8ff77799a09539b54af04c918e8ce69f36a6338b" resname="DESCRITPION_EXPORT_ONLY_VALID">
+        <source>DESCRITPION_EXPORT_ONLY_VALID</source>
+        <target>Seuls les livrets validés seront exportés</target>
+      </trans-unit>
+      <trans-unit id="965bd3b10949efa7c8d46d4b05e5438ab743ccb6" resname="ERROR_DETAIL_REQUIRED">
+        <source>ERROR_DETAIL_REQUIRED</source>
+        <target>L'élément de parcours ne peut pas être vide</target>
+      </trans-unit>
+      <trans-unit id="e132f13179b75e44c37fa955a477b09241bcc98c" resname="ERROR_DETAIL_TOO_LONG">
+        <source>ERROR_DETAIL_TOO_LONG</source>
+        <target>L'élément de parcours est trop long (300 caractères max.)</target>
+      </trans-unit>
+      <trans-unit id="e929f027d066a7c6767a90b34cb27151c973a2b4" resname="ERROR_DUPLICATE_LEVEL">
+        <source>ERROR_DUPLICATE_LEVEL</source>
+        <target>Ce niveau existe déjà</target>
+      </trans-unit>
+      <trans-unit id="ff32fdc003754826b9559546decb27e682fb18ba" resname="ERROR_MIN_3_DOMAINS">
+        <source>ERROR_MIN_3_DOMAINS</source>
+        <target>Attention, le livret doit contenir au minimum 3 domaines.</target>
+      </trans-unit>
+      <trans-unit id="b017ad6e66e3ac3f63aca5b22f2aecd2ce4d7ead" resname="FLASH_ADD_DETAIL_ERROR">
+        <source>FLASH_ADD_DETAIL_ERROR</source>
+        <target>L'élément de parcours n'a pas pu être ajouté</target>
+      </trans-unit>
+      <trans-unit id="91a296b7dfe10f8dabc39f7b2f328d65b2c1ba8d" resname="FLASH_COPY_TEMPLATE_ERROR">
+        <source>FLASH_COPY_TEMPLATE_ERROR</source>
+        <target>Le gabarit n'a pas pu être copié</target>
+      </trans-unit>
+      <trans-unit id="6a1914c300a5bd36813110362ef00916d4cf3e1b" resname="FLASH_COPY_TEMPLATE_SUCCESS">
+        <source>FLASH_COPY_TEMPLATE_SUCCESS</source>
+        <target>Gabarit copié</target>
+      </trans-unit>
+      <trans-unit id="bfa6efe9997705450cca13f21999ce0b7e88df20" resname="FLASH_CREATE_CONFIG_ERROR">
+        <source>FLASH_CREATE_CONFIG_ERROR</source>
+        <target>La configuration n'a pas pu être créée</target>
+      </trans-unit>
+      <trans-unit id="e70e1f6e45eb2aadbe57c0c991213c6740d8c84e" resname="FLASH_DELETE_TEMPLATE_ERROR">
+        <source>FLASH_DELETE_TEMPLATE_ERROR</source>
+        <target>Le gabarit n'a pas pu être supprimé</target>
+      </trans-unit>
+      <trans-unit id="9a150992d845a66fa161afca64be55c072fbca64" resname="FLASH_DELETE_TEMPLATE_SUCCESS">
+        <source>FLASH_DELETE_TEMPLATE_SUCCESS</source>
+        <target>Gabarit supprimé</target>
+      </trans-unit>
+      <trans-unit id="3117e63111bd7ae520d38326ae22ba892ecda9fd" resname="FLASH_GET_CONFIGS_ERROR">
+        <source>FLASH_GET_CONFIGS_ERROR</source>
+        <target>Les configurations n'ont pas pu être chargées</target>
+      </trans-unit>
+      <trans-unit id="66cc7010b171c4cfad6a8d9b65b9e551e52191a2" resname="FLASH_GET_LEVELS_ERROR">
+        <source>FLASH_GET_LEVELS_ERROR</source>
+        <target>Les niveaux n'ont pas pu être chargés</target>
+      </trans-unit>
+      <trans-unit id="5355e6010eecaeca80359b3a48a111327a5561d0" resname="FLASH_GET_RECORD_ERROR">
+        <source>FLASH_GET_RECORD_ERROR</source>
+        <target>Le livret n'a pas pu être chargé</target>
+      </trans-unit>
+      <trans-unit id="5a144de654df1db9140755f977093841602e7823" resname="FLASH_GET_SCHOOL_ERROR">
+        <source>FLASH_GET_SCHOOL_ERROR</source>
+        <target>L'école n'a pas pu être chargée</target>
+      </trans-unit>
+      <trans-unit id="f08e6034b2f13f71b0bc7798b24561349f0cb8ad" resname="FLASH_GET_TEMPLATES_ERROR">
+        <source>FLASH_GET_TEMPLATES_ERROR</source>
+        <target>Les gabarits n'ont pas pu être chargés</target>
+      </trans-unit>
+      <trans-unit id="bb057156f2335152db1f8dcb5fa959c224b99a55" resname="FLASH_GET_TEMPLATE_ERROR">
+        <source>FLASH_GET_TEMPLATE_ERROR</source>
+        <target>Le gabarit n'a pas pu être chargé</target>
+      </trans-unit>
+      <trans-unit id="e62d5c27ac8510868c120e2e687cfd965905dfb5" resname="FLASH_INVALIDATE_RECORD_ERROR">
+        <source>FLASH_INVALIDATE_RECORD_ERROR</source>
+        <target>Le livret n'a pas pu être invalidé</target>
+      </trans-unit>
+      <trans-unit id="eed95b352af160b02b509c5b222cd82e2123e884" resname="FLASH_INVALIDATE_RECORD_SUCCESS">
+        <source>FLASH_INVALIDATE_RECORD_SUCCESS</source>
+        <target>Livret invalidé</target>
+      </trans-unit>
+      <trans-unit id="6b5292a3df328f54e8b4f8082cf9a6ed93f31861" resname="FLASH_LOAD_DOMAINS_ERROR">
+        <source>FLASH_LOAD_DOMAINS_ERROR</source>
+        <target>Les domaines n'ont pas pu être chargés</target>
+      </trans-unit>
+      <trans-unit id="a72ec249bae06595c7c71a82dfaad493eed019d0" resname="FLASH_LOAD_RECORDS_ERROR">
+        <source>FLASH_LOAD_RECORDS_ERROR</source>
+        <target>Les livrets n'ont pas pu être chargés</target>
+      </trans-unit>
+      <trans-unit id="c98ea7c1af2bfa2b368a7f76b426fba5385793e2" resname="FLASH_REMOVE_CONFIG_ERROR">
+        <source>FLASH_REMOVE_CONFIG_ERROR</source>
+        <target>La configuration n'a pas pu être supprimée</target>
+      </trans-unit>
+      <trans-unit id="fd32992381e2b4ff25011a955243ffd1622381dc" resname="FLASH_REMOVE_DETAIL_ERROR">
+        <source>FLASH_REMOVE_DETAIL_ERROR</source>
+        <target>L'élément de parcours n'a pas pu être supprimé</target>
+      </trans-unit>
+      <trans-unit id="454d173fecac1b73276783eccb84da67ce2f96dd" resname="FLASH_SAVE_DETAIL_ERROR">
+        <source>FLASH_SAVE_DETAIL_ERROR</source>
+        <target>L'élément de parcours n'a pas pu être sauvegardé</target>
+      </trans-unit>
+      <trans-unit id="e741563eb856644468a14befbdb7148b7c1b4db7" resname="FLASH_SAVE_TEMPLATE_ERROR">
+        <source>FLASH_SAVE_TEMPLATE_ERROR</source>
+        <target>Le gabarit n'a pas pu être sauvegardé</target>
+      </trans-unit>
+      <trans-unit id="97c0f388e462fdc614d1a5755d2aac4b4b23af25" resname="FLASH_UPDATE_CLASSROOM_ERROR">
+        <source>FLASH_UPDATE_CLASSROOM_ERROR</source>
+        <target>La classe n'a pas pu être mise à jour</target>
+      </trans-unit>
+      <trans-unit id="2857050565742506b6e78f46f0cb07ced9bb0cdc" resname="FLASH_UPDATE_CONFIG_ERROR">
+        <source>FLASH_UPDATE_CONFIG_ERROR</source>
+        <target>La configuration n'a pas pu être sauvegardée</target>
+      </trans-unit>
+      <trans-unit id="f80946730e84ff7007b316818658c66447fc4bb3" resname="FLASH_UPDATE_RECORD_ERROR">
+        <source>FLASH_UPDATE_RECORD_ERROR</source>
+        <target>Le livret n'a pas pu être modifié</target>
+      </trans-unit>
+      <trans-unit id="4cf01d5fa4961a885debaaeb2376b1e11edd6cd4" resname="FLASH_UPDATE_SCHOOL_ERROR">
+        <source>FLASH_UPDATE_SCHOOL_ERROR</source>
+        <target>L'école n'a pas pu être mise à jour</target>
+      </trans-unit>
+      <trans-unit id="aaef9229ee0e65ebdc0f031c09e5737460407dcc" resname="FLASH_UPDATE_USER_ERROR">
+        <source>FLASH_UPDATE_USER_ERROR</source>
+        <target>L'utilisateur n'a pas pu être mis à jour</target>
+      </trans-unit>
+      <trans-unit id="cf742a39161f734772886a85b75b4a2f36c96f50" resname="FLASH_VALIDATE_RECORD_ERROR">
+        <source>FLASH_VALIDATE_RECORD_ERROR</source>
+        <target>Le livret n'a pas pu être validé</target>
+      </trans-unit>
+      <trans-unit id="994edda27e01395e59274a522c009f31037ea3f3" resname="FLASH_VALIDATE_RECORD_SUCCESS">
+        <source>FLASH_VALIDATE_RECORD_SUCCESS</source>
+        <target>Livret validé</target>
+      </trans-unit>
+      <trans-unit id="1691886b9a6befa22ea97b14d27bd86c293eb2d0" resname="LABEL_ACCOMPANYING_CONDITIONS">
+        <source>LABEL_ACCOMPANYING_CONDITIONS</source>
+        <target>Modalités spécifiques d'accompagnement</target>
+      </trans-unit>
+      <trans-unit id="998d91aab285513f4c0c8b2d27bdf353820f6a5a" resname="LABEL_ACCOMPANYING_CONDITIONS_DETAIL">
+        <source>LABEL_ACCOMPANYING_CONDITIONS_DETAIL</source>
+        <target>Modalités d'accompagnement pédagogique spécifique</target>
+      </trans-unit>
+      <trans-unit id="fffadbf98243e77a9fa78bd652b881eef4b31ec8" resname="LABEL_ACCOMPANYING_CONDITION_OTHER">
+        <source>LABEL_ACCOMPANYING_CONDITION_OTHER</source>
+        <target>Complément PPRE</target>
+      </trans-unit>
+      <trans-unit id="4bab948b15a688956c9cb608600b43395a2754d9" resname="LABEL_ACHIEVED">
+        <source>LABEL_ACHIEVED</source>
+        <target>Atteints</target>
+      </trans-unit>
+      <trans-unit id="9c2c0153fd2567b4a5245946261ebc6998f9f6a3" resname="LABEL_ACHIEVEMENTS">
+        <source>LABEL_ACHIEVEMENTS</source>
+        <target>Suivi des acquis scolaires de l'élève</target>
+      </trans-unit>
+      <trans-unit id="eadd46464ef516103b098ebf22a0e9f9b1512b61" resname="LABEL_CLASSROOM">
+        <source>LABEL_CLASSROOM</source>
+        <target>Classe de {{classroom}}</target>
+      </trans-unit>
+      <trans-unit id="ed3085c39b1fd87715b20bd5ad8c23f4daa0c27c" resname="LABEL_CLASSROOM_LEVELS">
+        <source>LABEL_CLASSROOM_LEVELS</source>
+        <target>Niveaux de la classe</target>
+      </trans-unit>
+      <trans-unit id="d02ba7361db8812f62cfdf1f5f52308ccdba709a" resname="LABEL_CLASSROOM_ONDE_ID">
+        <source>LABEL_CLASSROOM_ONDE_ID</source>
+        <target>Identifiant ONDE de la classe</target>
+      </trans-unit>
+      <trans-unit id="ef1d94f110ab4c72a2597ff7a4215a3c9f454b3b" resname="LABEL_COMMENTS">
+        <source>LABEL_COMMENTS</source>
+        <target>Acquisitions, progrès et difficultés éventuelles</target>
+      </trans-unit>
+      <trans-unit id="83a2e36ef1e3d63bdf1aa732cbd6682123ab3db5" resname="LABEL_COMMON_GROUND_MASTERY">
+        <source>LABEL_COMMON_GROUND_MASTERY</source>
+        <target>Maîtrise des composantes du socle en fin de cycle 2</target>
+      </trans-unit>
+      <trans-unit id="60e6735c2d2caedc4717919d9e461145c8598348" resname="LABEL_CYCLE_SYNTHESIS">
+        <source>LABEL_CYCLE_SYNTHESIS</source>
+        <target>Synthèse des acquis scolaires de l'élève en fin de cycle 2</target>
+      </trans-unit>
+      <trans-unit id="9ff67c242772e872b576a90dbeb336125adb45c5" resname="LABEL_DOMAIN">
+        <source>LABEL_DOMAIN</source>
+        <target>Domaine d'enseignement</target>
+      </trans-unit>
+      <trans-unit id="d857a78710b7a40e69b3aa99f4d4aa70288f8a07" resname="LABEL_DOMAIN_HAS_NO_SUBDOMAIN">
+        <source>LABEL_DOMAIN_HAS_NO_SUBDOMAIN</source>
+        <target>Ce domaine n'a pas de sous-domaine</target>
+      </trans-unit>
+      <trans-unit id="fc62ee1926a58dff3f41bd3b2de365cabd3b43c6" resname="LABEL_END_CYCLE">
+        <source>LABEL_END_CYCLE</source>
+        <target>Fin de cycle</target>
+      </trans-unit>
+      <trans-unit id="d901037354d1e64c57f7ce57fe987957d74da374" resname="LABEL_FILTER_TEMPLATES">
+        <source>LABEL_FILTER_TEMPLATES</source>
+        <target>Filtrer les gabarits</target>
+      </trans-unit>
+      <trans-unit id="8432b524e1d9bc21dca4d5bd40e90522bd718202" resname="LABEL_FIRST_NAME">
+        <source>LABEL_FIRST_NAME</source>
+        <target>Prénom</target>
+      </trans-unit>
+      <trans-unit id="a1b29f26017220106e6e95addda81fcce19ebcf2" resname="LABEL_GENERAL_COMMENT_PUPIL_PROGRESS">
+        <source>LABEL_GENERAL_COMMENT_PUPIL_PROGRESS</source>
+        <target>Bilan de l'acquisition des connaissances et compétences</target>
+      </trans-unit>
+      <trans-unit id="2bb8c40ea9f08fc7eca5eeddf45f252c3342f439" resname="LABEL_GOALS">
+        <source>LABEL_GOALS</source>
+        <target>Objectifs d'apprentissage</target>
+      </trans-unit>
+      <trans-unit id="50149d4ad2ebd93cdc46e0e0bc1e0fd438d6770b" resname="LABEL_INE">
+        <source>LABEL_INE</source>
+        <target>INE</target>
+      </trans-unit>
+      <trans-unit id="40df68ab1160c0d91f11156393beec9ebfce5947" resname="LABEL_KNOWLEDGE">
+        <source>LABEL_KNOWLEDGE</source>
+        <target>Pris connaissance le</target>
+      </trans-unit>
+      <trans-unit id="d1541f2e5039e2ba0ac23a4aeeebe3ab41245b6e" resname="LABEL_LAST_NAME">
+        <source>LABEL_LAST_NAME</source>
+        <target>Nom</target>
+      </trans-unit>
+      <trans-unit id="e35bcb8eeccbec1fc640c9a39325dc1bd4d7be9a" resname="LABEL_MAIN_TOPICS">
+        <source>LABEL_MAIN_TOPICS</source>
+        <target>Principaux éléments du programme travaillés durant la période</target>
+      </trans-unit>
+      <trans-unit id="6e589bc9f27c1ed01f27ac20250b0548539bf58e" resname="LABEL_MASTERY_NOT">
+        <source>LABEL_MASTERY_NOT</source>
+        <target>Maîtrise insuffisante</target>
+      </trans-unit>
+      <trans-unit id="9af95bb3596841466c954e047592329d35714b29" resname="LABEL_MASTERY_OVERSTEP">
+        <source>LABEL_MASTERY_OVERSTEP</source>
+        <target>Très bonne maîtrise</target>
+      </trans-unit>
+      <trans-unit id="f5bdacbccb70918346c954c752817be19c9020e3" resname="LABEL_MASTERY_PARTIAL">
+        <source>LABEL_MASTERY_PARTIAL</source>
+        <target>Maîtrise fragile</target>
+      </trans-unit>
+      <trans-unit id="f633cd007c64a6c9dcb595a55c44b81a69c90a0f" resname="LABEL_MASTERY_SUCCESS">
+        <source>LABEL_MASTERY_SUCCESS</source>
+        <target>Maîtrise satisfaisante</target>
+      </trans-unit>
+      <trans-unit id="73045810f3f32966d8e8f590dab4ddceda893d58" resname="LABEL_NOT_ACHIEVED">
+        <source>LABEL_NOT_ACHIEVED</source>
+        <target>Non atteints</target>
+      </trans-unit>
+      <trans-unit id="dd36d1b920e614db003d1a65fefb38e11fc18f9a" resname="LABEL_OPEN_TO_FAMILIES">
+        <source>LABEL_OPEN_TO_FAMILIES</source>
+        <target>Ouvrir aux familles</target>
+      </trans-unit>
+      <trans-unit id="d8181cf6bfac110cef9c59ddae50c428e55be06a" resname="LABEL_OTHERS">
+        <source>LABEL_OTHERS</source>
+        <target>Autres</target>
+      </trans-unit>
+      <trans-unit id="c427c6a0c6a310be39a3dabd4a3c304e9df6c45f" resname="LABEL_OTHERS_DESCRIPTION">
+        <source>LABEL_OTHERS_DESCRIPTION</source>
+        <target>[préciser]</target>
+      </trans-unit>
+      <trans-unit id="36fd3467e0b16f3252abf3ab4e1c1cfb185d8df1" resname="LABEL_OVERACHIEVED">
+        <source>LABEL_OVERACHIEVED</source>
+        <target>Dépassés</target>
+      </trans-unit>
+      <trans-unit id="292eb2691d2e386f7c317c123445c018710a6c15" resname="LABEL_PAI">
+        <source>LABEL_PAI</source>
+        <target>PAI</target>
+      </trans-unit>
+      <trans-unit id="b2f79a9375eb5b44a6fefc40aa0729a7347e1d14" resname="LABEL_PAI_DESCRIPTION">
+        <source>LABEL_PAI_DESCRIPTION</source>
+        <target>[projet d'accueil individualisé]</target>
+      </trans-unit>
+      <trans-unit id="e359937a2a3edb4c5d01639a2ed38bbd521f8d72" resname="LABEL_PAP">
+        <source>LABEL_PAP</source>
+        <target>PAP</target>
+      </trans-unit>
+      <trans-unit id="879081688ea4ad1ee215b85f69c301868475447d" resname="LABEL_PAP_DESCRIPTION">
+        <source>LABEL_PAP_DESCRIPTION</source>
+        <target>[plan d'accompagnement personnalisé]</target>
+      </trans-unit>
+      <trans-unit id="b2bc632ac515b80f1bda292bd7f7bd1cf7106ca2" resname="LABEL_PARTIALLY_ACHIEVED">
+        <source>LABEL_PARTIALLY_ACHIEVED</source>
+        <target>Partiellement atteints</target>
+      </trans-unit>
+      <trans-unit id="62dca6ca5e56b14c2f9f778afa79f56f784e7b41" resname="LABEL_PAR_ART">
+        <source>LABEL_PAR_ART</source>
+        <target>Parcours d'éducation artistique et culturelle</target>
+      </trans-unit>
+      <trans-unit id="a5a2fe1ba5b5157e6b9758b05b083ef8ecacccd3" resname="LABEL_PAR_CIT">
+        <source>LABEL_PAR_CIT</source>
+        <target>Parcours citoyen</target>
+      </trans-unit>
+      <trans-unit id="f76bc74f0a301ede21343480266628ebe5820b12" resname="LABEL_PAR_SAN">
+        <source>LABEL_PAR_SAN</source>
+        <target>Parcours éducatif de santé</target>
+      </trans-unit>
+      <trans-unit id="2baf8c62a0b31ee6bd1c4218da22e75b9e7d2c62" resname="LABEL_POSITION">
+        <source>LABEL_POSITION</source>
+        <target>Positionnement</target>
+      </trans-unit>
+      <trans-unit id="eb218ee506f7d77ce55a3c052615c69e95102c49" resname="LABEL_PPRE">
+        <source>LABEL_PPRE</source>
+        <target>PPRE</target>
+      </trans-unit>
+      <trans-unit id="f4df6a103e57e144191d897501e5e675bec5a9b6" resname="LABEL_PPRE_DESCRIPTION">
+        <source>LABEL_PPRE_DESCRIPTION</source>
+        <target>[programme personnalisé de réussite éducative]</target>
+      </trans-unit>
+      <trans-unit id="bda8aa414ca8cf490302d0fa22f2f7f4a9e92cb0" resname="LABEL_PPS">
+        <source>LABEL_PPS</source>
+        <target>PPS</target>
+      </trans-unit>
+      <trans-unit id="997eededb410e21e5de40f24e367f7115553b00f" resname="LABEL_PPS_DESCRIPTION">
+        <source>LABEL_PPS_DESCRIPTION</source>
+        <target>[projet personnalisé de scolarisation]</target>
+      </trans-unit>
+      <trans-unit id="ca4446b0af7dc03f35d9eee1ef04a149c4076e43" resname="LABEL_PUPIL_BIRTH">
+        <source>LABEL_PUPIL_BIRTH</source>
+        <target>{gender, select, M{Né le} F{Née le} other{Né(e) le}} {birth}</target>
+      </trans-unit>
+      <trans-unit id="ecdc488fe1cf31142cf0e8daac3af6cdc6245432" resname="LABEL_RASED">
+        <source>LABEL_RASED</source>
+        <target>RASED</target>
+      </trans-unit>
+      <trans-unit id="285ef30d112391ec617aaa6920eedd8e79d5cb06" resname="LABEL_RASED_DESCRIPTION">
+        <source>LABEL_RASED_DESCRIPTION</source>
+        <target>[réseau d'aides spécialisées aux élèves en difficultés]</target>
+      </trans-unit>
+      <trans-unit id="ee234f7402bfe21368f3a79ccea78487d2e5fdca" resname="LABEL_SCHOOL_STAMP">
+        <source>LABEL_SCHOOL_STAMP</source>
+        <target>Cachet de l'école</target>
+      </trans-unit>
+      <trans-unit id="4d5a0ba00b0f2d78e04ab95bac5be81e90eecdfd" resname="LABEL_SCHOOL_UAI">
+        <source>LABEL_SCHOOL_UAI</source>
+        <target>UAI de l'école</target>
+      </trans-unit>
+      <trans-unit id="1c2e2f62a0e7d70f209f8c1282ea7a3c98e0072e" resname="LABEL_SIGNATURE">
+        <source>LABEL_SIGNATURE</source>
+        <target>{plural, select, 1{Signature} 2{Signatures} other{Signature(s)}}</target>
+      </trans-unit>
+      <trans-unit id="3256870bf6912fb546db948433eb451f6cb78eee" resname="LABEL_TEACHER">
+        <source>LABEL_TEACHER</source>
+        <target>{gender, select, M{Enseignant} F{Enseignante} other{Enseignant(e)}}: {teacher}</target>
+      </trans-unit>
+      <trans-unit id="333be8f69ffbab7185b4526665d1a796c87d95be" resname="LABEL_TEMPLATE_LEVEL">
+        <source>LABEL_TEMPLATE_LEVEL</source>
+        <target>Niveau</target>
+      </trans-unit>
+      <trans-unit id="7e500e28999815e70f5da7017318ad2bdad4022e" resname="LABEL_TEMPLATE_PERIOD">
+        <source>LABEL_TEMPLATE_PERIOD</source>
+        <target>Période</target>
+      </trans-unit>
+      <trans-unit id="81585fe8dc5f3e2bdb0241d90c32cfa910fd86e8" resname="LABEL_TEMPLATE_PERIOD_END">
+        <source>LABEL_TEMPLATE_PERIOD_END</source>
+        <target>Date de fin</target>
+      </trans-unit>
+      <trans-unit id="5264d1512d048f52632a2bb0ecff96b69ef3a2f6" resname="LABEL_TEMPLATE_PERIOD_FROM_TO">
+        <source>LABEL_TEMPLATE_PERIOD_FROM_TO</source>
+        <target>du {{from}} au {{to}}</target>
+      </trans-unit>
+      <trans-unit id="7f39d47d2754b68bae62a8ab6d929b6e53baf960" resname="LABEL_TEMPLATE_PERIOD_NAME">
+        <source>LABEL_TEMPLATE_PERIOD_NAME</source>
+        <target>Nom de la période</target>
+      </trans-unit>
+      <trans-unit id="786a5662d5262a7dd20aaed89ae926cac185d381" resname="LABEL_TEMPLATE_PERIOD_START">
+        <source>LABEL_TEMPLATE_PERIOD_START</source>
+        <target>Date de début</target>
+      </trans-unit>
+      <trans-unit id="91d0a1741d97b1bf730b8320951e26b82450eccf" resname="LABEL_ULIS">
+        <source>LABEL_ULIS</source>
+        <target>ULIS</target>
+      </trans-unit>
+      <trans-unit id="b51e8b2bdfe683f9e86bb5dfa4ef64c38252bac5" resname="LABEL_ULIS_DESCRIPTION">
+        <source>LABEL_ULIS_DESCRIPTION</source>
+        <target>[unité localisée pour l'inclusion scolaire]</target>
+      </trans-unit>
+      <trans-unit id="6afdb14937231a7e583d28bbbceb163ca6829897" resname="LABEL_UPE2A">
+        <source>LABEL_UPE2A</source>
+        <target>UPE2A</target>
+      </trans-unit>
+      <trans-unit id="be650dfd0458f6eca70ff4da8b24318548d8abb8" resname="LABEL_UPE2A_DESCRIPTION">
+        <source>LABEL_UPE2A_DESCRIPTION</source>
+        <target>[unité pédagogique pour élèves allophones arrivants]</target>
+      </trans-unit>
+      <trans-unit id="56dcbb4780a678d1b0c16ebbd2f5db7a6296488a" resname="LABEL_VISA_DIRECTOR">
+        <source>LABEL_VISA_DIRECTOR</source>
+        <target>Visa de la directrice/du directeur de l'école</target>
+      </trans-unit>
+      <trans-unit id="1a8d1455d8be8b9c83c832b7826369408de9e756" resname="LABEL_VISA_PARENT">
+        <source>LABEL_VISA_PARENT</source>
+        <target>Visa des parents ou du responsable légal</target>
+      </trans-unit>
+      <trans-unit id="969bb6f8b98fe26991391cca946eea7b3fc69896" resname="LABEL_VISA_TEACHER">
+        <source>LABEL_VISA_TEACHER</source>
+        <target>Visa de l'enseignant(e) / des enseignant(e)s</target>
+      </trans-unit>
+      <trans-unit id="64aec63edca1ad4c90affd5e8016537793e9ffc1" resname="PLACEHOLDER_CYCLE_SYNTHESIS">
+        <source>PLACEHOLDER_CYCLE_SYNTHESIS</source>
+        <target>Synthèse</target>
+      </trans-unit>
+      <trans-unit id="da694acd727e3d808c7c24ad39ba85472512860e" resname="PLACEHOLDER_GENERAL_COMMENT">
+        <source>PLACEHOLDER_GENERAL_COMMENT</source>
+        <target>Appréciation générale</target>
+      </trans-unit>
+      <trans-unit id="74c0d38129b8081b125626bb8ebadab9100eb91b" resname="PLACEHOLDER_RECORD_COMMENT">
+        <source>PLACEHOLDER_RECORD_COMMENT</source>
+        <target>Commentaire</target>
+      </trans-unit>
+      <trans-unit id="5d37e3380c185245b92741897a330005013d4e3a" resname="TITLE_ALL_TEMPLATES">
+        <source>TITLE_ALL_TEMPLATES</source>
+        <target>Tous les gabarits de livret</target>
+      </trans-unit>
+      <trans-unit id="cd5392a202144bb61198e09f5af88f29acf37bea" resname="TITLE_COMMON_COURSES">
+        <source>TITLE_COMMON_COURSES</source>
+        <target>Parcours éducatifs de la classe</target>
+      </trans-unit>
+      <trans-unit id="7a722e205ba49a9c11a8f8aa9e2bf1979f974307" resname="TITLE_CONFIGS">
+        <source>TITLE_CONFIGS</source>
+        <target>Configuration des niveaux scolaires</target>
+      </trans-unit>
+      <trans-unit id="d00aa714823aea2a7390e8c15d2e679c258c63fa" resname="TITLE_CONFIRM_DELETE_TEMPLATE">
+        <source>TITLE_CONFIRM_DELETE_TEMPLATE</source>
+        <target>Supprimer le gabarit</target>
+      </trans-unit>
+      <trans-unit id="aa0fab62e74a7fcb02b69a30ca37d3878ad8b411" resname="TITLE_CREATE_TEMPLATE">
+        <source>TITLE_CREATE_TEMPLATE</source>
+        <target>Créer un gabarit</target>
+      </trans-unit>
+      <trans-unit id="d44e3cf39cf7c4dc0f5cb51e1f85ac7df97fd9fa" resname="TITLE_EDIT_USER">
+        <source>TITLE_EDIT_USER</source>
+        <target>Édition d'un utilisateur</target>
+      </trans-unit>
+      <trans-unit id="aac3aa21c8f4d4fbb095fc08d0ce01f65af5991b" resname="TITLE_EDUCATIVE_COURSES">
+        <source>TITLE_EDUCATIVE_COURSES</source>
+        <target>Projet(s) mis en œuvre et implication de l'élève</target>
+      </trans-unit>
+      <trans-unit id="78b66f6523606914220fd62ddc3c34a569d64590" resname="TITLE_FAMILY_COMMUNICATION">
+        <source>TITLE_FAMILY_COMMUNICATION</source>
+        <target>Communication avec la famille</target>
+      </trans-unit>
+      <trans-unit id="4c6926bcd84e2f1247a6eab313864c23bd961bd4" resname="TITLE_GENERAL_COMMENT_PUPIL_PROGRESS">
+        <source>TITLE_GENERAL_COMMENT_PUPIL_PROGRESS</source>
+        <target>Appréciation générale sur la progression de l'élève :</target>
+      </trans-unit>
+      <trans-unit id="fefe2a1bf8239f63a8190b511c260abb10ebfe44" resname="TITLE_NB_SELECTED_RECORDS">
+        <source>TITLE_NB_SELECTED_RECORDS</source>
+        <target>{count, plural, =0{0 livrets sélectionnés} one{1 livret sélectionné} other{# livrets sélectionnés} }</target>
+      </trans-unit>
+      <trans-unit id="79822b6e6fceaa4260e96496ba3f5693298d7e65" resname="TITLE_PUPILS_COUNT">
+        <source>TITLE_PUPILS_COUNT</source>
+        <target>{count, plural, =0{0 élèves} one{1 élève} other{# élèves} }</target>
+      </trans-unit>
+      <trans-unit id="e65974d763f97f8e6e5f0d332bd9c16162c5432e" resname="TITLE_PUPILS_NOT_CONFIGURED">
+        <source>TITLE_PUPILS_NOT_CONFIGURED</source>
+        <target>Élèves sans niveau</target>
+      </trans-unit>
+      <trans-unit id="52d4cb4233976c6f6f1a3789abc2b606a50be078" resname="TITLE_PUPIL_LEARNING_ASSESSMENT">
+        <source>TITLE_PUPIL_LEARNING_ASSESSMENT</source>
+        <target>Bilan des acquis scolaires de l'élève - {{cycle}}</target>
+      </trans-unit>
+      <trans-unit id="1573d1431a3c1a1d79ff31d026ff8e8f72bbc74b" resname="TITLE_SCHOOL_YEAR">
+        <source>TITLE_SCHOOL_YEAR</source>
+        <target>Année scolaire {{start}} - {{end}}</target>
+      </trans-unit>
+      <trans-unit id="9ddf01eca586c4b4f90cf8d17835df84912d826c" resname="TITLE_TEMPLATES">
+        <source>TITLE_TEMPLATES</source>
+        <target>Gabarits</target>
+      </trans-unit>
+      <trans-unit id="c0e77bf2ea688ce97382256ab56e3f7ba555a804" resname="TITLE_WRITE_FOR">
+        <source>TITLE_WRITE_FOR</source>
+        <target>Saisie du livret de {{name}}</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

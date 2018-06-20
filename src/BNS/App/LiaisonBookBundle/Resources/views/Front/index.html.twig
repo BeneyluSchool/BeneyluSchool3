@@ -51,7 +51,7 @@
                 </div>
               {% endif %}
               <p class="md-body-1 text-muted">
-                {{ 'CREATE_AT_BY'|trans({'%date%': date_from_now ( new.date, true, true, 'full', 'none'),'%user%': new.getUser().getFullName() |escape }) |desc('%date% par %user%') |raw}}
+                {{ 'CREATE_AT_BY'|trans({'%date%': new.date|localizeddate('full', 'none'),'%user%': new.getUser().getFullName() |escape }) |desc('%date% par %user%') |raw}}
               </p>
               <span class="content">
                 {{ parse_public_resources(new.content, true, 'medium', true) }}
@@ -60,6 +60,17 @@
             </div>
           </md-list-item>
           <md-divider></md-divider>
+          {% else %}
+        <bns-inset class="md-padding text-center">
+          <div>
+            <p>{% trans  %}NO_MESSAGES{% endtrans %}</p>
+            {% if  has_right('LIAISONBOOK_ACCESS_BACK') %}
+              <p class="buttons-container">
+                {{ components.button( 'LINK_WRITE_MESSAGE' | trans , { intent: 'primary', href: path('BNSAppLiaisonBookBundle_back_create'), icon: 'add_circle', raised: true }) }}
+              </p>
+            {% endif %}
+          </div>
+        </bns-inset>
         {% endfor %}
       </md-list>
 

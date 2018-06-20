@@ -45,14 +45,25 @@
                             </p>
 
                         </div>
+
+                        {# message row #}
+                        {% if parameter('home_message') %}
+                            <div class="home-message inset">
+                                <div class="layout-column layout-gt-sm-row layout-align-center-center layout-padding md-whiteframe-z1 md-body-1 home-message-container">
+                                    {{ parameter('home_message') | raw }}
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
+              {% if not parameter('disable_login') %}
                 <div class="span4">
 
                     <div class="content-logon">
-						<iframe id="logon-iframe" src="{{ redirectUrl }}" width="100%" scrolling="auto" marginheight="0" marginwidth="0" frameborder="0">
-							Votre navigateur ne semble pas compatible
-						</iframe>
+
+                      <iframe id="logon-iframe" src="{{ redirectUrl }}" width="100%" scrolling="auto" marginheight="0" marginwidth="0" frameborder="0">
+                        Votre navigateur ne semble pas compatible
+                      </iframe>
 
 						<div class="browser-error" style="display: none">
 							<h3>Votre navigateur ne semble pas à jour</h3>
@@ -89,6 +100,7 @@
 						</div>
                     </div>
                 </div>
+              {% endif %}
             </div>
         </div>
         <div class="footer-logon">

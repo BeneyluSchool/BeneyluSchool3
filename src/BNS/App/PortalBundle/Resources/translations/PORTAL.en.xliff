@@ -28,6 +28,10 @@
         <jms:reference-file line="186">PortalBundle/Controller/BackController.php</jms:reference-file>
         <jms:reference-file line="243">PortalBundle/Controller/BackController.php</jms:reference-file>
       </trans-unit>
+      <trans-unit id="b02a6ace8cf0f2a73628b40bf13c56c17055b872" resname="FLASH_PORTAL_UPDATE_ERROR_EMPTY_LIST">
+          <source>FLASH_PORTAL_UPDATE_ERROR_EMPTY_LIST</source>
+          <target>The mini-sites widget cannot be empty</target>
+        </trans-unit>
       <trans-unit id="48c3ff54e40ef489403b6c5bead8c64b7a43d9cc" resname="FLASH_SCHOOL_HAVENT_MINISITE">
         <source>FLASH_SCHOOL_HAVENT_MINISITE</source>
         <target>Cette école n'a pas encore de minisite</target>

@@ -59,6 +59,7 @@
           {{ components.button( 'CATEGORY_MANAGEMENT' | trans , {
             href: path('blog_manager_categories'),
             icon : 'list',
+            attr: { 'bns-feature-flag': '"blog_categories"', 'bns-feature-push': '' },
           }) }}
         </div>
     </section>
@@ -117,7 +118,14 @@
 
           <div class="flex">
             {{ form_row(form.title) }}
+            <div class="layout-column" bns-feature-flag="'blog_views'" bns-feature-push>
+              <span>{% trans %}LINK_COUNT_VIEWS{% endtrans %}</span>
+              <md-switch bns-profile-switch data-success="{{ 'COUNT_VIEW_OPENED'|trans|desc('Compteur de vues activé') }}" data-fail="{{ 'COUNT_VIEW_CLOSED'|trans|desc('Compteur de vues désactivé') }}" data-url="{{ path('blog_api_patch_count_views', {'id': blog.getId(), 'version' : '1'}) }}" data-method="PATCH" aria-label=" " ng-model="moderate"  class="bns-switch"></md-switch>
+            </div>
+
           </div>
+
+
         </div>
 
         <div class="tinyarea">

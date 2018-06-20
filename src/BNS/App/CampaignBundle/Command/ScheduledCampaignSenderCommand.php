@@ -35,11 +35,11 @@ class ScheduledCampaignSenderCommand extends ContainerAwareCommand
             ;
 
         foreach ($campaigns as $campaign) {
+            $campaign->setStatus(CampaignPeer::STATUS_WAITING);
+            $campaign->save();
             $campaignProducer->publish(serialize([
                 'campaign_id' => $campaign->getId()
             ]));
-            $campaign->setStatus(CampaignPeer::STATUS_WAITING);
-            $campaign->save();
             $logger->info(sprintf('Campaign "%s" sent', $campaign->getId()));
         }
     }

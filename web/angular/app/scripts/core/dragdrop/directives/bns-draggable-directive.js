@@ -14,7 +14,7 @@ angular.module('bns.core.dragdrop')
    * ** Attributes **
    * - `bnsDraggable` - Main attribute, used to customize the directive:
    *   - `model`: the underlying model object (or array)
-   * - `bnsDraggableIndex` - The index of the model, if in a collection
+   * - `bnsDraggableItem` - The item being dragged
    * - `bnsDraggableUiOptions` - Object that holds all jQuery UI options for a
    *                             draggable component.
    * - `bnsDraggableEnabled` - Enables/disables the jQuery UI component.
@@ -23,7 +23,7 @@ angular.module('bns.core.dragdrop')
    * @example
    * <any ng-repeat="item in myCollection"
    *   bns-draggable="{ model: myCollection }"
-   *   bns-draggable-index="$index"
+   *   bns-draggable-item="item"
    *   bns-draggable-ui-options="{ delay: 250 }"
    *   bns-draggable-enabled="myBooleanValueThatCanChangeOverTime"
    * ></any>
@@ -41,25 +41,29 @@ angular.module('bns.core.dragdrop')
           uiOptions = {
             revert: 'invalid',
           },
-          options = scope.$eval(attrs.bnsDraggable),
+          options,
           model;
 
         angular.extend(uiOptions, scope.$eval(attrs.bnsDraggableUiOptions));
-
-        if (!(options && options.model)) {
-          console.warn('No model set', element);
-        }
-
-        model = options && options.model || undefined;
 
         element.draggable(uiOptions);
 
         // when drag starts, store everything we need in the helper
         element.on('dragstart', function () {
-          var index = scope.$eval(attrs.bnsDraggableIndex);
+          // refresh options
+          angular.extend(uiOptions, scope.$eval(attrs.bnsDraggableUiOptions));
+          element.draggable(uiOptions);
+
+          options = scope.$eval(attrs.bnsDraggable);
+          if (!(options && options.model)) {
+            console.warn('No model set', element);
+          }
+          model = options && options.model || undefined;
+
+          var item = scope.$eval(attrs.bnsDraggableItem);
           dragdropHelper.dragged = {
             model: model,
-            index: index,
+            item: item,
             scope: scope
           };
         });

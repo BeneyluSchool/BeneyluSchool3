@@ -25,6 +25,17 @@ BNS\App\CoreBundle\Model\AgendaEvent:
     getEnd:
       expose: true
       groups: [list, agenda_event_list, detail, agenda_event_detail]
+    getType:
+      expose: true
+      groups: [list, agenda_event_list, detail, agenda_event_detail]
+    getSubjectId:
+      expose: true
+      groups: [list, agenda_event_list, detail, agenda_event_detail]
+      serialized_name: subject_id
+    getObjectId:
+      expose: true
+      groups: [list, agenda_event_list, detail, agenda_event_detail]
+      serialized_name: object_id
     getRecurringEnd:
       expose: true
       groups: [detail, agenda_event_detail]
@@ -34,6 +45,16 @@ BNS\App\CoreBundle\Model\AgendaEvent:
     - rel: agenda
       embedded:
         content: expr(object.getAgenda())
+        exclusion:
+          groups: [ detail, agenda_event_detail ]
+    - rel: subject
+      embedded:
+        content: expr(object.getAgendaSubject())
+        exclusion:
+          groups: [ detail, agenda_event_detail ]
+    - rel: object
+      embedded:
+        content: expr(object.getAgendaObject())
         exclusion:
           groups: [ detail, agenda_event_detail ]
     - rel: attachments

@@ -3,7 +3,7 @@ BNS\App\CoreBundle\Model\om\BaseUser:
   properties:
     id:
       expose: true
-      groups: [ Default, detail, list ]
+      groups: [ Default, detail, list, user_basic ]
     phone:
       expose: true
       groups: [ detail, list ]
@@ -17,6 +17,9 @@ BNS\App\CoreBundle\Model\om\BaseUser:
       expose: true
       groups: [ detail, list ]
     aaf_id:
+      expose: true
+      groups: [ detail, list, user_detail, user_list ]
+    aaf_linked:
       expose: true
       groups: [ detail, list, user_detail, user_list ]
     aaf_academy:

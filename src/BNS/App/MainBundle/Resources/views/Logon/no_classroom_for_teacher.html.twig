@@ -1,44 +1,62 @@
 {% trans_default_domain "MAIN" %}
 
-    <script type="text/javascript">
-        $(function () {
-            $('#select-classroom').modal();
-        });
-    </script>
+<script type="text/javascript">
+  $(function () {
+    $('#select-classroom').modal();
+  });
 
-   <div id="select-classroom" class="modal fade info">
-           <div class="modal-header">
-               <button type="button" class="close" data-dismiss="modal">×</button>
-               <h3>{{ 'TITLE_CHOICE_CLASS'|trans |desc('Choisir une classe') }}</h3>
-           </div>
-    <div class="modal-body" style="max-height: none;">
-        <div class="content-modal-body large">
-          <div class="bns-account-link-content">
-            {{ 'ACCOUNT_NOT_TIE'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('
+  function hideClassroomChooseModal() {
+    try {
+      var date = new Date();
+      date.setFullYear(date.getFullYear() + ((date.getMonth() > 6) ? 1 : 0), 6, 31);
+      document.cookie = "{{ noClassroomCookieKey|default('noChooseClassroom') }}=true; path=/; expires=" + date.toGMTString();
+    } catch (e) {
+      console.error(e);
+    }
+
+    $('#select-classroom').modal('hide');
+  }
+</script>
+
+<div id="select-classroom" class="modal fade info">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3>{{ 'TITLE_CHOICE_CLASS'|trans |desc('Choisir une classe') }}</h3>
+  </div>
+  <div class="modal-body" style="max-height: none;">
+    <div class="content-modal-body large">
+      <div class="bns-account-link-content">
+        {{ 'ACCOUNT_NOT_TIE'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('
             <h2>Votre compte n\'est lié à aucune classe</h2>
             <p>Voici les classes de votre école. Veuillez en choisir une pour profiter pleinement de %beneylu_brand_name%.</p>
             ') |raw }}
-            <div class="layout-column layout-gt-sm-row layout-wrap layout-align-center-stretch classroom-list">
-       {% for classroom in school %}
-           <a href="{{ path('BNSAppSchoolBundle_assign_classroom', {'id' :  classroom.getId() }) }}" md-ink-ripple="#039BE5" class="layout-padding classroom" data-classroom-label="{{ classroom.getLabel() }}" data-classroom-id="{{ classroom.getId() }}">
-             <div class="text-center"><img src="{{ asset('medias/images/icons/modules/classroom/medium.png') }}" /></div>
-             <div class="text-center"><span class="md-title">{{ classroom.getLabel() }}</span></div>
-             {% if userDirectoryManager is defined %}
-               <div class="pupil-list">
-                 {% for pupil in userDirectoryManager.getPupilsPreview(classroom, 3) %}
-                   <div class="layout-row layout-align-start-center layout-margin pupil">
-                     <img src="{{ pupil.getAvatarUrl() }}" alt="{{ pupil.getFullName() }}" class="bns-avatar size-36">
-                     <span class="text-ellipsis">{{ pupil.getFullName() }}</span>
-                   </div>
-                 {% else %}
-                  <p class="text-muted text-center pupil-empty" translate>ACCOUNT.DESCRIPTION_NO_USER</p>
-                 {% endfor %}
-               </div>
-             {% endif %}
-           </a>
-       {% endfor %}
-            </div>
-          </div>
-            </div>
+        <div class="layout-column layout-gt-sm-row layout-wrap layout-align-center-stretch classroom-list">
+          {% for classroom in school %}
+            <a href="{{ path('BNSAppSchoolBundle_assign_classroom', {'id' :  classroom.getId() }) }}" md-ink-ripple="#039BE5"
+               class="layout-padding classroom" data-classroom-label="{{ classroom.getLabel() }}" data-classroom-id="{{ classroom.getId() }}">
+              <div class="text-center"><img src="{{ asset('medias/images/icons/modules/classroom/medium.png') }}"/></div>
+              <div class="text-center"><span class="md-title">{{ classroom.getLabel() }}</span></div>
+              {% if userDirectoryManager is defined %}
+                <div class="pupil-list">
+                  {% for pupil in userDirectoryManager.getPupilsPreview(classroom, 3) %}
+                    <div class="layout-row layout-align-start-center layout-margin pupil">
+                      <img src="{{ pupil.getAvatarUrl() }}" alt="{{ pupil.getFullName() }}" class="bns-avatar size-36">
+                      <span class="text-ellipsis">{{ pupil.getFullName() }}</span>
+                    </div>
+                  {% else %}
+                    <p class="text-muted text-center pupil-empty" translate>ACCOUNT.DESCRIPTION_NO_USER</p>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </a>
+          {% endfor %}
         </div>
-   </div>
+      </div>
+    </div>
+      <div class="text-center">
+        <br>
+        <button class="btn bns-info" onclick="hideClassroomChooseModal()">{{ 'HIDE_THIS_MESSAGE'|trans }}</button>
+      </div>
+  </div>
+
+</div>

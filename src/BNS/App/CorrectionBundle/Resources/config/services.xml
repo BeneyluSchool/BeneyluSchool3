@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service class="BNS\App\CorrectionBundle\Manager\CorrectionManager" id="bns_app_correction.correction_manager">
+            <argument id="bns.user_manager" type="service"/>
+            <argument id="logger" type="service"/>
+        </service>
+
+        <!-- form -->
+        <service id="bns_app_correction.form.extension.correction_textarea" class="BNS\App\CorrectionBundle\Form\Extension\CorrectionTextareaExtension">
+            <argument type="service" id="security.token_storage" />
+            <argument type="service" id="bns_app_correction.correction_manager" />
+            <tag name="form.type_extension" alias="textarea" />
+        </service>
+
+        <service class="BNS\App\CorrectionBundle\Form\Type\CorrectionType" id="bns_app_correction.form_type.correction_type">
+            <tag alias="correction_type" name="form.type"/>
+        </service>
+
+        <service class="BNS\App\CorrectionBundle\Form\Type\CorrectionAnnotationType" id="bns_app_correction.form_type.correction_annotation_type">
+            <argument id="security.token_storage" type="service"/>
+            <tag alias="correction_annotation_type" name="form.type"/>
+        </service>
+
+        <!-- serializer -->
+        <service class="BNS\App\CorrectionBundle\Serializer\CorrectionSerilizerSubscriber" id="bns_app_correction.serializer.correction_serilizer_subscriber">
+            <argument id="bns_app_correction.correction_manager" type="service"/>
+            <argument id="security.token_storage" type="service"/>
+            <tag name="jms_serializer.event_subscriber"/>
+        </service>
+
+
+    </services>
+
+</container>

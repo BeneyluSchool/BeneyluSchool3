@@ -32,8 +32,14 @@ class MessagingMessageQuery extends BaseMessagingMessageQuery
             BNSMessageManager::$messagesStatus['ACCEPTED'],
         ]);
         $criteria->combine(['not_sender', 'their_status'], \Criteria::LOGICAL_AND, 'theirs');
+        // 3. it's a campaign
+        $criteria->condition('no_sender', MessagingMessagePeer::AUTHOR_ID.' IS NULL');
+        $criteria->condition('campaign_status', MessagingMessagePeer::STATUS.' IN ?', [
+            BNSMessageManager::$messagesStatus['CAMPAIGN'],
+        ]);
+        $criteria->combine(['no_sender', 'campaign_status'], \Criteria::LOGICAL_AND, 'campaigns');
 
-        $criteria->combine(['mine', 'theirs'], \Criteria::LOGICAL_OR);
+        $criteria->combine(['mine', 'theirs', 'campaigns'], \Criteria::LOGICAL_OR);
 
         /** @var MessagingMessageQuery $query */
         $query = $this->mergeWith($criteria);

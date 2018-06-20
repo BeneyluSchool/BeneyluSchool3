@@ -4,7 +4,7 @@ Export : {{ date|year_month_bns }}
 {{ message.title }}
 {{ message.date | date_bns('full', 'none') }} par {{ message.user.fullName }}
 
-{{ message.exportContent|replace("\r","")|purify }}
+{{ message.exportContent|replace("\r","") }}
 ----------
 
 {% endfor %}

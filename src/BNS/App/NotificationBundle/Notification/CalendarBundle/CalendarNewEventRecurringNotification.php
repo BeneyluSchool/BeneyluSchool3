@@ -46,13 +46,7 @@ class CalendarNewEventRecurringNotification extends Notification implements Noti
 
 		$event = self::$container->get('bns.calendar_manager')->getEventById($objects['eventId']);
 
-        $group = GroupQuery::create()->findPk($objects['groupId']);
-        if (null == $group) {
-            $finalObjects['%classLabel%'] = null;
-        } else {
-            $finalObjects['%classLabel%'] = "[" . $group->getLabel() . "] ";
-        }
-
+        $finalObjects['%classLabel%'] =  self::getGroupLabel($objects);
 		$finalObjects['%eventTitle%'] = $event->getTitle();
 		$finalObjects['%eventRecurrence%'] = $event->getRecurrenceString();
 		$finalObjects['%eventRoute%'] = $notification->getBaseUrl() . self::$container->get('cli.router')->generate('BNSAppCalendarBundle_front', array(

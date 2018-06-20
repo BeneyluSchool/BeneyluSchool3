@@ -10,7 +10,9 @@ angular.module('bns.viewer.audioPlayer', [
       scope: {
         media: '=bnsViewerAudioPlayer',
         noVisualization: '=?',
-        mediaId: '=?mediaId'
+        mediaId: '=?mediaId',
+        linkClass: '@',
+        linkId: '=?linkId'
       },
       controller: 'ViewerAudioPlayerController',
       controllerAs: 'ctrl',
@@ -18,10 +20,13 @@ angular.module('bns.viewer.audioPlayer', [
     };
   })
 
-  .controller('ViewerAudioPlayerController', function ($scope, $element, $interval, MediaLibraryRestangular) {
+  .controller('ViewerAudioPlayerController', function ($timeout, $rootScope, $scope, $element, $interval, MediaLibraryRestangular) {
     var $progress = $element.find('#progress');
     var $loadBar = $progress.find('.loaded');
     var $playBar = $progress.find('.played');
+    $timeout(function () {
+      $progress = $element.find('#progress');
+    });
     var ctrl = this;
     ctrl.volume = 3;  // [0..6]
     ctrl.ready = false;
@@ -29,17 +34,16 @@ angular.module('bns.viewer.audioPlayer', [
     ctrl.fallback = false;
     ctrl.getPlayProgress = getPlayProgress;
     ctrl.seek = seekClick;
-
-
     init();
 
     function init () {
-
       $scope.$on('wavesurferInit', function (e, wavesurfer) {
         ctrl.wavesurfer = wavesurfer;
         if (!ctrl.media && ctrl.mediaId) {
-          return MediaLibraryRestangular.one('media', ctrl.mediaId).get()
-            .then(function (item){
+          return MediaLibraryRestangular.one('media', ctrl.mediaId).get({
+            objectId: ctrl.linkId,
+            objectType: ctrl.linkClass
+          }).then(function (item){
               ctrl.media = item;
               initPlayer();
             })
@@ -48,10 +52,9 @@ angular.module('bns.viewer.audioPlayer', [
               throw error;
             })
             ;
-        } else {
+        } else if (ctrl.media) {
           initPlayer();
         }
-
       });
 
       $scope.$on('wavesurfer.ready', function () {
@@ -69,8 +72,6 @@ angular.module('bns.viewer.audioPlayer', [
     }
 
     function initPlayer () {
-
-
       var playInterval;
 
       ctrl.wavesurfer.backend.setVolume(0.5);

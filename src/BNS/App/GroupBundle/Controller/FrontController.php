@@ -2,59 +2,72 @@
 
 namespace BNS\App\GroupBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use BNS\App\CoreBundle\Model\Group;
+use BNS\App\CoreBundle\Model\GroupQuery;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use BNS\App\CoreBundle\Model\GroupQuery;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class FrontController extends Controller
 {
 
     /**
-	 * @Route("/", name="BNSAppGroupBundle_front")
-	 * @Template()
-	 */
-	public function indexAction()
+     * @Route("/", name="BNSAppGroupBundle_front")
+     * @Template()
+     */
+    public function indexAction(Request $request)
     {
-		$gm = $this->get('bns.right_manager')->getCurrentGroupManager();
-		$group = $gm->getGroup();
-        $classroomYears = array();
-        $currentClassrooms = array();
-        if ('SCHOOL' === $group->getType()) {
+        $user = $this->getUser();
+        $gm = $this->get('bns.right_manager')->getCurrentGroupManager();
+        $group = $gm->getGroup();
+        $noClassroom = false;
+        $currentClassrooms = [];
+        $cookieKey = 'noChooseClassroom_' . $user->getId() . '_' . $group->getId();
+        if (!$request->cookies->get($cookieKey) && $this->get('bns.user_manager')->hasRoleInGroup($group->getId(), 'TEACHER')) {
+            $currentYear = $this->container->getParameter('registration.current_year');
+            $classroomYears = array();
             $classrooms = $this->get('bns.user_manager')->getGroupsUserBelong('CLASSROOM');
-            if ( 0 != $classrooms->count()) {
-                foreach ($classrooms as $classroom) {
-                    $classroomYears[] = $this->get('bns.group_manager')->setGroup($classroom)->getAttribute('CURRENT_YEAR');
-                }
+            foreach ($classrooms as $classroom) {
+                $classroomYears[] = $classroom->getAttribute('CURRENT_YEAR');
             }
-            $mySchool = $this->get('bns.group_manager')->setGroup($group)->getSubgroupsByGroupType('CLASSROOM', true);
 
-            foreach($mySchool as $classroomInSchool)
-            {
-                if($this->get('bns.group_manager')->setGroup($classroomInSchool)->getAttribute('CURRENT_YEAR') == $this->container->getParameter('registration.current_year'))
-                {
-                    $currentClassrooms[] = $classroomInSchool;
+            if (0 === $classrooms->count()) {
+                $noClassroom = true;
+            } elseif ($group->getAafId() && $group->getAafAcademy() && !in_array($currentYear, $classroomYears)) {
+                // aaf school
+                $noClassroom = true;
+            }
+
+            if ($noClassroom) {
+                $schoolClassrooms = $this->get('bns.group_manager')->setGroup($group)->getSubgroupsByGroupType('CLASSROOM', true);
+                /** @var Group $classroomInSchool */
+                foreach ($schoolClassrooms as $classroomInSchool) {
+                    if ($classroomInSchool->getAttribute('CURRENT_YEAR') == $currentYear) {
+                        $currentClassrooms[] = $classroomInSchool;
+                    }
                 }
             }
+
+            $noClassroom = $noClassroom && count($currentClassrooms) > 0;
         }
 
 
-
-		$this->get('bns.group_manager')->setGroup($group);
+        $this->get('bns.group_manager')->setGroup($group);
 
         $graphicChart = $this->container->hasParameter('graphic_chart') ? $this->container->getParameter('graphic_chart') : false;
 
-		return array(
-			"group_name"		=> $group->getLabel(),
-			"group_home_message"	=> $gm->getAttribute('HOME_MESSAGE'),
-			'noClassroomForTeacher' => count($currentClassrooms) > 0 && ( $this->get('bns.user_manager')->hasRoleInGroup($this->get('bns.right_manager')->getCurrentGroupId(),'TEACHER')
-				&& (!in_array($this->container->getParameter('registration.current_year'), $classroomYears) )),
-			'userDirectoryManager' => $this->get('bns.user_directory.manager'),
-			'mySchool' => $currentClassrooms,
-			'group' => $group,
-			'graphicChart' => $graphicChart
-		);
+        return array(
+            "group_name" => $group->getLabel(),
+            "group_home_message" => $gm->getAttribute('HOME_MESSAGE'),
+            'noClassroomForTeacher' => $noClassroom,
+            'noClassroomCookieKey' => $cookieKey,
+            'userDirectoryManager' => $this->get('bns.user_directory.manager'),
+            'mySchool' => $currentClassrooms,
+            'group' => $group,
+            'graphicChart' => $graphicChart
+        );
     }
 
 	/**

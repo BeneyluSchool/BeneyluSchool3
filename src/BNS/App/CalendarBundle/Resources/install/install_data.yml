@@ -27,7 +27,7 @@ permissions:
       fr: Gérer calendrier
       en: Calendar management access
     description:
-      fr: Donne accès à la gestion du calendrier, création et modification d'évènements
+      fr: Donne accès à la gestion du calendrier, création et modification d'évènements dans l'agenda personnel
       en:
 
   ACTIVATION:
@@ -44,6 +44,48 @@ permissions:
       en: Can activate / desactivate the calendar in partnership
     description:
       fr: Peut activer ou désactiver le calendrier dans un partenariat
+      en:
+  ADMINISTRATION:
+    label:
+      fr: administre le calendrier dans le groupe
+      en: admin of the calendar in the group
+    description:
+      fr: Création modification et suppression des événements des calendriers
+      en:
+  SDET_EXPORT:
+    label:
+      fr: exporte le calendrier
+      en: export the calendar
+    description:
+      fr: export des événements des calendriers
+      en:
+  SDET_DELEGATE:
+    label:
+      fr: délégue les droits sur le calendrier
+      en: delegate rights of the calendar
+    description:
+      fr: délégue des droits sur des calendriers
+      en:
+  SDET_PERSONNAL:
+    label:
+      fr: posséde un calendrier personnel
+      en: posses a personnal calendar
+    description:
+      fr: posséde un calendrier personnel
+      en:
+  SDET_DISCIPLINE:
+    label:
+      fr: peut créer des disciplines et leur assigner des plages horaires
+      en: can create disciplines and events related
+    description:
+      fr: peut créer des disciplines et leur assigner des plages horaires
+      en:
+  SDET_RESERVATION:
+    label:
+      fr: peut créer des objets et les reserver
+      en: can create objects and book them
+    description:
+      fr: peut créer des objets et les reserver
       en:
 
 ranks:
@@ -63,7 +105,7 @@ ranks:
     description:
       fr:
       en:
-    permissions: [ACCESS, ACCESS_BACK, ACTIVATION]
+    permissions: [ACCESS, ACCESS_BACK, ADMINISTRATION, ACTIVATION]
 
   MANAGE_PARTNERSHIP:
     label:
@@ -82,6 +124,42 @@ ranks:
       fr:
       en:
     permissions: [ACTIVATION]
+
+  SDET:
+    label:
+      fr: Délégue ses droits et exporte le calendrier
+      en: delegate rights and export calendar
+    description:
+      fr:
+      en:
+    permissions: [SDET_DELEGATE, SDET_EXPORT]
+
+  SDET_PERSONNAL:
+    label:
+      fr: posséde un agenda personnel
+      en: possess a personnal agenda
+    description:
+      fr:
+      en:
+    permissions: [SDET_PERSONNAL]
+
+  SDET_DISCIPLINE:
+    label:
+       fr: peut créer des disciplines et leur assigner des plages horaires
+       en: can create disciplines and events related
+    description:
+      fr:
+      en:
+    permissions: [SDET_DISCIPLINE]
+
+  SDET_RESERVATION:
+    label:
+      fr: peut créer des objets et les reserver
+      en: can create objects and book them
+    description:
+      fr:
+      en:
+    permissions: [SDET_RESERVATION]
 
 notification_types:
   CALENDAR_NEW_EVENT: { }

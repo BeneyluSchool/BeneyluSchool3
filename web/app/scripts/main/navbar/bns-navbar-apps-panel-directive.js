@@ -55,6 +55,7 @@ function BNSNavbarAppsPanelController (_, $scope, $attrs, $filter, $window, $tra
 
   var panel = this;
   panel.items = {};
+  panel.isGroupMode = isGroupMode;
   panel.toggleMode = toggleMode;
   panel.selectApp = selectApp;
   panel.withFavorites = !!$scope.$eval($attrs.withFavorites);
@@ -164,6 +165,13 @@ function BNSNavbarAppsPanelController (_, $scope, $attrs, $filter, $window, $tra
         group.splice(idx, 1);
       }
     }
+  }
+
+  function isGroupMode () {
+    if (!panel.group.manageable) {
+      return;
+    }
+    return (panel.group.type === 'ENVIRONMENT' || panel.group.type === 'CITY'|| panel.group.type === 'CIRCONSCRIPTION');
   }
 
   function toggleMode () {

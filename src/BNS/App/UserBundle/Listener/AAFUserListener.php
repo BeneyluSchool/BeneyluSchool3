@@ -15,9 +15,12 @@ class AAFUserListener
      */
     private $router;
 
-    public function __construct(RouterInterface $router)
+    private $listenerEscapeRoutes;
+
+    public function __construct(RouterInterface $router, $listenerEscapeRoutes)
     {
         $this->router = $router;
+        $this->listenerEscapeRoutes = $listenerEscapeRoutes;
     }
 
     /**
@@ -50,17 +53,7 @@ class AAFUserListener
         }
 
         $request = $event->getRequest();
-        if ($request->get('_format') !== 'json' && !in_array($request->get('_route'), [
-                'BNSAppMainBundle_front',
-                'disconnect_user',
-                'home',
-                'home_locale',
-                'bns_my_avatar',
-                'user_front_registration_step',
-                '_wdt',
-                '_profiler',
-            ]))
-        {
+        if ($request->get('_format') !== 'json' && !in_array($request->get('_route'), $this->listenerEscapeRoutes)) {
             $session = $request->getSession();
             if ($session->get('need_aaf_parent_confirmation')) {
                 $event->setResponse(new RedirectResponse($this->router->generate('account_link_parent')));

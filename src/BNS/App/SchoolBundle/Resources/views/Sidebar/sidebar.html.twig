@@ -1,4 +1,7 @@
 {% trans_default_domain "SCHOOL" %}
+{% if hasGroupBoard is not defined %}
+  {% set hasGroupBoard = false %}
+{% endif %}
 {% if page == 'index' %}
 	<div class="container-sidebar list">
 		<div class="section active">
@@ -29,7 +32,7 @@
             <div class="section">
               <a href="{{ path('BNSAppSchoolBundle_back_assistants') }}">{% trans %}LINK_ASSISTANT_LIST{% endtrans %}</a>
             </div>
-            {% if has_right('SCHOOL_CREATE_CLASSROOM') %}
+            {% if has_right('SCHOOL_CREATE_PUPIL') %}
                 <div class="section">
                     <a href="{{ path('BNSAppSchoolBundle_back_assignment') }}">{% trans %}THE_SCHOOL{% endtrans %}</a>
                 </div>
@@ -52,7 +55,12 @@
           <a href="{{ path('bns_app_school_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTIONS{% endtrans %}</a>
         </div>
       {% endif %}
+      {% if hasRestrictedEnvironment() %}
+        <div class="section">
+          <a href="{{ path('BNSAppSchoolBundle_back_restricted_school') }}">{% trans %}LINK_RESTRICTED_SCHOOL{% endtrans %}</a>
         </div>
+      {% endif %}
+    </div>
 	</div>
 {% endif %}
 
@@ -148,6 +156,11 @@
           <a href="{{ path('bns_app_school_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTIONS{% endtrans %}</a>
         </div>
       {% endif %}
+      {% if hasRestrictedEnvironment() %}
+        <div class="section">
+          <a href="{{ path('BNSAppSchoolBundle_back_restricted_school') }}">{% trans %}LINK_RESTRICTED_SCHOOL{% endtrans %}</a>
+        </div>
+      {% endif %}
 	    </div>
 	</div>
 {% endif %}
@@ -197,6 +210,11 @@
               <a href="{{ path('bns_app_school_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTIONS{% endtrans %}</a>
             </div>
           {% endif %}
+          {% if hasRestrictedEnvironment() %}
+            <div class="section">
+              <a href="{{ path('BNSAppSchoolBundle_back_restricted_school') }}">{% trans %}LINK_RESTRICTED_SCHOOL{% endtrans %}</a>
+            </div>
+          {% endif %}
         </div>
     </div>
 {% endif %}
@@ -235,6 +253,11 @@
       {% if has_right_somewhere('SPOT_ACCESS') %}
         <div class="section">
           <a href="{{ path('bns_app_school_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTIONS{% endtrans %}</a>
+        </div>
+      {% endif %}
+      {% if hasRestrictedEnvironment() %}
+        <div class="section">
+          <a href="{{ path('BNSAppSchoolBundle_back_restricted_school') }}">{% trans %}LINK_RESTRICTED_SCHOOL{% endtrans %}</a>
         </div>
       {% endif %}
     </div>
@@ -291,6 +314,11 @@
           {% if has_right_somewhere('SPOT_ACCESS') %}
             <div class="section">
               <a href="{{ path('bns_app_school_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTIONS{% endtrans %}</a>
+            </div>
+          {% endif %}
+          {% if hasRestrictedEnvironment() %}
+            <div class="section">
+              <a href="{{ path('BNSAppSchoolBundle_back_restricted_school') }}">{% trans %}LINK_RESTRICTED_SCHOOL{% endtrans %}</a>
             </div>
           {% endif %}
         </div>
@@ -458,7 +486,12 @@
               <div class="section">
                 <a href="{{ path('bns_app_school_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTIONS{% endtrans %}</a>
               </div>
+          {% endif %}
 
+          {% if hasRestrictedEnvironment() %}
+            <div class="section">
+              <a href="{{ path('BNSAppSchoolBundle_back_restricted_school') }}">{% trans %}LINK_RESTRICTED_SCHOOL{% endtrans %}</a>
+            </div>
           {% endif %}
         </div>
     </div>
@@ -500,14 +533,19 @@
 
         {% endif %}
 
+      {% if has_right_somewhere('SPOT_ACCESS') or hasRestrictedEnvironment() %}<div class="container-section">{% endif %}
         {% if has_right_somewhere('SPOT_ACCESS') %}
-            <div class="container-section">
-                <div class="section">
-                    <a href="{{ path('bns_app_school_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTIONS{% endtrans %}</a>
-                </div>
-            </div>
+          <div class="section">
+              <a href="{{ path('bns_app_school_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTIONS{% endtrans %}</a>
+          </div>
         {% endif %}
 
+        {% if hasRestrictedEnvironment() %}
+          <div class="section">
+            <a href="{{ path('BNSAppSchoolBundle_back_restricted_school') }}">{% trans %}LINK_RESTRICTED_SCHOOL{% endtrans %}</a>
+          </div>
+        {% endif %}
+      {% if has_right_somewhere('SPOT_ACCESS') or hasRestrictedEnvironment() %}</div>{% endif %}
     </div>
 {% endif %}
 
@@ -553,6 +591,12 @@
           {% if has_right_somewhere('SPOT_ACCESS') %}
             <div class="section">
               <a href="{{ path('bns_app_school_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTIONS{% endtrans %}</a>
+            </div>
+          {% endif %}
+
+          {% if hasRestrictedEnvironment() %}
+            <div class="section">
+              <a href="{{ path('BNSAppSchoolBundle_back_restricted_school') }}">{% trans %}LINK_RESTRICTED_SCHOOL{% endtrans %}</a>
             </div>
           {% endif %}
         </div>
@@ -604,11 +648,18 @@
     </div>
     {% block subscriptionMenu %}{% endblock %}
 
+    {% if hasRestrictedEnvironment() %}
+      <div class="container-section">
+        <div class="section">
+          <a href="{{ path('BNSAppSchoolBundle_back_restricted_school') }}">{% trans %}LINK_RESTRICTED_SCHOOL{% endtrans %}</a>
+        </div>
+      </div>
+    {% endif %}
   </div>
 
 {% endif %}
 
-{% if page == "cerise" %}
+{% if page == "cerise" or page == "restricted" %}
   <div class="container-sidebar list">
     <div class="container-section">
       <div class="section">
@@ -619,6 +670,9 @@
       </div>
       <div class="section">
         <a href="{{ path('BNSAppSchoolBundle_back_teachers') }}">{% trans %}LINK_TEACHER_LIST{% endtrans %}</a>
+      </div>
+      <div class="section">
+        <a href="{{ path('BNSAppSchoolBundle_back_assistants') }}">{% trans %}LINK_ASSISTANT_LIST{% endtrans %}</a>
       </div>
       {% if has_right('SCHOOL_CREATE_CLASSROOM') %}
         <div class="section">
@@ -631,7 +685,6 @@
     <div class="section">
       <a href="{{ path('BNSAppSchoolBundle_back_custom') }}">{% trans %}LINK_CUSTOMIZE{% endtrans %}</a>
     </div>
-  </div>
     {% if hasGroupBoard %}
       <div class="section">
         <a href="{{ path('BNSAppSchoolBundle_back_blackboard') }}">{% trans %}LINK_BLACKBOARD{% endtrans %}</a>
@@ -642,12 +695,20 @@
         <a href="{{ path('BNSAppSchoolBundle_back_cerise_school') }}">CERISE Prim</a>
       </div>
     {% endif %}
+    </div>
 
     {% if has_right_somewhere('SPOT_ACCESS') %}
       <div class="container-section">
         <div class="section">
           <a href="{{ path('bns_app_school_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTIONS{% endtrans %}</a>
         </div>
+      </div>
+    {% endif %}
+
+    {% if hasRestrictedEnvironment() %}
+      <div class="clearfix"></div>
+      <div class="section {% if page == "restricted" %}active{% endif %}">
+        <a href="{{ path('BNSAppSchoolBundle_back_restricted_school') }}">{% trans %}LINK_RESTRICTED_SCHOOL{% endtrans %}</a>
       </div>
     {% endif %}
 

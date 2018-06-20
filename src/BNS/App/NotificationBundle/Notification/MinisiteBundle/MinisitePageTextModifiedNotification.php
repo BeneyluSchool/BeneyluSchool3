@@ -41,13 +41,6 @@ class MinisitePageTextModifiedNotification extends Notification implements Notif
     public static function translate(Notification $notification, $objects)
     {
         $finalObjects = array();
-
-        $group = GroupQuery::create()->findPk($objects['groupId']);
-        if (null == $group) {
-            $finalObjects['%classLabel%'] = null;
-        } else {
-            $finalObjects['%classLabel%'] = "[" . $group->getLabel() . "] ";
-        }
         // Faites les modifications nécessaires à la restitution des paramètres ci-dessous
         // Le container est accessible grâce à l'attribut statique "self::$container"
         $pageText = MiniSitePageTextQuery::create()->findOneByPageId($objects['page_id']);
@@ -57,6 +50,7 @@ class MinisitePageTextModifiedNotification extends Notification implements Notif
             return false;
         }
 
+        $finalObjects['%classLabel%'] =  self::getGroupLabel($objects);
         $finalObjects['%page_title%'] = $pageText->getPublishedTitle();
         $finalObjects['%page_url%'] = $notification->getBaseUrl() . self::$container->get('cli.router')->generate('minisite_page', array(
             'miniSiteSlug' => $pageText->getMiniSitePage()->getMiniSite()->getSlug(),

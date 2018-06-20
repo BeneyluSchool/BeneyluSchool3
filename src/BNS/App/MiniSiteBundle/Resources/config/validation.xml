@@ -117,7 +117,7 @@
             <constraint name="Length">
                 <option name="max">255</option>
                 <option name="maxMessage">INVALID_TITLE_TOO_LONG</option>
-                <option name="min">3</option>
+                <option name="min">2</option>
                 <option name="minMessage">INVALID_TITLE_TOO_SHORT</option>
             </constraint>
         </property>
@@ -126,5 +126,19 @@
                 <option name="message">INVALID_CONTENT_EMPTY</option>
             </constraint>
         </property>
+    </class>
+    <class name="BNS\App\MiniSiteBundle\Model\MiniSitePageCityNews">
+        <property name="published_at">
+            <constraint name="NotBlank">
+                <option name="message">INVALID_PUBLISHED_AT_EMPTY</option>
+            </constraint>
+        </property>
+        <property name="published_end_at">
+            <constraint name="NotBlank">
+                <option name="message">INVALID_PUBLISHED_END_AT_EMPTY</option>
+            </constraint>
+        </property>
+        <constraint name="Callback">validatePublicationDates</constraint>
+        <constraint name="Callback">validateSchools</constraint>
     </class>
 </constraint-mapping>

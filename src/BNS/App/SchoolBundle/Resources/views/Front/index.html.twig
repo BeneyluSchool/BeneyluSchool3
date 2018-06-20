@@ -3,6 +3,8 @@
 {% set app_unique_name = 'SCHOOL' %}
 {% set app_mode = 'front' %}
 
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+
 {% block title %}{{ group_name }}{% endblock %}
 
 {% block css %}
@@ -13,6 +15,7 @@
 
 {% block body %}
 	{% block content %}
+		{{ components.toasts(app.session.flashbag.all) }}
 		{% if noClassroomForTeacher and mySchool|length %}
 			{% include 'BNSAppMainBundle:Logon:no_classroom_for_teacher.html.twig' with {school: mySchool} %}
 		{% endif %}
@@ -24,18 +27,22 @@
         {% if blackboard is not null and blackboard.imageId %}
           <div class="row-fluid">
             <div class="span8">
-            <p>{{ group_home_message }}</p>
+            <p>{{ group_home_message|trans|nl2br }}</p>
               </div>
             <div class="span4">
             <img src="{{ getResourceImageUrlFromId(blackboard.imageId, 'board') }}" />
               </div>
             </div>
         {% else %}
-            <p>{{ group_home_message }}</p>
+            <p>{{ group_home_message|trans|nl2br }}</p>
         {% endif %}
           </div>
 			</div>
 		</div>
+		{% set minisite = group.minisites.first %}
+		{% if minisite and minisite.getCityPage() %}
+			<bns-minisite-city-news group-id="{{ group.id }}"></bns-minisite-city-news>
+		{% endif %}
 		{% if blackboard != null %}
 			<a href="#" id="blackboard">
 			</a>

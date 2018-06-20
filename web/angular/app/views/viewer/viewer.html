@@ -2,7 +2,7 @@
 
   <div class="viewer-overlay"></div>
 
-  <div ng-if="!noClose" ng-click="ctrl.deactivate()" class="viewer-close"><i class="bns-icon-cross"></i></div>
+  <md-button ng-if="!noClose" ng-click="ctrl.deactivate()" class="viewer-close md-icon-button md-fab md-primary"><md-icon>clear</md-icon></md-button>
 
   <div ng-if="ctrl.media" class="viewer-media-container">
     <div class="viewer-media-wrapper" ng-class="ctrl.mediaWrapperClass">

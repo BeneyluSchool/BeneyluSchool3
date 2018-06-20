@@ -1,10 +1,5 @@
 {% trans_default_domain "CLASSROOM" %}
 <div class="team-item">
-	{% if user.isEnabled() %}
-		<div class="vertical-separator {% if user.getGender() == 'F' %}female{% endif %}"></div>
-	{% else %}
-		<div class="vertical-separator disabled"></div>
-	{% endif %}
 	<div class="buttons-container">
         <input class="btn-suppression" type="image" src="{{ asset('/medias/images/icons/buttons/16x16/undo.png') }}" name="delete_user_in_team"
                userId="{{ user.getId() }}">

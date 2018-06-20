@@ -6,10 +6,12 @@
    * @name bns.mediaLibrary.mediaPreview
    */
   angular.module('bns.main.autoLoginBox', [
+    'bns.components.keyboard'
   ])
 
     .directive('bnsAutoLoginBox', BNSAutoLoginBoxDirective)
     .controller('BNSAutoLoginBox', BNSAutoLoginBoxController)
+    // .config(BNSAutoLoginConfig)
 
   ;
 
@@ -17,7 +19,8 @@
     return {
       scope: {
         url: '=',
-        samlProviders: '=?'
+        samlProviders: '=?',
+        isMobile: '=?'
       },
       link: function (scope, element, attrs, ctrl) {
         ctrl.init(element);
@@ -40,12 +43,14 @@
       _username: '',
       _lastname: '',
       _password: '',
+      _remember_me: false,
       login: 'fullname',
       _csrf_token: '',
     };
     ctrl.locale = global('locale') || 'fr';
     ctrl.loginUrl = null; // provided by auth
     ctrl.forgotPasswordUrl = parameters.app_base_path + '/gestion/mot-de-passe/reinitialisation';
+    ctrl.forgotPasswordIncentive = false;
     ctrl.noCookieUrl = parameters.app_base_path + '/cookies';
     ctrl.disconnectUrl = parameters.app_base_path + '/disconnect';
 
@@ -57,7 +62,7 @@
 
     function init(element) {
       ctrl.element = element;
-      if (undefined !== $window.navigator.cookieEnabled && !$window.navigator.cookieEnabled) {
+      if (!checkCookiesAllowed()) {
         ctrl.noCookie = true;
         ctrl.busy = false;
       } else {
@@ -77,12 +82,14 @@
         '_lastname': 'fullname' === ctrl.form.login ? (ctrl.form._lastname || '') : null,
         '_password': ctrl.form._password || '',
         '_csrf_token': ctrl.form._csrf_token || '',
+        '_remember_me': ctrl.form._remember_me ? true : null,
       };
 
       $http({
         method: 'POST',
         url: ctrl.loginUrl,
         withCredentials: true,
+        skipRedirect: true,
         data: $httpParamSerializer(data),
         params: {
           '_locale' : ctrl.locale,
@@ -103,6 +110,7 @@
             parent: ctrl.element,
             hideDelay: 8000,
           });
+          ctrl.forgotPasswordIncentive = true;
           ctrl.showLoginForm = true;
           ctrl.busy = false;
         })
@@ -117,6 +125,7 @@
         method: 'GET',
         url: ctrl.url,
         withCredentials: true,
+        skipRedirect: true,
         params: {
           '_locale' : ctrl.locale,
           '_xhr_call' : 1,
@@ -168,6 +177,7 @@
       $http({
         method: 'GET',
         url: loginUrl,
+        skipRedirect: true,
         // withCredentials: true,
         headers: { 'X-Requested-With' :'XMLHttpRequest'}
       })
@@ -187,7 +197,7 @@
           }
 
         }, function error(response) {
-          if (response.data.message) {
+          if (response.data && response.data.message) {
             toast.error({
               content: response.data.message,
               parent: ctrl.element,
@@ -210,6 +220,34 @@
       $window.location = ctrl.url + '&_samlidp=' + samlidp;
     }
 
+    function checkCookiesAllowed() {
+      // TODO create a service / cache response
+      try {
+        // Create cookie
+        $window.document.cookie = 'cookietest=1';
+        var ret = $window.document.cookie.indexOf('cookietest=') !== -1;
+        // Delete cookie
+        $window.document.cookie = 'cookietest=1; expires=Thu, 01-Jan-1970 00:00:01 GMT';
+
+        return ret;
+      } catch (e) {
+        return false;
+      }
+    }
   }
+
+  // function BNSAutoLoginConfig ($bnsKeyboardProvider) {
+  //   $bnsKeyboardProvider.addLayout('beneylu', {
+  //     'name': 'beneylu', 'keys': [
+  //       [['1', '1'], ['2', '2'], ['3', '3'], ['4', '4'], ['5', '5'], ['6', '6'], ['7', '7'], ['8', '8'], ['9', '9'], ['0', '0']],
+  //       [['A'], ['Z','Z'], ['E','E'], ['R','R'], ['T','T'], ['Y','Y'], ['U','U'], ['I','I'], ['O','O'], ['P','P'], ['Bksp', 'Bksp']],
+  //       [['Q', 'Q'], ['S', 'S'], ['D', 'D'], ['F', 'F'], ['G', 'G'], ['H', 'H'], ['J', 'J'], ['K', 'K'], ['L', 'L'], ['M', 'M'] ],
+  //       [['W','W'], ['X','X'], ['C','C'], ['V','V'], ['B','B'], ['N','N'], ['Spacer'], ['Spacer'], ['-'], ['\''] ],
+  //       [[' ', ' ', ' ', ' '] ]
+  //     ], 'lang': ['fr']
+  //   });
+  //
+  //   $bnsKeyboardProvider.defaultLayout('beneylu');
+  // }
 
 })(angular);

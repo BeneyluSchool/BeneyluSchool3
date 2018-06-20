@@ -48,6 +48,8 @@ angular.module('bns.components.checkboxGroup', [
  *    infered from it
  *  - `name`: the html name of the group. Name of the child form elements will
  *    be infered from it
+ *  - `choices-order` (string): the field to order by (default: null)
+ *  - `choices-reverse` (boolean): reverse order (default: false)
  *  - `bnsStatus` (string): if attribute is present, status indicators are added
  *                          based on the choice value. Another property can be
  *                          specified as attribute value, to guess status from.
@@ -64,6 +66,10 @@ angular.module('bns.components.checkboxGroup', [
  *  - `bnsGroupByIcon` (string|object): An optional icon to use in group by
  *                                      labels.
  *
+ *  - `bnsChoiceWatch`: if attribute is present, the choices objects will be
+ *                      two-way data-bound in templates, allowing to change
+ *                      their properties. Note that the choice collection itself
+ *                      is always watched (to be able to add/remove choices).
  * ** Classes **
  *  - `bns-choice-right`: Checkbox controls and label are swapped, ie. label to
  *                        the left and checbkox to the right.
@@ -85,6 +91,9 @@ function BNSCheckboxGroupDirective (choiceGroupDecorator) {
     link: postLink,
     templateUrl: function (element, attrs) {
       choiceGroupDecorator.decorateTemplate(element, attrs);
+      if (angular.isDefined(attrs.bnsChoiceWatch)) {
+        return 'views/components/checkbox-group/bns-checkbox-group-twoway.html';
+      }
 
       return 'views/components/checkbox-group/bns-checkbox-group.html';
     },
@@ -97,6 +106,9 @@ function BNSCheckboxGroupDirective (choiceGroupDecorator) {
     if (model) {
       group.model = model;
     }
+
+    group.order = attrs.choicesOrder || 'group_by';
+    group.reverse = attrs.choicesReverse || false;
 
     choiceGroupDecorator.decorateLink(scope, attrs, group);
   }
@@ -187,7 +199,6 @@ function CheckboxGroupController ($scope, $attrs, choiceGroupDecorator, $mdUtil,
 
     return template;
   }
-
 }
 
 }) (angular);

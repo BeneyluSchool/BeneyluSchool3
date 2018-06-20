@@ -1,0 +1,40 @@
+module:
+  unique_name: LSU
+  is_contextable: true
+  default_rank:
+    pupil: ~
+    parent: READ
+    teacher: MANAGE
+    other: ~
+
+permissions:
+  # access to the front mode
+  ACCESS: ~
+
+  # access to lsu data
+  ACCESS_READ: ~
+
+  # access to the back mode
+  ACCESS_BACK: ~
+
+  # can toggle app for other users
+  ACTIVATION: ~
+
+ranks:
+  READ:
+    permissions: [ACCESS, ACCESS_READ]
+
+  MANAGE:
+    permissions: [ACCESS_READ, ACCESS_BACK, ACTIVATION]
+
+#notification_types:
+#  LIAISON_BOOK_NEW_MESSAGE: { }
+#  LIAISON_BOOK_NEW_MESSAGE: { }
+#
+#markers:
+#  LIAISONBOOK_PUBLISH_MESSAGE:
+#    description: Publication d'un message sur le carnet de liaison
+#  LIAISONBOOK_CREATE_SIGN:
+#    description: Signature sur le carnet de liaison
+#  LIAISONBOOK_VISIT:
+#    description: Visite sur le carnet de liaison

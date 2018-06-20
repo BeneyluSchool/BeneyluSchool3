@@ -11,11 +11,11 @@
         {{ button.complete_dom|raw }}
         {% else %}
           {% if button.text is defined and button.link is defined and button.class is defined and button.target is defined and button.toggle is defined%}
-            {{ components.button( button.text | trans , { intent: 'primary', href: button.link, icon: 'add_circle', raised: true,
+            {{ components.button( button.text | trans , { intent: 'accent', href: button.link, icon: 'forward', raised: true,
             attr : {'class' : button.class, 'data-target' : button.target, 'data-toggle' : button.toggle}}) }}
 
           {% elseif button.text is defined and button.link is defined %}
-            {{ components.button( button.text | trans , { intent: 'primary', href: button.link, icon: 'add_circle', raised: true }) }}
+            {{ components.button( button.text | trans , { intent: button.intent? button.intent : 'primary', href: button.link, icon: button.icon? button.icon : 'add_circle', raised: true }) }}
           {% endif %}
         {% endif %}
       </p>

@@ -1,5 +1,18 @@
 <div class="workshop-page-view">
 
-  <div ng-if="ctrl.page._embedded.layout" last="ctrl.page.last" bns-workshop-document-page-layout="ctrl.page._embedded.layout"></div>
+  <bns-inset ng-if="::ctrl.questionnaire" bns-inset-icon="false" bns-inset-size="small" class="bns-primary page-questions-count">
+    <div ng-if="ctrl.page.position === 1" translate-values="{TOTAL: ctrl.document.questions_count}" translate-interpolation="messageformat" translate>COMPETITION.PROGRESS_TOTAL</div>
+    <div ng-if="ctrl.page.position !== 1" translate-values="{COUNT: ctrl.page.count_past_widgets, TOTAL: ctrl.document.questions_count}" translate-interpolation="messageformat" translate>COMPETITION.PROGRESS</div>
+  </bns-inset>
+
+  <div ng-if="ctrl.page._embedded.layout" last="ctrl.page.last" bns-workshop-document-page-layout="ctrl.page._embedded.layout" page="ctrl.page"></div>
+
+  <div ng-if="::ctrl.questionnaire"
+    bns-workshop-questionnaire-page-footer
+    bns-document="ctrl.document"
+    bns-page="ctrl.page"
+    bns-questionnaire="ctrl.questionnaire"
+    bns-participation="ctrl.participation"
+  ></div>
 
 </div>

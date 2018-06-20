@@ -1,3 +1,29 @@
-<div class="workshop-widget-text" ng-bind-html="ctrl.widget.content | trustHtml"></div>
+<div class="layout-row layout-align-start-center">
+  <div class="workshop-widget-text question-wording" ng-bind-html="ctrl.widget.content | trustHtml"></div>
+  <div class="flex"></div>
+  <div class="layout-row layout-align-end-center" ng-if="ctrl.widget._embedded.extended_settings.advanced_settings.show_chrono">
+    <div class="chrono-block layout-row layout-align-start-center">
+      <div class="chrono-mono-icon"></div>
+      <div>{{ctrl.widget._embedded.extended_settings.advanced_settings.chrono.minutes | numberFixedLen: 2}}:{{ctrl.widget._embedded.extended_settings.advanced_settings.chrono.seconds | numberFixedLen: 2}}</div>
+    </div>
+  </div>
+</div>
+<div ng-if="ctrl.widget._embedded.extended_settings.advanced_settings.show_help && ctrl.widget._embedded.extended_settings.advanced_settings.help">
+  <div class="setting-block setting-help-block">
+    <span translate>WORKSHOP.QUESTIONNAIRE.HELP</span> : {{ctrl.widget._embedded.extended_settings.advanced_settings.help}}
+  </div>
+</div>
 <br>
-<div class="workshop-widget-text" ng-bind-html="ctrl.widget._embedded.extended_settings.choices | trustHtml"></div>
+<div class="workshop-widget-text gap-fill-text-container-write" ng-bind-html="ctrl.widget._embedded.extended_settings.choices | trustHtml"></div>
+<br>
+<div class="layout-row layout-align-center-center advanced-setting-block" ng-if="ctrl.widget._embedded.extended_settings.advanced_settings.show_clue && ctrl.widget._embedded.extended_settings.advanced_settings.clue">
+  <div class="flex-20 setting-block">
+    <p translate>WORKSHOP.QUESTIONNAIRE.SHOW_CLUE</p>
+    <div class="clue-icon"></div>
+  </div>
+  <div class="flex">
+    {{ctrl.widget._embedded.extended_settings.advanced_settings.clue}}
+  </div>
+</div>
+
+<div ng-include="ctrl.templateAdvancedSettings"></div>

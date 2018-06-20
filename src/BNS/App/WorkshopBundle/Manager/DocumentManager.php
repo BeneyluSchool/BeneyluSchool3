@@ -10,6 +10,7 @@ use BNS\App\WorkshopBundle\Model\WorkshopDocument;
 use BNS\App\WorkshopBundle\Model\WorkshopDocumentPeer;
 use BNS\App\WorkshopBundle\Model\WorkshopDocumentQuery;
 use BNS\App\WorkshopBundle\Model\WorkshopPage;
+use BNS\App\WorkshopBundle\Model\WorkshopQuestionnaire;
 
 /**
  * Class DocumentManager
@@ -41,23 +42,23 @@ class DocumentManager
      *
      * @return WorkshopDocument
      */
-    public function create($questionnaire = null)
+    public function create($destination = null, $questionnaire = null)
     {
-        /** @var WorkshopDocument $workshopDocument */
-        $workshopDocument = $this->contentManager->setup(new WorkshopDocument());
+        if ($questionnaire) {
+            $workshopDocument = new WorkshopQuestionnaire();
+        } else {
+            $workshopDocument = new WorkshopDocument();
+        }
+        $this->contentManager->setup($workshopDocument, null, null, $destination);
 
         // set the document theme to default
         $workshopDocument->setThemeCode($this->themeManager->getDefaultThemeCode());
 
-
         // add an empty new page
         $firstPage = new WorkshopPage();
-
         if ($questionnaire) {
             $firstPage->setLayoutCode('full');
-            $workshopDocument->setDocumentType(WorkshopDocumentPeer::CLASSKEY_WORKSHOPQUESTIONNAIRE);
         }
-
         $workshopDocument->addWorkshopPage($firstPage);
 
         return $workshopDocument;

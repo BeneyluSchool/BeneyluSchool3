@@ -2,9 +2,8 @@
 var ignorer = "";
 var relanceAutomatique = true;
 var color = "";
-var login = "beneylu";
-var mdp = "9Hclg3ki";
-var pathPlugin = "/ent/medias/js/cordial/";
+var apikey = "b9e47ecbdc1668bec6e2597be2546e3e03fc8637"; // Beneylu
+var pathPlugin = "/ent/medias/js/cordial";
 
 function setCookie(sName, sValue) {
     document.cookie = sName + "=" + encodeURIComponent(sValue);
@@ -110,8 +109,6 @@ tinymce.PluginManager.add('cordial', function(editor, url) {
                 }
             }
         }
-
-        ////console.log("result shift : "+gResNode+" ("+gResOffset+")"+"\t"+gResNode.textContent.substring(0,gResOffset)+"||"+gResNode.textContent.substring(gResOffset, gResNode.textContent.length));
     }
 
     function unwrapInit(node) {
@@ -518,10 +515,25 @@ tinymce.PluginManager.add('cordial', function(editor, url) {
     }
 
     function launchCorrectionHtml(editor, node) {
+
+        if (!String.prototype.endsWith) {
+
+            String.prototype.endsWith = function(searchString, position) {
+                var subjectString = this.toString();
+                if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
+                    position = subjectString.length;
+                }
+                position -= searchString.length;
+                var lastIndex = subjectString.lastIndexOf(searchString, position);
+                return lastIndex !== -1 && lastIndex === position;
+            };
+        }
+
         unWrapSynapseCorrecteur();
 
 
         var doc = tinyMCE.activeEditor.iframeElement.contentDocument;
+
         iframe = true;
 
         var bodyNode;
@@ -531,7 +543,6 @@ tinymce.PluginManager.add('cordial', function(editor, url) {
         } else {
             bodyNode = node;
         }
-
         parserDom(bodyNode);
 
         var tmp = doc.firstChild;
@@ -564,12 +575,12 @@ tinymce.PluginManager.add('cordial', function(editor, url) {
 
         var text = fullText.replace(/&/ig, '&amp;').replace(/\'/ig, '&apos;').replace(/</ig, '&lt;').replace(/>/ig, '&gt;').replace(/"/ig, '&quot;');
 
-        var xmlDocument = '<RequestDataSaas><details>' + text + '</details><login>' + login + '</login><mdp>' + mdp + '</mdp><token>' + token + '</token></RequestDataSaas>';
+        var xmlDocument = '<RequestDataSaas_Apikey><details>' + text + '</details><apikey>' + apikey + '</apikey><token>' + token + '</token></RequestDataSaas_Apikey>';
 
         $.ajax({
             type: "POST",
 
-            url: "https://webservice.cordial-enligne.fr/api/textchecker/correctionCordialSaas",
+            url: "https://correction-synapse.azurewebsites.net/correctionCordialSaas",
             data: xmlDocument,
             dataType: 'xml',
             contentType: "application/xml",
@@ -611,8 +622,6 @@ tinymce.PluginManager.add('cordial', function(editor, url) {
 
                         // on recupere les mots ou phrases ignorées
                         var tabIgnorer = ignorer.split('|');
-
-                        ////console.log("Les offsets de la phrase sont :"+startOffsetPhr+" , "+endOffsetPhr);
                         i = 0;
 
                         var errorNodes = sent.find('errors').children();
@@ -639,12 +648,14 @@ tinymce.PluginManager.add('cordial', function(editor, url) {
 
                             var currentError = errorNodes.eq(i);
                             var type = currentError.attr("type");
+                            if(type == undefined){
+                                var type = currentError[0].attributes[1].value;
+                            }
                             var start = currentError.attr("start");
                             var end = currentError.attr("end");
                             var proba = currentError.attr("proba");
                             var message = currentError.find('message').html();
                             var code = currentError.attr('code_domaine_erreur');
-                            ////console.log("Les offsets de l'erreur sont :"+start+" , "+end);
 
                             var prefixSentence = texteFinal.substring(0, start);
                             var originalword = texteFinal.substring(start, end);
@@ -656,7 +667,6 @@ tinymce.PluginManager.add('cordial', function(editor, url) {
                                 correctword = originalword;
                             }
 
-
                             x = 0;
                             alternative = new Array();
 
@@ -665,7 +675,6 @@ tinymce.PluginManager.add('cordial', function(editor, url) {
                             for (x; x < alternatives.length; x++) {
                                 alternative += alternatives.eq(x).text() + "|";
                             }
-
 
                             if (type == "typo") {
                                 color = "blue";
@@ -681,9 +690,6 @@ tinymce.PluginManager.add('cordial', function(editor, url) {
                             idDiv = "faute" + iSentence;
                             idSpan = "span" + iSentence + i;
 
-
-
-
                             if (!isInArray(originalword + "_" + code, tabIgnorer)) {
 
 
@@ -698,19 +704,17 @@ tinymce.PluginManager.add('cordial', function(editor, url) {
 
                                 var retourCorrection = message + "\n" + alternative + "\n" + code + "\n" + originalSentenceError + "\n" + startErrorOffset + "\n" + endErrorOffset;
 
-                                if (code !== "19.18" && code !== "11.1" && code !== "50.52" && code !== "16.3" && login == "OXIWIZ") {
+                                if (code !== "19.18" && code !== "11.1" && code !== "50.52" && code !== "16.3" && apikey == "5R7nZKS5AX2WJEE8n5Lsb8nkf78bm78Ck4w3cdT7") {
                                     //supprimer les caractères erronés
                                     DeleteChars(startErrorNode, startErrorOffset, end - start, bodyNode);
 
                                     // on insère la correction à l'offset start
-                                    //InsertText(startErrorNode, startErrorOffset, correctword);
                                     InsertSpanNode(startErrorNode, startErrorOffset, originalword, retourCorrection, color, idSpan);
                                 } else {
                                     //supprimer les caractères erronés
                                     DeleteChars(startErrorNode, startErrorOffset, end - start, bodyNode);
 
                                     // on insère la correction à l'offset start
-                                    //InsertText(startErrorNode, startErrorOffset, correctword);
                                     InsertSpanNode(startErrorNode, startErrorOffset, originalword, retourCorrection, color, idSpan);
                                 }
                             }
@@ -799,7 +803,7 @@ tinymce.PluginManager.add('cordial', function(editor, url) {
 
     editor.addButton('correctionUnwrap', {
         title: 'Supprimer correction Cordial',
-        image: pathPlugin + '/plugins/cordial/theme/cordialSaas.png',
+        image: pathPlugin + '/theme/cordialSaas.png',
 
         onclick: function() {
 

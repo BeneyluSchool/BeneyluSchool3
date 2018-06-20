@@ -7,6 +7,7 @@ use BNS\App\BlogBundle\Form\Type\BlogArticleType;
 use BNS\App\BlogBundle\Form\Type\BlogType;
 use BNS\App\CommentBundle\Form\Type\CommentType;
 use BNS\App\CoreBundle\Annotation\Rights;
+use BNS\App\CoreBundle\Controller\BaseController;
 use BNS\App\CoreBundle\Model\Blog;
 use BNS\App\CoreBundle\Model\BlogArticle;
 use BNS\App\CoreBundle\Model\BlogArticleCategoryQuery;
@@ -18,7 +19,6 @@ use BNS\App\CoreBundle\Model\BlogQuery;
 use BNS\App\CoreBundle\Model\GroupQuery;
 use BNS\App\CoreBundle\Utils\Crypt;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -28,7 +28,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  * @author Sylvain Lorinet <sylvain.lorinet@pixel-cookers.com>
  */
-class BackController extends Controller
+class BackController extends BaseController
 {
     /**
      * @Route("/", name="BNSAppBlogBundle_back")
@@ -103,6 +103,9 @@ class BackController extends Controller
      */
     public function exportAction(Request $request)
     {
+        if (!$this->hasFeature('blog_export_pdf')) {
+            throw $this->createAccessDeniedException();
+        }
         $type = $request->get('type');
         $include_comments = $request->get('include_comments');
         $order = $request->get('order');
@@ -120,6 +123,8 @@ class BackController extends Controller
 
         $categories = $blog->getRootCategory()->getDescendants();
 
+        $canSchedule = $this->hasFeature('blog_schedule');
+
         $form = $this->createForm(new BlogArticleType(
             $this->get('bns.right_manager')->hasRight('BLOG_ADMINISTRATION'),
             $this->get('bns.right_manager')->hasRight('BLOG_PUBLISH'),
@@ -127,8 +132,11 @@ class BackController extends Controller
             $this->get('bns.right_manager')->getGroupsWherePermission('BLOG_ACCESS_BACK'),
             $categories,
             $this->generateUrl('blog_category_api_post_category', ['id' => $blog->getId(), 'version' => '1.0']),
-            $blog->getId()
-        ), new BlogArticleFormModel($this->get("stat.blog"), null, $blog));
+            $blog->getId(),
+            $canSchedule
+        ), new BlogArticleFormModel($this->get("stat.blog"), $this->get('bns.media_library.public_media_parser'),  null, $blog), [
+            'correction_group_id' => $this->get('bns.right_manager')->getCurrentGroupId(),
+        ]);
 
         return $this->render('BNSAppBlogBundle:Back:article_form.html.twig', array(
             'blog'			=> $blog,
@@ -152,7 +160,9 @@ class BackController extends Controller
 
             $categories = $blog->getRootCategory()->getDescendants();
 
-            $model = new BlogArticleFormModel($this->get("stat.blog"), $article, $blog);
+            $canSchedule = $this->hasFeature('blog_schedule');
+
+            $model = new BlogArticleFormModel($this->get("stat.blog"), $this->get('bns.media_library.public_media_parser'), $article, $blog);
 
             $form = $this->createForm(
                 new BlogArticleType(
@@ -162,7 +172,9 @@ class BackController extends Controller
                     $this->get('bns.right_manager')->getGroupsWherePermission('BLOG_ACCESS_BACK'),
                     $categories,
                     $this->generateUrl('blog_category_api_post_category', ['id' => $blog->getId(), 'version' => '1.0']),
-                    $blog->getId()),
+                    $blog->getId(),
+                    $canSchedule
+                ),
                 $model
             );
 
@@ -234,7 +246,10 @@ class BackController extends Controller
         $notAllowedGroupIds = array_diff($linkedGroupIds, $allowedGroupIds);
         $allowedGroups = GroupQuery::create()->filterById($allowedGroupIds)->find();
 
+        $canSchedule = $this->hasFeature('blog_schedule');
+
         $isEditionMode = true;
+        $articleModel = new BlogArticleFormModel($this->get("stat.blog"), $this->get('bns.media_library.public_media_parser'), clone $article, $this->getCurrentBlog());
         $form = $this->createForm(
             new BlogArticleType(
                 $rightManager->hasRight('BLOG_ADMINISTRATION'),
@@ -243,9 +258,10 @@ class BackController extends Controller
                 $allowedGroups,
                 $categories,
                 $this->generateUrl('blog_category_api_post_category', ['id' => $blog->getId(), 'version' => '1.0']),
-                $blog->getId()
+                $blog->getId(),
+                $canSchedule
             ),
-            new BlogArticleFormModel($this->get("stat.blog"), clone $article, $this->getCurrentBlog())
+            $articleModel
         );
 
         if ($request->isMethod('POST')) {
@@ -618,5 +634,38 @@ class BackController extends Controller
 
         return $this->currentBlog;
     }
+
+    /**
+     * @Route("/article/{articleSlug}/cancel-edit", name="blog_manager_article_cancel_edit")
+     *
+     * @param Request $request
+     * @param string $articleSlug
+     */
+    public function cancelEditAction($articleSlug, Request $request)
+    {
+        $article = BlogArticleQuery::create()->findOneBySlug($articleSlug);
+        if (!$article) {
+            throw $this->createNotFoundException();
+        }
+        if (!$this->get('bns_app_blog.blog_manager')->canManageArticle($article)) {
+            throw $this->createAccessDeniedException();
+        }
+        $blog = $this->getCurrentBlog();
+        $article->setDraftContent($article->getContent())->setDraftTitle($article->getTitle())->save();
+        if (!in_array($blog->getId(), $article->getBlogs()->getPrimaryKeys())) {
+            return $this->get('bns.right_manager')->changeContextToSeeBlogArticle(
+                $request,
+                $article,
+                'blog_manager_article_visualisation',
+                ['articleSlug' => $articleSlug]
+            );
+        }
+
+        return $this->render('BNSAppBlogBundle:Article:back_article_visualisation.html.twig', array(
+            'article'	=> $article,
+            'blog' => $blog
+        ));
+    }
+
 
 }

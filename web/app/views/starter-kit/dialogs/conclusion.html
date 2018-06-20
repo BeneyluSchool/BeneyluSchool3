@@ -1,12 +1,20 @@
-<md-dialog class="starter-kit-conclusion-dialog">
+<div class="dialog-content md-whiteframe-z4">
   <div class="starter-kit-conclusion-level text-center">
     <bns-icon ng-repeat="l in ::ctrl.range(ctrl.starterKit.level)" size="64">star</bns-icon>
   </div>
-  <md-dialog-content class="md-dialog-content">
+
+  <div class="md-padding">
     <h3 class="md-headline text-center" ng-bind-html="ctrl.step.data.title|trustHtml"></h3>
     <div class="md-body-2" ng-bind-html="ctrl.step.data.content|trustHtml"></div>
-  </md-dialog-content>
-  <div class="md-actions">
+  </div>
+
+  <md-list ng-if="ctrl.step.data.tiles" class="starter-kit-tiles layout-row layout-align-stretch-center layout-margin">
+    <md-list-item ng-repeat="(tile, content) in ctrl.step.data.tiles" ng-click="ctrl.decline(true, ctrl.step.link[tile])" class="flex" ng-href="{{::ctrl.step.link[tile]}}" target="_blank">
+      <p class="layout-padding md-body-2 text-center">{{content}}</p>
+    </md-list-item>
+  </md-list>
+
+  <div ng-if="!ctrl.step.data.tiles" class="md-actions">
     <md-button ng-if="ctrl.nextLevel" ng-click="ctrl.accept()" class="md-raised md-primary flex layout-row layout-margin layout-padding" href="">
       <div class="flex flex-none">
         <bns-icon ng-repeat="l in ::ctrl.range(ctrl.nextLevel)">star</bns-icon>
@@ -24,4 +32,4 @@
     </md-button>
     <div class="md-body-1 text-center text-muted md-padding" translate>STARTER_KIT.DESCRIPTION_RESTART_TUTORIAL</div>
   </div>
-</md-dialog>
+</div>

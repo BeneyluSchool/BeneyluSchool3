@@ -45,10 +45,16 @@ function MinisiteFrontBaseController (_, Routing, $rootScope, $scope, $state, $s
       $scope.$watch(function () {
         // Do not use $stateParams since they do not change during controller lifecycle
         // Test current state since it can be something else than minisite (app change for example)
-        return $state.includes('app.minisite.front') && !$state.params.page_slug;
+        // Also check that current state slug is still the same as the one this controller has been
+        // instantiated with, since this watch can be fired after state change (state params have changed
+        // but before controller is destroyed.
+        return $state.includes('app.minisite.front') && $state.params.slug === slug && !$state.params.page_slug;
       }, function redirectToHome (needsRedirect) {
         if (needsRedirect) {
           var home = _.find(ctrl.minisite.pages, { is_home: true });
+          if (!home) {
+            home = ctrl.minisite.pages[0];
+          }
           if (home) {
             return $state.go('app.minisite.front.page', {'slug': slug, page_slug: home.slug});
           }

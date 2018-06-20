@@ -53,7 +53,13 @@ permissions:
     description:
       fr: Permet de signer dans le cahier de textes ses travaux
       en:
-
+  SDET_EXPORT:
+    label:
+      fr: Export du cahier de textes
+      en: Export homework
+    description:
+      fr: Permet d'exporter les travaux en HTML
+      en:
 ranks:
   READ:
     label:
@@ -99,6 +105,15 @@ ranks:
       fr:
       en:
     permissions: [ACTIVATION]
+
+  SDET_EXPORT:
+    label:
+      fr: Exporter le cahier de textes
+      en: Export the homework agenda
+    description:
+      fr:
+      en:
+    permissions: [SDET_EXPORT]
 
 markers:
   HOMEWORK_CREATE_WORK:

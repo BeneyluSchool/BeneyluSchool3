@@ -29,8 +29,6 @@ class ProfileStatisticsService extends StatisticsService
 
     public function visit()
     {
-        $this->disableCascadeParentGroup();
         $this->increment('PROFILE_VISIT');
-        $this->enableCascadeParentGroup();
     }
 }

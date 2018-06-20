@@ -11,8 +11,7 @@ angular.module(APP_NAME, [
   'duScroll',
   'oc.lazyLoad',
   'ui.router',
-  'ct.ui.router.extras.sticky', // app-wide dependency, else it doesn't work
-  'ct.ui.router.extras.previous', // app-wide dependency, else it doesn't work
+  'ui.router.state.events', // polyfill for deprecated state change events
   'angularMoment',
   'angularLocalStorage',
   'infinite-scroll',
@@ -28,11 +27,14 @@ angular.module(APP_NAME, [
   'bns.core.sceInit',
 
   // standalone UI components
+  'bns.material',
   'bns.components',
 
   // core components
   'bns.core.appMeta',
+  'bns.core.appStateProvider',
   'bns.core.arrayUtils',
+  'bns.core.bindCompile',
   'bns.core.cookies',
   'bns.core.dateUtils',
   'bns.core.delay',
@@ -42,14 +44,18 @@ angular.module(APP_NAME, [
   'bns.core.ga',
   'bns.core.imageSrc',
   'bns.core.input',
+  'bns.core.lazyload',
   'bns.core.legacy',
   'bns.core.libraries',
+  'bns.core.nofTheme',
   'bns.core.trackHeight',
   'bns.core.views',
 
   // filters
   'bns.core.assetize',
+  'bns.core.characters',
   'bns.core.nl2br',
+  'bns.core.plainText',
   'bns.core.tokenize',
   'bns.core.trustHtml',
   'bns.core.unaccent',
@@ -58,10 +64,14 @@ angular.module(APP_NAME, [
   'bns.main.appController',
   'bns.main.apps',
   'bns.main.attachments',
+  'bns.main.autoLoginBox',
   'bns.main.beta',
   'bns.main.choiceCreate',
+  'bns.main.correction',
   'bns.main.docLink',
+  'bns.main.dummyController',
   'bns.main.entityList',
+  'bns.main.featureFlags',
   'bns.main.highchart',
   'bns.main.navbar',
   'bns.main.sparkle',
@@ -70,31 +80,17 @@ angular.module(APP_NAME, [
   'bns.main.userPicker',
   'bns.mediaLibrary.bindMedias',
   'bns.mediaLibrary.mediaPreview',
+  'bns.mediaLibrary.viewerInvoker',
   'bns.starterKit',
   'bns.user',
 
   // apps
-  'bns.account',
   'bns.blog',
-  'bns.breakfastTour',
-  'bns.builders',
-  'bns.calendar',
-  'bns.circusBirthday',
   'bns.classroom',
-  'bns.embed',
-  'bns.homework',
   'bns.liaisonbook',
-  'bns.lsu',
-  'bns.lunch',
-  'bns.messaging',
-  'bns.olympics',
+  'bns.portal',
   'bns.profile',
-  'bns.search',
-  'bns.spaceOps',
-  'bns.statistic',
-  'bns.twoDegrees',
   'bns.minisite',
-  'bns.campaign',
 ])
 
   .config(AppDecoratorConfig)

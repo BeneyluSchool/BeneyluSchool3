@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-06-22T16:37:33Z" source-language="en" target-language="es-AR" datatype="plaintext" original="not.available">
+  <file date="2018-02-20T11:27:40Z" source-language="en" target-language="es-AR" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -87,7 +87,7 @@
         <target>Eliminar las listas de difusión</target>
       </trans-unit>
       <trans-unit id="eb3e434583a36d58f5b26d70af901acd56c86035" resname="BUTTON_EDIT_DISTRIBUTION_LIST">
-        <source>BUTTON_EDIT_DISTRIBUTION_LIST</source>
+        <source>Editer la liste</source>
         <target>Editar la lista</target>
       </trans-unit>
       <trans-unit id="1507c40f043249fe6b5e25ba0cc97010cefa6d12" resname="CANCEL">
@@ -162,9 +162,17 @@
         <source>EDIT_WORKSPACE_SUCCESS</source>
         <target>Área de trabajo editada</target>
       </trans-unit>
+      <trans-unit id="87768974dff2fd318882385abc96a40ea2aad9a2" resname="EDUCATIONAL_ADVISERS">
+        <source>EDUCATIONAL_ADVISERS</source>
+        <target>Consultor educativo</target>
+      </trans-unit>
       <trans-unit id="82fc8b98a383fcc64504eeb49a6149ecda9a61b2" resname="ENT_REFERENTS">
         <source>ENT_REFERENTS</source>
         <target>Administradores escolares</target>
+      </trans-unit>
+      <trans-unit id="9cb15802ffe30d2b47b771f5db13feb8bc7b4453" resname="Editer la liste">
+        <source>Editer la liste</source>
+        <target>Editar la lista</target>
       </trans-unit>
       <trans-unit id="8e34488d378267fac59f4631f7060d491990c28e" resname="FLASH_CREATE_DISTRIBUTION_LIST_ERROR">
         <source>FLASH_CREATE_DISTRIBUTION_LIST_ERROR</source>
@@ -339,7 +347,7 @@
         <target>Yerbook</target>
       </trans-unit>
       <trans-unit id="b69c3ccfe55954f7fbf622662dfd908f130577cb" resname="LABEL_DISTRIBUTION_LIST_NAME">
-        <source>LABEL_DISTRIBUTION_LIST_NAME</source>
+        <source>Nom de la liste de diffusion</source>
         <target>Nombre de la lista de envío</target>
       </trans-unit>
       <trans-unit id="29f5226318a36c2ed03dd77b92fefa25d9e290b1" resname="LABEL_MY_DISTRIBUTION_LISTS">
@@ -393,6 +401,10 @@
       <trans-unit id="c544304502cc20cae09dd2ee9c14ec26a85a3fd4" resname="NO_USER_TO_REMOVE">
         <source>NO_USER_TO_REMOVE</source>
         <target>No hay usuarios para eliminar</target>
+      </trans-unit>
+      <trans-unit id="fa166e70352889e5e3f8144bcc199354d247eb25" resname="Nom de la liste de diffusion">
+        <source>Nom de la liste de diffusion</source>
+        <target>Nombre de la lista de envío</target>
       </trans-unit>
       <trans-unit id="1c0bccd420fd1025f9595f571eb0a857f8f599a5" resname="PARENTS">
         <source>PARENTS</source>

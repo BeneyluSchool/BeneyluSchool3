@@ -23,12 +23,16 @@
         <target state="new">Accept our policy</target>
       </trans-unit>
       <trans-unit id="4959d559eb81ad3a93a1c994789fc3095363e9eb" resname="ACCESS_BENEYLU_CGU">
-        <source>les conditions générales d'utilisation.</source>
-        <target state="new">our conditions of use.</target>
-      </trans-unit>
+      <source>les conditions générales d'utilisation.</source>
+      <target state="new">our conditions of use.</target>
+    </trans-unit>
       <trans-unit id="5ba35cce1b15cf4785add86ccffb375654759add" resname="ACCESS_BENEYLU_READ_CGU">
-        <source>Pour accéder à %beneylu_brand_name%, vous devez lire et accepter</source>
-        <target state="new">To access %beneylu_brand_name%, please read and accept</target>
+      <source>Pour accéder à %beneylu_brand_name%, vous devez lire et accepter</source>
+      <target state="new">To access %beneylu_brand_name%, please read and accept</target>
+    </trans-unit>
+    <trans-unit id="5fae5de95e6c40687e0ccc54cccff04c22885068" resname="ACCEPT_BENEYLU_READ_CGU">
+        <source>J'ai lu et j'accepte</source>
+        <target state="new">I have read and accept</target>
       </trans-unit>
       <trans-unit id="80b2a12dc43a7edabfba7b8cc126615c7fd62bae" resname="ACCOUNT_ACTIVATION_CONFIRMATION">
         <source>ACCOUNT_ACTIVATION_CONFIRMATION</source>
@@ -116,8 +120,8 @@
       <trans-unit id="6dff019498e6669badd14a343b9ed205c2cf9a4f" resname="CGU">
           <source>Conditions générales d'utilisation</source>
           <target state="new">Conditions of use</target>
-      </trans-unit>
-      <trans-unit id="1e81aeccb7f560b00583e6e162db04850ef537b4" resname="CGU_IN_FRENCH">
+        </trans-unit>
+        <trans-unit id="1e81aeccb7f560b00583e6e162db04850ef537b4" resname="CGU_IN_FRENCH">
         <source>Français</source>
         <target state="new">French</target>
       </trans-unit>

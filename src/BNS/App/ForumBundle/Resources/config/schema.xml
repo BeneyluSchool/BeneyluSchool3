@@ -26,7 +26,7 @@
         <parameter name="permanent" value="false" />
     </behavior>
   </table>
-  
+
   <table name="forum_subject">
     <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
     <column name="forum_id" required="true" type="INTEGER" />
@@ -64,13 +64,14 @@
     <behavior name="timestampable" />
     <behavior name="bns_media_attachmentable" />
   </table>
-  
+
   <table name="forum_user">
     <column name="forum_id" primaryKey="true" required="true" type="INTEGER" />
     <column name="user_id" primaryKey="true" required="true" type="INTEGER" />
     <column name="status" required="true" type="ENUM" defaultValue="PENDING_VALIDATION" valueSet="PENDING_VALIDATION, VALIDATED" />
     <column name="notification_new_message" type="BOOLEAN" required="true" defaultValue="1" />
     <column name="notification_reply" type="BOOLEAN" required="true" defaultValue="1" />
+    <column name="is_moderator" type="BOOLEAN" required="true" defaultValue="0"/>
     <behavior name="timestampable" />
     <foreign-key foreignTable="forum" name="FK_FORUM_USER_FORUM" onDelete="CASCADE" onUpdate="CASCADE">
       <reference foreign="id" local="forum_id" />

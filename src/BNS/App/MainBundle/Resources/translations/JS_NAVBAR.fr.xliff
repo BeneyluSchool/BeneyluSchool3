@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-09-19T18:00:14Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2018-05-28T17:19:32Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -66,21 +66,44 @@
         <source>BUTTON_NO_THANKS</source>
         <target>Non merci</target>
       </trans-unit>
+      <trans-unit id="770165e29c9768c4ae2ef2a25bdff3d8455d460c" resname="DESCRIPTION_BETA_CALENDAR">
+        <source>DESCRIPTION_BETA_CALENDAR</source>
+        <target><![CDATA[<p>Les applis testées en mode bêta sont ensuite rangées dans les abonnements qui leur sont destinés : Beneylu School Express, Beneylu School ou Beneylu School Infini. Selon votre abonnement, vous n'aurez peut-être plus accès à une appli testée en mode bêta. Rien ne vous empêche de <a href="https://beneylu.com/school/fr/prix" target="_blank"> Faire évoluer votre abonnement →</a>, ou de demander à <a href="https://beneylu.com/school/fr/comment-financer-mon-abonnement-beneylu-school" target="_blank">Le faire financer →</a>.</p>
+  <p>Les sessions de tests d'applis sont datées. Retrouvez le <a href="https://beneylu.com/spot/fr/mode-beta-beneylu-school" target="_blank">programme à jour ici →</a>.</p>
+  <p>Bon bêta test à tous !</p>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
       <trans-unit id="1f1f42f5405180ffa340ffba3d5389bd3f9cf63c" resname="DESCRIPTION_BETA_CHANGE_RELOAD">
         <source>DESCRIPTION_BETA_CHANGE_RELOAD</source>
         <target>Attention, en changeant de mode votre page va se recharger.</target>
       </trans-unit>
+      <trans-unit id="5e851f0f01fba03aae3eeb89dcfdeaaaa030fe04" resname="DESCRIPTION_BETA_FEEDBACK">
+        <source>DESCRIPTION_BETA_FEEDBACK</source>
+        <target>Écrivez-nous à support@beneylu.com en indiquant "mode bêta" dans l'objet de votre email. Nous sommes preneurs d’idées d’amélioration, des limitations que vous rencontrez à l’usage, des avis et même… des compliments😃 Mille mercis à vous !</target>
+      </trans-unit>
       <trans-unit id="1beef70cead118a53d4c615a9a058a45dcc83b18" resname="DESCRIPTION_BETA_GROUP">
         <source>DESCRIPTION_BETA_GROUP</source>
-        <target>Faites passer les élèves et les parents en mode bêta pour leur faire tester la nouvelle version des applications. Le changement de mode aura lieu à leur prochaine connexion.</target>
+        <target>Faites passer les élèves et les parents en mode bêta pour leur faire tester les nouvelles fonctionnalités de Beneylu School. Le changement de mode aura lieu à leur prochaine connexion.</target>
       </trans-unit>
       <trans-unit id="e3eec6cfe4f3a9cc3740fef8b6dc1de823bad063" resname="DESCRIPTION_BETA_GROUP_PARTIAL">
         <source>DESCRIPTION_BETA_GROUP_PARTIAL</source>
-        <target>Attention. Seuls certains utilisateurs de la classe ont accès au mode bêta. Passez le feu au vert pour activer le mode bêta à toute la classe.</target>
+        <target>Attention. Seuls certains utilisateurs de la classe ont accès au mode bêta. Passez le feu au vert pour activer le mode bêta à la classe entière.</target>
+      </trans-unit>
+      <trans-unit id="5847c158d28371bf8aa2660936f1ea871ed98ecd" resname="DESCRIPTION_BETA_LEAVE">
+        <source>DESCRIPTION_BETA_LEAVE</source>
+        <target>Connectez-vous à votre classe Beneylu School, cliquez sur Applications et sur Mode bêta. Passez le feu au rouge pour vous ou pour vous et vos élèves. C'est tout.</target>
+      </trans-unit>
+      <trans-unit id="4a7945810b8cde0426ca0f0d87703ee41f6281c0" resname="DESCRIPTION_BETA_PROCESS">
+        <source>DESCRIPTION_BETA_PROCESS</source>
+        <target><![CDATA[<p class="md-body-2">Vous avez envie de participer à l'évolution de votre classe Beneylu School ? Rejoignez notre <strong>gang de bêta-testeurs</strong>. C'est 100% concret !</p>
+<p>Nous écoutons toutes les remarques, prenons en compte vos demandes quand c'est possible et vous expliquons nos choix de conception avec grand plaisir. <a href="https://beneylu.com/spot/fr/mode-beta-beneylu-school" target="_blank">Tout savoir sur le mode bêta →</a>]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
       </trans-unit>
       <trans-unit id="8c7c729a974b955d2b743db6abb406bc69c4aca5" resname="DESCRIPTION_BETA_USER">
         <source>DESCRIPTION_BETA_USER</source>
-        <target>Passez votre compte utilisateur en mode bêta pour tester la nouvelle version des applications avant les autres !</target>
+        <target>Passez votre compte utilisateur en mode bêta pour tester les nouvelles fonctionnalités de Beneylu School en avant-première.</target>
       </trans-unit>
       <trans-unit id="df13445aa7716c0ae2b417f23f4732e9f0375604" resname="DESCRIPTION_CONTACT_US">
         <source>DESCRIPTION_CONTACT_US</source>
@@ -144,6 +167,10 @@
         <source>LOG_ME_OUT</source>
         <target>Me déconnecter</target>
       </trans-unit>
+      <trans-unit id="7e59515d65cadb0e0e29d542c85605fa77307f36" resname="MY_ACCOUNT">
+        <source>MY_ACCOUNT</source>
+        <target>Mon compte Beneylu School</target>
+      </trans-unit>
       <trans-unit id="38269f71417b34ff8e2a8e6e849a73e9b7aff54e" resname="MY_ACTIVITIES">
         <source>MY_ACTIVITIES</source>
         <target>Mes activités</target>
@@ -167,6 +194,34 @@
       <trans-unit id="7dd54aff1a16985493ec281b77137de413bb0d04" resname="SWITCH_TO_FRONT_MODE">
         <source>SWITCH_TO_FRONT_MODE</source>
         <target>Passer en mode consultation</target>
+      </trans-unit>
+      <trans-unit id="e9136ed3581561ab9f67c5f8c432dfbcacdeb13a" resname="TITLE_BETA_ACTIVATE">
+        <source>TITLE_BETA_ACTIVATE</source>
+        <target>Comment basculer en mode bêta ?</target>
+      </trans-unit>
+      <trans-unit id="127bcd8c13b5976a3cccdf458521ee3007d43b6a" resname="TITLE_BETA_CALENDAR">
+        <source>TITLE_BETA_CALENDAR</source>
+        <target>Le calendrier des bêta-testeurs</target>
+      </trans-unit>
+      <trans-unit id="4f3b781b9484d58ec520fbbc12fc9586aa46ec56" resname="TITLE_BETA_FEEDBACK">
+        <source>TITLE_BETA_FEEDBACK</source>
+        <target>Comment partager vos retours à l'équipe de Beneylu ?</target>
+      </trans-unit>
+      <trans-unit id="7f062bed3c2fa0df6f51e37e5c09b82099eff664" resname="TITLE_BETA_GROUP">
+        <source>TITLE_BETA_GROUP</source>
+        <target>Activez le mode bêta pour toute la classe</target>
+      </trans-unit>
+      <trans-unit id="f24262238070824ad003096e840820b513ce4de2" resname="TITLE_BETA_JOIN">
+        <source>TITLE_BETA_JOIN</source>
+        <target>Rejoignez le gang des bêta-testeurs de Beneylu School !</target>
+      </trans-unit>
+      <trans-unit id="37e16f3ca0f29fb7b585d42ecf804edb9163f5de" resname="TITLE_BETA_LEAVE">
+        <source>TITLE_BETA_LEAVE</source>
+        <target>Comment quitter le mode bêta ?</target>
+      </trans-unit>
+      <trans-unit id="528d299ce3d9e3caf1bfedd419490305e0fedc70" resname="TITLE_BETA_USER">
+        <source>TITLE_BETA_USER</source>
+        <target>Activez le mode bêta pour vous seul</target>
       </trans-unit>
       <trans-unit id="ba32fffe233a26a726cea808eb415ffe9e7109ad" resname="TITLE_WE_HELP">
         <source>TITLE_WE_HELP</source>

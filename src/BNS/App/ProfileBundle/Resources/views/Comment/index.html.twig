@@ -11,8 +11,7 @@
   <script type="text/javascript">
     // Moderation comments
     $(function(){
-      $('.container-sidebar .moderation-comment').click(function (e)
-      {
+      $('body').on('click', '.container-sidebar .moderation-comment', function (e) {
         var $this = $(e.currentTarget);
         if ($this.hasClass('loading')) {
           return false;
@@ -44,10 +43,14 @@
 
 {% block actionbar_content %}
   <span flex></span>
-  {{ components.button( 'LINK_VALIDATE_ALL_COMMENTS' | trans , { intent: 'accent', href: '#', icon: 'done', raised: true, attr : {'class':' bns-success validate-all-comments'} }) }}
+  {{ components.button( 'LINK_VALIDATE_ALL_COMMENTS' | trans , { intent: 'accent', href: '#', icon: 'done', raised: true, attr : {
+    'class':' bns-success validate-all-comments',
+    'bns-feature-flag': "'profile_comment'",
+    'bns-feature-push': null
+  } }) }}
 {% endblock actionbar_content %}
 
 
 {% block content %}
-  {% include 'BNSAppCommentBundle:BackNew:comment_index.html.twig' %}
+  {% include 'BNSAppCommentBundle:BackNew:comment_index.html.twig' with {bnsFeatureFlagComment: 'profile_comment'} %}
 {% endblock content %}

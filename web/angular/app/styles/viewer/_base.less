@@ -19,28 +19,10 @@
 }
 
 .viewer-close {
-  .opacity(50);
-
   position: absolute;
   z-index: 2;
-  top: 0;
-  right: 0;
-  display: block;
-  width: @viewer-close-size;
-  height: @viewer-close-size;
-  padding: 10px 10px 5px 5px;
-  color: @viewer-font-color;
-  text-align: center;
-  font-size: @viewer-close-size;
-  line-height: @viewer-close-size;
-
-  &:hover {
-    .opacity(100);
-
-    text-shadow: 0 0 2px @viewer-font-color;
-
-    cursor: pointer;
-  }
+  top: 8px;
+  right: 4px;
 }
 
 .viewer-media-container {
@@ -76,6 +58,10 @@
   width: 100%;
   height: @viewer-toolbar-height;
   background-color: @viewer-toolbar-color;
+
+  .resource-label {
+    color: #777;
+  }
 }
 
 [bns-viewer] {

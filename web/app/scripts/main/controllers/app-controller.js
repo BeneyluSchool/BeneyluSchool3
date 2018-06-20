@@ -21,18 +21,17 @@ angular.module('bns.main.appController', [])
  * @requires $scope
  * @requires $window
  * @requires $sniffer
- * @requires $mdSidenav
  * @requires $mdMedia
  * @requires $mdUtil
  * @requires $timeout
  * @requires moment
- * @requires storage
  * @requires parameters
  * @requires dialog
  * @requires toast
  * @requires navbar
+ * @requires sidebar
  */
-function AppController ($scope, $window, $sniffer, $state, $mdSidenav, $mdMedia, $mdUtil, $timeout, moment, storage, parameters, dialog, toast, navbar) {
+function AppController ($rootScope, $scope, $window, $sniffer, $state, $stateParams, $mdMedia, $mdUtil, $timeout, moment, parameters, global, dialog, toast, navbar, sidebar) {
   var app = this;
   app.toggleSidebar = toggleSidebar;
   app.isSidebarLockedOpen = isSidebarLockedOpen;
@@ -58,17 +57,18 @@ function AppController ($scope, $window, $sniffer, $state, $mdSidenav, $mdMedia,
   init();
 
   function init () {
-    // Sync our model variable with local storage
-    storage.bind($scope, 'app.sidebarOpen', {
-      storeName: 'bns/sidebar/locked',
-      defaultValue: getSidebarLockBreakpoint(),
-    });
-
     // lazy way to trigger a digest on window resize
     onWindowResize = $mdUtil.debounce(angular.noop, 10);
     angular.element($window).on('resize', onWindowResize);
 
     $scope.$on('$destroy', cleanup);
+    if ($stateParams.embed) {
+      console.info('Embedding app');
+      $rootScope.isEmbed = true;
+      angular.element('body').addClass('embedded');
+    }
+
+    $rootScope.anonymous = global('anonymous');
   }
 
   function cleanup () {
@@ -76,22 +76,15 @@ function AppController ($scope, $window, $sniffer, $state, $mdSidenav, $mdMedia,
   }
 
   function toggleSidebar () {
-    if (getSidebarLockBreakpoint()) {
-      app.sidebarOpen = !app.sidebarOpen;
-    } else {
-      $mdSidenav('left').toggle();
-    }
+    sidebar.toggle();
+
     $timeout(function () {
       angular.element($window).trigger('resize');
     }, 325, false);
   }
 
   function isSidebarLockedOpen () {
-    return getSidebarLockBreakpoint() && app.sidebarOpen;
-  }
-
-  function getSidebarLockBreakpoint () {
-    return $mdMedia('gt-md');
+    return sidebar.getIsLockedOpen();
   }
 
   function go (href, params, $event) {

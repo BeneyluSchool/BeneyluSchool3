@@ -8,13 +8,16 @@
     <body>
       <trans-unit id="5b01ee915f0f8e22912d602dac51f1133cff1786" resname="MEDIA_LIBRARY_NEW_MEDIA.EMAIL.content">
         <source>MEDIA_LIBRARY_NEW_MEDIA.EMAIL.content</source>
-        <target><![CDATA[<strong>%user_fullname%</strong> ha archivado el documento <a href="%media_folder_route%">%file_name%</a>]]></target>
+        <target><![CDATA[<b>%classLabel%</b><strong>%user_fullname%</strong> ha archivado el documento <a href="%media_folder_route%">%file_name%</a>]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
       <trans-unit id="ceb96310276e5bbbe24db4689d089becfd23ea2b" resname="MEDIA_LIBRARY_NEW_MEDIA.EMAIL.title">
         <source>MEDIA_LIBRARY_NEW_MEDIA.EMAIL.title</source>
-        <target>Uno de tus alumnos ha archivado un documento nuevo</target>
+        <target>%classLabel%Uno de tus alumnos ha archivado un documento nuevo</target>
+        <note>%classLabel% is a placeholder
+               This text contains HTML tags, please try to keep those tags
+            </note>
       </trans-unit>
       <trans-unit id="f0a48e69de542fdd231976760d00f4dbe95202e1" resname="MEDIA_LIBRARY_NEW_MEDIA.SYSTEM.content">
         <source>MEDIA_LIBRARY_NEW_MEDIA.SYSTEM.content</source>

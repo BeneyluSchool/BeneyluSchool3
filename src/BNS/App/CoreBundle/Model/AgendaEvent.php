@@ -332,27 +332,28 @@ class AgendaEvent extends BaseAgendaEvent
 			}
 
 			$affectedRows  = parent::save($con);
+            $finalUsers = array();
+            if ($this->getType() === AgendaEventPeer::TYPE_PUNCTUAL) {
+                if ($this->getAgenda()->getType() === AgendaPeer::TYPE_GROUP) {
+                    $group = $this->getAgenda()->getGroup();
+                    $currentUserId = BNSAccess::getUser()->getId();
+                    $groupUsers = $container->get('bns.group_manager')->setGroup($group)->getUsersByPermissionUniqueName('CALENDAR_ACCESS', true);
 
-			$group  = $this->getAgenda()->getGroup();
-			$currentUserId = BNSAccess::getUser()->getId();
-			$groupUsers    = $container->get('bns.group_manager')->setGroup($group)->getUsersByPermissionUniqueName('CALENDAR_ACCESS', true);
+                    foreach ($groupUsers as $user) {
+                        if ($user->getId() != $currentUserId) {
+                            $finalUsers[] = $user;
+                        }
+                    }
+                }
 
-			$finalUsers = array();
-			foreach ($groupUsers as $user) {
-				if ($user->getId() != $currentUserId) {
-					$finalUsers[] = $user;
-				}
-			}
-
-			if ($this->isRecurring()) {
-				$container->get('notification_manager')->send($finalUsers, new CalendarNewEventRecurringNotification($container, $this->getId()));
-			}
-			else {
-				$container->get('notification_manager')->send($finalUsers, new CalendarNewEventNotification($container, $this->getId()));
-			}
-			return $affectedRows;
-		}
-
+                if ($this->isRecurring()) {
+                    $container->get('notification_manager')->send($finalUsers, new CalendarNewEventRecurringNotification($container, $this->getId()));
+                } else {
+                    $container->get('notification_manager')->send($finalUsers, new CalendarNewEventNotification($container, $this->getId()));
+                }
+                return $affectedRows;
+            }
+        }
 		return parent::save($con);
 	}
 

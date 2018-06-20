@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="app"
+          namespace="BNS\App\CompetitionBundle\Model">
+
+    <!-- Table Competition-->
+    <table name="competition">
+        <column name="id" type="INTEGER" autoIncrement="true" primaryKey="true" required="true"/>
+        <column name="title" type="VARCHAR" required="true" size="255"/>
+        <column name="description" type="LONGVARCHAR" required="false"/>
+        <column name="status" defaultValue="DRAFT" required="false" type="ENUM" valueSet="DRAFT, PUBLISHED, FINISHED"/>
+        <column name="published_at" type="timestamp" required="false"/>
+        <column name="finished_at" type="timestamp" required="false"/>
+        <column name="media_id" type="INTEGER" required="false"/>
+        <column name="user_id" type="INTEGER"/>
+        <column name="group_id" type="INTEGER" required="false"/>
+        <column name="authorize_questionnaires" required="false" type="BOOLEAN"/>
+        <column name="authorize_answers" required="false" type="BOOLEAN"/>
+        <column name="like" type="INTEGER" defaultValue="0"/>
+        <column name="class_key" type="INTEGER" inheritance="single">
+            <inheritance key="1" class="Competition"/>
+            <inheritance key="2" class="SimpleCompetition" extends="Competition"/>
+            <inheritance key="3" class="ReadingChallenge" extends="Competition"/>
+            <inheritance key="4" class="PedagogicCourse" extends="Competition"/>
+        </column>
+
+        <foreign-key foreignTable="user" onDelete="cascade">
+            <reference local="user_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="group" onDelete="cascade">
+            <reference local="group_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="media" onDelete="setnull">
+            <reference local="media_id" foreign="id"/>
+        </foreign-key>
+        <behavior name="timestampable"/>
+    </table>
+
+    <!-- Table Invitation group -->
+    <table name="competition_group" isCrossRef="true">
+        <column name="group_id" type="INTEGER" primaryKey="true"/>
+        <column name="competition_id" type="INTEGER" primaryKey="true"/>
+        <foreign-key foreignTable="group" onDelete="cascade" phpName="ParticipatingGroup">
+            <reference local="group_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="competition" onDelete="cascade" phpName="ParticipatingCompetition">
+            <reference local="competition_id" foreign="id"/>
+        </foreign-key>
+    </table>
+
+    <!-- Table Invitation user-->
+    <table name="competition_user">
+        <column name="id" type="INTEGER" autoIncrement="true" primaryKey="true" required="true"/>
+        <column name="competition_id" type="INTEGER" />
+        <column name="user_id" type="INTEGER"/>
+        <foreign-key foreignTable="competition" onDelete="cascade">
+            <reference local="competition_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="user" onDelete="cascade">
+            <reference local="user_id" foreign="id"/>
+        </foreign-key>
+    </table>
+
+    <!-- Table Book-->
+    <table name="book">
+        <column name="id" type="INTEGER" autoIncrement="true" primaryKey="true" required="true"/>
+        <column name="title" type="VARCHAR" required="true" size="255"/>
+        <column name="author" type="VARCHAR" required="true" size="255"/>
+        <column name="description" type="LONGVARCHAR" required="false"/>
+        <column name="media_id" type="INTEGER" required="false"/>
+        <column name="authorize_questionnaires" required="true" type="BOOLEAN"/>
+        <column name="authorize_answers" required="true" type="BOOLEAN"/>
+        <column name="authorize_notices" required="true" type="BOOLEAN"/>
+        <column name="user_id" type="INTEGER" />
+        <column name="group_id" type="INTEGER"/>
+        <column name="like" type="INTEGER" defaultValue="0"/>
+        <column name="notice_id" type="INTEGER" required="false"/>
+        <column name="competition_id" type="INTEGER" required="false"/>
+        <foreign-key foreignTable="competition" onDelete="setnull">
+            <reference local="competition_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="group" onDelete="setnull">
+            <reference local="group_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="user" onDelete="setnull">
+            <reference local="user_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="media" onDelete="setnull" phpName="Media" refPhpName="Book">
+            <reference local="media_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="media" onDelete="setnull" phpName="Notice">
+            <reference local="notice_id" foreign="id"/>
+        </foreign-key>
+        <behavior name="timestampable"/>
+    </table>
+
+    <!--Table BookNotice-->
+    <table name="book_notice">
+        <column name="id" type="INTEGER" autoIncrement="true" primaryKey="true" required="true"/>
+        <column name="user_id" type="INTEGER" />
+        <column name="book_id" type="INTEGER" />
+        <column name="notice_id" type="INTEGER"/>
+        <column name="validate" type="INTEGER"/>
+        <foreign-key foreignTable="book" onDelete = "setnull" >
+            <reference local="book_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="user" onDelete="setnull">
+            <reference local="user_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="media" onDelete="setnull" phpName="Notice">
+            <reference local="notice_id" foreign="id"/>
+        </foreign-key>
+        <behavior name="timestampable"/>
+    </table>
+
+
+    <!-- Table Competition Questionnaire-->
+    <table name="competition_questionnaire" >
+        <column name="competition_id" type="INTEGER" primaryKey="true"/>
+        <column name="questionnaire_id" type="INTEGER" primaryKey="true"/>
+        <column name="allow_attempts" type="BOOLEAN" defaultValue="false"/>
+        <column name="attempts_number" type="INTEGER"/>
+        <column name="validate" type="INTEGER"/>
+        <column name="user_id" type="INTEGER"/>
+        <column name="proposer" type="VARCHAR" size="255"/>
+        <foreign-key foreignTable="media" onDelete = "cascade" onUpdate="cascade" phpName="Questionnaire">
+            <reference local="questionnaire_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="competition" onDelete = "cascade" onUpdate="cascade">
+            <reference local="competition_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="user">
+            <reference local="user_id" foreign="id"/>
+        </foreign-key>
+        <behavior name="timestampable"/>
+    </table>
+
+
+    <!--  Table  Questionnaire  Book -->
+    <table name="competition_book_questionnaire" >
+        <column name="book_id" type="INTEGER" primaryKey="true"/>
+        <column name="questionnaire_id" type="INTEGER" primaryKey="true" />
+        <column name="allow_attempts" type="BOOLEAN" defaultValue="false"/>
+        <column name="attempts_number" type="INTEGER"/>
+        <column name="rank" type="INTEGER"/>
+        <column name="required" type="BOOLEAN" defaultValue="false"/>
+        <column name="validate" type="INTEGER"/>
+        <column name="user_id" type="INTEGER"/>
+        <column name="proposer" type="VARCHAR" size="255"/>
+        <foreign-key foreignTable="media"  phpName="Questionnaire" onDelete="cascade">
+            <reference local="questionnaire_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="book" onDelete="cascade">
+            <reference local="book_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="user">
+            <reference local="user_id" foreign="id"/>
+        </foreign-key>
+        <behavior name="timestampable"/>
+        <behavior name="sortable">
+            <parameter name="rank_column" value="rank"/>
+            <parameter name="use_scope" value="true"/>
+            <parameter name="scope_column" value="book_id"/>
+        </behavior>
+    </table>
+
+    <!-- Table User Competition Participation -->
+    <table name="competition_participation">
+        <column name="id" type="INTEGER" autoIncrement="true" primaryKey="true" required="true"/>
+        <column name="user_id" type="INTEGER"/>
+        <column name="competition_id" type="INTEGER"/>
+        <column name="score" type="INTEGER" required="false" defaultValue="0"/>
+        <column name="like" type="BOOLEAN" defaultValue="0"/>
+        <foreign-key foreignTable="user">
+            <reference local="user_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="competition" onDelete = "cascade" onUpdate="cascade">
+            <reference local="competition_id" foreign="id"/>
+        </foreign-key>
+        <behavior name="timestampable"/>
+    </table>
+
+    <!--Table answer-->
+    <table name="answer">
+        <column name="id" type="INTEGER" autoIncrement="true" primaryKey="true" required="true"/>
+        <column name="participation_id" type="INTEGER"/>
+        <column name="workshop_document_id" type="INTEGER"/>
+        <column name="workshop_widget_id" type="INTEGER"/>
+        <column name="answer" type="OBJECT"/>
+        <column name="score" type="INTEGER"/>
+        <column name="percent" type="DECIMAL" size="10" scale="4" />
+        <foreign-key foreignTable="questionnaire_participation" onDelete="cascade">
+            <reference local="participation_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="workshop_document" onDelete="cascade">
+            <reference local="workshop_document_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="workshop_widget" onDelete="cascade">
+            <reference local="workshop_widget_id" foreign="id"/>
+        </foreign-key>
+        <behavior name="timestampable"/>
+    </table>
+
+    <!--Table Questionnaire Participation-->
+    <table name="questionnaire_participation">
+        <column name="id" type="INTEGER" autoIncrement="true" primaryKey="true" required="true"/>
+        <column name="user_id" type="INTEGER" required="true"/>
+        <column name="questionnaire_id" type="INTEGER" required="true"/>
+        <column name="page" type="INTEGER" required="true" defaultValue="1"/>
+        <column name="score" type="INTEGER" required="true" defaultValue="0"/>
+        <column name="try_number" type="INTEGER" required="true" defaultValue="1"/>
+        <column name="like" type="BOOLEAN" defaultValue="0"/>
+        <column name="last_try_started_at" type="TIMESTAMP" required="true"/>
+        <column name="finished" type="BOOLEAN" required="true" defaultValue="0"/>
+        <foreign-key foreignTable="user" onDelete="cascade">
+            <reference local="user_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="media" onDelete="cascade">
+            <reference local="questionnaire_id" foreign="id"/>
+        </foreign-key>
+        <behavior name="timestampable"/>
+    </table>
+
+    <!--Table Book Participation -->
+    <table name="book_participation">
+        <column name="id" type="INTEGER" autoIncrement="true" primaryKey="true" required="true"/>
+        <column name="user_id" type="INTEGER"/>
+        <column name="book_id" type="INTEGER"/>
+        <column name="like" type="BOOLEAN" defaultValue="0"/>
+        <column name="score" type="INTEGER" required="false" defaultValue="0"/>
+        <foreign-key foreignTable="user">
+            <reference local="user_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="book" onDelete = "cascade" onUpdate="cascade">
+            <reference local="book_id" foreign="id"/>
+        </foreign-key>
+        <behavior name="timestampable"/>
+    </table>
+</database>

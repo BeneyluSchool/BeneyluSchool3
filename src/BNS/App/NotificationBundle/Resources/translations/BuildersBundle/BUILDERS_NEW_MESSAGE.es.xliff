@@ -8,7 +8,7 @@
     <body>
       <trans-unit id="1c0e5e519f118ad29f38a40872961e564494bc16" resname="BUILDERS_NEW_MESSAGE.EMAIL.content">
         <source>BUILDERS_NEW_MESSAGE.EMAIL.content</source>
-        <target><![CDATA[Un nuevo <a href="%message_route%">mensaje en Constructores</a> ha sido creado por <strong>%user_fullname%</strong>]]></target>
+        <target><![CDATA[<b>%classLabel%</b>Un nuevo <a href="%message_route%">mensaje en Constructores</a> ha sido creado por <strong>%user_fullname%</strong>]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>

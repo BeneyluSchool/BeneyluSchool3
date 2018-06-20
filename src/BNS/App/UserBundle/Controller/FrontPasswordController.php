@@ -4,6 +4,7 @@ namespace BNS\App\UserBundle\Controller;
 
 use FOS\UserBundle\Propel\GroupQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Form\FormError;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -63,48 +64,52 @@ class FrontPasswordController extends Controller
 		return $this->redirect($redirect);
 	}
 
-	/**
-	 * @Route("/reinitialisation", name="user_password_reset")
-	 * @Anon
-	 */
-	public function resetAction()
-	{
-		$userManager = $this->get('bns.user_manager');
-		$form = $this->createForm(new PasswordResetType());
+    /**
+     * @Route("/reinitialisation", name="user_password_reset")
+     * @Anon
+     */
+    public function resetAction(Request $request)
+    {
+        $userManager = $this->get('bns.user_manager');
+        $form = $this->createForm(new PasswordResetType());
 
-		if ($this->getRequest()->isMethod('POST')) {
-			$form->bind($this->getRequest());
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            // From central
+            $user = $userManager->getUserByEmail($form->getData()->email, false);
 
-			if ($form->isValid()) {
-				// From central
-				$user = $userManager->getUserByEmail(urlencode($form->getData()->email));
+            if ($user) {
+                $userManager->setUser($user);
 
-				if (null == $user) {
-					$form->get('email')->addError(new FormError($this->get('translator')->trans('EMAIL_NOT_FOUND', array(), 'USER')));
-				}
-				else {
-					if (null != $user->getPasswordRequestedAt() && ($user->getPasswordRequestedAt()->getTimestamp() + 1800) > time()) { // 30 min
-						return $this->redirect($this->generateUrl('user_password_reset_warn'));
-					}
+                if ($user->getPasswordRequestedAt() && (($user->getPasswordRequestedAt()->getTimestamp() + 1800) >= time())) { // 30 min
+                    // Only one reset per 30 minutes
+                    return $this->redirect($this->generateUrl('user_password_reset_warn'));
+                }
 
-					$userManager->setUser($user);
+                if ($userManager->hasRightSomeWhere('ADMIN_PRETENDED') || $userManager->hasRightSomeWhere('ADMIN_ACCESS')) {
+                    // Admin can't reset their password
+                    goto ERROR_INVALID_EMAIL;
+                }
+                $roles = array_keys($userManager->getRolesByGroup());
+                if (count(array_intersect($roles, ['TEACHER', 'PARENT', 'PUPIL', 'DIRECTOR', 'ASSISTANT', 'ENT_REFERENT'])) && !$userManager->hasEnabledSchool()) {
+                    // User from not enabled school can't reset their password
+                    goto ERROR_INVALID_EMAIL;
+                }
 
-                    //L'utilisateur doit il faire parti d'un groupe autorisé (MTP)
-                    if($this->container->hasParameter('check_group_enabled') && $this->container->getParameter('check_group_enabled') && !$userManager->isAuthorised())
-                    {
-                        $form->get('email')->addError(new FormError($this->get('translator')->trans('EMAIL_NOT_FOUND', array(), 'USER')));
-                    }else{
-                        $form->getData()->save($userManager, $this->get('bns.mailer'), $this->get('router'));
-                        return $this->redirect($this->generateUrl('user_password_reset_confirmation'));
-                    }
-				}
-			}
-		}
+                $form->getData()->save($userManager, $this->get('bns.mailer'), $this->get('router'));
 
-		return $this->render('BNSAppUserBundle:Password:reset.html.twig', array(
-			'form'	=> $form->createView()
-		));
-	}
+                return $this->redirect($this->generateUrl('user_password_reset_confirmation'));
+            }
+
+            ERROR_INVALID_EMAIL:
+            $form->get('email')->addError(new FormError($this->get('translator')->trans('EMAIL_NOT_FOUND', array(), 'USER')));
+        }
+
+        return $this->render('BNSAppUserBundle:Password:reset.html.twig', array(
+                'form' => $form->createView()
+            )
+        );
+    }
 
 	/**
 	 * @Route("/reinitialisation/confirmation", name="user_password_reset_confirmation")

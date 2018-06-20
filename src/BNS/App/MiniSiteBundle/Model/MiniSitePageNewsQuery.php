@@ -9,5 +9,14 @@ use BNS\App\MiniSiteBundle\Model\om\BaseMiniSitePageNewsQuery;
  */
 class MiniSitePageNewsQuery extends BaseMiniSitePageNewsQuery
 {
-	
+
+    /**
+     * @param array $statuses
+     * @return MiniSitePageNewsQuery
+     */
+    public function buildStatusFilter(array $statuses)
+    {
+        return $this->filterByStatus($statuses, \Criteria::IN);
+    }
+
 }

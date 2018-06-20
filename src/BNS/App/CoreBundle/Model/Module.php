@@ -39,6 +39,8 @@ class Module extends BaseModule
     // Inject values based on current user before render by the serialiser
     public $canOpen = false;
     public $isOpen = false;
+    public $isOpenFamily = false;
+    public $isOpenTeacher = false;
     public $isPrivate = false;
     // old behavior = halfOpen
     public $isPartiallyOpen = false;
@@ -53,6 +55,8 @@ class Module extends BaseModule
 
     public $groupType = null;
     public $metaTitle = null;
+    public $icon = null;
+    public $bottom = null;
 
     // Add module that support auto open
     protected $autoOpenList = [

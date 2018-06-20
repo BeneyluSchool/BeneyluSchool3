@@ -1,13 +1,9 @@
-<md-dialog class="starter-kit-start-dialog">
-  <md-dialog-content class="layout-row">
-    <md-content class="md-padding layout-gt-sm-row">
-      <div class="md-padding">
-        <bns-icon>homework</bns-icon>
-      </div>
+<div class="dialog-content md-whiteframe-z4 layout-column layout-gt-md-row">
+    <div class="md-padding layout-gt-md-row flex">
       <div class="layout-column">
         <h1 class="md-headline" ng-bind-html="ctrl.step.data.title|trustHtml"></h1>
         <div class="md-body-2 flex" ng-bind-html="ctrl.step.data.content|trustHtml"></div>
-        <div class="layout-row layout-align-end-center">
+        <div class="layout-row layout-align-center-center">
           <md-button ng-click="ctrl.decline()" class="md-raised">
             <span ng-bind-html="'STARTER_KIT.BUTTON_NO_GO'|translate|buttonize">.</span>
           </md-button>
@@ -18,9 +14,9 @@
         </div>
         <div class="md-body-1 text-center text-muted" translate>STARTER_KIT.DESCRIPTION_RESTART_TUTORIAL</div>
       </div>
-    </md-content>
+    </div>
 
-    <ol class="step-levels">
+    <ol class="step-levels" ng-show="ctrl.step.data.levels.length">
       <li ng-repeat="level in ctrl.step.data.levels" ng-class="{disabled: $index > ctrl.starterKit.maxLevel}">
         <div>
           <bns-icon ng-repeat="star in ::ctrl.range($index+1)">star</bns-icon>
@@ -30,6 +26,4 @@
         <div ng-if="ctrl.step.data.durations[$index]" translate translate-values="{duration: ctrl.step.data.durations[$index]}">STARTER_KIT.LABEL_DURATION</div>
       </li>
     </ol>
-  </md-dialog-content>
-</md-dialog>
-<div class="bns-starter-kit-dialog-jim"></div>
+</div>

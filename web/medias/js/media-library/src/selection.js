@@ -21,6 +21,9 @@
         injector.get('$rootScope').$destroy();
       }
 
+      // clean eventual config
+      delete window.mediaLibraryConfig;
+
       // remove the DOM
       $(this).remove();
     });
@@ -80,11 +83,16 @@
       submode: 'insert',
     };
 
+    if (ed.settings && ed.settings.allowed_type) {
+      config.type = ed.settings.allowed_type;
+    }
+
     handleMediaLibraryCall(config, function (selection) {
 
       function insert (data) {
         ed.focus();
         ed.selection.setContent(data);
+        ed.fire('change');
       }
 
       // async "recursion" to insert medias in the same order they have been
@@ -124,13 +132,19 @@
       var final_id = $(this).attr('data-final-id');
       var callback = $(this).attr('data-callback');
       var allowed_type = $(this).attr('data-allowed-type');
+      var size = $(this).attr('data-size') || 'small';
+      var selection_label = $(this).attr('data-selection-label');
 
       var config = {
         mode: 'selection',
         max: 1,
+        label: selection_label,
         type: allowed_type || 'IMAGE'
       };
-
+      if (allowed_type && allowed_type.indexOf(',') > -1) {
+        // use array of allowed media types
+        config.type = allowed_type.split(',');
+      }
       // setup call to the media library
       handleMediaLibraryCall(config, function (selection) {
         // By default, selection is an array. Here we only consider the 1st element
@@ -156,7 +170,7 @@
         }
 
         $.ajax({
-          url: Routing.generate('BNSAppMediaLibraryBundle_view', { type: 'select', id: selection.id }),
+          url: Routing.generate('BNSAppMediaLibraryBundle_view', { type: 'select', id: selection.id, size: size }),
           type: 'POST',
           dataType: 'html',
           data: { id: selection.id },
@@ -168,14 +182,26 @@
     // selection of multiple documents for attachment
     $body.on('click', '.media-join', function (e) {
       e.preventDefault();
-
+      var max_selection = $(this).attr('data-max');
+      var allowed_type = $(this).attr('data-allowed-type');
       var reference = $(this).attr('data-reference') || $(this).parent().next('.resource-list').attr('id');
+      var selection_label = $(this).attr('data-selection-label');
 
       var config = {
         mode: 'selection',
         submode: 'join',
+        label: selection_label,
       };
-
+      if (allowed_type){
+        config.type = allowed_type;
+      }
+      if (allowed_type && allowed_type.indexOf(',') > -1) {
+        // use array of allowed media types
+        config.type = allowed_type.split(',');
+      }
+      if(max_selection){
+        config.max = parseInt(max_selection, 10);
+      }
       // setup call to the media library
       handleMediaLibraryCall(config, function (selection) {
         function success (data) {

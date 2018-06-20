@@ -1,0 +1,8 @@
+BNS\App\LsuBundle\Model\om\BaseLsuConfig:
+  exclusion_policy: All
+
+  properties:
+    id:
+      expose: true
+    group_id:
+      expose: true

@@ -8,6 +8,8 @@ use BNS\App\MessagingBundle\Form\Type\MessageType;
 use BNS\App\MessagingBundle\Messaging\BNSMessageManager;
 use BNS\App\MessagingBundle\Model\MessagingMessage;
 use BNS\App\MessagingBundle\Model\MessagingMessageQuery;
+use BNS\App\MessagingBundle\Model\MessagingPreferences;
+use BNS\App\MessagingBundle\Model\MessagingPreferencesQuery;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
@@ -54,6 +56,10 @@ class MessageApiController extends BaseMessagingApiController
         $rightManager = $this->get('bns.right_manager');
         $rightManager->forbidIf(!$messageManager->canRead($message));
 
+        if ($this->hasFeature('messaging_read_indicator')) {
+            $this->get('hateoas.expression.evaluator')->setContextVariable('message_read_indicator', true);
+        }
+
         return  $message;
     }
 
@@ -87,12 +93,15 @@ class MessageApiController extends BaseMessagingApiController
     public function postNewMessageAction(Request $request)
     {
         $rightManager = $this->get('bns.right_manager');
-
-        $toList = array_unique(explode(',', $request->get('to', '')));
+        $toList = (null !== $request->get('to') ?  $request->get('to') : []);
         $draftId = $request->get('draftId');
         $subject = $request->get('subject', '');
         $content = $request->get('content', '');
+        $groupsTo = (null !== $request->get('groupTo')) ?  $request->get('groupTo') : [];
 
+        foreach ($groupsTo as $groupId) {
+            $toList = array_unique(array_merge($toList, $this->get('bns.group_manager')->setGroupById($groupId)->getUserIdsWithPermission('MESSAGING_ACCESS')));
+        }
         $handle = $this->handleUserList($toList);
         $status = $handle['needModeration'] ? "IN_MODERATION" : "ACCEPTED";
         $validatedUsers = $handle['validatedUsers'];
@@ -100,6 +109,13 @@ class MessageApiController extends BaseMessagingApiController
         if (!count($validatedUsers)) {
             return $this->view('No recipient', Codes::HTTP_BAD_REQUEST);
         }
+        $now = new \DateTime();
+        $absentUsers = MessagingPreferencesQuery::create()
+            ->filterByUserId(array_keys($validatedUsers))
+            ->filterByIsAbsent(true)
+            ->filterByAbsentFrom($now, \Criteria::LESS_THAN)
+            ->filterByAbsentTo($now, \Criteria::GREATER_THAN)
+            ->find();
 
         //Etait-ce un brouillon ?
         $parentId = null;
@@ -114,14 +130,20 @@ class MessageApiController extends BaseMessagingApiController
             $message->setContent($content);
             $arrayStatus = BNSMessageManager::$messagesStatus;
             $message->setStatus($arrayStatus[$status]);
+            $message->setTosTempList(serialize( $request->get('to')));
+            $message->setGroupTos($groupsTo);
             $message->save();
         } else {
-            //Un message = sujet / contenu / statut
-            $message = $this->get('bns.message_manager')->initMessage($subject, $content, $status);
+            //Un message = sujet / contenu / statut / destinataires (users et groupes)
+            $message = $this->get('bns.message_manager')->initMessage($subject, $content, $status, $request->get('to'), $groupsTo);
         }
         //Envoi du message
         $this->get('bns.message_manager')->sendMessage($message, $status, $parentId, $validatedUsers, $request);
-
+        foreach ($absentUsers as $absentUser) {
+            /** @var MessagingPreferences $absentUser */
+            $absenceAnswer = $this->get('bns.message_manager')->initMessage($absentUser->getAbsenceSubject(), $absentUser->getAbsenceContent(), "ACCEPTED", $rightManager->getUserSession()->getId());
+            $this->get('bns.message_manager')->sendMessage($absenceAnswer, "ACCEPTED", null, [$rightManager->getUserSession()], null);
+        }
         //statistic action
         $this->get("stat.messaging")->sendMessage();
 
@@ -190,7 +212,7 @@ class MessageApiController extends BaseMessagingApiController
      *  }
      * )
      * @Rest\Get("/draft/{id}")
-     * @Rest\View(serializerGroups={"Default", "detail"})
+     * @Rest\View(serializerGroups={"Default", "detail", "message_detail"})
      *
      * @RightsSomeWhere("MESSAGING_ACCESS")
      *
@@ -207,7 +229,8 @@ class MessageApiController extends BaseMessagingApiController
         return array(
             'id' => $message->getId(),
             'attachments' => $message->getResourceAttachments(),
-            'to' => implode(',', unserialize($message->getTosTempList())),
+            'to' => unserialize($message->getTosTempList()),
+            'groupTo' => $message->getGroupTos(),
             'subject' => $message->getSubject(),
             'content' => $message->getContent(),
             'is_draft' => $message->isDraft(),
@@ -262,8 +285,10 @@ class MessageApiController extends BaseMessagingApiController
                 $draft = $messageManager->createDraft($data['subject'], $data['content'], $request);
             }
 
-            $toList = array_unique(explode(',', $data['to']));
-            $draft->setTosTempList(serialize($toList));
+            $toList = (null !== $request->get('to') ? $request->get('to') : []);
+            $groupTo = (null !== $request->get('groupTo') ? $request->get('groupTo') : []);
+            $draft->setTosTempList(serialize( $toList));
+            $draft->setGroupTos($groupTo);
             $draft->save();
             $mediaManager->saveAttachments($draft, $request);
 

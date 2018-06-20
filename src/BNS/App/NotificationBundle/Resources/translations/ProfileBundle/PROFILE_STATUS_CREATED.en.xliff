@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-11-02T17:45:27Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="7cb6b20b47039ea68fc0d7b523a85429d45dbdea" resname="PROFILE_STATUS_CREATED.EMAIL.content">
+        <source>PROFILE_STATUS_CREATED.EMAIL.content</source>
+        <target><![CDATA[<strong>%user_fullname%</strong> just wrote a new <a href="%status_route%">status</a>.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+      <trans-unit id="b9e8b8ff7abeaa08db7b45c154f1572b58cc60f9" resname="PROFILE_STATUS_CREATED.EMAIL.title">
+        <source>PROFILE_STATUS_CREATED.EMAIL.title</source>
+        <target>%user_fullname% wrote a new statut</target>
+      </trans-unit>
+      <trans-unit id="25481cbad6a8930df9283dda87160c7d536afa3d" resname="PROFILE_STATUS_CREATED.SYSTEM.content">
+        <source>PROFILE_STATUS_CREATED.SYSTEM.content</source>
+        <target><![CDATA[<strong>%user_fullname%</strong> just wrote a new <a href="%status_route%">status</a>.]]></target>
+        <note><![CDATA[This text contains HTML tags, please try to keep those tags
+]]></note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

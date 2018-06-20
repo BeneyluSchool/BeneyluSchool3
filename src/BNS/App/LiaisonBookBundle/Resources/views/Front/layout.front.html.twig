@@ -31,9 +31,9 @@
     {% endblock actionbar_container %}
 
     {% block main_container %}
-        <div class="flex-5"></div>
+        <div class="flex-5 bns-liaison-book-header-offset"></div>
         <div container class="main-container layout-row flex" ng-cloak>
-            <div class="flex-offset-sm-5 flex-offset-md-5 flex-offset-lg-5 flex-offset-gt-lg-15"></div>
+            <div class="flex-offset-sm-5 flex-offset-md-5 flex-offset-lg-5 flex-offset-gt-lg-15 bns-liaison-book-left-offset"></div>
             {% block sidebar_container %}
                 <md-sidenav  class=" md-sidenav-left bns-sidebar layout-column" md-component-id="left" md-is-locked-open="app.isSidebarLockedOpen()">
                     {% block sidebar %}
@@ -59,9 +59,9 @@
                 </md-content>
                 <div class="home"></div>
             </div>
-            <div class="flex-offset-sm-5 flex-offset-md-5 flex-offset-lg-5 flex-offset-gt-lg-15"></div>
+            <div class="flex-offset-sm-5 flex-offset-md-5 flex-offset-lg-5 flex-offset-gt-lg-15 bns-liaison-book-footer-offset"></div>
         </div>
-        <div class="flex-5"></div>
+        <div class="flex-5 bns-liaison-book-footer-offset"></div>
 
     {% endblock main_container %}
 

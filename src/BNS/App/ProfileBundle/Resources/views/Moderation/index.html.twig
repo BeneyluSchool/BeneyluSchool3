@@ -15,7 +15,11 @@
 
 {% block actionbar_content %}
 	<span flex></span>
-	{{ components.button( 'LINK_VALIDATE_ALL_STATUS' | trans , { intent: 'accent', href: '#', icon: 'done', raised: true, attr : {'class':'validate-all-statuses'} }) }}
+	{{ components.button( 'LINK_VALIDATE_ALL_STATUS' | trans , { intent: 'accent', href: '#', icon: 'done', raised: true, attr : {
+    'class':'validate-all-statuses',
+    'bns-feature-flag': "'profile_status'",
+    'bns-feature-push': null
+  } }) }}
 {% endblock actionbar_content %}
 
 {% block content %}

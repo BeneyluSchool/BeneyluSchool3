@@ -7,7 +7,7 @@ angular.module('bns.main.navbar')
 
 ;
 
-function BNSNavbarDialogController ($rootScope, $scope, $translate, $mdSidenav, $mdMedia, $mdDialog, toast, Groups, Routing, navbar, Beta) {
+function BNSNavbarDialogController ($rootScope, $scope, $translate, $mdSidenav, $mdMedia, $mdDialog, toast, Users, Groups, Routing, navbar, global, Beta) {
 
   var GROUP_USER = {
     id: 'me',
@@ -27,11 +27,18 @@ function BNSNavbarDialogController ($rootScope, $scope, $translate, $mdSidenav, 
   dialog.toggleNav = toggleNav;
   dialog.selectGroup = selectGroup;
   dialog.cancel = cancel;
+  dialog.goToApp = goToApp;
 
   init();
 
   function init () {
     dialog.logoutUrl = Routing.generate('disconnect_user');
+
+    Users.me()
+      .then(function success (me) {
+        dialog.me = me;
+      })
+    ;
 
     Groups.getList()
       .then(function success (groups) {
@@ -99,6 +106,13 @@ function BNSNavbarDialogController ($rootScope, $scope, $translate, $mdSidenav, 
 
   function cancel () {
     $mdDialog.cancel();
+  }
+
+  function goToApp (name) {
+    $mdDialog.hide({
+      app: name,
+      group: 'user',
+    });
   }
 
 }

@@ -8,7 +8,7 @@
     <body>
       <trans-unit id="6bc4c4cf8469dc7b8810a7cbb7d5dd9cc268f641" resname="MESSAGING_NEW_ANSWER_RECEIVED.EMAIL.content">
         <source>MESSAGING_NEW_ANSWER_RECEIVED.EMAIL.content</source>
-        <target><![CDATA[You have received <a href="%message_route%">an answer</a> from <strong>%sender_full_name%</strong>]]></target>
+        <target><![CDATA[<b>%classLabel%</b>You have received <a href="%message_route%">an answer</a> from <strong>%sender_full_name%</strong>]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>

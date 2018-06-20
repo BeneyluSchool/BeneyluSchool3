@@ -174,6 +174,7 @@ angular.module('bns.core.modelEditor', [
       var deferred = $q.defer();
 
       // simply rollback from local copy
+      //to-do: réparer
       objectHelpers.softMerge(editor._model, editor._source, 'id', false, false, true);
       editor.refreshSource();
 

@@ -4,6 +4,7 @@ namespace BNS\App\HomeworkBundle\Form\Type;
 
 use BNS\App\CoreBundle\Model\Group;
 use BNS\App\CoreBundle\Model\GroupQuery;
+use BNS\App\CoreBundle\Model\UserQuery;
 use BNS\App\HomeworkBundle\Model\HomeworkSubject;
 use BNS\App\HomeworkBundle\Model\HomeworkSubjectQuery;
 use Symfony\Component\Form\AbstractType;
@@ -17,22 +18,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class ApiHomeworkType extends AbstractType
 {
-
-    /**
-     * @var \PropelObjectCollection|Group[]
-     */
-    protected $groups;
-
-    /**
-     * @var array|HomeworkSubject[]
-     */
-    protected $subjects;
-
-    public function __construct(\PropelObjectCollection $groups, $subjects = [])
-    {
-        $this->groups = $groups;
-        $this->subjects = $subjects;
-    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -55,6 +40,11 @@ class ApiHomeworkType extends AbstractType
             'widget' => 'single_text',
         ]);
 
+        $builder->add('scheduled_publication');
+        $builder->add('publication_date', 'date', [
+            'widget' => 'single_text',
+        ]);
+
         $builder->add('has_locker');
 
         $builder->add('resource-joined', 'hidden', array(
@@ -65,22 +55,31 @@ class ApiHomeworkType extends AbstractType
             'class' => 'BNS\\App\\CoreBundle\\Model\\Group',
             'multiple' => true,
             'expanded' => true,
-            'query' => GroupQuery::create()->filterById($this->groups->getPrimaryKeys()),
+            'query' => GroupQuery::create()->filterById($options['groupIds']),
         ));
+
+        $builder->add('users', 'model', [
+            'class' => 'BNS\\App\\CoreBundle\\Model\\User',
+            'multiple' => true,
+            'expanded' => true,
+            'query' => UserQuery::create()->filterById($options['userIds'])
+        ]);
 
         $builder->add('homework_subject', 'model', array(
             'class' => 'BNS\\App\\HomeworkBundle\\Model\\HomeworkSubject',
             'choices_as_values' => true,
-            'query' => HomeworkSubjectQuery::create()->filterById(array_keys($this->subjects)),
+            'query' => HomeworkSubjectQuery::create()->filterById($options['subjectIds']),
         ));
     }
 
     public function configureOptions(OptionsResolver $resolver)
-
     {
         $resolver->setDefaults([
             'data_class' => 'BNS\\App\HomeworkBundle\\Model\\Homework',
-            'translation_domain' => 'HOMEWORK'
+            'translation_domain' => 'HOMEWORK',
+            'userIds' => [],
+            'groupIds' => [],
+            'subjectIds' => [],
         ]);
     }
 

@@ -60,6 +60,7 @@ class AnalyticsExtension extends Twig_Extension
     {
         return array(
             'has_help'            => new Twig_Function_Method($this, 'hasHelp', array('is_safe' => array('html'))),
+            'has_inline_support'  => new Twig_Function_Method($this, 'hasInlineSupport', array('is_safe' => array('html'))),
             'analyticsIdentify'  => new Twig_Function_Method($this, 'identify', array('is_safe' => array('html'))),
             'analyticsPage'      => new Twig_Function_Method($this, 'page', array('is_safe' => array('html'))),
             'analyticsAlias'     => new Twig_Function_Method($this, 'alias', array('is_safe' => array('html'))),
@@ -78,7 +79,15 @@ class AnalyticsExtension extends Twig_Extension
             && $rightManager->getCurrentGroupManager()->getProjectInfo('has_inline_support');
     }
 
-    public function identify(User $user, SessionInterface $session = null)
+    public function hasInlineSupport()
+    {
+        /** @var BNSRightManager $rightManager */
+        $rightManager = $this->container->get('bns.right_manager');
+
+        return $rightManager->isAuthenticated() && $rightManager->getUserSession() && $rightManager->getCurrentGroupManager()->getProjectInfo('has_inline_support');
+    }
+
+    public function identify(User $user, SessionInterface $session = null, $withTag = true)
     {
         $rightManager = $this->container->get('bns.right_manager');
         if (!$rightManager->isAuthenticated()) {
@@ -120,7 +129,7 @@ class AnalyticsExtension extends Twig_Extension
                 $this->container->get('bns.group_manager')->setGroup($oldGroup);
             }
             if (isset($message)) {
-                return $this->call('identify', $user->getId(), $message, $user);
+                return $this->call('identify', $user->getId(), $message, $user, $withTag);
             } else {
                 return false;
             }
@@ -141,9 +150,13 @@ class AnalyticsExtension extends Twig_Extension
         return $this->call('page', $page);
     }
 
-    public function call($method, $action, $message = null, $object = null)
+    public function call($method, $action, $message = null, $object = null, $withTag = true)
     {
-        $script = '<script type="text/javascript">';
+        if ($withTag) {
+            $script = '<script type="text/javascript">';
+        } else {
+            $script = '';
+        }
         if(!$this->isInit)
         {
             $script .= <<<EOF
@@ -206,7 +219,10 @@ EOF;
                 break;
         }
 
-        $script .= '</script>';
+        if ($withTag) {
+            $script .= '</script>';
+        }
+
         return $script;
     }
 

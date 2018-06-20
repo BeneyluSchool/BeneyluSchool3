@@ -40,6 +40,7 @@ class MiniSitePageNewsType extends AbstractType
 				'choices'	=> array_combine($statuses, $statuses),
 				'expanded'	=> true,
                 'label' => 'NEWS_STATUS',
+                'attr' => [ 'bns-status' => '' ],
                 'proxy' => true
 			));
 		}

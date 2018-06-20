@@ -13,5 +13,14 @@
             <tag name="bns.install_process" />
         </service>
         <service id="bns.lunch_manager" class="BNS\App\LunchBundle\Manager\BNSLunchManager"/>
+        <service id="stat.lunch" class="BNS\App\LunchBundle\Statistic\LunchStatisticsService">
+            <argument type="service" id="service_container"></argument>
+        </service>
+        <service id="bns.lunch.search" class="BNS\App\LunchBundle\Search\LunchSearchProvider">
+            <argument type="service" id="security.token_storage"/>
+            <argument type="service" id="bns.right_manager"/>
+            <argument type="service" id="router"/>
+            <tag name="bns.search_provide"/>
+        </service>
     </services>
 </container>

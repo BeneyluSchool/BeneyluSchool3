@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Class NavbarExtension
  *
  * @package BNS\App\MainBundle\Twig
+ * @deprecated
  */
 class NavbarExtension extends \Twig_Extension
 {

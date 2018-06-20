@@ -1,0 +1,8 @@
+BNS\App\LsuBundle\Model\om\BaseLsuPosition:
+  exclusion_policy: All
+
+  properties:
+    lsu_id:
+      expose: true
+    achievement:
+      expose: true

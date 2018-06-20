@@ -11,3 +11,9 @@ BNS\App\CoreBundle\Model\om\BaseAgenda:
     group_id:
       expose: true
       groups: [list, agenda_list, detail, agenda_detail]
+    user_id:
+      expose: true
+      groups: [list, agenda_list, detail, agenda_detail]
+    type:
+      expose: true
+      groups: [list, agenda_list, detail, agenda_detail]

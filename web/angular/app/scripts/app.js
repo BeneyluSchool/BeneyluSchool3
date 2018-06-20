@@ -2,14 +2,9 @@
 
 var beneyluSchoolApp = angular.module('beneyluSchoolApp', [
   'ui.router',
-  'ct.ui.router.extras.sticky', // app-wide dependency, else it doesn't work
-  'bns.userDirectory',
-  'bns.mediaLibrary',
   'bns.user',
-  'bns.workshop',
   'bns.viewer',
   'bns.uploader',
-  'bns.statistic',
 ]);
 
   beneyluSchoolApp.config(function ($controllerProvider, $stateProvider, $urlRouterProvider) {
@@ -20,7 +15,6 @@ var beneyluSchoolApp = angular.module('beneyluSchoolApp', [
 
     $stateProvider.state('root', {
       url: '/',
-      template: '<ui-view />',
       views: {
         // add a css class on the root, only for this state
         '@': {

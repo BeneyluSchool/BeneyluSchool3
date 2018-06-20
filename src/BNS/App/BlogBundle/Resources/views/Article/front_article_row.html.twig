@@ -1,16 +1,27 @@
 {% trans_default_domain "BLOG" %}
-<div class="container-article {% if article.isStar %}star{% endif %}">
+<div class="container-article {% if article.isStar %}star{% endif %}"
+    {% if has_feature_flag('blog_views') and blog.getCountView() %}
+      data-article-id="{{ article.id }}"
+      du-scrollspy="article-{{ article.id }}"
+      bns-blog-article-view
+      id="article-{{ article.id }}"
+    {% endif %}
+>
         <div class="header-article">
 			{% if i > 0 %}
 				<div class="underline"></div>
 			{% endif %}
-            <h1 class="title">{{ article.getTitle() }}</h1>
+            <h1 class="title {% if i == 0 %}first-article-title{% endif %}">{{ article.getTitle() }}</h1>
             <md-divider class="underline"></md-divider>
             <md-divider></md-divider>
             <div class="container-description-article">
                 {% include '@BNSAppBlog/Article/article_categories.html.twig' %}
-                <div class="author-infos">
-                    {{ 'ARTICLE_CREATE_FROM_PUBLISH_AT'|trans({'%image%':  '<img class="#" src=" ' ~ avatar(article.getAuthor(), 'thumbnail') ~ '" width="16" class="avatar"/>', '%userFullName%': article.getAuthor().getFullName() |escape, '%datePublish%': date_from_now(article.getPublishedAt(), false, true, 'medium', 'short', false, true)}) |desc('Ecrit par %image%<strong>%userFullName%</strong>, %datePublish%') |raw }}
+                <div class="author-infos layout-gt-sm-row layout-align-start-end layout-wrap">
+                    <div class="flex">{{ 'ARTICLE_CREATE_FROM_PUBLISH_AT'|trans({'%image%':  '<img class="#" src=" ' ~ avatar(article.getAuthor(), 'thumbnail') ~ '" width="16" class="avatar"/>', '%userFullName%': article.getAuthor().getFullName() |escape, '%datePublish%': date_from_now(article.getPublishedAt(), false, true, 'medium', 'short', false, true)}) |desc('Ecrit par %image%<strong>%userFullName%</strong>, %datePublish%') |raw }}
+                    </div>
+                    {% if has_feature_flag('blog_views') and blog.getCountView() and article.getViewsNumber() %}
+                        <div>{{ 'ARTICLE_NUMBER_OF_VIEWS'|trans({'%count%': article.getViewsNumber()}) }}</div>
+                    {% endif %}
                 </div>
             </div>
         </div>

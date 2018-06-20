@@ -10,8 +10,8 @@
  */
 var libraries = [
   'Routing',
+  'libphonenumber',
   '_',
-  'SmsCounter',
 ];
 var module = angular.module('bns.core.libraries', []);
 

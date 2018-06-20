@@ -15,6 +15,10 @@ BNS\App\HomeworkBundle\Model\om\BaseHomework:
       expose: true
     recurrence_end_date:
       expose: true
+    scheduled_publication:
+      expose: true
+    publication_date:
+      expose: true
 
   virtual_properties:
     getRecurrenceDays:

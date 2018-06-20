@@ -1,9 +1,11 @@
 <?php
 namespace BNS\App\GroupBundle\Statistic;
 
+use BNS\App\CoreBundle\Api\BNSApi;
 use BNS\App\CoreBundle\Group\BNSGroupManager;
 use BNS\App\CoreBundle\Model\Group;
 use BNS\App\CoreBundle\Model\GroupQuery;
+use BNS\App\CoreBundle\Model\GroupTypeQuery;
 use BNS\App\StatisticsBundle\Model\MarkerQuery;
 use BNS\App\StatisticsBundle\Statistics\BaseStatistics;
 use BNS\App\StatisticsBundle\Statistics\Graph;
@@ -37,10 +39,13 @@ class ActivationStatistics extends BaseStatistics
 
     protected $translator;
 
-    public function __construct(BNSGroupManager $groupManager, TranslatorInterface $translator)
+    protected $api;
+
+    public function __construct(BNSGroupManager $groupManager, TranslatorInterface $translator, BNSApi $api)
     {
         $this->groupManager = $groupManager;
         $this->translator = $translator;
+        $this->api = $api;
 
         // Indicators
         $this->indicators = array(
@@ -49,7 +54,7 @@ class ActivationStatistics extends BaseStatistics
         );
 
         // Graph
-        $graph = new Graph('graph_classroom_activation', $this->indicators, array(), Graph::ROLE_MODE_ALL_IN_ONE);
+        $graph = new Graph('graph_classroom_activation', $this->indicators, array(), Graph::ROLE_MODE_ALL_IN_ONE, true, Graph::GRAPH_TYPE_SPLINE, ['yAxisTitle' => $this->translator->trans('VALUES', [], 'STATISTICS')]);
         $graph->setTitle('statistic.classroom_school_activation');
         $graph->setUnDuplicateGroup(true);
 
@@ -71,7 +76,7 @@ class ActivationStatistics extends BaseStatistics
     {
         $res = array();
 
-        $groupIds = $filters['groups'];
+        $groupIds = $filters['groupIds'];
 
         foreach ($groupIds as $group) {
             list($data, $totals) = $this->getStatsFormGroup($group, $filters['start'], $filters['end']);
@@ -95,10 +100,10 @@ class ActivationStatistics extends BaseStatistics
             'columnDefs' => array(
                 array('field' => 'city', 'displayName' => $this->translator->trans('statistic.column.city'), 'width' => '20%', 'sort' => array('direction' => 'asc', 'priority' => 0), 'headerTooltip' => true),
                 array('field' => 'name', 'displayName' => $this->translator->trans('statistic.column.activation_school_name'), 'width' => '20%', 'sort' => array('direction' => 'asc', 'priority' => 1), 'headerTooltip' => true),
-                array('field' => 'activatedClassrooms', 'displayName' => $this->translator->trans('statistic.column.activation_activated_classroom'), 'aggregationType' => self::AGGREGATION_TYPES_SUM, 'headerTooltip' => true),
-                array('field' => 'classrooms', 'displayName' => $this->translator->trans('statistic.column.activation_classroom_number'), 'aggregationType' => self::AGGREGATION_TYPES_SUM, 'headerTooltip' => true),
-                array('field' => 'pupils', 'displayName' => $this->translator->trans('statistic.column.activation_pupil_number'), 'aggregationType' => self::AGGREGATION_TYPES_SUM, 'headerTooltip' => true),
-                array('field' => 'activationDate', 'displayName' => $this->translator->trans('statistic.column.activation_date'), 'headerTooltip' => true),
+                array('field' => 'activatedClassrooms', 'aggregationType' => 'uiGridConstants.aggregationTypes.sum', 'displayName' => $this->translator->trans('statistic.column.activation_activated_classroom'), 'aggregationType' => self::AGGREGATION_TYPES_SUM, 'headerTooltip' => true),
+                array('field' => 'classrooms','aggregationType' => 'uiGridConstants.aggregationTypes.sum', 'displayName' => $this->translator->trans('statistic.column.activation_classroom_number'), 'aggregationType' => self::AGGREGATION_TYPES_SUM, 'headerTooltip' => true),
+                array('field' => 'pupils', 'aggregationType' => 'uiGridConstants.aggregationTypes.sum', 'displayName' => $this->translator->trans('statistic.column.activation_pupil_number'), 'aggregationType' => self::AGGREGATION_TYPES_SUM, 'headerTooltip' => true),
+                array('field' => 'activationDate', 'aggregationType' => 'uiGridConstants.aggregationTypes.avg',  'displayName' => $this->translator->trans('statistic.column.activation_date'), 'headerTooltip' => true),
             )
         ));
     }
@@ -128,6 +133,11 @@ class ActivationStatistics extends BaseStatistics
     public function getClassroomActivationNumber(Group $group, $start = null, $end = null)
     {
         return $this->getGroupActivationQuery($group, 'CLASSROOM', $start, $end)->count();
+    }
+
+    public function getClassroomActivated(Group $group, $start = null, $end = null)
+    {
+        return $this->getGroupActivationQuery($group, 'CLASSROOM', $start, $end)->select('id')->find();
     }
 
     public function getClassroomNumber(Group $group, $start = null, $end = null)
@@ -200,12 +210,12 @@ class ActivationStatistics extends BaseStatistics
     }
 
 
-    protected function getStatsFormGroup($group, $start, $end)
+    protected function getStatsFormGroup($groupId, $start, $end)
     {
-        if ($group->getType() === 'SCHOOL') {
-            $schools = array($group);
+        if (GroupTypeQuery::create()->useGroupQuery()->filterById($groupId)->endUse()->select('type')->findOne() === 'SCHOOL') {
+            $schools = array($groupId);
         } else {
-            $schools = $this->getGroupActivationQuery($group, 'SCHOOL')->find();
+            $schools = $this->getGroupQuery($groupId, 'SCHOOL')->find();
         }
 
         $data = array();
@@ -214,14 +224,36 @@ class ActivationStatistics extends BaseStatistics
             'activatedClassrooms' => 0,
             'classrooms'          => 0,
             'pupils'              => 0,
+            'activatedPupils'     => 0,
+            'schools'             => count($schools)
         );
+
         foreach ($schools as $school) {
+
+            $nbPupils = (int)$this->groupManager->setGroup($school)->getNbUsers('PUPIL');
+            $totals['pupils'] += $nbPupils;
             if (!$school->isEnabled()) {
                 continue;
             }
-            $nbPupils = (int)$this->groupManager->setGroup($school)->getNbUsers('PUPIL');
             $nbActivatedClassrooms = $this->getClassroomActivationNumber($school, $start, $end);
             $nbClassrooms = $this->getClassroomNumber($school);
+            $classromActivated = $this->getClassroomActivated($school, $start, $end);
+
+            $values = "";
+            foreach ($classromActivated as $key => $id) {
+                if ($key == 0) {
+                    $values .= $id;
+                } else {
+                  $values .= '&ids[]='. $id;
+                }
+
+            }
+            $roleId = GroupTypeQuery::create()->filterByType('PUPIL')->select('id')->findOne();
+
+                $userDatas = $this->api->send('group_get_users_activated_by_roles', ['route' => [
+                    'role_id' => $roleId,
+                    'ids[]' => $values
+                ]], true);
 
             $data[] = array(
                 'name'                  => $school->getLabel(),
@@ -234,7 +266,7 @@ class ActivationStatistics extends BaseStatistics
             $totals['activatedSchools']++;
             $totals['activatedClassrooms'] += $nbActivatedClassrooms;
             $totals['classrooms'] += $nbClassrooms;
-            $totals['pupils'] += $nbPupils;
+            $totals['activatedPupils'] += count($userDatas);
         }
 
         return array($data, $totals);
@@ -244,16 +276,20 @@ class ActivationStatistics extends BaseStatistics
 
 
     /**
-     * @param Group $group
+     * @param Group|int $group
      * @param string $groupType "SCHOOL", "CLASSROOM"
      * @return GroupQuery
      */
-    protected function getGroupQuery(Group $group, $groupType)
+    protected function getGroupQuery($groupOrId, $groupType)
     {
-        $subGroupIds = $this->getAllSubgroupIds($group->getId(), $groupType);
+        if (!is_int($groupOrId)) {
+            $groupOrId = $groupOrId->getId();
+        }
+        $subGroupIds = $this->getAllSubgroupIds($groupOrId, $groupType);
 
         $query = GroupQuery::create()
             ->filterById($subGroupIds)
+            ->filterByArchived(false)
             ->groupById()
         ;
 
@@ -261,13 +297,13 @@ class ActivationStatistics extends BaseStatistics
     }
 
     /**
-     * @param Group $group
+     * @param Group|int $group
      * @param $groupType "SCHOOL", "CLASSROOM"
      * @param string|null $start date
      * @param string|null $end date
      * @return GroupQuery
      */
-    public function getGroupActivationQuery(Group $group, $groupType, $start = null, $end = null)
+    public function getGroupActivationQuery($group, $groupType, $start = null, $end = null)
     {
         $query = $this->getGroupQuery($group, $groupType)
             ->filterByEnabled(true)
@@ -307,11 +343,10 @@ class ActivationStatistics extends BaseStatistics
             $this->subgroupIdsByType[$groupType] = array();
         }
         if (!isset($this->subgroupIdsByType[$groupType][$groupId])) {
+            $groupTypeIds = GroupTypeQuery::create()->filterByType($groupType)->select('Id')->find()->getArrayCopy();
             $this->subgroupIdsByType[$groupType][$groupId] = GroupQuery::create()
                 ->filterById($this->getAllSubgroupIds($groupId), \Criteria::IN)
-                ->useGroupTypeQuery()
-                    ->filterByType($groupType)
-                ->endUse()
+                ->filterByGroupTypeId($groupTypeIds)
                 ->select(array('Id'))
                 ->find()
                 ->getArrayCopy()

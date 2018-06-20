@@ -7,11 +7,9 @@ BNS\App\MediaLibraryBundle\Model\om\BaseMedia:
       expose: true
 
   properties:
-    id:
-      expose: true
     label:
       expose: true
-      groups: [ detail, media_detail, media_basic, list ]
+      groups: [ detail, media_detail, media_basic, list, media_list, competition_statistics ]
     description:
       expose: true
       groups: [ detail, media_detail ]
@@ -31,7 +29,7 @@ BNS\App\MediaLibraryBundle\Model\om\BaseMedia:
       expose: true
     is_private:
       expose: true
-      groups: [ detail, media_detail ]
+      groups: [ detail, media_detail, media_list ]
     size:
       expose: true
       groups: [ detail, media_detail, media_basic ]
@@ -46,7 +44,7 @@ BNS\App\MediaLibraryBundle\Model\om\BaseMedia:
       groups: [ detail, media_detail ]
     created_at:
       expose: true
-      groups: [ detail, media_detail ]
+      groups: [ detail, media_detail, competition_detail, book_detail, questionnaire_participation ]
     updated_at:
       expose: true
       groups: [ detail, media_detail ]

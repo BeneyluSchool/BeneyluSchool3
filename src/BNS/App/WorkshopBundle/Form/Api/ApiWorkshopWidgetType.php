@@ -4,12 +4,13 @@ namespace BNS\App\WorkshopBundle\Form\Api;
 
 use BNS\App\MediaLibraryBundle\Manager\MediaLibraryRightManager;
 use BNS\App\MediaLibraryBundle\Model\MediaQuery;
-use BNS\App\WorkshopBundle\Form\Api\ApiWorkshopWidgetExtendedSettingType;
+use BNS\App\WorkshopBundle\Model\WorkshopWidget;
+use BNS\App\WorkshopBundle\Model\WorkshopWidgetQuery;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Callback;
-use Symfony\Component\Validator\ExecutionContextInterface;
+use Symfony\Component\Validator\Context\ExecutionContext;
 
 /**
  * Class ApiWorkshopWidgetType
@@ -31,45 +32,61 @@ class ApiWorkshopWidgetType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->add('content', 'textarea', [
+            'correction_edit' => true,
+        ]);
+        $builder->add('settings');
+        $builder->add('media_id');
+        $builder->add('workshop_widget_extended_setting', new ApiWorkshopWidgetExtendedSettingType());
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
         $mediaLibraryRightManager = $this->mediaLibraryRightManager;
 
         /**
          * Callback to validate embedded Resource
          *
-         * @param $id
-         * @param ExecutionContextInterface $context
+         * @param WorkshopWidget $widget
+         * @param ExecutionContext $context
          */
-        $resourceValidatorCallback = function ($id, $context) use ($mediaLibraryRightManager) {
-            if (!$id) {
+        $resourceValidatorCallback = function ($widget, $context) use ($mediaLibraryRightManager) {
+            if (!($widget && $widget->getMediaId())) {
                 return;
             }
 
-            // check that resource exists
-            $media = MediaQuery::create()->findPk($id);
+            if ($widget->getId()) {
+                $oldMediaId = WorkshopWidgetQuery::create()
+                    ->filterById($widget->getId())
+                    ->select('MediaId')
+                    ->findOne();
+                if ($widget->getMediaId() == $oldMediaId) {
+                    return;
+                }
+            }
+
+            $media = MediaQuery::create()->findPk($widget->getMediaId());
             if (!$media) {
-                $context->addViolation("La ressource n'a pas été trouvée");
+                $context->buildViolation("La ressource n'a pas été trouvée")
+                    ->atPath('media_id')
+                    ->addViolation();
                 return;
             }
             // check that user can embed it in its document
             if (!$mediaLibraryRightManager->canReadMedia($media)) {
-                $context->addViolation("Cette ressource n'est pas accessible");
+                $context->buildViolation("Cette ressource n'est pas accessible")
+                    ->atPath('media_id')
+                    ->addViolation()
+                ;
+                return;
             }
         };
 
-        $builder->add('content', 'textarea');
-        $builder->add('settings');
-        $builder->add('media_id', null, array(
+        $resolver->setDefaults(array(
+            'data_class' => 'BNS\App\WorkshopBundle\Model\WorkshopWidget',
             'constraints' => array(
                 new Callback(array($resourceValidatorCallback)),
             ),
-        ));
-        $builder->add('workshop_widget_extended_setting', new ApiWorkshopWidgetExtendedSettingType());
-    }
-
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => 'BNS\App\WorkshopBundle\Model\WorkshopWidget',
         ));
     }
 

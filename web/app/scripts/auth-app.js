@@ -7,6 +7,7 @@ angular.module(APP_NAME, [
   // vendor modules
   'ngCookies',
   'ngMessages',
+  'ngSanitize',
 
   // dummy translation, without conf
   'bns.core.translationInitLight',
@@ -26,6 +27,7 @@ angular.module(APP_NAME, [
   'bns.core.exposeComponentsRoot',
   'bns.core.input',
   'bns.core.libraries',
+  'bns.core.nofTheme',
   'bns.core.viewsLight',
 
   // app-wide stuff

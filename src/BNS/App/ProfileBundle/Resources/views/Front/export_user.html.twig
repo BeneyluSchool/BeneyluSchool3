@@ -1,0 +1,24 @@
+BEGIN:VCARD
+VERSION:2.1
+FN:{{ user.firstAndLastName }}
+N:{{ user.lastName }};{{ user.firstName }}
+{% if user.profile.publicData %}
+{% if user.profile.address is defined %}
+ADR;WORK;PREF;QUOTED-PRINTABLE:;{{ user.profile.address }}
+LABEL;QUOTED-PRINTABLE;WORK;PREF:{{ user.profile.address }}
+{% endif %}
+{% if user.phone is defined %}
+TEL;CELL:{{ user.phone }}
+{% endif %}
+{% if user.email is defined %}
+EMAIL;INTERNET:{{ user.email }}
+{% endif %}
+{% if user.profile.job is defined %}
+TITLE:{{ user.profile.job }}
+{% endif %}
+{% if user.profile.organization is defined %}
+ORG:{{ user.profile.organization }}
+{% endif %}
+{% endif %}
+UID:
+END:VCARD

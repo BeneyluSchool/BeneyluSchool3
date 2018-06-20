@@ -4,17 +4,25 @@ namespace BNS\App\HomeworkBundle\ApiController;
 
 use BNS\App\CoreBundle\Annotation\RightsSomeWhere;
 use BNS\App\CoreBundle\Model\GroupQuery;
+use BNS\App\CoreBundle\Model\GroupTypeQuery;
+use BNS\App\CoreBundle\Model\User;
+use BNS\App\CoreBundle\Model\UserQuery;
 use BNS\App\HomeworkBundle\Form\Type\ApiHomeworkCreateType;
 use BNS\App\HomeworkBundle\Form\Type\ApiHomeworkType;
 use BNS\App\HomeworkBundle\Model\Homework;
 use BNS\App\HomeworkBundle\Model\HomeworkDue;
 use BNS\App\HomeworkBundle\Model\HomeworkDueQuery;
+use BNS\App\HomeworkBundle\Model\HomeworkGroupPeer;
+use BNS\App\HomeworkBundle\Model\HomeworkGroupQuery;
 use BNS\App\HomeworkBundle\Model\HomeworkPeer;
+use BNS\App\HomeworkBundle\Model\HomeworkQuery;
 use BNS\App\HomeworkBundle\Model\HomeworkSubject;
 use BNS\App\HomeworkBundle\Model\HomeworkSubjectPeer;
 use BNS\App\HomeworkBundle\Model\HomeworkSubjectQuery;
 use BNS\App\HomeworkBundle\Model\HomeworkPreferences;
 use BNS\App\HomeworkBundle\Model\HomeworkPreferencesQuery;
+use BNS\App\HomeworkBundle\Model\HomeworkUserPeer;
+use BNS\App\HomeworkBundle\Model\HomeworkUserQuery;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
@@ -50,9 +58,11 @@ class HomeworkApiController extends BaseHomeworkApiController
      *
      * @Rest\QueryParam(name="subjects", description="list of ids of subjects to filter by")
      * @Rest\QueryParam(name="groups", description="list of ids of groups to filter by")
+     * @Rest\QueryParam(name="users", description="name of user to filter by")
      * @Rest\QueryParam(name="days", description="list of day codes to filter by")
+     * @Rest\QueryParam(name="publications", description="list of publication codes to filter by")
      * @Rest\Get("/week/{date}")
-     * @Rest\View(serializerGroups={"Default", "homework_list", "homework_detail", "back", "media_basic"})
+     * @Rest\View(serializerGroups={"Default", "homework_list", "homework_detail", "back", "media_basic", "homework_groups", "homework_users", "homework_children", "user_list"})
      * @RightsSomeWhere("HOMEWORK_ACCESS_BACK")
      *
      * @param string $date First day of week
@@ -73,17 +83,78 @@ class HomeworkApiController extends BaseHomeworkApiController
         $startDay = strtotime($date);
         $endDay = strtotime("+6 days", $startDay);
 
-        $groups = $this->get('bns.right_manager')->getGroupsWherePermission('HOMEWORK_ACCESS_BACK');
+        $filterGroupIds = $paramFetcher->get('groups');
+        $filterGroupIds = $filterGroupIds ? explode(',', $filterGroupIds) : null;
+        $filterUsers = $paramFetcher->get('users') ?: null;
+        $filterUsers = $filterUsers ? explode(',', $filterUsers) : null;
+
+        $groupIds = $this->get('bns.right_manager')->getGroupIdsWherePermission('HOMEWORK_ACCESS_BACK');
+
+        $pupilIds = null;
+        if (!$filterGroupIds || $filterUsers) {
+            // only filter by pupil if no group filter or if both filter
+            $pupilRoleId = (int) GroupTypeQuery::create()->filterByType('PUPIL')->select(['Id'])->findOne();
+            $groupManager = $this->get('bns.group_manager');
+            $pupilIds = [];
+            foreach ($groupIds as $groupId) {
+                $pupilIds = array_merge($pupilIds, $groupManager->getUserIdsByRole($pupilRoleId, $groupId));
+            }
+
+
+            if ($filterUsers) {
+                $pupilIds = UserQuery::create()
+                    ->filterById($filterUsers)
+                    ->select(['Id'])
+                    ->find();
+            }
+        }
 
         $subjectIds = $paramFetcher->get('subjects');
         $subjectIds = $subjectIds ? explode(',', $subjectIds) : null;
-        $groupIds = $paramFetcher->get('groups');
-        $groupIds = $groupIds ? explode(',', $groupIds) : null;
+
+        if ($filterGroupIds) {
+            // filter groups if required
+            $groupIds = array_intersect($groupIds, $filterGroupIds);
+        } else if ($filterUsers) {
+            //filter only by individual so we exclude groups
+            $groupIds = null;
+        }
+
         $prefDays = HomeworkPreferencesQuery::create()->findOrInit($this->get('bns.right_manager')->getCurrentGroupId())->getDays();
         $days = $paramFetcher->get('days');
         $days = $days ? explode(',', $days) : $prefDays;
 
-        return HomeworkDueQuery::create()->findForRangeForGroups($startDay, $endDay, $groups, $subjectIds, $groupIds, $days);
+        $publications = $paramFetcher->get('publications');
+        $publications = $publications ? explode(',', $publications) : [];
+
+        $homeworkIds = [];
+        if ($groupIds && is_array($groupIds)) {
+            // homework for groups
+            $homeworkIds = HomeworkDueQuery::create()
+                ->filterByPublicationStatus($publications)
+                ->filterByGroupIds($groupIds)
+                ->filterByRangeAndSubject($startDay, $endDay, $subjectIds, $days)
+                ->select(['Id'])
+                ->find()
+                ->getArrayCopy();
+        }
+        if ($pupilIds && is_array($pupilIds)) {
+            // homework for groups
+            $homeworkIds = array_merge(HomeworkDueQuery::create()
+                ->filterByPublicationStatus($publications)
+                ->filterByUserIds($pupilIds)
+                ->filterByRangeAndSubject($startDay, $endDay, $subjectIds, $days)
+                ->select(['Id'])
+                ->find()
+                ->getArrayCopy(), $homeworkIds);
+        }
+
+        return HomeworkDueQuery::create()
+            ->filterById($homeworkIds, \Criteria::IN)
+            ->joinWith('Homework')
+            ->orderByDueDate()
+            ->find()
+        ;
     }
 
     /**
@@ -106,7 +177,7 @@ class HomeworkApiController extends BaseHomeworkApiController
      * )
      *
      * @Rest\Get("/day/{date}")
-     * @Rest\View(serializerGroups={"Default", "homework_detail", "homework_due_detail", "user_list", "media_basic"})
+     * @Rest\View(serializerGroups={"Default", "homework_detail", "homework_due_detail", "user_list", "media_basic", "homework_groups", "homework_users", "homework_children"})
      * @RightsSomeWhere("HOMEWORK_ACCESS")
      *
      * @param string $date First day of week
@@ -124,9 +195,57 @@ class HomeworkApiController extends BaseHomeworkApiController
             return $this->view(null, Codes::HTTP_BAD_REQUEST);
         }
 
-        $groupIds = $this->get('bns.right_manager')->getGroupIdsWherePermission('HOMEWORK_ACCESS');
+        /** @var User $user */
+        $user = $this->getUser();
+        $homeworkRightManager = $this->get('bns_app_homework.homework.homework_right_manager');
 
-        return HomeworkDueQuery::create()->groupByHomeworkId()->findForDay($groupIds, $date);
+        $groupIds = $homeworkRightManager->getAllowedGroupIds($user, 'HOMEWORK_ACCESS');
+
+        $pupilIds = $homeworkRightManager->getAllowedPupilIds($user, 'HOMEWORK_ACCESS_BACK');
+
+        if ($user->isChild()) {
+            $pupilIds[] = $user->getId();
+        } else {
+            foreach ($user->getActiveChildren() as $child) {
+                $pupilIds[] = $child->getId();
+            }
+        }
+
+        if ($this->get('bns.right_manager')->hasRightSomeWhere('HOMEWORK_ACCESS_BACK')) {
+            $publicationStatus = [];
+        } else {
+            $publicationStatus = ['PUB'];
+        }
+
+        $homeworkIds = [];
+        if ($groupIds && is_array($groupIds)) {
+            // homework for groups
+            $homeworkIds = HomeworkDueQuery::create()
+                ->filterByPublicationStatus($publicationStatus)
+                ->filterByGroupIds($groupIds)
+                ->filterByDueDate($date)
+                ->select(['Id'])
+                ->find()
+                ->getArrayCopy();
+        }
+        if ($pupilIds && is_array($pupilIds)) {
+            // homework for groups
+            $homeworkIds = array_merge(HomeworkDueQuery::create()
+                ->filterByPublicationStatus($publicationStatus)
+                ->filterByUserIds($pupilIds)
+                ->filterByDueDate($date)
+                ->select(['Id'])
+                ->find()
+                ->getArrayCopy(), $homeworkIds);
+        }
+
+        return HomeworkDueQuery::create()
+            ->groupByHomeworkId()
+            ->filterById($homeworkIds, \Criteria::IN)
+            ->joinWith('Homework')
+            ->orderByDueDate()
+            ->find()
+            ;
     }
 
     /**
@@ -176,7 +295,7 @@ class HomeworkApiController extends BaseHomeworkApiController
      * )
      *
      * @Rest\Post("/groups/{groupId}/subjects")
-     * @Rest\View(serializerGroups={"Default", "homework_detail", "homework_due_detail", "user_list", "media_basic"})
+     * @Rest\View()
      * @RightsSomeWhere("HOMEWORK_ACCESS_BACK")
      *
      * @param integer $groupId
@@ -186,6 +305,10 @@ class HomeworkApiController extends BaseHomeworkApiController
     public function postAddSubjectsAction($groupId, Request $request)
     {
         if (!$this->get('bns.right_manager')->hasRight('HOMEWORK_ACCESS_BACK', $groupId)) {
+            return $this->view(null, Codes::HTTP_FORBIDDEN);
+        }
+
+        if (!$this->hasFeature('homework_subject')) {
             return $this->view(null, Codes::HTTP_FORBIDDEN);
         }
 
@@ -236,6 +359,10 @@ class HomeworkApiController extends BaseHomeworkApiController
      */
     public function editSubjectsAction($subjectId, Request $request )
     {
+        if (!$this->hasFeature('homework_subject')) {
+            return $this->view(null, Codes::HTTP_FORBIDDEN);
+        }
+
         $name = $request->get('name');
 
         if (!$name) {
@@ -273,7 +400,6 @@ class HomeworkApiController extends BaseHomeworkApiController
      * )
      *
      * @Rest\Delete("/subjects/{subjectId}")
-     * @Rest\View(serializerGroups={"Default", "homework_detail", "homework_due_detail", "user_list", "media_basic"})
      * @RightsSomeWhere("HOMEWORK_ACCESS_BACK")
      *
      * @param integer $subjectId
@@ -281,6 +407,10 @@ class HomeworkApiController extends BaseHomeworkApiController
      */
     public function deleteSubjectsAction($subjectId)
     {
+        if (!$this->hasFeature('homework_subject')) {
+            return $this->view(null, Codes::HTTP_FORBIDDEN);
+        }
+
         $subject = HomeworkSubjectQuery::create()
             ->filterById($subjectId)
             ->findOne();
@@ -292,9 +422,9 @@ class HomeworkApiController extends BaseHomeworkApiController
 
             $subject->delete();
             return $this->view(null, Codes::HTTP_OK);
-        } else {
-            return $this->view(null, Codes::HTTP_BAD_REQUEST);
         }
+
+        return $this->view(null, Codes::HTTP_BAD_REQUEST);
     }
 
     /**
@@ -323,6 +453,10 @@ class HomeworkApiController extends BaseHomeworkApiController
     public function sortSubjectsAction($groupId, Request $request)
     {
         if (!$this->get('bns.right_manager')->hasRight('HOMEWORK_ACCESS_BACK', $groupId)) {
+            return $this->view(null, Codes::HTTP_FORBIDDEN);
+        }
+
+        if (!$this->hasFeature('homework_subject')) {
             return $this->view(null, Codes::HTTP_FORBIDDEN);
         }
 
@@ -398,11 +532,36 @@ class HomeworkApiController extends BaseHomeworkApiController
         $lockerManager = $this->get('bns.media_folder.locker_manager');
         $homeworkManager = $this->get('bns.homework_manager');
         $currentGroup = $this->get('bns.right_manager')->getCurrentGroup();
-        $groups = $this->get('bns.right_manager')->getGroupsWherePermission('HOMEWORK_ACCESS_BACK');
-        $subjects = HomeworkSubjectQuery::create()->fetchAndFilterByGroupId($currentGroup->getId());
 
-        return $this->restForm(new ApiHomeworkCreateType($groups, $subjects), $data, [
+        // groups where user can create homework
+        $groupIds = $this->get('bns.right_manager')->getGroupIdsWherePermission('HOMEWORK_ACCESS_BACK');
+        $pupilRoleId = (int) GroupTypeQuery::create()->filterByType('PUPIL')->select(['Id'])->findOne();
+        $groupManager = $this->get('bns.group_manager');
+        // pupils user can set individual homework to
+        $pupilIds = [];
+        foreach ($groupIds as $groupId) {
+            $group = GroupQuery::create()->findOneById($groupId);
+            if ( $group->isPartnerShip() ) {
+                $groupManager->setGroupById($groupId);
+                foreach ($groupManager->getPartnersIds() as $partner) {
+                    $pupilIds = array_merge($pupilIds, $groupManager->getUserIdsByRole($pupilRoleId, $partner));
+                }
+            }
+            $pupilIds = array_merge($pupilIds, $groupManager->getUserIdsByRole($pupilRoleId, $groupId));
+        }
+        $subjectIds = HomeworkSubjectQuery::create()
+            ->filterByGroupId($currentGroup->getId())
+            ->filterByTreeLevel(0, \Criteria::NOT_EQUAL)
+            ->select(['Id'])
+            ->find()
+            ->getArrayCopy()
+        ;
+
+        return $this->restForm(new ApiHomeworkCreateType(), $data, [
             'csrf_protection' => false, // TODO
+            'userIds' => $pupilIds,
+            'groupIds' => $groupIds,
+            'subjectIds' => $subjectIds
         ], null, function ($data, $form) use ($request, $mediaManager, $lockerManager, $homeworkManager, $currentGroup) {
             /** @var Homework $homework */
             foreach ($data['homeworks'] as $key => $homework) {
@@ -410,7 +569,7 @@ class HomeworkApiController extends BaseHomeworkApiController
                 $homework->save();
                 $this->get('stat.homework')->newWork();
                 if ($homework->getHasLocker()) {
-                    $lockerManager->createForHomework($homework);
+                    $lockerManager->createForHomework($homework, $currentGroup);
                 }
                 $homeworkManager->processHomework($homework);
                 $attachments = isset($request->get('homeworks')[$key]['resource-joined']) ? $request->get('homeworks')[$key]['resource-joined'] : null;
@@ -447,14 +606,19 @@ class HomeworkApiController extends BaseHomeworkApiController
      * )
      *
      * @Rest\Get("/{id}")
-     * @Rest\View()
+     * @Rest\View(serializerGroups={"Default", "homework_detail", "homework_list", "homework_groups", "homework_users", "homework_children", "user_list"})
      * @RightsSomeWhere("HOMEWORK_ACCESS_BACK")
      *
      * @param Homework $homework
      * @return mixed
      */
-    public function getAction(Homework $homework)
+    public function getAction($id)
     {
+        $homework = HomeworkQuery::create()->findPk($id);
+        if (!$homework) {
+            throw $this->createNotFoundException();
+        }
+
         if (!$this->canManageHomework($homework)) {
             return $this->view(null, Codes::HTTP_FORBIDDEN);
         }
@@ -494,22 +658,48 @@ class HomeworkApiController extends BaseHomeworkApiController
         if (!$this->canManageHomework($homework)) {
             return $this->view(null, Codes::HTTP_FORBIDDEN);
         }
-        $data = json_decode($request->getContent(), true);
-        $groups = GroupQuery::create()
-            ->filterById($data['groups'])
-            ->find();
-        $homework->setGroups($groups);
 
-        $groups = $this->get('bns.right_manager')->getGroupsWherePermission('HOMEWORK_ACCESS_BACK');
         $mediaManager = $this->get('bns.media.manager');
         $homeworkManager = $this->get('bns.homework_manager');
         $lockerManager = $this->get('bns.media_folder.locker_manager');
         $currentGroup = $this->get('bns.right_manager')->getCurrentGroup();
-        $subjects = HomeworkSubjectQuery::create()->fetchAndFilterByGroupId($currentGroup->getId());
 
-        return $this->restForm(new ApiHomeworkType($groups, $subjects), $homework, [
+        // groups where user can create homework
+        $groupIds = $this->get('bns.right_manager')->getGroupIdsWherePermission('HOMEWORK_ACCESS_BACK');
+        $pupilRoleId = (int) GroupTypeQuery::create()->filterByType('PUPIL')->select(['Id'])->findOne();
+        $groupManager = $this->get('bns.group_manager');
+        // pupils user can set individual homework to
+        $pupilIds = [];
+        foreach ($groupIds as $groupId) {
+            $pupilIds = array_merge($pupilIds, $groupManager->getUserIdsByRole($pupilRoleId, $groupId));
+        }
+        $subjectIds = HomeworkSubjectQuery::create()
+            ->filterByGroupId($currentGroup->getId())
+            ->filterByTreeLevel(0, \Criteria::NOT_EQUAL)
+            ->select(['Id'])
+            ->find()
+            ->getArrayCopy()
+        ;
+
+        // help propel handle n:n
+        $data = json_decode($request->getContent(), true);
+        if (isset($data['groups'])) {
+            foreach ($homework->getGroups() as $group) {
+                $homework->removeGroup($group);
+            }
+        }
+        if (isset($data['users'])) {
+            foreach ($homework->getUsers() as $user) {
+                $homework->removeUser($user);
+            }
+        }
+
+        return $this->restForm(new ApiHomeworkType(), $homework, [
             'csrf_protection' => false, // TODO,
-        ], null, function ($homework) use ($request, $lockerManager, $homeworkManager, $mediaManager) {
+            'groupIds' => $groupIds,
+            'userIds' => $pupilIds,
+            'subjectIds' => $subjectIds,
+        ], null, function ($homework) use ($request, $lockerManager, $homeworkManager, $mediaManager, $currentGroup) {
             /** @var Homework $homework */
             if ($homework->isColumnModified(HomeworkPeer::RECURRENCE_TYPE)
                 || $homework->isColumnModified(HomeworkPeer::DATE)
@@ -521,7 +711,7 @@ class HomeworkApiController extends BaseHomeworkApiController
             $homework->save();
 
             if ($homework->getHasLocker()) {
-                $lockerManager->createForHomework($homework);
+                $lockerManager->createForHomework($homework, $currentGroup);
             }
             $homeworkManager->processHomework($homework);
             $mediaManager->saveAttachments($homework, $request);
@@ -670,4 +860,45 @@ class HomeworkApiController extends BaseHomeworkApiController
         return $data;
     }
 
+
+    /**
+     * @ApiDoc(
+     *  section="Cahier de texte",
+     *  resource=true,
+     *  description="Export du cahier de texte de l'enseignant",
+     *  statusCodes = {
+     *      204 = "Ok",
+     *      404 = "Le devoir n'a pas été trouvé."
+     *  }
+     * )
+     *
+     * @Rest\Get("-export")
+     * @Rest\View(serializerGroups={"Default", "homework_detail", "homework_list", "homework_groups", "homework_users", "homework_children", "user_list"})
+     * @RightsSomeWhere("HOMEWORK_ACCESS_BACK")
+     *
+     */
+    public function exportAction()
+    {
+        if (!$this->hasFeature('homework_sdet_export')) {
+           throw $this->createAccessDeniedException();
+        }
+        $groupIds = $this->get('bns.right_manager')->getGroupIdsWherePermission('HOMEWORK_ACCESS_BACK');
+        $userIds = array();
+        foreach ($groupIds as $groupId) {
+          $userIds = array_unique(array_merge($userIds, $this->get('bns.group_manager')->getUserIdsByRole('PUPIL', $groupId)));
+        }
+        $homeworksFromGroupIds = HomeworkGroupQuery::create()->filterByGroupId($groupIds)->select(HomeworkGroupPeer::HOMEWORK_ID)->find()->toArray();
+        $homeworksFromUserIds = HomeworkUserQuery::create()->filterByUserId($userIds)->select(HomeworkUserPeer::USER_ID)->find()->toArray();
+
+        $homeworkIds = array_unique(array_merge($homeworksFromUserIds, $homeworksFromGroupIds));
+        $homeworks = HomeworkQuery::create('a')->filterById($homeworkIds)->find();
+        $response = $this->render('BNSAppHomeworkBundle:Back:export.html.twig', array(
+            'homeworks' => $homeworks
+        ));
+        $response->headers->set('Content-Type', 'text/html');
+        $response->headers->set('Content-Disposition', 'attachment; filename="cahier_de_texte' . date('d-m-Y', strtotime('now')) .'.html"');
+        $response->setContent(str_replace("\n", "\r\n", $response->getContent()));
+
+        return $response;
+    }
 }

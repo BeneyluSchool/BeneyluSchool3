@@ -5,11 +5,13 @@ use BNS\App\CampaignBundle\Model\CampaignPeer;
 use BNS\App\CampaignBundle\Model\CampaignQuery;
 use BNS\App\CampaignBundle\Model\CampaignRecipientQuery;
 use BNS\App\CampaignBundle\Sender\CampaignSenderInterface;
+use BNS\App\CoreBundle\Access\BNSAccess;
 use BNS\App\CoreBundle\Model\UserPeer;
 use BNS\App\CoreBundle\Model\UserQuery;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @author Jérémie Augustin <jeremie.augustin@pixel-cookers.com>
@@ -27,9 +29,14 @@ class CampaignMessageConsumer implements ConsumerInterface
 
     public function __construct(
         LoggerInterface $logger,
+        ContainerInterface $container,
         array $campaignSenders = array()
     ) {
         $this->logger = $logger;
+
+        if (!BNSAccess::getContainer()) {
+            BNSAccess::setContainer($container);
+        }
 
         foreach ($campaignSenders as $sender) {
             if (!$sender instanceof CampaignSenderInterface) {
@@ -53,14 +60,14 @@ class CampaignMessageConsumer implements ConsumerInterface
             if (false === $message || !isset($message['campaign_id'])) {
                 $this->logger->error('CampaignMessageConsumer invalid message', ['msg' => $msg]);
 
-                return;
+                return self::MSG_REJECT;
             }
 
             $campaign = CampaignQuery::create()->filterByStatus(CampaignPeer::STATUS_PENDING)->findPk($message['campaign_id']);
             if (!$campaign) {
                 $this->logger->error(sprintf('CampaignMessageConsumer invalid campaign "%s"', $message['campaign_id']), ['msg' => $msg]);
 
-                return;
+                return self::MSG_REJECT;
             }
 
             $users = UserQuery::create()
@@ -75,7 +82,7 @@ class CampaignMessageConsumer implements ConsumerInterface
             if (0 === $users->count()) {
                 $this->logger->error(sprintf('CampaignMessageConsumer invalid campaign "%s" no recipients', $message['campaign_id']), ['msg' => $msg]);
 
-                return;
+                return self::MSG_REJECT;
             }
 
             $supported = false;
@@ -93,7 +100,7 @@ class CampaignMessageConsumer implements ConsumerInterface
                 $this->logger->error('CampaignMessageConsumer unsupported campaign type', [
                     'campaign_id' => $campaign->getId(),
                 ]);
-                return;
+                return self::MSG_REJECT;
             }
 
             // update recipient status
@@ -116,16 +123,16 @@ class CampaignMessageConsumer implements ConsumerInterface
                 $campaign->save();
             }
 
-            return true;
+            return self::MSG_ACK;
         } catch(\PropelException $e) {
             $this->logger->error(sprintf('ERROR CampaignMessageConsumer Propel error "%s", caused by "%s"', $e->getMessage(), $e->getCause()));
             \Propel::close();
 
-            return false;
+            return self::MSG_REJECT_REQUEUE;
         } catch (\Exception $e) {
             $this->logger->error('ERROR CampaignMessageConsumer: ' . $e->getMessage());
         }
 
-        return false;
+        return self::MSG_REJECT;
     }
 }

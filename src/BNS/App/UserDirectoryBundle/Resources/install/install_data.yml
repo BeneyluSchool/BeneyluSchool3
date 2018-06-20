@@ -37,6 +37,8 @@ permissions:
       fr: Peut activer ou désactiver l'accès à l'annuaire
       en: Can enable / disabled the user directory
 
+  DISTRIBUTION: ~
+
 ranks:
   READ:
     label:
@@ -55,6 +57,9 @@ ranks:
       fr:
       en:
     permissions: [ACCESS, ACCESS_BACK, ACTIVATION]
+
+  DISTRIBUTION_MANAGE:
+    permissions: [DISTRIBUTION]
 
 markers:
   USERDIRECTORY_VISIT:

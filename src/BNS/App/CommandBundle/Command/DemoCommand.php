@@ -12,6 +12,9 @@ use BNS\App\CoreBundle\Model\BlogArticlePeer;
 use BNS\App\CoreBundle\Model\BlogCategory;
 use BNS\App\CoreBundle\Model\BlogCategoryQuery;
 use BNS\App\CoreBundle\Model\Group;
+use BNS\App\CoreBundle\Model\GroupType;
+use BNS\App\CoreBundle\Model\GroupTypeDataChoiceQuery;
+use BNS\App\CoreBundle\Model\GroupTypeQuery;
 use BNS\App\CoreBundle\Model\LiaisonBookSignature;
 use BNS\App\CoreBundle\Model\ProfileComment;
 use BNS\App\CoreBundle\Model\ProfileFeed;
@@ -62,9 +65,10 @@ class DemoCommand extends ContainerAwareCommand
     {
         $this->setName('bns:demo')
             ->setDescription('Insert demo content from group')
-            ->addOption('groupId', null, InputOption::VALUE_REQUIRED, 'School ID')
+            ->addOption('groupId', null, InputOption::VALUE_REQUIRED, 'Group ID')
             ->addOption('lang', null, InputOption::VALUE_REQUIRED, 'Language', 'fr')
             ->addOption('country', null, InputOption::VALUE_OPTIONAL, 'Country', null)
+            ->addOption('onlyCity', null, InputOption::VALUE_NONE)
         ;
     }
 
@@ -106,46 +110,114 @@ class DemoCommand extends ContainerAwareCommand
         $this->getContainer()->get('session')->set('lang', $this->lang);
         ini_set('memory_limit','2048M');
         $this->output = $output;
-        $school = GroupQuery::create()->findOneById($input->getOption('groupId'));
+        $group = GroupQuery::create()->findOneById($input->getOption('groupId'));
 
-        if(!$school)
+        if(!$group)
         {
            throw new \Exception('Please set a valid group id');
         }
 
-        if($school->getGroupType()->getType() != 'SCHOOL')
+        if(!in_array($group->getGroupType()->getType(), ['SCHOOL', 'CITY', 'ACADEMY']))
         {
-            throw new \Exception('Please set a school');
+            throw new \Exception('Please set a school, a city or an academy');
         }
 
-        $this->updateSchoolInformations($school);
-        //Création de la classe
-        $this->createClassroomDatas($school);
-        $this->addSchoolVersion($school);
-        $this->addSchoolApps($school);
-        $this->createMiniSite($school);
-        $this->createBlog($school);
-        $this->createAgendaEvents($school);
-        $this->createLunches($school);
-        $this->output->writeln('<info>All done !</info>');
+        $this->output->writeln('This group is a ' . $group->getGroupType()->getType());
+        if ($group->getGroupType()->getType() === 'SCHOOL') {
+            $this->updateSchoolInformations($group);
+            //Création de la classe
+            $this->createClassroomDatas($group);
+            $this->addSchoolVersion($group);
+            $this->addSchoolApps($group);
+            $this->createMiniSite($group);
+            $this->createBlog($group);
+            $this->createAgendaEvents($group);
+            $this->createLunches($group);
+            $this->output->writeln('<info>All done !</info>');
+        }
+        elseif ($group->getGroupType()->getType() === 'CITY') {
+           $this->updateCityInformations($group);
+           if (!$input->getOption('onlyCity')) {
+               $output->writeln('creating school');
+               $this->createLeasureCenterDatas($group);
+           } else {
+               $output->writeln('Skip creating school');
+           }
+           $this->addGroupApps($group);
+           $this->createMiniSite($group, 'minisite-city');
+           $this->createBlog($group, 'blog-city');
+           $this->createAgendaEvents($group, 'agenda-city');
+           $this->output->writeln('<info>All done !</info>');
+        } elseif ($group->getGroupType()->getType() === 'ACADEMY') {
+            $this->updateAcademyInformations($group);
+            $this->createAcademyDatas($group);
+            $this->addGroupApps($group);
+            $this->createMiniSite($group, 'minisite-academy');
+            $this->createBlog($group, 'blog-academy');
+            $this->createAgendaEvents($group, 'agenda-academy');
+            $this->output->writeln('<info>All done !</info>');
+        }
     }
 
     protected function addSchoolApps($school)
     {
         $applicationManager = $this->getContainer()->get('bns_core.application_manager');
         $paasManager = $this->getContainer()->get('bns.paas_manager');
-        $apps = ['MINISITE', 'BLOG', 'LUNCH', 'CALENDAR'];
+        $groupManager = $this->getContainer()->get('bns.group_manager');
+        $apps = ['MINISITE', 'BLOG', 'LUNCH', 'CALENDAR', 'LIAISONBOOK'];
         foreach($apps as $app) {
             $paasManager->generateSubscription($school, $app, 'unlimited', null, null, $this->lang);
 
             try {
                 // optionnal should be done by the subscription
                 $applicationManager->installApplication($app, $school);
+                $paasManager->generateSubscription($school, $app, 'unlimited', null, null, $this->lang);
+                $roles = GroupTypeQuery::create()->filterBySimulateRole(true)->filterByType(['PARENT', 'PUPIL', 'TEACHER'])->find();
+                foreach ($roles as $role) {
+                    $groupManager->activationModuleRequest($applicationManager->getApplication($app), $role, true, null, $school->getId(), true);
+                }
             } catch (InvalidInstallApplication $e) {
                 $this->output->writeln(sprintf('<info>Try to install application "%s" failed : %s' , $app, $e->getMessage()));
             }
         }
+
+        $favoriteApps = ['BLOG', 'CALENDAR', 'MEDIA_LIBRARY', 'CAMPAIGN', 'PORTAL', 'MINISITE'];
+        /** @var Group $school */
+        $school->setFavoriteModules([]);
+        foreach ($favoriteApps as $favoriteApp) {
+            $school->addFavoriteModule($favoriteApp);
+        }
+        $school->save();
         $this->output->writeln('<info>School apps installed</info>');
+    }
+
+    protected function addGroupApps($group)
+    {
+        $applicationManager = $this->getContainer()->get('bns_core.application_manager');
+        $paasManager = $this->getContainer()->get('bns.paas_manager');
+        $groupManager = $this->getContainer()->get('bns.group_manager');
+        $apps = ['MINISITE', 'BLOG', 'CALENDAR', 'CAMPAIGN', 'PORTAL'];
+        foreach($apps as $app) {
+            try {
+                // optionnal should be done by the subscription
+                $applicationManager->installApplication($app, $group);
+                $paasManager->generateSubscription($group, $app, 'unlimited', null, null, $this->lang);
+                $roles = GroupTypeQuery::create()->filterBySimulateRole(true)->filterByType(['PARENT', 'PUPIL', 'TEACHER', 'DIRECTOR'])->find();
+                foreach ($roles as $role) {
+                    $groupManager->activationModuleRequest($applicationManager->getApplication($app), $role, true, null, $group->getId(), true);
+                }
+            } catch (InvalidInstallApplication $e) {
+                $this->output->writeln(sprintf('<info>Try to install application "%s" failed : %s' , $app, $e->getMessage()));
+            }
+        }
+        $favoriteApps = ['BLOG', 'CALENDAR', 'MEDIA_LIBRARY', 'CAMPAIGN', 'PORTAL', 'MINISITE', 'STATISTICS'];
+        /** @var Group $group */
+        $group->setFavoriteModules([]);
+        foreach ($favoriteApps as $favoriteApp) {
+            $group->addFavoriteModule($favoriteApp);
+        }
+        $group->save();
+        $this->output->writeln('<info>City apps installed</info>');
     }
 
     protected function addSchoolVersion($school)
@@ -155,7 +227,7 @@ class DemoCommand extends ContainerAwareCommand
         $groupManager = $this->getContainer()->get('bns.group_manager');
         $groupManager->setGroup($school);
 
-        $ref = $groupManager->getUsersByRoleUniqueName('TEACHER');
+        $ref = $groupManager->getUsersByRoleUniqueName('DIRECTOR');
 
         $user = UserQuery::create()
             ->findPk($ref[0]['id']);
@@ -163,7 +235,6 @@ class DemoCommand extends ContainerAwareCommand
         $paasManager->generateSubscription($school, PaasManager::PREMIUM_SUBSCRIPTION, 'unlimited', $user->getUsername(), null, $this->lang);
         $this->output->writeln('<info>School subscription activated with :</info>');
 
-        $userManager->resetUserPassword($user, false);
         $this->output->writeln($user->getUsername(). ' / ' . $user->getPassword());
 
     }
@@ -172,17 +243,30 @@ class DemoCommand extends ContainerAwareCommand
     {
         $applicationManager = $this->getContainer()->get('bns_core.application_manager');
         $paasManager = $this->getContainer()->get('bns.paas_manager');
-        $apps = ['HOMEWORK', 'BLOG', 'CALENDAR', 'LIAISONBOOK', 'GPS'];
+        $groupManager = $this->getContainer()->get('bns.group_manager');
+        $apps = ['HOMEWORK', 'BLOG', 'CALENDAR', 'LIAISONBOOK', 'GPS', 'COMPETITION', 'WORKSHOP', 'FORUM', 'SEARCH', 'COURSE', 'NOTEBOOK', 'PUPILMONITORING', 'CHAT', 'LSU'];
         foreach($apps as $app) {
             $paasManager->generateSubscription($classroom, $app, 'unlimited', null, null, $this->lang);
 
             try {
                 // optionnal should be done by the subscription
                 $applicationManager->installApplication($app, $classroom);
+                $roles = GroupTypeQuery::create()->filterBySimulateRole(true)->filterByType(['PARENT', 'PUPIL'])->find();
+                foreach ($roles as $role) {
+                    /** @var GroupType $role */
+                    $groupManager->activationModuleRequest($applicationManager->getApplication($app), $role, true, null, $classroom->getId(), true);
+                }
             } catch (InvalidInstallApplication $e) {
                 $this->output->writeln(sprintf('<info>Try to install application "%s" failed : %s' , $app, $e->getMessage()));
             }
         }
+        $favoriteApps = ['PROFILE', 'BLOG', 'HOMEWORK', 'LIAISONBOOK', 'CALENDAR', 'MESSAGING', 'MEDIA_LIBRARY', 'NOTIFICATION'];
+        /** @var Group $classroom */
+            $classroom->setFavoriteModules([]);
+        foreach ($favoriteApps as $favoriteApp) {
+            $classroom->addFavoriteModule($favoriteApp);
+        }
+        $classroom->save();
         $this->output->writeln('<info>Classroom apps installed</info>');
     }
 
@@ -196,6 +280,9 @@ class DemoCommand extends ContainerAwareCommand
         $this->createGPS($classroom);
         $this->createMessage($classroom);
         $this->addClassroomApps($classroom);
+        $user = $this->createUserAndProfileDatasInGroup('director', $school);
+        $user = $this->getContainer()->get('bns.user_manager')->resetUserPassword($user, false, null, false);
+        $this->output->writeln(sprintf('Director created with login <info>%s</info> and Password : <info>%s</info>', $user->getLogin(), $user->getPassword()));
         $this->output->writeln('<info>All classroom tasks done !</info>');
     }
 
@@ -258,6 +345,7 @@ class DemoCommand extends ContainerAwareCommand
     protected function createClassroom(Group $school)
     {
         $gm = $this->getContainer()->get('bns.group_manager');
+        $userManager = $this->getContainer()->get('bns.user_manager');
         $gm->setGroup($school);
 
         $classroomParams = array(
@@ -266,6 +354,7 @@ class DemoCommand extends ContainerAwareCommand
         );
 
         $classroom = $gm->createSubgroupForGroup($classroomParams, $school->getId());
+        $classroom->setAttribute('LEVEL', [$this->guessLevel($classroom->getLabel())]);
         $classroom->setAttribute('HOME_MESSAGE',$this->getRandomizedData('classroom','home_message'));
         $classroom->validateStatus();
         $classroom->setCountry($this->country);
@@ -277,19 +366,29 @@ class DemoCommand extends ContainerAwareCommand
 
         while($pupilCount < 25)
         {
-            $this->createUserAndProfileDatas('pupil', $classroom);
+            $user = $this->createUserAndProfileDatas('pupil', $classroom);
             $pupilCount++;
-            $this->output->writeln(sprintf('<info>%s</info> pupils created', $pupilCount));
+            $this->output->writeln(sprintf('<info>%s</info> pupils created with login <info>%s</info>', $pupilCount, $user->getLogin()));
         }
 
+        $parents = $user->getParents();
+        foreach ($parents as $parent) {
+            $parent = $userManager->resetUserPassword($parent, false, null, false);
+            $this->output->writeln(sprintf('Parent created with login <info>%s</info> and Password : <info>%s</info>', $parent->getLogin(), $parent->getPassword()));
+        }
         $teacherCount = 0;
 
         while($teacherCount < 2)
         {
-            $this->createUserAndProfileDatas('teacher', $classroom);
+            $user = $this->createUserAndProfileDatas('teacher', $classroom);
             $teacherCount++;
-            $this->output->writeln(sprintf('<info>%s</info> teachers created', $teacherCount));
+            $user = $userManager->resetUserPassword($user, false, null, false);
+            $this->output->writeln(sprintf('<info>%s</info> teachers created with login <info>%s</info> and Password : <info>%s</info>', $teacherCount, $user->getLogin(), $user->getPassword()));
         }
+
+        $user = $this->createUserAndProfileDatas('assistant', $classroom);
+        $user = $userManager->resetUserPassword($user, false, null, false);
+        $this->output->writeln(sprintf('assistant created with login <info>%s</info> and Password : <info>%s</info>', $user->getLogin(), $user->getPassword()));
 
         $this->output->writeln(sprintf('Classroom <info>%s</info> created', $classroom->getId()));
 
@@ -313,12 +412,13 @@ class DemoCommand extends ContainerAwareCommand
             'lang' => $this->fullLang
         );
 
-        if($type == 'teacher')
+        if(in_array($type,['teacher', 'assistant']))
         {
             $values['email'] = strtolower($array['first_name'] . '.' . $array['last_name'] . rand(1,9999) . '@demo.beneylu.com');
         }
 
         $user = $um->createUser($values, false);
+        $user->setCguValidation(true)->setCguVersion(2)->save();
         $cm->setClassroom($classroom);
         /** @var User $pupil */
         if($type == 'pupil')
@@ -327,38 +427,63 @@ class DemoCommand extends ContainerAwareCommand
         }elseif($type == 'teacher')
         {
             $cm->assignTeacher($user);
+        } elseif ($type == 'assistant') {
+            $cm->assignAssistant($user);
         }
 
-        //Gestion des avatars
+        if ( $type == 'pupil') {
+            $avatar = $this->createMedia($user, '/avatar/' . strtolower($user->getFirstName()) . '-' . strtolower($user->getLastName()) . '.jpg', $user->getMediaFolderRoot());
+            $profile = $user->getProfile();
+            $profile->setAvatarId($avatar->getId());
+            $profile->setJob($array['job']);
+            $profile->setDescription($array['presentation']);
+            $profile->save();
+            foreach ($array['likes'] as $like) {
+                $preference = new ProfilePreference();
+                $preference->setIsLike(1);
+                $preference->setItem($like);
+                $preference->setProfile($profile);
+                $preference->save();
+            }
+            foreach ($array['dislikes'] as $dislike) {
+                $preference = new ProfilePreference();
+                $preference->setIsLike(0);
+                $preference->setItem($dislike);
+                $preference->setProfile($profile);
+                $preference->save();
+            }
+        } else {
+            //Gestion des avatars
 
-        $avatar = $this->createMedia($user, '/avatar/' . strtolower($user->getFirstName()) . '.jpg', $user->getMediaFolderRoot());
+            $avatar = $this->createMedia($user, '/avatar/' . strtolower($user->getFirstName()) . '.jpg', $user->getMediaFolderRoot());
 
-        $profile = $user->getProfile();
-        $profile->setAvatarId($avatar->getId());
-        $profile->setJob($this->getRandomizedData($type,'job'));
-        $profile->setDescription($this->getRandomizedData($type,'presentation'));
-        $profile->save();
+            $profile = $user->getProfile();
+            $profile->setAvatarId($avatar->getId());
+            $profile->setJob($this->getRandomizedData($type,'job'));
+            $profile->setDescription($this->getRandomizedData($type,'presentation'));
+            $profile->save();
 
-        $like = 0;
-        while($like < 2)
-        {
-            $preference = new ProfilePreference();
-            $preference->setIsLike(1);
-            $preference->setItem($this->getRandomizedData($type,'like'));
-            $preference->setProfile($profile);
-            $preference->save();
-            $like++;
-        }
+            $like = 0;
+            while($like < 2)
+            {
+                $preference = new ProfilePreference();
+                $preference->setIsLike(1);
+                $preference->setItem($this->getRandomizedData($type,'like'));
+                $preference->setProfile($profile);
+                $preference->save();
+                $like++;
+            }
 
-        $dislike = 0;
-        while($dislike < 2)
-        {
-            $preference = new ProfilePreference();
-            $preference->setIsLike(0);
-            $preference->setItem($this->getRandomizedData($type,'like'));
-            $preference->setProfile($profile);
-            $preference->save();
-            $dislike++;
+            $dislike = 0;
+            while($dislike < 2)
+            {
+                $preference = new ProfilePreference();
+                $preference->setIsLike(0);
+                $preference->setItem($this->getRandomizedData($type,'like'));
+                $preference->setProfile($profile);
+                $preference->save();
+                $dislike++;
+            }
         }
 
         $statuts = 0;
@@ -403,9 +528,116 @@ class DemoCommand extends ContainerAwareCommand
             }
             $statuts++;
         }
+        return $user;
     }
 
-    protected function createAgendaEvents(Group $group)
+
+    protected function createUserAndProfileDatasInGroup($type = 'director',Group $group)
+    {
+
+        $um = $this->getContainer()->get('bns.user_manager');
+        $rm = $this->getContainer()->get('bns.role_manager');
+
+        $array = $this->getRandomizedData('teacher','datas');
+        $values = array(
+            'first_name' => $array['first_name'],
+            'last_name' => $array['last_name'],
+            'gender' => $array['gender'],
+            'lang' => $this->fullLang
+        );
+
+        if(in_array($type,['teacher', 'assistant']))
+        {
+            $values['email'] = strtolower($array['first_name'] . '.' . $array['last_name'] . rand(1,9999) . '@demo.beneylu.com');
+        }
+
+        $user = $um->createUser($values, false);
+        $user->setCguValidation(true)->save();
+        /** @var User $user */
+        switch ($type) {
+            case 'director':
+                $rm->setGroupTypeRoleFromType('DIRECTOR');
+                break;
+            case 'city-referent':
+                $rm->setGroupTypeRoleFromType('CITY_REFERENT');
+                break;
+            case 'atice':
+                $rm->setGroupTypeRoleFromType('ATICE');
+                break;
+            case 'admin':
+                $rm->setGroupTypeRoleFromType('ADMIN_FUNCTIONNAL');
+                break;
+            case 'leasure-center':
+                $rm->setGroupTypeRoleFromType('LEASURE_CENTER_REFERENT');
+                break;
+            case 'cptice':
+                $rm->setGroupTypeRoleFromType('CPTICE');
+                break;
+        }
+
+
+        $rm->assignRole($user, $group->getId());
+            //Gestion des avatars
+
+            $avatar = $this->createMedia($user, '/avatar/' . strtolower($user->getFirstName()) . '.jpg', $user->getMediaFolderRoot());
+
+            $profile = $user->getProfile();
+            $profile->setAvatarId($avatar->getId());
+            $profile->setJob($this->getRandomizedData('teacher','job'));
+            $profile->setDescription($this->getRandomizedData('teacher','presentation'));
+            $profile->save();
+
+            $like = 0;
+            while($like < 2)
+            {
+                $preference = new ProfilePreference();
+                $preference->setIsLike(1);
+                $preference->setItem($this->getRandomizedData('teacher','like'));
+                $preference->setProfile($profile);
+                $preference->save();
+                $like++;
+            }
+
+            $dislike = 0;
+            while($dislike < 2)
+            {
+                $preference = new ProfilePreference();
+                $preference->setIsLike(0);
+                $preference->setItem($this->getRandomizedData('teacher','like'));
+                $preference->setProfile($profile);
+                $preference->save();
+                $dislike++;
+            }
+
+        $statuts = 0;
+
+        while($statuts < 5)
+        {
+            $profileFeed = new ProfileFeed();
+            $profileFeed->setProfileId($profile->getId());
+            $profileFeed->setDate(time());
+            $values = array('PENDING_VALIDATION', 'VALIDATED', 'REFUSED');
+            $profileFeed->setStatus($values[array_rand($values)]);
+
+            $profileFeed->save();
+
+            $statusDatas = $this->getRandomizedData('teacher','status');
+
+            $profileFeedStatus = new ProfileFeedStatus();
+            $profileFeedStatus->setContent($statusDatas['text']);
+            if(isset($statusDatas['image']))
+            {
+                $image = $this->createMedia($user, '/status/' . $statusDatas['image'], $user->getMediaFolderRoot());
+                $profileFeedStatus->setResourceId($image->getId());
+            }
+            $profileFeedStatus->setProfileFeed($profileFeed);
+            $profileFeedStatus->save();
+            $statuts++;
+        }
+        return $user;
+    }
+
+    protected function createAgendaEvents(Group $group, $file = 'agenda')
     {
         $calendar = $group->getAgenda();
 /*
@@ -417,7 +649,7 @@ class DemoCommand extends ContainerAwareCommand
         $eventCount = 0;
         while($eventCount < 60)
         {
-            $datas = $this->getRandomizedData('agenda', 'event');
+            $datas = $this->getRandomizedData($file, 'event');
 
             if(!in_array(strtolower(date('l',time() + 3600 * 24 * ($eventCount + 1))),array('sunday', 'saturday')))
             {
@@ -427,7 +659,8 @@ class DemoCommand extends ContainerAwareCommand
                 $eventInfos = array(
                     'dtstart' => $begin,
                     'dtend' => $end,
-                    'summary' => $datas['title']
+                    'summary' => $datas['title'],
+                    'type' => 'PUNCTUAL'
                 );
 
                 $em = $this->getContainer()->get('bns.calendar_manager');
@@ -445,48 +678,50 @@ class DemoCommand extends ContainerAwareCommand
 
         $homeworkManager = $this->getContainer()->get('bns.homework_manager');
 
-        $homeworkCount = 0;
-        while($homeworkCount < 15)
-        {
-            $datas = $this->getRandomizedData('homework', 'homework');
-            $subject = new HomeworkSubject();
-            $rootSubject = HomeworkSubject::fetchRoot($group->getId());
-            $subject->insertAsFirstChildOf($rootSubject);
-            $subject->setGroupId($group->getId());
-            $subject->setName($datas['subject']);
-            $subject->save();
+        $date = time();
+        $endDate = time() + (60 * 3600 * 24);
 
-            foreach($datas['homeworks'] as $homework)
-            {
-                $newHomework = new Homework();
-                $newHomework->setName($homework["title"]);
-                $newHomework->setRecurrenceType(HomeworkPeer::RECURRENCE_TYPE_ONCE);
-                $newHomework->setSubjectId($subject->getId());
-                $newHomework->setDescription($homework["content"]);
-                $newHomework->addGroup($group);
-                if(isset($homework['help']))
-                {
-                    $newHomework->setHelptext($homework['help']);
+        while ($date < $endDate) {
+            if (in_array(strtolower(date('l', $date)), array('sunday', 'saturday'))) {
+                $date = $date + (3600 * 24);
+                continue;
+            } else {
+                $homeworkCount = 0;
+                $homeworkMax = rand(1, 4);
+                while ($homeworkCount < $homeworkMax) {
+                    $datas = $this->getRandomizedData('homework', 'homework');
+                    $subject = new HomeworkSubject();
+                    $rootSubject = HomeworkSubject::fetchRoot($group->getId());
+                    $subject->insertAsFirstChildOf($rootSubject);
+                    $subject->setGroupId($group->getId());
+                    $subject->setName($datas['subject']);
+                    $subject->save();
+
+                    foreach ($datas['homeworks'] as $homework) {
+                        $newHomework = new Homework();
+                        $newHomework->setName($homework["title"]);
+                        $newHomework->setRecurrenceType(HomeworkPeer::RECURRENCE_TYPE_ONCE);
+                        $newHomework->setSubjectId($subject->getId());
+                        $newHomework->setDescription($homework["content"]);
+                        $newHomework->addGroup($group);
+                        if (isset($homework['help'])) {
+                            $newHomework->setHelptext($homework['help']);
+                        }
+
+                        $newHomework->setDate($date);
+
+                        $homeworkManager->processHomework($newHomework);
+                        $newHomework->save();
+
+                        if (isset($homework['media'])) {
+                            $media = $this->createMedia($teacher, '/homework/' . $homework['media'], $group->getMediaFolderRoot());
+                            $newHomework->addResourceAttachment($media->getId());
+                        }
+                    }
+                    $homeworkCount++;
                 }
-                $date = time() + rand(1,60) * 3600 * 24;
-                if(!in_array(strtolower(date('l', $date)),array('sunday', 'saturday')))
-                {
-                    $newHomework->setDate($date);
-                } else {
-                    $newHomework->setDate($date + 3600 * 48);
-                }
-
-                $homeworkManager->processHomework($newHomework);
-                $newHomework->save();
-
-                if(isset($homework['media']))
-                {
-                    $media = $this->createMedia($teacher, '/homework/' . $homework['media'], $group->getMediaFolderRoot());
-                    $newHomework->addResourceAttachment($media->getId());
-                }
-
+                $date = $date + (3600 * 24);
             }
-            $homeworkCount++;
         }
         $this->output->writeln('<info>Homeworks created</info>');
     }
@@ -532,15 +767,18 @@ class DemoCommand extends ContainerAwareCommand
         $this->output->writeln('<info>Liaison created</info>');
     }
 
-    protected function createBlog(Group $group)
+    protected function createBlog(Group $group, $file = 'blog')
     {
         $blog = $group->getBlog();
+
         $articleCount = 0;
         $gm = $this->getContainer()->get('bns.group_manager');
         $gm->setGroup($group);
         $pupilsIds = $gm->getUsersByRoleUniqueNameIds('PUPIL');
         $teacher = $gm->getUsersByRoleUniqueName('TEACHER', true)->getFirst();
-
+        if ($file !== 'blog') {
+            $this->createMedia($teacher, '/blog/isserteaux-logo.png', $group->getMediaFolderRoot());
+        }
         $root = BlogCategoryQuery::create()->findRoot($blog->getId());
         if(!$root)
         {
@@ -553,9 +791,15 @@ class DemoCommand extends ContainerAwareCommand
 
         while($articleCount < 5)
         {
-            $pupilId = UserQuery::create()->filterById($pupilsIds)->addAscendingOrderByColumn("rand()")->findOne()->getId();
+            $pupil = UserQuery::create()->filterById($pupilsIds)->addAscendingOrderByColumn("rand()")->findOne();
+            if (!$pupil) {
+                $this->createUserAndProfileDatas('pupil', $group);
+                $pupilsIds = $gm->getUsersByRoleUniqueNameIds('PUPIL');
+                $pupil = UserQuery::create()->filterById($pupilsIds)->addAscendingOrderByColumn("rand()")->findOne();
+            }
+            $pupilId = $pupil->getId();
             $article = new BlogArticle();
-            $datas = $this->getRandomizedData('blog', 'blog');
+            $datas = $this->getRandomizedData($file, 'blog');
             $article->setTitle($datas['title']);
             $article->setContent($datas['content']);
             $article->setStatus(BlogArticlePeer::STATUS_PUBLISHED);
@@ -564,13 +808,18 @@ class DemoCommand extends ContainerAwareCommand
             $article->setIsCommentAllowed(true);
             $article->setPublishedAt(time());
             $article->setCreatedAt(time());
-            $article->save(null, true);
+            $article->save(null, true, true);
 
             if(isset($datas['images']))
             {
+                if ($file === 'blog') {
+                    $path = '/blog/';
+                } else  {
+                    $path = '/medialibrary/';
+                }
                 foreach($datas['images'] as $image)
                 {
-                    $media = $this->createMedia($teacher, '/blog/' . $image, $group->getMediaFolderRoot());
+                    $media = $this->createMedia($teacher, $path . $image, $group->getMediaFolderRoot());
                     $articleContent = $article->getContent();
                     $articleContent .= "<img class='bns-insert-resources image-limit image' src='' alt='' data-slug='" . $media->getSlug() . "' data-uid='" . $teacher->getId() . "' data-id='" . $media->getId() . "'>";
                     $article->setContent($articleContent);
@@ -661,23 +910,35 @@ class DemoCommand extends ContainerAwareCommand
         $this->output->writeln('<info>GPS created</info>');
     }
 
-    protected function createMiniSite(Group $group)
+    protected function createMiniSite(Group $group, $file = 'minisite')
     {
         $gm = $this->getContainer()->get('bns.group_manager');
         $gm->setGroup($group);
         $author = UserQuery::create()->filterById($gm->getUsersByRoleUniqueNameIds('TEACHER'))->addAscendingOrderByColumn("rand()")->findOne();
-
-        $data = $this->getRandomizedData('minisite','minisite');
-
+        if (!$author) {
+            $this->createUserAndProfileDatas('teacher', $group);
+            $author = UserQuery::create()->filterById($gm->getUsersByRoleUniqueNameIds('TEACHER'))->addAscendingOrderByColumn("rand()")->findOne();
+        }
+        $data = $this->getRandomizedData($file,'minisite');
         /** @var MiniSite $miniSite */
         $miniSite = MiniSiteQuery::create()->filterByGroup($group)->findOneOrCreate();
-        $banner = $this->createMedia($author, '/minisite/' . $data['banner'] ,$group->getMediaFolderRoot());
+        if ( $file === 'minisite') {
+            $path = '/minisite/';
+        } else {
+            $path = '/medialibrary/';
+        }
+        $banner = $this->createMedia($author, $path . $data['banner'] ,$group->getMediaFolderRoot());
         $miniSite->setBannerResourceId($banner->getId());
         $miniSite->setDescription($data['presentation']);
         $miniSite->save();
-
         $this->createMiniSitePage($miniSite, $data['home'], $author, true);
-        $this->createMiniSitePage($miniSite, $data['actu'], $author);
+        if ($file !== 'minisite') {
+            foreach ($data['actu'] as $actu) {
+                $this->createMiniSitePage($miniSite, $actu, $author, false, '/medialibrary/');
+            }
+        } else {
+            $this->createMiniSitePage($miniSite, $data['actu'], $author);
+        }
         foreach($data['pages'] as $page)
         {
             $this->createMiniSitePage($miniSite, $page, $author);
@@ -685,7 +946,7 @@ class DemoCommand extends ContainerAwareCommand
         $this->output->writeln('<info>Minisite created</info>');
     }
 
-    public function createMiniSitePage(MiniSite $miniSite, $data, $author, $isHome = false)
+    public function createMiniSitePage(MiniSite $miniSite, $data, $author, $isHome = false, $path = '/minisite/')
     {
         $page = new MiniSitePage();
         $page->setIsActivated(true);
@@ -712,7 +973,7 @@ class DemoCommand extends ContainerAwareCommand
             {
                 foreach($data['images'] as $image)
                 {
-                    $media = $this->createMedia($author, '/minisite/' . $image, $miniSite->getGroup()->getMediaFolderRoot());
+                    $media = $this->createMedia($author, $path . $image, $miniSite->getGroup()->getMediaFolderRoot());
                     $content .= "<img class='bns-insert-resources image-limit image' src='' alt='' data-slug='" . $media->getSlug() . "' data-uid='" . $author->getId() . "' data-id='" . $media->getId() . "'>";
                 }
             }
@@ -754,15 +1015,15 @@ class DemoCommand extends ContainerAwareCommand
         $lunchCount = 0;
         $gm = $this->getContainer()->get('bns.group_manager');
         $gm->setGroup($group);
-
-        while($lunchCount < 1) {
+        $dateStart = strtotime('last Monday');
+        while($lunchCount < 10) {
             $data = $this->getRandomizedData('lunch', 'lunch');
             $week = new LunchWeek();
             $week->setGroupId($group->getId());
             $week->setSections(array('full_menu', 'starter', 'main_course', 'dessert', 'dairy', 'accompaniment', 'afternoon_snack'));
             $week->setLabel($data['label']);
             $week->setDescription($data['description']);
-            $week->setDateStart(strtotime("last Monday"));
+            $week->setDateStart($dateStart);
             $week->save();
             foreach($data['menus'] as $key=>$menu){
                 $lunch = new LunchDay();
@@ -792,11 +1053,176 @@ class DemoCommand extends ContainerAwareCommand
                 }
                 $lunch->save();
             }
-
+            $dateStart = strtotime("+7 days", $dateStart);
             $lunchCount++;
         }
 
         $this->output->writeln('<info>Lunches created</info>');
+    }
+
+    protected function updateCityInformations(Group $group)
+    {
+        $group->setAttribute('NAME',$this->getRandomizedData('city','name'));
+        $group->setAttribute('HOME_MESSAGE',$this->getRandomizedData('city','home_message'));
+        $group->setLang($this->fullLang);
+        $group->setCountry($this->country);
+        $group->save();
+    }
+
+    protected function updateAcademyInformations(Group $group)
+    {
+        $group->setAttribute('NAME',$this->getRandomizedData('academy','name'));
+        $group->setAttribute('HOME_MESSAGE',$this->getRandomizedData('academy','home_message'));
+        $group->setLang($this->fullLang);
+        $group->setCountry($this->country);
+        $group->save();
+    }
+
+    protected function createSchoolDatas(Group $group)
+    {
+        $gm = $this->getContainer()->get('bns.group_manager');
+        $gm->setGroup($group);
+
+        $schoolParams = array(
+            'label' => $this->getRandomizedData('school','name'),
+            'type'  => 'SCHOOL'
+        );
+
+        $school = $gm->createSubgroupForGroup($schoolParams, $group->getId());
+        $school->setAttribute('HOME_MESSAGE',$this->getRandomizedData('school','home_message'));
+        $school->validateStatus();
+        $school->setAttribute('UAI',$this->getRandomizedData('school','uai'));
+        $school->setAttribute('ZIPCODE', $this->getRandomizedData('city','zipcode'));
+        $school->setAttribute('CITY',$this->getCity($school->getAttribute("ZIPCODE")));
+        $school->setCountry($this->country);
+        $school->setLang($this->fullLang);
+        $school->save();
+
+        $user = $this->createUserAndProfileDatasInGroup('leasure-center', $group);
+        $user = $this->getContainer()->get('bns.user_manager')->resetUserPassword($user, false, null, true);
+        $this->output->writeln(sprintf('Leasure Center referent created with login <info>%s</info> and Password : <info>%s</info>', $user->getLogin(), $user->getPassword()));
+        $this->createClassroomDatas($school);
+        $this->addSchoolVersion($school);
+        $this->addSchoolApps($school);
+        $this->createMiniSite($school, 'minisite');
+        $this->createBlog($school, 'blog');
+        $this->createAgendaEvents($school, 'agenda');
+        $this->createLunches($school);
+        $this->output->writeln('<info> School Done </info>');
+    }
+
+    protected function createAcademyDatas(Group $group)
+    {
+        $gm = $this->getContainer()->get('bns.group_manager');
+        $gm->setGroup($group);
+
+        $departmentParams = array(
+            'label' => $this->getRandomizedData('department','name'),
+            'type'  => 'DEPARTMENT'
+        );
+
+        $department = $gm->createSubgroupForGroup($departmentParams, $group->getId());
+        $department->setAttribute('HOME_MESSAGE',$this->getRandomizedData('department','home_message'));
+        $department->setCountry($this->country);
+        $department->setLang($this->fullLang);
+        $department->save();
+
+
+        $user = $this->createUserAndProfileDatasInGroup('admin', $group);
+        $user = $this->getContainer()->get('bns.user_manager')->resetUserPassword($user, false, null, false);
+        $this->output->writeln(sprintf('functionnal admin created with login <info>%s</info> and Password : <info>%s</info>', $user->getLogin(), $user->getPassword()));
+        $this->createCityDatas($department);
+        $this->createCirconscriptionDatas($department);
+        $this->createMiniSite($department, 'minisite-department');
+        $this->createBlog($department, 'blog-department');
+        $this->createAgendaEvents($department, 'agenda-department');
+        $this->addGroupApps($department);
+        $this->output->writeln('<info> Department Done </info>');
+    }
+
+    protected function createCirconscriptionDatas(Group $group)
+    {
+        $gm = $this->getContainer()->get('bns.group_manager');
+        $gm->setGroup($group);
+
+        $circonscriptionParams = array(
+            'label' => $this->getRandomizedData('circonscription','name'),
+            'type'  => 'CIRCONSCRIPTION'
+        );
+
+        $circonscription = $gm->createSubgroupForGroup($circonscriptionParams, $group->getId());
+        $circonscription->setAttribute('HOME_MESSAGE',$this->getRandomizedData('circonscription','home_message'));
+        $circonscription->setCountry($this->country);
+        $circonscription->setLang($this->fullLang);
+        $circonscription->save();
+
+
+        $user = $this->createUserAndProfileDatasInGroup('atice', $circonscription);
+        $user = $this->getContainer()->get('bns.user_manager')->resetUserPassword($user, false, null, false);
+        $this->output->writeln(sprintf('Atice created with login <info>%s</info> and Password : <info>%s</info>', $user->getLogin(), $user->getPassword()));
+        $schools = $gm->getAllSubgroups($group->getId(), ['SCHOOL'], false);
+        $gm->addParent($schools[0], $circonscription->getId());
+        $this->createMiniSite($circonscription, 'minisite-circonscription');
+        $this->createBlog($circonscription, 'blog-circonscription');
+        $this->createAgendaEvents($circonscription, 'agenda-circonscription');
+        $this->addGroupApps($circonscription);
+        $this->output->writeln('<info> Circonscription Done </info>');
+    }
+
+    protected function createCityDatas(Group $group)
+    {
+        $gm = $this->getContainer()->get('bns.group_manager');
+        $gm->setGroup($group);
+
+        $cityParams = array(
+            'label' => $this->getRandomizedData('city','name'),
+            'type'  => 'CITY'
+        );
+
+        $city = $gm->createSubgroupForGroup($cityParams, $group->getId());
+        $city->setAttribute('HOME_MESSAGE',$this->getRandomizedData('city','home_message'));
+        $city->setCountry($this->country);
+        $city->setLang($this->fullLang);
+        $city->save();
+
+        $user = $this->createUserAndProfileDatasInGroup('cptice', $group);
+        $user = $this->getContainer()->get('bns.user_manager')->resetUserPassword($user, false, null, false);
+        $this->output->writeln(sprintf('Cptice created with login <info>%s</info> and Password : <info>%s</info>', $user->getLogin(), $user->getPassword()));
+        $this->createLeasureCenterDatas($city);
+        $this->createMiniSite($city, 'minisite-city');
+        $this->createBlog($city, 'blog-city');
+        $this->createAgendaEvents($city, 'agenda-city');
+        $this->addGroupApps($city);
+        $this->output->writeln('<info> City Done </info>');
+    }
+
+
+    protected function createLeasureCenterDatas(Group $group)
+    {
+        $gm = $this->getContainer()->get('bns.group_manager');
+        $gm->setGroup($group);
+
+        $centerParams = array(
+            'label' => $this->getRandomizedData('centre','name'),
+            'type'  => 'LEASURE_CENTER'
+        );
+
+        $center = $gm->createSubgroupForGroup($centerParams, $group->getId());
+        $center->setAttribute('HOME_MESSAGE',$this->getRandomizedData('centre','home_message'));
+        $center->setCountry($this->country);
+        $center->setLang($this->fullLang);
+        $center->save();
+
+        $user = $this->createUserAndProfileDatasInGroup('city-referent', $group);
+        $user = $this->getContainer()->get('bns.user_manager')->resetUserPassword($user, false, null, false);
+        $this->output->writeln(sprintf('City referent created with login <info>%s</info> and Password : <info>%s</info>', $user->getLogin(), $user->getPassword()));
+
+        $this->createSchoolDatas($center);
+        $this->createMiniSite($center, 'minisite-centre');
+        $this->createBlog($center, 'blog-centre');
+        $this->createAgendaEvents($center, 'agenda-centre');
+        $this->addGroupApps($center);
+        $this->output->writeln('<info> Leasure Center Done </info>');
     }
 
     protected function getCity($zipCode){
@@ -817,5 +1243,12 @@ class DemoCommand extends ContainerAwareCommand
                 return "Bordeaux";
         }
        return $this->getRandomizedData('school', 'city');
+    }
+
+    protected function guessLevel($label)
+    {
+        $level = substr($label, 0, 3);
+        $classroomLevel = GroupTypeDataChoiceQuery::create()->filterByGroupTypeDataTemplateUniqueName('LEVEL')->filterByValue($level)->findOne();
+        return $classroomLevel->getValue();
     }
 }

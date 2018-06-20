@@ -3,14 +3,20 @@
 namespace BNS\App\MediaLibraryBundle\ApiController;
 
 use BNS\App\CoreBundle\Controller\BaseApiController;
+use BNS\App\CoreBundle\Model\GroupQuery;
+use BNS\App\CoreBundle\Model\GroupTypeQuery;
 use BNS\App\MediaLibraryBundle\Model\Media;
+use BNS\App\MediaLibraryBundle\Model\MediaFolderGroup;
+use BNS\App\MediaLibraryBundle\Model\MediaFolderGroupQuery;
 use BNS\App\MediaLibraryBundle\Model\MediaFolderUser;
+use BNS\App\MediaLibraryBundle\Model\MediaFolderUserQuery;
 use JMS\Serializer\SerializerBuilder;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
 use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -27,28 +33,41 @@ class BaseMediaLibraryApiController extends BaseApiController
         $rm->forbidIf(!$rm->hasRightSomeWhere('MEDIA_LIBRARY_ACCESS'));
     }
 
-    protected function getMediaFolder($marker)
+    protected function getMediaFolder($marker, $trySlug = false)
     {
-        $parts = explode('-',$marker);
+        $parts = explode('-', $marker);
 
-        if(!is_array($parts) || count($parts) != 2)
-        {
-            throw new NotFoundHttpException("Le dossier ayant pour marker $marker n'existe pas");
+        if (is_array($parts) && 2 === count($parts)) {
+            list($id, $type) = $parts;
+            $mediaFolder = $this->get('bns.media_folder.manager')->find($id, $type);
+            if ($mediaFolder) {
+                return $mediaFolder;
+            }
         }
 
-        $id = $parts[0];
-        $type = $parts[1];
-        $mediaFolder = $this->get('bns.media_folder.manager')->find($id, $type);
-        if($mediaFolder)
-        {
-            return $mediaFolder;
-        }else{
-            throw new NotFoundHttpException('Le document ' . $type . ' - ' . $id . " n'existe pas");
+        if ($trySlug) {
+            // fallback to slug request
+
+            $mediaFolder = MediaFolderGroupQuery::create()
+                ->filterBySlug($marker, \Criteria::EQUAL)
+                ->findOne();
+            if (!$mediaFolder) {
+                $mediaFolder = MediaFolderUserQuery::create()
+                    ->filterBySlug($marker, \Criteria::EQUAL)
+                    ->findOne();
+            }
+            if ($mediaFolder) {
+                $this->get('bns.media_folder.manager')->setMediaFolderObject($mediaFolder);
+
+                return $mediaFolder;
+            }
         }
+
+        throw new NotFoundHttpException("folder not found");
     }
 
 
-    /////////////////   METHODES de vérification d'accès en management   \\\\\\\\\\\\\\\\\\\\\\
+    // ///////////////   METHODES de vérification d'accès en management   \\\\\\\\\\\\\\\\\\\\\\
     /**
      * Toutes ces méthodes cascadent les unes avec les autres
      * pour arriver sur la vérification au niveau de la ressource
@@ -56,6 +75,14 @@ class BaseMediaLibraryApiController extends BaseApiController
 
     protected function canReadMedia(Media $media)
     {
+        // a workshop contributor should be able to view the related media everywhere
+        if ($media->isFromWorkshop()
+            && $media->getWorkshopContent()
+            && $this->get('bns.workshop.content.manager')->canManage($media->getWorkshopContent(), $this->getUser())
+        ) {
+            return true;
+        }
+
         if (!$this->get('bns.media_library_right.manager')->canReadMedia($media)) {
             throw new AccessDeniedHttpException();
         }
@@ -160,68 +187,94 @@ class BaseMediaLibraryApiController extends BaseApiController
      * )
      *
      * @Rest\Get("-init")
-     * @Rest\View(serializerGroups={"Default","list","media_list","media_detail"})
+     * @Rest\View(serializerGroups={"Default", "list"}, serializerEnableMaxDepthChecks=true)
      */
     public function initAction()
     {
+        if (!($user = $this->getUser())) {
+            throw $this->createNotFoundException();
+        }
         $this->checkMediaLibraryAccess();
-        $content = array(
-            'group_folders' => array(),
-        );
+        $content = [
+            'group_folders' => [],
+            'garbage' => [
+                'MEDIA_FOLDERS' => [],
+                'MEDIAS' => [],
+            ],
+            'favorites' => [
+                'MEDIA_FOLDERS' => [],
+                'MEDIAS' => [],
+            ],
+            'recents' => [
+                'MEDIA_FOLDERS' => [],
+                'MEDIAS' => [],
+            ],
+        ];
+
         $rm = $this->get('bns.right_manager');
         $this->get('bns.media.manager')->setNoMediaChildren(true);
 
-        //Mes documents
-        if($rm->hasRightSomeWhere('MEDIA_LIBRARY_MY_MEDIAS'))
-        {
-            $myFolder = $this->get('bns.media_folder.manager')->getUserFolder($rm->getUserSession());
-            if($myFolder)
-            {
+        // Mes documents
+        if ($rm->hasRightSomeWhere('MEDIA_LIBRARY_MY_MEDIAS')) {
+            $myFolder =  MediaFolderUserQuery::create()->findRoot($user->getId());
+            if ($myFolder) {
                 $myFolder->showRatio = true;
-                $myFolder->setLabel('Mes documents');
                 $content['my_folder'] = $myFolder;
             }
         }
 
         // get all user resources, indexed by group
-        $groupsWithResources = $this->get('bns.paas_manager')->getMediaLibraryResourcesByGroup($this->getUser(), false);
+        $groupsWithResources = $this->get('bns.paas_manager')->getMediaLibraryResourcesByGroup($user, false);
 
-        foreach($rm->getGroupsWherePermission('MEDIA_LIBRARY_ACCESS') as $group)
-        {
-            // group has a visible media library folder, ignore it
-            if (isset($groupsWithResources[$group->getId()])) {
-                unset($groupsWithResources[$group->getId()]);
+        $groupIds = $rm->getGroupIdsWherePermission('MEDIA_LIBRARY_ACCESS');
+        $folders = MediaFolderGroupQuery::create()
+            ->treeRoots()
+            ->filterByGroupId($groupIds, \Criteria::IN)
+            ->join('Group')
+            ->join('Group.GroupType')
+            ->withColumn('Group.GroupTypeId', 'groupTypeId')
+            ->withColumn('GroupType.Type', 'groupType')
+            ->find()
+        ;
+
+        $classroomGroupTypeId = GroupTypeQuery::create()
+            ->filterByType('CLASSROOM')
+            ->select('Id')
+            ->findOne()
+        ;
+        $showRatioTypeIds = GroupTypeQuery::create()
+            ->filterByType(['SCHOOL', 'PARTNERSHIP', 'CLASSROOM'], \Criteria::IN)
+            ->select('Id')
+            ->find()
+            ->getArrayCopy()
+        ;
+
+        foreach ($folders as $folder) {
+            $groupId = $folder->getGroupId();
+            $groupTypeId = (int)$folder->getGroupTypeId();
+            if (isset($groupsWithResources[$groupId])) {
+                unset($groupsWithResources[$groupId]);
             }
-
-            if($group->getGroupType()->getType() == 'CLASSROOM')
-            {
-                $folder = $this->get('bns.media_folder.manager')->getGroupFolder($group);
+            if (in_array($groupTypeId, $showRatioTypeIds)) {
                 $folder->showRatio = true;
-                array_unshift($content['group_folders'],$folder);
-            }else{
-                $folder = $this->get('bns.media_folder.manager')->getGroupFolder($group);
-                if (in_array($group->getGroupType()->getType(), ['SCHOOL', 'PARTNERSHIP'])) {
-                    $folder->showRatio = true;
-                }
+            }
+            if ($classroomGroupTypeId === $groupTypeId) {
+                array_unshift($content['group_folders'], $folder);
+            } else {
                 $content['group_folders'][] = $folder;
             }
         }
 
         // some groups have resources, but no visible media library folder. Force add it
-        foreach ($groupsWithResources as $groupId => $data) {
-            $content['group_folders'][] = $this->get('bns.media_folder.manager')->getGroupFolder($data['group']);
+        if (!empty($groupsWithResources)) {
+            $mediaFolders = MediaFolderGroupQuery::create()
+                ->filterByGroupId(array_keys($groupsWithResources))
+                ->treeRoots()
+                ->find();
+            $content['group_folders'] = array_merge($content['group_folders'], $mediaFolders->getArrayCopy());
         }
-
         // fix weird bug with serializer and non-consecutive indexes
         $content['group_folders'] = array_values($content['group_folders']);
-
-        $userId = $this->getCurrentUserId();
-
-        $content['garbage'] = $this->getGarbageContent();
-
-        $content['favorites'] = $this->getFavoritesContent();
-
-        $content['recents'] = $this->get('bns.media.manager')->getRecentsMedias();
 
         // Droits additionnels
         $rights = array();
@@ -230,6 +283,9 @@ class BaseMediaLibraryApiController extends BaseApiController
             $rights['back'] = true;
         }
         $content['rights'] = $rights;
+
+        MediaFolderGroup::$hydrateChildrenFolder = false;
+        MediaFolderUser::$hydrateChildrenFolder = false;
 
         return $content;
     }
@@ -254,11 +310,12 @@ class BaseMediaLibraryApiController extends BaseApiController
         );
     }
 
-    protected function getFavoritesContent()
+    protected function getFavoritesContent($column, $order)
     {
+        $mediasQuery = $this->get('bns.media.manager')->getFavoritesMediasQuery($this->getCurrentUserId());
         return array(
             'MEDIA_FOLDERS' => $this->get('bns.media_folder.manager')->getFavoritesMediaFolders($this->getCurrentUserId()),
-            'MEDIAS' => $this->get('bns.media.manager')->getFavoritesMedias($this->getCurrentUserId())
+            'MEDIAS' => $mediasQuery->orderBy($column, $order)->find()
         );
     }
 
@@ -382,13 +439,16 @@ class BaseMediaLibraryApiController extends BaseApiController
      *  }
      * )
      *
+     * @Rest\QueryParam(name="column", requirements="label|created_at", description="column to apply order", default="created_at")
+     * @Rest\QueryParam(name="order", requirements="ASC|DESC", description="type order on medias", default="DESC")
+     *
      * @Rest\Get("-favoris")
      * @Rest\View(serializerGroups={"Default","list","detail"})
      */
-    public function favoritesAction()
+    public function favoritesAction(ParamFetcherInterface $paramFetcher)
     {
         $this->checkMediaLibraryAccess();
-        return $this->getFavoritesContent();
+        return $this->getFavoritesContent($paramFetcher->get('column'), $paramFetcher->get('order'));
     }
 
     /**

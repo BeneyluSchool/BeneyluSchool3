@@ -3,9 +3,12 @@
 namespace BNS\App\MiniSiteBundle\Controller;
 
 use \BNS\App\CoreBundle\Annotation\Rights;
+use BNS\App\CoreBundle\Events\BnsEvents;
+use BNS\App\CoreBundle\Events\ThumbnailRefreshEvent;
 use \BNS\App\MiniSiteBundle\Form\Type\MiniSitePageType;
 use \BNS\App\MiniSiteBundle\Model\MiniSitePageEditor;
 use \BNS\App\MiniSiteBundle\Model\MiniSitePageEditorQuery;
+use BNS\App\MiniSiteBundle\Model\MiniSitePageNewsQuery;
 use \BNS\App\MiniSiteBundle\Model\MiniSiteWidget;
 use \BNS\App\MiniSiteBundle\Model\MiniSiteWidgetQuery;
 use \BNS\App\MiniSiteBundle\Model\MiniSiteWidgetTemplatePeer;
@@ -22,10 +25,10 @@ use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * @Route("/gestion")
  */
 class BackAjaxController extends AbstractMiniSiteController
-{    
+{
 	/**
 	 * @Route("/personnalisation/pages/ordre", name="minisite_manager_custom_page_order")
-	 * 
+	 *
 	 * @Rights("MINISITE_ADMINISTRATION")
 	 */
 	public function savePageOrderAction()
@@ -33,31 +36,31 @@ class BackAjaxController extends AbstractMiniSiteController
 		if ('POST' != $this->getRequest()->getMethod() || !$this->getRequest()->isXmlHttpRequest()) {
 			throw new NotFoundHttpException('The page request must be POST & AJAX !');
 		}
-		
+
 		$pages = $this->getRequest()->get('pages', null);
 		if (null == $pages) {
 			throw new \InvalidArgumentException('The parameter "pages" is missing !');
 		}
-		
+
 		$miniSite = $this->getMiniSite();
 		$miniSitePages = array();
-		
+
 		foreach ($miniSite->getMiniSitePages() as $miniSitePage) {
 			$miniSitePages[$miniSitePage->getId()] = $miniSitePage;
 		}
-		
+
 		foreach ($pages as $rank => $page) {
 			$id = substr(strrchr($page, '_'), 1);
 			$miniSitePages[$id]->setRank($rank + 1);
 			$miniSitePages[$id]->save();
 		}
-		
+
 		return new Response();
 	}
-	
+
 	/**
 	 * @Route("/personnalisation/widget/ordre", name="minisite_manager_custom_widget_order")
-	 * 
+	 *
 	 * @Rights("MINISITE_ADMINISTRATION")
 	 */
 	public function saveWidgetOrderAction()
@@ -65,31 +68,31 @@ class BackAjaxController extends AbstractMiniSiteController
 		if ('POST' != $this->getRequest()->getMethod() || !$this->getRequest()->isXmlHttpRequest()) {
 			throw new NotFoundHttpException('The page request must be POST & AJAX !');
 		}
-		
+
 		$widgets = $this->getRequest()->get('widgets', null);
 		if (null == $widgets) {
 			throw new \InvalidArgumentException('The parameter "widgets" is missing !');
 		}
-		
+
 		$miniSite = $this->getMiniSite();
 		$miniSiteWidgets = array();
-		
+
 		foreach ($miniSite->getMiniSiteWidgets() as $miniSiteWidget) {
 			$miniSiteWidgets[$miniSiteWidget->getId()] = $miniSiteWidget;
 		}
-		
+
 		foreach ($widgets as $rank => $widget) {
 			$id = substr(strrchr($widget, '-'), 1);
 			$miniSiteWidgets[$id]->setRank($rank + 1);
 			$miniSiteWidgets[$id]->save();
 		}
-		
+
 		return new Response();
 	}
-	
+
 	/**
 	 * @Route("/personnalisation/page/{id}/editer", name="minisite_manager_custom_page_edit", options={"expose": true})
-	 * 
+	 *
 	 * @Rights("MINISITE_ADMINISTRATION")
 	 */
 	public function editPageAction($id)
@@ -111,7 +114,8 @@ class BackAjaxController extends AbstractMiniSiteController
 		}
 
 		$form = $this->createForm(new MiniSitePageType(), clone $page, array(
-			'is_edition' => true
+			'is_edition' => true,
+			'page' => $page,
 		));
 		$form->bind($this->getRequest());
 
@@ -122,7 +126,7 @@ class BackAjaxController extends AbstractMiniSiteController
 			if (!$page->isActivated() && $page->isHome()) {
 				$page->setIsHome(false);
 			}
-			
+
 			$homePage = $miniSite->getHomePage();
 			if (null == $homePage) {
 				throw new \RuntimeException('Can NOT find the minisite homepage for id ' . $miniSite->getId());
@@ -136,44 +140,50 @@ class BackAjaxController extends AbstractMiniSiteController
 				// You can NOT remove the home status on the homepage !
 				$page->setIsHome(true);
 			}
-			
+
+            $dispatcher = $this->get('event_dispatcher');
+            $dispatcher->dispatch(BnsEvents::THUMB_REFRESH, new ThumbnailRefreshEvent($miniSite, 'small'));
+
 			$page->save();
 		}
-		
+
 		return new Response(json_encode(array(
 			'has_errors' => isset($errors[0]),
 			'errors'	 => $errors,
 			'is_home'	 => $form->getData()->isHome()
 		)));
 	}
-	
+
 	/**
 	 * @Route("/personnalisation/widget/{widgetId}/sauvegarder", name="minisite_manager_custom_widget_save", options={"expose"=true})
-	 * 
+	 *
 	 * @Rights("MINISITE_ADMINISTRATION")
 	 */
 	public function saveWidgetAction($widgetId)
 	{
+        if (!$this->hasFeature('minisite_widgets')) {
+            throw $this->createAccessDeniedException();
+        }
 		if ('POST' != $this->getRequest()->getMethod() || !$this->getRequest()->isXmlHttpRequest()) {
 			throw new NotFoundHttpException('The page request must be POST & AJAX !');
 		}
-		
+
 		$abstractWidget = MiniSiteWidgetQuery::create()
 			->joinWith('MiniSiteWidgetExtraProperty', \Criteria::LEFT_JOIN)
 			->joinWith('MiniSiteWidgetTemplate')
 		->findPK($widgetId);
-		
+
 		if (null == $abstractWidget) {
 			throw new NotFoundHttpException('The widget with id : ' . $widgetId . ' is NOT found !');
 		}
-		
+
 		$className = '\\BNS\\App\\MiniSiteBundle\\Widget\\MiniSiteWidget' . ucfirst(Container::camelize(strtolower($abstractWidget->getMiniSiteWidgetTemplate()->getType())));
 		$widget = $className::create($abstractWidget);
-		
+
 		$form = $this->createForm($widget->getFormType(), $widget);
 		$form->bind($this->getRequest());
 		$errors = false;
-		
+
 		if ($form->isValid()) {
 			$widgetData = $form->getData();
 			$widgetData->save();
@@ -186,50 +196,53 @@ class BackAjaxController extends AbstractMiniSiteController
 				$errors[] = $error->getMessage();
 			}
 		}
-		
+
 		return new Response(json_encode(array('errors' => $errors)));
 	}
-	
-		
+
+
 	/**
 	 * @Route("/personnalisation/widget/{widgetType}/nouveau", name="minisite_manager_custom_widget_new", options={"expose"=true})
-	 * 
+	 *
 	 * @Rights("MINISITE_ADMINISTRATION")
 	 */
 	public function newWidgetAction($widgetType)
 	{
+        if (!$this->hasFeature('minisite_widgets')) {
+            throw $this->createAccessDeniedException();
+        }
 		if (!$this->getRequest()->isXmlHttpRequest()) {
 			throw new NotFoundHttpException('The page request must be AJAX !');
 		}
-		
+
 		$widgetTemplate = MiniSiteWidgetTemplateQuery::create()
 			->add(MiniSiteWidgetTemplatePeer::TYPE, $widgetType)
 		->findOne();
-		
+
 		if (null == $widgetTemplate) {
 			throw new NotFoundHttpException('The widget template with type : ' . $widgetType . ' is NOT found !');
 		}
-		
+
 		$miniSite = $this->getMiniSite();
-		
+
 		$widgetClass = new MiniSiteWidget();
 		$widgetClass->setMiniSiteWidgetTemplate($widgetTemplate);
 		$widgetClass->setMiniSiteId($miniSite->getId());
 		$widgetClass->insertAtTop();
 		$widgetClass->save();
-		
+
 		$className = '\\BNS\\App\\MiniSiteBundle\\Widget\\MiniSiteWidget' . ucfirst(Container::camelize(strtolower($widgetType)));
 		$widget = $className::create($widgetClass);
-		
+
 		return $this->render($widget->getViewPath(true), array(
 			'widget'	=> $widget,
 			'form'		=> $this->createForm($widget->getFormType(), $widget)->createView()
 		));
 	}
-	
+
 	/**
 	 * @Route("/personnalisation/page/ajouter", name="minisite_manager_custom_page_new")
-	 * 
+	 *
 	 * @Rights("MINISITE_ADMINISTRATION")
 	 */
 	public function newPageAction(Request $request)
@@ -237,33 +250,33 @@ class BackAjaxController extends AbstractMiniSiteController
 		if (!$request->isMethod('POST') || !$request->isXmlHttpRequest()) {
 			throw new NotFoundHttpException('The page request must be POST & AJAX !');
 		}
-		
+
 		$miniSite = $this->getMiniSite();
 		$form = $this->createForm(new MiniSitePageType());
 		$form->bind($request);
 
-		if ($form->isValid()) {
-			$page = $form->getData();
-			$page->setMiniSiteId($miniSite->getId());
-			$page->save();
-            
+        if ($form->isValid()) {
+            $page = $form->getData();
+            $page->setMiniSiteId($miniSite->getId());
+            $page->save();
+
             //statistic action
-            //type égale à 1 si page dynamique, égale à 0 si statique 
-            if('NEWS' == $page->getType()) {
+            //type égale à 1 si page dynamique, égale à 0 si statique
+            if ('NEWS' == $page->getType()) {
                 $this->get("stat.site")->createDynamicPage();
-            } else if('TEXT' == $page->getType()) {
+            } else if ('TEXT' == $page->getType()) {
                 $this->get("stat.site")->createStaticPage();
             }
-		}
-        
+        }
+
 		return $this->forward('BNSAppMiniSiteBundle:BackCustom:renderPage', array(
 			'page'	=> $page
 		));
 	}
-	
+
 	/**
 	 * @Route("/personnalisation/page/supprimer", name="minisite_manager_custom_page_delete")
-	 * 
+	 *
 	 * @Rights("MINISITE_ADMINISTRATION")
 	 */
 	public function deletePageAction(Request $request)
@@ -272,10 +285,10 @@ class BackAjaxController extends AbstractMiniSiteController
 			$request->get('id', false) === false) {
 			throw new NotFoundHttpException('The page request must be POST with mandatory parameters & AJAX !');
 		}
-		
+
 		$miniSite = $this->getMiniSite();
 		$page = $miniSite->findPageById($request->get('id'));
-		
+
 		if (false === $page) {
 			throw new NotFoundHttpException('The page with id : ' . $request->get('id') . ' is NOT found !');
 		}
@@ -285,44 +298,51 @@ class BackAjaxController extends AbstractMiniSiteController
 			throw new \RuntimeException('Can NOT delete minisite homepage !');
 		}
 
+		if ($page->isCity()) {
+			throw new \RuntimeException('Can NOT delete city news page !');
+		}
+
 		// Process
 		$page->delete();
 
 		return new Response();
 	}
-	
+
 	/**
 	 * @Route("/personnalisation/widget/supprimer", name="minisite_manager_custom_widget_delete")
-	 * 
+	 *
 	 * @Rights("MINISITE_ADMINISTRATION")
 	 */
 	public function deleteWidgetAction(Request $request)
 	{
+        if (!$this->hasFeature('minisite_widgets')) {
+            throw $this->createAccessDeniedException();
+        }
 		if (!$request->isMethod('POST') || !$request->isXmlHttpRequest() ||
 			$request->get('widget_id', false) === false) {
 			throw new NotFoundHttpException('The page request must be POST with mandatory parameters & AJAX !');
 		}
-		
+
 		$context = $this->get('bns.right_manager')->getContext();
 		$widget = MiniSiteWidgetQuery::create('msw')
 			->joinWith('msw.MiniSite ms')
 			->where('ms.GroupId = ?', $context['id'])
 			->where('msw.Id = ?', $request->get('widget_id'))
 		->findOne();
-		
+
 		if (null == $widget) {
 			throw new NotFoundHttpException('The widget with id : ' . $request->get('widget_id') . ' is NOT found !');
 		}
-		
+
 		// Process
 		$widget->delete();
-		
+
 		return new Response();
 	}
-	
+
 	/**
 	 * @Route("/personnalisation/page/switch", name="minisite_manager_switch_activation_page")
-	 * 
+	 *
 	 * @Rights("MINISITE_ADMINISTRATION")
 	 */
 	public function switchPageActivationAction()
@@ -330,12 +350,12 @@ class BackAjaxController extends AbstractMiniSiteController
 		if ('POST' != $this->getRequest()->getMethod() || !$this->getRequest()->isXmlHttpRequest()) {
 			throw new NotFoundHttpException('The page request must be POST & AJAX !');
 		}
-		
+
 		$pageId = $this->getRequest()->get('page_id', null);
 		if (null == $pageId) {
 			throw new \InvalidArgumentException('The parameter page_id is missing !');
 		}
-		
+
 		$miniSite = $this->getMiniSite();
 		$page = $miniSite->findPageById($pageId);
 
@@ -347,16 +367,61 @@ class BackAjaxController extends AbstractMiniSiteController
 		if ($page->isHome()) {
 			throw new \RuntimeException('Can NOT disable homepage id ' . $page->getId() . ' !');
 		}
-		
+
+		if ($page->isCity() && $miniSite->getGroup()->getType() === 'SCHOOL') {
+			throw new \RuntimeException('Can NOT disable city news page in school!');
+		}
+
 		$page->switchActivation();
 		$page->save();
-		
+
 		return new Response();
 	}
-	
+
+    /**
+     * @Route("/pin/page/switch", name="minisite_manager_switch_pin_page")
+     *
+     * @Rights("MINISITE_ADMINISTRATION")
+     */
+    public function switchPagePinAction()
+    {
+        if ('POST' != $this->getRequest()->getMethod()) {
+            throw new NotFoundHttpException('The page request must be POST & AJAX !');
+        }
+
+        $newsId = $this->getRequest()->get('news_id', null);
+        if (null == $newsId) {
+            throw new \InvalidArgumentException('The parameter news_id is missing !');
+        }
+
+        $news = MiniSitePageNewsQuery::create()
+            ->findOneById($newsId);
+
+        if (false === $news) {
+            throw new NotFoundHttpException('The news with id : ' . $news . ' is NOT found !');
+        }
+
+        $page = $news->getMiniSitePage();
+
+        if (!$page->isCity()) {
+            throw new \InvalidArgumentException('The page must be a city type.');
+        }
+
+        $news->switchPin();
+        $news->save();
+
+        if ($news->getIsPinned()) {
+            $message = $this->get('translator')->trans('CITY_NEWS_FLASH_PINNED', array(), 'MINISITE');
+        } else {
+            $message = $this->get('translator')->trans('CITY_NEWS_FLASH_UNPINNED', array(), 'MINISITE');
+        }
+
+        return new Response(json_encode($message));
+    }
+
 	/**
 	 * @Route("/personnalisation/page/confidentialite", name="minisite_manager_page_confidentiality")
-	 * 
+	 *
 	 * @Rights("MINISITE_ADMINISTRATION")
 	 */
 	public function switchPageConfidentialityAction(Request $request)
@@ -365,20 +430,26 @@ class BackAjaxController extends AbstractMiniSiteController
 			$request->get('id', false) === false) {
 			throw new NotFoundHttpException('The page request must be POST with mandatory parameters & AJAX !');
 		}
-		
+
 		if (!$this->get('bns.group_manager')->setGroup($this->get('bns.right_manager')->getCurrentGroup())->getAttribute('MINISITE_ALLOW_PUBLIC', false)) {
 			throw new AccessDeniedHttpException('The environment does NOT allow to switch your minisite public status !');
 		}
-		
+
 		$miniSite = $this->getMiniSite();
 		$page = $miniSite->findPageById($request->get('id'));
 		if (false === $page) {
 			throw new NotFoundHttpException('The page with id : ' . $request->get('id') . ' is NOT found !');
 		}
-		
+
+		if ($page->isCity()) {
+			throw new AccessDeniedHttpException('Cannot switch city information page confidentiality');
+		}
+
+        $dispatcher = $this->get('event_dispatcher');
+        $dispatcher->dispatch(BnsEvents::THUMB_REFRESH, new ThumbnailRefreshEvent($miniSite, 'small'));
 		$page->switchConfidentiality();
 		$page->save();
-		
+
 		return new Response();
 	}
 
@@ -474,7 +545,7 @@ class BackAjaxController extends AbstractMiniSiteController
 		if (null == $editor) {
 			return $this->redirectHome();
 		}
-		
+
 		$miniSite = $this->getMiniSite();
 		$page = $miniSite->findPageById($request->get('page_id'));
 

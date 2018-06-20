@@ -1,6 +1,8 @@
 {% trans_default_domain "MINISITE" %}
 {% extends 'BNSAppMiniSiteBundle:Layout:manager.html.twig' %}
 
+{% set is_city = page.isCity() %}
+
 {% block title %}
   {% if isEditionMode is defined %}
     {% trans %}TITLE_MANAGEMENT_MINISITE_EDIT_NEWS{% endtrans %}
@@ -100,16 +102,15 @@
       }, 5000);
 
       $('#mini_site_page_news_form').attr('action', Routing.generate('minisite_manager_page_news_edit', {'slug': object.slug}));
-      if (null != window.history && typeof window.history.pushState == 'function') {
-        window.history.pushState(document.title, document.title, Routing.generate('minisite_manager_page_news_edit', {'slug': object.slug}));
-      }
     }
   </script>
 {% endblock javascripts %}
 
+{% block body_attr %}{{ parent() }} ng-controller="MinisiteBackCityNews"{% endblock %}
+
 {% block header %}
 
-            {{ components.button_nav('LINK_BACK_TO_NEWS' | trans, { href: path('minisite_manager_page', {'slug': page.getSlug()}), back: true } ) }}
+            {{ components.button_nav(('LINK_BACK_TO_'~(is_city?'CITY_')~'NEWS') | trans, { href: path('minisite_manager_page', {'slug': page.getSlug()}), back: true } ) }}
 
             <span class="bns-separator"></span>
 
@@ -129,7 +130,7 @@
             <span class="flex"></span>
 
               {% if is_adult() %}
-              {{ components.button( 'ADULT_FINISH_NEWS' | trans , { intent: 'accent', href: '#', icon: 'done', raised: true, attr:{'class' : 'finish bns-sucess pull-right'} }) }}
+              {{ components.button( ('ADULT_FINISH_'~(is_city?'CITY_')~'NEWS') | trans , { intent: 'accent', href: '#', icon: 'done', raised: true, attr:{'class' : 'finish bns-sucess pull-right'} }) }}
               {% else %}
               {{ components.button( 'CHILD_FINISH_NEWS' | trans , { intent: 'accent', href: '#', icon: 'done', raised: true, attr:{'class' : 'finish bns-sucess pull-right'} }) }}
               {% endif %}
@@ -143,20 +144,36 @@
 
 {% block content %}
 
-	{% autoescape false %}
-		{{ autosave_init(news, {
-			'title': 'mini_site_page_news_form_title',
-			'content': 'mini_site_page_news_form_content'}, {
-				'data': {'page_id': news.getMiniSitePage().getId()},
-				'onSuccess': 'onSuccessSave',
-				'onStart': 'onStartSave',
-				'debug': false
-		}) }}
-	{% endautoescape %}
+
+{% if has_right('MINISITE_ADMINISTRATION') and page.miniSite.group.type == 'CITY' %}
+  {% autoescape false %}
+    {{ autosave_init(news, {
+      'title': 'mini_site_page_city_news_form_title',
+      'content': 'mini_site_page_city_news_form_content'}, {
+      'data': {'page_id': news.getMiniSitePage().getId()},
+      'onSuccess': 'onSuccessSave',
+      'onStart': 'onStartSave',
+      'debug': false
+    }) }}
+  {% endautoescape %}
+{% else %}
+  {% autoescape false %}
+    {{ autosave_init(news, {
+      'title': 'mini_site_page_news_form_title',
+      'content': 'mini_site_page_news_form_content'}, {
+      'data': {'page_id': news.getMiniSitePage().getId()},
+      'onSuccess': 'onSuccessSave',
+      'onStart': 'onStartSave',
+      'debug': false
+    }) }}
+  {% endautoescape %}
+{% endif %}
+
+
         <md-toolbar class="content-toolbar">
           <div class="md-toolbar-tools layout-align-start-center">
             <bns-sidebar-toggle></bns-sidebar-toggle>
-            <h1 class="md-title text-primary text-left flex flex-gt-sm-33">{% trans%}PAGE{% endtrans %}</h1>
+            <h1 class="md-title text-primary text-left flex flex-gt-sm-33">{{ (is_city ? 'TITLE_CITY_INFORMATION' : 'PAGE')|trans }}</h1>
           </div>
         </md-toolbar>
   <md-content  id="content">
@@ -182,10 +199,12 @@
 
   <div class="item form md-padding">
 
+    {{ form_errors(form) }}
+
     {{ form_row(form.title, {
       label: false,
       attr: {
-        placeholder: 'PLACEHOLDER_TITLE'|trans
+        placeholder: (is_city ? 'PLACEHOLDER_TITLE_CITY_INFO' : 'PLACEHOLDER_TITLE')|trans
       }
     }) }}
 
@@ -197,7 +216,7 @@
       }
     }) }}
 
-	</div>
+  </div>
 
   <div class="rest proxy">
     {% if form.status is defined %}
@@ -207,6 +226,75 @@
     }
     }) }}
     {% endif %}
+
+    <bns-transclude-src name="minisite-page-city-news-form" class="hide-gt-md md-padding">
+      {% if form.published_at is defined %}
+        <bns-expander label="{{'LABEL_PUBLICATION_DATE'|trans}}" is-open="true">
+          <div class="layout-row">
+            <div class="flex-50">
+              {{ form_row(form.published_at, {
+                label: 'LABEL_FROM',
+                error_bubbling: true,
+                messages: {
+                  required: 'INVALID_PUBLISHED_AT_EMPTY'|trans({}, 'validators'),
+                },
+                row_attr: {
+                  'md-is-error': form.vars.name~'["'~form.published_at.vars.full_name~'"].$invalid',
+                },
+              }) }}
+            </div>
+            <div class="flex-50">
+              {{ form_row(form.published_end_at, {
+                label: 'LABEL_TO',
+                error_bubbling: true,
+                messages: {
+                  min: 'INVALID_PUBLISHED_AT_AFTER_END_AT'|trans({}, 'validators'),
+                  required: 'INVALID_PUBLISHED_END_AT_EMPTY'|trans({}, 'validators'),
+                },
+                attr: {
+                  'min': '{{ '~form.vars.name~'.published_at ? moment('~form.vars.name~'.published_at).format("YYYY-MM-DD") : "" }}',
+                  'ng-model-options': '{ allowInvalid: true }',
+                },
+                row_attr: {
+                  'md-is-error': form.vars.name~'["'~form.published_end_at.vars.full_name~'"].$invalid',
+                },
+              }) }}
+            </div>
+          </div>
+        </bns-expander>
+      {% endif %}
+
+      {% if form.is_all_schools is defined %}
+        <bns-expander bns-legacy bns-lazyload="userDirectory" class="ng-cloak" label="{{'LABEL_DISPLAY_IN_SITE'|trans}}" is-open="true">
+          {{ form_row(form.is_all_schools, {
+            label: 'LABEL_ALL_SCHOOLS',
+            attr: {
+              class: 'bns-choice-right-sidebar',
+            },
+          }) }}
+
+          {% if form.distributionLists is defined %}
+            <div ng-hide="{{ getModelName(form.is_all_schools) }}">
+              {{ form_row(form.distributionLists, { label: false }) }}
+
+              <div  class="text-center">
+                <md-button href
+                           bns-user-directory-invoke="minisite-city-news"
+                           view-type="distribution"
+                           distribution-type="STRUCT"
+                           selection-distribution="{{ getModelName(form.distributionLists) }}"
+                           form-update="app._choices['{{ form.distributionLists.vars.full_name }}']"
+                           form-update-name="{{ form.distributionLists.vars.full_name }}[]"
+                           force-string="true"
+                           class="md-raised md-primary btn-xs btn-addon"
+                >{{ 'BUTTON_MANAGE_LISTS'|trans }}</md-button>
+              </div>
+            </div>
+          {% endif %}
+        </bns-expander>
+      {% endif %}
+    </bns-transclude-src>
+
     {{ form_rest(form) }}
   </div>
 

@@ -40,16 +40,22 @@ angular.module('bns.viewer.workshop.document.pageLayoutZone', [
       zoneCtrl.page = pageCtrl.page;
       zoneCtrl.isWrite = 'write' === pageCtrl.viewMode;
       zoneCtrl.document = controllers[0].document;
+      zoneCtrl.isCompetition = pageCtrl.isCompetition;
     }
   })
 
-  .controller('WorkshopDocumentPageLayoutZoneController', function ($rootScope, $scope, $window, byZoneFilter, orderByFilter, _) {
+  .controller('WorkshopDocumentPageLayoutZoneController', function ($rootScope, $scope, $window, $state, byZoneFilter, orderByFilter, _, Restangular) {
     var ctrl = this;
     ctrl.zoneClassPrefix = 'workshop-layout-zone-';
     ctrl.zoneClasses = [];
-    ctrl.resetQuestionnaire = resetQuestionnaire;
+    ctrl.score = 0;
 
     init();
+    $scope.$on('questionnaire.check_score', function (event) {
+      event.stopPropagation();
+    });
+
+
 
     function init () {
       _.each(ctrl.zone.code.split('-'), function (type) {
@@ -77,24 +83,9 @@ angular.module('bns.viewer.workshop.document.pageLayoutZone', [
      * @returns {Array}
      */
     function getZoneWidgetGroups (widgetGroups) {
-      return orderByFilter(orderByFilter(orderByFilter(byZoneFilter(widgetGroups, ctrl.zone.numbers), 'position'), 'zone'), 'page_id');
+      return orderByFilter(byZoneFilter(widgetGroups, ctrl.zone.numbers), 'position');
     }
 
-
-    function resetQuestionnaire () {
-      $scope.$emit('questionnaire.reset.click');
-      var offset = 0;
-      var duration = 0;
-      var position =  1;
-
-      var target = angular.element($window.document.getElementById('workshop-page-' + position));
-      var container = angular.element($window.document.getElementById('workshop-document')).closest('.nano-content');
-
-      if (target.length && container.length) {
-        var targetY = target.offset().top - target.parent().offset().top + offset;
-        container.scrollTo(0, targetY, duration);
-      }
-    }
   })
 
   // A simple filter that keep only widgetGroups whose zone number is one of

@@ -1,7 +1,7 @@
 <div class="footer-logon">
     <p>
         <a class="footer-link" href="{{ path('home') }}">Accueil</a>
-        {% if enable_legals %}- <a class="footer-link" href="{{ path('main_logon_legals') }}">Mentions légales</a>{% endif %}
+        {% if enable_legals %}- <a class="footer-link" href="{{ bnsLocaleLink('legal_notice_url') }}">Mentions légales</a>{% endif %}
         - <a class="footer-link" href="http://www.hamburware.com" target='_blank'>Copyright Hamburware {{ "now"|date("Y") }}</a>
         - Enregistrement CNIL N°1321978 - <a id="charte" href="http://geronimo.ac-bordeaux.fr/telecharger/ecoles47/Ecoles47-Charte.pdf" target='_blank'>Charte ENT</a>
     </p>

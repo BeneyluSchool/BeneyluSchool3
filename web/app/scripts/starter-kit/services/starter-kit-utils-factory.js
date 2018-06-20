@@ -8,6 +8,7 @@
 angular.module('bns.starterKit.utils', [])
 
   .factory('starterKitUtils', StarterKitUtilsFactory)
+  .controller('BnsStarterKitFrame', BnsStarterKitFrameController)
 
 ;
 
@@ -17,6 +18,27 @@ angular.module('bns.starterKit.utils', [])
  * @type {String}
  */
 var ACTIVE_CLASS = 'starter-kit-active';
+
+/**
+ * CSS class applied to frozen starter kit UI elements
+ *
+ * @type {String}
+ */
+var FROZEN_CLASS = 'starter-kit-frozen';
+
+/**
+ * CSS z-index applied to starter kit UI elements. Just above default dialogs.
+ *
+ * @type {Integer}
+ */
+var Z_INDEX = 81;
+
+/**
+ * Value of the offset from the edge of viewport for absolutely positioned dialogs.
+ *
+ * @type {String}
+ */
+var DIALOG_POSITION_OFFSET = '40px';
 
 /**
  * @ngdoc service
@@ -32,14 +54,19 @@ var ACTIVE_CLASS = 'starter-kit-active';
  * @requires $interval
  * @requires $mdUtil
  */
-function StarterKitUtilsFactory ($rootScope, $animate, $q, $interval, $timeout, $mdUtil) {
+function StarterKitUtilsFactory ($rootScope, $animate, $q, $interval, $timeout, $mdUtil, $mdPanel) {
 
   var utils = {
     createBackdrop: createBackdrop,
     activate: activate,
+    freeze: freeze,
+    frame: frame,
+    scrollIntoView: scrollIntoView,
     watchValidate: watchValidate,
     getElementAsync: getElementAsync,
     wrapInPromises: wrapInPromises,
+    showPointer: showPointer,
+    showDialog: showDialog,
   };
 
   return utils;
@@ -102,13 +129,80 @@ function StarterKitUtilsFactory ($rootScope, $animate, $q, $interval, $timeout, 
     function scrollIntoView (element, container) {
       container = container || getAncestorWithScroll(element);
       var offset = Math.max((container.innerHeight() - element.innerHeight()) / 2, 0);
-      if (offset !== prevOffset) {
+      if (container.length && offset !== prevOffset) {
         container.scrollToElement(element, offset, ANIMATION_DURATION).then(function () {
           $rootScope.$emit('starterkit.control.moved', element);
         });
       }
       prevOffset = offset;
     }
+  }
+
+  /**
+   * Makes the given UI element frozen, ie non reactive to input
+   *
+   * @param {Element} element
+   * @returns {Function} A deregistration function that unfreezes the element
+   */
+  function freeze (element) {
+    element.addClass(FROZEN_CLASS);
+
+    return function unfreeze () {
+      element.removeClass(FROZEN_CLASS);
+    };
+  }
+
+  function frame (element, clickable) {
+    var position = $mdPanel.newPanelPosition()
+      .relativeTo(element)
+      .addPanelPosition($mdPanel.xPosition.ALIGN_START, $mdPanel.yPosition.ALIGN_TOPS);
+    var syncPositionInterval;
+    var conf = {
+      attachTo: angular.element('body'),
+      template: '<bns-starter-kit-frame></bns-starter-kit-frame>',
+      position: position,
+      controller: 'BnsStarterKitFrame',
+      locals: {
+        target: element,
+        clickable: clickable,
+      },
+      onOpenComplete: keepPositionSync,
+    };
+    var panelRef = $mdPanel.create(conf);
+    panelRef.open();
+
+    return function unframe () {
+      $interval.cancel(syncPositionInterval);
+      panelRef.close();
+      panelRef.destroy();
+    };
+
+    function keepPositionSync () {
+      panelRef.updatePosition(conf.position);
+      syncPositionInterval = $interval(function () {
+        panelRef.updatePosition(conf.position);
+      }, 250);
+    }
+  }
+
+  /**
+   * Makes the given UI element active
+   *
+   * @param {Element} element
+   * @param {Boolean} watch
+   * @returns {Function} A deregistration function that deactivates the element
+   */
+  function scrollIntoView (element, container) {
+    var ANIMATION_DURATION = 400;
+
+    container = container || getAncestorWithScroll(element);
+    var offset = Math.max((container.innerHeight() - element.innerHeight()) / 2, 0);
+    if (container.length && offset !== element._prevOffset) {
+      container.scrollToElement(element, offset, ANIMATION_DURATION).then(function () {
+        $rootScope.$emit('starterkit.control.moved', element);
+      });
+    }
+    element._prevOffset = offset;
   }
 
   /**
@@ -137,7 +231,7 @@ function StarterKitUtilsFactory ($rootScope, $animate, $q, $interval, $timeout, 
     }, function (isValid) {
       if (isValid) {
         if (angular.isFunction(callback)) {
-          callback();
+          $timeout(callback, 0);
         }
       }
     });
@@ -197,6 +291,154 @@ function StarterKitUtilsFactory ($rootScope, $animate, $q, $interval, $timeout, 
     return deferred.promise;
   }
 
+  function showPointer (element, text) {
+    element.shown = true;
+    var syncPositionInterval;
+    var position = $mdPanel.newPanelPosition()
+      .relativeTo(element)
+      .addPanelPosition($mdPanel.xPosition.ALIGN_START, $mdPanel.yPosition.ALIGN_TOPS);
+    var config = {
+      attachTo: angular.element('body'),
+      template:
+        '<bns-starter-kit-pointer-display class="starter-kit-active">'+
+          '<md-tooltip class="starter-kit-pointer-tooltip" md-direction="bottom">'+
+            text+
+          '</md-tooltip>'+
+        '</bns-starter-kit-pointer-display>',
+      position: position,
+      clickOutsideToClose: false,
+      escapeToClose: false,
+      focusOnOpen: false,
+      propagateContainerEvents: true,
+      zIndex: Z_INDEX + 1,
+    };
+
+    var panelRef = $mdPanel.create(config);
+    syncPositionInterval = $interval(function () {
+      panelRef.updatePosition(position);
+    }, 250);
+    panelRef.open();
+
+    return function cleanup () {
+      if (syncPositionInterval) {
+        $interval.cancel(syncPositionInterval);
+      }
+      element.shown = false;
+      panelRef.close();
+    };
+  }
+
+  function showDialog (conf) {
+    conf = buildConfiguration(conf, {
+      templateUrl: 'views/starter-kit/dialogs/dialog.html',
+      panelClass: 'bns-starter-kit-dialog-panel',
+      onOpenComplete: keepPositionSync,
+    });
+
+    var panelRef = $mdPanel.create(conf);
+    var syncPositionInterval;
+    panelRef.open();
+
+    return function cleanupDialog () {
+      if (syncPositionInterval) {
+        $interval.cancel(syncPositionInterval);
+      }
+
+      return panelRef.close();
+    };
+
+    function keepPositionSync () {
+      if (conf.position) {
+        panelRef.updatePosition(conf.position);
+        syncPositionInterval = $interval(function () {
+          panelRef.updatePosition(conf.position);
+        }, 1000);
+      }
+    }
+  }
+
+  function buildConfiguration (conf, defaults) {
+    var target, position, animation;
+    conf = conf || {};
+    defaults = defaults || {};
+    if (conf.locals && conf.locals.target) {
+      target = conf.locals.target;
+    }
+    if (target) {
+      position = $mdPanel.newPanelPosition()
+        .relativeTo(target)
+        .addPanelPosition($mdPanel.xPosition.OFFSET_START, $mdPanel.yPosition.ALIGN_TOPS)   // before
+        .addPanelPosition($mdPanel.xPosition.OFFSET_START, $mdPanel.yPosition.CENTER)
+        .addPanelPosition($mdPanel.xPosition.OFFSET_START, $mdPanel.yPosition.ALIGN_BOTTOMS)
+        .addPanelPosition($mdPanel.xPosition.OFFSET_END, $mdPanel.yPosition.ALIGN_TOPS)     // after
+        .addPanelPosition($mdPanel.xPosition.OFFSET_END, $mdPanel.yPosition.CENTER)
+        .addPanelPosition($mdPanel.xPosition.OFFSET_END, $mdPanel.yPosition.ALIGN_BOTTOMS)
+        .addPanelPosition($mdPanel.xPosition.ALIGN_START, $mdPanel.yPosition.BELOW)         // below
+        .addPanelPosition($mdPanel.xPosition.CENTER, $mdPanel.yPosition.BELOW)
+        .addPanelPosition($mdPanel.xPosition.ALIGN_END, $mdPanel.yPosition.BELOW)
+        .addPanelPosition($mdPanel.xPosition.ALIGN_START, $mdPanel.yPosition.ABOVE)         // above
+        .addPanelPosition($mdPanel.xPosition.CENTER, $mdPanel.yPosition.ABOVE)
+        .addPanelPosition($mdPanel.xPosition.ALIGN_END, $mdPanel.yPosition.ABOVE)
+      ;
+      animation = $mdPanel.newPanelAnimation()
+        .openFrom(target)
+        .closeTo(target)
+        .withAnimation($mdPanel.animation.SCALE)
+        .duration(200)
+      ;
+    } else {
+      position = $mdPanel.newPanelPosition()
+        .absolute()
+      ;
+      if (angular.isString(conf.position)) {
+        // apply position transformers
+        angular.forEach(conf.position.split(' '), function (pos) {
+          if (angular.isFunction(position[pos])) {
+            position[pos](DIALOG_POSITION_OFFSET);
+          }
+        });
+        // remove initial position declaration, to be replaced by actual position object
+        delete conf.position;
+      } else {
+        // by default, center dialog in viewport
+        position.center();
+      }
+      animation = $mdPanel.newPanelAnimation()
+        .withAnimation($mdPanel.animation.FADE)
+      ;
+    }
+
+    var panelClasses = ['bns-starter-kit-panel', 'md-body-2', conf.panelClass || '', defaults.panelClass || ''];
+
+    // /!\ do NOT use angular.merge as it copies jQuery elements and loses the
+    // original dom reference
+    return angular.extend({
+      templateUrl: 'views/starter-kit/dialogs/explanation.html',
+      controller: 'StarterKitDialog',
+      controllerAs: 'ctrl',
+      attachTo: conf.parent || angular.element('body'),
+      position: position,
+      animation: animation,
+      escapeToClose: false,
+      clickOutsideToClose: false,
+      focusOnOpen: false,
+      zIndex: Z_INDEX,
+      transformTemplate: function (template) {
+        return '' +
+          '<div bns-eat-click-if="!ctrl.step.frame" class="md-panel-outer-wrapper ' + panelClasses.join('-wrapper ') + '-wrapper">' +
+          '  <div class="md-panel" style="left: -9999px;" ng-style="panelStyle">' + template + '</div>' +
+          '</div>';
+      },
+      hasBackdrop: false,
+    }, defaults, conf, {
+      // smart merge classes together
+      panelClass: panelClasses.join(' '),
+      // smart merge locals together
+      locals: angular.extend({
+        target: null,
+      }, defaults.locals || {}, conf.locals || {}),
+    });
+  }
 
   // Internals
   // ---------------------
@@ -260,6 +502,52 @@ function StarterKitUtilsFactory ($rootScope, $animate, $q, $interval, $timeout, 
     return offset >= 0 && (offset + el.height()) <= container.innerHeight();
   }
   */
+
+}
+
+function BnsStarterKitFrameController ($element, $scope, target, clickable) {
+
+  var $frame = $element.find('bns-starter-kit-frame');
+
+  if (clickable) {
+    $frame.addClass('animate-pulse-shadow');
+
+    $frame.on('mouseenter', allowClick);
+    $frame.on('mouseleave', blockClick);
+    target.on('mouseenter', allowClick);
+    target.on('mouseleave', blockClick);
+
+    $element.on('mousewheel touchmove', prevent);
+    target.on('mousewheel touchmove dragstart', prevent);
+
+    $scope.$on('$destroy', function cleanup () {
+      target.off('mouseenter', allowClick);
+      target.off('mouseleave', blockClick);
+      target.off('mousewheel touchmove dragstart', prevent);
+    });
+  }
+
+  // keep frame dimensions
+  $scope.$watch(function() {
+    var rect = target[0].getBoundingClientRect();
+    return rect.width + '|' + rect.height;
+  }, function (dimensions) {
+    dimensions = dimensions.split('|');
+    $frame.width(dimensions[0]);
+    $frame.height(dimensions[1]);
+  });
+
+  function allowClick () {
+    $element.css('pointer-events', 'none');
+  }
+
+  function blockClick () {
+    $element.css('pointer-events', 'auto');
+  }
+
+  function prevent (event) {
+    event.preventDefault();
+  }
 
 }
 

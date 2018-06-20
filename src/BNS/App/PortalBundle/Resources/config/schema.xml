@@ -60,9 +60,9 @@
         <column name="portal_widget_group_id" required="true" type="INTEGER" />
         <column name="position" required="true" type="INTEGER" />
         <column name="enabled" required="true" type="INTEGER" default="0" />
-        <column name="type" required="true" type="ENUM" valueSet="BANNER, TEXT, LINK, RSS, SCHOOL" />
+        <column name="type" required="true" type="ENUM" valueSet="BANNER, TEXT, LINK, RSS, SCHOOL, MINISITE" />
         <column name="label" required="false" type="VARCHAR" size="255" />
-        <column name="datas" required="false" type="LONGVARCHAR" />
+        <column name="datas" required="false" type="object" />
         <foreign-key foreignTable="portal_widget_group" name="FK_PORTALWIDGETGROUP" onDelete="CASCADE" onUpdate="CASCADE">
           <reference foreign="id" local="portal_widget_group_id" />
         </foreign-key>

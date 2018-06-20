@@ -8,13 +8,16 @@
     <body>
       <trans-unit id="ea17b26f79ff3c3fa0b9861674ea4ff808bab801" resname="MESSAGING_MESSAGE_PENDING_MODERATION.EMAIL.content">
         <source>MESSAGING_MESSAGE_PENDING_MODERATION.EMAIL.content</source>
-        <target><![CDATA[Un <a href="%message_route%">mensaje</a> de <strong>%sender_full_name%</strong> ha sido enviado para moderación]]></target>
+        <target><![CDATA[<b>%classLabel%</b>Un <a href="%message_route%">mensaje</a> de <strong>%sender_full_name%</strong> ha sido enviado para moderación]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
       <trans-unit id="337de5eeec8f6a3e0c59dd6505a14e3e59eef0ca" resname="MESSAGING_MESSAGE_PENDING_MODERATION.EMAIL.title">
         <source>MESSAGING_MESSAGE_PENDING_MODERATION.EMAIL.title</source>
-        <target>Se ha enviado un mensaje para validación</target>
+        <target>%classLabel%Se ha enviado un mensaje para validación</target>
+        <note>%classLabel% is a placeholder
+               This text contains HTML tags, please try to keep those tags
+            </note>
       </trans-unit>
       <trans-unit id="fbaafe11429ef6a340d3e084fb132e1b0cea724c" resname="MESSAGING_MESSAGE_PENDING_MODERATION.SYSTEM.content">
         <source>MESSAGING_MESSAGE_PENDING_MODERATION.SYSTEM.content</source>

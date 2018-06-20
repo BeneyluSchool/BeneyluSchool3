@@ -1,0 +1,16 @@
+Export :
+
+{% for homework in homeworks %}
+
+    <h3>{{ homework.name }}</h3> <br/>
+{{ homework.date | date_bns('full', 'none') }} <br/>
+
+{%  if homework.subjectId is not null%}
+dans la matière <b>{{ homework.homeworkSubject.name }} </b> <br/>
+{% endif %}
+{{ homework.description |purify }} <br/>
+
+{{ homework.helptext }} <br/>
+<hr>
+
+{% endfor %}

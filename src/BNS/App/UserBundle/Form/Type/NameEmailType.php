@@ -73,7 +73,8 @@ class NameEmailType extends AbstractType
                 'callback' => function($data, ExecutionContextInterface $context) {
                     $email = $data['email'];
                     $user = $this->userManager->getUser();
-                    if ($this->userManager->isAdult() && !empty($email)) {
+                    // Temporary Allow parent to reuse email
+                    if ($user->isAdult() && (9 !== (int)$user->getHighRoleId()) && !empty($email)) {
                         $emailUser = $this->userManager->getUserByEmail($email);
                         if ($emailUser && $emailUser->getId() !== $user->getId()) {
                             $context->buildViolation('EMAIL_ALREADY_USED')

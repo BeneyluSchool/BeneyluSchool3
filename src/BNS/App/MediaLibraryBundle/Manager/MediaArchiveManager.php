@@ -48,6 +48,8 @@ class MediaArchiveManager
         $path = tempnam(sys_get_temp_dir(), 'BNS');
         $archive = new Zip($path);
 
+        $this->fileCleaner->add($path);
+
         foreach ($medias as $media) {
             $this->mediaManager->setMediaObject($media);
             $content = $this->mediaManager->read();
@@ -61,8 +63,6 @@ class MediaArchiveManager
                 $archive->write($filename, $content);
             }
         }
-
-        $this->fileCleaner->add($path);
 
         return $path;
     }

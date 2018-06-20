@@ -7,6 +7,7 @@ use BNS\App\CoreBundle\ApiLimit\ApiLimit;
 
 use BNS\App\CoreBundle\Controller\BaseApiController;
 use BNS\App\CoreBundle\Model\Group;
+use BNS\App\CoreBundle\Model\GroupQuery;
 use BNS\App\CoreBundle\Model\GroupTypeQuery;
 use BNS\App\CoreBundle\Model\ModulePeer;
 use BNS\App\CoreBundle\Model\User;
@@ -48,7 +49,7 @@ class UserApiController extends BaseApiController
      * )
      *
      * @Rest\Get("/me")
-     * @Rest\View(serializerGroups={"Default","detail","me"})
+     * @Rest\View(serializerGroups={"Default","detail","me","user_children_preview"})
      */
     public function getMeAction()
     {
@@ -169,13 +170,14 @@ class UserApiController extends BaseApiController
      */
     public function getMeApplicationsAction()
     {
+        $user = $this->getUser();
         $applicationManager = $this->get('bns_core.application_manager');
 
         if (!$applicationManager->isEnabled()) {
             return View::create('', Codes::HTTP_BAD_REQUEST);
         }
 
-        $modules = $applicationManager->getBaseApplications(ModulePeer::TYPE_APP);
+        $modules = $applicationManager->getBaseApplications([ModulePeer::TYPE_APP, ModulePeer::TYPE_SUBAPP]);
         $group = $this->get('bns.right_manager')->getCurrentGroup();
         $groupManager = $this->get('bns.group_manager');
         $activatedModules = $groupManager->getActivatedModuleUniqueNames($group);
@@ -200,7 +202,7 @@ class UserApiController extends BaseApiController
         $removed = [];
         foreach ($modules as $key => $module) {
             $uniqueName = $module->getUniqueName();
-            if ($userManager->setUser($this->getUser())->hasRightSomeWhere($uniqueName . '_ACCESS')) {
+            if ($userManager->setUser($user)->hasRightSomeWhere($uniqueName . '_ACCESS')) {
                 $module->hasAccessFront = true;
             }
             if ($userManager->hasRightSomeWhere($uniqueName . '_ACCESS_BACK')) {
@@ -211,6 +213,7 @@ class UserApiController extends BaseApiController
                 && in_array($module->getUniqueName(), $forcePrivateApplications)
             ) {
                 $removed[] = $key;
+                continue;
             }
 
             if ($userManager->hasRight($uniqueName . 'ACTIVATION', $group->getId())) {
@@ -223,24 +226,18 @@ class UserApiController extends BaseApiController
                 }
             }
 
-            if ('PROFILE' === $module->getUniqueName()) {
-                $user = $this->getUser();
-                $module->setCustomLabel($user->getFullname());
-            }
+            switch ($module->getUniqueName()) {
+                case 'PROFILE':
+                    $module->setCustomLabel($user->getFullname());
+                    break;
 
-            if ('NOTIFICATION' === $module->getUniqueName()) {
-                $rmu = $this->get('bns.right_manager')->getModulesReachableUniqueNames();
+                case 'NOTIFICATION':
+                    $module->counter = $this->get('notification_manager')->getUnreadNotificationNumber($user);
+                    break;
 
-                $module->counter = NotificationQuery::create('n')
-                    ->where('n.TargetUserId = ?', $this->getUser()->getId())
-                    ->where('n.IsNew = ?', true)
-                    ->joinWith('NotificationType')
-                    ->where('NotificationType.ModuleUniqueName IN ?', $rmu)
-                    ->count();
-            }
-
-            if ('INFO' === $module->getUniqueName()) {
-                $module->counter = $this->get('bns.right_manager')->getNbNotifInfo() ?: null;
+                case 'INFO':
+                    $module->counter = $this->get('bns.right_manager')->getNbNotifInfo() ?: null;
+                    break;
             }
         }
         foreach ($removed as $key) {
@@ -348,6 +345,10 @@ class UserApiController extends BaseApiController
      */
     public function changePasswordAction()
     {
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException();
+        }
+
         $form = new PasswordChangeApiType();
 
         return $this->restForm($form, [], [
@@ -388,6 +389,8 @@ class UserApiController extends BaseApiController
     }
 
     /**
+     * @deprecated should be removed when new Beneylu Pay is online
+     *
      * @ApiDoc(
      *  section="Utilisateurs - Création d'utilisateur depuis page d'accueil",
      *  resource = false,
@@ -412,6 +415,10 @@ class UserApiController extends BaseApiController
      */
     public function subscriptionAction(Request $request)
     {
+        if (!$this->container->getParameter('bns.enable_register')) {
+            throw $this->createNotFoundException();
+        }
+
         $translator = $this->get('translator');
         $email = $request->get('email');
         $origin = substr(strtoupper($request->get('origin')), 0, 50);
@@ -516,6 +523,8 @@ class UserApiController extends BaseApiController
     }
 
     /**
+     * @deprecated should be removed when new Beneylu Pay is online
+     *
      * <pre>
      * {
      *   "first_name": "Jim",
@@ -554,6 +563,9 @@ class UserApiController extends BaseApiController
      */
     public function createAccountAction(Request $request)
     {
+        if (!$this->container->getParameter('bns.enable_register')) {
+            throw $this->createNotFoundException();
+        }
         // security SPOT public signature check
         $this->get('bns_core.security_firewall.apikey_request_validator')->validateRequest($request);
 
@@ -690,6 +702,340 @@ class UserApiController extends BaseApiController
 
             return new JsonResponse($response);
         });
+    }
+
+    /**
+     * <pre>
+     * {
+     *   "email": "email@beneylu.com",
+     *   "password": "a secret password"
+     *   "locale": "en_US",
+     * }
+     * </pre>
+     *
+     *
+     * @ApiDoc(
+     *  section="Utilisateurs",
+     *  resource = false,
+     *  description="Création d'un compte utilisateur - Uniquement depuis Beneylu Pay sécurisé par signature",
+     *  statusCodes = {
+     *      201 = "Ok - Compte créé",
+     *      400 = "Erreur - A priori email déjà existant",
+     *      403 = "Pas d'accès à l'inscription",
+     *      404 = "Aucun email saisi",
+     *      500 = "erreur serveur"
+     *  }
+     * )
+     *
+     * @Rest\Post("/create-account")
+     *
+     */
+    public function postPayCreateAccountAction(Request $request)
+    {
+        if (!$this->container->getParameter('bns.enable_register')) {
+            throw $this->createNotFoundException();
+        }
+
+        // security PAY/SPOT public signature check
+        $this->get('bns_core.security_firewall.apikey_request_validator')->validateRequest($request);
+
+        // normalize locale
+        $locale = $this->get('bns.locale_manager')->getBestLocale($request->request->get('locale'));
+        $request->request->set('locale', $locale);
+
+        $form = $this->get('form.factory')->createNamedBuilder('', 'form', null, [
+            'csrf_protection' => false
+        ])
+            ->add('email', 'email')
+            ->add('password', 'password')
+            ->add('locale', 'available_locale')
+//            ->add('country', 'available_country')
+            ->add('origin', 'text')
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $translator = $this->get('translator');
+            $data = $form->getData();
+            $locale = $data['locale'];
+            // check user email exist
+            $exists = $this->get('bns.user_manager')->getUserByEmail($data['email']);
+            if ($exists) {
+                return new JsonResponse([
+                    'code' => Codes::HTTP_BAD_REQUEST,
+                    'error_code' => 'email_exist',
+                ], Codes::HTTP_BAD_REQUEST);
+            }
+
+            // check registration step
+            // Create User With Api call
+            $teacher = $this->get('bns.user_manager')->createUser([
+                'first_name' => 'firstname',
+                'last_name' => 'lastname',
+                'lang' => $locale,
+                'email' => $data['email'],
+                'email_validated' => false,
+                'plain_password' => $data['password'],
+            ], false);
+
+            // update locale user data
+            $teacher->setRegistrationStep(1);
+            $teacher->setRegisterOrigin(isset($data['origin']) ? strtoupper($data['origin']) : 'PAY');
+            $teacher->save();
+
+            // set user has teacher on group 1
+            $this->get('bns.role_manager')->setGroupTypeRoleFromType('TEACHER')->assignRole($teacher, 1);
+/*
+            // Create School
+            $school = $this->get('bns.group_manager')->createGroup([
+                'type' => 'SCHOOL',
+                'label' => $translator->trans('LABEL_MY_SCHOOL', array(), 'USER', $locale),
+                'lang' => $locale,
+                'group_parent_id' => 1,
+            ]);
+
+            if (!$school) {
+                return new JsonResponse([
+                    'code' => Codes::HTTP_INTERNAL_SERVER_ERROR,
+                    'error_code' => 'school_creation_failed',
+                    'message' => $translator->trans("ERROR_CANT_CREATE_SCHOOL", [], "USER", $locale)
+                ], Codes::HTTP_INTERNAL_SERVER_ERROR);
+            }
+            $school->setCountry($data['country']);
+            $school->save();
+
+            // Create Classroom
+            $classroomManager = $this->get('bns.classroom_manager');
+            $classroom = $this->get('bns.group_manager')->createGroup(array(
+                'type' => 'CLASSROOM',
+                'label' => $translator->trans('LABEL_MY_CLASSROOM', array(), 'USER', $locale),
+                'lang' => $locale,
+                'group_parent_id' => $school->getId(),
+                'validated' => true,
+            ));
+
+            if (!$classroom) {
+                return new JsonResponse([
+                    'code' => Codes::HTTP_INTERNAL_SERVER_ERROR,
+                    'error_code' => 'classroom_creation_failed',
+                    'message' => $translator->trans("ERROR_CANT_CREATE_SCHOOL", array(), "USER", $locale)
+                ], Codes::HTTP_INTERNAL_SERVER_ERROR);
+            }
+            $classroom->setAttribute('CURRENT_YEAR', $this->container->getParameter('registration.current_year'));
+            $classroom->setCountry($school->getCountry());
+            $classroom->save();
+
+            // Add user to classroom
+            $classroomManager->setClassroom($classroom);
+            $classroomManager->assignTeacher($teacher);
+
+            // Handler sponsorship
+            $classroomManager->sponsorshipAfterRegistration($teacher);
+*/
+            // Autoconnect URL
+            $autologinToken = $this->get('bns.user_manager')->getAutologinToken(
+                $teacher,
+                $this->getParameter('security.oauth.client_id'),
+                $this->generateUrl('home', array(), UrlGenerator::ABSOLUTE_URL),
+                43200 // 12H pour le token de connexion
+            );
+
+            $autologinUrl = $this->getParameter('oauth_host') . '/registration/autologin/' . $autologinToken;
+
+            $response = [
+                /*
+                'groups' => [
+                    [
+                        'id' => $school->getId(),
+                        'label' => $school->getLabel(),
+                        'type' => $school->getType(),
+                        'parent_id' => 1,
+                    ],
+                    [
+                        'id' => $classroom->getId(),
+                        'label' => $classroom->getLabel(),
+                        'type' => $classroom->getType(),
+                        'parent_id' => $school->getId()
+                    ],
+                ],*/
+                'user' => [
+                    'id' => $teacher->getId(),
+                    'username' => $teacher->getUsername(),
+                    'email' => $teacher->getEmail(),
+                ],
+                'autologinUrl' => $autologinUrl
+            ];
+
+            return new JsonResponse($response);
+        }
+
+        return View::create($form, Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * create a new school and new classroom
+     * <pre>
+     * {
+     *   "userId": 42,
+     *   "school": true
+     *   "classroom": true
+     *   "spotCountry": "FR"
+     * }
+     * </pre>
+     * create a new classroom
+     * <pre>
+     * {
+     *   "userId": 42,
+     *   "school": 127
+     *   "classroom": true
+     *   "spotCountry": "FR"
+     * }
+     * </pre>
+     * create a new school
+     * <pre>
+     * {
+     *   "userId": 42,
+     *   "school": true
+     *   "classroom": false
+     *   "spotCountry": "FR"
+     * }
+     * </pre>
+     *
+     * @ApiDoc(
+     *  section="Utilisateurs",
+     *  resource = false,
+     *  description="Creation de groupes (classe et/ou école) - Uniquement depuis Beneylu Pay sécurisé par signature",
+     *  statusCodes = {
+     *      200 = "Ok",
+     *  }
+     * )
+     *
+     * @Rest\Post("/create-groups")
+     *
+     */
+    public function postPayCreateGroupsAction(Request $request)
+    {
+        if (!$this->container->getParameter('bns.enable_register')) {
+            throw $this->createNotFoundException();
+        }
+
+        // security PAY/SPOT public signature check
+        $this->get('bns_core.security_firewall.apikey_request_validator')->validateRequest($request);
+
+        $form = $this->get('form.factory')->createNamedBuilder('', 'form', null, [
+            'csrf_protection' => false
+        ])
+            ->add('userId', 'text')
+            ->add('classroom', 'checkbox')
+            ->add('school', 'checkbox')
+            ->add('schoolId', 'text')
+            ->add('spotCountry', 'available_country')
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $translator = $this->get('translator');
+            $data = $form->getData();
+            // check user email exist
+            $user = UserQuery::create()->findPk($data['userId']);
+            if (!$user) {
+                return new JsonResponse([
+                    'code' => Codes::HTTP_NOT_FOUND,
+                ], Codes::HTTP_NOT_FOUND);
+            }
+
+            $locale = $user->getLang();
+            $school = false;
+            $classroom = false;
+            // boolean true normalized has 1
+            if ($data['school']) {
+                // Create School
+                $school = $this->get('bns.group_manager')->createGroup([
+                    'type' => 'SCHOOL',
+                    'label' => $translator->trans('LABEL_MY_SCHOOL', array(), 'USER', $user->getLang()),
+                    'lang' => $locale,
+                    'group_parent_id' => 1,
+                ]);
+                if (!$school) {
+                    return new JsonResponse([
+                        'code' => Codes::HTTP_INTERNAL_SERVER_ERROR,
+                        'error_code' => 'school_creation_failed',
+                        'message' => $translator->trans("ERROR_CANT_CREATE_SCHOOL", [], "USER", $locale)
+                    ], Codes::HTTP_INTERNAL_SERVER_ERROR);
+                }
+                $school->setSpotCountry($data['spotCountry']);
+                $school->save();
+            } elseif ($data['schoolId']) {
+                $school = GroupQuery::create()
+                    ->filterByArchived(false)
+                    ->findPk((int)$data['schoolId']);
+
+                if ($school && !in_array($user->getId(), $this->get('bns.group_manager')->setGroup($school)->getUsersIds())) {
+                    return new JsonResponse([
+                        'code' => Codes::HTTP_BAD_REQUEST,
+                        'message' => 'user not in this group'
+                    ], Codes::HTTP_BAD_REQUEST);
+                }
+            }
+            if (!$school) {
+                return new JsonResponse([
+                    'code' => Codes::HTTP_NOT_FOUND,
+                    'message' => 'school not found'
+                ], Codes::HTTP_NOT_FOUND);
+            }
+
+            if ($data['classroom']) {
+                // Create Classroom
+                $classroomManager = $this->get('bns.classroom_manager');
+                $classroom = $this->get('bns.group_manager')->createGroup(array(
+                    'type' => 'CLASSROOM',
+                    'label' => $translator->trans('LABEL_MY_CLASSROOM', array(), 'USER', $locale),
+                    'lang' => $locale,
+                    'group_parent_id' => $school->getId(),
+                    'validated' => true,
+                ));
+
+                if (!$classroom) {
+                    return new JsonResponse([
+                        'code' => Codes::HTTP_INTERNAL_SERVER_ERROR,
+                        'error_code' => 'classroom_creation_failed',
+                        'message' => $translator->trans("ERROR_CANT_CREATE_SCHOOL", array(), "USER", $locale)
+                    ], Codes::HTTP_INTERNAL_SERVER_ERROR);
+                }
+                $classroom->setAttribute('CURRENT_YEAR', $this->container->getParameter('registration.current_year'));
+                $classroom->setSpotCountry($school->getSpotCountry());
+                $classroom->save();
+
+                // Add user to classroom
+                $classroomManager->setClassroom($classroom);
+                $classroomManager->assignTeacher($user);
+            } elseif ($data['school']) {
+                $this->get('bns.role_manager')->setGroupTypeRoleFromType('TEACHER')->assignRole($user, $school->getId());
+            }
+
+            $response = [
+                'groups' => [
+                    [
+                        'id' => $school->getId(),
+                        'label' => $school->getLabel(),
+                        'type' => $school->getType(),
+                        'parent_id' => 1,
+                    ],
+                ],
+            ];
+            if ($classroom) {
+                $response['groups'][] = [
+                    'id' => $classroom->getId(),
+                    'label' => $classroom->getLabel(),
+                    'type' => $classroom->getType(),
+                    'parent_id' => $school->getId()
+                ];
+            }
+
+            return new JsonResponse($response);
+        }
+
+        return View::create($form, Response::HTTP_BAD_REQUEST);
     }
 
     /**

@@ -2,21 +2,18 @@
 
 namespace BNS\App\PortalBundle\Controller;
 
+use BNS\App\CoreBundle\Annotation\Rights;
 use BNS\App\MediaLibraryBundle\Model\MediaQuery;
 use BNS\App\PortalBundle\Form\Type\PortalType;
 use BNS\App\PortalBundle\Manager\PortalManager;
-use BNS\App\PortalBundle\Model\Portal;
-use BNS\App\PortalBundle\Model\PortalPeer;
-use BNS\App\PortalBundle\Model\PortalQuery;
 use BNS\App\PortalBundle\Model\PortalWidget;
 use BNS\App\PortalBundle\Model\PortalWidgetGroup;
 use BNS\App\PortalBundle\Model\PortalWidgetGroupQuery;
 use BNS\App\PortalBundle\Model\PortalWidgetQuery;
 use BNS\App\PortalBundle\Model\PortalZoneQuery;
-use BNS\App\WorkshopBundle\Model\om\BasePortalWidgetGroupQuery;
+use BNS\App\UserDirectoryBundle\Model\DistributionListQuery;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 class BackController extends CommonController
@@ -24,6 +21,7 @@ class BackController extends CommonController
     /**
      * @Route("/", name="BNSAppPortalBundle_back")
      * @Template()
+     * @Rights("PORTAL_ACCESS_BACK")
      */
     public function indexAction(Request $request)
     {
@@ -37,6 +35,9 @@ class BackController extends CommonController
                 //Check sécu des images
                 if($form->get('logoId')->getData())
                 {
+                    if (!$this->hasFeature('portal_logo')) {
+                        throw $this->createAccessDeniedException();
+                    }
                     $canReadLogo = $mlrm->canReadMedia(MediaQuery::create()->findOneById($form->get('logoId')->getData()),true);
                     $this->get('bns.right_manager')->forbidIf(!$canReadLogo);
                 }
@@ -57,9 +58,11 @@ class BackController extends CommonController
                 }
                 $portal->save();
                 $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('FLASH_PORTAL_UPDATE_SUCCESS', array(), 'PORTAL'));
+
                 return $this->redirect($this->generateUrl('BNSAppPortalBundle_back'));
             }
         }
+
         return array(
             'portal' => $portal,
             'form' => $form->createView(),
@@ -82,7 +85,6 @@ class BackController extends CommonController
             {
                 $widget->setEnabled($parameter['enabled']);
             }
-
             // 2 on assure la sécurité
             if($widget->getPortalWidgetGroupId() == $widgetGroup->getId())
             {
@@ -90,11 +92,11 @@ class BackController extends CommonController
                 switch($widget->getType())
                 {
                     case 'BANNER':
-                        $widget->setDatas(serialize(array('bannerId' => $parameter['banner'])));
+                        $widget->setDatas(array('bannerId' => $parameter['banner']));
                         $widget->save();
                         break;
                     case 'TEXT':
-                        $widget->setDatas(serialize(array('text' => $parameter['text'])));
+                        $widget->setDatas(array('text' => $parameter['text']));
                         $widget->save();
                         break;
                     case 'RSS':
@@ -121,7 +123,7 @@ class BackController extends CommonController
                                         'image' => $feed['image']
                                     );
 
-                                    $widget->setDatas(serialize(array('rss' => $finalArray, 'title' => $parameter['title'])));
+                                    $widget->setDatas(array('rss' => $finalArray, 'title' => $parameter['title']));
                                     $widget->save();
 
                                 }else{
@@ -148,8 +150,36 @@ class BackController extends CommonController
                             );
 
                         }
-                        $widget->setDatas(serialize(array('link' => $finalArray, 'title' => $parameter['title'])));
+                        $widget->setDatas(array('link' => $finalArray, 'title' => $parameter['title']));
                         $widget->save();
+                        break;
+
+                    case 'MINISITE':
+                        $listIds = [];
+                        if (isset($parameter['lists'])) {
+                            $listIds = explode(',', $parameter['lists']);
+                            $listIds = array_map(function($item) {
+                                return (int)$item;
+                            }, $listIds);
+                            $listIds =  DistributionListQuery::create()
+                                ->filterById($listIds)
+                                ->filterByGroup($this->get('bns.right_manager')->getCurrentGroup())
+                                ->select('Id')
+                                ->find()
+                                ->getArrayCopy()
+                            ;
+                        }
+                        $widget->setDatas([
+                            'title' => isset($parameter['title']) ? $parameter['title'] : '',
+                            'lists' => $listIds,
+                            'all' => isset($parameter['all']) ? (boolean) $parameter['all'] : false,
+                        ]);
+                        $widget->save();
+
+                        if (empty($listIds) && !$parameter['all']) {
+                            $widget->setEnabled(false);
+                            return $widget->getType();
+                        }
                         break;
                 }
 
@@ -166,6 +196,7 @@ class BackController extends CommonController
     /**
      * @Route("/zone-principale", name="BNSAppPortalBundle_back_main_zone")
      * @Template()
+     * @Rights("PORTAL_ACCESS_BACK")
      */
     public function mainZoneAction(Request $request)
     {
@@ -182,8 +213,12 @@ class BackController extends CommonController
 
         if($request->isMethod('POST'))
         {
-            $this->saveWidgets($request, $widgetGroup);
-            $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('FLASH_PORTAL_UPDATE_SUCCESS', array(), 'PORTAL'));
+            $type = $this->saveWidgets($request, $widgetGroup);
+            if (!is_null($type) && $type == 'MINISITE') {
+                $this->get('session')->getFlashBag()->add('error', $this->get('translator')->trans('FLASH_PORTAL_UPDATE_ERROR_EMPTY_LIST', array(), 'PORTAL'));
+            } else {
+                $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('FLASH_PORTAL_UPDATE_SUCCESS', array(), 'PORTAL'));
+            }
         }
 
         $widgets = PortalWidgetQuery::create()
@@ -201,21 +236,43 @@ class BackController extends CommonController
 
     /**
      * @Route("/ajouter-widget/{type}/{widgetGroupId}", name="BNSAppPortalBundle_back_add_widget", options={"expose"=true})
+     * @Rights("PORTAL_ACCESS_BACK")
      */
     public function addWidget($type, $widgetGroupId,  Request $request)
     {
         $widgetGroup = PortalWidgetGroupQuery::create()->findOneById($widgetGroupId);
         $this->get('bns.right_manager')->forbidIf($widgetGroup->getPortalId() != $this->getCurrentPortal()->getId());
 
+        // only allow valid type
+        if (!in_array(strtolower($type), [
+            'banner',
+            'link',
+            'minisite',
+            'rss',
+            'school',
+            'text'
+        ])) {
+            throw $this->createNotFoundException();
+        }
+
+        if(!$this->hasFeature('portal_widgets') && in_array(strtolower($type), ['rss',
+                'school',
+                'link'
+            ])) {
+            throw $this->createAccessDeniedException();
+        }
+
         $widget = new PortalWidget();
         $widget->setType($type);
         $widget->setPortalWidgetGroupId($widgetGroupId);
         $widget->setPosition(1);
         $widget->save();
+
         return $this->render('BNSAppPortalBundle:BackWidgets:'. strtolower($type) .'.html.twig',
             array(
                 'widget' => $widget,
-                'isNew' => true
+                'isNew' => true,
+                'portal' => $this->getCurrentPortal()
             )
         );
     }
@@ -223,6 +280,7 @@ class BackController extends CommonController
     /**
      * @Route("/colonne-laterale", name="BNSAppPortalBundle_back_side_zone")
      * @Template()
+     * @Rights("PORTAL_ACCESS_BACK")
      */
     public function sideZoneAction(Request $request)
     {
@@ -239,8 +297,12 @@ class BackController extends CommonController
 
         if($request->isMethod('POST'))
         {
-            $this->saveWidgets($request, $widgetGroup);
-            $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('FLASH_PORTAL_UPDATE_SUCCESS', array(), 'PORTAL'));
+            $type = $this->saveWidgets($request, $widgetGroup);
+            if (!is_null($type) && $type == 'MINISITE') {
+                $this->get('session')->getFlashBag()->add('error', $this->get('translator')->trans('FLASH_PORTAL_UPDATE_ERROR_EMPTY_LIST', array(), 'PORTAL'));
+            } else {
+                $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('FLASH_PORTAL_UPDATE_SUCCESS', array(), 'PORTAL'));
+            }
         }
 
         $widgets = PortalWidgetQuery::create()

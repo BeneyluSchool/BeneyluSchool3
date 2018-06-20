@@ -15,9 +15,21 @@
 
     <testsuites>
         <testsuite name="Project Test Suite">
-            <directory>../src/BNS/App/*Bundle/Tests</directory>
-            <directory>../src/BNS/App/*/Bundle/*Bundle/Tests</directory>
-            <directory>../src/BNS/App/*/*/*Bundle/Tests</directory>
+            <!-- Add bundle with tests in it -->
+            <directory>../src/BNS/App/AdminBundle/Tests</directory>
+            <directory>../src/BNS/App/CommandBundle/Tests</directory>
+            <directory>../src/BNS/App/CompetitionBundle/Tests</directory>
+            <directory>../src/BNS/App/CoreBundle/Tests</directory>
+            <directory>../src/BNS/App/CorrectionBundle/Tests</directory>
+            <directory>../src/BNS/App/GroupBundle/Tests</directory>
+            <directory>../src/BNS/App/HomeworkBundle/Tests</directory>
+            <directory>../src/BNS/App/MediaLibraryBundle/Tests</directory>
+            <directory>../src/BNS/App/MiniSiteBundle/Tests</directory>
+            <directory>../src/BNS/App/PaasBundle/Tests</directory>
+            <directory>../src/BNS/App/ProfileBundle/Tests</directory>
+            <directory>../src/BNS/App/UserBundle/Tests</directory>
+            <directory>../src/BNS/App/WorkshopBundle/Tests</directory>
+            <!--<directory>../src/BNS/App/*Bundle/Tests</directory>-->
         </testsuite>
     </testsuites>
 
@@ -29,12 +41,39 @@
 
     <filter>
         <whitelist>
-            <directory>../src</directory>
+            <!-- Add bundle with tests in it -->
+            <directory>../src/BNS/App/AdminBundle</directory>
+            <directory>../src/BNS/App/CommandBundle</directory>
+            <directory>../src/BNS/App/CompetitionBundle</directory>
+            <directory>../src/BNS/App/CoreBundle</directory>
+            <directory>../src/BNS/App/CorrectionBundle</directory>
+            <directory>../src/BNS/App/GroupBundle</directory>
+            <directory>../src/BNS/App/HomeworkBundle</directory>
+            <directory>../src/BNS/App/MediaLibraryBundle</directory>
+            <directory>../src/BNS/App/MiniSiteBundle</directory>
+            <directory>../src/BNS/App/PaasBundle</directory>
+            <directory>../src/BNS/App/ProfileBundle</directory>
+            <directory>../src/BNS/App/UserBundle</directory>
+            <directory>../src/BNS/App/WorkshopBundle</directory>
+            <!--<directory>../src/BNS/App/*UserBundle</directory>-->
             <exclude>
-                <directory>../src/*/*Bundle/Resources</directory>
-                <directory>../src/*/*Bundle/Tests</directory>
-                <directory>../src/*/Bundle/*Bundle/Resources</directory>
-                <directory>../src/*/Bundle/*Bundle/Tests</directory>
+                <directory>../src/BNS/App/CoreBundle/Test</directory>
+                <directory>../src/BNS/App/*Bundle/Tests</directory>
+                <directory>../src/BNS/App/*Bundle/Resources</directory>
+                <directory>../src/BNS/App/*Bundle/Model/map</directory>
+                <directory>../src/BNS/App/*Bundle/Model/om</directory>
+                <!--<directory>../src/BNS/App/*Bundle/Tests</directory>-->
+                <!--<directory>../src/BNS/App/*Bundle/Resources</directory>-->
+                <!--<directory>../src/BNS/App/*/Bundle/*Bundle/Tests</directory>-->
+                <!--<directory>../src/BNS/App/*/Bundle/*Bundle/Resources</directory>-->
+                <!--<directory>../src/BNS/App/*/*/*Bundle/Tests</directory>-->
+                <!--<directory>../src/BNS/App/*/*/*Bundle/Resources</directory>-->
+
+
+                <!--<directory>../src/*/*Bundle/Resources</directory>-->
+                <!--<directory>../src/*/*Bundle/Tests</directory>-->
+                <!--<directory>../src/*/Bundle/*Bundle/Resources</directory>-->
+                <!--<directory>../src/*/Bundle/*Bundle/Tests</directory>-->
             </exclude>
         </whitelist>
     </filter>

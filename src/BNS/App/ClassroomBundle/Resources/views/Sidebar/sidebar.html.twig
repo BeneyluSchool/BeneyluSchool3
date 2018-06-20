@@ -35,14 +35,19 @@
             <div class="section">
                 <a href="{{ path('classroom_manager_stats') }}">{% trans %}LINK_STATS{% endtrans %}</a>
             </div>
-            <div class="section">
+            {# <div class="section">
                 <a href="{{ path('BNSAppClassroomBundle_back_sponsorship') }}">{% trans %}LINK_SPONSORSHIP{% endtrans %}</a>
-            </div>
+            </div> #}
             {% if has_right_somewhere('SPOT_ACCESS') %}
                 <div class="section">
                     <a href="{{ path('bns_app_classroom_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTION{% endtrans %}</a>
                 </div>
             {% endif %}
+          {#
+            <div class="section">
+                <a href="" bns-starter-kit-boot="click" bns-app="MAIN" bns-level="0">{% trans %}LINK_FIRST_STEPS{% endtrans %}</a>
+            </div>
+            #}
         </div>
         {{ render(controller('BNSAppClassroomBundle:BackChangeYear:sidebar')) }}
     </div>
@@ -76,13 +81,18 @@
             <span class="shadow-section"></span>
         </div>
 
+        <div class="container-section">
         {% if has_right_somewhere('SPOT_ACCESS') %}
-            <div class="container-section">
                 <div class="section">
                     <a href="{{ path('bns_app_classroom_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTION{% endtrans %}</a>
                 </div>
-            </div>
         {% endif %}
+          {#
+            <div class="section">
+                <a href="" bns-starter-kit-boot="click" bns-app="MAIN" bns-level="0">{% trans %}LINK_FIRST_STEPS{% endtrans %}</a>
+            </div>
+            #}
+        </div>
         {{ render(controller('BNSAppClassroomBundle:BackChangeYear:sidebar')) }}
     </div>
 {% endif %}
@@ -108,15 +118,22 @@
             <div class="section">
                 <a href="{{ path('classroom_manager_stats') }}">{% trans %}LINK_STATS{% endtrans %}</a>
             </div>
-            <div class="section">
+            {# <div class="section">
                 <a href="{{ path('BNSAppClassroomBundle_back_sponsorship') }}">{% trans %}LINK_SPONSORSHIP{% endtrans %}</a>
-            </div>
+            </div> #}
         </div>
         <div class="section active">
             {% trans %}LINK_SUBSCRIPTION{% endtrans %}
             <span class="shadow-section"></span>
         </div>
         {% block subscriptionMenu %}{% endblock %}
+{#
+        <div class="container-section">
+            <div class="section">
+                <a href="" bns-starter-kit-boot="click" bns-app="MAIN" bns-level="0">{% trans %}LINK_FIRST_STEPS{% endtrans %}</a>
+            </div>
+        </div>
+        #}
 
         {{ render(controller('BNSAppClassroomBundle:BackChangeYear:sidebar')) }}
     </div>
@@ -162,9 +179,9 @@
             <div class="section">
                 <a href="{{ path('classroom_manager_stats') }}">{% trans %}LINK_STATS{% endtrans %}</a>
             </div>
-            <div class="section">
+            {# <div class="section">
                 <a href="{{ path('BNSAppClassroomBundle_back_sponsorship') }}">{% trans %}LINK_SPONSORSHIP{% endtrans %}</a>
-            </div>
+            </div> #}
             {% if has_right_somewhere('SPOT_ACCESS') %}
                 <div class="section">
                     <a href="{{ path('bns_app_classroom_backpaassubscription_subscription') }}">      {% trans %}LINK_SUBSCRIPTION{% endtrans %}
@@ -178,6 +195,11 @@
                     </a>
                 </div>
             {% endif %}
+          {#
+            <div class="section">
+                <a href="" bns-starter-kit-boot="click" bns-app="MAIN" bns-level="0">{% trans %}LINK_FIRST_STEPS{% endtrans %}</a>
+            </div>
+            #}
         </div>
         {{ render(controller('BNSAppClassroomBundle:BackChangeYear:sidebar')) }}
     </div>
@@ -431,9 +453,9 @@
             <div class="section">
                 <a href="{{ path('classroom_manager_stats') }}">{% trans %}LINK_STATS{% endtrans %}</a>
             </div>
-            <div class="section">
+            {# <div class="section">
                 <a href="{{ path('BNSAppClassroomBundle_back_sponsorship') }}">{% trans %}LINK_SPONSORSHIP{% endtrans %}</a>
-            </div>
+            </div> #}
 
             {% if has_right_somewhere('SPOT_ACCESS') %}
                 <div class="section">
@@ -447,6 +469,11 @@
                     </div>
                 </div>
             {% endif %}
+          {#
+            <div class="section">
+                <a href="" bns-starter-kit-boot="click" bns-app="MAIN" bns-level="0">{% trans %}LINK_FIRST_STEPS{% endtrans %}</a>
+            </div>
+            #}
         </div>
         {{ render(controller('BNSAppClassroomBundle:BackChangeYear:sidebar')) }}
     </div>
@@ -476,9 +503,9 @@
             <div class="section">
                 <a href="{{ path('classroom_manager_stats') }}">{% trans %}LINK_STATS{% endtrans %}</a>
             </div>
-            <div class="section">
+            {# <div class="section">
                 <a href="{{ path('BNSAppClassroomBundle_back_sponsorship') }}">{% trans %}LINK_SPONSORSHIP{% endtrans %}</a>
-            </div>
+            </div> #}
 
             {% if has_right_somewhere('SPOT_ACCESS') %}
                 <div class="section">
@@ -492,6 +519,11 @@
                     </div>
                 </div>
             {% endif %}
+          {#
+            <div class="section">
+                <a href="" bns-starter-kit-boot="click" bns-app="MAIN" bns-level="0">{% trans %}LINK_FIRST_STEPS{% endtrans %}</a>
+            </div>
+            #}
         </div>
         {{ render(controller('BNSAppClassroomBundle:BackChangeYear:sidebar')) }}
     </div>
@@ -523,14 +555,19 @@
         </div>
 
         <div class="container-section">
-            <div class="section">
+            {# <div class="section">
                 <a href="{{ path('BNSAppClassroomBundle_back_sponsorship') }}">{% trans %}LINK_SPONSORSHIP{% endtrans %}</a>
-            </div>
+            </div> #}
         {% if has_right_somewhere('SPOT_ACCESS') %}
                 <div class="section">
                     <a href="{{ path('bns_app_classroom_backpaassubscription_subscription') }}">{% trans %}LINK_SUBSCRIPTION{% endtrans %}</a>
                 </div>
         {% endif %}
+          {#
+            <div class="section">
+                <a href="" bns-starter-kit-boot="click" bns-app="MAIN" bns-level="0">{% trans %}LINK_FIRST_STEPS{% endtrans %}</a>
+            </div>
+            #}
         </div>
         {{ render(controller('BNSAppClassroomBundle:BackChangeYear:sidebar')) }}
     </div>
@@ -644,6 +681,14 @@
                             {{ 'DESCRIPTION_TEAM'|trans({'%description%': team.printAttribute('DESCRIPTION') |escape}) |desc('<strong>Description : </strong> %description%')  |raw}}
                         {% else %}
                             {{ 'NO_DESCRIPTION_TEAM'|trans |desc('<strong>Description : </strong> Ajoutez une description à votre groupe de travail !')  |raw}}
+
+                        {% endif %}
+                    </p>
+                    <p class="type" bns-feature-flag="'team_sdet_expiration'">
+                        {% if team.printAttribute('EXPIRATION_DATE') is not null and team.printAttribute('EXPIRATION_DATE') != '' %}
+                            {{ 'EXPIRATION_DATE_TEAM'|trans({'%expirationDate%': team.printAttribute('EXPIRATION_DATE') |date('d/m/Y')}) |desc('<strong>Date expiration : </strong> %expirationDate%')  |raw}}
+                        {% else %}
+                            {{ 'NO_EXPIRATION_DATE_TEAM'|trans |desc('Ajoutez une expirationDate à votre groupe de travail !')  |raw}}
 
                         {% endif %}
                     </p>

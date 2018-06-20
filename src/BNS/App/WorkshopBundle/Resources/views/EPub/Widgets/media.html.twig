@@ -1,0 +1,7 @@
+
+  {% set media = widget.media %}
+  {% if media.TypeUniqueName is defined %}
+    {% set widgetTemplate =  'BNSAppWorkshopBundle:EPub:Widgets/Media/' ~ (media.TypeUniqueName|lower) ~ '.html.twig'  %}
+    {% include  widgetTemplate ignore missing %}
+  {% endif %}
+

@@ -615,6 +615,7 @@ class BackGroupController extends CommonController
             if ($attributeUniqueName == 'NAME') {
                 $gm = $this->get('bns.group_manager')->setGroup($group);
                 $gm->updateGroup(array('label' => $value));
+                $gm->updateLabel($group, $value);
             }
         } else {
             $render = 'form';

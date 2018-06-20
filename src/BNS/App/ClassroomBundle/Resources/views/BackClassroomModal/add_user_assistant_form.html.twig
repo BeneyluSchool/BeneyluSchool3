@@ -102,3 +102,9 @@
     {{ lastRegistedUser | raw }}
   </div>
 {% endif %}
+
+{% if isAssistant is defined %}
+  <div class="result isAssistant" style="display: none;">
+  {{ isAssistant | raw }}
+  </div>
+{% endif %}

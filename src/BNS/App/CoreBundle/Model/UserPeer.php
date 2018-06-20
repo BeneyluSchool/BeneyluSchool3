@@ -17,16 +17,20 @@ class UserPeer extends BaseUserPeer
 		$user->setFirstName($values['first_name']);
 		$user->setLastName($values['last_name']);
 		$user->setGender(isset($values['gender'])? $values['gender'] : self::GENDER_M);
-		
+
+        if (isset($values['ine']) && $values['ine'] != '') {
+            $user->setIne($values['ine']);
+        }
+
 		if(isset($values['email'])){
 			if ($values['email'] != '') {
 				$user->setEmail($values['email']);
 			}
 		}
-		
+
 		$user->setLang($values['lang']);
 		$user->setIsExpert(false);
-		
+
 		if (isset($values['birthday'])) {
 			$user->setBirthday($values['birthday']);
 		}
@@ -78,8 +82,12 @@ class UserPeer extends BaseUserPeer
             $user->setCountry($values['country']);
         }
 
+        if (isset($values['phone'])) {
+            $user->setPhone($values['phone']);
+        }
+
 		$user->save();
-		
+
 		if($withExtraDatas){
 			$user->createResourceLabelRoot();
 		}

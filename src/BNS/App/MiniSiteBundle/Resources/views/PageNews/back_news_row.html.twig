@@ -1,11 +1,21 @@
 {% trans_default_domain "MINISITE" %}
 {% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
 
-<md-list-item class="md-3-line item-news" id="item-news-{{ news.getId() }}" href="{{ path('minisite_manager_page_news_visualisation', {'slug': news.getSlug()}) }}">
+<md-list-item bns-status="{ value: '{{ news.getLogicalStatus() }}' }"
+							class="item-news"
+							id="item-news-{{ news.getId() }}"
+							{% if can_manage is not defined or (can_manage is defined and can_manage) %}href="{{ path('minisite_manager_page_news_visualisation', {'slug': news.getSlug()}) }}"{% endif %}
+>
 
 		<div class="md-list-item-text">
-			<h3>
-				<span class="md-title">
+			<h3 class="layout-row layout-align-start-start">
+				{% if news.isPinned() %}
+					<span>
+						<md-tooltip>{% trans %}LABEL_PINNED{% endtrans %}</md-tooltip>
+						<md-icon>priority_high</md-icon>
+					</span>
+				{% endif %}
+				<span class="md-title flex">
 					{% if isModeration is defined and isModeration == true %}
 						<span class="text-muted">{{ news.getMiniSitePage().getTitle() }} :</span>
 					{% endif %}
@@ -21,14 +31,51 @@
 					}) |desc('Écrit %date% par %image% %user%') |raw }}
 				</span>
 			</h4>
-			<p>
-				<div class="md-body-2">
+			<p class="md-body-2">
 					{% autoescape false %}
 						{{ parse_public_resources(news.getShortContent()|purify) }}
 					{% endautoescape %}
-				</div>
 			</p>
+			{% if news.getPublishedAt() and news.getPublishedEndAt() %}
+				<p class="md-body-2 text-muted">
+					{% trans with {
+						'%from%': news.getPublishedAt()|date_bns('medium', 'none'),
+						'%to%': news.getPublishedEndAt()|date_bns('medium', 'none')
+					} %}DESCRIPTION_PUBLISHED_FROM_TO{% endtrans %}
+				</p>
+			{% endif %}
+			{% if news.isCityNews() %}
+				<p class="md-body-2 text-muted">
+					{% if news.getIsAllSchools() %}
+						{% trans %}DESCRIPTION_VISIBLE_IN_ALL_SCHOOLS{% endtrans %}
+					{% else %}
+						{% set schools = news.getSchools() %}
+						{{ 'DESCRIPTION_VISIBLE_IN_SCHOOLS'|transchoice(schools|length) }}
+					{% endif %}
+				</p>
+			{% endif %}
 		</div>
+
+	{% if isModeration is not defined or isModeration is defined and not isModeration %}
+		{% if 'CITY' != page.miniSite.getGroup().getType() %}
+			<md-button class="md-secondary md-primary md-hue-3 hide-sm" href="{{ path('BNSAppMiniSiteBundle_front_page', {
+				slug: page.minisite.slug,
+				page: page.slug
+			}) }}#news-{{ news.slug }}">
+				{% trans %}BUTTON_VIEW_NEWS{% endtrans %}
+				<md-icon>chevron_right</md-icon>
+			</md-button>
+		{% else %}
+			<md-button class="md-secondary md-primary md-hue-3 hide-sm" href="{{ path('minisite_manager_page_news_visualisation', {'slug': news.getSlug()}) }}">
+				{% trans %}BUTTON_VIEW_NEWS{% endtrans %}
+				<md-icon>chevron_right</md-icon>
+			</md-button>
+		{% endif %}
+
+		<md-button class="md-icon-button md-secondary md-primary md-hue-3 hide-gt-sm">
+			<md-icon>chevron_right</md-icon>
+		</md-button>
+	{% endif %}
 
 	{% if isModeration is defined and isModeration == true %}
 		<div class="md-secondary">

@@ -4,6 +4,8 @@ namespace BNS\App\MediaLibraryBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
@@ -25,12 +27,26 @@ class BNSAppMediaLibraryExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
-        if(!$container->hasParameter('bns_media_storage'))
-        {
-            $container->setParameter('bns_media_storage',$config['default_adapter']);
+        if (!$container->hasParameter('bns_media_storage')) {
+            $container->setParameter('bns_media_storage', $config['default_adapter']);
         }
 
         $fileSystemService = $container->getDefinition('bns.file_system_manager');
         $fileSystemService->addArgument($container->getDefinition('bns.' . $container->getParameter('bns_media_storage') .'.adapter'));
+
+        $thumbConfigs = [];
+        if (isset($config['thumb_configs']) && $container->hasDefinition('bns_app_media_library.thumb.thumb_creator_manager')) {
+            foreach ($config['thumb_configs'] as $name => $thumbConfig) {
+                $def = new Definition('BNS\App\MediaLibraryBundle\Thumb\ThumbConfig', [
+                    $name,
+                    $thumbConfig['width'],
+                    $thumbConfig['height'],
+                    $thumbConfig['options']
+                ]);
+                $def->setPublic(false);
+                $thumbConfigs[] = $def;
+            }
+            $container->getDefinition('bns_app_media_library.thumb.thumb_creator_manager')->replaceArgument(1, $thumbConfigs);
+        }
     }
 }

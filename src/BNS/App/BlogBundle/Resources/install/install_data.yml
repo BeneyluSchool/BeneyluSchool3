@@ -58,6 +58,9 @@ permissions:
 
   YERBOOK_SEE: ~
 
+  CORRECTION: ~
+  CORRECTION_EDIT: ~
+
 ranks:
   READ:
     label:
@@ -109,6 +112,15 @@ ranks:
 
   YERBOOK_SEE:
     permissions: [YERBOOK_SEE]
+
+  CORRECTION:
+    permissions: [CORRECTION]
+  CORRECTION_EDIT:
+    permissions: [CORRECTION_EDIT]
+  USE_WITH_CORRECTION:
+    permissions: [ACCESS, ACCESS_BACK, CORRECTION]
+  MANAGE_WITH_CORRECTION:
+    permissions: [ACCESS, ACCESS_BACK, ACTIVATION, ADMINISTRATION, CORRECTION_EDIT]
 
 notification_types:
   BLOG_ARTICLES_FINISHED: { }

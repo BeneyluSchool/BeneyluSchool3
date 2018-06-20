@@ -1,8 +1,12 @@
 <?php
 namespace BNS\App\CampaignBundle\Manager;
 
+use BNS\App\CampaignBundle\Model\Campaign;
+use BNS\App\CampaignBundle\Model\CampaignRecipientGroupQuery;
+use BNS\App\CoreBundle\Group\BNSGroupManager;
 use BNS\App\CoreBundle\Model\Group;
 use BNS\App\CoreBundle\Model\GroupQuery;
+use BNS\App\CoreBundle\Model\UserQuery;
 use BNS\App\PaasBundle\Manager\PaasManager;
 use BNS\App\PaasBundle\Manager\PaasSecurityManager;
 use Buzz\Browser;
@@ -27,12 +31,16 @@ class PaasSmsManager
     /** @var PaasSecurityManager */
     protected $paasSecurityManager;
 
-    public function __construct(LoggerInterface $logger, $paasUrl, Browser $buzz, PaasSecurityManager $paasSecurityManager)
+    /** @var  BNSGroupManager */
+    protected $groupManager;
+
+    public function __construct(LoggerInterface $logger, $paasUrl, Browser $buzz, PaasSecurityManager $paasSecurityManager, BNSGroupManager $groupManager)
     {
         $this->logger = $logger;
         $this->buzz = $buzz;
         $this->paasUrl = $paasUrl;
         $this->paasSecurityManager = $paasSecurityManager;
+        $this->groupManager = $groupManager;
     }
 
 
@@ -41,7 +49,7 @@ class PaasSmsManager
         $url = $this->paasUrl . sprintf('/api/sms-credit/by-identifier/%s/%s.json', $group->getId(), $group->getType());
 
         $signedUrl = $this->paasSecurityManager->signUrl('GET', $url, [
-            'country' => $group->getCountry() ?: null,
+            'country' => $this->groupManager->setGroup($group)->getCountry(),
         ]);
 
         try {
@@ -53,6 +61,41 @@ class PaasSmsManager
         } catch (\Exception $e) {
             $this->logger->error(sprintf('PaasManager::getSmsCredit failed: "%s"', $e->getMessage()), [
                 'group' => $group->getId()
+            ]);
+        }
+
+        return null;
+    }
+
+
+    public function getSmsCost(Campaign $campaign, $ids, $country)
+    {
+        $numbers = UserQuery::create()
+            ->filterById($ids)
+            ->select('phone')
+            ->find()
+            ->toArray();
+
+        $url = $this->paasUrl . sprintf('/api/sms-credit/cost.json');
+
+        $signedUrl = $this->paasSecurityManager->signUrl('POST', $url, ['country' => $country]);
+
+        $data = ['form' => [
+            'message' => $campaign->getMessage(),
+            'phone_numbers' => $numbers
+        ]];
+
+        try {
+            /** @var \Buzz\Message\Response $response */
+            $response = $this->buzz->post($signedUrl, [
+                "Content-Type: application/json; charset=utf-8",
+            ], json_encode($data));
+            if ($response->isSuccessful()) {
+                return json_decode($response->getContent());
+            }
+        } catch (\Exception $e) {
+            $this->logger->error(sprintf('PaasManager::getSmsCost failed: "%s"', $e->getMessage()), [
+                'campaign' => $campaign->getId()
             ]);
         }
 

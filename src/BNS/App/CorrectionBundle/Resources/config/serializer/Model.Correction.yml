@@ -1,0 +1,22 @@
+BNS\App\CorrectionBundle\Model\Correction:
+  exclusion_policy: All
+
+  virtual_properties:
+    getId:
+      expose: true
+    getRichLastCorrection:
+      expose: true
+      serialized_name: last_correction
+    getCreatedAt:
+      expose: true
+    getUpdatedAt:
+      expose: true
+    getComment:
+      expose: true
+    getUser:
+      expose: true
+      serialized_name: last_correction_by
+    getCorrectionAnnotations:
+      expose: true
+    hasData:
+      expose: true

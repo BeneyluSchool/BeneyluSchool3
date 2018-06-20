@@ -131,7 +131,7 @@ class UserFastEditApiController extends BaseApiController
             ->find()->getArrayCopy('Id');
 
         if (count($users) != count($usersObject)) {
-            return View::create('Julie', Codes::HTTP_BAD_REQUEST);
+            return View::create('', Codes::HTTP_BAD_REQUEST);
         }
 
         $groupIds = $this->get('bns.right_manager')->getGroupIdsWherePermission('CAMPAIGN_VIEW_INDIVIDUAL_USER');
@@ -176,14 +176,12 @@ class UserFastEditApiController extends BaseApiController
         $userManager = $this->get('bns.user_manager');
 
         return $this->restForm(new UsersType($userManager, $groupCountry), ["users" => $usersObject], array(
-                'csrf_protection' => false,
-                'validation_groups' => [$type]
-            ), null, function ($usersFinal , $form) use ($userManager) {
-                /** @var User $user */
-                foreach ($usersFinal['users'] as $user) {
-                    $userManager->updateUser($user);
-                }
-            }
+            'csrf_protection' => false,
+            'validation_groups' => [$type]
+        ), null, function ($usersFinal, $form) use ($userManager) {
+            $userManager->updateUsers($usersFinal["users"]);
+
+        }
         );
     }
 }

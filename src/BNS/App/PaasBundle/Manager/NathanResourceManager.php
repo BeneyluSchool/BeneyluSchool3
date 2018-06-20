@@ -4,8 +4,13 @@ namespace BNS\App\PaasBundle\Manager;
 use BNS\App\CoreBundle\Group\BNSGroupManager;
 use BNS\App\CoreBundle\MobileDetect\DeviceView;
 use BNS\App\CoreBundle\Model\Group;
+use BNS\App\CoreBundle\Model\GroupPeer;
+use BNS\App\CoreBundle\Model\GroupQuery;
+use BNS\App\CoreBundle\Model\GroupTypePeer;
 use BNS\App\CoreBundle\Model\GroupTypeQuery;
 use BNS\App\CoreBundle\Model\User;
+use BNS\App\CoreBundle\Right\BNSRightManager;
+use BNS\App\CoreBundle\User\BNSUserManager;
 use BNS\App\MediaLibraryBundle\Model\Media;
 use BNS\App\MediaLibraryBundle\Model\MediaPeer;
 use Predis\Client;
@@ -51,7 +56,12 @@ class NathanResourceManager
      */
     protected $mobileDetector;
 
-    public function __construct($casClientId, $casClientKey, array $clientOptions, BNSGroupManager $groupManager, LoggerInterface $logger, $debug, $redisCache, MobileDetector $mobileDetector)
+    /**
+     * @var BNSUserManager
+     */
+    protected $userManager;
+
+    public function __construct($casClientId, $casClientKey, array $clientOptions, BNSGroupManager $groupManager, LoggerInterface $logger, $debug, $redisCache, MobileDetector $mobileDetector, BNSUserManager $userManager)
     {
         list($this->casClientId) = explode('_', $casClientId);
         $this->casClientKey = $casClientKey;
@@ -61,6 +71,7 @@ class NathanResourceManager
         $this->redisCache = $redisCache;
         $this->groupManager = $groupManager;
         $this->mobileDetector = $mobileDetector;
+        $this->userManager = $userManager;
     }
 
     public function setClientOptions(array $options)
@@ -81,17 +92,12 @@ class NathanResourceManager
         if (!$this->isClientValid($clientId)) {
             $this->logger->debug(sprintf('NathanResourceManager:getResources invalid client id: %s', $clientId));
 
-            return false;
+            return [];
         }
 
-        $uai = $group->getUAI();
-        if (!$uai) {
-            $parent = $this->groupManager->setGroup($group)->getParent();
-            if ($parent) {
-                $uai = $parent->getUAI();
-            }
-        }
-        if (!$uai) {
+        if (!($uai = $this->getUAI($group))) {
+            $this->logger->debug(sprintf('NathanResourceManager:getResources no UAI for group "%s" and client id: %s', $group->getId(), $clientId));
+
             return [];
         }
 
@@ -113,6 +119,25 @@ class NathanResourceManager
         }
 
         return $hydratedResources;
+    }
+
+    public function hasResources(User $user, Group $group, $clientId = 'nathan')
+    {
+        if (!$this->isClientValid($clientId)) {
+            $this->logger->debug(sprintf('NathanResourceManager:getResources invalid client id: %s', $clientId));
+
+            return false;
+        }
+
+        if (!($uai = $this->getUAI($group))) {
+            $this->logger->debug(sprintf('NathanResourceManager:getResources no UAI for group "%s" and client id: %s', $group->getId(), $clientId));
+
+            return false;
+        }
+
+        $resources = $this->getCatalog($clientId, $user, $uai);
+
+        return $resources && count($resources) > 0;
     }
 
     /**
@@ -154,8 +179,19 @@ class NathanResourceManager
             return $data;
         } catch (\SoapFault $soe) {
             $this->logger->error(sprintf('NathanResourceManager:getCatalog soap error: %s', $soe->getMessage()));
+            if ($this->debug) {
+                throw $soe;
+            }
         } catch (\Exception $e) {
             $this->logger->error(sprintf('NathanResourceManager:getCatalog error: %s', $e->getMessage()));
+            if ($this->debug) {
+                throw $e;
+            }
+        } catch (\Error $e) {
+            $this->logger->error(sprintf('NathanResourceManager:getCatalog error: %s', $e->getMessage()));
+            if ($this->debug) {
+                throw new \Exception($e);
+            }
         }
 
         return false;
@@ -326,20 +362,41 @@ class NathanResourceManager
      */
     protected function getDataParameters(User $user, $ssoType, $uai)
     {
+        $this->userManager->setUser($user);
+        $classrooms = [];
+        $teams = [];
+
+        $groups = GroupQuery::create()
+            ->filterById($this->userManager->getGroupsIdsUserBelong())
+            ->filterByEnabled(true)
+            ->useGroupTypeQuery()
+                ->filterByType(['CLASSROOM', 'TEAM'])
+                ->withColumn('type', 'type')
+            ->endUse()
+            ->select(['label', 'type'])
+            ->find();
+        foreach ($groups as $group) {
+            if ($group['type'] === 'CLASSROOM') {
+                $classrooms[] = $group['label'];
+            } elseif ($group['type'] === 'TEAM') {
+                $teams[] = $group['label'];
+            }
+        }
+
+        $profile = $this->getNathanProfile($user);
         $data = [];
         switch ($ssoType) {
             case 5:
             case 4:
             case 3:
                 $data['user'] = $this->anonymizeId($user->getLogin());
-                // TODO : fill with good data
                 $data['ENTEleveMEF'] = $this->getPupilMefCode($user);
                 $data['ENTEleveCodeEnseignements'] = null;
-                $data['ENTEleveClasses'] = null;
-                $data['ENTEleveGroupes'] = null;
+                $data['ENTEleveClasses'] = $profile === 'National_ELV' ? implode('|', $classrooms) : null;
+                $data['ENTEleveGroupes'] = $profile === 'National_ELV' ? implode('|', $teams) : null;
                 $data['ENTAuxEnsClassesMatieres'] = null;
-                $data['ENTAuxEnsGroupes'] = null;
-                $data['ENTAuxEnsClasses'] = null;
+                $data['ENTAuxEnsClasses'] = $profile !== 'National_ELV' ? implode('|', $classrooms) : null;
+                $data['ENTAuxEnsGroupes'] = $profile !== 'National_ELV' ? implode('|', $teams) : null;
                 $data['ENTAuxEnsMEF'] = null;
 
             case 2:
@@ -486,6 +543,19 @@ class NathanResourceManager
         }
 
         return null;
+    }
+
+    protected function getUAI(Group $group)
+    {
+        $uai = $group->getUAI();
+        if (!$uai) {
+            $parent = $this->groupManager->setGroup($group)->getParent();
+            if ($parent) {
+                $uai = $parent->getUAI();
+            }
+        }
+
+        return $uai ? : false;
     }
 
     protected function getDeviceTypeData()

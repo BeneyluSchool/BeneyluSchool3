@@ -21,6 +21,14 @@ BNS\App\WorkshopBundle\Model\WorkshopDocument:
     isQuestionnaire:
       expose: true
 
+    getWorkshopDocumentQuestionsCount:
+      serialized_name: questions_count
+      expose: true
+
+    getWorkshopDocumentMaxAttempts:
+      serialized_name: max_attempts_number
+      expose: true
+
   relations:
     # WorkshopContentInterface
     - rel: media
@@ -50,7 +58,7 @@ BNS\App\WorkshopBundle\Model\WorkshopDocument:
       embedded:
         content: expr(object.getWorkshopPages())
       exclusion:
-        groups: [detail]
+        groups: [detail, pages_moved]
     - rel: widget_groups
       embedded:
         content: expr(object.getWidgetGroups())
@@ -76,3 +84,19 @@ BNS\App\WorkshopBundle\Model\WorkshopDocument:
         content: expr(service('bns.workshop.theme.manager').getForObject(object))
       exclusion:
         groups: [detail]
+
+    - rel: participation
+      embedded:
+        content: expr(object.getParticipation())
+        groups: [detail]
+
+    - rel: competition
+      embedded:
+        content: expr(object.getCompetition())
+        groups: [detail]
+
+    - rel: book
+      embedded:
+        content: expr(object.getBook())
+        groups: [detail]
+

@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service class="BNS\App\LsuBundle\Manager\LsuAccessManager" id="bns_app_lsu.lsu_access_manager">
+            <argument type="service" id="bns.right_manager" />
+            <argument type="service" id="bns.user_manager" />
+        </service>
+
+        <service class="BNS\App\LsuBundle\Manager\LsuConfigManager" id="bns_app_lsu.lsu_config_manager">
+            <argument id="bns.team_manager" type="service"/>
+        </service>
+
+        <service class="BNS\App\LsuBundle\Manager\LsuTemplateManager" id="bns_app_lsu.lsu_template_manager">
+        </service>
+
+        <service class="BNS\App\LsuBundle\Manager\LsuXmlExportManager" id="bns_app_lsu.lsu_xml_export_manager">
+            <argument type="service" id="bns.group_manager" />
+            <argument type="service" id="bns.user_manager" />
+        </service>
+
+        <service id="install_process_bns_app_lsu_bundle" class="BNS\App\LsuBundle\Install\InstallProcess">
+            <tag name="bns.install_process" />
+        </service>
+
+
+        <service id="bns.lsu.search" class="BNS\App\LsuBundle\Search\LsuSearchProvider">
+            <argument id="security.token_storage" type="service"/>
+            <argument id="bns.right_manager" type="service"/>
+            <argument id="router" type="service"/>
+            <tag name="bns.search_provide" />
+        </service>
+
+    </services>
+</container>

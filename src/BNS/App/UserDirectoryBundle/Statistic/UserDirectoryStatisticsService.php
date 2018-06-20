@@ -13,9 +13,7 @@ class UserDirectoryStatisticsService extends StatisticsService
 {
     public function visit()
     {
-        $this->disableCascadeParentGroup();
         $this->increment('USERDIRECTORY_VISIT');
-        $this->enableCascadeParentGroup();
     }
 
 }

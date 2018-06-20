@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2017-03-22T10:31:29Z" source-language="en" target-language="en-US" datatype="plaintext" original="not.available">
+  <file date="2017-04-14T15:27:02Z" source-language="en" target-language="en-US" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -12,7 +12,7 @@
       </trans-unit>
       <trans-unit id="20e0599481170ec0770542f82972b492c1a00f81" resname="ADD_FILE_HTML">
         <source>ADD_FILE_HTML</source>
-        <target><![CDATA[<strong>a document</strong><br>from the computer]]></target>
+        <target>a document|from the computer</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
@@ -26,7 +26,7 @@
       </trans-unit>
       <trans-unit id="c87f7e8f6263686333658b028fa010c120bacad0" resname="ADD_FOLDER_HTML">
         <source>ADD_FOLDER_HTML</source>
-        <target><![CDATA[<strong>a folder</strong><br>in my media library]]></target>
+        <target><![CDATA[a folder|in my media library]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
@@ -48,7 +48,7 @@
       </trans-unit>
       <trans-unit id="bbf6576511d5b5889e5cc0c15addb6b905472fab" resname="ADD_LINK_HTML">
         <source>ADD_LINK_HTML</source>
-        <target><![CDATA[<strong>a link</strong><br>from the internet]]></target>
+        <target>a link|from the internet</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
@@ -88,13 +88,13 @@
       </trans-unit>
       <trans-unit id="172059d8e1f5da7915b16b553c81e090f5f246d8" resname="CHANGE_INTO_FOLDER_HTML">
         <source>CHANGE_INTO_FOLDER_HTML</source>
-        <target><![CDATA[<strong>Change into</strong><br>normal folder]]></target>
+        <target>Change into|normal folder</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
       <trans-unit id="8f28c4a5d4b00dd43b8d2672dedeb875be617aab" resname="CHANGE_INTO_LOCKER_HTML">
         <source>CHANGE_INTO_LOCKER_HTML</source>
-        <target><![CDATA[<strong>Change into</strong><br>submission folder]]></target>
+        <target>Change into|submission folder</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
@@ -108,7 +108,7 @@
       </trans-unit>
       <trans-unit id="0daa7fbd76b2e8e10c5aee059a9b881bf314cc1e" resname="COPY_IN_DOCUMENTS_HTML">
         <source>COPY_IN_DOCUMENTS_HTML</source>
-        <target><![CDATA[<strong>Copy</strong><br>in my documents]]></target>
+        <target>Copy|in my documents</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
@@ -122,7 +122,7 @@
       </trans-unit>
       <trans-unit id="dee652d37bdca901f18f057be34ad44825307c32" resname="COPY_SELECTION_HTML">
         <source>COPY_SELECTION_HTML</source>
-        <target><![CDATA[<strong>Copy the selection</strong><br>in this folder]]></target>
+        <target>Copy the selection|in this folder</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
@@ -140,7 +140,7 @@
       </trans-unit>
       <trans-unit id="f471b43c8dd7b35312a483fa69f62b73143d3c12" resname="DELETE_ITEM_HTML">
         <source>DELETE_ITEM_HTML</source>
-        <target><![CDATA[<strong>Delete</strong><br>the document]]></target>
+        <target><![CDATA[Delete|the document]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
@@ -166,13 +166,13 @@
       </trans-unit>
       <trans-unit id="29d66bcea457cd6a8f1194c5a43bbfbcfdeaaf3d" resname="DELETE_SELECTION_FOREVER_HTML">
         <source>DELETE_SELECTION_FOREVER_HTML</source>
-        <target><![CDATA[<strong>Permanently delete</strong><br>selection]]></target>
+        <target>Permanently delete|selection</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
       <trans-unit id="383d41ece711fb71df9ee441b8d31c6298f6286d" resname="DELETE_SELECTION_HTML">
         <source>DELETE_SELECTION_HTML</source>
-        <target><![CDATA[<strong>Delete</strong><br>selection]]></target>
+        <target>Delete|selection</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
@@ -186,7 +186,7 @@
       </trans-unit>
       <trans-unit id="487c227e4a1a45b6e7752d2475f3e93d88764bc3" resname="DISTRIBUTE_DOCUMENTS_HTML">
         <source>DISTRIBUTE_DOCUMENTS_HTML</source>
-        <target><![CDATA[<strong>Give out</strong><br>selected documents]]></target>
+        <target>Give out|selected documents</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
@@ -240,7 +240,7 @@
       </trans-unit>
       <trans-unit id="6c8bad9cabedbea6059e5457533e265d64b64cb0" resname="EMPTY_TRASH_HTML">
         <source>EMPTY_TRASH_HTML</source>
-        <target><![CDATA[<strong>Empty</strong><br>recycle bin]]></target>
+        <target>Empty|recycle bin</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
@@ -282,7 +282,7 @@
       </trans-unit>
       <trans-unit id="3c1675eab44ccec73135099111884ef59d2fce49" resname="FAVORITE_ITEM_HTML">
         <source>FAVORITE_ITEM_HTML</source>
-        <target><![CDATA[<strong>Add</strong><br>to favorites]]></target>
+        <target>Add|to favorites</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
@@ -292,7 +292,7 @@
       </trans-unit>
       <trans-unit id="11a3384e195da8b6f844307cb3172cf826b640cd" resname="FAVORITE_SELECTION_HTML">
         <source>FAVORITE_SELECTION_HTML</source>
-        <target><![CDATA[<strong>Add selection</strong><br>to favorites]]></target>
+        <target>Add selection|to favorites</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
@@ -394,7 +394,7 @@
       </trans-unit>
       <trans-unit id="0814036ee7f9485e5d3e57eb7cb82edc297fdc00" resname="MOVE_SELECTION_HTML">
         <source>MOVE_SELECTION_HTML</source>
-        <target><![CDATA[<strong>Move the selection</strong><br>in this folder]]></target>
+        <target>Move the selection|in this folder</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
@@ -472,7 +472,7 @@
       </trans-unit>
       <trans-unit id="a22be2b8f55d5cf9b636ff6ec639b028614d628c" resname="PRIVATIZE_ITEM_HTML">
         <source>PRIVATIZE_ITEM_HTML</source>
-        <target><![CDATA[Make document <br><strong>private</strong>]]></target>
+        <target>Make document |private</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
@@ -486,7 +486,7 @@
       </trans-unit>
       <trans-unit id="c0082bbbe29c3149cfdeea5a5207dd151d6bf901" resname="PRIVATIZE_SELECTION_HTML">
         <source>PRIVATIZE_SELECTION_HTML</source>
-        <target><![CDATA[Make selection<br><strong>private</strong>]]></target>
+        <target>Make selection|private</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
@@ -508,7 +508,7 @@
       </trans-unit>
       <trans-unit id="6b5a17b713857bbe36058fc48785078e71ba03df" resname="PUBLICIZE_ITEM_HTML">
         <source>PUBLICIZE_ITEM_HTML</source>
-        <target><![CDATA[Make document <br><strong>public</strong>]]></target>
+        <target>Make document |public</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
@@ -522,7 +522,7 @@
       </trans-unit>
       <trans-unit id="5b0b7ec04bb894a5704d4166d6fd428e980690b1" resname="PUBLICIZE_SELECTION_HTML">
         <source>PUBLICIZE_SELECTION_HTML</source>
-        <target><![CDATA[Make selection<br><strong>public</strong>]]></target>
+        <target>Make selection|public</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
@@ -544,7 +544,7 @@
       </trans-unit>
       <trans-unit id="fff3f584c641c36dd9e58dd19eb99cce526ed6aa" resname="RENAME_FOLDER_HTML">
         <source>RENAME_FOLDER_HTML</source>
-        <target><![CDATA[<strong>Rename</strong><br>this folder]]></target>
+        <target>Rename|this folder</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
@@ -566,7 +566,7 @@
       </trans-unit>
       <trans-unit id="9f5738c6f96f7edc79d4744928d3848cb2dd2999" resname="RESTORE_SELECTION_HTML">
         <source>RESTORE_SELECTION_HTML</source>
-        <target><![CDATA[<strong>Restore</strong><br>the selection]]></target>
+        <target>Restore|the selection</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
@@ -584,7 +584,7 @@
       </trans-unit>
       <trans-unit id="fe740337a98231180f249bf9b65172a672bec1a4" resname="RESTORE_TRASH_HTML">
         <source>RESTORE_TRASH_HTML</source>
-        <target><![CDATA[<strong>Restore</strong><br>recycle bin]]></target>
+        <target>Restore|recycle bin</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
@@ -666,7 +666,7 @@
       </trans-unit>
       <trans-unit id="9389e2ac79df6e8c938aa43d1ed3ca501abf7832" resname="UNFAVORITE_ITEM_HTML">
         <source>UNFAVORITE_ITEM_HTML</source>
-        <target><![CDATA[Withdraw from <br><strong>favorites</strong>]]></target>
+        <target>Withdraw from |favorites</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
@@ -676,7 +676,7 @@
       </trans-unit>
       <trans-unit id="76baad7863871c2865b0810eae1ecdfc14ec44da" resname="UNFAVORITE_SELECTION_HTML">
         <source>UNFAVORITE_SELECTION_HTML</source>
-        <target><![CDATA[Withdraw selection from <br><strong>favourites</strong>]]></target>
+        <target>Withdraw selection from |favourites</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>

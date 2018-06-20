@@ -1,0 +1,66 @@
+{% extends 'BNSAppWorkshopBundle:EPub:page.html.twig' %}
+{% block content %}
+  {% set layoutClasses = page.layoutCode|split('-') %}
+    <div class="workshop-page-layout layout-column workshop-page-layout-{{ layoutClasses[0] }} mode-{{ mode }}">
+      {% for rowCode,zones in rows %}
+        <div class="layout-row workshop-layout-row workshop-layout-row-{{ rowCode }}">
+          {% for zone in zones %}
+            <div class="workshop-layout-zone {% if zone.zone is defined %}workshop-layout-zone-{{ zone.zone }} {% endif %}workshop-layout-zone-{{ rowCode }}">
+              <div class="workshop-widget-group-container">
+              {% for widgetGroup in page.getWorkshopWidgetGroups() %}
+                {% if widgetGroup.zone in zone.numbers  %}
+
+                      <div class="workshop-widget-group workshop-widget-group-{{ widgetGroup.type }}">
+                      {% for widget in widgetGroup.WorkshopWidgets %}
+                        {% set imageFrame = '' %}
+                        {% set column = '' %}
+                        {% set cssStyle = [] %}
+                        {% if widget.settings is defined %}
+
+                          {% if widget.settings.image_frame is defined %}
+                            {% set imageFrame = 'frame-' ~ widget.settings.image_frame %}
+                          {% endif %}
+
+                          {% if widget.settings.background_color is defined %}
+                            {% set cssStyle = cssStyle|merge({'background-color': widget.settings.background_color}) %}
+                          {% endif %}
+
+                          {% if widget.settings.border_color is defined %}
+                            {% set cssStyle = cssStyle|merge({'border-color': widget.settings.border_color}) %}
+                            {% set cssStyle = cssStyle|merge({'border-width': '0.2em'}) %}
+                            {% set cssStyle = cssStyle|merge({'border-style': 'solid'}) %}
+                            {% set cssStyle = cssStyle|merge({'padding': '0.6em'}) %}
+                          {% endif %}
+
+                          {% if widget.settings.text_column is defined %}
+                            {% if widget.settings.text_column == 'one' %}
+                              {% set suffix = '-column' %}
+                            {% else %}
+                              {% set suffix = '-columns' %}
+                            {% endif %}
+                            {% set column =   widget.settings.text_column ~ suffix %}
+                          {% endif %}
+
+                        {% endif %}
+
+                          <div class="workshop-widget workshop-widget-{{ widget.type }}">
+                            <div class="workshop-widget-wrap {{ column }} {{ imageFrame }}" style="{% for style, value in cssStyle %}{{ style }}: {{ value }}{% if not loop.last %};{% endif %}{% endfor %}">
+                              <div class="workshop-widget-inner">
+                                <div class="workshop-widget-{{ widget.type }}">
+                                  {% set widgetTemplate =  'BNSAppWorkshopBundle:EPub:Widgets/' ~ widget.type ~ '.html.twig'  %}
+                                  {% include widgetTemplate ignore missing %}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        {% endfor %}
+                      </div>
+                {% endif %}
+              {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+{% endblock %}

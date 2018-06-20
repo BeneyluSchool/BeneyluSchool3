@@ -330,7 +330,7 @@
     <div class="md-padding md-caption text-center footer-legals">
       {% trans with {
       '%copyright_year%': 'now'|date('Y'),
-      '%eula_url%': path('main_logon_legals')
+      '%eula_url%': bnsLocaleLink('legal_notice_url')
       } %}FOOTER_LEGALS{% endtrans %}
     </div>
 

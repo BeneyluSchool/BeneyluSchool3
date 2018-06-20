@@ -113,7 +113,7 @@ function BNSFormProxyDirective ($compile, $anchorScroll, $mdSidenav, formProxyDa
     function prepareProxy (container) {
       var $container = angular.element(container);
       var ret = angular.element();
-      var label = $container.find('label').text();
+      var label = $container.attr('data-proxy-label') || $container.find('label').text();
       if (!label) {
         console.warn('Form proxy without label', container);
       }
@@ -139,7 +139,19 @@ function BNSFormProxyDirective ($compile, $anchorScroll, $mdSidenav, formProxyDa
 
       // wrap into an expander
       $container.wrap('<bns-expander label="'+label+'" is-open="true"></bns-expander>');
-      ret = ret.add($container.parent());
+      var $expander = $container.parent();
+
+      // move feature flags on expander, if present
+      if ($container[0].hasAttribute('bns-feature-flag')) {
+        $expander.attr('bns-feature-flag', $container.attr('bns-feature-flag'));
+        $container.removeAttr('bns-feature-flag');
+        if ($container[0].hasAttribute('bns-feature-push')) {
+          $expander.attr('bns-feature-push', $container.attr('bns-feature-push'));
+          $container.removeAttr('bns-feature-push');
+        }
+      }
+
+      ret = ret.add($expander);
 
       return ret;
     }

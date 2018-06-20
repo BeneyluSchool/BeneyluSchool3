@@ -9,7 +9,6 @@
 
 {% block javascripts %}
   {{ parent() }}
-
   <script type="text/javascript">
     // Moderation comments
     $(function(){
@@ -87,6 +86,12 @@
 {% endblock sidebar_content %}
 
 {% block actionbar_content %}
+  {{ components.button('BUTTON_TO_MODERATION_COMMENTS' |trans, {intent: 'primary', raised: true, href:'#', attr : {'id' : 'to-moderation' },
+  }) }}
+  {{ components.button('BUTTON_REFUSE_COMMENTS' |trans, {intent: 'warn', raised: true, href:'#', attr : {'id' : 'refuse-comments' },
+}) }}
+  {{ components.button('BUTTON_ACCEPT_COMMENTS' |trans, {intent: 'accent', raised: true, href:'#', attr : {'id' : 'accept-comments' },
+}) }}
   <span class="flex"></span>
 
   {{ components.button('LINK_VALIDATE_ALL_COMMENT'|trans, {
@@ -98,6 +103,16 @@
       class: 'validate-all-comments'
     }
   }) }}
+  {{ components.button('LINK_DELETE_ALL_COMMENT'|trans, {
+    href: '#',
+    intent: 'warn',
+    raised: true,
+    icon: 'delete',
+    attr: {
+      class: 'hide delete-all-comments'
+    }
+  }) }}
+
 {% endblock actionbar_content %}
 
 {% block content %}

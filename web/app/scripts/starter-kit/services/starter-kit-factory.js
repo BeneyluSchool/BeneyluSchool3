@@ -35,7 +35,7 @@ angular.module('bns.starterKit.service', [
  * @requires StarterKitState
  * @requires StarterKitStore
  */
-function StarterKitFactory ($rootScope, $state, $log, $q, dialog, global, parameters, starterKitUtils,
+function StarterKitFactory ($rootScope, $window, $state, $log, $q, dialog, global, $timeout, $mdPanel, parameters, starterKitUtils,
   StarterKitRequestInterceptor, StarterKitState, StarterKitStore) {
 
   /**
@@ -191,10 +191,11 @@ function StarterKitFactory ($rootScope, $state, $log, $q, dialog, global, parame
    *                               boot goes to this step instead of the current
    *                               one. Defaults to false, ie. boot resume
    *                               current step.
+   * @param {Boolean} linkUrl
    * @returns {Promise} A chained promise that resolves when starter kit is
    *                    successfuly suspended and cleaned up
    */
-  StarterKit.prototype.suspend = function (saveNextStep) {
+  StarterKit.prototype.suspend = function (saveNextStep, linkUrl) {
     var sk = this;
 
     var data = {
@@ -207,12 +208,22 @@ function StarterKitFactory ($rootScope, $state, $log, $q, dialog, global, parame
       }
     }
 
+    if (linkUrl) {
+      // open link early should be in the same flow as the user click to prevent popup blocker
+      $window.open(linkUrl, '_blank');
+    }
+
     return sk.state.patch(data).then(function () {
       sk.enabled = false;
       sk.current = null;
 
       return sk.cleanup().then(function () {
-        $state.go($state.current.name, $state.current.params, {reload: true});
+        if (linkUrl) {
+          return ;
+        }
+        if ($state.current && $state.current.name) {
+          $state.go($state.current.name, $state.current.params, {reload: true});
+        }
       });
     });
   };
@@ -317,45 +328,38 @@ function StarterKitFactory ($rootScope, $state, $log, $q, dialog, global, parame
    */
   StarterKit.prototype.doStep = function (step) {
     var sk = this;
+    $rootScope.$emit('starterKit.'+this.app+'.step', step);
 
     switch (step.type) {
       case 'start':
         this.showDialog({
           templateUrl: 'views/starter-kit/dialogs/start.html',
           controller: 'StarterKitStartDialog',
-          controllerAs: 'ctrl',
+          panelClass: 'starter-kit-start-dialog',
         });
         break;
       case 'introduction':
         this.showDialog({
           templateUrl: 'views/starter-kit/dialogs/introduction.html',
-          controller: 'StarterKitIntroductionDialog',
-          controllerAs: 'ctrl',
-          escapeToClose: false,
+          panelClass: 'starter-kit-introduction-dialog',
         });
         break;
       case 'achievement':
         this.showDialog({
           templateUrl: 'views/starter-kit/dialogs/achievement.html',
-          controller: 'StarterKitAchievementDialog',
-          controllerAs: 'ctrl',
-          escapeToClose: false,
+          panelClass: 'starter-kit-achievement-dialog',
         });
         break;
       case 'conclusion':
         this.showDialog({
           templateUrl: 'views/starter-kit/dialogs/conclusion.html',
           controller: 'StarterKitConclusionDialog',
-          controllerAs: 'ctrl',
-          escapeToClose: false,
+          panelClass: 'starter-kit-conclusion-dialog',
         });
         break;
       case 'explanation':
         var options = {
-          templateUrl: 'views/starter-kit/dialogs/explanation.html',
           controller: 'StarterKitExplanationDialog',
-          controllerAs: 'ctrl',
-          escapeToClose: false,
           locals: {
             target: null,
           },
@@ -369,12 +373,14 @@ function StarterKitFactory ($rootScope, $state, $log, $q, dialog, global, parame
               return $log.warn('Explanation element is no longer present in the document');
             }
 
-            // attach dialog to the given parent (defaults to the element parent)
-            if (step.parent) {
-              sk.utils.getElementAsync(step.parent).then(doShowDialog);
-            } else {
-              doShowDialog(target.parent());
+            sk.utils.scrollIntoView(target);
+            sk.frame(target, !step.frozen);
+            if (step.frozen) {
+              sk.freeze(target);
             }
+
+            // attach dialog to the given parent (defaults to the document body)
+            sk.utils.getElementAsync(step.parent || 'body').then(doShowDialog);
 
             function doShowDialog (parent) {
               sk.showDialog(angular.extend(options, {
@@ -382,6 +388,7 @@ function StarterKitFactory ($rootScope, $state, $log, $q, dialog, global, parame
                 locals: {
                   target: target,
                 },
+                panelClass: 'has-target',
               }));
               if (step.validate) {
                 sk.watchValidate(target.scope(), step.validate, null, target);
@@ -397,7 +404,13 @@ function StarterKitFactory ($rootScope, $state, $log, $q, dialog, global, parame
           this.utils.getElementAsync(step.target).then(function (target) {
             sk.activate(target);
             sk.createBackdrop(null, target.parent());
-            sk.watchValidate(target.scope(), step.validate, null, target);
+            if (step.scope) {
+              sk.utils.getElementAsync(step.scope).then(function (scopeElement) {
+                sk.watchValidate(scopeElement.scope(), step.validate, null, target);
+              });
+            } else {
+              sk.watchValidate(target.scope(), step.validate, null, target);
+            }
           });
         } else if (step.scope) {
           this.utils.getElementAsync(step.scope).then(function (scopeElement) {
@@ -411,13 +424,11 @@ function StarterKitFactory ($rootScope, $state, $log, $q, dialog, global, parame
         if (step.data && step.data.content) {
           this.showDialog({
             templateUrl: 'views/starter-kit/dialogs/pointer.html',
-            controller: 'StarterKitPointerDialog',
-            controllerAs: 'ctrl',
-            escapeToClose: false,
           });
         } else {
           this.createBackdrop();
         }
+        this.displayPointers(step);
         break;
       case 'stepper':
         if (step.validate && step.scope) {
@@ -507,6 +518,28 @@ function StarterKitFactory ($rootScope, $state, $log, $q, dialog, global, parame
   };
 
   /**
+   * Wrapper for starterKitUtils.frame with auto cleanup at the end of
+   * current step.
+   *
+   * @param {Element} element
+   */
+  StarterKit.prototype.frame = function (element, clickable) {
+    var cleaner = this.utils.frame(element, clickable);
+    this.addCleaner(cleaner);
+  };
+
+  /**
+   * Wrapper for starterKitUtils.freeze with auto cleanup at the end of
+   * current step.
+   *
+   * @param {Element} element
+   */
+  StarterKit.prototype.freeze = function (element) {
+    var cleaner = this.utils.freeze(element, true);
+    this.addCleaner(cleaner);
+  };
+
+  /**
    * Utility to display dialogs without collision (if triggered multiple times)
    * and auto cleanup ad the end of current step.
    *
@@ -519,17 +552,45 @@ function StarterKitFactory ($rootScope, $state, $log, $q, dialog, global, parame
       $log.warn('starter-kit dialog already showing', sk.current);
     } else {
       sk._hasDialog = true;
-      dialog.custom(angular.extend({
-        transformTemplate: function (template) {
-          return '<div class="md-dialog-container" bns-eat-click-if="true">' + template + '</div>';
-        },
-      }, conf));
+      if (sk.current.position && !sk.current.target && !conf.position) {
+        conf.position = sk.current.position;
+      }
+      var cleaner = sk.utils.showDialog(conf);
       sk.addCleaner(function hideDialog () {
         sk._hasDialog = false;
 
-        return dialog.hide();
+        return cleaner();
       });
     }
+  };
+
+  /**
+   * Displays pointers for the given step.
+   *
+   * @param {Object} step
+   */
+  StarterKit.prototype.displayPointers = function (step) {
+    var sk = this;
+    var pointerCleaners = [];
+    var unwatch = $rootScope.$watchCollection(function () {
+      return step.data ? step.data._pointerElements : null;
+    }, function (pointerElements) {
+      angular.forEach(pointerElements, function (element, name) {
+        if (element.shown) {
+          return;
+        }
+
+        var text = step.data ? (step.data.pointers ? step.data.pointers[name] : '') : '';
+        pointerCleaners.push(sk.utils.showPointer(element, text));
+      });
+    });
+
+    this.addCleaner(function () {
+      unwatch();
+      angular.forEach(pointerCleaners, function (cleaner) {
+        cleaner();
+      });
+    });
   };
 
   /**

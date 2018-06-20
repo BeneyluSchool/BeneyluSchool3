@@ -32,7 +32,7 @@ class HomeworkDueApiController extends BaseHomeworkApiController
      * )
      *
      * @Rest\Get("/{id}")
-     * @Rest\View(serializerGroups={"Default", "homework_due_detail", "homework_detail", "user_list", "media_basic"})
+     * @Rest\View(serializerGroups={"Default", "homework_due_detail", "homework_detail", "user_list", "media_basic", "homework_groups", "homework_users", "homework_children"})
      * @RightsSomeWhere("HOMEWORK_ACCESS_BACK")
      *
      * @param HomeworkDue $homeworkDue
@@ -129,6 +129,11 @@ class HomeworkDueApiController extends BaseHomeworkApiController
             }
         }
         if (!$hasRight) {
+            $userIds = $homeworkDue->getHomework()->getUserIds();
+            $hasRight = in_array($user->getId(), $userIds);
+        }
+
+        if (!$hasRight) {
             // no rights user can't set task done
             return $this->view(null, Codes::HTTP_FORBIDDEN);
         }
@@ -140,7 +145,9 @@ class HomeworkDueApiController extends BaseHomeworkApiController
         $task->save();
 
         // mise à jour du nombre de devoirs faits par les élèves pour cette échéance
-        $homeworkDue->updateNumberOfTasksDone();
+        $tasks = $this->get('bns.homework_manager')->getTasksDone($homeworkDue);
+        $homeworkDue->setNumberOfTasksDone($tasks->count());
+        $homeworkDue->save();
 
         $this->get('stat.homework')->validateWork();
 

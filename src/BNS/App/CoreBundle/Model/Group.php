@@ -36,6 +36,8 @@ class Group extends BaseGroup implements PaasClientInterface
     /** @var bool|null */
     public $isFavorite = null;
 
+    public $userIds = null;
+
     private $users;
     private $subgroups;
     private $subgroupsRole;
@@ -451,6 +453,18 @@ class Group extends BaseGroup implements PaasClientInterface
         }
 
         return $this->$uniqueName;
+    }
+
+    public function populateCurrentGroupDatas()
+    {
+        if (!$this->collGroupDatas instanceof \PropelObjectCollection) {
+            return;
+        }
+
+        /** @var GroupData $groupData */
+        foreach ($this->collGroupDatas as $groupData) {
+            $this->{$groupData->getGroupTypeData()->getGroupTypeDataTemplateUniqueName()} = $groupData->getValue();
+        }
     }
 
 	/**
@@ -1081,23 +1095,35 @@ class Group extends BaseGroup implements PaasClientInterface
         return $this->getGroupType()->getType();
     }
 
+    /**
+     * @deprecated do not use anymore
+     */
     public function tagPremium()
     {
         $this->setIsPremium(true);
         $this->save();
     }
 
+    /**
+     * @deprecated do not use anymore
+     */
     public function untagPremium()
     {
         $this->setIsPremium(false);
         $this->save();
     }
 
+    /**
+     * @deprecated do not use anymore
+     */
     public function isPremium()
     {
         return $this->getIsPremium() == true;
     }
 
+    /**
+     * @deprecated do not use anymore
+     */
     public function togglePremium()
     {
         if($this->isPremium())
@@ -1128,7 +1154,7 @@ class Group extends BaseGroup implements PaasClientInterface
     public function getSortedModules()
     {
         if (null === $this->sorted_modules) {
-            $this->sorted_modules = '| PROFILE | MESSAGING | MEDIA_LIBRARY | USER_DIRECTORY | NOTIFICATION |';
+            $this->sorted_modules = '| ACCOUNT | PROFILE | MESSAGING | MEDIA_LIBRARY | USER_DIRECTORY | NOTIFICATION |';
         }
 
         return parent::getSortedModules();
@@ -1140,7 +1166,7 @@ class Group extends BaseGroup implements PaasClientInterface
     public function getFavoriteModules()
     {
         if (null === $this->favorite_modules) {
-            $this->favorite_modules = '| PROFILE | MESSAGING | MEDIA_LIBRARY | USER_DIRECTORY | NOTIFICATION |';
+            $this->favorite_modules = '| ACCOUNT | PROFILE | MESSAGING | MEDIA_LIBRARY | USER_DIRECTORY | NOTIFICATION |';
         }
 
         return parent::getFavoriteModules();
@@ -1177,4 +1203,12 @@ class Group extends BaseGroup implements PaasClientInterface
         return $this->getAttribute('ONDE_ID');
     }
 
+    public function getStatisticLabel()
+    {
+        if ($this->getType() !== 'SCHOOL') {
+            return $this->getLabel();
+        } else {
+            return $this->getLabel() . ' - ' . $this->getAttribute('CITY');
+        }
+    }
 }

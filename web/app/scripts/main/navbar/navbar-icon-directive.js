@@ -33,6 +33,7 @@ function BNSNavbarIconDirective (Routing, Users, parameters) {
     scope: {
       item: '=',
       flags: '=',
+      bottom: '=',
     },
     link: postLink,
   };
@@ -55,8 +56,11 @@ function BNSNavbarIconDirective (Routing, Users, parameters) {
     });
 
     function refreshIcon () {
-      scope.svg = false;
+      scope.svg = '';
       scope.img = false;
+      scope.icon = '';
+      scope.sprite = false;
+      scope.bottomUrl = false;
 
       if (scope.item) {
         if ('PROFILE' === scope.item.unique_name || 'me' === scope.item.id || 'me' === scope.item) {
@@ -76,9 +80,15 @@ function BNSNavbarIconDirective (Routing, Users, parameters) {
         } else if (scope.item.type) {
           // group
           scope.sprite = groupSprite(scope.item);
+        } else  if(scope.item.material_icon) {
+          scope.icon = scope.item.material_icon;
         } else {
           // generic icon
           scope.svg = icon(scope.item);
+        }
+
+        if (scope.bottom) {
+          scope.bottomUrl = icon(scope.bottom, 'png');
         }
       }
     }

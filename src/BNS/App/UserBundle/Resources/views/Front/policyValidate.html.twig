@@ -2,55 +2,73 @@
 
 {% extends 'BNSAppUserBundle:Front:layout.html.twig' %}
 
+{% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
+{% form_theme form 'BNSAppMainBundle:Form:material_fields.html.twig' %}
+
 {% block title %}
     {{ 'TITLE_BENEYLU_POLICY'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')})  |desc('%beneylu_brand_name% - Charte d\'utilisation')}}
 
 {% endblock %}
 
+{% block body %}
+    {{ components.toasts(app.session.flashBag.all) }}
 
-{% block content_title %}
-    <h1>
-        {{ 'POLICY'|trans  |desc('Charte d\'utilisation')}}
-    </h1>
-{% endblock %}
+    <div class="office"></div>
+    <div class="container container-fluid content-prehome">
 
-{% block content %}
-    <p>
-        {% if is_child() %}
-            {{ 'CHILD_ACCESS_BENEYLU_READ_POLICY'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('Pour accéder à %beneylu_brand_name%, tu dois lire et accepter la charte d\'utilisation.') }}
-        {% else %}
-            {{ 'ADULT_ACCESS_BENEYLU_READ_POLICY'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('Pour accéder à %beneylu_brand_name%, vous devez lire et accepter la charte d\'utilisation.') }}
-        {% endif %}
-    </p>
+        {% block form_start %}
+            {{ form_start(form) }}
+        {% endblock %}
 
-    {% if form.policy.vars.errors|length > 0 %}
-    <div class="alert alert-danger bns-alert">
-        {{ form_errors(form.policy) }}
-    </div>
-    {% endif %}
-
-    <div class="content-policy-pdf">
-        <iframe src="https://docs.google.com/viewer?url={{ policyUrl }}&embedded=true"></iframe>
-    </div>
-
-    <div class="row-fluid">
-        <div class="checkbox policy-validate">
-        {{ form_widget(form.policy) }} {{ form_label(form.policy) }}
+        <div class="layout-row layout-wrap layout-align-start-end layout-margin">
+            <h1 class="title flex flex-none">
+                {{ 'POLICY'|trans  |desc('Charte d\'utilisation')}}
+            </h1>
+            <p class="flex flex-none">
+                {% if is_child() %}
+                    {{ 'CHILD_ACCESS_BENEYLU_READ_POLICY'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('Pour accéder à %beneylu_brand_name%, tu dois lire et accepter la charte d\'utilisation.') }}
+                {% else %}
+                    {{ 'ADULT_ACCESS_BENEYLU_READ_POLICY'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) |desc('Pour accéder à %beneylu_brand_name%, vous devez lire et accepter la charte d\'utilisation.') }}
+                {% endif %}
+            </p>
         </div>
-    </div>
 
+        <div class="inner-content" style="margin-right: 120px; margin-left: 120px;">
+            {% block content %}
+                {% if form.policy.vars.errors|length > 0 %}
+                    <div class="alert alert-danger bns-alert">
+                        {{ form_errors(form.policy) }}
+                    </div>
+                {% endif %}
 
-    {{ form_rest(form) }}
-
-{% endblock %}
-
-{% block buttons %}
-    <div class="btn-toolbar pull-right">
-        <div class="btn-group">
-            <button type="submit" class="btn bns-success validate-medium medium">
-                <strong>{{ 'ACCEPT_POLICY'|trans |desc('Accepter la charte d\'utilisation') }}</strong>
-            </button>
+                <div class="content-policy-pdf">
+                    <iframe src="/ent/medias/js/pdfjs/web/viewer.html?file={{ policyUrl }}"></iframe>
+                </div>
+            {% endblock %}
         </div>
+
+        <div class="layout-column layout-align-end-end" style="margin-right: 120px; margin-left: 120px;">
+            {{ form_row(form.policy, {
+              attr: { class: 'md-accent2' }
+            }) }}
+            {{ form_rest(form) }}
+            {{ components.button('ACCEPT_POLICY'|trans |desc('Valider'), {
+                type: 'submit',
+                intent: 'accent',
+                raised: true,
+                attr: {
+                    'ng-disabled': '!'~form.vars.name~'.$valid',
+                    'style': 'min-width:160px',
+                }
+            }) }}
+        </div>
+
+        {% block form_end %}
+            {{ form_end(form) }}
+        {% endblock %}
+
     </div>
 {% endblock %}
 
+{% block dock_bar %}{% endblock %}
+{% block angular_app %}{% endblock %}

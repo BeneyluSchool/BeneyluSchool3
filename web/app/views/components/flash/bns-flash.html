@@ -1,0 +1,17 @@
+<bns-inset ng-if="flash.isVisible"
+           bns-inset-icon="false"
+           bns-inset-elevation="3"
+           bns-inset-size="small"
+           class="bns-primary animate-fade"
+           container
+>
+  <div class="layout-row layout-align-start-center bns-flash-inner">
+    <md-icon ng-if="::flash.mdIcon" class="layout-margin">{{::flash.mdIcon}}</md-icon>
+
+    <div class="flex bns-flash-content" ng-transclude></div>
+
+    <md-button class="md-icon-button flex-none" ng-if="::flash.isDismissable" ng-click="flash.close()">
+      <md-icon>close</md-icon>
+    </md-button>
+  </div>
+</bns-inset>

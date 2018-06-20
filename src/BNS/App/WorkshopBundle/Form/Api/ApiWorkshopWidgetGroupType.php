@@ -26,6 +26,7 @@ class ApiWorkshopWidgetGroupType extends AbstractType
         $builder->add('workshop_widgets', 'collection', array(
             'type' => 'workshop_widget',
         ));
+        $builder->add('pageId');
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

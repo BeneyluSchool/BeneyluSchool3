@@ -3,6 +3,7 @@
 namespace BNS\App\ClassroomBundle\Controller;
 
 use BNS\App\ClassroomBundle\Form\Model\ProfileFormModel;
+use BNS\App\ClassroomBundle\Form\Type\ImportTeacherVcardType;
 use BNS\App\ClassroomBundle\Form\Type\ProfileType;
 use BNS\App\ClassroomBundle\Form\Type\SelectUsersCardType;
 use BNS\App\ClassroomBundle\Form\Model\NewUserInClassroomFormModel;
@@ -54,7 +55,8 @@ class BackClassroomController extends Controller
 
         $form = $this->createForm(new SelectUsersCardType($listeEleves, $listeParents));
         $form->handleRequest($request);
-
+        $importForm =  $this->createForm(new ImportTeacherVcardType());
+        $importForm->handleRequest($request);
         // Ajout des utilisateurs séléctionnés à la liste
         if ($this->getRequest()->getMethod() == 'POST') {
             if ($form->isValid()) {
@@ -74,6 +76,18 @@ class BackClassroomController extends Controller
                 }
                 return $this->generateClassroomCardAction($elevesSelection);
             }
+            if ($importForm->isValid()) {
+                    try {
+                        $result = $this->get('bns.classroom_manager')
+                            ->setClassroom($this->get('bns.right_manager')->getCurrentGroup())
+                            ->importTeacherFromVcardFile($importForm['vcard']->getData());
+                    } catch (UploadException $e) {
+                        $this->get('session')->getFlashBag()->add('error', $this->get('translator')->trans('IMPORT_VCARD_ERROR', array(), "CLASSROOM"));
+
+                        return $this->redirect($this->generateUrl('BNSAppClassroomBundle_back_classroom'));
+                    }
+                    $this->redirect($this->generateUrl('BNSAppClassroomBundle_back'));
+                }
         }
 
         return $this->render('BNSAppClassroomBundle:BackClassroom:classroom_users_index.html.twig', array(
@@ -81,6 +95,7 @@ class BackClassroomController extends Controller
             'pupils' => $classroomManager->getPupils(),
             'classroom' => $rightManager->getCurrentGroup(),
             'form' => $form->createView(),
+            'importForm' => $importForm->createView(),
             'assistants' => $classroomManager->getAssistants(),
             'hasGroupBoard' => $hasGroupBoard
         ));
@@ -197,7 +212,8 @@ class BackClassroomController extends Controller
             $form = $this->createForm(new NewUserInClassroomType(true), new NewUserInClassroomFormModel(true, false));
             return $this->render('BNSAppClassroomBundle:BackClassroomModal:add_user_assistant_form.html.twig', array(
                     'form' => $form->createView(),
-                    'lastRegistedUser' => $this->render('BNSAppClassroomBundle:BackClassroom:row_teacher.html.twig', array('teacher' => $user))->getContent()
+                    'lastRegistedUser' => $this->render('BNSAppClassroomBundle:BackClassroom:row_teacher.html.twig', array('teacher' => $user))->getContent(),
+                    'isAssistant' => true
                 )
             );
         }

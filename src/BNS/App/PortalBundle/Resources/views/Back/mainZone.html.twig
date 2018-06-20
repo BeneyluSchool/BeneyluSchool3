@@ -9,7 +9,7 @@
 {% block javascripts %}
 	{{ parent() }}
 {% endblock %}
-	
+
 {% block header %}
     <div class="header-buttons">
         <div class="inner-header">
@@ -25,9 +25,12 @@
                             <ul class="dropdown-menu">
                                 <li><a id="" href="#" data-widget-type="BANNER" class="add-widget">{{ 'LINK_ADD_BANNER'|trans |desc('Ajouter une bannière') }}</a></li>
                                 <li><a id="" href="#" data-widget-type="TEXT" class="add-widget">{{ 'LINK_ADD_TEXT'|trans |desc('Ajouter un texte') }}</a></li>
-                                <li><a id="" href="#" data-widget-type="RSS" class="add-widget">{{ 'LINK_RSS_FLUX'|trans |desc('Ajouter des flux RSS') }}</a></li>
-                                <li><a id="" href="#" data-widget-type="LINK" class="add-widget">{{ 'LINK_ADD_LINK'|trans |desc('Ajouter des liens') }}</a></li>
-                                <li><a id="" href="#" data-widget-type="SCHOOL" class="add-widget">{{ 'LINK_SCHOOL_DIRECTORY'|trans |desc('Ajouter l\'annuaire des écoles') }}</a></li>
+                                <li><a id="" href="#" bns-feature-flag="'portal_widgets'" bns-feature-push data-widget-type="RSS" class="add-widget">{{ 'LINK_RSS_FLUX'|trans |desc('Ajouter des flux RSS') }}</a></li>
+                                <li><a id="" href="#" bns-feature-flag="'portal_widgets'" bns-feature-push data-widget-type="LINK" class="add-widget">{{ 'LINK_ADD_LINK'|trans |desc('Ajouter des liens') }}</a></li>
+                              <li><a id="" href="#" bns-feature-flag="'portal_widgets'" bns-feature-push data-widget-type="SCHOOL" class="add-widget">{{ 'LINK_SCHOOL_DIRECTORY'|trans |desc('Ajouter l\'annuaire des écoles') }}</a></li>
+                                {% if 'CITY' == portal.group.type %}
+                                    <li><a id="" href="#" data-widget-type="MINISITE" class="add-widget">{{ 'LINK_ADD_MINISITES'|trans |desc('Ajouter des mini-sites') }}</a></li>
+                                {% endif %}
                             </ul>
                             <a href="" class="btn bns-danger btn-24 medium-return button-return" style="margin-left: 10px;">
                                 <span class="icons-24 cancel-icon"></span>
@@ -50,13 +53,20 @@
         $(function ()
         {
             var action = false;
-
+            var $compile = null;
+            var $rootScope = null;
+            angularBootstrap().then(function ($injector) {
+                $compile = $injector.get('$compile');
+                $rootScope = $injector.get('$rootScope');
+            });
             $('.add-widget').click(function(e){
                 e.preventDefault();
                 $.ajax({
                     url: url = Routing.generate('BNSAppPortalBundle_back_add_widget',{ type: $(this).attr('data-widget-type'), widgetGroupId: {{ widgetGroup.id }} }),
                     success: function (html) {
                         $('#no-info').hide('slow');
+                        var $scope = $rootScope.$new();
+                        html = $compile(html)($scope);
                         $('#widgets').prepend(html);
                     }
                 });
@@ -72,31 +82,31 @@
             $('#widgets').sortable({
                 revert: true,
                 handle: ".move",
-                start: function( event, ui ) {
-                    action = true;
-                    $('.tiny-editor').each(function(index ){
-                        tinyMCE.execCommand( 'mceRemoveControl', false, $(this).attr('id') );
-                    });
-                },
                 stop: function(e,ui) {
-                    // breaks here - constructor error
-                    $('.tiny-editor').each(function(index ){
-                        tinyMCE.execCommand( 'mceAddControl', false, $(this).attr('id') );
+                    // refresh
+                  var item = ui.item;
+                    $(item).find('textarea[ui-tinymce]').each(function(){
+                      var scope = angular.element($(this).first()).scope();
+                      if (scope) {
+                        // force refresh tinyMCE editor
+                        scope.$emit('$tinymce:refresh');
+                      }
                     });
-                   // $(this).sortable( "refresh" );
                 }
             });
 
             $('.enable-btn').click(function(e) {
                 var widgetId = $(this).attr('data-widget-id');
-                if($(this).find('span').first().hasClass('on'))
-                {
+                if (widgetId) {
+                  if($(this).find('span').first().hasClass('on'))
+                  {
                     $('#enabled-' + widgetId).val(0);
-                }else{
+                  }else{
                     $('#enabled-' + widgetId).val(1);
+                  }
+                  $(this).find('span').toggleClass('on');
+                  $(this).find('span').toggleClass('off');
                 }
-                $(this).find('span').toggleClass('on');
-                $(this).find('span').toggleClass('off');
             });
 
 
@@ -122,7 +132,7 @@
 {% block sidebar %}
     {% include "BNSAppPortalBundle:Back:sidebar.html.twig" with {"page" : "main_zone"} %}
 {% endblock sidebar %}
-	
+
 {% block content %}
 
     {% include '@BNSAppMain/notice.html.twig' %}

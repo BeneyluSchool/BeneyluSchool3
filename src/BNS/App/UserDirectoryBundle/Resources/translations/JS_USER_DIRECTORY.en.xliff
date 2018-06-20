@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-06-22T16:37:33Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+  <file date="2018-02-20T11:24:19Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -74,9 +74,29 @@
         <source>ADMINS</source>
         <target>Administrators</target>
       </trans-unit>
+      <trans-unit id="3c641b0c0545a8aeedf25a32480268a2874f61a1" resname="ADMIN_FUNCTIONNALS">
+        <source>ADMIN_FUNCTIONNALS</source>
+        <target>Functionnal administrators</target>
+      </trans-unit>
       <trans-unit id="bf6b5e8620d4ca74b20c02463273104c9b35226e" resname="ASSISTANTS">
         <source>ASSISTANTS</source>
         <target>Assistants</target>
+      </trans-unit>
+      <trans-unit id="ff3f9ddb9cea080c9d90d00af8f151a0ded85d03" resname="ATICES">
+        <source>ATICES</source>
+        <target>Computer animators</target>
+      </trans-unit>
+      <trans-unit id="1054b3d6d740dbd65a1f1915ea56b6fa492c0d8b" resname="BUTTON_ADD_DISTRIBUTION_LIST">
+        <source>BUTTON_ADD_DISTRIBUTION_LIST</source>
+        <target state="new">Add a list</target>
+      </trans-unit>
+      <trans-unit id="cfa5535061f1790db4cfd729bb23d7d5c6e19f97" resname="BUTTON_ADD_STRUCTURE_DISTRIBUTION_LIST">
+        <source>BUTTON_ADD_STRUCTURE_DISTRIBUTION_LIST</source>
+        <target state="new">Add a list of organisations</target>
+      </trans-unit>
+      <trans-unit id="ee4ea8ce3d2721051070888bc2674eed52b7a1e7" resname="BUTTON_ADD_USER_DISTRIBUTION_LIST">
+        <source>BUTTON_ADD_USER_DISTRIBUTION_LIST</source>
+        <target state="new">Add a list of persons</target>
       </trans-unit>
       <trans-unit id="303535ae869cdd9a554c2dcb298978fab54f44c2" resname="BUTTON_CREATE_DISTRIBUTION_LIST">
         <source>BUTTON_CREATE_DISTRIBUTION_LIST</source>
@@ -87,12 +107,36 @@
         <target>Delete mailing lists</target>
       </trans-unit>
       <trans-unit id="eb3e434583a36d58f5b26d70af901acd56c86035" resname="BUTTON_EDIT_DISTRIBUTION_LIST">
-        <source>BUTTON_EDIT_DISTRIBUTION_LIST</source>
+        <source>Editer la liste</source>
         <target>Edit list</target>
+      </trans-unit>
+      <trans-unit id="b014ed0ab466ff23a442882d7e8331d9dba0e4ed" resname="BUTTON_SAVE_DISTRIBUTION_LIST">
+        <source>BUTTON_SAVE_DISTRIBUTION_LIST</source>
+        <target>Save the list</target>
+      </trans-unit>
+      <trans-unit id="8c6f5fa1cec50ec8b68792db71c1e9308db7969a" resname="BUTTON_SEE_DISTRIBUTION_LIST">
+        <source>BUTTON_SEE_DISTRIBUTION_LIST</source>
+        <target>View the list</target>
       </trans-unit>
       <trans-unit id="1507c40f043249fe6b5e25ba0cc97010cefa6d12" resname="CANCEL">
         <source>CANCEL</source>
         <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="b57fa73d32f5cf1a0d7d4055bf5da2efb725720c" resname="CANCEL_CREATE">
+        <source>CANCEL</source>
+        <target>Cancel the creation</target>
+      </trans-unit>
+      <trans-unit id="e08dcea1c774e3a001b26884bee4d7960094eb3f" resname="CANCEL_EDIT">
+        <source>CANCEL</source>
+        <target>Cancel the changes</target>
+      </trans-unit>
+      <trans-unit id="1ae0d17e60f0f5cc3bb145f74ee336a0464b9f93" resname="CITY_REFERENTS">
+        <source>CITY_REFERENTS</source>
+        <target>City referents</target>
+      </trans-unit>
+      <trans-unit id="6eaf7ff8f8217ff3bf9c0bb38ebd7a8ef356274b" resname="CITY_REFERENTS ">
+        <source>CITY_REFERENTS </source>
+        <target>City representatives</target>
       </trans-unit>
       <trans-unit id="f32654a9255dc798b7846cd270ce95267447a3ad" resname="CONFIRM_DELETE_THIS_WORKGROUP">
         <source>CONFIRM_DELETE_THIS_WORKGROUP</source>
@@ -136,6 +180,10 @@
         <source>DELETE_WORKGROUP_SUCCESS</source>
         <target>Workgroup deleted</target>
       </trans-unit>
+      <trans-unit id="9d6804861ad8410529847a0284eec789368a73b5" resname="DESCRIPTION_DELETE_DISTRIBUTION_LISTS">
+        <source>DESCRIPTION_DELETE_DISTRIBUTION_LISTS</source>
+        <target>Are you sure you want to delete the following mailing lists?</target>
+      </trans-unit>
       <trans-unit id="26476fef6e13d29497de0ccba10b62dac1cbca00" resname="DIRECTORS">
         <source>DIRECTORS</source>
         <target>Principals</target>
@@ -162,6 +210,10 @@
         <source>EDIT_WORKSPACE_SUCCESS</source>
         <target>Workspace edited</target>
       </trans-unit>
+      <trans-unit id="87768974dff2fd318882385abc96a40ea2aad9a2" resname="EDUCATIONAL_ADVISERS">
+        <source>EDUCATIONAL_ADVISERS</source>
+        <target>Educational advisers</target>
+      </trans-unit>
       <trans-unit id="82fc8b98a383fcc64504eeb49a6149ecda9a61b2" resname="ENT_REFERENTS">
         <source>ENT_REFERENTS</source>
         <target>School managers</target>
@@ -173,6 +225,10 @@
       <trans-unit id="685f6e38ccd0fdac231d33e376daa1d5ae33157c" resname="FLASH_CREATE_DISTRIBUTION_LIST_SUCCESS">
         <source>FLASH_CREATE_DISTRIBUTION_LIST_SUCCESS</source>
         <target>The mailing list has been successfully created</target>
+      </trans-unit>
+      <trans-unit id="0cf16dec0d44eacedf88bc18d4be93cc9c8c398f" resname="FLASH_DELETE_DISTRIBUTION_LISTS_SUCCESS">
+        <source>FLASH_DELETE_DISTRIBUTION_LISTS_SUCCESS</source>
+        <target>The mailing lists have been successfully deleted</target>
       </trans-unit>
       <trans-unit id="dacc5c3177ea223b20eb37f1cbaabbfcbd33944b" resname="FLASH_EDIT_DISTRIBUTION_LIST_ERROR">
         <source>FLASH_EDIT_DISTRIBUTION_LIST_ERROR</source>
@@ -339,8 +395,16 @@
         <target>Yërbook</target>
       </trans-unit>
       <trans-unit id="b69c3ccfe55954f7fbf622662dfd908f130577cb" resname="LABEL_DISTRIBUTION_LIST_NAME">
-        <source>LABEL_DISTRIBUTION_LIST_NAME</source>
+        <source>Nom de la liste de diffusion</source>
         <target>Mailing list name</target>
+      </trans-unit>
+      <trans-unit id="cf0d16f3a647d50b9d34f63ca4df353481534a29" resname="LABEL_DISTRIBUTION_LIST_STRUCT_NAME">
+        <source>LABEL_DISTRIBUTION_LIST_STRUCT_NAME</source>
+        <target>Name of the list of organisations</target>
+      </trans-unit>
+      <trans-unit id="855b79bf62910b6b90ff01138287b75aebb8241f" resname="LABEL_DISTRIBUTION_LIST_USER_NAME">
+        <source>LABEL_DISTRIBUTION_LIST_USER_NAME</source>
+        <target>Name of the list of persons</target>
       </trans-unit>
       <trans-unit id="29f5226318a36c2ed03dd77b92fefa25d9e290b1" resname="LABEL_MY_DISTRIBUTION_LISTS">
         <source>LABEL_MY_DISTRIBUTION_LISTS</source>
@@ -349,6 +413,10 @@
       <trans-unit id="07c11326a674d7fc52d49d3043125ccee1899908" resname="LABEL_NO_SUBGROUPS">
         <source>LABEL_NO_SUBGROUPS</source>
         <target>No subgroup</target>
+      </trans-unit>
+      <trans-unit id="30ff8a3b1a64feb5dec8c10525e447a34b22b2bd" resname="LABEL_SEARCH">
+        <source>LABEL_SEARCH</source>
+        <target>Search</target>
       </trans-unit>
       <trans-unit id="4be9ff930e0b2b3d9f16145020f941ed9d5c0b2b" resname="LABEL_TARGET_SECTORS">
         <source>LABEL_TARGET_SECTORS</source>
@@ -373,6 +441,18 @@
       <trans-unit id="f8bfc33c671e43b54074d70e8511a02919d2d33e" resname="MY_WORKSPACES">
         <source>MY_WORKSPACES</source>
         <target>My workspaces</target>
+      </trans-unit>
+      <trans-unit id="1ae33ba7736a83e06d750a9f1487d7e88c3969b8" resname="NB_PROFILE_NB_STRUCTURE">
+        <source>NB_PROFILE_NB_STRUCTURE</source>
+        <target>{PROFILE, plural, =0{aucun profil} one{1 profil} other{# profils} } and {STRUCTURE, plural, =0{aucune structure} one{1 structure} other{# structures} }</target>
+      </trans-unit>
+      <trans-unit id="a18cba332f169e5090003dcd5ce65e3a1b97b4d3" resname="NB_STRUCTURE">
+        <source>NB_STRUCTURE</source>
+        <target>{STRUCTURE, plural, =0{aucune structure} one{1 structure} other{# structures} }</target>
+      </trans-unit>
+      <trans-unit id="6187a37d2d26ed78c68e4fb872d347f9194f0362" resname="NO_DISTRIBUTION_LIST">
+        <source>NO_DISTRIBUTION_LIST</source>
+        <target>There is no distribution list for this workspace</target>
       </trans-unit>
       <trans-unit id="05f97087b7f525b70fe95b9ae906d4eae7990500" resname="NO_ELEMENT_SELECTED">
         <source>NO_ELEMENT_SELECTED</source>
@@ -446,6 +526,10 @@
         <source>SELECT</source>
         <target>Select</target>
       </trans-unit>
+      <trans-unit id="90e8f758890645912105152e014e95279fc70283" resname="SELECT_ALL">
+        <source>SELECT_ALL</source>
+        <target>Select all</target>
+      </trans-unit>
       <trans-unit id="4747a1d8990c033ea7aa3c32877828bb3772d319" resname="TEACHERS">
         <source>TEACHERS</source>
         <target>Teachers</target>
@@ -461,6 +545,10 @@
       <trans-unit id="25878ea8b18511028ef76b46b9f318706b0e1977" resname="TITLE_CREATE_DISTRIBUTION_LIST">
         <source>TITLE_CREATE_DISTRIBUTION_LIST</source>
         <target>Create a mailing list</target>
+      </trans-unit>
+      <trans-unit id="ab7b8d7e92c5c95c1c640587043f1779c7d50d0e" resname="TITLE_DELETE_DISTRIBUTION_LISTS">
+        <source>TITLE_DELETE_DISTRIBUTION_LISTS</source>
+        <target>Delete the mailing lists</target>
       </trans-unit>
       <trans-unit id="c3432ecea4b6fdc5549fa62825e77dff4f5f1222" resname="TITLE_EDIT_DISTRIBUTION_LIST">
         <source>TITLE_EDIT_DISTRIBUTION_LIST</source>

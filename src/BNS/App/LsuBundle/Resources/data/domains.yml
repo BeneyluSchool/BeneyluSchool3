@@ -1,0 +1,904 @@
+domains:
+  2016:
+    label: 2016
+    # version start with a "v" to prevent issue
+    version: v2016
+    cycle: cycle2
+    children:
+      0:
+        label: cycle1
+        cycle: cycle1
+        children:
+          1:
+            label: Français
+            code: FRA-RAC
+            children:
+              1:
+                label: Langage oral
+                code: FRA-LGO
+              2:
+                label: Lecture et compréhension de l’écrit
+                code: FRA-LEC
+              3:
+                label: Écriture
+                code: FRA-ECR
+              4:
+                label: Étude de la langue (grammaire, orthographe, lexique)
+                code: FRA-ETL
+          2:
+            label: Mathématiques
+            code: MAT-RAC
+            children:
+              12:
+                label: Nombres et calcul
+                code: MAT-NBC
+              17:
+                label: Grandeurs et mesures
+                code: MAT-GDM
+              21:
+                label: Espace et géométrie
+                code: MAT-GEO
+          3:
+            label: Éducation physique et sportive
+            code: EPS-RAC
+          4:
+            label: Enseignements artistiques
+            code: ART-RAC
+            children:
+              54:
+                label: "Arts plastiques"
+                code: ART-PLA
+              59:
+                label: "Éducation musicale"
+                code: ART-MUS
+          5:
+            label: Questionner le monde
+            code: QLM-RAC
+            children:
+              64:
+                label: "Vivant, matière, objets"
+                code: QLM-VMO
+              76:
+                label: "Espace, temps"
+                code: QLM-ETP
+          6:
+            label: Enseignement moral et civique
+            code: EMC-RAC
+          7:
+            label: Langues vivantes
+            code: LGV-RAC
+            children:
+              94:
+                label: "Comprendre l’oral"
+                code: LGV-CPD
+              96:
+                label: "S’exprimer oralement en continu"
+                code: LGV-EXP
+              98:
+                label: "Prendre part à une conversation"
+                code: LGV-CVS
+              100:
+                label: "Découvrir quelques aspects culturels de la langue"
+                code: LGV-DE1
+
+      1:
+        label: cycle2
+        cycle: cycle2
+        children:
+          1:
+            label: Français
+            code: FRA-RAC
+            children:
+              1:
+                label: Langage oral
+                code: FRA-LGO
+                children:
+                  1:
+                    label: Écouter pour comprendre des messages oraux ou des textes lus par un adulte
+                  2:
+                    label: Dire pour être entendu et compris
+                  3:
+                    label: Participer à des échanges dans des situations diversifiées
+                  4:
+                    label: Adopter une attitude critique par rapport au langage produit
+
+              2:
+                label: Lecture et compréhension de l’écrit
+                code: FRA-LEC
+                children:
+                  1:
+                    label: Identifier des mots de manière de plus en plus aisée
+                  2:
+                    label: Comprendre un texte
+                  3:
+                    label: Pratiquer différentes formes de lecture
+                  4:
+                    label: Lire à voix haute
+                  5:
+                    label: Contrôler sa compréhension
+              3:
+                label: Écriture
+                code: FRA-ECR
+                children:
+                  1:
+                    label: Copier de manière experte
+                  2:
+                    label: Produire des écrits
+                  3:
+                    label: Réviser et améliorer l’écrit qu’on a produit
+
+              4:
+                label: Étude de la langue (grammaire, orthographe, lexique)
+                code: FRA-ETL
+                children:
+                  5:
+                    label: Maitriser les relations entre l’oral et l’écrit
+                  6:
+                    label: Mémoriser et se remémorer l’orthographe de mots fréquents et de mots irréguliers dont le sens est connu
+                  7:
+                    label: Identifier les principaux éléments d’une phrase simple
+                  8:
+                    label: Raisonner pour résoudre des problèmes orthographiques, d’accord essentiellement
+                  9:
+                    label: Comprendre comment se forment les verbes et orthographier les formes verbales les plus fréquentes
+                  10:
+                    label: Identifier des relations entre les mots, entre les mots et leur contexte d’utilisation ; s’en servir pour mieux comprendre
+                  11:
+                    label: Enrichir son répertoire de mots, les mémoriser et les réutiliser
+
+          2:
+            label: Mathématiques
+            code: MAT-RAC
+            children:
+              12:
+                label: Nombres et calcul
+                code: MAT-NBC
+                children:
+                  13:
+                    label: Comprendre et utiliser des nombres entiers pour dénombrer, ordonner, repérer, comparer
+                  14:
+                    label: Nommer, lire, écrire, représenter des nombres entiers
+                  15:
+                    label: Résoudre des problèmes en utilisant des nombres entiers et le calcul
+                  16:
+                    label: Calculer avec des nombres entiers
+              17:
+                label: Grandeurs et mesures
+                code: MAT-GDM
+                children:
+                  18:
+                    label: Comparer, estimer, mesurer des longueurs, des masses, des contenances, des durées
+                  19:
+                    label: Utiliser le lexique, les unités, les instruments de mesures spécifiques de ces grandeurs
+                  20:
+                    label: Résoudre des problèmes impliquant des longueurs, des masses, des contenances, des durées, des prix
+              21:
+                label: Espace et géométrie
+                code: MAT-GEO
+                children:
+                  22:
+                    label: (Se) repérer et (se) déplacer en utilisant des repères et des représentations
+                  23:
+                    label: Reconnaitre, nommer, décrire, reproduire quelques solides
+                  24:
+                    label: Reconnaitre, nommer, décrire, reproduire, construire quelques figures géométriques
+                  25:
+                    label: Reconnaitre et utiliser les notions d’alignement, d’angle droit, d’égalité de longueurs, de milieu, de symétrie
+          3:
+            label: Éducation physique et sportive
+            code: EPS-RAC
+            children:
+              26:
+                label: "Produire une performance"
+                children:
+                  27:
+                    label: "Activités athlétiques"
+                  28:
+                    label: "Courir, sauter, lancer à des intensités et des durées variables : courir vite et courir longtemps / lancer loin et lancer précis / sauter haut et sauter loin"
+                  29:
+                    label: "Remplir quelques rôles spécifiques (chronométreur, starter par exemple)"
+              30:
+                label: "Adapter ses déplacements à des environnements variés"
+                children:
+                  31:
+                    label: "Natation"
+                  32:
+                    label: "Activités de roule (vélo, roller, …)"
+                  33:
+                    label: "Activités nautiques"
+                  34:
+                    label: "Parcours d’orientation"
+                  35:
+                    label: "Parcours d’escalade"
+                  36:
+                    label: "Se déplacer dans l’eau sur une quinzaine de mètres sans appui et après un temps d’immersion"
+                  37:
+                    label: "Réaliser un parcours en adaptant ses déplacements à un environnement inhabituel dans un espace inhabituel et sécurisé"
+                  38:
+                    label: "Respecter les règles de sécurité qui s’appliquent"
+              39:
+                label: "S’exprimer devant les autres par une prestation artistique et/ou acrobatique"
+                children:
+                  40:
+                    label: "Danse"
+                  41:
+                    label: "Activités gymniques"
+                  42:
+                    label: "Arts du cirque"
+                  43:
+                    label: "Mémoriser et reproduire avec son corps une séquence simple d’actions"
+                  44:
+                    label: "Inventer et présenter une séquence simple d’actions"
+              45:
+                label: "Conduire et maitriser un affrontement collectif et interindividuel"
+                children:
+                  46:
+                    label: "Jeux traditionnels"
+                  47:
+                    label: "Jeux collectifs avec ballon"
+                  48:
+                    label: "Jeux de combat"
+                  49:
+                    label: "Jeux de raquettes"
+                  50:
+                    label: "S’engager dans un affrontement individuel ou collectif en respectant les règles du jeu"
+                  51:
+                    label: "Contrôler son engagement moteur et affectif"
+                  52:
+                    label: "Connaitre le but du jeu"
+                  53:
+                    label: "Reconnaitre ses partenaires et ses adversaires"
+
+          4:
+            label: Enseignements artistiques
+            code: ART-RAC
+            children:
+              54:
+                label: "Arts plastiques"
+                code: ART-PLA
+                children:
+                  55:
+                    label: "Expérimenter, produire, créer des productions plastiques de natures diverses"
+                  56:
+                    label: "Mettre en oeuvre un projet artistique individuel ou collectif"
+                  57:
+                    label: "S’exprimer, analyser sa pratique, celle de ses pairs ; établir une relation avec celle des artistes, s’ouvrir à l’altérité"
+                  58:
+                    label: "Se repérer dans les domaines liés aux arts plastiques, connaître et comparer quelques oeuvres d’art"
+              59:
+                label: "Éducation musicale"
+                code: ART-MUS
+                children:
+                  60:
+                    label: "Chanter une mélodie simple, une comptine ou un chant avec une intonation juste"
+                  61:
+                    label: "Écouter, comparer des éléments sonores, des musiques"
+                  62:
+                    label: "Explorer, imaginer des représentations diverses de musiques"
+                  63:
+                    label: "Échanger, partager ses émotions, exprimer ses préférences"
+          5:
+            label: Questionner le monde
+            code: QLM-RAC
+            children:
+              64:
+                label: "Vivant, matière, objets"
+                code: QLM-VMO
+                children:
+                  65:
+                    label: "Qu’est-ce que la matière ?"
+                  66:
+                    label: "Identifier les trois états de la matière et observer des changements d’états"
+                  67:
+                    label: "Identifier un changement d’état de l’eau dans un phénomène de la vie quotidienne"
+                  68:
+                    label: "Comment reconnaitre le monde du vivant ?"
+                  69:
+                    label: "Connaitre des caractéristiques du monde vivant, ses interactions, sa diversité"
+                  70:
+                    label: "Reconnaitre des comportements favorables à sa santé"
+                  71:
+                    label: "Les objets techniques Qu’est-ce que c’est ? A quels besoins"
+                  72:
+                    label: "répondent-ils ? Comment fonctionnent-ils ?"
+                  73:
+                    label: "Comprendre la fonction et le fonctionnement d’objets fabriqués"
+                  74:
+                    label: "Réaliser quelques objets et circuits électriques simples, en respectant des règles élémentaires de sécurité"
+                  75:
+                    label: "Commencer à s’approprier un environnement numérique"
+              76:
+                label: "Espace, temps"
+                code: QLM-ETP
+                children:
+                  77:
+                    label: "Se situer dans l’espace"
+                  78:
+                    label: "Se repérer dans l’espace et le représenter"
+                  79:
+                    label: "Situer un lieu sur une carte, sur un globe ou sur un écran informatique"
+                  80:
+                    label: "Se situer dans le temps"
+                  81:
+                    label: "Se repérer dans le temps et mesurer des durées"
+                  82:
+                    label: "Repérer et situer quelques évènements dans un temps long"
+                  83:
+                    label: "Explorer les organisations du monde"
+                  84:
+                    label: "Comparer quelques modes de vie des hommes et des femmes, et quelques représentations du monde"
+                  85:
+                    label: "Comprendre qu’un espace est organisé"
+                  86:
+                    label: "Identifier des paysages"
+          6:
+            label: Enseignement moral et civique
+            code: EMC-RAC
+            children:
+              87:
+                label: Être capable d'écoute
+              88:
+                label: Accepter les différences
+              89:
+                label: Connaître et respecter les règles de vie de la classe et de l’école
+              90:
+                label: Identifier les symboles de la République présents dans l’école
+              91:
+                label: Mettre en oeuvre les règles de la communication dans un débat
+              92:
+                label: Prendre des responsabilités dans la classe et dans l’école
+              93:
+                label: Savoir coopérer
+          7:
+            label: Langues vivantes
+            code: LGV-RAC
+            children:
+              94:
+                label: "Comprendre l’oral"
+                code: LGV-CPD
+                children:
+                  95:
+                    label: "Comprendre des mots familiers et des expressions très courantes au sujet de soi, de sa famille et de l'environnement concret et immédiat, si les gens parlent lentement et distinctement"
+              96:
+                label: "S’exprimer oralement en continu"
+                code: LGV-EXP
+                children:
+                  97:
+                    label: "Utiliser des expressions et des phrases simples pour se décrire, décrire le lieu d'habitation et les gens de l’entourage"
+              98:
+                label: "Prendre part à une conversation"
+                code: LGV-CVS
+                children:
+                  99:
+                    label: "Poser des questions simples sur des sujets familiers ou sur ce dont on a immédiatement besoin, ainsi que répondre à de telles questions"
+              100:
+                label: "Découvrir quelques aspects culturels de la langue"
+                code: LGV-DE1
+                children:
+                  101:
+                    label: "Identifier quelques grands repères culturels de l’environnement quotidien des élèves du même âge dans les pays ou régions étudiés"
+
+      2:
+        label: cycle3
+        cycle: cycle3
+        children:
+          400:
+            label: "Français"
+            code: "FRA-RAC"
+            children:
+              401:
+                label: "Langage oral"
+                code: "FRA-LGO"
+                children:
+                  201:
+                    label: "Écouter pour comprendre un message oral, un propos, un discours, un texte lu"
+                  202:
+                    label: "Parler en prenant en compte son auditoire"
+                  203:
+                    label: "Participer à des échanges dans des situations diversifiées"
+                  204:
+                    label: "Adopter une attitude critique par rapport au langage produit"
+              402:
+                label: "Lecture et compréhension de l’écrit"
+                code: "FRA-LEC"
+                children:
+                  206:
+                    label: "Lire avec fluidité"
+                  207:
+                    label: "Comprendre un texte littéraire et l'interpréter"
+                  208:
+                    label: "Comprendre des textes, des documents et des images et les interpréter"
+                  209:
+                    label: "Contrôler sa compréhension, être un lecteur autonome"
+              403:
+                label: "Écriture"
+                code: "FRA-ECR"
+                children:
+                  211:
+                    label: "Écrire à la main de manière fluide et efficace"
+                  212:
+                    label: "Écrire avec un clavier rapidement et efficacement"
+                  213:
+                    label: "Recourir à l'écriture pour réfléchir et pour apprendre"
+                  214:
+                    label: "Produire des écrits variés"
+                  215:
+                    label: "Réécrire à partir de nouvelles consignes ou faire évoluer son texte"
+                  216:
+                    label: "Prendre en compte les normes de l'écrit pour formuler, transcrire et réviser"
+
+              404:
+                label: "Étude de la langue (grammaire, orthographe, lexique)"
+                code: "FRA-ETL"
+                children:
+                  218:
+                    label: "Maitriser les relations entre l'oral et l'écrit"
+                  219:
+                    label: "Acquérir la structure, le sens et l'orthographe des mots"
+                  220:
+                    label: "Maitriser la forme des mots en lien avec la syntaxe"
+                  221:
+                    label: "Observer le fonctionnement du verbe et l'orthographier"
+                  222:
+                    label: "Identifier les éléments d'une phrase simple en relation avec son sens ; distinguer phrase simple et phrase complexe"
+
+          405:
+            label: "Mathématiques"
+            code: "MAT-RAC"
+            children:
+              406:
+                label: "Nombres et calcul"
+                code: "MAT-NBC"
+                children:
+                  224:
+                    label: "Utiliser et représenter les grands nombres entiers, des fractions simples, les nombres décimaux"
+                  225:
+                    label: "Calculer avec des nombres entiers et des nombres décimaux"
+                  226:
+                    label: "Résoudre des problèmes en utilisant des fractions simples, les nombres décimaux et le calcul"
+              407:
+                label: "Espace et géométrie"
+                code: "MAT-GEO"
+                children:
+                  228:
+                    label: "(Se) repérer et (se) déplacer dans l'espace en utilisant ou en élaborant des représentations"
+                  229:
+                    label: "Reconnaitre, nommer, décrire, reproduire, représenter, construire des figures et solides"
+                  230:
+                    label: "Reconnaitre et utiliser quelques relations géométriques / (notions d'alignement, d'appartenance, de perpendicularité, de parallélisme, d'égalité de longueurs, d'égalité d'angle, de distance entre deux points, de symétrie, d'agrandissement et de réduction)"
+              408:
+                label: "Grandeurs et mesures"
+                code: "MAT-GDM"
+                children:
+                  232:
+                    label: "Comparer, estimer, mesurer des grandeurs géométriques avec des nombres entiers et des nombres décimaux : longueur (périmètre), aire, volume, angle"
+                  233:
+                    label: "Utiliser le lexique, les unités, les instruments de mesures spécifiques de ces grandeurs"
+                  234:
+                    label: "Résoudre des problèmes impliquant des grandeurs (géométriques, physiques, économiques) en utilisant des nombres entiers et des nombres décimaux"
+
+          409:
+            label: "Éducation physique et sportive"
+            code: "EPS-RAC"
+            children:
+              235:
+                label: "Produire une performance"
+                children:
+                  236:
+                    label: "Activités athlétiques"
+                  237:
+                    label: "Natation"
+                  238:
+                    label: "Combiner une course, un saut, un lancer pour faire une meilleure performance cumulée"
+                  239:
+                    label: "Mesurer et quantifier les performances, les enregistrer, les comparer, les classer, les traduire en représentations graphiques"
+                  240:
+                    label: "Assumer les rôles de chronométreur et d'observateur"
+              241:
+                label: "Adapter ses déplacements à des environnements variés"
+                children:
+                  242:
+                    label: "Parcours d’orientation"
+                  243:
+                    label: "Savoir nager"
+                  244:
+                    label: "Parcours d’escalade"
+                  245:
+                    label: "Activités nautiques"
+                  246:
+                    label: "Activités de roule (vélo, roller, …)"
+                  247:
+                    label: "Réaliser, seul ou à plusieurs, un parcours dans plusieurs environnements inhabituels"
+                  248:
+                    label: "Connaitre et respecter les règles de sécurité"
+                  249:
+                    label: "Identifier la personne responsable à alerter ou la procédure en cas de problème"
+                  250:
+                    label: "Valider l'attestation scolaire du savoir nager (ASSN)"
+              251:
+                label: "S’exprimer devant les autres par une prestation artistique et/ou acrobatique"
+                children:
+                  252:
+                    label: "Danse"
+                  253:
+                    label: "Activités gymniques"
+                  254:
+                    label: "Arts du cirque"
+                  255:
+                    label: "Réaliser en petits groupes une séquence acrobatique ou à visée artistique"
+                  256:
+                    label: "Savoir filmer une prestation pour la revoir et la faire évoluer"
+                  257:
+                    label: "Respecter les prestations des autres et accepter de se produire devant les autres"
+              258:
+                label: "Conduire et maitriser un affrontement collectif et interindividuel"
+                children:
+                  259:
+                    label: "Jeux traditionnels"
+                  260:
+                    label: "Jeux collectifs avec ballon"
+                  261:
+                    label: "Jeux de combat"
+                  262:
+                    label: "Jeux de raquettes"
+                  263:
+                    label: "S'organiser tactiquement pour rechercher le gain du match (ou du combat)"
+                  264:
+                    label: "Respecter les partenaires, les adversaires et l'arbitre"
+                  265:
+                    label: "Assurer différents rôles sociaux (joueur, arbitre, observateur)"
+                  266:
+                    label: "Accepter le résultat de la rencontre"
+          410:
+            label: "Langues vivantes"
+            code: "LGV-RAC"
+            children:
+              700:
+                label: "Écouter et comprendre"
+                code: LGV-ECO
+                children:
+                  701:
+                    label: "Écouter et comprendre des messages oraux simples relevant de la vie quotidienne, des histoires simples"
+                  702:
+                    label: "Mémoriser des mots, des expressions courantes"
+                  703:
+                    label: "Utiliser des indices sonores et visuels pour déduire le sens de mots inconnus, d’un message"
+              704:
+                label: "Lire et comprendre"
+                code: LGV-LIR
+                children:
+                  705:
+                    label: "Utiliser le contexte, les illustrations et les connaissances pour comprendre un texte"
+                  706:
+                    label: "Reconnaitre des mots isolés dans un énoncé, un court texte"
+                  707:
+                    label: "S’appuyer sur des mots outils, des structures simples, des expressions rituelles"
+                  708:
+                    label: "Percevoir la relation entre certains graphèmes et phonèmes spécifiques à la langue"
+              709:
+                label: "Parler en continu"
+                code: LGV-PAR
+                children:
+                  710:
+                    label: "Mémoriser et reproduire des énoncés"
+                  711:
+                    label: "S’exprimer de manière audible, en modulant débit et voix"
+                  712:
+                    label: "Participer à des échanges simples pour être entendu et compris dans quelques situations diversifiées de la vie quotidienne"
+              713:
+                label: "Écrire"
+                code: LGV-ECR
+                children:
+                  714:
+                    label: "Écrire des mots et des expressions dont l’orthographe et la syntaxe ont été mémorisés"
+                  715:
+                    label: "Ecrire des phrases en s’appuyant sur un modèle connu"
+              716:
+                label: "Réagir et dialoguer"
+                code: LGV-DIA
+                children:
+                  717:
+                    label: "Poser des questions simples"
+                  718:
+                    label: "Mobiliser des énoncés dans des échanges simples et fréquents"
+                  719:
+                    label: "Utiliser des procédés très simples pour commencer, poursuivre et terminer une conversation brève"
+              720:
+                label: "Découvrir des aspects culturels de la langue"
+                code: LGV-DE2
+                children:
+                  721:
+                    label: "Identifier quelques grands repères culturels de l’environnement quotidien des élèves du même âge dans les pays ou régions étudiés"
+                  722:
+                    label: "Mobiliser ses connaissances culturelles pour décrire un personnage, un lieu ou pour raconter un fait, un évènement"
+          411:
+            label: "Enseignements artistiques"
+            code: "ART-RAC"
+            children:
+              412:
+                label: "Arts plastiques"
+                code: "ART-PLA"
+                children:
+                  258:
+                    label: "Expérimenter, produire, créer des productions plastiques de natures diverses"
+                  259:
+                    label: "Mettre en oeuvre un projet artistique individuel ou collectif"
+                  260:
+                    label: "S’exprimer, analyser sa pratique, celle de ses pairs ; établir une relation avec celle des artistes, s’ouvrir à l’altérité"
+                  261:
+                    label: "Se repérer dans les domaines liés aux arts plastiques, connaître et comparer quelques oeuvres d’art"
+
+              413:
+                label: "Éducation musicale"
+                code: "ART-MUS"
+                children:
+                  263:
+                    label: "Chanter et interpréter une mélodie simple avec une intonation juste et avec expressivité"
+                  264:
+                    label: "Écouter, comparer et commenter des éléments sonores d’origines diverses"
+                  265:
+                    label: "Explorer, imaginer et créer des représentations diverses de musiques"
+                  266:
+                    label: "Échanger, partager et argumenter ses choix et ses préférences"
+
+              414:
+                label: "Histoire des arts"
+                code: "ART-HAR"
+                children:
+                  268:
+                    label: "Donner un avis argumenté sur ce que représente ou exprime une oeuvre d’art"
+                  269:
+                    label: "Dégager d’une oeuvre d’art, par l’observation ou l’écoute, ses principales caractéristiques techniques et formelles"
+                  270:
+                    label: "Relier des caractéristiques d’une oeuvre d’art à des usages ainsi qu’au contexte historique et culturel de sa création"
+                  271:
+                    label: "Savoir se repérer dans un musée, dans un lieu d’art, un site patrimonial"
+
+          415:
+            label: "Enseignement moral et civique"
+            code: "EMC-RAC"
+            children:
+              600:
+                label: Exprimer en les régulant ses émotions et ses sentiments
+              601:
+                label: Respecter autrui et accepter les différences
+              602:
+                label: Les droits et les devoirs de l’élève, du citoyen
+              603:
+                label: Les principes et les valeurs de la République française
+              604:
+                label: Adapter son comportement et son attitude à différents contextes et d’obéissance aux règles
+              605:
+                label: Argumenter et justifier son point de vue dans un débat ou une discussion sur les valeurs
+              606:
+                label: Exposer son point de vue dans un débat en respectant le point de vue des autres
+              607:
+                label: La responsabilité face aux usages de l’informatique et d’internet
+              608:
+                label: Prendre des responsabilités dans la classe et dans l’école
+              609:
+                label: Nuancer son point de vue en tenant compte du point de vue des autres
+              610:
+                label: S'engager dans la réalisation d’un projet collectif (projet de classe, d’école, communal, national …)
+
+          416:
+            label: "Sciences et technologie"
+            code: "STC-RAC"
+            children:
+              800:
+                label: "Matière, mouvement, énergie, information Décrire les états et la constitution de la matière à l'échelle macroscopique"
+              801:
+                label: "Le vivant, sa diversité et les fonctions qui les caractérisent , observer et décrire différents types de mouvements"
+              802:
+                label: "Matériaux et objets techniques Identifier différentes sources d'énergie."
+              803:
+                label: "La planète Terre Les êtres vivants dans leur environnement Identifier un signal et une information"
+              804:
+                label: "Pratiquer des démarches scientifiques et technologiques"
+              805:
+                label: "Concevoir, créer, réaliser"
+              806:
+                label: "S’approprier des outils et des méthodes"
+              807:
+                label: "Pratiquer des langages"
+              808:
+                label: "Mobiliser des outils numériques"
+              809:
+                label: "Adopter un comportement éthique et responsable"
+              810:
+                label: "Se situer dans l’espace et dans le temps"
+
+          417:
+            label: "Histoire et géographie"
+            code: "HIG-RAC"
+            children:
+            418:
+              label: "Histoire"
+              children:
+                500:
+                  label: "Se repérer dans le temps : construire des repères historiques"
+                  children:
+                    501:
+                      label: "Situer des grandes périodes historiques"
+                    502:
+                      label: "Ordonner des faits et les situer"
+                    503:
+                      label: "Utiliser des documents"
+                    504:
+                      label: "Mémoriser et mobiliser ses repères historiques"
+                505:
+                  label: "Se repérer dans l'espace : construire des repères géographiques"
+                  children:
+                    506:
+                      label: "Nommer et localiser les grands repères géographiques"
+                    507:
+                      label: "Nommer, localiser un lieu dans un espace géographique"
+                    508:
+                      label: "Appréhender la notion d’échelle géographique"
+                    509:
+                      label: "Mémoriser et mobiliser ses repères géographiques"
+                510:
+                  label: "Raisonner, justifier une démarche et des choix effectués"
+                  children:
+                    511:
+                      label: "Poser et se poser des questions"
+                    512:
+                      label: "Formuler des hypothèses"
+                    513:
+                      label: "Vérifier"
+                    514:
+                      label: "Justifier"
+                515:
+                  label: "S’informer dans le monde du numérique"
+                  children:
+                    516:
+                      label: "Connaitre et utiliser différents systèmes d’information"
+                    517:
+                      label: "Trouver, sélectionner et exploiter des informations dans une ressource numérique"
+                    518:
+                      label: "Identifier la ressource numérique utilisée"
+                519:
+                  label: "Comprendre un document"
+                  children:
+                    520:
+                      label: "Comprendre le sens général d’un document"
+                    521:
+                      label: "Identifier le document et savoir pourquoi il doit être identifié"
+                    522:
+                      label: "Extraire des informations pertinentes"
+                    523:
+                      label: "Savoir que le document exprime un point de vue, identifier et questionner le sens implicite d’un document"
+                524:
+                  label: "Pratiquer différents langages en histoire et en géographie"
+                  children:
+                    525:
+                      label: "Ecrire pour structurer sa pensée, argumenter et écrire pour communiquer"
+                    526:
+                      label: "reconnaître un récit historique"
+                    527:
+                      label: "S’exprimer à l’oral"
+                    528:
+                      label: "S’approprier et utiliser un lexique historique et géographique"
+                    529:
+                      label: "Réaliser des productions"
+                    530:
+                      label: "Utiliser des cartes"
+                531:
+                  label: "Coopérer et mutualiser"
+                  children:
+                    532:
+                      label: "Organiser son travail dans le cadre d’un groupe"
+                    533:
+                      label: "Travailler en commun"
+                    534:
+                      label: "Utiliser les outils numériques dans le travail collectif"
+
+            419:
+              label: "Géographie"
+              children:
+                500:
+                  label: "Se repérer dans le temps : construire des repères historiques"
+                  children:
+                    501:
+                      label: "Situer des grandes périodes historiques"
+                    502:
+                      label: "Ordonner des faits et les situer"
+                    503:
+                      label: "Utiliser des documents"
+                    504:
+                      label: "Mémoriser et mobiliser ses repères historiques"
+                505:
+                  label: "Se repérer dans l'espace : construire des repères géographiques"
+                  children:
+                    506:
+                      label: "Nommer et localiser les grands repères géographiques"
+                    507:
+                      label: "Nommer, localiser un lieu dans un espace géographique"
+                    508:
+                      label: "Appréhender la notion d’échelle géographique"
+                    509:
+                      label: "Mémoriser et mobiliser ses repères géographiques"
+                510:
+                  label: "Raisonner, justifier une démarche et des choix effectués"
+                  children:
+                    511:
+                      label: "Poser et se poser des questions"
+                    512:
+                      label: "Formuler des hypothèses"
+                    513:
+                      label: "Vérifier"
+                    514:
+                      label: "Justifier"
+                515:
+                  label: "S’informer dans le monde du numérique"
+                  children:
+                    516:
+                      label: "Connaitre et utiliser différents systèmes d’information"
+                    517:
+                      label: "Trouver, sélectionner et exploiter des informations dans une ressource numérique"
+                    518:
+                      label: "Identifier la ressource numérique utilisée"
+                519:
+                  label: "Comprendre un document"
+                  children:
+                    520:
+                      label: "Comprendre le sens général d’un document"
+                    521:
+                      label: "Identifier le document et savoir pourquoi il doit être identifié"
+                    522:
+                      label: "Extraire des informations pertinentes"
+                    523:
+                      label: "Savoir que le document exprime un point de vue, identifier et questionner le sens implicite d’un document"
+                524:
+                  label: "Pratiquer différents langages en histoire et en géographie"
+                  children:
+                    525:
+                      label: "Ecrire pour structurer sa pensée, argumenter et écrire pour communiquer"
+                    526:
+                      label: "reconnaître un récit historique"
+                    527:
+                      label: "S’exprimer à l’oral"
+                    528:
+                      label: "S’approprier et utiliser un lexique historique et géographique"
+                    529:
+                      label: "Réaliser des productions"
+                    530:
+                      label: "Utiliser des cartes"
+                531:
+                  label: "Coopérer et mutualiser"
+                  children:
+                    532:
+                      label: "Organiser son travail dans le cadre d’un groupe"
+                    533:
+                      label: "Travailler en commun"
+                    534:
+                      label: "Utiliser les outils numériques dans le travail collectif"
+
+      3:
+        label: socle
+        cycle: socle
+        children:
+          500:
+            code: CPD_FRA
+            label: "Langue française à l’oral et à l’écrit"
+          501:
+            code: CPD_SCI
+            label: "Langages mathématiques, scientifiques et informatiques"
+          502:
+            code: REP_MND
+            label: "Représentations du monde et activité humaine"
+          503:
+            code: CPD_ETR
+            label: "Langues étrangères et régionales"
+          504:
+            code: SYS_NAT
+            label: "Systèmes naturels et systèmes techniques"
+          505:
+            code: CPD_ART
+            label: "Langages des arts et du corps"
+          506:
+            code: FRM_CIT
+            label: "Formation de la personne et du citoyen"
+          507:
+            code: MET_APP
+            label: "Méthodes et outils pour apprendre"

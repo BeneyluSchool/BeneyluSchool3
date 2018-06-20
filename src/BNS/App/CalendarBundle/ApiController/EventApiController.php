@@ -7,6 +7,7 @@ use BNS\App\CalendarBundle\Form\Type\CalendarEventType;
 use BNS\App\CoreBundle\Annotation\RightsSomeWhere;
 use BNS\App\CoreBundle\Controller\BaseApiController;
 use BNS\App\CoreBundle\Model\AgendaEvent;
+use BNS\App\CoreBundle\Model\AgendaEventPeer;
 use BNS\App\CoreBundle\Model\AgendaQuery;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Util\Codes;
@@ -61,9 +62,9 @@ class EventApiController extends BaseApiController
         $isEditable = ( 1 == $request->get('editing', 0)) && $this->get('bns.right_manager')->hasRightSomeWhere('CALENDAR_ACCESS_BACK');
 
         $visibleGroupIds = $this->get('bns.right_manager')->getGroupIdsWherePermission('CALENDAR_ACCESS');
-        $agendas = $this->get('bns.calendar_manager')->getAgendasFromGroupIds($visibleGroupIds);
+        $agendas = $this->get('bns.calendar_manager')->getAgendasFromGroupIdsAndUser($visibleGroupIds, $this->getCurrentUserId());
 
-        $events = $this->get('bns.calendar_manager')->selectEventsByDates($startDate, $endDate, $agendas, $isEditable, true);
+        $events = $this->get('bns.calendar_manager')->selectEventsByDates($startDate, $endDate, $agendas, $isEditable, true, $this->hasFeature('calendar_sdet_discipline'), $this->hasFeature('calendar_sdet_reservation'));
 
         return $events;
     }
@@ -108,11 +109,25 @@ class EventApiController extends BaseApiController
                 }
             }
         }
-
-        if (!($this->get('bns.right_manager')->hasRight('CALENDAR_ACCESS',$event->getAgenda()->getGroupId()) || $canSee)) {
-            return $this->view('', Codes::HTTP_FORBIDDEN);
+        switch ($event->getType()) {
+            case AgendaEventPeer::TYPE_PUNCTUAL:
+                if (!$this->get('bns.right_manager')->hasRight('CALENDAR_ACCESS',$event->getAgenda()->getGroupId()) &&
+                    !in_array($this->getCurrentUserId(), $event->getAgenda()->getEditors()->getPrimaryKeys()) && ($event->getAgenda()->getUserId() ==! $this->getCurrentUserId())
+                ) {
+                    return $this->view('', Codes::HTTP_FORBIDDEN);
+                }
+                break;
+            case AgendaEventPeer::TYPE_DISCIPLINE:
+                if (!$this->get('bns.right_manager')->hasRight('CALENDAR_ADMINISTRATION',$event->getAgendaSubject()->getGroupId())) {
+                    return $this->view('', Codes::HTTP_FORBIDDEN);
+                }
+                break;
+            case AgendaEventPeer::TYPE_RESERVATION:
+                if (!$this->get('bns.right_manager')->hasRight('CALENDAR_ADMINISTRATION',$event->getAgendaObject()->getGroupId())) {
+                    return $this->view('', Codes::HTTP_FORBIDDEN);
+                }
+                break;
         }
-
         return $event;
     }
 
@@ -137,11 +152,14 @@ class EventApiController extends BaseApiController
      */
     public function postAction(Request $request)
     {
+        if (!$this->hasFeature('calendar_create')) {
+            throw $this->createAccessDeniedException();
+        }
         $rightManager = $this->get('bns.right_manager');
         $mediaManager = $this->get('bns.media.manager');
         $statsCalendar = $this->get("stat.calendar");
-        $agendas = $this->get('bns.calendar_manager')->getAgendasFromGroupIds(
-            $rightManager->getGroupIdsWherePermission('CALENDAR_ACCESS_BACK')
+        $agendas = $this->get('bns.calendar_manager')->getAgendasFromGroupIdsAndUser(
+            $rightManager->getGroupIdsWherePermission('CALENDAR_ADMINISTRATION'), $this->getCurrentUserId()
         );
 
         $agendaEvent = new AgendaEvent();
@@ -193,19 +211,40 @@ class EventApiController extends BaseApiController
      */
     public function patchAction($id, Request $request)
     {
+        if (!$this->hasFeature('calendar_create')) {
+            throw $this->createAccessDeniedException();
+        }
         $agendaEvent = $this->get('bns.calendar_manager')->getEventById($id);
-        if (!$this->get('bns.right_manager')->hasRight('CALENDAR_ACCESS_BACK',$agendaEvent->getAgenda()->getGroupId())) {
-            return $this->view('', Codes::HTTP_FORBIDDEN);
+        switch ($agendaEvent->getType()) {
+            case AgendaEventPeer::TYPE_PUNCTUAL:
+                if (!$this->get('bns.right_manager')->hasRight('CALENDAR_ACCESS',$agendaEvent->getAgenda()->getGroupId()) &&
+                    !in_array($this->getCurrentUserId(), $agendaEvent->getAgenda()->getEditors()->getPrimaryKeys() && ($agendaEvent->getAgenda()->getUserId() ==! $this->getCurrentUserId()))
+                ) {
+                    return $this->view('', Codes::HTTP_FORBIDDEN);
+                }
+                break;
+            case AgendaEventPeer::TYPE_DISCIPLINE:
+                if (!$this->get('bns.right_manager')->hasRight('CALENDAR_ADMINISTRATION',$agendaEvent->getAgendaSubject()->getGroupId()) || !$this->hasFeature('calendar_sdet_discipline')) {
+                    return $this->view('', Codes::HTTP_FORBIDDEN);
+                }
+                break;
+            case AgendaEventPeer::TYPE_RESERVATION:
+                if (!$this->get('bns.right_manager')->hasRight('CALENDAR_ADMINISTRATION',$agendaEvent->getAgendaObject()->getGroupId()) || !$this->hasFeature('calendar_sdet_discipline')) {
+                    return $this->view('', Codes::HTTP_FORBIDDEN);
+                }
+                break;
         }
 
         $rightManager = $this->get('bns.right_manager');
         $mediaManager = $this->get('bns.media.manager');
-        $agendas = $this->get('bns.calendar_manager')->getAgendasFromGroupIds(
-            $rightManager->getGroupIdsWherePermission('CALENDAR_ACCESS_BACK')
+        $agendas = $this->get('bns.calendar_manager')->getAgendasFromGroupIdsAndUser(
+            $rightManager->getGroupIdsWherePermission('CALENDAR_ADMINISTRATION'), $this->getCurrentUserId()
         );
 
         $data = json_decode($request->getContent(), true);
-        $agendaEvent->setAgendaId($data['agendaId']);
+        if ($agendaEvent->getType() === AgendaEventPeer::TYPE_PUNCTUAL) {
+            $agendaEvent->setAgendaId($data['agendaId']);
+        }
 
         return $this->restForm(
             new CalendarEventType($agendas, $rightManager->getLocale()),
@@ -246,10 +285,19 @@ class EventApiController extends BaseApiController
      */
     public function deleteAction($id)
     {
+        if (!$this->hasFeature('calendar_create')) {
+            throw $this->createAccessDeniedException();
+        }
         $calendarManager = $this->get('bns.calendar_manager');
         $event = $calendarManager->getEventById($id);
         $rm = $this->get('bns.right_manager');
-        $rm->forbidIf(!$rm->hasRight('CALENDAR_ACCESS_BACK',$event->getAgenda()->getGroupId()));
+        if ($event->getType() === AgendaEventPeer::TYPE_PUNCTUAL) {
+            $rm->forbidIf(!$rm->hasRight('CALENDAR_ADMINISTRATION',$event->getAgenda()->getGroupId()) &&
+                !in_array($this->getCurrentUserId(), $event->getAgenda()->getEditors()->getPrimaryKeys()) && ($event->getAgenda()->getUserId() ==! $this->getCurrentUserId()));
+        } else {
+            $rm->forbidIf(!$rm->hasRight('CALENDAR_ADMINISTRATION',$event->getAgendaSubject()->getGroupId()));
+
+        }
 
         $event->delete();
 

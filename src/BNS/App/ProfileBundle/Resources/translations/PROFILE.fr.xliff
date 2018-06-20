@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-06-21T10:07:12Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2018-03-01T18:03:49Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -10,12 +10,20 @@
         <source>ACCOUNTS_MERGED</source>
         <target>Les comptes suivants ont été fusionnés avec succès : </target>
       </trans-unit>
+      <trans-unit id="f4117223726361342d2ce2107c544c8059462d3d" resname="ADDRESS">
+        <source>ADDRESS</source>
+        <target>Adresse</target>
+      </trans-unit>
       <trans-unit id="503e3e795264d4c36d9fc5f1d64dd25fb5466b23" resname="ADULT_CLICK_NO_STATUS_LINK">
         <source>ADULT_CLICK_NO_STATUS_LINK</source>
         <target>Comme c'est dommage, vous n'avez pas encore de statuts, vous pouvez en créer un en cliquant sur %linkStart%ce lien%linkEnd%.</target>
         <note><![CDATA[%linkStart% is a placeholder
 %linkEnd% is a placeholder
 ]]></note>
+      </trans-unit>
+      <trans-unit id="55b590ad9dcdb44c0c952a39011000fcb688e53c" resname="ADULT_FIRST_CONNECTION">
+        <source>ADULT_FIRST_CONNECTION</source>
+        <target>Il s’agit de votre première connexion.</target>
       </trans-unit>
       <trans-unit id="a26f3fc87431e2f3089c8a2337578e69b3d05a4e" resname="ADULT_NO_STATUS">
         <source>ADULT_NO_STATUS</source>
@@ -43,7 +51,7 @@
       </trans-unit>
       <trans-unit id="7f2b0de55d9ceaa6bd79bb39198a13f1ffaa7ab8" resname="BACK_TO_PUPIL_CARD">
         <source>BACK_TO_PUPIL_CARD</source>
-        <target><![CDATA[Retourner à |la fiche élève]]></target>
+        <target>Retourner à |la fiche élève</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
       </trans-unit>
       <trans-unit id="152621f8e06e4b2e27eaba2e17e56906185a739a" resname="BORN_MAN">
@@ -75,6 +83,10 @@
         <target>Comme c'est dommage, tu n'as pas encore de statuts, tu peux en créer un en cliquant sur %linkStart%ce lien%linkEnd%.</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
+      </trans-unit>
+      <trans-unit id="15102b4b95c40a9601ee6340b46487883bdd766d" resname="CHILD_FIRST_CONNECTION">
+        <source>CHILD_FIRST_CONNECTION</source>
+        <target>Il s’agit de ta première connexion.</target>
       </trans-unit>
       <trans-unit id="44d9850aa31719dca1417fa0c5e2140594cb899a" resname="CHILD_NO_STATUS">
         <source>CHILD_NO_STATUS</source>
@@ -140,6 +152,10 @@ This text contains HTML tags, please try to keep those tags]]></note>
         <source>EMAIL_ALREADY_USED</source>
         <target>L'adresse e-mail renseignée est déjà utilisée, veuillez en renseigner une nouvelle</target>
       </trans-unit>
+      <trans-unit id="8e060eb6eaadb257b5b7d6e6b43b2f87078ef823" resname="EMAIL_NOT_SEEN_BY_PUPILS">
+        <source>EMAIL_NOT_SEEN_BY_PUPILS</source>
+        <target>Cette adresse e-mail ne sera pas visible par vos élèves</target>
+      </trans-unit>
       <trans-unit id="273371aa5f9a352ca8212b0a8f13b2a7bcc4d71f" resname="EMAIL_SECONDARY">
         <source>EMAIL_SECONDARY</source>
         <target>Adresse e-mail secondaire</target>
@@ -156,9 +172,41 @@ This text contains HTML tags, please try to keep those tags]]></note>
         <source>ENTER_PASSWORD</source>
         <target>Saisissez le mot de passe</target>
       </trans-unit>
+      <trans-unit id="2a8db36fe76bbdf9d7afb6684a557b8fe8030324" resname="ERROR_INVALID_CREDENTIAL">
+        <source>ERROR_INVALID_CREDENTIAL</source>
+        <target state="new">La combinaison identifiant/mot de passe est incorrecte.</target>
+      </trans-unit>
+      <trans-unit id="a2687af89abb6abf8d07747537a5ddc681db7b5b" resname="ERROR_INVALID_USER_FOR_MERGE">
+        <source>ERROR_INVALID_USER_FOR_MERGE</source>
+        <target state="new">Vous ne pouvez pas fusionner ces comptes.</target>
+      </trans-unit>
+      <trans-unit id="c283ff92d3dd332c32ea3fc7788e5acb0ddd0f5d" resname="ERROR_SAME_USER_FOR_MERGE">
+        <source>ERROR_SAME_USER_FOR_MERGE</source>
+        <target state="new">Vous ne pouvez pas fusionner votre compte dans lui-même.</target>
+      </trans-unit>
+      <trans-unit id="adc4b9d940c1f1a9ed66806a6ae9c90735779a9c" resname="EXPORT_CARD">
+        <source>EXPORT_CARD</source>
+        <target state="new">Exporter la carte | de l'utilisateur</target>
+      </trans-unit>
       <trans-unit id="149800edd9f1799af3ed10e69d305c8079160d55" resname="FILTER_BY_STATE">
         <source>FILTER_BY_STATE</source>
         <target>Filtre par état</target>
+      </trans-unit>
+      <trans-unit id="ed1a468c718f5a770a275bd5eb985b759821a775" resname="FLASH_STATUS_MODERATION_CLOSE">
+        <source>Modération des status fermée</source>
+        <target state="new">Modération des status fermée</target>
+      </trans-unit>
+      <trans-unit id="e9404264b3083739972cc7070c6457e27de53f43" resname="FLASH_STATUS_MODERATION_OPEN">
+        <source>Modération des status ouverte</source>
+        <target state="new">Modération des status ouverte</target>
+      </trans-unit>
+      <trans-unit id="20834d116d8993a46a178f70edab21a4c86b582d" resname="FLASH_SUPPORT_CLOSE">
+        <source>L'assistance a bien été désactivée.</source>
+        <target state="new">L'assistance a bien été désactivée.</target>
+      </trans-unit>
+      <trans-unit id="c26ceb5ad17bcbbdb4b97a6e8d9734085f954fbc" resname="FLASH_SUPPORT_OPEN">
+        <source>L'assistance a bien été activée.</source>
+        <target state="new">L'assistance a bien été activée.</target>
       </trans-unit>
       <trans-unit id="0270ca97abe5bddc53ed95fb7179da4406621a18" resname="INTRODUCTION">
         <source>INTRODUCTION</source>
@@ -181,6 +229,16 @@ This text contains HTML tags, please try to keep those tags]]></note>
       <trans-unit id="da5d49d96150cc1ace0b11789756c6fa1f5d00f4" resname="LABEL_MAN">
         <source>LABEL_MAN</source>
         <target>Homme</target>
+      </trans-unit>
+      <trans-unit id="3cb8b7e91d455e76dd9eee44ee129b112f73c8ac" resname="LABEL_MERGE_EMAIL_OPTION">
+        <source>LABEL_MERGE_EMAIL_OPTION</source>
+        <target state="new">Utiliser l'adresse email "%email%" pour le compte fusionné.</target>
+        <note><![CDATA[%email% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="49d84b447b9274390ff016efa977861f94096bce" resname="LABEL_MERGE_END_NOTIFICATION">
+        <source>LABEL_MERGE_END_NOTIFICATION</source>
+        <target state="new">Recevoir une notification une fois la fusion terminée.</target>
       </trans-unit>
       <trans-unit id="b70d1b7014ac239409bfa6c4da13f3c9a6b43218" resname="LABEL_TYPE_CLASSROOM">
         <source>LABEL_TYPE_CLASSROOM</source>
@@ -221,6 +279,10 @@ This text contains HTML tags, please try to keep those tags
         <source>LATER_WANT_BECOME</source>
         <target>Plus tard je voudrais devenir</target>
       </trans-unit>
+      <trans-unit id="04fe717f33599293472292a5bdebb953c4d7ab15" resname="LINK_ASSISTANCE">
+        <source>LINK_ASSISTANCE</source>
+        <target>Gestion de l'assistance</target>
+      </trans-unit>
       <trans-unit id="2b296c4c3161c9e0139fe8876fd182a62f08a9d0" resname="LINK_BACK_HOME">
         <source>LINK_BACK_HOME</source>
         <target><![CDATA[ <strong>Retourner à</strong><br />l'accueil]]></target>
@@ -228,17 +290,17 @@ This text contains HTML tags, please try to keep those tags
       </trans-unit>
       <trans-unit id="d8be7dd02f85a983a8d9ac68de97a3624ae6e657" resname="LINK_BACK_TO_LIST">
         <source>LINK_BACK_TO_LIST</source>
-        <target><![CDATA[Retourner à la liste]]></target>
+        <target>Retourner à la liste</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
       </trans-unit>
       <trans-unit id="362e4d13cd082730c9e86071260ac4767d666ead" resname="LINK_BACK_TO_MODERATION">
         <source>LINK_BACK_TO_MODERATION</source>
-        <target><![CDATA[Retourner à la modération]]></target>
+        <target>Retourner à la modération</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
       </trans-unit>
       <trans-unit id="05a99e1d76fddc20d04fbcabc1f9fe92cecda2e0" resname="LINK_BACK_TO_STATUS">
         <source>LINK_BACK_TO_STATUS</source>
-        <target><![CDATA[Retourner aux statuts]]></target>
+        <target>Retourner aux statuts</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
       </trans-unit>
       <trans-unit id="1f8524949b59bf473e5b31304582c62cb6d54e28" resname="LINK_CANCEL">
@@ -247,12 +309,12 @@ This text contains HTML tags, please try to keep those tags
       </trans-unit>
       <trans-unit id="f08cf428a9439eb004afd4d82cc4c3f96f552728" resname="LINK_CANCEL_MERGE">
         <source>LINK_CANCEL_MERGE</source>
-        <target><![CDATA[Annuler|la fusion]]></target>
+        <target>Annuler|la fusion</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
       </trans-unit>
       <trans-unit id="2b8d3f6bcc98097f3c8e1e40e7f27930c6a4cbf3" resname="LINK_CANCEL_MODIFICATION">
         <source>LINK_CANCEL_MODIFICATION</source>
-        <target><![CDATA[Annuler|les modifications]]></target>
+        <target>Annuler|les modifications</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
       </trans-unit>
       <trans-unit id="c6bfec0e7fee508cb4426dcbd13842dd5c0cb157" resname="LINK_COMMENTS">
@@ -277,7 +339,7 @@ This text contains HTML tags, please try to keep those tags
       </trans-unit>
       <trans-unit id="fdbff0ddd23fcc9bb8cf573ec7c8e7128e3db904" resname="LINK_DELETE_STATUS">
         <source>LINK_DELETE_STATUS</source>
-        <target state="new"><![CDATA[Supprimer | le statut]]></target>
+        <target state="new">Supprimer | le statut</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
       </trans-unit>
       <trans-unit id="07935fdfa5a2208ed7a0ae00b8c81d21cd559ed0" resname="LINK_DENY">
@@ -290,7 +352,7 @@ This text contains HTML tags, please try to keep those tags
       </trans-unit>
       <trans-unit id="6d94a6313f29eb944ad073d3e7c2b55beb9182af" resname="LINK_EDIT_STATUS">
         <source>LINK_EDIT_STATUS</source>
-        <target><![CDATA[Éditer le | statut]]></target>
+        <target>Éditer le | statut</target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
       </trans-unit>
       <trans-unit id="92fd8850e8cd4be64d42c6399e60c3f9febc2da3" resname="LINK_GO_TO_MODERATION">
@@ -343,7 +405,7 @@ This text contains HTML tags, please try to keep those tags
       </trans-unit>
       <trans-unit id="ac200477463a14d05bd9cf71649848a18df5cf3a" resname="LINK_SEE_STATUS">
         <source>LINK_SEE_STATUS</source>
-        <target state="new"><![CDATA[Voir | le statut ]]></target>
+        <target state="new">Voir | le statut </target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags]]></note>
       </trans-unit>
       <trans-unit id="a14278cb0829b68ef98a2a6f41a1fee8ccd337a1" resname="LINK_STATUS_DENY">
@@ -382,9 +444,21 @@ This text contains HTML tags, please try to keep those tags
         <source>MERGE_ACCOUNT</source>
         <target>Fusion de compte</target>
       </trans-unit>
+      <trans-unit id="7bb28758471489493b9a6a288ab5c746db6672d6" resname="MERGE_ACCOUNT_FAIL">
+        <source>MERGE_ACCOUNT_FAIL</source>
+        <target state="new">Une erreur est surevenu lors de la fusion. Vous pouvez réessayer ou contacter le support.</target>
+      </trans-unit>
+      <trans-unit id="4eb65070e10877e9c8de81114f009b74072fa505" resname="MERGE_ACCOUNT_TO_TREAT">
+        <source>MERGE_ACCOUNT_TO_TREAT</source>
+        <target state="new">La fusion de vos comptes a été lancée.</target>
+      </trans-unit>
       <trans-unit id="83f95aecc8217a8a2fd39db9d21bb5351cef0d4d" resname="MERGE_IN_PROGRESS">
         <source>MERGE_IN_PROGRESS</source>
         <target>Fusion en cours...</target>
+      </trans-unit>
+      <trans-unit id="bb3f40d00d00f928509d70382d9915730496a011" resname="MORE_INFORMATIONS">
+        <source>MORE_INFORMATIONS</source>
+        <target>Plus d'informations</target>
       </trans-unit>
       <trans-unit id="d85de8af6c949113a292cbaba5dd69a34fb21e00" resname="MY_AGE_AND_BIRTHDAY">
         <source><![CDATA[J'ai <strong> %userAge% ans</strong> et mon anniversaire est le %userBirthday% </strong>.]]></source>
@@ -397,8 +471,8 @@ This text contains HTML tags, please try to keep those tags
       <trans-unit id="d28da652ac6685f035666067864e5930276f1b34" resname="MY_CLASSROOM">
         <source>MY_CLASSROOM</source>
         <target state="new">{1} Ma classe|]1,Inf[ Mes classes</target>
-        <note>This text has plural translations based on %count% variable
-        http://symfony.com/doc/current/components/translation/usage.html#pluralization</note>
+        <note><![CDATA[This text has plural translations based on %count% variable
+http://symfony.com/doc/current/components/translation/usage.html#pluralization]]></note>
       </trans-unit>
       <trans-unit id="fc312ab58debc9d5553a85282431a240ab80b2b3" resname="MY_PROFILE">
         <source>MY_PROFILE</source>
@@ -407,6 +481,13 @@ This text contains HTML tags, please try to keep those tags
       <trans-unit id="f34e17e43b4e3760c9df63af28c3a383e7a4ba4c" resname="NEW_STATUS">
         <source>NEW_STATUS</source>
         <target>Nouveau statut</target>
+      </trans-unit>
+      <trans-unit id="0abb23c32a63092e917b38828d4350b21111c423" resname="NOTIFICATIONS_LINK">
+        <source><![CDATA[<strong>Le saviez-vous:</strong> une fois votre e-mail renseigné, vous pouvez personnaliser les <strong>%linkStart% notifications%linkEnd%</strong>.]]></source>
+        <target state="new"><![CDATA[<strong>Le saviez-vous:</strong> une fois votre e-mail renseigné, vous pouvez personnaliser les <strong> %linkStart%notifications%linkEnd%</strong>.]]></target>
+        <note><![CDATA[%linkEnd% is a placeholder
+This text contains HTML tags, please try to keep those tags
+]]></note>
       </trans-unit>
       <trans-unit id="414e82f421b6a4a59c93c980aaa7a7917089f708" resname="NO_CHOOSE_YET">
         <source>NO_CHOOSE_YET</source>
@@ -453,6 +534,14 @@ This text contains HTML tags, please try to keep those tags
         <source>OF</source>
         <target>de</target>
       </trans-unit>
+      <trans-unit id="9da72239ddeee345a6b025c468d9817c49cae014" resname="ORGANIZATION">
+        <source>ORGANIZATION</source>
+        <target>Structure</target>
+      </trans-unit>
+      <trans-unit id="34139ab68d7ab605434d283cfe7aa68bc9e30f0f" resname="PHONE">
+        <source>PHONE</source>
+        <target>N° de téléphone</target>
+      </trans-unit>
       <trans-unit id="388f26bd2d0a5a1f16342d0b5f4c3691d3f76ea1" resname="PLACEHOLDER_ADD_I_DONT_LIKE">
         <source>PLACEHOLDER_ADD_I_DONT_LIKE</source>
         <target>Ajouter un nouveau Je n'aime pas</target>
@@ -474,6 +563,32 @@ This text contains HTML tags, please try to keep those tags
         <target state="new">Posté %datePost%</target>
         <note><![CDATA[%datePost% is a placeholder
 ]]></note>
+      </trans-unit>
+      <trans-unit id="794638b4c8be5513ab3342b8207759d914fab17e" resname="PREVIOUS_CONNECTION">
+        <source>PREVIOUS_CONNECTION</source>
+        <target>Dernière connexion le %date% à %time%.</target>
+        <note><![CDATA[%date% is a placeholder
+%time% is a placeholder
+]]></note>
+      </trans-unit>
+      <trans-unit id="cb915dd89ecc580d10186acffea1fa5f4ae15e93" resname="PROFILE_ASSISTANCE_AUTH">
+        <source>PROFILE_ASSISTANCE_AUTH</source>
+        <target>J'autorise mon référent numérique à me porter assistance</target>
+      </trans-unit>
+      <trans-unit id="b637ad556c5df1b96082ea1651553ea1e6ea8662" resname="PROFILE_ASSISTANCE_PARAGRAPH">
+        <source>PROFILE_ASSISTANCE_PARAGRAPH</source>
+        <target>Vous allez autoriser votre référent numérique à prendre la main sur votre compte. Lorsque vous aurez accepté cette prise en main, celui-ci aura les mêmes droits que vous sur votre espace classe. À tout moment vous pouvez révoquer cette autorisation en passant le bouton au rouge.
+        </target>
+      </trans-unit>
+      <trans-unit id="03409490aaf7307d83c5acaae5a935dca01b72d5" resname="PROFILE_ASSISTANCE_YOUR_ASSISTANTS">
+        <source>PROFILE_ASSISTANCE_YOUR_ASSISTANTS</source>
+        <target>{0} Vous n'avez pas de référent numérique|{1} Mon référent numérique est :|]1,Inf[Mes référents numériques sont :</target>
+        <note><![CDATA[This text has plural translations based on %count% variable
+http://symfony.com/doc/current/components/translation/usage.html#pluralization]]></note>
+      </trans-unit>
+      <trans-unit id="d320457c3fddd119c6ea71becda4b7c90bf3b6a9" resname="PUBLIC_DATA">
+        <source>PUBLIC_DATA</source>
+        <target>Rendre ces données publiques</target>
       </trans-unit>
       <trans-unit id="3a73add8cc824c05ffb1b7c0714a28b411fd0f9d" resname="SEND_AT">
         <source>Envoyé %date%</source>
@@ -548,7 +663,7 @@ This text contains HTML tags, please try to keep those tags]]></note>
       </trans-unit>
       <trans-unit id="d5e46f565d742fd1df122cb30bd66bf5f5993415" resname="TITLE_DELETE_STATUS">
         <source>TITLE_DELETE_STATUS</source>
-        <target><![CDATA[Suppression d'un statut]]></target>
+        <target>Suppression d'un statut</target>
       </trans-unit>
       <trans-unit id="efcc33b225cdc35cbcd9ea9bef3385a9d0ecf1ec" resname="TITLE_EDIT_PROFILE">
         <source>TITLE_EDIT_PROFILE</source>
@@ -593,6 +708,10 @@ This text contains HTML tags, please try to keep those tags]]></note>
       <trans-unit id="5f0e26c75ea32193f0355e66362bf6cbce2fc3c1" resname="TITLE_PROFILE">
         <source>TITLE_PROFILE</source>
         <target state="new">Profil</target>
+      </trans-unit>
+      <trans-unit id="0e697620ca529ee03ab3f78c664c15c82d881648" resname="TITLE_PROFILE_ASSISTANCE">
+        <source>TITLE_PROFILE_ASSISTANCE</source>
+        <target>Profil - Assistance</target>
       </trans-unit>
       <trans-unit id="23ce2dfb02a8d136502e469b2a319c1e89c06afa" resname="TITLE_PROFILE_BACK">
         <source>TITLE_PROFILE_BACK</source>

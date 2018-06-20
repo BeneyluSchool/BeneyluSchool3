@@ -1,0 +1,16 @@
+<input type="hidden" id="media_id" ng-value="ctrl.media.id">
+
+<div class="layout-row layout-align-start-center layout-wrap">
+  <md-button class="md-raised media-selection flex flex-none" data-final-id="media_id" data-allowed-type="{{ ctrl.type | uppercase }}" data-selection-label="{{ctrl.selectionLabel}}">
+    <bns-icon>media-library</bns-icon>
+    <span>{{::ctrl.label||'MAIN.OPEN_MEDIA_LIBRARY'|translate}}</span>
+  </md-button>
+
+  <div ng-if="ctrl.media" class="media-image layout-row layout-align-start-center">
+    <bns-media-preview media="ctrl.media" size="{{ctrl.size}}" lightweight="true" class="md-whiteframe-z1 layout-margin flex flex-none"></bns-media-preview>
+    <p class="md-body-2 text-ellipsis">{{ctrl.media.label}}</p>
+    <md-button ng-click="ctrl.remove()" class="md-icon-button flex flex-none">
+      <md-icon>clear</md-icon>
+    </md-button>
+  </div>
+</div>

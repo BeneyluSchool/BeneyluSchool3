@@ -15,6 +15,9 @@ web/js/*
 # On ne versionne pas le FOS JS Routing
 web/medias/js/fos_js_routes.js
 
+web/medias/file/entecole/*
+!web/medias/file/entecole/.gitkeep
+
 # images optimisees
 web/images/*
 
@@ -46,6 +49,8 @@ composer.phar
 # bin/** - disabled because vendors & build_boostrap will not be commited
 bin/propel-gen
 bin/propel-gen.bat
+bin/phpunit*
+bin/php-parse*
 tmp/**
 tmp/**/*
 *.tmp
@@ -67,6 +72,9 @@ nbproject/*
 
 # Sublime Text
 *.sublime-*
+
+# Atom
+.atomignore
 
 # External tool builders
 .externalToolBuilders/
@@ -93,6 +101,8 @@ app/propel/sql
 #Commandes perso
 rjs
 ass
+.jsrouting
+.trad
 
 # GIT
 *.orig
@@ -122,3 +132,7 @@ npm-debug.log
 
 # Translations MTP
 /app/Resources/translations/*.xliff
+
+# tests
+/code_coverage/
+/web/code_coverage/

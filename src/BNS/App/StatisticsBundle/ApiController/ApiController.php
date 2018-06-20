@@ -3,9 +3,13 @@ namespace BNS\App\StatisticsBundle\ApiController;
 
 use BNS\App\CoreBundle\Annotation\RightsSomeWhere;
 use BNS\App\CoreBundle\Controller\BaseApiController;
+use BNS\App\CoreBundle\Model\Group;
+use BNS\App\CoreBundle\Model\GroupQuery;
+use BNS\App\CoreBundle\Model\GroupTypeQuery;
 use BNS\App\CoreBundle\Model\User;
 use BNS\App\StatisticsBundle\Form\Type\StatisticFilterType;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,16 +55,18 @@ class ApiController extends BaseApiController
      *  }
      * )
      *
-     * @Rest\Get("/filters/groups")
-     * @Rest\View(serializerGroups={"list","groupUAI"})
+     * @Rest\Get("/filters/groups/{groupId}")
+     * @Rest\View(serializerGroups={"list","groupUAI", "statistic_group"})
      *
      * @RightsSomeWhere("STATISTICS_ACCESS")
      */
-    public function getFiltersGroupsAction()
+    public function getFiltersGroupsAction($groupId = null)
     {
-        $groups =  $this->get('bns.statistic_manager')->getGroups($this->getUser());
+        if ($groupId) {
+            $groupId = (int) $groupId;
+        }
 
-        return $groups;
+        return  $this->get('bns.statistic_manager')->getGroups($this->getUser(), $groupId);
     }
 
 
@@ -79,26 +85,25 @@ class ApiController extends BaseApiController
      *  }
      * )
      *
-     * @Rest\Post("/{statistic}/graphs/{graph}")
+     * @Rest\Post("/{statistic}/graphs/{groupId}/{graph}")
      * @Rest\View(serializerGroups={"list"})
      *
      * @RightsSomeWhere("STATISTICS_ACCESS")
      */
-    public function postGraphsAction(Request $request, $statistic, $graph)
+    public function postGraphsAction(Request $request, $statistic, $groupId, $graph)
     {
         $user = $this->getUser();
         $statManager = $this->get('bns.statistic_manager');
-        $groups = $statManager->getGroups($user);
-
+        $groups = $statManager->getGroupIds($user, $groupId);
         $filterData = array(
             'start'  => new \DateTime('@' . strtotime('-1 month')),
             'end'    => new \DateTime('now'),
-            'groups' => $groups->getArrayCopy(),
+            'groupIds' => $groups,
         );
 
         $form = $this->container->get('form.factory')
             ->createNamedBuilder('', new StatisticFilterType(), $filterData, array(
-                'groups' => $groups->getArrayCopy(),
+                'groupIds' => $groups,
                 'csrf_protection' => false
             ))
             ->getForm()
@@ -122,26 +127,25 @@ class ApiController extends BaseApiController
      *  }
      * )
      *
-     * @Rest\Post("/{statistic}/tables")
+     * @Rest\Post("/{statistic}/{groupId}/tables")
      * @Rest\View(serializerGroups={"list"})
      *
      * @RightsSomeWhere("STATISTICS_ACCESS")
      */
-    public function postTablesAction(Request $request, $statistic)
+    public function postTablesAction(Request $request, $statistic, $groupId)
     {
         $user = $this->getUser();
         $statManager = $this->get('bns.statistic_manager');
-        $groups = $statManager->getGroups($user);
-
+        $groups = $statManager->getGroupIds($user, $groupId);
         $filterData = array(
             'start'  => new \DateTime('@' . strtotime('-1 month')),
             'end'    => new \DateTime('now'),
-            'groups' => $groups->getArrayCopy(),
+            'groupIds' => $groups,
         );
 
         $form = $this->container->get('form.factory')
             ->createNamedBuilder('', new StatisticFilterType(), $filterData, array(
-                'groups' => $groups->getArrayCopy(),
+                'groupIds' => $groups,
                 'csrf_protection' => false
             ))
             ->getForm()
@@ -173,17 +177,17 @@ class ApiController extends BaseApiController
     {
         $user = $this->getUser();
         $statManager = $this->get('bns.statistic_manager');
-        $groups = $statManager->getGroups($user);
+        $groups = $statManager->getGroupIds($user);
 
         $filterData = array(
             'start'  => new \DateTime('@' . strtotime('-1 month')),
             'end'    => new \DateTime('now'),
-            'groups' => $groups->getArrayCopy(),
+            'groupIds' => $groups,
         );
 
         $form = $this->container->get('form.factory')
             ->createNamedBuilder('', new StatisticFilterType(), $filterData, array(
-                'groups' => $groups->getArrayCopy(),
+                'groupIds' => $groups,
                 'csrf_protection' => false
             ))
             ->getForm()
@@ -193,8 +197,8 @@ class ApiController extends BaseApiController
             $filterData = $form->getData();
         }
 
-        $unDuplicateGroups = $statManager->unDublipcateGroups($filterData['groups']);
-        $filterData['groups'] = $unDuplicateGroups['groups'];
+        $unDuplicateGroups = $statManager->unDublipcateGroups($filterData['groupIds']);
+        $filterData['groupIds'] = $unDuplicateGroups['groupIds'];
 
         $datas = $this->get('bns_group.activation_statistics')->getTableData($filterData);
 
@@ -203,6 +207,8 @@ class ApiController extends BaseApiController
             'activatedClassrooms' => 0,
             'classrooms'          => 0,
             'pupils'              => 0,
+            'schools'             => 0,
+            'activatedPupils'     => 0,
         );
 
         $totals = array_reduce($datas, function($totals, $items){
@@ -211,13 +217,14 @@ class ApiController extends BaseApiController
             $totals['activatedClassrooms'] += isset($item['activatedClassrooms']) ? $item['activatedClassrooms'] : 0;
             $totals['classrooms']          += isset($item['classrooms']) ? $item['classrooms'] : 0;
             $totals['pupils']              += isset($item['pupils']) ? $item['pupils'] : 0;
-
+            $totals['schools']              = isset($item['schools']) ? $item['schools'] : 0;
+            $totals['activatedPupils']      = isset($item['activatedPupils']) ? $item['activatedPupils']: 0;
             return $totals;
         }, $totals);
 
         return array(
             'totals' => $totals,
-            'groups' => $unDuplicateGroups['groups'],
+            'groups' => $unDuplicateGroups['groupIds'],
             'childGroups' => $unDuplicateGroups['childGroups'],
         );
     }
@@ -266,6 +273,35 @@ class ApiController extends BaseApiController
         return View::create('', Response::HTTP_BAD_REQUEST);
     }
 
+    /**
+     * @ApiDoc(
+     *  section="Statistiques",
+     *  resource = true,
+     *  description="Get number of users per school and classroom",
+     * )
+     *
+     * @Rest\Post("/ACTIVATIONS/{groupId}/activations")
+     * @Rest\View()
+     *
+     * @param int $groupId
+     * @return array
+     */
+    public function postActivationsAction($groupId)
+    {
+        /** @var Group $group */
+        $group = GroupQuery::create()
+            ->joinWith('GroupType')
+            ->findPk($groupId);
+
+        $this->checkActivityRights($group);
+
+        $userRoleIds = array(
+            "pupilRoleId" => GroupTypeQuery::create()->findOneByType('PUPIL')->getId(),
+            "parentRoleId" => GroupTypeQuery::create()->findOneByType('PARENT')->getId()
+        );
+
+        return $this->get('bns.group_manager')->getUsersConnectionByRole($group->getId(), $userRoleIds);
+    }
 
     /**
      * Liste des Modules angular qui peuvent compter les visites via l'api
@@ -281,6 +317,25 @@ class ApiController extends BaseApiController
             'SEARCH' => 'stat.search',
             'USER_DIRECTORY' => 'stat.user_directory',
             'WORKSHOP' => 'stat.workshop',
+            'CALENDAR' => 'stat.calendar',
+            'MINISITE' => 'stat.site',
+            'LUNCH' => 'stat.lunch',
         );
+    }
+
+    protected function checkActivityRights(Group $group)
+    {
+        $rights = $this->get('bns.user_manager')->getRights();
+
+        if (!$rights || !$group || !isset($rights[$group->getId()])) {
+            return View::create('', Codes::HTTP_NOT_FOUND);
+        }
+
+
+        if (!in_array($group->getType(), ['ENVIRONMENT', 'CITY', 'CIRCONSCRIPTION'])) {
+            return View::create('', Codes::HTTP_FORBIDDEN);
+        }
+
+        return true;
     }
 }

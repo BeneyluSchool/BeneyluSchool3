@@ -1,0 +1,16 @@
+BNS\App\LsuBundle\Model\om\BaseLsu:
+  exclusion_policy: All
+
+  properties:
+    id:
+      expose: true
+    validated:
+      expose: true
+    global_evaluation:
+      expose: true
+    accompanying_condition_other:
+      expose: true
+
+  virtual_properties:
+    getData:
+      expose: true

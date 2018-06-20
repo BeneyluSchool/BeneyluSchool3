@@ -20,7 +20,7 @@
       $('#add-user-modal .modal-footer').append("<p class='format'><img src='{{ asset('medias/images/icons/edit.png') }}'/>{{ 'LABEL_QUICK_TEXT_INPUT'|trans |raw}}</p>");
     });
 
-    $('#pupils').live('keypress', function(){
+    $('#pupils').live('keypress input', function(){
       if(!alreadyShown) {
         $('#add-user-modal .modal-footer').prepend('<a href="#" id="import" class="btn bns-success btn-16 small import"><span class="icons-16 refresh-icon"></span>{{ 'LINK_CHECK_INPUT'|trans }}</a>');
         alreadyShown = true;
@@ -50,6 +50,8 @@
     $(document).on('click','#import-validation',(function()
     {
       var liste = $('#pupils').val();
+      $('#loading-pupils-create').show();
+      $("#import-validation").attr("disabled", true);
       $.ajax({
         method: "POST",
         url: "{{ path('back_classroom_users_import_pupil_from_textarea_validation') }}",
@@ -57,11 +59,19 @@
       })
         .done(function(urlFromController) {
           window.location.href = urlFromController;
+          $('#loading-pupils-create').hide(); 
         });
     }));
 
   });
 </script>
+
+
+<div id="loading-pupils-create" class="loader loader-sb hide">
+  <div class="message">
+    {{ 'LOADING_PLEASE_WAIT'|trans |desc('Chargement en cours, veuillez patienter...') }}
+  </div>
+</div>
 
 <div class="create-user-form-container">
   {% for message in app.session.flashbag.get('success') %}

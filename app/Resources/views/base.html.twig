@@ -4,7 +4,7 @@
 {% import 'BNSAppMainBundle:Components:macros.html.twig' as components %}
 
 <!DOCTYPE html>
-<html class="{% block html_class %}{% endblock %}" {% block html_attr %}ng-controller="AppController as app"{% endblock %}>
+<html lang="{{ app.request.locale|replace('_', '-') }}" class="{% block html_class %}{% endblock %}" {% block html_attr %}ng-controller="AppController as app"{% endblock %}>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         {% set meta_title -%}
@@ -15,18 +15,27 @@
                 {{- 'WELCOME_BENEYLU'|trans({'%beneylu_brand_name%': parameter('beneylu_brand_name')}) -}}
             {%- endif -%}
         {%- endset %}
-        <title ng-bind="title || appTitle || '{{- block("title")|replace("'", "\'")|raw -}}'">
+        <title ng-bind-html="title || appTitle || '{{- block("title")|replace("'", "\'") -}}'">
             {% block title %}
                 {{- meta_title -}}
             {% endblock %}
         </title>
         <meta name="viewport" content="width=device-width,initial-scale=1" ng-attr-content="{% verbatim %}{{ 'width=device-width,initial-scale=1' + (disableZoom ? ' maximum-scale=1, user-scalable=no' : '') }}{% endverbatim %}">
         <meta name="description" content="{% block meta_description %}{% verbatim %}{{description}}{% endverbatim %}{% endblock %}">
+      {% if parameter('newrelic_licence') and parameter('newrelic_app_id') %}
+        <script type="text/javascript">
+          {% include "::newrelic.js.twig" %}
+        </script>
+      {% endif %}
+
         <link rel="shortcut icon" href="{{ asset(parameter('graphic_chart')['name'] is defined ? 'medias/images/main/graphic_chart/' ~ parameter('graphic_chart')['name'] ~ '/favicon.ico' : 'favicon.ico') }}" />
+        <link rel="manifest" href="{{ asset('medias/manifest/' ~ parameter('manifest') | default('beneylu.json')) }}" />
+
+        {% block base %}<base href="/ent/">{% endblock %}
 
         {# App-wide fonts
             Source Sans Pro, Open Sans: body fonts
-            Boogaloo, Jockey One, Bree Serif: heading fonts
+            Boogaloo, Jockey One, Bree Serif: heading fonts, competitions
             Bubblegum Sans, Architects Daughter, Ubuntu: legacy and old modules
             Gravitas One: advent calendar
             Amatic SC: breakfast tour
@@ -69,7 +78,7 @@
                 'medias/css/bootstrap.css'
                 'medias/css/guiders-1.2.8.css'
                 'medias/css/commons.css'
-                'medias/css/resource/player/mediaelementplayer.min.css' filter="?yui_css" output='css/base.css' %}
+                filter="?yui_css" output='css/base.css' %}
                 <link rel="stylesheet" href="{{ asset_url }}" />
             {% endstylesheets %}
             <link rel="stylesheet" href="{{ asset('angular/assets/styles/main.css') }}"/>
@@ -90,7 +99,6 @@
                 'medias/js/bootstrap/bootstrap-tooltip.js'
                 'medias/js/bootstrap/bootstrap-dropdown.js'
                 'medias/js/bootstrap/*'
-                'medias/js/resource/mediaelement-and-player.min.js'
                 'medias/js/resource/common.js'
                 'medias/js/front.js'
                 'medias/js/guiders-1.2.8.js'
@@ -121,6 +129,11 @@
                 window.bns_locale = '{{ app.request.locale }}';
                 window.bns_anonymous = {{ app.user ? 'false' : 'true' }};
                 window.bns_cerise = {{ hasCerise() ? ("'" ~ path('BNSAppSchoolBundle_back_cerise_login') ~ "'")|raw : "false" }};
+                window.bns_is_embed = {{ isEmbed is defined and isEmbed ? 'true': 'false' }}
+                window.bns_has_account_management = {{ parameter('bns.account.has_management') ? 'true' : 'false' }};
+                window.bns_has_plan_management = {{ parameter('bns.account.has_plans') ? 'true' : 'false' }};
+                window.bns_pay_url = '{{ bnsStoreLink('pay_url') }}';
+                window.bns_plans_url = '{{ bnsStoreLink('plans_url') }}';
 
                 {# Placeholder pour IE #}
                 $(function () { $('input[placeholder], textarea[placeholder]').placeholder(); });
@@ -130,18 +143,42 @@
 
                 {# js pour lecteur audio / video #}
                 $(function(){
+                    if (mejs) {
+                      mejs.i18n.language('{{ app.request.locale|replace('_', '-') }}');
+                    }
                     $('audio,video').mediaelementplayer({
-                    enableAutosize: false,
-                    plugins: ['flash','silverlight'],
-                    pluginPath: '/ent/medias/js/resource/',
-                    audioHeight: 30,
-                    flashName: 'flashmediaelement.swf',
-                    silverlightName: 'silverlightmediaelement.xap'
+                      enableAutosize: false,
+                      renderers: [ 'html5', 'native_hls', 'native_dash', 'flash_video', 'native_flv', 'flash_hls', 'flash_dash'],
+                      pluginPath: '{{ cdn_url }}/bower_components/mediaelement/build/',
+                      shimScriptAccess: 'always',
                 });
+
+                  //Alert for restricted school. 5 Month.
+                  $('.close-resticted-alert').click(function(){
+                    var d = new Date();
+                    d.setTime(d.getTime() + (152*24*60*60*1000));
+                    var expires = "expires="+d.toUTCString();
+                    document.cookie = 'hide-restricted-alert' + "=1; path=/; " + expires;
+                    $(this).closest('.restricted-school-alert').hide();
+                  });
                 });
+
+
             </script>
 
 
+            {% block analytics_identify %}
+                {% if is_authenticated() and parameter('analytics_enabled') %}
+                    {{ analyticsIdentify(app.user.getUser(), app.session) }}
+                {% endif %}
+            {% endblock analytics_identify %}
+
+            <!--[if lte IE 8]>
+                <script type="text/javascript" src="/js/vendors-ie8.js"></script>
+            <![endif]-->
+        {% endblock %}
+
+        {% block analytics_gaq %}
             {% if app.environment == 'app_prod' %}
                 {% if(not is_authenticated() or (is_authenticated() and app.user.login != 'test')) %}
                     {% if parameter('google_analytics_id') %}
@@ -174,22 +211,12 @@
                     {% endif %}
                 {% endif %}
             {% endif %}
-
-            {% block analytics_identify %}
-                {% if is_authenticated() and parameter('analytics_enabled') %}
-                    {{ analyticsIdentify(app.user.getUser(), app.session) }}
-                {% endif %}
-            {% endblock analytics_identify %}
-
-            <!--[if lte IE 8]>
-                <script type="text/javascript" src="/js/vendors-ie8.js"></script>
-            <![endif]-->
-        {% endblock %}
+        {% endblock analytics_gaq %}
 
     </head>
 
     {% set alert_message = parameter('alert_message') %}
-    {% set showAlert = app.session.has('bns.assistance_for') or (alert_message and alert_message[app.user.user.highRoleId] is defined) %}
+    {% set showAlert = app.session.has('bns.assistance_for') or (alert_message and alert_message[(app.user ? app.user.user.highRoleId : 'disconnected')] is defined) %}
 
     {# check if a flash message must be displayed #}
     {% set hasValidationAlert = parameter('flash_message') %}
@@ -203,7 +230,7 @@
         {% endset %}
     {% endif %}
 
-    <body class="{% block body_class %}{{ showAlert ? 'withAlert' : '' }}{{ hasValidationAlert ? ' has-validation-alert' }}{% endblock %}" {% block body_attr %}ng-class="{ touch: $mdMedia.hasTouch, 'navbar-shown': navbar.shown }"{% endblock %}>
+    <body class="{% block body_class %}{{ showAlert ? 'withAlert' : '' }}{{ hasValidationAlert ? ' has-validation-alert' }}{% endblock %}" {% block body_attr %}ng-class="{ touch: $mdMedia.hasTouch, 'navbar-shown': navbar.shown && !hideDockBar }"{% endblock %} {% if parameter('graphic_chart') != false -%}data-chart="{{ parameter('graphic_chart').name }}"{% endif %}>
 
 
         {% block alert %}
@@ -226,6 +253,21 @@
                     </div>
                 </div>
             {% endif %}
+
+          {% if is_authenticated() and app.session.get('restricted_end_date') and not app.request.cookies.has('hide-restricted-alert')%}
+            <div class="restricted-school-alert" style="min-height: 60px;">
+              <bns-inset ng-cloak class="bns-primary bns-small bns-no-character " style="background-color:#fff;position:fixed;z-index:22;width:100%;">
+                <div class="layout-row layout-align-start-center">
+                  <div class="flex text-center">
+                    {{ 'RESTRICTED_SCHOOL'|trans({'%date%': app.session.get('restricted_end_date') | date_bns('short', 'none') }) }}
+                  </div>
+                  <md-button class="md-icon-button close-resticted-alert">
+                    <md-icon>close</md-icon>
+                  </md-button>
+                </div>
+              </bns-inset>
+            </div>
+          {% endif %}
 
             {% if app.session.has('bns.assistance_for') %}
               <div class="validation-alert navbar-fixed-top navbar navbar-inverse navbar-fixed-top">
@@ -254,11 +296,11 @@
                         <div class="validation-alert navbar-fixed-top navbar navbar-inverse navbar-fixed-top">
                             <div class="top-container">
                                 <div class="">
-                                    <div class="alert-validation-info">
+                                    <div class="alert-validation-info" style="text-align: center; color: #3a87ad; background-color: #d9edf7; border-bottom: 1px solid #bce8f1; padding: 5px; margin-bottom: 0">
                                         <div class="container" style="">
                                             <span class="text-aqua">
                                                 <span class="h4">
-                                                    {{ alert_message[app.user.user.highRoleId] }}
+                                                    {{ alert_message[app.user.user.highRoleId] |trans([], 'MAIN') }}
                                                 </span>
                                             </span>
                                         </div>
@@ -271,11 +313,11 @@
                     <div class="validation-alert navbar-fixed-top navbar navbar-inverse navbar-fixed-top">
                         <div class="top-container">
                             <div class="">
-                                <div class="alert-validation-info">
+                                <div class="alert-validation-info" style="text-align: center; color: #3a87ad; background-color: #d9edf7; border-bottom: 1px solid #bce8f1; padding: 5px; margin-bottom: 0">
                                     <div class="container" style="">
                                         <span class="text-aqua">
                                             <span class="h4">
-                                                {{ alert_message['disconnected'] }}
+                                                {{ alert_message['disconnected'] |trans([], 'MAIN') }}
                                             </span>
                                         </span>
                                     </div>

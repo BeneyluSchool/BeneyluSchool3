@@ -2,6 +2,9 @@
 
 namespace BNS\App\CalendarBundle\Form\Type;
 
+use BNS\App\CoreBundle\Model\Agenda;
+use BNS\App\CoreBundle\Model\AgendaObjectQuery;
+use BNS\App\CoreBundle\Model\AgendaSubjectQuery;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -27,20 +30,44 @@ class CalendarEventType extends AbstractType
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
 		// Titre
-		$builder->add('title', 'text');
+		$builder->add('title', 'text', array('required' => false));
 
 		// Agenda concerné par l'événement
 		foreach ($this->myAgendas as $agenda) {
+		    /** @var Agenda $agenda */
 			$agendas[$agenda->getId()] = $agenda->getTitle();
+			$groupIds[] = $agenda->getGroupId();
 		}
 
 		$builder->add('agendaId', 'choice', array(
 			'choices' 	=> $agendas,
 			'expanded'	=> true,
-			'required' 	=> true,
+			'required' 	=> false,
 		));
 
-		$builder->add('timeStart', 'text', array(
+		$subjectIds =  AgendaSubjectQuery::create()->filterByGroupId($groupIds)->select('id')->find()->toArray();
+		foreach ($subjectIds as $subjectId) {
+		    $subjectChoice[$subjectId] = $subjectId;
+        }
+
+        $builder->add('subjectId', 'choice', array(
+            'choices' 	=> $subjectChoice,
+            'expanded'	=> true,
+            'required' 	=> false,
+        ));
+        $objectIds =  AgendaObjectQuery::create()->filterByGroupId($groupIds)->select('id')->find()->toArray();
+
+        foreach ($objectIds as $objectId) {
+            $objectChoice[$objectId] = $objectId;
+        }
+
+        $builder->add('objectId', 'choice', array(
+            'choices' 	=> $objectChoice,
+            'expanded'	=> true,
+            'required' 	=> false,
+        ));
+
+        $builder->add('timeStart', 'text', array(
 			'required'	=> false,
 		));
 
@@ -85,6 +112,12 @@ class CalendarEventType extends AbstractType
 			'empty_value'	=> 'LABEL_EMPTY_OCCURRENCE',
 			'empty_data'  	=> null
 		));
+
+		$builder->add('type', 'choice', array(
+		    'choices' => array('PUNCTUAL' => 0, 'DISCIPLINE' => 1, 'RESERVATION' => 2),
+            'required' => true,
+            'empty_data' => 'PUNCTUAL'
+        ));
 
 		// Nombre récurrence
 		$builder->add('recurringCount', 'text', array(

@@ -5,6 +5,7 @@ angular.module('bns.viewer.workshop.document.widgetRead', [
   'timer'
 ])
 
+
   /**
    * @ngdoc directive
    * @name bns.viewer.workshop.document.widget.bnsWorkshopDocumentWidgetRead
@@ -30,7 +31,7 @@ angular.module('bns.viewer.workshop.document.widgetRead', [
     };
   })
 
-  .controller('WorkshopDocumentWidgetReadController', function ($scope, $element, $attrs, $translate, $window, $timeout, url, workshopThemeStyler, WorkshopRestangular) {
+  .controller('WorkshopDocumentWidgetReadController', function ($scope, $element, $attrs, $translate, $window, $timeout, $state, url, workshopThemeStyler, Restangular) {
     var ctrl = this;
     var EMPTY_CLASS = 'workshop-widget-empty';
 
@@ -75,6 +76,10 @@ angular.module('bns.viewer.workshop.document.widgetRead', [
 
       var questionType = ['simple', 'closed', 'multiple', 'page-break', 'gap-fill-text'];
 
+      if ($attrs.hasOwnProperty('bnsWorkshopDocumentWidgetCompetition')) {
+        ctrl.isCompetition = true;
+      }
+
       if (questionType.indexOf(ctrl.widget.type) != -1) {
         if (!$attrs.hasOwnProperty('bnsWorkshopDocumentWidgetWrite')) {
           if (ctrl.widget.type == 'page-break') {
@@ -114,9 +119,10 @@ angular.module('bns.viewer.workshop.document.widgetRead', [
 
 
     function initResponse() {
+
       ctrl.myResponse = [];
       if (ctrl.widget.type == 'gap-fill-text') {
-        ctrl.myResponse = {};
+        ctrl.myResponse = null;
         ctrl.gapRetry = true;
       }
       if (ctrl.widget.type == 'closed') {
@@ -128,17 +134,52 @@ angular.module('bns.viewer.workshop.document.widgetRead', [
       ctrl.attempts = 0;
       ctrl.canRetry = true;
       ctrl.showClue = false;
+      ctrl.timeStopped = false;
       ctrl.correctAnswers = false;
+      ctrl.helpRevealed = false;
+
+      if (ctrl.isCompetition) {
+        ctrl.busyVerified = true;
+        Restangular.one('answers').one('get', ctrl.widget.id).get()
+          .then(function (data){
+            if (data.answer) {
+              ctrl.myResponse = data.answer;
+              verifyAnswer(true);
+            }
+          })
+          .catch(function() {
+
+          })
+          .finally(function () {
+            ctrl.verified = true;
+            ctrl.busyVerified  = false;
+          })
+      }
     }
 
-    function verifyAnswer() {
+    function verifyAnswer(competition) {
       var showSolution = false;
+      ctrl.busy = true;
       var data = ctrl.myResponse;
       if (!ctrl.widget._embedded.extended_settings.advanced_settings.hide_solution) {
         showSolution = true;
       }
-      WorkshopRestangular.one('questionnaire', ctrl.widget.id).one(ctrl.widget.type).all('verify').post({data: data, show_solution: showSolution})
+
+      var route = null;
+
+      if (ctrl.isCompetition && !competition) {
+        route = Restangular.all('answers').post({workshop_widget_id: ctrl.widget.id, answer: data})
+          .finally(function () {
+            $scope.$emit('questionnaire.check_score');
+          });
+        $scope.$emit('questionnaire.add_answer');
+      } else {
+        route = Restangular.one('workshop').one('questionnaire', ctrl.widget.id).one(ctrl.widget.type).all('verify').post({data: data, show_solution: showSolution});
+      }
+
+      route
         .then(function (result) {
+          ctrl.busy = false;
           ctrl.isCorrect = result.is_correct;
           ctrl.rightAnswers = result.right_answers;
           ctrl.attempts++;
@@ -150,12 +191,12 @@ angular.module('bns.viewer.workshop.document.widgetRead', [
 
           if (ctrl.widget.attempts_number > -1 || ctrl.widget.attempts_number) {
             ctrl.canRetry = true;
-            if (ctrl.widget.type == 'gap-fill-text') {
+            if (ctrl.widget.type === 'gap-fill-text') {
               ctrl.gapRetry = true;
             }
           }
 
-          if (result.is_correct == true) {
+          if (result.is_correct === true) {
             ctrl.resultMessage = 'WORKSHOP.QUESTIONNAIRE.CONGRATS';
             ctrl.canRetry = false;
             ctrl.gapRetry = false;
@@ -180,6 +221,10 @@ angular.module('bns.viewer.workshop.document.widgetRead', [
             stopChrono();
             ctrl.canRetry = false;
             ctrl.gapRetry = false;
+          }
+
+          if (!ctrl.canRetry) {
+            $scope.$emit('questionnaire.answered');
           }
 
         })
@@ -207,7 +252,7 @@ angular.module('bns.viewer.workshop.document.widgetRead', [
     }
 
     function stoppedChrono() {
-      if (ctrl.myResponse.length == 0) {
+      if (!ctrl.myResponse || ctrl.myResponse.length === 0) {
         ctrl.canRetry = false;
       }
       $scope.$apply(function () {
@@ -221,16 +266,21 @@ angular.module('bns.viewer.workshop.document.widgetRead', [
     }
 
     function focusPage(page) {
-      var offset = 0;
-      var duration = 0;
-      var position =  page.position + 1;
 
-      var target = angular.element($window.document.getElementById('workshop-page-' + position));
-      var container = angular.element($window.document.getElementById('workshop-document')).closest('.nano-content');
+      if (!ctrl.isCompetition) {
+        var offset = 0;
+        var duration = 0;
+        var position =  page.position + 1;
 
-      if (target.length && container.length) {
-        var targetY = target.offset().top - target.parent().offset().top + offset;
-        container.scrollTo(0, targetY, duration);
+        var target = angular.element($window.document.getElementById('workshop-page-' + position));
+        var container = angular.element($window.document.getElementById('workshop-document')).closest('.nano-content');
+
+        if (target.length && container.length) {
+          var targetY = target.offset().top - target.parent().offset().top + offset;
+          container.scrollTo(0, targetY, duration);
+        }
+      } else {
+        $scope.$emit('questionnaire.page.focus', page);
       }
     }
 
@@ -238,7 +288,7 @@ angular.module('bns.viewer.workshop.document.widgetRead', [
       ctrl.timeStopped = false;
       ctrl.myResponse = [];
       if (ctrl.widget.type == 'gap-fill-text') {
-        ctrl.myResponse = {};
+        ctrl.myResponse = null;
       }
       if (ctrl.widget.type == 'closed') {
         ctrl.myResponse = '';
@@ -278,4 +328,20 @@ angular.module('bns.viewer.workshop.document.widgetRead', [
       return template;
     }
 
+  })
+
+
+  .filter('numberFixedLen', function () {
+    return function (n, len) {
+      var num = parseInt(n, 10);
+      len = parseInt(len, 10);
+      if (isNaN(num) || isNaN(len)) {
+        return n;
+      }
+      num = ''+num;
+      while (num.length < len) {
+        num = '0'+num;
+      }
+      return num;
+    };
   });

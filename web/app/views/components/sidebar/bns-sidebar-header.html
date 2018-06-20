@@ -1,4 +1,4 @@
-<md-button ng-if="app" href ng-href="{{ app._links[mode].href }}">
+<md-button ng-if="app" ng-attr-ui-state="targetStateName" ng-href="{{ targetUrl }}">
   <div class="flex layout-row layout-align-start-center layout-fill">
     <bns-navbar-icon item="app"></bns-navbar-icon>
     <div class="flex sidebar-header-texts">
@@ -8,3 +8,4 @@
     </div>
   </div>
 </md-button>
+<bns-sidebar-toggle ng-if="showToggle"></bns-sidebar-toggle>

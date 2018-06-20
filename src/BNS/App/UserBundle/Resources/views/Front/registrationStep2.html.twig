@@ -47,7 +47,7 @@
     <p><span class="form-label">*</span> {% trans %}REQUIRED_FIELDS{% endtrans %}</p>
   </md-dialog-content>
 
-  <div class="md-actions">
+  <md-dialog-actions>
     <div class="flex-order-3">
       {{ components.button('BUTTON_CUSTOMIZE_MY_CLASS'|trans, {
         icon: {
@@ -79,7 +79,7 @@
         attr: { id: 'intercom-widget-activator', class: 'hide-sm' }
       }) }}
     </div>
-  </div>
+  </md-dialog-actions>
 
   {{ form_end(form) }}
 {% endblock %}

@@ -4,15 +4,14 @@ namespace BNS\App\BlogBundle\Form\Model;
 
 use BNS\App\CoreBundle\Model\Blog;
 use BNS\App\CoreBundle\Model\BlogArticle;
-use BNS\App\CoreBundle\Model\BlogCategoryQuery;
-use BNS\App\CoreBundle\Model\BlogArticleCategory;
-use BNS\App\CoreBundle\Model\BlogArticleCategoryQuery;
 use BNS\App\CoreBundle\Model\BlogArticlePeer;
 use BNS\App\CoreBundle\Model\User;
 use BNS\App\CoreBundle\Right\BNSRightManager;
+use BNS\App\CorrectionBundle\Model\Correction;
 use BNS\App\MediaLibraryBundle\Manager\MediaManager;
 
 use BNS\App\CoreBundle\Model\BlogQuery;
+use BNS\App\MediaLibraryBundle\Parser\PublicMediaParser;
 use BNS\App\MediaLibraryBundle\Twig\MediaExtension;
 use BNS\App\CoreBundle\Access\BNSAccess;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +23,9 @@ use Symfony\Component\Validator\Context\ExecutionContext;
 class BlogArticleFormModel
 {
 	public $title;
+	public $draftTitle;
 	public $content;
+	public $draftContent;
 	public $status;
 	public $programmation_day;
 	public $programmation_time;
@@ -40,25 +41,29 @@ class BlogArticleFormModel
 	private $article;
 
     private $statService;
+    /** @var PublicMediaParser */
+    private $parseMediaService;
 
-	/**
-	 * @param \BNS\App\CoreBundle\Model\BlogArticle $article
-	 */
-	public function __construct($statService, BlogArticle $article = null, Blog $blog)
-	{
-		if (null == $article) {
-			$this->article = new BlogArticle();
+    /**
+     * @param \BNS\App\CoreBundle\Model\BlogArticle $article
+     */
+    public function __construct($statService, $parseMediaService, BlogArticle $article = null, Blog $blog)
+    {
+        if (null == $article) {
+            $this->article = new BlogArticle();
             $this->status = 'DRAFT';
 
-			return;
-		}
+            return;
+        }
 
         $this->statService = $statService;
-
-		$this->article = $article;
-		$this->title = $article->getTitle();
-		$this->content = $article->getContent();
-		$this->is_comment_allowed = $article->getIsCommentAllowed();
+        $this->parseMediaService = $parseMediaService;
+        $this->article = $article;
+        $this->title = $article->getTitle();
+        $this->draftTitle = ($article->getDraftTitle() !== "") ? $article->getDraftTitle(): $article->getTitle();
+        $this->content = $article->getContent();
+        $this->draftContent = $this->parseMediaService->parse((($article->getDraftContent() !== null) ? $article->getDraftContent(): $article->getContent()),true, $size = 'medium', true);
+        $this->is_comment_allowed = $article->getIsCommentAllowed();
         $this->blog_id = $blog->getId();
         if ($this->article->isNew()) {
             // set current blog to default blog if article is new
@@ -68,20 +73,19 @@ class BlogArticleFormModel
             $this->blog_ids = $article->getBlogs()->getPrimaryKeys();
         }
 
-		$this->status = $article->getStatus();
-		if ($article->isProgrammed()) {
-			$this->status = 'PROGRAMMED';
-		}
+        $this->status = $article->getStatus();
+        if ($article->isProgrammed()) {
+            $this->status = 'PROGRAMMED';
+        }
 
-		if ($article->isProgrammed()) {
-			$this->programmation_day = $article->getPublishedAt();
-			$this->programmation_time = $article->getPublishedAt()->getTime();
-		}
-		elseif ($article->isPublished()) {
-			$this->publication_day = $article->getPublishedAt();
-			$this->publication_time = $article->getPublishedAt()->getTime();
-		}
-	}
+        if ($article->isProgrammed()) {
+            $this->programmation_day = $article->getPublishedAt();
+            $this->programmation_time = $article->getPublishedAt()->getTime();
+        } elseif ($article->isPublished()) {
+            $this->publication_day = $article->getPublishedAt();
+            $this->publication_time = $article->getPublishedAt()->getTime();
+        }
+    }
 
 	public function getCategories ()
 	{
@@ -98,8 +102,8 @@ class BlogArticleFormModel
 	 */
 	public function preSave()
 	{
-		$this->article->setTitle($this->title);
-		$this->article->setContent($this->content);
+	    $this->article->setDraftTitle($this->draftTitle);
+	    $this->article->setDraftContent($this->draftContent);
 	}
 
     public function getContent()
@@ -115,10 +119,11 @@ class BlogArticleFormModel
 	 * @param \BNS\App\MediaLibraryBundle\Manager\MediaManager $mediaManager
 	 * @param \Symfony\Component\HttpFoundation\Request $request
 	 * @param \BNS\App\CoreBundle\Model\Blog $blog
+     * @param bool $isAutosave
 	 *
 	 * @throws \RuntimeException
 	 */
-	public function save(BNSRightManager $rightManager, User $user, MediaManager $mediaManager, Request $request, Blog $blog = null)
+	public function save(BNSRightManager $rightManager, User $user, MediaManager $mediaManager, Request $request, Blog $blog = null, $isAutosave = false)
 	{
 		$this->preSave();
 
@@ -139,7 +144,14 @@ class BlogArticleFormModel
             $this->article->setBlogReferenceId($this->blog_id);
         }
 
-		$this->article->setUpdatedAt(time());
+        if (!($isAutosave && $this->status !== 'DRAFT')) {
+            $this->article->setContent($this->article->getDraftContent());
+            $this->article->setTitle($this->article->getDraftTitle());
+        }
+        if (!$isAutosave) {
+            $this->article->setUpdatedAt(time());
+            $this->article->setUpdater($user);
+        }
 
 		if ($rightManager->hasRight(Blog::PERMISSION_BLOG_ADMINISTRATION) || ($rightManager->hasRight('BLOG_PUBLISH') && ($this->article->isNew() || $user->getId() === $this->article->getAuthorId()))) {
 			if ($this->status == BlogArticlePeer::STATUS_PUBLISHED || $this->status == 'PROGRAMMED') {
@@ -160,16 +172,20 @@ class BlogArticleFormModel
 
                 //statistic action
                 $this->statService->publishArticle();
-            }
-			else {
+            } else {
 				$this->article->setStatus($this->status);
 				$this->article->setPublishedAt(null);
 			}
 
 			$this->article->setIsCommentAllowed($this->is_comment_allowed);
-		}
-		else {
-			$this->article->setStatus(BlogArticlePeer::STATUS_FINISHED);
+		} else {
+			if ($isAutosave && $this->status === BlogArticlePeer::STATUS_DRAFT) {
+                $this->article->setStatus(BlogArticlePeer::STATUS_DRAFT);
+            } elseif ($isAutosave && $this->status === BlogArticlePeer::STATUS_WAITING_FOR_CORRECTION) {
+                $this->article->setStatus(BlogArticlePeer::STATUS_WAITING_FOR_CORRECTION);
+            } else {
+                $this->article->setStatus(BlogArticlePeer::STATUS_FINISHED);
+            }
 			$this->article->setPublishedAt(null);
 		}
 
@@ -177,6 +193,8 @@ class BlogArticleFormModel
 
 		// Attached files process
 		$mediaManager->saveAttachments($this->article, $request);
+
+
 	}
 
 	/**
@@ -255,4 +273,24 @@ class BlogArticleFormModel
             $this->article->setBlogs(BlogQuery::create()->findById($this->blog_id));
         }
     }
+
+    public function getCorrection()
+    {
+        if ($this->article) {
+            if (!$this->article->getCorrection() && !$this->article->isNew()) {
+                $this->article->setCorrection(new Correction());
+            }
+            return $this->article->getCorrection();
+        }
+
+        return null;
+    }
+
+    public function setCorrection(Correction $correction)
+    {
+        if ($this->article) {
+            $this->article->setCorrection($correction);
+        }
+    }
+
 }

@@ -16,6 +16,10 @@ use BNS\App\InfoBundle\Model\AnnouncementUserQuery;
  */
 class AnnouncementManager
 {
+    /**
+     * @var array cache of permissions
+     */
+    protected $permissions;
 
     /**
      * @var BNSRightManager
@@ -28,29 +32,45 @@ class AnnouncementManager
     }
 
     /**
+     * @return \PropelObjectCollection|Announcement[]
+     */
+    public function getHomeAnnouncements()
+    {
+        return AnnouncementQuery::create()
+            ->filterByActivated()
+            ->filterByTypeHome()
+            ->useI18nQuery($this->rightManager->getLocale(), null, \Criteria::INNER_JOIN)
+                ->filterByLabel('', \Criteria::NOT_EQUAL)
+            ->endUse()
+            ->joinWithI18n($this->rightManager->getLocale(), \Criteria::INNER_JOIN)
+            ->orderByCreatedAt(\Criteria::DESC)
+            ->find()
+        ;
+    }
+
+    /**
      * @param bool $count
      * @return int|array|\PropelObjectCollection|Announcement[]
      */
     public function getAnnouncements($count = false)
     {
-        $permissions = $this->rightManager->getAllPermissions();
-
         /** @var AnnouncementQuery $query */
         $query = AnnouncementQuery::create()
-            ->joinWithI18n($this->rightManager->getLocale())
             ->filterByActivated()
             ->filterByTypeCustom()
-            ->filterByParticipable(false)
-            ->orderByCreatedAt(\Criteria::DESC)
             ->filterByPermissionUniqueName(null)
             ->_or()
-            ->filterByPermissionUniqueName($permissions, \Criteria::IN)
+            ->filterByPermissionUniqueName($this->getAllPermissions(), \Criteria::IN)
         ;
         if ($count) {
             return $query->count();
-        } else {
-            return $query->find();
         }
+
+        return $query
+            ->joinWithI18n($this->rightManager->getLocale(), \Criteria::INNER_JOIN)
+            ->orderByCreatedAt(\Criteria::DESC)
+            ->find()
+        ;
     }
 
     /**
@@ -59,8 +79,6 @@ class AnnouncementManager
      */
     public function getReadUserAnnouncements($count = false)
     {
-        $permissions = $this->rightManager->getAllPermissions();
-
         /** @var AnnouncementUserQuery $query */
         $query = AnnouncementUserQuery::create()
             ->filterByUserId($this->rightManager->getUserSessionId())
@@ -70,17 +88,18 @@ class AnnouncementManager
                 ->filterByParticipable(false)
                 ->filterByPermissionUniqueName(null)
                 ->_or()
-                ->filterByPermissionUniqueName($permissions, \Criteria::IN)
+                ->filterByPermissionUniqueName($this->getAllPermissions(), \Criteria::IN)
             ->endUse()
         ;
         if ($count) {
             return $query->count();
-        } else {
-            return $query->find();
         }
+
+        return $query->find();
     }
 
     /**
+     * @param int $userId optional userId if null use current login user
      * @return int
      */
     public function countUnreadAnnouncements()
@@ -88,4 +107,12 @@ class AnnouncementManager
         return $this->getAnnouncements(true) - $this->getReadUserAnnouncements(true);
     }
 
+    protected function getAllPermissions()
+    {
+        if (null === $this->permissions) {
+            $this->permissions = $this->rightManager->getAllPermissions();
+        }
+
+        return $this->permissions;
+    }
 }

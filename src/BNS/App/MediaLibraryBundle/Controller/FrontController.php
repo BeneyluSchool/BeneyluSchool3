@@ -38,9 +38,10 @@ class FrontController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/view/{type}/{id}", name="BNSAppMediaLibraryBundle_view", options={"expose"=true})
      */
-    public function viewAction($id, $type)
+    public function viewAction($id, $type, Request $request)
     {
-        $editable = $this->getRequest()->get('editable', false);
+        $editable = $request->get('editable', false);
+        $size = $request->get('size', 'small');
         $media = $this->get('bns.media.manager')->find($id);
         if (!$this->get('bns.media_library_right.manager')->canReadMedia($media)) {
             throw new AccessDeniedHttpException();
@@ -49,6 +50,7 @@ class FrontController extends Controller
         return $this->render('BNSAppMediaLibraryBundle:MediaBlock/' . ucfirst($type) . ':' . strtolower($media->getTypeUniqueName()) . '.html.twig', array(
             'media' => $media,
             'editable' => $editable,
+            'size' => $size,
         ));
     }
 
@@ -67,6 +69,27 @@ class FrontController extends Controller
         $media->save();
 
         return $this->redirect($this->get('bns.media.download_manager')->getDownloadUrl($media));
+    }
+
+    /**
+     * @param int $id
+     * @param string $size
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/media/{id}/image-url/{size}", options={"expose"=true}, requirements={"size"="[a-z0-9_]+"})
+     */
+    public function imageUrlAction(Request $request, $id, $size)
+    {
+        $media = $this->get('bns.media.manager')->find($id);
+        if (!$this->get('bns.media_library_right.manager')->canReadMediaJoined($media, $request->get('objectType'), (int) $request->get('objectId'))) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $url = $this->get('bns.media.download_manager')->getImageDownloadUrl($media, $size);
+        if ($url) {
+            return $this->redirect($url);
+        }
+
+        throw $this->createNotFoundException();
     }
 
 }

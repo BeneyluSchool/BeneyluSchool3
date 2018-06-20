@@ -4,7 +4,7 @@ require_once('../vendor/symfony/symfony/src/Symfony/Component/Yaml/Yaml.php');
 require_once('../vendor/symfony/symfony/src/Symfony/Component/Yaml/Parser.php');
 require_once('../vendor/symfony/symfony/src/Symfony/Component/Yaml/Inline.php');
 require_once('../vendor/symfony/symfony/src/Symfony/Component/Yaml/Unescaper.php');
-
+require_once ('../vendor/symfony/symfony/src/Symfony/Component/Security/Core/Util/StringUtils.php');
 
 function denied()
 {
@@ -170,7 +170,7 @@ $mimeType = $_GET['mime_type'];
 
 $filename = urldecode(htmlspecialchars($_GET["filename"]));
 
-if(time() - $time > 3600 || md5($uid . $cat . $id . $time . $secretKey) != $key)
+if(time() - $time > 3600 || !(\Symfony\Component\Security\Core\Util\StringUtils::equals(md5($uid . $cat . $id . $time . $secretKey), $key)))
 {
     denied();
 }

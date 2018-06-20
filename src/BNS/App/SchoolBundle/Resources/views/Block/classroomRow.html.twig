@@ -27,7 +27,7 @@
         </div>
     </div>
     <div class="footer">
-        {{ 'REGISTER_AT'|trans({'%date%': date_from_now(classroom.registrationDate, false, false,'full','short')}) |desc('Inscrite le <span class="date-now">%date%</span><br/>') |raw }}
+        {{ 'REGISTER_AT'|trans({'%date%': date_from_now(classroom.registrationDate, false, false,'full','short', true)}) |desc('Inscrite le <span class="date-now">%date%</span><br/>') |raw }}
         {% set lastConnected = last_connected(classroom) %}
         {% if lastConnected %}
             {{ 'LAST_CONNECTION_AT'|trans({'%date%': date_from_now(lastConnected.lastConnection, false, false, 'full', 'short')}) |desc('Dernière connexion (élève ou enseignant) : %date%') |raw }}

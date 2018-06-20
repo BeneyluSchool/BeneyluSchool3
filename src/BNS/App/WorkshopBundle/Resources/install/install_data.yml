@@ -9,9 +9,9 @@ module:
     en: The creation of digital documents
   default_rank:
     pupil: USE
-    parent: USE
+    parent: NONE
     teacher: MANAGE
-    other: USE
+    other: NONE
 
 permissions:
   ACCESS:
@@ -36,7 +36,13 @@ permissions:
 
   ACTIVATION_PARTNERSHIP: ~
 
+
+  CORRECTION: ~
+  CORRECTION_EDIT: ~
+
 ranks:
+  NONE:
+    permissions: []
   USE:
     label:
       fr: Utiliser l'Atelier
@@ -58,6 +64,16 @@ ranks:
 
   QUESTIONNAIRE:
     permissions: [QUESTIONNAIRE_CREATE, QUESTIONNAIRE_WIDGETS_USE]
+
+  CORRECTION:
+    permissions: [CORRECTION]
+  CORRECTION_EDIT:
+    permissions: [CORRECTION_EDIT]
+
+  USE_WITH_CORRECTION:
+    permissions: [ACCESS, CORRECTION]
+  MANAGE_WITH_CORRECTION:
+    permissions: [ACCESS, ACTIVATION, CORRECTION_EDIT]
 
 markers:
   WORKSHOP_VISIT:

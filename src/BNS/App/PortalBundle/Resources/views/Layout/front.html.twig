@@ -35,7 +35,9 @@
                         <div class="span8">
 
                             <div class="widget-container">
+                                <div ng-if="$mdMedia('(max-width: 979px)')" ng-cloak>
                                 {% include '@BNSAppPortal/Front/authentification.html.twig' %}
+                                </div>
                                 {% set zone = 'main' %}
 
                                 {% for widget in portal.getWidgetsByZone('MAIN') %}
@@ -50,7 +52,9 @@
                         <div class="span4">
                             {% set zone = 'side' %}
                             <div class="widget-container">
+                                <div ng-if="$mdMedia('(min-width: 980px)')" ng-cloak>
                                 {% include '@BNSAppPortal/Front/authentification.html.twig' %}
+                                </div>
                                 {% for widget in portal.getWidgetsByZone('SIDE') %}
                                     {% if(widget.isEnabled or (not widget.IsEnabled and isAuthenticated)) %}
                                         {% include '@BNSAppPortal/FrontWidgets/' ~ widget.type|lower ~ '.html.twig' %}

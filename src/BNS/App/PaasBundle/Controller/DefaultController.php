@@ -80,7 +80,11 @@ class DefaultController extends Controller
     {
         $this->get('bns.paas_manager')->checkRequest($request);
         $client = $this->getClientFromRequest($request);
-        $this->get('bns.paas_manager')->resetClient($client);
+        $this->get('bns.paas_manager')->resetClient($client, !!$request->get('beta', false));
+
+        $this->get('bns.group_manager')->setGroupById($client->getId())->clearGroupCache();
+        $this->get('bns_app_paas.manager.licence_manager')->resetLicence($client->getId());
+        $this->get('bns_app_paas.manager.licence_manager')->getLicence($client->getId());
 
         return new Response('Retour ENT RESET', 200);
     }

@@ -1,27 +1,11 @@
 {% trans_default_domain 'USER' %}
-{% extends '::base.html.twig' %}
+{% extends 'BNSAppRegistrationBundle:Layout:confirmation.html.twig' %}
 
-{% block css %}
-	{{ parent() }}
-	<link rel="stylesheet" href="{{ asset('/medias/css/registration/front.css') }}" />
-	<link href='https://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
-	<link href='https://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
-{% endblock css %}
-
-{% block body %}
-<div class="background-registration"></div>
-<div class="container-header-registration">
-	<div class="container-fluid container">
-		<div class="row-fluid">
-			<div class="span12">
-				<a href="{{ path('home') }}"><img src="{{ asset('/medias/images/registration/beneyluschool.png') }}" /></a>
+{% block header %}
 				{{ 'PASSWORD_LOST_DONT_PANIQUE'|trans |desc('<h1>Mot de passe oublié ?</h1>
 				<p>Vous avez oublié votre mot de passe ? <strong>Pas de panique !</strong></p>') |raw }}
-				<div class="pattern"></div>
-			</div>
-		</div>
-	</div>
-</div>
+{% endblock %}
+{% block big_content %}
 <div class="container container-fluid container-fluid-registration">
 	<div class="container-registration">
 		<div class="row-fluid">
@@ -57,4 +41,4 @@
 		</div>
 	</div>
 </div>
-{% endblock body %}
+{% endblock big_content %}

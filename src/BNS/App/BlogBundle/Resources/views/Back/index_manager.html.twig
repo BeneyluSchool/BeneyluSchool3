@@ -26,10 +26,21 @@
 {% block actionbar_content %}
     {{ components.button( 'WRITE_ARTICLE' | trans , { intent: 'primary', href: path('blog_manager_new_article'), icon: 'add_circle', raised: true }) }}
     {% if has_right('BLOG_ADMINISTRATION') %}
-      {{ components.button('GENERATE_PDF_BLOG' |trans, {raised: true, hover: true, icon:'insert_drive_file', href:'#', attr : {'data-toggle' : 'modal','data-target' :'#generate-blog-pdf' } }) }}
+      {{ components.button('GENERATE_PDF_BLOG' |trans, {
+        raised: true,
+        hover: true,
+        icon: 'insert_drive_file',
+        href: '#',
+        attr : {
+          'bns-feature-flag': '"blog_export_pdf"',
+          'bns-feature-push': '',
+          'data-toggle': 'modal',
+          'data-target': '#generate-blog-pdf'
+        }
+      }) }}
     {% endif %}
     {#{{ components.button('Editer | les articles' |trans, {raised: true, hover: true, icon:'edit', href:'#', attr : {'id' : 'edit-selected' } }) }}#}
-    {{ components.button('BUTTON_DELETE_ARTICLES' |trans, {raised: true, hover: true, icon:'delete', href:'#', attr : {'id' : 'delete-selected' },
+    {{ components.button('BUTTON_DELETE_ARTICLES' |trans, {intent: 'warn', raised: true,  icon:'delete', href:'#', attr : {'id' : 'delete-selected' },
       click: "dialog.confirm({ templateUrl: 'dialog-delete.html', targetEvent: $event })"
     }) }}
     <script type="text/ng-template" id="dialog-delete.html">
@@ -44,7 +55,7 @@
           <h3>{% trans %}TITLE_CONFIRM_DELETE_ARTICLES{% endtrans %}</h3>
           <div class="md-body-1">{% trans %}DESCRIPTION_CONFIRM_DELETE_ARTICLES{% endtrans %}</div>
         </md-dialog-content>
-        <div class="md-actions">
+        <md-dialog-actions>
           {{ components.button('LINK_CLOSE'|trans, {
             href: '',
             icon: 'undo',
@@ -57,7 +68,7 @@
             href: '#',
             attr: {'onclick' : 'deleteselected()', 'ng-click' : 'dialog.abort()'}
           }) }}
-        </div>
+        </md-dialog-actions>
       </md-dialog>
     </script>
 {% endblock actionbar_content %}

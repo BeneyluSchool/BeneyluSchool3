@@ -9,6 +9,9 @@ use BNS\App\CoreBundle\Translation\TranslatorTrait;
 
 
 use BNS\App\CoreBundle\Model\BlogArticlePeer;
+use Symfony\Component\Validator\Constraints\Callback;
+use Symfony\Component\Validator\Constraints\Range;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class BlogArticleType extends AbstractType
 {
@@ -21,11 +24,12 @@ class BlogArticleType extends AbstractType
 	private $categories;
 	private $categoriesRoute;
 	private $currentBlogId;
+	private $canSchedule;
 
 	/**
 	 * @param boolean $isAdmin
 	 */
-	public function __construct($isAdmin, $canPublish = false, $isEdit = false, $groupsWhereAdminPermission = null, $categories = [], $categoriesRoute = '', $currentBlogId)
+	public function __construct($isAdmin, $canPublish = false, $isEdit = false, $groupsWhereAdminPermission = null, $categories = [], $categoriesRoute = '', $currentBlogId, $canSchedule = false)
 	{
 		$this->isAdmin = $isAdmin;
 		$this->canPublish = $canPublish;
@@ -34,6 +38,7 @@ class BlogArticleType extends AbstractType
 		$this->categories = $categories;
 		$this->categoriesRoute = $categoriesRoute;
         $this->currentBlogId = $currentBlogId;
+        $this->canSchedule = $canSchedule;
 	}
 
 	/**
@@ -42,8 +47,13 @@ class BlogArticleType extends AbstractType
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('title', 'text', array('label'=>' '));
-        $builder->add('content', 'textarea', array('label' => false));
+        $builder->add('draftTitle', 'text', array('label'=>' '));
+        $builder->add('draftContent', 'textarea', [
+            'label' => false,
+            'correction_edit' => true, // add correction Automatically
+            'correction_object_class' => 'BNS\\App\\CoreBundle\\Model\\BlogArticle',
+            'correction_group_id' => $options['correction_group_id'],
+        ]);
 		$translator = $this->getTranslator();
 
 
@@ -56,7 +66,7 @@ class BlogArticleType extends AbstractType
 				'expanded' => true,
 				'multiple' => true,
 				'create' => $this->isAdmin ? $this->categoriesRoute : false,
-				'proxy' => true,
+				'label' => $translator->trans('CATEGORY', [], 'BLOG'),
 			));
         if ($this->isAdmin || $this->canPublish) {
 			$statuses = array_flip(BlogArticlePeer::getValueSet(BlogArticlePeer::STATUS));
@@ -73,6 +83,13 @@ class BlogArticleType extends AbstractType
 				'expanded'	=> true,
 //				'choices_as_values' => true,
 				'attr' => [ 'bns-status' => '' ],
+				'choice_attr' => function ($value) {
+					if ($value === 'PROGRAMMED') {
+						return ['bns-feature-flag' => 'blog_schedule'];
+					}
+
+					return [];
+				},
 				'choice_label' => function ($value) {
 					$translator = $this->getTranslator();
 					$choicesStatuses = array(
@@ -86,7 +103,10 @@ class BlogArticleType extends AbstractType
                     /** @Ignore */
                     return $translator->trans($choicesStatuses[$value], array(), 'BLOG');
 				},
-				'label' => $translator->trans('ARTICLE_STATUS', array(), 'BLOG')
+				'label' => $translator->trans('ARTICLE_STATUS', array(), 'BLOG'),
+				'constraints' => [
+					new Callback([$this, 'validateStatus'])
+				]
 			));
 			$builder->add('programmation_day', 'date', array(
 				'input' => 'datetime',
@@ -101,10 +121,17 @@ class BlogArticleType extends AbstractType
 				'required'	=> false,
 				'label' => $translator->trans('TIME_OF_PUBLISH_PROGRAM', array(), 'BLOG')
 			));
+			$publicationConstraints = [];
+			if (!$this->canSchedule) {
+				$publicationConstraints[] = new Range([
+					'max' => new \DateTime(),
+				]);
+			}
 			$builder->add('publication_day', 'date', array(
 				'input' => 'datetime',
 				'widget'	=> 'single_text',
 				'required'	=> false,
+				'constraints' => $publicationConstraints,
 				'label' => $translator->trans('DATE_OF_PUBLISH', array(), 'BLOG')
 			));
 			$builder->add('publication_time', 'time', array(
@@ -118,6 +145,9 @@ class BlogArticleType extends AbstractType
 			$builder->add('is_comment_allowed', 'checkbox', array(
 				'required'	=> false,
 				'proxy' => true,
+				'row_attr' => [
+					'data-proxy-label' => $translator->trans('COMMENTS', [], 'BLOG'),
+				],
                 'label' => 'LABEL_ALLOW_COMMENT'
 			));
 
@@ -136,6 +166,12 @@ class BlogArticleType extends AbstractType
                     'multiple' => true,
                     'proxy' => true,
                     'label' => 'BLOG_PUBLICATION',
+                    'choice_attr' => function ($value) {
+                            if ($value !== $this->currentBlogId){
+                                return ['bns-feature-flag' => 'blog_publipost'];
+                            }
+                            return [];
+                    }
                 ];
                 if (!$this->isEdit) {
                     $blogIdsOptions['data'] = [$this->currentBlogId];
@@ -152,6 +188,7 @@ class BlogArticleType extends AbstractType
 	public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
+            'correction_group_id' => null,
             'data_class' => 'BNS\App\BlogBundle\Form\Model\BlogArticleFormModel',
             'translation_domain' => 'BLOG'
         ));
@@ -163,5 +200,12 @@ class BlogArticleType extends AbstractType
     public function getName()
     {
         return 'blog_article_form';
+    }
+
+    public function validateStatus($value, ExecutionContextInterface $context)
+    {
+        if ('PROGRAMMED' === $value && !$this->canSchedule) {
+            $context->addViolation($this->trans('DESCRIPTION_PUSH_PRO', [], 'JS_MAIN'));
+        }
     }
 }

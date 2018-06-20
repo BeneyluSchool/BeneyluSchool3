@@ -26,6 +26,12 @@ class Agenda extends BaseAgenda {
             'cal-blue'          => '63B4BB',
             'cal-light-blue'    => '9BD3D5',
             'cal-brown'         => 'FAC53E',
+            'cal-grey'          => '808080',
+            'cal-dark-blue'     => '15309b',
+            'cal-purple'        => '74138e',
+            'cal-dark-red'      => '7a180d',
+            'cal-yellow'        => 'a9ad34',
+            'cal-blue-green'    => '28a388'
 	);
 	//Initialise le nom de l'agenda
 	/*
@@ -60,5 +66,14 @@ class Agenda extends BaseAgenda {
 			: null
 		;
 	}
+	
+	public function getEditorsIds() {
+        $editorsIds = array();
+        foreach ($this->getEditors() as $editor) {
+            $editorsIds [] = $editor->getId();
+        }
+
+        return $editorsIds;
+    }
 
 } // Agenda

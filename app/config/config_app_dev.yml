@@ -2,6 +2,9 @@ imports:
     - { resource: config_app.yml }
     - { resource: parameters_dev.yml }
 
+# /!\ Settings here CAN'T BE OVERRIDDEN
+# DO NOT ADD settings here unless you have a very good reason
+
 framework:
     trusted_proxies:  %trusted_proxies%
     router:   { resource: "%kernel.root_dir%/config/routing_app_dev.yml" }
@@ -94,12 +97,9 @@ nelmio_cors:
       '^/api/[0-9]+(\.[0-9]+)?/users/me/school.json':
         allow_origin: ['*']
 
-
+# /!\ THIS CAN'T BE OVERRIDDEN
+# DO NOT ADD parameters here unless you have a very good reason
 parameters:
-    paas_order_url:                      http://paas.beneylu.dev/app_dev.php/order/take
-    paas_check_url:                      http://paas.beneylu.dev/app_dev.php/subscription/expose
-    paas_processed_url:                  http://paas.beneylu.dev/app_dev.php/subscription/processed
     public_version_url:                  https://beneylu.com
-
-    bns_app.session.max_idle_time:  14400
     bns_breakfast_item_id: 2
+    bns.remember_me.prod:    false

@@ -2,8 +2,11 @@
 
 namespace BNS\App\CampaignBundle\Form\Type;
 
+use BNS\App\CampaignBundle\Model\Campaign;
+use BNS\App\CampaignBundle\Model\CampaignPeer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CampaignType extends AbstractType
@@ -26,7 +29,17 @@ class CampaignType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'BNS\App\CampaignBundle\Model\Campaign'
+            'data_class' => 'BNS\App\CampaignBundle\Model\Campaign',
+            'validation_groups' => function (FormInterface $form) {
+                /** @var Campaign $campaign */
+                $campaign = $form->getData();
+                $type = $campaign->getType();
+                if ($type == CampaignPeer::CLASSKEY_CAMPAIGNSMS) {
+                    return ['SMS'];
+                }
+
+                return ['Default'];
+            }
         ));
     }
 

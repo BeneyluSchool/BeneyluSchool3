@@ -71,15 +71,10 @@
 
                 {# login blocks #}
                 <div class="flex home-blocks">
-                    <div class="layout-column layout-gt-sm-row layout-align-center-center">
-                        <div class="home-logo-container">{# avoid img as direct child of flex container #}
-                            <img src="{{ asset('assets/images/main/logo.png') }}" alt="Beneylu School" class="home-logo"/>
-                        </div>
-                        <div class="home-title">
-                            <div class="md-display-1">{% trans %}TITLE_ENTER_IN{% endtrans %}</div>
-                            <h1 class="md-display-1 home-brand">Beneylu <span class="school">School</span></h1>
-                        </div>
-                    </div>
+                    <h1 class="md-display-1 home-brand">
+                        <img src="{{ asset('assets/images/main/beneylu-school.svg') }}" alt="Beneylu School" class="home-logo-title"/>
+                        <span>Beneylu School</span>
+                    </h1>
 
                     <div class="home-boxes">
                       <div class="box-transparent">

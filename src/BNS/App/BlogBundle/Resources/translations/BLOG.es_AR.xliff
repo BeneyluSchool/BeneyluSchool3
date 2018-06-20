@@ -183,6 +183,14 @@ This text contains HTML tags, please try to keep those tags
         <source>COMMENTS</source>
         <target>Comentarios</target>
       </trans-unit>
+      <trans-unit id="045b3a7943d7be5090d215677e12a7c4715f3875" resname="COMMENT_MODERATION_CLOSED">
+        <source>COMMENT_MODERATION_CLOSED</source>
+        <target>Moderación de comentarios cerrada</target>
+      </trans-unit>
+      <trans-unit id="66fc6a3fa90c540f03263b8f9c623852d8dc2e9c" resname="COMMENT_MODERATION_OPENED">
+        <source>COMMENT_MODERATION_OPENED</source>
+        <target>Moderación de comentarios abierta</target>
+      </trans-unit>
       <trans-unit id="2458944270ee8a7ef5aaa03975d62b625192b65d" resname="COMMENT_UPDATE_SUCCESS">
         <source>COMMENT_UPDATE_SUCCESS</source>
         <target state="new">Tu comentario se modificó correctamente.</target>
@@ -238,6 +246,8 @@ This text contains HTML tags, please try to keep those tags
       <trans-unit id="57e95b8390d0942f41db76b4b766f2f3d5dc396c" resname="DESCRIPTION_CONFIRM_DELETE_ARTICLES">
         <source>DESCRIPTION_CONFIRM_DELETE_ARTICLES</source>
         <target state="new"><![CDATA[Perderás la totalidad del contenido de artículos.<br />Nota que si has añadido documentos a tus artículos, estos no serán eliminados de la mediateca.]]></target>
+        <note>This text contains HTML tags, please try to keep those tags
+</note>
       </trans-unit>
       <trans-unit id="b857b2a25952b71006d445a085b3415c261d8ee6" resname="DESCRIPTION_ENABLED_DISABLED_GREEN_LIGHT">
         <source>DESCRIPTION_ENABLED_DISABLED_GREEN_LIGHT</source>
@@ -812,14 +822,6 @@ This text contains HTML tags, please try to keep those tags
         <source>YERBOOK_PRESENTATION</source>
         <target state="new">Instalá la aplicación Yerbook para seleccionar los artículos del blog que integrarán el libro de recuerdos de tu clase. ¡Escribé un pequeño mensaje para tus alumnos, agregá la foto de la clase e incluso un trombinoscopio! Tu eres el jefe de redacción.</target>
       </trans-unit>
-      <trans-unit id="045b3a7943d7be5090d215677e12a7c4715f3875" resname="COMMENT_MODERATION_CLOSED">
-         <source>COMMENT_MODERATION_CLOSED</source>
-         <target>Moderación de comentarios cerrada</target>
-       </trans-unit>
-       <trans-unit id="66fc6a3fa90c540f03263b8f9c623852d8dc2e9c" resname="COMMENT_MODERATION_OPENED">
-         <source>COMMENT_MODERATION_OPENED</source>
-         <target>Moderación de comentarios abierta</target>
-       </trans-unit>
     </body>
   </file>
 </xliff>

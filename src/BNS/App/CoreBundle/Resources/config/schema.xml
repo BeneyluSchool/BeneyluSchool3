@@ -21,6 +21,7 @@
         <column name="is_expert" required="true" type="BOOLEAN" defaultValue="0"/>
         <column name="resource_used_size" required="true" type="BIGINT" defaultValue="0"/>
         <column name="timezone" type="VARCHAR" defaultValue="Europe/Paris"/>
+        <column name="previous_connection" type="TIMESTAMP"/>
 
         <column name="import_id" required="false" type="INTEGER"/>
         <column name="ine" required="false" type="VARCHAR" size="50"/>
@@ -88,15 +89,12 @@
             <index-column name="slug"/>
         </index>
         <index name="FK_CONNEXION_TOKEN">
-            <index-column name="token"/>
+            <index-column name="connexion_token"/>
+        </index>
+        <index name="FK_USER_INE">
+          <index-column name="ine"/>
         </index>
         <behavior name="sluggable">
-            <parameter name="slug_column" value="slug"/>
-            <parameter name="slug_pattern" value="{FirstName}-{LastName}"/>
-            <parameter name="replace_pattern" value="/[^\w]+/u"/>
-            <parameter name="replacement" value="-"/>
-            <parameter name="separator" value="-"/>
-            <parameter name="permanent" value="false"/>
         </behavior>
         <behavior name="timestampable"/>
     </table>
@@ -124,6 +122,7 @@
         <column name="is_premium" type="BOOLEAN" defaultValue="0"/>
         <column name="lang" required="false" size="5" type="VARCHAR"/>
         <column name="country" required="false" size="5" type="VARCHAR"/>
+        <column name="spot_country" required="false" size="20" type="VARCHAR"/>
         <column name="enabled_at" required="false" type="DATE" />
         <column name="sorted_modules" required="false" type="ARRAY" /> <!-- ordered ids of module -->
         <column name="favorite_modules" required="false" type="ARRAY" /> <!-- ids of favorites module -->
@@ -169,7 +168,7 @@
         <column name="unique_name" required="true" size="255" type="VARCHAR"/>
         <column name="is_contextable" required="true" type="BOOLEAN"/>
         <column name="is_enabled" required="true" type="BOOLEAN" default="false"/>
-        <column name="type" required="true" type="ENUM" defaultValue="APP" valueSet="APP, EVENT"/>
+        <column name="type" required="true" type="ENUM" defaultValue="APP" valueSet="APP, EVENT, SUBAPP"/>
         <column name="bundle_name" size="100" type="VARCHAR"/>
         <column name="default_pupil_rank" size="45" type="VARCHAR"/>
         <column name="default_parent_rank" size="45" type="VARCHAR"/>
@@ -273,6 +272,9 @@
         <column name="avatar_id" type="INTEGER"/>
         <column name="assistance_enabled" type="boolean" default="0" />
         <column name="close_yerbook" type="boolean" default="0" />
+        <column name="address" type="VARCHAR" size="255" required="false" />
+        <column name="organization" type="VARCHAR" size="255" required="false"/>
+        <column name="public_data" type="BOOLEAN" defaultValue="false"/>
         <foreign-key foreignTable="media" phpName="Resource" name="FK_PROFILE_AVATAR" onDelete="SETNULL">
             <reference foreign="id" local="avatar_id"/>
         </foreign-key>
@@ -385,6 +387,7 @@
         <column name="title" required="true" size="255" type="VARCHAR"/>
         <column name="description" type="LONGVARCHAR"/>
         <column defaultValue="1" name="is_comment_moderate" required="true" type="BOOLEAN"/>
+        <column defaultValue="0" name="count_view" required="true" type="BOOLEAN"/>
         <foreign-key foreignTable="group" name="FK_BLOG_GROUP" onDelete="CASCADE" onUpdate="CASCADE">
             <reference foreign="id" local="group_id"/>
         </foreign-key>
@@ -403,18 +406,25 @@
         <column name="created_at" required="true" type="TIMESTAMP"/>
         <column name="published_at" type="TIMESTAMP"/>
         <column name="updated_at" type="TIMESTAMP"/>
+        <column name="updater_id" required="false" type="INTEGER"/>
         <column name="title" required="true" size="255" type="VARCHAR"/>
+        <column name="draft_title" required="true" size="255" type="VARCHAR"/>
         <column name="content" type="CLOB"/>
+        <column name="draft_content" type="CLOB"/>
         <column defaultValue="DRAFT" name="status" type="ENUM"
                 valueSet="DRAFT, PUBLISHED, FINISHED, WAITING_FOR_CORRECTION"/>
         <column defaultValue="0" name="is_star" required="true" type="BOOLEAN"/>
         <column defaultValue="1" name="is_comment_allowed" required="true" type="BOOLEAN"/>
+        <column name="views_number" required="true" type="INTEGER" defaultValue="0"/>
         <foreign-key foreignTable="blog" name="FK_BLOGARTICLE_BLOG" onDelete="CASCADE" onUpdate="CASCADE"
                      phpName="blogReference">
             <reference foreign="id" local="blog_reference_id"/>
         </foreign-key>
-        <foreign-key foreignTable="user" name="FK_BLOGARTICLE_USER" onDelete="CASCADE" onUpdate="CASCADE">
+        <foreign-key foreignTable="user" name="FK_BLOGARTICLE_USER" onDelete="CASCADE" onUpdate="CASCADE" phpName="User" refPhpName="BlogArticle">
             <reference foreign="id" local="author_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="user" name="FK_BLOGARTICLE_USER_UPDATER" onDelete="SETNULL" onUpdate="SETNULL" phpName="Updater">
+            <reference foreign="id" local="updater_id"/>
         </foreign-key>
         <index name="FK_BLOGARTICLE_BLOG">
             <index-column name="blog_reference_id"/>
@@ -423,12 +433,6 @@
             <index-column name="author_id"/>
         </index>
         <behavior name="sluggable">
-            <parameter name="slug_column" value="slug"/>
-            <parameter name="slug_pattern" value="{title}"/>
-            <parameter name="replace_pattern" value="/[^\w]+/u"/>
-            <parameter name="replacement" value="-"/>
-            <parameter name="separator" value="-"/>
-            <parameter name="permanent" value="false"/>
         </behavior>
         <behavior name="bns_media_attachmentable"/>
     </table>
@@ -558,7 +562,9 @@
     <table name="agenda">
         <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
         <column name="title" size="255" type="VARCHAR"/>
-        <column name="group_id" type="INTEGER"/>
+        <column name="group_id" type="INTEGER" required="false"/>
+        <column name="type" type="ENUM" valueSet="GROUP, USER" defaultValue="GROUP" />
+        <column name="user_id" type="INTEGER" required="false"/>
         <column name="color_class" required="true" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="group" name="FK_AGENDA_GROUP" onDelete="CASCADE">
             <reference foreign="id" local="group_id"/>
@@ -566,18 +572,40 @@
         <index name="FK_AGENDA_GROUP">
             <index-column name="group_id"/>
         </index>
+        <foreign-key foreignTable="user" name="FK_AGENDA_USER" onDelete="CASCADE">
+            <reference foreign="id" local="user_id"/>
+        </foreign-key>
+    </table>
+    <table name="agenda_user" isCrossRef="true">
+      <column name="agenda_id" type="INTEGER" primaryKey="true"/>
+      <column name="user_id" type="INTEGER" primaryKey="true"/>
+      <foreign-key foreignTable="agenda" onDelete="CASCADE" phpName="EditableAgenda">
+        <reference foreign="id" local="agenda_id"/>
+      </foreign-key>
+      <foreign-key foreignTable="user" onDelete="CASCADE" phpName="Editor">
+        <reference foreign="id" local="user_id"/>
+      </foreign-key>
     </table>
     <table name="agenda_event">
         <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
         <column name="title" required="true" size="255" type="VARCHAR"/>
         <column name="date_start" required="true" type="DATE"/>
         <column name="date_end" required="true" type="DATE"/>
-        <column name="agenda_id" required="true" type="INTEGER"/>
+        <column name="agenda_id" required="false" type="INTEGER"/>
+        <column name="type" type="ENUM" valueSet="PUNCTUAL, DISCIPLINE, RESERVATION" defaultValue="PUNCTUAL"/>
+        <column name="subject_id" type="INTEGER" required="false" />
+        <column name="object_id" type="INTEGER" required="false" />
         <column defaultValue="0" name="is_recurring" required="true" type="BOOLEAN"/>
         <column name="icalendar_vevent" required="true" type="CLOB"/>
         <column defaultValue="0" name="is_all_day" required="true" type="BOOLEAN"/>
         <foreign-key foreignTable="agenda" name="FK_AGENDAEVENT_AGENDA" onDelete="CASCADE">
             <reference foreign="id" local="agenda_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="agenda_subject" onDelete="CASCADE">
+            <reference foreign="id" local="subject_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="agenda_object" onDelete="CASCADE">
+            <reference foreign="id" local="object_id"/>
         </foreign-key>
         <index name="FK_AGENDAEVENT_AGENDA">
             <index-column name="agenda_id"/>
@@ -592,6 +620,27 @@
         </behavior>
         <behavior name="bns_media_attachmentable"/>
     </table>
+
+    <table name="agenda_subject">
+        <column name="id" type="INTEGER" primaryKey="true" required="true" autoIncrement="true"/>
+        <column name="title" type="VARCHAR" size="255" required="true" />
+        <column name="group_id" type="INTEGER" required="true"/>
+        <column name="color_class" required="true" size="255" type="VARCHAR" />
+        <foreign-key foreignTable="group" onDelete="CASCADE">
+            <reference foreign="id" local="group_id"/>
+        </foreign-key>
+    </table>
+
+    <table name="agenda_object">
+        <column name="id" type="INTEGER" primaryKey="true" required="true" autoIncrement="true"/>
+        <column name="title" type="VARCHAR" size="255" required="true" />
+        <column name="group_id" type="INTEGER" required="true"/>
+        <column name="color_class" required="true" size="255" type="VARCHAR" />
+        <foreign-key foreignTable="group" onDelete="CASCADE">
+            <reference foreign="id" local="group_id"/>
+        </foreign-key>
+    </table>
+
     <table name="liaison_book">
         <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER"/>
         <column name="title" required="true" size="255" type="VARCHAR"/>
@@ -599,6 +648,8 @@
         <column name="date" required="true" type="TIMESTAMP"/>
         <column name="group_id" primaryKey="true" required="true" type="INTEGER"/>
         <column name="author_id" primaryKey="true" required="true" type="INTEGER"/>
+        <column name="publication_date" required="true" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP"/>
+        <column name="individualized" type="BOOLEAN" defaultValue="false"/>
         <foreign-key foreignTable="group" name="fk_liaison_book_group1" onDelete="CASCADE">
             <reference foreign="id" local="group_id"/>
         </foreign-key>
@@ -636,6 +687,16 @@
             <index-column name="liaison_book_id"/>
         </index>
         <behavior name="timestampable"/>
+    </table>
+    <table  name="liaison_book_user" isCrossRef="true">
+        <column name="liaison_book_id" type="INTEGER" primaryKey="true"/>
+        <column name="user_id" type="INTEGER" primaryKey="true"/>
+        <foreign-key foreignTable="liaison_book" onDelete="CASCADE" phpName="MyLiaisonBook">
+            <reference foreign="id" local="liaison_book_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="user" onDelete="CASCADE" phpName="addressed">
+            <reference foreign="id" local="user_id"/>
+        </foreign-key>
     </table>
     <table name="pupil_parent_link">
         <column name="user_pupil_id" primaryKey="true" required="true" type="INTEGER"/>

@@ -4,8 +4,8 @@ use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use BNS\App\CoreBundle\Model\Logging;
 class LoggingListener
 {
-	
-	protected $container; 
+
+	protected $container;
 	public function __construct($container)
 	{
 		$this->container = $container;
@@ -24,12 +24,12 @@ class LoggingListener
 			$logging->setUsername($container->get('bns.right_manager')->getUserSession()->getUsername());
 			$logging->setUserId($container->get('bns.right_manager')->getUserSession()->getId());
 			$logging->setGroupId($container->get('bns.right_manager')->getCurrentGroupId());
-			$controller = explode('\\',$event->getRequest()->attributes->get('_controller')); 
+			$controller = explode('\\',$event->getRequest()->attributes->get('_controller'));
 			$logging->setModule(isset($controller[2]) ? $controller[2] : "");
 			$logging->setAction(isset($controller[4]) ? $controller[4] : "");
             $logging->setIp($container->get('request')->getClientIp());
 			$logging->setRoute($route);
-            if(!in_array($route,array('user_password','BNSAppProfileBundle_back_authenticate_target_user')))
+            if(!in_array($route,array('user_password','BNSAppProfileBundle_back_authenticate_target_user', 'BNSAppProfileBundle_back_merge_validate', 'user_api_change_password')))
             {
                 $logging->setParameters(serialize($event->getRequest()->request->all()));
             }

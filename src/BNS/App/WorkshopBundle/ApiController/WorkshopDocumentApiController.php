@@ -2,7 +2,12 @@
 
 namespace BNS\App\WorkshopBundle\ApiController;
 
+use BNS\App\CompetitionBundle\Model\CompetitionQuery;
 use BNS\App\CoreBundle\Annotation\RightsSomeWhere;
+use BNS\App\CoreBundle\Events\BnsEvents;
+use BNS\App\CoreBundle\Events\ThumbnailRefreshEvent;
+use BNS\App\MediaLibraryBundle\Model\MediaFolderUser;
+use BNS\App\MediaLibraryBundle\Model\MediaFolderUserQuery;
 use BNS\App\NotificationBundle\Notification\WorkshopBundle\WorkshopNewContributorNotification;
 use BNS\App\NotificationBundle\Notification\WorkshopBundle\WorkshopNewDocumentNotification;
 use BNS\App\WorkshopBundle\Model\WorkshopContentInterface;
@@ -45,11 +50,15 @@ class WorkshopDocumentApiController extends BaseWorkshopApiController
     public function postAction(Request $request)
     {
         $this->checkWorkshopAccess();
-
         $questionnaire = $request->request->get('questionnaire');
+        if ($questionnaire) {
+            $this->checkFeatureAccess('workshop_questionnaire');
+        }
 
-        $workshopDocument = $this->get('bns.workshop.document.manager')->create($questionnaire);
+        $user = $this->getUser();
+        $destination = $this->get('bns.media_folder.manager')->getMyWorkshopFolder($user);
 
+        $workshopDocument = $this->get('bns.workshop.document.manager')->create($destination, $questionnaire);
         $workshopDocument->save();
         $this->get('bns.workshop.content.manager')->setContributorUserIds($workshopDocument->getWorkshopContent(), array($this->getUser()->getId()));
         $workshopDocument->getWorkshopContent()->save();
@@ -59,7 +68,7 @@ class WorkshopDocumentApiController extends BaseWorkshopApiController
         if ($userManager->isChild()) {
             $teachers = array();
             foreach ($userManager->getGroupsUserBelong('CLASSROOM') as $classroom) {
-                foreach($this->get('bns.group_manager')->setGroup($classroom)->getUsersByRoleUniqueName('TEACHER', true) as $teacher) {
+                foreach ($this->get('bns.group_manager')->setGroup($classroom)->getUsersByRoleUniqueName('TEACHER', true) as $teacher) {
                     $teachers[] = $teacher;
                 }
             }
@@ -71,7 +80,7 @@ class WorkshopDocumentApiController extends BaseWorkshopApiController
         $response = new Response('', Codes::HTTP_CREATED);
         $response->headers->set('Location', $this->generateUrl('workshop_document_api_get', array(
             'version' => $this->getVersion(),
-            'id'      => $workshopDocument->getId()
+            'id' => $workshopDocument->getId()
         )));
 
         return $response;
@@ -150,7 +159,7 @@ class WorkshopDocumentApiController extends BaseWorkshopApiController
      * )
      *
      * @Rest\Get("/{id}")
-     * @Rest\View(serializerGroups={"Default","detail"})
+     * @Rest\View(serializerGroups={"Default","detail", "document_detail"})
      * @ParamConverter("workshopDocument", options={"mapping"={"id"="resource_id"}})
      *
      * @param WorkshopDocument $workshopDocument
@@ -159,6 +168,28 @@ class WorkshopDocumentApiController extends BaseWorkshopApiController
      */
     public function getAction(WorkshopDocument $workshopDocument, Request $request)
     {
+        $rightManager = $this->get('bns.right_manager');
+        if ($rightManager->hasRight('COMPETITION_ACCESS')) {
+            $competitionManager = $this->get('bns.competition.competition.manager');
+            $competition = CompetitionQuery::create()
+                ->useCompetitionQuestionnaireQuery()
+                    ->filterByQuestionnaireId($workshopDocument->getMediaId())
+                ->endUse()
+                ->findOne();
+            if (!$competition) {
+                $competition = CompetitionQuery::create()
+                    ->useBookQuery()
+                        ->useCompetitionBookQuestionnaireQuery()
+                            ->filterByQuestionnaireId($workshopDocument->getMediaId())
+                        ->endUse()
+                    ->endUse()
+                    ->findOne();
+            }
+            if ($competition && !$competitionManager->canViewCompetition($competition, $this->getUser())) {
+                throw $this->createAccessDeniedException();
+            }
+            return $workshopDocument;
+        }
         if ($request->query->has('objectType') && $request->query->has('objectId')) {
             $this->canViewWorkshopDocumentJoined($workshopDocument, $request->get('objectType'), (int) $request->get('objectId'));
         } else {
@@ -270,6 +301,8 @@ class WorkshopDocumentApiController extends BaseWorkshopApiController
                 $contentManager->setContributorGroupIds($workshopDocument->getWorkshopContent(), $groupIds);
             }
 
+            $dispatcher = $this->get('event_dispatcher');
+            $dispatcher->dispatch(BnsEvents::THUMB_REFRESH, new ThumbnailRefreshEvent($workshopDocument, 'small'));
             // force save of related parent object
             $workshopDocument->save();
             $workshopDocument->getWorkshopContent()->save();
@@ -344,8 +377,13 @@ class WorkshopDocumentApiController extends BaseWorkshopApiController
         $layout = $request->get('layout', false);
         $this->canManageWorkshopDocument($workshopDocument);
         $newPage = new WorkshopPage();
+        $newPage->setWorkshopDocument($workshopDocument);
         if ($position) {
-            $newPage->setPosition($position);
+            try {
+                $newPage->insertAtRank($position);
+            } catch (\PropelException $e) {
+                $newPage->insertAtBottom();
+            }
         }
         if ($layout) {
             $newPage->setLayoutCode($layout);

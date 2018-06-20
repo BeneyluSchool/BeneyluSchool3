@@ -57,6 +57,7 @@ class LunchWeekApiController extends BaseApiController
         if (!$week){
             throw new NotFoundHttpException();
         }
+        $this->get('stat.lunch')->visit();
 
         return $week;
     }
@@ -103,6 +104,7 @@ class LunchWeekApiController extends BaseApiController
         if (!$week){
             throw new NotFoundHttpException();
         }
+        $this->get('stat.lunch')->visit();
         return $week;
     }
 

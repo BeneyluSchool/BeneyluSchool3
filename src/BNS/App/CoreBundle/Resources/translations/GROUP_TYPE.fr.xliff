@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2017-04-19T12:20:12Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+  <file date="2018-02-20T12:29:39Z" source-language="en" target-language="fr" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -169,6 +169,10 @@
         <target state="new">Terminale</target>
         <note><![CDATA[Libellé du choix : LEVEL_TERM]]></note>
       </trans-unit>
+      <trans-unit id="eac0678628d4a9e1b8e500f20559016425c4aefa" resname="LABEL_DATA_CHOICE_LEVEL_ULIS">
+        <source>LABEL_DATA_CHOICE_LEVEL_ULIS</source>
+        <target>ULIS</target>
+      </trans-unit>
       <trans-unit id="4624d09d9279f06c3708de9f56d32faf24ea776c" resname="LABEL_DATA_CHOICE_MESSAGING_TYPE_light">
         <source>LABEL_DATA_CHOICE_MESSAGING_TYPE_light</source>
         <target state="new">Light</target>
@@ -329,7 +333,7 @@
         <target state="new">Tableau d'UAI ayant accès à Cerise Prim</target>
         <note><![CDATA[Libellé de l'attribut CERISE_LIST]]></note>
       </trans-unit>
-      <trans-unit id="6084da7257354235050b1c094388e5a4e4779b08" resname="LABEL_DATA_TEMPLATE_CGU_DATE">
+      <trans-unit id="0f6582654fec67a1ba16c4683379876e1e652ddf" resname="LABEL_DATA_TEMPLATE_CGU_DATE">
         <source>LABEL_DATA_TEMPLATE_CGU_DATE</source>
         <target>Date des CGU</target>
         <note><![CDATA[Libellé de l'attribut CGU_DATE]]></note>
@@ -446,7 +450,7 @@
       </trans-unit>
       <trans-unit id="2fae0754bc72dcfef61d9a7114f0425a88da4fdc" resname="LABEL_DATA_TEMPLATE_MINISITE_ALLOW_PUBLIC">
         <source>LABEL_DATA_TEMPLATE_MINISITE_ALLOW_PUBLIC</source>
-        <target state="new">Activer le mode public pour le minisite</target>
+        <target state="new">Activer le mode public pour le site web</target>
         <note><![CDATA[Libellé de l'attribut MINISITE_ALLOW_PUBLIC]]></note>
       </trans-unit>
       <trans-unit id="60dae04260952cc3fc8960a1b790bfb40e1d9ba5" resname="LABEL_DATA_TEMPLATE_NAME">
@@ -471,18 +475,28 @@
       </trans-unit>
       <trans-unit id="cf3b81e81b958467d2472a05dddd89ff79554717" resname="LABEL_DATA_TEMPLATE_POLICY_URL_CHILD">
         <source>LABEL_DATA_TEMPLATE_POLICY_URL_CHILD</source>
-        <target state="new">URL du PDF de la charte utilisateur destiné aux élèves</target>
+        <target>Charte Enfant</target>
         <note><![CDATA[Libellé de l'attribut POLICY_URL_CHILD]]></note>
+      </trans-unit>
+      <trans-unit id="fbde7e0b40cac713123a0c53ee2b0b00f80a46bc" resname="LABEL_DATA_TEMPLATE_POLICY_URL_CITY_REFERENT">
+        <source>LABEL_DATA_TEMPLATE_POLICY_URL_CITY_REFERENT</source>
+        <target>Charte Référent ville</target>
+        <note><![CDATA[Libellé de l'attribut POLICY_URL_CITY_REFERENT]]></note>
       </trans-unit>
       <trans-unit id="927b640919ab0757f00f3d639862a986a236e6b8" resname="LABEL_DATA_TEMPLATE_POLICY_URL_OTHER">
         <source>LABEL_DATA_TEMPLATE_POLICY_URL_OTHER</source>
-        <target state="new">URL du PDF de la charte utilisateur</target>
+        <target state="new">Charte autre</target>
         <note><![CDATA[Libellé de l'attribut POLICY_URL_OTHER]]></note>
       </trans-unit>
       <trans-unit id="b8cd5a26cd5c9f1312e85d35ddbac5538cd1b1a3" resname="LABEL_DATA_TEMPLATE_POLICY_URL_PARENT">
         <source>LABEL_DATA_TEMPLATE_POLICY_URL_PARENT</source>
-        <target state="new">URL du PDF de la charte utilisateur destiné aux parents</target>
+        <target>Charte Parent</target>
         <note><![CDATA[Libellé de l'attribut POLICY_URL_PARENT]]></note>
+      </trans-unit>
+      <trans-unit id="73f63875b2a9fc4ef85b737a1c739ba29a670688" resname="LABEL_DATA_TEMPLATE_POLICY_URL_TEACHER">
+        <source>LABEL_DATA_TEMPLATE_POLICY_URL_TEACHER</source>
+        <target>Charte Personnel enseignant</target>
+        <note><![CDATA[Libellé de l'attribut POLICY_URL_TEACHER]]></note>
       </trans-unit>
       <trans-unit id="a6b9ba5cc86a1d2eb5f33b9025aa621ec5dff267" resname="LABEL_DATA_TEMPLATE_RESOURCE_QUOTA_CHILD">
         <source>LABEL_DATA_TEMPLATE_RESOURCE_QUOTA_CHILD</source>
@@ -506,18 +520,18 @@
       </trans-unit>
       <trans-unit id="5991296f273d50eb4ebca98cb716029c220dead4" resname="LABEL_DATA_TEMPLATE_RESTRICTED_ACCESS_ENABLED">
         <source>LABEL_DATA_TEMPLATE_RESTRICTED_ACCESS_ENABLED</source>
-        <target state="new">Accès restreint activé</target>
-        <note><![CDATA[Libellé de l'attribut RESTRICTED_ACCESS_ENABLED]]></note>
+        <target>Activation de l'accès restreint</target>
+        <note><![CDATA[Libellé de l'attribut LABEL_DATA_TEMPLATE_RESTRICTED_ACCESS_ENABLED]]></note>
       </trans-unit>
       <trans-unit id="61a81ce98e84a21b4ca23d8a43ec16f9b320f5ac" resname="LABEL_DATA_TEMPLATE_RESTRICTED_ACCESS_END">
         <source>LABEL_DATA_TEMPLATE_RESTRICTED_ACCESS_END</source>
-        <target state="new">Date de fin d'accès restreint</target>
-        <note><![CDATA[Libellé de l'attribut RESTRICTED_ACCESS_END]]></note>
+        <target>Date de fin de l'accès restreint</target>
+        <note><![CDATA[Libellé de l'attribut LABEL_DATA_TEMPLATE_RESTRICTED_ACCESS_END]]></note>
       </trans-unit>
       <trans-unit id="e706e3b15fce7015d6e8286a98f4bcc07f00f0f7" resname="LABEL_DATA_TEMPLATE_RESTRICTED_ACCESS_START">
         <source>LABEL_DATA_TEMPLATE_RESTRICTED_ACCESS_START</source>
-        <target state="new">Date de début d'accès restreint</target>
-        <note><![CDATA[Libellé de l'attribut RESTRICTED_ACCESS_START]]></note>
+        <target>Date de début de l'accès restreint</target>
+        <note><![CDATA[Libellé de l'attribut LABEL_DATA_TEMPLATE_RESTRICTED_ACCESS_START]]></note>
       </trans-unit>
       <trans-unit id="e6b6458602bf4e97fcd3ca5f05b898dd68e57eac" resname="LABEL_DATA_TEMPLATE_SCHOOL_LABEL">
         <source>LABEL_DATA_TEMPLATE_SCHOOL_LABEL</source>
@@ -591,6 +605,11 @@
         <source>LABEL_HIGH_SCHOOL</source>
         <target state="new">Collège</target>
         <note><![CDATA[Nom du type de groupe HIGH_SCHOOL]]></note>
+      </trans-unit>
+      <trans-unit id="dcc3a5e84ef2b876a4ee57b23f13c1d8385cd87b" resname="LABEL_LEASURE_CENTER">
+        <source>LABEL_LEASURE_CENTER</source>
+        <target state="new">Centre de loisirs</target>
+        <note><![CDATA[Nom du type de groupe LEASURE_CENTER]]></note>
       </trans-unit>
       <trans-unit id="b02db63b40f0da2932e90a4859036f53f3ca4013" resname="LABEL_PARENT">
         <source>LABEL_PARENT</source>

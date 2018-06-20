@@ -43,7 +43,7 @@ class UserDirectoryRightManager
      */
     public function isGroupManageable(Group $group, $returnPartnerId = false)
     {
-        $permission = false;
+        $permission = 'GROUP_ACCESS_BACK';
         switch ($group->getType()) {
             case 'SCHOOL':
             case 'CLASSROOM':
@@ -71,7 +71,7 @@ class UserDirectoryRightManager
 
     public function isGroupDistributable(Group $group)
     {
-        return $this->rightManager->hasRight('CAMPAIGN_ACCESS', $group->getId());
+        return $this->rightManager->hasRight('CAMPAIGN_ACCESS', $group->getId()) || $this->rightManager->hasRight('PORTAL_ACCESS_BACK', $group->getId());
     }
 
     /**
@@ -84,7 +84,7 @@ class UserDirectoryRightManager
     public function areGroupUsersVisible(Group $group, $view = null)
     {
         if (UserDirectoryManager::VIEW_CAMPAIGN_RECIPIENTS === $view) {
-            return $this->rightManager->hasRight('CAMPAIGN_VIEW_INDIVIDUAL_USER', $group->getId());
+            return $this->rightManager->hasRight('CAMPAIGN_VIEW_INDIVIDUAL_USER', $this->rightManager->getCurrentGroupId());
         }
 
         return true;

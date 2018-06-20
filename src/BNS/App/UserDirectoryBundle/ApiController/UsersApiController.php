@@ -8,6 +8,7 @@ use BNS\App\CoreBundle\Model\UserQuery;
 use BNS\App\CoreBundle\Model\User;
 use BNS\App\UserDirectoryBundle\Manager\UserDirectoryManager;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\Request\ParamFetcherInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -153,6 +154,14 @@ class UsersApiController extends BaseUserDirectoryApiController
         }
 
         $ids = array_unique($ids);
+
+        $excludeIds = $request->get('exclude_ids');
+        if (is_array($excludeIds)) {
+            $excludeIds = array_map(function($id) {
+                return (int) $id;
+            }, $excludeIds);
+            $ids = array_diff($ids, $excludeIds);
+        }
 
         return UserQuery::create()
             ->filterById($ids)

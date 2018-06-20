@@ -29,8 +29,6 @@ class HomeworkStatisticsService extends StatisticsService
 
     public function visit()
     {
-        $this->disableCascadeParentGroup();
         $this->increment('HOMEWORK_VISIT');
-        $this->enableCascadeParentGroup();
     }
 }

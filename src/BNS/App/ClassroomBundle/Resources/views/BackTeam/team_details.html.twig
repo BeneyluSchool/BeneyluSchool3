@@ -73,6 +73,7 @@
             var $compile = $injector.get('$compile');
             var $rootScope = $injector.get('$rootScope');
             var app = angular.module('beneyluSchoolMaterialApp');
+            var loc = window.location.href;
 
             app.controllerProvider.register('ClassroomTeamController', function ($scope) {
                 var ctrl = this;
@@ -90,6 +91,7 @@
             app.loadLegacyApp().then(function () {
                 var $root = angular.element('#angularize-classroom-team');
                 $root.attr('ng-controller', 'ClassroomTeamController as ctrl');
+                $root.attr('bns-lazyload', 'userDirectory');
                 $root.find('.btn').attr('bns-user-directory-invoke', '')
                     .attr('selection', 'ctrl.ids')
                     .attr('locked', 'ctrl.ids')
@@ -111,7 +113,7 @@
                     },
                     function (data) {
                         if (null != data && "false" != data) {
-                            window.location.reload();
+                            window.location.href = loc;
                         } else {
                             loadingImg.fadeOut('fast');
                         }

@@ -24,9 +24,12 @@
         <parameter key="bns.ovh_public_cloud.tenant_name">tenant</parameter>
         <parameter key="bns.ovh_public_cloud.container_name">container-name</parameter>
         <parameter key="bns.ovh_public_cloud.region">GRA1</parameter>
+        <parameter key="bns.storage.unlimited_allowed">false</parameter>
 
         <parameter key="media_library_bundle_media_folder_locker_manager.class">BNS\App\MediaLibraryBundle\Manager\MediaFolderLockerManager</parameter>
         <parameter key="media_library_bundle_media_archive_manager.class">BNS\App\MediaLibraryBundle\Manager\MediaArchiveManager</parameter>
+        <parameter key="bns_thumb_domain_white_list" type="collection"/>
+        <parameter key="libreofficeDirectory">"/usr/bin/libreoffice"</parameter>
     </parameters>
 
     <services>
@@ -39,6 +42,13 @@
             <tag name="bns.starter_kit_provider" />
         </service>
 
+        <!-- Search -->
+        <service id="bns.media_library.search" class="BNS\App\MediaLibraryBundle\Search\MediaSearchProvider">
+            <argument type="service" id="router"/>
+            <argument type="service" id="bns.right_manager"/>
+            <argument type="service" id="security.token_storage"/>
+            <tag name="bns.search_provide" />
+        </service>
         <!-- achievement -->
         <service id="bns_media_library_achievement_provider" class="BNS\App\MediaLibraryBundle\Achievement\MediaLibraryAchievementProvider">
             <tag name="bns.achievement_provider" />
@@ -78,6 +88,7 @@
                 <argument key="base_url">%application_base_url%</argument>
                 <argument key="remote_base_url">%bns.runabove.remote_base_url%</argument>
             </argument>
+            <argument type="service" id="bns_app_media_library.thumb.thumb_creator_manager" />
         </service>
 
         <service id="bns.media.download_validator" class="BNS\App\MediaLibraryBundle\Download\MediaDownloadValidator">
@@ -111,7 +122,12 @@
             <argument type="service" id="knp_snappy.image" />
             <argument type="service" id="buzz" />
             <argument>%kernel.cache_dir%</argument>
+            <argument>%resource_files_dir%</argument>
             <argument type="service" id="dubture_ffmpeg.ffmpeg" />
+            <argument type="service" id="bns.media_folder.manager"/>
+            <argument type="service" id="antivirus.clamav" />
+            <argument>%libreofficeDirectory%</argument>
+            <argument>%kernel.logs_dir%</argument>
         </service>
 
         <service id="bns.media.thumb_creator" class="BNS\App\MediaLibraryBundle\Manager\MediaThumbCreator">
@@ -201,20 +217,105 @@
             <tag name="form.type" alias="api_media" />
         </service>
 
+        <service id="bns_app_media_library.form_extension.attachment_form_extension" class="BNS\App\MediaLibraryBundle\Form\Extension\AttachmentFormExtension">
+            <tag name="form.type" alias="media_attachments" />
+        </service>
+
+        <service class="BNS\App\MediaLibraryBundle\Form\Type\MediaIdType" id="bns_app_media_library.form_type.media_id_type">
+            <tag alias="media_id_type" name="form.type"/>
+        </service>
+
+
         <!-- Data reset -->
 
         <service id="bns.data_reset.change_year_media" class="%media_library_bundle_data_reset.change_year_media.class%">
             <argument type="service" id="bns.media.manager" />
+            <argument type="service" id="bns.paas_manager" />
             <tag name="bns.data_reset" type="change_year" hasOptions="true" />
+        </service>
+
+        <!-- download service -->
+        <service class="BNS\App\MediaLibraryBundle\Download\Download" id="bns_app_media_library.download.download">
+            <argument id="bns.media.download_validator" type="service"/>
+            <argument id="bns.media.download_manager" type="service"/>
+            <argument id="bns.media.thumb_creator" type="service"/>
+            <argument id="bns_app_media_library.thumb.thumb_creator_manager" type="service"/>
+            <argument id="bns.local.adapter" type="service" />
+            <argument>%resource_files_dir%</argument>
         </service>
 
 
         <!-- Event listeners -->
 
         <service id="bns.media_library.media_serialize_listener" class="BNS\App\MediaLibraryBundle\EventListener\MediaSerializeSubscriber">
-            <argument type="service" id="service_container" />
+            <argument id="security.token_storage" type="service"/>
+            <argument id="bns.workshop.content.manager" type="service"/>
             <tag name="jms_serializer.event_subscriber" />
         </service>
+
+      <service id="bns.media_library.media_folder_serialize_listener" class="BNS\App\MediaLibraryBundle\EventListener\MediaFolderSerializeSubscriber">
+        <argument id="security.token_storage" type="service"/>
+        <argument id="bns_app_paas.manager.nathan_resource_manager" type="service" />
+        <tag name="jms_serializer.event_subscriber" />
+      </service>
+
+
+        <!-- thumb manager -->
+        <service class="BNS\App\MediaLibraryBundle\Thumb\ThumbCreatorManager" id="bns_app_media_library.thumb.thumb_creator_manager">
+            <argument type="collection" /> <!-- injected services -->
+            <argument type="collection" /> <!-- injected config -->
+            <argument type="service" id="old_sound_rabbit_mq.thumbnail_producer" />
+            <argument id="snc_redis.default" type="service"/>
+            <argument id="logger" type="service" />
+            <tag name="kernel.event_listener" event="bns_event.thumbnail_refresh" method="onThumbnailRefreshEvent" />
+        </service>
+
+        <!-- thumb consumer -->
+        <service class="BNS\App\MediaLibraryBundle\Consumer\ThumbConsumer" id="bns_app_media_library.consumer.thumb_consumer">
+            <argument id="bns_app_media_library.thumb.thumb_creator_manager" type="service"/>
+            <argument id="logger" type="service" />
+        </service>
+
+        <!-- thumb creator services -->
+
+        <service class="BNS\App\MediaLibraryBundle\Thumb\ThumbMedia" id="bns_app_media_library.thumb.thumb_media">
+            <argument id="bns.file_system_manager" type="service"/>
+            <argument id="bns_app_media_library.thumb.thumb_url" type="service"/>
+
+            <tag name="bns_thumb_creator" />
+        </service>
+
+        <service class="BNS\App\MediaLibraryBundle\Thumb\ThumbMinisite" id="bns_app_media_library.thumb.thumb_minisite">
+            <argument id="bns_app_media_library.thumb.thumb_url" type="service"/>
+            <argument id="router" type="service"/>
+
+            <tag name="bns_thumb_creator"/>
+        </service>
+
+        <service class="BNS\App\MediaLibraryBundle\Thumb\ThumbWorkshopDocument" id="bns_app_media_library.thumb.thumb_workshop_document">
+            <argument id="bns_app_media_library.thumb.thumb_url" type="service"/>
+            <argument id="router" type="service"/>
+            <argument id="bns.signUrl" type="service"/>
+
+            <tag name="bns_thumb_creator" />
+        </service>
+
+        <service class="BNS\App\MediaLibraryBundle\Thumb\ThumbUrl" id="bns_app_media_library.thumb.thumb_url">
+            <argument id="validator" type="service"/>
+            <argument id="logger" type="service"/>
+            <argument id="knp_snappy.image" type="service"/>
+            <argument>%bns_thumb_domain_white_list%</argument>
+            <!-- low priority because support if based on string url -->
+            <tag name="bns_thumb_creator" priority="-255" />
+        </service>
+
+
+        <service class="BNS\App\MediaLibraryBundle\Validator\Constraints\AttachmentsValidator" id="bns_app_media_library.validator_constraints.attachments_validator">
+            <argument id="bns.media_library_right.manager" type="service"/>
+            <tag name="validator.constraint_validator"/>
+        </service>
+
+
 
     </services>
 

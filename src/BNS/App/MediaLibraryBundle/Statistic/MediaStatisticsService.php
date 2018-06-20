@@ -36,8 +36,6 @@ class MediaStatisticsService extends StatisticsService
 
     public function visit()
     {
-        $this->disableCascadeParentGroup();
         $this->increment('MEDIALIBRARY_VISIT');
-        $this->enableCascadeParentGroup();
     }
 }

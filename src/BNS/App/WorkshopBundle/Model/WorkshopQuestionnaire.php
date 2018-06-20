@@ -26,4 +26,9 @@ class WorkshopQuestionnaire extends WorkshopDocument {
         $this->setDocumentType(WorkshopDocumentPeer::CLASSKEY_2);
     }
 
+    public function getType()
+    {
+        return 'QUESTIONNAIRE';
+    }
+
 } // WorkshopQuestionnaire

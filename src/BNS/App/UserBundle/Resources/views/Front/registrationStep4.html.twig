@@ -39,7 +39,7 @@
 
   </md-dialog-content>
 
-  <div class="md-actions">
+  <md-dialog-actions>
     <div class="flex-order-2">
       <md-button ng-show="!valid"
                  ng-click="dialog.app.broadcast(dialog.scope, 'quickAddPupils.validate')"
@@ -77,7 +77,7 @@
         attr: { id: 'intercom-widget-activator', class: 'hide-sm' }
       }) }}
     </div>
-  </div>
+  </md-dialog-actions>
 
   {{ form_end(form) }}
 {% endblock %}

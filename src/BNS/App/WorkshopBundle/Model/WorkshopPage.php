@@ -16,6 +16,7 @@ class WorkshopPage extends BaseWorkshopPage
     }
 
     /**
+     * @deprecated do not use
      * Ajoute et renvoie un groupe de widget pour une page
      * @param $type
      * @param $zone
@@ -27,8 +28,47 @@ class WorkshopPage extends BaseWorkshopPage
         $widgetGroup = new WorkshopWidgetGroup();
         $widgetGroup->setType($type);
         $widgetGroup->setZone($zone);
+
+        // this shouldn't be done like this use insertAt*
         $widgetGroup->setPosition($position);
+
         $widgetGroup->save();
         return $widgetGroup;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setSizes($v)
+    {
+        if (is_array($v)) {
+            $currentValue = $this->getSizes();
+            if (is_array($currentValue)) {
+                $v = array_merge($currentValue, $v);
+            }
+        }
+
+        return parent::setSizes(json_encode($v));
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSizes()
+    {
+        return json_decode(parent::getSizes(), true);
+    }
+
+    public function countPastWidgets()
+    {
+        return WorkshopWidgetQuery::create()
+            ->filterByType(['simple', 'multiple', 'closed', 'gap-fill-text'], \Criteria::IN)
+            ->useWorkshopWidgetGroupQuery()
+                ->useWorkshopPageQuery()
+                    ->filterByPosition($this->getPosition(), \Criteria::LESS_THAN)
+                    ->filterByDocumentId($this->getDocumentId())
+                ->endUse()
+            ->endUse()
+            ->count();
     }
 }

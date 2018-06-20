@@ -2,10 +2,10 @@ module:
   unique_name: CAMPAIGN
   is_contextable: false
   default_rank:
-    pupil: ~
-    parent: ~
+    pupil: NONE
+    parent: NONE
     teacher: USE_INDIVIDIAL
-    other: ~
+    other: NONE
 permissions:
   ACCESS:
     label:
@@ -27,3 +27,5 @@ ranks:
     permissions:
       - ACCESS
       - VIEW_CLASSROOM
+  NONE:
+    permissions: []

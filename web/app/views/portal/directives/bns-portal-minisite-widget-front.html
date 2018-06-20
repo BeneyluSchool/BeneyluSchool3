@@ -1,0 +1,45 @@
+<div ng-show="widget.busy" layout="row" layout-align="center center" class="md-padding">
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+</div>
+<div ng-if="!widget.busy">
+  <div ng-if="widget.portalZone === 'MAIN'">
+    <md-list>
+      <md-list-item ng-repeat="minisite in widget.content.minisites" class="layout-row site-item layout-align-start-center">
+        <div class="flex flex-none">
+          <img class="site-picture md-whiteframe-z1" ng-src="{{::minisite._embedded.thumb}}" alt="">
+        </div>
+        <div class="flex">
+          <div class="layout-column site-infos">
+            <h3>{{::minisite.title}}</h3>
+            <div ng-bind-html="minisite.description|trustHtml" class="md-body-1 event-description"></div>
+          </div>
+        </div>
+        <div class="flex flex-none external-link-container">
+          <md-button ng-href="{{::minisite._links.self.href}}" target="_blank" class="external-link">
+            <span translate>PORTAL.GO_TO_SITE</span>
+          </md-button>
+        </div>
+      </md-list-item>
+    </md-list>
+    <bns-inset bns-inset-icon="false" ng-show="!widget.content.minisites.length">
+      <div class="text-center" translate>PORTAL.NO_SITE</div>
+    </bns-inset>
+  </div>
+  <md-list ng-if="widget.portalZone === 'SIDE'">
+    <md-list-item ng-repeat="minisite in widget.content.minisites" ng-href="{{::minisite._links.self.href}}" target="_blank">
+      <span class="flex text-ellipsis">{{::minisite.title}}</span>
+      <md-icon>chevron_right</md-icon>
+    </md-list-item>
+    <bns-inset bns-inset-size="small" bns-inset-icon="false" ng-show="!widget.content.minisites.length">
+      <div class="text-center" translate>PORTAL.NO_SITE</div>
+    </bns-inset>
+  </md-list>
+</div>
+<div class="nav-container" ng-if='widget.content.pagination.pages > 1'>
+  <md-button ng-click="prev(widget.content.pagination.page)" class="md-raised btn-hover" ng-disabled="widget.content.pagination.page === 1">
+    <md-icon>chevron_left</md-icon>
+  </md-button>
+  <md-button ng-click="next(widget.content.pagination.page)" class="md-raised btn-hover" ng-disabled="widget.content.pagination.page === widget.content.pagination.pages">
+    <md-icon>chevron_right</md-icon>
+  </md-button>
+</div>

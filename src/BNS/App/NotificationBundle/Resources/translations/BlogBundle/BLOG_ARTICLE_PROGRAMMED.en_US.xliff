@@ -8,17 +8,21 @@
     <body>
       <trans-unit id="1b9030248155a05a88d8ba66baf5cdd3661c7fbd" resname="BLOG_ARTICLE_PROGRAMMED.EMAIL.content">
         <source>BLOG_ARTICLE_PROGRAMMED.EMAIL.content</source>
-        <target><![CDATA[The article "<strong>%articleTitle%</strong>" created by <strong>%articleAuthor%</strong> will be posted on the blog on %articlePublishedAtHours% at %articlePublishedAtMinutes%. Don't forget to go and see it as soon as it's posted!]]></target>
+        <target><![CDATA[<b>%classLabel%</b>The article "<strong>%articleTitle%</strong>" created by <strong>%articleAuthor%</strong> will be posted on the blog on %articlePublishedAtHours% at %articlePublishedAtMinutes%. Don't forget to go and see it as soon as it's posted!]]></target>
         <note><![CDATA[%articleTitle% is a placeholder
 %articleAuthor% is a placeholder
 %articlePublishedAtHours% is a placeholder
 %articlePublishedAtMinutes% is a placeholder
+%classLabel% is a placeholder
 This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
       <trans-unit id="5bbc312616daf42d831b87097ca004e84085008b" resname="BLOG_ARTICLE_PROGRAMMED.EMAIL.title">
         <source>BLOG_ARTICLE_PROGRAMMED.EMAIL.title</source>
-        <target>An article will be published on the blog</target>
+        <target>%classLabel%An article will be published on the blog</target>
+        <note>%classLabel% is a placeholder
+                       This text contains HTML tags, please try to keep those tags
+                 </note>
       </trans-unit>
       <trans-unit id="aca74a5f82b039cf997d5ac7cb567017618bdc73" resname="BLOG_ARTICLE_PROGRAMMED.SYSTEM.content">
         <source>BLOG_ARTICLE_PROGRAMMED.SYSTEM.content</source>

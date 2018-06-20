@@ -8,13 +8,16 @@
     <body>
       <trans-unit id="308ed5b871c913d926aac367fee49c2bbb06f16e" resname="LIAISON_BOOK_NEW_MESSAGE_TO_SIGN.EMAIL.content">
         <source>LIAISON_BOOK_NEW_MESSAGE_TO_SIGN.EMAIL.content</source>
-        <target><![CDATA[Se ha añadido un mensaje al cuaderno de comunicación: <a href="%message_url%">%message_title%</a>. ¡No olvides firmarlo!]]></target>
+        <target><![CDATA[<b>%classLabel%</b>Se ha añadido un mensaje al cuaderno de comunicación: <a href="%message_url%">%message_title%</a>. ¡No olvides firmarlo!]]></target>
         <note><![CDATA[This text contains HTML tags, please try to keep those tags
 ]]></note>
       </trans-unit>
       <trans-unit id="6fd67cb09265b146c1c80d228350df15294e20ca" resname="LIAISON_BOOK_NEW_MESSAGE_TO_SIGN.EMAIL.title">
         <source>LIAISON_BOOK_NEW_MESSAGE_TO_SIGN.EMAIL.title</source>
-        <target>Se ha añadido un mensaje al cuaderno de comunicación</target>
+        <target>%classLabel%Se ha añadido un mensaje al cuaderno de comunicación</target>
+        <note>%classLabel% is a placeholder
+               This text contains HTML tags, please try to keep those tags
+            </note>
       </trans-unit>
       <trans-unit id="79cee2b72cfe6fe6aaeaac4d962599f7f45f0f96" resname="LIAISON_BOOK_NEW_MESSAGE_TO_SIGN.SYSTEM.content">
         <source>LIAISON_BOOK_NEW_MESSAGE_TO_SIGN.SYSTEM.content</source>

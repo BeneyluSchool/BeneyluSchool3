@@ -34,9 +34,28 @@ function AppMetaRun ($rootScope, $translate, navbar) {
       $rootScope.appTitle += ' - ' + navbar.app.meta_title;
     }
     if ('back' === navbar.mode) {
-      $rootScope.appTitle += ' - ' + $translate.instant('MAIN.DESCRIPTION_APP_MANAGEMENT');
+      $translate('MAIN.DESCRIPTION_APP_MANAGEMENT').then(function (translation) {
+        $rootScope.appTitle += ' - ' + translation;
+      });
     }
   }
+
+  // manually update metas, since angularjs has no hold on the head DOM anymore
+  $rootScope.$watch('title', function updateMetaTitle (newTitle, oldTitle) {
+    if (newTitle !== oldTitle && newTitle) {
+      angular.element('head title').text(newTitle);
+    }
+  });
+  $rootScope.$watch('appTitle', function updateMetaAppTitle (newTitle, oldTitle) {
+    if (newTitle !== oldTitle && newTitle && !$rootScope.title) {
+      angular.element('head title').text(newTitle);
+    }
+  });
+  $rootScope.$watch('description', function updateMetaDescription (newDescription, oldDescription) {
+    if (newDescription !== oldDescription) {
+      angular.element('meta[name="description"]').attr('content', newDescription);
+    }
+  });
 
 }
 
